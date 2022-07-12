@@ -1,0 +1,42 @@
+# Note that if .gitconfig exists, but does not
+# contain all of these aliases, etc, it will not
+# get them all. But this is really just for convenience, 
+# so not going to worry about it..
+if [ ! -e ~/.gitconfig ]; then
+	# If USERFULLNAME is not set or is empty, don't set user.name
+    # User will be prompted to set when first using git
+    if [[  ! -z ${USERFULLNAME+x}  &&  ! -z $USERFULLNAME  ]]; then
+        \git config --global user.name "$USERFULLNAME"
+    fi
+	# If USEREMAIL is not set or is empty, don't set user.email
+    # User will be prompted to set when first using git
+    if [[  ! -z ${USEREMAIL+x}  &&  ! -z $USEREMAIL  ]]; then
+        \git config --global user.email "$USEREMAIL"
+    fi
+
+    \git config --global core.editor "vim"
+
+    \git config --global credential.helper 'cache --timeout 7200'
+    
+    \git config --global alias.df "diff --color"
+    \git config --global alias.ds "diff --stat --color"
+    \git config --global alias.dc "diff --cached --color"
+    \git config --global alias.dlc "diff --cached --color HEAD^"
+    
+    \git config --global alias.st "status -s"
+    
+    \git config --global alias.la "!git config -l | grep alias | cut -c 7-"
+
+    \git config --global alias.ignored "!git ls-files -v | grep '^[[:lower:]]'"
+    
+    \git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+    \git config --global alias.ls "log --pretty=format:'%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]' --decorate"
+    \git config --global alias.lgc "log --color"
+    # I think this only works with newer versions of git >1.8
+    #\git config --global alias.lgd "log -u --color --grep=FORMAT --invert-grep"
+    \git config --global alias.lgd "log -u --color"
+    \git config --global alias.lgm "log --merges --color"
+    \git config --global alias.lgn "log --name-status --color"
+    \git config --global core.excludesfile $HOME/.gitignore
+    \git config --global http.postBuffer 524288000
+fi

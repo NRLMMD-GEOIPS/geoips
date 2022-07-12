@@ -1,0 +1,9 @@
+gvar:
+  Infrared:
+    variables: ['gvar_ch4']
+  Infrared-Gray:
+    variables: ['gvar_ch4']
+  IR-BD:
+    variables: ['gvar_ch4']
+  Visible:
+    variables: ['gvar_ch1', 'SunZenith']

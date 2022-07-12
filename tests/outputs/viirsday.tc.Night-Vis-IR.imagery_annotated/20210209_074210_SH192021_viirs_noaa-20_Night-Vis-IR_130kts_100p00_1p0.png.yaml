@@ -1,0 +1,35 @@
+aid_type: BEST
+bounding_box:
+  image_height: 1400
+  image_width: 1400
+  maxlat: -7.70497403967373
+  maxlon: 89.79502596032627
+  minlat: -20.29502596032627
+  minlon: 77.20497403967373
+  pixel_height_m: 1000.0
+  pixel_width_m: 1000.0
+  proj4_string: +proj=eqc +lat_ts=0 +lat_0=-14 +lon_0=83.5 +x_0=0 +y_0=0 +R=6371228
+    +units=m +no_defs +type=crs
+clat: -14.0
+clon: 83.5
+deck_line: SH, 19, 2021020906,   , BEST,   0, 140S,  835E, 130,  930, ST,  34, NEQ,   65,   90,   95,   65,
+  1006,  190,   5,   0,  10,   S,   0,    ,   0,   0,     FARAJI, D,
+final_storm_name: FARAJI
+invest_number: 90
+original_source_filenames:
+- VJ102DNB.A2021040.0736.002.2021040145245.nc
+- VJ103DNB.A2021040.0736.002.2021040142228.nc
+- VJ102DNB.A2021040.0742.002.2021040143010.nc
+- VJ103DNB.A2021040.0742.002.2021040140938.nc
+parser_name: bdeck_parser
+pressure: 930.0
+product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2021/SH/SH192021/png/Night-Vis-IR/noaa-20/20210209_074210_SH192021_viirs_noaa-20_Night-Vis-IR_130kts_100p00_1p0.png
+sector_type: tc
+source_filename: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bsh192021.dat
+source_sector_file: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bsh192021.dat
+storm_basin: SH
+storm_name: FARAJI
+storm_num: 19
+storm_year: 2021
+synoptic_time: 2021-02-09 06:00:00
+vmax: 130.0

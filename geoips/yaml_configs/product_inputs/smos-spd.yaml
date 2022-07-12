@@ -1,0 +1,7 @@
+smos-spd:
+  windspeed:
+    variables: ['wind_speed_kts']
+  unsectored:
+    variables: ['wind_speed_kts']
+  sectored:
+    variables: ['wind_speed_kts']

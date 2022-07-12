@@ -1,0 +1,9 @@
+hscat:
+    windspeed:
+        variables: ['wind_speed_kts']
+    windbarbs:
+        variables: ['wind_speed_kts', 'wind_dir_deg_met', 'rain_flag']
+    unsectored:
+      variables: ['wind_speed_kts', 'wind_dir_deg_met']
+    sectored:
+      variables: ['wind_speed_kts', 'wind_dir_deg_met']

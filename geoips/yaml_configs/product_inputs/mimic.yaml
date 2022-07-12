@@ -1,0 +1,7 @@
+mimic:
+  TPW-CIMSS:
+    variables: ['tpw']
+  TPW-PWAT:
+    variables: ['tpw']
+  TPW-PURPLE:
+    variables: ['tpw']

@@ -1,0 +1,37 @@
+##############################################################################
+### Convenience function to color your command prompt differently for
+### operational and user accounts (branchorops = branch, operations, admin)
+##############################################################################
+if [[ ! -z $PS1 ]]; then
+    # Set up prompt
+    # Prompt will indicate whether I am set up for the Branch, Administrative, or Operational directories
+    # Branch will appear in Green
+    # Operational will appear in Red on Black
+    # Ok to echo in here, we are interactive.
+    text=""
+    color_bw="\[\033[0m\]"
+    if [ -z ${branchorops+x} ]; then
+        export branchorops="branch"
+    elif [[ "$branchorops" == "pip" ]]; then
+        export branchorops="pip"
+    fi
+    if [[ "$branchorops" == "operations" || ! -z "$GEOIPS_OPERATIONAL_USER" ]]; then
+        # echo "Entering operations mode for user $USER: $CONFIGDIR, $GEOIPS"
+        export BRANCHOROPS="G2OPS"
+        color_branchorops="\[\033[0;31m\]"
+    elif [[ "$branchorops" == "admin" ]]; then
+        # echo "Entering administrative mode for user $USER: $CONFIGDIR, $GEOIPS"
+        export BRANCHOROPS="G2DEV"
+        color_branchorops="\[\033[31;40m\]"
+    else 
+        # echo "Entering branch mode for user $USER: $CONFIGDIR, $GEOIPS"
+        export BRANCHOROPS="G2LOCAL"
+        color_branchorops="\[\033[0;32m\]"
+    fi
+    export prompt="\n\! $color_branchorops\u@\h:$BRANCHOROPS $GEOIPS_VERS$color_bw \d \t \w \nbash\$ "
+    PS1=$prompt
+    # NOTE sometimes this clobbers screens titles if PROMPT_COMMAND is set
+    # Unsetting it here, so at least if we start screen from a GEOIPS env,
+    # it will work
+    unset PROMPT_COMMAND
+fi

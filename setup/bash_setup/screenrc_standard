@@ -1,0 +1,62 @@
+vbell off
+
+# TO KILL A SCREEN SESSION (all windows)
+# C-a : quit
+#
+# NOTE sometimes if PROMPT_COMMAND is set, 
+# screen will clobber the titles you set
+# Prior to starting screen, run
+# unset PROMPT_COMMAND
+# to maintain titles / hardstatus string set below.
+# THIS MAY HAVE TO BE DONE WITHIN .bashrc, else it 
+# could get reset before opening tabs.
+# Can also source geoips/config/color_prompt 
+#   (which does unset PROMPT_COMMAND)
+
+#termcapinfo xterm ti@:te@
+
+bind -c selectHighs 0 select 10 # these commands are added to the 
+bind -c selectHighs 1 select 11 # command-class selectHighs
+bind -c selectHighs 2 select 12
+bind -c selectHighs 3 select 13
+bind -c selectHighs 4 select 14
+bind -c selectHighs 5 select 15
+bind -c selectHighs 6 select 16
+bind -c selectHighs 7 select 17
+bind -c selectHighs 8 select 18
+bind -c selectHighs 9 select 19
+
+bind - command -c selectHighs # bind the hyphen to command-class selectHighs
+
+screen -t test 0
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t prod 1
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t interp 2
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t alg 3
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t cmap 4
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t sect 5
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t outp 6
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t fname 7
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t rdr 8
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t drvr 9
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t run 10
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t trepo 11
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t logs 12
+stuff "source config_geoips; cd \$GEOIPS; top"
+screen -t out 13
+stuff "source config_geoips; cd \$GEOIPS; top"
+
+hardstatus alwayslastline
+
+hardstatus string '%{= kG}%-Lw%{= kW}%50> %n%f* %t%{= kG}%+Lw%< %{= kG}%-=Y.%m.%d %c%{-}'

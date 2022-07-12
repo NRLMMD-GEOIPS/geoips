@@ -1,0 +1,48 @@
+if [ -L $BASH_SOURCE ]; then
+    linkpath=`readlink $BASH_SOURCE`
+    # Used in qsub.py
+    export GEOIPS_RCFILE=$linkpath
+    CURRENT_CONFIGPATH=`dirname $linkpath`
+    export GEOIPS_VERS=`cat $CURRENT_CONFIGPATH/../VERSION`
+else
+    CURRENT_CONFIGPATH="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd)"
+    # Used in qsub.py
+    export GEOIPS_RCFILE=$CURRENT_CONFIGPATH/"$(basename "${BASH_SOURCE[0]}")"
+    export GEOIPS_VERS=`cat $CURRENT_CONFIGPATH/../VERSION`
+fi
+
+export GEOIPS_BASEDIR=`dirname $CURRENT_CONFIGPATH`
+export GEOIPS_BASEDIR=`dirname $GEOIPS_BASEDIR`
+export GEOIPS_BASEDIR=`dirname $GEOIPS_BASEDIR`
+export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS
+
+# This is the only *required* environment variable - all output goes here.
+export GEOIPS_OUTDIRS=$GEOIPS_BASEDIR/geoips_outdirs
+
+# This directory contains external packages, system installs, etc
+# Not required for GeoIPS runtime
+export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_BASEDIR/geoips_dependencies
+
+# This uses GEOIPS_DEPENDENCIES_DIR variables, inits and activates conda
+. $CURRENT_CONFIGPATH/geoips_conda_init_setup
+
+# This directory should ONLY contain geoips packages - it is used in geoips/filenames/base_paths.py
+# to set up the list of available geoips packages / repos.
+# Temporarily include GEOIPS_MODULES_DIR so old documentation works.
+export GEOIPS_MODULES_DIR=$GEOIPS_BASEDIR/geoips_packages
+export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
+
+export PYTHONPATH=$GEOIPS_BASEDIR/geoips_packages
+export PATH=$GEOIPS_DEPENDENCIES_DIR/bin:$PATH
+
+# Required for SEVIRI processing - must install xRIT software
+export XRIT_DECOMPRESS_PATH=$GEOIPS_DEPENDENCIES_DIR/seviri_wavelet/PublicDecompWT/xRITDecompress/xRITDecompress
+
+############################################################################
+# Everything after this point are optional convenience functions.  Must set 
+# CURRENT_CONFIGPATH before sourcing.
+############################################################################
+# Convenience variables
+export GEOIPS=$GEOIPS_PACKAGES_DIR/geoips
+export GEOIPS_SETUP=$GEOIPS/setup
+source $GEOIPS_SETUP/bash_setup/gitall

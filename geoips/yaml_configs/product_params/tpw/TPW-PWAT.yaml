@@ -1,0 +1,14 @@
+TPW-PWAT:
+    product_type: interp_alg_cmap
+    alg_func: single_channel
+    alg_args: 
+        output_data_range: [1.0, 90.0]
+        min_outbounds: mask
+        max_outbounds: crop
+        norm: null
+        inverse: null
+    cmap_func: tpw.tpw_pwat
+    cmap_args: {}
+    interp_func: pyresample_wrappers.interp_gauss
+    interp_args:
+        sigmaval: 10000

@@ -1,0 +1,32 @@
+aid_type: BEST
+bounding_box:
+  image_height: 1400
+  image_width: 1400
+  maxlat: 17.814751298016315
+  maxlon: 125.51475129801631
+  minlat: 17.185248701983685
+  minlon: 124.88524870198368
+  pixel_height_m: 50.0
+  pixel_width_m: 50.0
+  proj4_string: +proj=eqc +lat_ts=0 +lat_0=17.5 +lon_0=125.2 +x_0=0 +y_0=0 +R=6371228
+    +units=m +no_defs +type=crs
+clat: 17.5
+clon: 125.2
+deck_line: WP, 02, 2021042100,   , BEST,   0, 175N, 1252E, 120,  935, TY,  34, NEQ,  155,  170,  140,  160,
+  1004,  180,  25,   0,  40,   W,   0,    ,   0,   0,    SURIGAE, D,
+final_storm_name: SURIGAE
+invest_number: 94
+original_source_filenames:
+- 210421_0142_12730_SURIGAE_210421_0000.WRave3.nc
+parser_name: bdeck_parser
+pressure: 935.0
+product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2021/WP/WP022021/png/wind-ambiguities/metop-c/20210421_014200_WP022021_ascatuhr_metop-c_wind-ambiguities_120kts_100p00_0p1.png
+sector_type: tc
+source_filename: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bwp022021.dat
+source_sector_file: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bwp022021.dat
+storm_basin: WP
+storm_name: SURIGAE
+storm_num: 2
+storm_year: 2021
+synoptic_time: 2021-04-21 00:00:00
+vmax: 120.0

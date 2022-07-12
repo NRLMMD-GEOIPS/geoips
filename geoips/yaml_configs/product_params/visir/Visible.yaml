@@ -1,0 +1,26 @@
+Visible:
+    product_type: interp_alg_cmap
+    alg_func: single_channel
+    # This works as-is with defaults for VIIRS and ABI and SEVIRI.
+    # AHI does NOT use gamma! Replacement values in product_inputs/ahi.yaml
+    # MODIS does NOT use gamma, and has scale_factor of 1.0! Replacement values in product_inputs/modis.yaml
+    alg_args:
+        output_data_range: [0.0, 100.0]
+        gamma_list: [1.5]
+        scale_factor: 100
+        input_units: reflectance
+        output_units: reflectance
+        min_outbounds: crop
+        max_outbounds: crop
+        sun_zen_correction: True 
+        max_day_zen: 90
+        norm: null
+        inverse: null
+    mtif_type: vis
+    cmap_func: matplotlib_linear_norm
+    cmap_args: 
+        data_range: [0.0, 100.0]
+        cmap_name: Greys_r
+        cbar_label: Reflectance
+    interp_func: pyresample_wrappers.interp_nearest
+    interp_args: {}

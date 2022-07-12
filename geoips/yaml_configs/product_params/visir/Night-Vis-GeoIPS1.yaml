@@ -1,0 +1,15 @@
+Night-Vis-GeoIPS1:
+    product_type: interp_alg_cmap
+    alg_func: visir.Night_Vis_GeoIPS1
+    alg_args: 
+        min_outbounds: crop     # Mask lower bounds will prevent black images
+        max_outbounds: crop
+        max_night_zen: 90
+    mtif_type: vis
+    cmap_func: matplotlib_linear_norm
+    cmap_args: 
+        data_range: [0.0, 1.0]  # Normalized algorithm
+        cmap_name: Greys_r
+        cbar_label: Normalized Radiance
+    interp_func: pyresample_wrappers.interp_nearest
+    interp_args: {}

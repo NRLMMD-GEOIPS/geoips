@@ -1,0 +1,33 @@
+:set colorcolumn=120
+:set hlsearch
+:syntax on
+:set ts=4
+:set nowrap
+:set sw=4
+:colorscheme desert
+:set paste
+:set expandtab
+:set autoindent
+
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_echo_msg_error_str = 'Err'
+let g:ale_echo_msg_warning_str = 'Warn'
+
+let g:ale_open_list = 1
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
+let g:airline#extensions#ale#enabled = 1
+let g:ale_linters = {'python': ['pylint', 'flake8','autopep8','bandit']}
+let g:ale_linters_explicit = 1
+let g:ale_lint_on_text_changed = 'always'
+let g:ale_list_window_size = 5
+let g:ale_python_flake8_args = '-m flake8 --max-line-length=120'
+let g:ale_python_flake8_executable = 'python'
+let g:ale_python_flake8_options = '-m flake8 --max-line-length=120'
+let g:ale_python_flake8_use_global = 0
+let g:ale_python_pylint_executable = 'python'
+let g:ale_python_pylint_options = '-m pylint --max-line-length=120'
+let g:ale_python_pylint_use_global = 0

@@ -1,0 +1,16 @@
+37H-Legacy:
+    product_type: interp_alg_cmap
+    alg_func: single_channel
+    alg_args: 
+        output_data_range: [180, 280]
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+    mtif_type: pmw
+    cmap_func: pmw_tb.cmap_37H_Legacy
+    cmap_args: 
+        data_range: [180, 280]
+    interp_func: pyresample_wrappers.interp_gauss
+    interp_args:
+        sigmaval: 25000

@@ -1,0 +1,45 @@
+windsat:
+  windspeed:
+    variables: ['wind_speed_kts']
+
+  color37:
+    variables: ['ftb37h', 'ftb37v']
+    interp_args:
+      sigmaval: 10000
+  color37Nearest:
+    variables: ['ftb37h', 'ftb37v']
+
+  37pct:
+    variables: ['ftb37h', 'ftb37v']
+    interp_args:
+      sigmaval: 10000
+  37pctNearest:
+    variables: ['ftb37h', 'ftb37v']
+
+  37H-Legacy:
+    variables: ['ftb37h']
+    interp_args:
+      sigmaval: 10000
+  37H-LegacyNearest:
+    variables: ['ftb37h']
+
+  37H-Physical:
+    variables: ['ftb37h']
+    interp_args:
+      sigmaval: 10000
+  37H-PhysicalNearest:
+    variables: ['ftb37h']
+
+  37H:
+    variables: ['ftb37h']
+    interp_args:
+      sigmaval: 10000
+  37HNearest:
+    variables: ['ftb37h']
+
+  37V:
+    variables: ['ftb37v']
+    interp_args:
+      sigmaval: 10000
+  37VNearest:
+    variables: ['ftb37v']

@@ -1,0 +1,63 @@
+amsr-e:
+  color89:
+    variables: ['H89', 'V89']
+    interp_args:
+      sigmaval: 10000
+  color89Nearest:
+    variables: ['H89', 'V89']
+
+  89pct:
+    variables: ['H89', 'V89']
+    interp_args:
+      sigmaval: 10000
+  89pctNearest:
+    variables: ['H89', 'V89']
+
+  89H:
+    variables: ['H89']
+    interp_args:
+      sigmaval: 10000
+  89HNearest:
+    variables: ['H89']
+
+  89V:
+    variables: ['V89']
+    interp_args:
+      sigmaval: 10000
+  89VNearest:
+    variables: ['V89']
+
+  89HW:
+    variables: ['H89']
+    interp_args:
+      sigmaval: 10000
+  89HNearest:
+    variables: ['H89']
+  
+  89H-Physical:
+    variables: ['H89']
+    interp_args:
+      sigmaval: 10000
+  89H-PhysicalNearest:
+    variables: ['H89']
+
+  89H-Legacy:
+    variables: ['H89']
+    interp_args:
+      sigmaval: 10000
+  89H-LegacyNearest:
+    variables: ['H89']
+
+  19H:
+    variables: ['H19']
+    interp_args:
+      sigmaval: 25000
+  19HNearest:
+    variables: ['H19']
+
+  19V:
+    variables: ['V19']
+    interp_args:
+      sigmaval: 25000
+  19VNearest:
+    variables: ['V19']

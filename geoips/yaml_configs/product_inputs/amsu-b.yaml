@@ -1,0 +1,35 @@
+amsu-b:
+  89V:
+    variables: ['Chan1_AT']
+    interp_args:
+      sigmaval: 10000
+  89VNearest:
+    variables: ['Chan1_AT']
+    
+  157V:
+    variables: ['Chan2_AT']
+    interp_args:
+      sigmaval: 10000
+  157VNearest:
+    variables: ['Chan2_AT']
+
+  183-1H:
+    variables: ['Chan3_AT']
+    interp_args:
+      sigmaval: 10000
+  183-1HNearest:
+    variables: ['Chan3_AT']
+
+  183-3H:
+    variables: ['Chan4_AT']
+    interp_args:
+      sigmaval: 10000
+  183-3HNearest:
+    variables: ['Chan4_AT']
+
+  190V:
+    variables: ['Chan5_AT']
+    interp_args:
+      sigmaval: 10000
+  190VNearest:
+    variables: ['Chan5_AT']

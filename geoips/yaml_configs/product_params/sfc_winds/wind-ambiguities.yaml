@@ -1,0 +1,17 @@
+wind-ambiguities:
+    product_type: alg_cmap
+    alg_func: sfc_winds.windbarbs
+    alg_args: 
+        output_data_range: [0, 200]
+        min_outbounds: crop
+        max_outbounds: crop
+        input_units: kts
+        output_units: kts
+        norm: null
+        inverse: null
+    mtif_type: windspeed 
+    cmap_func: winds.wind_radii_transitions
+    cmap_args: 
+        data_range: [0, 200]
+    covg_func: windbarbs
+    covg_args: {}

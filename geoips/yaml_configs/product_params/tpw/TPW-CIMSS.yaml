@@ -1,0 +1,14 @@
+TPW-CIMSS:
+    product_type: interp_alg_cmap
+    alg_func: single_channel
+    alg_args: 
+        output_data_range: [5, 65.0]
+        min_outbounds: mask
+        max_outbounds: crop
+        norm: null
+        inverse: null
+    cmap_func: tpw.tpw_cimss
+    cmap_args: {}
+    interp_func: pyresample_wrappers.interp_gauss
+    interp_args:
+        sigmaval: 10000

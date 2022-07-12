@@ -1,0 +1,20 @@
+abi:
+  Infrared:
+    variables: ['B14BT']
+  Infrared-Gray:
+    variables: ['B14BT']
+  IR-BD:
+    variables: ['B14BT']
+  WV:
+    variables: ['B09BT']  # B09 abi, 6.9um Mid-level WV; B09 ahi 6.9410 Mid-level WV; B27 modis 6.535-6.895um
+  WV-Lower:
+    variables: ['B10BT']  # B10 abi, 7.3um Lower-level WV; B10 ahi 7.3467um Lower-level WV; B28 modis, B06 seviri IR7.3
+  WV-Upper:
+    variables: ['B08BT']  # B08 abi, 6.2um Upper-level WV; B08 ahi 6.2429um Upper-level WV; B05 seviri IR6.2
+  Visible:
+    variables: ['B03Ref', 'MED:SunZenith']  # RED: B03 0.64um ahi (hi  res) and B02 0.64um abi (hi), B01 0.635um seviri
+                                            # BLU: B01 0.47um ahi (med res) and B01 0.47um abi (med), no seviri equiv
+                                            # GRN: B02 0.51um ahi (med res) no abi grn band,          no seviri equiv
+                                            # VEG: B04 0.86um ahi (med res) and B03 0.86um abi (med), B02 0.81um seviri
+    cmap_args: 
+        cbar_label: "Reflectance, ABI B03 0.86um Veggie Band"

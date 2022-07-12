@@ -1,0 +1,32 @@
+aid_type: BEST
+bounding_box:
+  image_height: 1400
+  image_width: 1400
+  maxlat: -7.804974039673727
+  maxlon: 89.29502596032627
+  minlat: -20.395025960326272
+  minlon: 76.70497403967373
+  pixel_height_m: 1000.0
+  pixel_width_m: 1000.0
+  proj4_string: +proj=eqc +lat_ts=0 +lat_0=-14.1 +lon_0=83 +x_0=0 +y_0=0 +R=6371228
+    +units=m +no_defs +type=crs
+clat: -14.1
+clon: 83.0
+deck_line: SH, 19, 2021020900,   , BEST,   0, 141S,  830E, 135,  923, ST,  34, NEQ,   65,   90,  100,   65,
+  1005,  200,  12,   0,  15,   S,   0,    ,   0,   0,     FARAJI, D,
+final_storm_name: FARAJI
+invest_number: 90
+original_source_filenames:
+- oscat_20210209_022459_scasa1_23155_o_250_2202_ovw_l2.nc
+parser_name: bdeck_parser
+pressure: 923.0
+product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2021/SH/SH192021/png/windbarbs/scatsat-1/20210209_025351_SH192021_oscat_scatsat-1_windbarbs_135kts_75p10_1p0.png
+sector_type: tc
+source_filename: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bsh192021.dat
+source_sector_file: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bsh192021.dat
+storm_basin: SH
+storm_name: FARAJI
+storm_num: 19
+storm_year: 2021
+synoptic_time: 2021-02-09 00:00:00
+vmax: 135.0

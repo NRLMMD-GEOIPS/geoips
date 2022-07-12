@@ -1,0 +1,25 @@
+global:
+  description: Global Sector
+  projection:
+    a: 6371228.0
+    lat_0: 0
+    lon_0: 0
+    proj: eqc
+    units: m
+  resolution:
+  - 20000
+  - 20000
+  sector_info:
+    continent: Global    
+    country: x
+    area: x
+    subarea: x
+    state: x
+    city: x
+  sector_type: static
+  shape:
+    height: 1000
+    width: 2000
+  area_extent:
+    lower_left_xy: [-20000000, -10000000]
+    upper_right_xy: [20000000, 10000000]

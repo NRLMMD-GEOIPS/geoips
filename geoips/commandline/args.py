@@ -1,0 +1,442 @@
+# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # 
+# # # Author:
+# # # Naval Research Laboratory, Marine Meteorology Division
+# # # 
+# # # This program is free software:
+# # # you can redistribute it and/or modify it under the terms
+# # # of the NRLMMD License included with this program.
+# # # 
+# # # If you did not receive the license, see
+# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # for more information.
+# # # 
+# # # This program is distributed WITHOUT ANY WARRANTY;
+# # # without even the implied warranty of MERCHANTABILITY
+# # # or FITNESS FOR A PARTICULAR PURPOSE.
+# # # See the included license for more details.
+
+''' Command line script for kicking off geoips based procflows'''
+
+import argparse
+import logging
+from os.path import abspath, exists
+from json import loads as jloads
+LOG = logging.getLogger(__name__)
+
+
+def check_command_line_args(arglist, argdict):
+    ''' Check formatting of command line arguments
+
+    Args:
+        arglist (list) : List of desired command line arguments to check within argdict for appropriate formatting
+        argdict (dict) : Dictionary of command line arguments
+
+    Returns:
+        (bool) : Return True if all arguments are of appropriate formatting.
+
+    Raises:
+        (TypeError) : Incorrect command line formatting
+    '''
+    if arglist is None:
+        return True
+    if 'filenames' in arglist:
+        if argdict['filenames'] and not isinstance(argdict['filenames'], list):
+            raise TypeError('Must pass list of strings for "filenames" dictionary entry')
+        for fname in argdict['filenames']:
+            if not exists(fname):
+                raise IOError(f'Filename {fname} does not exist - all requested files must exist on disk')
+        # LOG.info('COMMANDLINEARG filenames: %s', argdict['filenames'])
+    if 'self_register_dataset' in arglist:
+        if argdict['self_register_dataset'] and not isinstance(argdict['self_register_dataset'], str):
+            raise TypeError('Must pass string for "self_register_dataset" dictionary entry')
+        LOG.info('COMMANDLINEARG self_register_dataset: %s', argdict['self_register_dataset'])
+    if 'sectored_read' in arglist:
+        if argdict['sectored_read'] and not isinstance(argdict['sectored_read'], bool):
+            raise TypeError('Must pass bool for "sectored_read" dictionary entry')
+        LOG.info('COMMANDLINEARG sectored_read: %s', argdict['sectored_read'])
+    if 'resampled_read' in arglist:
+        if argdict['resampled_read'] and not isinstance(argdict['resampled_read'], bool):
+            raise TypeError('Must pass bool for "resampled_read" dictionary entry')
+        LOG.info('COMMANDLINEARG resampled_read: %s', argdict['resampled_read'])
+    if 'sectorfiles' in arglist:
+        if argdict['sectorfiles'] and not isinstance(argdict['sectorfiles'], list):
+            raise TypeError('Must pass list of strings for "sectorfiles" dictionary entry')
+        LOG.info('COMMANDLINEARG sectorfiles: %s', argdict['sectorfiles'])
+    if 'sector_list' in arglist:
+        if argdict['sector_list'] and not isinstance(argdict['sector_list'], list):
+            raise TypeError('Must pass list of strings for "sectorfiles" dictionary entry')
+        LOG.info('COMMANDLINEARG sector_list: %s', argdict['sector_list'])
+    if 'tcdb_sector_list' in arglist:
+        if argdict['tcdb_sector_list'] and not isinstance(argdict['tcdb_sector_list'], list):
+            raise TypeError('Must pass list of strings for "tcdb_sector_list" dictionary entry')
+        LOG.info('COMMANDLINEARG tcdb_sector_list: %s', argdict['tcdb_sector_list'])
+    if 'tcdb' in arglist:
+        if argdict['tcdb'] not in [True, False]:
+            raise TypeError('tcdb dictionary entry must be bool (True or False)')
+        LOG.info('COMMANDLINEARG tcdb: %s', argdict['tcdb'])
+    if 'product_name' in arglist:
+        if argdict['product_name'] and not isinstance(argdict['product_name'], str):
+            raise TypeError('Must pass a single string for "product_name" dictionary entry')
+        LOG.info('COMMANDLINEARG product_name: %s', argdict['product_name'])
+    if 'product_options' in arglist:
+        if argdict['product_options'] and not isinstance(argdict['product_options'], str):
+            raise TypeError('Must pass string for "product_options" dictionary entry')
+        LOG.info('COMMANDLINEARG product_options: %s', argdict['product_options'])
+    if 'reader_name' in arglist:
+        if argdict['reader_name'] and not isinstance(argdict['reader_name'], str):
+            raise TypeError('Must pass string for "reader_name" dictionary entry')
+        LOG.info('COMMANDLINEARG reader_name: %s', argdict['reader_name'])
+    if 'minimum_coverage' in arglist:
+        if argdict['minimum_coverage'] and not isinstance(argdict['minimum_coverage'], float):
+            raise TypeError('Must pass float for "minimum_coverage" dictionary entry')
+        LOG.info('COMMANDLINEARG minimum_coverage: %s', argdict['minimum_coverage'])
+    if 'output_config' in arglist:
+        if argdict['output_config'] and not isinstance(argdict['output_config'], str):
+            raise TypeError('Must pass a single string for "output_config" dictionary entry')
+        LOG.info('COMMANDLINEARG output_config: %s', argdict['output_config'])
+    if 'output_file_list_fname' in arglist:
+        if argdict['output_file_list_fname'] and not isinstance(argdict['output_file_list_fname'], str):
+            raise TypeError('Must pass a single string for "output_file_list_fname" dictionary entry')
+        LOG.info('COMMANDLINEARG output_file_list_fname: %s', argdict['output_file_list_fname'])
+    if 'adjust_area_def' in arglist:
+        if argdict['adjust_area_def'] and not isinstance(argdict['adjust_area_def'], str):
+            raise TypeError('Must pass a single string for "adjust_area_def" dictionary entry')
+        LOG.info('COMMANDLINEARG adjust_area_def: %s', argdict['adjust_area_def'])
+    if 'reader_defined_area_def' in arglist:
+        if argdict['reader_defined_area_def'] and not isinstance(argdict['reader_defined_area_def'], bool):
+            raise TypeError('Must pass True or False for "reader_defined_area_def" dictionary entry')
+        LOG.info('COMMANDLINEARG reader_defined_area_def: %s', argdict['reader_defined_area_def'])
+
+    return True
+
+
+def get_command_line_args(arglist=None, description=None):
+    ''' Parse command line arguments specified by the requested list of arguments
+
+    Args:
+        arglist (:obj:`list`, optional) : DEFAULT None.
+                                            list of requested arguments to add to the ArgumentParser
+                                            if None, include all arguments
+        description (:obj:`str`, optional) : DEFAULT None. String description of arguments
+    Returns:
+        (dict) : Dictionary of command line arguments
+    '''
+    parser = argparse.ArgumentParser(description=description)
+    add_args(parser, arglist)
+    argdict = parser.parse_args()
+    check_command_line_args(['filenames', 'procflow'], argdict.__dict__)
+    return argdict
+
+
+def add_args(parser, arglist=None):
+    ''' List of available standard arguments for calling data file processing command line.
+
+    Args:
+        parser (ArgumentParser) : argparse ArgumentParser to add appropriate arguments
+        arglist (:obj:`list`, optional) : DEFAULT None
+                    list of requested arguments to add to the ArgumentParser
+                    if None, include all arguments
+
+    Returns:
+        No return values (parser modified in place)
+    '''
+
+    if arglist is None or 'filenames' in arglist:
+        parser.add_argument('filenames', nargs='*', default=None, type=abspath,
+                            help='''Fully qualified paths to data files to be processed.''')
+
+    sect_group = parser.add_argument_group(title='Sector Requests: General arguments for sectors')
+    if arglist is None or 'adjust_area_def' in arglist:
+        sect_group.add_argument('--adjust_area_def', nargs='?', default=None,
+                                help='''Specify area def adjuster to be used within processing, located in:
+                                          <package>.interface_modules.area_def_adjusters.<myadjuster>.<myadjuster>''')
+
+    tc_group = parser.add_argument_group(title='Sector Requests: General arguments for TC sectors')
+    if arglist is None or 'tc_template_yaml' in arglist:
+        tc_group.add_argument('--tc_template_yaml', nargs='?', default=None,
+                              help='''YAML template for creating appropriate TC sector shape/resolution from
+                                        current storm location''')
+
+    trackfile_group = parser.add_argument_group(title='Sector Requests: TC trackfile-based sectors')
+    if arglist is None or 'trackfiles' in arglist:
+        trackfile_group.add_argument('--trackfiles', nargs='*', default=None,
+                                     help='''Specify TC trackfiles to include in processing
+                                             If --trackfile_sector_list is included, limit to the storms in list
+                                             If --trackfile_sector_list is not included, process all storms''')
+    if arglist is None or 'trackfile_parser' in arglist:
+        trackfile_group.add_argument('--trackfile_parser', nargs='?', default=None,
+                                     help='''Specify TC trackfile parser to use with trackfiles, located in:
+                                                geoips*.interface_modules.trackfile_parsers.myparsername.myparsername,
+                                                The trackfile_parser string should be the parser module
+                                                name (no .py)''')
+    if arglist is None or 'trackfile_sector_list' in arglist:
+        trackfile_group.add_argument('--trackfile_sector_list', nargs='*', default=None,
+                                     help='''A list of sector names found specified trackfiles to include in processing.
+                                             Of format: tc2020io01amphan''')
+
+    tcdb_group = parser.add_argument_group(title='Sector Requests: TC tracks database')
+    if arglist is None or 'tcdb_sector_list' in arglist:
+        tcdb_group.add_argument('--tcdb_sector_list', nargs='*', default=None,
+                                help='''A list of sector names found in tc database to include in processing.
+                                         Of format: tc2020io01amphan''')
+    if arglist is None or 'tcdb' in arglist:
+        tcdb_group.add_argument('--tcdb', action='store_true',
+                                help='''Call with --tcdb to include the matching TC database sectors within processing
+                                         If --tcdb_sector_list is also included, limit the storms to those in list
+                                         If --tcdb_sector_list is not included, process all matching storms.''')
+
+    static_group = parser.add_argument_group(title='Sector Requests: Static YAML sectorfiles')
+    if arglist is None or 'sectored_read' in arglist:
+        static_group.add_argument('--sectored_read', action='store_true',
+                                  help='''Call with --sectored_read to specify to sector the data
+                                          to specified area_defs during reading (ie, do not read all data
+                                          into memory in advance).''')
+    if arglist is None or 'resampled_read' in arglist:
+        static_group.add_argument('--resampled_read', action='store_true',
+                                  help='''Call with --resampled_read to specify to resample the data
+                                          to specified area_defs during reading (ie, do not read all data
+                                          into memory in advance).
+                                          This is required only for some geostationary readers''')
+    if arglist is None or 'self_register_dataset' in arglist:
+        static_group.add_argument('--self_register_dataset', nargs='?', default=None,
+                                  help='''Specify to register output data to the dataset specified by
+                                                self_register_dataset option.''')
+    if arglist is None or 'self_register_source' in arglist:
+        static_group.add_argument('--self_register_source', nargs='?', default=None,
+                                  help='''Specify to register output data to the dataset specified by
+                                                self_register_dataset / self_register_source options.''')
+    if arglist is None or 'reader_defined_area_def' in arglist:
+        static_group.add_argument('--reader_defined_area_def', action='store_true',
+                                  help='''Call with --reader_defined_area_def to specify to use only
+                                                area_definition defined within the reader
+                                                This option supercedes all other sector-specifying options.''')
+    if arglist is None or 'sectorfiles' in arglist:
+        static_group.add_argument('--sectorfiles', nargs='*', default=None,
+                                  help='''Specify YAML sectorfiles''')
+    if arglist is None or 'sector_list' in arglist:
+        static_group.add_argument('-s', '--sector_list', nargs='*', default=None,
+                                  help='''A list of short sector names found within YAML sectorfiles over which the
+                                         data file should be processed.''')
+
+    prod_group = parser.add_argument_group(title='Product specification options')
+    if arglist is None or 'product_name' in arglist:
+        prod_group.add_argument('--product_name', nargs='?', default=None,
+                                help='''Name of product to produce.''')
+    if arglist is None or 'minimum_coverage' in arglist:
+        prod_group.add_argument('--minimum_coverage', nargs='?', default=None, type=float,
+                                help='''Minimum percent coverage required to produce product. Defaults to 10.''')
+    if arglist is None or 'product_options' in arglist:
+        prod_group.add_argument('--product_options', nargs='?', default=None,
+                                help='''Specify product specific options (these must be parsed within the
+                                         individual product scripts)''')
+    if arglist is None or 'product_params_override' in arglist:
+        prod_group.add_argument('--product_params_override', nargs='?', default={}, type=jloads,
+                                help='''Specify product parameters to override the default specifications.
+                                        Should be formatted as a json dictionary string''')
+
+    comp_group = parser.add_argument_group(title='Options for specifying output comparison')
+    if arglist is None or 'output_file_list_fname' in arglist:
+        comp_group.add_argument('--output_file_list_fname', nargs='?', default=None,
+                                help='''Specify full path to a single file to store the complete list of output files
+                                        produced during the current run''')
+
+    if arglist is None or 'compare_path' in arglist:
+        comp_group.add_argument('--compare_path', nargs='?', default=None,
+                                help='''Specify full path to single directory (with <product> and <output> wildcards)
+                                        to be used for comparisons for ALL current outputs.''')
+
+    if arglist is None or 'compare_paths_override' in arglist:
+        comp_group.add_argument('--compare_paths_override', nargs='?', default={}, type=jloads,
+                                help='''NOT YET IMPLEMENTED Specify dictionary of full paths to directories
+                                    (with <product> and <output> wildcards) containing output products to compare with
+                                    current outputs. This should be formatted as a json dictionary string, with
+                                    YAML output config output_types as keys, and full directory comparison output
+                                    path as values.  Special key "all" will pertain to all output types.''')
+
+    if arglist is None or 'compare_outputs_module' in arglist:
+        comp_group.add_argument('--compare_outputs_module', nargs='?', default='compare_outputs',
+                                help='''Specify module to use for comparing outputs.
+                                    Defaults to geoips.compare_outputs internally if not specified.''')
+
+    procflow_group = parser.add_argument_group(title='Processing workflow specifications')
+    if arglist is None or 'procflow' in arglist:
+        procflow_group.add_argument('--procflow', default=None,
+                                    help='''Specify procflow that should be followed for this file, located in:
+                                          geoips*.interface_modules.procflows.myprocflowname.myprocflowname,
+                                          The procflow string should be the procflow module name (no .py)''')
+
+    if arglist is None or 'filename_format' in arglist:
+        procflow_group.add_argument('--filename_format', nargs='?', default='geoips_fname',
+                                    help='''Specify filename format module_name that should be used for this file, where
+                                          Each filename_module_name is 'myfilemodule' where
+                                              from geoips*.filenames.myfilemodule import myfilemodule
+                                          would be the appropriate import statement''')
+    if arglist is None or 'filename_format_kwargs' in arglist:
+        procflow_group.add_argument('--filename_format_kwargs', nargs='?', default={}, type=jloads,
+                                    help='''Specify filename format kwargs that should be used for
+                                            this filename_format. Should be formatted as a json dictionary string''')
+
+    if arglist is None or 'metadata_filename_format' in arglist:
+        procflow_group.add_argument('--metadata_filename_format', nargs='?', default=None,
+                                    help='''Specify filename format module_name that should be used for metadata output,
+                                          where filename_module_name is 'myfilemodule' where
+                                              geoips.filename_formats.myfilemodule
+                                          would be the appropriate entry point''')
+    if arglist is None or 'metadata_filename_format_kwargs' in arglist:
+        procflow_group.add_argument('--metadata_filename_format_kwargs', nargs='?', default={}, type=jloads,
+                                    help='''Specify filename format kwargs that should be used for
+                                            this metadata_filename_format.
+                                            Should be formatted as a json dictionary string''')
+
+    if arglist is None or 'output_format' in arglist:
+        procflow_group.add_argument('--output_format', nargs='?', default='imagery_annotated',
+                                    help='''Specify output format module_name that should be used for this file,
+                                          each output_format is 'output_formats.imagery_annotated' where
+                                              from geoips*.output_formats.imagery_annotated import imagery_annotated
+                                          would be the appropriate import statement''')
+    if arglist is None or 'output_format_kwargs' in arglist:
+        procflow_group.add_argument('--output_format_kwargs', nargs='?', default={}, type=jloads,
+                                    help='''Specify output format kwargs that should be used for this output_format.
+                                            should be formatted as a json dictionary string, ie:
+                                            '{"title_format": "tc_copyright", "title_copyright": "NRL"}' ''')
+
+    if arglist is None or 'metadata_output_format' in arglist:
+        procflow_group.add_argument('--metadata_output_format', nargs='?', default=None,
+                                    help='''Specify output format module_name that should be used for metadata output,
+                                          each output_format is 'myoutputmodule' where
+                                              from geoips.output_formats.myoutputmodule.myoutputmodule
+                                          would be the appropriate entry point''')
+    if arglist is None or 'metadata_output_format_kwargs' in arglist:
+        procflow_group.add_argument('--metadata_output_format_kwargs', nargs='?', default={}, type=jloads,
+                                    help='''Specify output format kwargs that should be used for this metadata.
+                                            Should be formatted as a json dictionary string.''')
+
+    if arglist is None or 'output_config' in arglist:
+        procflow_group.add_argument('--output_config', nargs='?', default=None,
+                                    help='''Specify YAML config file holding output modile names and
+                                          their respective filename modules''')
+
+    rdr_group = parser.add_argument_group(title='Data reader specifications')
+
+    if arglist is None or 'reader_name' in arglist:
+        rdr_group.add_argument('--reader_name', default=None,
+                               help='''If --reader_name is passed, the specific reader will be located in
+                                       geoips*.readers.myreader_name.myreader_name,
+                                       The reader_name string should be the reader module name (no .py)''')
+
+    if arglist is None or 'bg_product_name' in arglist:
+        rdr_group.add_argument('--bg_product_name', default=None,
+                               help='''Product to use for background imagery''')
+    if arglist is None or 'bg_reader_name' in arglist:
+        rdr_group.add_argument('--bg_reader_name', default=None,
+                               help='''If --bg_reader_name is passed, the specific reader will be located in
+                                    geoips*.readers.myreader_name.myreader_name,
+                                    The bg_reader_name string should be the reader module name (no .py)''')
+    if arglist is None or 'bg_fnames' in arglist:
+        rdr_group.add_argument('--bg_fnames', nargs='*', default=None,
+                               help='''Specify filenames to use for background imagery.
+                                    If --bg_reader_name included, use specific reader for reading background
+                                    datafiles.''')
+
+    plt_group = parser.add_argument_group(title='Plotting parameter specifications')
+    if arglist is None or 'gridlines_params' in arglist:
+        plt_group.add_argument('--gridlines_params', default=None,
+                               help='''If --gridlines_params is passed, the specific gridline params will be located in
+                                    geoips*.image_utils.plotting_params.gridlines.gridlines_params,
+                                    The gridlines_params string should be the base gridline name (no .yaml)''')
+    if arglist is None or 'boundaries_params' in arglist:
+        plt_group.add_argument('--boundaries_params', default=None,
+                               help='''If --boundaries_params is passed, the specific boundary params will be located in
+                                    geoips*.image_utils.plotting_params.boundaries.<boundaries_params>,
+                                    The boundaries_params string should be the base boundaries name (no .yaml)''')
+
+    if arglist is None or 'model_reader_name' in arglist:
+        rdr_group.add_argument('--model_reader_name', default=None,
+                               help='''If --model_reader_name is passed, the specific reader will be located in
+                                    geoips*.readers.my_reader_name.my_reader_name,
+                                    The model_reader_name string should be the reader module name (no .py)''')
+    if arglist is None or 'model_fnames' in arglist:
+        rdr_group.add_argument('--model_fnames', nargs='*', default=None,
+                               help='''Specify filenames to use for NWP model data.
+                                    If --model_reader_name included, use specific reader for reading model
+                                    datafiles.''')
+    if arglist is None or 'buoy_reader_name' in arglist:
+        rdr_group.add_argument('--buoy_reader_name', default=None,
+                               help='''If --buoy_reader_name is passed, the specific reader will be located in
+                                    geoips*.readers.my_reader_name.my_reader_name,
+                                    The buoyreadername string should be the reader module name (no .py)''')
+    if arglist is None or 'buoy_fnames' in arglist:
+        rdr_group.add_argument('--buoy_fnames', nargs='*', default=None,
+                               help='''Specify filenames to use for buoy data.
+                                    If --buoy_reader_name included, use specific reader for reading buoy
+                                    datafiles.''')
+    if arglist is None or 'aeorsol_reader_name' in arglist:
+        rdr_group.add_argument('--aerosol_reader_name', default=None,
+                               help='''If --model_reader_name is passed, the specific reader will be located in
+                                    geoips*.readers.my_reader_name.my_reader_name,
+                                    The model_reader_name string should be the reader module name (no .py)''')
+    if arglist is None or 'aerosol_fnames' in arglist:
+        rdr_group.add_argument('--aerosol_fnames', nargs='*', default=None,
+                               help='''If --aerosol_reader_name included, use specific reader for reading aerosol
+                                    model datafiles.''')
+
+    fusion_group = parser.add_argument_group(title='Options for specifying fusion products')
+    if arglist is None or 'fuse_files' in arglist:
+        fusion_group.add_argument('--fuse_files', action='append', nargs='+', default=None,
+                                  help='''Provide additional files required for fusion product. Files passed under
+                                       this flag MUST be from the same source. fuse_files may be passed multiple times.
+                                       Reader name for these files is specified with the fuse_reader flag.''')
+        fusion_group.add_argument('--fuse_reader', action='append', default=None,
+                                  help='''Provide the reader name for files passed under the fuse_files flag.
+                                       Only provide one reader to this flag. If multiple fuse_files flags are passed,
+                                       the same number of fuse_readers must be passed in the same order.''')
+        fusion_group.add_argument('--fuse_product', action='append', default=None,
+                                  help='''Provide the product name for files passed under the fuse_files flag.
+                                       Only provide one product to this flag. If multiple fuse_files flags are passed,
+                                       the same number of fuse_products must be passed in the same order.''')
+        fusion_group.add_argument('--fuse_resampled_read', action='append', default=None,
+                                  help='''Identify whether the reader specified for --fuse_files / --fuse_reader
+                                       perform a resampled_read.  If not specified, a resampled read will NOT
+                                       be performed.  If multiple fuse_files flags are passed, either
+                                       the same number of fuse_resampled_read flags must be passed
+                                       in the same order, or no fuse_resampled_read flags can be passed.''')
+        fusion_group.add_argument('--fuse_sectored_read', action='append', default=None,
+                                  help='''Identify whether the reader specified for --fuse_files / --fuse_reader
+                                       perform a sectored_read.  If not specified, a sectored_read will NOT
+                                       be performed.  If multiple fuse_files flags are passed, either
+                                       the same number of fuse_sectored_read flags must be passed
+                                       in the same order, or no fuse_sectored_read flags can be passed.''')
+        fusion_group.add_argument('--fuse_self_register_dataset', action='append', default=None,
+                                  help='''Identify the DATASET of the data to which the associated fuse_files should
+                                       be registerd.
+                                       If not specified, data will not be registered to a dataset, but the requested
+                                       area_def. If multiple fuse_files flags are passed, either
+                                       the same number of fuse_self_register_dataset flags must be passed
+                                       in the same order, or no fuse_self_register_dataset flags can be passed.''')
+        fusion_group.add_argument('--fuse_self_register_source', action='append', default=None,
+                                  help='''Identify the SOURCE of the data to which the associated fuse_files
+                                       should be registerd.
+                                       If not specified, data will not be registered to a dataset, but the requested
+                                       area_def. If multiple fuse_files flags are passed, either
+                                       the same number of fuse_self_register_source flags must be passed
+                                       in the same order, or no fuse_self_register_source flags can be passed.''')
+        fusion_group.add_argument('--fuse_self_register_platform', action='append', default=None,
+                                  help='''Identify the SOURCE of the data to which the associated fuse_files
+                                       should be registerd.
+                                       If not specified, data will not be registered to a dataset, but the requested
+                                       area_def. If multiple fuse_files flags are passed, either
+                                       the same number of fuse_self_register_source flags must be passed
+                                       in the same order, or no fuse_self_register_source flags can be passed.''')
+
+    prod_db_group = parser.add_argument_group(title='Product database specifications')
+    if arglist is None or 'product_db' in arglist:
+        prod_db_group.add_argument('--product_db', action='store_true',
+                                    help='Use product database to store product paths created by the procflow')
+        prod_db_group.add_argument('--product_db_writer', default=None,
+                               help='''If --product_db_writer is passed, the specific product database writer will be located in
+                                       geoips*.interface_modules.postgres_database.mywriter_name.mywriter_name,
+                                       The writer_name string should be the reader module name (no .py)''')
+        prod_db_group.add_argument('--product_db_writer_override', nargs='?', default={}, type=jloads,
+                                    help='''Specify product database writer that should be used for each available sector.
+                                            Should be formatted as a json dictionary string.''')
