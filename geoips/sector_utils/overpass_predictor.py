@@ -24,6 +24,10 @@ import math
 import ephem
 from pyresample import spherical_geometry
 
+from logging import getLogger
+
+LOG = getLogger()
+
 
 def check_tle_name_to_passed_names(tle_name, satellite_names_list):
     '''Check if the satellite name in the TLE files is in the passed satellite names list.
@@ -75,13 +79,14 @@ def floor_minute(datetime_obj):
     return datetime_obj - timedelta(seconds=second, microseconds=micro)
 
 
-def calculate_overpass(tle, observer_lat, observer_lon, date):
+def calculate_overpass(tle, observer_lat, observer_lon, date, satellite_name):
     '''Calculate next overpass information for a satellite at an observer location and time
     Args:
         tle (ephem.EarthSatellite) : tle for satellite
         observer_lat (float) : observer latitude
         observer_lon (float) : observer longitude
         date (datetime) : start time for next overpass
+        satellite_name (str) : name of satellite
     Returns:
         (dict) : next overpass information
     '''
@@ -95,7 +100,7 @@ def calculate_overpass(tle, observer_lat, observer_lon, date):
     moon.compute(sector)
     sun.compute(sector)
     if not sun.rise_time:
-        print('Something went wrong when calculating sun rise and set time!')
+        LOG.info(f'{satellite_name}:Something went wrong when calculating sun rise and set time for {date}!')
         return None
     sunrise = sun.rise_time.datetime()
     sunset = sun.set_time.datetime()
@@ -129,6 +134,9 @@ def calculate_overpass(tle, observer_lat, observer_lon, date):
         opass_info['is geostationary'] = is_geostationary
         opass_info['above horizon'] = is_above_horizon
         opass_info['is daytime'] = (date >= sunrise) & (date < sunset)
+    except AttributeError:
+        LOG.info(f'{satellite_name}: Something when wrong with calculating the next overpass for {date}')
+        return None
     if is_geostationary:
         tle.compute(sector)
     else:
@@ -145,10 +153,11 @@ def calculate_overpass(tle, observer_lat, observer_lon, date):
     return opass_info
 
 
-def predict_satellite_overpass(tlefile, satellite_tle, area_def, start_datetime, check_midpoints=False):
+def predict_satellite_overpass(tlefile, satellite_name, satellite_tle, area_def, start_datetime, check_midpoints=False):
     '''Estimate next satellite overpass information with ephem
     Args:
         tlefile (str) : file path of TLE
+        satellite_name (str) : name of satellite
         satellite_tle (dict) : dictionary holding satellite tle line1 and line2 data
         area_def (pyresample) : area definition
         start_datetime (datetime) : start time to find the next available overpass
@@ -178,7 +187,8 @@ def predict_satellite_overpass(tlefile, satellite_tle, area_def, start_datetime,
         opass_info = calculate_overpass(tle,
                                         observer_lat,
                                         observer_lon,
-                                        start_datetime)
+                                        start_datetime,
+                                        satellite_name)
         if isinstance(opass_info, type(None)):
             # Either something went wrong in the predictor, or found a
             # geostationary satellite that does not overpass the sector, ever!
@@ -217,7 +227,9 @@ def predict_overpass_area_def(tlefile, area_definition, satellite_list, start_da
     area_def_overpasses = {}
     satellite_tle_dict = read_satellite_tle(tlefile, satellite_list)
     for satellite, sat_tle in satellite_tle_dict.items():
-        next_overpass = predict_satellite_overpass(tlefile, sat_tle, 
+        next_overpass = predict_satellite_overpass(tlefile,
+                                                   satellite, 
+                                                   sat_tle, 
                                                    area_definition,
                                                    start_datetime,
                                                    check_midpoints=check_midpoints)
