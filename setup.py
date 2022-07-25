@@ -36,7 +36,7 @@ setuptools.setup(
                       'scipy',                # Base requirement
                       'netcdf4',              # Base requirement
                       'pyyaml',               # Base requirement
-                      # 'cartopy==0.20.2',    # Currently must install via conda
+                      'cartopy==0.20.2',    # Currently must install via conda
                       ],
     extras_require={
                     'config_based': [
