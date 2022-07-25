@@ -107,7 +107,7 @@ elif [[ "$1" == "install" ]]; then
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
     # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
-    abidir=$GEOIPS_PACKAGES_DIR/geoips/tests/data/goes16_20200918_1950/
+    abidir=$GEOIPS_TESTDATA_DIR/goes16_20200918_1950
     mkdir -p $abidir
     echo "** Setting up abi test data, from publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/ to $abidir"
     rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C01_G16_s20202621950205_e20202621959513_c20202621959567.nc $abidir
