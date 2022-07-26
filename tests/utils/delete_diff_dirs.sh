@@ -51,5 +51,8 @@ rm -rfv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*diff_test_output*
 rm -rfv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*diff_test_output*
 rm -rfv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*diff_test_output*
 rm -rfv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*diff_test_output*
-rm -rfv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*diff_test_output*
+rm -rfv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*diff_test_output*
+rm -rfv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*diff_test_output*
+rm -rfv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*diff_test_output*
+rm -rfv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*diff_test_output*
 

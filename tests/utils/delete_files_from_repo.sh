@@ -34,9 +34,13 @@ echo "Deleting bad files from test repos"
 # Include 2 levels - some repos have a subdirectory organization.
 for fname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/diff_test_output*/rm_*; do source $fname; done
 for fname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/*/diff_test_output*/rm_*; do source $fname; done
+for fname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/*/*/diff_test_output*/rm_*; do source $fname; done
+for fname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/*/*/*/diff_test_output*/rm_*; do source $fname; done
 
 for fname in $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/diff_test_output*/rm_*; do source $fname; done
 for fname in $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/diff_test_output*/rm_*; do source $fname; done
+for fname in $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/diff_test_output*/rm_*; do source $fname; done
+for fname in $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*/diff_test_output*/rm_*; do source $fname; done
 
 # Get rid of all the comparison files in preparation for commiting new/removed/modified files
 $GEOIPS_PACKAGES_DIR/geoips/tests/utils/delete_diff_dirs.sh $repo_name

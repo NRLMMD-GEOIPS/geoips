@@ -29,7 +29,8 @@ output_type = 'standard_metadata'
 
 
 def metadata_default(area_def, xarray_obj, metadata_yaml_filename, product_filename,
-                     metadata_dir='metadata', basedir=gpaths['TCWWW'], output_dict=None):
+                     metadata_dir='metadata', basedir=gpaths['TCWWW'], output_dict=None,
+                     include_metadata_filename=False):
     ''' Produce metadata yaml file of sector information associated with the final_product
     Args:
         area_def (AreaDefinition) : Pyresample AreaDefintion object
@@ -47,14 +48,15 @@ def metadata_default(area_def, xarray_obj, metadata_yaml_filename, product_filen
     # product_partial_path = product_filename.replace(gpaths['TCWWW'], 'https://www.nrlmry.navy.mil/tcdat')
     product_partial_path = replace_geoips_paths(product_filename)
     # product_partial_path = pathjoin(*final_product.split('/')[-5:-1]+[basename(final_product)])
-    return output_metadata_yaml(metadata_yaml_filename, area_def, xarray_obj, product_partial_path, output_dict)
+    return output_metadata_yaml(metadata_yaml_filename, area_def, xarray_obj, product_partial_path, output_dict,
+                                include_metadata_filename=include_metadata_filename)
 
 
-def update_sector_info_with_default_metadata(metadata_fname, area_def, xarray_obj, product_filename=None):
+def update_sector_info_with_default_metadata(area_def, xarray_obj,
+                                             product_filename=None, metadata_filename=None):
     ''' Update sector info found in "area_def" with standard metadata output
 
     Args:
-        metadata_fname (str) : Path to output metadata_fname
         area_def (AreaDefinition) : Pyresample AreaDefinition of sector information
         xarray_obj (xarray.Dataset) : xarray Dataset object that was used to produce product
         product_filename (str) : Full path to full product filename that this YAML file refers to
@@ -83,6 +85,8 @@ def update_sector_info_with_default_metadata(metadata_fname, area_def, xarray_ob
 
     if product_filename:
         sector_info['product_filename'] = replace_geoips_paths(product_filename)
+    if metadata_filename:
+        sector_info['metadata_filename'] = replace_geoips_paths(metadata_filename)
 
     if 'original_source_filenames' in xarray_obj.attrs.keys():
         sector_info['original_source_filenames'] = xarray_obj.original_source_filenames
@@ -90,7 +94,8 @@ def update_sector_info_with_default_metadata(metadata_fname, area_def, xarray_ob
     return sector_info
 
 
-def output_metadata_yaml(metadata_fname, area_def, xarray_obj, product_filename=None, output_dict=None):
+def output_metadata_yaml(metadata_fname, area_def, xarray_obj, product_filename=None, output_dict=None,
+                         include_metadata_filename=False):
     ''' Write out yaml file "metadata_fname" of sector info found in "area_def"
 
     Args:
@@ -102,10 +107,14 @@ def output_metadata_yaml(metadata_fname, area_def, xarray_obj, product_filename=
         (str) : Path to metadata filename if successfully produced.
     '''
 
-    sector_info = update_sector_info_with_default_metadata(metadata_fname,
-                                                           area_def,
+    sector_info_kwargs = {}
+    if include_metadata_filename:
+        sector_info_kwargs['metadata_filename'] = metadata_fname
+    if product_filename:
+        sector_info_kwargs['product_filename'] = product_filename
+    sector_info = update_sector_info_with_default_metadata(area_def,
                                                            xarray_obj,
-                                                           product_filename=product_filename)
+                                                           **sector_info_kwargs)
 
     returns = write_yamldict(sector_info, metadata_fname, force=True)
     if returns:

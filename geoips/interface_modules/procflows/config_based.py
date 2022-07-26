@@ -605,8 +605,8 @@ def config_based(fnames, command_line_args=None):
 
     if product_db:
         from os import getenv
-        if not getenv('G2DB_USER') or not getenv('G2DB_PASS'):
-                    raise ValueError('Need to set both $G2DB_USER and $G2DB_PASS')
+        if not getenv('GEOIPS_DB_USER') or not getenv('GEOIPS_DB_PASS'):
+                    raise ValueError('Need to set both $GEOIPS_DB_USER and $GEOIPS_DB_PASS')
 
     print_mem_usage('MEMUSG', verbose=False)
     reader = get_reader(config_dict['reader_name'])
@@ -791,6 +791,7 @@ def config_based(fnames, command_line_args=None):
             if 'adjust_area_def' in config_dict['available_sectors'][sector_type]:
                 adjust_area_def = config_dict['available_sectors'][sector_type]['adjust_area_def'] 
 
+            adadj_fnames = []
             if adjust_area_def:
                 LOG.info('\n\n\n\nAdjusting Area Definition: %s', adjust_area_def)
                 LOG.info('\n\n\n\nBEFORE ADJUSTMENT area definition: %s\n\n\n\n', area_def)
@@ -841,6 +842,14 @@ def config_based(fnames, command_line_args=None):
                                                      area_def,
                                                      curr_variables,
                                                      config_dict['available_sectors'][sector_type]['adjust_variables'])
+
+                cpath, cmodule = set_comparison_path(config_dict['available_sectors'][sector_type],
+                                                     product_name='archer',
+                                                     output_type='archer',
+                                                     command_line_args=command_line_args)
+                final_products = initialize_final_products(final_products, cpath, cmodule)
+                final_products[cpath]['compare_outputs_module'] = cmodule
+                final_products[cpath]['files'] += adadj_fnames
 
                 LOG.info('\n\n\n\nAFTER ADJUSTMENT area definition: %s\n\n\n\n', area_def)
 
@@ -923,7 +932,6 @@ def config_based(fnames, command_line_args=None):
                     cpath, cmodule = set_comparison_path(output_dict, product_name, output_type, command_line_args)
                     final_products = initialize_final_products(final_products, cpath, cmodule)
                     final_products[cpath]['compare_outputs_module'] = cmodule
-
 
                     # Produce sectored data output
                     curr_output_products = process_sectored_data_output(pad_sect_xarrays, product_variables,

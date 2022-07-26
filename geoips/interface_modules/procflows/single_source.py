@@ -90,10 +90,10 @@ def get_output_filenames(filename_formats, output_dict, product_name, xarray_obj
     metadata_fnames = {}
     for filename_format in filename_formats:
         filename_format_kwargs = get_filename_format_kwargs(filename_format, output_dict)
-        metadata_filename_format_kwargs = get_metadata_filename_format_kwargs(filename_format,
-                                                                              output_dict)
         metadata_filename_format = get_metadata_filename_format(filename_format,
                                                                 output_dict)
+        metadata_filename_format_kwargs = get_metadata_filename_format_kwargs(metadata_filename_format,
+                                                                              output_dict)
 
         output_fname = get_filename(filename_format, product_name, xarray_obj, area_def,
                                     output_dict=output_dict,

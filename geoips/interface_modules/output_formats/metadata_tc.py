@@ -122,8 +122,7 @@ def output_tc_metadata_yaml(metadata_fname, area_def, xarray_obj, product_filena
         (str) : Path to metadata filename if successfully produced.
     '''
     from geoips.interface_modules.output_formats.metadata_default import update_sector_info_with_default_metadata
-    sector_info = update_sector_info_with_default_metadata(metadata_fname,
-                                                           area_def,
+    sector_info = update_sector_info_with_default_metadata(area_def,
                                                            xarray_obj,
                                                            product_filename=product_filename)
 

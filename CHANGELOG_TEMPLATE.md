@@ -1,25 +1,25 @@
-#### # # Distribution Statement A. Approved for public release. Distribution unlimited.
-#### # # 
-#### # # Author:
-#### # # Naval Research Laboratory, Marine Meteorology Division
-#### # # 
-#### # # This program is free software:
-#### # # you can redistribute it and/or modify it under the terms
-#### # # of the NRLMMD License included with this program.
-#### # # 
-#### # # If you did not receive the license, see
-#### # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-#### # # for more information.
-#### # # 
-#### # # This program is distributed WITHOUT ANY WARRANTY;
-#### # # without even the implied warranty of MERCHANTABILITY
-#### # # or FITNESS FOR A PARTICULAR PURPOSE.
-#### # # See the included license for more details.
+    # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+    # # # 
+    # # # Author:
+    # # # Naval Research Laboratory, Marine Meteorology Division
+    # # # 
+    # # # This program is free software:
+    # # # you can redistribute it and/or modify it under the terms
+    # # # of the NRLMMD License included with this program.
+    # # # 
+    # # # If you did not receive the license, see
+    # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+    # # # for more information.
+    # # # 
+    # # # This program is distributed WITHOUT ANY WARRANTY;
+    # # # without even the implied warranty of MERCHANTABILITY
+    # # # or FITNESS FOR A PARTICULAR PURPOSE.
+    # # # See the included license for more details.
 
-######################################################################################################################
-DO NOT MODIFY THIS TEMPLATE!
-FOR USE IN COMPILING CONSISTENT CHANGE LOGS!
-######################################################################################################################
+    ####################################################################################
+    DO NOT MODIFY THIS TEMPLATE!
+    FOR USE IN COMPILING CONSISTENT CHANGE LOGS!
+    ####################################################################################
 
 1. Follow below template when adding information to the CHANGELOG.md prior to opening a pull request
     * Distribution statement should already exist - no change required.
@@ -47,9 +47,10 @@ vX.Y.Z: YYYY-MM-DD, <short summary of change>
 GEOIPS/<ISSUE_REPO>#<ISSUE_NUM> <reponame> <short description of updates>
 
 ### Breaking Interface Changes
-* **<High level category - like "Readers" or "Products", etc>**
-    * <List major BREAKING CHANGES>
-        * <Additional optional information>
+
+#### **<High level category - like "Readers" or "Products", etc>**
+* <List major BREAKING CHANGES>
+    * <Additional optional information>
 
 ### Test Repo Updates
 * **<High level category - like "AMSR2 Test Outputs" or "89H Products" or "Overlay Test Outputs", etc>**
@@ -76,7 +77,7 @@ GEOIPS/<ISSUE_REPO>#<ISSUE_NUM> <reponame> <short description of updates>
     * <List major UPDATES TO DOCUMENTATION>
         * <Additional optional information>
 
-### Installation and Test Scripts
+### Installation and Test
 * **<High level category - like "setup.sh" or "setup.py" or "setup_system.sh", etc>**
     * <List major UPDATES TO INSTALLATION OR TEST SCRIPTS>
         * <Additional optional information>

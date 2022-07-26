@@ -39,6 +39,9 @@ rm -fv $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*diff_test_output* 2> /dev/n
 rm -fv $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/*diff_test_output* 2> /dev/null
 rm -fv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*diff_test_output* 2> /dev/null
 rm -fv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*diff_test_output* 2> /dev/null
+rm -fv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*diff_test_output* 2> /dev/null
+rm -fv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*diff_test_output* 2> /dev/null
+rm -fv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*/*diff_test_output* 2> /dev/null
 
 echo ""
 echo ""
@@ -49,6 +52,8 @@ for fname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/diff_test_output*/cp
 for fname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/*/diff_test_output*/cp_*; do source $fname; done
 for fname in $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/diff_test_output*/cp_*; do source $fname; done
 for fname in $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/diff_test_output*/cp_*; do source $fname; done
+for fname in $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/diff_test_output*/cp_*; do source $fname; done
+for fname in $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*/diff_test_output*/cp_*; do source $fname; done
 
 echo ""
 echo ""
@@ -59,7 +64,9 @@ echo ""
 for dirname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/* \
                $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/* \
                $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/* \
-               $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*; do
+               $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/* \
+               $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/* \
+               $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*; do
     for in_ext in jif png yaml; do
 
         # We want to write "jif" diffs out as "tif"
@@ -86,7 +93,9 @@ echo ""
 for dirname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/diff_test_output* \
                $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/*/diff_test_output* \
                $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/diff_test_output* \
-               $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/diff_test_output*; do
+               $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/diff_test_output* \
+               $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/diff_test_output* \
+               $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*/diff_test_output*; do
     if [[ -d $dirname ]]; then
         # Automated diffs are named diff_test_output*
         # Post-generated diffs are named *diff_test_output

@@ -28,7 +28,7 @@ run_procflow $GEOIPS_BASEDIR/test_data/test_data_gpm/data/1B.GPM.GMI.TB2016.2020
              --procflow single_source \
              --reader_name gmi_hdf5 \
              --product_name 89pct \
-             --filename_format tc_fname \
+             --filename_format tc_clean_fname \
              --output_format imagery_clean \
              --metadata_filename_format metadata_default_fname \
              --metadata_output_format metadata_default \

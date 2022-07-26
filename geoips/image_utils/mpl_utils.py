@@ -488,7 +488,8 @@ def create_colorbar(fig, mpl_colors_info):
     cbar = matplotlib.colorbar.ColorbarBase(cbar_ax, cmap=mpl_cmap, extend='both', orientation='horizontal',
                                             norm=cmap_norm, ticks=cmap_ticks, boundaries=cmap_boundaries,
                                             spacing=cmap_spacing)
-    cbar.set_ticklabels(cmap_ticklabels)
+    if cmap_ticklabels:
+        cbar.set_ticklabels(cmap_ticklabels)
     cbar.ax.tick_params(labelsize=cbar_labelsize)
     if cbar_label:
         cbar.set_label(cbar_label, size=fontsize)
