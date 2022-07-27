@@ -75,29 +75,12 @@ ENV GEOIPS_TESTDATA_DIR=${GEOIPS_TESTDATA_DIR}
 
 WORKDIR $GEOIPS_BASEDIR
 
-# RUN apt-get update \
-#     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-#         build-essential imagemagick wget libsqlite3-0 libtiff5 libcurl4 libcurl3-gnutls ca-certificates \
-#         libgeos-dev python3 python3-pip unzip \
-#     && ln -s /usr/bin/python3 /usr/bin/python \
-#     && rm -rf /var/lib/apt/lists/*
-
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        build-essential imagemagick wget libsqlite3-0 libtiff5 libcurl4 libcurl3-gnutls ca-certificates libgeos-dev \
+        imagemagick wget libsqlite3-0 libtiff5 libcurl4 libcurl3-gnutls libgeos-3.9.0 libgeos-dev \
         python3 python3-pip \
     && ln -s /usr/bin/python3 /usr/bin/python \
     && rm -rf /var/lib/apt/lists/*
-
-# # Not sure if this is needed or not. Leaving them commented here for now.
-# # These files add 600MB to the image size.
-# # They appear to contain a bunch of GeoTIFFs that proj uses in some way.
-# # RUN mkdir -p /usr/share/proj; \
-# #     wget --no-verbose --mirror https://cdn.proj.org/; \
-# #     rm -f cdn.proj.org/*.js; \
-# #     rm -f cdn.proj.org/*.css; \
-# #     mv cdn.proj.org/* /usr/share/proj/; \
-# #     rmdir cdn.proj.org
 
 RUN groupadd --gid ${GID} ${USER} \
     && useradd --gid ${GID} --uid ${UID} -m ${USER}
@@ -112,5 +95,5 @@ COPY --chown=${USER} ./setup/rclone_setup/rclone.conf /home/${USER}/.config/rclo
 
 USER ${USER}
 
-# RUN cd ${GEOIPS_PACKAGES_DIR}/geoips \
-#     pip install --no-cache ".[efficiency_improvements, test_outputs, config_based, hdf5_readers, hdf4_readers, syntax_checking, documentation, debug, overpass_predictor, geostationary_readers]"
+RUN cd ${GEOIPS_PACKAGES_DIR}/geoips \
+    && pip install --no-cache ".[efficiency_improvements, test_outputs, config_based, hdf5_readers, hdf4_readers, syntax_checking, documentation, debug, overpass_predictor, geostationary_readers]"
