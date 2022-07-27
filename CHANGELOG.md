@@ -17,6 +17,23 @@
     # # # See the included license for more details.
 
 
+NRLMMD-GEOIPS/geoips#6,8,9 - Streamline installation process
+
+### Installation and Test
+* **base_install_and_test.sh**
+    * Exit immediately if GEOIPS_BASEDIR or GEOIPS_REPO_URL are not defined
+    * Comment out several sections of installation, to reduce time and disk space
+        * natural-earth-vector data download (will rely on latest shapefiles during cartopy processing)
+        * natural-earth-vector linking to ~/.local/share/cartopy
+            * Will NOT reinstate this step - cartopy supports CARTOPY_DATA_DIR as of 6 August 2021
+        * vim8 installation (only for use of vim8 plugins to help with following style guides)
+        * vim8 plugin installation
+        * seviri setup
+    * Remove BASECONDAPATH from conda cartopy installation (conda will be in PATH)
+* **README.md**
+    * Update github.com GEOIPS_ACTIVE_BRANCH from dev to main
+
+
 # v1.5.1: 2022-07-13, fix overpass error handling, fix ticklabels error, add area_def_adjuster outputs, update test rm
 
 ### Improvements
