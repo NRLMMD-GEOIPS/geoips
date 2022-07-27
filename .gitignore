@@ -1,7 +1,8 @@
 # Personal Preferences
 output
 test_data
-*.egg-info
+*.out
+*.save
 
 # Project Specific
 diff_test_output*
