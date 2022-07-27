@@ -116,6 +116,8 @@ check_continue "cloning geoip2 repo" "install conda"
         echo "    which pip (point to geoips_dependencies/miniconda3):   "`which conda`
         echo "    which python (point to geoips_dependencies/miniconda3):     "`which python`
     fi
+    source ~/.bashrc
+    env
 
 check_continue "installing conda (should point to $GEOIPS_BASEDIR/geoips_dependencies/miniconda3)" "create geoips_conda_env"
 
