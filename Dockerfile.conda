@@ -1,0 +1,9 @@
+FROM debian:bullseye
+
+ENV GEOIPS_BASEDIR=/testing
+ENV GEOIPS_REPO_URL=https://github.com/nrlmmd-geoips
+ENV GEOIPS_CONFIG_FILE=$GEOIPS_BASEDIR/geoips_packages/geoips/setup/config_geoips
+ENV GEOIPS_ACTIVE_BRANCH=main
+
+RUN apt-get update \
+    && apt-get install -y wget imagemagick git
