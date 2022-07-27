@@ -1,0 +1,10 @@
+*diff_test_output_dir*
+*diff_test_output*
+*.pyc
+*.o
+*.log
+*.swp
+.vscode
+geoips.egg-info
+*.simg
+*.egg-info
