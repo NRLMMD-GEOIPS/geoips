@@ -180,7 +180,7 @@ check_continue "Downloading cartopy natural earth data" "Link cartopy natural ea
         echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
     fi
 
-check_continue "installing cartopy data" "install rclone (REQUIRED for test script)"
+check_continue "installing geoips dependencies" "install rclone (REQUIRED for test script)"
     if [[ "$skip_next" == "no" ]]; then
         source $GEOIPS_CONFIG_FILE
         $GEOIPS/setup.sh setup_rclone # abi/ahi ingest
@@ -206,35 +206,35 @@ check_continue "installing rclone" "OPTIONAL install seviri libraries (required 
         echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
     fi
 
-check_continue "installing seviri libraries" "OPTIONAL install vim8"
+# check_continue "installing seviri libraries" "OPTIONAL install vim8"
+# 
+#     if [[ "$skip_next" == "no" ]]; then
+#         source $GEOIPS_CONFIG_FILE
+#         $GEOIPS/setup.sh setup_vim8  # vim syntax highlighting
+# 
+#         echo ""
+#         echo "Confirm environment variables point to desired installation parameters:"
+#         echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+#         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
+#         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
+#         echo "    which conda (should point geoips_dependencies/bin): "`which conda`
+#         echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
+#     fi
 
-    if [[ "$skip_next" == "no" ]]; then
-        source $GEOIPS_CONFIG_FILE
-        $GEOIPS/setup.sh setup_vim8  # vim syntax highlighting
-
-        echo ""
-        echo "Confirm environment variables point to desired installation parameters:"
-        echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
-        echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
-        echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
-        echo "    which conda (should point geoips_dependencies/bin): "`which conda`
-        echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
-    fi
-
-check_continue "installing vim8" "OPTIONAL install vim8 plugins (updates ~/.vim and ~/.vimrc to set up syntax highlighting based on geoips style guide)"
-
-    if [[ "$skip_next" == "no" ]]; then
-        source $GEOIPS_CONFIG_FILE
-        $GEOIPS/setup.sh setup_vim8_plugins  # vim syntax highlighting
-
-        echo ""
-        echo "Confirm environment variables point to desired installation parameters:"
-        echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
-        echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
-        echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
-        echo "    which conda (should point geoips_dependencies/bin): "`which conda`
-        echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
-    fi
+# check_continue "installing vim8" "OPTIONAL install vim8 plugins (updates ~/.vim and ~/.vimrc to set up syntax highlighting based on geoips style guide)"
+# 
+#     if [[ "$skip_next" == "no" ]]; then
+#         source $GEOIPS_CONFIG_FILE
+#         $GEOIPS/setup.sh setup_vim8_plugins  # vim syntax highlighting
+# 
+#         echo ""
+#         echo "Confirm environment variables point to desired installation parameters:"
+#         echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+#         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
+#         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
+#         echo "    which conda (should point geoips_dependencies/bin): "`which conda`
+#         echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
+#     fi
 
 check_continue "installing geoips, cartopy data, dependencies, and external packages" "run basic test script"
 
