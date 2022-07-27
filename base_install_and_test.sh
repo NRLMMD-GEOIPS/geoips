@@ -24,8 +24,6 @@ check_continue() {
         echo ""
         echo ""
         echo "Just completed '$1'"
-        echo "Next run '$2'"
-        echo ""
         echo "Y or y to perform '$2'"
         echo "K or k to skip '$2' but continue to following step"
         echo "Q or q to quit installation altogether?"
@@ -54,6 +52,13 @@ else
     GEOIPS_ACTIVE_BRANCH=$1
 fi
     
+if [[ "$GEOIPS_BASEDIR" == "" ]]; then
+    echo "Must set GEOIPS_BASEDIR environment variable prior to installation"
+    exit 1
+fi
+
+# This checks/sets required environment variables for setup - without requiring sourcing a geoips config in advance
+. $GEOIPS_BASEDIR/geoips_packages/geoips/setup/repo_clone_update_install.sh setup
 
     echo ""
     echo "NOTE Approximately 30GB disk space / 10GB memory required for complete installation and test"
@@ -71,9 +76,9 @@ fi
     echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
     echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
     echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
-    echo ""
+    echo "    which conda (should not exist yet): "`which conda`
 
-check_continue "verifying GEOIPS_BASEDIR and GEOIPS_CONFIG_FILE and GEOIPS_ACTIVE_BRANCH" "clone geoips"
+check_continue "verifying GEOIPS_BASEDIR and GEOIPS_CONFIG_FILE and GEOIPS_ACTIVE_BRANCH" "update geoips repo to $GEOIPS_ACTIVE_BRANCH"
 
     if [[ "$skip_next" == "no" ]]; then
         # Initial clone of geoips repo, to obtain setup scripts
@@ -95,7 +100,7 @@ check_continue "verifying GEOIPS_BASEDIR and GEOIPS_CONFIG_FILE and GEOIPS_ACTIV
         echo "    which conda (should not exist yet!): "`which conda`
     fi
 
-check_continue "cloning geoips repo" "install conda"
+check_continue "updating geoips" "install conda"
 
     if [[ "$skip_next" == "no" ]]; then
         # Install conda
