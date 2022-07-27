@@ -36,7 +36,9 @@ setuptools.setup(
                       'scipy',                # Base requirement
                       'netcdf4',              # Base requirement
                       'pyyaml',               # Base requirement
-                      'cartopy==0.20.2',    # Currently must install via conda
+                      'pyshp==2.2.0',
+                      'shapely@https://github.com/shapely/shapely/releases/download/1.8.2/Shapely-1.8.2.tar.gz',
+                      'cartopy==0.20.3',    # Currently must install via conda
                       ],
     extras_require={
                     'config_based': [
