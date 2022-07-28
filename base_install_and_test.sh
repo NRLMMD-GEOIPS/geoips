@@ -47,7 +47,7 @@ check_continue() {
 }
 
 if [[ "$1" == "" ]]; then
-    GEOIPS_ACTIVE_BRANCH=dev
+    GEOIPS_ACTIVE_BRANCH=main
 else
     GEOIPS_ACTIVE_BRANCH=$1
 fi

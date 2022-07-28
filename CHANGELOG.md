@@ -30,8 +30,11 @@ NRLMMD-GEOIPS/geoips#6,8,9 - Streamline installation process
         * vim8 plugin installation
         * seviri setup
     * Remove BASECONDAPATH from conda cartopy installation (conda will be in PATH)
+    * Update default branch from dev to main
 * **README.md**
     * Update github.com GEOIPS_ACTIVE_BRANCH from dev to main
+* **setup.sh**
+    * Update default branches from dev to main
 
 
 # v1.5.1: 2022-07-13, fix overpass error handling, fix ticklabels error, add area_def_adjuster outputs, update test rm
