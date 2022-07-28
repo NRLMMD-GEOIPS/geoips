@@ -1,0 +1,49 @@
+reader_name: amsr2_netcdf
+sectored_read: False
+
+available_sectors:
+  tcweb_bdeck:
+    trackfile_parser: bdeck_parser
+    trackfiles:
+      - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bio012020.dat
+    tc_template_yaml: !ENV ${GEOIPS}/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
+
+  global:
+    sectorfiles:
+      - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/static/global.yaml
+    sector_list:
+      - global
+
+outputs:
+  tc_overlay:
+    requested_sector_type: tcweb_bdeck
+    output_format: imagery_annotated
+    filename_formats: ['tc_fname']
+    product_names:
+      - 37pct
+      - 89pct
+    product_params_override:
+      all:
+        fname_covg_func: center_radius
+        fname_covg_args: {'radius_km': 100}
+        full_covg_func: masked_arrays
+        full_covg_args: {}
+        image_production_covg_func: masked_arrays
+        image_production_covg_args: {}
+      background_products:
+        config_names: ['abi', 'ahi', 'seviri']
+        product_names: ['Visible', 'Infrared-Gray']
+
+  global_overlay:
+    requested_sector_type: global
+    minimum_coverage: 10
+    produce_times:
+      required_minutes: [0, 30]
+    output_format: imagery_annotated
+    filename_formats: ['geoips_fname']
+    product_names:
+      - 89pct
+      - 37pct
+    background_products:
+      config_names: ['abi', 'ahi', 'seviri']
+      product_names: ['Visible', 'Infrared-Gray']
