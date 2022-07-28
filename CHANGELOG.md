@@ -17,7 +17,7 @@
     # # # See the included license for more details.
 
 
-NRLMMD-GEOIPS/geoips#6,8,9 - Streamline installation process
+NRLMMD-GEOIPS/geoips#6,8,9,11 - Streamline installation process, support Mac installation
 
 ### Installation and Test
 * **base_install_and_test.sh**
