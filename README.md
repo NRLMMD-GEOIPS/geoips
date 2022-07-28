@@ -53,6 +53,8 @@ Setup System Environment Variables
     # sudo apt install ncurses          # OPTIONAL - Required for vim build
     # sudo apt install libncurses5-dev  # OPTIONAL - Required for vim build
 
+    git lfs install  # Required to clone test data repositories!
+
     # GEOIPS_BASEDIR will contain all source, output, and external dependencies
     # Ensure this is consistently set for all installation / setup steps below
     export GEOIPS_BASEDIR=$HOME/geoproc
