@@ -160,12 +160,17 @@ elif [[ "$1" == "setup_rclone" ]]; then
     cd $GEOIPS_DEPENDENCIES_DIR/rclone
     # This puts it in the current directory
     unzip $GEOIPS_DEPENDENCIES_DIR/rclone/rclone-current-${opsys}-${arch}.zip
-    ln -sfv ${GEOIPS_DEPENDENCIES_DIR}/rclone-current-${opsys}-${arch}/rclone*/rclone ${GEOIPS_DEPENDENCIES_DIR}/bin/rclone
+    # rclone-current expands into rclone-<vers>, not rclone-current, so link arbitrary rclone* subdirectory
+    ln -sfv ${GEOIPS_DEPENDENCIES_DIR}/rclone*/rclone*/rclone ${GEOIPS_DEPENDENCIES_DIR}/bin/rclone
     mkdir -p ~/.config/rclone/
     ln -sv ${GEOIPS_PACKAGES_DIR}/geoips/setup/rclone_setup/rclone.conf ~/.config/rclone 
     if [[ $? != 0 ]]; then
-        echo "If you want to replace ~/.config/rclone/rclone.conf with geoips version, run the following:"
-        echo "ln -sfv ${GEOIPS_PACKAGES_DIR}/geoips/setup/rclone_setup/rclone.conf ~/.config/rclone"
+        echo ""
+        echo "**********"
+        echo "WARNING: rclone.conf not initiated in ~/.config"
+        echo "    If you want to replace ~/.config/rclone/rclone.conf with geoips version, run the following:"
+        echo "    ln -sfv ${GEOIPS_PACKAGES_DIR}/geoips/setup/rclone_setup/rclone.conf ~/.config/rclone"
+        echo "**********"
     fi
 elif [[ "$1" == "setup_vim8" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/vim8_build
