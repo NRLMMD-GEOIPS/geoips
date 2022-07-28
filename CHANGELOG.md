@@ -30,6 +30,17 @@ NRLMMD-GEOIPS/geoips#6,8,9 - Streamline installation process
         * vim8 plugin installation
         * seviri setup
     * Remove BASECONDAPATH from conda cartopy installation (conda will be in PATH)
+* **setup.sh**
+    * To support Mac installations, use "uname -m" when determining filenames for
+        rclone and miniconda3 installation
+* **geoips_conda_init_setup**
+    * To support Mac installations, use $(conda shell.bash activate geoips_conda) when activating
+        conda vs "conda geoips_conda activate"
+* **color_prompt**
+    * Add "$CONDA_PROMPT_MODIFIER" to $PS1
+* **repo_clone_update_install.sh**
+    * If GEOIPS_TESTDATA_DIR, GEOIPS_PACKAGES_DIR, or GEOIPS_DEPENDENCIES_DIR are set, use those,
+        otherwise default to placing under $GEOIPS_BASEDIR
 * **README.md**
     * Update github.com GEOIPS_ACTIVE_BRANCH from dev to main
 
