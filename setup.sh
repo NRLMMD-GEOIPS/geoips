@@ -34,12 +34,18 @@ if [[ "$1" == "conda_install" ]]; then
     # wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh -P $GEOIPS_DEPENDENCIES_DIR
     # chmod 755 $GEOIPS_DEPENDENCIES_DIR/Anaconda3-*.sh
     echo "**wgetting Miniconda3*.sh"
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -P $GEOIPS_DEPENDENCIES_DIR
-    chmod 755 $GEOIPS_DEPENDENCIES_DIR/Miniconda3-*.sh
+    opsys=Linux
+    arch=$(uname -m)
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        opsys=MacOSX
+    fi
+    conda_fname=Miniconda3-latest-${opsys}-${arch}.sh
+    wget https://repo.anaconda.com/miniconda/${conda_fname} -P $GEOIPS_DEPENDENCIES_DIR
+    chmod 755 $GEOIPS_DEPENDENCIES_DIR/${conda_fname}
     echo ""
     echo "**Running Anaconda3*.sh"
     # $GEOIPS_DEPENDENCIES_DIR/Anaconda3-*.sh -p $GEOIPS_DEPENDENCIES_DIR/anaconda3
-    $GEOIPS_DEPENDENCIES_DIR/Miniconda3-*.sh -p $GEOIPS_DEPENDENCIES_DIR/miniconda3
+    $GEOIPS_DEPENDENCIES_DIR/${conda_fname} -p $GEOIPS_DEPENDENCIES_DIR/miniconda3
     echo ""
     # echo "**If shell initialized, MUST source ~/.bashrc or restart shell"
     # source ~/.bashrc
@@ -141,11 +147,20 @@ elif [[ "$1" == "setup_seviri" ]]; then
     ln -sfv $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet/PublicDecompWT/xRITDecompress/xRITDecompress $GEOIPS_DEPENDENCIES_DIR/bin/xRITDecompress
 elif [[ "$1" == "setup_rclone" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/rclone
-    wget https://downloads.rclone.org/rclone-current-linux-amd64.zip -P $GEOIPS_DEPENDENCIES_DIR/rclone
+    opsys=linux
+    arch=$(uname -m)
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        opsys=osx
+    fi
+    # Annoying
+    if [[ "$(uname -m)" == "x86-64" ]]; then
+        arch=amd64
+    fi
+    wget https://downloads.rclone.org/rclone-current-${opsys}-${arch}.zip -P $GEOIPS_DEPENDENCIES_DIR/rclone
     cd $GEOIPS_DEPENDENCIES_DIR/rclone
     # This puts it in the current directory
-    unzip $GEOIPS_DEPENDENCIES_DIR/rclone/rclone*.zip
-    ln -sfv ${GEOIPS_DEPENDENCIES_DIR}/rclone*/rclone*/rclone ${GEOIPS_DEPENDENCIES_DIR}/bin/rclone
+    unzip $GEOIPS_DEPENDENCIES_DIR/rclone/rclone-current-${opsys}-${arch}.zip
+    ln -sfv ${GEOIPS_DEPENDENCIES_DIR}/rclone-current-${opsys}-${arch}/rclone*/rclone ${GEOIPS_DEPENDENCIES_DIR}/bin/rclone
     mkdir -p ~/.config/rclone/
     ln -sv ${GEOIPS_PACKAGES_DIR}/geoips/setup/rclone_setup/rclone.conf ~/.config/rclone 
     if [[ $? != 0 ]]; then
