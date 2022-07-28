@@ -33,9 +33,13 @@ NRLMMD-GEOIPS/geoips#6,8,9,11 - Streamline installation process, support Mac ins
 * **setup.sh**
     * To support Mac installations, use "uname -m" when determining filenames for
         rclone and miniconda3 installation
+    * Rather than sourcing `.bashrc` to get the conda environment set up, source `geoips_conda_init_setup`.
 * **geoips_conda_init_setup**
     * To support Mac installations, use $(conda shell.bash activate geoips_conda) when activating
         conda vs "conda geoips_conda activate"
+    * Allow use of GeoIPS-specific conda installation along-side user/system level installation where
+      the user/system level installation may be initialized in `.bash_profile`. Uses GeoIPS-specific
+      installation by default, if it is found.
 * **color_prompt**
     * Add "$CONDA_PROMPT_MODIFIER" to $PS1
 * **repo_clone_update_install.sh**
