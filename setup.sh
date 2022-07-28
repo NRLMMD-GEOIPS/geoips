@@ -41,9 +41,10 @@ if [[ "$1" == "conda_install" ]]; then
     # $GEOIPS_DEPENDENCIES_DIR/Anaconda3-*.sh -p $GEOIPS_DEPENDENCIES_DIR/anaconda3
     $GEOIPS_DEPENDENCIES_DIR/Miniconda3-*.sh -p $GEOIPS_DEPENDENCIES_DIR/miniconda3
     echo ""
-    echo "**If shell initialized, MUST source ~/.bashrc or restart shell"
-    source ~/.bashrc
-    echo "source ~/.bashrc"
+    # echo "**If shell initialized, MUST source ~/.bashrc or restart shell"
+    # source ~/.bashrc
+    # echo "source ~/.bashrc"
+    source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
 elif [[ "$1" == "conda_link" ]]; then
     echo ""
     echo "**Linking conda to bin"
