@@ -4,18 +4,36 @@
 
 # These lines are pulled directly from the auto-generated .bashrc conda init.
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup=`$GEOIPS_DEPENDENCIES_DIR/miniconda3/bin/conda 'shell.bash' 'hook'`
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
+if [[ -z GEOIPS_DEPENDENCIES_DIR ]]; then
+    GEOIPS_CONDA_DIR=$GEOIPS_BASEDIR/geoips_dependencies/miniconda3
 else
-    if [ -f "$GEOIPS_DEPENDENCIES_DIR/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "$GEOIPS_DEPENDENCIES_DIR/miniconda3/etc/profile.d/conda.sh"
+    GEOIPS_CONDA_DIR=$GEOIPS_DEPENDENCIES_DIR/miniconda3
+fi
+
+if [[ -f $GEOIPS_CONDA_DIR/bin/conda ]]; then
+    echo "FOUND GEOIPS CONDA INSTALL"
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup=`$GEOIPS_CONDA_DIR/bin/conda 'shell.bash' 'hook'`
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
     else
-        export PATH="$GEOIPS_DEPENDENCIES_DIR/miniconda3/bin:$PATH"
+        if [ -f "$GEOIPS_CONDA_DIR/etc/profile.d/conda.sh" ]; then
+            . "$GEOIPS_CONDA_DIR/etc/profile.d/conda.sh"
+        else
+            export PATH="$GEOIPS_DEPENDENCIES_DIR/miniconda3/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
+fi
+
+if which conda; then
+    echo "FOUND USER/SYSTEM CONDA INSTALL"
+    
+    conda env list
+    if conda env list | grep -q 'geoips_conda'; then
+        echo "$(conda shell.bash activate geoips_conda)"
+        eval "$(conda shell.bash activate geoips_conda)"
     fi
 fi
-unset __conda_setup
-# <<< conda initialize <<<
-conda activate geoips_conda

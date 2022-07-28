@@ -30,13 +30,24 @@ if [[ "$1" == "setup" ]]; then
         exit 1
     fi
     
-    mkdir -p $GEOIPS_BASEDIR/geoips_dependencies/bin
-    mkdir -p $GEOIPS_BASEDIR/geoips_packages
-    mkdir -p $GEOIPS_BASEDIR/test_data
-    export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_BASEDIR/geoips_dependencies
-    export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
-    export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
-    export BASECONDAPATH=$GEOIPS_DEPENDENCIES_DIR/miniconda3/bin
+    if [[ -z $GEOIPS_DEPENDENCIES_DIR ]]; then
+        export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_BASEDIR/geoips_dependencies
+    fi
+    if [[ -z $GEOIPS_PACKAGES_DIR ]]; then
+        export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
+    fi
+    if [[ -z $GEOIPS_TESTDATA_DIR ]]; then
+        export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
+    fi
+    if [[ -z $BASECONDAPATH ]]; then
+        export BASECONDAPATH=$GEOIPS_DEPENDENCIES_DIR/miniconda3/bin
+    fi
+    mkdir -p $GEOIPS_DEPENDENCIES_DIR/geoips_dependencies/bin
+    mkdir -p $GEOIPS_PACKAGES_DIR
+    mkdir -p $GEOIPS_TESTDATA_DIR
+
+    source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
+
 elif [[ "$1" == "repo_clone" ]]; then
     for internal_repo in $internal_plugins $internal_algs; do
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh clone_source_repo $internal_repo
