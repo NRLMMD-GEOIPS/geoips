@@ -287,12 +287,18 @@ check_continue "Installing and testing geoips" "Obtain amsr2 test data repositor
     if [[ "$skip_next" == "no" ]]; then
         date -u
         source $GEOIPS_CONFIG_FILE
-        mkdir -p $GEOIPS_TESTDATA_DIR
-        git clone $GEOIPS_REPO_URL/test_data_amsr2.git $GEOIPS_TESTDATA_DIR/test_data_amsr2
-        git -C $GEOIPS_TESTDATA_DIR/test_data_amsr2 pull
-        git -C $GEOIPS_TESTDATA_DIR/test_data_amsr2 checkout -t origin/$GEOIPS_ACTIVE_BRANCH
-        git -C $GEOIPS_TESTDATA_DIR/test_data_amsr2 checkout $GEOIPS_ACTIVE_BRANCH
-        git -C $GEOIPS_TESTDATA_DIR/test_data_amsr2 pull
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh clone_test_repo test_data_amsr2
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh update_test_repo test_data_amsr2 $GEOIPS_ACTIVE_BRANCH
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh uncompress_test_data test_data_amsr2
+        date -u
+    fi
+
+check_continue "Obtaining amsr2 test data repository" "Running AMSR2 tests"
+
+    if [[ "$skip_next" == "no" ]]; then
+        date -u
+        source $GEOIPS_CONFIG_FILE
+        $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output.sh
         date -u
     fi
 
