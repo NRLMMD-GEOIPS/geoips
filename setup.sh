@@ -48,6 +48,7 @@ if [[ "$1" == "conda_install" ]]; then
 elif [[ "$1" == "conda_link" ]]; then
     echo ""
     echo "**Linking conda to bin"
+    mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
     ln -sfv $BASECONDAPATH/conda $GEOIPS_DEPENDENCIES_DIR/bin
 elif [[ "$1" == "conda_init" ]]; then
     echo ""
@@ -136,6 +137,7 @@ elif [[ "$1" == "setup_seviri" ]]; then
     git clone https://gitlab.eumetsat.int/open-source/PublicDecompWT.git
     cd $cwd
     make all -C $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet/PublicDecompWT/xRITDecompress
+    mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
     ln -sfv $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet/PublicDecompWT/xRITDecompress/xRITDecompress $GEOIPS_DEPENDENCIES_DIR/bin/xRITDecompress
 elif [[ "$1" == "setup_rclone" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/rclone
@@ -159,6 +161,7 @@ elif [[ "$1" == "setup_vim8" ]]; then
     ./configure --prefix=${GEOIPS_DEPENDENCIES_DIR}/vim8_build/vim --disable-nls --enable-cscope --enable-gui=no --enable-multibyte --enable-pythoninterp --with-features=huge --with-tlib=ncurses --without-x;
     make
     make install
+    mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
     ln -s $GEOIPS_DEPENDENCIES_DIR/vim8_build/vim/bin/vim $GEOIPS_DEPENDENCIES_DIR/bin/vi
     ln -s $GEOIPS_DEPENDENCIES_DIR/vim8_build/vim/bin/vim $GEOIPS_DEPENDENCIES_DIR/bin/vim
     cd $cwd

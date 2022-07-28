@@ -42,7 +42,7 @@ if [[ "$1" == "setup" ]]; then
     if [[ -z $BASECONDAPATH ]]; then
         export BASECONDAPATH=$GEOIPS_DEPENDENCIES_DIR/miniconda3/bin
     fi
-    mkdir -p $GEOIPS_DEPENDENCIES_DIR/geoips_dependencies/bin
+    mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
     mkdir -p $GEOIPS_PACKAGES_DIR
     mkdir -p $GEOIPS_TESTDATA_DIR
 
