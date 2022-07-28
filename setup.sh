@@ -112,6 +112,7 @@ elif [[ "$1" == "install" ]]; then
                                                   documentation,\
                                                   debug,\
                                                   overpass_predictor,\
+                                                  coverage_checks,\
                                                   geostationary_readers]"
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
