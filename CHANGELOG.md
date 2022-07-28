@@ -16,6 +16,26 @@
     # # # or FITNESS FOR A PARTICULAR PURPOSE.
     # # # See the included license for more details.
 
+NRLMMD-GEOIPS/geoips_tutorial#3 - Add AMSR2 test data and test scripts to base install and test
+
+### Installation and Test
+* **README.md**
+    * Add git lfs install to setup, to ensure Large File Storage tracked data files are cloned properly
+* **base_install_and_test.sh**
+    * Add clone of test_data_amsr2
+    * Add AMSR2 test: $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output.sh
+* **setup.py**
+    * Add scikit-image to "coverage_checks" section of install_requires
+* **config_geoips**
+    * Add git lfs install, for redundancy
+    * Add GEOIPS_TESTDATA_DIR environment variable, to allow non-GEOIPS_BASEDIR test data locations.
+* **AMSR2 Test Scripts**
+    * Add AMSR2 config based test script: tests/scripts/amsr2.config_based_overlay_output.sh
+    * Add AMSR2 YAML output config: tests/yaml_configs/amsr2_test.yaml
+        * 89pct and 37pct output products
+        * TC-centric sector
+        * Global sector
+        * Visible AHI background imagery
 
 NRLMMD-GEOIPS/geoips#6,8,9 - Streamline installation process
 
