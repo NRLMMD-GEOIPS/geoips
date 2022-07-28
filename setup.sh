@@ -153,7 +153,7 @@ elif [[ "$1" == "setup_rclone" ]]; then
         opsys=osx
     fi
     # Annoying
-    if [[ "$(uname -m)" == "x86-64" ]]; then
+    if [[ "$(uname -m)" == "x86_64" ]]; then
         arch=amd64
     fi
     wget https://downloads.rclone.org/rclone-current-${opsys}-${arch}.zip -P $GEOIPS_DEPENDENCIES_DIR/rclone
