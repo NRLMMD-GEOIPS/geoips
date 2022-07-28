@@ -4,7 +4,7 @@
 
 # These lines are pulled directly from the auto-generated .bashrc conda init.
 
-if [[ -z GEOIPS_DEPENDENCIES_DIR ]]; then
+if [[ -z $GEOIPS_DEPENDENCIES_DIR ]]; then
     GEOIPS_CONDA_DIR=$GEOIPS_BASEDIR/geoips_dependencies/miniconda3
 else
     GEOIPS_CONDA_DIR=$GEOIPS_DEPENDENCIES_DIR/miniconda3
@@ -28,8 +28,7 @@ if [[ -f $GEOIPS_CONDA_DIR/bin/conda ]]; then
 fi
 
 if which conda; then
-    if conda env list | grep -q 'geoips_conda'; then
-        echo "$(conda shell.bash activate geoips_conda)"
+    if conda env list | grep -q --regex '^geoips_conda'; then
         eval "$(conda shell.bash activate geoips_conda)"
     fi
 fi
