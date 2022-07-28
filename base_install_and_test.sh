@@ -270,4 +270,22 @@ check_continue "installing geoips, cartopy data, dependencies, and external pack
         echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
     fi
 
+check_continue "Installing and testing geoips" "Obtain amsr2 test data repository"
+
+    if [[ "$skip_next" == "no" ]]; then
+        source $GEOIPS_CONFIG_FILE
+        mkdir -p $GEOIPS_TESTDATA_DIR
+        git clone $GEOIPS_REPO_URL/test_data_amsr2.git $GEOIPS_TESTDATA_DIR/test_data_amsr2
+        git -C $GEOIPS_TESTDATA_DIR/test_data_amsr2 pull
+        git -C $GEOIPS_TESTDATA_DIR/test_data_amsr2 checkout -t origin/$GEOIPS_ACTIVE_BRANCH
+        git -C $GEOIPS_TESTDATA_DIR/test_data_amsr2 checkout $GEOIPS_ACTIVE_BRANCH
+        git -C $GEOIPS_TESTDATA_DIR/test_data_amsr2 pull
+    fi
+
+echo "Confirm environment variables pointed to desired installation parameters:"
+echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
+echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
+echo "    which conda (should point geoips_dependencies/bin): "`which conda`
+echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
 check_continue "Installing and testing geoips" "Done with base installation and test!"
