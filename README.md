@@ -46,6 +46,7 @@ Setup System Environment Variables
     # sudo apt-get update               # Make sure apt packages are up to date
     # sudo apt install wget             # Required for Miniconda and rclone setup
     # sudo apt install git              # Required for all git clones, >=2.19.1
+    # sudo apt install git-lfs          # Required for git clones of test data repos, >=2.19.1
     # sudo apt install imagemagick      # Required for test output comparisons
     # sudo apt install gfortran         # OPTIONAL - Required if you have plugins with fortran builds
     # sudo apt install build-essential  # OPTIONAL - Required if you have plugins with fortran/C builds
