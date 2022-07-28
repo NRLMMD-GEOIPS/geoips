@@ -55,9 +55,10 @@ elif [[ "$1" == "conda_init" ]]; then
     # Link conda to geoips_dependencies/bin so it is in path
     $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_link
     echo ""
-    echo "**IF SCRIPT WAS NOT SOURCED MUST source ~/.bashrc or restart shell"
-    source ~/.bashrc
-    echo "source ~/.bashrc"
+    # echo "**IF SCRIPT WAS NOT SOURCED MUST source ~/.bashrc or restart shell"
+    # source ~/.bashrc
+    # echo "source ~/.bashrc"
+    source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
 elif [[ "$1" == "conda_update" ]]; then
     echo ""
     echo "**updating base conda env"
