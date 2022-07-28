@@ -11,7 +11,6 @@ else
 fi
 
 if [[ -f $GEOIPS_CONDA_DIR/bin/conda ]]; then
-    echo "FOUND GEOIPS CONDA INSTALL"
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
     __conda_setup=`$GEOIPS_CONDA_DIR/bin/conda 'shell.bash' 'hook'`
@@ -29,9 +28,6 @@ if [[ -f $GEOIPS_CONDA_DIR/bin/conda ]]; then
 fi
 
 if which conda; then
-    echo "FOUND USER/SYSTEM CONDA INSTALL"
-    
-    conda env list
     if conda env list | grep -q 'geoips_conda'; then
         echo "$(conda shell.bash activate geoips_conda)"
         eval "$(conda shell.bash activate geoips_conda)"
