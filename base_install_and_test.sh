@@ -121,8 +121,6 @@ check_continue "updating geoips" "install conda"
         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
         echo "    which conda (point to geoips_dependencies/miniconda3): "`which conda`
-        echo "    which pip (point to geoips_dependencies/miniconda3):   "`which conda`
-        echo "    which python (point to geoips_dependencies/miniconda3):     "`which python`
         date -u
     fi
 
@@ -141,6 +139,7 @@ check_continue "installing conda (should point to $GEOIPS_BASEDIR/geoips_depende
         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
         echo "    which conda (should point to geoips_dependencies/bin): "`which conda`
+        echo "    which pip (should point to miniconda3 envs/geoips_conda): "`which pip`
         echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
         date -u
     fi
