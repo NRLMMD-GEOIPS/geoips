@@ -16,6 +16,38 @@
     # # # or FITNESS FOR A PARTICULAR PURPOSE.
     # # # See the included license for more details.
 
+
+NRLMMD-GEOIPS/geoips#15 - Add low memory options for base install tests
+
+### Test Repo Updates
+* abi.config_based_output_low_memory.sh
+    * abi.static.Infrared.imagery_annotated png output
+    * abi.tc.Infrared.imagery_annotated png and YAML metadata output
+    * abi.tc.IR-BD.imagery_annotated png and YAML metadata output
+* abi.static.Infrared.imagery_annotated.sh
+    * abi.static.Infrared.imagery_annotated png output
+* amsr2.config_based_overlay_output_low_memory.sh
+    * amsr2.global_overlay.37pct.imagery_annotated_over_Infrared-Gray png and YAML metadata output
+    * amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray png and YAML metadata output
+    * amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray png and YAML metadata output
+    * amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray png and YAML metadata output
+* UPDATE outputs amsr2.config_based_overlay_output.sh (outputs were not previously included)
+    * amsr2.global_overlay.37pct.imagery_annotated_over_Visible png and YAML metadata output
+    * amsr2.global_overlay.89pct.imagery_annotated_over_Visible png and YAML metadata output
+    * amsr2.tc_overlay.37pct.imagery_annotated_over_Visible png and YAML metadata output
+    * amsr2.tc_overlay.89pct.imagery_annotated_over_Visible png and YAML metadata output
+
+### Installation and Test
+* **base_install_and_test.sh**
+    * Add "low_memory" option that allows testing Infrared-only ABI rather than Visible.
+        ~4GB vs ~12GB memory requirement.
+
+### Bug fixes
+* **amsr2.config_based_overlay_output.sh**
+    * Un-indent "backgrond_products" so background imagery is included in outputs
+    * Add outputs to comparison directories
+
+
 NRLMMD-GEOIPS/geoips_tutorial#3 - Add AMSR2 test data and test scripts to base install and test
 
 ### Installation and Test
