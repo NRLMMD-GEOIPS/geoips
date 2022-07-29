@@ -17,6 +17,18 @@
     # # # See the included license for more details.
 
 
+NRLMMD-GEOIPS/geoips#17 - Update Git Workflow
+
+### Documentation Updates
+
+* **docs/git-workflow.rst**
+    * Remove manual labeling on Issues
+    * Remove manual labeling on PRs
+    * Remove manual branching command line
+    * Note that branches MUST be created via the Issue->Development->Create Branch option
+    * Remove manual status updates on Project (should be automated via PRs linked to Issue)
+
+
 NRLMMD-GEOIPS/geoips#15 - Add low memory options for base install tests
 
 ### Test Repo Updates
