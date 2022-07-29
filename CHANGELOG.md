@@ -16,8 +16,28 @@
     # # # or FITNESS FOR A PARTICULAR PURPOSE.
     # # # See the included license for more details.
 
+NRLMMD-GEOIPS/geoips_tutorial#3 - Add AMSR2 test data and test scripts to base install and test
 
-NRLMMD-GEOIPS/geoips#6,8,9 - Streamline installation process
+### Installation and Test
+* **README.md**
+    * Add git lfs install to setup, to ensure Large File Storage tracked data files are cloned properly
+* **base_install_and_test.sh**
+    * Add clone of test_data_amsr2
+    * Add AMSR2 test: $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output.sh
+* **setup.py**
+    * Add scikit-image to "coverage_checks" section of install_requires
+* **config_geoips**
+    * Add git lfs install, for redundancy
+    * Add GEOIPS_TESTDATA_DIR environment variable, to allow non-GEOIPS_BASEDIR test data locations.
+* **AMSR2 Test Scripts**
+    * Add AMSR2 config based test script: tests/scripts/amsr2.config_based_overlay_output.sh
+    * Add AMSR2 YAML output config: tests/yaml_configs/amsr2_test.yaml
+        * 89pct and 37pct output products
+        * TC-centric sector
+        * Global sector
+        * Visible AHI background imagery
+
+NRLMMD-GEOIPS/geoips#6,8,9,11 - Streamline installation process, support Mac installation
 
 ### Installation and Test
 * **base_install_and_test.sh**
@@ -30,6 +50,21 @@ NRLMMD-GEOIPS/geoips#6,8,9 - Streamline installation process
         * vim8 plugin installation
         * seviri setup
     * Remove BASECONDAPATH from conda cartopy installation (conda will be in PATH)
+* **setup.sh**
+    * To support Mac installations, use "uname -m" when determining filenames for
+        rclone and miniconda3 installation
+    * Rather than sourcing `.bashrc` to get the conda environment set up, source `geoips_conda_init_setup`.
+* **geoips_conda_init_setup**
+    * To support Mac installations, use $(conda shell.bash activate geoips_conda) when activating
+        conda vs "conda geoips_conda activate"
+    * Allow use of GeoIPS-specific conda installation along-side user/system level installation where
+      the user/system level installation may be initialized in `.bash_profile`. Uses GeoIPS-specific
+      installation by default, if it is found.
+* **color_prompt**
+    * Add "$CONDA_PROMPT_MODIFIER" to $PS1
+* **repo_clone_update_install.sh**
+    * If GEOIPS_TESTDATA_DIR, GEOIPS_PACKAGES_DIR, or GEOIPS_DEPENDENCIES_DIR are set, use those,
+        otherwise default to placing under $GEOIPS_BASEDIR
     * Update default branch from dev to main
 * **README.md**
     * Update github.com GEOIPS_ACTIVE_BRANCH from dev to main
