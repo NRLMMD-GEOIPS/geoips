@@ -78,6 +78,9 @@ setuptools.setup(
                                      'pyshp>=2.2.0',       # Previously 2.1.3, 20220607 3.5.2
                                      'matplotlib>=3.5.2',  # Previously v3.3, then 3.4.3, 20220607 3.5.2
                                      ],
+                    'coverage_checks': [
+                                     'scikit-image',
+                                     ],
                     'efficiency_improvements': [
                                      'satpy>=0.36.0',      # efficiency improvements >= 0.33.1, 20220607 0.36.0
                                      'pyresample>=1.23.0',   # efficiency improvements >= 1.22.3, 20220607 1.23.0

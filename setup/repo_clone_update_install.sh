@@ -42,9 +42,11 @@ if [[ "$1" == "setup" ]]; then
     if [[ -z $BASECONDAPATH ]]; then
         export BASECONDAPATH=$GEOIPS_DEPENDENCIES_DIR/miniconda3/bin
     fi
-    mkdir -p $GEOIPS_DEPENDENCIES_DIR/geoips_dependencies/bin
+    mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
     mkdir -p $GEOIPS_PACKAGES_DIR
     mkdir -p $GEOIPS_TESTDATA_DIR
+
+    source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
 
 elif [[ "$1" == "repo_clone" ]]; then
     for internal_repo in $internal_plugins $internal_algs; do
