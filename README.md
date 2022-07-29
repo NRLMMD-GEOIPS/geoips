@@ -46,12 +46,15 @@ Setup System Environment Variables
     # sudo apt-get update               # Make sure apt packages are up to date
     # sudo apt install wget             # Required for Miniconda and rclone setup
     # sudo apt install git              # Required for all git clones, >=2.19.1
+    # sudo apt install git-lfs          # Required for git clones of test data repos, >=2.19.1
     # sudo apt install imagemagick      # Required for test output comparisons
     # sudo apt install gfortran         # OPTIONAL - Required if you have plugins with fortran builds
     # sudo apt install build-essential  # OPTIONAL - Required if you have plugins with fortran/C builds
     # sudo apt install screen           # OPTIONAL - convenience package
     # sudo apt install ncurses          # OPTIONAL - Required for vim build
     # sudo apt install libncurses5-dev  # OPTIONAL - Required for vim build
+
+    git lfs install  # Required to clone test data repositories!
 
     # GEOIPS_BASEDIR will contain all source, output, and external dependencies
     # Ensure this is consistently set for all installation / setup steps below
