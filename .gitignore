@@ -8,4 +8,4 @@
 geoips.egg-info
 *.simg
 *.egg-info
-./tests/data/
+tests/data/
