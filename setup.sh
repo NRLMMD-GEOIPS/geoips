@@ -120,6 +120,11 @@ elif [[ "$1" == "setup_abi_test_data" ]]; then
     abidir=$GEOIPS_PACKAGES_DIR/geoips/tests/data/goes16_20200918_1950/
     mkdir -p $abidir
     echo "** Setting up abi test data, from publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/ to $abidir"
+    echo ""
+    echo "NOAA Geostationary Operational Environmental Satellites (GOES) 16 & 17 was accessed on "
+    echo `date -u` "from https://registry.opendata.aws/noaa-goes."
+    echo ""
+
     rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C01_G16_s20202621950205_e20202621959513_c20202621959567.nc $abidir
     rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C02_G16_s20202621950205_e20202621959513_c20202621959546.nc $abidir
     rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C03_G16_s20202621950205_e20202621959513_c20202621959570.nc $abidir

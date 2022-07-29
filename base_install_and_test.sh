@@ -51,6 +51,12 @@ if [[ "$1" == "" ]]; then
 else
     GEOIPS_ACTIVE_BRANCH=$1
 fi
+
+if [[ "$2" == "" ]]; then
+    memory_option="high_memory"
+else
+    memory_option="low_memory"
+fi
     
 if [[ "$GEOIPS_BASEDIR" == "" ]]; then
     echo "Must set GEOIPS_BASEDIR environment variable prior to installation"
@@ -266,7 +272,11 @@ check_continue "installing geoips, cartopy data, dependencies, and external pack
         date -u
         source $GEOIPS_CONFIG_FILE
         $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh setup_abi_test_data
-        $GEOIPS/tests/test_base_install.sh
+        if [[ "$memory_option" == "low_memory" ]]; then
+            $GEOIPS/tests/test_base_install_low_memory.sh
+        else
+            $GEOIPS/tests/test_base_install.sh
+        fi
         retval=$?
 
         echo ""
@@ -297,7 +307,11 @@ check_continue "Obtaining amsr2 test data repository" "Running AMSR2 tests"
     if [[ "$skip_next" == "no" ]]; then
         date -u
         source $GEOIPS_CONFIG_FILE
-        $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output.sh
+        if [[ "$memory_option" == "low_memory" ]]; then
+            $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh
+        else
+            $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output.sh
+        fi
         date -u
     fi
 
