@@ -54,11 +54,6 @@ if [[ "$1" == "conda_install" ]]; then
     # source ~/.bashrc
     # echo "source ~/.bashrc"
     source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
-elif [[ "$1" == "conda_link" ]]; then
-    echo ""
-    echo "**Linking conda to bin"
-    mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
-    ln -sfv $BASECONDAPATH/conda $GEOIPS_DEPENDENCIES_DIR/bin
 elif [[ "$1" == "conda_init" ]]; then
     echo ""
     echo "**Initializing conda"
