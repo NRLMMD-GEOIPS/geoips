@@ -91,7 +91,7 @@ elif [[ "$1" == "install" ]]; then
     # This was getting 0.18.0 sometimes without specifying version ???  Force to 0.20.0
 
     # Update to latest 20220607, previously cartopy 0.20.2 and matplotlib 3.4.3.
-    $BASECONDAPATH/conda install -c conda-forge "cartopy>=0.20.2" "matplotlib>=3.5.2" --yes
+    conda install -c conda-forge "cartopy>=0.20.2" "matplotlib>=3.5.2" --yes
 
     pip install -e "$GEOIPS_PACKAGES_DIR/geoips[efficiency_improvements,\
                                                   test_outputs,\
@@ -250,7 +250,7 @@ elif [[ "$1" =~ "clone_test_repo" ]]; then
     fi
 elif [[ "$1" =~ "update_test_repo" ]]; then
     if [[ "$3" == "" ]]; then
-        branch=dev
+        branch=main
     else
         branch=$3
     fi
@@ -359,7 +359,7 @@ elif [[ "$1" =~ "clone_source_repo" ]]; then
     fi
 elif [[ "$1" =~ "update_source_repo" ]]; then
     if [[ "$3" == "" ]]; then
-        branch=dev
+        branch=main
     else
         branch=$3
     fi
