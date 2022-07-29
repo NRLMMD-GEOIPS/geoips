@@ -66,7 +66,7 @@ Setup System Environment Variables
     # This config file must be sourced ANY TIME you want to run geoips
     export GEOIPS_CONFIG_FILE=$GEOIPS_BASEDIR/geoips_packages/geoips/setup/config_geoips
 
-    GEOIPS_ACTIVE_BRANCH=dev
+    GEOIPS_ACTIVE_BRANCH=main
 ```
 
 

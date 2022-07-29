@@ -65,8 +65,11 @@ NRLMMD-GEOIPS/geoips#6,8,9,11 - Streamline installation process, support Mac ins
 * **repo_clone_update_install.sh**
     * If GEOIPS_TESTDATA_DIR, GEOIPS_PACKAGES_DIR, or GEOIPS_DEPENDENCIES_DIR are set, use those,
         otherwise default to placing under $GEOIPS_BASEDIR
+    * Update default branch from dev to main
 * **README.md**
     * Update github.com GEOIPS_ACTIVE_BRANCH from dev to main
+* **setup.sh**
+    * Update default branches from dev to main
 
 
 # v1.5.1: 2022-07-13, fix overpass error handling, fix ticklabels error, add area_def_adjuster outputs, update test rm

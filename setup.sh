@@ -276,7 +276,7 @@ elif [[ "$1" =~ "clone_test_repo" ]]; then
     fi
 elif [[ "$1" =~ "update_test_repo" ]]; then
     if [[ "$3" == "" ]]; then
-        branch=dev
+        branch=main
     else
         branch=$3
     fi
@@ -385,7 +385,7 @@ elif [[ "$1" =~ "clone_source_repo" ]]; then
     fi
 elif [[ "$1" =~ "update_source_repo" ]]; then
     if [[ "$3" == "" ]]; then
-        branch=dev
+        branch=main
     else
         branch=$3
     fi
