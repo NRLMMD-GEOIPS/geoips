@@ -44,7 +44,7 @@ def tpw_pwat():
     from geoips.image_utils.colormap_utils import from_ascii
     from matplotlib.colors import BoundaryNorm
     bounds = (values + [values[-1] + 1])
-    mpl_cmap = from_ascii(pathjoin(gpaths['GEOIPS'], 'geoips',
+    mpl_cmap = from_ascii(pathjoin(gpaths['BASE_PATH'],
                                    'image_utils', 'ascii_palettes', 'tpw_pwat.txt'))
 
     mpl_colors_info = {'cmap': mpl_cmap,

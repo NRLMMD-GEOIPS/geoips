@@ -18,6 +18,7 @@
 
 '''Installation instructions for base geoips package'''
 
+from os import walk
 from os.path import realpath, join, dirname
 
 import setuptools
@@ -29,6 +30,9 @@ setuptools.setup(
     name='geoips',
     version=version,
     packages=setuptools.find_packages(),
+    include_package_data=True,
+    package_data={"geoips": ["yaml_configs/*", "yaml_configs/*/*", "yaml_configs/*/*/*",
+                             "image_utils/ascii_palettes/*"]},
     install_requires=['pyresample',           # Base requirement - efficiency improvements >= 1.22.3
                       'numpy',                # Base requirement
                       'xarray',               # Base requirement
