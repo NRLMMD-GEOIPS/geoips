@@ -64,7 +64,7 @@ WORKDIR $GEOIPS_PACKAGES_DIR
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         imagemagick wget libsqlite3-0 libtiff5 libcurl4 libcurl3-gnutls libgeos-3.9.0 libgeos-dev \
-        python3 python3-pip \
+        python3 python3-pip git git-lfs \
     && ln -s /usr/bin/python3 /usr/bin/python \
     && rm -rf /var/lib/apt/lists/*
 
@@ -85,7 +85,7 @@ COPY --chown=${USER_ID}:${GROUP_ID} ./setup/rclone_setup/rclone.conf /home/${USE
 
 USER ${USER}
 
-ARG GEOIPS_REPO_URL=git@github.com/jsolbrig/geoips.git
+ARG GEOIPS_REPO_URL=https://github.com/NRLMMD-GEOIPS/geoips.git
 ARG GEOIPS_OUTDIRS=/output
 ARG GEOIPS_DEPENDENCIES_DIR=/data
 ARG GEOIPS_TESTDATA_DIR=/data
@@ -98,7 +98,7 @@ ENV GEOIPS_PACKAGES_DIR=${GEOIPS_PACKAGES_DIR}
 ENV GEOIPS_DEPENDENCIES_DIR=${GEOIPS_DEPENDENCIES_DIR}
 ENV GEOIPS_TESTDATA_DIR=${GEOIPS_TESTDATA_DIR}
 
-WORKDIR ${GEOIPS_PACKAGES_DIR}/geoips
 COPY --chown=${USER_ID}:${GROUP_ID} . ${GEOIPS_PACKAGES_DIR}/geoips
+WORKDIR ${GEOIPS_PACKAGES_DIR}/geoips
 RUN cd ${GEOIPS_PACKAGES_DIR}/geoips \
     && pip install --no-cache ".[efficiency_improvements, test_outputs, config_based, hdf5_readers, hdf4_readers, syntax_checking, documentation, debug, overpass_predictor, geostationary_readers]"
