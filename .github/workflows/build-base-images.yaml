@@ -13,6 +13,7 @@ env:
 
 jobs:
   Check if rclone Dockerfile changed:
+    runs-on: ubuntu-latest
     steps:
       - name: Check if Changed
         id: check_if_rclone_changed
