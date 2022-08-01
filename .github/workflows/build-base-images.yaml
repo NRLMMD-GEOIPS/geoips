@@ -34,8 +34,10 @@ jobs:
     if: needs.check_if_rclone_dockerfile_changed.outputs.is_changed == 'true'
     steps:
       - name: Build & Push rclone image
-        run: |
-          echo "WOULD PRODUCE IMAGE"
+        uses: ./docker_build_push
+        with:
+          file: dockerfiles/Dockerfile.rclone
+          image_name: rclone
 
     # permissions:
     #   contents: read
