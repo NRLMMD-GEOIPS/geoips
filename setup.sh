@@ -125,22 +125,24 @@ elif [[ "$1" == "setup_abi_test_data" ]]; then
     echo `date -u` "from https://registry.opendata.aws/noaa-goes."
     echo ""
 
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C01_G16_s20202621950205_e20202621959513_c20202621959567.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C02_G16_s20202621950205_e20202621959513_c20202621959546.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C03_G16_s20202621950205_e20202621959513_c20202621959570.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C04_G16_s20202621950205_e20202621959513_c20202621959534.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C05_G16_s20202621950205_e20202621959513_c20202621959562.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C06_G16_s20202621950205_e20202621959518_c20202621959556.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C07_G16_s20202621950205_e20202621959524_c20202621959577.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C08_G16_s20202621950205_e20202621959513_c20202621959574.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C09_G16_s20202621950205_e20202621959518_c20202621959588.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C10_G16_s20202621950205_e20202621959524_c20202621959578.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C11_G16_s20202621950205_e20202621959513_c20202621959583.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C12_G16_s20202621950205_e20202621959518_c20202621959574.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C13_G16_s20202621950205_e20202621959525_c20202622000005.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C15_G16_s20202621950205_e20202621959518_c20202621959594.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C16_G16_s20202621950205_e20202621959524_c20202622000001.nc $abidir
+    rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
+
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C01_G16_s20202621950205_e20202621959513_c20202621959567.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C02_G16_s20202621950205_e20202621959513_c20202621959546.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C03_G16_s20202621950205_e20202621959513_c20202621959570.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C04_G16_s20202621950205_e20202621959513_c20202621959534.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C05_G16_s20202621950205_e20202621959513_c20202621959562.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C06_G16_s20202621950205_e20202621959518_c20202621959556.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C07_G16_s20202621950205_e20202621959524_c20202621959577.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C08_G16_s20202621950205_e20202621959513_c20202621959574.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C09_G16_s20202621950205_e20202621959518_c20202621959588.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C10_G16_s20202621950205_e20202621959524_c20202621959578.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C11_G16_s20202621950205_e20202621959513_c20202621959583.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C12_G16_s20202621950205_e20202621959518_c20202621959574.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C13_G16_s20202621950205_e20202621959525_c20202622000005.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C15_G16_s20202621950205_e20202621959518_c20202621959594.nc $abidir
+    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C16_G16_s20202621950205_e20202621959524_c20202622000001.nc $abidir
 
 elif [[ "$1" == "setup_seviri" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet
@@ -151,6 +153,7 @@ elif [[ "$1" == "setup_seviri" ]]; then
     make all -C $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet/PublicDecompWT/xRITDecompress
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
     ln -sfv $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet/PublicDecompWT/xRITDecompress/xRITDecompress $GEOIPS_DEPENDENCIES_DIR/bin/xRITDecompress
+
 elif [[ "$1" == "setup_rclone" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/rclone
     opsys=linux
@@ -168,16 +171,7 @@ elif [[ "$1" == "setup_rclone" ]]; then
     unzip $GEOIPS_DEPENDENCIES_DIR/rclone/rclone-current-${opsys}-${arch}.zip
     # rclone-current expands into rclone-<vers>, not rclone-current, so link arbitrary rclone* subdirectory
     ln -sfv ${GEOIPS_DEPENDENCIES_DIR}/rclone*/rclone*/rclone ${GEOIPS_DEPENDENCIES_DIR}/bin/rclone
-    mkdir -p ~/.config/rclone/
-    ln -sv ${GEOIPS_PACKAGES_DIR}/geoips/setup/rclone_setup/rclone.conf ~/.config/rclone 
-    if [[ $? != 0 ]]; then
-        echo ""
-        echo "**********"
-        echo "WARNING: rclone.conf not initiated in ~/.config"
-        echo "    If you want to replace ~/.config/rclone/rclone.conf with geoips version, run the following:"
-        echo "    ln -sfv ${GEOIPS_PACKAGES_DIR}/geoips/setup/rclone_setup/rclone.conf ~/.config/rclone"
-        echo "**********"
-    fi
+
 elif [[ "$1" == "setup_vim8" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/vim8_build
     cwd=`pwd`
