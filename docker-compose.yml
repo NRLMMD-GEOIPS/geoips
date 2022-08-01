@@ -1,0 +1,14 @@
+version: '3.2'
+services:
+  geoips:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
+    volumes:
+      - ${GEOIPS_TESTDATA_DIR}:/data
+      - ${GEOIPS_OUTDIRS}:/output
+      - ${GEOIPS_DEPENDENCIES_DIR}:/app/geoips_dependencies
+      - ${GEOIPS}:/testing/geoips

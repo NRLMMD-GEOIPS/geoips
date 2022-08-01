@@ -28,6 +28,9 @@ fi
 
 umask 0002
 
+if [[ ! -d $GEOIPS_DEPENDENCIES_DIR/bin ]]; then
+    mkdir $GEOIPS_DEPENDENCIES_DIR/bin
+fi
 if [[ "$1" == "conda_install" ]]; then
     echo ""
     # echo "**wgetting Anaconda3*.sh"
@@ -51,15 +54,10 @@ if [[ "$1" == "conda_install" ]]; then
     # source ~/.bashrc
     # echo "source ~/.bashrc"
     source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
-elif [[ "$1" == "conda_link" ]]; then
-    echo ""
-    echo "**Linking conda to bin"
-    mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
-    ln -sfv $BASECONDAPATH/conda $GEOIPS_DEPENDENCIES_DIR/bin
 elif [[ "$1" == "conda_init" ]]; then
     echo ""
     echo "**Initializing conda"
-    $BASECONDAPATH/conda init
+    conda init
     # Link conda to geoips_dependencies/bin so it is in path
     $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_link
     echo ""
@@ -117,7 +115,7 @@ elif [[ "$1" == "install" ]]; then
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
     # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
-    abidir=$GEOIPS_PACKAGES_DIR/geoips/tests/data/goes16_20200918_1950/
+    abidir=$GEOIPS_TESTDATA_DIR/goes16_20200918_1950
     mkdir -p $abidir
     echo "** Setting up abi test data, from publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/ to $abidir"
     echo ""

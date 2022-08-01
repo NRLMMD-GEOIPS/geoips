@@ -116,7 +116,6 @@ check_continue "updating geoips" "install conda"
         # Do not initialize your shell at the end, to allow switching between versions!!!
         $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_install
 
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_link
         # Activate current conda base environment - note geoips_conda doesn't exist yet, but that is ok.
         # We need to at least point to "new" python and conda
         source $GEOIPS_CONFIG_FILE
@@ -129,6 +128,8 @@ check_continue "updating geoips" "install conda"
         echo "    which conda (point to geoips_dependencies/miniconda3): "`which conda`
         date -u
     fi
+    source ~/.bashrc
+    env
 
 check_continue "installing conda (should point to $GEOIPS_BASEDIR/geoips_dependencies/miniconda3)" "create geoips_conda_env"
 

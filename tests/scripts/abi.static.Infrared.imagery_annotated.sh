@@ -22,16 +22,16 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS/tests/data/goes16_20200918_1950/* \
+run_procflow $GEOIPS_TESTDATA_DIR/goes16_20200918_1950/* \
              --procflow single_source \
              --reader_name abi_netcdf \
              --product_name Infrared \
-             --compare_path "$GEOIPS/tests/outputs/abi.static.<product>.imagery_annotated" \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
              --output_format imagery_annotated \
              --filename_format geoips_fname \
              --resampled_read \
              --sector_list goes16 \
-             --sectorfiles $GEOIPS/tests/sectors/static/goes16.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/goes16.yaml
 retval=$?
 
 exit $retval

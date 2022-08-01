@@ -31,6 +31,9 @@ LOG = logging.getLogger(__name__)
 
 PATHS = {}
 
+# Get the base package directory
+PATHS['BASE_PATH'] = pathjoin(dirname(__file__), '..')
+
 PATHS['GEOIPS_OPERATIONAL_USER'] = False
 if getenv('GEOIPS_OPERATIONAL_USER'):
     PATHS['GEOIPS_OPERATIONAL_USER'] = getenv('GEOIPS_OPERATIONAL_USER')
@@ -40,18 +43,6 @@ if not getenv('GEOIPS_OUTDIRS'):
     raise KeyError('GEOIPS_OUTDIRS must be set in your environment.  Please set GEOIPS_OUTDIRS and try again')
 else:
     PATHS['GEOIPS_OUTDIRS'] = getenv('GEOIPS_OUTDIRS').rstrip('/')
-
-# If GEOIPS is not defined, we must have a system install.
-# Set GEOIPS to current path (get rid of utils/plugin_paths.py)
-if not getenv('GEOIPS'):
-    PATHS['GEOIPS'] = pathjoin(pathsplit(dirname(__file__))[0], '..')
-else:
-    PATHS['GEOIPS'] = getenv('GEOIPS').rstrip('/')
-
-if not getenv('GEOIPS'):
-    PATHS['GEOIPS'] = pathjoin(pathsplit(dirname(__file__))[0])
-else:
-    PATHS['GEOIPS'] = getenv('GEOIPS').rstrip('/')
 
 if getenv('GEOIPS_PACKAGES_DIR') and exists(getenv('GEOIPS_PACKAGES_DIR')):
     PATHS['GEOIPS_PACKAGES_DIR'] = getenv('GEOIPS_PACKAGES_DIR').rstrip('/')
@@ -130,7 +121,7 @@ PATHS['GEOIPS_RCFILE'] = ''
 if getenv('GEOIPS_RCFILE'):
     PATHS['GEOIPS_RCFILE'] = getenv('GEOIPS_RCFILE')
 
-PATHS['TC_TEMPLATE'] = pathjoin(PATHS['GEOIPS'], 'geoips', 'yaml_configs', 'sectors_dynamic', 'tc_web_template.yaml')
+PATHS['TC_TEMPLATE'] = pathjoin(PATHS['BASE_PATH'], 'yaml_configs', 'sectors_dynamic', 'tc_web_template.yaml')
 if getenv('TC_TEMPLATE'):
     PATHS['TC_TEMPLATE'] = getenv('TC_TEMPLATE')
 

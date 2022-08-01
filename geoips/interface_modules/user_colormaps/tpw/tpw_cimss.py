@@ -41,7 +41,7 @@ def tpw_cimss():
     min_val = 5
     max_val = 65
 
-    mpl_colors_info = {'cmap': from_ascii(pathjoin(gpaths['GEOIPS'], 'geoips',
+    mpl_colors_info = {'cmap': from_ascii(pathjoin(gpaths['BASE_PATH'],
                                           'image_utils', 'ascii_palettes', 'tpw_cimss.txt')),
                        'norm': Normalize(vmin=min_val, vmax=max_val),
                        'cbar_ticks': [min_val, 15, 25, 35, 45, 55, max_val],
