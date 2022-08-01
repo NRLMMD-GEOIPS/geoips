@@ -1,0 +1,29 @@
+# EXT_REGISTRY allows specifying a different registry that is acting as a pull-through cache for Docker Hub.
+# To provide EXT_REGISTRY at build time, supply it as a build argument 
+#     `docker build . --build-arg EXT_REGISTRY=https://myregistry.com/`
+# Note that the value MUST contain a trailing slash
+# If not provided, images will be pulled from Docker Hub
+ARG EXT_REGISTRY=""
+ARG IMAGE_TAG="11.4"
+
+FROM ${EXT_REGISTRY}docker.io/library/debian:${IMAGE_TAG} as build
+ARG EXT_REGISTRY IMAGE_TAG
+
+RUN apt-get update \
+    && apt-get install -y unzip wget \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# I don't like this because it doesn't grab a specific rclone version but I don't know where to
+# get a specific version right now and am hurrying
+RUN wget https://downloads.rclone.org/rclone-current-linux-amd64.zip \
+    && unzip rclone*.zip \
+    && cp rclone-*-linux-amd64/rclone /usr/bin/rclone \
+    && chown root:root /usr/bin/rclone \
+    && chmod 755 /usr/bin/rclone \
+    && rm -rf rclone-*-linux-amd64
+
+FROM ${EXT_REGISTRY}docker.io/library/debian:${IMAGE_TAG}
+
+COPY --from=build /usr/bin/rclone /usr/bin/rclone
