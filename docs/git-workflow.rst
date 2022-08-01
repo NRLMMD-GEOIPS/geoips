@@ -99,7 +99,7 @@ FROM COMMAND LINE: Switch to new branch, Make changes as usual
         * <repo>/tests/test_all.sh
 
 
-Push changes to bitbucket 
+Push changes to github 
 =============================================================
 * **From command line**: When you have made all of the changes required for the current Issue, push changes to GitHub
     * Perform once for each repository with changes related to this Issue
