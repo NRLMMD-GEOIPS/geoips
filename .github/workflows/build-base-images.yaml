@@ -12,12 +12,24 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
+  Check if rclone Dockerfile changed:
+    steps:
+      - name: Check if Changed
+        id: check_if_rclone_changed
+        uses: ./check_if_changed
   Build & Push rclone image:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
+    needs: [ "Check if rclone Dockerfile changed" ]
+    if: needs.check_if_rclone_changed.outputs.is_changed == 'false' }}
     steps:
-      - name: Build and Push rclone image
-        uses: ./docker_build_push_if_changed
+      - name: Build & Push rclone image
+        run: |
+          echo "WOULD NOT PRODUCE IMAGE"
+
+    # permissions:
+    #   contents: read
+    #   packages: write
+
+    # steps:
+    #   - name: Build and Push rclone image
+    #     uses: ./docker_build_push_if_changed

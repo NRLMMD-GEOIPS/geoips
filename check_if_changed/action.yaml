@@ -1,0 +1,28 @@
+name: "Check If File Changed"
+description: "Check if a specific file changed"
+
+inputs:
+  file:
+    required: true
+
+outputs:
+  is_changed: ${{ steps.check_if_changed.outputs.is_changed }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout two commits
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+    - name: Check if File Changed
+      id: check_if_changed
+      shell: bash
+      run: |
+        # File hasn't changed
+        if $(git diff --exit-code -s HEAD^ HEAD docker_build_push_if_changed/action.yaml); then
+            echo "::set-output name=is_changed::false"
+        # File changed
+        else
+            echo "::set-output name=is_changed::true"
+        fi
