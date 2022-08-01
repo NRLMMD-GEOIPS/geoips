@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 env:
   REGISTRY: ghcr.io
+  TEST_TAG: geoips:test
 
 jobs:
   build_push_test_docker:
@@ -26,6 +27,15 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Build and export to Docker
+      #   uses: docker/build-push-action@v3
+      #     with:
+      #       context: .
+      #       load: true
+      #       tags: ${{ env.TEST_TAG }}
+      # - name: Test
+      #   run: |
+      #     docker run --rm ${{ env.TEST_TAG }}
       - name: Build and Push image
         uses: docker/build-push-action@v3.1.0
         with:
