@@ -17,6 +17,7 @@ jobs:
     name: Check if rclone Dockerfile changed
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Check if Changed
         id: check_if_rclone_changed
         uses: ./check_if_changed
