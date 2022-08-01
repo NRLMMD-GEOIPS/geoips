@@ -23,6 +23,8 @@ jobs:
       - name: Check if Changed
         id: check_if_rclone_changed
         uses: ./check_if_changed
+        with:
+          file: dockerfiles/Dockerfile.rclone
       - run: echo "${{ steps.check_if_rclone_changed.outputs.is_changed }}"
 
   build_push_rclone_image:

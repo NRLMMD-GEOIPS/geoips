@@ -20,8 +20,9 @@ runs:
       id: check_if_changed
       shell: bash
       run: |
+        echo "Checking ${{ inputs.file }}"
         # File hasn't changed
-        if $(git diff --exit-code -s HEAD^ HEAD docker_build_push_if_changed/action.yaml); then
+        if $(git diff --exit-code -s HEAD^ HEAD ${{ inputs.file }}); then
             echo "NOT CHANGED"
             echo "::set-output name=is_changed::false"
         # File changed
