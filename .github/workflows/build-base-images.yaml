@@ -54,8 +54,8 @@ jobs:
           push: true
           tags: ghcr.io/${{ env.IMAGE_NAME }}:latest
           file: "dockerfiles/Dockerfile.rclone"
-          # cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache
-          # cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache,mode=max
+          cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache,mode=max
       # - uses: actions/checkout@v2
       # - name: Build & Push rclone image
       #   uses: ./docker_build_push
