@@ -26,5 +26,4 @@ RUN wget https://downloads.rclone.org/rclone-current-linux-amd64.zip \
 
 FROM ${EXT_REGISTRY}docker.io/library/debian:${IMAGE_TAG}
 
-
 COPY --from=build /usr/bin/rclone /usr/bin/rclone
