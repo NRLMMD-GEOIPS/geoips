@@ -12,16 +12,20 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  Check if rclone Dockerfile changed:
+
+  check_if_rclone_dockerfile_changed:
+    name: Check if rclone Dockerfile changed
     runs-on: ubuntu-latest
     steps:
       - name: Check if Changed
         id: check_if_rclone_changed
         uses: ./check_if_changed
-  Build & Push rclone image:
+
+  build_push_rclone_image:
+    name: Build & Push rclone image
     runs-on: ubuntu-latest
     needs: [ "Check if rclone Dockerfile changed" ]
-    if: needs.check_if_rclone_changed.outputs.is_changed == 'false' }}
+    if: needs.check_if_rclone_dockerfile_changed.outputs.is_changed == 'false' }}
     steps:
       - name: Build & Push rclone image
         run: |
