@@ -5,7 +5,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: "${{ github.repository }}-proj"
 
 jobs:
   debug:
@@ -15,6 +14,9 @@ jobs:
       packages: write
 
     steps:
+      - name: Make image name
+        run: |
+          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}-proj" >> ${GITHUB_ENV}
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Login to the Container registry
