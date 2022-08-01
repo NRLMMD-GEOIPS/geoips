@@ -50,7 +50,7 @@ jobs:
         with:
           push: true
           tags: ghcr.io/${{ env.IMAGE_NAME }}:latest
-          file: "dockerfiles/Dockerfile.rclone
+          file: "dockerfiles/Dockerfile.rclone"
           # cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache
           # cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache,mode=max
       # - uses: actions/checkout@v2
