@@ -1,0 +1,23 @@
+# EXT_REGISTRY allows specifying a different registry that is acting as a pull-through cache for Docker Hub.
+# To provide EXT_REGISTRY at build time, supply it as a build argument 
+#     `docker build . --build-arg EXT_REGISTRY=https://myregistry.com/`
+# Note that the value MUST contain a trailing slash
+# If not provided, images will be pulled from Docker Hub
+ARG EXT_REGISTRY=""
+ARG IMAGE_TAG="11.4"
+
+FROM ${EXT_REGISTRY}docker.io/library/debian:${IMAGE_TAG} as build
+ARG EXT_REGISTRY IMAGE_TAG
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        imagemagick wget libsqlite3-0 libtiff5 libcurl4 libcurl3-gnutls libgeos-3.9.0 libgeos-dev \
+        python3 python3-pip git git-lfs \
+    && ln -s /usr/bin/python3 /usr/bin/python \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=proj:testing /build/usr/share/proj/ /usr/share/proj/
+COPY --from=proj:testing /build/usr/include/ /usr/include/
+COPY --from=proj:testing /build/usr/bin/ /usr/bin/
+COPY --from=proj:testing /build/usr/lib/ /usr/lib/
+COPY --from=rclone:testing /usr/bin/rclone /usr/bin/rclone

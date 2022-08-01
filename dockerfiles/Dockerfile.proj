@@ -1,0 +1,57 @@
+# EXT_REGISTRY allows specifying a different registry that is acting as a pull-through cache for Docker Hub.
+# To provide EXT_REGISTRY at build time, supply it as a build argument 
+#     `docker build . --build-arg EXT_REGISTRY=https://myregistry.com/`
+# Note that the value MUST contain a trailing slash
+# If not provided, images will be pulled from Docker Hub
+ARG EXT_REGISTRY=""
+ARG IMAGE_TAG="11.4"
+
+FROM ${EXT_REGISTRY}docker.io/library/debian:${IMAGE_TAG} as build
+# Renew build args for the stage
+ARG EXT_REGISTRY IMAGE_TAG
+
+ARG PROJ_VERSION='9.0.1'
+
+WORKDIR /build
+
+RUN apt-get update \
+    && apt-get install -y python3 python3-pip \
+    && ln -s /usr/bin/python3 /usr/bin/python \
+    && rm -rf /var/lib/apt/lists/*
+
+# When we update this to use debian:bookworm we should begin installing proj via `apt-get install proj-bin`
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --fix-missing --no-install-recommends \
+        software-properties-common build-essential ca-certificates cmake wget unzip \
+        zlib1g-dev libsqlite3-dev sqlite3 libcurl4-gnutls-dev libtiff5-dev
+# There are two URLs for proj here because osgeo.org sometimes goes down
+# The || means, if the first command failed, try the second command
+RUN mkdir -p /build/usr/local \
+    && wget https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz \
+    || wget https://ftp.osuosl.org/pub/osgeo/download/proj/proj-${PROJ_VERSION}.tar.gz \
+    && tar -xzvf ./proj-${PROJ_VERSION}.tar.gz \
+    && cd proj-${PROJ_VERSION} \
+    && cmake . -B build -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF \
+    && DESTDIR=/build cmake --build build --target install
+
+FROM ${EXT_REGISTRY}docker.io/library/debian:${IMAGE_TAG}
+
+# Since this is not a working container and is just a pre-build container, I'll comment this out
+# RUN apt-get update \
+#     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+#         libsqlite3-0 libtiff5 libcurl4 libcurl3-gnutls \
+#     && ln -s /usr/bin/python3 /usr/bin/python \
+#     && rm -rf /var/lib/apt/lists/*
+
+COPY --from=build /build/usr/share/proj/ /build/usr/share/proj/
+COPY --from=build /build/usr/include/ /build/usr/include/
+COPY --from=build /build/usr/bin/ /build/usr/bin/
+COPY --from=build /build/usr/lib/ /build/usr/lib/
+
+# Link steps aren't working. That's fine for the current use-case, but that means any container that wants to directly
+# use proj would need to copy proj into place.
+# RUN ln -sfn /build/usr/share/proj /usr/share/proj \
+#     && for file in $(find /build/usr/include -type f); do if [[ ! -e]]
+#     && ln -sfn /build/usr/include/* /usr/include/ \
+#     && ln -sfn /build/usr/bin/* /usr/bin/ \
+#     && ln -sfn /build/usr/lib/* /usr/lib/
