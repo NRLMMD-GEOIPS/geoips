@@ -22,8 +22,10 @@ runs:
       run: |
         # File hasn't changed
         if $(git diff --exit-code -s HEAD^ HEAD docker_build_push_if_changed/action.yaml); then
+            echo "NOT CHANGED"
             echo "::set-output name=is_changed::false"
         # File changed
         else
+            echo "CHANGED"
             echo "::set-output name=is_changed::true"
         fi
