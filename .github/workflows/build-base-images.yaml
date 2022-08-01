@@ -30,4 +30,4 @@ jobs:
         with:
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
-          file: "{{defaultContext}}:dockerfiles/Dockerfile.rclone
+          file: "dockerfiles/Dockerfile.rclone
