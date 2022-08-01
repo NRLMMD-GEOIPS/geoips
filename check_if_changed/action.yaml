@@ -6,7 +6,8 @@ inputs:
     required: true
 
 outputs:
-  is_changed: ${{ steps.check_if_changed.outputs.is_changed }}
+  is_changed:
+    value: ${{ steps.check_if_changed.outputs.is_changed }}
 
 runs:
   using: "composite"
