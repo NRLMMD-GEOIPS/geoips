@@ -6,6 +6,9 @@ inputs:
     required: true
   image_name:
     required: true
+  token:
+    description: "This needs to recieve the github token from secrets.GITHUB_TOKEN"
+    required: true
 
 runs:
   using: "composite"
@@ -21,7 +24,7 @@ runs:
       with:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ inputs.token }}
     - name: Build and Push image
       uses: docker/build-push-action@v3.1.0
       with:

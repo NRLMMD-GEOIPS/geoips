@@ -39,6 +39,7 @@ jobs:
         with:
           file: dockerfiles/Dockerfile.rclone
           image_name: rclone
+          token: ${{ secrets.GITHUB_TOKEN }}
 
     # permissions:
     #   contents: read
