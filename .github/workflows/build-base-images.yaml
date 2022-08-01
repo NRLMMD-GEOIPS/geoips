@@ -31,5 +31,5 @@ jobs:
         uses: docker/build-push-action@v3.1.0
         with:
           push: true
-          tags: ${{ env.IMAGE_NAME }}:latest
+          tags: ghcr.io/${{ env.IMAGE_NAME }}:latest
           file: "dockerfiles/Dockerfile.rclone"
