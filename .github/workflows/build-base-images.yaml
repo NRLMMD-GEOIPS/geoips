@@ -16,6 +16,9 @@ jobs:
   check_if_rclone_dockerfile_changed:
     name: Check if rclone Dockerfile changed
     runs-on: ubuntu-latest
+    outputs:
+      is_changed:
+        value: ${{ steps.check_if_rclone_changed.outputs.is_changed }}
     steps:
       - uses: actions/checkout@v2
       - name: Check if Changed
