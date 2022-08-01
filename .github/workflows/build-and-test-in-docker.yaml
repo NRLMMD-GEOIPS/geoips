@@ -2,6 +2,9 @@ name: Build & Test in Docker
 
 on: [push, pull_request]
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
   build_push_test_docker:
     runs-on: ubuntu-latest
