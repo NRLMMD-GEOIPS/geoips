@@ -24,7 +24,7 @@ jobs:
   build_push_rclone_image:
     name: Build & Push rclone image
     runs-on: ubuntu-latest
-    needs: [ "Check if rclone Dockerfile changed" ]
+    needs: [ check_if_rclone_dockerfile_changed ]
     if: needs.check_if_rclone_dockerfile_changed.outputs.is_changed == 'false'
     steps:
       - name: Build & Push rclone image
