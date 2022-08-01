@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Make image name
         run: |
-          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+          echo "IMAGE_NAME=${GITHUB_REPOSITORY_OWNER,,}/rclone" >> ${GITHUB_ENV}
       # - name: Checkout repository
       #   uses: actions/checkout@v3
       - name: Set up Docker Buildx
@@ -31,5 +31,5 @@ jobs:
         uses: docker/build-push-action@v3.1.0
         with:
           push: true
-          tags: ghcr.io/${{ env.IMAGE_NAME }}-rclone:latest
+          tags: ghcr.io/${{ env.IMAGE_NAME }}:latest
           file: "dockerfiles/Dockerfile.rclone"
