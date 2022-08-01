@@ -11,6 +11,7 @@ runs:
   using: "composite"
   steps:
     - name: Make image name
+      shell: bash
       run: |
         echo "IMAGE_NAME=${GITHUB_REPOSITORY_OWNER,,}/${{ inputs.image_name }}" >> ${GITHUB_ENV}
     - name: Setup BuildX
