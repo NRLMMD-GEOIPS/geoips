@@ -11,8 +11,6 @@ else
     export GEOIPS_VERS=`cat $CURRENT_CONFIGPATH/../VERSION`
 fi
 
-git lfs install
-
 export GEOIPS_BASEDIR=`dirname $CURRENT_CONFIGPATH`
 export GEOIPS_BASEDIR=`dirname $GEOIPS_BASEDIR`
 export GEOIPS_BASEDIR=`dirname $GEOIPS_BASEDIR`
