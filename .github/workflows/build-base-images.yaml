@@ -29,11 +29,10 @@ jobs:
     name: Build & Push rclone image
     runs-on: ubuntu-latest
     needs: [ check_if_rclone_dockerfile_changed ]
-    # if: needs.check_if_rclone_dockerfile_changed.outputs.is_changed == 'false'
+    if: needs.check_if_rclone_dockerfile_changed.outputs.is_changed == 'false'
     steps:
       - name: Build & Push rclone image
         run: |
-          echo "${{ needs.check_if_rclone_dockerfile_changed.outputs.is_changed }}"
           echo "WOULD NOT PRODUCE IMAGE"
 
     # permissions:
