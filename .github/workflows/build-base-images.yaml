@@ -2,8 +2,6 @@ name: Build & Push Proj Image
 
 on:
   push:
-    paths:
-      - 'dockerfiles/Dockerfile.proj'
 
 env:
   REGISTRY: ghcr.io
