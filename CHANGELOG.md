@@ -29,6 +29,17 @@ NRLMMD-GEOIPS/geoips#17 - Update Git Workflow
     * Remove manual status updates on Project (should be automated via PRs linked to Issue)
 
 
+NRLMMD-GEOIPS/geoips#22 - Remove rclone.conf link to ~/.config/rclone
+
+### Installation and Test
+* **setup.sh**
+    * Update setup_rclone command to remove the link from $GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
+        to ~/.config/rclone/rclone.conf
+    * Update setup_abi_test_data command to use explicit
+        --config $GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
+        argument rather than relying on default ~/.config/rclone/rclone.conf configuration
+
+
 NRLMMD-GEOIPS/geoips#15 - Add low memory options for base install tests
 
 ### Test Repo Updates
