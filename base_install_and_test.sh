@@ -57,6 +57,13 @@ if [[ "$2" == "" ]]; then
 else
     memory_option="low_memory"
 fi
+
+if [[ "$3" == "" ]]; then
+    bandwidth_option="high_bandwidth"
+else
+    bandwidth_option="low_memory"
+fi
+
     
 if [[ "$GEOIPS_BASEDIR" == "" ]]; then
     echo "Must set GEOIPS_BASEDIR environment variable prior to installation"
@@ -156,7 +163,7 @@ check_continue "creating geoips_conda_env (should point to $GEOIPS_BASEDIR/geoip
         date -u
         # Actually install geoips and all dependencies (cartopy, etc)
         source $GEOIPS_CONFIG_FILE
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh install
+        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh install $bandwidth_option
         echo ""
         echo "Confirm environment variables point to desired installation parameters:"
         echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
@@ -271,7 +278,7 @@ check_continue "installing geoips, cartopy data, dependencies, and external pack
     if [[ "$skip_next" == "no" ]]; then
         date -u
         source $GEOIPS_CONFIG_FILE
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh setup_abi_test_data
+        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh setup_abi_test_data $bandwidth_option
         if [[ "$memory_option" == "low_memory" ]]; then
             $GEOIPS/tests/test_base_install_low_memory.sh
         else

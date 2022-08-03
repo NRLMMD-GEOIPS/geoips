@@ -102,18 +102,28 @@ elif [[ "$1" == "install" ]]; then
     # Update to latest 20220607, previously cartopy 0.20.2 and matplotlib 3.4.3.
     conda install -c conda-forge "cartopy>=0.20.2" "matplotlib>=3.5.2" --yes
 
-    pip install -e "$GEOIPS_PACKAGES_DIR/geoips[efficiency_improvements,\
-                                                  test_outputs,\
-                                                  config_based,\
-                                                  hdf5_readers,\
-                                                  hdf4_readers,\
-                                                  geotiff_output,\
-                                                  syntax_checking,\
-                                                  documentation,\
-                                                  debug,\
-                                                  overpass_predictor,\
-                                                  coverage_checks,\
-                                                  geostationary_readers]"
+    if [[ "$2" == "low_bandwidth" ]]; then
+        pip install -e "$GEOIPS_PACKAGES_DIR/geoips[efficiency_improvements,\
+                                                      test_outputs,\
+                                                      config_based,\
+                                                      hdf5_readers,\
+                                                      debug,\
+                                                      coverage_checks,\
+                                                      geostationary_readers]"
+    else
+        pip install -e "$GEOIPS_PACKAGES_DIR/geoips[efficiency_improvements,\
+                                                      test_outputs,\
+                                                      config_based,\
+                                                      hdf5_readers,\
+                                                      hdf4_readers,\
+                                                      geotiff_output,\
+                                                      syntax_checking,\
+                                                      documentation,\
+                                                      debug,\
+                                                      overpass_predictor,\
+                                                      coverage_checks,\
+                                                      geostationary_readers]"
+    fi
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
     # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
@@ -127,22 +137,26 @@ elif [[ "$1" == "setup_abi_test_data" ]]; then
 
     rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
 
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C01_G16_s20202621950205_e20202621959513_c20202621959567.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C02_G16_s20202621950205_e20202621959513_c20202621959546.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C03_G16_s20202621950205_e20202621959513_c20202621959570.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C04_G16_s20202621950205_e20202621959513_c20202621959534.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C05_G16_s20202621950205_e20202621959513_c20202621959562.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C06_G16_s20202621950205_e20202621959518_c20202621959556.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C07_G16_s20202621950205_e20202621959524_c20202621959577.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C08_G16_s20202621950205_e20202621959513_c20202621959574.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C09_G16_s20202621950205_e20202621959518_c20202621959588.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C10_G16_s20202621950205_e20202621959524_c20202621959578.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C11_G16_s20202621950205_e20202621959513_c20202621959583.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C12_G16_s20202621950205_e20202621959518_c20202621959574.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C13_G16_s20202621950205_e20202621959525_c20202622000005.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C15_G16_s20202621950205_e20202621959518_c20202621959594.nc $abidir
-    rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C16_G16_s20202621950205_e20202621959524_c20202622000001.nc $abidir
+    if [[ "$2" == "low_bandwidth" ]]; then
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
+    else
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C01_G16_s20202621950205_e20202621959513_c20202621959567.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C02_G16_s20202621950205_e20202621959513_c20202621959546.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C03_G16_s20202621950205_e20202621959513_c20202621959570.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C04_G16_s20202621950205_e20202621959513_c20202621959534.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C05_G16_s20202621950205_e20202621959513_c20202621959562.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C06_G16_s20202621950205_e20202621959518_c20202621959556.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C07_G16_s20202621950205_e20202621959524_c20202621959577.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C08_G16_s20202621950205_e20202621959513_c20202621959574.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C09_G16_s20202621950205_e20202621959518_c20202621959588.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C10_G16_s20202621950205_e20202621959524_c20202621959578.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C11_G16_s20202621950205_e20202621959513_c20202621959583.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C12_G16_s20202621950205_e20202621959518_c20202621959574.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C13_G16_s20202621950205_e20202621959525_c20202622000005.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C15_G16_s20202621950205_e20202621959518_c20202621959594.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C16_G16_s20202621950205_e20202621959524_c20202622000001.nc $abidir
+    fi
 
 elif [[ "$1" == "setup_seviri" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet
