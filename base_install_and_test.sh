@@ -61,7 +61,7 @@ fi
 if [[ "$3" == "" ]]; then
     bandwidth_option="high_bandwidth"
 else
-    bandwidth_option="low_memory"
+    bandwidth_option="low_bandwidth"
 fi
 
     
