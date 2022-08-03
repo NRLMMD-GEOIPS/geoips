@@ -85,7 +85,7 @@ Base geoips installation and test
     # This prompts you through all the steps of installing geoips from scratch, using the parameters specified above
     # Installs and tests everything!
     # Requires <30GB disk space, <16GB memory
-    $GEOIPS_BASEDIR/geoips_packages/geoips/base_install_and_test.sh $GEOIPS_ACTIVE_BRANCH
+    $GEOIPS_BASEDIR/geoips_packages/geoips/base_install_and_test.sh $GEOIPS_ACTIVE_BRANCH low_memory low_bandwidth
 
     # Low memory option. No high res Visible outputs.  Same setup, just different tests.
     # Requires <30GB disk space, <8GB memory

@@ -16,6 +16,12 @@
     # # # or FITNESS FOR A PARTICULAR PURPOSE.
     # # # See the included license for more details.
 
+NRLMMD-GEOIPS/geoips#25 - add low_bandwidth option
+
+### Installation and Test
+* **README.md** - Pass low_memory and low_bandwidth options to base_install_and_test.sh
+* **setup.sh** - Support low_bandwidth option for setup_abi_test_data (only download B14), and install (pip install minimum packages for tests)
+* **base_install_and_test.sh** - Pass "low_bandwidth" option through to setup.sh
 
 NRLMMD-GEOIPS/geoips#17 - Update Git Workflow
 
