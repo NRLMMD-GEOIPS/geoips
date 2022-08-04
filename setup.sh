@@ -114,7 +114,6 @@ elif [[ "$1" == "install" ]]; then
                                                 overpass_predictor,\
                                                 coverage_checks,\
                                                 geostationary_readers]"
-    fi
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
     # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
