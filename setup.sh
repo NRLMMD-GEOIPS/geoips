@@ -102,27 +102,18 @@ elif [[ "$1" == "install" ]]; then
     # Update to latest 20220607, previously cartopy 0.20.2 and matplotlib 3.4.3.
     conda install -c conda-forge "cartopy>=0.20.2" "matplotlib>=3.5.2" --yes
 
-    if [[ "$2" == "low_bandwidth" ]]; then
-        pip install -e "$GEOIPS_PACKAGES_DIR/geoips[efficiency_improvements,\
-                                                      test_outputs,\
-                                                      config_based,\
-                                                      hdf5_readers,\
-                                                      debug,\
-                                                      coverage_checks,\
-                                                      geostationary_readers]"
-    else
-        pip install -e "$GEOIPS_PACKAGES_DIR/geoips[efficiency_improvements,\
-                                                      test_outputs,\
-                                                      config_based,\
-                                                      hdf5_readers,\
-                                                      hdf4_readers,\
-                                                      geotiff_output,\
-                                                      syntax_checking,\
-                                                      documentation,\
-                                                      debug,\
-                                                      overpass_predictor,\
-                                                      coverage_checks,\
-                                                      geostationary_readers]"
+    pip install -e "$GEOIPS_PACKAGES_DIR/geoips[efficiency_improvements,\
+                                                test_outputs,\
+                                                config_based,\
+                                                hdf5_readers,\
+                                                hdf4_readers,\
+                                                geotiff_output,\
+                                                syntax_checking,\
+                                                documentation,\
+                                                debug,\
+                                                overpass_predictor,\
+                                                coverage_checks,\
+                                                geostationary_readers]"
     fi
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
