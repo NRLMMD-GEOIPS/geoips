@@ -82,6 +82,13 @@ Base geoips installation and test
     git -C $GEOIPS_BASEDIR/geoips_packages/geoips checkout $GEOIPS_ACTIVE_BRANCH
     git -C $GEOIPS_BASEDIR/geoips_packages/geoips pull
 
+    # These helper scripts will just confirm all required system requirements are available.
+    # Please confirm output before proceeding with base_install_and_test.sh
+    $GEOIPS_BASEDIR/geoips_packages/geoips/setup/check_system_requirements.sh wget
+    $GEOIPS_BASEDIR/geoips_packages/geoips/setup/check_system_requirements.sh gitlfs
+    $GEOIPS_BASEDIR/geoips_packages/geoips/setup/check_system_requirements.sh imagemagick
+    $GEOIPS_BASEDIR/geoips_packages/geoips/setup/check_system_requirements.sh git
+
     # This prompts you through all the steps of installing geoips from scratch, using the parameters specified above
     # Installs and tests everything!
     # Requires <30GB disk space, <16GB memory
