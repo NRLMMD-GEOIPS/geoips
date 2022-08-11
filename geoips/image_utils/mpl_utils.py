@@ -16,7 +16,7 @@
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
 
-''' matplotlib utilities '''
+""" matplotlib utilities """
 
 # Python Standard Libraries
 import logging
@@ -28,7 +28,7 @@ LOG = logging.getLogger(__name__)
 
 
 def percent_unmasked_rgba(rgba):
-    ''' Return percentage of array that is NOT fully transparent / masked (ie, non-zero values in the 4th dimension)
+    """ Return percentage of array that is NOT fully transparent / masked (ie, non-zero values in the 4th dimension)
 
     Args:
         rgba (numpy.ndarray) : 4 dimensional array where the 4th dimension is the alpha transparency array:
@@ -36,13 +36,13 @@ def percent_unmasked_rgba(rgba):
 
     Returns:
         float : Coverage in percentage, between 0 and 100.
-    '''
+    """
     import numpy
     return 100.0 * numpy.count_nonzero(rgba[:, :, 3]) / rgba[:, :, 3].size
 
 
 def rgba_from_arrays(red, grn, blu, alp=None):
-    ''' Return rgba for plotting in matplot lib from red, green, blue, and alpha arrays
+    """ Return rgba for plotting in matplot lib from red, green, blue, and alpha arrays
 
     Args:
         red (numpy.ndarray) : numpy masked array of red gun values
@@ -53,7 +53,7 @@ def rgba_from_arrays(red, grn, blu, alp=None):
 
     Returns:
         (numpy.ndarray) : 4 layer dimensional numpy.ndarray
-    '''
+    """
 
     import numpy
     if alp is None:
@@ -65,7 +65,7 @@ def rgba_from_arrays(red, grn, blu, alp=None):
 
 
 def alpha_from_masked_arrays(arrays):
-    ''' Return an alpha transparency array based on the masks from a list of masked arrays. 0=transparent, 1=opaque
+    """ Return an alpha transparency array based on the masks from a list of masked arrays. 0=transparent, 1=opaque
 
     Args:
         arrays (list): list of numpy masked arrays, must all be the same shape
@@ -75,7 +75,7 @@ def alpha_from_masked_arrays(arrays):
                           values between 0 and 1, where
                             0 is fully transparent and
                             1 is fully opaque
-    '''
+    """
     import numpy
     alp = numpy.zeros(arrays[0].shape, dtype=numpy.bool)
     for img in arrays:
@@ -94,7 +94,7 @@ def alpha_from_masked_arrays(arrays):
 
 def plot_overlays(mapobj, curr_ax, area_def, boundaries_info, gridlines_info,
                   boundaries_zorder=None, gridlines_zorder=None):
-    ''' Plot specified coastlines and gridlines on the matplotlib axes.
+    """ Plot specified coastlines and gridlines on the matplotlib axes.
 
     Args:
         mapobj (map object): Basemap or CRS object for boundary and gridline plotting.
@@ -110,7 +110,7 @@ def plot_overlays(mapobj, curr_ax, area_def, boundaries_info, gridlines_info,
     Returns:
         No return values. Overlays are plotted directly on the mapobj and ax instances.
 
-    '''
+    """
 
     from geoips.image_utils.maps import set_boundaries_info_dict, set_gridlines_info_dict
     use_boundaries_info = set_boundaries_info_dict(boundaries_info)
@@ -124,7 +124,7 @@ def plot_overlays(mapobj, curr_ax, area_def, boundaries_info, gridlines_info,
 
 
 def save_image(fig, out_fname, is_final=True, image_datetime=None, remove_duplicate_minrange=None, savefig_kwargs=None):
-    ''' Save the image specified by the matplotlib figure "fig" to the filename out_fname.
+    """ Save the image specified by the matplotlib figure "fig" to the filename out_fname.
 
     Args:
         fig (Figure) : matplotlib.figure.Figure object that needs to be written to a file.
@@ -134,7 +134,7 @@ def save_image(fig, out_fname, is_final=True, image_datetime=None, remove_duplic
 
     Returns:
         No return values (image is written to disk and IMAGESUCCESS is written to log file)
-    '''
+    """
     import matplotlib
     import matplotlib.pyplot as plt
     matplotlib.use('agg')
@@ -232,7 +232,7 @@ def get_title_string_from_objects(area_def, xarray_obj, product_name_title, prod
 
 
 def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
-    ''' Plot the "data" array and map in the matplotlib "main_ax"
+    """ Plot the "data" array and map in the matplotlib "main_ax"
 
         Args:
             main_ax (Axes) : matplotlib Axes object for plotting data and overlays 
@@ -242,7 +242,7 @@ def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
                                    See geoips.image_utils.mpl_utils.create_colorbar for field descriptions.
        Returns:
             No return values
-    '''
+    """
     # main_ax.set_aspect('auto')
 
     LOG.info('imshow')
@@ -275,7 +275,7 @@ def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
 
 def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
                                          font_size=None, existing_mapobj=None, noborder=False):
-    ''' Create a figure of x pixels horizontally and y pixels vertically. Use information from matplotlib.rcParams
+    """ Create a figure of x pixels horizontally and y pixels vertically. Use information from matplotlib.rcParams
         xsize = (float(x_size)/dpi)/(right_margin - left_margin)
         ysize = (float(y_size)/dpi)/(top_margin - bottom_margin)
         fig = plt.figure(figsize=[xsize, ysize])
@@ -293,7 +293,7 @@ def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
                 matplotlib Figure object to subsequently use for plotting imagery / colorbars / etc
                 matplotlib Axes object corresponding to the single main plotting area.
                 cartopy crs or Basemap object for plotting
-    '''
+    """
 
     import matplotlib
     matplotlib.use('agg')
@@ -372,11 +372,11 @@ def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
 
 
 def set_fonts(figure_y_size, font_size=None):
-    ''' Set the fonts in the matplotlib.rcParams dictionary, using matplotlib.rc
+    """ Set the fonts in the matplotlib.rcParams dictionary, using matplotlib.rc
         Parameters:
             figure_y_size (int): Font size set relative to number of pixels in the y direction
         No return values
-    '''
+    """
     import matplotlib
     matplotlib.use('agg')
     mplrc = matplotlib.rc
@@ -398,13 +398,13 @@ def set_fonts(figure_y_size, font_size=None):
 
 
 def set_title(ax, title_string, figure_y_size, xpos=None, ypos=None, fontsize=None):
-    ''' Set the title on figure axis "ax" to string "title_string" 
+    """ Set the title on figure axis "ax" to string "title_string" 
         Parameters:
             ax (Axes): matplotlib.axes._axes.Axes object to add the title
             title_string (str): string specifying title to attach to axis "ax"
             figure_y_size (int): vertical size of the image, used to proportionally set the title size
         No returns
-    '''
+    """
     import matplotlib
     matplotlib.use('agg')
     rc_params = matplotlib.rcParams
@@ -430,7 +430,7 @@ def set_title(ax, title_string, figure_y_size, xpos=None, ypos=None, fontsize=No
 
 
 def create_colorbar(fig, mpl_colors_info):
-    '''Routine to create a single colorbar with specified matplotlib ColorbarBase parameters
+    """Routine to create a single colorbar with specified matplotlib ColorbarBase parameters
        cbar_ax = fig.add_axes([<cbar_start_pos>, <cbar_bottom_pos>, <cbar_width>, <cbar_height>])
        cbar = matplotlib.colorbar.ColorbarBase(cbar_ax, cmap=mpl_cmap, extend='both', orientation='horizontal',
                                                norm=cmap_norm, ticks=cmap_ticks, boundaries=cmap_boundaries,
@@ -455,7 +455,7 @@ def create_colorbar(fig, mpl_colors_info):
         Returns:
             (matplotlib.colorbar.ColorbarBase): This will have all the pertinent information for ensuring plot and
                                                 colorbar use the same parameters
-    '''
+    """
     cmap_ticklabels = mpl_colors_info['cbar_tick_labels']
     cmap_ticks = mpl_colors_info['cbar_ticks']
     cmap_norm = mpl_colors_info['norm']
