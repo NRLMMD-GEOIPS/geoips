@@ -466,10 +466,13 @@ def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
 
 
 def set_fonts(figure_y_size, font_size=None):
-    """ Set the fonts in the matplotlib.rcParams dictionary, using matplotlib.rc
-        Parameters:
-            figure_y_size (int): Font size set relative to number of pixels in the y direction
-        No return values
+    """
+    Set the fonts in the matplotlib.rcParams dictionary, using matplotlib.rc
+
+    Parameters
+    ----------
+    figure_y_size : int
+        Font size set relative to number of pixels in the y direction
     """
     import matplotlib
     matplotlib.use('agg')
@@ -493,11 +496,20 @@ def set_fonts(figure_y_size, font_size=None):
 
 def set_title(ax, title_string, figure_y_size, xpos=None, ypos=None, fontsize=None):
     """ Set the title on figure axis "ax" to string "title_string" 
-        Parameters:
-            ax (Axes): matplotlib.axes._axes.Axes object to add the title
-            title_string (str): string specifying title to attach to axis "ax"
-            figure_y_size (int): vertical size of the image, used to proportionally set the title size
-        No returns
+    Parameters
+    ----------
+    ax : Axes
+        matplotlib.axes._axes.Axes object to add the title
+    title_string : str
+        string specifying title to attach to axis "ax"
+    figure_y_size : int
+        vertical size of the image, used to proportionally set the title size
+    xpos : float, optional
+        x position of the title
+    ypos : float, optional
+        y position of the title
+    fontsize : int, optional
+        matplotlib font size
     """
     import matplotlib
     matplotlib.use('agg')
