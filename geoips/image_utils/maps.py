@@ -413,14 +413,19 @@ def set_gridlines_info_dict(gridlines_info, area_def):
 
 
 def check_boundaries_info_dict(boundaries_info):
-    """ Check that all required fields are included in the boundaries_info dictionary
+    """
+    Check boundaries_info dictionary for required fields
 
-    Args:
-        boundaries_info (dict) : dictionary to check for required fields. For complete list of
-                                    fields, and appropriate defaults, see
-                                    geoips.image_utils.maps.get_boundaries_info_dict
-    Returns:
-        (Bool) : True if all fields are included, False if any fields are missing.
+    Parameters
+    ----------
+    boundaries_info : dict
+        dictionary to check for required fields. For complete list of
+                                fields, and appropriate defaults, see
+                                geoips.image_utils.maps.get_boundaries_info_dict
+    Raises
+    ------
+    ValueError
+        if any field is missing
     """
     required_fields = ['request_coastlines', 'coastlines_color', 'coastlines_linewidth',
                        'request_rivers', 'rivers_color', 'rivers_linewidth',
