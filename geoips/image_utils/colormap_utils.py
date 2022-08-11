@@ -24,14 +24,15 @@ LOG = logging.getLogger(__name__)
 
 
 def set_matplotlib_colors_rgb():
-    """ For rgb imagery, we require no color information (it is entirely specified by the RGB(A) arrays)
-    
-    Args:
-        No arguments
+    """
+    For rgb imagery, we require no color information (it is entirely
+    specified by the RGB(A) arrays)
 
-    Returns:
-        mpl_colors_info (dict) Specifies matplotlib Colors parameters for use in both plotting and colorbar generation
-                               For RGBA arrays, all fields are "None"
+    Returns
+    -------
+    mpl_colors_info : dict
+        Specifies matplotlib Colors parameters for use in both plotting
+        and colorbar generation. For RGBA arrays, all fields are "None".
     """
     mpl_colors_info = {'cmap': None,
                        'norm': None,
