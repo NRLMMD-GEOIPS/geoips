@@ -286,14 +286,20 @@ def meridians(area_def, grid_size):
 
 
 def check_gridlines_info_dict(gridlines_info):
-    """ Check that all required fields are included in the gridlines_info dictionary
+    """
+    Check gridlines_info dictionary for that all required fields
 
-    Args:
-        gridlines_info (dict) : dictionary to check for required fields. For complete list of
-                                  fields, and appropriate defaults, see
-                                  geoips.image_utils.maps.get_gridlines_info_dict
-    Returns:
-        (Bool) : True if all fields are included, False if any fields are missing.
+    Parameters
+    ----------
+    gridlines_info : dict
+        dictionary to check for required fields. For complete list of
+        fields, and appropriate defaults, see
+        geoips.image_utils.maps.get_gridlines_info_dict
+
+    Raises
+    ------
+    ValueError
+        If required field is missing
     """
     required_fields = ['grid_lat_spacing', 'grid_lon_spacing', 'grid_lat_fontsize', 'grid_lon_fontsize',
                        'grid_lat_xoffset', 'grid_lon_xoffset', 'grid_lat_yoffset', 'grid_lon_yoffset',
