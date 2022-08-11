@@ -1,22 +1,22 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
 
-""" matplotlib utilities """
+"""matplotlib utilities."""
 
 # Python Standard Libraries
 import logging
@@ -52,7 +52,7 @@ def percent_unmasked_rgba(rgba):
 
 def rgba_from_arrays(red, grn, blu, alp=None):
     """
-    Return rgba from red, green, blue, and alpha arrays
+    Return rgba from red, green, blue, and alpha arrays.
 
     Parameters
     ----------
@@ -83,7 +83,7 @@ def rgba_from_arrays(red, grn, blu, alp=None):
 
 def alpha_from_masked_arrays(arrays):
     """
-    Convert from arrays to alpha
+    Convert from arrays to alpha.
 
     Return an alpha transparency array based on the masks from a list of
     masked arrays. 0=transparent, 1=opaque
@@ -143,7 +143,6 @@ def plot_overlays(mapobj, curr_ax, area_def, boundaries_info, gridlines_info,
     geoips.image_utils.maps.set_gridlines_info_dict
         for required fields and defaults for gridlines_info
     """
-
     from geoips.image_utils.maps import set_boundaries_info_dict, set_gridlines_info_dict
     use_boundaries_info = set_boundaries_info_dict(boundaries_info)
     use_gridlines_info = set_gridlines_info_dict(gridlines_info, area_def)
@@ -202,7 +201,7 @@ def save_image(fig, out_fname, is_final=True, image_datetime=None, remove_duplic
         if not pathexists(dirname(out_fname)):
             make_dirs(dirname(out_fname))
         # no annotations
-        # frameon=False makes it have no titles / lat/lons. does not avoid colorbar, since that is its own ax 
+        # frameon=False makes it have no titles / lat/lons. does not avoid colorbar, since that is its own ax
         for ax in fig.axes:
             LOG.info('Removing ax from %s', ax)
             ax.set_axis_off()
@@ -220,9 +219,7 @@ def save_image(fig, out_fname, is_final=True, image_datetime=None, remove_duplic
 
 
 def remove_duplicates(fname, min_range):
-    """ Not implemented.
-
-    """
+    """Not implemented."""
     pass
 
 
@@ -230,7 +227,7 @@ def get_title_string_from_objects(area_def, xarray_obj, product_name_title, prod
                                   bg_xarray=None, bg_product_name_title=None, bg_datatype_title=None,
                                   title_copyright=None, title_format=None):
     """
-    Gets the title from object information
+    Get the title from object information.
 
     Parameters
     ----------
@@ -305,7 +302,7 @@ def get_title_string_from_objects(area_def, xarray_obj, product_name_title, prod
 
 def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
     """
-    Plot the "data" array and map in the matplotlib "main_ax"
+    Plot the "data" array and map in the matplotlib "main_ax".
 
     Parameters
     ----------
@@ -467,7 +464,7 @@ def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
 
 def set_fonts(figure_y_size, font_size=None):
     """
-    Set the fonts in the matplotlib.rcParams dictionary, using matplotlib.rc
+    Set the fonts in the matplotlib.rcParams dictionary, using matplotlib.rc.
 
     Parameters
     ----------
@@ -496,7 +493,7 @@ def set_fonts(figure_y_size, font_size=None):
 
 def set_title(ax, title_string, figure_y_size, xpos=None, ypos=None, fontsize=None):
     """
-    Set the title on figure axis "ax" to string "title_string"
+    Set the title on figure axis "ax" to string "title_string".
 
     Parameters
     ----------
@@ -539,7 +536,7 @@ def set_title(ax, title_string, figure_y_size, xpos=None, ypos=None, fontsize=No
 
 def create_colorbar(fig, mpl_colors_info):
     """
-    Routine to create a single colorbar with specified matplotlib ColorbarBase parameters
+    Routine to create a single colorbar.
 
     Parameters
     ----------
