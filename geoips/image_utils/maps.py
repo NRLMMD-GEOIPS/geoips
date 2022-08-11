@@ -213,14 +213,20 @@ def area_def2basemap(area_def, **kwargs):
 
 
 def parallels(area_def, grid_size):
-    """ Calculates the parallels (latitude lines) that fall within the input sector.
+    """
+    Calculates the parallels (latitude) that fall within the input sector.
 
-    Args:
-        area_def (AreaDefinition): pyresample AreaDefinition
-        grid_size (float): grid spacing in degrees
+    Parameters
+    ----------
+    area_def : AreaDefinition
+        pyresample AreaDefinition
+    grid_size : float
+        grid spacing in degrees
 
-    Returns:
-        (list) latitude locations for gridlines
+    Returns
+    -------
+    lat_ticks : list
+        latitude locations for gridlines
     """
     from math import ceil
     from numpy import arange
@@ -236,15 +242,19 @@ def parallels(area_def, grid_size):
 
 
 def meridians(area_def, grid_size):
-    """ Calculates the meridians (longitude lines) that fall within the input sector.
-
-    Args:
-        area_def (AreaDefinition) : pyresample AreaDefinition
-
-    Returns:
-        (list) longitude locations for gridlines
     """
+    Calculates the meridians (longitude) that are within the input sector.
 
+    Parameters
+    ----------
+    area_def : AreaDefinition
+        pyresample AreaDefinition
+
+    Returns
+    -------
+    meridians_to_draw : list
+        longitude locations for gridlines
+    """
     import numpy
     corners = area_def.corners
     lons = [numpy.rad2deg(corn.lon) for corn in corners]
