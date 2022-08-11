@@ -16,7 +16,7 @@
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
 
-''' matplotlib geographic map (basemap or cartopy) utilities '''
+""" matplotlib geographic map (basemap or cartopy) utilities """
 
 # Python Standard Libraries
 import logging
@@ -93,14 +93,14 @@ def ellps2axis(ellps_name):
 
 
 def is_crs(mapobj):
-    ''' Determine if the map object we are using is a cartopy crs instance.
+    """ Determine if the map object we are using is a cartopy crs instance.
 
     Args:
         mapobj (map object) : Basemap or cartopy._PROJ4Projection object
 
     Returns:
         (Bool) : True if it is a CRS object, False otherwise.
-    '''
+    """
     import pyresample
     if 'cartopy' in str(mapobj.__class__):
         return True
@@ -108,14 +108,14 @@ def is_crs(mapobj):
 
 
 def area_def2mapobj(area_def):
-    ''' Convert pyresample AreaDefinition object to a cartopy CRS or Basemap object. Default to basemap
+    """ Convert pyresample AreaDefinition object to a cartopy CRS or Basemap object. Default to basemap
 
     Args:
         area_def (AreaDefinition): pyresample AreaDefinition object
 
     Returns:
         (map object) : Either Basemap instance (if Basemap is installed), or cartopy CRS object
-    '''
+    """
     try:
         # old pyresample.area_def2basemap appears to fail over the dateline.
         # Created our own for now
@@ -202,7 +202,7 @@ def area_def2basemap(area_def, **kwargs):
 
 
 def parallels(area_def, grid_size):
-    ''' Calculates the parallels (latitude lines) that fall within the input sector.
+    """ Calculates the parallels (latitude lines) that fall within the input sector.
 
     Args:
         area_def (AreaDefinition): pyresample AreaDefinition
@@ -210,7 +210,7 @@ def parallels(area_def, grid_size):
 
     Returns:
         (list) latitude locations for gridlines
-    '''
+    """
     from math import ceil
     from numpy import arange
     from numpy.ma import masked_greater
@@ -225,14 +225,14 @@ def parallels(area_def, grid_size):
 
 
 def meridians(area_def, grid_size):
-    ''' Calculates the meridians (longitude lines) that fall within the input sector.
+    """ Calculates the meridians (longitude lines) that fall within the input sector.
 
     Args:
         area_def (AreaDefinition) : pyresample AreaDefinition
 
     Returns:
         (list) longitude locations for gridlines
-    '''
+    """
 
     import numpy
     corners = area_def.corners
@@ -265,7 +265,7 @@ def meridians(area_def, grid_size):
 
 
 def check_gridlines_info_dict(gridlines_info):
-    ''' Check that all required fields are included in the gridlines_info dictionary
+    """ Check that all required fields are included in the gridlines_info dictionary
 
     Args:
         gridlines_info (dict) : dictionary to check for required fields. For complete list of
@@ -273,7 +273,7 @@ def check_gridlines_info_dict(gridlines_info):
                                   geoips.image_utils.maps.get_gridlines_info_dict
     Returns:
         (Bool) : True if all fields are included, False if any fields are missing.
-    '''
+    """
     required_fields = ['grid_lat_spacing', 'grid_lon_spacing', 'grid_lat_fontsize', 'grid_lon_fontsize',
                        'grid_lat_xoffset', 'grid_lon_xoffset', 'grid_lat_yoffset', 'grid_lon_yoffset',
                        'left_label', 'right_label', 'top_label', 'bottom_label',
@@ -287,7 +287,7 @@ def check_gridlines_info_dict(gridlines_info):
 
 
 def set_gridlines_info_dict(gridlines_info, area_def):
-    ''' Set the final values for gridlines plotting params, pulling from argument and defaults.
+    """ Set the final values for gridlines plotting params, pulling from argument and defaults.
 
     Args:
       gridlines_info (dict) : Dictionary of parameters for plotting gridlines.
@@ -313,7 +313,7 @@ def set_gridlines_info_dict(gridlines_info, area_def):
                                 gridlines_info['grid_lon_dashes']       default [4, 2]
     Returns:
         (dict) : gridlines_info dictionary, with fields as specified above.
-    '''
+    """
     use_gridlines_info = {}
 
     if gridlines_info is None or 'grid_lat_spacing' not in gridlines_info.keys()\
@@ -374,7 +374,7 @@ def set_gridlines_info_dict(gridlines_info, area_def):
 
 
 def check_boundaries_info_dict(boundaries_info):
-    ''' Check that all required fields are included in the boundaries_info dictionary
+    """ Check that all required fields are included in the boundaries_info dictionary
 
     Args:
         boundaries_info (dict) : dictionary to check for required fields. For complete list of
@@ -382,7 +382,7 @@ def check_boundaries_info_dict(boundaries_info):
                                     geoips.image_utils.maps.get_boundaries_info_dict
     Returns:
         (Bool) : True if all fields are included, False if any fields are missing.
-    '''
+    """
     required_fields = ['request_coastlines', 'coastlines_color', 'coastlines_linewidth',
                        'request_rivers', 'rivers_color', 'rivers_linewidth',
                        'request_states', 'states_color', 'states_linewidth',
@@ -394,7 +394,7 @@ def check_boundaries_info_dict(boundaries_info):
 
 
 def set_boundaries_info_dict(boundaries_info):
-    ''' Set the final values for coastlines, states, countries plotting params, pulling from argument and defaults.
+    """ Set the final values for coastlines, states, countries plotting params, pulling from argument and defaults.
 
     Args:
       boundaries_info (dict) : Dictionary of parameters for plotting gridlines.
@@ -416,7 +416,7 @@ def set_boundaries_info_dict(boundaries_info):
                                   boundaries_info['rivers_color']             default 'red'
     Returns:
         (dict) : boundaries_info dictionary, with fields as specified above.
-    '''
+    """
     use_boundaries_info = {}
     use_boundaries_info['request_coastlines'] = True
     use_boundaries_info['request_countries'] = True
@@ -443,7 +443,7 @@ def set_boundaries_info_dict(boundaries_info):
 
 
 def draw_boundaries(mapobj, curr_ax, boundaries_info, zorder=None):
-    ''' Draw boundaries on specified map instance (basemap or cartopy), based on specs found in boundaries_info
+    """ Draw boundaries on specified map instance (basemap or cartopy), based on specs found in boundaries_info
 
     Args:
         mapobj (map object) : Basemap or CRS object for plotting boundaries
@@ -454,7 +454,7 @@ def draw_boundaries(mapobj, curr_ax, boundaries_info, zorder=None):
 
     Returns:
         No return values
-    '''
+    """
 
     LOG.info('Drawing coastlines, countries, states, rivers')
     check_boundaries_info_dict(boundaries_info)
@@ -509,7 +509,7 @@ def draw_boundaries(mapobj, curr_ax, boundaries_info, zorder=None):
 
 
 def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
-    ''' Draw gridlines on either cartopy or Basemap map object, as specified by gridlines_info
+    """ Draw gridlines on either cartopy or Basemap map object, as specified by gridlines_info
 
     Args:
         mapobj (map object) : Basemap or CRS object for plotting boundaries
@@ -521,7 +521,7 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
 
     Returns:
         No return value
-    '''
+    """
     LOG.info('Drawing gridlines')
     check_gridlines_info_dict(gridlines_info)
 
