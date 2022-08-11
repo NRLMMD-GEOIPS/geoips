@@ -454,7 +454,7 @@ def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
                                 bottom_margin,
                                 right_margin - left_margin,
                                 top_margin - bottom_margin],
-	    						projection=mapobj,
+                                projection=mapobj,
                                 frame_on=not noborder,
                                )
     else:
