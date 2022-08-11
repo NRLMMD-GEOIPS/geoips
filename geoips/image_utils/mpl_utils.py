@@ -220,13 +220,45 @@ def save_image(fig, out_fname, is_final=True, image_datetime=None, remove_duplic
 
 
 def remove_duplicates(fname, min_range):
+    """ Not implemented.
+
+    """
     pass
 
 
 def get_title_string_from_objects(area_def, xarray_obj, product_name_title, product_datatype_title=None,
                                   bg_xarray=None, bg_product_name_title=None, bg_datatype_title=None,
                                   title_copyright=None, title_format=None):
+    """
+    Gets the title from object information
 
+    Parameters
+    ----------
+    area_def : AreaDefinition
+        pyresample AreaDefinition object specifying the area covered by
+        the current plot
+    xarray_obj : xarray.Dataset
+        data used to produce product
+    product_name_title : str
+        name to display for the title
+    product_datatype_title : str, optional
+        the data type
+    bg_xarray : xarray, optional
+        data used for background
+    bg_product_name_title : str, optional
+        background product title
+    bg_datatype_title : str, optional
+        background data type
+    title_copyright : str, optional
+        string for copyright
+    title_format : str, optional
+        format for title
+
+    Returns
+    -------
+    title_string : str
+        the title to use for matplotlib
+    """
     if title_copyright is None:
         title_copyright = gpaths['GEOIPS_COPYRIGHT']
 
@@ -272,16 +304,24 @@ def get_title_string_from_objects(area_def, xarray_obj, product_name_title, prod
 
 
 def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
-    """ Plot the "data" array and map in the matplotlib "main_ax"
+    """
+    Plot the "data" array and map in the matplotlib "main_ax"
 
-        Args:
-            main_ax (Axes) : matplotlib Axes object for plotting data and overlays 
-            data (numpy.ndarray) : Numpy array of data to plot
-            mapobj (Map Object) : Basemap or Cartopy CRS instance 
-            mpl_colors_info (dict) Specifies matplotlib Colors parameters for use in both plotting and colorbar
-                                   See geoips.image_utils.mpl_utils.create_colorbar for field descriptions.
-       Returns:
-            No return values
+    Parameters
+    ----------
+    main_ax : Axes
+        matplotlib Axes object for plotting data and overlays
+    data : numpy.ndarray)
+        Numpy array of data to plot
+    mapobj : Map Object
+        Basemap or Cartopy CRS instance
+    mpl_colors_info : dict
+        Specifies matplotlib Colors parameters for use in both plotting and colorbar
+
+    See Also
+    --------
+    geoips.image_utils.mpl_utils.create_colorbar
+        for field descriptions for mpl_colors_info
     """
     # main_ax.set_aspect('auto')
 
