@@ -495,7 +495,9 @@ def set_fonts(figure_y_size, font_size=None):
 
 
 def set_title(ax, title_string, figure_y_size, xpos=None, ypos=None, fontsize=None):
-    """ Set the title on figure axis "ax" to string "title_string" 
+    """
+    Set the title on figure axis "ax" to string "title_string"
+
     Parameters
     ----------
     ax : Axes
@@ -536,31 +538,41 @@ def set_title(ax, title_string, figure_y_size, xpos=None, ypos=None, fontsize=No
 
 
 def create_colorbar(fig, mpl_colors_info):
-    """Routine to create a single colorbar with specified matplotlib ColorbarBase parameters
-       cbar_ax = fig.add_axes([<cbar_start_pos>, <cbar_bottom_pos>, <cbar_width>, <cbar_height>])
-       cbar = matplotlib.colorbar.ColorbarBase(cbar_ax, cmap=mpl_cmap, extend='both', orientation='horizontal',
-                                               norm=cmap_norm, ticks=cmap_ticks, boundaries=cmap_boundaries,
-                                               spacing=cmap_spacing)
-       cbar.set_label(cbar_label, size=fontsize)
+    """
+    Routine to create a single colorbar with specified matplotlib ColorbarBase parameters
 
-        Parameters:
-            fig (Figure): matplotlib.figure.Figure object to attach the colorbar - the colorbar will create its own ax
-            mpl_colors_info (dict) : Dictionary of matplotlib Color information, required fields below
-                mpl_colors_info['cmap'] (Colormap): matplotlib.colors.Colormap object (LinearSegmentedColormap, etc)
-                                                    - this is used to plot the image and to generated the colorbar
-                mpl_colors_info['norm'] (Normalize): matplotlib.colors.Normalize object (BoundaryNorm, Normalize, etc)
-                                                    - again, this should be used to plot the data also
-                mpl_colors_info['cbar_ticks'] (list): list of floats - values requiring tick marks on the colorbar
-                mpl_colors_info['cbar_tick_labels'] (list): list of values to use to label tick marks, if other than
-                                                            found in cmap_ticks
-                mpl_colors_info['boundaries'] (list): if cmap_norm is BoundaryNorm, list of boundaries for discrete
-                                                      colors
-                mpl_colors_info['cbar_spacing (string): DEFAULT 'proportional', 'uniform' or 'proportional'
-                mpl_colors_info['cbar_label (string): string label for colorbar
-                mpl_colors_info['colorbar']: (bool) True if a colorbar should be included in the image, False if no cbar
-        Returns:
-            (matplotlib.colorbar.ColorbarBase): This will have all the pertinent information for ensuring plot and
-                                                colorbar use the same parameters
+    Parameters
+    ----------
+    fig : matplotlib.figure.Figure
+        Figure object to attach the colorbar - the colorbar will create its own ax
+    mpl_colors_info : dict
+        Dictionary of matplotlib Color information, required fields below
+            mpl_colors_info['cmap'] (Colormap): matplotlib.colors.Colormap object (LinearSegmentedColormap, etc)
+                                                - this is used to plot the image and to generated the colorbar
+            mpl_colors_info['norm'] (Normalize): matplotlib.colors.Normalize object (BoundaryNorm, Normalize, etc)
+                                                - again, this should be used to plot the data also
+            mpl_colors_info['cbar_ticks'] (list): list of floats - values requiring tick marks on the colorbar
+            mpl_colors_info['cbar_tick_labels'] (list): list of values to use to label tick marks, if other than
+                                                        found in cmap_ticks
+            mpl_colors_info['boundaries'] (list): if cmap_norm is BoundaryNorm, list of boundaries for discrete
+                                                  colors
+            mpl_colors_info['cbar_spacing (string): DEFAULT 'proportional', 'uniform' or 'proportional'
+            mpl_colors_info['cbar_label (string): string label for colorbar
+            mpl_colors_info['colorbar']: (bool) True if a colorbar should be included in the image, False if no cbar
+    Returns
+    -------
+    cbar : matplotlib.colorbar.ColorbarBase
+        This will have all the pertinent information for ensuring plot and
+        colorbar use the same parameters
+
+    Notes
+    -----
+    cbar_ax = fig.add_axes([<cbar_start_pos>, <cbar_bottom_pos>, <cbar_width>, <cbar_height>])
+    cbar = matplotlib.colorbar.ColorbarBase(cbar_ax, cmap=mpl_cmap, extend='both', orientation='horizontal',
+                                            norm=cmap_norm, ticks=cmap_ticks, boundaries=cmap_boundaries,
+                                            spacing=cmap_spacing)
+    cbar.set_label(cbar_label, size=fontsize)
+
     """
     cmap_ticklabels = mpl_colors_info['cbar_tick_labels']
     cmap_ticks = mpl_colors_info['cbar_ticks']
