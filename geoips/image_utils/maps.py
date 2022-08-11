@@ -26,7 +26,7 @@ LOG = logging.getLogger(__name__)
 
 def ellps2axis(ellps_name):
     """
-    Get semi-major and semi-minor axis from ellipsis definition
+    Get semi-major and semi-minor axis from ellipsis definition.
 
     Parameters
     ----------
@@ -115,6 +115,8 @@ def is_crs(mapobj):
 
 def area_def2mapobj(area_def):
     """
+    Convert to map object.
+
     Convert pyresample AreaDefinition object to a cartopy CRS or Basemap
     object. Default to basemap.
 
@@ -145,10 +147,10 @@ def area_def2mapobj(area_def):
 
 def area_def2basemap(area_def, **kwargs):
     """
-    Get Basemap object from AreaDefinition
+    Get Basemap object from AreaDefinition.
 
     Parameters
-    ---------
+    ----------
     area_def : object
         geometry.AreaDefinition object
 
@@ -214,7 +216,7 @@ def area_def2basemap(area_def, **kwargs):
 
 def parallels(area_def, grid_size):
     """
-    Calculates the parallels (latitude) that fall within the input sector.
+    Calculate the parallels (latitude) that fall within the input sector.
 
     Parameters
     ----------
@@ -243,12 +245,14 @@ def parallels(area_def, grid_size):
 
 def meridians(area_def, grid_size):
     """
-    Calculates the meridians (longitude) that are within the input sector.
+    Calculate the meridians (longitude) that are within the input sector.
 
     Parameters
     ----------
     area_def : AreaDefinition
         pyresample AreaDefinition
+    grid_size : float
+        grid spacing in degrees
 
     Returns
     -------
@@ -287,7 +291,7 @@ def meridians(area_def, grid_size):
 
 def check_gridlines_info_dict(gridlines_info):
     """
-    Check gridlines_info dictionary for that all required fields
+    Check gridlines_info dictionary for that all required fields.
 
     Parameters
     ----------
@@ -414,18 +418,22 @@ def set_gridlines_info_dict(gridlines_info, area_def):
 
 def check_boundaries_info_dict(boundaries_info):
     """
-    Check boundaries_info dictionary for required fields
+    Check boundaries_info dictionary for required fields.
 
     Parameters
     ----------
     boundaries_info : dict
-        dictionary to check for required fields. For complete list of
-                                fields, and appropriate defaults, see
-                                geoips.image_utils.maps.get_boundaries_info_dict
+        dictionary to check for required fields.
+
     Raises
     ------
     ValueError
         if any field is missing
+
+    See Also
+    --------
+    geoips.image_utils.maps.get_boundaries_info_dict
+        For complete list of fields, and appropriate defaults
     """
     required_fields = ['request_coastlines', 'coastlines_color', 'coastlines_linewidth',
                        'request_rivers', 'rivers_color', 'rivers_linewidth',
@@ -439,7 +447,7 @@ def check_boundaries_info_dict(boundaries_info):
 
 def set_boundaries_info_dict(boundaries_info):
     """
-    Sets the boundary information
+    Set the boundary information.
 
     Set the final values for coastlines, states, countries plotting params,
     pulling from argument and defaults.
@@ -496,7 +504,7 @@ def set_boundaries_info_dict(boundaries_info):
 
 def draw_boundaries(mapobj, curr_ax, boundaries_info, zorder=None):
     """
-    Draw basemap or cartopy boundaries
+    Draw basemap or cartopy boundaries.
 
     Draw boundaries on specified map instance (basemap or cartopy), based
     on specs found in boundaries_info
@@ -517,7 +525,6 @@ def draw_boundaries(mapobj, curr_ax, boundaries_info, zorder=None):
     geoips.image_utils.maps.check_boundaries_info_dict
           for required dictionary entries and defaults.
     """
-
     LOG.info('Drawing coastlines, countries, states, rivers')
     check_boundaries_info_dict(boundaries_info)
 
@@ -572,7 +579,7 @@ def draw_boundaries(mapobj, curr_ax, boundaries_info, zorder=None):
 
 def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
     """
-    Draw gridlines on map object
+    Draw gridlines on map object.
 
     Draw gridlines on either cartopy or Basemap map object, as specified
     by gridlines_info
@@ -590,7 +597,7 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
     zorder : int, optional
         The matplotlib zorder value
 
-    See also
+    See Also
     --------
     geoips.image_utils.maps.get_gridlines_info_dict
         For complete list of fields, and appropriate default
