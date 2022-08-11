@@ -25,7 +25,8 @@ LOG = logging.getLogger(__name__)
 
 
 def ellps2axis(ellps_name):
-    """Get semi-major and semi-minor axis from ellipsis definition
+    """
+    Get semi-major and semi-minor axis from ellipsis definition
 
     Parameters
     ---------
@@ -34,9 +35,11 @@ def ellps2axis(ellps_name):
 
     Returns
     -------
-    (avar, bvar) : semi-major and semi-minor axis
+    avar : float
+        semi-major axis
+    bvar : float
+        semi-minor axis
     """
-
     ellps = {'helmert': {'a': 6378200.0, 'b': 6356818.1696278909},
              'intl': {'a': 6378388.0, 'b': 6356911.9461279465},
              'merit': {'a': 6378137.0, 'b': 6356752.2982159676},
