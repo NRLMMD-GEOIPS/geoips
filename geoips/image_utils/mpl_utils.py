@@ -82,16 +82,22 @@ def rgba_from_arrays(red, grn, blu, alp=None):
 
 
 def alpha_from_masked_arrays(arrays):
-    """ Return an alpha transparency array based on the masks from a list of masked arrays. 0=transparent, 1=opaque
+    """
+    Convert from arrays to alpha
 
-    Args:
-        arrays (list): list of numpy masked arrays, must all be the same shape
+    Return an alpha transparency array based on the masks from a list of
+    masked arrays. 0=transparent, 1=opaque
 
-    Returns:
-        numpy.ndarray : Returns a numpy array of floats to be used as the alpha transparency layer in matplotlib,
-                          values between 0 and 1, where
-                            0 is fully transparent and
-                            1 is fully opaque
+    Parameters
+    ----------
+    arrays : numpy.ndarray
+        list of numpy masked arrays, must all be the same shape
+
+    Returns
+    -------
+    alp : numpy.ndarray
+        the alpha transparency layer in matplotlib, values between
+        0 and 1, where 0 is fully transparent and 1 is fully opaque
     """
     import numpy
     alp = numpy.zeros(arrays[0].shape, dtype=numpy.bool)
@@ -111,22 +117,31 @@ def alpha_from_masked_arrays(arrays):
 
 def plot_overlays(mapobj, curr_ax, area_def, boundaries_info, gridlines_info,
                   boundaries_zorder=None, gridlines_zorder=None):
-    """ Plot specified coastlines and gridlines on the matplotlib axes.
+    """
+    Plot specified coastlines and gridlines on the matplotlib axes.
 
-    Args:
-        mapobj (map object): Basemap or CRS object for boundary and gridline plotting.
-        ax (matplotlib.axes._axes.Axes): matplotlib Axes object for boundary and gridline plotting.
-        area_def (AreaDefinition) : pyresample AreaDefinition object specifying the area covered by the current plot
-        boundaries_info (dict) : Dictionary of parameters for plotting map boundaries.
-                                 See geoips.image_utils.maps.set_boundaries_info_dict
-                                     for required fields and defaults
-        gridlines_info (dict) : Dictionary of parameters for plotting gridlines.
-                                If a field is not included in the dictionary, the default is used for that field.
-                                 See geoips.image_utils.maps.set_gridlines_info_dict
-                                     for required fields and defaults
-    Returns:
-        No return values. Overlays are plotted directly on the mapobj and ax instances.
+    Parameters
+    ----------
+    mapobj : map object
+        Basemap or CRS object for boundary and gridline plotting.
+    ax : matplotlib.axes._axes.Axes
+        matplotlib Axes object for boundary and gridline plotting.
+    area_def : AreaDefinition
+        pyresample AreaDefinition object specifying the area covered by
+        the current plot
+    boundaries_info : dict, optional
+        Dictionary of parameters for plotting map boundaries.
+    gridlines_info : dict, optional
+        Dictionary of parameters for plotting gridlines.
+        If a field is not included in the dictionary, the default is used
+        for that field.
 
+    See Also
+    --------
+    geoips.image_utils.maps.set_boundaries_info_dict
+        for required fields and defaults for boundaries_info
+    geoips.image_utils.maps.set_gridlines_info_dict
+        for required fields and defaults for gridlines_info
     """
 
     from geoips.image_utils.maps import set_boundaries_info_dict, set_gridlines_info_dict
