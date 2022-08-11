@@ -156,16 +156,24 @@ def plot_overlays(mapobj, curr_ax, area_def, boundaries_info, gridlines_info,
 
 
 def save_image(fig, out_fname, is_final=True, image_datetime=None, remove_duplicate_minrange=None, savefig_kwargs=None):
-    """ Save the image specified by the matplotlib figure "fig" to the filename out_fname.
+    """
+    Save the image specified by the matplotlib figure "fig" to the filename out_fname.
 
-    Args:
-        fig (Figure) : matplotlib.figure.Figure object that needs to be written to a file.
-        out_fname (str) : string specifying the full path to the output filename
-        is_final (bool) : Default True. Final imagery must set_axis_on for all axes. Non-final imagery must be
-                                        transparent with set_axis_off for all axes, and no pad inches.
+    Parameters
+    ----------
+    fig : matplotlib.figure.Figure
+        Figure object that needs to be written to a file.
+    out_fname : str
+        full path to the output filename
+    is_final : bool, default=True
+        Final imagery must set_axis_on for all axes. Non-final imagery
+        must be transparent with set_axis_off for all axes, and no pad
+        inches.
 
-    Returns:
-        No return values (image is written to disk and IMAGESUCCESS is written to log file)
+    Notes
+    -----
+    No return values (image is written to disk and IMAGESUCCESS is
+    written to log file)
     """
     import matplotlib
     import matplotlib.pyplot as plt
