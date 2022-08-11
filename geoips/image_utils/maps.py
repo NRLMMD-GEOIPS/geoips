@@ -495,17 +495,27 @@ def set_boundaries_info_dict(boundaries_info):
 
 
 def draw_boundaries(mapobj, curr_ax, boundaries_info, zorder=None):
-    """ Draw boundaries on specified map instance (basemap or cartopy), based on specs found in boundaries_info
+    """
+    Draw basemap or cartopy boundaries
 
-    Args:
-        mapobj (map object) : Basemap or CRS object for plotting boundaries
-        curr_ax (matplotlib.axes._axes.Axes) : matplotlib Axes object for plotting boundaries
-        boundaries_info (dict) : Dictionary of parameters for plotting map boundaries.
-                                 See geoips.image_utils.maps.check_boundaries_info_dict
-                                      for required dictionary entries and defaults.
+    Draw boundaries on specified map instance (basemap or cartopy), based
+    on specs found in boundaries_info
 
-    Returns:
-        No return values
+    Parameters
+    ----------
+    mapobj : map object
+        Basemap or CRS object for plotting boundaries
+    curr_ax : matplotlib.axes._axes.Axes
+        matplotlib Axes object for plotting boundaries
+    zorder : int, optional
+        The matplotlib zorder
+    boundaries_info : dict
+        Dictionary of parameters for plotting map boundaries.
+
+    See Also
+    --------
+    geoips.image_utils.maps.check_boundaries_info_dict
+          for required dictionary entries and defaults.
     """
 
     LOG.info('Drawing coastlines, countries, states, rivers')
@@ -561,18 +571,29 @@ def draw_boundaries(mapobj, curr_ax, boundaries_info, zorder=None):
 
 
 def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
-    """ Draw gridlines on either cartopy or Basemap map object, as specified by gridlines_info
+    """
+    Draw gridlines on map object
 
-    Args:
-        mapobj (map object) : Basemap or CRS object for plotting boundaries
-        area_def (AreaDefinition) : pyresample AreaDefinition object
-        curr_ax (matplotlib.axes._axes.Axes) : matplotlib Axes object for plotting boundaries
-        gridlines_info (dict) : dictionary to check for required fields. For complete list of
-                                  fields, and appropriate defaults, see
-                                  geoips.image_utils.maps.get_gridlines_info_dict
+    Draw gridlines on either cartopy or Basemap map object, as specified
+    by gridlines_info
 
-    Returns:
-        No return value
+    Parameters
+    ----------
+    mapobj : map object
+        Basemap or CRS object for plotting boundaries
+    area_def : AreaDefinition
+        pyresample AreaDefinition object
+    curr_ax : matplotlib.axes._axes.Axes
+        matplotlib Axes object for plotting boundaries
+    gridlines_info : dict
+        dictionary to check for required fields.
+    zorder : int, optional
+        The matplotlib zorder value
+
+    See also
+    --------
+    geoips.image_utils.maps.get_gridlines_info_dict
+        For complete list of fields, and appropriate default
     """
     LOG.info('Drawing gridlines')
     check_gridlines_info_dict(gridlines_info)
