@@ -102,23 +102,39 @@ def set_matplotlib_colors_standard(data_range, cmap_name='Greys', cbar_label=Non
 def set_mpl_colors_info_dict(cmap, norm, cbar_ticks, cbar_tick_labels=None, boundaries=None,
                              cbar_label=None, cbar_spacing='proportional', create_colorbar=True,
                              cbar_full_width=False):
-    """ Create the mpl_colors_info dictionary directly from passed arguments
-
-    Args:
-        cmap (Colormap) : This is a valid matplotlib cm Colormap object that can be used for both plotting and colorbar
-                            creation
-        norm (Normalize) : This is a valid matplotlib Normalize object that can be used for both plotting and colorbar
-                            creation.
-        cbar_ticks (list) : List of values where tick marks should be placed on colorbar
-        boundaries (list) :  List of boundaries to use in matplotlib plotting and oclorbar creation
-        cbar_spacing (string) : Default 'proportional': One of 'proportional' or 'uniform'
-        colorbar (bool) : True if colorbar should be created with the set of color info, False otherwise
-        cbar_full_width (bool) : default False, True if colorbar should be full width of figure, center 50% if False
-
-    Returns:
-        (dict) : Dictionary of mpl_colors_info for use in plotting and colorbar creation.
     """
+    Create the mpl_colors_info dictionary directly from passed arguments.
 
+    Parameters
+    ----------
+    cmap : Colormap
+        This is a valid matplotlib cm Colormap object that can be used for
+        both plotting and colorbar creation.
+    norm : Normalize
+        This is a valid matplotlib Normalize object that can be used for
+        both plotting and colorbar creation.
+    cbar_ticks : list
+        List of values where tick marks should be placed on colorbar
+    cbar_tick_labels : list, default=None
+        List of tick label values
+    boundaries : list, default=None
+        List of boundaries to use in matplotlib plotting and colorbar
+        creation
+    cbar_label, default=None
+        The label for the colorbar
+    cbar_spacing : str, default='proportional'
+        One of 'proportional' or 'uniform'
+    create_colorbar : bool, default=True
+        True if colorbar should be created with the set of color info, False otherwise
+    cbar_full_width : bool, default=False
+        True if colorbar should be full width of figure, center 50% if False
+
+    Returns
+    -------
+    mpl_colors_info : dict
+        Dictionary of mpl_colors_info for use in plotting and colorbar
+        creation.
+    """
     mpl_colors_info = {}
     mpl_colors_info['cmap'] = cmap
     mpl_colors_info['norm'] = norm
