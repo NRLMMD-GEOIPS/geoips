@@ -308,32 +308,44 @@ def check_gridlines_info_dict(gridlines_info):
 
 
 def set_gridlines_info_dict(gridlines_info, area_def):
-    """ Set the final values for gridlines plotting params, pulling from argument and defaults.
+    """
+    Set plotting gridlines.
 
-    Args:
-      gridlines_info (dict) : Dictionary of parameters for plotting gridlines.
-                              The following fields are available.  If a field is not included in the dictionary,
-                              the field is added to the return dictionary and the default is used.
-                                gridlines_info['grid_lat_spacing']      default auto calculated 5 lat grid lines
-                                gridlines_info['grid_lon_spacing']      default auto calculated 5 lon grid lines
-                                gridlines_info['grid_lat_xoffset']      default None (0.01 * image height)
-                                gridlines_info['grid_lon_xoffset']      default None (0.01 * image width)
-                                gridlines_info['grid_lat_yoffset']      default None (0.01 * image height)
-                                gridlines_info['grid_lon_yoffset']      default None (0.01 * image width)
-                                gridlines_info['grid_lat_fontsize']     default None (plot fontsize)
-                                gridlines_info['grid_lon_fontsize']     default None (plot fontsize)
-                                gridlines_info['left_label']            default True
-                                gridlines_info['right_label']           default False
-                                gridlines_info['top_label']             default True
-                                gridlines_info['bottom_label']          default False
-                                gridlines_info['grid_lat_linewidth']    default 1
-                                gridlines_info['grid_lon_linewidth']    default 1
-                                gridlines_info['grid_lat_color']        default 'black'
-                                gridlines_info['grid_lon_color']        default 'black'
-                                gridlines_info['grid_lat_dashes']       default [4, 2]
-                                gridlines_info['grid_lon_dashes']       default [4, 2]
-    Returns:
-        (dict) : gridlines_info dictionary, with fields as specified above.
+    Set the final values for gridlines plotting params, pulling from
+    argument and defaults.
+
+    Parameters
+    ----------
+    gridlines_info : dict
+        Dictionary of parameters for plotting gridlines. The following
+        fields are available.  If a field is not included in the
+        dictionary, the field is added to the return dictionary and the
+        default is used.
+            gridlines_info['grid_lat_spacing']      default auto calculated 5 lat grid lines
+            gridlines_info['grid_lon_spacing']      default auto calculated 5 lon grid lines
+            gridlines_info['grid_lat_xoffset']      default None (0.01 * image height)
+            gridlines_info['grid_lon_xoffset']      default None (0.01 * image width)
+            gridlines_info['grid_lat_yoffset']      default None (0.01 * image height)
+            gridlines_info['grid_lon_yoffset']      default None (0.01 * image width)
+            gridlines_info['grid_lat_fontsize']     default None (plot fontsize)
+            gridlines_info['grid_lon_fontsize']     default None (plot fontsize)
+            gridlines_info['left_label']            default True
+            gridlines_info['right_label']           default False
+            gridlines_info['top_label']             default True
+            gridlines_info['bottom_label']          default False
+            gridlines_info['grid_lat_linewidth']    default 1
+            gridlines_info['grid_lon_linewidth']    default 1
+            gridlines_info['grid_lat_color']        default 'black'
+            gridlines_info['grid_lon_color']        default 'black'
+            gridlines_info['grid_lat_dashes']       default [4, 2]
+            gridlines_info['grid_lon_dashes']       default [4, 2]
+    area_def : AreaDefinition
+        pyresample AreaDefinition
+
+    Returns
+    -------
+    use_gridlines_info : dict
+        gridlines_info dictionary, with fields as specified above.
     """
     use_gridlines_info = {}
 
