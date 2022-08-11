@@ -355,26 +355,40 @@ def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
 
 def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
                                          font_size=None, existing_mapobj=None, noborder=False):
-    """ Create a figure of x pixels horizontally and y pixels vertically. Use information from matplotlib.rcParams
-        xsize = (float(x_size)/dpi)/(right_margin - left_margin)
-        ysize = (float(y_size)/dpi)/(top_margin - bottom_margin)
-        fig = plt.figure(figsize=[xsize, ysize])
-        Parameters:
-            x_size (int): number pixels horizontally
-            y_size (int): number pixels vertically
-            area_def (AreaDefinition) : pyresample AreaDefinition object - used for
-                                        initializing map object (basemap or cartopy)
-            existing_mapobj (CRS or basemap) : Default None: If specified, do not regenerate mapobj. If None, create
-                                                             CRS or basemap object from specified area_def.
-            noborder (bool) : Default False: If true, use [0, 0, 1, 1] for axes (allowing for image exact shape of
-                                             sector).
-        Return:
-            (matplotlib.figure.Figure, matplotlib.axes._axes.Axes, mapobject)
-                matplotlib Figure object to subsequently use for plotting imagery / colorbars / etc
-                matplotlib Axes object corresponding to the single main plotting area.
-                cartopy crs or Basemap object for plotting
     """
+    Create a figure of x pixels horizontally and y pixels vertically.
 
+    Use information from matplotlib.rcParams.
+
+    Parameters
+    ----------
+    x_size : int
+        number pixels horizontally
+        xsize = (float(x_size)/dpi)/(right_margin - left_margin)
+    y_size : int
+        number pixels vertically
+        ysize = (float(y_size)/dpi)/(top_margin - bottom_margin)
+    font_size : int
+        matplotlib font size
+    area_def : AreaDefinition
+        pyresample AreaDefinition object - used for
+        initializing map object (basemap or cartopy)
+    existing_mapobj : CRS or basemap, optional
+        If specified, do not regenerate mapobj. If None, create
+        CRS or basemap object from specified area_def.
+    noborder : bool, default=False
+        If true, use [0, 0, 1, 1] for axes (allowing for image exact
+        shape of sector).
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        matplotlib Figure object to subsequently use for plotting imagery / colorbars / etc
+    main_ax : matplotlib.axes._axes.Axes
+        matplotlib Axes object corresponding to the single main plotting area.
+    mapobj : mapobject
+        cartopy crs or Basemap object for plotting
+    """
     import matplotlib
     matplotlib.use('agg')
     rc_params = matplotlib.rcParams
