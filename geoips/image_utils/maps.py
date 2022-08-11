@@ -438,28 +438,36 @@ def check_boundaries_info_dict(boundaries_info):
 
 
 def set_boundaries_info_dict(boundaries_info):
-    """ Set the final values for coastlines, states, countries plotting params, pulling from argument and defaults.
+    """
+    Sets the boundary information
 
-    Args:
-      boundaries_info (dict) : Dictionary of parameters for plotting gridlines.
-                               The following fields are available.  If a field is not included in the dictionary,
-                               the field is added to the return dictionary and the default is used.
-                                  boundaries_info['request_coastlines']       default True
-                                  boundaries_info['request_countries']        default True
-                                  boundaries_info['request_states']           default True
-                                  boundaries_info['request_rivers']           default True
+    Set the final values for coastlines, states, countries plotting params,
+    pulling from argument and defaults.
 
-                                  boundaries_info['coastlines_linewidth']     default 2
-                                  boundaries_info['countries_linewidth']      default 1
-                                  boundaries_info['states_linewidth']         default 0.5
-                                  boundaries_info['rivers_linewidth']         default 0
+    Parameters
+    ----------
+    boundaries_info : dict
+        Dictionary of parameters for plotting gridlines.
+        The following fields are available.  If a field is not included in the dictionary,
+        the field is added to the return dictionary and the default is used.
+            boundaries_info['request_coastlines']       default True
+            boundaries_info['request_countries']        default True
+            boundaries_info['request_states']           default True
+            boundaries_info['request_rivers']           default True
 
-                                  boundaries_info['coastlines_color']         default 'red'
-                                  boundaries_info['countries_color']          default 'red'
-                                  boundaries_info['states_color']             default 'red'
-                                  boundaries_info['rivers_color']             default 'red'
-    Returns:
-        (dict) : boundaries_info dictionary, with fields as specified above.
+            boundaries_info['coastlines_linewidth']     default 2
+            boundaries_info['countries_linewidth']      default 1
+            boundaries_info['states_linewidth']         default 0.5
+            boundaries_info['rivers_linewidth']         default 0
+
+            boundaries_info['coastlines_color']         default 'red'
+            boundaries_info['countries_color']          default 'red'
+            boundaries_info['states_color']             default 'red'
+            boundaries_info['rivers_color']             default 'red'
+    Returns
+    -------
+    use_boundaries_info : dict
+        boundaries_info dictionary, with fields as specified above.
     """
     use_boundaries_info = {}
     use_boundaries_info['request_coastlines'] = True
