@@ -16,7 +16,7 @@
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
 
-""" matplotlib geographic map (basemap or cartopy) utilities """
+"""matplotlib geographic map (basemap or cartopy) utilities."""
 
 # Python Standard Libraries
 import logging
@@ -29,7 +29,7 @@ def ellps2axis(ellps_name):
     Get semi-major and semi-minor axis from ellipsis definition
 
     Parameters
-    ---------
+    ----------
     ellps_name : str
         Standard name of ellipsis
 
@@ -93,28 +93,41 @@ def ellps2axis(ellps_name):
 
 
 def is_crs(mapobj):
-    """ Determine if the map object we are using is a cartopy crs instance.
+    """
+    Determine if the map object we are using is a cartopy crs instance.
 
-    Args:
-        mapobj (map object) : Basemap or cartopy._PROJ4Projection object
+    Parameters
+    ----------
+    mapobj : map object
+        Basemap or cartopy._PROJ4Projection object
 
-    Returns:
-        (Bool) : True if it is a CRS object, False otherwise.
+    Returns
+    -------
+    crs : bool
+        True if it is a CRS object, False otherwise.
     """
     import pyresample
+    crs = False
     if 'cartopy' in str(mapobj.__class__):
-        return True
-    return False
+        crs = True
+    return crs
 
 
 def area_def2mapobj(area_def):
-    """ Convert pyresample AreaDefinition object to a cartopy CRS or Basemap object. Default to basemap
+    """
+    Convert pyresample AreaDefinition object to a cartopy CRS or Basemap
+    object. Default to basemap.
 
-    Args:
-        area_def (AreaDefinition): pyresample AreaDefinition object
+    Parameters
+    ----------
+    area_def : AreaDefinition
+        pyresample AreaDefinition object
 
-    Returns:
-        (map object) : Either Basemap instance (if Basemap is installed), or cartopy CRS object
+    Returns
+    -------
+    mapobj : CRS map object
+        Either Basemap instance (if Basemap is installed), or cartopy
+        CRS object.
     """
     try:
         # old pyresample.area_def2basemap appears to fail over the dateline.
