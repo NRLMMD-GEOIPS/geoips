@@ -144,20 +144,18 @@ def area_def2mapobj(area_def):
 
 
 def area_def2basemap(area_def, **kwargs):
-    """Get Basemap object from AreaDefinition
+    """
+    Get Basemap object from AreaDefinition
 
     Parameters
     ---------
     area_def : object
         geometry.AreaDefinition object
-    **kwargs: Keyword arguments
-        Additional initialization arguments for Basemap
 
     Returns
     -------
     bmap : Basemap object
     """
-
     from mpl_toolkits.basemap import Basemap
     try:
         avar, bvar = ellps2axis(area_def.proj_dict['ellps'])
