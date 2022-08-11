@@ -46,17 +46,29 @@ def set_matplotlib_colors_rgb():
 
 
 def set_matplotlib_colors_standard(data_range, cmap_name='Greys', cbar_label=None, create_colorbar=True):
-    """ Set the matplotlib colors information appropriately, for use in colorbar and image production.
+    """
+    Set the matplotlib colors information appropriately, for use in
+    colorbar and image production.
 
-    Args:
-        data_range (list) : [min_val, max_val]
-        cmap_name (str) : Default 'Greys' - specify the standard matplotlib colormap.
-        cbar_label (str) : Default None - If specified, use cbar_label string as colorbar label.
-        create_colorbar (bool) : Default True - Specify whether the image should contain a colorbar or not.
+    Parameters
+    ----------
+    data_range : list
+        the minimum and maximum value for the data range
+        [min_val, max_val]
+    cmap_name : str, default='Greys'
+        Specify the standard matplotlib colormap
+    cbar_label : str, default=None
+        If specified, use cbar_label string as colorbar label
+    create_colorbar : bool, default=True
+        Specify whether the image should contain a colorbar or not
 
-    Returns:
-        mpl_colors_info (dict) Specifies matplotlib Colors parameters for use in both plotting and colorbar generation
-                                See geoips.image_utils.mpl_utils.create_colorbar for field descriptions.
+    Returns
+    -------
+    mpl_colors_info : dict
+        Specifies matplotlib Colors parameters for use in both plotting
+        and colorbar generation.
+        See geoips.image_utils.mpl_utils.create_colorbar for field
+        descriptions.
     """
 
     min_val = data_range[0]
