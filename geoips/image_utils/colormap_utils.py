@@ -16,7 +16,7 @@
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
 
-""" Module for generating specific colormaps on the fly """
+"""Module for generating specific colormaps on the fly"""
 # Installed Libraries
 import logging
 
@@ -149,21 +149,26 @@ def set_mpl_colors_info_dict(cmap, norm, cbar_ticks, cbar_tick_labels=None, boun
 
 
 def from_ascii(fname, reverse=False):
-    """ Create a ListedColormap instance from an ascii text file of RGB values
+    """
+    Create a ListedColormap instance from an ascii text file of RGB values
 
+    Parameters
+    ----------
+    fname : str
+        Full path to ascii RGB colortable file
+    reverse : bool, default=False
+        If True, reverse the colormap
+
+    Returns
+    -------
+    cmap : ListedColormap object
+        The colormap name will be the os.path.basename of the file.
+
+    Notes
+    -----
      * Lines preceded by '#' are ignored.
      * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0 for matplotlib usage)
      * One white space delimited RGB value per line
-
-    Args:
-        fname (str): Full path to ascii RGB colortable file
-        reverse (Optional[bool]):
-            * DEFAULT False
-            * If True, reverse the colormap
-
-    Returns:
-        ListedColormap object: The colormap name will be the os.path.basename of the file.
-
     """
 
     #Read data from ascii file into an NLines by 3 float array, skipping lines preceded by "#"
