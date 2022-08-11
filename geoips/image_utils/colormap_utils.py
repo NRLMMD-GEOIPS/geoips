@@ -16,7 +16,7 @@
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
 
-"""Module for generating specific colormaps on the fly"""
+"""Module for generating specific colormaps on the fly."""
 # Installed Libraries
 import logging
 
@@ -25,8 +25,10 @@ LOG = logging.getLogger(__name__)
 
 def set_matplotlib_colors_rgb():
     """
+    Create matplotlib Colors parameters dictionary.
+
     For rgb imagery, we require no color information (it is entirely
-    specified by the RGB(A) arrays)
+    specified by the RGB(A) arrays).
 
     Returns
     -------
@@ -47,8 +49,9 @@ def set_matplotlib_colors_rgb():
 
 def set_matplotlib_colors_standard(data_range, cmap_name='Greys', cbar_label=None, create_colorbar=True):
     """
-    Set the matplotlib colors information appropriately, for use in
-    colorbar and image production.
+    Set the matplotlib colors information.
+
+    For use in colorbar and image production.
 
     Parameters
     ----------
@@ -57,7 +60,7 @@ def set_matplotlib_colors_standard(data_range, cmap_name='Greys', cbar_label=Non
         [min_val, max_val]
     cmap_name : str, default='Greys'
         Specify the standard matplotlib colormap
-    cbar_label : str, default=None
+    cbar_label : str, optional
         If specified, use cbar_label string as colorbar label
     create_colorbar : bool, default=True
         Specify whether the image should contain a colorbar or not
@@ -70,7 +73,6 @@ def set_matplotlib_colors_standard(data_range, cmap_name='Greys', cbar_label=Non
         See geoips.image_utils.mpl_utils.create_colorbar for field
         descriptions.
     """
-
     min_val = data_range[0]
     max_val = data_range[1]
     from matplotlib import cm
@@ -115,12 +117,12 @@ def set_mpl_colors_info_dict(cmap, norm, cbar_ticks, cbar_tick_labels=None, boun
         both plotting and colorbar creation.
     cbar_ticks : list
         List of values where tick marks should be placed on colorbar
-    cbar_tick_labels : list, default=None
+    cbar_tick_labels : list, optional
         List of tick label values
-    boundaries : list, default=None
+    boundaries : list, optional
         List of boundaries to use in matplotlib plotting and colorbar
         creation
-    cbar_label, default=None
+    cbar_label, optional
         The label for the colorbar
     cbar_spacing : str, default='proportional'
         One of 'proportional' or 'uniform'
@@ -150,7 +152,7 @@ def set_mpl_colors_info_dict(cmap, norm, cbar_ticks, cbar_tick_labels=None, boun
 
 def from_ascii(fname, reverse=False):
     """
-    Create a ListedColormap instance from an ascii text file of RGB values
+    Create a ListedColormap instance from an ASCII file of RGB values.
 
     Parameters
     ----------
@@ -170,7 +172,6 @@ def from_ascii(fname, reverse=False):
      * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0 for matplotlib usage)
      * One white space delimited RGB value per line
     """
-
     #Read data from ascii file into an NLines by 3 float array, skipping lines preceded by "#"
     lines = []
     with open(fname) as palette:
@@ -202,10 +203,10 @@ def from_ascii(fname, reverse=False):
 
 def create_linear_segmented_colormap(cmapname, min_val, max_val, transition_vals, transition_colors):
     """
-    Use argument values to fill in the dict used in LinearSegmentedColormap
+    Create a LinearSegmentedColormap instance.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     cmapname : str
         Name to attach to the matplotlib.color ColorMap object
     min_val : float
