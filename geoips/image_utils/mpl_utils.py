@@ -28,40 +28,57 @@ LOG = logging.getLogger(__name__)
 
 
 def percent_unmasked_rgba(rgba):
-    """ Return percentage of array that is NOT fully transparent / masked (ie, non-zero values in the 4th dimension)
+    """
+    Convert to percent.
 
-    Args:
-        rgba (numpy.ndarray) : 4 dimensional array where the 4th dimension is the alpha transparency array:
-                               1 is fully opaque, 0 is fully transparent
+    Return percentage of array that is NOT fully transparent / masked
+    (ie, non-zero values in the 4th dimension)
 
-    Returns:
-        float : Coverage in percentage, between 0 and 100.
+    Parameters
+    ----------
+    rgba : numpy.ndarray
+        4 dimensional array where the 4th dimension is the alpha transparency array:
+        1 is fully opaque, 0 is fully transparent
+
+    Returns
+    -------
+    coverage : float
+        Coverage in percentage, between 0 and 100.
     """
     import numpy
-    return 100.0 * numpy.count_nonzero(rgba[:, :, 3]) / rgba[:, :, 3].size
+    coverage = 100.0 * numpy.count_nonzero(rgba[:, :, 3]) / rgba[:, :, 3].size
+    return coverage
 
 
 def rgba_from_arrays(red, grn, blu, alp=None):
-    """ Return rgba for plotting in matplot lib from red, green, blue, and alpha arrays
-
-    Args:
-        red (numpy.ndarray) : numpy masked array of red gun values
-        grn (numpy.ndarray) : numpy masked array of green gun values
-        blu (numpy.ndarray) : numpy masked array of blue gun values
-        alp (numpy.ndarray) : DEFAULT None, numpy.ndarray of alpha values 1 is fully opaque, 0 is fully transparent
-                                If none, calculate alpha from red, grn, blu guns
-
-    Returns:
-        (numpy.ndarray) : 4 layer dimensional numpy.ndarray
     """
+    Return rgba from red, green, blue, and alpha arrays
 
+    Parameters
+    ----------
+    red : numpy.ndarray
+        red gun values
+    grn : numpy.ndarray
+        green gun values
+    blu : numpy.ndarray
+        blue gun values
+    alp : numpy.ndarray, optional
+        alpha values 1 is fully opaque, 0 is fully transparent
+        If none, calculate alpha from red, grn, blu guns
+
+    Returns
+    -------
+    rgba : numpy.ndarray
+        4 layer dimensional numpy.ndarray
+    """
     import numpy
     if alp is None:
         alp = alpha_from_masked_arrays([red, grn, blu])
     red.fill_value = 0
     grn.fill_value = 0
     blu.fill_value = 0
-    return numpy.dstack([red.filled(), grn.filled(), blu.filled(), alp])
+    rgba = numpy.dstack([red.filled(), grn.filled(), blu.filled(), alp])
+    return rgba
 
 
 def alpha_from_masked_arrays(arrays):
