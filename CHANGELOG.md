@@ -16,6 +16,13 @@
     # # # or FITNESS FOR A PARTICULAR PURPOSE.
     # # # See the included license for more details.
 
+NRLMMD-GEOIPS/geoips#31 - add test datasets to .gitignore
+
+### Improvements
+* **geoips/.gitignore**
+    * Add tests/data/** to .gitignore so they no longer appear in git status
+
+
 NRLMMD-GEOIPS/geoips#25 - add low_bandwidth option
 
 ### Installation and Test
