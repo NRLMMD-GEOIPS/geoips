@@ -30,6 +30,7 @@ NRLMMD-GEOIPS/geoips#25 - add low_bandwidth option
 * **setup.sh** - Support low_bandwidth option for setup_abi_test_data (only download B14), and install (pip install minimum packages for tests)
 * **base_install_and_test.sh** - Pass "low_bandwidth" option through to setup.sh
 
+
 NRLMMD-GEOIPS/geoips#27
 
 ### Installation and Test
@@ -38,6 +39,7 @@ NRLMMD-GEOIPS/geoips#27
     * imagemagick
     * wget
     * recent git version
+
 
 NRLMMD-GEOIPS/geoips#17 - Update Git Workflow
 
