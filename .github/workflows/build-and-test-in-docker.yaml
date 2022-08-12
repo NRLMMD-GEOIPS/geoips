@@ -31,6 +31,6 @@ jobs:
         with:
           push: true
           tags: ghcr.io/${{ env.IMAGE_NAME }}:latest
-          file: "Dockerfile.simple"
+          file: "Dockerfile"
           cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache
           cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache,mode=max
