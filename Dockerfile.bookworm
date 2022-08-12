@@ -1,7 +1,0 @@
-ARG EXT_REGISTRY=""
-ARG IMAGE_TAG="11.4"
-FROM ${EXT_REGISTRY}docker.io/library/debian:${IMAGE_TAG} as proj
-ARG EXT_REGISTRY IMAGE_TAG
-
-RUN apt-get update \
-    && apt-get install -y proj-bin
