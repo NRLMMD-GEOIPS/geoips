@@ -18,7 +18,6 @@
 
 '''Installation instructions for base geoips package'''
 
-from os import walk
 from os.path import realpath, join, dirname
 
 import setuptools
