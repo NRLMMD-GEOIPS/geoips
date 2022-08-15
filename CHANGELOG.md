@@ -16,6 +16,8 @@
     # # # or FITNESS FOR A PARTICULAR PURPOSE.
     # # # See the included license for more details.
 
+# v1.5.2.dev1: 2022-08-15, installation, testing, and git workflow improvements
+
 
 # v1.5.1: 2022-07-13, fix overpass error handling, fix ticklabels error, add area_def_adjuster outputs, update test rm
 
