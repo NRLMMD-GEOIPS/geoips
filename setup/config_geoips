@@ -31,6 +31,8 @@ export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_BASEDIR/geoips_dependencies
 # Temporarily include GEOIPS_MODULES_DIR so old documentation works.
 export GEOIPS_MODULES_DIR=$GEOIPS_BASEDIR/geoips_packages
 export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
+# This is only used for finding test data within the test scripts - not used within python at all
+export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
 
 export PYTHONPATH=$GEOIPS_BASEDIR/geoips_packages
 export PATH=$GEOIPS_DEPENDENCIES_DIR/bin:$PATH

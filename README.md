@@ -46,12 +46,15 @@ Setup System Environment Variables
     # sudo apt-get update               # Make sure apt packages are up to date
     # sudo apt install wget             # Required for Miniconda and rclone setup
     # sudo apt install git              # Required for all git clones, >=2.19.1
+    # sudo apt install git-lfs          # Required for git clones of test data repos, >=2.19.1
     # sudo apt install imagemagick      # Required for test output comparisons
     # sudo apt install gfortran         # OPTIONAL - Required if you have plugins with fortran builds
     # sudo apt install build-essential  # OPTIONAL - Required if you have plugins with fortran/C builds
     # sudo apt install screen           # OPTIONAL - convenience package
     # sudo apt install ncurses          # OPTIONAL - Required for vim build
     # sudo apt install libncurses5-dev  # OPTIONAL - Required for vim build
+
+    git lfs install  # Required to clone test data repositories!
 
     # GEOIPS_BASEDIR will contain all source, output, and external dependencies
     # Ensure this is consistently set for all installation / setup steps below
@@ -63,7 +66,7 @@ Setup System Environment Variables
     # This config file must be sourced ANY TIME you want to run geoips
     export GEOIPS_CONFIG_FILE=$GEOIPS_BASEDIR/geoips_packages/geoips/setup/config_geoips
 
-    GEOIPS_ACTIVE_BRANCH=dev
+    GEOIPS_ACTIVE_BRANCH=main
 ```
 
 
@@ -79,7 +82,19 @@ Base geoips installation and test
     git -C $GEOIPS_BASEDIR/geoips_packages/geoips checkout $GEOIPS_ACTIVE_BRANCH
     git -C $GEOIPS_BASEDIR/geoips_packages/geoips pull
 
+    # These helper scripts will just confirm all required system requirements are available.
+    # Please confirm output before proceeding with base_install_and_test.sh
+    $GEOIPS_BASEDIR/geoips_packages/geoips/setup/check_system_requirements.sh wget
+    $GEOIPS_BASEDIR/geoips_packages/geoips/setup/check_system_requirements.sh gitlfs
+    $GEOIPS_BASEDIR/geoips_packages/geoips/setup/check_system_requirements.sh imagemagick
+    $GEOIPS_BASEDIR/geoips_packages/geoips/setup/check_system_requirements.sh git
+
     # This prompts you through all the steps of installing geoips from scratch, using the parameters specified above
     # Installs and tests everything!
-    $GEOIPS_BASEDIR/geoips_packages/geoips/base_install_and_test.sh $GEOIPS_ACTIVE_BRANCH
+    # Requires <30GB disk space, <16GB memory
+    $GEOIPS_BASEDIR/geoips_packages/geoips/base_install_and_test.sh $GEOIPS_ACTIVE_BRANCH low_memory low_bandwidth
+
+    # Low memory option. No high res Visible outputs.  Same setup, just different tests.
+    # Requires <30GB disk space, <8GB memory
+    # $GEOIPS_BASEDIR/geoips_packages/geoips/base_install_and_test.sh $GEOIPS_ACTIVE_BRANCH low_memory
 ```

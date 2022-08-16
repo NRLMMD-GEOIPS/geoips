@@ -1,0 +1,44 @@
+output_config_type: single_source
+reader_name: abi_netcdf
+filenames: !ENV ${GEOIPS}/tests/data/goes16_20200918_1950/*
+resampled_read: True
+
+available_sectors:
+  static:
+    sectorfiles:
+        - !ENV ${GEOIPS}/tests/sectors/static/goes16.yaml 
+    sector_list: 
+        - goes16
+  tc:
+    trackfile_parser: bdeck_parser
+    trackfiles: 
+        - !ENV ${GEOIPS}/tests/sectors/tc_bdecks/bal202020.dat
+    tc_template_yaml: !ENV ${GEOIPS}/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
+
+outputs:
+  static:
+    requested_sector_type: static
+    output_format: imagery_annotated
+    filename_formats: ['geoips_fname']
+    remove_duplicates: null
+    product_names:
+      - Infrared
+    minimum_coverage: 25
+    compare_path: !ENV ${GEOIPS}/tests/outputs/abi.<output>.<product>.imagery_annotated
+  tc:
+    requested_sector_type: tc
+    output_format: imagery_annotated
+    filename_formats: ['tc_fname']
+    metadata_filename_formats:
+        tc_fname: metadata_default_fname
+    metadata_output_format: metadata_default
+    remove_duplicates: null
+    product_names:
+      - IR-BD 
+      - Infrared
+    minimum_coverages:
+        all: 100
+        IR-BD: 0
+    boundaries_params: tc_pmw
+    gridlines_params: tc_pmw
+    compare_path: !ENV ${GEOIPS}/tests/outputs/abi.<output>.<product>.imagery_annotated

@@ -17,6 +17,137 @@
     # # # See the included license for more details.
 
 
+# v1.5.2.dev1: 2022-08-16, improve install, test, and git workflow
+
+## NRLMMD-GEOIPS/geoips#31 - add test datasets to .gitignore
+
+### Improvements
+* **geoips/.gitignore**
+    * Add tests/data/** to .gitignore so they no longer appear in git status
+
+## NRLMMD-GEOIPS/geoips#25 - add low_bandwidth option
+
+### Installation and Test
+* **README.md** - Pass low_memory and low_bandwidth options to base_install_and_test.sh
+* **setup.sh** - Support low_bandwidth option for setup_abi_test_data (only download B14), and install (pip install minimum packages for tests)
+* **base_install_and_test.sh** - Pass "low_bandwidth" option through to setup.sh
+
+## NRLMMD-GEOIPS/geoips#27
+
+### Installation and Test
+* Add "check_system_requirements.sh" script to ensure system requirements are installed
+    * git lfs
+    * imagemagick
+    * wget
+    * recent git version
+
+## NRLMMD-GEOIPS/geoips#17 - Update Git Workflow
+
+### Documentation Updates
+
+* **docs/git-workflow.rst**
+    * Remove manual labeling on Issues
+    * Remove manual labeling on PRs
+    * Remove manual branching command line
+    * Note that branches MUST be created via the Issue->Development->Create Branch option
+    * Remove manual status updates on Project (should be automated via PRs linked to Issue)
+
+## NRLMMD-GEOIPS/geoips#22 - Remove rclone.conf link to ~/.config/rclone
+
+### Installation and Test
+* **setup.sh**
+    * Update setup_rclone command to remove the link from $GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
+        to ~/.config/rclone/rclone.conf
+    * Update setup_abi_test_data command to use explicit
+        --config $GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
+        argument rather than relying on default ~/.config/rclone/rclone.conf configuration
+
+## NRLMMD-GEOIPS/geoips#15 - Add low memory options for base install tests
+
+### Test Repo Updates
+* abi.config_based_output_low_memory.sh
+    * abi.static.Infrared.imagery_annotated png output
+    * abi.tc.Infrared.imagery_annotated png and YAML metadata output
+    * abi.tc.IR-BD.imagery_annotated png and YAML metadata output
+* abi.static.Infrared.imagery_annotated.sh
+    * abi.static.Infrared.imagery_annotated png output
+* amsr2.config_based_overlay_output_low_memory.sh
+    * amsr2.global_overlay.37pct.imagery_annotated_over_Infrared-Gray png and YAML metadata output
+    * amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray png and YAML metadata output
+    * amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray png and YAML metadata output
+    * amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray png and YAML metadata output
+* UPDATE outputs amsr2.config_based_overlay_output.sh (outputs were not previously included)
+    * amsr2.global_overlay.37pct.imagery_annotated_over_Visible png and YAML metadata output
+    * amsr2.global_overlay.89pct.imagery_annotated_over_Visible png and YAML metadata output
+    * amsr2.tc_overlay.37pct.imagery_annotated_over_Visible png and YAML metadata output
+    * amsr2.tc_overlay.89pct.imagery_annotated_over_Visible png and YAML metadata output
+
+### Installation and Test
+* **base_install_and_test.sh**
+    * Add "low_memory" option that allows testing Infrared-only ABI rather than Visible.
+        ~4GB vs ~12GB memory requirement.
+
+### Bug fixes
+* **amsr2.config_based_overlay_output.sh**
+    * Un-indent "backgrond_products" so background imagery is included in outputs
+    * Add outputs to comparison directories
+
+## NRLMMD-GEOIPS/geoips_tutorial#3 - Add AMSR2 test data and test scripts to base install and test
+
+### Installation and Test
+* **README.md**
+    * Add git lfs install to setup, to ensure Large File Storage tracked data files are cloned properly
+* **base_install_and_test.sh**
+    * Add clone of test_data_amsr2
+    * Add AMSR2 test: $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output.sh
+* **setup.py**
+    * Add scikit-image to "coverage_checks" section of install_requires
+* **config_geoips**
+    * Add git lfs install, for redundancy
+    * Add GEOIPS_TESTDATA_DIR environment variable, to allow non-GEOIPS_BASEDIR test data locations.
+* **AMSR2 Test Scripts**
+    * Add AMSR2 config based test script: tests/scripts/amsr2.config_based_overlay_output.sh
+    * Add AMSR2 YAML output config: tests/yaml_configs/amsr2_test.yaml
+        * 89pct and 37pct output products
+        * TC-centric sector
+        * Global sector
+        * Visible AHI background imagery
+
+## NRLMMD-GEOIPS/geoips#6,8,9,11 - Streamline installation process, support Mac installation
+
+### Installation and Test
+* **base_install_and_test.sh**
+    * Exit immediately if GEOIPS_BASEDIR or GEOIPS_REPO_URL are not defined
+    * Comment out several sections of installation, to reduce time and disk space
+        * natural-earth-vector data download (will rely on latest shapefiles during cartopy processing)
+        * natural-earth-vector linking to ~/.local/share/cartopy
+            * Will NOT reinstate this step - cartopy supports CARTOPY_DATA_DIR as of 6 August 2021
+        * vim8 installation (only for use of vim8 plugins to help with following style guides)
+        * vim8 plugin installation
+        * seviri setup
+    * Remove BASECONDAPATH from conda cartopy installation (conda will be in PATH)
+* **setup.sh**
+    * To support Mac installations, use "uname -m" when determining filenames for
+        rclone and miniconda3 installation
+    * Rather than sourcing `.bashrc` to get the conda environment set up, source `geoips_conda_init_setup`.
+* **geoips_conda_init_setup**
+    * To support Mac installations, use $(conda shell.bash activate geoips_conda) when activating
+        conda vs "conda geoips_conda activate"
+    * Allow use of GeoIPS-specific conda installation along-side user/system level installation where
+      the user/system level installation may be initialized in `.bash_profile`. Uses GeoIPS-specific
+      installation by default, if it is found.
+* **color_prompt**
+    * Add "$CONDA_PROMPT_MODIFIER" to $PS1
+* **repo_clone_update_install.sh**
+    * If GEOIPS_TESTDATA_DIR, GEOIPS_PACKAGES_DIR, or GEOIPS_DEPENDENCIES_DIR are set, use those,
+        otherwise default to placing under $GEOIPS_BASEDIR
+    * Update default branch from dev to main
+* **README.md**
+    * Update github.com GEOIPS_ACTIVE_BRANCH from dev to main
+* **setup.sh**
+    * Update default branches from dev to main
+
+
 # v1.5.1: 2022-07-13, fix overpass error handling, fix ticklabels error, add area_def_adjuster outputs, update test rm
 
 ### Improvements

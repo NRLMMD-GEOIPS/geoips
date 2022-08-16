@@ -34,19 +34,27 @@ if [[ "$1" == "conda_install" ]]; then
     # wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh -P $GEOIPS_DEPENDENCIES_DIR
     # chmod 755 $GEOIPS_DEPENDENCIES_DIR/Anaconda3-*.sh
     echo "**wgetting Miniconda3*.sh"
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -P $GEOIPS_DEPENDENCIES_DIR
-    chmod 755 $GEOIPS_DEPENDENCIES_DIR/Miniconda3-*.sh
+    opsys=Linux
+    arch=$(uname -m)
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        opsys=MacOSX
+    fi
+    conda_fname=Miniconda3-latest-${opsys}-${arch}.sh
+    wget https://repo.anaconda.com/miniconda/${conda_fname} -P $GEOIPS_DEPENDENCIES_DIR
+    chmod 755 $GEOIPS_DEPENDENCIES_DIR/${conda_fname}
     echo ""
     echo "**Running Anaconda3*.sh"
     # $GEOIPS_DEPENDENCIES_DIR/Anaconda3-*.sh -p $GEOIPS_DEPENDENCIES_DIR/anaconda3
-    $GEOIPS_DEPENDENCIES_DIR/Miniconda3-*.sh -p $GEOIPS_DEPENDENCIES_DIR/miniconda3
+    $GEOIPS_DEPENDENCIES_DIR/${conda_fname} -p $GEOIPS_DEPENDENCIES_DIR/miniconda3
     echo ""
-    echo "**If shell initialized, MUST source ~/.bashrc or restart shell"
-    source ~/.bashrc
-    echo "source ~/.bashrc"
+    # echo "**If shell initialized, MUST source ~/.bashrc or restart shell"
+    # source ~/.bashrc
+    # echo "source ~/.bashrc"
+    source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
 elif [[ "$1" == "conda_link" ]]; then
     echo ""
     echo "**Linking conda to bin"
+    mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
     ln -sfv $BASECONDAPATH/conda $GEOIPS_DEPENDENCIES_DIR/bin
 elif [[ "$1" == "conda_init" ]]; then
     echo ""
@@ -55,9 +63,10 @@ elif [[ "$1" == "conda_init" ]]; then
     # Link conda to geoips_dependencies/bin so it is in path
     $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_link
     echo ""
-    echo "**IF SCRIPT WAS NOT SOURCED MUST source ~/.bashrc or restart shell"
-    source ~/.bashrc
-    echo "source ~/.bashrc"
+    # echo "**IF SCRIPT WAS NOT SOURCED MUST source ~/.bashrc or restart shell"
+    # source ~/.bashrc
+    # echo "source ~/.bashrc"
+    source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
 elif [[ "$1" == "conda_update" ]]; then
     echo ""
     echo "**updating base conda env"
@@ -91,41 +100,53 @@ elif [[ "$1" == "install" ]]; then
     # This was getting 0.18.0 sometimes without specifying version ???  Force to 0.20.0
 
     # Update to latest 20220607, previously cartopy 0.20.2 and matplotlib 3.4.3.
-    $BASECONDAPATH/conda install -c conda-forge "cartopy>=0.20.2" "matplotlib>=3.5.2" --yes
+    conda install -c conda-forge "cartopy>=0.20.2" "matplotlib>=3.5.2" --yes
 
     pip install -e "$GEOIPS_PACKAGES_DIR/geoips[efficiency_improvements,\
-                                                  test_outputs,\
-                                                  config_based,\
-                                                  hdf5_readers,\
-                                                  hdf4_readers,\
-                                                  geotiff_output,\
-                                                  syntax_checking,\
-                                                  documentation,\
-                                                  debug,\
-                                                  overpass_predictor,\
-                                                  geostationary_readers]"
+                                                test_outputs,\
+                                                config_based,\
+                                                hdf5_readers,\
+                                                hdf4_readers,\
+                                                geotiff_output,\
+                                                syntax_checking,\
+                                                documentation,\
+                                                debug,\
+                                                overpass_predictor,\
+                                                coverage_checks,\
+                                                geostationary_readers]"
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
     # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
     abidir=$GEOIPS_PACKAGES_DIR/geoips/tests/data/goes16_20200918_1950/
     mkdir -p $abidir
     echo "** Setting up abi test data, from publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/ to $abidir"
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C01_G16_s20202621950205_e20202621959513_c20202621959567.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C02_G16_s20202621950205_e20202621959513_c20202621959546.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C03_G16_s20202621950205_e20202621959513_c20202621959570.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C04_G16_s20202621950205_e20202621959513_c20202621959534.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C05_G16_s20202621950205_e20202621959513_c20202621959562.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C06_G16_s20202621950205_e20202621959518_c20202621959556.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C07_G16_s20202621950205_e20202621959524_c20202621959577.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C08_G16_s20202621950205_e20202621959513_c20202621959574.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C09_G16_s20202621950205_e20202621959518_c20202621959588.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C10_G16_s20202621950205_e20202621959524_c20202621959578.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C11_G16_s20202621950205_e20202621959513_c20202621959583.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C12_G16_s20202621950205_e20202621959518_c20202621959574.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C13_G16_s20202621950205_e20202621959525_c20202622000005.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C15_G16_s20202621950205_e20202621959518_c20202621959594.nc $abidir
-    rclone copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C16_G16_s20202621950205_e20202621959524_c20202622000001.nc $abidir
+    echo ""
+    echo "NOAA Geostationary Operational Environmental Satellites (GOES) 16 & 17 was accessed on "
+    echo `date -u` "from https://registry.opendata.aws/noaa-goes."
+    echo ""
+
+    rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
+
+    if [[ "$2" == "low_bandwidth" ]]; then
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
+    else
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C01_G16_s20202621950205_e20202621959513_c20202621959567.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C02_G16_s20202621950205_e20202621959513_c20202621959546.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C03_G16_s20202621950205_e20202621959513_c20202621959570.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C04_G16_s20202621950205_e20202621959513_c20202621959534.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C05_G16_s20202621950205_e20202621959513_c20202621959562.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C06_G16_s20202621950205_e20202621959518_c20202621959556.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C07_G16_s20202621950205_e20202621959524_c20202621959577.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C08_G16_s20202621950205_e20202621959513_c20202621959574.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C09_G16_s20202621950205_e20202621959518_c20202621959588.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C10_G16_s20202621950205_e20202621959524_c20202621959578.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C11_G16_s20202621950205_e20202621959513_c20202621959583.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C12_G16_s20202621950205_e20202621959518_c20202621959574.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C13_G16_s20202621950205_e20202621959525_c20202622000005.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C15_G16_s20202621950205_e20202621959518_c20202621959594.nc $abidir
+        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C16_G16_s20202621950205_e20202621959524_c20202622000001.nc $abidir
+    fi
 
 elif [[ "$1" == "setup_seviri" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet
@@ -134,20 +155,27 @@ elif [[ "$1" == "setup_seviri" ]]; then
     git clone https://gitlab.eumetsat.int/open-source/PublicDecompWT.git
     cd $cwd
     make all -C $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet/PublicDecompWT/xRITDecompress
+    mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
     ln -sfv $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet/PublicDecompWT/xRITDecompress/xRITDecompress $GEOIPS_DEPENDENCIES_DIR/bin/xRITDecompress
+
 elif [[ "$1" == "setup_rclone" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/rclone
-    wget https://downloads.rclone.org/rclone-current-linux-amd64.zip -P $GEOIPS_DEPENDENCIES_DIR/rclone
+    opsys=linux
+    arch=$(uname -m)
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        opsys=osx
+    fi
+    # Annoying
+    if [[ "$(uname -m)" == "x86_64" ]]; then
+        arch=amd64
+    fi
+    wget https://downloads.rclone.org/rclone-current-${opsys}-${arch}.zip -P $GEOIPS_DEPENDENCIES_DIR/rclone
     cd $GEOIPS_DEPENDENCIES_DIR/rclone
     # This puts it in the current directory
-    unzip $GEOIPS_DEPENDENCIES_DIR/rclone/rclone*.zip
+    unzip $GEOIPS_DEPENDENCIES_DIR/rclone/rclone-current-${opsys}-${arch}.zip
+    # rclone-current expands into rclone-<vers>, not rclone-current, so link arbitrary rclone* subdirectory
     ln -sfv ${GEOIPS_DEPENDENCIES_DIR}/rclone*/rclone*/rclone ${GEOIPS_DEPENDENCIES_DIR}/bin/rclone
-    mkdir -p ~/.config/rclone/
-    ln -sv ${GEOIPS_PACKAGES_DIR}/geoips/setup/rclone_setup/rclone.conf ~/.config/rclone 
-    if [[ $? != 0 ]]; then
-        echo "If you want to replace ~/.config/rclone/rclone.conf with geoips version, run the following:"
-        echo "ln -sfv ${GEOIPS_PACKAGES_DIR}/geoips/setup/rclone_setup/rclone.conf ~/.config/rclone"
-    fi
+
 elif [[ "$1" == "setup_vim8" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/vim8_build
     cwd=`pwd`
@@ -157,6 +185,7 @@ elif [[ "$1" == "setup_vim8" ]]; then
     ./configure --prefix=${GEOIPS_DEPENDENCIES_DIR}/vim8_build/vim --disable-nls --enable-cscope --enable-gui=no --enable-multibyte --enable-pythoninterp --with-features=huge --with-tlib=ncurses --without-x;
     make
     make install
+    mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
     ln -s $GEOIPS_DEPENDENCIES_DIR/vim8_build/vim/bin/vim $GEOIPS_DEPENDENCIES_DIR/bin/vi
     ln -s $GEOIPS_DEPENDENCIES_DIR/vim8_build/vim/bin/vim $GEOIPS_DEPENDENCIES_DIR/bin/vim
     cd $cwd
@@ -250,7 +279,7 @@ elif [[ "$1" =~ "clone_test_repo" ]]; then
     fi
 elif [[ "$1" =~ "update_test_repo" ]]; then
     if [[ "$3" == "" ]]; then
-        branch=dev
+        branch=main
     else
         branch=$3
     fi
@@ -359,7 +388,7 @@ elif [[ "$1" =~ "clone_source_repo" ]]; then
     fi
 elif [[ "$1" =~ "update_source_repo" ]]; then
     if [[ "$3" == "" ]]; then
-        branch=dev
+        branch=main
     else
         branch=$3
     fi
