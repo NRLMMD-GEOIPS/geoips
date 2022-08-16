@@ -16,22 +16,23 @@
     # # # or FITNESS FOR A PARTICULAR PURPOSE.
     # # # See the included license for more details.
 
-NRLMMD-GEOIPS/geoips#31 - add test datasets to .gitignore
+
+# v1.5.2.dev1: 2022-08-16, improve install, test, and git workflow
+
+## NRLMMD-GEOIPS/geoips#31 - add test datasets to .gitignore
 
 ### Improvements
 * **geoips/.gitignore**
     * Add tests/data/** to .gitignore so they no longer appear in git status
 
-
-NRLMMD-GEOIPS/geoips#25 - add low_bandwidth option
+## NRLMMD-GEOIPS/geoips#25 - add low_bandwidth option
 
 ### Installation and Test
 * **README.md** - Pass low_memory and low_bandwidth options to base_install_and_test.sh
 * **setup.sh** - Support low_bandwidth option for setup_abi_test_data (only download B14), and install (pip install minimum packages for tests)
 * **base_install_and_test.sh** - Pass "low_bandwidth" option through to setup.sh
 
-
-NRLMMD-GEOIPS/geoips#27
+## NRLMMD-GEOIPS/geoips#27
 
 ### Installation and Test
 * Add "check_system_requirements.sh" script to ensure system requirements are installed
@@ -40,8 +41,7 @@ NRLMMD-GEOIPS/geoips#27
     * wget
     * recent git version
 
-
-NRLMMD-GEOIPS/geoips#17 - Update Git Workflow
+## NRLMMD-GEOIPS/geoips#17 - Update Git Workflow
 
 ### Documentation Updates
 
@@ -52,8 +52,7 @@ NRLMMD-GEOIPS/geoips#17 - Update Git Workflow
     * Note that branches MUST be created via the Issue->Development->Create Branch option
     * Remove manual status updates on Project (should be automated via PRs linked to Issue)
 
-
-NRLMMD-GEOIPS/geoips#22 - Remove rclone.conf link to ~/.config/rclone
+## NRLMMD-GEOIPS/geoips#22 - Remove rclone.conf link to ~/.config/rclone
 
 ### Installation and Test
 * **setup.sh**
@@ -63,8 +62,7 @@ NRLMMD-GEOIPS/geoips#22 - Remove rclone.conf link to ~/.config/rclone
         --config $GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
         argument rather than relying on default ~/.config/rclone/rclone.conf configuration
 
-
-NRLMMD-GEOIPS/geoips#15 - Add low memory options for base install tests
+## NRLMMD-GEOIPS/geoips#15 - Add low memory options for base install tests
 
 ### Test Repo Updates
 * abi.config_based_output_low_memory.sh
@@ -94,8 +92,7 @@ NRLMMD-GEOIPS/geoips#15 - Add low memory options for base install tests
     * Un-indent "backgrond_products" so background imagery is included in outputs
     * Add outputs to comparison directories
 
-
-NRLMMD-GEOIPS/geoips_tutorial#3 - Add AMSR2 test data and test scripts to base install and test
+## NRLMMD-GEOIPS/geoips_tutorial#3 - Add AMSR2 test data and test scripts to base install and test
 
 ### Installation and Test
 * **README.md**
@@ -116,7 +113,7 @@ NRLMMD-GEOIPS/geoips_tutorial#3 - Add AMSR2 test data and test scripts to base i
         * Global sector
         * Visible AHI background imagery
 
-NRLMMD-GEOIPS/geoips#6,8,9,11 - Streamline installation process, support Mac installation
+## NRLMMD-GEOIPS/geoips#6,8,9,11 - Streamline installation process, support Mac installation
 
 ### Installation and Test
 * **base_install_and_test.sh**
