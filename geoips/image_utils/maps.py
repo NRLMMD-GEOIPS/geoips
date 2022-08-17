@@ -551,17 +551,23 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
         glnr.right_labels = False
 
         if gridlines_info['top_label']:
+            LOG.debug('Adding top labels')
             glnr.top_labels = True
         if gridlines_info['bottom_label']:
+            LOG.debug('Adding bottom labels')
             glnr.bottom_labels = True
         if gridlines_info['left_label']:
+            LOG.debug('Adding left labels')
             glnr.left_labels = True
         if gridlines_info['right_label']:
+            LOG.debug('Adding right labels')
             glnr.right_labels = True
 
         lat_ticks = parallels(area_def, gridlines_info['grid_lat_spacing'])
         lon_ticks = meridians(area_def, gridlines_info['grid_lon_spacing'])
+        LOG.debug(f'Lon Ticks: {lon_ticks}')
         glnr.xlocator = mticker.FixedLocator(lon_ticks)
+        LOG.debug(f'Lat Ticks: {lat_ticks}')
         glnr.ylocator = mticker.FixedLocator(lat_ticks)
         # gl.xformatter = cticker.LongitudeFormatter()
         # gl.yformatter = cticker.LatitudeFormatter()

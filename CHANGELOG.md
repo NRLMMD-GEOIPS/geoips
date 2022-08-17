@@ -64,6 +64,57 @@ NRLMMD-GEOIPS/geoips#22 - Remove rclone.conf link to ~/.config/rclone
         argument rather than relying on default ~/.config/rclone/rclone.conf configuration
 
 
+## NRLMMD-GEOIPS/geoips#34 - 2022-08-12 - Add Dockerfile and Basic CI
+
+### Installation and Test
+* **.dockerignore**
+  * Add .dockerignore
+* **.github/workflows/build-and-test-in-docker.yaml**
+  * Add a basic workflow that builds a docker images and pushes it to the GitHub package registry
+* **Dockerfile**
+  * Add a dockerfile that builds an image containing a working version of GeoIPS
+* **base_install_and_test.sh**
+  * Remove conda_link step
+  * Directly source bashrc
+* **geoips/filenames/base_paths.py**
+  * Add `BASE_PATH` to `PATHS{}` and collect it using `pathjoin(dirname(__file__), '..')`
+  * Remove `PATHS['GEOIPS']`
+  * Use `BASE_PATH` to find `TC_TEMPLATE` path
+* **geoips/image_utils/maps.py**
+  * Add some debug statements
+* **geoips/interface_modules/title_formats/__init__.py**
+  * Add an __init__.py here so this can be imported correctly
+* **geoips/interface_modules/user_colormaps/tpw/tpw_cimss.py**
+  * Use `BASE_PATH` rather than `GEOIPS`
+* **geoips/interface_modules/user_colormaps/tpw/tpw_purple.py**
+  * Use `BASE_PATH` rather than `GEOIPS`
+* **geoips/interface_modules/user_colormaps/tpw/tpw_pwat.py**
+  * Use `BASE_PATH` rather than `GEOIPS`
+* **geoips/utils/__init__.py**
+  * Add an __init__.py here so this can be imported correctly
+* **setup.py**
+  * Add use of `package_data` for yaml_configs and image_utils/ascii_palettes
+  * Allow pip install of pyshp, shapely, and cartopy
+  * Move install of pyshp from `test_outputs` to main `install_requires`
+* **setup.sh**
+  * Add creation of `$GEOIPS_DEPENDENCIES_DIR/bin` at top of script
+  * Remove `conda_link` action
+  * Directly call `conda init` rather than `$BASECONDAPATH/conda init` (assumes conda is in $PATH) from sourcing either
+    ~/.bashrc or setup/config_geoips
+  * Use `GEOIPS_TESTDATA_DIR` rather than `$GEOIPS_PACKAGES_DIR/geoips/tests/data/`
+* **tests/scripts/abi.static.Infrared.imagery_annotated.sh**
+  * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
+* **tests/scripts/abi.static.Visible.imagery_annotated.sh**
+  * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
+* **tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh**
+  * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
+* **tests/scripts/documentation_imagery.sh**
+  * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
+* **tests/yaml_configs/abi_test_low_memory.yaml**
+  * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
+* **tests/yaml_configs/abi_test.yaml**
+  * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
+
 NRLMMD-GEOIPS/geoips#15 - Add low memory options for base install tests
 
 ### Test Repo Updates

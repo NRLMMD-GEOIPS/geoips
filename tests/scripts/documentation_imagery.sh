@@ -143,7 +143,7 @@ check_returns $retval $output_image
 # ABI Reader - GOES-16
 ####################################################################
 
-run_procflow $GEOIPS/tests/data/goes16_20200918_1950/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc \
+run_procflow $GEOIPS_TESTDATA_DIR/goes16_20200918_1950/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc \
              --procflow single_source \
              --reader_name abi_netcdf \
              --product_name Infrared-Gray \

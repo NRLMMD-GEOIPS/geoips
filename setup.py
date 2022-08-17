@@ -29,6 +29,9 @@ setuptools.setup(
     name='geoips',
     version=version,
     packages=setuptools.find_packages(),
+    include_package_data=True,
+    package_data={"geoips": ["yaml_configs/*", "yaml_configs/*/*", "yaml_configs/*/*/*",
+                             "image_utils/ascii_palettes/*"]},
     install_requires=['pyresample',           # Base requirement - efficiency improvements >= 1.22.3
                       'numpy',                # Base requirement
                       'xarray',               # Base requirement
@@ -36,7 +39,9 @@ setuptools.setup(
                       'scipy',                # Base requirement
                       'netcdf4',              # Base requirement
                       'pyyaml',               # Base requirement
-                      # 'cartopy==0.20.2',    # Currently must install via conda
+                      'pyshp>=2.2.0',
+                      'shapely@https://github.com/shapely/shapely/releases/download/1.8.2/Shapely-1.8.2.tar.gz',
+                      'cartopy==0.20.3',    # Currently must install via conda
                       ],
     extras_require={
                     'config_based': [
@@ -73,7 +78,6 @@ setuptools.setup(
                                               'numexpr',            # for efficiency improvements
                                               ],
                     'test_outputs': [
-                                     'pyshp>=2.2.0',       # Previously 2.1.3, 20220607 3.5.2
                                      'matplotlib>=3.5.2',  # Previously v3.3, then 3.4.3, 20220607 3.5.2
                                      ],
                     'coverage_checks': [
