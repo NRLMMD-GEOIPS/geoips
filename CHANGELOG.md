@@ -61,7 +61,11 @@
   * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
 * **tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh**
   * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
+* **tests/scripts/documentation_imagery.tc.windspeed.imagery_clean.sh**
+  * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
 * **tests/yaml_configs/abi_test_low_memory.yaml**
+  * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
+* **tests/yaml_configs/abi_test.yaml**
   * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
 
 NRLMMD-GEOIPS/geoips#15 - Add low memory options for base install tests
