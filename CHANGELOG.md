@@ -16,6 +16,17 @@
     # # # or FITNESS FOR A PARTICULAR PURPOSE.
     # # # See the included license for more details.
 
+
+NRLMMD-GEOIPS/geoips#29: 2022-08-28, Update image_utils to numpy docstrings
+
+### Documentation
+* Update image_utils directory for proper numpy style docstrings
+    * **geoips/image_utils/__init__.py**
+    * **geoips/image_utils/colormap_utils.py**
+    * **geoips/image_utils/maps.py**
+    * **geoips/image_utils/mpl_utils.py**
+* **geoips/compare_outputs.py** Update imagemagick compare metric from rmse to ae + fuzz 1%
+
 NRLMMD-GEOIPS/geoips#31 - add test datasets to .gitignore
 
 ### Improvements

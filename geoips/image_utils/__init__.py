@@ -15,3 +15,4 @@
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
+"""image_utils init file."""
