@@ -1,6 +1,6 @@
 output_config_type: single_source
 reader_name: abi_netcdf
-filenames: !ENV ${GEOIPS}/tests/data/goes16_20200918_1950/*
+filenames: !ENV ${GEOIPS_TESTDATA_DIR}/goes16_20200918_1950/*
 resampled_read: True
 
 available_sectors:

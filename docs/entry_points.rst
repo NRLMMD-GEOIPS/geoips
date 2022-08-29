@@ -51,8 +51,9 @@ In the setup call (populated via a configuration file or a setup.py
 file), entry points are defined as a dictionary where the keys are
 the namespaces, and the values are lists of strings of key/value pairs:
 
-.. code-block:: bash
-    :linenos:
+.. code:: bash
+    :number-lines:
+    
     setuptools.setup(
         <SNIP>
         entry_points = {
@@ -92,8 +93,9 @@ load() method can be called to instantiate the object.
 
 For example, to find the 'abi_netcdf' reader listed above:
 
-.. code-block:: bash
-    :linenos:
+.. code:: bash
+    :number-lines:
+    
         from importlib import metadata
         for ep in metadata.entry_points()['geoips.readers']:
             if ep.name == 'abi_netcdf':

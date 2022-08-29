@@ -163,8 +163,7 @@ def images_match(output_product, compare_product, threshold=0.0000001):
     out_diffimg = get_out_diff_fname(compare_product, output_product)
 
     call_list = ['compare', '-verbose', '-quiet',
-                 '-metric', 'rmse',
-                 '-dissimilarity-threshold', '{0:0.15f}'.format(threshold),
+                 '-metric', 'ae', '-fuzz', "1%",
                  output_product,
                  compare_product,
                  out_diffimg]
