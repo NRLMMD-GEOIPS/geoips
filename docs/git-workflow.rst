@@ -40,23 +40,30 @@ FROM WEB: Create an Issue for something that needs to be done
     * **Labels**: Add descriptive labels as appropriate
     * **Projects**: Link to "GeoIPS - All Repos and all Functionality", other Projects as appropriate
 * Click “Submit new issue”
-    * In this example, Issue geoips#8 was created
 
 
-FROM WEB: Create Branch from Existing Issue
-=============================================================
+FROM WEB: MEMBERS: Create Branch from Existing Issue
+===================================================================
+* **NOTE: Those who are NOT members of NRLMMD-GEOIPS will fork, not branch. Skip to NON MEMBERS section**
 * Navigate to Issue you would like to resolve
 * Click on Development->Create Branch
     * **Branch name**: Use auto-populated default branch name
     * **Repository Destination** -> <Select repository you would like to make changes on>
         * NOTE: you can create branches on repositories outside the repository the Issue resides in!
-        * You MUST create the branch using this method for Issues to be appropriately linked to PRs or
-            branches outside the current repository - at the current time you are not able to manually
-            link outside the originating Issue's repository within GitHub.com.
     * **Change branch source** - optional (defaults to "main")
     * Select **"Checkout locally"**
     * Click **"Create branch"**
     * Copy and paste the resulting "git fetch" and "git checkout" commands
+
+FROM WEB: NON-MEMBERS: Create fork of repo
+===================================================================
+* **NOTE: NRLMMD-GEOIPS members will branch following steps above, skip this section if you are a member**
+* Navigate to desired repository
+* Click drop down next to "Fork"
+* Click "+ Create a new fork"
+* Select appropriate owner/organization to own the fork (could be your individual github username)
+* Uncheck "copy main branch only"
+* Click "create fork"
 
 ******************************
 GeoIPS command line workflow

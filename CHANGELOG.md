@@ -17,7 +17,15 @@
     # # # See the included license for more details.
 
 
-NRLMMD-GEOIPS/geoips#29: 2022-08-28, Update image_utils to numpy docstrings
+## NRLMMD-GEOIPS/geoips#17: 2022-08-12, add non-member forking info to git-workflow
+
+### Documentation
+* **docs/git-workflow.rst**
+    * Add non-member forking process
+    * Note under branching instructions that branching only applies to members of NRLMMD-GEOIPS, non-members must follow forking instructions
+
+
+## NRLMMD-GEOIPS/geoips#29: 2022-08-28, Update image_utils to numpy docstrings
 
 ### Documentation
 * Update image_utils directory for proper numpy style docstrings
@@ -27,14 +35,15 @@ NRLMMD-GEOIPS/geoips#29: 2022-08-28, Update image_utils to numpy docstrings
     * **geoips/image_utils/mpl_utils.py**
 * **geoips/compare_outputs.py** Update imagemagick compare metric from rmse to ae + fuzz 1%
 
-NRLMMD-GEOIPS/geoips#31 - add test datasets to .gitignore
+
+## NRLMMD-GEOIPS/geoips#31: 2022-08-05, add test datasets to .gitignore
 
 ### Improvements
 * **geoips/.gitignore**
     * Add tests/data/** to .gitignore so they no longer appear in git status
 
 
-NRLMMD-GEOIPS/geoips#25 - add low_bandwidth option
+## NRLMMD-GEOIPS/geoips#25: 2022-08-03, add low_bandwidth option
 
 ### Installation and Test
 * **README.md** - Pass low_memory and low_bandwidth options to base_install_and_test.sh
@@ -42,7 +51,7 @@ NRLMMD-GEOIPS/geoips#25 - add low_bandwidth option
 * **base_install_and_test.sh** - Pass "low_bandwidth" option through to setup.sh
 
 
-NRLMMD-GEOIPS/geoips#27
+## NRLMMD-GEOIPS/geoips#27: 2022-08-03, check system requirements during install
 
 ### Installation and Test
 * Add "check_system_requirements.sh" script to ensure system requirements are installed
@@ -51,8 +60,7 @@ NRLMMD-GEOIPS/geoips#27
     * wget
     * recent git version
 
-
-NRLMMD-GEOIPS/geoips#17 - Update Git Workflow
+## NRLMMD-GEOIPS/geoips#17: 2022-08-01, Update Git Workflow
 
 ### Documentation Updates
 
@@ -64,7 +72,7 @@ NRLMMD-GEOIPS/geoips#17 - Update Git Workflow
     * Remove manual status updates on Project (should be automated via PRs linked to Issue)
 
 
-NRLMMD-GEOIPS/geoips#22 - Remove rclone.conf link to ~/.config/rclone
+## NRLMMD-GEOIPS/geoips#22: 2022-08-01, Remove rclone.conf link to ~/.config/rclone
 
 ### Installation and Test
 * **setup.sh**
@@ -126,7 +134,7 @@ NRLMMD-GEOIPS/geoips#22 - Remove rclone.conf link to ~/.config/rclone
 * **tests/yaml_configs/abi_test.yaml**
   * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
 
-NRLMMD-GEOIPS/geoips#15 - Add low memory options for base install tests
+## NRLMMD-GEOIPS/geoips#15: 2022-07-29, Add low memory options for base install tests
 
 ### Test Repo Updates
 * abi.config_based_output_low_memory.sh
@@ -157,7 +165,7 @@ NRLMMD-GEOIPS/geoips#15 - Add low memory options for base install tests
     * Add outputs to comparison directories
 
 
-NRLMMD-GEOIPS/geoips_tutorial#3 - Add AMSR2 test data and test scripts to base install and test
+## NRLMMD-GEOIPS/geoips_tutorial#3: 2022-07-28, Add AMSR2 test data and test scripts to base install and test
 
 ### Installation and Test
 * **README.md**
@@ -178,7 +186,7 @@ NRLMMD-GEOIPS/geoips_tutorial#3 - Add AMSR2 test data and test scripts to base i
         * Global sector
         * Visible AHI background imagery
 
-NRLMMD-GEOIPS/geoips#6,8,9,11 - Streamline installation process, support Mac installation
+## NRLMMD-GEOIPS/geoips#6,8,9,11: 2022-07-28, Streamline installation process, support Mac installation
 
 ### Installation and Test
 * **base_install_and_test.sh**
