@@ -1,22 +1,22 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
 
-''' Module for generating specific colormaps on the fly '''
+"""Module for generating specific colormaps on the fly."""
 # Installed Libraries
 import logging
 
@@ -24,15 +24,18 @@ LOG = logging.getLogger(__name__)
 
 
 def set_matplotlib_colors_rgb():
-    ''' For rgb imagery, we require no color information (it is entirely specified by the RGB(A) arrays)
-    
-    Args:
-        No arguments
+    """
+    Create matplotlib Colors parameters dictionary.
 
-    Returns:
-        mpl_colors_info (dict) Specifies matplotlib Colors parameters for use in both plotting and colorbar generation
-                               For RGBA arrays, all fields are "None"
-    '''
+    For rgb imagery, we require no color information (it is entirely
+    specified by the RGB(A) arrays).
+
+    Returns
+    -------
+    mpl_colors_info : dict
+        Specifies matplotlib Colors parameters for use in both plotting
+        and colorbar generation. For RGBA arrays, all fields are "None".
+    """
     mpl_colors_info = {'cmap': None,
                        'norm': None,
                        'cbar_ticks': None,
@@ -45,19 +48,31 @@ def set_matplotlib_colors_rgb():
 
 
 def set_matplotlib_colors_standard(data_range, cmap_name='Greys', cbar_label=None, create_colorbar=True):
-    ''' Set the matplotlib colors information appropriately, for use in colorbar and image production.
+    """
+    Set the matplotlib colors information.
 
-    Args:
-        data_range (list) : [min_val, max_val]
-        cmap_name (str) : Default 'Greys' - specify the standard matplotlib colormap.
-        cbar_label (str) : Default None - If specified, use cbar_label string as colorbar label.
-        create_colorbar (bool) : Default True - Specify whether the image should contain a colorbar or not.
+    For use in colorbar and image production.
 
-    Returns:
-        mpl_colors_info (dict) Specifies matplotlib Colors parameters for use in both plotting and colorbar generation
-                                See geoips.image_utils.mpl_utils.create_colorbar for field descriptions.
-    '''
+    Parameters
+    ----------
+    data_range : list
+        the minimum and maximum value for the data range
+        [min_val, max_val]
+    cmap_name : str, default='Greys'
+        Specify the standard matplotlib colormap
+    cbar_label : str, optional
+        If specified, use cbar_label string as colorbar label
+    create_colorbar : bool, default=True
+        Specify whether the image should contain a colorbar or not
 
+    Returns
+    -------
+    mpl_colors_info : dict
+        Specifies matplotlib Colors parameters for use in both plotting
+        and colorbar generation.
+        See geoips.image_utils.mpl_utils.create_colorbar for field
+        descriptions.
+    """
     min_val = data_range[0]
     max_val = data_range[1]
     from matplotlib import cm
@@ -89,23 +104,39 @@ def set_matplotlib_colors_standard(data_range, cmap_name='Greys', cbar_label=Non
 def set_mpl_colors_info_dict(cmap, norm, cbar_ticks, cbar_tick_labels=None, boundaries=None,
                              cbar_label=None, cbar_spacing='proportional', create_colorbar=True,
                              cbar_full_width=False):
-    ''' Create the mpl_colors_info dictionary directly from passed arguments
+    """
+    Create the mpl_colors_info dictionary directly from passed arguments.
 
-    Args:
-        cmap (Colormap) : This is a valid matplotlib cm Colormap object that can be used for both plotting and colorbar
-                            creation
-        norm (Normalize) : This is a valid matplotlib Normalize object that can be used for both plotting and colorbar
-                            creation.
-        cbar_ticks (list) : List of values where tick marks should be placed on colorbar
-        boundaries (list) :  List of boundaries to use in matplotlib plotting and oclorbar creation
-        cbar_spacing (string) : Default 'proportional': One of 'proportional' or 'uniform'
-        colorbar (bool) : True if colorbar should be created with the set of color info, False otherwise
-        cbar_full_width (bool) : default False, True if colorbar should be full width of figure, center 50% if False
+    Parameters
+    ----------
+    cmap : Colormap
+        This is a valid matplotlib cm Colormap object that can be used for
+        both plotting and colorbar creation.
+    norm : Normalize
+        This is a valid matplotlib Normalize object that can be used for
+        both plotting and colorbar creation.
+    cbar_ticks : list
+        List of values where tick marks should be placed on colorbar
+    cbar_tick_labels : list, optional
+        List of tick label values
+    boundaries : list, optional
+        List of boundaries to use in matplotlib plotting and colorbar
+        creation
+    cbar_label, optional
+        The label for the colorbar
+    cbar_spacing : str, default='proportional'
+        One of 'proportional' or 'uniform'
+    create_colorbar : bool, default=True
+        True if colorbar should be created with the set of color info, False otherwise
+    cbar_full_width : bool, default=False
+        True if colorbar should be full width of figure, center 50% if False
 
-    Returns:
-        (dict) : Dictionary of mpl_colors_info for use in plotting and colorbar creation.
-    '''
-
+    Returns
+    -------
+    mpl_colors_info : dict
+        Dictionary of mpl_colors_info for use in plotting and colorbar
+        creation.
+    """
     mpl_colors_info = {}
     mpl_colors_info['cmap'] = cmap
     mpl_colors_info['norm'] = norm
@@ -120,23 +151,27 @@ def set_mpl_colors_info_dict(cmap, norm, cbar_ticks, cbar_tick_labels=None, boun
 
 
 def from_ascii(fname, reverse=False):
-    ''' Create a ListedColormap instance from an ascii text file of RGB values
-    
+    """
+    Create a ListedColormap instance from an ASCII file of RGB values.
+
+    Parameters
+    ----------
+    fname : str
+        Full path to ascii RGB colortable file
+    reverse : bool, default=False
+        If True, reverse the colormap
+
+    Returns
+    -------
+    cmap : ListedColormap object
+        The colormap name will be the os.path.basename of the file.
+
+    Notes
+    -----
      * Lines preceded by '#' are ignored.
      * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0 for matplotlib usage)
      * One white space delimited RGB value per line
-
-    Args:
-        fname (str): Full path to ascii RGB colortable file
-        reverse (Optional[bool]):
-            * DEFAULT False
-            * If True, reverse the colormap
-
-    Returns:
-        ListedColormap object: The colormap name will be the os.path.basename of the file.
-
-    '''
-
+    """
     #Read data from ascii file into an NLines by 3 float array, skipping lines preceded by "#"
     lines = []
     with open(fname) as palette:
@@ -167,31 +202,29 @@ def from_ascii(fname, reverse=False):
 
 
 def create_linear_segmented_colormap(cmapname, min_val, max_val, transition_vals, transition_colors):
-    ''' Use argument values to fill in the dict used in LinearSegmentedColormap
-        +------------------+-----------+-------------------------------------------------------+
-        | Parameters:      | Type:     | Description:                                          |
-        +==================+===========+=======================================================+
-        | cmapname:        | *str*     | Name to attach to the matplotlib.color ColorMap object|
-        +------------------+-----------+-------------------------------------------------------+
-        | min_val:         | *float*   | Overall minimum value for the colormap                |
-        |                  |           |     Range must be normalized between 0 and 1          |
-        +------------------+-----------+-------------------------------------------------------+
-        | max_val:         | *float*   | Overall maximum value for the colormap                |
-        |                  |           |     Range must be normalized between 0 and 1          |
-        |                  |           |                                                       |
-        +------------------+-----------+-------------------------------------------------------+
-        | transition_vals: | *list*    | A list of value ranges specified as tuples for        |
-        |                  |   of      |     generating a specific range of colors             |
-        |                  |*tuples*   |     ie [(0, 10), (10, 30), (30, 60)]                  |
-        +------------------+-----------+-------------------------------------------------------+
-        |transition_colors:| *list*    | A list of color ranges specified as tuples for        |
-        |                  |   of      |     generating a specific range of colors             |
-        |                  |*tuples*   |     corresponding to the transition_vals specified    |
-        |                  |   of      |     above                                             |
-        |                  |*colors*   |     ie [('yellow', 'orange'),                         |
-        |                  |           |         ('pink', 'red'),                              |
-        |                  |           |         ('violet', 'purple')]                         |
-        +------------------+-----------+-------------------------------------------------------+
+    """
+    Create a LinearSegmentedColormap instance.
+
+    Parameters
+    ----------
+    cmapname : str
+        Name to attach to the matplotlib.color ColorMap object
+    min_val : float
+        Overall minimum value for the colormap
+        Range must be normalized between 0 and 1
+    max_val : float
+        Overall maximum value for the colormap
+        Range must be normalized between 0 and 1
+    transition_vals : array-like
+        A list of value ranges specified as tuples for generating a
+        specific range of colors ie [(0, 10), (10, 30), (30, 60)]
+    transition_colors : array-like
+        A list of color ranges specified as tuples for generating a
+        specific range of colors corresponding to the transition_vals
+        specified ie
+            [('yellow', 'orange'),
+             ('pink', 'red'),
+             ('violet', 'purple')]
 
         TRANSITIONPOINT1 = 0.0
         TRANSITIONPOINT4 = 1.0
@@ -209,7 +242,12 @@ def create_linear_segmented_colormap(cmapname, min_val, max_val, transition_vals
                          (TRANSITIONPOINT3, 2to3ENDCOLOR, 3to4STARTCOLOR),
                          (TRANSITIONPOINT4, 3to4ENDCOLOR, IGNORED)),
             }
-    '''
+
+    Returns
+    -------
+    cm : LinearSegmentedColormap
+        matplotlib colormap object
+    """
     from matplotlib.colors import ColorConverter, LinearSegmentedColormap
     # Sort transitions on start_val
     bluetuple = ()
