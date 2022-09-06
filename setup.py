@@ -90,6 +90,7 @@ setuptools.setup(
                     },
     entry_points={
         'console_scripts': [
+            'geoips=geoips.cli:main',
             'run_procflow=geoips.commandline.run_procflow:main',
             'convert_trackfile_to_yaml=geoips.commandline.convert_trackfile_to_yaml:main',
             'update_tc_tracks_database=geoips.commandline.update_tc_tracks_database:main',
