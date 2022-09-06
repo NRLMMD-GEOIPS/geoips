@@ -26,42 +26,45 @@
 
 import logging
 import collections
+from warnings import warn
 from importlib import import_module
 LOG = logging.getLogger(__name__)
 
+from geoips.utils.decorators import deprecated, developmental
 from geoips.geoips_utils import find_entry_point, list_entry_points
 
 
 ### Algorithm functions ###
-def is_valid_alg(alg_func_name):
+@developmental
+def is_valid(func_name):
     ''' Interface Under Development, please provide feedback to geoips@nrlmry.navy.mil
 
     Check that the requested algorithm function has the correct call signature.
         Return values should be as specified below, but are not programmatically verified.
 
     Args:
-        alg_func_name (str) : Desired algorithm function (ie, 'visir.IR_BD', 'pmw_tb.pmw_89pct', 'pmw_tb.color89', etc)
+        func_name (str) : Desired algorithm function (ie, 'visir.IR_BD', 'pmw_tb.pmw_89pct', 'pmw_tb.color89', etc)
 
     Returns:
-        (bool) : True if 'alg_func_name' has the appropriate call signature
+        (bool) : True if 'func_name' has the appropriate call signature
                  False if algorithm function:
                         does not contain all required arguments 
                         does not contain all required keyword arguments 
 
     Algorithm func type currently found in
-        <geoips_package>.algorithms.*.<alg_func_name>.alg_params['alg_type']
+        <geoips_package>.algorithms.*.<func_name>.alg_params['alg_type']
 
     Algorithm functions currently defined in
-        <geoips_package>.algorithms.*.<alg_func_name>.<alg_func_name>
+        <geoips_package>.algorithms.*.<func_name>.<func_name>
     and requested within the product parameters dictionary
         See geoips.dev.product.check_product_params_dict
 
-    alg_func types currently one of:
+    func types currently one of:
 
-           'list_numpy_to_numpy' : call signature <alg_func_name>(arrays)
+           'list_numpy_to_numpy' : call signature <func_name>(arrays)
                                    return value: dstacked_array
            The following are subsets of the "list_numpy_to_numpy" type:
-               'single_channel' : call signature <alg_func_name>(arrays)
+               'single_channel' : call signature <func_name>(arrays)
                                   return value: array_2d
                'channel_combination' : call signature <cmap_func_name>(arrays)
                                        return value: array_2d
@@ -77,18 +80,18 @@ def is_valid_alg(alg_func_name):
         dstacked_array contains arbitrary output arrays dstacked into a single numpy array
 
     For package based algorithm functions:
-        See geoips.dev.alg.get_alg
-        See geoips.dev.alg.get_alg_type
+        See geoips.dev.alg.get_func
+        See geoips.dev.alg.get_func_type
         See geoips.dev.alg.list_algs_by_type
     
     For product based algorithm functions:
-        See geoips.dev.alg.get_alg
+        See geoips.dev.alg.get_func
         See geoips.dev.alg.get_alg_name
         See geoips.dev.alg.get_alg_args
     '''
-    alg_func = get_alg(alg_func_name)
+    func = get_func(func_name)
     # If this is __init__ (no __code__ attr), skip it
-    if not hasattr(alg_func, '__code__'):
+    if not hasattr(func, '__code__'):
         return False
     required_args = {'single_channel': ['arrays'],
                      'channel_combination': ['arrays'],
@@ -111,112 +114,165 @@ def is_valid_alg(alg_func_name):
                        'xarray_dict_area_def_to_numpy': [],
                        }
 
-    alg_func_type = get_alg_type(alg_func_name)
+    func_type = get_func_type(func_name)
 
-    if alg_func_type not in required_args:
-        raise ValueError(f'\nalg_func "{alg_func_name}" of unsupported type "{alg_func_type}"\n'
-                         f'alg_func_type must be one of: {required_kwargs.keys()}\n'
-                         f'Either add "{alg_func_type}" to list of supported types in\n'
-                         f'alg.is_valid_alg.required_args\n'
-                         f'or update "{alg_func.__module__}" to a supported type')
+    if func_type not in required_args:
+        raise ValueError(f'\nfunc "{func_name}" of unsupported type "{func_type}"\n'
+                         f'func_type must be one of: {required_kwargs.keys()}\n'
+                         f'Either add "{func_type}" to list of supported types in\n'
+                         f'alg.is_valid.required_args\n'
+                         f'or update "{func.__module__}" to a supported type')
 
-    if alg_func_type not in required_kwargs:
-        raise ValueError(f'\nalg_func "{alg_func_name}" of unsupported type "{alg_func_type}"\n'
-                         f'alg_func_type must be one of: {required_kwargs.keys()}\n'
-                         f'Either add "{alg_func_type}" to list of supported types in\n'
-                         f'geoips.dev.alg.is_valid_alg.required_kwargs\n'
-                         f'or update "{alg_func.__module__}" to a supported type')
+    if func_type not in required_kwargs:
+        raise ValueError(f'\nfunc "{func_name}" of unsupported type "{func_type}"\n'
+                         f'func_type must be one of: {required_kwargs.keys()}\n'
+                         f'Either add "{func_type}" to list of supported types in\n'
+                         f'geoips.dev.alg.is_valid.required_kwargs\n'
+                         f'or update "{func.__module__}" to a supported type')
 
-    num_args = len(required_args[alg_func_type])
-    num_kwargs = len(required_kwargs[alg_func_type])
+    num_args = len(required_args[func_type])
+    num_kwargs = len(required_kwargs[func_type])
 
-    alg_func_vars = alg_func.__code__.co_varnames
-    alg_func_args = alg_func_vars[0:num_args]
-    alg_func_kwargs = alg_func_vars[num_args:num_args+num_kwargs]
+    func_vars = func.__code__.co_varnames
+    func_args = func_vars[0:num_args]
+    func_kwargs = func_vars[num_args:num_args+num_kwargs]
 
     # Check for required call signature arguments
-    if not set(required_args[alg_func_type]).issubset(set(alg_func_args)):
+    if not set(required_args[func_type]).issubset(set(func_args)):
         LOG.error("INVALID ALG FUNC '%s': '%s' alg func type must have required arguments: '%s'",
-                  alg_func_name, alg_func_type, alg_func_args[alg_func_type])
+                  func_name, func_type, func_args[func_type])
         return False
 
     # Check for optional call signature keyword arguments
-    if not set(required_kwargs[alg_func_type]).issubset(set(alg_func_kwargs)):
-        LOG.error("INVALID ALG FUNC '%s': '%s' alg_func type must have kwargs: '%s'",
-                  alg_func_name, alg_func_type, required_kwargs[alg_func_type])
+    if not set(required_kwargs[func_type]).issubset(set(func_kwargs)):
+        LOG.error("INVALID ALG FUNC '%s': '%s' func type must have kwargs: '%s'",
+                  func_name, func_type, required_kwargs[func_type])
         return False
 
     return True
 
 
-def get_alg(alg_func_name):
+@deprecated(is_valid)
+def is_valid_alg(alg_func_name):
+    return is_valid(alg_func_name)
+
+
+@developmental
+def get_func(func_name):
     ''' Interface Under Development, please provide feedback to geoips@nrlmry.navy.mil
 
     Retrieve the requested algorithm function
 
-    See: geoips.dev.alg.is_valid_alg for full list of supported algorithm function call signatures and return values
+    See: geoips.dev.alg.is_valid for full list of supported algorithm function call signatures and return values
 
     Args:
-        alg_func_name (str) : Desired algorithm function (ie, 'visir.IR_BD', 'pmw_tb.pmw_89pct', 'pmw_tb.color89', etc)
+        func_name (str) : Desired algorithm function (ie, 'visir.IR_BD', 'pmw_tb.pmw_89pct', 'pmw_tb.color89', etc)
 
     Returns:
         (<alg function>) : Algorithm function
     '''
-    return find_entry_point('algorithms', alg_func_name)
+    return find_entry_point('algorithms', func_name)
 
 
-def get_alg_type(alg_func_name):
+@deprecated(get_func)
+def get_alg(alg_func_name):
+    return get_func(alg_func_name)
+
+
+@developmental
+def get_func_type(func_name):
     ''' Interface Under Development, please provide feedback to geoips@nrlmry.navy.mil
 
     Retrieve type of the requested algorithm function.
     Type specifies the required call signature and return values
 
     Args:
-        alg_func_name (str) : Desired algorithm function (ie, 'visir.IR_BD', 'pmw_tb.pmw_89pct', 'pmw_tb.color89', etc)
+        func_name (str) : Desired algorithm function (ie, 'visir.IR_BD', 'pmw_tb.pmw_89pct', 'pmw_tb.color89', etc)
 
     Returns:
         (str) : Algorithm function type
     '''
-    func = find_entry_point('algorithms', alg_func_name)
-    return getattr(import_module(func.__module__), 'alg_func_type')
+    func = find_entry_point('algorithms', func_name)
+    try:
+        return getattr(import_module(func.__module__), 'func_type')
+    except AttributeError:
+        msg = f'Algorithm attribute "alg_func_type", used in {func_name}, is deprecated and will be'
+        msg += ' removed in a future release. Please replace all occurrences with "func_type".'
+
+        warn(msg, DeprecationWarning, stacklevel=1)
+        return getattr(import_module(func.__module__), 'alg_func_type')
 
 
-def list_algs_by_type():
+@deprecated(get_func_type)
+def get_alg_type(alg_func_name):
+    return get_func_type(alg_func_name)
+
+
+def get_list(by_type=True):
     ''' Interface Under Development, please provide feedback to geoips@nrlmry.navy.mil
 
     List all available algorithm functions within the current GeoIPS instantiation, sorted by alg_type
 
     Algorithm function "type" determines exact required call signatures and return values
 
-    See geoips.dev.alg.is_valid_alg? for a list of available algorithm function types and associated call signatures / return values.
-    See geoips.dev.alg.get_alg(alg_func_name) to retrieve the requested algorithm function
-    See geoips.dev.alg.get_alg_type(alg_func_name) to retrieve the requested algorithm function type
+    See geoips.dev.alg.is_valid? for a list of available algorithm function types and associated call signatures / return values.
+    See geoips.dev.alg.get_func(func_name) to retrieve the requested algorithm function
+    See geoips.dev.alg.get_func_type(func_name) to retrieve the requested algorithm function type
 
     Returns:
         (dict) : Dictionary with all algorithm function types as keys, and associated algorithm function names (str) as values.
     '''
-    all_funcs = collections.defaultdict(list)
-    for currfunc in list_entry_points('algorithms'):
-        func_type = get_alg_type(currfunc)
-        if currfunc not in all_funcs[func_type]:
-            all_funcs[func_type].append(currfunc)
-    return all_funcs
+    if by_type:
+        all_funcs = collections.defaultdict(list)
+        for currfunc in list_entry_points('algorithms'):
+            func_type = get_func_type(currfunc)
+            if currfunc not in all_funcs[func_type]:
+                all_funcs[func_type].append(currfunc)
+        return all_funcs
+    else:
+        return [(func, get_func_type(func), get_description(func)) for func in sorted(list_entry_points('algorithms'))]
 
 
-def test_alg_interface():
+@deprecated(get_list)
+def list_algs_by_type():
+    return get_list(by_type=True)
+
+
+def get_description(func_name):
+    ''' Interface Under Development, please provide feedback to geoips@nrlmry.navy.mil
+        
+    Retrieve description of the requested algorithm function.
+    Type specifies the required call signature and return values
+                                                                                                                                                                                                             
+    Args:
+        func_name (str) : Desired algorithm function (ie, 'visir.IR_BD', 'pmw_tb.pmw_89pct', 'pmw_tb.color89', etc)
+        
+    Returns:
+        (str) : Algorithm description
+    ''' 
+    func = find_entry_point('algorithms', func_name)
+    return getattr(import_module(func.__module__), 'description', '')
+
+
+def test_interface():
     ''' Finds and opens every alg func available within the current geoips instantiation
 
-    See geoips.dev.alg.is_valid_alg? for a list of available alg func types and associated call signatures / return values.
-    See geoips.dev.alg.get_alg(alg_func_name) to retrieve the requested alg func
+    See geoips.dev.alg.is_valid? for a list of available alg func types and associated call signatures / return values.
+    See geoips.dev.alg.get_func(func_name) to retrieve the requested alg func
 
     Returns:
         (list) : List of all successfully opened geoips alg funcs
     '''
-    curr_names = list_algs_by_type()
+    curr_names = get_list(by_type=True)
     out_dict = {'by_type': curr_names, 'validity_check': {}, 'func_type': {}, 'func': {}}
     for curr_type in curr_names:
         for curr_name in curr_names[curr_type]:
-            out_dict['validity_check'][curr_name] = is_valid_alg(curr_name)
-            out_dict['func'][curr_name] = get_alg(curr_name)
-            out_dict['func_type'][curr_name] = get_alg_type(curr_name)
+            out_dict['validity_check'][curr_name] = is_valid(curr_name)
+            out_dict['func'][curr_name] = get_func(curr_name)
+            out_dict['func_type'][curr_name] = get_func_type(curr_name)
     return out_dict 
+
+
+@deprecated(test_interface)
+def test_alg_interface():
+    return test_interface()

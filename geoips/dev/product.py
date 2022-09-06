@@ -631,8 +631,8 @@ def get_data_range(product_name, source_name, output_dict=None):
     alg_args = get_alg_args(product_name, source_name)
     if 'output_data_range' not in alg_args:
         alg_func_name = get_alg_name(product_name, source_name)
-        from geoips.dev.alg import get_alg_type
-        alg_type = get_alg_type(alg_func_name)
+        from geoips.dev import alg
+        alg_type = alg.get_func_type(alg_func_name)
         raise TypeError(f'Can not call get_data_range on "{alg_type}" algs, '
                         f'"output_data_range" not defined (alg "{alg_func_name}" / prod "{product_name}"')
     return alg_args['output_data_range']

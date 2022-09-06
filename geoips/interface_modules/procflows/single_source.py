@@ -43,7 +43,7 @@ from geoips.xarray_utils.data import sector_xarrays
 from geoips.dev.interp import get_interp
 from geoips.dev.product import get_interp_name, get_interp_args
 from geoips.dev.product import get_alg_name, get_alg_args
-from geoips.dev.alg import get_alg, get_alg_type
+from geoips.dev import alg
 from geoips.filenames.base_paths import PATHS as gpaths
 
 PMW_NUM_PIXELS_X = 1400
@@ -492,8 +492,8 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
 
     # Only attempt to set algorithm function if algorithm requested in product type
     if product_type in ['alg', 'alg_cmap', 'interp_alg', 'interp_alg_cmap', 'alg_interp_cmap']:
-        alg_func = get_alg(get_alg_name(product_name, sect_xarrays['METADATA'].source_name))
-        alg_func_type = get_alg_type(get_alg_name(product_name, sect_xarrays['METADATA'].source_name))
+        alg_func = alg.get_func(get_alg_name(product_name, sect_xarrays['METADATA'].source_name))
+        alg_func_type = alg.get_func_type(get_alg_name(product_name, sect_xarrays['METADATA'].source_name))
         alg_args = get_alg_args(product_name, sect_xarrays['METADATA'].source_name)
 
     interp_func_name = get_interp_name(product_name, sect_xarrays['METADATA'].source_name)
