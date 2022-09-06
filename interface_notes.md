@@ -1,7 +1,58 @@
+# What I'm doing
+As part of developing a CLI, I'm trying to standardize the interfaces, both dev and stable, to use standard function names. As an example, look at
+what I've done for the `dev.alg` interface below.
+
+# What I've completed
+I've essentially standardized the `dev.alg` function while retaining the old functionality. The old functions all have a
+`deprecated` decorator applied. The new functions all have a `developmental` decorator applied. When I run `geoips list
+algorithms` I get output that looks like this:
+
+```python
+/Users/jsolbrig/NRL/geoips_packages/geoips/geoips/dev/alg.py:202: DeprecationWarning: Algorithm attribute "alg_func_type", used in pmw_tb.pmw_89pct, is deprecated and will be removed in a future release. Please replace all occurrences with "func_type".
+  warn(msg, DeprecationWarning, stacklevel=1)
+/Users/jsolbrig/NRL/geoips_packages/geoips/geoips/dev/alg.py:202: DeprecationWarning: Algorithm attribute "alg_func_type", used in pmw_tb.pmw_color37, is deprecated and will be removed in a future release. Please replace all occurrences with "func_type".
+  warn(msg, DeprecationWarning, stacklevel=1)
+/Users/jsolbrig/NRL/geoips_packages/geoips/geoips/dev/alg.py:202: DeprecationWarning: Algorithm attribute "alg_func_type", used in pmw_tb.pmw_color89, is deprecated and will be removed in a future release. Please replace all occurrences with "func_type".
+  warn(msg, DeprecationWarning, stacklevel=1)
+/Users/jsolbrig/NRL/geoips_packages/geoips/geoips/dev/alg.py:202: DeprecationWarning: Algorithm attribute "alg_func_type", used in sfc_winds.windbarbs, is deprecated and will be removed in a future release. Please replace all occurrences with "func_type".
+  warn(msg, DeprecationWarning, stacklevel=1)
+/Users/jsolbrig/NRL/geoips_packages/geoips/geoips/dev/alg.py:202: DeprecationWarning: Algorithm attribute "alg_func_type", used in single_channel, is deprecated and will be removed in a future release. Please replace all occurrences with "func_type".
+  warn(msg, DeprecationWarning, stacklevel=1)
+/Users/jsolbrig/NRL/geoips_packages/geoips/geoips/dev/alg.py:202: DeprecationWarning: Algorithm attribute "alg_func_type", used in visir.Night_Vis, is deprecated and will be removed in a future release. Please replace all occurrences with "func_type".
+  warn(msg, DeprecationWarning, stacklevel=1)
+/Users/jsolbrig/NRL/geoips_packages/geoips/geoips/dev/alg.py:202: DeprecationWarning: Algorithm attribute "alg_func_type", used in visir.Night_Vis_GeoIPS1, is deprecated and will be removed in a future release. Please replace all occurrences with "func_type".
+  warn(msg, DeprecationWarning, stacklevel=1)
+/Users/jsolbrig/NRL/geoips_packages/geoips/geoips/dev/alg.py:202: DeprecationWarning: Algorithm attribute "alg_func_type", used in visir.Night_Vis_IR, is deprecated and will be removed in a future release. Please replace all occurrences with "func_type".
+  warn(msg, DeprecationWarning, stacklevel=1)
+/Users/jsolbrig/NRL/geoips_packages/geoips/geoips/dev/alg.py:202: DeprecationWarning: Algorithm attribute "alg_func_type", used in visir.Night_Vis_IR_GeoIPS1, is deprecated and will be removed in a future release. Please replace all occurrences with "func_type".
+  warn(msg, DeprecationWarning, stacklevel=1)
+[26, 19, 59]
+name                       | type                | description                                                
+--------------------------------------------------------------------------------------------------------------
+pmw_tb.pmw_37pct           | list_numpy_to_numpy | Passive Microwave 37 MHz Polarization Corrected Temperature
+pmw_tb.pmw_89pct           | list_numpy_to_numpy |                                                            
+pmw_tb.pmw_color37         | list_numpy_to_numpy |                                                            
+pmw_tb.pmw_color89         | list_numpy_to_numpy |                                                            
+sfc_winds.windbarbs        | list_numpy_to_numpy |                                                            
+single_channel             | list_numpy_to_numpy |                                                            
+visir.Night_Vis            | list_numpy_to_numpy |                                                            
+visir.Night_Vis_GeoIPS1    | list_numpy_to_numpy |                                                            
+visir.Night_Vis_IR         | list_numpy_to_numpy |                                                            
+visir.Night_Vis_IR_GeoIPS1 | list_numpy_to_numpy |                                                            
+```
+
 # Important to do for review
-- Ensure that the output of alg.get_list(by_type=True) fits what it was before. Something doesn't look right.
+- ~~Ensure that the output of alg.get_list(by_type=True) fits what it was before. Something doesn't look right.~~
+  - I think I have this fixed. Still worth checking, but it doesn't look like this interface was working correctly anyway!
 
 # Questions
+- It would be nice to standardize whether these interfaces should be plural or singular. I lean towards singular because
+  these are "the algorithm interface", "the boundary interface", etc. But singular makes some interface names cumbersome. Thoughts:
+  - Singular: algorithm, boundary, colormap, filename_formatter, grid, interpolator, output_config (what's this
+    anyway?), output, procflow, product, title_formatter
+  - Plural: algorithms, boundaries, colormaps, filename_formatters, grids, interpolators, output_configs, outputs,
+    procflows, title_formatters
+  - Note that `stable.reader` is already singular.
 - What is the difference between `geoips/dev/utils.py` and `geoips/geoips_utils.py`? It seems like a lot of what is in
   dev should just be moved to the top-level module?
 - Are the `test_<interface>_interface()` functions used? If so, where?
