@@ -21,6 +21,11 @@
 import pprint
 from importlib import import_module
 import traceback
+import warnings
+
+# Always actually raise DeprecationWarnings
+# Note this SO answer https://stackoverflow.com/a/20960427
+warnings.simplefilter('always', DeprecationWarning)
 
 
 def main():
@@ -50,7 +55,7 @@ def main():
         print(f'Available {curr_interface} modules:')
 
         ppprinter = pprint.PrettyPrinter(indent=2)
-        ppprinter.pprint(out_dict)
+        ppprinter.pprint(dict(out_dict))
 
 
 if __name__ == '__main__':
