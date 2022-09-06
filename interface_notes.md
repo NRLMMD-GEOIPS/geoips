@@ -19,21 +19,21 @@
 
 # Interfaces
 - algs
-  - is_valid_alg(alg_func_name)
+  - is_valid_alg(alg_func_name) -> is_vaild(func_name)
     - ~~Only here in test interface~~
-  - get_alg(alg_func_name)
+  - get_alg(alg_func_name) -> get_func(func_name)
     - ~~geoips/interface_modules/single_source.py~~
-  - get_alg_type(alg_func_name)
+  - get_alg_type(alg_func_name) -> get_func_type(func_name)
     - ~~geoips/dev/product.py~~
       - I think this could be dropped. It is part of an error-handling if statement that I don't think really requires
         the algorithm type. It should be enough to say that the algorithm being run does not have `output_data_range`.
     - ~~geoips/interface_modules/single_source.py~~
       - I think we're stuck with this, but maybe worth examining
-  - list_algs_by_type
+  - list_algs_by_type -> get_list
     - ~~geoips/commandline/list_available_modules.py~~
       - Needed for backwards compatability but should be deprecated
       - Also requires by_type=True for now...
-  - test_alg_interface
+  - test_alg_interface -> test_interface
     - Only here
     - ***Needs testing to ensure that get_list(by_type=True) works the same as before. Something looks funny!***
   - ~~Add get_description~~
