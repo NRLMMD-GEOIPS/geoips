@@ -7,7 +7,11 @@ from argparse import ArgumentParser, \
                      ArgumentDefaultsHelpFormatter, \
                      RawDescriptionHelpFormatter
 from geoips import dev, stable
+import warnings
 
+# Always actually raise DeprecationWarnings
+# Note this SO answer https://stackoverflow.com/a/20960427
+warnings.simplefilter('always', DeprecationWarning)
 
 __doc__ = '''
 GeoIPS
@@ -70,7 +74,7 @@ def print_interfaces(dev=False):
 
     
 def print_interface_list(inter):
-    mod_list = inter.get_list()
+    mod_list = inter.get_list(by_type=False)
 
     # Determine column widths for output
     ncol = len(mod_list[0])
