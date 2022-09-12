@@ -27,6 +27,7 @@ LOG = logging.getLogger(__name__)
 
 family = 'list_numpy_to_numpy'
 alg_func_type = 'list_numpy_to_numpy'
+description = 'Passive Microwave 37 MHz Colorized Brightness Temperature'
 
 
 def pmw_color37(arrays):

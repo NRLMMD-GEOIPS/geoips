@@ -27,6 +27,7 @@ LOG = logging.getLogger(__name__)
 
 family = 'list_numpy_to_numpy'
 alg_func_type = 'list_numpy_to_numpy'
+description = 'Passive Microwave 89 MHz Polarization Corrected Temperature'
 
 
 def pmw_89pct(arrays, output_data_range, min_outbounds='crop', max_outbounds='mask', norm=False, inverse=False):
