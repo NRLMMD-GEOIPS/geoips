@@ -25,7 +25,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-func_type = 'list_numpy_to_numpy'
+family = 'list_numpy_to_numpy'
 alg_func_type = 'list_numpy_to_numpy'
 description = 'Passive Microwave 37 MHz Polarization Corrected Temperature'
 

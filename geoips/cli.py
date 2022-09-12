@@ -74,7 +74,7 @@ def print_interfaces(dev=False):
 
     
 def print_interface_list(inter):
-    mod_list = inter.get_list(by_type=False)
+    mod_list = inter.get_list(by_family=False)
 
     # Determine column widths for output
     ncol = len(mod_list[0])

@@ -25,6 +25,7 @@ import logging
 from geoips.data_manipulations.corrections import mask_day
 LOG = logging.getLogger(__name__)
 
+family = 'list_numpy_to_numpy'
 alg_func_type = 'list_numpy_to_numpy'
 
 
