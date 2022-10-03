@@ -50,6 +50,18 @@ As part of developing a CLI, I'm trying to standardize the interfaces. To do thi
 - Examine other commandline scripts
 
 
+# Before First PR
+- Drop `dev` and `stable` for interfaces that I've reimplemented.
+- Update `interface_modules` to be `plugins`, then update the directory names to match the new naming structure.
+- Can get rid of `test_interfaces` and `list_available_modules` from `commandline` now.
+  - Borrow some functionality from `test_interfaces`.
+- Need to reimplement is_valid to actually check the call signature.
+- Run tests
+  - amsr2
+  - goes16
+  - recenter tc
+
+
 ```python
 /Users/jsolbrig/NRL/geoips_packages/geoips/geoips/dev/alg.py:202: DeprecationWarning: Algorithm attribute "alg_func_type", used in pmw_tb.pmw_89pct, is deprecated and will be removed in a future release. Please replace all occurrences with "func_type".
   warn(msg, DeprecationWarning, stacklevel=1)
@@ -89,6 +101,9 @@ visir.Night_Vis_IR_GeoIPS1 | list_numpy_to_numpy |
   - I think I have this fixed. Still worth checking, but it doesn't look like this interface was working correctly anyway!
 
 # Questions
+- Need to figure out what we want to call `Boundaries` and `Gridlines` which are both yaml-config based. These likely
+  shouldn't be combined into a single class because they are sometimes mixed and matched.
+  - Maybe have a MapInterface module that defines which Boundaries and Gridlines you want to use.  
 - It looks like the `output_config` interface implements `get_output_format` and `get_output_format...`. These need to
   be updated to work better with the new system and have appropriate names.
 - What is the difference between `geoips/dev/utils.py` and `geoips/geoips_utils.py`? It seems like a lot of what is in

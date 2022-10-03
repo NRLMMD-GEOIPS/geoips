@@ -49,6 +49,7 @@ except ImportError:
 # GeoIPS Libraries
 from geoips.filenames.base_paths import PATHS as gpaths
 
+family = 'standard'
 reader_type = 'standard'
 
 log = logging.getLogger(__name__)
