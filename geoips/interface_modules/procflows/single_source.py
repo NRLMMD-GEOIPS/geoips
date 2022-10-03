@@ -27,23 +27,23 @@ from importlib import import_module
 import xarray
 
 from geoips.utils.memusg import print_mem_usage
-from geoips.dev.filename import get_filenamer, get_filenamer_type
+from geoips.interfaces import filename_formatters
 from geoips.dev.product import get_required_variables, get_requested_datasets_for_variables, get_product_type
 from geoips.dev.gridlines import get_gridlines, set_lonlat_spacing
 from geoips.dev.boundaries import get_boundaries
 from geoips.dev.product import get_cmap_name, get_cmap_args
-from geoips.dev.cmap import get_cmap
-from geoips.dev.output import get_outputter, get_outputter_type
+from geoips.interfaces import colormaps
+from geoips.interfaces import output_formats
 from geoips.dev.output_config import get_filename_formats, get_output_format
 from geoips.dev.output_config import get_filename_format_kwargs, get_output_format_kwargs
 from geoips.dev.output_config import get_metadata_filename_format, get_metadata_output_format
 from geoips.dev.output_config import get_metadata_filename_format_kwargs, get_metadata_output_format_kwargs
 from geoips.dev.output_config import get_minimum_coverage
 from geoips.xarray_utils.data import sector_xarrays
-from geoips.dev.interp import get_interp
+from geoips.interfaces import interpolators
 from geoips.dev.product import get_interp_name, get_interp_args
 from geoips.dev.product import get_alg_name, get_alg_args
-from geoips.dev import alg
+from geoips.interfaces import algorithms
 from geoips.filenames.base_paths import PATHS as gpaths
 
 PMW_NUM_PIXELS_X = 1400
@@ -66,8 +66,8 @@ def output_all_metadata(output_dict, output_fnames, metadata_fnames, xarray_obj,
             metadata_output_format_kwargs['metadata_fname_dict'] = metadata_fnames[metadata_fname]
             metadata_output_format_kwargs['output_fname_dict'] = output_fnames[output_fname]
             metadata_output_format_kwargs['output_dict'] = output_dict
-            output_func = get_outputter(metadata_output_format)
-            output_func_type = get_outputter_type(metadata_output_format)
+            output_func = output_formats.get(metadata_output_format)
+            output_func_type = output_formats.get_family(metadata_output_format)
             output_kwargs = remove_unsupported_kwargs(output_func, metadata_output_format_kwargs)
             if output_func_type == 'standard_metadata':
                 curr_outputs = output_func(area_def,
@@ -110,8 +110,8 @@ def get_output_filenames(filename_formats, output_dict, product_name, xarray_obj
 
         metadata_fname = None
         if metadata_filename_format:
-            if get_filenamer_type(metadata_filename_format) == 'standard_metadata':
-                fname_func = get_filenamer(metadata_filename_format)
+            if filename_formatters.get_family(metadata_filename_format) == 'standard_metadata':
+                fname_func = filename_formatters.get(metadata_filename_format)
                 metadata_filename_format_kwargs = remove_unsupported_kwargs(fname_func,
                                                                             metadata_filename_format_kwargs)
                 metadata_fname = fname_func(area_def, xarray_obj, output_fname,
@@ -182,7 +182,7 @@ def process_xarray_dict_to_output_format(xobjs, variables, product_name, output_
                         f'for product {product_name} source {xobjs["METADATA"].source_name} \n'
                         f'      product_type must be one of {supported_product_types}')
 
-    outputter = get_outputter(output_format)
+    outputter = output_formats.get(output_format)
 
     output_fnames, metadata_fnames = get_output_filenames(filename_formats, output_dict, product_name,
                                                           xarray_obj=xobjs['METADATA'], area_def=area_def,
@@ -191,7 +191,7 @@ def process_xarray_dict_to_output_format(xobjs, variables, product_name, output_
     if 'output_dict' not in output_format_kwargs:
         output_format_kwargs['output_dict'] = output_dict
     output_format_kwargs = remove_unsupported_kwargs(outputter, output_format_kwargs)
-    if get_outputter_type(output_format) == 'xarray_dict_data':
+    if output_fnames.get_family(output_format) == 'xarray_dict_data':
         curr_products = outputter(xobjs, variables, list(output_fnames.keys()), **output_format_kwargs)
         if curr_products != list(output_fnames.keys()):
             raise(ValueError('Did not produce expected products'))
@@ -200,7 +200,7 @@ def process_xarray_dict_to_output_format(xobjs, variables, product_name, output_
         supported_outputter_types = ['xarray_dict_data']
         raise TypeError(f'UNSUPPORTED output_format "{output_format}" '
                         f'for product_type "sectored_xarray_dict_to_output_format"\n'
-                        f'      outputter_type: "{get_outputter_type(output_format)}"\n'
+                        f'      outputter_type: "{output_formats.get_family(output_format)}"\n'
                         f'      outputter_type must be one of {supported_outputter_types}')
 
     final_products = output_all_metadata(output_dict, output_fnames, metadata_fnames, xobjs['METADATA'],
@@ -250,10 +250,10 @@ def pad_area_definition(area_def, source_name=None):
 def get_filename(filename_format, product_name=None, alg_xarray=None, area_def=None,
                  supported_filenamer_types=None, output_dict=None, filename_format_kwargs=None):
 
-    filenamer_type = get_filenamer_type(filename_format)
+    filenamer_type = filename_formatters.get_family(filename_format)
     if supported_filenamer_types is not None and filenamer_type not in supported_filenamer_types:
         raise TypeError(f'UNSUPPORTED filename_format "{filename_format}" '
-                        f'      filenamer_type: "{get_filenamer_type(filename_format)}"\n'
+                        f'      filenamer_type: "{filename_formatters.get_family(filename_format)}"\n'
                         f'      filenamer_type must be one of {supported_filenamer_types}')
 
     # They all use covg except those in list
@@ -269,12 +269,12 @@ def get_filename(filename_format, product_name=None, alg_xarray=None, area_def=N
                                                covg_args_field_name='fname_covg_args')
         covg = covg_func(alg_xarray, product_name, area_def, **covg_args)
 
-    filename_func = get_filenamer(filename_format)
+    filename_func = filename_formatters.get(filename_format)
     curr_kwargs = remove_unsupported_kwargs(filename_func, filename_format_kwargs)
-    if get_filenamer_type(filename_format) == 'data':
+    if filename_formatters.get_family(filename_format) == 'data':
         fname = filename_func(area_def, alg_xarray, [product_name, 'latitude', 'longitude'],
                               covg, **curr_kwargs)
-    elif get_filenamer_type(filename_format) == 'xarray_metadata_to_filename':
+    elif filename_formatters.get_family(filename_format) == 'xarray_metadata_to_filename':
         fname = filename_func(alg_xarray, **curr_kwargs)
     else:
         fname = filename_func(area_def, alg_xarray, product_name, covg, **curr_kwargs)
@@ -289,10 +289,8 @@ def plot_data(output_dict, alg_xarray, area_def, product_name, output_kwargs):
                                                           alg_xarray, area_def)
     output_format = get_output_format(output_dict)
 
-    from geoips.dev.output import get_outputter, get_outputter_type
-
-    if get_outputter_type(output_format) == 'xarray_data':
-        output_func = get_outputter(output_format)
+    if output_formats.get_family(output_format) == 'xarray_data':
+        output_func = output_formats.get(output_format)
         output_products = output_func(xarray_obj=alg_xarray,
                                       product_names=[product_name, 'latitude', 'longitude'],
                                       output_fnames=list(output_fnames.keys()))
@@ -303,13 +301,13 @@ def plot_data(output_dict, alg_xarray, area_def, product_name, output_kwargs):
         cmap_func_name = get_cmap_name(product_name, alg_xarray.source_name)
         mpl_colors_info = None
         if cmap_func_name is not None:
-            cmap_func = get_cmap(cmap_func_name)
+            cmap_func = colormaps.get(cmap_func_name)
             cmap_args = get_cmap_args(product_name, alg_xarray.source_name)
             mpl_colors_info = cmap_func(**cmap_args)
 
-        output_func = get_outputter(output_format)
+        output_func = output_formats.get(output_format)
         output_kwargs = remove_unsupported_kwargs(output_func, output_kwargs)
-        outputter_type = get_outputter_type(output_format)
+        outputter_type = output_formats.get_family(output_format)
         if outputter_type == 'image':
             # This returns None if not specified
             output_products = output_func(area_def,
@@ -492,14 +490,14 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
 
     # Only attempt to set algorithm function if algorithm requested in product type
     if product_type in ['alg', 'alg_cmap', 'interp_alg', 'interp_alg_cmap', 'alg_interp_cmap']:
-        alg_func = alg.get_func(get_alg_name(product_name, sect_xarrays['METADATA'].source_name))
-        alg_func_type = alg.get_func_type(get_alg_name(product_name, sect_xarrays['METADATA'].source_name))
+        alg_func = algorithms.get(get_alg_name(product_name, sect_xarrays['METADATA'].source_name))
+        alg_func_type = algorithms.get_family(get_alg_name(product_name, sect_xarrays['METADATA'].source_name))
         alg_args = get_alg_args(product_name, sect_xarrays['METADATA'].source_name)
 
     interp_func_name = get_interp_name(product_name, sect_xarrays['METADATA'].source_name)
     interp_func = None
     if interp_func_name is not None:
-        interp_func = get_interp(interp_func_name)
+        interp_func = interpolators.get(interp_func_name)
         interp_args = get_interp_args(product_name, sect_xarrays['METADATA'].source_name)
 
     # If the initial sectoring was to a padded area definition, must sector to final area_def here.
@@ -652,7 +650,7 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
                                                        for varname in variables], **alg_args))
     else:
         raise TypeError(f'UNSUPPORTED alg_type "{alg_func_type}" or product_type "{product_type}", '
-                        'please add to geoips/interface_modules/procflows/single_source.py "get_alg_xarray" '
+                        'please add to geoips/interface_modules/procflows/ "get_alg_xarray" '
                         'function appropriately')
 
     # Add appropriate attributes to alg_xarray
@@ -739,9 +737,8 @@ def single_source(fnames, command_line_args=None):
         if not getenv('G2DB_USER') or not getenv('G2DB_PASS'):
                     raise ValueError('Need to set both $G2DB_USER and $G2DB_PASS')
 
-    from geoips.stable.reader import get_reader
-    from geoips.dev.output import get_outputter, get_outputter_type
-    reader = get_reader(reader_name)
+    from geoips.interfaces import readers
+    reader = readers.get(reader_name)
     print_mem_usage('MEMUSG', verbose=False)
 
     num_jobs = 0
@@ -875,7 +872,7 @@ def single_source(fnames, command_line_args=None):
 
             # We want to write out the padded xarray for "xarray_data" output types
             # Otherwise, we need the fully sectored output
-            if get_outputter_type(output_format) == 'xarray_data':
+            if output_formats.get_family(output_format) == 'xarray_data':
                 alg_xarray = get_alg_xarray(pad_sect_xarrays, pad_area_def, product_name, resector=False,
                                             resampled_read=resampled_read)
             elif area_def.sector_type in ['reader_defined', 'self_register']:

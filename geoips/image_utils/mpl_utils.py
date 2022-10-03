@@ -23,6 +23,7 @@ import logging
 import matplotlib
 
 from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.interfaces import title_formatters
 
 LOG = logging.getLogger(__name__)
 
@@ -260,7 +261,6 @@ def get_title_string_from_objects(area_def, xarray_obj, product_name_title, prod
         title_copyright = gpaths['GEOIPS_COPYRIGHT']
 
     from geoips.sector_utils.utils import is_sector_type
-    from geoips.dev.title import get_title
 
     if product_datatype_title is None:
         product_source_name = xarray_obj.source_name
@@ -277,26 +277,18 @@ def get_title_string_from_objects(area_def, xarray_obj, product_name_title, prod
         bg_datatype_title = '{0} {1}'.format(bg_xarray.platform_name.upper(), bg_xarray.source_name.upper())
 
     if title_format is not None:
-        title_string = get_title(title_format)(area_def, xarray_obj, product_name_title,
-                                               product_datatype_title=product_datatype_title,
-                                               bg_xarray=bg_xarray,
-                                               bg_product_name_title=bg_product_name_title,
-                                               bg_datatype_title=bg_datatype_title,
-                                               title_copyright=title_copyright)
+        title_formatter = title_formatters.get(title_format)
     elif is_sector_type(area_def, 'tc'):
-        title_string = get_title('tc_standard')(area_def, xarray_obj, product_name_title,
-                                                product_datatype_title=product_datatype_title,
-                                                bg_xarray=bg_xarray,
-                                                bg_product_name_title=bg_product_name_title,
-                                                bg_datatype_title=bg_datatype_title,
-                                                title_copyright=title_copyright)
+        title_formatter = title_formatters.get('tc_standard')
     else:
-        title_string = get_title('static_standard')(area_def, xarray_obj, product_name_title,
-                                                    product_datatype_title=product_datatype_title,
-                                                    bg_xarray=bg_xarray,
-                                                    bg_product_name_title=bg_product_name_title,
-                                                    bg_datatype_title=bg_datatype_title,
-                                                    title_copyright=title_copyright)
+        title_formatter = title_formatters.get('static_standard')
+
+    title_string = title_formatter(
+        area_def, xarray_obj, product_name_title,
+        product_datatype_title=product_datatype_title, bg_xarray=bg_xarray,
+        bg_product_name_title=bg_product_name_title, bg_datatype_title=bg_datatype_title,
+        title_copyright=title_copyright)
+
     return title_string
 
 

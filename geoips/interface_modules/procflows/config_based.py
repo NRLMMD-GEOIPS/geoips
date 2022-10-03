@@ -21,6 +21,9 @@
 import logging
 from importlib import import_module
 
+from geoips.interfaces import interpolators
+from geoips.interfaces import output_formats
+from geoips.interfaces import readers
 from geoips.utils.memusg import print_mem_usage
 from geoips.dev.utils import output_process_times
 from geoips.interface_modules.procflows.single_source import process_sectored_data_output
@@ -112,12 +115,11 @@ def get_required_outputs(config_dict, sector_type):
 
 def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
 
-    from geoips.dev.interp import get_interp
     from geoips.dev.product import get_interp_name, get_interp_args
     interp_func_name = get_interp_name(product_name, sect_xarrays['METADATA'].source_name)
     interp_func = None
     if interp_func_name is not None:
-        interp_func = get_interp(interp_func_name)
+        interp_func = interpolators.get(interp_func_name)
         interp_args = get_interp_args(product_name, sect_xarrays['METADATA'].source_name)
 
     alg_xarray = None
@@ -544,7 +546,6 @@ def config_based(fnames, command_line_args=None):
     check_command_line_args(check_args, command_line_args)
     config_dict = get_config_dict(command_line_args['output_config'])
 
-    from geoips.stable.reader import get_reader
     from glob import glob
     from geoips.dev.product import get_required_variables
 
@@ -564,9 +565,9 @@ def config_based(fnames, command_line_args=None):
         bg_files = glob(config_dict['fuse_files'])
 
     if 'fuse_reader' in command_line_args and command_line_args['fuse_reader'] is not None:
-        bg_reader = get_reader(command_line_args['fuse_reader'][0])
+        bg_reader = readers.get(command_line_args['fuse_reader'][0])
     elif 'fuse_reader' in config_dict:
-        bg_reader = get_reader(config_dict['fuse_reader'])
+        bg_reader = readers.get(config_dict['fuse_reader'])
 
     if 'fuse_product' in command_line_args and command_line_args['fuse_product'] is not None:
         bg_product_name = command_line_args['fuse_product'][0]
@@ -609,7 +610,7 @@ def config_based(fnames, command_line_args=None):
                     raise ValueError('Need to set both $GEOIPS_DB_USER and $GEOIPS_DB_PASS')
 
     print_mem_usage('MEMUSG', verbose=False)
-    reader = get_reader(config_dict['reader_name'])
+    reader = readers.get(config_dict['reader_name'])
     xobjs = reader(fnames, metadata_only=True)
     source_name = xobjs['METADATA'].source_name
 
@@ -657,7 +658,6 @@ def config_based(fnames, command_line_args=None):
     from geoips.filenames.duplicate_files import remove_duplicates
     from geoips.interface_modules.procflows.single_source import pad_area_definition, get_filename
     from geoips.interface_modules.procflows.single_source import plot_data, combine_filename_extra_fields
-    from geoips.dev.output import get_outputter, get_outputter_type
     from geoips.interface_modules.procflows.single_source import get_alg_xarray
     from geoips.interface_modules.procflows.single_source import verify_area_def
     from geoips.dev.product import get_covg_from_product, get_covg_args_from_product
@@ -949,7 +949,7 @@ def config_based(fnames, command_line_args=None):
                         continue
 
                     output_format = get_output_format(output_dict)
-                    if get_outputter_type(output_format) == 'xarray_data':
+                    if output_formats.get_family(output_format) == 'xarray_data':
                         # If we're saving out intermediate data file, write out pad_area_def.
                         if product_name not in pad_alg_xarrays:
                             pad_alg_xarrays[product_name] = get_alg_xarray(pad_sect_xarrays, pad_area_def, product_name,

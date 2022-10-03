@@ -25,11 +25,11 @@ def remove_duplicates(fnames, remove_files=False):
     removed_files = []
     saved_files = []
     from geoips.sector_utils.utils import is_sector_type
-    from geoips.dev.filename import get_filenamer
+    from geoips.interfaces import filename_formatters
     from importlib import import_module
     for fname in fnames:
         filename_format = fnames[fname]['filename_format']
-        fnamer = get_filenamer(fnames[fname]['filename_format'])
+        fnamer = filename_formatters.get(fnames[fname]['filename_format'])
         if hasattr(import_module(fnamer.__module__), f'{filename_format}_remove_duplicates'):
             fnamer_remove_dups = getattr(import_module(fnamer.__module__), f'{filename_format}_remove_duplicates')
             curr_removed_files, curr_saved_files = fnamer_remove_dups(fname, remove_files=remove_files)

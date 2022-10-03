@@ -249,7 +249,7 @@ def get_metadata_filename_format_kwargs(filename_format, output_dict):
 def get_output_format_kwargs(output_dict, xarray_obj=None, area_def=None, sector_type=None,
                              bg_files=None, bg_xarrays=None, bg_product_name=None):
     from geoips.dev.product import get_cmap_name, get_cmap_args
-    from geoips.dev.cmap import get_cmap
+    from geoips.interfaces import colormaps
     from geoips.dev.gridlines import get_gridlines, set_lonlat_spacing
     from geoips.dev.boundaries import get_boundaries
 
@@ -275,7 +275,7 @@ def get_output_format_kwargs(output_dict, xarray_obj=None, area_def=None, sector
                                           output_format_kwargs['bg_xarray'].source_name,
                                           output_dict=output_dict)
         if bg_cmap_func_name is not None:
-            bg_cmap_func = get_cmap(bg_cmap_func_name)
+            bg_cmap_func = colormaps.get(bg_cmap_func_name)
             bg_cmap_args = get_cmap_args(bg_product_name,
                                          output_format_kwargs['bg_xarray'].source_name,
                                          output_dict=output_dict)
