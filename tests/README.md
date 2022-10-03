@@ -56,12 +56,12 @@ regarding linking it to the standard release (we do not want to include test dat
 geoips source repo for size considerations.)
 
 ```
-mkdir -p $GEOIPS_BASEDIR/test_data/test_data_<type>
-mkdir $GEOIPS_BASEDIR/test_data/test_data_<type>/data
-mkdir $GEOIPS_BASEDIR/test_data/test_data_<type>/outputs
-mkdir $GEOIPS_BASEDIR/test_data/test_data_<type>/sectors
-mkdir -p $GEOIPS_BASEDIR/test_data/test_data_<type>/tests/scripts
-vim $GEOIPS_BASEDIR/test_data/test_data_<type>/tests/test_all.sh
+mkdir -p $GEOIPS_TESTDATA_DIR/test_data_<type>
+mkdir $GEOIPS_TESTDATA_DIR/test_data_<type>/data
+mkdir $GEOIPS_TESTDATA_DIR/test_data_<type>/outputs
+mkdir $GEOIPS_TESTDATA_DIR/test_data_<type>/sectors
+mkdir -p $GEOIPS_TESTDATA_DIR/test_data_<type>/tests/scripts
+vim $GEOIPS_TESTDATA_DIR/test_data_<type>/tests/test_all.sh
 ```
 
 Create "test_all.sh" script which will contain calls to ALL test scripts required to completely
@@ -79,19 +79,19 @@ test all functionality.  Contents of test_all.sh as follows (replace items in <>
    
    # Note you must use the variable "call" in the for the loop
    
-   . $GEOIPS/tests/utils/test_all_pre.sh <repo_name>
-   
+   . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_pre.sh <repo_name>
+
    echo ""
    # "call" used in test_all_run.sh
    for call in \
-               "$GEOIPS_BASEDIR/test_data/test_data_<type>/tests/scripts/<test_script_1>" \
-               "$GEOIPS_BASEDIR/test_data/test_data_<type>/tests/scripts/<test_script_2>" \
-               "$GEOIPS_BASEDIR/test_data/test_data_<type>/tests/scripts/<test_script_3>"
+               "$GEOIPS_TESTDATA_DIR/test_data_<type>/tests/scripts/<test_script_1>" \
+               "$GEOIPS_TESTDATA_DIR/test_data_<type>/tests/scripts/<test_script_2>" \
+               "$GEOIPS_TESTDATA_DIR/test_data_<type>/tests/scripts/<test_script_3>"
    do
-       . $GEOIPS/tests/utils/test_all_run.sh
+       . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
    done
-   
-   . $GEOIPS/tests/utils/test_all_post.sh
+
+   . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_post.sh
 ```
 
 Creating a new test script
@@ -144,7 +144,7 @@ Once you've created a new test script, and produced valid test outputs, update t
    # Delete all the unnecessary files from the test repos, and any old "bad" products
    $GEOIPS_PACKAGES_DIR/geoips/tests/utils/delete_files_from_repo.sh <reponame>
    
-   cd $GEOIPS_BASEDIR/test_data/test_data_<type>
+   cd $GEOIPS_TESTDATA_DIR/test_data_<type>
    # git commit appropriately
    # git push
    

@@ -22,15 +22,15 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_BASEDIR/test_data/test_data_ahi_day/data/20200405_0000/* \
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/* \
           --procflow single_source \
           --reader_name ahi_hsd \
           --product_name WV \
           --filename_format geotiff_fname \
           --output_format geotiff_standard \
           --trackfile_parser bdeck_parser \
-          --trackfiles $GEOIPS/tests/sectors/tc_bdecks/bsh252020.dat \
-          --compare_path "$GEOIPS/tests/outputs/ahi.tc.<product>.geotiff" \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh252020.dat \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ahi.tc.<product>.geotiff" \
           --resampled_read
 retval=$?
 

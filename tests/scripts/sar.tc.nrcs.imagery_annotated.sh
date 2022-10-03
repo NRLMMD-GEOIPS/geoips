@@ -22,7 +22,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_BASEDIR/test_data/test_data_sar/data/STAR_SAR_20181025203206_WP312018_31W_FIX_3km.nc \
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_sar/data/STAR_SAR_20181025203206_WP312018_31W_FIX_3km.nc \
           --procflow single_source \
           --reader_name sar_winds_netcdf \
           --product_name nrcs \
@@ -33,8 +33,8 @@ run_procflow $GEOIPS_BASEDIR/test_data/test_data_sar/data/STAR_SAR_2018102520320
           --metadata_filename_format metadata_default_fname \
           --metadata_output_format metadata_default \
           --trackfile_parser bdeck_parser \
-          --trackfiles $GEOIPS/tests/sectors/tc_bdecks/bwp312018.dat \
-          --compare_path "$GEOIPS/tests/outputs/sar.tc.nrcs.imagery_annotated" \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp312018.dat \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/sar.tc.nrcs.imagery_annotated" \
           --product_params_override '{}' \
           --output_format_kwargs '{}' \
           --filename_format_kwargs '{}' \

@@ -20,23 +20,23 @@
 
 # This should contain test calls to cover ALL required functionality tests for the geoips repo.
 
-# The $GEOIPS tests modules sourced within this script handle:
+# The $GEOIPS_PAKCAGES_DIR/geoips/tests modules sourced within this script handle:
    # setting up the appropriate associative arrays for tracking the overall return value,
    # calling the test scripts appropriately, and 
    # setting the final return value.
 
 # Note you must use the variable "call" in the for the loop
 
-. $GEOIPS/tests/utils/test_all_pre.sh geoips_base
+. $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_pre.sh geoips_base
 
 echo ""
 # "call" used in test_all_run.sh
 for call in \
-            "$GEOIPS/tests/scripts/abi.config_based_output.sh" \
-            "$GEOIPS/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
+            "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.config_based_output.sh" \
+            "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
             "test_interfaces"
 do
-    . $GEOIPS/tests/utils/test_all_run.sh
+    . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
 done
 
-. $GEOIPS/tests/utils/test_all_post.sh
+. $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_post.sh

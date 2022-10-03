@@ -22,15 +22,15 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_BASEDIR/test_data/test_data_tpw/data/coarse/comp20210723.000000.nc \
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_tpw/data/coarse/comp20210723.000000.nc \
           --procflow single_source \
           --reader_name mimic_netcdf \
           --product_name TPW-CIMSS \
           --filename_format geoips_fname \
           --output_format imagery_annotated \
-          --compare_path "$GEOIPS/tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated" \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated" \
           --sector_list global \
-          --sectorfiles $GEOIPS/tests/sectors/static/global.yaml
+          --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
 ss_retval=$?
 
 exit $((ss_retval))

@@ -22,7 +22,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_BASEDIR/test_data/test_data_saphir/data/MT1SAPSL1A__1.09_000_1_19_I_2021_02_09_00_30_03_2021_02_09_01_11_16_48144_48144_497_33_33_KUX_00.h5 \
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_saphir/data/MT1SAPSL1A__1.09_000_1_19_I_2021_02_09_00_30_03_2021_02_09_01_11_16_48144_48144_497_33_33_KUX_00.h5 \
           --procflow single_source \
           --reader_name saphir_hdf5 \
           --product_name 183-3HNearest \
@@ -33,8 +33,8 @@ run_procflow $GEOIPS_BASEDIR/test_data/test_data_saphir/data/MT1SAPSL1A__1.09_00
           --metadata_filename_format metadata_default_fname \
           --metadata_output_format metadata_default \
           --trackfile_parser bdeck_parser \
-          --trackfiles $GEOIPS/tests/sectors/tc_bdecks/bsh192021.dat \
-          --compare_path "$GEOIPS/tests/outputs/saphir.tc.183-3HNearest.imagery_annotated" \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/saphir.tc.183-3HNearest.imagery_annotated" \
           --product_params_override '{}' \
           --output_format_kwargs '{}' \
           --filename_format_kwargs '{}' \
