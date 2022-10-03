@@ -117,10 +117,10 @@ def list_product_specs_dict_yamls():
     from os.path import basename, splitext
     all_files = []
     for package_name in gpaths['GEOIPS_PACKAGES']:
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_params/*/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_params/*/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_params/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_params/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_params/*/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_params/*/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_params/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_params/*.yaml') 
     return [fname for fname in all_files if '__init__' not in fname]
 
 
@@ -136,8 +136,8 @@ def list_product_source_dict_yamls():
     from os.path import basename, splitext
     all_files = []
     for package_name in gpaths['GEOIPS_PACKAGES']:
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_inputs/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_inputs/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_inputs/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_inputs/*.yaml')
     return [fname for fname in all_files if '__init__' not in fname]
 
 
@@ -153,8 +153,8 @@ def list_gridlines_params_dict_yamls():
     from os.path import basename, splitext
     all_files = []
     for package_name in gpaths['GEOIPS_PACKAGES']:
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/plotting_params/gridlines/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/plotting_params/gridlines/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/plotting_params/gridlines/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/plotting_params/gridlines/*.yaml') 
     return [fname for fname in all_files if '__init__' not in fname]
 
 
@@ -170,8 +170,8 @@ def list_boundaries_params_dict_yamls():
     from os.path import basename, splitext
     all_files = []
     for package_name in gpaths['GEOIPS_PACKAGES']:
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/plotting_params/boundaries/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/plotting_params/boundaries/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/plotting_params/boundaries/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/plotting_params/boundaries/*.yaml') 
     return [fname for fname in all_files if '__init__' not in fname]
 
 
