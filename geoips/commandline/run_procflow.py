@@ -19,15 +19,18 @@
 ''' Command line script for kicking off geoips based procflows. MUST call with --procflow'''
 
 
+from datetime import datetime
+from geoips.commandline.log_setup import setup_logging
+from geoips.commandline.args import get_command_line_args
+from geoips.interfaces import procflows
+
+
 def main():
     ''' Script to kick off processing based on command line args '''
-    from datetime import datetime
     DATETIMES = {}
     DATETIMES['start'] = datetime.utcnow()
-    from geoips.commandline.log_setup import setup_logging
     LOG = setup_logging()
 
-    from geoips.commandline.args import get_command_line_args
     LOG.info('GETTING COMMAND LINE ARGUMENTS')
     # arglist=None allows all possible arguments.
     ARGS = get_command_line_args(arglist=None,
@@ -39,9 +42,8 @@ def main():
 
     COMMAND_LINE_ARGS = ARGS.__dict__
     # LOG.info(COMMAND_LINE_ARGS)
-    from geoips.dev.procflow import get_procflow
     LOG.info('GETTING PROCFLOW MODULE')
-    PROCFLOW = get_procflow(COMMAND_LINE_ARGS['procflow'])
+    PROCFLOW = procflows.get(COMMAND_LINE_ARGS['procflow'])
 
     LOG.info('CALLING PROCFLOW MODULE')
     if PROCFLOW:
