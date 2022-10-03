@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
+from inspect import Attribute
 import pkgutil
 import importlib
 from argparse import ArgumentParser, \
                      ArgumentTypeError, \
                      ArgumentDefaultsHelpFormatter, \
                      RawDescriptionHelpFormatter
-from geoips import dev, stable
+from geoips import dev, stable, interfaces
+from geoips.interfaces.base_interface import BaseInterface
 import warnings
 
 # Always actually raise DeprecationWarnings
@@ -35,14 +37,33 @@ class RawDescriptionArgumentDefaultsHelpFormatter(ArgumentDefaultsHelpFormatter,
     pass
 
 
-def import_interface(name):
+formclass = RawDescriptionArgumentDefaultsHelpFormatter
+
+
+def get_interface(name):
     try:
-        return importlib.import_module(f'geoips.stable.{name}')
-    except ModuleNotFoundError:
+        return getattr(interfaces, name)
+    except AttributeError:
         try:
-            return importlib.import_module(f'geoips.dev.{name}')
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(f'Module "{name}" not found in either stable or developmental interface sets')
+            return getattr(stable, name)
+        except AttributeError:
+            try:
+                return getattr(dev, name)
+            except AttributeError:
+                raise AttributeError(f'Interface "{name}" not found in either stable or developmental interface sets')
+
+
+def add_list_interface_parser(subparsers, name, aliases=None):
+    # list interpolators
+    interface_parser = subparsers.add_parser(
+        name,
+        aliases=aliases,
+        description=f'List available {name}',
+        help=f'List available {name}',
+        formatter_class=formclass,
+        )
+    interface_parser.set_defaults(interface=name)
+    return interface_parser
 
 
 def list_dev_interfaces():
@@ -56,16 +77,25 @@ def list_stable_interfaces():
     '''
     Return a list of all stable interfaces
     '''
-    print(stable.__path__)
-    print([k for k in pkgutil.iter_modules(stable.__path__)])
+    # print(stable.__path__)
+    # print([k for k in pkgutil.iter_modules(stable.__path__)])
     return [name for _, name, _ in pkgutil.iter_modules(stable.__path__)]
 
 
 def print_interfaces(dev=False):
+    print('New-Style Interfaces')
+    print('--------------------')
+    for attr in dir(interfaces):
+        attr_val = getattr(interfaces, attr)
+        if issubclass(attr_val.__class__, BaseInterface):
+            print(attr_val.name)
+
+    print('')
     print('Stable Interfaces')
     print('-----------------')
     for name in list_stable_interfaces():
         print(name)
+
     print('')
     print('Developmental Interfaces')
     print('------------------------')
@@ -78,7 +108,10 @@ def print_interface_list(inter):
 
     # Determine column widths for output
     ncol = len(mod_list[0])
-    col_widths = ncol * [0]
+    headings = ['name', 'type', 'description']
+    if ncol != len(headings):
+        raise ValueError('Number of columns does not match the number of headings')
+    col_widths = [len(head) for head in headings]
     for mod in mod_list:
         for col in range(len(mod)):
             col_widths[col] = max(col_widths[col], len(mod[col]))
@@ -86,9 +119,8 @@ def print_interface_list(inter):
     print(col_widths)
 
     # Create and print the header
-    head = ['name', 'type', 'description']
     head_vals = []
-    for head_val, width in zip(head, col_widths):
+    for head_val, width in zip(headings, col_widths):
         head_vals.append(f'{head_val:{width}}')
     head_str = ' | '.join(head_vals)
     print(head_str)
@@ -104,7 +136,6 @@ def print_interface_list(inter):
 
 
 def main():
-    formclass = RawDescriptionArgumentDefaultsHelpFormatter
     parser = ArgumentParser(description=__doc__, formatter_class=formclass)
     subparsers = parser.add_subparsers(title='Commands', description='GeoIPS commands', dest='cmd')
 
@@ -132,33 +163,32 @@ def main():
     list_subparsers = list_parser.add_subparsers()
     
     # list interfaces 
-    list_inter_parser = list_subparsers.add_parser(
-        'interfaces',
-        aliases=['int', 'inter'],
-        description='List of GeoIPS interfaces',
-        help='List of GeoIPS interfaces',
-        formatter_class=formclass,
-        )
-    list_inter_parser.set_defaults(interface='interfaces')
-
-    # list algorithms
-    list_alg_parser = list_subparsers.add_parser(
-        'algorithms',
-        aliases=['alg', 'algs'],
-        description='List of available algorithms',
-        help='List of available algorithms',
-        formatter_class=formclass,
-        )
-    list_alg_parser.set_defaults(interface='alg')
+    add_list_interface_parser(list_subparsers, 'interfaces', aliases=['int', 'ints'])
+    
+    # list plugins for each interface
+    add_list_interface_parser(list_subparsers, 'algorithms', aliases=['alg', 'algs'])
+    # add_list_interface_parser(list_subparsers, 'boundaries', aliases=['bound', 'bounds'])
+    add_list_interface_parser(list_subparsers, 'colormaps', aliases=['cmap', 'cmaps'])
+    add_list_interface_parser(list_subparsers, 'filename_formatters', aliases=['ff', 'ffs'])
+    # add_list_interface_parser(list_subparsers, 'gridline_formatters', aliases=['gf', 'gfs'])
+    add_list_interface_parser(list_subparsers, 'interpolators', aliases=['interp', 'interps'])
+    # add_list_interface_parser(list_subparsers, 'outputter_configs', aliases=['oc', 'ocs'])
+    add_list_interface_parser(list_subparsers, 'outputters', aliases=['out', 'outs'])
+    add_list_interface_parser(list_subparsers, 'procflows', aliases=['pf', 'pfs'])
+    # add_list_interface_parser(list_subparsers, 'products', aliases=['prod', 'prods'])
+    add_list_interface_parser(list_subparsers, 'readers', aliases=['reader'])
+    add_list_interface_parser(list_subparsers, 'title_formatters', aliases=['tf', 'tfs'])
 
     args = parser.parse_args()
-    # print(args)
+    print(args)
 
     if args.cmd == 'list':
         if args.interface == 'interfaces':
             print_interfaces()
         else:
-            print_interface_list(import_interface(args.interface))
+            print(get_interface(args.interface))
+            print(get_interface(args.interface).get_list())
+            # getattr(interfaces, args.interface).get_list(pretty=True, with_family=True, with_description=True)
 
 
 if __name__ == "__main__":
