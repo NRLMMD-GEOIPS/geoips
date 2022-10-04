@@ -1,18 +1,18 @@
 reader_name: abi_netcdf
-filenames: !ENV ${GEOIPS}/tests/data/goes16_20200918_1950/*
+filenames: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/data/goes16_20200918_1950/*
 sectored_read: True
 
 available_sectors:
   static:
     sectorfiles:
-        - !ENV ${GEOIPS}/tests/sectors/goes16.yaml 
+        - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/goes16.yaml 
     sector_list: 
         - goes16
   tc:
     trackfile_parser: bdeck_parser
     trackfiles: 
-        - !ENV ${GEOIPS}/tests/sectors/bal202020.dat
-    tc_template_yaml: !ENV ${GEOIPS}/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
+        - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/bal202020.dat
+    tc_template_yaml: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
 
 outputs:
   static:
@@ -22,7 +22,7 @@ outputs:
     remove_duplicates: null
     product_names:
       - Infrared
-    compare_path: !ENV ${GEOIPS}/tests/outputs/abi_<output>/<product>_image
+    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi_<output>/<product>_image
   tc:
     requested_sector_type: tc
     output_format: imagery_annotated
@@ -35,4 +35,4 @@ outputs:
       - WV 
     boundaries_params: tc_pmw
     gridlines_params: tc_pmw
-    compare_path: !ENV ${GEOIPS}/tests/outputs/abi_<output>/<product>_image
+    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi_<output>/<product>_image
