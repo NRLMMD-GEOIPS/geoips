@@ -35,15 +35,22 @@ setuptools.setup(
     install_requires=['pyresample',           # Base requirement - efficiency improvements >= 1.22.3
                       'numpy',                # Base requirement
                       'xarray',               # Base requirement
-                      'matplotlib',           # Base requirement
+                      'matplotlib>=3.5.3',    # Base requirement 20220922, force to 0.20.3/3.5.3 until outputs updated
+                                              #                  also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
                       'scipy',                # Base requirement
                       'netcdf4',              # Base requirement
                       'pyyaml',               # Base requirement
                       'pyshp>=2.2.0',
-                      'shapely@https://github.com/shapely/shapely/releases/download/1.8.2/Shapely-1.8.2.tar.gz',
-                      'cartopy==0.20.3',    # Currently must install via conda
+                      'shapely>=1.8.2',
+                      'cartopy>=0.20.3',    # Currently must install via conda,
+                                            # 20220922: 0.20.3 incompatible with mpl 3.6.0, 0.21.0 works
                       ],
     extras_require={
+                    'cicd_pipeline': [
+                                      'shapely@https://github.com/shapely/shapely/releases/download/1.8.2/Shapely-1.8.2.tar.gz',
+                                      'cartopy==0.20.3',    # Shapely and cartopy versions required to avoid conflict
+                                      'matplotlib==3.5.3',  # Required to work with cartopy 0.20.3
+                                     ],
                     'config_based': [
                                      'pyaml_env',          # Reading YAML output config files, with paths
                                      ],
