@@ -64,6 +64,12 @@ else
     bandwidth_option="low_bandwidth"
 fi
 
+if [[ "$4" == "conda_defaults_channel" ]]; then
+    conda_channel="conda_defaults_channel"
+else
+    conda_channel="conda-forge"
+fi
+
     
 if [[ "$GEOIPS_BASEDIR" == "" ]]; then
     echo "Must set GEOIPS_BASEDIR environment variable prior to installation"
@@ -115,13 +121,13 @@ check_continue "verifying GEOIPS_BASEDIR and GEOIPS_CONFIG_FILE and GEOIPS_ACTIV
         date -u
     fi
 
-check_continue "updating geoips" "install conda"
+check_continue "updating geoips" "install conda with $conda_channel"
 
     if [[ "$skip_next" == "no" ]]; then
         date -u
         # Install conda
         # Do not initialize your shell at the end, to allow switching between versions!!!
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_install
+        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_install $conda_channel
 
         # Activate current conda base environment - note geoips_conda doesn't exist yet, but that is ok.
         # We need to at least point to "new" python and conda
@@ -143,8 +149,8 @@ check_continue "installing conda (should point to $GEOIPS_BASEDIR/geoips_depende
     if [[ "$skip_next" == "no" ]]; then
         date -u
         # Create geoips conda environment
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_update  # only for a fresh Miniconda install
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh create_geoips_conda_env
+        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_update $conda_channel # only for a fresh Miniconda install
+        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh create_geoips_conda_env $conda_channel
         # Now we can use source $GEOIPS_CONFIG_FILE
         source $GEOIPS_CONFIG_FILE
         echo ""
