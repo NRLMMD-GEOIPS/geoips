@@ -63,7 +63,7 @@ def unprojected_image(xarray_obj,
     image_width = float(x_size) / dpi
     image_height = float(y_size) / dpi
 
-    fig = plt.figure(frameon=False)
+    fig = plt.figure(facecolor="none")
     fig.set_size_inches(image_width, image_height)
     main_ax = plt.Axes(fig, [0, 0, 1, 1])
     main_ax.set_axis_off()

@@ -27,6 +27,10 @@
 * Correct typo: interpoloators -> interpolators
 #### modified: geoips/interface_modules/filename_formats/geotiff_fname.py
 * Correct typo: filename_formatter -> filename_formatters
+#### modified: geoips/interface_modules/output_formats/unprojected_image.py
+* Replace fig.savefig frameon=False argument with facecolor="none"
+    * frameon deprecated maplotlib v3.1.0
+    * https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon
 
 
 # v1.5.2.dev2: 2022-09-02, image_utils numpy docstrings, basic CI
