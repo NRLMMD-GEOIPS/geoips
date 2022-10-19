@@ -191,7 +191,7 @@ def process_xarray_dict_to_output_format(xobjs, variables, product_name, output_
     if 'output_dict' not in output_format_kwargs:
         output_format_kwargs['output_dict'] = output_dict
     output_format_kwargs = remove_unsupported_kwargs(outputter, output_format_kwargs)
-    if output_fnames.get_family(output_format) == 'xarray_dict_data':
+    if output_formats.get_family(output_format) == 'xarray_dict_data':
         curr_products = outputter(xobjs, variables, list(output_fnames.keys()), **output_format_kwargs)
         if curr_products != list(output_fnames.keys()):
             raise(ValueError('Did not produce expected products'))
