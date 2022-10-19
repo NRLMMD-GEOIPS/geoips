@@ -66,7 +66,7 @@ Setup System Environment Variables
     # This config file must be sourced ANY TIME you want to run geoips
     export GEOIPS_CONFIG_FILE=$GEOIPS_BASEDIR/geoips_packages/geoips/setup/config_geoips
 
-    GEOIPS_ACTIVE_BRANCH=main
+    GEOIPS_ACTIVE_BRANCH=37-create-cli
 ```
 
 
@@ -92,7 +92,7 @@ Base geoips installation and test
     # This prompts you through all the steps of installing geoips from scratch, using the parameters specified above
     # Installs and tests everything!
     # Requires <30GB disk space, <16GB memory
-    $GEOIPS_BASEDIR/geoips_packages/geoips/base_install_and_test.sh $GEOIPS_ACTIVE_BRANCH low_memory low_bandwidth
+    $GEOIPS_BASEDIR/geoips_packages/geoips/base_install_and_test.sh $GEOIPS_ACTIVE_BRANCH low_memory low_bandwidth conda-forge
 
     # Low memory option. No high res Visible outputs.  Same setup, just different tests.
     # Requires <30GB disk space, <8GB memory
