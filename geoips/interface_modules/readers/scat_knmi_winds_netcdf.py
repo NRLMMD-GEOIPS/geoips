@@ -82,7 +82,17 @@ def read_knmi_data(wind_xarray):
     import xarray
     import numpy
     RAIN_FLAG_BIT = 9
-    wind_xarray['rain_flag'] = xarray.ufuncs.logical_and(wind_xarray['wvc_quality_flag'], (1 << RAIN_FLAG_BIT))
+    if hasattr(xarray, 'ufuncs'):
+        # ufuncs no longer available as of xarray v2022.06 (at least)
+        wind_xarray['rain_flag'] = xarray.ufuncs.logical_and(wind_xarray['wvc_quality_flag'], (1 << RAIN_FLAG_BIT))
+    else:
+        # Can not figure out how to do the logical and in xarray now - so do it in numpy.
+        # This may not be the most efficient, especially if we are trying to use dask / lazy processing
+        # Dropping the ".to_masked_array()" appears to lose the nan values - but could perhaps do that
+        # then re-mask?
+        rf = numpy.logical_and(wind_xarray['wvc_quality_flag'].to_masked_array(),
+                               (1 << RAIN_FLAG_BIT))
+        wind_xarray['rain_flag'] = xarray.DataArray(rf.astype(int), coords=wind_xarray.coords, dims=wind_xarray.dims)
                                      
     wind_xarray = wind_xarray.set_coords(['timestamp'])
     return {'WINDSPEED': wind_xarray}

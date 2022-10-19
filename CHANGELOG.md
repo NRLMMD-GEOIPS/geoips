@@ -33,6 +33,8 @@
     * https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon
 #### modified: geoips/interface_modules/procflows/single_source.py
 * Correct typo: output_fnames -> output_formats
+#### modified: geoips/interface_modules/readers/scat_knmi_winds_netcdf.py
+* Replace xarray.ufuncs with numpy.ufuncs (deprecated)
 
 
 # v1.5.2.dev2: 2022-09-02, image_utils numpy docstrings, basic CI
