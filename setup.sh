@@ -33,27 +33,37 @@ if [[ ! -d $GEOIPS_DEPENDENCIES_DIR/bin ]]; then
 fi
 if [[ "$1" == "conda_install" ]]; then
     echo ""
+
     # echo "**wgetting Anaconda3*.sh"
     # wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh -P $GEOIPS_DEPENDENCIES_DIR
     # chmod 755 $GEOIPS_DEPENDENCIES_DIR/Anaconda3-*.sh
-    echo "**wgetting Miniconda3*.sh"
+
     opsys=Linux
     arch=$(uname -m)
     if [[ "$(uname -s)" == "Darwin" ]]; then
         opsys=MacOSX
     fi
-    conda_fname=Miniconda3-latest-${opsys}-${arch}.sh
-    wget https://repo.anaconda.com/miniconda/${conda_fname} -P $GEOIPS_DEPENDENCIES_DIR
+
+
+    if [[ "$2" == "conda_defaults_channel" ]]; then
+        echo "**wgetting Miniconda3*.sh"
+        conda_fname=Miniconda3-latest-${opsys}-${arch}.sh
+        wget https://repo.anaconda.com/miniconda/${conda_fname} -P $GEOIPS_DEPENDENCIES_DIR
+        echo "**Running Miniconda3*.sh"
+    else
+        echo "**wgetting Miniforge3*.sh"
+        conda_fname=Miniforge3-${opsys}-${arch}.sh
+        wget https://github.com/conda-forge/miniforge/releases/latest/download/${conda_fname} -P $GEOIPS_DEPENDENCIES_DIR
+        echo "**Running Miniforge3*.sh"
+    fi
+
     chmod 755 $GEOIPS_DEPENDENCIES_DIR/${conda_fname}
     echo ""
-    echo "**Running Anaconda3*.sh"
-    # $GEOIPS_DEPENDENCIES_DIR/Anaconda3-*.sh -p $GEOIPS_DEPENDENCIES_DIR/anaconda3
     $GEOIPS_DEPENDENCIES_DIR/${conda_fname} -p $GEOIPS_DEPENDENCIES_DIR/miniconda3
     echo ""
-    # echo "**If shell initialized, MUST source ~/.bashrc or restart shell"
-    # source ~/.bashrc
-    # echo "source ~/.bashrc"
+
     source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
+
 elif [[ "$1" == "conda_init" ]]; then
     echo ""
     echo "**Initializing conda"
@@ -70,7 +80,12 @@ elif [[ "$1" == "conda_update" ]]; then
     echo "**updating base conda env"
     which conda
     which python
-    conda update -n base -c defaults conda --yes
+    # Use conda-forge by default
+    if [[ "$2" == "conda_defaults_channel" ]]; then
+        conda update -n base -c defaults conda --yes
+    else
+        conda update -n base -c conda-forge conda --yes
+    fi
 elif [[ "$1" == "remove_geoips_conda_env" ]]; then
     echo ""
     echo "**removing geoips_conda env"
@@ -85,20 +100,32 @@ elif [[ "$1" == "create_geoips_conda_env" ]]; then
     echo "**creating geoips_conda env"
     which conda
     which python
-    conda create --yes --name geoips_conda python=3.9 --yes
+    if [[ "$2" == "conda_defaults_channel" ]]; then
+        conda create --yes --name geoips_conda -c defaults python=3.9 --yes
+    else
+        conda create --yes --name geoips_conda -c conda-forge python=3.9 --yes
+    fi
     echo "**IF SCRIPT WAS NOT SOURCED MUST activate geoips_conda env from parent shell"
     conda activate geoips_conda
     echo "conda activate geoips_conda"
 elif [[ "$1" == "install" ]]; then
     echo ""
-    echo "**Installing cartopy"
+    echo "**Installing cartopy from conda-forge"
+
+    # cartopy and matplotlib must be obtained from conda-forge!
+
     # cartopy 0.19.0 and matplotlib 3.4.0 both cause slightly shifted figures compared to old versions
     # Updating test outputs to latest versions
     # $BASECONDAPATH/conda install -c conda-forge cartopy matplotlib
     # This was getting 0.18.0 sometimes without specifying version ???  Force to 0.20.0
 
     # Update to latest 20220607, previously cartopy 0.20.2 and matplotlib 3.4.3.
-    conda install -c conda-forge "cartopy>=0.20.2" "matplotlib>=3.5.2" --yes
+    # 20220922 force to 0.20.3 and 3.5.3
+    #          0.21.0 compatible with 3.6.0, but 0.20.3 not.
+    #          3.6.0 changes output images (letters in plots)
+    # conda install -c conda-forge "cartopy==0.20.3" "matplotlib==3.5.3" --yes
+    # Allow the latest for now, until outputs break again.
+    conda install -c conda-forge "cartopy" "matplotlib" --yes
 
     pip install -e "$GEOIPS_PACKAGES_DIR/geoips[efficiency_improvements,\
                                                 test_outputs,\
@@ -112,6 +139,7 @@ elif [[ "$1" == "install" ]]; then
                                                 overpass_predictor,\
                                                 coverage_checks,\
                                                 geostationary_readers]"
+
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
     # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
