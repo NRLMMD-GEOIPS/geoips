@@ -23,6 +23,8 @@
 * Replace fig.savefig frameon=False argument with facecolor="none"
     * frameon deprecated maplotlib v3.1.0
     * https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon
+#### modified: geoips/interface_modules/coverage_checks/windbarbs.py
+* Correct typo: interpoloators -> interpolators
 
 
 # v1.5.2.dev2: 2022-09-02, image_utils numpy docstrings, basic CI

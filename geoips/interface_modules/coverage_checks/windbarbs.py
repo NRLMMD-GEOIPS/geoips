@@ -42,8 +42,8 @@ def windbarbs(xarray_obj, variable_name, area_def, alt_varname_for_covg=None):
         LOG.info('    UPDATING variable "%s" does not exist, using alternate "%s"', variable_name, alt_varname_for_covg)
         varname_for_covg = alt_varname_for_covg
 
-    from geoips.interfaces import interpoloators
-    interp_func = interpoloators.get('pyresample_wrappers.interp_nearest')
+    from geoips.interfaces import interpolators
+    interp_func = interpolators.get('pyresample_wrappers.interp_nearest')
     output_xarray = interp_func(area_def, xarray_obj, None, [varname_for_covg], array_num=0)
 
     from geoips.data_manipulations.info import percent_unmasked
