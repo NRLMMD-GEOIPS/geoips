@@ -203,12 +203,13 @@ def save_image(fig, out_fname, is_final=True, image_datetime=None, remove_duplic
             make_dirs(dirname(out_fname))
         # no annotations
         # frameon=False makes it have no titles / lat/lons. does not avoid colorbar, since that is its own ax
+        # frameon=False deprecated as of matplotlib 3.1.0.  Use facecolor="none" for the same results
         for ax in fig.axes:
             LOG.info('Removing ax from %s', ax)
             ax.set_axis_off()
         LOG.info('Writing %s', out_fname)
         fig.savefig(out_fname, dpi=rc_params['figure.dpi'], pad_inches=0.0,
-                    transparent=True, frameon=False, **savefig_kwargs)
+                    transparent=True, facecolor="none", **savefig_kwargs)
         if remove_duplicate_minrange is not None:
             remove_duplicates(out_fname, remove_duplicate_minrange)
 

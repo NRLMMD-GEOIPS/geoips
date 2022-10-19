@@ -17,6 +17,14 @@
     # # # See the included license for more details.
 
 
+37-create-cli: 2022-10-19, typo corrections, frameon deprecation update
+### Bug fixes
+#### modified: geoips/image_utils/mpl_utils.py
+* Replace fig.savefig frameon=False argument with facecolor="none"
+    * frameon deprecated maplotlib v3.1.0
+    * https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon
+
+
 # v1.5.2.dev2: 2022-09-02, image_utils numpy docstrings, basic CI
 
 ## NRLMMD-GEOIPS/geoips#17: 2022-08-12, add non-member forking info to git-workflow
