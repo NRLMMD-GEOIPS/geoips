@@ -31,13 +31,13 @@ filename_type = 'standard'
 def geotiff_fname(area_def, xarray_obj, product_name, coverage, output_type='tif', output_type_dir=None,
                   product_dir=None, product_subdir=None, source_dir=None, basedir=gpaths['ANNOTATED_IMAGERY_PATH']):
 
-    from geoips.interfaces import filename_formatter
+    from geoips.interfaces import filename_formatters
     from geoips.sector_utils.utils import is_sector_type
     if is_sector_type(area_def, 'tc'):
-        fname_func = filename_formatter.get('tc_fname')
+        fname_func = filename_formatters.get('tc_fname')
         basedir = gpaths['TCWWW']
     else:
-        fname_func = filename_formatter.get('geoips_fname')
+        fname_func = filename_formatters.get('geoips_fname')
     geotiff_fname = fname_func(area_def,
                                xarray_obj,
                                product_name,
