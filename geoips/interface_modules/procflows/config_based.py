@@ -838,7 +838,7 @@ def config_based(fnames, command_line_args=None):
                             area_def,
                             curr_variables,
                             config_dict['available_sectors'][sector_type]['adjust_variables']
-                            )
+                        )
                     else:
                         area_def = area_def_adjuster(list(pad_sect_xarrays.values()),
                                                      area_def,

@@ -507,7 +507,7 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
     if resector:
         curr_sect_xarrays = sector_xarrays(sect_xarrays, area_def, varlist=variables,
                                            hours_before_sector_time=6, hours_after_sector_time=9, drop=True)
-                                           # hours_before_sector_time=6, hours_after_sector_time=6, drop=True)
+        # hours_before_sector_time=6, hours_after_sector_time=6, drop=True)
     else:
         curr_sect_xarrays = sect_xarrays
 

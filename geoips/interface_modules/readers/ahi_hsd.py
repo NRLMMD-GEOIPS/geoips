@@ -1186,7 +1186,7 @@ def set_variable_metadata(xobj_attrs, band_metadata, dsname, varname):
             xobj_attrs[dsname][varname]['all'] = band_metadata[bandname]
             # Set the actual wavelength property on the variable itself
             if ('calibration_information' in band_metadata[bandname].keys()
-                and 'cent_wavelenth' in band_metadata[bandname]['calibration_information'].keys()):
+                    and 'cent_wavelenth' in band_metadata[bandname]['calibration_information'].keys()):
                 xobj_attrs[dsname][varname]['wavelength'] = band_metadata[bandname]['calibration_information']['cent_wavelenth']
 
 

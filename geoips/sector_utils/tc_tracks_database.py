@@ -99,8 +99,8 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
     LOG.info('Checking ' + tc_trackfilename + ' ... process ' + str(process))
 
     # Check if we match Gxxdddddd.dat filename format. If not just return and don't do anything.
-    if not re.compile('G\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat').match(pathbasename(tc_trackfilename)) and \
-       not re.compile('G\D\D\d\d\d\d\d\d\.dat').match(pathbasename(tc_trackfilename)):
+    if (not re.compile('G\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat').match(pathbasename(tc_trackfilename)) and not
+            re.compile('G\D\D\d\d\d\d\d\d\.dat').match(pathbasename(tc_trackfilename))):
         LOG.info('')
         LOG.warning('    DID NOT MATCH REQUIRED FILENAME FORMAT, SKIPPING: ' + tc_trackfilename)
         return []

@@ -161,7 +161,7 @@ def add_to_xarray(varname, nparr, xobj, cumulative_mask, data_type):
         cumulative_mask[varname] = xr.DataArray(
             xobj[varname].to_masked_array().mask,
             dims=['dim_' + str(merged_array.shape[0]), 'dim_1']
-            )
+        )
 
     # add mask info for 'varname'
     if varname not in list(cumulative_mask.variables.keys()):
