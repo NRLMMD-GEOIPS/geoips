@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -24,10 +24,9 @@
     this module will be moved to the geoips/stable sub-package.
 '''
 
+from geoips.geoips_utils import find_config
 import logging
 LOG = logging.getLogger(__name__)
-
-from geoips.geoips_utils import find_config
 
 
 ### Gridline parameter dictionaries ###
@@ -48,9 +47,9 @@ def is_valid_gridlines(gridlines_name):
     Returns:
         (bool) : True if 'gridlines_name' is a properly formatted dictionary of gridlines parameters.
                  False if gridlines parameter dictionary:
-                        does not contain supported 'gridlines_dict_type', 
+                        does not contain supported 'gridlines_dict_type',
                         does not contain all 'required' fields,
-                        contains non-supported 'optional' fields 
+                        contains non-supported 'optional' fields
 
                  Gridline dictionary types currently one of:
 
@@ -68,7 +67,7 @@ def is_valid_gridlines(gridlines_name):
                                                    'grid_lon_spacing': <float>,
                                                    'grid_lat_dashes': <list>,
                                                    'grid_lon_dashes': <list>}
-                                     
+
     '''
 
     required_keys = {'standard': ['gridlines_dict_type',
@@ -99,22 +98,25 @@ def is_valid_gridlines(gridlines_name):
     #     return False
 
     if 'gridlines_dict_type' not in gridlines_dict:
-        LOG.error(f"INVALID GRIDLINE '{gridlines_name}': 'gridlines_dict_type' must be defined within gridlines parameter dictionary")
+        LOG.error(
+            f"INVALID GRIDLINE '{gridlines_name}': 'gridlines_dict_type' must be defined within gridlines parameter dictionary")
         return False
     if gridlines_dict['gridlines_dict_type'] not in required_keys.keys():
-        LOG.error(f"INVALID GRIDLINE '{gridlines_name}': 'gridlines_dict_type' in gridlines parameter dictionary must be one of '{list(required_keys.keys())}'")
+        LOG.error(
+            f"INVALID GRIDLINE '{gridlines_name}': 'gridlines_dict_type' in gridlines parameter dictionary must be one of '{list(required_keys.keys())}'")
         return False
 
     gridlines_dict_type = gridlines_dict['gridlines_dict_type']
 
     # If we don't have all of the required keys, return False
     if not set(required_keys[gridlines_dict_type]).issubset(set(gridlines_dict)):
-        LOG.error(f'''INVALID GRIDLINE "{gridlines_name}": gridlines parameter dictionary must contain the following fields:
+        LOG.error(
+            f'''INVALID GRIDLINE "{gridlines_name}": gridlines parameter dictionary must contain the following fields:
                   "{list(required_keys.keys())}" ''')
         return False
 
     # If we have non-allowed keys, return False
-    if not set(gridlines_dict).issubset(required_keys[gridlines_dict_type]+optional_keys[gridlines_dict_type]):
+    if not set(gridlines_dict).issubset(required_keys[gridlines_dict_type] + optional_keys[gridlines_dict_type]):
         LOG.error(f'''INVALID GRIDLINE "{gridlines_name}": Unknown fields in gridlines parameter dictionary:
                   "{set(gridlines_dict).difference(required_keys[gridlines_dict_type]+optional_keys[gridlines_dict_type])}"''')
         return False
@@ -139,7 +141,7 @@ def get_gridlines(gridlines_name):
     if gridlines_name is None:
         return None
     gridlines_fname = find_config(subpackage_name='yaml_configs/plotting_params/gridlines',
-                                config_basename=gridlines_name)
+                                  config_basename=gridlines_name)
     import yaml
     with open(gridlines_fname, 'r') as fobj:
         gridlines_dict = yaml.safe_load(fobj)
@@ -255,4 +257,3 @@ def test_gridlines_interface():
             out_dict['dict_type'][curr_name] = get_gridlines_type(curr_name)
 
     return out_dict
-

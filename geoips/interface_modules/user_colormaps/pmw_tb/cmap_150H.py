@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -26,7 +26,7 @@ cmap_type = 'linear_segmented'
 
 def cmap_150H(data_range=[110, 310], cbar_label='TB (K)'):
     ''' Colormap for displaying ~150GHz PMW data.
-    
+
     Args:
         data_range (list[float]): Default [110, 310], Min and max value for colormap.
                                   Ensure the data range matches the range of the algorithm specified for use with this colormap
@@ -39,7 +39,7 @@ def cmap_150H(data_range=[110, 310], cbar_label='TB (K)'):
     max_tb = data_range[1]
 
     if min_tb > 129 or max_tb < 291:
-        raise('150H TB range MUST include 130 and 290')
+        raise ('150H TB range MUST include 130 and 290')
 
     from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
     transition_vals = [(min_tb, 130),
@@ -63,10 +63,10 @@ def cmap_150H(data_range=[110, 310], cbar_label='TB (K)'):
 
     #ticks = [xx[0] for xx in transition_vals]
 
-    #special selection of label
+    # special selection of label
 
     ticks = [110, 130, 150, 170, 190, 210, 230, 250, 270, 290, 310]
-  
+
     # selection of min and max values for colormap if needed
     min_tb = transition_vals[0][0]
     max_tb = transition_vals[-1][1]

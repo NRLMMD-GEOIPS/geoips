@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -55,11 +55,10 @@ def read_knmi_data(wind_xarray):
         wind_xarray.attrs['platform_name'] = 'hy-2b'
         # wind_xarray.attrs['data_provider'] = 'Copyright-2021-EUMETSAT'
 
-        
     # Pixel size stored as "25.0 km"
     pixel_size = float(wind_xarray.pixel_size_on_horizontal.replace(' km', ''))
 
-    # Interpolation Radius of Influence 
+    # Interpolation Radius of Influence
     wind_xarray.attrs['interpolation_radius_of_influence'] = pixel_size * 1000.0
 
     wind_xarray.attrs['sample_distance_km'] = pixel_size
@@ -83,7 +82,7 @@ def read_knmi_data(wind_xarray):
     import numpy
     RAIN_FLAG_BIT = 9
     wind_xarray['rain_flag'] = xarray.ufuncs.logical_and(wind_xarray['wvc_quality_flag'], (1 << RAIN_FLAG_BIT))
-                                     
+
     wind_xarray = wind_xarray.set_coords(['timestamp'])
     return {'WINDSPEED': wind_xarray}
 

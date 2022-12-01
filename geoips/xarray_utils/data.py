@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -40,10 +40,10 @@ def get_lat_lon_points(checklat, checklon, diff, sect_xarray, varname, drop=Fals
     Returns:
         (float, float, int) : min value in range, max value in range, and number of points in range
     '''
-    xinds = (sect_xarray['longitude'] > checklon - diff)\
-             & (sect_xarray['longitude'] < checklon + diff)\
-             & (sect_xarray['latitude'] > checklat - diff)\
-             & (sect_xarray['latitude'] < checklat + diff)
+    xinds = (sect_xarray['longitude'] > checklon - diff) & \
+            (sect_xarray['longitude'] < checklon + diff) & \
+            (sect_xarray['latitude'] > checklat - diff) & \
+            (sect_xarray['latitude'] < checklat + diff)
     import numpy
     if drop is True:
         retval = sect_xarray[varname].where(xinds, drop=drop).size
@@ -71,13 +71,8 @@ def get_lat_lon_points_numpy(checklat, checklon, diff, lat_array, lon_array, dat
     inds = numpy.logical_and(lat_array > checklat - diff,
                              lat_array < checklat + diff) & numpy.logical_and(lon_array > checklon - diff,
                                                                               lon_array < checklon + diff)
-   
 
     return (data_array[inds].min(), data_array[inds].max(), numpy.ma.count(data_array[inds]))
-     
-
-    
-
 
 
 def sector_xarray_temporal(full_xarray, mindt, maxdt, varnames, verbose=False, drop=False):
@@ -219,11 +214,18 @@ def sector_xarray_spatial(full_xarray, extent_lonlat, varnames, lon_pad=3, lat_p
     #         LOG.info('    STARTED SPATIAL WITH %s points for %s', good_speeds, varname)
 
     if verbose:
-        LOG.info('    Getting appropriate sector area lon %s to %s lat %s to %s, data minlon %s, maxlon %s, minlat %s, maxlat %s, %s points',
-                 min_lon, max_lon,
-                 min_lat, max_lat,
-                 lons.min().data, lons.max().data, lats.min().data, lats.max().data, lats.size)
-                 # lons.min().data, lons.max().data, lats.min().data, lats.max().data, good_speeds)
+        LOG.info(
+            '    Getting appropriate sector area lon %s to %s lat %s to %s, data minlon %s, maxlon %s, minlat %s, maxlat %s, %s points',
+            min_lon,
+            max_lon,
+            min_lat,
+            max_lat,
+            lons.min().data,
+            lons.max().data,
+            lats.min().data,
+            lats.max().data,
+            lats.size)
+        # lons.min().data, lons.max().data, lats.min().data, lats.max().data, good_speeds)
 
     xarray_sector_mask = (lons > min_lon)\
         & (lons < max_lon)\
@@ -278,7 +280,7 @@ def sector_xarray_spatial(full_xarray, extent_lonlat, varnames, lon_pad=3, lat_p
 
     LOG.info('    OVERALL SUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon and %0.2f and %0.2f lat %s points',
              min_lon, max_lon, min_lat, max_lat, sector_xarray['latitude'].size)
-             # extent_lonlat[0], extent_lonlat[2], extent_lonlat[1], extent_lonlat[3], final_good_points)
+    # extent_lonlat[0], extent_lonlat[2], extent_lonlat[1], extent_lonlat[3], final_good_points)
     return sector_xarray
 
 
@@ -290,7 +292,7 @@ def sector_xarray_dataset(full_xarray, area_def, varnames, lon_pad=3, lat_pad=0,
     LOG.debug('Full xarray start/end datetime: %s %s',
               full_xarray.start_datetime,
               full_xarray.end_datetime)
-              # numpy.ma.count(full_xarray[varnames[0]].to_masked_array()))
+    # numpy.ma.count(full_xarray[varnames[0]].to_masked_array()))
 
     if area_def is not None:
         if hasattr(area_def, 'sector_start_datetime') and area_def.sector_start_datetime:
@@ -305,8 +307,10 @@ def sector_xarray_dataset(full_xarray, area_def, varnames, lon_pad=3, lat_pad=0,
         extent_lonlat = list(area_def.area_extent_ll)
         sector_xarray = sector_xarray_spatial(time_xarray, extent_lonlat, varnames, lon_pad, lat_pad,
                                               verbose=verbose, drop=drop)
-        if sector_xarray is not None\
-           and 'timestamp' in varnames and hasattr(area_def, 'sector_start_datetime') and area_def.sector_start_datetime:
+        if ((sector_xarray is not None) and
+                ('timestamp' in varnames) and
+                (hasattr(area_def, 'sector_start_datetime')) and
+                area_def.sector_start_datetime):
             from geoips.xarray_utils.timestamp import get_min_from_xarray_timestamp, get_max_from_xarray_timestamp
             sector_xarray.attrs['area_definition'] = area_def
             sector_xarray.attrs['start_datetime'] = get_min_from_xarray_timestamp(sector_xarray, 'timestamp')
@@ -324,7 +328,7 @@ def sector_xarray_dataset(full_xarray, area_def, varnames, lon_pad=3, lat_pad=0,
             LOG.info('Sectored data start/end datetime: %s %s',
                      sector_xarray.start_datetime,
                      sector_xarray.end_datetime)
-                     # numpy.ma.count(full_xarray[varnames[0]].to_masked_array()))
+            # numpy.ma.count(full_xarray[varnames[0]].to_masked_array()))
 
     return sector_xarray
 

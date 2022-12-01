@@ -1,24 +1,24 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
 
-''' 
-This reader is desgined for importing the Advanced Microwave Sounding Unit (AMSU)-B/Microwave Humidity Sounder (HMS) 
-      and EUMETSAQT MHS data files in hdf5 from NOAA MIRS. These new data files have a different file name convention and 
+'''
+This reader is desgined for importing the Advanced Microwave Sounding Unit (AMSU)-B/Microwave Humidity Sounder (HMS)
+      and EUMETSAQT MHS data files in hdf5 from NOAA MIRS. These new data files have a different file name convention and
       and data structure from previous MSPPS.  Example of MIRIS files
       NPR-MIRS-IMG_v11r4_ma1_s202101111916000_e202101112012000_c202101112047200.nc   (ma1 is for metop-B)
       NPR-MIRS-IMG_v11r4_ma2_s202101111715000_e202101111857000_c202101111941370.nc   (ma2 is for metop-A)
@@ -50,8 +50,8 @@ Channel	Centre Frequency (GHz)	Bandwidth (MHz)	NeDT (K)	Calibration Accuracy (K)
 19	183.31+-3.00	1000	1.0	1.0	nospec        (Horizontal)
 20	190.31+17.00	2000	1.2	1.0	90-q          (Vertical)
 
-Since AMSU-A sensor is no longer available, we select only the AMSU-B/MHS channels. We decide to use the same names of 
-      the five channels used for previous NOAA MSPPS data files. i.e., select frequench index 15-19 (start from 0).   
+Since AMSU-A sensor is no longer available, we select only the AMSU-B/MHS channels. We decide to use the same names of
+      the five channels used for previous NOAA MSPPS data files. i.e., select frequench index 15-19 (start from 0).
 
 
  V1.0:  Initial version, NRL-MRY, January 26, 2021
@@ -83,7 +83,7 @@ Since AMSU-A sensor is no longer available, we select only the AMSU-B/MHS channe
         Latitude(Scanline, Field_of_view):Latitude of the view (-90,90), unit: degree
         Longitude(Scanline, Field_of_view):Longitude of the view (-180,180), unit: degree
         Sfc_type(Scanline, Field_of_view):type of surface:0-ocean,1-sea ice,2-land,3-snow
-        Atm_type(Scanline, Field_of_view): type of atmosphere:currently missing ( note: not needed for geoips products)  
+        Atm_type(Scanline, Field_of_view): type of atmosphere:currently missing ( note: not needed for geoips products)
         Qc(Scanline, Field_of_view, Qc_dim): Qc: 0-good, 1-usable with problem, 2-bad
         ChiSqr(Scanline, Field_of_view): Convergence rate: <3-good,>10-bad
         LZ_angle(Scanline, Field_of_view): Local Zenith Angle degree
@@ -121,7 +121,7 @@ Since AMSU-A sensor is no longer available, we select only the AMSU-B/MHS channe
         WindU(Scanline, Field_of_view):U-direction Wind Speed (m/s) (scale_factor = 0.01)
         WindV(Scanline, Field_of_view: V-direction Wind Speed (m/s) (scale_factor = 0.01)
         Prob_SF(Scanline, Field_of_view): Probability of falling snow (%)
------------------------------------------------------------------------------------------------------------- 
+------------------------------------------------------------------------------------------------------------
      Additionak info:
      Variables (nscan, npix):  npix=90 pixels per scan; nscan: vary with orbit
      chan-1 AT:  89 GHz              as ch16    anttenna temperature at V-pol   FOV 16km at nadir
@@ -133,8 +133,8 @@ Since AMSU-A sensor is no longer available, we select only the AMSU-B/MHS channe
      lon:     -180, 180   deg
      RR:  surface rainrate (mm/hr)
      Snow: surafce snow cover
-     IWP:  ice water path 
-     SWE:  snow water equvelent     
+     IWP:  ice water path
+     SWE:  snow water equvelent
      Sfc_type:  surface type
      Orbit_mode:   -1: ascending, 1: decending, 2: both
      SFR:  snowfall rate (unit?)
@@ -142,33 +142,33 @@ Since AMSU-A sensor is no longer available, we select only the AMSU-B/MHS channe
      SZ_angle:  solar zinath angle (deg)
 
 '''
-#--------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
 
 # Python Standard Libraries
+import h5py
+from pyhdf.VS import *
+from pyhdf.HDF import *
+from pyhdf.SD import SD, SDC
+from numpy import datetime64
+import matplotlib.pyplot as plt
 import logging
 import matplotlib
 matplotlib.use('agg')
-import matplotlib.pyplot as plt
-from numpy import datetime64
 
 # library for hdf files
-from pyhdf.SD import SD, SDC
-from pyhdf.HDF import *
-from pyhdf.VS import *
-
-import h5py
 
 
 LOG = logging.getLogger(__name__)
 
 # Selected variables for TC products (add more if needed)
-VARLIST=['BT','Latitude','Longitude','Freq','RR','TPW','CLW','RWP','LWP','SWP','IWP',
-         'GWP','Snow','SWE','SIce','SIce_MY','SIce_FY','TSkin','SurfP','Emis','Sfc_type',
-         'SFR','CldTop','CldBase','CldThick','WindSp','WindDir','WindU','WindV',
-         'LZ_angle','RAzi_angle','SZ_angle','ScanTime_UTC','ScanTime_second','Orb_mode',
-         'ScanTime_year','ScanTime_doy','ScanTime_month','ScanTime_dom','ScanTime_hour','ScanTime_minute']
+VARLIST = ['BT', 'Latitude', 'Longitude', 'Freq', 'RR', 'TPW', 'CLW', 'RWP', 'LWP', 'SWP', 'IWP',
+           'GWP', 'Snow', 'SWE', 'SIce', 'SIce_MY', 'SIce_FY', 'TSkin', 'SurfP', 'Emis', 'Sfc_type',
+           'SFR', 'CldTop', 'CldBase', 'CldThick', 'WindSp', 'WindDir', 'WindU', 'WindV',
+           'LZ_angle', 'RAzi_angle', 'SZ_angle', 'ScanTime_UTC', 'ScanTime_second', 'Orb_mode',
+           'ScanTime_year', 'ScanTime_doy', 'ScanTime_month', 'ScanTime_dom', 'ScanTime_hour', 'ScanTime_minute']
 
 reader_type = 'standard'
+
 
 def amsub_mirs(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     ''' Read AMSU-B hdf data products.
@@ -196,7 +196,7 @@ def amsub_mirs(fnames, metadata_only=False, chans=None, area_def=None, self_regi
 
     Returns:
         list of xarray.Datasets: list of xarray.Dataset objects with required Variables and Attributes:
-            * See geoips/docs :doc:`xarray_standards` 
+            * See geoips/docs :doc:`xarray_standards`
    '''
 
     import os
@@ -209,7 +209,7 @@ def amsub_mirs(fnames, metadata_only=False, chans=None, area_def=None, self_regi
     LOG.info('Reading file %s', fname)
 
     #     check for right input AMSU-B/MHS data file
-    data_name=os.path.basename(fname).split('_')[-1].split('.')[-1]
+    data_name = os.path.basename(fname).split('_')[-1].split('.')[-1]
 
     if data_name != 'nc':
         print('Warning: wrong AMSU-B/MHS data type:  data_type=', data_name)
@@ -220,9 +220,9 @@ def amsub_mirs(fnames, metadata_only=False, chans=None, area_def=None, self_regi
     else:
         print('not a NOAA MIRS AMSU-B/MHS file: skip it')
         raise
- 
+
     '''    ------  Notes  ------
-       Read AMSU-B hdf files for 5 chan antenna temperature (AT) and asscoaited EDRs  
+       Read AMSU-B hdf files for 5 chan antenna temperature (AT) and asscoaited EDRs
          Then, transform these ATs and fields into xarray framework for GEOIPS
          ( AT will be corrected into brightness temperature (TB) later)
 
@@ -231,39 +231,39 @@ def amsub_mirs(fnames, metadata_only=False, chans=None, area_def=None, self_regi
        Returns:
            xarray.Dataset with required Variables and Attributes:
                Variables:
-                        AMSUB vars:    
+                        AMSUB vars:
                           'latitude', 'longitude', 'Ch1', 'Ch2', 'Ch3', 'Ch4','Ch4',
                           'RR', 'Snow','SWE','IWP','SFR' 'sfcType', 'time_scan'
-               Attibutes: 
-                        'source_name', 'platform_name', 'data_provider', 
-                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'    
+               Attibutes:
+                        'source_name', 'platform_name', 'data_provider',
+                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'
     '''
 
     # import all data contents
     fileobj = h5py.File(fname, mode='r')
 
-    var_all={}
+    var_all = {}
 
     # read-in selected variables
     for var in VARLIST:
-        var_all[var]=fileobj[var]
+        var_all[var] = fileobj[var]
 
     # values adjustment with scale_factor if there is a "scale_factor'
 
     for var in VARLIST:
-        var_attrs=var_all[var].attrs.items()     # get attribute info
+        var_attrs = var_all[var].attrs.items()     # get attribute info
         for attrs in var_attrs:       # loop attribute tuples
             if 'scale_factor' in attrs[0]:
-               factor=attrs[1][0]
-               var_all[var]=var_all[var]*factor
-    
+                factor = attrs[1][0]
+                var_all[var] = var_all[var] * factor
+
     # Select 5 AMSU-B/MHS Channels
 
-    Chan1_AT=var_all['BT'][:,:,15]
-    Chan2_AT=var_all['BT'][:,:,16]
-    Chan3_AT=var_all['BT'][:,:,17]
-    Chan4_AT=var_all['BT'][:,:,18]
-    Chan5_AT=var_all['BT'][:,:,19]
+    Chan1_AT = var_all['BT'][:, :, 15]
+    Chan2_AT = var_all['BT'][:, :, 16]
+    Chan3_AT = var_all['BT'][:, :, 17]
+    Chan4_AT = var_all['BT'][:, :, 18]
+    Chan5_AT = var_all['BT'][:, :, 19]
 
     # start_time=os.path.basename(fname).split('_')[3][1:13]
     # end_time=os.path.basename(fname).split('_')[4][1:13]
@@ -271,16 +271,15 @@ def amsub_mirs(fnames, metadata_only=False, chans=None, area_def=None, self_regi
     start_datetime = datetime.strptime(fileobj.attrs['time_coverage_start'].astype(str), '%Y-%m-%dT%H:%M:%SZ')
     end_datetime = datetime.strptime(fileobj.attrs['time_coverage_end'].astype(str), '%Y-%m-%dT%H:%M:%SZ')
 
-
-    #  -------- Apply the GEOIPS framework in XARRAY data frame ----------  
+    #  -------- Apply the GEOIPS framework in XARRAY data frame ----------
 
     LOG.info('Making full dataframe')
 
-    # setup the timestamp in datetime64 format 
-    npix=var_all['RR'].shape[1]                           # pixels per scan
-    nscan=var_all['RR'].shape[0]                          # total scans of this file
+    # setup the timestamp in datetime64 format
+    npix = var_all['RR'].shape[1]                           # pixels per scan
+    nscan = var_all['RR'].shape[0]                          # total scans of this file
 
-    time_scan=np.zeros((nscan,npix))
+    time_scan = np.zeros((nscan, npix))
     # take time of each scan
     for i in range(nscan):
         yr = var_all['ScanTime_year'][i]
@@ -288,22 +287,21 @@ def amsub_mirs(fnames, metadata_only=False, chans=None, area_def=None, self_regi
         hr = var_all['ScanTime_hour'][i]
         mn = var_all['ScanTime_minute'][i]
         try:
-            time_scan[i:]='%04d%03d%02d%02d' % (yr, dy, hr, mn)
+            time_scan[i:] = '%04d%03d%02d%02d' % (yr, dy, hr, mn)
         except ValueError:
             LOG.info(f'Could not parse time for scan line {i}: YEAR={yr}, DOY={dy}, HOUR={hr}, MINUTE={mn}')
             continue
     #          ------  setup xarray variables   ------
 
-    #namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT', 'Chan3_AT','Chan4_AT','Chan5_AT',
+    # namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT', 'Chan3_AT','Chan4_AT','Chan5_AT',
     #                  'RR','Snow','IWP','SWE','SFR','Sfc_type','timestamp']
 
     xarray_amsub = xr.Dataset()
 
-
     # setup attributes
 
     # satID and start_end time from input filename (ma3 --> METOP-c?) - TBD: depending on data file )
-    sat_id=os.path.basename(fname).split('_')[2]
+    sat_id = os.path.basename(fname).split('_')[2]
     if sat_id == 'n19':
         satid = 'noaa-19'
         crtm_name = 'mhs_n19'
@@ -336,48 +334,48 @@ def amsub_mirs(fnames, metadata_only=False, chans=None, area_def=None, self_regi
     xarray_amsub.attrs['sample_distance_km'] = 2
     xarray_amsub.attrs['interpolation_radius_of_influence'] = 30000
 
-
     if metadata_only:
         LOG.info('metadata_only requested, returning without reading data')
         return {'METADATA': xarray_amsub}
 
-
     # keep same variables from previous version of amsub reader for files from MSPPS
-    xarray_amsub['latitude'] =xr.DataArray(var_all['Latitude'][()])
-    xarray_amsub['longitude']=xr.DataArray(var_all['Longitude'][()])
-    xarray_amsub['Chan1_AT'] =xr.DataArray(Chan1_AT, attrs={'channel_number': 1})
-    xarray_amsub['Chan2_AT'] =xr.DataArray(Chan2_AT, attrs={'channel_number': 2})
-    xarray_amsub['Chan3_AT'] =xr.DataArray(Chan3_AT, attrs={'channel_number': 3})
-    xarray_amsub['Chan4_AT'] =xr.DataArray(Chan4_AT, attrs={'channel_number': 4})
-    xarray_amsub['Chan5_AT'] =xr.DataArray(Chan5_AT, attrs={'channel_number': 5})
-    xarray_amsub['RR']       =xr.DataArray(var_all['RR'][()])
-    xarray_amsub['Snow']     =xr.DataArray(var_all['Snow'][()])
-    xarray_amsub['IWP']      =xr.DataArray(var_all['IWP'][()])
-    xarray_amsub['SWE']      =xr.DataArray(var_all['SWE'][()])
-    xarray_amsub['SFR']      =xr.DataArray(var_all['SFR'][()])
-    xarray_amsub['sfcType']  =xr.DataArray(var_all['Sfc_type'][()])
-    xarray_amsub['timestamp']=xr.DataArray(pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime,format='%Y%j%H%M'))
+    xarray_amsub['latitude'] = xr.DataArray(var_all['Latitude'][()])
+    xarray_amsub['longitude'] = xr.DataArray(var_all['Longitude'][()])
+    xarray_amsub['Chan1_AT'] = xr.DataArray(Chan1_AT, attrs={'channel_number': 1})
+    xarray_amsub['Chan2_AT'] = xr.DataArray(Chan2_AT, attrs={'channel_number': 2})
+    xarray_amsub['Chan3_AT'] = xr.DataArray(Chan3_AT, attrs={'channel_number': 3})
+    xarray_amsub['Chan4_AT'] = xr.DataArray(Chan4_AT, attrs={'channel_number': 4})
+    xarray_amsub['Chan5_AT'] = xr.DataArray(Chan5_AT, attrs={'channel_number': 5})
+    xarray_amsub['RR'] = xr.DataArray(var_all['RR'][()])
+    xarray_amsub['Snow'] = xr.DataArray(var_all['Snow'][()])
+    xarray_amsub['IWP'] = xr.DataArray(var_all['IWP'][()])
+    xarray_amsub['SWE'] = xr.DataArray(var_all['SWE'][()])
+    xarray_amsub['SFR'] = xr.DataArray(var_all['SFR'][()])
+    xarray_amsub['sfcType'] = xr.DataArray(var_all['Sfc_type'][()])
+    xarray_amsub['timestamp'] = xr.DataArray(
+        pd.DataFrame(time_scan).astype(int).apply(
+            pd.to_datetime, format='%Y%j%H%M'))
 
-    #add variables from MIRS file
-    xarray_amsub['TPW']       =xr.DataArray(var_all['TPW'][()])
-    xarray_amsub['CLW']     =xr.DataArray(var_all['CLW'][()])
-    xarray_amsub['RWP']      =xr.DataArray(var_all['RWP'][()])
-    xarray_amsub['GWP']       =xr.DataArray(var_all['GWP'][()])
-    xarray_amsub['SIce']     =xr.DataArray(var_all['SIce'][()])
-    xarray_amsub['SIce_MY']      =xr.DataArray(var_all['SIce_MY'][()])
-    xarray_amsub['SIce_FY']      =xr.DataArray(var_all['SIce_FY'][()])
-    xarray_amsub['TSkin']      =xr.DataArray(var_all['TSkin'][()])
-    xarray_amsub['SurfP']      =xr.DataArray(var_all['SurfP'][()])
-    xarray_amsub['CldTop']      =xr.DataArray(var_all['CldTop'][()])
-    xarray_amsub['CldBase']      =xr.DataArray(var_all['CldBase'][()])
-    xarray_amsub['CldThick']      =xr.DataArray(var_all['CldThick'][()])
-    xarray_amsub['WindSp']      =xr.DataArray(var_all['WindSp'][()])
-    xarray_amsub['WindDir']      =xr.DataArray(var_all['WindDir'][()])
-    xarray_amsub['WindU']      =xr.DataArray(var_all['WindU'][()])
-    xarray_amsub['WindV']      =xr.DataArray(var_all['WindV'][()])
-    xarray_amsub['SatZenith']      =xr.DataArray(var_all['LZ_angle'][()])
-    xarray_amsub['SZ_angle']      =xr.DataArray(var_all['SZ_angle'][()])
-    xarray_amsub['RAzi_angle']      =xr.DataArray(var_all['RAzi_angle'][()])
+    # add variables from MIRS file
+    xarray_amsub['TPW'] = xr.DataArray(var_all['TPW'][()])
+    xarray_amsub['CLW'] = xr.DataArray(var_all['CLW'][()])
+    xarray_amsub['RWP'] = xr.DataArray(var_all['RWP'][()])
+    xarray_amsub['GWP'] = xr.DataArray(var_all['GWP'][()])
+    xarray_amsub['SIce'] = xr.DataArray(var_all['SIce'][()])
+    xarray_amsub['SIce_MY'] = xr.DataArray(var_all['SIce_MY'][()])
+    xarray_amsub['SIce_FY'] = xr.DataArray(var_all['SIce_FY'][()])
+    xarray_amsub['TSkin'] = xr.DataArray(var_all['TSkin'][()])
+    xarray_amsub['SurfP'] = xr.DataArray(var_all['SurfP'][()])
+    xarray_amsub['CldTop'] = xr.DataArray(var_all['CldTop'][()])
+    xarray_amsub['CldBase'] = xr.DataArray(var_all['CldBase'][()])
+    xarray_amsub['CldThick'] = xr.DataArray(var_all['CldThick'][()])
+    xarray_amsub['WindSp'] = xr.DataArray(var_all['WindSp'][()])
+    xarray_amsub['WindDir'] = xr.DataArray(var_all['WindDir'][()])
+    xarray_amsub['WindU'] = xr.DataArray(var_all['WindU'][()])
+    xarray_amsub['WindV'] = xr.DataArray(var_all['WindV'][()])
+    xarray_amsub['SatZenith'] = xr.DataArray(var_all['LZ_angle'][()])
+    xarray_amsub['SZ_angle'] = xr.DataArray(var_all['SZ_angle'][()])
+    xarray_amsub['RAzi_angle'] = xr.DataArray(var_all['RAzi_angle'][()])
     # from amsub_mhs_prep/oned_innov.f90:
     beam_pos = np.broadcast_to(np.arange(fileobj['Field_of_view'].size) + 1, var_all['LZ_angle'][()].shape)
     xarray_amsub['sensor_scan_angle'] = xr.DataArray((beam_pos - 45.5) * 10. / 9.)

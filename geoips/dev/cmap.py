@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -24,12 +24,11 @@
     this module will be moved to the geoips/stable sub-package.
 '''
 
+from geoips.geoips_utils import find_entry_point, list_entry_points
 import logging
 import collections
 from importlib import import_module
 LOG = logging.getLogger(__name__)
-
-from geoips.geoips_utils import find_entry_point, list_entry_points
 
 
 ### Colormap functions ###
@@ -72,18 +71,18 @@ def is_valid_cmap(cmap_func_name):
     Return dictionary:
     mpl_colors_info {'cmap': <matplotlib colormap object>,
                      'norm': <matplotlib norm object>,
-                     'cbar_ticks': <list of tick values for colorbar>, 
-                     'cbar_label': <str label for colorbar>, 
-                     'boundaries': <matplotlib boundaries object>, 
-                     'cbar_spacing': <'uniform' or 'proportional'>, 
-                     'colorbar': <bool>, 
+                     'cbar_ticks': <list of tick values for colorbar>,
+                     'cbar_label': <str label for colorbar>,
+                     'boundaries': <matplotlib boundaries object>,
+                     'cbar_spacing': <'uniform' or 'proportional'>,
+                     'colorbar': <bool>,
                      'cbar_full_width': <bool>}
 
     For package based colormap functions:
         See geoips.dev.cmap.get_cmap
         See geoips.dev.cmap.get_cmap_type
         See geoips.dev.cmap.list_cmaps_by_type
-    
+
     For product based colormap functions:
         See geoips.dev.cmap.get_cmap
         See geoips.dev.cmap.get_cmap_name
@@ -128,7 +127,7 @@ def is_valid_cmap(cmap_func_name):
 
     cmap_func_vars = cmap_func.__code__.co_varnames
     cmap_func_args = cmap_func_vars[0:num_args]
-    cmap_func_kwargs = cmap_func_vars[num_args:num_args+num_kwargs]
+    cmap_func_kwargs = cmap_func_vars[num_args:num_args + num_kwargs]
 
     # Check for required call signature arguments
     if not set(required_args[cmap_func_type]).issubset(set(cmap_func_args)):

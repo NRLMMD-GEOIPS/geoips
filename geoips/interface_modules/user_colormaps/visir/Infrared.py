@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -26,7 +26,7 @@ cmap_type = 'linear_segmented'
 
 def Infrared(data_range=[-90, 30]):
     ''' Colormap developed for displaying algorithms/visir/Infrared.py processed data.
-    
+
     Args:
         data_range (list[float]): Min and max value for colormap.
                                   Ensure the data range matches the range of the algorithm specified for use with this colormap
@@ -41,7 +41,7 @@ def Infrared(data_range=[-90, 30]):
     # for Infrared images at 11 um.  Unit: Celsius
 
     if min_tb > -90 or max_tb < 30:
-        raise('Infrared TB range must include -90 and 30')
+        raise ('Infrared TB range must include -90 and 30')
 
     from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
     transition_vals = [(min_tb, -80),
@@ -50,25 +50,25 @@ def Infrared(data_range=[-90, 30]):
                        (-50, -40),
                        (-40, -30),
                        (-30, -15),
-                       (-15,   0),
-                       (  0,  15),
-                       ( 15, max_tb)]
+                       (-15, 0),
+                       (0, 15),
+                       (15, max_tb)]
     transition_colors = [('darkorange', 'yellow'),
                          ('darkred', 'red'),
                          ('green', 'palegreen'),
                          ('navy', 'royalblue'),
-                         ('royalblue','deepskyblue'),
+                         ('royalblue', 'deepskyblue'),
                          ('whitesmoke', 'silver'),
-                         ('silver','grey'),
-                         ('grey','dimgrey'),
+                         ('silver', 'grey'),
+                         ('grey', 'dimgrey'),
                          ('dimgrey', 'black')]
 
     #ticks = [int(xx[0]) for xx in transition_vals]
 
-    #special selection of label
+    # special selection of label
 
-    ticks = [min_tb, -80, -70, -60,-50, -40, -30, -20, -10, 0, 10, 20, max_tb]
-    
+    ticks = [min_tb, -80, -70, -60, -50, -40, -30, -20, -10, 0, 10, 20, max_tb]
+
     # selection of min and max values for colormap if needed
     min_tb = transition_vals[0][0]
     max_tb = transition_vals[-1][1]

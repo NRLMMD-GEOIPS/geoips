@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -83,7 +83,7 @@ def is_valid_title(title_func_name):
         return False
     title_vars = title_func.__code__.co_varnames
     title_args = title_vars[0:num_args]
-    title_kwargs = title_vars[num_args:num_args+num_kwargs]
+    title_kwargs = title_vars[num_args:num_args + num_kwargs]
 
     # Check for required call signature arguments
     if not set(required_args[title_type]).issubset(set(title_args)):
@@ -115,7 +115,7 @@ def get_remove_duplicates_func(title_func_name):
         (<title function>) : Function for generating titles of the specified format.
     '''
     curr_func = find_entry_point('title_formats', title_func_name)
-    return getattr(import_module(curr_func.__module__), title_func_name+'_remove_duplicates')
+    return getattr(import_module(curr_func.__module__), title_func_name + '_remove_duplicates')
 
 
 def get_title(title_func_name):

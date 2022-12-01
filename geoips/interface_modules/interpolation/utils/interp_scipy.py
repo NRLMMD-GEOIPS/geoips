@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -60,7 +60,7 @@ def interp_gaussian_kde(data_lons, data_lats,
     | bw_method:     | *str*              | Bandwidth selection method (see scipy.stats.gaussian_kde)|
     +----------------+--------------------+----------------------------------------------------------+
     '''
-    
+
     from scipy import stats
     positions = numpy.vstack([target_lons.ravel(), target_lats.ravel()])
     values = numpy.vstack([data_lons, data_lats])
@@ -74,7 +74,7 @@ def interp_griddata(data_array, data_lons, data_lats,
                     min_gridlon, max_gridlon, min_gridlat, max_gridlat,
                     numx_grid, numy_grid,
                     method='linear'):
-    ''' 
+    '''
     Interpolate a given array of non-uniform data to a specified grid,
     using scipy.interpolate.griddata
 
@@ -120,9 +120,9 @@ def interp_griddata(data_array, data_lons, data_lats,
 
     # make sure that 'longitude' is in 0-360 deg if the sector is crosssing the dateline
 
-    if min_gridlon >0 and max_gridlon <0:
-       data_lons = numpy.where(data_lons >0,data_lons,360+data_lons)
-       max_gridlon = 360 + max_gridlon 
+    if min_gridlon > 0 and max_gridlon < 0:
+        data_lons = numpy.where(data_lons > 0, data_lons, 360 + data_lons)
+        max_gridlon = 360 + max_gridlon
 
     #data_lons = numpy.where(data_lons >0,data_lons,360+data_lons)
 
@@ -137,11 +137,11 @@ def interp_griddata(data_array, data_lons, data_lats,
         data_lats = data_lats[inds]
         data_array = data_array[inds]
     # ocnvert negative longituge into 0-360 if needed
-    #if min_gridlon <0:
+    # if min_gridlon <0:
     #    min_gridlon = 360 + min_gridlon
-    #if max_gridlon <0:
+    # if max_gridlon <0:
     #    max_gridlon = 360 + max_gridlon
-    
+
     xx = numpy.linspace(min_gridlon, max_gridlon, int(numx_grid))
     yy = numpy.linspace(max_gridlat, min_gridlat, int(numy_grid))
     gridlons, gridlats = numpy.meshgrid(xx, yy)
@@ -158,6 +158,5 @@ def interp_griddata(data_array, data_lons, data_lats,
     interp_data = numpy.ma.masked_invalid(interp_data)
     interp_data = numpy.ma.masked_less(interp_data, data_array.min())
     interp_data = numpy.ma.masked_greater(interp_data, data_array.max())
-    
-    return interp_data
 
+    return interp_data

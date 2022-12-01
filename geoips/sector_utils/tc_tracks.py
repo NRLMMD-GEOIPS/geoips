@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -88,13 +88,13 @@ def get_tc_area_id(fields, finalstormname, tcyear):
     if not finalstormname:
         finalstormname = fields['storm_name']
     newname = '{0}{1:02d}{2}'.format(fields['storm_basin'].lower(),
-                                 int(fields['storm_num']),
-                                 finalstormname.lower())
+                                     int(fields['storm_num']),
+                                     finalstormname.lower())
 
     newname = newname.replace('_', '').replace('.', '').replace('-', '')
 
     # This ends up being tc2016io01one
-    area_id = 'tc'+str(tcyear)+newname
+    area_id = 'tc' + str(tcyear) + newname
     return area_id
 
 

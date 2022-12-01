@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -77,8 +77,8 @@ def mimic_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_re
     import xarray
     xobj = xarray.open_dataset(fname)
 
-    [date,time,ext] = os.path.basename(fname).split('.')
-    dt = datetime.strptime(date+time,'comp%Y%m%d%H%M%S')
+    [date, time, ext] = os.path.basename(fname).split('.')
+    dt = datetime.strptime(date + time, 'comp%Y%m%d%H%M%S')
     xobj.attrs['data_provider'] = 'cimss'
 
     xobj.attrs['start_datetime'] = dt
@@ -99,12 +99,12 @@ def mimic_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_re
 
     LOG.info('Calculating full lat/lon grid')
     import numpy
-    lon_final, lat_final = numpy.meshgrid(lon,lat)
+    lon_final, lat_final = numpy.meshgrid(lon, lat)
 
     LOG.info('Adding lat grid to xarray')
     xobj['latitude'] = xarray.DataArray(numpy.ma.array(lat_final), dims=('lat', 'lon'))
     LOG.info('Adding lon grid to xarray')
-    xobj['longitude'] =  xarray.DataArray(numpy.ma.array(lon_final), dims=('lat', 'lon'))
+    xobj['longitude'] = xarray.DataArray(numpy.ma.array(lon_final), dims=('lat', 'lon'))
     xobj = xobj.drop('latArr')
     xobj = xobj.drop('lonArr')
     xobj['tpw'] = xobj['tpwGrid']

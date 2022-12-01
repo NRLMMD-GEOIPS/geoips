@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -39,12 +39,12 @@ try:
     # will not work if the import fails and the package will have to be installed to process data of this type.
     import netCDF4 as ncdf
 except ImportError:
-    print ('Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. If you need it, install it.')
+    print('Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. If you need it, install it.')
 
 try:
     import numexpr as ne
 except ImportError:
-    print ('Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. If you need it, install it.')
+    print('Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. If you need it, install it.')
 
 # GeoIPS Libraries
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -58,7 +58,7 @@ nprocs = 6
 try:
     ne.set_num_threads(nprocs)
 except Exception:
-    print ('Failed numexpr.set_num_threads in {}. If numexpr is not installed and you need it, install it.'.format(__file__))
+    print('Failed numexpr.set_num_threads in {}. If numexpr is not installed and you need it, install it.'.format(__file__))
 
 DONT_AUTOGEN_GEOLOCATION = False
 if os.getenv('DONT_AUTOGEN_GEOLOCATION'):
@@ -447,7 +447,7 @@ def abi_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_regi
                 continue
         try:
             all_metadata[fname] = _get_metadata(ncdf.Dataset(str(fname), 'r'), fname)
-        except IOError as resp: 
+        except IOError as resp:
             log.exception('BAD FILE %s skipping', resp)
             continue
         if metadata_only:
@@ -685,7 +685,7 @@ def abi_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_regi
         else:
             raise ValueError('No geolocation data found.')
 
-    # basically just reformat the all_metadata dictionary to 
+    # basically just reformat the all_metadata dictionary to
     # reference channel names as opposed to file names..
     band_metadata = get_band_metadata(all_metadata)
 
@@ -718,8 +718,8 @@ def abi_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_regi
                       xobj.area_definition.pixel_size_y)
             log.info('Trying area_def roi %s', roi)
         for curr_res in standard_metadata.keys():
-            if standard_metadata[curr_res]['res_km']*1000.0 > roi:
-                roi = standard_metadata[curr_res]['res_km']*1000.0
+            if standard_metadata[curr_res]['res_km'] * 1000.0 > roi:
+                roi = standard_metadata[curr_res]['res_km'] * 1000.0
                 log.info('Trying standard_metadata[%s] %s', curr_res, roi)
         xobj.attrs['interpolation_radius_of_influence'] = roi
         xarray_objs[dsname] = xobj
@@ -733,7 +733,7 @@ def abi_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_regi
 
 
 def get_band_metadata(all_metadata):
-    ''' This method basically just reformats the all_metadata 
+    ''' This method basically just reformats the all_metadata
         dictionary that is set based on the metadata found
         in the netcdf object itself to reference channel
         names as opposed to filenames as the dictionary keys.
@@ -741,10 +741,10 @@ def get_band_metadata(all_metadata):
     bandmetadata = {}
     for fname in all_metadata.keys():
         bandnum = all_metadata[fname]['var_info']['band_id'][0]
-        bandmetadata['B%02d'%bandnum] = {}
-        bandmetadata['B%02d'%bandnum] = all_metadata[fname]
+        bandmetadata['B%02d' % bandnum] = {}
+        bandmetadata['B%02d' % bandnum] = all_metadata[fname]
     return bandmetadata
-            
+
 
 def get_data(md, gvars, rad=False, ref=False, bt=False):
     '''
@@ -908,7 +908,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
 
         data['BT'][~bad_data_mask] = ne.evaluate('(fk2 / log(fk1 / rad_data + 1) - bc1) / bc2')
 
-    # badvals are terribly 
+    # badvals are terribly
     # latitude is sometimes fully specified from area_def... So does not relate to actual masked data..
     usemask = np.ma.masked_less(gvars['Lines'], -990).mask
     # usemask = gvars['latitude'].mask

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -213,8 +213,8 @@ def parallels(area_def, grid_size):
     from numpy.ma import masked_greater
     lats = area_def.get_lonlats()[1]
     mlats = masked_greater(lats, 90)
-    min_parallel = ceil(float(mlats.min())/grid_size)*grid_size
-    max_parallel = ceil(float(mlats.max())/grid_size)*grid_size
+    min_parallel = ceil(float(mlats.min()) / grid_size) * grid_size
+    max_parallel = ceil(float(mlats.max()) / grid_size) * grid_size
     lat_ticks = arange(min_parallel, max_parallel, grid_size)
     LOG.info('List of parallels: min/max %s, %s', lat_ticks[0], lat_ticks[-1])
     lat_ticks = [round(lat_tick, 1) for lat_tick in lat_ticks]
@@ -251,8 +251,8 @@ def meridians(area_def, grid_size):
         llcrnrlon -= 360
 
     from math import ceil
-    min_meridian = ceil(float(llcrnrlon)/grid_size)*grid_size
-    max_meridian = ceil(float(urcrnrlon)/grid_size)*grid_size
+    min_meridian = ceil(float(llcrnrlon) / grid_size) * grid_size
+    max_meridian = ceil(float(urcrnrlon) / grid_size) * grid_size
     meridians_to_draw = numpy.arange(min_meridian, max_meridian, grid_size)
     import pyresample
     meridians_to_draw = pyresample.utils.wrap_longitudes(meridians_to_draw)
@@ -542,7 +542,7 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
                                  draw_labels=True,
                                  linewidth=gridlines_info['grid_lat_linewidth'],
                                  linestyle=linestyle_lat,
-                                **extra_args)
+                                 **extra_args)
 
         # Default to False, unless set in argument
         glnr.top_labels = False

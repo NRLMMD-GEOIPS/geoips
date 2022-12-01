@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -24,12 +24,11 @@
     this module will be moved to the geoips/stable sub-package.
 '''
 
+from geoips.geoips_utils import find_entry_point, list_entry_points
 import collections
 from importlib import import_module
 import logging
 LOG = logging.getLogger(__name__)
-
-from geoips.geoips_utils import find_entry_point, list_entry_points
 
 
 ### Filename Functions ###
@@ -117,13 +116,16 @@ def is_valid_filenamer(filename_func_name):
     try:
         filename_func = get_filenamer(filename_func_name)
     except ImportError as resp:
-        raise ImportError(f'INVALID FILENAME {filename_func_name}: Must specify function "{filename_func_name}" within module "{filename_func_name}": Exception: "{resp}"')
+        raise ImportError(
+            f'INVALID FILENAME {filename_func_name}: Must specify function "{filename_func_name}" within module "{filename_func_name}": Exception: "{resp}"')
 
     if filename_type not in required_args:
-        raise TypeError(f"INVALID FILENAME FUNC {filename_func_name}: Unknown filename func type {filename_type}, allowed types: {required_args.keys()}")
+        raise TypeError(
+            f"INVALID FILENAME FUNC {filename_func_name}: Unknown filename func type {filename_type}, allowed types: {required_args.keys()}")
 
     if filename_type not in required_kwargs:
-        raise TypeError(f"INVALID FILENAME FUNC {filename_func_name}: Unknown filename func type {filename_type}, allowed types: {required_kwargs.keys()}")
+        raise TypeError(
+            f"INVALID FILENAME FUNC {filename_func_name}: Unknown filename func type {filename_type}, allowed types: {required_kwargs.keys()}")
 
     num_args = len(required_args[filename_type])
     num_kwargs = len(required_kwargs[filename_type])
@@ -133,7 +135,7 @@ def is_valid_filenamer(filename_func_name):
         return False
     filename_vars = filename_func.__code__.co_varnames
     filename_args = filename_vars[0:num_args]
-    filename_kwargs = filename_vars[num_args:num_args+num_kwargs]
+    filename_kwargs = filename_vars[num_args:num_args + num_kwargs]
 
     # Check for required call signature arguments
     if not set(required_args[filename_type]).issubset(set(filename_args)):
@@ -165,7 +167,7 @@ def get_remove_duplicates_func(filename_func_name):
         (<filename function>) : Function for generating filenames of the specified format.
     '''
     curr_func = find_entry_point('filename_formats', filename_func_name)
-    return getattr(import_module(curr_func.__module__), filename_func_name+'_remove_duplicates')
+    return getattr(import_module(curr_func.__module__), filename_func_name + '_remove_duplicates')
 
 
 def get_filenamer(filename_func_name):
@@ -235,7 +237,14 @@ def test_filename_interface():
         (list) : List of all successfully opened geoips filename funcs
     '''
     curr_names = list_filenamers_by_type()
-    out_dict = {'by_type': curr_names, 'validity_check': {}, 'func_type': {}, 'func': {}, 'cmaps': {}, 'cmap_args': {}, 'cmap_func_names': {}}
+    out_dict = {
+        'by_type': curr_names,
+        'validity_check': {},
+        'func_type': {},
+        'func': {},
+        'cmaps': {},
+        'cmap_args': {},
+        'cmap_func_names': {}}
     for curr_type in curr_names:
         for curr_name in curr_names[curr_type]:
             out_dict['validity_check'][curr_name] = is_valid_filenamer(curr_name)

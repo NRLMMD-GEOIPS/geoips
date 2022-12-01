@@ -1,23 +1,23 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
 
 ''' This SSMI reader is desgined for importing SSMI sdr data files (such as
-      ssmi_orbital_sdrmi_f15_d20200427_s104500_e123100_r05323_cfnoc.def).  
+      ssmi_orbital_sdrmi_f15_d20200427_s104500_e123100_r05323_cfnoc.def).
       This reader is created to read in TBs at 19 (V,H),22V, 37(V,H) and 85 (V,H) GHz channels.
       There are A/B scans for 85 GHz.  The combined A/B scans will be used for
       TC imagery products at 85 GHz.
@@ -69,13 +69,13 @@
 -----------------------------------------------------------------------------------------------------------
 '''
 # Python Standard Libraries
+from numpy import datetime64
+import matplotlib.pyplot as plt
+import matplotlib
 import logging
 from os.path import basename
 LOG = logging.getLogger(__name__)
-import matplotlib
 matplotlib.use('agg')
-import matplotlib.pyplot as plt
-from numpy import datetime64
 
 reader_type = 'standard'
 
@@ -121,20 +121,20 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
 
     #     check for right nput SSMI SDR data file
 
-    data_name=os.path.basename(fname).split('_')[-1].split('.')[-1]
+    data_name = os.path.basename(fname).split('_')[-1].split('.')[-1]
 
     if data_name != 'def':
         print('Warning: wrong SSMI SDR data type:  data_type={0}'.format(data_name))
         raise
 
-    if 'cfnoc' in os.path.basename(fname) and 'sdrmi' in os.path.basename(fname) :
+    if 'cfnoc' in os.path.basename(fname) and 'sdrmi' in os.path.basename(fname):
         print('found a SSMI SDR file')
     else:
         print('not a SSMI SDR file: skip it')
         raise IOError('Not an SSMI SDR file: skip it')
- 
+
     '''    ------  Notes  ------
-       Read in SSMI SDR files for 19v-h,22v,37v-h,85v-h(A and B scans) in binary data  
+       Read in SSMI SDR files for 19v-h,22v,37v-h,85v-h(A and B scans) in binary data
             Then, transform these variables (TBs) into xarray framework for GEOIPS
 
        Input Parameters:
@@ -142,13 +142,13 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
        Returns:
            xarray.Dataset with required Variables and Attributes:
                Variables:
-                        LORES Channels:    
+                        LORES Channels:
                           'latitude', 'longitude', '19V', '19H', '22V', '37V','37H','time_scan'
-                        HIRES Channels (combined A-B scans):    
+                        HIRES Channels (combined A-B scans):
                           'latitude', 'longitude', '85V', '85H', 'sfcType', 'time_scan'
-               Attibutes: 
-                        'source_name', 'platform_name', 'data_provider', 
-                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'    
+               Attibutes:
+                        'source_name', 'platform_name', 'data_provider',
+                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'
                Optional Attrs:
                         'original_source_filenames', 'filename_datetimes'
     '''
@@ -167,14 +167,14 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
         return 256 * buf[p] + buf[p + 1]
 
     def V4(p):
-        return 256 * (256 * (256 * buf[p] + buf[p+1]) + buf[p + 2]) + buf[p + 3]
+        return 256 * (256 * (256 * buf[p] + buf[p + 1]) + buf[p + 2]) + buf[p + 3]
 
     def VLat(p):
         return V2(p) - 9000
 
     def VLon(p):
         return V2(p)
-      
+
     # Define a function to extract values of parameters from a scan data block
 
     def fill_arrays():
@@ -191,7 +191,7 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
         sft = {}
 
         LORES = 64
-        unit_scale=100.0        # convert integer TBs into actual values
+        unit_scale = 100.0        # convert integer TBs into actual values
 
         for spotL in range(LORES):
             bb = spotL * 52
@@ -206,9 +206,9 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
             # Initilize variable for A and B scans [0] - A scan; [1] - B scan
 
             # for LORES pixel positions
-            lat[spotH] = np.zeros(2) 
-            lon[spotH] = np.zeros(2) 
-            v85[spotH] = np.zeros(2) 
+            lat[spotH] = np.zeros(2)
+            lon[spotH] = np.zeros(2)
+            v85[spotH] = np.zeros(2)
             h85[spotH] = np.zeros(2)
             sft[spotH] = np.zeros(2)              # surface type
 
@@ -248,87 +248,83 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
             sft[spotH + 1][1] = V1(bb + 54)
 
         data = {
-               'v19': v19,
-               'h19': h19,
-               'v22': v22,
-               'v37': v37,
-               'h37': h37,
-               'lat': lat,
-               'lon': lon,
-               'v85': v85,
-               'h85': h85,
-               'sft': sft
-               }
+            'v19': v19,
+            'h19': h19,
+            'v22': v22,
+            'v37': v37,
+            'h37': h37,
+            'lat': lat,
+            'lon': lon,
+            'v85': v85,
+            'h85': h85,
+            'sft': sft
+        }
         return data
-
 
     # Main section of processing SSMI SDR data
 
     # define some parameters
-    LORES=64           # pixels per lo-res scan
-    HIRES=128          # pixels per gi-res scan
-    MAXSCANS=3000      # max lo-res scans per file
-    SCANTIME=3.798     # approximate A-B scan interval
+    LORES = 64           # pixels per lo-res scan
+    HIRES = 128          # pixels per gi-res scan
+    MAXSCANS = 3000      # max lo-res scans per file
+    SCANTIME = 3.798     # approximate A-B scan interval
 
-    TRUE=1
-    FALSE=0
-    BUFSIZE=4444
-    FRAMESIZE=12798
-    FILLER=0xA5
-    EOF_LEN=6
-        
+    TRUE = 1
+    FALSE = 0
+    BUFSIZE = 4444
+    FRAMESIZE = 12798
+    FILLER = 0xA5
+    EOF_LEN = 6
+
     # Return Codes
-    OK=0
-    BAD_HDRS=3
-    BAD_EOF=4
-    BAD_LEN=5
-    WRITE_ERR=6
-    END_FILE=7
-    FATAL_ERR=8
-    CANT_OPEN=9
-          
+    OK = 0
+    BAD_HDRS = 3
+    BAD_EOF = 4
+    BAD_LEN = 5
+    WRITE_ERR = 6
+    END_FILE = 7
+    FATAL_ERR = 8
+    CANT_OPEN = 9
 
     # Header Info
     blocks = {
-              'ProdID': 28,           #Product ID hdr
-              'DataSeq': 26,          #DataSeq hdr  (scan line info, total scans))
-              'RevHdrDD': 190,        #Rev info
-              'ScanHdrDD': 34,        #Scan hdr
-              'ScanDD': 370,          #
-              'RevHdr': 30,
-              'ScanHdr': 12,
-              'Scan': 3334
-             }
+        'ProdID': 28,  # Product ID hdr
+        'DataSeq': 26,  # DataSeq hdr  (scan line info, total scans))
+        'RevHdrDD': 190,  # Rev info
+        'ScanHdrDD': 34,  # Scan hdr
+        'ScanDD': 370,          #
+        'RevHdr': 30,
+        'ScanHdr': 12,
+        'Scan': 3334
+    }
 
-
-    f1 = open(fname,'rb')             # open inform ssmi sdr file
+    f1 = open(fname, 'rb')             # open inform ssmi sdr file
 
     data = {}                         # define a dictionary array for parameters (TBs, etc)
 
-    year  = {}                        # define arrays for scan ime info
+    year = {}                        # define arrays for scan ime info
     month = {}
-    day   = {}
-    hour  = {}
-    minute= {}
-    second= {}
-
+    day = {}
+    hour = {}
+    minute = {}
+    second = {}
 
     #    Process of READ HEARDERs
 
     #    Product ID Block
     buf = np.frombuffer(f1.read(blocks['ProdID']), dtype='uint8')
     satid0 = 10 * (V1(18) - 48) + V1(19) - 48
-    fcyr  = V2(20)            # date of this input file createed
+    fcyr = V2(20)            # date of this input file createed
     fcmon = V1(22)
     fcday = V1(23)
-    fchr  = V1(24)
+    fchr = V1(24)
     fcmin = V1(25)
 
     #    Data Sequence Block
     buf = np.frombuffer(f1.read(blocks['DataSeq']), dtype='uint8')
     scans = V2(14)                    # number of total scans of this orbital file
 
-    #    Data Description Blocks 
+    #    Data Description Blocks
     buf = np.frombuffer(f1.read(blocks['RevHdrDD']), dtype='uint8')
     buf = np.frombuffer(f1.read(blocks['ScanHdrDD']), dtype='uint8')
     buf = np.frombuffer(f1.read(blocks['ScanDD']), dtype='uint8')
@@ -336,35 +332,34 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
     #     Rev Header Block
     buf = np.frombuffer(f1.read(blocks['RevHdr']), dtype='uint8')
     scid = V4(4)                      # spcaecraft ID, i.e., 15 for F15
-    rev  = V4(8)
+    rev = V4(8)
     bjld = V2(12)                     # start date info: juliadn day
-    bhr  = V1(14)                      #                  hour
+    bhr = V1(14)  # hour
     bmin = V1(15)
     bsec = V1(16)
     ejld = V2(17)                     # end date info: Julian day
-    ehr  = V1(19)
+    ehr = V1(19)
     emin = V1(20)
     esec = V1(21)
     ajld = V2(22)                     # julian day for ascending node
-    ahr  = V1(24)
+    ahr = V1(24)
     amin = V1(25)
     asec = V1(26)
     lsat = V1(27)                     # logical satellite ID
 
-   
     # setup year and julian day for this input file
-    year_info=str(fcyr)
-    jDay_info=str(bjld)
+    year_info = str(fcyr)
+    jDay_info = str(bjld)
 
     #   --------  Start processes of reading and extraction of scans  -------------
 
-    scan_read=0                    # initilization of scan count
+    scan_read = 0                    # initilization of scan count
 
     while f1:                      # loop scans of this file
 
         # Read Scan Header Block
         while True:
-            buf = np.frombuffer(f1.read(2), dtype='uint8')  #read in block length from  two-byte words
+            buf = np.frombuffer(f1.read(2), dtype='uint8')  # read in block length from  two-byte words
             if list(buf) == [0, 0] and len(buf) > 0:
                 continue
             elif list(buf)[0] != 165:    # not a FILLER, so get the length of this block
@@ -372,10 +367,10 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
             if length != 0:              # find good block with length-bytes data
                 break
 
-        length2=length-2                 # bytes of the rest block
+        length2 = length - 2                 # bytes of the rest block
 
-        buf0 = np.frombuffer(f1.read(length2), dtype='uint8')  #read length2 bytes of this block
-        buf =np.append([0,0],buf0)       # shift two bytes so buf will have "length" bytes     
+        buf0 = np.frombuffer(f1.read(length2), dtype='uint8')  # read length2 bytes of this block
+        buf = np.append([0, 0], buf0)       # shift two bytes so buf will have "length" bytes
 
         if length == BAD_LEN:
             print('fatal error:  Ban_length')
@@ -392,28 +387,28 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
 
         # conver time to seconds from beggining of 1987 (do we need this info?)
 
-        scan_hr = bst/3600                             # hour of the scan
-        scan_min = (bst - scan_hr*3600)/60               # minute of scan
-        scan_sec = bst - scan_hr*3600 - scan_min*60    # second of the scan
+        scan_hr = bst / 3600                             # hour of the scan
+        scan_min = (bst - scan_hr * 3600) / 60               # minute of scan
+        scan_sec = bst - scan_hr * 3600 - scan_min * 60    # second of the scan
 
-        date_info = datetime.strptime(year_info+jDay_info, '%Y%j')
+        date_info = datetime.strptime(year_info + jDay_info, '%Y%j')
 
-        scan_yr  = date_info.year
+        scan_yr = date_info.year
         scan_mon = date_info.month
         scan_day = date_info.day
 
-        # set up time info for each B scan  (will set: A scantime = B scantime later) 
-        year[scan_read]   = scan_yr
-        month[scan_read]  = scan_mon
-        day[scan_read]    = scan_hr
-        hour[scan_read]   = scan_hr
+        # set up time info for each B scan  (will set: A scantime = B scantime later)
+        year[scan_read] = scan_yr
+        month[scan_read] = scan_mon
+        day[scan_read] = scan_hr
+        hour[scan_read] = scan_hr
         minute[scan_read] = scan_min
         second[scan_read] = scan_sec
 
         # read Scan Data Block
 
         while True:
-            buf = np.frombuffer(f1.read(2), dtype='uint8')  #read in block length from  two-byte words
+            buf = np.frombuffer(f1.read(2), dtype='uint8')  # read in block length from  two-byte words
             if list(buf) == [0, 0] and len(buf) > 0:
                 continue
             elif list(buf)[0] != 165:    # not a FILLER, so get the length of this block
@@ -421,10 +416,10 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
             if length != 0:              # find good block with length-bytes data
                 break
 
-        length2=length-2                 # bytes of the rest block
+        length2 = length - 2                 # bytes of the rest block
 
-        buf0 = np.frombuffer(f1.read(length2), dtype='uint8')  #read length2 bytes of this block
-        buf =np.append([0,0],buf0)       # shift two bytes so buf will have "length" bytes     
+        buf0 = np.frombuffer(f1.read(length2), dtype='uint8')  # read length2 bytes of this block
+        buf = np.append([0, 0], buf0)       # shift two bytes so buf will have "length" bytes
 
         if length == BAD_LEN:
             raise                               # fatal error stop
@@ -440,130 +435,134 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
             break
 
         # extract parameters from the scan block
-        data[scan_read]= fill_arrays()
+        data[scan_read] = fill_arrays()
 
-        scan_read += 1                # accumulation of scans                    
+        scan_read += 1                # accumulation of scans
 
     f1.close()                        # close input file
 
-    #  -------- Apply the GEOIPS framework in XARRAY data frame ----------  
+    #  -------- Apply the GEOIPS framework in XARRAY data frame ----------
 
     LOG.info('Making full dataframe')
 
-    bad_value= -999
+    bad_value = -999
 
     # initilization of variables
-    lat_lo = np.zeros((scan_read,64))          # LORES channels: lat
-    lon_lo = np.zeros((scan_read,64))          # lon
-    V19 = np.zeros((scan_read,64))
-    H19 = np.zeros((scan_read,64))
-    V22 = np.zeros((scan_read,64))
-    V37 = np.zeros((scan_read,64))
-    H37 = np.zeros((scan_read,64))
-    time_scan_lo = np.zeros((scan_read,64))    # same for every pixel of this scan
+    lat_lo = np.zeros((scan_read, 64))          # LORES channels: lat
+    lon_lo = np.zeros((scan_read, 64))          # lon
+    V19 = np.zeros((scan_read, 64))
+    H19 = np.zeros((scan_read, 64))
+    V22 = np.zeros((scan_read, 64))
+    V37 = np.zeros((scan_read, 64))
+    H37 = np.zeros((scan_read, 64))
+    time_scan_lo = np.zeros((scan_read, 64))    # same for every pixel of this scan
 
-    lat_hia = np.zeros((scan_read,128))          # A scan HIRES channels: lat
-    lon_hia = np.zeros((scan_read,128))           #                        lon
-    lat_hib = np.zeros((scan_read,128))          # B scan HIRES channels: lat
-    lon_hib = np.zeros((scan_read,128))          #                        lon
-    V85a = np.zeros((scan_read,128))
-    V85b = np.zeros((scan_read,128))
-    H85a = np.zeros((scan_read,128))
-    H85b = np.zeros((scan_read,128))
+    lat_hia = np.zeros((scan_read, 128))          # A scan HIRES channels: lat
+    lon_hia = np.zeros((scan_read, 128))  # lon
+    lat_hib = np.zeros((scan_read, 128))          # B scan HIRES channels: lat
+    lon_hib = np.zeros((scan_read, 128))  # lon
+    V85a = np.zeros((scan_read, 128))
+    V85b = np.zeros((scan_read, 128))
+    H85a = np.zeros((scan_read, 128))
+    H85b = np.zeros((scan_read, 128))
 
-    lat_ab = np.zeros((scan_read*2,128))          # combined A-B scans: lat
-    lon_ab = np.zeros((scan_read*2,128))        #                     lon
-    V85  = np.zeros((scan_read*2,128))
-    H85  = np.zeros((scan_read*2,128))
-    sfcType = np.zeros((scan_read*2,128))
-    time_scan = np.zeros((scan_read*2,128))    # same for every pixel of this scan
+    lat_ab = np.zeros((scan_read * 2, 128))          # combined A-B scans: lat
+    lon_ab = np.zeros((scan_read * 2, 128))  # lon
+    V85 = np.zeros((scan_read * 2, 128))
+    H85 = np.zeros((scan_read * 2, 128))
+    sfcType = np.zeros((scan_read * 2, 128))
+    time_scan = np.zeros((scan_read * 2, 128))    # same for every pixel of this scan
 
     # assignment of data for variables
 
     for ii in range(scan_read):                                   # loop of scans
 
-        ii2=ii*2                                 # for combined A-B scans
+        ii2 = ii * 2                                 # for combined A-B scans
 
         for jj in range(LORES):                  # loop of pixels per scan for LORES channels
-            jj2=jj*2
+            jj2 = jj * 2
             try:
-                lat_lo[ii][jj]  = data[ii]['lat'][jj2][0] 
-                lon_lo[ii][jj]  = data[ii]['lon'][jj2][0]
-                V19[ii][jj] = data[ii]['v19'][jj]    
+                lat_lo[ii][jj] = data[ii]['lat'][jj2][0]
+                lon_lo[ii][jj] = data[ii]['lon'][jj2][0]
+                V19[ii][jj] = data[ii]['v19'][jj]
                 H19[ii][jj] = data[ii]['h19'][jj]
-                V22[ii][jj] = data[ii]['v22'][jj]    
-                V37[ii][jj] = data[ii]['v37'][jj]  
+                V22[ii][jj] = data[ii]['v22'][jj]
+                V37[ii][jj] = data[ii]['v37'][jj]
                 H37[ii][jj] = data[ii]['h37'][jj]
-                time_scan_lo[ii][jj]='%04d%03d%02d%02d' % (fcyr,bjld,hour[ii],minute[ii])
-            except:
+                time_scan_lo[ii][jj] = '%04d%03d%02d%02d' % (fcyr, bjld, hour[ii], minute[ii])
+            except BaseException:
                 print('Failed setting arrays in LORES channels {0} {1} {2}'.format(ii, jj, jj2))
- 
+
         for jj in range(HIRES):                  # loop of pixels per scan for HIRES channels
             try:
-                lat_hia[ii][jj]  = data[ii]['lat'][jj][0]       # A scan 
-                lon_hia[ii][jj]  = data[ii]['lon'][jj][0]
-                lat_hib[ii][jj]  = data[ii]['lat'][jj][1]       # B scan 
-                lon_hib[ii][jj]  = data[ii]['lon'][jj][1]
-                V85a[ii][jj] = data[ii]['v85'][jj][0]           # A scan    
-                V85b[ii][jj] = data[ii]['v85'][jj][1]           # B scan    
-                H85a[ii][jj] = data[ii]['h85'][jj][0]           # A scan    
+                lat_hia[ii][jj] = data[ii]['lat'][jj][0]       # A scan
+                lon_hia[ii][jj] = data[ii]['lon'][jj][0]
+                lat_hib[ii][jj] = data[ii]['lat'][jj][1]       # B scan
+                lon_hib[ii][jj] = data[ii]['lon'][jj][1]
+                V85a[ii][jj] = data[ii]['v85'][jj][0]           # A scan
+                V85b[ii][jj] = data[ii]['v85'][jj][1]           # B scan
+                H85a[ii][jj] = data[ii]['h85'][jj][0]           # A scan
                 H85b[ii][jj] = data[ii]['h85'][jj][1]           # B scan
 
-                # combined A-B scans    
-                lat_ab[ii2][jj]  = lat_hia[ii][jj]       # put A scan values 
-                lon_ab[ii2][jj]  = lon_hia[ii][jj]
+                # combined A-B scans
+                lat_ab[ii2][jj] = lat_hia[ii][jj]       # put A scan values
+                lon_ab[ii2][jj] = lon_hia[ii][jj]
                 V85[ii2][jj] = V85a[ii][jj]
-                H85[ii2][jj] = H85a[ii][jj]  
+                H85[ii2][jj] = H85a[ii][jj]
                 sfcType[ii2][jj] = data[ii]['sft'][jj][0]
-                time_scan[ii2][jj]='%04d%03d%02d%02d' % (fcyr,bjld,hour[ii],minute[ii])
-  
-                lat_ab[ii2 +1][jj]  = lat_hib[ii][jj]       # put B scan values 
-                lon_ab[ii2 +1][jj]  = lon_hib[ii][jj]
+                time_scan[ii2][jj] = '%04d%03d%02d%02d' % (fcyr, bjld, hour[ii], minute[ii])
+
+                lat_ab[ii2 + 1][jj] = lat_hib[ii][jj]       # put B scan values
+                lon_ab[ii2 + 1][jj] = lon_hib[ii][jj]
                 V85[ii2 + 1][jj] = V85b[ii][jj]
-                H85[ii2 + 1][jj] = H85b[ii][jj]  
-                sfcType[ii2 +1][jj] = data[ii]['sft'][jj][1]  
-                time_scan[ii2 +1][jj]=time_scan[ii2][jj]     # same time for A and B scan
-            except:
+                H85[ii2 + 1][jj] = H85b[ii][jj]
+                sfcType[ii2 + 1][jj] = data[ii]['sft'][jj][1]
+                time_scan[ii2 + 1][jj] = time_scan[ii2][jj]     # same time for A and B scan
+            except BaseException:
                 print('Failed setting arrays in HIRES channels')
 
     #          ------  setup xarray variables   ------
-    namelist_lores = ['latitude', 'longitude', 'V19', 'H19', 'V22', 'V37','H37','time_scan_lo']
-    namelist_85ab  = ['latitude', 'longitude', 'V85', 'H85', 'sfcType','timestamp']
+    namelist_lores = ['latitude', 'longitude', 'V19', 'H19', 'V22', 'V37', 'H37', 'time_scan_lo']
+    namelist_85ab = ['latitude', 'longitude', 'V85', 'H85', 'sfcType', 'timestamp']
 
     # for LORES channels
     xarray_lores = xr.Dataset()
-    xarray_lores['latitude']=xr.DataArray(lat_lo)
-    xarray_lores['longitude']=xr.DataArray(lon_lo)
-    xarray_lores['V19']=xr.DataArray(V19)
-    xarray_lores['H19']=xr.DataArray(H19)
-    xarray_lores['V22']=xr.DataArray(V22)
-    xarray_lores['V37']=xr.DataArray(V37)
-    xarray_lores['H37']=xr.DataArray(H37)
-    xarray_lores['timestamps']=xr.DataArray(pd.DataFrame(time_scan_lo).astype(int).apply(pd.to_datetime,format='%Y%j%H%M'))
+    xarray_lores['latitude'] = xr.DataArray(lat_lo)
+    xarray_lores['longitude'] = xr.DataArray(lon_lo)
+    xarray_lores['V19'] = xr.DataArray(V19)
+    xarray_lores['H19'] = xr.DataArray(H19)
+    xarray_lores['V22'] = xr.DataArray(V22)
+    xarray_lores['V37'] = xr.DataArray(V37)
+    xarray_lores['H37'] = xr.DataArray(H37)
+    xarray_lores['timestamps'] = xr.DataArray(
+        pd.DataFrame(time_scan_lo).astype(int).apply(
+            pd.to_datetime, format='%Y%j%H%M'))
 
     # for combined 85GHz A-B channels
     xarray_85ab = xr.Dataset()
-    xarray_85ab['latitude']=xr.DataArray(lat_ab)
-    xarray_85ab['longitude']=xr.DataArray(lon_ab)
-    xarray_85ab['V85']=xr.DataArray(V85)
-    xarray_85ab['H85']=xr.DataArray(H85)
-    xarray_85ab['sfcType']=xr.DataArray(sfcType)
-    xarray_85ab['timestamp']=xr.DataArray(pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime,format='%Y%j%H%M'))
+    xarray_85ab['latitude'] = xr.DataArray(lat_ab)
+    xarray_85ab['longitude'] = xr.DataArray(lon_ab)
+    xarray_85ab['V85'] = xr.DataArray(V85)
+    xarray_85ab['H85'] = xr.DataArray(H85)
+    xarray_85ab['sfcType'] = xr.DataArray(sfcType)
+    xarray_85ab['timestamp'] = xr.DataArray(
+        pd.DataFrame(time_scan).astype(int).apply(
+            pd.to_datetime, format='%Y%j%H%M'))
 
     # setup attributes
 
-    # ch:       19   22   37  85    GHz  
-    #FOV_list=['43','40','28',13']  km
-    
-    # satID string
-    satid = 'F'+str(satid0)
+    # ch:       19   22   37  85    GHz
+    # FOV_list=['43','40','28',13']  km
 
-    start_time = '%04d%03d%02d%02d' % (fcyr,bjld,bhr,bmin)
-    end_time   = '%04d%03d%02d%02d' % (fcyr,ejld,ehr,emin)
+    # satID string
+    satid = 'F' + str(satid0)
+
+    start_time = '%04d%03d%02d%02d' % (fcyr, bjld, bhr, bmin)
+    end_time = '%04d%03d%02d%02d' % (fcyr, ejld, ehr, emin)
 
     # for LORES
-    xarray_lores.attrs['start_datetime'] = datetime.strptime(start_time,'%Y%j%H%M')
-    xarray_lores.attrs['end_datetime'] = datetime.strptime(end_time,'%Y%j%H%M')
+    xarray_lores.attrs['start_datetime'] = datetime.strptime(start_time, '%Y%j%H%M')
+    xarray_lores.attrs['end_datetime'] = datetime.strptime(end_time, '%Y%j%H%M')
     xarray_lores.attrs['source_name'] = 'ssmi'
     xarray_lores.attrs['platform_name'] = satid
     xarray_lores.attrs['data_provider'] = 'DMSP'
@@ -574,9 +573,9 @@ def ssmi_binary(fnames, metadata_only=False, chans=False, area_def=None, self_re
     xarray_lores.attrs['sample_distance_km'] = 2
     xarray_lores.attrs['interpolation_radius_of_influence'] = 50000
 
-    # for 85GHz A-B combined 
-    xarray_85ab.attrs['start_datetime'] = datetime.strptime(start_time,'%Y%j%H%M')
-    xarray_85ab.attrs['end_datetime'] = datetime.strptime(end_time,'%Y%j%H%M')
+    # for 85GHz A-B combined
+    xarray_85ab.attrs['start_datetime'] = datetime.strptime(start_time, '%Y%j%H%M')
+    xarray_85ab.attrs['end_datetime'] = datetime.strptime(end_time, '%Y%j%H%M')
     xarray_85ab.attrs['filename_datetimes'] = [xarray_85ab.start_datetime]
     xarray_85ab.attrs['source_name'] = 'ssmi'
     xarray_85ab.attrs['platform_name'] = satid

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -286,7 +286,7 @@ def write_to_database(final_product, product_name, xarray_obj, available_sectors
     req_sector_type = output_dict['requested_sector_type']
     db_writer_name = available_sectors_dict[req_sector_type]['product_database_writer']
     db_writer = get_db_writer(db_writer_name)
-    
+
     area_def = writer_kwargs.get('area_def')
     file_split = final_product.split('.')
     if len(file_split) > 1:
@@ -295,7 +295,7 @@ def write_to_database(final_product, product_name, xarray_obj, available_sectors
         file_type = ''
     writer_kwargs['fileType'] = file_type
     writer_kwargs['product'] = product_name
-    
+
     product_added = db_writer(final_product, xarray_obj, area_def=area_def, additional_attrs=writer_kwargs)
 
     return product_added
@@ -348,7 +348,8 @@ def process_unsectored_data_outputs(final_products, available_outputs_dict, avai
                         final_products[cpath]['files'] += out
                         if write_to_product_db:
                             for fprod in out.keys():
-                                product_added = write_to_database(fprod, product_name, xobjs, available_sectors_dict, output_dict)
+                                product_added = write_to_database(
+                                    fprod, product_name, xobjs, available_sectors_dict, output_dict)
                                 final_products[cpath]['database writes'] += [product_added]
     return final_products
 
@@ -376,7 +377,7 @@ def requires_bg(available_outputs_dict, sector_type):
 
 
 def is_required_sector_type(available_outputs_dict, sector_type):
-    ''' Check if a given sector_type is required for any currently requested output_types 
+    ''' Check if a given sector_type is required for any currently requested output_types
 
     Args:
         available_outputs_dict (dict) : Dictionary of all requested output_types (specified in YAML config)
@@ -555,7 +556,7 @@ def config_based(fnames, command_line_args=None):
     bg_files = None
     bg_product_name = None
     bg_resampled_read = False
-    bg_self_register_dataset= None
+    bg_self_register_dataset = None
     bg_self_register_source = None
 
     if 'fuse_files' in command_line_args and command_line_args['fuse_files'] is not None:
@@ -574,7 +575,7 @@ def config_based(fnames, command_line_args=None):
         bg_product_name = config_dict['fuse_product']
 
     if 'fuse_resampled_read' in command_line_args and command_line_args['fuse_resampled_read'] is not None:
-        bg_resampled_read= command_line_args['fuse_resampled_read'][0]
+        bg_resampled_read = command_line_args['fuse_resampled_read'][0]
     elif 'fuse_resampled_read' in config_dict:
         bg_resampled_read = config_dict['fuse_resampled_read']
 
@@ -606,7 +607,7 @@ def config_based(fnames, command_line_args=None):
     if product_db:
         from os import getenv
         if not getenv('GEOIPS_DB_USER') or not getenv('GEOIPS_DB_PASS'):
-                    raise ValueError('Need to set both $GEOIPS_DB_USER and $GEOIPS_DB_PASS')
+            raise ValueError('Need to set both $GEOIPS_DB_USER and $GEOIPS_DB_PASS')
 
     print_mem_usage('MEMUSG', verbose=False)
     reader = get_reader(config_dict['reader_name'])
@@ -641,7 +642,6 @@ def config_based(fnames, command_line_args=None):
                                                      command_line_args,
                                                      xobjs,
                                                      variables)
-
 
     # Check if we have any required unsectored outputs, if so produce here, then continue
     final_products = process_unsectored_data_outputs(final_products,
@@ -789,7 +789,7 @@ def config_based(fnames, command_line_args=None):
             # Must adjust the area definition AFTER sectoring xarray (to get valid start/end time
             adjust_area_def = None
             if 'adjust_area_def' in config_dict['available_sectors'][sector_type]:
-                adjust_area_def = config_dict['available_sectors'][sector_type]['adjust_area_def'] 
+                adjust_area_def = config_dict['available_sectors'][sector_type]['adjust_area_def']
 
             adadj_fnames = []
             if adjust_area_def:
@@ -833,10 +833,12 @@ def config_based(fnames, command_line_args=None):
                 else:
                     # AMSU-b specifically needs full swath width... Need a way to generalize this.
                     if area_def_adjuster_type == 'list_xarray_list_variables_to_area_def_out_fnames':
-                        area_def, adadj_fnames = area_def_adjuster(list(pad_sect_xarrays.values()),
-                                                                   area_def,
-                                                                   curr_variables,
-                                                                   config_dict['available_sectors'][sector_type]['adjust_variables'])
+                        area_def, adadj_fnames = area_def_adjuster(
+                            list(pad_sect_xarrays.values()),
+                            area_def,
+                            curr_variables,
+                            config_dict['available_sectors'][sector_type]['adjust_variables']
+                            )
                     else:
                         area_def = area_def_adjuster(list(pad_sect_xarrays.values()),
                                                      area_def,
@@ -942,8 +944,8 @@ def config_based(fnames, command_line_args=None):
                         final_products[cpath]['files'] += curr_output_products
                         if product_db:
                             for fprod in curr_output_products:
-                                product_added = write_to_database(fprod, product_name, pad_sect_xarrays['METADATA'], 
-                                                                  config_dict['available_sectors'], 
+                                product_added = write_to_database(fprod, product_name, pad_sect_xarrays['METADATA'],
+                                                                  config_dict['available_sectors'],
                                                                   output_dict, area_def=area_def)
                                 final_products[cpath]['database writes'] += [product_added]
                         continue
@@ -1001,7 +1003,6 @@ def config_based(fnames, command_line_args=None):
                     if bg_files and 'background_products' in output_dict and sector_type in bg_alg_xarrays:
                         alg_xarray = combine_filename_extra_fields(bg_alg_xarrays[sector_type], alg_xarray)
 
-
                     curr_products = plot_data(output_dict,
                                               alg_xarray,
                                               area_def,
@@ -1013,7 +1014,7 @@ def config_based(fnames, command_line_args=None):
                     if product_db:
                         for fprod in curr_products.keys():
                             product_added = write_to_database(fprod, product_name, alg_xarray,
-                                                              config_dict['available_sectors'], output_dict, 
+                                                              config_dict['available_sectors'], output_dict,
                                                               coverage=covg, area_def=area_def)
                             final_products[cpath]['database writes'] += [product_added]
 
@@ -1083,7 +1084,8 @@ def config_based(fnames, command_line_args=None):
     LOG.info('READER_NAME: %s', config_dict['reader_name'])
     LOG.info('NUM_PRODUCTS: %s', sum([len(final_products[cpath]['files']) for cpath in final_products]))
     if product_db:
-        LOG.info('NUM_DATABASE_WRITES: %s', sum([len(final_products[cpath]['database writes']) for cpath in final_products]))
+        LOG.info('NUM_DATABASE_WRITES: %s', sum(
+            [len(final_products[cpath]['database writes']) for cpath in final_products]))
     LOG.info('NUM_DELETED_PRODUCTS: %s', len(removed_products))
     LOG.info('NUM_SUCCESSFUL_COMPARISON_DIRS: %s', successful_comparison_dirs)
     LOG.info('NUM_FAILED_COMPARISON_DIRS: %s', failed_comparison_dirs)

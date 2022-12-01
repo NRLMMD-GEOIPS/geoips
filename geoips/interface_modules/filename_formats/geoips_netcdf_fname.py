@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -41,7 +41,6 @@ def geoips_netcdf_fname(area_def, xarray_obj, product_names, coverage=None, outp
                                               sector_name=xarray_obj.area_definition.area_id,
                                               product_datetime=xarray_obj.start_datetime)
 
-
     return ncdf_fname
 
 
@@ -71,7 +70,7 @@ def assemble_geoips_netcdf_fname(basedir, product_name, source_name=None, platfo
     '''
 
     if set_subpath:
-        path = pathjoin(basedir,set_subpath)
+        path = pathjoin(basedir, set_subpath)
     else:
         path = basedir
         if product_name is not None:
@@ -94,6 +93,6 @@ def assemble_geoips_netcdf_fname(basedir, product_name, source_name=None, platfo
         path_parts.extend([product_name])
     if sector_name is not None:
         path_parts.extend([sector_name])
-    fname = '.'.join(path_parts+['nc'])
+    fname = '.'.join(path_parts + ['nc'])
 
     return pathjoin(path, fname)

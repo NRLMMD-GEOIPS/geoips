@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -55,6 +55,6 @@ def metadata_default_fname(area_def, xarray_obj, product_filename,
                                      metadata_dir,
                                      metadata_type,
                                      metadata_datetime.strftime('%Y%m%d'))
-    metadata_yaml_basename = basename(product_filename)+'.yaml'
+    metadata_yaml_basename = basename(product_filename) + '.yaml'
 
     return pathjoin(metadata_yaml_dirname, metadata_yaml_basename)

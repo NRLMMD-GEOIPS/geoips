@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -26,7 +26,7 @@ cmap_type = 'linear_segmented'
 
 def cmap_89HW(data_range=[220.0, 280.0], cbar_label='TB (K)'):
     ''' Colormap for displaying ~89GHz PMW data for weak TCs.
-    
+
     Args:
         data_range (list[float]): Min and max value for colormap.
                                   Ensure the data range matches the range of the algorithm specified for use with this colormap
@@ -39,9 +39,9 @@ def cmap_89HW(data_range=[220.0, 280.0], cbar_label='TB (K)'):
     max_tb = data_range[1]
 
     if min_tb > 220 or max_tb < 265:
-        raise('89HW TB range must include 220 and 265')
+        raise ('89HW TB range must include 220 and 265')
 
-    # use the TC 89 GHz legacy color table for 89HW (Weak TCs)  
+    # use the TC 89 GHz legacy color table for 89HW (Weak TCs)
     from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
     transition_vals = [(min_tb, 220.1),
                        (220.1, 240),
@@ -57,10 +57,10 @@ def cmap_89HW(data_range=[220.0, 280.0], cbar_label='TB (K)'):
 
     #ticks = [xx[0] for xx in transition_vals]
 
-    #special selection of label
+    # special selection of label
 
     ticks = [220, 230, 240, 250, 260, 270, 280]
-  
+
     # selection of min and max values for colormap if needed
     min_tb = transition_vals[0][0]
     max_tb = transition_vals[-1][1]

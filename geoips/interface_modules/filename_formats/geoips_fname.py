@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -75,7 +75,6 @@ def assemble_geoips_fname(basedir, product_name, source_name, platform_name, sec
                           coverage, resolution, product_datetime,
                           output_type='png', data_provider=None, extra=None, product_dir=None, source_dir=None,
                           continent=None, country=None, area=None, subarea=None, state=None, city=None):
-                            
     ''' Produce full output product path from product / sensor specifications.
         standard web paths are of the format:
        '<basedir>/<continent>-<country>-<area>/<subarea>-<state>-<city>/<productname>/<sensorname>
@@ -149,8 +148,8 @@ def assemble_geoips_fname(basedir, product_name, source_name, platform_name, sec
                     '{0}-{1}-{2}'.format(subarea, state, city),
                     product_dir,
                     source_dir)
-                    # source_dir,
-                    # '{0:0.1f}'.format(resolution).replace('.', 'p'))
+    # source_dir,
+    # '{0:0.1f}'.format(resolution).replace('.', 'p'))
     # fname = '<date{%Y%m%d}>.<time{%H%M%S}>.<satname>.<sensorname>.<productname>.<sectorname>.
     #          <coverage>.<dataprovider>.<extra>'
     fname = '.'.join([product_datetime.strftime('%Y%m%d'),

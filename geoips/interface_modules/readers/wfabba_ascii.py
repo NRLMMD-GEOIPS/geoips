@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -30,6 +30,7 @@ import xarray
 LOG = logging.getLogger(__name__)
 
 reader_type = 'standard'
+
 
 def parse_header_line(line):
     # Remove white space and '###' from header line
@@ -106,7 +107,7 @@ def read_wfabba_text(wfabba_file):
             data = text[2:, col_num].astype(float)
             xobj[col_name] = xarray.DataArray(data)
             header_meta['units'][col_name] = col_unit
-        xobj['firetime'] = xarray.DataArray([header_meta['datetime']]*int(header_meta['Number of detected fires']))
+        xobj['firetime'] = xarray.DataArray([header_meta['datetime']] * int(header_meta['Number of detected fires']))
     xobj.attrs['start_datetime'] = header_meta['datetime']
     xobj.attrs['end_datetime'] = header_meta['datetime']
     xobj.attrs['filename_datetimes'] = [header_meta['datetime']]
@@ -147,12 +148,12 @@ def wfabba_ascii(fnames, metadata_only=False, chans=None, area_def=None, self_re
     metadata = read_wfabba_header(fnames[0])
     end_metadata = read_wfabba_header(fnames[-1])
     geoips_attrs = {'area_definition': area_def,
-                     'start_datetime': metadata['datetime'],
-                     'end_datetime': end_metadata['datetime'],
-                     'vertical_data_type': 'surface',
-                     'source_name': 'wfabba',
-                     'data_provider': 'ssec',
-                     'interpolation_radius_of_influence': 2000}
+                    'start_datetime': metadata['datetime'],
+                    'end_datetime': end_metadata['datetime'],
+                    'vertical_data_type': 'surface',
+                    'source_name': 'wfabba',
+                    'data_provider': 'ssec',
+                    'interpolation_radius_of_influence': 2000}
     if area_def:
         geoips_attrs['area_id'] = area_def.area_id
     else:
@@ -180,5 +181,3 @@ def wfabba_ascii(fnames, metadata_only=False, chans=None, area_def=None, self_re
     else:
         xarray_dset = xarray_objs[0]
     return {'wfabba': xarray_dset, 'METADATA': meta_dataset}
-
-

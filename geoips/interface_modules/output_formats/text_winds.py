@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -52,7 +52,7 @@ def text_winds(xarray_objs,
                                             append=curr_append,
                                             overwrite=overwrite,
                                             source_names=source_names)
-            
+
     # Remove any duplicates - they would have been overwritten
     return list(set(output_products))
 
@@ -119,7 +119,7 @@ def write_text_winds(xarray_obj, product_names, output_fnames, append=False, ove
         lon_array = lon_array[inds]
         lat_array = lat_array[inds]
         if dir_array is not None:
-            dir_array = dir_array[inds] 
+            dir_array = dir_array[inds]
 
     openstr = 'w'
     if append:

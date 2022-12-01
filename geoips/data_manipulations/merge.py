@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -31,14 +31,14 @@ def minrange(start_date, end_date):
     '''Check one min at a time'''
     #log.info('in minrange')
     tr = end_date - start_date
-    mins = int((tr.seconds + tr.days * 86400 ) / 60)
+    mins = int((tr.seconds + tr.days * 86400) / 60)
     LOG.info('%s', mins)
     for n in range(mins):
-        yield start_date + timedelta(seconds = (n*60))
+        yield start_date + timedelta(seconds=(n * 60))
 
 
 def daterange(start_date, end_date):
-    '''Check one day at a time. 
+    '''Check one day at a time.
         If end_date - start_date is between 1 and 2, days will be 1,
         and range(1) is 0. So add 2 to days to set range'''
     #log.info('in minrange')
@@ -51,8 +51,8 @@ def hourrange(start_date, end_date):
     '''Check one hour at a time. '''
     LOG.info('in hourrange')
     tr = end_date - start_date
-    for n in range(tr.days*24 + tr.seconds / 3600 ):
-        yield start_date + timedelta(seconds = (n*3600))
+    for n in range(tr.days * 24 + tr.seconds / 3600):
+        yield start_date + timedelta(seconds=(n * 3600))
 
 
 def find_datafiles_in_range(sector_name, platform_name, source_name, min_time, max_time,
@@ -65,7 +65,7 @@ def find_datafiles_in_range(sector_name, platform_name, source_name, min_time, m
     fnames = []
     first = True
     min_timediff = 10000000
-    if (min_time - max_time) < timedelta(minutes=30) or every_min == True:
+    if (min_time - max_time) < timedelta(minutes=30) or every_min:
         for sdt in minrange(min_time, max_time):
             ncdf_fname = netcdf_write_filename(basedir,
                                                product_name=product_name,
@@ -88,7 +88,7 @@ def find_datafiles_in_range(sector_name, platform_name, source_name, min_time, m
                 if single_match is not True:
                     LOG.info('    Adding %s', ncdf_fnames)
                     fnames += ncdf_fnames
-                
+
     return fnames
 
 
@@ -103,13 +103,13 @@ def get_matching_files(primary_sector_name, subsector_names, platforms, sources,
                                        including the full primary_sector_name.)
                                        ie ['GlobalGlobal', 'GlobalAntarctic', 'GlobalArctic']
         platforms (list of str): List of all desired platforms - platforms, sources, and max_time_diffs correspond to
-                                 one another and should be the same length, in the same order.  
+                                 one another and should be the same length, in the same order.
         sources (list of str): List of all desired sources - platforms, sources, and max_time_diffs correspond to
-                               one another and should be the same length, in the same order.  
+                               one another and should be the same length, in the same order.
         max_time_diffs (list of int): Minutes. List of allowed time diffs for given platform/source. Matches
                                       max_time_diff before the requested merge_datetime argument - platforms, sources,
                                       and max_time_diffs correspond to one another and should be the same length,
-                                      in the same order.  
+                                      in the same order.
         basedir (str): Base directory in which to look for the matching files
         merge_datetime (datetime.datetime): Attempt matching max_time_diff prior to merge_datetime
         product_name (str): product_name string found in matching files
@@ -117,7 +117,6 @@ def get_matching_files(primary_sector_name, subsector_names, platforms, sources,
 
     Returns: (list of str) List of file names that matched requested paramters.
     '''
-                      
 
     from geoips.filenames.base_paths import PATHS as gpaths
     from datetime import timedelta
@@ -128,7 +127,7 @@ def get_matching_files(primary_sector_name, subsector_names, platforms, sources,
     if single_match is True:
         actual_datetime = merge_datetime
 
-    # Go through the list of platforms / sources / allowed time diffs to find the appropriate files for each 
+    # Go through the list of platforms / sources / allowed time diffs to find the appropriate files for each
     # data type
     for platform, source, time_diff in zip(platforms,
                                            sources,
@@ -139,7 +138,7 @@ def get_matching_files(primary_sector_name, subsector_names, platforms, sources,
 
             # Get the sector name from the current subsector.
             LOG.info('Checking %s %s %s %s', currsectname, platform, source, time_diff)
-            curr_verbose=verbose
+            curr_verbose = verbose
             # if platform == 'npp':
             #     curr_verbose=False
 

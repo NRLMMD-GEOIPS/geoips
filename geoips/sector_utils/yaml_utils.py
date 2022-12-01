@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -84,11 +84,13 @@ def add_description_to_yamldict(yaml_dict, sectorname, sector_type, sector_start
         yaml_dict[sectorname]['description'] = sectorname
     if sector_type == 'tc':
         yaml_dict[sectorname]['sector_type'] = sector_type
-        yaml_dict[sectorname]['description'] = 'TC{0} {1}{2} {3} {4}'.format(info_dict['storm_year'],
-                                                                               info_dict['storm_basin'],
-                                                                               info_dict['storm_num'],
-                                                                               info_dict['storm_name'],
-                                                                               str(info_dict['synoptic_time']))
+        yaml_dict[sectorname]['description'] = 'TC{0} {1}{2} {3} {4}'.format(
+            info_dict['storm_year'],
+            info_dict['storm_basin'],
+            info_dict['storm_num'],
+            info_dict['storm_name'],
+            str(info_dict['synoptic_time'])
+        )
     if sector_type in ['pyrocb', 'atmosriver', 'volcano']:
         sector_start_datetime_str = yaml_dict[sectorname]['sector_start_datetime'].strftime('%Y%m%dT%HZ')
         yaml_dict[sectorname]['sector_type'] = sector_type
@@ -104,8 +106,7 @@ def add_sectorinfo_to_yamldict(yaml_dict, sectorname, sector_info_dict):
 
 def add_projection_to_yamldict(yaml_dict, sectorname, center_lat, center_lon,
                                center_x=0, center_y=0, template_yaml=None):
-    LOG.info('add_projection_to_yamldict - update to template_yaml') 
-    from IPython import embed as shell; shell()
+    LOG.info('add_projection_to_yamldict - update to template_yaml')
     yaml_dict[sectorname]['projection'] = {}
     yaml_dict[sectorname]['projection']['proj'] = proj
     yaml_dict[sectorname]['projection']['a'] = 6371228.0
@@ -119,8 +120,8 @@ def add_projection_to_yamldict(yaml_dict, sectorname, center_lat, center_lon,
     yaml_dict[sectorname]['shape']['width'] = pix_x
     yaml_dict[sectorname]['shape']['height'] = pix_y
     # This only works because it is square!!
-    yaml_dict[sectorname]['area_extent'] = {'lower_left_xy': [center_x - (pix_x*pix_width_m / 2),
-                                                              center_y - (pix_y*pix_height_m / 2)],
-                                            'upper_right_xy': [center_x + (pix_x*pix_width_m / 2),
-                                                               center_y + (pix_y*pix_height_m / 2)]}
+    yaml_dict[sectorname]['area_extent'] = {'lower_left_xy': [center_x - (pix_x * pix_width_m / 2),
+                                                              center_y - (pix_y * pix_height_m / 2)],
+                                            'upper_right_xy': [center_x + (pix_x * pix_width_m / 2),
+                                                               center_y + (pix_y * pix_height_m / 2)]}
     return yaml_dict

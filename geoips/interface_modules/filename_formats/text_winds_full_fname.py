@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -67,7 +67,7 @@ def assemble_windspeeds_text_full_fname(basedir, source_name, platform_name,
         Returns:
             str: to full path of output filename of the format:
               <basedir>/<source_name>_<data_provider>_<platform_name>_surface_winds_<YYYYMMDDHHMN>
-             
+
         Usage:
             >>> startdt = datetime.strptime('20200216T001412', '%Y%m%dT%H%M%S')
             >>> assemble_windspeeds_text_full_fname('/outdir', 'smap-spd', 'smap', 'remss', startdt, '%Y%m%d')
@@ -81,9 +81,9 @@ def assemble_windspeeds_text_full_fname(basedir, source_name, platform_name,
                       product_datetime.strftime(dt_format)])
 
     if creation_time is not None:
-        fname = fname+'_creationtime_'+creation_time.strftime('%Y%m%dT%H%MZ')
+        fname = fname + '_creationtime_' + creation_time.strftime('%Y%m%dT%H%MZ')
 
     if extension is not None:
-        fname = fname+extension
+        fname = fname + extension
 
     return pathjoin(basedir, fname)

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -56,7 +56,7 @@ except NameError:
 LOG = logging.getLogger(__name__)
 
 # These should be added to the data file object
-BADVALS = {'Off_Of_Disk': -999.9,}
+BADVALS = {'Off_Of_Disk': -999.9, }
 
 VIS_CALIB = {'msg1': {'B01': 65.2296,
                       'B02': 73.0127,
@@ -75,38 +75,38 @@ VIS_CALIB = {'msg1': {'B01': 65.2296,
                       'B03': 61.9416,
                       'B12': 79.0035}}
 
-IR_CALIB = {'msg1': {'B04': {'wn': 2567.330, 'a': 0.9956, 'b': 3.410}, # IR3.9 Water vapour channel
-                     'B05': {'wn': 1598.103, 'a': 0.9962, 'b': 2.218}, # IR6.2 Water vapour channel
-                     'B06': {'wn': 1362.081, 'a': 0.9991, 'b': 0.478}, # IR7.3 Water vapour channel
-                     'B07': {'wn': 1149.069, 'a': 0.9996, 'b': 0.179}, # IR8.7 Atmospheric window
-                     'B08': {'wn': 1034.343, 'a': 0.9999, 'b': 0.060}, # IR9.7 Ozone channel
+IR_CALIB = {'msg1': {'B04': {'wn': 2567.330, 'a': 0.9956, 'b': 3.410},  # IR3.9 Water vapour channel
+                     'B05': {'wn': 1598.103, 'a': 0.9962, 'b': 2.218},  # IR6.2 Water vapour channel
+                     'B06': {'wn': 1362.081, 'a': 0.9991, 'b': 0.478},  # IR7.3 Water vapour channel
+                     'B07': {'wn': 1149.069, 'a': 0.9996, 'b': 0.179},  # IR8.7 Atmospheric window
+                     'B08': {'wn': 1034.343, 'a': 0.9999, 'b': 0.060},  # IR9.7 Ozone channel
                      'B09': {'wn': 930.647, 'a': 0.9983, 'b': 0.625},  # IR10.8 Atmospheric window
                      'B10': {'wn': 839.660, 'a': 0.9988, 'b': 0.397},  # IR12.0 Atmospheric window
-                     'B11': {'wn': 752.387, 'a': 0.9981, 'b': 0.578}}, # IR13.4 Carbon dioxide channel
-            'msg2': {'B04': {'wn': 2568.832, 'a': 0.9954, 'b': 3.438}, # IR3.9 Water vapour channel
-                     'B05': {'wn': 1600.548, 'a': 0.9963, 'b': 2.185}, # IR6.2 Water vapour channel
-                     'B06': {'wn': 1360.330, 'a': 0.9991, 'b': 0.470}, # IR7.3 Water vapour channel
-                     'B07': {'wn': 1148.620, 'a': 0.9996, 'b': 0.179}, # IR8.7 Atmospheric window
-                     'B08': {'wn': 1035.289, 'a': 0.9999, 'b': 0.056}, # IR9.7 Ozone channel
+                     'B11': {'wn': 752.387, 'a': 0.9981, 'b': 0.578}},  # IR13.4 Carbon dioxide channel
+            'msg2': {'B04': {'wn': 2568.832, 'a': 0.9954, 'b': 3.438},  # IR3.9 Water vapour channel
+                     'B05': {'wn': 1600.548, 'a': 0.9963, 'b': 2.185},  # IR6.2 Water vapour channel
+                     'B06': {'wn': 1360.330, 'a': 0.9991, 'b': 0.470},  # IR7.3 Water vapour channel
+                     'B07': {'wn': 1148.620, 'a': 0.9996, 'b': 0.179},  # IR8.7 Atmospheric window
+                     'B08': {'wn': 1035.289, 'a': 0.9999, 'b': 0.056},  # IR9.7 Ozone channel
                      'B09': {'wn': 931.700, 'a': 0.9983, 'b': 0.640},  # IR10.8 Atmospheric window
                      'B10': {'wn': 836.445, 'a': 0.9988, 'b': 0.408},  # IR12.0 Atmospheric window
-                     'B11': {'wn': 751.792, 'a': 0.9981, 'b': 0.561}}, # IR13.4 Carbon dioxide channel
-            'msg3': {'B04': {'wn': 2547.771, 'a': 0.9915, 'b': 2.9002}, # IR3.9 Water vapour channel
-                     'B05': {'wn': 1595.621, 'a': 0.9960, 'b': 2.0337}, # IR6.2 Water vapour channel
-                     'B06': {'wn': 1360.377, 'a': 0.9991, 'b': 0.4340}, # IR7.3 Water vapour channel
-                     'B07': {'wn': 1148.130, 'a': 0.9996, 'b': 0.1714}, # IR8.7 Atmospheric window
-                     'B08': {'wn': 1034.715, 'a': 0.9999, 'b': 0.0527}, # IR9.7 Ozone channel
+                     'B11': {'wn': 751.792, 'a': 0.9981, 'b': 0.561}},  # IR13.4 Carbon dioxide channel
+            'msg3': {'B04': {'wn': 2547.771, 'a': 0.9915, 'b': 2.9002},  # IR3.9 Water vapour channel
+                     'B05': {'wn': 1595.621, 'a': 0.9960, 'b': 2.0337},  # IR6.2 Water vapour channel
+                     'B06': {'wn': 1360.377, 'a': 0.9991, 'b': 0.4340},  # IR7.3 Water vapour channel
+                     'B07': {'wn': 1148.130, 'a': 0.9996, 'b': 0.1714},  # IR8.7 Atmospheric window
+                     'B08': {'wn': 1034.715, 'a': 0.9999, 'b': 0.0527},  # IR9.7 Ozone channel
                      'B09': {'wn': 929.842, 'a': 0.9983, 'b': 0.6084},  # IR10.8 Atmospheric window
                      'B10': {'wn': 838.659, 'a': 0.9988, 'b': 0.3882},  # IR12.0 Atmospheric window
-                     'B11': {'wn': 750.653, 'a': 0.9982, 'b': 0.5390}}, # IR13.4 Carbon dioxide channel
-            'msg4': {'B04': {'wn': 2555.280, 'a': 0.9916, 'b': 2.9438}, # IR3.9 Water vapour channel
-                     'B05': {'wn': 1596.080, 'a': 0.9959, 'b': 2.0780}, # IR6.2 Water vapour channel
-                     'B06': {'wn': 1361.748, 'a': 0.9990, 'b': 0.4929}, # IR7.3 Water vapour channel
-                     'B07': {'wn': 1148.130, 'a': 0.9996, 'b': 0.1731}, # IR8.7 Atmospheric window
-                     'B08': {'wn': 1034.851, 'a': 0.9998, 'b': 0.0597}, # IR9.7 Ozone channel
+                     'B11': {'wn': 750.653, 'a': 0.9982, 'b': 0.5390}},  # IR13.4 Carbon dioxide channel
+            'msg4': {'B04': {'wn': 2555.280, 'a': 0.9916, 'b': 2.9438},  # IR3.9 Water vapour channel
+                     'B05': {'wn': 1596.080, 'a': 0.9959, 'b': 2.0780},  # IR6.2 Water vapour channel
+                     'B06': {'wn': 1361.748, 'a': 0.9990, 'b': 0.4929},  # IR7.3 Water vapour channel
+                     'B07': {'wn': 1148.130, 'a': 0.9996, 'b': 0.1731},  # IR8.7 Atmospheric window
+                     'B08': {'wn': 1034.851, 'a': 0.9998, 'b': 0.0597},  # IR9.7 Ozone channel
                      'B09': {'wn': 931.122, 'a': 0.9983, 'b': 0.6256},  # IR10.8 Atmospheric window
                      'B10': {'wn': 839.113, 'a': 0.9988, 'b': 0.4002},  # IR12.0 Atmospheric window
-                     'B11': {'wn': 748.585, 'a': 0.9981, 'b': 0.5635}}} # IR13.4 Carbon dioxide channel
+                     'B11': {'wn': 748.585, 'a': 0.9981, 'b': 0.5635}}}  # IR13.4 Carbon dioxide channel
 
 geolocation_variable_names = ['latitude', 'longitude', 'SunZenith', 'SatZenith', 'SunAzimuth', 'SatAzimuth']
 
@@ -117,29 +117,29 @@ def calculate_chebyshev_polynomial(coefs, start_dt, end_dt, dt):
     start_to_end = (end_dt - start_dt).seconds
     # dt_to_end = (end_dt - dt).seconds
     start_to_dt = (dt - start_dt).seconds
-    t = (start_to_dt - 0.5*(start_to_end)) / (0.5*(start_to_end))
-    t2 = 2*t
+    t = (start_to_dt - 0.5 * (start_to_end)) / (0.5 * (start_to_end))
+    t2 = 2 * t
 
     # I think this is what was in the documentation
-    # MSG_Level_1_5_Image_Data_Format_Description.pdf 
+    # MSG_Level_1_5_Image_Data_Format_Description.pdf
     # p 87 earth fixed coordinate frame
     # p 124 decoding chebychev polynomial function
     d = 0
-    dd = 0 
-    for j in range(7,1,-1):
+    dd = 0
+    for j in range(7, 1, -1):
         save = d
         d = t2 * d - dd + coefs[j]
         dd = save
-    d = t * d - dd + 0.5 * coefs[0] 
+    d = t * d - dd + 0.5 * coefs[0]
 
-    #f = -0.5 * coefs[0] # First term of Chebyshev polynomial
-    #f = f + coefs[0] # second term of Chebyshev polynomial
-    #f = f + coefs[1]*t # third term
+    # f = -0.5 * coefs[0] # First term of Chebyshev polynomial
+    # f = f + coefs[0] # second term of Chebyshev polynomial
+    # f = f + coefs[1]*t # third term
     #T_k_minus_3 = 1
     #T_k_minus_2 = t
     #T_k_minus_1 = t2*T_k_minus_2 - T_k_minus_3
-    ## remaining terms recursively defined
-    #for xcoef in coefs[3:]:
+    # remaining terms recursively defined
+    # for xcoef in coefs[3:]:
     #    f = f + xcoef * T_k_minus_1
     #    T_k_minus_3 = T_k_minus_2
     #    T_k_minus_2 = T_k_minus_1
@@ -147,6 +147,7 @@ def calculate_chebyshev_polynomial(coefs, start_dt, end_dt, dt):
     ##from IPython import embed as shell; shell()
 
     return d
+
 
 class XritError(Exception):
     def __init__(self, msg, code=None):
@@ -191,7 +192,7 @@ def get_top_level_metadata(fnames, sect):
     md['end_datetime'] = df.start_datetime
     md['data_provider'] = 'nesdisstar'
     # MLS Check platform_name
-    # Turn msg4_iodc into msg4.  Then pull geoips satname (meteoEU/meteoIO) 
+    # Turn msg4_iodc into msg4.  Then pull geoips satname (meteoEU/meteoIO)
     # from utils/satellite_info.py
     msg_satname = df.annotation_metadata['platform'].lower().replace('_iodc', '')
     # Save actual satellite name (msg1 / msg4) for the coefficient tables above.
@@ -204,7 +205,7 @@ def get_top_level_metadata(fnames, sect):
     #         msg_satname = satinfo.geoips_satname
     # except KeyError:
     #     raise HritError('Unknown satname encountered: {}'.format(msg_satname))
-    md['platform_name'] = msg_satname[0:3]+'-'+msg_satname[-1]  # msg-1 or msg-4
+    md['platform_name'] = msg_satname[0:3] + '-' + msg_satname[-1]  # msg-1 or msg-4
     md['source_name'] = 'seviri'
     md['area_definition'] = sect
     md['sample_distance_km'] = 3.0
@@ -456,9 +457,9 @@ def seviri_hrit(fnames, metadata_only=False, chans=None, area_def=None, self_reg
     import xarray
     xarray_obj = xarray.Dataset()
 
-    # Gather top-level metadata. MUst pass ALL fnames to make sure we 
-	# use a datafile, and not pro or epi (they do not contain projection 
-	# information)
+    # Gather top-level metadata. MUst pass ALL fnames to make sure we
+    # use a datafile, and not pro or epi (they do not contain projection
+    # information)
     xarray_obj.attrs = get_top_level_metadata(fnames, area_def)
 
     # chans == [] specifies we don't want to read ANY data, just metadata.
@@ -499,16 +500,21 @@ def seviri_hrit(fnames, metadata_only=False, chans=None, area_def=None, self_reg
             for poly in df.prologue['satelliteStatus']['orbit']['orbitPolynomial']:
                 if dt <= poly['endTime'] and dt >= poly['startTime']:
                     LOG.info('Calculating x/y/z satellite location')
-                    
-                    st=poly['startTime'];et=poly['endTime'];xcoef=poly['X'];ycoef=poly['Y'];zcoef=poly['Z']
-                    x = calculate_chebyshev_polynomial(xcoef,st,et,dt); y = calculate_chebyshev_polynomial(ycoef,st,et,dt); z = calculate_chebyshev_polynomial(zcoef,st,et,dt)
+
+                    st = poly['startTime']
+                    et = poly['endTime']
+                    xcoef = poly['X']
+                    ycoef = poly['Y']
+                    zcoef = poly['Z']
+                    x = calculate_chebyshev_polynomial(xcoef, st, et, dt)
+                    y = calculate_chebyshev_polynomial(ycoef, st, et, dt)
+                    z = calculate_chebyshev_polynomial(zcoef, st, et, dt)
                     xarray_obj.attrs['satECF_m'] = {}
-                    xarray_obj.attrs['satECF_m']['x'] = x*1000
-                    xarray_obj.attrs['satECF_m']['y'] = y*1000
-                    xarray_obj.attrs['satECF_m']['z'] = z*1000
-                    
+                    xarray_obj.attrs['satECF_m']['x'] = x * 1000
+                    xarray_obj.attrs['satECF_m']['y'] = y * 1000
+                    xarray_obj.attrs['satECF_m']['z'] = z * 1000
+
                     #from IPython import embed as shell; shell()
-    
 
         # Get epilogue
         elif df.file_type == 'epilogue':
@@ -605,8 +611,8 @@ def seviri_hrit(fnames, metadata_only=False, chans=None, area_def=None, self_reg
             try:
                 data[start_line:end_line, 0:] = df._read_image_data()
             except ValueError as resp:
-                LOG.error('FAILED READING SEGMENT, SKIPPING %s'%(resp))
-        LOG.info('Read band %s %s'%(band, df.annotation_metadata['band']))
+                LOG.error('FAILED READING SEGMENT, SKIPPING %s' % (resp))
+        LOG.info('Read band %s %s' % (band, df.annotation_metadata['band']))
         if 'Lines' in gvars[adname]:
             count_data[band] = data[gvars[adname]['Lines'], gvars[adname]['Samples']]
         else:
@@ -647,7 +653,8 @@ def seviri_hrit(fnames, metadata_only=False, chans=None, area_def=None, self_reg
         if chan.name not in xarray_obj.attrs['datavars'].keys():
             xarray_obj.attrs['datavars'][adname][chan.name] = {}
 
-        xarray_obj.attrs['datavars'][adname][chan.name]['wavelength'] = float(annotation_metadata[chan.band]['band'][3:5]+'.'+annotation_metadata[chan.band]['band'][5:])
+        xarray_obj.attrs['datavars'][adname][chan.name]['wavelength'] = float(
+            annotation_metadata[chan.band]['band'][3:5] + '.' + annotation_metadata[chan.band]['band'][5:])
 
     gvars[adname]['latitude'] = np.ma.masked_less_equal(gvars[adname]['latitude'], -999)
     toplat = gvars[adname]['latitude'][np.ma.where(gvars[adname]['latitude'])][0]
@@ -657,7 +664,7 @@ def seviri_hrit(fnames, metadata_only=False, chans=None, area_def=None, self_reg
 
         if toplat < bottomlat:
             gvars[adname][var] = np.ma.masked_less_equal(np.flipud(gvars[adname][var]), -999)
-        else:    
+        else:
             gvars[adname][var] = np.ma.masked_less_equal(gvars[adname][var], -999)
 
         if 'SatZenith' in gvars[adname].keys():
@@ -667,7 +674,7 @@ def seviri_hrit(fnames, metadata_only=False, chans=None, area_def=None, self_reg
 
         if toplat < bottomlat:
             datavars[adname][var] = np.ma.masked_less_equal(np.flipud(datavars[adname][var]), -999)
-        else:    
+        else:
             datavars[adname][var] = np.ma.masked_less_equal(datavars[adname][var], -999)
 
         if 'SatZenith' in gvars[adname].keys():
@@ -692,4 +699,4 @@ def seviri_hrit(fnames, metadata_only=False, chans=None, area_def=None, self_reg
     LOG.info('Done reading SEVIRI data for {}'.format(adname))
     LOG.info('')
 
-    return xarray_objs 
+    return xarray_objs

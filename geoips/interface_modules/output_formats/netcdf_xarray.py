@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -52,7 +52,6 @@ def write_xarray_netcdf(xarray_obj, ncdf_fname, clobber=False):
     from geoips.filenames.base_paths import make_dirs
     from os.path import dirname
     make_dirs(dirname(ncdf_fname))
-
 
     orig_attrs = xarray_obj.attrs.copy()
     orig_var_attrs = {}

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -26,7 +26,7 @@ cmap_type = 'linear_segmented'
 
 def WV(data_range=[-70.0, 0.0]):
     ''' Colormap developed for displaying algorithms/WV.py processed data.
-    
+
     Args:
         data_range (list[float]): Min and max value for colormap.
                                   Ensure the data range matches the range of the algorithm specified for use with this colormap
@@ -39,7 +39,7 @@ def WV(data_range=[-70.0, 0.0]):
     max_tb = int(data_range[1])
 
     if min_tb > -70 or max_tb < 0:
-        raise('Infrared TB range must include -70 and 0')
+        raise ('Infrared TB range must include -70 and 0')
 
     from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
     transition_vals = [(min_tb, -69.9),
@@ -50,7 +50,7 @@ def WV(data_range=[-70.0, 0.0]):
                        (-30, -20),
                        (-20, -10),
                        (-10, -0.1),
-                       ( -0.1, max_tb)]
+                       (-0.1, max_tb)]
     print('inside util= ', max_tb)
 
     # matching TerraScan Color scheme: noaa_bd_151
@@ -64,10 +64,10 @@ def WV(data_range=[-70.0, 0.0]):
                          ('#146CEB', '#7D0382'),
                          ('black', 'black')]
 
-    #special selection of label
+    # special selection of label
 
-    ticks = [min_tb, -60, -50,-40, -30, -20, -10,  max_tb]
-  
+    ticks = [min_tb, -60, -50, -40, -30, -20, -10, max_tb]
+
     # selection of min and max values for colormap if needed
     min_tb = transition_vals[0][0]
     max_tb = transition_vals[-1][1]

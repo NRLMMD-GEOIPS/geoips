@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -47,6 +47,6 @@ def tc_clean_fname(area_def, xarray_obj, product_name, coverage, output_type='pn
     '''
     from geoips.dev.filename import get_filenamer, get_filenamer_type
     return get_filenamer('tc_fname')(area_def, xarray_obj, product_name, coverage, output_type=output_type,
-                                     output_type_dir=output_type+'_clean', product_dir=product_dir,
+                                     output_type_dir=output_type + '_clean', product_dir=product_dir,
                                      product_subdir=product_subdir, source_dir=source_dir, basedir=basedir,
                                      extra_field='clean', output_dict=output_dict)

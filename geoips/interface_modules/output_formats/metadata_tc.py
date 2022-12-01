@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -81,10 +81,10 @@ def update_sector_info_with_coverage(sector_info, product_name, xarray_obj, area
     for covg_func_type in covg_func_types:
         covg_funcs[covg_func_type] = get_covg_from_product(product_name, xarray_obj.source_name,
                                                            output_dict=output_dict,
-                                                           covg_func_field_name=covg_func_type+'_covg_func')
+                                                           covg_func_field_name=covg_func_type + '_covg_func')
         covg_args[covg_func_type] = get_covg_args_from_product(product_name, xarray_obj.source_name,
                                                                output_dict=output_dict,
-                                                               covg_args_field_name=covg_func_type+'_covg_args')
+                                                               covg_args_field_name=covg_func_type + '_covg_args')
         try:
             covgs[covg_func_type] = covg_funcs[covg_func_type](xarray_obj,
                                                                product_name,
@@ -97,9 +97,9 @@ def update_sector_info_with_coverage(sector_info, product_name, xarray_obj, area
         sector_info['covg_info'] = {}
 
     for covg_func_type in covgs.keys():
-        sector_info['covg_info'][covg_func_type+'_covg_func'] = covg_funcs[covg_func_type].__name__
-        sector_info['covg_info'][covg_func_type+'_covg_args'] = covg_args[covg_func_type]
-        sector_info['covg_info'][covg_func_type+'_covg'] = covgs[covg_func_type]
+        sector_info['covg_info'][covg_func_type + '_covg_func'] = covg_funcs[covg_func_type].__name__
+        sector_info['covg_info'][covg_func_type + '_covg_args'] = covg_args[covg_func_type]
+        sector_info['covg_info'][covg_func_type + '_covg'] = covgs[covg_func_type]
 
     if covgs.keys() and not set(covg_func_types).issubset(set(covgs.keys())):
         sector_info['covg_info']['default_covg_func'] = default_covg_funcs.__name__
@@ -136,4 +136,3 @@ def output_tc_metadata_yaml(metadata_fname, area_def, xarray_obj, product_filena
     if returns:
         LOG.info('METADATASUCCESS Writing %s', metadata_fname)
     return returns
-

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -92,14 +92,14 @@ def parse_flat_sectorfile_line(line, source_filename, parser_name='flat_sectorfi
                  'P': 'SH',
                  'C': 'CP',
                  'E': 'EP',
-                 'W': 'WP',}
+                 'W': 'WP', }
 
     fields = {}
     # 10S JOSHUA 210120 1200 21.8S 78.1E SHEM 20 1007
     fields['deck_line'] = line.strip()
     fields['storm_basin'] = basin_ids[parts[0][-1]]
     fields['storm_num'] = int(parts[0][:-1])
-    fields['synoptic_time'] = datetime.strptime(parts[2]+parts[3], '%y%m%d%H%M')
+    fields['synoptic_time'] = datetime.strptime(parts[2] + parts[3], '%y%m%d%H%M')
     fields['aid_type'] = 'BEST'
     fields['clat'] = NSEW_to_float(parts[4])
     fields['clon'] = NSEW_to_float(parts[5])
@@ -110,7 +110,7 @@ def parse_flat_sectorfile_line(line, source_filename, parser_name='flat_sectorfi
     fields['final_storm_name'] = fields['storm_name']
     fields['storm_year'] = get_storm_year(fields['storm_basin'],
                                           current_month=int(parts[2][2:4]),
-                                          current_year=int('20'+parts[2][0:2]))
+                                          current_year=int('20' + parts[2][0:2]))
     fields['parser'] = parser_name
     fields['source_filename'] = source_filename
 
@@ -119,7 +119,7 @@ def parse_flat_sectorfile_line(line, source_filename, parser_name='flat_sectorfi
 
 def NSEW_to_float(lat_lon_val):
     ''' Convert lat/lon values with NSEW identifiers to positive or negative float values
-    
+
     Args:
         lat_lon_val (str) :  Latitude or longitude value as a string, with hemisphere specified by NSEW identifiers
 
@@ -128,7 +128,7 @@ def NSEW_to_float(lat_lon_val):
     '''
 
     if 'S' in lat_lon_val or 'W' in lat_lon_val:
-        lat_lon_val = -float(lat_lon_val.replace('S','').replace('W', ''))
+        lat_lon_val = -float(lat_lon_val.replace('S', '').replace('W', ''))
     else:
         lat_lon_val = float(lat_lon_val.replace('N', '').replace('E', ''))
 
@@ -137,7 +137,7 @@ def NSEW_to_float(lat_lon_val):
 
 def get_storm_year(storm_basin, current_month, current_year):
     ''' Ensure correct storm_year is applied.
-    
+
     For Southern Hemisphere storms that initiate late in the year, the storm year identifier is for the
     following year.
 

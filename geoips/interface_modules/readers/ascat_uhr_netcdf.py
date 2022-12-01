@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -61,7 +61,7 @@ def read_byu_data(wind_xarray):
     # from IPython import embed as shell; shell()
     wind_xarray.attrs['storms_with_coverage'] = [storm_name]
     from datetime import datetime
-    wind_xarray.attrs['expected_synoptic_time'] = datetime.strptime(expected_yymmdd+expected_hhmn, '%y%m%d%H%M')
+    wind_xarray.attrs['expected_synoptic_time'] = datetime.strptime(expected_yymmdd + expected_hhmn, '%y%m%d%H%M')
 
     import numpy
     import xarray
@@ -97,7 +97,8 @@ def read_byu_data(wind_xarray):
         # Set wind_speed_kts appropriately
         wind_xarray['wind_speed_kts'].attrs = wind_xarray['wspeeds'].attrs.copy()
         wind_xarray['wind_speed_kts'].attrs['units'] = 'kts'
-        wind_xarray['wind_speed_kts'].attrs['long_name'] = wind_xarray['wspeeds'].attrs['long_name'].replace('ambiguities', 'ambiguity selection')
+        wind_xarray['wind_speed_kts'].attrs['long_name'] = wind_xarray['wspeeds'].attrs['long_name'].replace(
+            'ambiguities', 'ambiguity selection')
 
         wind_xarray['wind_dir_deg_met'].attrs = wind_xarray['wdirs'].attrs.copy()
 
@@ -128,7 +129,7 @@ def read_byu_data(wind_xarray):
                                                 numpy.nan,
                                                 wind_xarray.longitude)
         dsname = 'SIGMA'
-        wind_xarray['sigma0_mean'] = (wind_xarray['sig_fore'] + wind_xarray['sig_aft'] + wind_xarray['sig_mid'] )/3
+        wind_xarray['sigma0_mean'] = (wind_xarray['sig_fore'] + wind_xarray['sig_aft'] + wind_xarray['sig_mid']) / 3
 
     from datetime import datetime
     from numpy import datetime64
@@ -215,7 +216,8 @@ def ascat_uhr_netcdf(fnames, metadata_only=False, chans=None, area_def=None, sel
     if wind_xarrays['METADATA'].start_datetime == wind_xarrays['METADATA'].end_datetime:
         # Use alternate attributes to set start and end datetime
         from datetime import datetime
-        wind_xarrays['METADATA'].attrs['start_datetime'] = datetime.strptime(wind_xarray.SZF_start_time, '%Y%m%d%H%M%SZ')
+        wind_xarrays['METADATA'].attrs['start_datetime'] = datetime.strptime(
+            wind_xarray.SZF_start_time, '%Y%m%d%H%M%SZ')
         wind_xarrays['METADATA'].attrs['end_datetime'] = datetime.strptime(wind_xarray.SZF_stop_time, '%Y%m%d%H%M%SZ')
 
     return wind_xarrays

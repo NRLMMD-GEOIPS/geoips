@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -62,7 +62,7 @@ def tc_fname(area_def, xarray_obj, product_name, coverage, output_type='png', ou
     if area_def.sector_info['vmax']:
         intensity = '{0:0.0f}kts'.format(area_def.sector_info['vmax'])
     else:
-        # This is pulling intensity directly from the deck file, and sometimes it is not defined - if empty, just 
+        # This is pulling intensity directly from the deck file, and sometimes it is not defined - if empty, just
         # use "unknown" for intensity
         intensity = 'unknown'
 
@@ -110,13 +110,13 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
     else:
         LOG.info('NOT REMOVING DUPLICATES. Not tc_web filename, not png or png.yaml.')
         return [], []
-    dirname = pathdirname(fname) 
+    dirname = pathdirname(fname)
     basename = pathbasename(fname)
     parts = basename.split('_')
     if len(parts) != 9:
         LOG.info('NOT REMOVING DUPLICATES. Not tc_web filename, does not contain 9 fields.')
         return [], []
-        
+
     try:
         # 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png
         yyyymmdd = parts[0]
@@ -138,7 +138,7 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
         LOG.info('NOT REMOVING DUPLICATES. Unmatched filename format, incorrect number of _ delimited fields')
         return [], []
     try:
-        fname_dt = datetime.strptime(yyyymmdd+hhmnss, '%Y%m%d%H%M%S')
+        fname_dt = datetime.strptime(yyyymmdd + hhmnss, '%Y%m%d%H%M%S')
     except ValueError:
         LOG.info('NOT REMOVING DUPLICATES. Unmatched filename format, incorrect date time string.')
         return [], []
@@ -155,7 +155,7 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
         # 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png
         parts = pathbasename(matching_fname).split('_')
         coverage = float(parts[7].replace('p', '.'))
-        start_dt = datetime.strptime(parts[0]+parts[1][0:6], '%Y%m%d%H%M%S')
+        start_dt = datetime.strptime(parts[0] + parts[1][0:6], '%Y%m%d%H%M%S')
         max_coverage = max(coverage, max_coverage)
         if min_dt is None:
             min_dt = start_dt
@@ -168,7 +168,7 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
         # 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png
         parts = pathbasename(matching_fname).split('_')
         coverage = float(parts[7].replace('p', '.'))
-        start_dt = datetime.strptime(parts[0]+parts[1][0:6], '%Y%m%d%H%M%S')
+        start_dt = datetime.strptime(parts[0] + parts[1][0:6], '%Y%m%d%H%M%S')
         # Priority to delete lower coverage
         if coverage < max_coverage:
             removed_fnames += [matching_fname]
@@ -300,5 +300,3 @@ def assemble_tc_fname(basedir, tc_year, tc_basin, tc_stormnum, output_type,
                       str(extra)])
     fname = '{0}.{1}'.format(fname, output_type)
     return pathjoin(path, fname)
-
-

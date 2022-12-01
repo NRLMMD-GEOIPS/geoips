@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -39,48 +39,48 @@ setuptools.setup(
                       # 'cartopy==0.20.2',    # Currently must install via conda
                       ],
     extras_require={
-                    'config_based': [
-                                     'pyaml_env',          # Reading YAML output config files, with paths
-                                     ],
-                    'hdf5_readers': [
-                                     'h5py',               # hdf5 readers (GMI)
-                                     ],
-                    'hdf4_readers': [
-                                     'pyhdf',              # hdf4 readers (MODIS)
-                                     ],
-                    'geotiff_output': [
-                                       'rasterio',           # GEOTIFF output
-                                       ],
-                    'syntax_checking': [
-                                        'flake8',             # Syntax checking
-                                        'pylint',             # Syntax checking
-                                        'bandit',             # Syntax/security checking
-                                        ],
-                    'documentation': [
-                                      'sphinx',             # Required for building documentation
-                                      ],
-                    'debug': [
-                              'ipython',            # Required for Debugging purposes
-                              'psutil',             # Required for memory checks
-                              ],
-                    'overpass_predictor': [
-                                           'pyorbital',          # required by satpy
-                                           'ephem',              # Required for overpass predictor
-                                           'isodate',            # Required for overpass predictor
-                                           ],
-                    'geostationary_readers': [
-                                              'satpy',      # efficiency improvements >= 0.33.1
-                                              'numexpr',            # for efficiency improvements
-                                              ],
-                    'test_outputs': [
-                                     'pyshp>=2.2.0',       # Previously 2.1.3, 20220607 3.5.2
-                                     'matplotlib>=3.5.2',  # Previously v3.3, then 3.4.3, 20220607 3.5.2
-                                     ],
-                    'efficiency_improvements': [
-                                     'satpy>=0.36.0',      # efficiency improvements >= 0.33.1, 20220607 0.36.0
-                                     'pyresample>=1.23.0',   # efficiency improvements >= 1.22.3, 20220607 1.23.0
-                                     ],
-                    },
+        'config_based': [
+            'pyaml_env',          # Reading YAML output config files, with paths
+        ],
+        'hdf5_readers': [
+            'h5py',               # hdf5 readers (GMI)
+        ],
+        'hdf4_readers': [
+            'pyhdf',              # hdf4 readers (MODIS)
+        ],
+        'geotiff_output': [
+            'rasterio',           # GEOTIFF output
+        ],
+        'syntax_checking': [
+            'flake8',             # Syntax checking
+            'pylint',             # Syntax checking
+            'bandit',             # Syntax/security checking
+        ],
+        'documentation': [
+            'sphinx',             # Required for building documentation
+        ],
+        'debug': [
+            'ipython',            # Required for Debugging purposes
+            'psutil',             # Required for memory checks
+        ],
+        'overpass_predictor': [
+            'pyorbital',          # required by satpy
+            'ephem',              # Required for overpass predictor
+            'isodate',            # Required for overpass predictor
+        ],
+        'geostationary_readers': [
+            'satpy',      # efficiency improvements >= 0.33.1
+            'numexpr',            # for efficiency improvements
+        ],
+        'test_outputs': [
+            'pyshp>=2.2.0',       # Previously 2.1.3, 20220607 3.5.2
+            'matplotlib>=3.5.2',  # Previously v3.3, then 3.4.3, 20220607 3.5.2
+        ],
+        'efficiency_improvements': [
+            'satpy>=0.36.0',      # efficiency improvements >= 0.33.1, 20220607 0.36.0
+            'pyresample>=1.23.0',   # efficiency improvements >= 1.22.3, 20220607 1.23.0
+        ],
+    },
     entry_points={
         'console_scripts': [
             'run_procflow=geoips.commandline.run_procflow:main',

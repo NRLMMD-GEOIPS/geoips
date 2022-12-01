@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -25,7 +25,7 @@ LOG = logging.getLogger(__name__)
 
 def set_matplotlib_colors_rgb():
     ''' For rgb imagery, we require no color information (it is entirely specified by the RGB(A) arrays)
-    
+
     Args:
         No arguments
 
@@ -121,7 +121,7 @@ def set_mpl_colors_info_dict(cmap, norm, cbar_ticks, cbar_tick_labels=None, boun
 
 def from_ascii(fname, reverse=False):
     ''' Create a ListedColormap instance from an ascii text file of RGB values
-    
+
      * Lines preceded by '#' are ignored.
      * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0 for matplotlib usage)
      * One white space delimited RGB value per line
@@ -137,7 +137,7 @@ def from_ascii(fname, reverse=False):
 
     '''
 
-    #Read data from ascii file into an NLines by 3 float array, skipping lines preceded by "#"
+    # Read data from ascii file into an NLines by 3 float array, skipping lines preceded by "#"
     lines = []
     with open(fname) as palette:
         for line in palette.readlines():
@@ -149,11 +149,11 @@ def from_ascii(fname, reverse=False):
     for num, line in enumerate(lines):
         carray[num, :] = [float(val) for val in line.strip().split()]
 
-    #Normalize from 0-255 to 0.0-1.0
+    # Normalize from 0-255 to 0.0-1.0
     if carray.max() > 1.0:
         carray /= 255.0
 
-    #Test to be sure all color array values are between 0.0 and 1.0
+    # Test to be sure all color array values are between 0.0 and 1.0
     if not (carray.min() >= 0.0 and carray.max() <= 1.0):
         raise ValueError('All values in carray must be between 0.0 and 1.0.')
 
@@ -239,7 +239,7 @@ def create_linear_segmented_colormap(cmapname, min_val, max_val, transition_vals
         bluetuple += ((transition_point, old_end_color[2], start_color[2]),)
         redtuple += ((transition_point, old_end_color[0], start_color[0]),)
         greentuple += ((transition_point, old_end_color[1], start_color[1]),)
-        LOG.info('    Transition point: '+str(transition_point)+': '+str(start_val)+' to '+str(end_val))
+        LOG.info('    Transition point: ' + str(transition_point) + ': ' + str(start_val) + ' to ' + str(end_val))
         LOG.info('        Start color: %-10s %-40s', str(tstart_color), str(start_color))
         LOG.info('        End color:   %-10s %-40s', str(tend_color), str(end_color))
         old_end_color = end_color

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -92,6 +92,7 @@ class HritError(Exception):
     '''
     Error raised when errors occur in reading xRIT data files.
     '''
+
     def __init__(self, msg, code=None):
         self.code = code
         self.value = msg
@@ -443,7 +444,7 @@ class HritFile(object):
                         if field_name == 'timestamp':
                             newlist += [val.strip()]
                         else:
-                            newlist += [val.decode('ascii').strip().replace('\x05','')]
+                            newlist += [val.decode('ascii').strip().replace('\x05', '')]
                     block_md[field_name] = newlist
                 # If there is only one value, then return a scalar rather than an array
                 if count == 1:
@@ -893,4 +894,3 @@ class HritFile(object):
             cal['gscisOffsetCount'] = self.__rf('>f4')
             cal_data.append(cal)
         return cal_data
-

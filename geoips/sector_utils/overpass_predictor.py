@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -43,6 +43,7 @@ def check_tle_name_to_passed_names(tle_name, satellite_names_list):
     satellite_in_list = any([x.lower() in tle_name.lower() for x in satellite_names_list])
     return satellite_in_list
 
+
 def read_satellite_tle(tlefile, satellite_list):
     '''
     Open and extract satellite infromation from TLE file
@@ -60,8 +61,8 @@ def read_satellite_tle(tlefile, satellite_list):
             continue
         satellite = line.strip()
         if check_tle_name_to_passed_names(satellite, satellite_list):
-            line1 = tle_content[i+1].strip()
-            line2 = tle_content[i+2].strip()
+            line1 = tle_content[i + 1].strip()
+            line2 = tle_content[i + 2].strip()
             clean_name = satellite.split(' (')[0]
             satellite_tles[clean_name] = {'line1': line1, 'line2': line2}
     return satellite_tles
@@ -90,7 +91,7 @@ def calculate_overpass(tle, observer_lat, observer_lon, date, satellite_name):
     Returns:
         (dict) : next overpass information
     '''
-    sector = ephem.Observer()                                      
+    sector = ephem.Observer()
     sector.lon = str(observer_lon)
     sector.lat = str(observer_lat)
     sector.date = date.strftime('%Y/%m/%d %H:%M:%S')
@@ -125,7 +126,7 @@ def calculate_overpass(tle, observer_lat, observer_lon, date, satellite_name):
             is_geostationary = True
             is_above_horizon = True
         else:
-            #print(resp)
+            # print(resp)
             return None
         opass_info['rise time'] = date
         opass_info['max altitude time'] = date
@@ -148,7 +149,7 @@ def calculate_overpass(tle, observer_lat, observer_lon, date, satellite_name):
     ptsecdeg = spherical_geometry.Coordinate(lon=math.degrees(sector.lon),
                                              lat=math.degrees(sector.lat))
     earth_radius_km = 6730.
-    cpa_km = ptsatdeg.distance(ptsecdeg)*earth_radius_km
+    cpa_km = ptsatdeg.distance(ptsecdeg) * earth_radius_km
     opass_info['closest pass approach (km)'] = cpa_km
     return opass_info
 
@@ -167,14 +168,14 @@ def predict_satellite_overpass(tlefile, satellite_name, satellite_tle, area_def,
     '''
     tle = ephem.readtle(tlefile, satellite_tle['line1'], satellite_tle['line2'])
     ll_lon, ll_lat, ur_lon, ur_lat = area_def.area_extent_ll
-    center_lon = (ll_lon + ur_lon)/2.
-    center_lat = (ll_lat + ur_lat)/2.
+    center_lon = (ll_lon + ur_lon) / 2.
+    center_lat = (ll_lat + ur_lat) / 2.
     observers = [(center_lat, center_lon)]
     if check_midpoints:
-        mid_lon_upper = (center_lon + ur_lon)/2.
-        mid_lon_lower = (center_lon + ll_lon)/2.
-        mid_lat_upper = (center_lat + ur_lat)/2.
-        mid_lat_lower = (center_lat + ll_lat)/2.
+        mid_lon_upper = (center_lon + ur_lon) / 2.
+        mid_lon_lower = (center_lon + ll_lon) / 2.
+        mid_lat_upper = (center_lat + ur_lat) / 2.
+        mid_lat_lower = (center_lat + ll_lat) / 2.
         observers.append((mid_lat_upper, center_lon))
         observers.append((mid_lat_lower, center_lon))
         observers.append((center_lat, mid_lon_upper))
@@ -228,8 +229,8 @@ def predict_overpass_area_def(tlefile, area_definition, satellite_list, start_da
     satellite_tle_dict = read_satellite_tle(tlefile, satellite_list)
     for satellite, sat_tle in satellite_tle_dict.items():
         next_overpass = predict_satellite_overpass(tlefile,
-                                                   satellite, 
-                                                   sat_tle, 
+                                                   satellite,
+                                                   sat_tle,
                                                    area_definition,
                                                    start_datetime,
                                                    check_midpoints=check_midpoints)
@@ -261,4 +262,3 @@ def predict_overpass_yaml(tlefile, sectorfile, sector_list, satellite_list, star
                                                start_datetime, check_midpoints=check_midpoints)
         sector_overpasses[yaml_sector] = overpasses
     return sector_overpasses
-

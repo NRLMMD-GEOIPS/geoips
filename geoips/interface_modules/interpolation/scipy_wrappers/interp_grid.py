@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -37,7 +37,7 @@ def interp_grid(area_def, input_xarray, output_xarray, varlist, array_num=None, 
             lons = input_xarray['longitude'].to_masked_array()
             lats = input_xarray['latitude'].to_masked_array()
             var_to_interp = input_xarray[varname].to_masked_array()
-        
+
         from geoips.interface_modules.interpolation.utils.interp_scipy import interp_griddata
         min_gridlon = area_def.area_extent_ll[0]
         max_gridlon = area_def.area_extent_ll[2]
@@ -45,7 +45,7 @@ def interp_grid(area_def, input_xarray, output_xarray, varlist, array_num=None, 
         max_gridlat = area_def.area_extent_ll[3]
         numx_grid = area_def.pixel_size_x
         numy_grid = area_def.pixel_size_y
-        
+
         interp_datas += [interp_griddata(var_to_interp,
                                          lons,
                                          lats,
@@ -56,7 +56,7 @@ def interp_grid(area_def, input_xarray, output_xarray, varlist, array_num=None, 
                                          numx_grid,
                                          numy_grid,
                                          method)]
-    
+
     import xarray
     if output_xarray is None:
         from geoips.dev.utils import copy_standard_metadata

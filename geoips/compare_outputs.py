@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -136,14 +136,14 @@ def get_out_diff_fname(compare_product, output_product, ext=None):
     from os import makedirs, getenv
     from os.path import exists
     diffdir = join(dirname(compare_product), 'diff_test_output_dir_{0}'.format(getenv('USER')))
-    out_diff_fname = join(diffdir, 'diff_test_output_'+basename(output_product))
+    out_diff_fname = join(diffdir, 'diff_test_output_' + basename(output_product))
     if not exists(diffdir):
         makedirs(diffdir)
     # Output jifs as tif for easy viewing.
     if ext is not None:
-        out_diff_fname = splitext(out_diff_fname)[0]+ext
+        out_diff_fname = splitext(out_diff_fname)[0] + ext
     elif splitext(out_diff_fname)[-1] == '.jif':
-        out_diff_fname = splitext(out_diff_fname)[0]+'.png'
+        out_diff_fname = splitext(out_diff_fname)[0] + '.png'
     return out_diff_fname
 
 
@@ -172,7 +172,7 @@ def images_match(output_product, compare_product, threshold=0.0000001):
     LOG.info('**Running %s', ' '.join(call_list))
     fullimg_retval = subprocess.call(call_list)
     LOG.info('**Done running compare')
-    
+
     # call_list = ['compare', '-verbose', '-quiet',
     #              '-metric', 'rmse',
     #              '-dissimilarity-threshold', '{0:0.15f}'.format(threshold),
@@ -410,8 +410,8 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
                                             * output_product, compare_product, goodcomps, badcomps, compare_strings
                                         * Return must be:
                                             * goodcomps, badcomps, compare_strings
-                            
-                                            
+
+
 
     Returns:
         int: Binary code: Good products, bad products, missing products
@@ -435,7 +435,7 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     LOG.info('')
     from glob import glob
 
-    compare_basenames = [basename(yy) for yy in glob(compare_path+'/*')]
+    compare_basenames = [basename(yy) for yy in glob(compare_path + '/*')]
     final_output_products = []
 
     for output_product in output_products:
@@ -476,7 +476,7 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     LOG.info('********************************************************************************************')
 
     product_basenames = [basename(yy) for yy in final_output_products]
-    for compare_product in glob(compare_path+'/*'):
+    for compare_product in glob(compare_path + '/*'):
         if isfile(compare_product) and basename(compare_product) not in product_basenames:
             missingproducts += [compare_product]
 
@@ -508,7 +508,7 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
                 if compare_strings is not None:
                     for compare_string in compare_strings:
                         goodcomp = goodcomp.replace(compare_string, '')
-                        
+
                 # For display purposes - tifs are easier to view
                 out_fname = basename(goodcomp).replace('.jif', '.tif')
                 print_gunzip_to_file(fobj, goodcomp)
@@ -597,7 +597,7 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
             curr_retval = 4
         retval += curr_retval << 0
         LOG.info('MISSINGPRODUCTS %s', len(missingproducts))
-        retval += len(missingproducts) << 4 
+        retval += len(missingproducts) << 4
 
     LOG.info('retval: %s', bin(retval))
     if retval != 0:
@@ -605,5 +605,5 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
         LOG.info('    Y (0-1): BADCOMP: number of bad comparisons found between comparepath and current run output path')
         LOG.info('    X (2-3): MISSINGCOMP: Number of products missing in compare path but existing in current output path')
         LOG.info('    W (4-5): MISSINGPROD: Number of products existing in comparepath, but missing in current output path')
-    
+
     return retval

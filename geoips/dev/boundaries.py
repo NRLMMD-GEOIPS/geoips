@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -24,10 +24,9 @@
     this module will be moved to the geoips/stable sub-package.
 '''
 
+from geoips.geoips_utils import find_config
 import logging
 LOG = logging.getLogger(__name__)
-
-from geoips.geoips_utils import find_config
 
 
 ### Gridline parameter dictionaries ###
@@ -48,9 +47,9 @@ def is_valid_boundaries(boundaries_name):
     Returns:
         (bool) : True if 'boundaries_name' is a properly formatted dictionary of boundaries parameters.
                  False if boundaries parameter dictionary:
-                        does not contain supported 'boundaries_dict_type', 
+                        does not contain supported 'boundaries_dict_type',
                         does not contain all 'required' fields,
-                        contains non-supported 'optional' fields 
+                        contains non-supported 'optional' fields
 
                  Gridline dictionary types currently one of:
 
@@ -68,7 +67,7 @@ def is_valid_boundaries(boundaries_name):
                                                    'countries_color': <str>,
                                                    'states_color': <str>,
                                                    'rivers_color': <str>}
-                                     
+
     '''
 
     required_keys = {'standard': ['boundaries_dict_type',
@@ -120,12 +119,13 @@ def is_valid_boundaries(boundaries_name):
 
     # If we don't have all of the required keys, return False
     if not set(required_keys[boundaries_dict_type]).issubset(set(boundaries_dict)):
-        LOG.error(f'''INVALID GRIDLINE "{boundaries_name}": boundaries parameter dictionary must contain the following fields:
+        LOG.error(
+            f'''INVALID GRIDLINE "{boundaries_name}": boundaries parameter dictionary must contain the following fields:
                   "{list(required_keys.keys())}" ''')
         return False
 
     # If we have non-allowed keys, return False
-    if not set(boundaries_dict).issubset(required_keys[boundaries_dict_type]+optional_keys[boundaries_dict_type]):
+    if not set(boundaries_dict).issubset(required_keys[boundaries_dict_type] + optional_keys[boundaries_dict_type]):
         LOG.error(f'''INVALID GRIDLINE "{boundaries_name}": Unknown fields in boundaries parameter dictionary:
                   "{set(boundaries_dict).difference(required_keys[boundaries_dict_type]+optional_keys[boundaries_dict_type])}"''')
         return False
@@ -135,7 +135,8 @@ def is_valid_boundaries(boundaries_name):
             try:
                 test = field_types[boundaries_dict_type][field_name](boundaries_dict[field_name])
             except Exception:
-                LOG.error(f'''INVALID GRIDLINE {boundaries_name}: boundaries field '{field_name}' must be of type "{field_types[boundaries_dict_type][field_name]}"''')
+                LOG.error(
+                    f'''INVALID GRIDLINE {boundaries_name}: boundaries field '{field_name}' must be of type "{field_types[boundaries_dict_type][field_name]}"''')
                 return False
 
     # If we get here, then the boundaries parameter dictionary format is valid.
@@ -158,7 +159,7 @@ def get_boundaries(boundaries_name):
     if boundaries_name is None:
         return None
     boundaries_fname = find_config(subpackage_name='yaml_configs/plotting_params/boundaries',
-                                config_basename=boundaries_name)
+                                   config_basename=boundaries_name)
     import yaml
     with open(boundaries_fname, 'r') as fobj:
         boundaries_dict = yaml.safe_load(fobj)
@@ -235,4 +236,4 @@ def test_boundaries_interface():
             out_dict['validity_check'][curr_name] = is_valid_boundaries(curr_name)
             out_dict['dict'][curr_name] = get_boundaries(curr_name)
             out_dict['dict_type'][curr_name] = get_boundaries_type(curr_name)
-    return out_dict 
+    return out_dict

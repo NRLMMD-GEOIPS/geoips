@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -59,4 +59,4 @@ def center_radius_rgba(xarray_obj, variable_name, area_def=None, radius_km=300, 
     num_valid_in_radius = numpy.count_nonzero(numpy.logical_and(numpy.where(dumby_arr, 1, 0),
                                                                 numpy.where(temp_arr, 1, 0)))
     num_total_in_radius = numpy.count_nonzero(dumby_arr)
-    return (float(num_valid_in_radius) / num_total_in_radius)*100.0
+    return (float(num_valid_in_radius) / num_total_in_radius) * 100.0

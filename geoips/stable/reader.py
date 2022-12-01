@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -38,6 +38,8 @@ from geoips.geoips_utils import find_entry_point, list_entry_points
 LOG = logging.getLogger(__name__)
 
 ### Reader functions ###
+
+
 def is_valid_reader(reader_name):
     ''' Check that the requested reader function has the correct call signature.
         Return values should be as specified below, but are not programmatically verified.
@@ -53,14 +55,14 @@ def is_valid_reader(reader_name):
     Returns:
         (bool) : True if 'reader_name' has the appropriate call signature
                  False if reader function:
-                        does not contain all required arguments 
-                        does not contain all required keyword arguments 
+                        does not contain all required arguments
+                        does not contain all required keyword arguments
 
                  Reader types currently one of:
 
                         'standard' : call signature <reader_name>(fnames, metadata_only=False, chans=None, area_def=None, self_register=False)
                                      return value: list of xarray objects (one xarray object for each shape/resolution of data)
-                                     
+
     '''
     required_args = {'standard': ['fnames']}
     required_kwargs = {'standard': ['metadata_only', 'chans', 'area_def', 'self_register']}
@@ -68,12 +70,14 @@ def is_valid_reader(reader_name):
     try:
         reader_type = get_reader_type(reader_name)
     except ImportError as resp:
-        LOG.warning(f'Module {reader_name} in readers package not a valid reader: If this is intended to be a valid reader, ensure "reader_type" is defined: Exception: "{resp}"')
+        LOG.warning(
+            f'Module {reader_name} in readers package not a valid reader: If this is intended to be a valid reader, ensure "reader_type" is defined: Exception: "{resp}"')
         return False
     try:
         reader_func = get_reader(reader_name)
     except ImportError as resp:
-        raise ImportError(f'INVALID READER {reader_name}: Must specify function "{reader_name}" within module "{reader_name}": Exception: "{resp}"')
+        raise ImportError(
+            f'INVALID READER {reader_name}: Must specify function "{reader_name}" within module "{reader_name}": Exception: "{resp}"')
 
     num_args = len(required_args[reader_type])
     num_kwargs = len(required_kwargs[reader_type])
@@ -83,7 +87,7 @@ def is_valid_reader(reader_name):
         return False
     reader_vars = reader_func.__code__.co_varnames
     reader_args = reader_vars[0:num_args]
-    reader_kwargs = reader_vars[num_args:num_args+num_kwargs]
+    reader_kwargs = reader_vars[num_args:num_args + num_kwargs]
 
     # Check for required call signature arguments
     if not set(required_args[reader_type]).issubset(set(reader_args)):
@@ -98,8 +102,8 @@ def is_valid_reader(reader_name):
         return False
 
     return True
-        
-        
+
+
 def get_reader(reader_name):
     ''' Retrieve the requested reader function
 
@@ -167,4 +171,4 @@ def test_reader_interface():
             out_dict['validity_check'][curr_name] = is_valid_reader(curr_name)
             out_dict['func'][curr_name] = get_reader(curr_name)
             out_dict['func_type'][curr_name] = get_reader_type(curr_name)
-    return out_dict 
+    return out_dict

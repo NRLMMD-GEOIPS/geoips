@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -34,7 +34,7 @@ def mask_day(data_array, sunzen_array, max_zenith=90):
         data_array (ndarray) : numpy.ndarray or numpy.MaskedArray of data values to be masked
         sunzen_array (ndarray) : numpy.ndarray or numpy.MaskedArray of solar zenith angles, of the same shape as
                                  the data array
-        min_zenith (float, optional) : DEFAULT 90, Mask all locations in data_array where sunzen_array is less 
+        min_zenith (float, optional) : DEFAULT 90, Mask all locations in data_array where sunzen_array is less
                                        than max_zenith
 
     Returns:
@@ -82,7 +82,7 @@ def apply_gamma(data_array, gamma):
                     applied: data_array ** (1.0 / float(gamma))
     '''
     LOG.info('CORRECTION Applying gamma correction of %s', gamma)
-    return data_array**(1.0/float(gamma))
+    return data_array**(1.0 / float(gamma))
 
 
 def apply_solar_zenith_correction(data_array, sunzen_array):
@@ -116,11 +116,11 @@ def apply_scale_factor(data_array, scale_factor):
 
     LOG.info('CORRECTION Applying scale factor of %s to array with min %s and max %s',
              scale_factor, data_array.min(), data_array.max())
-    return data_array*scale_factor
+    return data_array * scale_factor
 
 
 def apply_offset(data_array, offset):
-    ''' Apply offset to all values in data_array: data_array + offset 
+    ''' Apply offset to all values in data_array: data_array + offset
 
     Args:
         data_array (ndarray) : numpy.ndarray or numpy.ma.MaskedArray of data values
@@ -131,7 +131,7 @@ def apply_offset(data_array, offset):
     '''
     LOG.info('CORRECTION Applying offset of %s to array with min %s and max %s',
              offset, data_array.min(), data_array.max())
-    return data_array+offset
+    return data_array + offset
 
 
 def apply_minimum_value(data, min_val, outbounds):
@@ -228,7 +228,14 @@ def apply_maximum_value(data, max_val, outbounds):
     return data
 
 
-def apply_data_range(data, min_val=None, max_val=None, min_outbounds='crop', max_outbounds='crop', norm=True, inverse=False):
+def apply_data_range(
+        data,
+        min_val=None,
+        max_val=None,
+        min_outbounds='crop',
+        max_outbounds='crop',
+        norm=True,
+        inverse=False):
     '''
     Apply minimum and maximum values to an array of data.
 
@@ -383,9 +390,9 @@ def normalize(data, min_val=None, max_val=None, min_bounds='crop', max_bounds='c
     if hardmask is False:
         data.harden_mask()
 
-    if min_val == None:
+    if min_val is None:
         min_val = data.min()
-    if max_val == None:
+    if max_val is None:
         max_val = data.max()
     if min_bounds is None:
         min_bounds = 'retain'
@@ -394,7 +401,7 @@ def normalize(data, min_val=None, max_val=None, min_bounds='crop', max_bounds='c
 
     data = data.copy()
     data -= min_val
-    data *= abs(1.0/(max_val - min_val))
+    data *= abs(1.0 / (max_val - min_val))
 
     if min_bounds == 'retain':
         pass

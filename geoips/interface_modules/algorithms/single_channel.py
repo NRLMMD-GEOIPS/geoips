@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -54,7 +54,7 @@ def single_channel(arrays, output_data_range=None, input_units=None, output_unit
         create a new algorithm for your desired order of operations.
 
     Args:
-        arrays (list[numpy.ndarray]) : 
+        arrays (list[numpy.ndarray]) :
             * list of numpy.ndarray or numpy.MaskedArray of channel data and other variables, in order of sensor "variables" list
             * Channel data: Degrees Kelvin
         output_data_range (list[float]) :

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -47,7 +47,7 @@ def plot_coverage(main_ax, area_def, covg_args):
         radius_km = covg_args['radius_km']
         res_km = max(area_def.pixel_size_x, area_def.pixel_size_y) / 1000.0
         radius_pixels = 1.0 * radius_km / res_km
-        main_ax.scatter(0, 0, s=2*radius_pixels**2, facecolors='none', edgecolors=plot_color)
+        main_ax.scatter(0, 0, s=2 * radius_pixels**2, facecolors='none', edgecolors=plot_color)
 
 
 def create_radius(temp_arr, radius_pixels=300, x_center=0, y_center=0):
@@ -105,4 +105,4 @@ def center_radius(xarray_obj, variable_name, area_def=None, radius_km=300, alt_v
     num_valid_in_radius = numpy.count_nonzero(numpy.where(dumby_arr & ~temp_arr.mask, 1, 0))
     num_total_in_radius = numpy.count_nonzero(dumby_arr)
 
-    return (float(num_valid_in_radius) / num_total_in_radius)*100.0
+    return (float(num_valid_in_radius) / num_total_in_radius) * 100.0

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -18,11 +18,11 @@
 
 '''Utilities for working with dynamic sector specifications'''
 
+from geoips.sector_utils.tc_tracks import set_tc_area_def
 import logging
 
 LOG = logging.getLogger(__name__)
 
-from geoips.sector_utils.tc_tracks import set_tc_area_def
 
 SECTOR_INFO_ATTRS = {'tc': ['pressure', 'vmax', 'clat', 'clon', 'synoptic_time', 'aid_type',
                             'storm_num', 'storm_name', 'storm_basin', 'storm_year', 'deck_line', 'source_file',
@@ -268,7 +268,6 @@ def get_trackfile_area_defs(trackfiles, trackfile_parser,
     else:
         final_area_defs = area_defs
 
-
     ret_area_defs = final_area_defs
     if start_datetime is not None and end_datetime is not None:
         ret_area_defs = []
@@ -277,7 +276,7 @@ def get_trackfile_area_defs(trackfiles, trackfile_parser,
                 ret_area_defs += [area_def]
 
     # Make sure there are no duplicates
-    ret_area_defs = remove_duplicate_storm_positions(ret_area_defs, aid_type)        
+    ret_area_defs = remove_duplicate_storm_positions(ret_area_defs, aid_type)
 
     return ret_area_defs
 
@@ -298,7 +297,7 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorfiles, sectorlist):
             LOG.info('%s area_id in sectorlist and in xarray_obj.area_definition, adding area_def',
                      xarray_obj.area_definition.area_id)
             area_defs = [xarray_obj.area_definition]
-        else:    
+        else:
             LOG.info('%s area_id NOT in sectorlist and set on xarray_obj.area_definition, SKIPPING area_def',
                      xarray_obj.area_definition.area_id)
     elif sectorfiles is not None and sectorlist is not None:
@@ -311,7 +310,7 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorfiles, sectorlist):
             ret_area_defs += [area_def]
         else:
             LOG.info('area_def %s already in return list, not including', area_def.name)
-            
+
     return ret_area_defs
 
 
@@ -356,24 +355,24 @@ def get_tc_area_defs_for_xarray(xarray_obj, tcdb_sectorlist=None,
         area_defs = curr_area_defs
 
     # Make sure there are no duplicates
-    ret_area_defs = remove_duplicate_storm_positions(area_defs, aid_type)        
+    ret_area_defs = remove_duplicate_storm_positions(area_defs, aid_type)
     return ret_area_defs
 
 
 def is_requested_aid_type(area_def, aid_type=None):
     if aid_type is not None\
-     and 'aid_type' in area_def.sector_info\
-     and area_def.sector_info['aid_type'] != aid_type:
+            and 'aid_type' in area_def.sector_info\
+            and area_def.sector_info['aid_type'] != aid_type:
         return False
     return True
 
 
 def storm_locations_match(area_def, other_area_def):
     if area_def.sector_info['clat'] == other_area_def.sector_info['clat']\
-     and area_def.sector_info['clon'] == other_area_def.sector_info['clon']\
-     and area_def.sector_info['storm_year'] == other_area_def.sector_info['storm_year']\
-     and area_def.sector_info['storm_basin'] == other_area_def.sector_info['storm_basin']\
-     and area_def.sector_info['synoptic_time'] == other_area_def.sector_info['synoptic_time']:
+            and area_def.sector_info['clon'] == other_area_def.sector_info['clon']\
+            and area_def.sector_info['storm_year'] == other_area_def.sector_info['storm_year']\
+            and area_def.sector_info['storm_basin'] == other_area_def.sector_info['storm_basin']\
+            and area_def.sector_info['synoptic_time'] == other_area_def.sector_info['synoptic_time']:
         return True
     return False
 
@@ -392,15 +391,15 @@ def remove_duplicate_storm_positions(area_defs, aid_type=None):
             kept_one = False
             for other_area_def in area_defs:
                 if area_def.sector_info['final_storm_name'].lower() == 'invest'\
-                 and other_area_def.sector_info['final_storm_name'].lower() != 'invest'\
-                 and storm_locations_match(area_def, other_area_def)\
-                 and is_requested_aid_type(other_area_def, aid_type):
+                        and other_area_def.sector_info['final_storm_name'].lower() != 'invest'\
+                        and storm_locations_match(area_def, other_area_def)\
+                        and is_requested_aid_type(other_area_def, aid_type):
                     kept_one = True
                     LOG.info('Including area_def %s in return list, NOT including %s',
                              other_area_def.name, area_def.name)
                     ret_area_defs += [other_area_def]
                 if 'invest_storm_id' in other_area_def.sector_info\
-                 and other_area_def.sector_info['invest_storm_id'] == area_def.area_id:
+                        and other_area_def.sector_info['invest_storm_id'] == area_def.area_id:
                     kept_one = True
                     LOG.info('Including area_def %s in return list, NOT including %s, invest_storm_id defined',
                              other_area_def.name, area_def.name)
@@ -424,8 +423,9 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
             ret_area_def_ids[area_def.area_id] = area_def
         elif is_dynamic_sector(area_def) and actual_datetime is not None:
             if abs(actual_datetime - area_def.sector_start_datetime)\
-             < abs(actual_datetime - ret_area_def_ids[area_def.area_id].sector_start_datetime):
-                LOG.debug('AREA_DEF LIST REPLACING %s with area_def %s', ret_area_def_ids[area_def.area_id].name, area_def.name)
+                    < abs(actual_datetime - ret_area_def_ids[area_def.area_id].sector_start_datetime):
+                LOG.debug('AREA_DEF LIST REPLACING %s with area_def %s',
+                          ret_area_def_ids[area_def.area_id].name, area_def.name)
                 ret_area_def_ids[area_def.area_id] = area_def
         else:
             LOG.warning('AREA_DEF LIST REPLACING Multiple identical sectors - using latest %s', area_def.name)
@@ -458,17 +458,17 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
 #                                    varlist=[var_for_coverage],
 #                                    verbose=False)
 #             if sects and abs(sects[0].start_datetime - area_def.sector_start_datetime) < abs(old_sect.start_datetime - old_area_def.sector_start_datetime):
-#             
+#
 #                 LOG.info('AREA_DEF LIST REPLACING %s with area_def %s',
 #                          ret_area_def_ids[area_def.area_id].name,
 #                          area_def.name)
 #                 ret_area_def_ids[area_def.area_id] = area_def
 #                 ret_area_def_sects[area_def.area_id] = sects[0]
-#                 
+#
 #         else:
 #             LOG.warning('AREA_DEF LIST REPLACING Multiple identical sectors - using latest %s', area_def.name)
 #             ret_area_def_ids[area_def.area_id] = area_def
-# 
+#
 #     return ret_area_def_ids.values()
 
 
@@ -493,9 +493,9 @@ def get_sectors_from_yamls(sectorfnames, sectornames):
         for sectorname in sectornames:
             if sectorname in ydict.keys():
                 try:
-                        area_def = load_area(sectorfname, sectorname)
+                    area_def = load_area(sectorfname, sectorname)
                 except TypeError:
-                        area_def = create_areadefinition_from_yaml(sectorfname,sectorname)
+                    area_def = create_areadefinition_from_yaml(sectorfname, sectorname)
                 for key in ydict[sectorname].keys():
                     if not hasattr(area_def, key) and key not in ['description', 'projection']:
                         area_def.__setattr__(key, ydict[sectorname][key])
@@ -524,7 +524,7 @@ def create_areadefinition_from_yaml(yamlfile, sector):
     shape = sector_info.pop('shape')
     area_extent = sector_info.pop('area_extent')
     # Create the pyresample area definition
-    shape_list = [shape['height'],shape['width']]
+    shape_list = [shape['height'], shape['width']]
     extent_list = []
     extent_list.extend(area_extent['lower_left_xy'])
     extent_list.extend(area_extent['upper_right_xy'])

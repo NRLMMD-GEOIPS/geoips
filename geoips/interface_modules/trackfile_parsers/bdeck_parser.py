@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -102,18 +102,17 @@ def bdeck_parser(deckfile_name):
 def lat_to_dec(lat_str):
     ''' Return decimal latitude based on N/S specified string'''
     latnodec = lat_str
-    latdec = latnodec[:-2]+'.'+latnodec[-2:]
-    latdecsign = latdec[:-1] if (latdec[-1] == 'N') else '-'+latdec[:-1]
+    latdec = latnodec[:-2] + '.' + latnodec[-2:]
+    latdecsign = latdec[:-1] if (latdec[-1] == 'N') else '-' + latdec[:-1]
     return latdecsign
 
 
 def lon_to_dec(lon_str):
     ''' Return decimal longitude based on E/W specified string'''
     lonnodec = lon_str
-    londec = lonnodec[:-2]+'.'+lonnodec[-2:]
-    londecsign = londec[:-1] if (londec[-1] == 'E') else '-'+londec[:-1]
+    londec = lonnodec[:-2] + '.' + lonnodec[-2:]
+    londecsign = londec[:-1] if (londec[-1] == 'E') else '-' + londec[:-1]
     return londecsign
-
 
 
 def parse_bdeck_line(line, source_filename=None, storm_year=None,
@@ -125,7 +124,7 @@ def parse_bdeck_line(line, source_filename=None, storm_year=None,
             AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64, NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,
             AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  34, NEQ,  220,  100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
             AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  50, NEQ,   60,   50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
-        
+
 
     Returns:
         (dict) : Dictionary of the fields from the current storm location from the deck file
@@ -143,7 +142,7 @@ def parse_bdeck_line(line, source_filename=None, storm_year=None,
     fields['storm_num'] = int(parts[1])
     fields['synoptic_time'] = datetime.strptime(parts[2], '%Y%m%d%H')
     fields['aid_type'] = parts[4]  # BEST, MBAM, OFCL, JTWC, etc - BEST202101220600 when updated
-                                   # CARQ - not best track, real time, A-deck (Aids), F (Fix), E (Error), B (Best)
+    # CARQ - not best track, real time, A-deck (Aids), F (Fix), E (Error), B (Best)
     fields['clat'] = float(lat_to_dec(parts[6]))
     fields['clon'] = float(lon_to_dec(parts[7]))
     fields['vmax'] = parts[8]
@@ -168,9 +167,9 @@ def parse_bdeck_line(line, source_filename=None, storm_year=None,
         invest_id = parts[-2].split(' ')[0]
         invest_year = invest_id[4:]
         invest_basin = invest_id[0:2]
-        invest_num = '9'+invest_id[3]
+        invest_num = '9' + invest_id[3]
         # tc2021sh90invest
-        fields['invest_storm_id'] = 'tc'+invest_year+invest_basin+invest_num+'invest'
+        fields['invest_storm_id'] = 'tc' + invest_year + invest_basin + invest_num + 'invest'
     fields['invest_number'] = None
 
     if invest_number:

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -46,12 +46,12 @@ land_num = {'6': 0,
             '36': 5,
             '89A': 0,
             '89B': 1}
-land_var = {'6':   'Land_Ocean_Flag_6_to_36',
-            '7':   'Land_Ocean_Flag_6_to_36',
-            '10':  'Land_Ocean_Flag_6_to_36',
-            '18':  'Land_Ocean_Flag_6_to_36',
-            '23':  'Land_Ocean_Flag_6_to_36',
-            '36':  'Land_Ocean_Flag_6_to_36',
+land_var = {'6': 'Land_Ocean_Flag_6_to_36',
+            '7': 'Land_Ocean_Flag_6_to_36',
+            '10': 'Land_Ocean_Flag_6_to_36',
+            '18': 'Land_Ocean_Flag_6_to_36',
+            '23': 'Land_Ocean_Flag_6_to_36',
+            '36': 'Land_Ocean_Flag_6_to_36',
             '89A': 'Land_Ocean_Flag_89',
             '89B': 'Land_Ocean_Flag_89'}
 chan_nums = {'Brightness_Temperature_6_GHzV': 1,
@@ -69,7 +69,7 @@ chan_nums = {'Brightness_Temperature_6_GHzV': 1,
              'Brightness_Temperature_89_GHz_AV': 13,
              'Brightness_Temperature_89_GHz_AH': 14,
              'Brightness_Temperature_89_GHz_BV': 13,
-             'Brightness_Temperature_89_GHz_BH': 14,}
+             'Brightness_Temperature_89_GHz_BH': 14, }
 reader_type = 'standard'
 
 
@@ -176,9 +176,9 @@ def read_amsr_mbt(full_xarray, varname, timestamp=None):
             sub_xarray.attrs['interpolation_radius_of_influence'] = 20000
 
     # See dictionaries above for appropriate land mask array locations for each variable
-    full_xarray['LandMask'] = xarray.DataArray(full_xarray[land_var[chanstr]].to_masked_array()[
-        land_num[chanstr], :, :],
-                                               coords=full_xarray[varname].coords)
+    full_xarray['LandMask'] = xarray.DataArray(
+        full_xarray[land_var[chanstr]].to_masked_array()[land_num[chanstr], :, :],
+        coords=full_xarray[varname].coords)
 
     if timestamp is None:
         import numpy

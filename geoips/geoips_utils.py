@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -24,6 +24,7 @@ from importlib import metadata
 LOG = logging.getLogger(__name__)
 
 NAMESPACE_PREFIX = 'geoips'
+
 
 def find_config(subpackage_name, config_basename, txt_suffix='.yaml'):
     ''' Given 'subpackage_name', 'config_basename', and txt_suffix, find matching text file within GEOIPS packages
@@ -46,7 +47,7 @@ def find_config(subpackage_name, config_basename, txt_suffix='.yaml'):
         fname = os.path.join(os.getenv('GEOIPS_PACKAGES_DIR'),
                              package_name,
                              subpackage_name,
-                             config_basename+txt_suffix)
+                             config_basename + txt_suffix)
         # LOG.info('Trying %s', fname)
         if os.path.exists(fname):
             LOG.info('FOUND %s', fname)
@@ -55,7 +56,7 @@ def find_config(subpackage_name, config_basename, txt_suffix='.yaml'):
                              package_name,
                              package_name,
                              subpackage_name,
-                             config_basename+txt_suffix)
+                             config_basename + txt_suffix)
         # LOG.info('Trying %s', fname)
         if os.path.exists(fname):
             LOG.info('FOUND %s', fname)
@@ -117,10 +118,11 @@ def list_product_specs_dict_yamls():
     from os.path import basename, splitext
     all_files = []
     for package_name in gpaths['GEOIPS_PACKAGES']:
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_params/*/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_params/*/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_params/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_params/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR'] + '/' + package_name +
+                          '/*/yaml_configs/product_params/*/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR'] + '/' + package_name + '/yaml_configs/product_params/*/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR'] + '/' + package_name + '/*/yaml_configs/product_params/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR'] + '/' + package_name + '/yaml_configs/product_params/*.yaml')
     return [fname for fname in all_files if '__init__' not in fname]
 
 
@@ -136,8 +138,8 @@ def list_product_source_dict_yamls():
     from os.path import basename, splitext
     all_files = []
     for package_name in gpaths['GEOIPS_PACKAGES']:
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_inputs/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_inputs/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR'] + '/' + package_name + '/*/yaml_configs/product_inputs/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR'] + '/' + package_name + '/yaml_configs/product_inputs/*.yaml')
     return [fname for fname in all_files if '__init__' not in fname]
 
 
@@ -153,8 +155,10 @@ def list_gridlines_params_dict_yamls():
     from os.path import basename, splitext
     all_files = []
     for package_name in gpaths['GEOIPS_PACKAGES']:
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/plotting_params/gridlines/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/plotting_params/gridlines/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR'] + '/' + package_name +
+                          '/*/yaml_configs/plotting_params/gridlines/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR'] + '/' + package_name +
+                          '/yaml_configs/plotting_params/gridlines/*.yaml')
     return [fname for fname in all_files if '__init__' not in fname]
 
 
@@ -170,8 +174,10 @@ def list_boundaries_params_dict_yamls():
     from os.path import basename, splitext
     all_files = []
     for package_name in gpaths['GEOIPS_PACKAGES']:
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/plotting_params/boundaries/*.yaml') 
-       	all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/plotting_params/boundaries/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR'] + '/' + package_name +
+                          '/*/yaml_configs/plotting_params/boundaries/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR'] + '/' + package_name +
+                          '/yaml_configs/plotting_params/boundaries/*.yaml')
     return [fname for fname in all_files if '__init__' not in fname]
 
 

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -34,7 +34,7 @@ def pmw_37pct(arrays, output_data_range=None, min_outbounds='crop', max_outbound
     This algorithm expects Brightness Temperatures in units of degrees Kelvin, and returns degrees Kelvin
 
     Args:
-        data (list[numpy.ndarray]) : 
+        data (list[numpy.ndarray]) :
             * numpy.ndarray or numpy.MaskedArray of channel data, in order of sensor "channels" list
             * Degrees Kelvin
 
@@ -46,7 +46,7 @@ def pmw_37pct(arrays, output_data_range=None, min_outbounds='crop', max_outbound
     h37 = arrays[0]
     v37 = arrays[1]
 
-    out = (2.15*v37)-(1.15*h37)
+    out = (2.15 * v37) - (1.15 * h37)
 
     if output_data_range is None:
         output_data_range = [230.0, 280.0]

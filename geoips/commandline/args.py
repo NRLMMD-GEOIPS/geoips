@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -432,11 +432,17 @@ def add_args(parser, arglist=None):
     prod_db_group = parser.add_argument_group(title='Product database specifications')
     if arglist is None or 'product_db' in arglist:
         prod_db_group.add_argument('--product_db', action='store_true',
-                                    help='Use product database to store product paths created by the procflow')
-        prod_db_group.add_argument('--product_db_writer', default=None,
-                               help='''If --product_db_writer is passed, the specific product database writer will be located in
+                                   help='Use product database to store product paths created by the procflow')
+        prod_db_group.add_argument(
+            '--product_db_writer',
+            default=None,
+            help='''If --product_db_writer is passed, the specific product database writer will be located in
                                        geoips*.interface_modules.postgres_database.mywriter_name.mywriter_name,
                                        The writer_name string should be the reader module name (no .py)''')
-        prod_db_group.add_argument('--product_db_writer_override', nargs='?', default={}, type=jloads,
-                                    help='''Specify product database writer that should be used for each available sector.
+        prod_db_group.add_argument(
+            '--product_db_writer_override',
+            nargs='?',
+            default={},
+            type=jloads,
+            help='''Specify product database writer that should be used for each available sector.
                                             Should be formatted as a json dictionary string.''')

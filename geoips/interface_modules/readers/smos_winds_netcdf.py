@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -138,9 +138,9 @@ def smos_winds_netcdf(fnames, metadata_only=False, chans=None, area_def=None, se
         from datetime import datetime, timedelta
         cov_start = datetime.strptime(wind_xarray.time_coverage_start, '%Y-%m-%dT%H:%M:%S Z')
         cov_end = datetime.strptime(wind_xarray.time_coverage_end, '%Y-%m-%dT%H:%M:%S Z')
-        time = cov_start + timedelta(seconds=(cov_end - cov_start).total_seconds()/2)
+        time = cov_start + timedelta(seconds=(cov_end - cov_start).total_seconds() / 2)
         time_attrs = wind_xarray.time.attrs
-        wind_xarray['time'] = numpy.array([time],dtype=numpy.datetime64)
+        wind_xarray['time'] = numpy.array([time], dtype=numpy.datetime64)
         wind_xarray['time'].attrs = time_attrs
 
     LOG.info('Read data from %s', fname)
@@ -171,7 +171,9 @@ def smos_winds_netcdf(fnames, metadata_only=False, chans=None, area_def=None, se
     if wind_xarrays['METADATA'].start_datetime == wind_xarrays['METADATA'].end_datetime:
         # Use alternate attributes to set start and end datetime
         from datetime import datetime
-        wind_xarrays['METADATA'].attrs['start_datetime'] = datetime.strptime(wind_xarray.time_coverage_start, '%Y-%m-%dT%H:%M:%S Z')
-        wind_xarrays['METADATA'].attrs['end_datetime'] = datetime.strptime(wind_xarray.time_coverage_end, '%Y-%m-%dT%H:%M:%S Z')
+        wind_xarrays['METADATA'].attrs['start_datetime'] = datetime.strptime(
+            wind_xarray.time_coverage_start, '%Y-%m-%dT%H:%M:%S Z')
+        wind_xarrays['METADATA'].attrs['end_datetime'] = datetime.strptime(
+            wind_xarray.time_coverage_end, '%Y-%m-%dT%H:%M:%S Z')
 
     return wind_xarrays

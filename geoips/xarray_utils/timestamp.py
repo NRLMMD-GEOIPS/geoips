@@ -1,22 +1,23 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
 
 ''' Utils to handle time stamp information within xarray objects'''
+
 
 def get_posix_from_datetime(dt):
     ''' Return the POSIX timestamp in seconds
@@ -34,18 +35,18 @@ def get_posix_from_datetime(dt):
 
 def get_datetime_from_datetime64(dt64):
     ''' Get a python datetime object from a numpy datetime64 object, backwards compatible with numpy versions
-    
+
     Args:
         dt64 (numpy.datetime64) : numpy.datetime64 object
 
     Returns:
-        datetime.datetime : Python datetime object 
+        datetime.datetime : Python datetime object
     '''
     scale = 1e-9
     if '[ns]' in dt64.dtype.name:
-        scale = 1e-9 
+        scale = 1e-9
     from datetime import datetime
-    return datetime.utcfromtimestamp(dt64.astype(int)*scale)
+    return datetime.utcfromtimestamp(dt64.astype(int) * scale)
 
 
 def get_min_from_xarray_timestamp(xarray_obj, varname):
@@ -65,7 +66,7 @@ def get_min_from_xarray_timestamp(xarray_obj, varname):
         import numpy
         goodinds = numpy.ma.where(xarray_obj[varname].to_masked_array())
         minval = get_datetime_from_datetime64(xarray_obj[varname].to_masked_array()[goodinds].min())
-    return minval  
+    return minval
 
 
 def get_max_from_xarray_timestamp(xarray_obj, varname):

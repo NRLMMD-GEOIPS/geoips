@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -24,12 +24,11 @@
     this module will be moved to the geoips/stable sub-package.
 '''
 
+from geoips.geoips_utils import find_entry_point, list_entry_points
 import collections
 from importlib import import_module
 import logging
 LOG = logging.getLogger(__name__)
-
-from geoips.geoips_utils import find_entry_point, list_entry_points
 
 
 ### Interpolation Functions ###
@@ -45,8 +44,8 @@ def is_valid_interp(interp_func_name):
     Returns:
         (bool) : True if 'interp_func_name' has the appropriate call signature
                  False if interp function:
-                        does not contain all required arguments 
-                        does not contain all required keyword arguments 
+                        does not contain all required arguments
+                        does not contain all required keyword arguments
 
     Interpolation function type currently found in
         <geoips_package>.interpolation.*.<interp_func_name>.interp_type
@@ -69,7 +68,7 @@ def is_valid_interp(interp_func_name):
         See geoips.dev.interp.get_interp
         See geoips.dev.interp.get_interp_type
         See geoips.dev.interp.list_interps_by_type
-    
+
     For product based interpolation functions:
         See geoips.dev.interp.get_interp
         See geoips.dev.interp.get_interp_name
@@ -83,12 +82,14 @@ def is_valid_interp(interp_func_name):
     try:
         interp_func_type = get_interp_type(interp_func_name)
     except ImportError as resp:
-        LOG.warning(f'INVALID INTERP {interp_func_name} not a valid interp module: If this is intended to be valid, ensure "interp_type" is defined: Exception: "{resp}"')
+        LOG.warning(
+            f'INVALID INTERP {interp_func_name} not a valid interp module: If this is intended to be valid, ensure "interp_type" is defined: Exception: "{resp}"')
         return False
     try:
         interp_func = get_interp(interp_func_name)
     except ImportError as resp:
-        raise ImportError(f'INVALID INTERP {interp_func_name}: Must specify function "{interp_func_name}" within module "{interp_func_name}": Exception: "{resp}"')
+        raise ImportError(
+            f'INVALID INTERP {interp_func_name}: Must specify function "{interp_func_name}" within module "{interp_func_name}": Exception: "{resp}"')
 
     # If this is __init__ (no __code__ attr), skip it
     if not hasattr(interp_func, '__code__'):
@@ -99,7 +100,7 @@ def is_valid_interp(interp_func_name):
 
     interp_func_vars = interp_func.__code__.co_varnames
     interp_func_args = interp_func_vars[0:num_args]
-    interp_func_kwargs = interp_func_vars[num_args:num_args+num_kwargs]
+    interp_func_kwargs = interp_func_vars[num_args:num_args + num_kwargs]
 
     # Check for required call signature arguments
     if not set(required_args[interp_func_type]).issubset(set(interp_func_args)):
@@ -203,4 +204,4 @@ def test_interp_interface():
     #         # But that is not going to be generally true for all interpolation routines.
     #         # return_dict['interp'][func_name] = get_interp(product_name, source_name)
     #         return_dict['interp_args'][product_name][source_name][func_name] = get_interp_args(product_name, source_name)
-    return out_dict 
+    return out_dict

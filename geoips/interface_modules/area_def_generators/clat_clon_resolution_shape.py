@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -34,7 +34,7 @@ def set_clat_clon_proj_info(clat, clon, pr_proj, num_samples, num_lines, pixel_w
                   'lat_0': clat,
                   'lon_0': clon,
                   'units': 'm',
-                 }
+                  }
     area_left = -width_m / 2.0
     area_right = width_m / 2.0
     area_bot = -height_m / 2.0

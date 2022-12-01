@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -156,16 +156,21 @@ def sar_winds_netcdf(fnames, metadata_only=False, chans=None, area_def=None, sel
         else:
             final_xarray = xarray.Dataset()
             import numpy
-            lat_array = xarray.DataArray(numpy.vstack([curr_xarray.latitude.to_masked_array()
-                                                       for curr_xarray in wind_xarrays]))
-            lon_array = xarray.DataArray(numpy.vstack([curr_xarray.longitude.to_masked_array()
-                                                       for curr_xarray in wind_xarrays]))
-            timestamp_array = xarray.DataArray(numpy.vstack([curr_xarray.timestamp.to_masked_array()
-                                                             for curr_xarray in wind_xarrays]))
-            wspd_array = xarray.DataArray(numpy.vstack([curr_xarray.wind_speed_kts.to_masked_array()
-                                                       for curr_xarray in wind_xarrays]))
-            sigma_array = xarray.DataArray(numpy.vstack([curr_xarray.sigma.to_masked_array()
-                                                       for curr_xarray in wind_xarrays]))
+            lat_array = xarray.DataArray(numpy.vstack(
+                [curr_xarray.latitude.to_masked_array() for curr_xarray in wind_xarrays]
+            ))
+            lon_array = xarray.DataArray(numpy.vstack(
+                [curr_xarray.longitude.to_masked_array() for curr_xarray in wind_xarrays]
+            ))
+            timestamp_array = xarray.DataArray(numpy.vstack(
+                [curr_xarray.timestamp.to_masked_array() for curr_xarray in wind_xarrays]
+            ))
+            wspd_array = xarray.DataArray(numpy.vstack(
+                [curr_xarray.wind_speed_kts.to_masked_array() for curr_xarray in wind_xarrays]
+            ))
+            sigma_array = xarray.DataArray(numpy.vstack(
+                [curr_xarray.sigma.to_masked_array() for curr_xarray in wind_xarrays]
+            ))
             final_xarray['latitude'] = lat_array
             final_xarray['longitude'] = lon_array
             final_xarray['timestamp'] = timestamp_array
@@ -200,7 +205,9 @@ def sar_winds_netcdf(fnames, metadata_only=False, chans=None, area_def=None, sel
     if wind_xarrays['METADATA'].start_datetime == wind_xarrays['METADATA'].end_datetime:
         # Use alternate attributes to set start and end datetime
         from datetime import datetime
-        wind_xarrays['METADATA'].attrs['start_datetime'] = datetime.strptime(wind_xarray.time_coverage_start, '%Y%m%dT%H%M%S')
-        wind_xarrays['METADATA'].attrs['end_datetime'] = datetime.strptime(wind_xarray.time_coverage_end, '%Y%m%dT%H%M%S')
+        wind_xarrays['METADATA'].attrs['start_datetime'] = datetime.strptime(
+            wind_xarray.time_coverage_start, '%Y%m%dT%H%M%S')
+        wind_xarrays['METADATA'].attrs['end_datetime'] = datetime.strptime(
+            wind_xarray.time_coverage_end, '%Y%m%dT%H%M%S')
 
     return wind_xarrays

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -59,15 +59,15 @@ def print_resource_usage(logstr=''):
     try:
         usage = resource.getrusage(resource.RUSAGE_SELF)
         for name, desc in [
-               ('ru_utime', 'RESOURCE '+logstr+' User time'),
-               ('ru_stime', 'RESOURCE '+logstr+' System time'),
-               ('ru_maxrss', 'RESOURCE '+logstr+' Max. Resident Set Size'),
-               ('ru_ixrss', 'RESOURCE '+logstr+' Shared Memory Size'),
-               ('ru_idrss', 'RESOURCE '+logstr+' Unshared Memory Size'),
-               ('ru_isrss', 'RESOURCE '+logstr+' Stack Size'),
-               ('ru_inblock', 'RESOURCE '+logstr+' Block inputs'),
-               ('ru_oublock', 'RESOURCE '+logstr+' Block outputs'),
-               ]:
+            ('ru_utime', 'RESOURCE ' + logstr + ' User time'),
+            ('ru_stime', 'RESOURCE ' + logstr + ' System time'),
+            ('ru_maxrss', 'RESOURCE ' + logstr + ' Max. Resident Set Size'),
+            ('ru_ixrss', 'RESOURCE ' + logstr + ' Shared Memory Size'),
+            ('ru_idrss', 'RESOURCE ' + logstr + ' Unshared Memory Size'),
+            ('ru_isrss', 'RESOURCE ' + logstr + ' Stack Size'),
+            ('ru_inblock', 'RESOURCE ' + logstr + ' Block inputs'),
+            ('ru_oublock', 'RESOURCE ' + logstr + ' Block outputs'),
+        ]:
             LOG.info('%-25s (%-10s) = %s', desc, name, getattr(usage, name))
     except NameError:
         LOG.info('resource not defined')

@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -36,12 +36,12 @@ def IR_BD(data_range=[-90.0, 40.0]):
     '''
 
     # for Infrared-Dvorak images at 11 um.  Unit: Celsius
-    #     This special black-white color scheme is designed for TC intensity analysis  
+    #     This special black-white color scheme is designed for TC intensity analysis
     min_tb = int(data_range[0])
     max_tb = int(data_range[1])
 
     if min_tb > -90 or max_tb < 40:
-        raise('Infrared TB range must include -90 and 40')
+        raise ('Infrared TB range must include -90 and 40')
 
     from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
     transition_vals = [(min_tb, -80.01),
@@ -51,9 +51,9 @@ def IR_BD(data_range=[-90.0, 40.0]):
                        (-63, -53.01),
                        (-53, -41.01),
                        (-41, -30.01),
-                       (-30,   9),
-                       ( 9.01, 28),
-                       ( 28.01, max_tb)]
+                       (-30, 9),
+                       (9.01, 28),
+                       (28.01, max_tb)]
     print('inside util= ', max_tb)
 
     # matching TerraScan Color scheme: noaa_bd_151
@@ -63,15 +63,15 @@ def IR_BD(data_range=[-90.0, 40.0]):
                          ('black', 'black'),
                          ('#A0A0A0', '#A0A0A0'),
                          ('#6E6E6E', '#6E6E6E'),
-                         ('#3C3C3C','#3C3C3C'),
-                         ('#C9C9C9','#6D6D6D'),
-                         ('#F7F7F7','#030303'),
+                         ('#3C3C3C', '#3C3C3C'),
+                         ('#C9C9C9', '#6D6D6D'),
+                         ('#F7F7F7', '#030303'),
                          ('black', 'black')]
 
-    #special selection of label
+    # special selection of label
 
-    ticks = [min_tb, -80, -75,-69, -63, -53, -41, -30, -20, -10, 0, 9, 15, 28, max_tb]
-  
+    ticks = [min_tb, -80, -75, -69, -63, -53, -41, -30, -20, -10, 0, 9, 15, 28, max_tb]
+
     # selection of min and max values for colormap if needed
     min_tb = transition_vals[0][0]
     max_tb = transition_vals[-1][1]
@@ -110,4 +110,3 @@ def IR_BD(data_range=[-90.0, 40.0]):
 
     # return cbar, min_tb, max_tb
     return mpl_colors_info
-

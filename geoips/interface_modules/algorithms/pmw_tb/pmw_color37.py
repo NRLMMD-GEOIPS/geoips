@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -35,7 +35,7 @@ def pmw_color37(arrays):
     and returns red green and blue gun arrays.
 
     Args:
-        data (list[numpy.ndarray]) : 
+        data (list[numpy.ndarray]) :
             * list of numpy.ndarray or numpy.MaskedArray of channel data, in order of channels list above
             * Degrees Kelvin
 
@@ -47,7 +47,7 @@ def pmw_color37(arrays):
     v37 = arrays[1]
 
     from geoips.data_manipulations.corrections import apply_data_range, apply_gamma
-    red = 2.181*v37 - 1.181*h37
+    red = 2.181 * v37 - 1.181 * h37
     red = apply_data_range(red, 260.0, 280.0,
                            min_outbounds='crop', max_outbounds='crop',
                            norm=True, inverse=True)

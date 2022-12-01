@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -31,7 +31,7 @@ def get_rasterio_cmap_dict(mpl_cmap, scale_data_min=1, scale_data_max=255):
     cmap_arr = mpl_cmap(range(0, 255)) * 255
     cmap_dict = {}
     for ii in range(0, 255):
-        cmap_dict[ii] = tuple(cmap_arr[ii,:])
+        cmap_dict[ii] = tuple(cmap_arr[ii, :])
     return cmap_dict
 
 
@@ -54,6 +54,7 @@ def scale_geotiff_data(plot_data, mpl_colors_info, scale_data_min=1, scale_data_
                                                    norm=True) * num_colors
     scale_data.fill_value = missing_value
     return scale_data.filled()
+
 
 def geotiff_standard(area_def,
                      xarray_obj,
@@ -83,7 +84,8 @@ def geotiff_standard(area_def,
             minlat = area_def.area_extent_ll[1]
             minlon = area_def.area_extent_ll[0]
 
-            transform = Affine.translation(minlon - res_deg_y / 2, minlat - res_deg_x / 2) * Affine.scale(res_deg_y, res_deg_x)
+            transform = Affine.translation(minlon - res_deg_y / 2, minlat - res_deg_x /
+                                           2) * Affine.scale(res_deg_y, res_deg_x)
 
             # crs = rasterio.crs.CRS.from_proj4(area_def.proj4_string)
             crs = '+proj=latlong'

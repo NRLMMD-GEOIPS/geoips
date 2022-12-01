@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -53,13 +53,18 @@ def abi_l2_netcdf(fnames, area_def=None, metadata_only=False, chans=False, self_
     # Start with pulling metadata from the first and last files
     metadata = get_metadata(fnames[0])
     end_metadata = get_metadata(fnames[-1])
-    geoips_attrs = {'area_definition': area_def,
-                     'start_datetime': datetime.strptime(metadata['file_info']['time_coverage_start'], '%Y-%m-%dT%H:%M:%S.%fZ'),
-                     'end_datetime': datetime.strptime(end_metadata['file_info']['time_coverage_end'], '%Y-%m-%dT%H:%M:%S.%fZ'),
-                     'vertical_data_type': 'surface',
-                     'source_name': 'abi',
-                     'data_provider': 'noaa',
-                     'interpolation_radius_of_influence': 2000}
+    geoips_attrs = {
+        'area_definition': area_def,
+        'start_datetime': datetime.strptime(
+            metadata['file_info']['time_coverage_start'],
+            '%Y-%m-%dT%H:%M:%S.%fZ'),
+        'end_datetime': datetime.strptime(
+            end_metadata['file_info']['time_coverage_end'],
+            '%Y-%m-%dT%H:%M:%S.%fZ'),
+        'vertical_data_type': 'surface',
+        'source_name': 'abi',
+        'data_provider': 'noaa',
+        'interpolation_radius_of_influence': 2000}
     if area_def:
         geoips_attrs['area_id'] = area_def.area_id
     else:
@@ -102,7 +107,7 @@ def abi_l2_netcdf(fnames, area_def=None, metadata_only=False, chans=False, self_
             lines = geo['Lines']
             samps = geo['Samples']
             for key in xarray.keys():
-                array = xarray[key].values[lines,samps]
+                array = xarray[key].values[lines, samps]
                 area_dataset[key] = (('y', 'x'), array)
             xarray = area_dataset
         xarray['latitude'] = (('y', 'x'), lats)
@@ -121,6 +126,5 @@ def abi_l2_netcdf(fnames, area_def=None, metadata_only=False, chans=False, self_
         xarray_dset = xarray_dset.assign_coords({'time': start_times})
     else:
         xarray_dset = xarrays[0]
-    
-    return {'abi_l2_data': xarray_dset, 'METADATA': meta_dataset}
 
+    return {'abi_l2_data': xarray_dset, 'METADATA': meta_dataset}

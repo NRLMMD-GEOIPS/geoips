@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -29,13 +29,13 @@ def tpw_pwat():
 
     ASCII palette is found in image_utils/ascii_palettes/tpw_pwat.txt
     Data range of ASCII palette is 1 to 90 mm, with numerous transitions
-    
+
     Returns:
         dictionary : Dictionary of matplotlib plotting parameters, to ensure consistent image output
     '''
 
     # levels in mm (evenly spaced by 2 mm except for 1-6):
-    values = [ 1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32,
+    values = [1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32,
               34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66,
               68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90]
 
@@ -58,4 +58,3 @@ def tpw_pwat():
                        'cbar_full_width': True}
 
     return mpl_colors_info
-

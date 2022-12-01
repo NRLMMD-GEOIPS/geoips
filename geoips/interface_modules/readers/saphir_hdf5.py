@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -19,9 +19,9 @@
 ''' Read SAPHIR hdf files '''
 
 # Python Standard Libraries
+from numpy import datetime64
 import logging
 LOG = logging.getLogger(__name__)
-from numpy import datetime64
 
 reader_type = 'standard'
 
@@ -99,12 +99,12 @@ def saphir_hdf5(fnames, metadata_only=False, chans=None, area_def=None, self_reg
     ch4qf = np.ma.masked_equal(np.squeeze((fileobj['ScienceData']['QF_Samples_S4'][...])), 65535)
     ch5qf = np.ma.masked_equal(np.squeeze((fileobj['ScienceData']['QF_Samples_S5'][...])), 65535)
     ch6qf = np.ma.masked_equal(np.squeeze((fileobj['ScienceData']['QF_Samples_S6'][...])), 65535)
-    ch1 = np.ma.masked_equal(np.squeeze(0.01*(fileobj['ScienceData']['TB_Samples_S1'][...])), 65535)
-    ch2 = np.ma.masked_equal(np.squeeze(0.01*(fileobj['ScienceData']['TB_Samples_S2'][...])), 65535)
-    ch3 = np.ma.masked_equal(np.squeeze(0.01*(fileobj['ScienceData']['TB_Samples_S3'][...])), 65535)
-    ch4 = np.ma.masked_equal(np.squeeze(0.01*(fileobj['ScienceData']['TB_Samples_S4'][...])), 65535)
-    ch5 = np.ma.masked_equal(np.squeeze(0.01*(fileobj['ScienceData']['TB_Samples_S5'][...])), 65535)
-    ch6 = np.ma.masked_equal(np.squeeze(0.01*(fileobj['ScienceData']['TB_Samples_S6'][...])), 65535)
+    ch1 = np.ma.masked_equal(np.squeeze(0.01 * (fileobj['ScienceData']['TB_Samples_S1'][...])), 65535)
+    ch2 = np.ma.masked_equal(np.squeeze(0.01 * (fileobj['ScienceData']['TB_Samples_S2'][...])), 65535)
+    ch3 = np.ma.masked_equal(np.squeeze(0.01 * (fileobj['ScienceData']['TB_Samples_S3'][...])), 65535)
+    ch4 = np.ma.masked_equal(np.squeeze(0.01 * (fileobj['ScienceData']['TB_Samples_S4'][...])), 65535)
+    ch5 = np.ma.masked_equal(np.squeeze(0.01 * (fileobj['ScienceData']['TB_Samples_S5'][...])), 65535)
+    ch6 = np.ma.masked_equal(np.squeeze(0.01 * (fileobj['ScienceData']['TB_Samples_S6'][...])), 65535)
     scanqf = np.ma.masked_equal(np.squeeze((fileobj['ScienceData']['SAPHIR_QF_scan'][...])), 65535)
 
     LOG.info('Reading file %s', fname)
@@ -129,7 +129,7 @@ def saphir_hdf5(fnames, metadata_only=False, chans=None, area_def=None, self_reg
     xarray_saphir['ch6_183.31_11.0'] = xr.DataArray(np.ma.masked_where(ch6qf > 64, ch6))
     # xarray_saphir['timestamp']=xr.DataArray(pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime,format='%Y%j%H%M'))
 
-    # add attributes to xarray 
+    # add attributes to xarray
     xarray_saphir.attrs['start_datetime'] = datetime.strptime("%08d%06d" % (start_date_group, start_time_group),
                                                               '%Y%m%d%H%M%S')
     xarray_saphir.attrs['end_datetime'] = datetime.strptime("%08d%06d" % (end_date_group, end_time_group),

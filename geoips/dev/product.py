@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -24,10 +24,9 @@
     this module will be moved to the geoips/stable sub-package.
 '''
 
+from geoips.geoips_utils import find_entry_point, find_config
 import logging
 LOG = logging.getLogger(__name__)
-
-from geoips.geoips_utils import find_entry_point, find_config
 
 
 ### Product parameter dictionaries ###
@@ -51,9 +50,9 @@ def is_valid_product(product_name, source_name, output_dict=None):
     Returns:
         (bool) : True if 'product_name' is a properly formatted dictionary of product parameters.
                  False if product dictionary:
-                        does not contain supported 'product_type', 
+                        does not contain supported 'product_type',
                         does not contain all 'required' fields,
-                        contains non-supported 'optional' fields 
+                        contains non-supported 'optional' fields
 
                  Product types currently one of:
 
@@ -68,67 +67,67 @@ def is_valid_product(product_name, source_name, output_dict=None):
                                                    'cmap_func': <str: optional>,
                                                    'cmap_args': <dict: optional>,
                                                    'display_name': <str: optional>}
-                                     
+
     '''
 
     # product_name and source_input keys are added in the "get_product" interface func
     required_keys = {
-                     'interp_alg_cmap': ['product_type',                                # Set in product_params
-                                         'product_name', 'source_input', 'variables',   # Set in product_inputs
-                                         'alg_func', 'alg_args',                        # Set in product_params
-                                         'interp_func', 'interp_args',                  # Set in product_params
-                                         'cmap_func', 'cmap_args'],                     # Set in product_params
-                     'alg_interp_cmap': ['product_type',                                # Set in product_params
-                                         'product_name', 'source_input', 'variables',   # Set in product_inputs
-                                         'alg_func', 'alg_args',                        # Set in product_params
-                                         'interp_func', 'interp_args',                  # Set in product_params
-                                         'cmap_func', 'cmap_args'],                     # Set in product_params
-                     'interp': ['product_type',                                # Set in product_params
-                                'product_name', 'source_input', 'variables',   # Set in product_inputs
-                                'interp_func', 'interp_args'],                  # Set in product_params
-                     'interp_alg': ['product_type',                                # Set in product_params
-                                    'product_name', 'source_input', 'variables',   # Set in product_inputs
-                                    'alg_func', 'alg_args',                        # Set in product_params
-                                    'interp_func', 'interp_args'],                  # Set in product_params
-                     'alg': ['product_type',                                            # Set in product_params
-                             'product_name', 'source_input', 'variables',               # Set in product_inputs
-                             'alg_func', 'alg_args'],                                   # Set in product_params
-                     'alg_cmap': ['product_type',
-                                  'product_name', 'source_input', 'variables',               # Set in product_inputs
-                                  'alg_func', 'alg_args',
-                                  'cmap_func', 'cmap_args'],
-                     'cmap': ['product_type',
-                              'product_name', 'source_input', 'variables',               # Set in product_inputs
-                              'cmap_func', 'cmap_args'],
-                     'sectored_xarray_dict_to_output_format': ['product_type',
-                                                               'product_name', 'source_input', 'variables'],
-                     'unsectored_xarray_dict_to_output_format': ['product_type',
-                                                                 'product_name', 'source_input', 'variables'],
-                     }
+        'interp_alg_cmap': ['product_type',                                # Set in product_params
+                            'product_name', 'source_input', 'variables',   # Set in product_inputs
+                            'alg_func', 'alg_args',                        # Set in product_params
+                            'interp_func', 'interp_args',                  # Set in product_params
+                            'cmap_func', 'cmap_args'],                     # Set in product_params
+        'alg_interp_cmap': ['product_type',                                # Set in product_params
+                            'product_name', 'source_input', 'variables',   # Set in product_inputs
+                            'alg_func', 'alg_args',                        # Set in product_params
+                            'interp_func', 'interp_args',                  # Set in product_params
+                            'cmap_func', 'cmap_args'],                     # Set in product_params
+        'interp': ['product_type',                                # Set in product_params
+                   'product_name', 'source_input', 'variables',   # Set in product_inputs
+                   'interp_func', 'interp_args'],                  # Set in product_params
+        'interp_alg': ['product_type',                                # Set in product_params
+                       'product_name', 'source_input', 'variables',   # Set in product_inputs
+                       'alg_func', 'alg_args',                        # Set in product_params
+                       'interp_func', 'interp_args'],                  # Set in product_params
+        'alg': ['product_type',                                            # Set in product_params
+                'product_name', 'source_input', 'variables',               # Set in product_inputs
+                'alg_func', 'alg_args'],                                   # Set in product_params
+        'alg_cmap': ['product_type',
+                     'product_name', 'source_input', 'variables',               # Set in product_inputs
+                     'alg_func', 'alg_args',
+                     'cmap_func', 'cmap_args'],
+        'cmap': ['product_type',
+                 'product_name', 'source_input', 'variables',               # Set in product_inputs
+                 'cmap_func', 'cmap_args'],
+        'sectored_xarray_dict_to_output_format': ['product_type',
+                                                  'product_name', 'source_input', 'variables'],
+        'unsectored_xarray_dict_to_output_format': ['product_type',
+                                                    'product_name', 'source_input', 'variables'],
+    }
 
     optional_keys = {
-                     'interp_alg_cmap': ['display_name',
-                                         'mtif_type',
-                                         'covg_func', 'covg_args'],
-                     'alg_interp_cmap': ['display_name',
-                                         'mtif_type',
-                                         'covg_func', 'covg_args'],
-                     'interp': ['display_name',
-                                'covg_func', 'covg_args'],
-                     'interp_alg': ['display_name',
-                                    'covg_func', 'covg_args'],
-                     'alg': ['display_name',
-                             'covg_func', 'covg_args'],
-                     'cmap': ['display_name',
-                              'covg_func', 'covg_args'],
-                     'sectored_xarray_dict_to_output_format': ['display_name',
-                                                               'covg_func', 'covg_args'],
-                     'unsectored_xarray_dict_to_output_format': ['display_name',
-                                                                 'covg_func', 'covg_args'],
-                     'alg_cmap': ['display_name',
-                                  'mtif_type',
-                                  'covg_func', 'covg_args'],
-                     }
+        'interp_alg_cmap': ['display_name',
+                            'mtif_type',
+                            'covg_func', 'covg_args'],
+        'alg_interp_cmap': ['display_name',
+                            'mtif_type',
+                            'covg_func', 'covg_args'],
+        'interp': ['display_name',
+                   'covg_func', 'covg_args'],
+        'interp_alg': ['display_name',
+                       'covg_func', 'covg_args'],
+        'alg': ['display_name',
+                'covg_func', 'covg_args'],
+        'cmap': ['display_name',
+                 'covg_func', 'covg_args'],
+        'sectored_xarray_dict_to_output_format': ['display_name',
+                                                  'covg_func', 'covg_args'],
+        'unsectored_xarray_dict_to_output_format': ['display_name',
+                                                    'covg_func', 'covg_args'],
+        'alg_cmap': ['display_name',
+                     'mtif_type',
+                     'covg_func', 'covg_args'],
+    }
 
     product_dict = get_product(product_name, source_name, output_dict=output_dict)
     # if product_dict is None:
@@ -157,11 +156,11 @@ def is_valid_product(product_name, source_name, output_dict=None):
         return False
 
     # If we have non-allowed keys, return False
-    if not set(product_dict).issubset(required_keys[product_type]+optional_keys[product_type]):
+    if not set(product_dict).issubset(required_keys[product_type] + optional_keys[product_type]):
         LOG.error("INVALID PRODUCT '%s': Unknown fields in '%s' product parameter dictionary: '%s'",
                   product_name,
                   product_type,
-                  set(product_dict).difference(required_keys[product_type]+optional_keys[product_type]))
+                  set(product_dict).difference(required_keys[product_type] + optional_keys[product_type]))
         return False
 
     # If we get here, then the product parameter dictionary format is valid.
@@ -187,15 +186,15 @@ def get_product(product_name, source_name, output_dict=None):
     product_dict = get_product_specs(product_name)
 
     if product_name not in product_dict:
-        raise KeyError(f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: product name {product_name} "\
+        raise KeyError(f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: product name {product_name} "
                        f"must be top level of yaml file {product_dict['yaml_files']}")
 
     if source_name not in source_dict:
-        raise KeyError(f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: source name {source_name} "\
+        raise KeyError(f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: source name {source_name} "
                        f"must be top level of yaml file {source_dict['yaml_files']}")
 
     if product_name not in source_dict[source_name]:
-        raise KeyError(f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: product name '{product_name}' "\
+        raise KeyError(f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: product name '{product_name}' "
                        f"must be contained in source dict '{source_name}' in {source_dict['yaml_files']}")
 
     for key in source_dict[source_name][product_name]:
@@ -380,7 +379,7 @@ def get_source_inputs(source_name):
                 source_dict = curr_source_dict
                 source_dict['yaml_files'] = []
             if source_name not in curr_source_dict:
-                raise KeyError(f"INVALID SOURCE {source_name}: source name {source_name} "\
+                raise KeyError(f"INVALID SOURCE {source_name}: source name {source_name} "
                                f"must be top level of yaml file {source_fname}")
             source_dict[source_name].update(curr_source_dict[source_name])
             source_dict['yaml_files'] += [source_fname]
@@ -460,9 +459,11 @@ def test_product_interface():
 
             product_params_dicts['get_alg_name'][source_name][product_name] = get_alg_name(product_name, source_name)
             if product_params_dicts['get_alg_name'][source_name][product_name]:
-                product_params_dicts['get_alg_args'][source_name][product_name] = get_alg_args(product_name, source_name)
+                product_params_dicts['get_alg_args'][source_name][product_name] = get_alg_args(
+                    product_name, source_name)
                 try:
-                    product_params_dicts['get_data_range'][source_name][product_name] = get_data_range(product_name, source_name)
+                    product_params_dicts['get_data_range'][source_name][product_name] = get_data_range(
+                        product_name, source_name)
                 except TypeError as resp:
                     LOG.error('SKIPPING %s %s: %s', product_name, source_name, str(resp))
             else:
@@ -470,20 +471,25 @@ def test_product_interface():
 
             product_params_dicts['get_cmap_name'][source_name][product_name] = get_cmap_name(product_name, source_name)
             if product_params_dicts['get_cmap_name'][source_name][product_name]:
-                product_params_dicts['get_cmap_from_product'][source_name][product_name] = get_cmap_from_product(product_name, source_name)
-                product_params_dicts['get_cmap_args'][source_name][product_name] = get_cmap_args(product_name, source_name)
+                product_params_dicts['get_cmap_from_product'][source_name][product_name] = get_cmap_from_product(
+                    product_name, source_name)
+                product_params_dicts['get_cmap_args'][source_name][product_name] = get_cmap_args(
+                    product_name, source_name)
             else:
                 LOG.error('SKIPPING %s %s get_cmap funcs: get_cmap_name was None', product_name, source_name)
 
-            product_params_dicts['get_interp_name'][source_name][product_name] = get_interp_name(product_name, source_name)
+            product_params_dicts['get_interp_name'][source_name][product_name] = get_interp_name(
+                product_name, source_name)
             if product_params_dicts['get_interp_name'][source_name][product_name]:
-                product_params_dicts['get_interp_args'][source_name][product_name] = get_interp_args(product_name, source_name)
+                product_params_dicts['get_interp_args'][source_name][product_name] = get_interp_args(
+                    product_name, source_name)
             else:
                 LOG.error('SKIPPING %s %s get_interp_args: get_interp_name was None', product_name, source_name)
 
-            product_params_dicts['get_required_variables'][source_name][product_name] = get_required_variables(product_name, source_name)
+            product_params_dicts['get_required_variables'][source_name][product_name] = get_required_variables(
+                product_name, source_name)
 
-    return product_params_dicts 
+    return product_params_dicts
 
 
 def get_alg_name(product_name, source_name, output_dict=None):
@@ -650,7 +656,7 @@ def get_interp_name(product_name, source_name, output_dict=None):
     Returns:
         <interp_func_name> : Return name of interp function required for given product/source
 
-    See geoips.check_interp_func for additional information on interp types, arguments, and return values 
+    See geoips.check_interp_func for additional information on interp types, arguments, and return values
     '''
     products = get_product(product_name, source_name, output_dict=output_dict)
 
@@ -674,7 +680,7 @@ def get_interp_args(product_name, source_name, output_dict=None):
     Returns:
         <interp_args> : Return arguments for interp function
 
-    See geoips.check_interp_func for additional information on interp types, arguments, and return values 
+    See geoips.check_interp_func for additional information on interp types, arguments, and return values
     '''
     products = get_product(product_name, source_name, output_dict=output_dict)
 
@@ -700,7 +706,7 @@ def get_product_display_name(product_name, source_name, output_dict=None):
     Returns:
         <product_display_name> : Return display name for given product
 
-    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values 
+    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values
     '''
     products = get_product(product_name, source_name, output_dict=output_dict)
 
@@ -725,7 +731,7 @@ def get_cmap_name(product_name, source_name, output_dict=None):
     Returns:
         <cmap_func_name> : Return name of colormap function required for given product/source
 
-    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values 
+    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values
     '''
     products = get_product(product_name, source_name, output_dict=output_dict)
 
@@ -753,7 +759,7 @@ def get_cmap_args(product_name, source_name, output_dict=None):
     Returns:
         <cmap_args> : Return arguments for colormap function
 
-    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values 
+    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values
     '''
     products = get_product(product_name, source_name, output_dict=output_dict)
 
@@ -779,7 +785,7 @@ def get_cmap_from_product(product_name, source_name, output_dict=None):
     Returns:
         <cmap_func>(**<cmap_args>) : Return actual colormap information
 
-    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values 
+    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values
     '''
 
     cmap_func_name = get_cmap_name(product_name, source_name, output_dict=output_dict)
@@ -787,12 +793,12 @@ def get_cmap_from_product(product_name, source_name, output_dict=None):
         from geoips.dev.cmap import get_cmap
         cmap_func = get_cmap(cmap_func_name)
     except Exception as resp:
-        raise ValueError(f"UNDEFINED CMAP FUNC '{cmap_func_name}'"\
-                         f" in product '{product_name}'"\
-                         f" source '{source_name}':"\
-                         f" ORIGINAL EXCEPTION {type(resp).__name__}:"\
+        raise ValueError(f"UNDEFINED CMAP FUNC '{cmap_func_name}'"
+                         f" in product '{product_name}'"
+                         f" source '{source_name}':"
+                         f" ORIGINAL EXCEPTION {type(resp).__name__}:"
                          f" {resp.__doc__} >> {resp.args}")
-    
+
     cmap_args = get_cmap_args(product_name, source_name, output_dict=output_dict)
 
     return cmap_func(**cmap_args)

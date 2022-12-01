@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -36,10 +36,10 @@ def Night_Vis_GeoIPS1(arrays, min_outbounds='crop', max_outbounds='crop', max_ni
     and returns red green and blue gun arrays.
     it will generate a product in daytime if we do not apply the daytime chech. For now, it is for both day/night.
     (Will decide whether this product is only for nighttime.  if so, a daytime check is required.)
-    We might focus only on nighttime product with moonlight after additional validation (TBD). 
+    We might focus only on nighttime product with moonlight after additional validation (TBD).
 
     Args:
-        data (list[numpy.ndarray]) : 
+        data (list[numpy.ndarray]) :
             * list of numpy.ndarray or numpy.MaskedArray of channel data, in order of sensor "channels" list
             * Degrees Kelvin
 

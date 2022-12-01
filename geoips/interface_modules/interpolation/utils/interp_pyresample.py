@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -102,12 +102,12 @@ def interp_kd_tree(list_of_arrays, area_definition, data_box_definition, radius_
                                                    fill_value=None)
     elif interp_type == 'gauss':
         kw_args = {}
-        kw_args['sigmas'] = [4000]*len(list_of_arrays)
+        kw_args['sigmas'] = [4000] * len(list_of_arrays)
         kw_args['fill_value'] = None
         kw_args['radius_of_influence'] = radius_of_influence
 
         if sigmas is not None:
-            kw_args['sigmas'] = [sigmas]*len(list_of_arrays)
+            kw_args['sigmas'] = [sigmas] * len(list_of_arrays)
         if neighbours is not None:
             kw_args['neighbours'] = neighbours
         if nprocs is not None:

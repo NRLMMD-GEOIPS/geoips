@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -27,7 +27,7 @@ from pyresample.kd_tree import get_neighbour_info  # , get_sample_from_neighbour
 try:
     import numexpr as ne
 except ImportError:
-    print ('Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. If you need it, install it.')
+    print('Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. If you need it, install it.')
 
 from geoips.filenames.base_paths import PATHS as gpaths
 
@@ -38,7 +38,7 @@ nprocs = 6
 try:
     ne.set_num_threads(nprocs)
 except Exception:
-    print ('Failed numexpr.set_num_threads in {}. If numexpr is not installed and you need it, install it.'.format(__file__))
+    print('Failed numexpr.set_num_threads in {}. If numexpr is not installed and you need it, install it.'.format(__file__))
 
 DONT_AUTOGEN_GEOLOCATION = False
 if os.getenv('DONT_AUTOGEN_GEOLOCATION'):
@@ -59,7 +59,7 @@ class AutoGenError(Exception):
 
 def get_geolocation_cache_filename(pref, metadata, area_def=None):
     '''
-    Set the location and filename format for the pre-generated cached geolocation 
+    Set the location and filename format for the pre-generated cached geolocation
     files.
     There is a separate filename format for satellite lat lons and sector lat lons
     If the filename format needs to change for the pre-generated geolocation
@@ -86,10 +86,10 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
     # md_hash = hash(frozenset((k, v) for k, v in metadata.items() if isinstance(v, Hashable)))
 
     fname = "{}_{}_{}x{}".format(pref,
-                                    metadata['scene'],
-                                    metadata['num_lines'],
-                                    metadata['num_samples'],
-                                    )
+                                 metadata['scene'],
+                                 metadata['num_lines'],
+                                 metadata['num_samples'],
+                                 )
 
     # If the filename format needs to change for the pre-generated geolocation
     # files, please discuss prior to changing.  It will force recreation of all
@@ -97,7 +97,7 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
 
     if area_def:
         ad = area_def
-        log.info('    Using area_definition information for hash: '+str(ad.proj_dict.items()))
+        log.info('    Using area_definition information for hash: ' + str(ad.proj_dict.items()))
         # sector_hash = hash(frozenset(ad.proj_dict.items()))
         from hashlib import sha1
         metadata_string = ''
@@ -112,14 +112,13 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
         sect_clat = area_def.proj_dict['lat_0']
         sect_clon = area_def.proj_dict['lon_0']
         fname += '_{}_{}x{}_{}x{}'.format(area_def.area_id,
-            sect_nlines,
-            sect_nsamples,
-            sect_clat,
-            sect_clon)
+                                          sect_nlines,
+                                          sect_nsamples,
+                                          sect_clat,
+                                          sect_clon)
         fname += "_{}_{}".format(md_hash, sector_hash)
     else:
         fname += "_{}".format(md_hash)
-
 
     fname += '.dat'
 
@@ -336,15 +335,15 @@ def get_indexes(metadata, lats, lons, area_def):
         # This uses the only piece of information available concerning resolution in the metadata
         log.info('    GETGEOINDS Calculating radius of influence {}'.format(area_def.area_id))
         if 'res_km' not in metadata.keys():
-           shape = lons.shape
-           latres = np.abs(lats[int(shape[0] / 2), int(shape[1] / 2)]
-                           - lats[int(shape[0] / 2 + 1), int(shape[1] / 2)]) * 111.1 * 1000
-           lonres = np.abs(lons[int(shape[0] / 2), int(shape[1] / 2)]
-                           - lons[int(shape[0] / 2), int(shape[1] / 2 + 1)]) * 111.1 * 1000
-           # Use larger of the two values times 10 as ROI for interpolation
-           # Would be nice to use something more dynamic to save CPU time here
-           # Kind of stuck as long as we use pyresample
-           metadata['res_km'] = max(latres, lonres) / 1000.0
+            shape = lons.shape
+            latres = np.abs(lats[int(shape[0] / 2), int(shape[1] / 2)]
+                            - lats[int(shape[0] / 2 + 1), int(shape[1] / 2)]) * 111.1 * 1000
+            lonres = np.abs(lons[int(shape[0] / 2), int(shape[1] / 2)]
+                            - lons[int(shape[0] / 2), int(shape[1] / 2 + 1)]) * 111.1 * 1000
+            # Use larger of the two values times 10 as ROI for interpolation
+            # Would be nice to use something more dynamic to save CPU time here
+            # Kind of stuck as long as we use pyresample
+            metadata['res_km'] = max(latres, lonres) / 1000.0
         roi = metadata['roi_factor'] * 1000.0 * metadata['res_km']  # roi_factor * resolution in meters
         log.info('    GETGEOINDS Running get_neighbour_info %s roi %s res_km %s roi_factor %s',
                  area_def.area_id, roi, metadata['res_km'], metadata['roi_factor'])

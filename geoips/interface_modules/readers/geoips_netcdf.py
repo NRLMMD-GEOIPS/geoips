@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -55,7 +55,7 @@ def geoips_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_r
         dict of xarray.Datasets: dict of xarray.Dataset objects with required
             Variables and Attributes: (See geoips/docs :doc:`xarray_standards`),
             dict key can be any descriptive dataset id
-            
+
     '''
 
     LOG.info('Reading files %s', fnames)

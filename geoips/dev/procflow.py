@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -24,12 +24,11 @@
     this module will be moved to the geoips/stable sub-package.
 '''
 
+from geoips.geoips_utils import find_entry_point, list_entry_points
 import logging
 import collections
 from importlib import import_module
 LOG = logging.getLogger(__name__)
-
-from geoips.geoips_utils import find_entry_point, list_entry_points
 
 
 ### Driver functions ###
@@ -50,15 +49,15 @@ def is_valid_procflow(procflow_func_name):
     Returns:
         (bool) : True if 'procflow_func_name' has the appropriate call signature
                  False if procflow function:
-                        does not contain all required arguments 
-                        does not contain all required keyword arguments 
+                        does not contain all required arguments
+                        does not contain all required keyword arguments
 
                  Driver types currently one of:
 
                         'standard' : call signature <procflow_func_name>(fnames, command_line_args=None)
                                      return value: 0 for successful completion, non-zero for failure.
                                                    This can be used for determining successful output comparisons for unit tests / CI/CD.
-                                     
+
     '''
     required_args = {'standard': ['fnames']}
     required_kwargs = {'standard': ['command_line_args']}
@@ -69,8 +68,8 @@ def is_valid_procflow(procflow_func_name):
         procflow_type = get_procflow_type(procflow_func_name)
     except ImportError as resp:
         if 'procflow_type' in str(resp):
-            LOG.warning(f'Module {procflow_func_name} in procflow package not a valid procflow module: '\
-                        f'If this is intended to be a valid procflow module, ensure "{type_name}" is defined:'\
+            LOG.warning(f'Module {procflow_func_name} in procflow package not a valid procflow module: '
+                        f'If this is intended to be a valid procflow module, ensure "{type_name}" is defined:'
                         f'Exception: "{resp}"')
         else:
             LOG.exception(f'ImportError in module {procflow_func_name} in procflow package. Exception: "{resp}"')
@@ -79,7 +78,8 @@ def is_valid_procflow(procflow_func_name):
     try:
         procflow_func = get_procflow(procflow_func_name)
     except ImportError as resp:
-        raise ImportError(f'INVALID OUTPUT {procflow_func_name}: Must specify function "{procflow_func_name}" within module "{procflow_func_name}": Exception: "{resp}"')
+        raise ImportError(
+            f'INVALID OUTPUT {procflow_func_name}: Must specify function "{procflow_func_name}" within module "{procflow_func_name}": Exception: "{resp}"')
 
     if procflow_type not in required_args:
         raise TypeError(f"INVALID PROCFLOW FUNC {procflow_func_name}:\n"
@@ -102,7 +102,7 @@ def is_valid_procflow(procflow_func_name):
         return False
     procflow_vars = procflow_func.__code__.co_varnames
     procflow_args = procflow_vars[0:num_args]
-    procflow_kwargs = procflow_vars[num_args:num_args+num_kwargs]
+    procflow_kwargs = procflow_vars[num_args:num_args + num_kwargs]
 
     # Check for required call signature arguments
     if not set(required_args[procflow_type]).issubset(set(procflow_args)):

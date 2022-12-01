@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -76,11 +76,11 @@ def output_all_metadata(output_dict, output_fnames, metadata_fnames, xarray_obj,
                                            product_filename=output_fname,
                                            **output_kwargs)
                 if curr_outputs != [metadata_fname]:
-                    raise(ValueError('Did not produce expected products'))
-                    
+                    raise (ValueError('Did not produce expected products'))
+
                 for curr_output in curr_outputs:
                     final_outputs[curr_output] = metadata_fnames[curr_output]
-                
+
     return final_outputs
 
 
@@ -194,7 +194,7 @@ def process_xarray_dict_to_output_format(xobjs, variables, product_name, output_
     if get_outputter_type(output_format) == 'xarray_dict_data':
         curr_products = outputter(xobjs, variables, list(output_fnames.keys()), **output_format_kwargs)
         if curr_products != list(output_fnames.keys()):
-            raise(ValueError('Did not produce expected products'))
+            raise (ValueError('Did not produce expected products'))
 
     else:
         supported_outputter_types = ['xarray_dict_data']
@@ -210,7 +210,7 @@ def process_xarray_dict_to_output_format(xobjs, variables, product_name, output_
 
 
 def print_area_def(area_def, print_str):
-    LOG.info(f'\n\n************************************************************************************'\
+    LOG.info(f'\n\n************************************************************************************'
              f'\n***{print_str}\n{area_def}')
     for key, value in area_def.sector_info.items():
         print(f'{key}: {value}')
@@ -357,16 +357,16 @@ def get_area_defs_from_command_line_args(command_line_args, xobjs, variables, fi
     from geoips.sector_utils.utils import get_static_area_defs_for_xarray, get_tc_area_defs_for_xarray
     from geoips.sector_utils.utils import get_trackfile_area_defs
     from geoips.sector_utils.utils import filter_area_defs_actual_time
-    sectorfiles=None
-    sector_list=None
-    tcdb_sector_list=None
-    tcdb=None
-    trackfile_sector_list=None
-    trackfiles=None
-    trackfile_parser=None
-    tc_template_yaml=None
-    self_register_dataset=None
-    self_register_source=None
+    sectorfiles = None
+    sector_list = None
+    tcdb_sector_list = None
+    tcdb = None
+    trackfile_sector_list = None
+    trackfiles = None
+    trackfile_parser = None
+    tc_template_yaml = None
+    self_register_dataset = None
+    self_register_source = None
     area_defs = []
 
     # If we are requesting an area definition that is tied directly to the reader METADATA, identify it here.
@@ -460,10 +460,10 @@ def get_area_defs_from_command_line_args(command_line_args, xobjs, variables, fi
             area_defs += get_static_area_defs_for_xarray(xobjs['METADATA'], sectorfiles, sector_list)
     if tcdb:
         if xobjs is None:
-            raise(TypeError, 'Must have xobjs defined for tcdb sectors')
+            raise (TypeError, 'Must have xobjs defined for tcdb sectors')
         area_defs += get_tc_area_defs_for_xarray(xobjs['METADATA'], tcdb_sector_list,
-                                                   tc_template_yaml,
-                                                   aid_type='BEST',)
+                                                 tc_template_yaml,
+                                                 aid_type='BEST',)
     if trackfiles:
         area_defs += get_trackfile_area_defs(trackfiles,
                                              trackfile_parser,
@@ -478,7 +478,7 @@ def get_area_defs_from_command_line_args(command_line_args, xobjs, variables, fi
     if filter_time and xobjs is not None\
        and xobjs['METADATA'].end_datetime - xobjs['METADATA'].start_datetime < timedelta(hours=3):
         area_defs = filter_area_defs_actual_time(area_defs, xobjs['METADATA'].start_datetime)
-    
+
     LOG.info('Allowed area_defs: %s', [ad.name for ad in area_defs])
     return list(area_defs)
 
@@ -514,7 +514,7 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
     LOG.info('get_alg_xarray required variables: %s', variables)
     LOG.info('get_alg_xarray requested datasets for variables: %s', datasets_for_vars)
 
-    # If we want to run the algorithm prior to interpolation, apply the algorithm here, and return either 
+    # If we want to run the algorithm prior to interpolation, apply the algorithm here, and return either
     # the unprojected result or interpolated result appropriately.
     if product_type in ['alg_cmap', 'alg_interp_cmap', 'alg']:
         alg_xarray = xarray.Dataset()
@@ -563,8 +563,8 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
         # No interpolation required
         if product_type == 'alg_cmap':
             final_xarray = alg_xarray
-        # If required, interpolate the result prior to returning    
-        elif product_type == 'alg_interp_cmap':    
+        # If required, interpolate the result prior to returning
+        elif product_type == 'alg_interp_cmap':
             interp_args['varlist'] = [product_name]
             final_xarray = interp_func(area_def, alg_xarray, alg_xarray, **interp_args)
 
@@ -737,7 +737,7 @@ def single_source(fnames, command_line_args=None):
         from geoips_db.dev.postgres_database import get_db_writer
         db_writer = get_db_writer(product_db_writer)
         if not getenv('G2DB_USER') or not getenv('G2DB_PASS'):
-                    raise ValueError('Need to set both $G2DB_USER and $G2DB_PASS')
+            raise ValueError('Need to set both $G2DB_USER and $G2DB_PASS')
 
     from geoips.stable.reader import get_reader
     from geoips.dev.output import get_outputter, get_outputter_type
@@ -748,7 +748,7 @@ def single_source(fnames, command_line_args=None):
     xobjs = reader(fnames, metadata_only=True)
     print_mem_usage('MEMUSG', verbose=False)
 
-    variables = get_required_variables(product_name, xobjs['METADATA'].source_name)  #get input variables
+    variables = get_required_variables(product_name, xobjs['METADATA'].source_name)  # get input variables
     product_type = get_product_type(product_name, xobjs['METADATA'].source_name)
 
     # If we need to pull area_defs from the reader, then we need to read in order to determin what to run
@@ -772,7 +772,7 @@ def single_source(fnames, command_line_args=None):
     if product_type == 'unsectored_xarray_dict_to_output_format':
         xdict = reader(fnames, metadata_only=False)
         final_products += process_xarray_dict_to_output_format(xdict, variables, product_name, command_line_args)
-                
+
     print_mem_usage('MEMUSG', verbose=False)
     from geoips.filenames.duplicate_files import remove_duplicates
     new_attrs = {'filename_extra_fields': {}}
@@ -942,9 +942,9 @@ def single_source(fnames, command_line_args=None):
 
             if product_db:
                 for fprod, fname_fmt in curr_products.items():
-                    additional_attrs = {'coverage': covg, 
+                    additional_attrs = {'coverage': covg,
                                         'product': product_name,
-                                        'fileType':fprod.split('.')[-1]}
+                                        'fileType': fprod.split('.')[-1]}
                     product_added = db_writer(fprod, area_def, alg_xarray, additional_attrs=additional_attrs)
                     database_writes += [product_added]
 
@@ -953,7 +953,7 @@ def single_source(fnames, command_line_args=None):
         else:
             LOG.info('SKIPPING No coverage or required variables "%s" for %s %s',
                      variables, xobjs['METADATA'].source_name, area_def.name)
-            #raise ImportError('Failed to find required fields in product algorithm: {0}.{1}'.format(
+            # raise ImportError('Failed to find required fields in product algorithm: {0}.{1}'.format(
             #                                                        sect_xarrays[0].source_name,product_name))
 
     process_datetimes['overall_end'] = datetime.utcnow()
@@ -986,8 +986,6 @@ def single_source(fnames, command_line_args=None):
         retval = compare_outputs(compare_path.replace('<product>', product_name).replace('<procflow>', 'single_source'),
                                  final_products)
 
-        
-
     print_mem_usage('MEMUSG', verbose=True)
     LOG.info('READER_NAME: %s', reader_name)
     LOG.info('PRODUCT_NAME: %s', product_name)
@@ -995,4 +993,3 @@ def single_source(fnames, command_line_args=None):
     LOG.info('NUM_DELETED_PRODUCTS: %s', len(removed_products))
     output_process_times(process_datetimes, num_jobs, job_str="single_source procflow")
     return retval
-

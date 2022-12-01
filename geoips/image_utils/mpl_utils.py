@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -162,7 +162,7 @@ def save_image(fig, out_fname, is_final=True, image_datetime=None, remove_duplic
         if not pathexists(dirname(out_fname)):
             make_dirs(dirname(out_fname))
         # no annotations
-        # frameon=False makes it have no titles / lat/lons. does not avoid colorbar, since that is its own ax 
+        # frameon=False makes it have no titles / lat/lons. does not avoid colorbar, since that is its own ax
         for ax in fig.axes:
             LOG.info('Removing ax from %s', ax)
             ax.set_axis_off()
@@ -235,9 +235,9 @@ def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
     ''' Plot the "data" array and map in the matplotlib "main_ax"
 
         Args:
-            main_ax (Axes) : matplotlib Axes object for plotting data and overlays 
+            main_ax (Axes) : matplotlib Axes object for plotting data and overlays
             data (numpy.ndarray) : Numpy array of data to plot
-            mapobj (Map Object) : Basemap or Cartopy CRS instance 
+            mapobj (Map Object) : Basemap or Cartopy CRS instance
             mpl_colors_info (dict) Specifies matplotlib Colors parameters for use in both plotting and colorbar
                                    See geoips.image_utils.mpl_utils.create_colorbar for field descriptions.
        Returns:
@@ -319,8 +319,8 @@ def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
         bottom_margin = rc_params['figure.subplot.bottom']  # Fractional distance from bottom edge of figure for subplot
         top_margin = rc_params['figure.subplot.top']     # Fractional distance from top edge of figure for subplot
 
-    xsize = (float(x_size)/dpi)/(right_margin - left_margin)
-    ysize = (float(y_size)/dpi)/(top_margin - bottom_margin)
+    xsize = (float(x_size) / dpi) / (right_margin - left_margin)
+    ysize = (float(y_size) / dpi) / (top_margin - bottom_margin)
 
     if existing_mapobj is None:
         LOG.info('creating mapobj instance')
@@ -360,11 +360,11 @@ def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
                                 bottom_margin,
                                 right_margin - left_margin,
                                 top_margin - bottom_margin],
-	    						projection=mapobj,
-                                frame_on=not noborder,
+                               projection=mapobj,
+                               frame_on=not noborder,
                                )
     else:
-        main_ax = plt.Axes(fig, [left_margin, bottom_margin, right_margin-left_margin, top_margin-bottom_margin])
+        main_ax = plt.Axes(fig, [left_margin, bottom_margin, right_margin - left_margin, top_margin - bottom_margin])
     main_ax.set_axis_off()
     fig.add_axes(main_ax)
 
@@ -384,8 +384,8 @@ def set_fonts(figure_y_size, font_size=None):
     # Update font size based on number of lines
     if font_size is not None:
         title_fsize = font_size
-    elif int(figure_y_size)/1000 != 0:
-        title_fsize = 20*int(figure_y_size)/1000
+    elif int(figure_y_size) / 1000 != 0:
+        title_fsize = 20 * int(figure_y_size) / 1000
     else:
         title_fsize = 20
 
@@ -398,7 +398,7 @@ def set_fonts(figure_y_size, font_size=None):
 
 
 def set_title(ax, title_string, figure_y_size, xpos=None, ypos=None, fontsize=None):
-    ''' Set the title on figure axis "ax" to string "title_string" 
+    ''' Set the title on figure axis "ax" to string "title_string"
         Parameters:
             ax (Axes): matplotlib.axes._axes.Axes object to add the title
             title_string (str): string specifying title to attach to axis "ax"
@@ -418,7 +418,7 @@ def set_title(ax, title_string, figure_y_size, xpos=None, ypos=None, fontsize=No
         xpos = 0.5          # This centers the title
     if ypos is None:
         # ypos = 1 + title_line_space*2
-        ypos = 1 + title_line_space*2 # This is relative to main_ax, so greater than 1.
+        ypos = 1 + title_line_space * 2  # This is relative to main_ax, so greater than 1.
     LOG.info('Setting title: font size %s, xpos %s ypos %s, title_line_space %s',
              fontspace, xpos, ypos, title_line_space)
     LOG.info('    Title string: %s', title_string)
@@ -471,14 +471,14 @@ def create_colorbar(fig, mpl_colors_info):
     right_margin = rc_params['figure.subplot.right']    # Fractional distance from left edge of figure for subplot
     fontsize = rc_params['font.size']
 
-    cbar_start_pos = 2*left_margin
+    cbar_start_pos = 2 * left_margin
     if 'cbar_full_width' in mpl_colors_info and mpl_colors_info['cbar_full_width'] is True:
         cbar_start_pos = left_margin  # Full width colorbar
 
     cbar_bottom_pos = 0.05
     cbar_height = 0.020
 
-    cbar_width = 1 - 4*left_margin
+    cbar_width = 1 - 4 * left_margin
     if 'cbar_full_width' in mpl_colors_info and mpl_colors_info['cbar_full_width'] is True:
         cbar_width = right_margin - left_margin  # Full width colorbar
 

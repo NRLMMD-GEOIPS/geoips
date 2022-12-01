@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -26,7 +26,7 @@ cmap_type = 'linear_segmented'
 
 def cmap_37H(data_range=[125, 310], cbar_label='TB (K)'):
     ''' Colormap for displaying ~37GHz PMW data.
-    
+
     Args:
         data_range (list[float]): Default [125, 310], Min and max value for colormap.
                                   Ensure the data range matches the range of the algorithm specified for use with this colormap
@@ -39,7 +39,7 @@ def cmap_37H(data_range=[125, 310], cbar_label='TB (K)'):
     max_tb = data_range[1]
 
     if min_tb > 125 or max_tb < 300:
-        raise('37GHz TB range must include 125 and 300')
+        raise ('37GHz TB range must include 125 and 300')
 
     from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
     transition_vals = [(min_tb, 180),
@@ -61,9 +61,9 @@ def cmap_37H(data_range=[125, 310], cbar_label='TB (K)'):
                          ('#FF8000', '#800000'),
                          ('silver', 'black')]
 
-    #special selection of label
+    # special selection of label
     ticks = [125, 150, 180, 200, 220, 240, 260, 280, 300]
-  
+
     # selection of min and max values for colormap if needed
     min_tb = transition_vals[0][0]
     max_tb = transition_vals[-1][1]
@@ -100,4 +100,3 @@ def cmap_37H(data_range=[125, 310], cbar_label='TB (K)'):
 
     # return cbar, min_tb, max_tb
     return mpl_colors_info
-

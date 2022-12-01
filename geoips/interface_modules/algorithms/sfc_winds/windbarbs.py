@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -35,7 +35,7 @@ def windbarbs(arrays, output_data_range=None, input_units=None, output_units=Non
     This algorithm expects input windspeed with units "kts" and returns in "kts"
 
     Args:
-        data (list[numpy.ndarray]) : 
+        data (list[numpy.ndarray]) :
             * list of numpy.ndarray or numpy.MaskedArray of channel data, in order of sensor "channels" list
             * kts
         output_data_range (list[float]) :
@@ -90,5 +90,3 @@ def windbarbs(arrays, output_data_range=None, input_units=None, output_units=Non
                            min_outbounds=min_outbounds, max_outbounds=max_outbounds,
                            norm=norm, inverse=inverse)
     return numpy.ma.dstack((spd, direction, rain_flag)).squeeze()
-
-

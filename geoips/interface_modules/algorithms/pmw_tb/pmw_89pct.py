@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -34,7 +34,7 @@ def pmw_89pct(arrays, output_data_range, min_outbounds='crop', max_outbounds='ma
     This algorithm expects Brightness Temperatures in units of degrees Kelvin, and returns degrees Kelvin
 
     Args:
-        arrays (list[numpy.ndarray]) : 
+        arrays (list[numpy.ndarray]) :
             * list of numpy.ndarray or numpy.MaskedArray of channel data and other variables, in order of sensor "variables" list
             * Channel data: Degrees Kelvin
 
@@ -46,7 +46,7 @@ def pmw_89pct(arrays, output_data_range, min_outbounds='crop', max_outbounds='ma
     h89 = arrays[0]
     v89 = arrays[1]
 
-    out = (1.7*v89)-(0.7*h89)
+    out = (1.7 * v89) - (0.7 * h89)
 
     from geoips.data_manipulations.corrections import apply_data_range
     data = apply_data_range(out,
@@ -55,5 +55,3 @@ def pmw_89pct(arrays, output_data_range, min_outbounds='crop', max_outbounds='ma
                             norm=norm, inverse=inverse)
 
     return data
-
-

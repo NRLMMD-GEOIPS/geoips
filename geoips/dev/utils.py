@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -76,7 +76,7 @@ def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
     for replace_path in replace_paths:
         for gpaths in base_paths:
             if replace_path in gpaths:
-                fname = fname.replace(gpaths[replace_path], f'${replace_path}')	
+                fname = fname.replace(gpaths[replace_path], f'${replace_path}')
     return fname
 
 

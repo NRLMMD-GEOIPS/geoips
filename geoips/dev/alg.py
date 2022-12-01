@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -24,12 +24,11 @@
     this module will be moved to the geoips/stable sub-package.
 '''
 
+from geoips.geoips_utils import find_entry_point, list_entry_points
 import logging
 import collections
 from importlib import import_module
 LOG = logging.getLogger(__name__)
-
-from geoips.geoips_utils import find_entry_point, list_entry_points
 
 
 ### Algorithm functions ###
@@ -45,8 +44,8 @@ def is_valid_alg(alg_func_name):
     Returns:
         (bool) : True if 'alg_func_name' has the appropriate call signature
                  False if algorithm function:
-                        does not contain all required arguments 
-                        does not contain all required keyword arguments 
+                        does not contain all required arguments
+                        does not contain all required keyword arguments
 
     Algorithm func type currently found in
         <geoips_package>.algorithms.*.<alg_func_name>.alg_params['alg_type']
@@ -80,7 +79,7 @@ def is_valid_alg(alg_func_name):
         See geoips.dev.alg.get_alg
         See geoips.dev.alg.get_alg_type
         See geoips.dev.alg.list_algs_by_type
-    
+
     For product based algorithm functions:
         See geoips.dev.alg.get_alg
         See geoips.dev.alg.get_alg_name
@@ -132,7 +131,7 @@ def is_valid_alg(alg_func_name):
 
     alg_func_vars = alg_func.__code__.co_varnames
     alg_func_args = alg_func_vars[0:num_args]
-    alg_func_kwargs = alg_func_vars[num_args:num_args+num_kwargs]
+    alg_func_kwargs = alg_func_vars[num_args:num_args + num_kwargs]
 
     # Check for required call signature arguments
     if not set(required_args[alg_func_type]).issubset(set(alg_func_args)):
@@ -219,4 +218,4 @@ def test_alg_interface():
             out_dict['validity_check'][curr_name] = is_valid_alg(curr_name)
             out_dict['func'][curr_name] = get_alg(curr_name)
             out_dict['func_type'][curr_name] = get_alg_type(curr_name)
-    return out_dict 
+    return out_dict

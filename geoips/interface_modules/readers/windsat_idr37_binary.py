@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -189,30 +189,30 @@ def windsat_idr37_binary(fnames, metadata_only=False, chans=None, area_def=None,
         if ((int(time_s_month) == 4) or (int(time_s_month) == 6) or (int(time_s_month) == 9)):   # in Apr, Jun and Sep
             if time_e_day > 30:
                 time_e_day == 1       # first day of the next month
-                time_e_month == int(time_s_month)+1
+                time_e_month == int(time_s_month) + 1
         else:
             if int(time_s_month) == 2:      # in Feb
                 if year_leap:               # In a leap year
                     if time_e_day > 29:
                         time_e_day == 1       # first day of the next month
-                        time_e_month == int(time_s_month)+1
+                        time_e_month == int(time_s_month) + 1
                 else:                       # No leap year
                     if time_e_day > 28:
                         time_e_day == 1       # first day of the next month
-                        time_e_month == int(time_s_month)+1
+                        time_e_month == int(time_s_month) + 1
             else:                           # in Jan, Mar, Jul, Aug, Oct, Dec
                 if time_e_day > 31:
                     time_e_day == 1         # first day of the next month
-                    time_e_month == int(time_s_month)+1
+                    time_e_month == int(time_s_month) + 1
         if time_e_month > 12:        # in Dec, deterimine whether it crosses the year boundary
-             time_e_year == int(time_s_year)+1
+            time_e_year == int(time_s_year) + 1
 
     # convret end_time of the data into strings
-    time_e_date = str(time_e_year)+str('%02d' % time_e_month)+str('%02d' % time_e_day)
+    time_e_date = str(time_e_year) + str('%02d' % time_e_month) + str('%02d' % time_e_day)
 
     # Need to set up time to be read in by the metadata (year and jday are arrays)
-    time_start = time_s_date+' '+time_s_hhmm
-    time_end = time_e_date+' '+time_e_hhmm
+    time_start = time_s_date + ' ' + time_s_hhmm
+    time_end = time_e_date + ' ' + time_e_hhmm
 
     import xarray
     xarray_obj = xarray.Dataset()
@@ -235,7 +235,7 @@ def windsat_idr37_binary(fnames, metadata_only=False, chans=None, area_def=None,
     # find out size of the input file (bytes)
     filesize_info = os.stat(fname).st_size
     len_OneRec = 72                              # size of record (bytes)?
-    rec_tot = filesize_info//len_OneRec           # how many records in the file
+    rec_tot = filesize_info // len_OneRec           # how many records in the file
 
     # check for exact data records by mode of the file_size vs data_record
     try:
@@ -292,16 +292,16 @@ def windsat_idr37_binary(fnames, metadata_only=False, chans=None, area_def=None,
             # read in variables using their size (bytes)
             jd2000 = np.frombuffer(f1.read(8), dtype=np.dtype('float64')).byteswap()[0]  # sec since 1200Z,01/01/2000
             # get time info for each data point
-            timeinfo = pd.datetime(2000, 1, 1, 12)+pd.Timedelta(jd2000, unit='s')
+            timeinfo = pd.datetime(2000, 1, 1, 12) + pd.Timedelta(jd2000, unit='s')
             time_date = int(str(timeinfo.year) + str(timeinfo.month) + str(timeinfo.day))
-            time_hhmm = int(str(timeinfo.hour)+str(timeinfo.minute))
+            time_hhmm = int(str(timeinfo.hour) + str(timeinfo.minute))
             tb37v, tb37h, tb37info1, tb37info2 =   \
-                           np.frombuffer(f1.read(16), dtype=np.dtype('float32')).byteswap()  # K (37v,37h,info1,info2)
+                np.frombuffer(f1.read(16), dtype=np.dtype('float32')).byteswap()  # K (37v,37h,info1,info2)
             lat = np.frombuffer(f1.read(4), dtype=np.dtype('float32')).byteswap()[0]          # deg
             lon = np.frombuffer(f1.read(4), dtype=np.dtype('float32')).byteswap()[0]          # deg
-            #if lon > 180.0:                                                        # windbarbs needs lon in (-180,180)
+            # if lon > 180.0:                                                        # windbarbs needs lon in (-180,180)
             #   lon=lon-360
-        
+
             eia = np.frombuffer(f1.read(4), dtype=np.dtype('float32')).byteswap()[0]  # unit in radiance =~53 deg
             pra = np.frombuffer(f1.read(4), dtype=np.dtype('float32')).byteswap()[0]
             caa = np.frombuffer(f1.read(4), dtype=np.dtype('float32')).byteswap()[0]
@@ -317,12 +317,12 @@ def windsat_idr37_binary(fnames, metadata_only=False, chans=None, area_def=None,
             # decode errflag to assign value to approperated variables, i.e., forward/aft mode, ascending/descending etc
             fore_aft_scan = (errflag >> 8 & 1)          # =1, foreward scan; =0, aft scan (foreward scan used for image)
             asc_des_pass = (errflag >> 9 & 1)           # =1, ascending; =0, descending
-   
+
             # rainflag
             rrflag_tmp = 0
             for j in range(8):
-               bit = (errflag >> j & 1)                    # =1, set, =0, not set
-               rrflag_tmp += bit*pow(2, j)
+                bit = (errflag >> j & 1)                    # =1, set, =0, not set
+                rrflag_tmp += bit * pow(2, j)
             rrflag = rrflag_tmp
 
             if fore_aft_scan == 1:                     # forward scan points  --> will be used for image products

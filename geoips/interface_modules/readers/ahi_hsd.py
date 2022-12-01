@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -104,7 +104,7 @@ def findDiff(d1, d2, path=""):
             print(path, ':')
             print(k + " as key not in d2", "\n")
         else:
-            if type(d1[k]) is dict:
+            if isinstance(d1[k], dict):
                 if path == "":
                     path = k
                 else:
@@ -721,7 +721,7 @@ def _get_metadata(df, **kwargs):
     try:
         block_info = _get_metadata_block_info(df)
     except IOError as resp:
-        raise IOError(resp) 
+        raise IOError(resp)
 
     # Read all 12 blocks
     metadata['block_01'] = _get_metadata_block_01(df, block_info)
@@ -800,7 +800,6 @@ def sort_by_band_and_seg(metadata):
     segment_number = metadata['block_07']['segment_number']
     # return '{0}_{1:02d}_{2:02d}'.format(cfac, band_number, segment_number)
     return '{0:02d}_{1:02d}'.format(band_number, segment_number)
-
 
 
 def ahi_hsd(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -946,7 +945,7 @@ def ahi_hsd(fnames, metadata_only=False, chans=None, area_def=None, self_registe
             segs.update({(sn, None) for sn in diff})
 
     all_chans_list = []
-    for chl in list(ALL_CHANS.values())+list(ALL_GVARS.values()):
+    for chl in list(ALL_CHANS.values()) + list(ALL_GVARS.values()):
         all_chans_list += chl
 
     # If specific channels were requested, check them against input data
@@ -1129,7 +1128,7 @@ def ahi_hsd(fnames, metadata_only=False, chans=None, area_def=None, self_registe
                 datavars[ds][varname] = np.ma.masked_less(datavars[ds][varname], -999.1)
                 if 'SatZenith' in gvars[ds].keys():
                     datavars[ds][varname] = np.ma.masked_where(gvars[ds]['SatZenith'] > 85, datavars[ds][varname])
-                    
+
     print_mem_usage('MEMUSG', verbose=False)
     xarray_objs = {}
     import re
@@ -1162,18 +1161,19 @@ def ahi_hsd(fnames, metadata_only=False, chans=None, area_def=None, self_registe
     output_process_times(process_datetimes, job_str="AHI HSD Reader")
     return xarray_objs
 
+
 def set_variable_metadata(xobj_attrs, band_metadata, dsname, varname):
-    ''' MLS 20180914 
-        Setting xobj_attrs at the variable level for the associated 
+    ''' MLS 20180914
+        Setting xobj_attrs at the variable level for the associated
         channel metadata pulled from the actual netcdf file.
         This will now be accessible from the scifile object.
-        Additionally, pull out specifically the band_wavelength and 
-        attach it to the _varinfo at the variable level - this is 
+        Additionally, pull out specifically the band_wavelength and
+        attach it to the _varinfo at the variable level - this is
         automatically pulled from the xobj_attrs dictionary
         and set in the variable._varinfo dictionary in scifile/scifile.py
         and scifile/containers.py (see empty_varinfo at the beginning
-        of containers.py for dictionary fields that are automatically 
-        pulled from the appropriate location in the  xobj_attrs 
+        of containers.py for dictionary fields that are automatically
+        pulled from the appropriate location in the  xobj_attrs
         dictionary and set on the _varinfo dictionary)
     '''
     if dsname not in xobj_attrs.keys():
@@ -1185,11 +1185,13 @@ def set_variable_metadata(xobj_attrs, band_metadata, dsname, varname):
             # Store the full metadata dictionary in the scifile metadata
             xobj_attrs[dsname][varname]['all'] = band_metadata[bandname]
             # Set the actual wavelength property on the variable itself
-            if 'calibration_information' in band_metadata[bandname].keys() and 'cent_wavelenth' in band_metadata[bandname]['calibration_information'].keys():
+            if ('calibration_information' in band_metadata[bandname].keys()
+                and 'cent_wavelenth' in band_metadata[bandname]['calibration_information'].keys()):
                 xobj_attrs[dsname][varname]['wavelength'] = band_metadata[bandname]['calibration_information']['cent_wavelenth']
 
+
 def get_band_metadata(all_metadata):
-    ''' This method basically just reformats the all_metadata 
+    ''' This method basically just reformats the all_metadata
         dictionary that is set based on the metadata found
         in the netcdf object itself to reference channel
         names as opposed to filenames as the dictionary keys.
@@ -1198,13 +1200,14 @@ def get_band_metadata(all_metadata):
     bandmetadata = {}
     for fname in all_metadata.keys():
         bandnum = all_metadata[fname]['block_05']['band_number']
-        bandmetadata['B%02d'%bandnum] = {}
+        bandmetadata['B%02d' % bandnum] = {}
         for blockname in all_metadata[fname].keys():
             newkey = blockname
             if 'block' in blockname and 'block_name' in all_metadata[fname][blockname].keys():
                 newkey = all_metadata[fname][blockname]['block_name']
-            bandmetadata['B%02d'%bandnum][newkey] = all_metadata[fname][blockname]
+            bandmetadata['B%02d' % bandnum][newkey] = all_metadata[fname][blockname]
     return bandmetadata
+
 
 def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
     '''

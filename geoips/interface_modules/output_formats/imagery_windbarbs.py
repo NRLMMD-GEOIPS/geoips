@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -152,8 +152,8 @@ def format_windbarb_data(xarray_obj, product_name):
 
     lat = xarray_obj['latitude'].to_masked_array()
     lon2 = xarray_obj['longitude'].to_masked_array()
-    u = speed * numpy.sin((direction+180)*3.1415926/180.0)
-    v = speed * numpy.cos((direction+180)*3.1415926/180.0)
+    u = speed * numpy.sin((direction + 180) * 3.1415926 / 180.0)
+    v = speed * numpy.cos((direction + 180) * 3.1415926 / 180.0)
 
     # convert longitudes to (-180,180)
     # lon=utils.wrap_longitudes(lon2)

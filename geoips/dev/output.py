@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -23,12 +23,11 @@
     Once all related wrapper functions are finalized,
     this module will be moved to the geoips/stable sub-package.
 '''
+from geoips.geoips_utils import find_entry_point, list_entry_points
 import collections
 from importlib import import_module
 import logging
 LOG = logging.getLogger(__name__)
-
-from geoips.geoips_utils import find_entry_point, list_entry_points
 
 
 ### Output Format Functions ###
@@ -100,7 +99,8 @@ def is_valid_outputter(output_func_name):
     try:
         output_func = get_outputter(output_func_name)
     except ImportError as resp:
-        raise ImportError(f'INVALID OUTPUT {output_func_name}: Must specify function "{output_func_name}" within module "{output_func_name}": Exception: "{resp}"')
+        raise ImportError(
+            f'INVALID OUTPUT {output_func_name}: Must specify function "{output_func_name}" within module "{output_func_name}": Exception: "{resp}"')
 
     if output_type not in required_args:
         raise TypeError(f"INVALID OUTPUT FUNC {output_func_name}:\n"
@@ -123,7 +123,7 @@ def is_valid_outputter(output_func_name):
         return False
     output_vars = output_func.__code__.co_varnames
     output_args = output_vars[0:num_args]
-    output_kwargs = output_vars[num_args:num_args+num_kwargs]
+    output_kwargs = output_vars[num_args:num_args + num_kwargs]
 
     # Check for required call signature arguments
     if not set(required_args[output_type]).issubset(set(output_args)):

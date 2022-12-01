@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -24,10 +24,9 @@
     this module will be moved to the geoips/stable sub-package.
 '''
 
+from geoips.geoips_utils import find_entry_point, find_config
 import logging
 LOG = logging.getLogger(__name__)
-
-from geoips.geoips_utils import find_entry_point, find_config
 
 
 ### Output config dictionaries ###
@@ -57,50 +56,50 @@ def is_valid_output_config(output_config_dict):
 
                         'single_source'
                         'fused'
-                                     
+
     '''
 
     required_keys = {}
     optional_keys = {}
 
     required_keys['single_source'] = {
-                                      'output_config_type': [],
-                                      'reader_name': [],
-                                      'file_names': [],
-                                      'sectored_read': [],
-                                      'available_sectors': [],
-                                      'outputs': ['requested_sector_type',
-                                                  'output_format',
-                                                  'filename_formats',
-                                                  'product_names'],
-                                      }
+        'output_config_type': [],
+        'reader_name': [],
+        'file_names': [],
+        'sectored_read': [],
+        'available_sectors': [],
+        'outputs': ['requested_sector_type',
+                    'output_format',
+                    'filename_formats',
+                    'product_names'],
+    }
 
     optional_keys['single_source'] = {
-                                      'available_sectors': ['sectorfiles',
-                                                            'sector_list',
-                                                            'trackfile_parser',
-                                                            'trackfiles',
-                                                            'tc_template_yaml'],
-                                      'outputs': ['remove_duplicates',
-                                                  'metadata_filename_format',
-                                                  'metadata_filename_formats',
-                                                  'metadata_filename_formats_kwargs',
-                                                  'minimum_coverages',
-                                                  'minimum_coverage',
-                                                  'compare_path',
-                                                  'boundaries_params',
-                                                  'gridlines_params'],
-                                      }
+        'available_sectors': ['sectorfiles',
+                              'sector_list',
+                              'trackfile_parser',
+                              'trackfiles',
+                              'tc_template_yaml'],
+        'outputs': ['remove_duplicates',
+                    'metadata_filename_format',
+                    'metadata_filename_formats',
+                    'metadata_filename_formats_kwargs',
+                    'minimum_coverages',
+                    'minimum_coverage',
+                    'compare_path',
+                    'boundaries_params',
+                    'gridlines_params'],
+    }
 
     required_keys['fused'] = required_keys['single_source'].copy()
     optional_keys['fused'] = optional_keys['single_source'].copy()
     optional_keys['fused'] = {
-                              'fuse_files': [],
-                              'fuse_reader': [],
-                              'fuse_product': [],
-                              'outputs': {'background_products': ['config_names',
-                                                                  'product_names']}
-                              }
+        'fuse_files': [],
+        'fuse_reader': [],
+        'fuse_product': [],
+        'outputs': {'background_products': ['config_names',
+                                            'product_names']}
+    }
 
     if 'output_config_type' not in output_config_dict:
         LOG.error("INVALID OUTPUT CONFIG '%s': 'output_config_type' must be defined within output config dictionary",
@@ -124,7 +123,7 @@ def is_valid_output_config(output_config_dict):
         return False
 
     # If we have non-allowed keys, return False
-    if not set(output_config_dict).issubset(required_keys[output_config_type]+optional_keys[output_config_type]):
+    if not set(output_config_dict).issubset(required_keys[output_config_type] + optional_keys[output_config_type]):
         LOG.error("INVALID OUTPUT CONFIG'%s': Unknown fields in '%s' output config dictionary: '%s'",
                   output_config_dict.keys(),
                   output_config_type,
@@ -147,7 +146,7 @@ def get_output_config_type(output_config_dict):
     See: geoips.dev.output_config.is_valid_output_config for full list of supported output_config types.
 
     Args:
-        output_config_dict (dict) : dictionary of complete output config parameters 
+        output_config_dict (dict) : dictionary of complete output config parameters
 
     Returns:
         (str) : output_config type, found in output_config_dict['output_config_type']
