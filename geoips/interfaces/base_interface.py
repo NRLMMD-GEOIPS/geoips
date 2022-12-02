@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -20,15 +20,15 @@
 Interface Under Development.  Please provide feedback to geoips@nrlmry.navy.mil
 '''
 
+from geoips.geoips_utils import find_entry_point, list_entry_points, get_all_entry_points
+from curses import meta
+from importlib.metadata import metadata
 import logging
 import collections
 from warnings import warn
 from importlib import import_module
 
 LOG = logging.getLogger(__name__)
-
-from geoips.utils.decorators import deprecated, developmental
-from geoips.geoips_utils import find_entry_point, list_entry_points
 
 
 def import_interface(name):
@@ -41,14 +41,140 @@ def import_interface(name):
             raise ModuleNotFoundError(f'Module "{name}" not found in either stable or developmental interface sets')
 
 
+def plugin_repr(obj):
+    return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
+
+
+class BaseInterfacePlugin:
+    def __new__(cls, interface=None, module=None, config=None, module_call_func='main', obj_attrs={}):
+        if interface is None:
+            try:
+                interface = cls.interface
+            except AttributeError:
+                raise TypeError('Either "interface" must be provided or "cls.interface" must be set')
+
+        if not isinstance(interface, BaseInterface):
+            raise TypeError('"interface" must be of type "BaseInterface"')
+
+        obj_attrs = {}
+        obj_attrs['interface'] = interface
+
+        if module and config:
+            raise TypeError('Keywords `module` and `config` are mutually exclusive')
+
+        if module:
+            obj_attrs['module'] = module
+            obj_attrs['name'] = '.'.join(module.__name__.split('.')[-2:])
+
+            # Collect the module-level docstring and assign to the class
+            try:
+                obj_attrs['__doc__'] = module.__doc__
+            except AttributeError:
+                warn(
+                    f'Plugin module "{module.__name__}" does not have a docstring. Please add a module-level docstring',
+                    DeprecationWarning,
+                    stacklevel=1
+                )
+
+            # Raise a DeprecationWarning if module_call_func is not "main"
+            if module_call_func != 'main':
+                warn(f'Callable for plugin "{module.__name__}" is not named "main". '
+                     'This behavior is deprecated. The callable should be renamed to "main". '
+                     'In the future this will result in a TypeError.',
+                     DeprecationWarning,
+                     stacklevel=1
+                     )
+
+            # Collect the callable and assign to __call__
+            try:
+                obj_attrs['__call__'] = getattr(module, module_call_func)
+            except AttributeError:
+                raise TypeError(
+                    f'Plugin module "{module.__name__}" does not implement a function named "{module_call_func}".')
+
+            # Collect the family attribute
+            # Temporarily allow searching deprecated_family_attr to get the correct attribute name and raise a
+            # DeprecationWarning
+            try:
+                obj_attrs['family'] = module.family
+            except AttributeError:
+                try:
+                    obj_attrs['family'] = getattr(module, interface.deprecated_family_attr)
+                    warn(f'Use of the "{interface.deprecated_family_attr}" attribute is deprecated. '
+                         'All uses should be replaced with an attribute named "family". '
+                         'In the future this will result in a TypeError.',
+                         DeprecationWarning,
+                         stacklevel=1
+                         )
+                except AttributeError:
+                    raise AttributeError(
+                        f'Attribute not found `{module.__name__}.family`. Plugins must carry the "family" attribute.'
+                    )
+
+            try:
+                obj_attrs['description'] = module.description
+            except AttributeError:
+                warn(f'Plugin module "{module.__name__}" does not implement a "description" attribute. '
+                     'In future releases this will result in a TypeError.',
+                     DeprecationWarning,
+                     stacklevel=1
+                     )
+                obj_attrs['description'] = None
+
+            plugin_type = f'{interface.__class__.__name__}Plugin'
+            return type(plugin_type, (object,), obj_attrs)()
+
+        if config:
+            raise NotImplementedError('Config-based plugins have not yet been implemented')
+
+        raise ValueError('One of "mondule" or "config" must be provided')
+
+
 class BaseInterface:
     def __new__(cls):
         if not hasattr(cls, 'name') or not cls.name:
-            raise AttributeError(f'Error creating {cls.name} class. SubClasses of "BaseInterface" must have the class attribute "name".')
+            raise AttributeError(f'Error creating {cls.name} class. SubClasses of "BaseInterface" must have the '
+                                 'class attribute "name".')
         # Default to using the name of the interface as its entrypoint
-        if not hasattr(cls, 'entry_point') or not cls.entry_point:
-            cls.entry_point = cls.name
+        if hasattr(cls, 'entry_point_group') and cls.entry_point_group:
+            warn('Use of "entry_point_group" to specify the entry point group of an interface is deprecated. '
+                 'The interface name should match the name of the entry point group.',
+                 DeprecationWarning,
+                 stacklevel=1)
+        else:
+            cls.entry_point_group = cls.name
+
         return super(BaseInterface, cls).__new__(cls)
+
+    def get(self, name):
+        """Retrieve a plugin's function.
+
+        Each plugin defines one callable function. Given the name of a function, returns that plugin's function.
+
+        Args:
+            name: The name of a plugin.
+
+        Returns:
+            A callable function for the named plugin.
+
+        Raises:
+            Nothing
+        """
+        self.is_valid(name)
+        func = find_entry_point(self.entry_point_group, name)
+        mod = import_module(func.__module__)
+
+        # Once we have removed all of the non-"main" callables, this if statement should be removed
+        if hasattr(mod, 'main'):
+            return self.create_plugin(module=mod)
+        else:
+            return self.create_plugin(module=mod, module_call_func=func.__name__)
+
+    def get_list(self):
+        # This is more complicated than needed. To simplify, we will need to remove the function name from entry points.
+        plugins = [self.create_plugin(import_module(ep.__module__), module_call_func=ep.__name__)
+                   for ep in get_all_entry_points(self.entry_point_group)]
+        return plugins
 
     def is_valid(self, name):
         """Check that an interface is valid.
@@ -62,8 +188,8 @@ class BaseInterface:
         Returns:
             (bool) : True if 'func_name' has the appropriate call signature
                      False if algorithm function:
-                            does not contain all required arguments 
-                            does not contain all required keyword arguments 
+                            does not contain all required arguments
+                            does not contain all required keyword arguments
 
         Algorithm func type currently found in
             <geoips_package>.algorithms.*.<func_name>.alg_params['alg_family']
@@ -110,123 +236,90 @@ class BaseInterface:
             func = self.get(name)
         family = self.get_family(name)
 
-    def get(self, name):
-        """Retrieve a plugin's function.
+    def create_plugin(self, module=None, config=None, module_call_func='main', obj_attrs={}):
+        return BaseInterfacePlugin(self, module=module, config=config, module_call_func=module_call_func,
+                                   obj_attrs=obj_attrs)
 
-        Each plugin defines one callable function. Given the name of a function, returns that plugin's function.
-        
-        Args:
-            name: The name of a plugin.
-        
-        Returns:
-            A callable function for the named plugin. 
-       
-        Raises:
-            Nothing
-        """
-        self.is_valid(name)
-        func = find_entry_point(self.entry_point, name)
-        return func
+    # def get_plugin_attr(self, name, attr):
+    #     """Retrieve the requested attribute from the named Plugin.
 
-    def get_plugin_attr(self, name, attr):
-        """Retrieve the requested attribute from the named Plugin.
-        
-        Given the name of an existing GeoIPS Plugin, retrieve an attribte's value from that plugin by name. For example,
-        if a plugin exists for the "algorithm" interface called "myalgorithm" and we want to retrieve it's "family"
-        attribute, this would be called as:
-            from interfaces import algorithms
-            algorithms.get_plugin_attr('myplugin', 'family')
-        
-        Args:
-            name: The name of a Plugin.
-            attr: The name of an attribute of the named Plugin.
-        
-        Returns:
-            The contents of the named attribute of the named Plugin.
+    #     Given the name of an existing GeoIPS Plugin, retrieve an attribte's value from that plugin by name. For example,
+    #     if a plugin exists for the "algorithm" interface called "myalgorithm" and we want to retrieve it's "family"
+    #     attribute, this would be called as:
+    #         from interfaces import algorithms
+    #         algorithms.get_plugin_attr('myplugin', 'family')
 
-        Raises:
-            AttributeError if the plugin doesn't have the requested attribute
-        """
-        func = find_entry_point(self.entry_point, name)
-        mod = import_module(func.__module__)
-        return getattr(mod, attr)
+    #     Args:
+    #         name: The name of a Plugin.
+    #         attr: The name of an attribute of the named Plugin.
 
-    def get_family(self, name):
-        """Retrieve the family of the requested plugin.
-        
-        Given the name of a plugin, return its family. This should be available in the plugin as `plugin.family`.
+    #     Returns:
+    #         The contents of the named attribute of the named Plugin.
 
-        Args:
-            name: The name of a plugin.
-        
-        Returns:
-            The family of the named plugin as a string.
-       
-        Raises:
-            AttributeError if the plugin doesn't have a "family" attribute
-        """
-        try:
-            # This tries mod's family attribute.
-            # If that fails and "deprecated_family_attr" is set, tries that attribute on mod.
-            return self.get_plugin_attr(name, 'family')
-        except AttributeError as err:
-            if hasattr(self, 'deprecated_family_attr'):
-                try:
-                    return self.get_plugin_attr(name, self.deprecated_family_attr)
-                except AttributeError:
-                    pass
-            raise AttributeError(f'Attribute not found {mod.__name__}.{family_attr}. Plugins must carry the "family" attribute.')
+    #     Raises:
+    #         AttributeError if the plugin doesn't have the requested attribute
+    #     """
+    #     func = find_entry_point(self.entry_point_group, name)
+    #     mod = import_module(func.__module__)
+    #     return getattr(mod, attr)
 
-    def get_description(self, name):
-        """Retrieve the description of the requested plugin.
-        
-        Given the name of a plugin, return its description. This should be available in the plugin as
-        `plugin.description`
-        
-        Args:
-            name: The name of a plugin.
-        
-        Returns:
-            The description of the named plugin as a string.
-       
-        Raises:
-            AttributeError if the plugin doesn't have a "description" attribute
-        """
-        try:
-            self.get_plugin_attr(name, 'description')
-        except AttributeError:
-            msg = f'Plugin {name} does not have a "description" attribute. In the future this will raise an AttributeError.'
-            warn(msg, FutureWarning, stacklevel=1)
-        
-    def get_list(self, with_family=False, with_description=False, group_by_family=False):
-        plugins = sorted(list_entry_points(self.entry_point))
-        to_zip = [plugins]
-        if with_family or group_by_family:
-            families = [self.get_family(plugin) for plugin in plugins]
-            
-            to_zip.append(families)
-        if with_description:
-            descriptions = [self.get_description(plugin) for plugin in plugins]
+    # def get_family(self, name):
+    #     """Retrieve the family of the requested plugin.
 
-        if group_by_family:
-            grouped_plugins = collections.defaultdict(list)
-            for currfunc in list_entry_points(self.entry_point):
-                family = self.get_family(currfunc)
-                if currfunc not in grouped_plugins[family]:
-                    grouped_plugins[family].append(currfunc)
-            return grouped_plugins
-        return [(func, self.get_family(func), self.get_description(func)) for func in sorted(list_entry_points(self.entry_point))]
-    
+    #     Given the name of a plugin, return its family. This should be available in the plugin as `plugin.family`.
+
+    #     Args:
+    #         name: The name of a plugin.
+
+    #     Returns:
+    #         The family of the named plugin as a string.
+
+    #     Raises:
+    #         AttributeError if the plugin doesn't have a "family" attribute
+    #     """
+    #     try:
+    #         # This tries mod's family attribute.
+    #         # If that fails and "deprecated_family_attr" is set, tries that attribute on mod.
+    #         return self.get_plugin_attr(name, 'family')
+    #     except AttributeError as err:
+    #         if hasattr(self, 'deprecated_family_attr'):
+    #             try:
+    #                 return self.get_plugin_attr(name, self.deprecated_family_attr)
+    #             except AttributeError:
+    #                 pass
+    #         # raise AttributeError(f'Attribute not found {mod.__name__}.{family_attr}. Plugins must carry the "family" attribute.')
+
+    # def get_description(self, name):
+    #     """Retrieve the description of the requested plugin.
+
+    #     Given the name of a plugin, return its description. This should be available in the plugin as
+    #     `plugin.description`
+
+    #     Args:
+    #         name: The name of a plugin.
+
+    #     Returns:
+    #         The description of the named plugin as a string.
+
+    #     Raises:
+    #         AttributeError if the plugin doesn't have a "description" attribute
+    #     """
+    #     try:
+    #         self.get_plugin_attr(name, 'description')
+    #     except AttributeError:
+    #         msg = f'Plugin {name} does not have a "description" attribute. In the future this will raise an AttributeError.'
+    #         warn(msg, FutureWarning, stacklevel=1)
+
     def test_interface_plugins(self):
         """Test the current interface by validating every Plugin.
-        
+
         Test this interface by opening every Plugin available to the interface. Then validate each plugin by calling
         `is_valid` for each.
 
         Returns:
             A dictionary containing three keys: 'by_family', 'validity_check', 'func', and 'family'. The value for each
             of these keys is a dictionary whose keys are the names of the Plugins.
-            
+
             - 'by_family' contains a dictionary of plugin names sorted by family.
             - 'validity_check' contains a dict whose keys are plugin names and whose values are bools where `True`
               indicates that the Plugin's function is valid according to `is_valid`.
@@ -242,3 +335,12 @@ class BaseInterface:
                 output['func'][curr_name] = self.get(curr_name)
                 output['family'][curr_name] = self.get_family(curr_name)
         return output
+
+# class ModulePlugin(BasePlugin):
+#     def __new__(self, module, call_func='main'):
+#         return BasePlugin.__init__(self, module=module, call_func=call_func)
+#
+#
+# class ConfigPlugin(BasePlugin):
+#     def __new__(cls, config):
+#         return BasePlugin.__new__(cls, config=config)
