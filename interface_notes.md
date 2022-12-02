@@ -174,11 +174,13 @@ Used to define the majority of the interface functions.
 - test_cmap_interface
   - ~~Only here~~
 - ~~Add get_description~~
-### ~~filenames - Moved to interfaces as `filename_formatters`~~
+### filenames - Moved to interfaces as `filename_formatters`
 - is_valid_filenamer(filename_func_type)
   - ~~Only here~~
 - *get_remove_duplicates_func(filename_func_name)*
   - Only here
+  - This does need to be handled, but I think it needs to be handled differently.
+    - Add `find_duplicates` function 
 - get_filenamer(filename_func_name)
   - ~~geoips/filenames/duplicate_files.py~~
   - ~~geoips/interface_modules/filename_formats/geotiff_fname.py~~
