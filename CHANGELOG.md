@@ -17,7 +17,7 @@
     # # # See the included license for more details.
 
 
-37-create-cli: 2022-10-19, typo corrections, frameon deprecation update
+## 37-create-cli: 2022-10-19, typo corrections, frameon deprecation update
 ### Bug fixes
 #### modified: geoips/image_utils/mpl_utils.py
 * Replace fig.savefig frameon=False argument with facecolor="none"
@@ -35,6 +35,8 @@
 * Correct typo: output_fnames -> output_formats
 #### modified: geoips/interface_modules/readers/scat_knmi_winds_netcdf.py
 * Replace xarray.ufuncs with numpy.ufuncs (deprecated)
+#### modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+* Correct typo: Add "geoips" to geoips_packages path for test outputs
 
 
 # v1.5.2.dev2: 2022-09-02, image_utils numpy docstrings, basic CI
