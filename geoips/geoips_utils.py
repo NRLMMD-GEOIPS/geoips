@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -92,6 +92,12 @@ def find_entry_point(namespace, name, default=None):
             raise Exception('Failed to find object matching {0} in namespace {1}'.format(name, ep_namespace))
 
 
+def get_all_entry_points(namespace):
+    entry_points = metadata.entry_points()
+    ep_namespace = '.'.join([NAMESPACE_PREFIX, namespace])
+    return [ep.load() for ep in entry_points[ep_namespace]]
+
+
 def list_entry_points(namespace):
     '''List names of objects in GEOIPS entry point namespace 'namespace'.
 
@@ -117,10 +123,10 @@ def list_product_specs_dict_yamls():
     from os.path import basename, splitext
     all_files = []
     for package_name in gpaths['GEOIPS_PACKAGES']:
-        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_params/*/*.yaml') 
-        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_params/*/*.yaml') 
-        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_params/*.yaml') 
-        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_params/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_params/*/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_params/*/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/product_params/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/product_params/*.yaml')
     return [fname for fname in all_files if '__init__' not in fname]
 
 
@@ -153,8 +159,8 @@ def list_gridlines_params_dict_yamls():
     from os.path import basename, splitext
     all_files = []
     for package_name in gpaths['GEOIPS_PACKAGES']:
-        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/plotting_params/gridlines/*.yaml') 
-        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/plotting_params/gridlines/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/plotting_params/gridlines/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/plotting_params/gridlines/*.yaml')
     return [fname for fname in all_files if '__init__' not in fname]
 
 
@@ -170,8 +176,8 @@ def list_boundaries_params_dict_yamls():
     from os.path import basename, splitext
     all_files = []
     for package_name in gpaths['GEOIPS_PACKAGES']:
-        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/plotting_params/boundaries/*.yaml') 
-        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/plotting_params/boundaries/*.yaml') 
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/*/yaml_configs/plotting_params/boundaries/*.yaml')
+        all_files += glob(gpaths['GEOIPS_PACKAGES_DIR']+'/'+package_name+'/yaml_configs/plotting_params/boundaries/*.yaml')
     return [fname for fname in all_files if '__init__' not in fname]
 
 
