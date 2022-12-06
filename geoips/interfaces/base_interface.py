@@ -30,16 +30,6 @@ from geoips.geoips_utils import find_entry_point, get_all_entry_points
 LOG = logging.getLogger(__name__)
 
 
-def import_interface(name):
-    try:
-        return import_module(f'geoips.stable.{name}')
-    except ModuleNotFoundError:
-        try:
-            return import_module(f'geoips.dev.{name}')
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(f'Module "{name}" not found in either stable or developmental interface sets')
-
-
 def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
@@ -65,7 +55,7 @@ def plugin_module_to_obj(interface, module, module_call_func='callable', obj_att
             'Assuming module name is `\',\'.join(module.__name__.split(\'.\')[-2:])`.'
             'Please update to add "name" variable.'
         )
-        obj_attrs['name'] = ','.join(module.__name__.split('.')[-2:])
+        obj_attrs['name'] = module.__name__.split('.')[-1]
 
     try:
         obj_attrs['family'] = module.family
@@ -114,11 +104,35 @@ class BaseInterfacePlugin:
     pass
 
 
-class BaseInterface():
+interface_attrs_doc = '''
+
+    Attributes
+    ----------
+    name : string
+        The name of the interface.
+    entry_point_group : string
+        The name of the group in entry_points to use when looking for Plugins of this type. If not set, "name" will be used.
+    deprecated_family_attr : string
+        If this attribute exists in a plugin module but "family" does not, use the contents of this attribute in place
+        of "family" and raise a `DeprecationWarning`. If neither exist, a `TypeError` will be raised.
+    '''
+
+
+class BaseInterface:
+    '''Base Class for GeoIPS Interfaces
+
+    This class should not be instantiated directly. Instead, interfaces should be accessed by importing them from
+    `geoips.interfaces`. For example:
+        ```
+        from geoips.interfaces import algorithms
+        ```
+    will retrieve an instance of `AlgorithmsInterface` which will provide access to the GeoIPS algorithm plugins.
+    '''
     def __new__(cls):
         if not hasattr(cls, 'name') or not cls.name:
             raise AttributeError(f'Error creating {cls.name} class. SubClasses of "BaseInterface" must have the '
                                  'class attribute "name".')
+
         # Default to using the name of the interface as its entrypoint
         if hasattr(cls, 'entry_point_group') and cls.entry_point_group:
             warn('Use of "entry_point_group" to specify the entry point group of an interface is deprecated. '
@@ -127,6 +141,9 @@ class BaseInterface():
                  stacklevel=1)
         else:
             cls.entry_point_group = cls.name
+
+        cls.__doc__ = f'GeoIPS interface for {cls.name} plugins.'
+        cls.__doc__ += interface_attrs_doc
 
         return super(BaseInterface, cls).__new__(cls)
 
@@ -169,10 +186,10 @@ class BaseInterface():
             if hasattr(module, 'callable'):
                 plugins.append(self.create_plugin(module))
             else:
-                return self.create_plugin(module, module_call_func=ep.__name__)
+                plugins.append(self.create_plugin(module, module_call_func=ep.__name__))
 
-        plugins = [self.create_plugin(import_module(ep.__module__), module_call_func=ep.__name__)
-                   for ep in get_all_entry_points(self.entry_point_group)]
+        # plugins = [self.create_plugin(import_module(ep.__module__), module_call_func=ep.__name__)
+        #            for ep in get_all_entry_points(self.entry_point_group)]
         return plugins
 
     def is_valid(self, name):
