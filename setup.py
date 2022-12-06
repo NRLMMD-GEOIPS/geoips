@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -35,21 +35,21 @@ setuptools.setup(
     install_requires=['pyresample',           # Base requirement - efficiency improvements >= 1.22.3
                       'numpy',                # Base requirement
                       'xarray',               # Base requirement
-                      'matplotlib>=3.5.3',    # Base requirement 20220922, force to 0.20.3/3.5.3 until outputs updated
+                      'matplotlib>=3.6.0',    # Base requirement 20220922, force to 0.20.3/3.5.3 until outputs updated
                                               #                  also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
                       'scipy',                # Base requirement
                       'netcdf4',              # Base requirement
                       'pyyaml',               # Base requirement
                       'pyshp>=2.2.0',
                       'shapely>=1.8.2',
-                      'cartopy>=0.20.3',    # Currently must install via conda,
+                      'cartopy>=0.21.0',    # Currently must install via conda,
                                             # 20220922: 0.20.3 incompatible with mpl 3.6.0, 0.21.0 works
                       ],
     extras_require={
                     'cicd_pipeline': [
                                       'shapely@https://github.com/shapely/shapely/releases/download/1.8.2/Shapely-1.8.2.tar.gz',
-                                      'cartopy==0.20.3',    # Shapely and cartopy versions required to avoid conflict
-                                      'matplotlib==3.5.3',  # Required to work with cartopy 0.20.3
+                                      'cartopy>=0.21.0',    # Shapely and cartopy versions required to avoid conflict
+                                      'matplotlib>=3.6.0',  # Required to work with cartopy 0.20.3
                                      ],
                     'config_based': [
                                      'pyaml_env',          # Reading YAML output config files, with paths
@@ -85,7 +85,7 @@ setuptools.setup(
                                               'numexpr',            # for efficiency improvements
                                               ],
                     'test_outputs': [
-                                     'matplotlib>=3.5.2',  # Previously v3.3, then 3.4.3, 20220607 3.5.2
+                                     'matplotlib>=3.6.0',  # Previously v3.3, then 3.4.3, 20220607 3.5.2
                                      ],
                     'coverage_checks': [
                                      'scikit-image',
