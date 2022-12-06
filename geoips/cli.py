@@ -63,9 +63,10 @@ def print_table(title, headings, rows):
             col_width = max(col_width, len(row[col_ind]))
         col_widths.append(col_width)
 
+    title_case_title = title.replace('_', ' ').title()
     title_width = sum(col_widths) + 3 * (len(col_widths) - 1)
     print('\n' + title_width * '=')
-    print(f'{title:^{title_width}}')
+    print(f'{title_case_title:^{title_width}}')
     print(title_width * '=')
 
     # Create and print the header
@@ -137,7 +138,7 @@ def list_interface_plugins(interface_name):
     inter = get_interface(interface_name)
     plugins = inter.get_list()
     rows = [(pl.name, pl.family, pl.description) for pl in plugins]
-    print_table('Algorithms', ['Name', 'Family', 'Description'], rows)
+    print_table(interface_name, ['Name', 'Family', 'Description'], rows)
 
 
 # def print_interface_list(inter):
