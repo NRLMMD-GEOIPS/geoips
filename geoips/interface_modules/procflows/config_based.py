@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -288,7 +288,7 @@ def write_to_database(final_product, product_name, xarray_obj, available_sectors
     req_sector_type = output_dict['requested_sector_type']
     db_writer_name = available_sectors_dict[req_sector_type]['product_database_writer']
     db_writer = get_db_writer(db_writer_name)
-    
+
     area_def = writer_kwargs.get('area_def')
     file_split = final_product.split('.')
     if len(file_split) > 1:
@@ -297,7 +297,7 @@ def write_to_database(final_product, product_name, xarray_obj, available_sectors
         file_type = ''
     writer_kwargs['fileType'] = file_type
     writer_kwargs['product'] = product_name
-    
+
     product_added = db_writer(final_product, xarray_obj, area_def=area_def, additional_attrs=writer_kwargs)
 
     return product_added
@@ -378,7 +378,7 @@ def requires_bg(available_outputs_dict, sector_type):
 
 
 def is_required_sector_type(available_outputs_dict, sector_type):
-    ''' Check if a given sector_type is required for any currently requested output_types 
+    ''' Check if a given sector_type is required for any currently requested output_types
 
     Args:
         available_outputs_dict (dict) : Dictionary of all requested output_types (specified in YAML config)
@@ -789,7 +789,7 @@ def config_based(fnames, command_line_args=None):
             # Must adjust the area definition AFTER sectoring xarray (to get valid start/end time
             adjust_area_def = None
             if 'adjust_area_def' in config_dict['available_sectors'][sector_type]:
-                adjust_area_def = config_dict['available_sectors'][sector_type]['adjust_area_def'] 
+                adjust_area_def = config_dict['available_sectors'][sector_type]['adjust_area_def']
 
             adadj_fnames = []
             if adjust_area_def:
@@ -942,14 +942,14 @@ def config_based(fnames, command_line_args=None):
                         final_products[cpath]['files'] += curr_output_products
                         if product_db:
                             for fprod in curr_output_products:
-                                product_added = write_to_database(fprod, product_name, pad_sect_xarrays['METADATA'], 
-                                                                  config_dict['available_sectors'], 
+                                product_added = write_to_database(fprod, product_name, pad_sect_xarrays['METADATA'],
+                                                                  config_dict['available_sectors'],
                                                                   output_dict, area_def=area_def)
                                 final_products[cpath]['database writes'] += [product_added]
                         continue
 
                     output_format = get_output_format(output_dict)
-                    if output_formats.get_family(output_format) == 'xarray_data':
+                    if output_formats.get(output_format).family == 'xarray_data':
                         # If we're saving out intermediate data file, write out pad_area_def.
                         if product_name not in pad_alg_xarrays:
                             pad_alg_xarrays[product_name] = get_alg_xarray(pad_sect_xarrays, pad_area_def, product_name,
@@ -1013,7 +1013,7 @@ def config_based(fnames, command_line_args=None):
                     if product_db:
                         for fprod in curr_products.keys():
                             product_added = write_to_database(fprod, product_name, alg_xarray,
-                                                              config_dict['available_sectors'], output_dict, 
+                                                              config_dict['available_sectors'], output_dict,
                                                               coverage=covg, area_def=area_def)
                             final_products[cpath]['database writes'] += [product_added]
 

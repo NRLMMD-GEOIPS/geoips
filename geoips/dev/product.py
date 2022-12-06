@@ -1,16 +1,16 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
+# # #
 # # # This program is free software:
 # # # you can redistribute it and/or modify it under the terms
 # # # of the NRLMMD License included with this program.
-# # # 
+# # #
 # # # If you did not receive the license, see
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 # # # for more information.
-# # # 
+# # #
 # # # This program is distributed WITHOUT ANY WARRANTY;
 # # # without even the implied warranty of MERCHANTABILITY
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
@@ -51,9 +51,9 @@ def is_valid_product(product_name, source_name, output_dict=None):
     Returns:
         (bool) : True if 'product_name' is a properly formatted dictionary of product parameters.
                  False if product dictionary:
-                        does not contain supported 'product_type', 
+                        does not contain supported 'product_type',
                         does not contain all 'required' fields,
-                        contains non-supported 'optional' fields 
+                        contains non-supported 'optional' fields
 
                  Product types currently one of:
 
@@ -68,7 +68,7 @@ def is_valid_product(product_name, source_name, output_dict=None):
                                                    'cmap_func': <str: optional>,
                                                    'cmap_args': <dict: optional>,
                                                    'display_name': <str: optional>}
-                                     
+
     '''
 
     # product_name and source_input keys are added in the "get_product" interface func
@@ -483,7 +483,7 @@ def test_product_interface():
 
             product_params_dicts['get_required_variables'][source_name][product_name] = get_required_variables(product_name, source_name)
 
-    return product_params_dicts 
+    return product_params_dicts
 
 
 def get_alg_name(product_name, source_name, output_dict=None):
@@ -632,7 +632,7 @@ def get_data_range(product_name, source_name, output_dict=None):
     if 'output_data_range' not in alg_args:
         alg_func_name = get_alg_name(product_name, source_name)
         from geoips.interfaces import algorithms
-        alg_type = algorithms.get_family(alg_func_name)
+        alg_type = algorithms.get(alg_func_name).family
         raise TypeError(f'Can not call get_data_range on "{alg_type}" algs, '
                         f'"output_data_range" not defined (alg "{alg_func_name}" / prod "{product_name}"')
     return alg_args['output_data_range']
@@ -650,7 +650,7 @@ def get_interp_name(product_name, source_name, output_dict=None):
     Returns:
         <interp_func_name> : Return name of interp function required for given product/source
 
-    See geoips.check_interp_func for additional information on interp types, arguments, and return values 
+    See geoips.check_interp_func for additional information on interp types, arguments, and return values
     '''
     products = get_product(product_name, source_name, output_dict=output_dict)
 
@@ -674,7 +674,7 @@ def get_interp_args(product_name, source_name, output_dict=None):
     Returns:
         <interp_args> : Return arguments for interp function
 
-    See geoips.check_interp_func for additional information on interp types, arguments, and return values 
+    See geoips.check_interp_func for additional information on interp types, arguments, and return values
     '''
     products = get_product(product_name, source_name, output_dict=output_dict)
 
@@ -700,7 +700,7 @@ def get_product_display_name(product_name, source_name, output_dict=None):
     Returns:
         <product_display_name> : Return display name for given product
 
-    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values 
+    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values
     '''
     products = get_product(product_name, source_name, output_dict=output_dict)
 
@@ -725,7 +725,7 @@ def get_cmap_name(product_name, source_name, output_dict=None):
     Returns:
         <cmap_func_name> : Return name of colormap function required for given product/source
 
-    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values 
+    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values
     '''
     products = get_product(product_name, source_name, output_dict=output_dict)
 
@@ -753,7 +753,7 @@ def get_cmap_args(product_name, source_name, output_dict=None):
     Returns:
         <cmap_args> : Return arguments for colormap function
 
-    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values 
+    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values
     '''
     products = get_product(product_name, source_name, output_dict=output_dict)
 
@@ -779,7 +779,7 @@ def get_cmap_from_product(product_name, source_name, output_dict=None):
     Returns:
         <cmap_func>(**<cmap_args>) : Return actual colormap information
 
-    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values 
+    See geoips.dev.check_cmap_func for additional information on colormap types, arguments, and return values
     '''
 
     cmap_func_name = get_cmap_name(product_name, source_name, output_dict=output_dict)
@@ -792,7 +792,7 @@ def get_cmap_from_product(product_name, source_name, output_dict=None):
                          f" source '{source_name}':"\
                          f" ORIGINAL EXCEPTION {type(resp).__name__}:"\
                          f" {resp.__doc__} >> {resp.args}")
-    
+
     cmap_args = get_cmap_args(product_name, source_name, output_dict=output_dict)
 
     return cmap_func(**cmap_args)
