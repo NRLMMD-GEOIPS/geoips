@@ -147,6 +147,9 @@ class BaseInterface:
 
         return super(BaseInterface, cls).__new__(cls)
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}()'
+
     def get(self, name):
         """Retrieve a plugin's function.
 
