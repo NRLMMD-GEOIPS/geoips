@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 import os
 import logging
@@ -68,7 +62,8 @@ def plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict):
                   zorder=1)
 
 
-def output_clean_windbarbs(area_def, clean_fnames, mpl_colors_info, image_datetime, formatted_data_dict):
+def output_clean_windbarbs(area_def, clean_fnames, mpl_colors_info, image_datetime, formatted_data_dict,
+                           fig=None, main_ax=None, mapobj=None):
     ''' Function to actually plot and save "clean" windbarb imagery,  with no background imagery,
         coastlines, gridlines, titles, etc.
 
@@ -76,18 +71,20 @@ def output_clean_windbarbs(area_def, clean_fnames, mpl_colors_info, image_dateti
     '''
 
     LOG.info('Starting clean_fname')
-    # Create matplotlib figure and main axis, where the main image will be plotted
-    fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(area_def.x_size,
-                                                                area_def.y_size,
-                                                                area_def,
-                                                                noborder=True)
+    if fig is None and main_ax is None and mapobj is None:
+        # Create matplotlib figure and main axis, where the main image will be plotted
+        fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(area_def.x_size,
+                                                                    area_def.y_size,
+                                                                    area_def,
+                                                                    noborder=True)
 
     plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict)
 
     success_outputs = []
 
-    for clean_fname in clean_fnames:
-        success_outputs += save_image(fig, clean_fname, is_final=False, image_datetime=image_datetime)
+    if clean_fnames is not None:
+        for clean_fname in clean_fnames:
+            success_outputs += save_image(fig, clean_fname, is_final=False, image_datetime=image_datetime)
 
     return success_outputs
 
@@ -131,7 +128,14 @@ def format_windbarb_data(xarray_obj, product_name):
     # It will vary per-sensor / data type, these basically only currently work with
     # ASCAT 25 km data.
     # This would also avoid having the product names hard coded in the output module code.
-    if product_name == 'windbarbs':
+    if 'product_definition' in xarray_obj.attrs and 'barb_sizes' in xarray_obj.attrs['product_definition']:
+        # Thinning the data points to better display the windbards
+        thinning = xarray_obj.attrs['product_definition']['barb_sizes']['thinning']
+        barblength = xarray_obj.attrs['product_definition']['barb_sizes']['barb_length']
+        linewidth = xarray_obj.attrs['product_definition']['barb_sizes']['line_width']
+        sizes_dict = xarray_obj.attrs['product_definition']['barb_sizes']['sizes_dict']
+        rain_size = xarray_obj.attrs['product_definition']['barb_sizes']['rain_size']
+    elif product_name == 'windbarbs':
         # Thinning the data points to better display the windbards
         thinning = 1                                                    # skip data points
         barblength = 5.

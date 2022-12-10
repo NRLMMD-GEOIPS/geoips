@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Specifications for output filename formats for tc product types. '''
 
@@ -34,7 +28,7 @@ filename_type = 'xarray_metadata_to_filename'
 LOG = logging.getLogger(__name__)
 
 
-def text_winds_tc_fname(xarray_obj, extension='.txt', basedir=gpaths['TCWWW']):
+def text_winds_tc_fname(xarray_obj, extension='.txt', basedir=gpaths['TCWWW'], output_dict=None):
     area_def = xarray_obj.area_definition
     return assemble_windspeeds_text_tc_fname(basedir=basedir,
                                              tc_area_id=area_def.area_id,
@@ -45,11 +39,14 @@ def text_winds_tc_fname(xarray_obj, extension='.txt', basedir=gpaths['TCWWW']):
                                              platform_name=xarray_obj.platform_name,
                                              product_datetime=xarray_obj.start_datetime,
                                              data_provider=xarray_obj.data_provider,
-                                             extension=extension)
+                                             extension=extension,
+                                             output_dict=output_dict,
+                                             sector_info=area_def.sector_info)
 
 
 def assemble_windspeeds_text_tc_fname(basedir, tc_area_id, tc_year, tc_basin, tc_stormnum, source_name,
-                                      platform_name, product_datetime, data_provider, extension='.txt'):
+                                      platform_name, product_datetime, data_provider, extension='.txt',
+                                      output_dict=None, sector_info=None):
     ''' Produce full output product path from product / sensor specifications.
 
         Args:
@@ -80,7 +77,8 @@ def assemble_windspeeds_text_tc_fname(basedir, tc_area_id, tc_year, tc_basin, tc
     '''
 
     from geoips.interface_modules.filename_formats.utils.tc_file_naming import tc_storm_basedir
-    path = pathjoin(tc_storm_basedir(basedir, tc_year, tc_basin, tc_stormnum),
+    path = pathjoin(tc_storm_basedir(basedir, tc_year, tc_basin, tc_stormnum,
+                                     output_dict=output_dict, sector_info=sector_info),
                     'txt')
     fname = '_'.join([source_name,
                       'surface_winds',

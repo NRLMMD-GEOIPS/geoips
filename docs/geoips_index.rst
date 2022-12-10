@@ -1,20 +1,14 @@
  | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # # 
+ | # # #
  | # # # Author:
  | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # # 
- | # # # This program is free software:
- | # # # you can redistribute it and/or modify it under the terms
- | # # # of the NRLMMD License included with this program.
- | # # # 
- | # # # If you did not receive the license, see
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
- | # # # for more information.
- | # # # 
- | # # # This program is distributed WITHOUT ANY WARRANTY;
- | # # # without even the implied warranty of MERCHANTABILITY
- | # # # or FITNESS FOR A PARTICULAR PURPOSE.
- | # # # See the included license for more details.
 
 Geolocated Information Processing System Version 2.0 (geoips) documentation
 =============================================================================
@@ -38,13 +32,20 @@ Instructions for Anaconda or Virtual Env Python 3 setup
 --------------------------------------------------------------------------------------
 Example command line calls of representative processing.
 
+
 `Available Functionality <./available_functionality.rst>`_
 --------------------------------------------------------------------------------------
 List of all available functionality in the current release, with example outputs.
 
-`Version Control Templates <./version_control_templates.rst>`_
+
+`git Workflow <./git-workflow.rst>`_
 --------------------------------------------------------------------------------------
-Templates for generating informative pull requests and ticket resolutions.
+Process for creating Issues, branches, and Pull Requests within GitHub.
+
+
+`Templates and process for adding a new plugin <./setup-new-plugin.rst>`_
+--------------------------------------------------------------------------------------
+Process for setting up a new plugin, using template repositories in GitHub.
 
 
 `Documentation Strategy <./documentation_strategy.rst>`_

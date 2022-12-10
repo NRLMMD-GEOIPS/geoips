@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Generalized geolocation calculations for geostationary satellites. '''
 
@@ -54,6 +48,9 @@ if os.getenv('READ_GEOLOCDIRS'):
 
 
 class AutoGenError(Exception):
+    pass
+
+class CoverageError(Exception):
     pass
 
 
@@ -352,6 +349,8 @@ def get_indexes(metadata, lats, lons, area_def):
             get_neighbour_info(fldk_ad, ad, radius_of_influence=roi, neighbours=1, nprocs=nprocs)
         log.info('    GETGEOINDS Getting good lines and samples {}'.format(area_def.area_id))
         good_lines, good_samples = np.where(valid_input_index.reshape(lats.shape))
+        if len(good_lines) == 0 and len(good_samples) == 0:
+            raise CoverageError('NO GOOD DATA AVAILABLE, can not read geostationary dataset')
         log.info('    GETGEOINDS Reshaping lines and samples {}'.format(area_def.area_id))
         # When get_neighbour_info does not find a good value for a specific location it
         #   fills index_array with the maximum index + 1.  So, just throw away all of the

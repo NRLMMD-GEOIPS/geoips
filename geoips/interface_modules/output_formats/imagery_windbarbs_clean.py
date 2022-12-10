@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 
 import logging
@@ -33,7 +27,10 @@ def imagery_windbarbs_clean(area_def,
                             product_name_title=None,
                             mpl_colors_info=None,
                             existing_image=None,
-                            remove_duplicate_minrange=None):
+                            remove_duplicate_minrange=None,
+                            fig=None,
+                            main_ax=None,
+                            mapobj=None):
 
     formatted_data_dict = format_windbarb_data(xarray_obj, product_name)
 
@@ -41,6 +38,9 @@ def imagery_windbarbs_clean(area_def,
                                              output_fnames,
                                              mpl_colors_info,
                                              xarray_obj.start_datetime,
-                                             formatted_data_dict)
+                                             formatted_data_dict,
+                                             fig,
+                                             main_ax,
+                                             mapobj)
 
     return success_outputs

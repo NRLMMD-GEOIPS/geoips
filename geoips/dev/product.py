@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Interface Under Development.  Please provide feedback to geoips@nrlmry.navy.mil
 
@@ -72,6 +66,7 @@ def is_valid_product(product_name, source_name, output_dict=None):
     '''
 
     # product_name and source_input keys are added in the "get_product" interface func
+    # valid product types:
     required_keys = {
                      'interp_alg_cmap': ['product_type',                                # Set in product_params
                                          'product_name', 'source_input', 'variables',   # Set in product_inputs
@@ -104,6 +99,8 @@ def is_valid_product(product_name, source_name, output_dict=None):
                                                                'product_name', 'source_input', 'variables'],
                      'unsectored_xarray_dict_to_output_format': ['product_type',
                                                                  'product_name', 'source_input', 'variables'],
+                     'xarray_dict_to_output_format': ['product_type',
+                                                      'product_name', 'source_input', 'variables'],
                      }
 
     optional_keys = {
@@ -184,7 +181,27 @@ def get_product(product_name, source_name, output_dict=None):
     all_products = {}
 
     source_dict = get_source_inputs(source_name)
-    product_dict = get_product_specs(product_name)
+
+    # Allow specifying product_template within product_inputs - allows fully specifying product within product_inputs
+    if 'product_template' in source_dict[source_name][product_name]:
+        product_template = source_dict[source_name][product_name]['product_template']
+    else:
+        product_template = product_name
+
+    product_dict = get_product_specs(product_template)
+
+    product_dict[product_name] = product_dict[product_template]
+
+    # Allow specifying product template within product_params YAMLs also - only add fields that don't already exist
+    if 'product_template' in product_dict[product_name]:
+        product_template = product_dict[product_name]['product_template']
+        product_template_dict = get_product_specs(product_template)
+        for key in product_template_dict[product_template]:
+            if key not in product_dict[product_name]:
+                LOG.info("    Adding '%s'='%s' from template", key, product_template_dict[product_template][key])
+                product_dict[product_name][key] = product_template_dict[product_template][key]
+
+    product_dict[product_name]['product_template'] = product_template
 
     if product_name not in product_dict:
         raise KeyError(f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: product name {product_name} "\
@@ -199,15 +216,25 @@ def get_product(product_name, source_name, output_dict=None):
                        f"must be contained in source dict '{source_name}' in {source_dict['yaml_files']}")
 
     for key in source_dict[source_name][product_name]:
-        if key in product_dict[product_name] and isinstance(product_dict[product_name][key], dict):
+        # If it is an empty dictionary, assume we are requesting no values explicitly
+        if key in product_dict[product_name] \
+           and isinstance(product_dict[product_name][key], dict) \
+           and not source_dict[source_name][product_name][key]:
+            LOG.debug("Replacing key '%s' in %s product_dict with source specification",
+                      key, product_name)
+            product_dict[product_name][key] = source_dict[source_name][product_name][key]
+        # For non-empty dictionaries, replace each individual field rather than entire dictionary
+        elif key in product_dict[product_name] and isinstance(product_dict[product_name][key], dict):
             for subkey in source_dict[source_name][product_name][key]:
                 LOG.debug("Replacing key '%s/%s' in %s product_dict with source specification",
                           key, subkey, product_name)
                 product_dict[product_name][key][subkey] = source_dict[source_name][product_name][key][subkey]
+        # If it is NOT a dictionary, replace the entire field
         elif key in product_dict[product_name] and not isinstance(product_dict[product_name][key], dict):
             LOG.debug("Replacing key '%s' in %s product_dict with source specification",
                       key, product_name)
             product_dict[product_name][key] = source_dict[source_name][product_name][key]
+        # If it is not included, just add it
         else:
             LOG.debug("Adding key '%s' to %s product_dict from source specification", key, product_name)
             product_dict[product_name][key] = source_dict[source_name][product_name][key]

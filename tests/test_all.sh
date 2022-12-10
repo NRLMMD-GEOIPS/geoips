@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 #!/bin/sh
 
@@ -39,6 +33,9 @@ for call in \
             "$GEOIPS/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
             "$GEOIPS/tests/scripts/ahi.tc.WV.geotiff.sh" \
             "$GEOIPS/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh" \
+            "$GEOIPS/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh" \
+            "$GEOIPS/tests/scripts/amsr2.config_based_overlay_output.sh" \
+            "$GEOIPS/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh" \
             "$GEOIPS/tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh" \
             "$GEOIPS/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh" \
             "$GEOIPS/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh" \

@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Interface Under Development.  Please provide feedback to geoips@nrlmry.navy.mil
 
@@ -80,7 +74,7 @@ def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
     return fname
 
 
-def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None):
+def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=True):
     attrs = ['start_datetime', 'end_datetime', 'platform_name', 'source_name', 'minimum_coverage', 'data_provider',
              'granule_minutes', 'original_source_filenames', 'sample_distance_km', 'interpolation_radius_of_influence',
              'area_definition']
@@ -88,7 +82,9 @@ def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None):
         attrs += extra_attrs
 
     for attr in attrs:
-        if attr in orig_xarray.attrs.keys():
+        if force and attr in orig_xarray.attrs.keys():
+            dest_xarray.attrs[attr] = orig_xarray.attrs[attr]
+        elif not force and attr in orig_xarray.attrs.keys() and attr not in dest_xarray.attrs.keys():
             dest_xarray.attrs[attr] = orig_xarray.attrs[attr]
 
 

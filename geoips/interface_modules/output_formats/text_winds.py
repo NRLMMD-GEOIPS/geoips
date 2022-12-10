@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Routines for outputting formatted text wind speed and vector data files '''
 import logging
@@ -24,21 +18,21 @@ import numpy
 
 LOG = logging.getLogger(__name__)
 
-output_type = 'xarray_dict_data'
+output_type = 'xrdict_varlist_outfnames_to_outlist'
 
 
-def text_winds(xarray_objs,
-               product_names,
+def text_winds(xarray_dict,
+               varlist,
                output_fnames,
                append=False,
                overwrite=True,
                source_names=None):
     output_products = []
     num_arrs = 0
-    for key in xarray_objs:
+    for key in xarray_dict:
         if key == 'METADATA':
             continue
-        xarray_obj = xarray_objs[key]
+        xarray_obj = xarray_dict[key]
         if 'wind_speed_kts' not in xarray_obj.variables:
             continue
         if num_arrs == 0:
@@ -47,7 +41,7 @@ def text_winds(xarray_objs,
             curr_append = True
         num_arrs = num_arrs + 1
         output_products += write_text_winds(xarray_obj,
-                                            product_names,
+                                            varlist,
                                             output_fnames.copy(),  # It will overwrite it if we don't copy
                                             append=curr_append,
                                             overwrite=overwrite,
@@ -57,7 +51,7 @@ def text_winds(xarray_objs,
     return list(set(output_products))
 
 
-def write_text_winds(xarray_obj, product_names, output_fnames, append=False, overwrite=True, source_names=None):
+def write_text_winds(xarray_obj, varlist, output_fnames, append=False, overwrite=True, source_names=None):
     ''' Write out TC formatted text file of wind speeds
         +------------------+-----------+-------------------------------------------------------+
         | Parameters:      | Type:     | Description:                                          |

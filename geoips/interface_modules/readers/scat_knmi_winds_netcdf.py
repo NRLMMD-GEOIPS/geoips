@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 '''Read derived surface winds from SAR, SMAP, SMOS, and AMSR netcdf data.'''
 import logging
@@ -82,7 +76,17 @@ def read_knmi_data(wind_xarray):
     import xarray
     import numpy
     RAIN_FLAG_BIT = 9
-    wind_xarray['rain_flag'] = xarray.ufuncs.logical_and(wind_xarray['wvc_quality_flag'], (1 << RAIN_FLAG_BIT))
+    if hasattr(xarray, 'ufuncs'):
+        # ufuncs no longer available as of xarray v2022.06 (at least)
+        wind_xarray['rain_flag'] = xarray.ufuncs.logical_and(wind_xarray['wvc_quality_flag'], (1 << RAIN_FLAG_BIT))
+    else:
+        # Can not figure out how to do the logical and in xarray now - so do it in numpy.
+        # This may not be the most efficient, especially if we are trying to use dask / lazy processing
+        # Dropping the ".to_masked_array()" appears to lose the nan values - but could perhaps do that
+        # then re-mask?
+        rf = numpy.logical_and(wind_xarray['wvc_quality_flag'].to_masked_array(),
+                               (1 << RAIN_FLAG_BIT))
+        wind_xarray['rain_flag'] = xarray.DataArray(rf.astype(int), coords=wind_xarray.coords, dims=wind_xarray.dims)
                                      
     wind_xarray = wind_xarray.set_coords(['timestamp'])
     return {'WINDSPEED': wind_xarray}

@@ -27,6 +27,7 @@ source_sector_file: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdec
 storm_basin: WP
 storm_name: NYATOH
 storm_num: 27
+storm_start_datetime: 2021-11-26 18:00:00
 storm_year: 2021
 synoptic_time: 2021-12-02 06:00:00
 vmax: 95.0

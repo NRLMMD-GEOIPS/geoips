@@ -1,0 +1,33 @@
+check_continue() {
+    unset CONTINUE
+    while [ -z "$CONTINUE" ]; do
+        if [[ "$2" != "" ]]; then
+            echo ""
+            echo "Just completed '$1'"
+            next_step=$2
+        else
+            next_step=$1
+        fi
+        echo ""
+        echo "Y or y to perform '$next_step'"
+        echo "K or k to skip but continue to following step"
+        echo "Q or q to quit installation altogether?"
+        read -r -p "[y/k/q]: " CONTINUE
+    done
+    if [[ $CONTINUE == "q" || $CONTINUE == "Q" ]]; then
+        echo "Quitting"
+        exit 1
+    elif [[ $CONTINUE == "k" || $CONTINUE == "K" ]]; then
+        echo "Skipping"
+        skip_next="yes" 
+    elif [[ $CONTINUE == "y" || $CONTINUE == "Y" ]]; then
+        echo "Continuing!"
+        skip_next="no"
+    else
+        echo "*********************************"
+        echo "Please enter one of [y/k/q]"
+        echo "*********************************"
+        check_continue "$1" "$2"
+    fi
+}
+

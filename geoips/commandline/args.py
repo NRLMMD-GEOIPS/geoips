@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Command line script for kicking off geoips based procflows'''
 
@@ -111,7 +105,7 @@ def check_command_line_args(arglist, argdict):
     return True
 
 
-def get_command_line_args(arglist=None, description=None):
+def get_command_line_args(arglist=None, description=None, add_args_func=None, check_args_func=None):
     ''' Parse command line arguments specified by the requested list of arguments
 
     Args:
@@ -122,10 +116,15 @@ def get_command_line_args(arglist=None, description=None):
     Returns:
         (dict) : Dictionary of command line arguments
     '''
+    if add_args_func is None:
+        add_args_func = add_args
+    if check_args_func is None:
+        check_args_func = check_command_line_args
+
     parser = argparse.ArgumentParser(description=description)
-    add_args(parser, arglist)
+    add_args_func(parser, arglist)
     argdict = parser.parse_args()
-    check_command_line_args(['filenames', 'procflow'], argdict.__dict__)
+    check_args_func(['filenames', 'procflow'], argdict.__dict__)
     return argdict
 
 
@@ -290,7 +289,7 @@ def add_args(parser, arglist=None):
                                             Should be formatted as a json dictionary string''')
 
     if arglist is None or 'output_format' in arglist:
-        procflow_group.add_argument('--output_format', nargs='?', default='imagery_annotated',
+        procflow_group.add_argument('--output_format', nargs='?', default=None,
                                     help='''Specify output format module_name that should be used for this file,
                                           each output_format is 'output_formats.imagery_annotated' where
                                               from geoips*.output_formats.imagery_annotated import imagery_annotated

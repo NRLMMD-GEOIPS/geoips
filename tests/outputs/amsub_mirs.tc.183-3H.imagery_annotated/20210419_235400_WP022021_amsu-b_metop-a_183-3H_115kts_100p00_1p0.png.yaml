@@ -25,6 +25,7 @@ source_sector_file: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdec
 storm_basin: WP
 storm_name: SURIGAE
 storm_num: 2
+storm_start_datetime: 2021-04-11 00:00:00
 storm_year: 2021
 synoptic_time: 2021-04-20 00:00:00
 vmax: 115.0

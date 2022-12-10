@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Module containing colormap for Rain Rate products'''
 import logging
@@ -61,13 +55,22 @@ def cmap_Rain(data_range=[0.05, 50.0], cbar_label=r'Rainrate $(mm hr^{-1})$'):
     # cbar = create_colorbar(fig, mpl_cmap, mpl_norm, ticks, cbar_label=cbar_label)
     mpl_colors_info = {'cmap': mpl_cmap,
                        'norm': mpl_norm,
-                       'cbar_ticks': ticks,
-                       'cbar_tick_labels': mpl_tick_labels,
-                       'cbar_label': cbar_label,
                        'boundaries': mpl_boundaries,
-                       'cbar_spacing': cbar_spacing,
+                       'cbar_ticks': ticks,
+                       'cbar_label': cbar_label,
                        'colorbar': True,
-                       'cbar_full_width': True}
+                       'cbar_full_width': True,
+                       'colorbar_kwargs': {
+                                           'spacing': cbar_spacing,
+                                           'extend': 'both',
+                                           },
+                       'set_ticks_kwargs': {
+                                           'labels': mpl_tick_labels,
+                                           'size': 'small',
+                                           },
+         
+                       }
+
 
     # return cbar, min_tb, max_tb
     return mpl_colors_info

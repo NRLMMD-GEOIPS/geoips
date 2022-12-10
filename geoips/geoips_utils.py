@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' General high level utilities for geoips processing '''
 
@@ -175,9 +169,9 @@ def list_boundaries_params_dict_yamls():
     return [fname for fname in all_files if '__init__' not in fname]
 
 
-def copy_standard_metadata(orig_xarray, dest_xarray):
+def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=True):
     from geoips.dev.utils import copy_standard_metadata
-    return copy_standard_metadata(orig_xarray, dest_xarray)
+    return copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=extra_attrs, force=force)
 
 
 def deprecation(message):

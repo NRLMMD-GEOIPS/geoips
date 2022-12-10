@@ -1,23 +1,24 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Xarray wrapper for driving the interpolation routines with basic Python inputs and outputs'''
 import logging
+
+import xarray
+
+from geoips.interface_modules.interpolation.utils.interp_pyresample import interp_kd_tree, get_data_box_definition
+from geoips.data_manipulations.info import percent_unmasked
+from geoips.dev.utils import copy_standard_metadata
+
 LOG = logging.getLogger(__name__)
 
 interp_type = '2d'
@@ -73,7 +74,6 @@ def interp_nearest(area_def, input_xarray, output_xarray, varlist, array_num=Non
             vars_to_interp += [input_xarray[varname].to_masked_array()]
 
     # Use standard scifile / pyresample registration
-    from geoips.interface_modules.interpolation.utils.interp_pyresample import interp_kd_tree, get_data_box_definition
     data_box_definition = get_data_box_definition(input_xarray.source_name,
                                                   lons,
                                                   lats)
@@ -84,24 +84,21 @@ def interp_nearest(area_def, input_xarray, output_xarray, varlist, array_num=Non
                                  float(roi),
                                  interp_type='nearest')
 
-    from geoips.data_manipulations.info import percent_unmasked
-
     for arr, orig, varname in zip(interp_data, vars_to_interp, varlist):
         LOG.info('%s min/max before: %s to %s', varname, orig.min(), orig.max())
         LOG.info('%s min/max after:  %s to %s', varname, arr.min(), arr.max())
         LOG.info('%s Percent unmasked before %s', varname, percent_unmasked(orig))
         LOG.info('%s Percent unmasked after  %s', varname, percent_unmasked(arr))
 
-    import xarray
     if output_xarray is None:
-        from geoips.dev.utils import copy_standard_metadata
-        interp_lons, interp_lats = area_def.get_lonlats()
         output_xarray = xarray.Dataset()
-        copy_standard_metadata(input_xarray, output_xarray)
+    if 'latitude' not in output_xarray.variables.keys():
+        interp_lons, interp_lats = area_def.get_lonlats()
         output_xarray['latitude'] = xarray.DataArray(interp_lats)
         output_xarray['longitude'] = xarray.DataArray(interp_lons)
-        output_xarray.attrs['registered_dataset'] = True
-        output_xarray.attrs['area_definition'] = area_def
+    copy_standard_metadata(input_xarray, output_xarray, force=False)
+    output_xarray.attrs['registered_dataset'] = True
+    output_xarray.attrs['area_definition'] = area_def
 
     for ind in range(len(varlist)):
         output_xarray[varlist[ind]] = xarray.DataArray(interp_data[ind])
