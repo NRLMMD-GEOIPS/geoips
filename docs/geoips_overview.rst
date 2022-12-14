@@ -10,21 +10,21 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-GeoIPS 2.0 Overview
+GeoIPS Overview
 ===================
 
-The Geolocated Information Processing System (GeoIPS) 2.0 is a generalized processing system, providing a collection
+The Geolocated Information Processing System (GeoIPS) is a generalized processing system, providing a collection
 of algorithm and product implementations facilitating consistent and reliable application of specific products
 across a variety of sensors and data types.
 
 .. image:: images/geoips_overview/GeoIPS_Functionality_Overview.png
    :width: 800
 
-GeoIPS 2.0 acts as a toolbox for internal GeoIPS-based product development - all modules are expected to
+GeoIPS acts as a toolbox for internal GeoIPS-based product development - all modules are expected to
 have simple inputs and outputs (Python numpy or dask arrays or xarrays, dictionaries, strings, lists), to enable
 portability and simplified interfacing between modules.
 
-Some of the primary benefits / requirements of GeoIPS 2.0 include:
+Some of the primary benefits / requirements of GeoIPS include:
     * Seamless application to proprietary data types and products (no reference to external functionality within the main code base)
     * Consistent product application across multiple sensors (both open source and proprietary)
     * Flexible workflow to allow efficient real-time processing as well as interactive processing
@@ -38,24 +38,24 @@ Some of the primary benefits / requirements of GeoIPS 2.0 include:
    :width: 800
 
 
-GeoIPS 2.0 Scope
+GeoIPS Scope
 ================
 
-The GeoIPS® 2.0 "core" package is responsible for data processing from reading and reformatting the data into the
-common internal GeoIPS® 2.0 internal format, through algorithm and product application, to outputting user
+The GeoIPS® "core" package is responsible for data processing from reading and reformatting the data into the
+common internal GeoIPS® internal format, through algorithm and product application, to outputting user
 configurable data formats (imagery, NetCDF, etc).
 
 .. image:: images/geoips_overview/GeoIPS_Processing_Chain.png
    :width: 800
 
 Data collection, data transfers, and product dissemination are all site specific implementations for driving
-GeoIPS® processing, and fall outside the scope of the GeoIPS® 2.0 "core" processing system.
+GeoIPS® processing, and fall outside the scope of the GeoIPS® "core" processing system.
 
 
-GeoIPS 2.0 Modular Interface
+GeoIPS Modular Interface
 ============================
 
-GeoIPS 2.0 is made up of a collection of functionality modules of different types.
+GeoIPS is made up of a collection of functionality modules of different types.
 
 The primary module types include
     * **processing workflows (procflows)** - drive a specific collection of steps for a particular type of processing
@@ -89,10 +89,10 @@ Potential example of future config based processing workflow
    :width: 800
 
 
-GeoIPS 2.0 Plugin Interface
+GeoIPS Plugin Interface
 ===========================
 
-A primary goal of GeoIPS 2.0 is to provide seamless integration of external functionality,
+A primary goal of GeoIPS is to provide seamless integration of external functionality,
 with no reference to proprietary algorithms and readers from the base open source geoips code base.
 
 Example external plugin functionality: 
