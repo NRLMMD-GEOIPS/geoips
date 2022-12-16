@@ -92,7 +92,7 @@ GeoIPS Environment Variables for Complete conda-based Installation
     GEOIPS_ACTIVE_BRANCH=main
 
     # GeoIPS packages, test_data, and dependencies all default to locations under "GEOIPS_BASEDIR"
-    export GEOIPS_PACKAGES_DIR=$GEOIPS_PACKAGES_DIR
+    export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
     export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
     export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_BASEDIR/geoips_dependencies
 
