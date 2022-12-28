@@ -155,14 +155,14 @@ def images_match(output_product, compare_product, fuzz='5%'):
     Returns:
         bool: Return True if images match, False if they differ
     '''
-    out_diffimg = get_out_diff_fname(compare_product, output_product)
+    fuzz_out_diffimg = get_out_diff_fname(compare_product, output_product, flag="fuzz_")
     exact_out_diffimg = get_out_diff_fname(compare_product, output_product, flag='exact_')
 
-    call_list = ['compare', '-verbose', '-quiet',
+    fuzz_call_list = ['compare', '-verbose', '-quiet',
                  '-metric', 'ae', '-fuzz', fuzz,
                  output_product,
                  compare_product,
-                 out_diffimg]
+                 fuzz_out_diffimg]
 
     exact_call_list = ['compare', '-verbose', '-quiet',
                        '-metric', 'ae',
@@ -170,44 +170,21 @@ def images_match(output_product, compare_product, fuzz='5%'):
                        compare_product,
                        exact_out_diffimg]
 
-    LOG.info('**Running %s', ' '.join(call_list))
-    fullimg_retval = subprocess.call(call_list)
-    LOG.info('**Done running compare')
+    LOG.info('**Running fuzzy approximate compare %s', ' '.join(fuzz_call_list))
+    fuzz_retval = subprocess.call(fuzz_call_list)
+    LOG.info('**Done running fuzzy approximate compare')
     
-    # call_list = ['compare', '-verbose', '-quiet',
-    #              '-metric', 'rmse',
-    #              '-dissimilarity-threshold', '{0:0.15f}'.format(threshold),
-    #              '-subimage-search',
-    #              output_product,
-    #              compare_product,
-    #              out_diffimg]
-
-    # LOG.info('Running %s', ' '.join(call_list))
-
-    # subimg_retval = subprocess.call(call_list)
-    # if subimg_retval != 0 and fullimg_retval != 0:
-    #     call_list = ['compare', '-verbose', '-quiet',
-    #                  '-metric', 'rmse',
-    #                  '-subimage-search',
-    #                  output_product,
-    #                  compare_product,
-    #                  out_diffimg]
-    #     subprocess.call(call_list)
-    #     LOG.info('    ***************************************')
-    #     LOG.info('    *** BAD Images do NOT match exactly ***')
-    #     LOG.info('    ***************************************')
-    #     return False
-    if fullimg_retval != 0:
-        LOG.info('    ***************************************')
-        LOG.info('    *** BAD Images do NOT match exactly ***')
-        LOG.info('    ***************************************')
+    if fuzz_retval != 0:
+        LOG.info('    ************************************************')
+        LOG.info('    *** BAD Images do NOT match within tolerance ***')
+        LOG.info('    ************************************************')
         return False
 
     LOG.info('**Running exact %s', ' '.join(exact_call_list))
-    fullimg_retval = subprocess.call(exact_call_list)
+    exact_retval = subprocess.call(exact_call_list)
     LOG.info('**Done running exact compare')
 
-    if fullimg_retval != 0:
+    if exact_retval != 0:
         LOG.info('    ******************************************')
         LOG.info('    *** GOOD Images match within tolerance ***')
         LOG.info('    ******************************************')
@@ -217,7 +194,7 @@ def images_match(output_product, compare_product, fuzz='5%'):
         LOG.info('    *********************************')
     # Remove the image if they matched so we don't have extra stuff to sort through.
     from os import unlink as osunlink
-    osunlink(out_diffimg)
+    osunlink(fuzz_out_diffimg)
     return True
 
 
