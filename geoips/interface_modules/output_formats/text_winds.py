@@ -15,6 +15,7 @@ import logging
 import os
 from datetime import datetime
 import numpy
+import shutil
 
 LOG = logging.getLogger(__name__)
 
@@ -46,7 +47,7 @@ def text_winds(xarray_dict,
                                             append=curr_append,
                                             overwrite=overwrite,
                                             source_names=source_names)
-            
+
     # Remove any duplicates - they would have been overwritten
     return list(set(output_products))
 
@@ -113,7 +114,7 @@ def write_text_winds(xarray_obj, varlist, output_fnames, append=False, overwrite
         lon_array = lon_array[inds]
         lat_array = lat_array[inds]
         if dir_array is not None:
-            dir_array = dir_array[inds] 
+            dir_array = dir_array[inds]
 
     openstr = 'w'
     if append:
@@ -165,14 +166,11 @@ def write_text_winds(xarray_obj, varlist, output_fnames, append=False, overwrite
                                                 dtstr))
         output_products += [text_fname]
 
-    import subprocess
-    import shutil
-    lsfulltime = subprocess.check_output(['ls', '--full-time', text_fname])
-    LOG.info('    SUCCESS wrote out text windspeed file %s', lsfulltime)
+    ctime = datetime.fromtimestamp(os.stat(text_fname).st_ctime)
+    LOG.info(f'    SUCCESS wrote out text windspeed file {text_fname} at {ctime}')
 
     for additional_text_fname in output_fnames:
         shutil.copy(text_fname, additional_text_fname)
-        lsfulltime = subprocess.check_output(['ls', '--full-time', additional_text_fname])
-        LOG.info('    SUCCESS wrote out text windspeed file %s', lsfulltime)
+        LOG.info(f'    SUCCESS wrote out text windspeed file {text_fname} at {ctime}')
         output_products += [additional_text_fname]
     return output_products
