@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Driver for standard single channel products '''
 
@@ -45,6 +39,7 @@ from geoips.dev.product import get_interp_name, get_interp_args
 from geoips.dev.product import get_alg_name, get_alg_args
 from geoips.dev.alg import get_alg, get_alg_type
 from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.geoips_utils import copy_standard_metadata
 
 PMW_NUM_PIXELS_X = 1400
 PMW_NUM_PIXELS_Y = 1400
@@ -191,13 +186,13 @@ def process_xarray_dict_to_output_format(xobjs, variables, product_name, output_
     if 'output_dict' not in output_format_kwargs:
         output_format_kwargs['output_dict'] = output_dict
     output_format_kwargs = remove_unsupported_kwargs(outputter, output_format_kwargs)
-    if get_outputter_type(output_format) == 'xarray_dict_data':
+    if get_outputter_type(output_format) == 'xrdict_varlist_outfnames_to_outlist':
         curr_products = outputter(xobjs, variables, list(output_fnames.keys()), **output_format_kwargs)
         if curr_products != list(output_fnames.keys()):
             raise(ValueError('Did not produce expected products'))
 
     else:
-        supported_outputter_types = ['xarray_dict_data']
+        supported_outputter_types = ['xrdict_varlist_outfnames_to_outlist']
         raise TypeError(f'UNSUPPORTED output_format "{output_format}" '
                         f'for product_type "sectored_xarray_dict_to_output_format"\n'
                         f'      outputter_type: "{get_outputter_type(output_format)}"\n'
@@ -217,24 +212,39 @@ def print_area_def(area_def, print_str):
     print(f'************************************************************************************')
 
 
-def pad_area_definition(area_def, source_name=None):
+def pad_area_definition(area_def, source_name=None, force_pad=False, x_scale_factor=1.5, y_scale_factor=1.5):
+
     from geoips.sector_utils.utils import is_sector_type
-    if is_sector_type(area_def, 'tc'):
-        LOG.info('Trying area_def %s, %s final %s',
-                 area_def.name, area_def.sector_info['storm_name'], area_def.sector_info['final_storm_name'])
+
+    # Always pad TC sectors, and if "force_pad=True" is passed into the function
+    if is_sector_type(area_def, 'tc') or force_pad:
+        LOG.info('Trying area_def %s, %s',
+                 area_def.name, area_def.sector_info)
         # Get an extra 50% size for TCs so we can handle recentering and not have missing data.
         # --larger area for possibly moved center for vis/ir backgrounds
-        num_lines = int(area_def.y_size * 1.5)
-        num_samples = int(area_def.x_size * 1.5)
+        # Default to 1.5x padding
+        num_lines = int(area_def.y_size * y_scale_factor)
+        num_samples = int(area_def.x_size * x_scale_factor)
         # Need full swath width for AMSU-B and MHS. Need a better solution for this.
         if source_name is not None and source_name in ['amsu-b', 'mhs']:
             num_lines = int(area_def.y_size * 1)
             num_samples = int(area_def.x_size * 5)
+
+        # TC sectors have center lat and center lon defined within the sector_info
+        # For other sectors, use lat_0 and lon_0 from proj_dict
+        # Do not use proj_dict for TC sectors, because we want the center of the storm, not current center of image.
+        if is_sector_type(area_def, 'tc'):
+            clat = area_def.sector_info['clat']
+            clon = area_def.sector_info['clon']
+        else:
+            clat = area_def.proj_dict['lat_0']
+            clon = area_def.proj_dict['lon_0']
+
         from geoips.interface_modules.area_def_generators.clat_clon_resolution_shape import clat_clon_resolution_shape
         pad_area_def = clat_clon_resolution_shape(area_id=area_def.area_id,
                                                   long_description=area_def.description,
-                                                  clat=area_def.sector_info['clat'],
-                                                  clon=area_def.sector_info['clon'],
+                                                  clat=clat,
+                                                  clon=clon,
                                                   projection='eqc',
                                                   num_lines=num_lines,
                                                   num_samples=num_samples,
@@ -281,12 +291,21 @@ def get_filename(filename_format, product_name=None, alg_xarray=None, area_def=N
     return fname
 
 
-def plot_data(output_dict, alg_xarray, area_def, product_name, output_kwargs):
+def plot_data(output_dict, alg_xarray, area_def, product_name, output_kwargs, fused_xarray_dict=None,
+              no_output=False):
+    ''' alg_xarray used for filename formats, etc.  If included, fused_xarray_dict used for output format call'''
 
-    filename_formats = get_filename_formats(output_dict)
+    # If keyword argument is allowed for output function, include it
+    output_kwargs['output_dict'] = output_dict
 
-    output_fnames, metadata_fnames = get_output_filenames(filename_formats, output_dict, product_name,
-                                                          alg_xarray, area_def)
+    if no_output is False:
+        filename_formats = get_filename_formats(output_dict)
+        output_fnames, metadata_fnames = get_output_filenames(filename_formats, output_dict, product_name,
+                                                              alg_xarray, area_def)
+    else:
+        output_fnames = {}
+        metadata_fnames = {}
+
     output_format = get_output_format(output_dict)
 
     from geoips.dev.output import get_outputter, get_outputter_type
@@ -345,6 +364,19 @@ def plot_data(output_dict, alg_xarray, area_def, product_name, output_kwargs):
                                           **output_kwargs)
             if output_products != list(output_fnames.keys()):
                 raise ValueError('Did not produce expected products')
+        elif outputter_type == 'xrdict_area_product_outfnames_to_outlist':
+            # For xarray_dict type, pass the full fused_xarray_dict.
+            output_kwargs['product_name_title'] = get_product_display_name(product_name,
+                                                                           alg_xarray.source_name)
+            output_kwargs['mpl_colors_info'] = mpl_colors_info
+            output_kwargs = remove_unsupported_kwargs(output_func, output_kwargs)
+            output_products = output_func(xarray_dict=fused_xarray_dict,
+                                          area_def=area_def,
+                                          product_name=product_name,
+                                          output_fnames=list(output_fnames.keys()),
+                                          **output_kwargs)
+            if output_products != list(output_fnames.keys()):
+                raise ValueError('Did not produce expected products')
         else:
             raise ValueError(f'Unsupported outputter_type {outputter_type} for output format {output_format}')
 
@@ -353,7 +385,7 @@ def plot_data(output_dict, alg_xarray, area_def, product_name, output_kwargs):
     return all_final_products
 
 
-def get_area_defs_from_command_line_args(command_line_args, xobjs, variables, filter_time=True):
+def get_area_defs_from_command_line_args(command_line_args, xobjs, variables=None, filter_time=True):
     from geoips.sector_utils.utils import get_static_area_defs_for_xarray, get_tc_area_defs_for_xarray
     from geoips.sector_utils.utils import get_trackfile_area_defs
     from geoips.sector_utils.utils import filter_area_defs_actual_time
@@ -485,8 +517,15 @@ def get_area_defs_from_command_line_args(command_line_args, xobjs, variables, fi
 
 def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resampled_read=False,
                    variable_names=None):
-    # original input variables from sensor.py (i.e., abi.py)
-    variables = get_required_variables(product_name, sect_xarrays['METADATA'].source_name)
+    
+    if not variable_names:
+        # original input variables from sensor.py (i.e., abi.py)
+        variables = get_required_variables(product_name, sect_xarrays['METADATA'].source_name)
+    else:
+        # If variable_names are passed, actually use them
+        # Previously was only being used for checking existence of variables in sectored xarray.
+        variables = variable_names
+
     datasets_for_vars = get_requested_datasets_for_variables(product_name, sect_xarrays['METADATA'].source_name)
     product_type = get_product_type(product_name, sect_xarrays['METADATA'].source_name)
 
@@ -495,6 +534,9 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
         alg_func = get_alg(get_alg_name(product_name, sect_xarrays['METADATA'].source_name))
         alg_func_type = get_alg_type(get_alg_name(product_name, sect_xarrays['METADATA'].source_name))
         alg_args = get_alg_args(product_name, sect_xarrays['METADATA'].source_name)
+    else:
+        # Default to "None" so it is defined when used below.
+        alg_func_type = None
 
     interp_func_name = get_interp_name(product_name, sect_xarrays['METADATA'].source_name)
     interp_func = None
@@ -578,7 +620,9 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
 
     # NOTE if algorithm specified first in product_type, we will not get to this point!
     # Returned from above if statement
-    interp_xarray = None
+
+    # Default to empty xarray.Dataset() - will be populated within loop with appropriate regridded variables.
+    interp_xarray = xarray.Dataset()
 
     for varname in variables:
         LOG.info('TRYING variable %s', varname)
@@ -587,6 +631,14 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
 
             if varname not in sect_xarray.variables:
                 continue
+
+            # Reassign interp_func based on CURRENT sect_xarray
+            # Allow re-defining interpolation for different datasets.
+            interp_func_name = get_interp_name(product_name, sect_xarray.source_name)
+            interp_func = None
+            if interp_func_name is not None:
+                interp_func = get_interp(interp_func_name)
+                interp_args = get_interp_args(product_name, sect_xarray.source_name)
 
             # If a specific dataset was requested for the current variable, and this dataset was NOT requested via
             # a resampled_read (in which case the native datasets won't exist, only the resampled dataset),
@@ -623,13 +675,29 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
 
             # apply the requested interpolation routine.
             interp_args['varlist'] = [varname]
-            interp_xarray = interp_func(area_def, sect_xarray, interp_xarray, **interp_args)
+            if 'time' in sect_xarray.dims:
+                # This is for a particularly formatted dataset, that includes separate arrays for different times
+                # (ABI fire product).
+                # We need to be careful this does not break for some other dataset that includes a differently
+                # formatted "time" dimension.
+                tdims = len(sect_xarray.time)
+                interp_list = [interp_func(area_def, sect_xarray.isel(time=i), xarray.Dataset(), **interp_args) for i in range(tdims)]
+                interp_xarray[varname] = xarray.concat(interp_list, dim='dim_2')[varname]
+            else:
+                interp_xarray = interp_func(area_def,
+                                            sect_xarray,
+                                            interp_xarray,
+                                            **interp_args)
 
             # Potential efficiency hit with to_masked_array for dask arrays, etc
             # LOG.info('Min/max interp %s %s / %s',
             #          varname,
             #          interp_xarray[varname].to_masked_array().min(),
             #          interp_xarray[varname].to_masked_array().max())
+
+    # Make sure we have all the appropriate attributes attached to the current interp_xarray.
+    # Use force=False so if attributes were set above, we do not overwrite them.
+    copy_standard_metadata(sect_xarray, interp_xarray, force=False)
 
     # Specify the call signature and return value for different algorithm types:
     if product_type in ['interp']:
@@ -655,6 +723,11 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
                         'please add to geoips/interface_modules/procflows/single_source.py "get_alg_xarray" '
                         'function appropriately')
 
+    # Make sure we have all the appropriate attributes attached to the current interp_xarray.
+    # Use force=False so if attributes were set above, we do not overwrite them.
+    copy_standard_metadata(sect_xarray, interp_xarray, force=False)
+    # Attach final product_name to the interp_xarray as well (the end goal of this routine)
+    interp_xarray.attrs['product_name'] = product_name
     # Add appropriate attributes to alg_xarray
     if 'adjustment_id' in area_def.sector_info:
         interp_xarray = add_filename_extra_field(interp_xarray,
@@ -868,7 +941,10 @@ def single_source(fnames, command_line_args=None):
         print_mem_usage('MEMUSG', verbose=False)
         all_vars = []
         for key, xobj in pad_sect_xarrays.items():
-            all_vars += list(xobj.variables.keys())
+            # Double check the xarray object actually contains data
+            for var in list(xobj.variables.keys()):
+                if xobj[var].count() > 0:
+                    all_vars.append(var)
         # If the required variables are not contained within the xarray objects, do not
         # attempt to process (variables in product algorithm are not available)
         if set(variables).issubset(all_vars):

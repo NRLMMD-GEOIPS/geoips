@@ -14,7 +14,10 @@ fi
 export GEOIPS_BASEDIR=`dirname $CURRENT_CONFIGPATH`
 export GEOIPS_BASEDIR=`dirname $GEOIPS_BASEDIR`
 export GEOIPS_BASEDIR=`dirname $GEOIPS_BASEDIR`
-export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS
+
+if [[ -z "$GEOIPS_REPO_URL" ]]; then
+    export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS
+fi
 
 # This is the only *required* environment variable - all output goes here.
 export GEOIPS_OUTDIRS=$GEOIPS_BASEDIR/geoips_outdirs
@@ -33,6 +36,7 @@ export GEOIPS_MODULES_DIR=$GEOIPS_BASEDIR/geoips_packages
 export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
 # This is only used for finding test data within the test scripts - not used within python at all
 export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
+export CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
 
 export PYTHONPATH=$GEOIPS_BASEDIR/geoips_packages
 export PATH=$GEOIPS_DEPENDENCIES_DIR/bin:$PATH

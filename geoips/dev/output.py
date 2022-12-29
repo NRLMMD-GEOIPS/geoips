@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Interface Under Development.  Please provide feedback to geoips@nrlmry.navy.mil
 
@@ -70,8 +64,9 @@ def is_valid_outputter(output_func_name):
                      'unprojected': ['xarray_obj', 'product_name', 'output_fnames'],
                      'image_overlay': ['area_def', 'xarray_obj', 'product_name', 'output_fnames'],
                      'image_multi': ['area_def', 'xarray_obj', 'product_names', 'output_fnames', 'mpl_colors_info'],
-                     'xarray_dict_to_image': ['xarray_datasets', 'area_def', 'varlist'],
-                     'xarray_dict_data': ['xarray_objs', 'product_names', 'output_fnames'],
+                     'xrdict_area_varlist_to_outlist': ['xarray_dict', 'area_def', 'varlist'],
+                     'xrdict_area_product_outfnames_to_outlist': ['xarray_dict', 'area_def', 'product_name', 'output_fnames'],
+                     'xrdict_varlist_outfnames_to_outlist': ['xarray_dict', 'varlist', 'output_fnames'],
                      'xarray_data': ['xarray_obj', 'product_names', 'output_fnames'],
                      'standard_metadata': ['area_def', 'xarray_obj', 'metadata_yaml_filename', 'product_filename'],
                      }
@@ -86,8 +81,9 @@ def is_valid_outputter(output_func_name):
                                          'bg_xarray', 'bg_product_name_title', 'bg_datatype_title', 'clean_fname',
                                          'remove_duplicate_minrange'],
                        'image_multi': ['product_name_titles'],
-                       'xarray_dict_data': ['append', 'overwrite'],
-                       'xarray_dict_to_image': [],
+                       'xrdict_varlist_outfnames_to_outlist': ['append', 'overwrite'],
+                       'xrdict_area_varlist_to_outlist': [],
+                       'xrdict_area_product_outfnames_to_outlist': [],
                        'xarray_data': [],
                        'standard_metadata': ['metadata_dir', 'basedir', 'output_dict'],
                        }

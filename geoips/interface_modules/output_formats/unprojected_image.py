@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 import os
 import logging
@@ -63,7 +57,11 @@ def unprojected_image(xarray_obj,
     image_width = float(x_size) / dpi
     image_height = float(y_size) / dpi
 
-    fig = plt.figure(frameon=False)
+    # Replace fig.savefig frameon=False argument with facecolor="none"
+    # * frameon deprecated maplotlib v3.1.0, support removed v3.6.0
+    # * facecolor="none" also works with 3.5.x
+    # * https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon
+    fig = plt.figure(facecolor="none")
     fig.set_size_inches(image_width, image_height)
     main_ax = plt.Axes(fig, [0, 0, 1, 1])
     main_ax.set_axis_off()

@@ -1,20 +1,444 @@
     # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-    # # # 
+    # # #
     # # # Author:
     # # # Naval Research Laboratory, Marine Meteorology Division
-    # # # 
-    # # # This program is free software:
-    # # # you can redistribute it and/or modify it under the terms
-    # # # of the NRLMMD License included with this program.
-    # # # 
-    # # # If you did not receive the license, see
+    # # #
+    # # # This program is free software: you can redistribute it and/or modify it under
+    # # # the terms of the NRLMMD License included with this program. This program is
+    # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+    # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+    # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-    # # # for more information.
-    # # # 
-    # # # This program is distributed WITHOUT ANY WARRANTY;
-    # # # without even the implied warranty of MERCHANTABILITY
-    # # # or FITNESS FOR A PARTICULAR PURPOSE.
-    # # # See the included license for more details.
+
+
+# v1.5.4: 2022-11-28, open source release
+## GEOIPS#119: 2022-11-16, installation updates, test script bug fixes
+### Bug fixes
+### Documentation Updates
+#### Add Contributors documentation page
+* Link to contributors page from README
+* Link to git-workflow.rst from Contributors page
+* Replace full URLs with linked text in git-workflow.rst
+```
+new file: docs/contributors.rst
+modified: README.md
+modified: docs/git-workflow.rst
+modified: docs/setup-new-plugin.rst
+```
+#### Simplify README and installation
+* Only include next step once in check_continue output, for simplicity
+* Remove direct installation steps from README.md
+* Include more generalized information in README, with link to full documentation/installation.
+* Move the complete conda-based installation to the bottom of docs/installation.rst
+* Include system requirements, and a basic geoips installation process (not requiring full conda based install)
+  in installation.rst 
+```
+modified: README.md
+modified: docs/installation.rst
+modified: setup/bash_setup/check_continue
+```
+### Testing Updates
+* Add additional AMSR2 test scripts to test_all.sh - not previously tested.
+* Update YAML metadata output for previously non-tested AMSR2 scripts to include storm_start_datetime
+```
+modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml
+modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml
+modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml
+modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml
+modified: tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean/20200518_073601_IO012020_amsr2_gcom-w1_windspeed_140kts_85p45_1p0-clean.png.yaml
+modified: tests/test_all.sh
+```
+### Installation Updates
+* Only re-set GEOIPS_REPO_URL if it is not already set.  Assume if someone explicitly sets it, they mean it.
+```
+modified:   setup/config_geoips
+```
+* Add --config option for rclone lsf command, was failing without ~/.config/rclone/rclone.conf
+```
+modified: tests/download_noaa_aws.sh
+```
+
+
+# v1.5.3: 2022-11-07, update python install process, alternate command line args funcs, unique storm dirnames for invests, bug fixes 
+## GEOIPS#108: 2022-11-04, bug fixes
+### Documentation Updates
+* Clarify steps in updating CHANGELOG during internal release process
+```
+modified: CHANGELOG_TEMPLATE.md
+```
+### Test Repo Update
+* Update abi.tc.Infrared.imagery_annotated metadata YAML
+    * Add Add storm_start_datetime to metadata yaml
+```
+modified:   tests/outputs/abi.tc.Infrared.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Infrared_110kts_100p00_1p0.png.yaml
+```
+
+## GEOIPS#114: 2022-10-27, fix sun.set_time bug in overpass_predictor.py
+### Bug fixes
+#### Fix sun.set_time bug in overpass_predictor.py
+* Previously only check sun.rise_time
+* sun.rise_time can be valid while sun.set_time is None, so must check both.
+* return None if either sun.rise_time or sun.set_time is None
+```
+modified:   geoips/sector_utils/overpass_predictor.py
+```
+
+## GEOIPS#113: 2022-10-27, VIIRS lat/lon variables may contain unmasked fill values
+### Bug fix
+#### modified: geoips/interface_modules/readers/viirs_netcdf.py
+* Loop through xarray_return data types, and mask latitude/longitude by their fill value
+
+## GEOIPS#111: 2022-10-27, cowvr edge case - no usable sectored data
+### Bug fix
+#### modified: geoips/interface_modules/procflows/config_based.py
+* Add check if sectored data contains any usable data
+    * Only add variable to all_vars list if sectored data set is not entirely comprised of NaNs
+#### modified: geoips/interface_modules/procflows/single_source.py
+* Add check if sectored data contains any usable data
+    * Only add variable to all_vars list if sectored data set is not entirely comprised of NaNs
+
+## GEOIPS#61: 2022-10-27, add sectored and unsectored AMSR2 winds outputs
+### Major New Functionality
+#### Add sectored and unsectored products to product_inputs/amsr2.yaml
+* Allows producing sectored and unsectored text winds outputs
+```
+modified: geoips/yaml_configs/product_inputs/amsr2.yaml
+```
+
+## GEOIPS#8: 2022-10-21, get_product allow empty dict, bug fixes
+#### modified: geoips/dev/product.py
+* Previously would only replace individual fields within dictionaries in product_inputs
+* Now, if an empty dictionary is included within product_inputs, it will replace the entire product_params
+  dictionary with an empty dictionary.
+* This is useful when using product_templates, and replacing the algorithm or colormap, etc
+### Test Repo Updates
+#### Update ASCAT UHR test data path
+* Renamed ASCAT UHR test data subdirectories with additional test cases.
+```
+modified: tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh
+```
+#### Turn off minor ticks
+* matplotlib 3.6.0 sometimes has inconsistent results with including minor ticks or not.
+* Unclear why it impacts some colorbars and not others.
+* We may eventually add support for including minor ticks within mpl_colors_info, but for now
+* explicitly turn off minor ticks so outputs will continue to match (use the old default).
+```
+modified: geoips/image_utils/mpl_utils.py
+```
+
+## GEOIPS#103: 2022-10-17, create unique storm dirnames for invests
+### Major New Functionality
+#### geoips/interface_modules/filename_formats/tc_clean_fname.py
+* Allow passing "output_dict" to allow using unique directory name for INVESTS
+#### geoips/interface_modules/filename_formats/tc_fname.py
+* def tc_fname
+    * Allow passing output_dict to provide current output parameters for overall filename specifications
+* def assemble_tc_fname
+    * Allow passing both "output_dict" and "sector_info" to allow timestamp in dirname for INVESTS
+#### geoips/interface_modules/filename_formats/utils/tc_file_naming.py
+* Allow passing both "output_dict" and "sector_info" to support .%Y%m%d%H dirname for INVESTS
+    * output_dict['file_path_modifications']['unique_invest_dirs'] True
+    * storm_start_datetime is datetime object
+        * sector_info['original_storm_start_datetime'] if it exists, else
+        * sector_info['storm_start_datetime']
+    * storm number > 69 (ie, invest)
+    * output_dict['file_path_modifications']['existing_invest_dirs_allowable_time_diff'] > 0
+        * If specified, use existing directory closest in time to storm_start_datetime
+        * If none exist, use storm_start_datetime appended to INVEST directory
+        * Ie, SH932020.2020020506 vs SH932020
+        * If SH932020.2020020406 exists, would use that rather than creating 2020020506
+        * SH162020 does NOT contain the extra storm start datetime information
+#### geoips/interface_modules/trackfile_parsers/bdeck_parser.py
+* Add storm_start_datetime field to bdeck sector info
+    * pull from first entry in bdeck file
+* Add original_storm_start_datetime field to bdeck sector_info
+    * Pull from filename if available (since bdeck entries can change)
+    * DO NOT INCLUDE in dictionary if it is not available
+    * If it exists, this will be a more consistent value than storm_start_datetime (which can change with
+      subsequent deck files)
+#### geoips/interface_modules/filename_formats/metadata_default_fname.py
+* def metadata_default_fname
+    * Allow passing output_dict to provide current output parameters for overall filename specifications
+* def assemble_metadata_default_fname
+    * Allow passing both "output_dict" and "sector_info" to allow timestamp in dirname for INVESTS
+#### geoips/interface_modules/filename_formats/text_winds_tc_fname.py
+* def text_winds_tc_fname
+    * Allow passing output_dict to provide current output parameters for overall filename specifications
+* def assemble_text_winds_tc_fname
+    * Allow passing both "output_dict" and "sector_info" to allow timestamp in dirname for INVESTS
+### Test Repo Updates
+#### Add storm_start_datetime to YAML metadata outputs
+    * modified: tests/outputs/abi.tc.IR-BD.imagery_annotated/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml
+    * modified: tests/outputs/abi.tc.Visible.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Visible_110kts_100p00_1p0.png.yaml
+    * modified: tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png.yaml
+    * modified: tests/outputs/amsub_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_amsu-b_metop-a_183-3H_115kts_100p00_1p0.png.yaml
+    * modified: tests/outputs/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean/20210421_014248_WP022021_ascat_metop-c_windbarbs_120kts_78p20_0p5-clean.png.yaml
+    * modified: tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs/20210421_014156_WP022021_ascat_metop-c_windbarbs_120kts_35p17_1p0.png.yaml
+    * modified: tests/outputs/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs/20210421_014200_WP022021_ascatuhr_metop-c_wind-ambiguities_120kts_100p00_0p1.png.yaml
+    * modified: tests/outputs/gmi.tc.89pct.imagery_clean/20200917_172045_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png.yaml
+    * modified: tests/outputs/hy2.tc.windspeed.imagery_annotated/20211202_084039_WP272021_hscat_hy-2b_windspeed_95kts_97p06_1p0.png.yaml
+    * modified: tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated/20210419_230000_WP022021_mimic_tpw_TPW-PWAT_115kts_100p00_1p0.png.yaml
+    * modified: tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs/20210209_025351_SH192021_oscat_scatsat-1_windbarbs_135kts_75p10_1p0.png.yaml
+    * modified: tests/outputs/saphir.tc.183-3HNearest.imagery_annotated/20210209_003103_SH192021_saphir_meghatropiques_183-3HNearest_135kts_88p76_1p0.png.yaml
+    * modified: tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png.yaml
+    * modified: tests/outputs/ssmi.tc.37pct.imagery_clean/20200519_080900_IO012020_ssmi_F15_37pct_110kts_50p65_1p0-clean.png.yaml
+    * modified: tests/outputs/viirsday.tc.Night-Vis-IR.imagery_annotated/20210209_074210_SH192021_viirs_noaa-20_Night-Vis-IR_130kts_100p00_1p0.png.yaml
+### Bug fixes
+#### Do not attempt to set_ticks if cbar_ticks is not defined
+    geoips/image_utils/mpl_utils.py
+#### Replace fig.savefig frameon=False argument with facecolor="none"
+* frameon deprecated maplotlib v3.1.0, support removed v3.6.0
+* facecolor="none" also works with 3.5.x
+* https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon
+* Updated files:
+```
+geoips/image_utils/mpl_utils.py
+geoips/interface_modules/output_formats/unprojected_image.py
+```
+
+## GEOIPS#8: 2022-09-29, allow alternate command line args funcs
+### Enhancements
+#### new: tests/sectors/tc_bdecks/bwp142022.dat
+#### modified: geoips/commandline/args.py
+* Allow passing alternate check_args_func and get_args_func to get_command_line_args
+* Default output_format None vs imagery_annotated
+#### modified: geoips/commandline/run_procflow.py
+* Allow passing alternate "get_command_line_args" func to run_procflow main
+#### modified: geoips/dev/product.py
+* Add 'xarray_dict_to_output_format' product type
+* Allow specifying "product_template" within product_params YAML as well as product_inputs
+#### modified: geoips/image_utils/mpl_utils.py
+* Support additional mpl_colors_info fields
+    * explicit colorbar positioning, maintain previous defaults if not set
+        * cbar_ax_left_start_pos
+            * If set, explicitly set the left start position for the colorbar axis, relative to figure
+            * Else if 'cbar_full_width' is set, set to "left_margin"
+            * Else default to 2*left_margin
+        * cbar_ax_bottom_start_pos
+            * If set, explicitly set the bottom start position for the colorbar axis, relative to figure
+            * Else default to 0.05
+        * cbar_ax_width
+            * If set, explicitly set the width (left to right) of the colorbar axis, relative to figure
+            * Else if 'cbar_full_width' is set, set to right_margin - left_margin
+            * Else default to 1 - 4*left_margin
+        * cbar_ax_height
+            * If set, explicitly set the height (bottom to top) of the colorbar axis, relative to figure
+            * Else, default to 0.02
+    * explicit colorbar keyword args (mpl_colors_info['colorbar_kwargs'])
+        * colorbar_kwargs['orientation']
+            * If set, explicitly set orientation
+            * Else, default to 'horizontal'
+        * colorbar_kwargs['extend']
+            * If set, explicitly set extend option to colorbar call
+            * Else, default to 'both'
+        * colorbar_kwargs['spacing']
+            * If set, explicitly set 'spacing' option to colorbar call
+            * Else, if 'cbar_spacing' set, use mpl_colors_info['cbar_spacing']
+            * Else, default to 'proportional'
+    * explicit set_ticks_kwargs args (mpl_colors_info['set_ticks_kwargs'])
+        * set_ticks_kwargs['size']
+            * If set, explicitly set 'size' option to set_ticks call
+            * Else, default to 'small'
+        * set_ticks_kwargs['labels']
+            * If set, explicitly set 'labels' option to set_ticks call
+            * Else, default to mpl_colors_info['cbar_tick_labels']
+            * Else, default to mpl_colors_info['cbar_ticks']
+    * explicit set_label_kwargs (mpl_colors_info['set_label_kwargs])
+        * set_label_kwargs['size']
+            * If set, explicitly set 'size' option to set_label call
+            * Else, default to rc_params['font.size']
+* Call pyplot.colorbar vs fig.colorbar
+    * Pass "cbar_kwargs" in directly to allow specifying arbitrary colorbar options via mpl_colors_info
+* Pass **set_ticks_kwargs to cbar.set_ticks call
+* Pass **set_label_kwargs to cbar.set_label call
+#### modified: geoips/interface_modules/output_formats/imagery_clean.py
+* Support plotting on existing figure and axis
+    * Only create fig, main_ax, and mapobj if not passed in explicitly
+    * If fig, main_ax, and mapobj passed, plot on existing
+    * Only output final image if output_fnames is not None
+#### modified: geoips/interface_modules/output_formats/imagery_windbarbs.py
+* Support plotting on existing figure and axis
+    * Update output_clean_windbarbs function to take fig, main_ax, and mapobj arguments
+    * Only create figure, main axis, and mapobj if not passed
+    * Only output image file if clean_fnames is not None
+* Allow specifying barb_sizes in product_definition
+    * If 'barb_sizes' is in xarray_obj.attrs['product_definition'], use those values
+        * thinning
+        * barb_length
+        * line_width
+        * sizes_dict
+        * rain_size
+    * Else, default to former operation based on product_name == 'windbarbs' or 'wind-ambiguities'
+#### modified: geoips/interface_modules/output_formats/imagery_windbarbs_clean.py
+* Support plotting on existing figure and axis
+    * Update imagery_windbars_clean function to take fig, main_ax, and mapobj arguments
+    * These are passed directly through to imagery_windbarbs.py output_clean_windbarbs function
+#### modified: geoips/interface_modules/procflows/single_source.py
+* Support plotting data without producing output
+    * Add "no_output" option to "plot_data" function - do not produce output files if set, only plot
+* Support get_area_defs_from_command_line_args with METADATA only available
+    * Make "variables" argument optional - currently unused anyway
+#### modified: geoips/interface_modules/user_colormaps/pmw_tb/cmap_Rain.py
+* Use colorbar_kwargs and set_ticks_kwargs options for demonstration purposes
+    * Same functionality as previously, just using explicit keyword argument specifications
+
+## GEOIPS#104: 2022-10-21, VIIRS reader bug-fix for terminator case
+
+### Bug fixes
+* **geoips/interface_modules/readers/viirs_netcdf.nc**
+    * Move VIIRS solar reflective bands to neww data_type: 
+        * MOD-Vis: M01, M02, M03, M04, M05, M06, M09
+        * IMG-Vis: I01, I02, I03
+        * These reflective bands are not present in nighttime granules, 
+         and causes issues when dealing with a pair of granules that cross the terminator.
+    * Reader now capable of reading geo fields from a single file into multiple datasets
+
+## GEOIPS#98: 2022-09-28, use 'conda-forge' vs 'defaults'
+### Installation
+* **setup.sh**: default to '-c conda-forge', allow '-c defaults' by request for conda commands:
+    * **setup.sh conda_install**: use Miniforge by default, Miniconda if "conda_defaults_channel" passed
+    * **setup.sh conda_update**: Use conda-forge by default, "defaults" if "conda_defaults_channel" passed
+    * **setup.sh create_geoips_conda_env**: Use conda-forge by default, "defaults" if "conda_defaults_channel" passed
+    * **setup.sh install**: matplotlib and cartopy still must use conda-forge
+        * Remove version specifications for matplotlib and cartopy (allow latest until test outputs break)
+* **setup.py**: Update versions to allow latest, but maintain specifically pre-installed versions
+    * base: matplotlib>=3.5.3 (CI/CD installation requires 3.5.3 to work with cartopy)
+    * base: shapely>=1.8.2 (CI/CD installation requires specific 1.8.2 build)
+    * base: cartopy>=0.20.3 (CI/CD installation requires 0.20.3 to work with shapely)
+    * test_outputs: matplotlib>=3.6.0 (update outputs to latest)
+    * test_outputs: cartopy>=0.21.0 (update outputs to latest)
+    * cicd_pipeline: Add specific matplotlib (3.5.3), cartopy (0.20.3), and shapely (1.8.2 pre-built) versions
+        * This is NOT called from default interactive installation
+* **README.md**
+    * Update GEOIPS_ACTIVE_BRANCH to dev for NRLONLY
+    * add GEOIPS_PACKAGES_DIR, GEOIPS_TESTDATA_DIR, and GEOIPS_DEPENDENCIES_DIR env vars for completeness
+        * Do not use GEOIPS_BASEDIR within README EXCEPT to set above env vars
+    * Pass "conda-forge" to base_install_and_test.sh to explicitly request "conda-forge" channel
+* **base_install_and_test.sh**
+    * Pass $conda_channel to setup.sh commands: conda_install, conda_update, create_geoips_conda_env
+    * Separate update_conda and create_geoips_conda_env steps
+
+
+# v1.5.2: 2022-09-26, testing updates, interp fixes, update xrdict outputs
+
+### Bug fixes
+* Force cartopy==0.20.3, matplotlib==3.5.3
+    * cartopy 0.20.3 incompatible with matplotlib 3.6.0
+    * cartop 0.21.0 works with 3.6.0, but incompatible with some proj libraries
+* Remove instances of xarray.ufuncs.logical_and
+    * No longer available at least as of v2022.06 (was available < 0.19.0)
+    * Use numpy.logical_and instead
+* **tests/outputs/smap.unsectored.text_winds/smap-spd_rss_smap_surface_winds_20210926.0000.txt.gz**
+    * Add SMAP output file back in (accidentally deleting with previous commit)
+* **geoips/interface_modules/readers/gmi_hdf5.py**
+    * Sort original_source_filenames so consistent order in YAML metadata outputs
+
+## GEOIPS#95: 2022-09-26, add additional information for netcdf diff output
+### Testing Improvements
+* modified: **geoips/compare_outputs.py**
+    * When assert_allclose or assert_identical fail, include min/max/mean diff information in log output
+    * assert_allclose output limited.
+
+## GEOIPS#92: 2022-09-21, update ASCAT UHR reader and products
+### Major New Functionality
+* modified: **geoips/interface_modules/readers/ascat_uhr_netcdf.py**
+    * Use _B_ and _C_ in filenames to determine METOP-B vs METOP-C
+    * Use updated filename format for storm name and date MUIFA_20220911_19947_C_D-product.nc
+    * DO NOT subtract 90 from latitude
+    * Use single "sig" variable rather than sig_fore and sig_aft
+    * Use time array, and temporarily use YYYYMMDD from filename for units (bug upstream)
+* modified: **geoips/yaml_configs/product_inputs/ascatuhr.yaml**
+    * Add sectored and unsectored text outputs
+* modified: **geoips/yaml_configs/product_inputs/ascat.yaml**
+    * Add sectored and unsectored text outputs
+* UNMODIFIED: **geoips/yaml_configs/sectors_dynamic/tc_web_ascatuhr_barbs_template.yaml**
+* new file: **geoips/yaml_configs/sectors_dynamic/tc_huge/tc_0p1km_3200x3200.yaml**
+    * 100m resolution, 3200x3200, useful for zoomed in wind barbs.
+* new: **geoips/yaml_configs/plotting_params/gridlines/tc_0p25degree.yaml**
+    * Add quarter degree gridlines - useful for zoomed in windbarbs plots
+
+## GEOIPS#90: 2022-09-21, expand error handling in overpass predictor
+### Bug fixes
+* **geoips/sector_utils/overpass_predictor.py**
+    * Add handling for TypeError when calculating the next overpass
+
+## GEOIPS#84: 2022-09-13, update image comparison fuzz from 1% to 5%
+### Installation and Testing
+* **geoips/compare_outputs.py**: update image comparison fuzz from 1% to 5%
+
+## GEOIPS#84: 2022-09-13, update xrdict output formats
+### Refactor
+* **geoips/dev/output.py**: consolidate xarray_dict based output format families
+    * 'xarray_dict_to_image' -> 'xrdict_area_varlist_to_outlist'
+    * 'xarray_dict_data' -> 'xrdict_varlist_outfnames_to_outlist'
+    * 'xarray_dict' -> 'xrdict_product_outfnames_to_outlist'
+    * xarray_datasets -> xarray_dict
+    * xarray_objs -> xarray_dict
+* **geoips/interface_modules/procflows/single_source.py**: update output format if statements for xarray_dict-based
+	* xarray_dict_data -> xrdict_varlist_outfnames_to_outlist
+	* xarray_dict -> xrdict_area_product_outfnames_to_outlist
+	* make product_name_title and mpl_colors_info optional for xrdic_area_product_outfnames_to_outlist family
+* **geoips/interface_modules/output_formats/text_winds.py**: Update for xarray_dict-based standards
+	* xarray_dict_data -> xrdict_varlist_outfnames_to_outlist
+	* xarray_objs -> xarray_dict
+	* product_names -> varlist
+
+## GEOIPS#86: 2022-09-13, update image comparison fuzz from 1% to 5%
+### Installation and Testing
+* **geoips/compare_outputs.py**: update image comparison fuzz from 1% to 5%
+
+## GEOIPS#80: 2022-09-12, add "force_alt_varname" to coverage checks
+### Improvements
+* Add "force_alt_varname" option to coverage checks to force using alt_varname_for_coverage
+    * modified: **geoips/interface_modules/coverage_checks/center_radius.py**
+    * modified: **geoips/interface_modules/coverage_checks/center_radius_rgba.py**
+    * modified: **geoips/interface_modules/coverage_checks/masked_arrays.py**
+    * modified: **geoips/interface_modules/coverage_checks/numpy_arrays_nan.py**
+    * modified: **geoips/interface_modules/coverage_checks/rgba.py**
+
+## GEOIPS#82: 2022-09-13, add shared uncompress_test_data script
+### Major New Functionality
+* **tests/utils/uncompress_test_data.sh**
+    * Utility that will decompress gz, bz2, or tgz data files within the passed directory
+    * This can be used by individual repos to decompress their test and output data files prior to processing
+    * This script is not called automatically - must be called by the individual repo's uncompress_test_data.sh
+
+## GEOIPS#78: 2022-09-10, resolve missing lat/lon issues in interp
+### Bug fixes
+* **geoips/interface_modules/interpolation/pyresample_wrappers/interp_gauss.py**
+* **geoips/interface_modules/interpolation/pyresample_wrappers/interp_nearest.py**
+* **geoips/interface_modules/interpolation/scipy_wrappers/interp_grid.py**
+    * If "output_xarray" is None, intiialize to xarray.Dataset()
+    * If 'latitude' is not in output_xarray.variables, then calculate and add all geolocation information to Dataset
+        * This allows passing an empty xarray Dataset OR None for output_xarray, and still having proper functionality
+
+## GEOIPS#29: 2022-09-09, allow copying files when checking file list
+### Installation and Test
+* **tests/utils/check_output_file_list.sh**
+    * If "copy_dir" is specified, copy files to appropriate location
+    * subdirectory based on extension
+    * "noext" subdirectory if no "." in filename
+    * gunzip and rename files to ".tif" if ".jif.gz" extension
+    * Also include original .gz file separately from unzipped version
+* **tests/utils/get_realtime_test_args.sh**
+    * Provide common args for realtime test script setup, so if they need updated, they will be in one place.
+
+## GEOIPS#75: 2022-09-07, 1.5.2 bug fixes and updates
+### Installation and Test
+* **base_install_and_test.sh**: Remove seviri, vim8, vim8_plugin, and natural-earth-vector setup comments
+### Bug fixes
+* **geoips/interface_modules/procflows/single_source.py**
+    * Move "copy_standard_metadata" after interpolation, before calling algorithm
+    * Previously True Color algorithm was failing due to missing "source_name" attribute on xarray Dataset.
+* **geoips/interface_modules/procflows/config_based.py**
+    * Skip background data if no coverage (do not fail catastrophically)
+* **geoips/interface_modules/readers/utils/geostationary_geolocation.py**
+    * Raise "CoverageError" if there are no good_lines or good_samples
+
+## GEOIPS#5: 2022-09-09, for drop_nan, include lat/lon if masked
+### Bug fixes
+* **geoips/interface_modules/interpolation/pyresample_wrapper/interp_gauss.py**
+    * If "drop_nan=True" ensure lat/lon masking is included in the overall mask.
 
 
 # v1.5.2.dev2: 2022-09-02, image_utils numpy docstrings, basic CI
@@ -83,6 +507,92 @@
   * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
 * **tests/yaml_configs/abi_test.yaml**
   * Replace all references to `GEOIPS/tests/data/` with `GEOIPS_TESTDATA_DIR`
+
+## GEOIPS#7: 2022-08-30, support data_fusion
+### Refactor
+* **geoips/dev/product.py**: Replace "base_product_name" with "product_template" in get_product
+    * product_name: Actual name of current product
+    * product_template: YAML file to use as the base for the current product
+    * product_category: A specification that allows grouping "similar" products
+      (ie, 37H, 34H, 36H all in the 37H "product_category")
+### Major New Functionality
+* **geoips/yaml_configs/product_params/alg.yaml**: Template containing:
+    * product_type='alg'
+* **geoips/yaml_configs/product_params/interp.yaml**: Template containing:
+    * product_type='interp'
+    * interp_func default: pyresample_wrappers.interp_nearest
+    * interp_args default: {}
+* **geoips/yaml_configs/product_params/unmodified.yaml**: Template containing:
+    * product_type='unmodified'
+* **tests/sectors/tc_bdecks/bep072022.dat**
+    * EP07Frank sample bdeck file
+### Improvements
+* **geoips/interface_modules/procflows/single_source.py**: Support data_fusion functionality
+    * **def pad_area_definition**
+        * Allow passing "force_pad" for non-TC sectors
+        * Allow passing x_scale_factor and y_scale_factor for different scaling factors
+    * **def plot_data**: Support xarray_dict output format type. 
+    * **def get_alg_xarray**: Support data_fusion processing
+        * If variable_names is passed, use it (impacts reader_defined and self_registered products)
+        * set "alg_func_type" to None if no algorithm defined.
+        * Default "interp_xarray" to xarray.Dataset() rather than None
+        * Reassign interp_func within the interpolation loop, to ensure it is using the current sect_xarray source
+          for definiing the appropriate interpolation routine.
+        * If "time" is contained in sect_xarray dims, interpolate each slice of the array separately
+        * Copy standard metadata to "interp_xarray" before returning, using "force=False"
+* **geoips/dev/utils.py**
+    * Add "force" option to copy_standard_metadata - allow NOT replacing existing fields.
+    * This will not impact existing functionality - default is force=True, and when force=True the original 
+      if statement will always be used.
+* **geoips/geoips_utils.py**
+    * Pass "force" option directly through to dev.utils.copy_standard_metadata
+
+
+## GEOIPS#65: 2022-08-20, allow drop_nan option for interp_gauss
+### Improvements
+* **geoips/interface_modules/pyresample_wrappers/interp_gauss.py**
+    * If drop_nan=True passed, remove all values from lat/lon/data arrays where any array contains numpy.nan
+    * If drop_nan=False, operation remains unchanged (backwards compatible)
+
+## GEOIPS#63: 2022-08-20, allow specifying base_product_name within product_inputs
+### Major New Functionality
+* **geoips/dev/product.py**: Use base_product_name if specified in product_inputs dict for retrieving product params
+    * This allows specifying new product names directly within the product_inputs YAMLs, rather than
+        requiring a separate YAML file for every product name.
+    * Useful for classes of products that have all the same parameters, except potentially a different filename /
+        required variable (ie, 34GHz, 35GHz, 36GHz and 37GHz products can now reuse the same 37H product, but have
+        unique filenames)
+
+## GEOIPS#65: 2022-08-20, generalized NOAA AWS download script
+### Major New Functionality
+* **setup.sh**: Update setup_abi_test_data to use download_noaa_aws.sh script.
+* **tests/download_noaa_aws.sh**: Allows downloading specific satellite, YYYYMMDD.HHMN of data from NOAA AWS.
+* **tests/scripts/abi.static.Infrared.imagery_annotated.sh**: Update GOES16 path to use $GEOIPS_TESTDATA_DIR
+* **tests/scripts/abi.static.Visible.imagery_annotated.sh**: Update GOES16 path to use $GEOIPS_TESTDATA_DIR
+* **tests/scripts/documentation_imagery.sh**: Update GOES16 path to use $GEOIPS_TESTDATA_DIR
+* **tests/yaml_configs/abi_test.yaml**: Update GOES16 path to use $GEOIPS_TESTDATA_DIR
+* **tests/yaml_configs/abi_test_low_memory.yaml**: Update GOES16 path to use $GEOIPS_TESTDATA_DIR
+
+## GEOIPS#62: 2022-08-21, new plugin process
+### Documentation
+* **docs/setup-new-plugin.rst**: Process for setting up a new test date repo, and plugin repo.
+* **docs/version_control_templates.rst**: Remove rst - these are now direct GitHub templates.
+* **docs/geoips_index.rst**: Remove version_control_templates.rst, add git-workflow and setup-new-plugin
+
+## GEOIPS#57: 2022-08-17, support CARTOPY_DATA_DIR
+### Installation and Test
+* **setup.sh**: Link cartopy data into $CARTOPY_DATA_DIR vs ~/.local/share/cartopy
+* **config_geoips**: Set CARTOPY_DATA_DIR to $GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
+* **setup.py**: Add shapely, cartopy, and pyshp requirements. cartopy error if not specified.
+
+
+## GEOIPS#59: 2022-08-18, allow less strict image comparisons
+### Improvements
+* **geoips/compare_outputs.py**
+    * Add "fuzz" argument to "images_match" function - default to 1%
+    * Add "fuzz" argument to imagemagick compare call
+    * Change metric from rmse to ae (RMSE did not appear to care about the fuzz factor)
+    * Re-run compare with RMSE and no fuzz factor if test passes (to track differences)
 
 
 # v1.5.2.dev1: 2022-08-16, improve install, test, and git workflow
@@ -1080,7 +1590,7 @@ metadata filename and output format specifications.  These changes will not impa
     * Removed basemap-based windbarb plotting commands (no longer functional)
 
 
-# v1.3.0: 2021-11-24, atcf->tc, remove "satops"
+# v1.3.0: 2021-11-24, atcf->tc, update paths
 
 ### Breaking Interface Changes
     * Replaced instances of "atcf" within geoips repo with "tc"
@@ -1091,18 +1601,18 @@ metadata filename and output format specifications.  These changes will not impa
         * GEOIPSFINAL -> ANNOTATED_IMAGERY_PATH
         * GEOIPSTEMP -> CLEAN_IMAGERY_PATH
         * PREGENERATED_IMAGERY_PATH -> CLEAN_IMAGERY_PATH
-    * Moved "geoips_outdirs/satops" subdirectories into "geoips_outdirs"
-        * geoips_outdirs/satops/intermediate_files/GeoIPSfinal -> geoips_outdirs/preprocessed/annotated_imagery
-        * geoips_outdirs/satops/intermediate_files/GeoIPStemp -> geoips_outdirs/preprocessed/clean_imagery
-        * geoips_outdirs/satops/longterm_files -> geoips_outdirs/longterm_files
+    * Update "geoips_outdirs" paths
+        * geoips_outdirs/preprocessed/annotated_imagery
+        * geoips_outdirs/preprocessed/clean_imagery
+        * geoips_outdirs/longterm_files
     * Moved TCWWW, PUBLICWWW, and PRIVATEWWW directly under geoips_outdirs/preprocessed
         * Previously were under ANNOTATED_IMAGERY_PATH
 
 ### Breaking Test Repo Updates
     * Replaced sector_type "atcf" with "tc" in all TC metadata YAML outputs
-    * Updated "geoips_outdirs/satops" paths in metadata YAML outputs
-        * geoips_outdirs/satops/intermediate_files/GeoIPSfinal -> geoips_outdirs/preprocessed/annotated_imagery
-        * geoips_outdirs/satops/intermediate_files/GeoIPStemp -> geoips_outdirs/preprocessed/clean_imagery
+    * Updated "geoips_outdirs" paths in metadata YAML outputs
+        * geoips_outdirs/preprocessed/annotated_imagery
+        * geoips_outdirs/preprocessed/clean_imagery
     * Updated TCWWW, PUBLICWWW, and PRIVATEWWW paths in metadata YAML outputs
         * preprocessed/annotated_imagery/tcwww -> preprocessed/tcwww
         * preprocessed/annotated_imagery/publicwww -> preprocessed/publicwww

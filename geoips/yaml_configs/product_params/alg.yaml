@@ -1,0 +1,4 @@
+# This YAML product config is useful only as a "product_template" to
+# define products directly within product_inputs/<source>.yaml
+alg:
+    product_type: alg

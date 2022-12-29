@@ -1,50 +1,18 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 #!/bin/bash
 
-check_continue() {
-    unset CONTINUE
-    while [ -z "$CONTINUE" ]; do
-        echo ""
-        echo ""
-        echo "Just completed '$1'"
-        echo "Y or y to perform '$2'"
-        echo "K or k to skip '$2' but continue to following step"
-        echo "Q or q to quit installation altogether?"
-        read -r -p "[y/k/q]: " CONTINUE
-    done
-    if [[ $CONTINUE == "q" || $CONTINUE == "Q" ]]; then
-        echo "Quitting"
-        exit 1
-    elif [[ $CONTINUE == "k" || $CONTINUE == "K" ]]; then
-        echo "Skipping"
-        skip_next="yes" 
-    elif [[ $CONTINUE == "y" || $CONTINUE == "Y" ]]; then
-        echo "Continuing!"
-        skip_next="no"
-    else
-        echo "*********************************"
-        echo "Please enter one of [y/k/q]"
-        echo "*********************************"
-        check_continue "$1" "$2"
-    fi
-}
+source $GEOIPS_BASEDIR/geoips_packages/geoips/setup/bash_setup/check_continue
 
 if [[ "$1" == "" ]]; then
     GEOIPS_ACTIVE_BRANCH=main
@@ -62,6 +30,12 @@ if [[ "$3" == "" ]]; then
     bandwidth_option="high_bandwidth"
 else
     bandwidth_option="low_bandwidth"
+fi
+
+if [[ "$4" == "conda_defaults_channel" ]]; then
+    conda_channel="conda_defaults_channel"
+else
+    conda_channel="conda-forge"
 fi
 
     
@@ -91,7 +65,7 @@ fi
     echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
     echo "    which conda (should not exist yet): "`which conda`
 
-check_continue "verifying GEOIPS_BASEDIR and GEOIPS_CONFIG_FILE and GEOIPS_ACTIVE_BRANCH" "update geoips repo to $GEOIPS_ACTIVE_BRANCH"
+check_continue "update geoips repo to $GEOIPS_ACTIVE_BRANCH"
 
     if [[ "$skip_next" == "no" ]]; then
         date -u
@@ -115,13 +89,13 @@ check_continue "verifying GEOIPS_BASEDIR and GEOIPS_CONFIG_FILE and GEOIPS_ACTIV
         date -u
     fi
 
-check_continue "updating geoips" "install conda"
+check_continue "install conda with $conda_channel"
 
     if [[ "$skip_next" == "no" ]]; then
         date -u
         # Install conda
         # Do not initialize your shell at the end, to allow switching between versions!!!
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_install
+        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_install $conda_channel
 
         # Activate current conda base environment - note geoips_conda doesn't exist yet, but that is ok.
         # We need to at least point to "new" python and conda
@@ -138,13 +112,12 @@ check_continue "updating geoips" "install conda"
     source ~/.bashrc
     env
 
-check_continue "installing conda (should point to $GEOIPS_BASEDIR/geoips_dependencies/miniconda3)" "create geoips_conda_env"
+check_continue "update conda with $conda_channel"
 
     if [[ "$skip_next" == "no" ]]; then
         date -u
         # Create geoips conda environment
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_update  # only for a fresh Miniconda install
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh create_geoips_conda_env
+        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_update $conda_channel # only for a fresh Miniconda install
         # Now we can use source $GEOIPS_CONFIG_FILE
         source $GEOIPS_CONFIG_FILE
         echo ""
@@ -158,7 +131,26 @@ check_continue "installing conda (should point to $GEOIPS_BASEDIR/geoips_depende
         date -u
     fi
 
-check_continue "creating geoips_conda_env (should point to $GEOIPS_BASEDIR/geoips_dependencies/miniconda3/envs/geoips_conda)" "install geoips and dependencies"
+check_continue "create geoips_conda_env with $conda_channel"
+
+    if [[ "$skip_next" == "no" ]]; then
+        date -u
+        # Create geoips conda environment
+        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh create_geoips_conda_env $conda_channel
+        # Now we can use source $GEOIPS_CONFIG_FILE
+        source $GEOIPS_CONFIG_FILE
+        echo ""
+        echo "Confirm environment variables point to desired installation parameters:"
+        echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+        echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
+        echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
+        echo "    which conda (should point to geoips_dependencies/bin): "`which conda`
+        echo "    which pip (should point to miniconda3 envs/geoips_conda): "`which pip`
+        echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
+        date -u
+    fi
+
+check_continue "install geoips and dependencies"
 
     if [[ "$skip_next" == "no" ]]; then
         date -u
@@ -175,48 +167,7 @@ check_continue "creating geoips_conda_env (should point to $GEOIPS_BASEDIR/geoip
         date -u
     fi
 
-# Only required to ensure shapefiles match for valid cartopy-based test outputs
-# Not required if:
-#   1. We recently updated the test repo outputs to use the latest shapefiles
-#   2. We are comparing test outputs that do *not* incorporate cartopy-based coastlines, gridlines, etc
-# Currently assuming test outputs are up-to-date with the latest shapefiles (updated June 2022)
-## check_continue "install geoips and dependencies" "Download cartopy natural earth data (REQUIRED for successful test returns, but takes ~10min and ~16GB to download)"
-## 
-##     if [[ "$skip_next" == "no" ]]; then
-## 
-##         source $GEOIPS_CONFIG_FILE
-##         $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh download_cartopy_natural_earth
-## 
-##         echo ""
-##         echo "Confirm environment variables point to desired installation parameters:"
-##         echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
-##         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
-##         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
-##         echo "    which conda (should point to geoips_dependencies/bin): "`which conda`
-##         echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
-##     fi
-
-# NOTE: This was previously required when cartopy had ~/.local hardcoded in as the primary location to search for shapefiles
-#   https://scitools.org.uk/cartopy/docs/latest/reference/config.html
-# As of August 6, 2021, you can set CARTOPY_DATA_DIR and it will look there for shapefiles, so we will not have to do
-#   the hokey linking to ~/.local anyway!!
-#   https://github.com/SciTools/cartopy/commit/300b8c32d411c25b6c2d2ca3bc73794761fb932b
-## check_continue "Downloading cartopy natural earth data" "Link cartopy natural earth data to ~/.local/share/cartopy (to ensure cartopy uses the correct shapefiles in order for test outputs to match exactly)"
-## 
-##     if [[ "$skip_next" == "no" ]]; then
-##         source $GEOIPS_CONFIG_FILE
-##         $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh link_cartopy_natural_earth
-## 
-##         echo ""
-##         echo "Confirm environment variables point to desired installation parameters:"
-##         echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
-##         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
-##         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
-##         echo "    which conda (should point to geoips_dependencies/bin): "`which conda`
-##         echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
-##     fi
-
-check_continue "installing geoips dependencies" "install rclone (REQUIRED for test script)"
+check_continue "install rclone (REQUIRED for test script)"
     if [[ "$skip_next" == "no" ]]; then
         date -u
         source $GEOIPS_CONFIG_FILE
@@ -231,50 +182,7 @@ check_continue "installing geoips dependencies" "install rclone (REQUIRED for te
         date -u
     fi
 
-## check_continue "installing rclone" "OPTIONAL install seviri libraries (required for seviri HRIT processing)"
-##     if [[ "$skip_next" == "no" ]]; then
-##         source $GEOIPS_CONFIG_FILE
-##         $GEOIPS/setup.sh setup_seviri
-##         echo ""
-##         echo "Confirm environment variables point to desired installation parameters:"
-##         echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
-##         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
-##         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
-##         echo "    which conda (should point geoips_dependencies/bin): "`which conda`
-##         echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
-##     fi
-
-## check_continue "installing seviri libraries" "OPTIONAL install vim8"
-## 
-##     if [[ "$skip_next" == "no" ]]; then
-##         source $GEOIPS_CONFIG_FILE
-##         $GEOIPS/setup.sh setup_vim8  # vim syntax highlighting
-## 
-##         echo ""
-##         echo "Confirm environment variables point to desired installation parameters:"
-##         echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
-##         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
-##         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
-##         echo "    which conda (should point geoips_dependencies/bin): "`which conda`
-##         echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
-##     fi
-
-## check_continue "installing vim8" "OPTIONAL install vim8 plugins (updates ~/.vim and ~/.vimrc to set up syntax highlighting based on geoips style guide)"
-## 
-##     if [[ "$skip_next" == "no" ]]; then
-##         source $GEOIPS_CONFIG_FILE
-##         $GEOIPS/setup.sh setup_vim8_plugins  # vim syntax highlighting
-## 
-##         echo ""
-##         echo "Confirm environment variables point to desired installation parameters:"
-##         echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
-##         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
-##         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
-##         echo "    which conda (should point geoips_dependencies/bin): "`which conda`
-##         echo "    which python (should point to miniconda3 envs/geoips_conda): "`which python`
-##     fi
-
-check_continue "installing geoips, cartopy data, dependencies, and external packages" "run basic test script"
+check_continue "run basic test script"
 
     if [[ "$skip_next" == "no" ]]; then
         date -u
@@ -299,7 +207,7 @@ check_continue "installing geoips, cartopy data, dependencies, and external pack
         date -u
     fi
 
-check_continue "Installing and testing geoips" "Obtain amsr2 test data repository"
+check_continue "Obtain amsr2 test data repository"
 
     if [[ "$skip_next" == "no" ]]; then
         date -u
@@ -310,7 +218,7 @@ check_continue "Installing and testing geoips" "Obtain amsr2 test data repositor
         date -u
     fi
 
-check_continue "Obtaining amsr2 test data repository" "Running AMSR2 tests"
+check_continue "Running AMSR2 tests"
 
     if [[ "$skip_next" == "no" ]]; then
         date -u

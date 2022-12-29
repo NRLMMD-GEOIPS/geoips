@@ -1,0 +1,14 @@
+tc_0p25degree:
+  gridlines_dict_type: 'standard'
+  left_label: True
+  right_label: True
+  top_label: True
+  bottom_label: True
+  grid_lat_linewidth: 1
+  grid_lon_linewidth: 1
+  grid_lat_color: "#00B4B4B4"
+  grid_lon_color: "#00B4B4B4"
+  grid_lat_spacing: 0.25
+  grid_lon_spacing: 0.25
+  grid_lat_dashes: [4, 2]
+  grid_lon_dashes: [4, 2]

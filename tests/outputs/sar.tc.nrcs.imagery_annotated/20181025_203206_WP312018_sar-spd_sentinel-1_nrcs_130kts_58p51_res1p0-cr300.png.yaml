@@ -25,6 +25,7 @@ source_sector_file: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdec
 storm_basin: WP
 storm_name: YUTU
 storm_num: 31
+storm_start_datetime: 2018-10-18 06:00:00
 storm_year: 2018
 synoptic_time: 2018-10-25 18:00:00
 vmax: 130.0

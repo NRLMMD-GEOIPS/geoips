@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 '''Default TC metadata filename production'''
 # metadata_yaml_filename = tc_fname_metadata(area_def, xarray_obj, product_filename, metadata_dir,
@@ -35,7 +29,7 @@ filename_type = 'standard_metadata'
 
 def metadata_default_fname(area_def, xarray_obj, product_filename,
                            metadata_dir='metadata', metadata_type='sector_information',
-                           basedir=gpaths['TCWWW']):
+                           basedir=gpaths['TCWWW'], output_dict=None):
     from geoips.sector_utils.utils import is_sector_type
     if not is_sector_type(area_def, 'tc'):
         return None
@@ -51,7 +45,9 @@ def metadata_default_fname(area_def, xarray_obj, product_filename,
     metadata_type = 'sector_information'
     metadata_datetime = xarray_obj.start_datetime
 
-    metadata_yaml_dirname = pathjoin(tc_storm_basedir(basedir, tc_year, tc_basin, tc_stormnum),
+    metadata_yaml_dirname = pathjoin(tc_storm_basedir(basedir, tc_year, tc_basin, tc_stormnum,
+                                                      output_dict=output_dict,
+                                                      sector_info=area_def.sector_info),
                                      metadata_dir,
                                      metadata_type,
                                      metadata_datetime.strftime('%Y%m%d'))

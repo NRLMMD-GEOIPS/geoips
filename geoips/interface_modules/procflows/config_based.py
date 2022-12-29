@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Driver for standard single channel products '''
 
@@ -25,6 +19,7 @@ from geoips.utils.memusg import print_mem_usage
 from geoips.dev.utils import output_process_times
 from geoips.interface_modules.procflows.single_source import process_sectored_data_output
 from geoips.interface_modules.procflows.single_source import process_xarray_dict_to_output_format
+from geoips.interface_modules.readers.utils.geostationary_geolocation import CoverageError
 from geoips.dev.output_config import get_output_format_kwargs
 from geoips.dev.output_config import get_output_format
 from geoips.dev.output_config import get_minimum_coverage
@@ -751,7 +746,10 @@ def config_based(fnames, command_line_args=None):
             # See what variables are left after sectoring (could lose some due to day/night)
             all_vars = []
             for key, xobj in pad_sect_xarrays.items():
-                all_vars += list(xobj.variables.keys())
+                # Double check the xarray object actually contains data
+                for var in list(xobj.variables.keys()):
+                    if xobj[var].count() > 0:
+                        all_vars.append(var)
 
             # If we didn't get any data, continue to the next sector_type
             if len(pad_sect_xarrays) == 0:
@@ -774,16 +772,22 @@ def config_based(fnames, command_line_args=None):
                 # dictionary
                 if sector_type not in bg_alg_xarrays:
                     print_mem_usage('MEMUSG', verbose=False)
-                    bg_xobjs = bg_reader(bg_files, metadata_only=False,
-                                         chans=bg_variables, area_def=pad_area_def)
-                    bg_pad_sect_xarrays = sector_xarrays(bg_xobjs,
-                                                         pad_area_def,
-                                                         varlist=bg_variables,
-                                                         hours_before_sector_time=6,
-                                                         hours_after_sector_time=9,
-                                                         drop=True)
-                    bg_alg_xarrays[sector_type] = get_bg_xarray(bg_pad_sect_xarrays, area_def, bg_product_name,
-                                                                resampled_read=bg_resampled_read)
+                    bg_pad_sect_xarrays = None
+                    try:
+                        bg_xobjs = bg_reader(bg_files, metadata_only=False,
+                                             chans=bg_variables, area_def=pad_area_def)
+                        bg_pad_sect_xarrays = sector_xarrays(bg_xobjs,
+                                                             pad_area_def,
+                                                             varlist=bg_variables,
+                                                             hours_before_sector_time=6,
+                                                             hours_after_sector_time=9,
+                                                             drop=True)
+                    except CoverageError as resp:
+                        LOG.warning(f'{resp} SKIPPING - NO COVERAGE FOR BACKGROUND DATA')
+                    # Only attempt to get bg xarrays if they weren't sectored away to nothing.
+                    if bg_pad_sect_xarrays:
+                        bg_alg_xarrays[sector_type] = get_bg_xarray(bg_pad_sect_xarrays, area_def, bg_product_name,
+                                                                    resampled_read=bg_resampled_read)
             print_mem_usage('MEMUSG', verbose=False)
 
             # Must adjust the area definition AFTER sectoring xarray (to get valid start/end time
