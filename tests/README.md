@@ -26,14 +26,14 @@ functionality within each repository.
 ```
     # Run a single ABI static sector Infrared test case:
     $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.sh
-    
+
     # Run multiple ABI products at once (TC Infrared-Gray, IR-BD, Visible, WV, and static Infrared)
     $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi_config.sh
-    
+
     # Test all modules for correct standard interface - this automatically tests any new modules,
     # no modifications required to this script.
     $GEOIPS_PACKAGES_DIR/geoips/tests/scripts/test_interface.py
-    
+
     # Test ALL functionality within the current repo (just calls 3 scripts above, and ensures they all return 0)
     $GEOIPS_PACKAGES_DIR/geoips/tests/test_all.sh
 ```
@@ -50,12 +50,12 @@ regarding linking it to the standard release (we do not want to include test dat
 geoips source repo for size considerations.)
 
 ```
-mkdir -p $GEOIPS_BASEDIR/test_data/test_data_<type>
-mkdir $GEOIPS_BASEDIR/test_data/test_data_<type>/data
-mkdir $GEOIPS_BASEDIR/test_data/test_data_<type>/outputs
-mkdir $GEOIPS_BASEDIR/test_data/test_data_<type>/sectors
-mkdir -p $GEOIPS_BASEDIR/test_data/test_data_<type>/tests/scripts
-vim $GEOIPS_BASEDIR/test_data/test_data_<type>/tests/test_all.sh
+mkdir -p $GEOIPS_TESTDATA_DIR/test_data_<type>
+mkdir $GEOIPS_TESTDATA_DIR/test_data_<type>/data
+mkdir $GEOIPS_TESTDATA_DIR/test_data_<type>/outputs
+mkdir $GEOIPS_TESTDATA_DIR/test_data_<type>/sectors
+mkdir -p $GEOIPS_TESTDATA_DIR/test_data_<type>/tests/scripts
+vim $GEOIPS_TESTDATA_DIR/test_data_<type>/tests/test_all.sh
 ```
 
 Create "test_all.sh" script which will contain calls to ALL test scripts required to completely
@@ -63,28 +63,28 @@ test all functionality.  Contents of test_all.sh as follows (replace items in <>
 
 ```
    #!/bin/sh
-   
+
    # This should contain test calls to cover ALL required functionality tests for the geoips repo.
-   
+
    # The $GEOIPS tests modules sourced within this script handle:
    # setting up the appropriate associative arrays for tracking the overall return value,
-   # calling the test scripts appropriately, and 
+   # calling the test scripts appropriately, and
    # setting the final return value.
-   
+
    # Note you must use the variable "call" in the for the loop
-   
+
    . $GEOIPS/tests/utils/test_all_pre.sh <repo_name>
-   
+
    echo ""
    # "call" used in test_all_run.sh
    for call in \
-               "$GEOIPS_BASEDIR/test_data/test_data_<type>/tests/scripts/<test_script_1>" \
-               "$GEOIPS_BASEDIR/test_data/test_data_<type>/tests/scripts/<test_script_2>" \
-               "$GEOIPS_BASEDIR/test_data/test_data_<type>/tests/scripts/<test_script_3>"
+               "$GEOIPS_TESTDATA_DIR/test_data_<type>/tests/scripts/<test_script_1>" \
+               "$GEOIPS_TESTDATA_DIR/test_data_<type>/tests/scripts/<test_script_2>" \
+               "$GEOIPS_TESTDATA_DIR/test_data_<type>/tests/scripts/<test_script_3>"
    do
        . $GEOIPS/tests/utils/test_all_run.sh
    done
-   
+
    . $GEOIPS/tests/utils/test_all_post.sh
 ```
 
@@ -132,16 +132,16 @@ Once you've created a new test script, and produced valid test outputs, update t
 ```
    # Copy new files into test repos
    $GEOIPS_PACKAGES_DIR/geoips/tests/utils/copy_diffs_for_eval.sh <reponame>
-   
+
    # Evaluate the new outputs, ensure everything looks good
-   
+
    # Delete all the unnecessary files from the test repos, and any old "bad" products
    $GEOIPS_PACKAGES_DIR/geoips/tests/utils/delete_files_from_repo.sh <reponame>
-   
-   cd $GEOIPS_BASEDIR/test_data/test_data_<type>
+
+   cd $GEOIPS_TESTDATA_DIR/test_data_<type>
    # git commit appropriately
    # git push
-   
+
    # Add your new call to test_all.sh so we ensure it is in the testing rotation:
    vim $GEOIPS_PACKAGES_DIR/test_data/test_data_<type>/tests/test_all.sh
 ```

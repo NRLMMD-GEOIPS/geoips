@@ -1,22 +1,22 @@
 ##############################################################################
-### Convenience function that runs git in all available test data repos 
+### Convenience function that runs git in all available test data repos
 ##############################################################################
-function gitalltestdata { 
+function gitalltestdata {
   if [[ ! -z $PS1 ]]; then
 
     # Save current directory so they don't end up someplace new.
     cwd=$PWD
 
-    if [[ -e $GEOIPS_BASEDIR/test_data ]]; then
-        cd $GEOIPS_BASEDIR/test_data
+    if [[ -e $GEOIPS_TESTDATA_DIR ]]; then
+        cd $GEOIPS_TESTDATA_DIR
         mods=`ls`
         for mod in $mods; do
             # Print directory
-            echo -e "\033[1;35m$GEOIPS_BASEDIR/test_data/$mod:\n\t$@:\033[0m"
+            echo -e "\033[1;35m$GEOIPS_TESTDATA_DIR/$mod:\n\t$@:\033[0m"
             # Run the git command on passed arguments
             mkdir -p $GEOIPS_OUTDIRS/gitlog
-            logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log 
-            git -C $GEOIPS_BASEDIR/test_data/$mod $@ | tee -a $logf
+            logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log
+            git -C $GEOIPS_TESTDATA_DIR/$mod $@ | tee -a $logf
         done
     fi
 
@@ -26,9 +26,9 @@ function gitalltestdata {
 }
 
 ##############################################################################
-### Convenience function that runs git in all available repos 
+### Convenience function that runs git in all available repos
 ##############################################################################
-function gitall { 
+function gitall {
   if [[ ! -z $PS1 ]]; then
 
     # Save current directory so they don't end up someplace new.
@@ -42,7 +42,7 @@ function gitall {
             echo -e "\033[1;35m$GEOIPS_PACKAGES_DIR/$mod:\n\t$@:\033[0m"
             # Run the git command on passed arguments
             mkdir -p $GEOIPS_OUTDIRS/gitlog
-            logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log 
+            logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log
             git -C $GEOIPS_PACKAGES_DIR/$mod $@ | tee -a $logf
             cd ..
         done
@@ -54,9 +54,9 @@ function gitall {
 }
 
 ##############################################################################
-### Convenience function that runs ls in all available repos 
+### Convenience function that runs ls in all available repos
 ##############################################################################
-function lsall { 
+function lsall {
   if [[ ! -z $PS1 ]]; then
 
     # Save current directory so they don't end up someplace new.
@@ -81,9 +81,9 @@ function lsall {
 }
 
 ##############################################################################
-### Convenience function that runs grep in all available repos 
+### Convenience function that runs grep in all available repos
 ##############################################################################
-function grepall { 
+function grepall {
   if [[ ! -z $PS1 ]]; then
 
     # Save current directory so they don't end up someplace new.
@@ -106,4 +106,3 @@ function grepall {
     cd $cwd
   fi
 }
-

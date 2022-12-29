@@ -16,7 +16,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_BASEDIR/test_data/test_data_ewsg/data/2020.1211.2312.goes-13.gvar.nc \
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312.goes-13.gvar.nc \
           --procflow single_source \
           --reader_name ewsg_netcdf \
           --product_name Infrared \

@@ -18,7 +18,7 @@ if [[ "$1" == "" ]]; then
     echo ""
     echo "Where <repo_name> either"
     echo "    $GEOIPS_PACKAGES_DIR/<repo_name>"
-    echo "    $GEOIPS_BASEDIR/test_data/<repo_name>"
+    echo "    $GEOIPS_TESTDATA_DIR/<repo_name>"
     exit 1
 fi
 
@@ -29,8 +29,8 @@ echo ""
 echo ""
 echo "Clearing out old test files (but NOT full diff_test_output dirs)..."
 echo ""
-rm -fv $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*diff_test_output* 2> /dev/null
-rm -fv $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/*diff_test_output* 2> /dev/null
+rm -fv $GEOIPS_TESTDATA_DIR/$repo_name/outputs/*diff_test_output* 2> /dev/null
+rm -fv $GEOIPS_TESTDATA_DIR/$repo_name/outputs/*/*diff_test_output* 2> /dev/null
 rm -fv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*diff_test_output* 2> /dev/null
 rm -fv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*diff_test_output* 2> /dev/null
 rm -fv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*diff_test_output* 2> /dev/null
@@ -40,10 +40,10 @@ rm -fv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*/*diff_test_output* 
 echo ""
 echo ""
 echo ""
-echo "Copying the updated imagery files into $GEOIPS_BASEDIR/test_data/$repo_name/outputs/ ..."
+echo "Copying the updated imagery files into $GEOIPS_TESTDATA_DIR/$repo_name/outputs/ ..."
 echo ""
-for fname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/diff_test_output*/cp_*; do source $fname; done
-for fname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/*/diff_test_output*/cp_*; do source $fname; done
+for fname in $GEOIPS_TESTDATA_DIR/$repo_name/outputs/*/diff_test_output*/cp_*; do source $fname; done
+for fname in $GEOIPS_TESTDATA_DIR/$repo_name/outputs/*/*/diff_test_output*/cp_*; do source $fname; done
 for fname in $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/diff_test_output*/cp_*; do source $fname; done
 for fname in $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/diff_test_output*/cp_*; do source $fname; done
 for fname in $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/diff_test_output*/cp_*; do source $fname; done
@@ -55,8 +55,8 @@ echo ""
 echo "Running diffs on the newly copied files and the old files in the test repo:"
 echo ""
 # Look in both levels - some output product directories are directly in outputs, some in a subdirectory
-for dirname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/* \
-               $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/* \
+for dirname in $GEOIPS_TESTDATA_DIR/$repo_name/outputs/* \
+               $GEOIPS_TESTDATA_DIR/$repo_name/outputs/*/* \
                $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/* \
                $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/* \
                $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/* \
@@ -82,10 +82,10 @@ done
 echo ""
 echo ""
 echo ""
-echo "Copying auto-generated diffs into $GEOIPS_BASEDIR/test_data/test_data_*/outputs/ "
+echo "Copying auto-generated diffs into $GEOIPS_TESTDATA_DIR/test_data_*/outputs/ "
 echo ""
-for dirname in $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/diff_test_output* \
-               $GEOIPS_BASEDIR/test_data/$repo_name/outputs/*/*/diff_test_output* \
+for dirname in $GEOIPS_TESTDATA_DIR/$repo_name/outputs/*/diff_test_output* \
+               $GEOIPS_TESTDATA_DIR/$repo_name/outputs/*/*/diff_test_output* \
                $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/diff_test_output* \
                $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/diff_test_output* \
                $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/diff_test_output* \
@@ -102,15 +102,15 @@ done
 echo ""
 echo ""
 echo ""
-echo "Removing empty yaml diff files from $GEOIPS_BASEDIR/test_data/$repo_name/outputs"
+echo "Removing empty yaml diff files from $GEOIPS_TESTDATA_DIR/$repo_name/outputs"
 echo ""
-find $GEOIPS_BASEDIR/test_data/$repo_name/outputs -maxdepth 1 -type f -name '*yaml' -size 0 -exec rm -v {} \;
+find $GEOIPS_TESTDATA_DIR/$repo_name/outputs -maxdepth 1 -type f -name '*yaml' -size 0 -exec rm -v {} \;
 
 echo ""
 echo ""
 echo ""
 echo "Now go look at the diffs in"
-echo "    $GEOIPS_BASEDIR/test_data/$repo_name"
+echo "    $GEOIPS_TESTDATA_DIR/$repo_name"
 echo "    $GEOIPS_PACKAGES_DIR/$repo_name"
 echo ""
 echo "Once you have evaluated the diffs, run:"
