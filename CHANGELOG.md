@@ -10,6 +10,9 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+# Use GEOIPS_TESTDATA_DIR rather than GEOIPS_BASEDIR/test_data
+* Updated all locations where `GEOIPS_BASEDIR/test_data` was used to use `GEOIPS_TESTDATA_DIR` 
+  instead
 
 # v1.5.4: 2022-11-28, open source release
 ## GEOIPS#119: 2022-11-16, installation updates, test script bug fixes
