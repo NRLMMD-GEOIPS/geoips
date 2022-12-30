@@ -1,11 +1,11 @@
-uses: jpetrucciani/bandit-check@master
+name: bandit
 
-# specify a path
-uses: jpetrucciani/bandit-check@master
-with:
-  path: '.'
+on: [push, pull_request]
 
-# provide some flags
-uses: jpetrucciani/bandit-check@master
-with:
-  bandit_flags: '-lll -o output.json -f json'
+jobs:
+  bandit:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: jpetrucciani/bandit-check@master
+      with:
+        bandit_flags: '-lll -o output.json -f json'
