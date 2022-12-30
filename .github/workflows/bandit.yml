@@ -1,0 +1,11 @@
+uses: jpetrucciani/bandit-check@master
+
+# specify a path
+uses: jpetrucciani/bandit-check@master
+with:
+  path: '.'
+
+# provide some flags
+uses: jpetrucciani/bandit-check@master
+with:
+  bandit_flags: '-lll -o output.json -f json'
