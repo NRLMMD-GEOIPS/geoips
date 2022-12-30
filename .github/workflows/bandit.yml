@@ -8,4 +8,4 @@ jobs:
     steps:
       - uses: jpetrucciani/bandit-check@master
         with:
-          bandit_flags: '-lll -o output.json -f json'
+          bandit_flags: '-ll'
