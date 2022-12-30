@@ -1,4 +1,4 @@
-name: black
+name: lint
 
 on: [push, pull_request]
 
@@ -8,3 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: psf/black@stable
+      - uses: jpetrucciani/bandit-check@master
+        with:
+          bandit_flags: '-ll'
