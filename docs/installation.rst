@@ -25,10 +25,18 @@ Required
 * git >= 2.19.1 (git -C commands in complete installation)
 * git-lfs (required for clones of test data repos)
 * imagemagick (required for test output comparisons)
-* Python >= 3.9 (3.9 required for entry points, included in `Complete Local conda-based GeoIPS Installation`_)
-* cartopy >= 0.20.3 (0.21.0 required for matplotlib 3.6.0, does not install cleanly via pip, included in `Complete Local conda-based GeoIPS Installation`_)
-* rclone (required to obtain ABI and AHI test data from AWS, included in `Complete Local conda-based GeoIPS Installation`_)
-* Test data repos contained in $GEOIPS_TESTDATA_DIR (required for tests to pass, included in `Complete Local conda-based GeoIPS Installation`_)
+* Python >= 3.9 (3.9 required for entry points)
+
+  * included in `Complete Local conda-based GeoIPS Installation`_
+* cartopy >= 0.20.3 (0.21.0 required for matplotlib 3.6.0, does not install cleanly via pip)
+
+  * included in `Complete Local conda-based GeoIPS Installation`_)
+* rclone (required to obtain ABI and AHI test data from AWS)
+
+  * included in `Complete Local conda-based GeoIPS Installation`_
+* Test data repos contained in $GEOIPS_TESTDATA_DIR (required for tests to pass)
+
+  * included in `Complete Local conda-based GeoIPS Installation`_
 
 
 Optional
