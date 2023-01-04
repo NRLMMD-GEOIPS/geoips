@@ -37,22 +37,11 @@ Optional
 * screen (convenience package)
 * ncurses (only required if building vim, ncurses and libncurses5-dev)
 
-`Complete conda-based GeoIPS Installation`_ and Test
------------------------------------------------------
-
-.. _Complete conda-based GeoIPS Installation: https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/installation.rst#complete-conda-based-geoips-installation-and-test
-
-This installation method includes the first 4 system requirements (Python, cartopy, rclone, and test repos)
-through a complete install of conda, geoips, test repos, and all Python dependencies.
-
-This is the fully supported installation method (as all installations performed in
-this manner are identical, and the GeoIPS Team can more easily provide assistance as needed).
-
 Expert User GeoIPS Installation
 ---------------------------------
 
-If you already have all system requirements installed (Python+cartopy), and do not wish to go through
-the full interactive installation process above (which includes conda, rclone, test data, etc),
+If you have all system requirements installed (Python+cartopy), and do not wish to go through
+the full interactive installation process below (which includes conda, rclone, test data, etc),
 you can clone the geoips repo and pip install from the your local copy.
 
 .. code:: bash
@@ -67,6 +56,9 @@ This is the fully supported installation method, which involves installing the e
 from scratch using conda, to allow for consistency across installations.  This process ensures source code,
 test datasets, etc are all contained in the same location to facilitate assisting users if issues arise
 during the installation, testing, and development process.
+
+This installation method includes the first 4 system requirements (Python, cartopy, rclone, and test repos)
+through a complete install of conda, geoips, test repos, and all Python dependencies.
 
 GeoIPS Environment Variables for Complete conda-based Installation
 --------------------------------------------------------------------
