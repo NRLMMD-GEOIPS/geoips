@@ -21,14 +21,15 @@ System Dependencies
 ----------------------
 Required
 
-* Python >= 3.9 (3.9 required for entry points)
-* cartopy >= 0.20.3 (0.21.0 required for matplotlib 3.6.0, does not install cleanly via pip)
-* rclone (required to obtain ABI and AHI test data from AWS)
-* Test data repos contained in $GEOIPS_TESTDATA_DIR (required for tests to pass)
 * wget (Miniconda and rclone setup)
 * git >= 2.19.1 (git -C commands in complete installation)
 * git-lfs (required for clones of test data repos)
 * imagemagick (required for test output comparisons)
+* Python >= 3.9 (3.9 required for entry points, included in `Complete Local conda-based GeoIPS Installation`_)
+* cartopy >= 0.20.3 (0.21.0 required for matplotlib 3.6.0, does not install cleanly via pip, included in `Complete Local conda-based GeoIPS Installation`_)
+* rclone (required to obtain ABI and AHI test data from AWS, included in `Complete Local conda-based GeoIPS Installation`_)
+* Test data repos contained in $GEOIPS_TESTDATA_DIR (required for tests to pass, included in `Complete Local conda-based GeoIPS Installation`_)
+
 
 Optional
 
@@ -40,9 +41,12 @@ Optional
 Expert User GeoIPS Installation
 ---------------------------------
 
-If you have all system requirements installed (Python+cartopy), and do not wish to go through
-the full interactive installation process below (which includes conda, rclone, test data, etc),
-you can clone the geoips repo and pip install from the your local copy.
+For the fully supported installation, please use the `Complete Local conda-based GeoIPS Installation`_.
+
+If you are confident you have all system requirements installed (Python+cartopy),
+and do not wish to go through the full interactive installation process below
+(which includes conda, rclone, test data, etc), you can clone the geoips repo
+and pip install from the your local copy.
 
 .. code:: bash
 
@@ -52,6 +56,7 @@ you can clone the geoips repo and pip install from the your local copy.
 
 Complete Local conda-based GeoIPS Installation
 ================================================
+
 This is the fully supported installation method, which involves installing the entire Python environment
 from scratch using conda, to allow for consistency across installations.  This process ensures source code,
 test datasets, etc are all contained in the same location to facilitate assisting users if issues arise
