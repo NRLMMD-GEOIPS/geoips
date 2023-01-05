@@ -1,7 +1,7 @@
 check_continue() {
     unset CONTINUE
-    while [ -z "$CONTINUE" ]; do
-        if [[ "$2" != "" ]]; then
+    while [ -z ${CONTINUE+z} ]; do
+        if [[ ! -z ${2+z} ]]; then
             echo ""
             echo "Just completed '$1'"
             next_step=$2

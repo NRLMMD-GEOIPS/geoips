@@ -258,6 +258,42 @@ elif [[ "$1" == "link_cartopy_natural_earth" ]]; then
         echo "ln -sfv $source_cartopy_data/natural-earth-vector/*_physical/* $linkdir/physical"
         exit 1
     fi
+elif [[ "$1" =~ "setup_test_repo" ]]; then
+    if [[ "$3" == "" ]]; then
+        branch=main
+    else
+        branch=$3
+    fi
+    git lfs install
+    git_retval=$?
+    if [[ $git_retval != 0 ]]; then
+        echo "**Failed running git lfs, install git >= 2.19.1 for large file storage."
+        exit 1
+    fi
+    echo ""
+    echo "**Cloning, updating, and uncompressing $2.git"
+
+    $GEOIPS_PACKAGES_DIR/geoips/setup.sh clone_test_repo $2
+    clone_retval=$?
+    if [[ $clone_retval != 0 ]]; then
+        echo "**Failed cloning $2, quitting"
+        exit 1
+    fi
+    $GEOIPS_PACKAGES_DIR/geoips/setup.sh update_test_repo $2 $branch
+    update_retval=$?
+    if [[ $update_retval != 0 ]]; then
+        echo "**Failed updating $2, quitting"
+        exit 1
+    fi
+    $GEOIPS_PACKAGES_DIR/geoips/setup.sh uncompress_test_data $2
+    uncompress_retval=$?
+    if [[ $uncompress_retval != 0 ]]; then
+        echo "**Failed uncompressing $2, quitting"
+        exit 1
+    fi
+
+    echo "**Done cloning, updating and uncompressing $2.git"
+
 elif [[ "$1" =~ "clone_test_repo" ]]; then
     echo ""
     echo "**Cloning $2.git"
@@ -277,11 +313,16 @@ elif [[ "$1" =~ "clone_test_repo" ]]; then
         fi
     fi 
 
-    git clone $repo_url.git $GEOIPS_TESTDATA_DIR/$repo_name
-    retval=$?
-    echo "git clone return: $retval"
-    if [[ $retval != 0 ]]; then
-        echo "**You can ignore 'fatal: destination path already exists' - just means you already have the repo"
+    if [[ ! -d $GEOIPS_TESTDATA_DIR/$repo_name ]]; then
+        git clone $repo_url.git $GEOIPS_TESTDATA_DIR/$repo_name
+        retval=$?
+        echo "git clone return: $retval"
+        if [[ $retval != 0 ]]; then
+            echo "**Failed cloning repo $GEOIPS_TESTDATA_DIR/$repo_name"
+            exit
+        fi
+    else
+        echo "Repo $GEOIPS_TESTDATA_DIR/$repo_name already exists, not cloning"
     fi
 elif [[ "$1" =~ "update_test_repo" ]]; then
     if [[ "$3" == "" ]]; then
