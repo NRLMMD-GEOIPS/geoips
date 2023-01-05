@@ -259,10 +259,12 @@ elif [[ "$1" == "link_cartopy_natural_earth" ]]; then
         exit 1
     fi
 elif [[ "$1" =~ "setup_test_repo" ]]; then
-    if [[ "$3" == "" ]]; then
+    if [[ "$3" == "" && "$GEOIPS_ACTIVE_BRANCH" == "" ]]; then
         branch=main
-    else
+    elif [[ "$GEOIPS_ACTIVE_BRANCH" == "" ]]; then
         branch=$3
+    else
+        branch=$GEOIPS_ACTIVE_BRANCH
     fi
     git lfs install
     git_retval=$?
@@ -279,7 +281,7 @@ elif [[ "$1" =~ "setup_test_repo" ]]; then
         echo "**Failed cloning $2, quitting"
         exit 1
     fi
-    $GEOIPS_PACKAGES_DIR/geoips/setup.sh update_test_repo $2 $branch
+    $GEOIPS_PACKAGES_DIR/geoips/setup.sh update_test_repo $2 $branch do_not_fail
     update_retval=$?
     if [[ $update_retval != 0 ]]; then
         echo "**Failed updating $2, quitting"
