@@ -101,7 +101,7 @@ GeoIPS Environment Variables for Complete conda-based Installation
     export GEOIPS_BASEDIR=$HOME/geoproc  # Contains all source, output, and external dependencies
     export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS  # Point to base URL for git clone commands
     GEOIPS_ACTIVE_BRANCH=main
-    export GEOIPS_PACKAGES_DIR=$GEOIPS_PACKAGES_DIR
+    export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
     export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
     export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_BASEDIR/geoips_dependencies
 
