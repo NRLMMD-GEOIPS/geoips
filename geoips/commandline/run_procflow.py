@@ -3,18 +3,12 @@
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
 # # #
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # #
-# # # If you did not receive the license, see
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # #
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Command line script for kicking off geoips based procflows. MUST call with --procflow'''
 
@@ -25,16 +19,19 @@ from geoips.commandline.args import get_command_line_args
 from geoips.interfaces import procflows
 
 
-def main():
-    ''' Script to kick off processing based on command line args '''
+def main(get_command_line_args_func=None):
+    ''' Script to kick off processing based on command line args.
+        If "get_command_line_args_func" is passed, use that rather than default.'''
     DATETIMES = {}
     DATETIMES['start'] = datetime.utcnow()
     LOG = setup_logging()
 
+    if get_command_line_args_func is None:
+        get_command_line_args_func = get_command_line_args
     LOG.info('GETTING COMMAND LINE ARGUMENTS')
     # arglist=None allows all possible arguments.
-    ARGS = get_command_line_args(arglist=None,
-                                 description='Run data file processing')
+    ARGS = get_command_line_args_func(arglist=None,
+                                      description='Run data file processing')
 
     import sys
     LOG.info('COMMANDLINE CALL: \n    %s', '\n        '.join([currarg+' \\' for currarg in sys.argv]))

@@ -5,6 +5,10 @@ ascatuhr:
         variables: ['wind_speed_kts', 'wind_dir_deg_met']
     wind-ambiguities:
         variables: ['wind_speed_ambiguities_kts', 'wind_dir_ambiguities_deg_met']
+    unsectored:
+      variables: ['wind_speed_kts', 'wind_dir_deg_met']
+    sectored:
+      variables: ['wind_speed_kts', 'wind_dir_deg_met']
     sigma0:
         variables: ['sigma0_mean']
     nrcs:

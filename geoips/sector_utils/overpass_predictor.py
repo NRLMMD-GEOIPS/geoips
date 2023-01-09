@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 # Standard libraries
 from datetime import timedelta
@@ -100,7 +94,10 @@ def calculate_overpass(tle, observer_lat, observer_lon, date, satellite_name):
     moon.compute(sector)
     sun.compute(sector)
     if not sun.rise_time:
-        LOG.info(f'{satellite_name}:Something went wrong when calculating sun rise and set time for {date}!')
+        LOG.info(f'{satellite_name}:Something went wrong when calculating sun rise time for {date}!')
+        return None
+    if not sun.set_time:
+        LOG.info(f'{satellite_name}:Something went wrong when calculating sun set time for {date}!')
         return None
     sunrise = sun.rise_time.datetime()
     sunset = sun.set_time.datetime()
@@ -134,8 +131,13 @@ def calculate_overpass(tle, observer_lat, observer_lon, date, satellite_name):
         opass_info['is geostationary'] = is_geostationary
         opass_info['above horizon'] = is_above_horizon
         opass_info['is daytime'] = (date >= sunrise) & (date < sunset)
-    except AttributeError:
-        LOG.info(f'{satellite_name}: Something when wrong with calculating the next overpass for {date}')
+    except AttributeError as resp:
+        LOG.info(f'{satellite_name}: Something when wrong with calculating the next overpass for {date} (AttributeError)')
+        LOG.debug(resp)
+        return None
+    except TypeError as resp:
+        LOG.info(f'{satellite_name}: Something when wrong with calculating the next overpass for {date} (TypeError)')
+        LOG.debug(resp)
         return None
     if is_geostationary:
         tle.compute(sector)

@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 #!/bin/bash
 
@@ -25,8 +19,6 @@ fi
 
 # This sets required environment variables for setup - without requiring sourcing a geoips config in advance
 . $GEOIPS_BASEDIR/geoips_packages/geoips/setup/repo_clone_update_install.sh setup
-
-umask 0002
 
 if [[ ! -d $GEOIPS_DEPENDENCIES_DIR/bin ]]; then
     mkdir $GEOIPS_DEPENDENCIES_DIR/bin
@@ -68,8 +60,6 @@ elif [[ "$1" == "conda_init" ]]; then
     echo ""
     echo "**Initializing conda"
     conda init
-    # Link conda to geoips_dependencies/bin so it is in path
-    $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_link
     echo ""
     # echo "**IF SCRIPT WAS NOT SOURCED MUST source ~/.bashrc or restart shell"
     # source ~/.bashrc
@@ -143,7 +133,12 @@ elif [[ "$1" == "install" ]]; then
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
     # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
-    abidir=$GEOIPS_TESTDATA_DIR/goes16_20200918_1950
+    # rclone lsf publicAWS:noaa-goes17/ABI-L1b-RadF/2020/184/16/
+    # rclone lsf publicAWS:noaa-himawari8/AHI-L1b-FLDK/2022/02/05/0420
+
+    rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
+    abidir=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/
+
     mkdir -p $abidir
     echo "** Setting up abi test data, from publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/ to $abidir"
     echo ""
@@ -151,27 +146,10 @@ elif [[ "$1" == "setup_abi_test_data" ]]; then
     echo `date -u` "from https://registry.opendata.aws/noaa-goes."
     echo ""
 
-    rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
-
     if [[ "$2" == "low_bandwidth" ]]; then
         rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
     else
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C01_G16_s20202621950205_e20202621959513_c20202621959567.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C02_G16_s20202621950205_e20202621959513_c20202621959546.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C03_G16_s20202621950205_e20202621959513_c20202621959570.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C04_G16_s20202621950205_e20202621959513_c20202621959534.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C05_G16_s20202621950205_e20202621959513_c20202621959562.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C06_G16_s20202621950205_e20202621959518_c20202621959556.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C07_G16_s20202621950205_e20202621959524_c20202621959577.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C08_G16_s20202621950205_e20202621959513_c20202621959574.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C09_G16_s20202621950205_e20202621959518_c20202621959588.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C10_G16_s20202621950205_e20202621959524_c20202621959578.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C11_G16_s20202621950205_e20202621959513_c20202621959583.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C12_G16_s20202621950205_e20202621959518_c20202621959574.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C13_G16_s20202621950205_e20202621959525_c20202622000005.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C15_G16_s20202621950205_e20202621959518_c20202621959594.nc $abidir
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C16_G16_s20202621950205_e20202621959524_c20202622000001.nc $abidir
+        $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh goes16 2020 09 18 19 50 $abidir $rcloneconf
     fi
 
 elif [[ "$1" == "setup_seviri" ]]; then
@@ -257,25 +235,28 @@ elif [[ "$1" == "download_cartopy_natural_earth" ]]; then
 elif [[ "$1" == "link_cartopy_natural_earth" ]]; then
     echo ""
     echo "**Linking natural-earth-data to ~/.local/share/cartopy/shapefiles/natural_earth/cultural and physical"
-    cartopy_data=$GEOIPS_DEPENDENCIES_DIR/cartopy_map_data
-    local_natural_earth_path=~/.local/share/cartopy/shapefiles/natural_earth
-    mkdir -p $local_natural_earth_path/cultural
-    mkdir -p $local_natural_earth_path/physical
-    ln -sfv $cartopy_data/natural-earth-vector/*_cultural/*/* $local_natural_earth_path/cultural
+    source_cartopy_data=$GEOIPS_DEPENDENCIES_DIR/cartopy_map_data
+    if [[ -z "$CARTOPY_DATA_DIR" ]]; then
+        CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
+    fi
+    linkdir=$CARTOPY_DATA_DIR/shapefiles/natural_earth
+    mkdir -p $linkdir/cultural
+    mkdir -p $linkdir/physical
+    ln -sfv $source_cartopy_data/natural-earth-vector/*_cultural/*/* $linkdir/cultural
     ln1_retval=$?
-    ln -sfv $cartopy_data/natural-earth-vector/*_physical/*/* $local_natural_earth_path/physical
+    ln -sfv $source_cartopy_data/natural-earth-vector/*_physical/*/* $linkdir/physical
     ln2_retval=$?
-    ln -sfv $cartopy_data/natural-earth-vector/*_cultural/* $local_natural_earth_path/cultural
+    ln -sfv $source_cartopy_data/natural-earth-vector/*_cultural/* $linkdir/cultural
     ln3_retval=$?
-    ln -sfv $cartopy_data/natural-earth-vector/*_physical/* $local_natural_earth_path/physical
+    ln -sfv $source_cartopy_data/natural-earth-vector/*_physical/* $linkdir/physical
     ln4_retval=$?
     if [[ $ln1_retval != 0 || $ln2_retval != 0 || $ln3_retval != 0 || $ln4_retval != 0 ]]; then
         echo "**You MUST be able to replace ALL user cartopy data with natural_earth_vector downloads!"
         echo "Please remove cartopy shapefiles and replace with downloaded cartopy_map_data"
         echo "rm -fv ~/.local/share/cartopy/shapefiles/natural_earth/cultural/*"
         echo "rm -fv ~/.local/share/cartopy/shapefiles/natural_earth/physical/*"
-        echo "ln -sfv $cartopy_data/natural-earth-vector/*_cultural/* $local_natural_earth_path/cultural"
-        echo "ln -sfv $cartopy_data/natural-earth-vector/*_physical/* $local_natural_earth_path/physical"
+        echo "ln -sfv $source_cartopy_data/natural-earth-vector/*_cultural/* $linkdir/cultural"
+        echo "ln -sfv $source_cartopy_data/natural-earth-vector/*_physical/* $linkdir/physical"
         exit 1
     fi
 elif [[ "$1" =~ "clone_test_repo" ]]; then

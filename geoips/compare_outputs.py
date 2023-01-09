@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Test script for running representative products using data and comparison outputs from geoips_test_data_* '''
 
@@ -132,11 +126,13 @@ def gzip_product(fname):
     return splitext(fname)[0]
 
 
-def get_out_diff_fname(compare_product, output_product, ext=None):
+def get_out_diff_fname(compare_product, output_product, ext=None, flag=None):
     from os import makedirs, getenv
     from os.path import exists
+    if not flag:
+        flag = ''
     diffdir = join(dirname(compare_product), 'diff_test_output_dir_{0}'.format(getenv('USER')))
-    out_diff_fname = join(diffdir, 'diff_test_output_'+basename(output_product))
+    out_diff_fname = join(diffdir, 'diff_test_output_'+flag+basename(output_product))
     if not exists(diffdir):
         makedirs(diffdir)
     # Output jifs as tif for easy viewing.
@@ -147,66 +143,58 @@ def get_out_diff_fname(compare_product, output_product, ext=None):
     return out_diff_fname
 
 
-def images_match(output_product, compare_product, threshold=0.0000001):
+def images_match(output_product, compare_product, fuzz='5%'):
     ''' Use imagemagick compare system command to compare currently produced image to correct image
 
     Args:
         output_product (str) : Current output product
         compare_product (str) : Path to comparison product
-        threshold (float) : DEFAULT 0.0000001, valid range 0-1, maximum allowable RMSE for successful comparison
-                                NOTE threshold of 0 will often return False for identicaly tiff files (perhaps due to
-                                mismatched headers)
+        fuzz (str) : DEFAULT '1%', "fuzz" argument to pass to compare - larger "fuzz" factor to make
+                                    comparison less strict.
 
     Returns:
         bool: Return True if images match, False if they differ
     '''
-    out_diffimg = get_out_diff_fname(compare_product, output_product)
+    fuzz_out_diffimg = get_out_diff_fname(compare_product, output_product, flag="fuzz_")
+    exact_out_diffimg = get_out_diff_fname(compare_product, output_product, flag='exact_')
 
-    call_list = ['compare', '-verbose', '-quiet',
-                 '-metric', 'ae', '-fuzz', "1%",
+    fuzz_call_list = ['compare', '-verbose', '-quiet',
+                 '-metric', 'ae', '-fuzz', fuzz,
                  output_product,
                  compare_product,
-                 out_diffimg]
+                 fuzz_out_diffimg]
 
-    LOG.info('**Running %s', ' '.join(call_list))
-    fullimg_retval = subprocess.call(call_list)
-    LOG.info('**Done running compare')
+    exact_call_list = ['compare', '-verbose', '-quiet',
+                       '-metric', 'ae',
+                       output_product,
+                       compare_product,
+                       exact_out_diffimg]
+
+    LOG.info('**Running fuzzy approximate compare %s', ' '.join(fuzz_call_list))
+    fuzz_retval = subprocess.call(fuzz_call_list)
+    LOG.info('**Done running fuzzy approximate compare')
     
-    # call_list = ['compare', '-verbose', '-quiet',
-    #              '-metric', 'rmse',
-    #              '-dissimilarity-threshold', '{0:0.15f}'.format(threshold),
-    #              '-subimage-search',
-    #              output_product,
-    #              compare_product,
-    #              out_diffimg]
-
-    # LOG.info('Running %s', ' '.join(call_list))
-
-    # subimg_retval = subprocess.call(call_list)
-    # if subimg_retval != 0 and fullimg_retval != 0:
-    #     call_list = ['compare', '-verbose', '-quiet',
-    #                  '-metric', 'rmse',
-    #                  '-subimage-search',
-    #                  output_product,
-    #                  compare_product,
-    #                  out_diffimg]
-    #     subprocess.call(call_list)
-    #     LOG.info('    ***************************************')
-    #     LOG.info('    *** BAD Images do NOT match exactly ***')
-    #     LOG.info('    ***************************************')
-    #     return False
-    if fullimg_retval != 0:
-        LOG.info('    ***************************************')
-        LOG.info('    *** BAD Images do NOT match exactly ***')
-        LOG.info('    ***************************************')
+    if fuzz_retval != 0:
+        LOG.info('    ************************************************')
+        LOG.info('    *** BAD Images do NOT match within tolerance ***')
+        LOG.info('    ************************************************')
         return False
 
-    LOG.info('    *************************')
-    LOG.info('    *** GOOD Images match ***')
-    LOG.info('    *************************')
+    LOG.info('**Running exact %s', ' '.join(exact_call_list))
+    exact_retval = subprocess.call(exact_call_list)
+    LOG.info('**Done running exact compare')
+
+    if exact_retval != 0:
+        LOG.info('    ******************************************')
+        LOG.info('    *** GOOD Images match within tolerance ***')
+        LOG.info('    ******************************************')
+    else:
+        LOG.info('    *********************************')
+        LOG.info('    *** GOOD Images match exactly ***')
+        LOG.info('    *********************************')
     # Remove the image if they matched so we don't have extra stuff to sort through.
     from os import unlink as osunlink
-    osunlink(out_diffimg)
+    osunlink(fuzz_out_diffimg)
     return True
 
 
@@ -293,12 +281,26 @@ def geoips_netcdf_match(output_product, compare_product):
     except AssertionError as resp:
         LOG.info('    ****************************************************************')
         LOG.info('    *** BAD GeoIPS NetCDF files do not match within tolerance *****')
-        LOG.info(f'    *** {resp} ***')
-        LOG.info('    ****************************************************************')
+        for line in str(resp).split('\n'):
+            LOG.info(f'    *** {line} ***')
         diffout += [f'\nxarray objects do not match between current output and comparison\n']
         diffout += [f'\nOut: {out_xobj}\n']
         diffout += [f'\nCompare: {compare_xobj}\n']
         diffout += [f'\n{resp}\n']
+        for varname in compare_xobj.variables:
+            maxdiff = (compare_xobj[varname]-out_xobj[varname]).max()
+            mindiff = (compare_xobj[varname]-out_xobj[varname]).min()
+            meandiff = (compare_xobj[varname]-out_xobj[varname]).mean()
+            if mindiff != 0:
+                LOG.info(f'    *** mindiff {varname}: {mindiff} ***')
+                diffout += [f'mindiff {varname}: {mindiff}\n']
+            if maxdiff != 0:
+                LOG.info(f'    *** maxdiff {varname}: {maxdiff} ***')
+                diffout += [f'maxdiff {varname}: {maxdiff}\n']
+            if meandiff != 0:
+                LOG.info(f'    *** meandiff {varname}: {meandiff} ***')
+                diffout += [f'meandiff {varname}: {meandiff}\n']
+        LOG.info('    ****************************************************************')
         retval = False
 
     try:
@@ -306,7 +308,18 @@ def geoips_netcdf_match(output_product, compare_product):
     except AssertionError as resp:
         LOG.info('    ****************************************************************')
         LOG.info('    *** INFORMATIONAL ONLY assert_identical differences *****')
-        LOG.info(f'    *** {resp} ***')
+        for line in str(resp).split('\n'):
+            LOG.info(f'    *** {line} ***')
+        for varname in compare_xobj.variables:
+            maxdiff = (compare_xobj[varname]-out_xobj[varname]).max()
+            mindiff = (compare_xobj[varname]-out_xobj[varname]).min()
+            meandiff = (compare_xobj[varname]-out_xobj[varname]).mean()
+            if mindiff != 0:
+                LOG.info(f'    *** mindiff {varname}: {mindiff} ***')
+            if maxdiff != 0:
+                LOG.info(f'    *** maxdiff {varname}: {maxdiff} ***')
+            if meandiff != 0:
+                LOG.info(f'    *** meandiff {varname}: {meandiff} ***')
         LOG.info('    ****************************************************************')
 
     if retval is False:

@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 '''Standard TC filename production'''
 
@@ -92,7 +86,10 @@ def tc_fname(area_def, xarray_obj, product_name, coverage, output_type='png', ou
                                   product_datetime=start_dt,
                                   intensity=intensity,
                                   extra=extra,
-                                  output_type_dir=output_type_dir)
+                                  output_type_dir=output_type_dir,
+                                  output_dict=output_dict,
+                                  sector_info=area_def.sector_info)
+
     return web_fname
 
 
@@ -230,7 +227,7 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
 def assemble_tc_fname(basedir, tc_year, tc_basin, tc_stormnum, output_type,
                       product_name, source_name, platform_name, coverage,
                       product_datetime, intensity=None, extra=None, output_type_dir=None,
-                      product_dir=None, product_subdir=None):
+                      product_dir=None, product_subdir=None, output_dict=None, sector_info=None):
     ''' Produce full output product path from product / sensor specifications.
         tc web paths are of the format:
         <basedir>/tc<tc_year>/<tc_basin>/<tc_basin><tc_stormnum><tc_year>/<output_type>/<product_name>/<platform_name>/
@@ -285,7 +282,9 @@ def assemble_tc_fname(basedir, tc_year, tc_basin, tc_stormnum, output_type,
         product_subdir = platform_name
 
     from geoips.interface_modules.filename_formats.utils.tc_file_naming import tc_storm_basedir
-    path = pathjoin(tc_storm_basedir(basedir, tc_year, tc_basin, tc_stormnum),
+       
+    path = pathjoin(tc_storm_basedir(basedir, tc_year, tc_basin, tc_stormnum,
+                                     output_dict=output_dict, sector_info=sector_info),
                     output_type_dir,
                     product_dir,
                     product_subdir)

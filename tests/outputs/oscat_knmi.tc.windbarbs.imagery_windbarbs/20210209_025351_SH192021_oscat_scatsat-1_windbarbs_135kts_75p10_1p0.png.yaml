@@ -27,6 +27,7 @@ source_sector_file: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdec
 storm_basin: SH
 storm_name: FARAJI
 storm_num: 19
+storm_start_datetime: 2021-02-04 00:00:00
 storm_year: 2021
 synoptic_time: 2021-02-09 00:00:00
 vmax: 135.0

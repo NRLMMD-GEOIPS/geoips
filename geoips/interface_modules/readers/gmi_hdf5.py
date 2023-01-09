@@ -1,20 +1,14 @@
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # # 
+# # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
-# # # 
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # # 
-# # # If you did not receive the license, see
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # # 
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
 ''' Reader to read a grannual NASA GPM GMI TBs in h5 format (each grannual file is about 5 minutes GPM GMI data)  
     Output variables in xarray object for geoips processing system
@@ -196,7 +190,7 @@ def gmi_hdf5(fnames, metadata_only=False, chans=None, area_def=None, self_regist
     # setup attributors
     from geoips.xarray_utils.timestamp import get_datetime_from_datetime64
     from geoips.xarray_utils.timestamp import get_max_from_xarray_timestamp, get_min_from_xarray_timestamp
-    xarray_gmi.attrs['original_source_filenames'] = original_source_filenames
+    xarray_gmi.attrs['original_source_filenames'] = sorted(original_source_filenames)
     xarray_gmi.attrs['start_datetime'] = get_min_from_xarray_timestamp(xarray_gmi, 'timestamp')
     xarray_gmi.attrs['end_datetime'] = get_max_from_xarray_timestamp(xarray_gmi, 'timestamp')
     xarray_gmi.attrs['source_name'] = 'gmi'

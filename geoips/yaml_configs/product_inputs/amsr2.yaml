@@ -1,6 +1,10 @@
 amsr2:
   windspeed:
       variables: ['wind_speed_kts']
+  unsectored:
+    variables: ['wind_speed_kts']
+  sectored:
+    variables: ['wind_speed_kts']
 
   color37:
     variables: ['tb36h', 'tb36v']
