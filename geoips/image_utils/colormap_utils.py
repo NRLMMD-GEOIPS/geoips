@@ -30,18 +30,22 @@ def set_matplotlib_colors_rgb():
         Specifies matplotlib Colors parameters for use in both plotting
         and colorbar generation. For RGBA arrays, all fields are "None".
     """
-    mpl_colors_info = {'cmap': None,
-                       'norm': None,
-                       'cbar_ticks': None,
-                       'cbar_tick_labels': None,
-                       'cbar_label': None,
-                       'boundaries': None,
-                       'cbar_spacing': 'proportional',
-                       'colorbar': False}
+    mpl_colors_info = {
+        "cmap": None,
+        "norm": None,
+        "cbar_ticks": None,
+        "cbar_tick_labels": None,
+        "cbar_label": None,
+        "boundaries": None,
+        "cbar_spacing": "proportional",
+        "colorbar": False,
+    }
     return mpl_colors_info
 
 
-def set_matplotlib_colors_standard(data_range, cmap_name='Greys', cbar_label=None, create_colorbar=True):
+def set_matplotlib_colors_standard(
+    data_range, cmap_name="Greys", cbar_label=None, create_colorbar=True
+):
     """
     Set the matplotlib colors information.
 
@@ -70,34 +74,46 @@ def set_matplotlib_colors_standard(data_range, cmap_name='Greys', cbar_label=Non
     min_val = data_range[0]
     max_val = data_range[1]
     from matplotlib import cm
+
     # cmap = cm.ScalarMappable(norm=colors.NoNorm(), cm.get_cmap(cmap_name))
     mpl_cmap = cm.get_cmap(cmap_name)
 
-    LOG.info('Setting norm')
+    LOG.info("Setting norm")
     from matplotlib.colors import Normalize
+
     mpl_norm = Normalize(vmin=min_val, vmax=max_val)
     mpl_ticks = [min_val, max_val]
 
     # Must be uniform or proportional, None not valid for Python 3
-    cbar_spacing = 'proportional'
+    cbar_spacing = "proportional"
     mpl_tick_labels = None
     mpl_boundaries = None
 
-    mpl_colors_info = {'cmap': mpl_cmap,
-                       'norm': mpl_norm,
-                       'cbar_ticks': mpl_ticks,
-                       'cbar_tick_labels': mpl_tick_labels,
-                       'cbar_label': cbar_label,
-                       'boundaries': mpl_boundaries,
-                       'cbar_spacing': cbar_spacing,
-                       'colorbar': create_colorbar}
+    mpl_colors_info = {
+        "cmap": mpl_cmap,
+        "norm": mpl_norm,
+        "cbar_ticks": mpl_ticks,
+        "cbar_tick_labels": mpl_tick_labels,
+        "cbar_label": cbar_label,
+        "boundaries": mpl_boundaries,
+        "cbar_spacing": cbar_spacing,
+        "colorbar": create_colorbar,
+    }
 
     return mpl_colors_info
 
 
-def set_mpl_colors_info_dict(cmap, norm, cbar_ticks, cbar_tick_labels=None, boundaries=None,
-                             cbar_label=None, cbar_spacing='proportional', create_colorbar=True,
-                             cbar_full_width=False):
+def set_mpl_colors_info_dict(
+    cmap,
+    norm,
+    cbar_ticks,
+    cbar_tick_labels=None,
+    boundaries=None,
+    cbar_label=None,
+    cbar_spacing="proportional",
+    create_colorbar=True,
+    cbar_full_width=False,
+):
     """
     Create the mpl_colors_info dictionary directly from passed arguments.
 
@@ -132,15 +148,15 @@ def set_mpl_colors_info_dict(cmap, norm, cbar_ticks, cbar_tick_labels=None, boun
         creation.
     """
     mpl_colors_info = {}
-    mpl_colors_info['cmap'] = cmap
-    mpl_colors_info['norm'] = norm
-    mpl_colors_info['cbar_ticks'] = cbar_ticks
-    mpl_colors_info['cbar_tick_labels'] = cbar_tick_labels
-    mpl_colors_info['cbar_label'] = cbar_label
-    mpl_colors_info['boundaries'] = boundaries
-    mpl_colors_info['cbar_spacing'] = cbar_spacing
-    mpl_colors_info['colorbar'] = create_colorbar
-    mpl_colors_info['cbar_full_width'] = cbar_full_width
+    mpl_colors_info["cmap"] = cmap
+    mpl_colors_info["norm"] = norm
+    mpl_colors_info["cbar_ticks"] = cbar_ticks
+    mpl_colors_info["cbar_tick_labels"] = cbar_tick_labels
+    mpl_colors_info["cbar_label"] = cbar_label
+    mpl_colors_info["boundaries"] = boundaries
+    mpl_colors_info["cbar_spacing"] = cbar_spacing
+    mpl_colors_info["colorbar"] = create_colorbar
+    mpl_colors_info["cbar_full_width"] = cbar_full_width
     return mpl_colors_info
 
 
@@ -166,36 +182,40 @@ def from_ascii(fname, reverse=False):
      * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0 for matplotlib usage)
      * One white space delimited RGB value per line
     """
-    #Read data from ascii file into an NLines by 3 float array, skipping lines preceded by "#"
+    # Read data from ascii file into an NLines by 3 float array, skipping lines preceded by "#"
     lines = []
     with open(fname) as palette:
         for line in palette.readlines():
-            if line.strip()[0] != '#':
+            if line.strip()[0] != "#":
                 lines += [line]
 
     import numpy
+
     carray = numpy.zeros([len(lines), 3])
     for num, line in enumerate(lines):
         carray[num, :] = [float(val) for val in line.strip().split()]
 
-    #Normalize from 0-255 to 0.0-1.0
+    # Normalize from 0-255 to 0.0-1.0
     if carray.max() > 1.0:
         carray /= 255.0
 
-    #Test to be sure all color array values are between 0.0 and 1.0
+    # Test to be sure all color array values are between 0.0 and 1.0
     if not (carray.min() >= 0.0 and carray.max() <= 1.0):
-        raise ValueError('All values in carray must be between 0.0 and 1.0.')
+        raise ValueError("All values in carray must be between 0.0 and 1.0.")
 
     if reverse is True:
         carray = numpy.flipud(carray)
 
     from matplotlib import colors
     from os.path import basename as pathbasename
+
     cmap = colors.ListedColormap(carray, name=pathbasename(fname))
     return cmap
 
 
-def create_linear_segmented_colormap(cmapname, min_val, max_val, transition_vals, transition_colors):
+def create_linear_segmented_colormap(
+    cmapname, min_val, max_val, transition_vals, transition_colors
+):
     """
     Create a LinearSegmentedColormap instance.
 
@@ -243,6 +263,7 @@ def create_linear_segmented_colormap(cmapname, min_val, max_val, transition_vals
         matplotlib colormap object
     """
     from matplotlib.colors import ColorConverter, LinearSegmentedColormap
+
     # Sort transitions on start_val
     bluetuple = ()
     greentuple = ()
@@ -271,9 +292,18 @@ def create_linear_segmented_colormap(cmapname, min_val, max_val, transition_vals
         bluetuple += ((transition_point, old_end_color[2], start_color[2]),)
         redtuple += ((transition_point, old_end_color[0], start_color[0]),)
         greentuple += ((transition_point, old_end_color[1], start_color[1]),)
-        LOG.info('    Transition point: '+str(transition_point)+': '+str(start_val)+' to '+str(end_val))
-        LOG.info('        Start color: %-10s %-40s', str(tstart_color), str(start_color))
-        LOG.info('        End color:   %-10s %-40s', str(tend_color), str(end_color))
+        LOG.info(
+            "    Transition point: "
+            + str(transition_point)
+            + ": "
+            + str(start_val)
+            + " to "
+            + str(end_val)
+        )
+        LOG.info(
+            "        Start color: %-10s %-40s", str(tstart_color), str(start_color)
+        )
+        LOG.info("        End color:   %-10s %-40s", str(tend_color), str(end_color))
         old_end_color = end_color
     # Must finish with 1.0 !
     transition_point = (end_val - min_val) / float((max_val - min_val))
@@ -281,9 +311,7 @@ def create_linear_segmented_colormap(cmapname, min_val, max_val, transition_vals
     redtuple += ((transition_point, old_end_color[0], start_color[0]),)
     greentuple += ((transition_point, old_end_color[1], start_color[1]),)
 
-    cmdict = {'red': redtuple,
-              'green': greentuple,
-              'blue': bluetuple}
+    cmdict = {"red": redtuple, "green": greentuple, "blue": bluetuple}
 
     cm = LinearSegmentedColormap(cmapname, cmdict)
 

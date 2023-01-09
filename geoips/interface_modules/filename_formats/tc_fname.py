@@ -10,13 +10,17 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-'''Standard TC filename production'''
+"""Standard TC filename production"""
 
 # Python Standard Libraries
 import logging
 
 from os.path import join as pathjoin, splitext as pathsplitext
-from os.path import dirname as pathdirname, basename as pathbasename, exists as pathexists
+from os.path import (
+    dirname as pathdirname,
+    basename as pathbasename,
+    exists as pathexists,
+)
 from datetime import datetime, timedelta
 from glob import glob
 from os import unlink as osunlink
@@ -26,16 +30,28 @@ from geoips.data_manipulations.merge import minrange
 
 LOG = logging.getLogger(__name__)
 
-filename_type = 'standard'
+filename_type = "standard"
 
 
-def tc_fname(area_def, xarray_obj, product_name, coverage, output_type='png', output_type_dir=None,
-             product_dir=None, product_subdir=None, source_dir=None, basedir=gpaths['TCWWW'],
-             extra_field=None, output_dict=None):
+def tc_fname(
+    area_def,
+    xarray_obj,
+    product_name,
+    coverage,
+    output_type="png",
+    output_type_dir=None,
+    product_dir=None,
+    product_subdir=None,
+    source_dir=None,
+    basedir=gpaths["TCWWW"],
+    extra_field=None,
+    output_dict=None,
+):
 
     from geoips.sector_utils.utils import is_sector_type
-    if area_def and not is_sector_type(area_def, 'tc'):
-        LOG.warning('NOT a TC sector, skipping TC output')
+
+    if area_def and not is_sector_type(area_def, "tc"):
+        LOG.warning("NOT a TC sector, skipping TC output")
         return None
 
     if not product_dir:
@@ -53,42 +69,49 @@ def tc_fname(area_def, xarray_obj, product_name, coverage, output_type='png', ou
     # start_dt = get_min_from_xarray_timestamp(xarray_obj, 'timestamp')
     start_dt = xarray_obj.start_datetime
 
-    if area_def.sector_info['vmax']:
-        intensity = '{0:0.0f}kts'.format(area_def.sector_info['vmax'])
+    if area_def.sector_info["vmax"]:
+        intensity = "{0:0.0f}kts".format(area_def.sector_info["vmax"])
     else:
-        # This is pulling intensity directly from the deck file, and sometimes it is not defined - if empty, just 
+        # This is pulling intensity directly from the deck file, and sometimes it is not defined - if empty, just
         # use "unknown" for intensity
-        intensity = 'unknown'
+        intensity = "unknown"
 
-    from geoips.interface_modules.filename_formats.utils.tc_file_naming import update_extra_field
-    extra = update_extra_field(output_dict,
-                               xarray_obj,
-                               area_def,
-                               product_name,
-                               extra_field_delimiter='-',
-                               existing_extra_field=extra_field,
-                               extra_field_resolution=True,
-                               extra_field_coverage_func=True,
-                               extra_field_provider=False,
-                               include_filename_extra_fields=True)
+    from geoips.interface_modules.filename_formats.utils.tc_file_naming import (
+        update_extra_field,
+    )
 
-    web_fname = assemble_tc_fname(basedir=basedir,
-                                  tc_year=int(area_def.sector_info['storm_year']),
-                                  tc_basin=area_def.sector_info['storm_basin'],
-                                  tc_stormnum=int(area_def.sector_info['storm_num']),
-                                  output_type=output_type,
-                                  product_name=product_name,
-                                  product_dir=product_dir,
-                                  product_subdir=product_subdir,
-                                  source_name=xarray_obj.source_name,
-                                  platform_name=xarray_obj.platform_name,
-                                  coverage=coverage,
-                                  product_datetime=start_dt,
-                                  intensity=intensity,
-                                  extra=extra,
-                                  output_type_dir=output_type_dir,
-                                  output_dict=output_dict,
-                                  sector_info=area_def.sector_info)
+    extra = update_extra_field(
+        output_dict,
+        xarray_obj,
+        area_def,
+        product_name,
+        extra_field_delimiter="-",
+        existing_extra_field=extra_field,
+        extra_field_resolution=True,
+        extra_field_coverage_func=True,
+        extra_field_provider=False,
+        include_filename_extra_fields=True,
+    )
+
+    web_fname = assemble_tc_fname(
+        basedir=basedir,
+        tc_year=int(area_def.sector_info["storm_year"]),
+        tc_basin=area_def.sector_info["storm_basin"],
+        tc_stormnum=int(area_def.sector_info["storm_num"]),
+        output_type=output_type,
+        product_name=product_name,
+        product_dir=product_dir,
+        product_subdir=product_subdir,
+        source_name=xarray_obj.source_name,
+        platform_name=xarray_obj.platform_name,
+        coverage=coverage,
+        product_datetime=start_dt,
+        intensity=intensity,
+        extra=extra,
+        output_type_dir=output_type_dir,
+        output_dict=output_dict,
+        sector_info=area_def.sector_info,
+    )
 
     return web_fname
 
@@ -102,18 +125,22 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
     ext1 = pathsplitext(fname)[-1]
     ext2 = pathsplitext(pathsplitext(fname)[0])[-1]
     ext3 = pathsplitext(pathsplitext(pathsplitext(fname)[0])[0])[-1]
-    if (ext1 == '.png') or (ext1 == '.yaml' and ext2 == '.png'):
-        LOG.info('MATCHES EXT FORMAT. png or png.yaml. Attempting to remove old_tcweb duplicates')
+    if (ext1 == ".png") or (ext1 == ".yaml" and ext2 == ".png"):
+        LOG.info(
+            "MATCHES EXT FORMAT. png or png.yaml. Attempting to remove old_tcweb duplicates"
+        )
     else:
-        LOG.info('NOT REMOVING DUPLICATES. Not tc_web filename, not png or png.yaml.')
+        LOG.info("NOT REMOVING DUPLICATES. Not tc_web filename, not png or png.yaml.")
         return [], []
-    dirname = pathdirname(fname) 
+    dirname = pathdirname(fname)
     basename = pathbasename(fname)
-    parts = basename.split('_')
+    parts = basename.split("_")
     if len(parts) != 9:
-        LOG.info('NOT REMOVING DUPLICATES. Not tc_web filename, does not contain 9 fields.')
+        LOG.info(
+            "NOT REMOVING DUPLICATES. Not tc_web filename, does not contain 9 fields."
+        )
         return [], []
-        
+
     try:
         # 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png
         yyyymmdd = parts[0]
@@ -125,34 +152,45 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
         intensity = parts[6]
         coverage = parts[7]
         res = parts[8]
-        if 'p' not in coverage or 'p' not in res:
-            LOG.info('NOT REMOVING DUPLICATES. Not tc_web filename, coverage or res not "NNpNN.')
+        if "p" not in coverage or "p" not in res:
+            LOG.info(
+                'NOT REMOVING DUPLICATES. Not tc_web filename, coverage or res not "NNpNN.'
+            )
             return [], []
-        if 'kts' not in intensity:
-            LOG.info('NOT REMOVING DUPLICATES. Not tc_web filename, intensity does not contain "kts".')
+        if "kts" not in intensity:
+            LOG.info(
+                'NOT REMOVING DUPLICATES. Not tc_web filename, intensity does not contain "kts".'
+            )
             return [], []
     except IndexError:
-        LOG.info('NOT REMOVING DUPLICATES. Unmatched filename format, incorrect number of _ delimited fields')
+        LOG.info(
+            "NOT REMOVING DUPLICATES. Unmatched filename format, incorrect number of _ delimited fields"
+        )
         return [], []
     try:
-        fname_dt = datetime.strptime(yyyymmdd+hhmnss, '%Y%m%d%H%M%S')
+        fname_dt = datetime.strptime(yyyymmdd + hhmnss, "%Y%m%d%H%M%S")
     except ValueError:
-        LOG.info('NOT REMOVING DUPLICATES. Unmatched filename format, incorrect date time string.')
+        LOG.info(
+            "NOT REMOVING DUPLICATES. Unmatched filename format, incorrect date time string."
+        )
         return [], []
     timediff = timedelta(minutes=mins_to_remove)
     for currdt in minrange(fname_dt - timediff, fname_dt + timediff):
         # 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png
-        dtstr = currdt.strftime('{0}/%Y%m%d_%H%M*_{1}_{2}_{3}_{4}_*_*_{5}'.format(
-                                dirname, stormname, sensor, platform, product, res))
+        dtstr = currdt.strftime(
+            "{0}/%Y%m%d_%H%M*_{1}_{2}_{3}_{4}_*_*_{5}".format(
+                dirname, stormname, sensor, platform, product, res
+            )
+        )
         # print(dtstr)
         matching_fnames += glob(dtstr)
     max_coverage = 0
     min_dt = None
     for matching_fname in matching_fnames:
         # 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png
-        parts = pathbasename(matching_fname).split('_')
-        coverage = float(parts[7].replace('p', '.'))
-        start_dt = datetime.strptime(parts[0]+parts[1][0:6], '%Y%m%d%H%M%S')
+        parts = pathbasename(matching_fname).split("_")
+        coverage = float(parts[7].replace("p", "."))
+        start_dt = datetime.strptime(parts[0] + parts[1][0:6], "%Y%m%d%H%M%S")
         max_coverage = max(coverage, max_coverage)
         if min_dt is None:
             min_dt = start_dt
@@ -160,63 +198,108 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
             min_dt = min(start_dt, min_dt)
 
     gotone = False
-    LOG.info('CHECKING DUPLICATE FILES')
+    LOG.info("CHECKING DUPLICATE FILES")
     for matching_fname in list(set(matching_fnames)):
         # 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png
-        parts = pathbasename(matching_fname).split('_')
-        coverage = float(parts[7].replace('p', '.'))
-        start_dt = datetime.strptime(parts[0]+parts[1][0:6], '%Y%m%d%H%M%S')
+        parts = pathbasename(matching_fname).split("_")
+        coverage = float(parts[7].replace("p", "."))
+        start_dt = datetime.strptime(parts[0] + parts[1][0:6], "%Y%m%d%H%M%S")
         # Priority to delete lower coverage
         if coverage < max_coverage:
             removed_fnames += [matching_fname]
             # Test it out for a bit first
             if remove_files is True:
-                LOG.info('DELETING DUPLICATE FILE with less coverage %s < %s %s',
-                         coverage, max_coverage, matching_fname)
+                LOG.info(
+                    "DELETING DUPLICATE FILE with less coverage %s < %s %s",
+                    coverage,
+                    max_coverage,
+                    matching_fname,
+                )
                 try:
                     osunlink(matching_fname)
                 except FileNotFoundError as resp:
-                    LOG.warning('FAILDELETE %s: File %s did not exist, someone must have deleted it for us?',
-                                matching_fname, str(resp))
+                    LOG.warning(
+                        "FAILDELETE %s: File %s did not exist, someone must have deleted it for us?",
+                        matching_fname,
+                        str(resp),
+                    )
 
             else:
-                LOG.info('TEST DELETING DUPLICATE FILE with less coverage %s < %s %s',
-                         coverage, max_coverage, matching_fname)
+                LOG.info(
+                    "TEST DELETING DUPLICATE FILE with less coverage %s < %s %s",
+                    coverage,
+                    max_coverage,
+                    matching_fname,
+                )
         elif start_dt > min_dt:
             removed_fnames += [matching_fname]
             # Test it out for a bit first
             if remove_files is True:
-                LOG.info('DELETING DUPLICATE FILE with later start_dt %s > %s %s',
-                         start_dt, min_dt, matching_fname)
+                LOG.info(
+                    "DELETING DUPLICATE FILE with later start_dt %s > %s %s",
+                    start_dt,
+                    min_dt,
+                    matching_fname,
+                )
                 try:
                     osunlink(matching_fname)
                 except FileNotFoundError as resp:
-                    LOG.warning('FAILDELETE %s: File %s did not exist, someone must have deleted it for us?',
-                                matching_fname, str(resp))
+                    LOG.warning(
+                        "FAILDELETE %s: File %s did not exist, someone must have deleted it for us?",
+                        matching_fname,
+                        str(resp),
+                    )
 
             else:
-                LOG.info('TEST DELETING DUPLICATE FILE with later start_dt %s > %s %s',
-                         start_dt, min_dt, matching_fname)
+                LOG.info(
+                    "TEST DELETING DUPLICATE FILE with later start_dt %s > %s %s",
+                    start_dt,
+                    min_dt,
+                    matching_fname,
+                )
         elif gotone is True:
             removed_fnames += [matching_fname]
             # Test it out for a bit first
             if remove_files is True:
-                LOG.info('DELETING DUPLICATE FILE with same coverage %s = %s and same start_dt %s = %s, %s',
-                         coverage, max_coverage, start_dt, min_dt, matching_fname)
+                LOG.info(
+                    "DELETING DUPLICATE FILE with same coverage %s = %s and same start_dt %s = %s, %s",
+                    coverage,
+                    max_coverage,
+                    start_dt,
+                    min_dt,
+                    matching_fname,
+                )
                 try:
                     osunlink(matching_fname)
                 except FileNotFoundError as resp:
-                    LOG.warning('FAILDELETE %s: File %s did not exist, someone must have deleted it for us?',
-                                matching_fname, str(resp))
+                    LOG.warning(
+                        "FAILDELETE %s: File %s did not exist, someone must have deleted it for us?",
+                        matching_fname,
+                        str(resp),
+                    )
 
             else:
-                LOG.info('TEST DELETING DUPLICATE FILE with same coverage %s = %s and same start_dt %s = %s, %s',
-                         coverage, max_coverage, start_dt, min_dt, matching_fname)
+                LOG.info(
+                    "TEST DELETING DUPLICATE FILE with same coverage %s = %s and same start_dt %s = %s, %s",
+                    coverage,
+                    max_coverage,
+                    start_dt,
+                    min_dt,
+                    matching_fname,
+                )
         else:
             if len(matching_fnames) == 1:
-                LOG.info('SAVING DUPLICATE FILE (only one!) with max coverage %s %s', max_coverage, matching_fname)
+                LOG.info(
+                    "SAVING DUPLICATE FILE (only one!) with max coverage %s %s",
+                    max_coverage,
+                    matching_fname,
+                )
             else:
-                LOG.info('SAVING DUPLICATE FILE with max coverage %s %s', max_coverage, matching_fname)
+                LOG.info(
+                    "SAVING DUPLICATE FILE with max coverage %s %s",
+                    max_coverage,
+                    matching_fname,
+                )
             saved_fnames += [matching_fname]
             gotone = True
         # from IPython import embed as shell; shell()
@@ -224,11 +307,26 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
     return removed_fnames, saved_fnames
 
 
-def assemble_tc_fname(basedir, tc_year, tc_basin, tc_stormnum, output_type,
-                      product_name, source_name, platform_name, coverage,
-                      product_datetime, intensity=None, extra=None, output_type_dir=None,
-                      product_dir=None, product_subdir=None, output_dict=None, sector_info=None):
-    ''' Produce full output product path from product / sensor specifications.
+def assemble_tc_fname(
+    basedir,
+    tc_year,
+    tc_basin,
+    tc_stormnum,
+    output_type,
+    product_name,
+    source_name,
+    platform_name,
+    coverage,
+    product_datetime,
+    intensity=None,
+    extra=None,
+    output_type_dir=None,
+    product_dir=None,
+    product_subdir=None,
+    output_dict=None,
+    sector_info=None,
+):
+    """Produce full output product path from product / sensor specifications.
         tc web paths are of the format:
         <basedir>/tc<tc_year>/<tc_basin>/<tc_basin><tc_stormnum><tc_year>/<output_type>/<product_name>/<platform_name>/
         tc web filenames are of the format:
@@ -273,7 +371,7 @@ def assemble_tc_fname(basedir, tc_year, tc_basin, tc_stormnum, output_type,
         Return values
         ---------------
         str to full path of output filename
-    '''
+    """
     if not output_type_dir:
         output_type_dir = output_type
     if not product_dir:
@@ -281,23 +379,35 @@ def assemble_tc_fname(basedir, tc_year, tc_basin, tc_stormnum, output_type,
     if not product_subdir:
         product_subdir = platform_name
 
-    from geoips.interface_modules.filename_formats.utils.tc_file_naming import tc_storm_basedir
-       
-    path = pathjoin(tc_storm_basedir(basedir, tc_year, tc_basin, tc_stormnum,
-                                     output_dict=output_dict, sector_info=sector_info),
-                    output_type_dir,
-                    product_dir,
-                    product_subdir)
-    fname = '_'.join([product_datetime.strftime('%Y%m%d'),
-                      product_datetime.strftime('%H%M%S'),
-                      '{0}{1:02d}{2:04d}'.format(tc_basin, tc_stormnum, tc_year),
-                      source_name,
-                      platform_name,
-                      product_name,
-                      str(intensity),
-                      '{0:0.2f}'.format(coverage).replace('.', 'p'),
-                      str(extra)])
-    fname = '{0}.{1}'.format(fname, output_type)
+    from geoips.interface_modules.filename_formats.utils.tc_file_naming import (
+        tc_storm_basedir,
+    )
+
+    path = pathjoin(
+        tc_storm_basedir(
+            basedir,
+            tc_year,
+            tc_basin,
+            tc_stormnum,
+            output_dict=output_dict,
+            sector_info=sector_info,
+        ),
+        output_type_dir,
+        product_dir,
+        product_subdir,
+    )
+    fname = "_".join(
+        [
+            product_datetime.strftime("%Y%m%d"),
+            product_datetime.strftime("%H%M%S"),
+            "{0}{1:02d}{2:04d}".format(tc_basin, tc_stormnum, tc_year),
+            source_name,
+            platform_name,
+            product_name,
+            str(intensity),
+            "{0:0.2f}".format(coverage).replace(".", "p"),
+            str(extra),
+        ]
+    )
+    fname = "{0}.{1}".format(fname, output_type)
     return pathjoin(path, fname)
-
-

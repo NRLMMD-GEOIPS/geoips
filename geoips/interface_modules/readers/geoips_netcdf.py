@@ -10,19 +10,22 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-''' Reader to read pre-processed data, which has been written as a geoips formatted netcdf
-'''
+""" Reader to read pre-processed data, which has been written as a geoips formatted netcdf
+"""
 
 # Python Standard Libraries
 
 import logging
+
 LOG = logging.getLogger(__name__)
 
-reader_type = 'standard'
+reader_type = "standard"
 
 
-def geoips_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
-    ''' Read preprocessed geoips netcdf output.
+def geoips_netcdf(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
+    """Read preprocessed geoips netcdf output.
 
     All GeoIPS 2.0 readers read data into xarray Datasets - a separate
     dataset for each shape/resolution of data - and contain standard metadata information.
@@ -49,17 +52,18 @@ def geoips_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_r
         dict of xarray.Datasets: dict of xarray.Dataset objects with required
             Variables and Attributes: (See geoips/docs :doc:`xarray_standards`),
             dict key can be any descriptive dataset id
-            
-    '''
 
-    LOG.info('Reading files %s', fnames)
+    """
+
+    LOG.info("Reading files %s", fnames)
 
     from os.path import basename
+
     xarray_objs = {}
     for fname in fnames:
         xarray_objs[basename(fname)] = read_xarray_netcdf(fname)
 
-    xarray_objs['METADATA'] = list(xarray_objs.values())[0][[]]
+    xarray_objs["METADATA"] = list(xarray_objs.values())[0][[]]
 
     return xarray_objs
 
@@ -67,17 +71,18 @@ def geoips_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_r
 def read_xarray_netcdf(ncdf_fname):
     import xarray
     from datetime import datetime
+
     try:
         xarray_obj = xarray.open_dataset(ncdf_fname)
     except IOError:
         raise IOError
     for attr in xarray_obj.attrs.keys():
-        if 'datetime' in attr:
-            xarray_obj.attrs[attr] = datetime.strptime(xarray_obj.attrs[attr], '%c')
-        if attr == 'None':
+        if "datetime" in attr:
+            xarray_obj.attrs[attr] = datetime.strptime(xarray_obj.attrs[attr], "%c")
+        if attr == "None":
             xarray_obj.attrs[attr] = None
-        if attr == 'True':
+        if attr == "True":
             xarray_obj.attrs[attr] = True
-        if attr == 'False':
+        if attr == "False":
             xarray_obj.attrs[attr] = False
     return xarray_obj

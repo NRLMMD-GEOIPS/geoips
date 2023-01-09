@@ -17,11 +17,13 @@ from datetime import datetime
 
 LOG = logging.getLogger(__name__)
 
-reader_type = 'standard'
+reader_type = "standard"
 
 
-def mimic_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
-    ''' Read TPW MIMIC data from a list of filenames.
+def mimic_netcdf(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
+    """Read TPW MIMIC data from a list of filenames.
 
     All GeoIPS 2.0 readers read data into xarray Datasets - a separate
     dataset for each shape/resolution of data - and contain standard metadata information.
@@ -64,44 +66,49 @@ def mimic_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_re
     Returns:
         list of xarray.Datasets: list of xarray.Dataset objects with required
             Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
-    '''
+    """
 
     fname = fnames[0]
 
     import xarray
+
     xobj = xarray.open_dataset(fname)
 
-    [date,time,ext] = os.path.basename(fname).split('.')
-    dt = datetime.strptime(date+time,'comp%Y%m%d%H%M%S')
-    xobj.attrs['data_provider'] = 'cimss'
+    [date, time, ext] = os.path.basename(fname).split(".")
+    dt = datetime.strptime(date + time, "comp%Y%m%d%H%M%S")
+    xobj.attrs["data_provider"] = "cimss"
 
-    xobj.attrs['start_datetime'] = dt
-    xobj.attrs['end_datetime'] = dt
-    xobj.attrs['platform_name'] = 'tpw'
-    xobj.attrs['filename_datetimes'] = [dt]
-    xobj.attrs['source_name'] = 'mimic'
+    xobj.attrs["start_datetime"] = dt
+    xobj.attrs["end_datetime"] = dt
+    xobj.attrs["platform_name"] = "tpw"
+    xobj.attrs["filename_datetimes"] = [dt]
+    xobj.attrs["source_name"] = "mimic"
     # ~2km for data_fine
-    xobj.attrs['sample_distance_km'] = 110.0 * abs(xobj.variables['latArr'][1].data - xobj.variables['latArr'][0].data)
-    xobj.attrs['interpolation_radius_of_influence'] = xobj.attrs['sample_distance_km'] * 1000.0 * 1.5
+    xobj.attrs["sample_distance_km"] = 110.0 * abs(
+        xobj.variables["latArr"][1].data - xobj.variables["latArr"][0].data
+    )
+    xobj.attrs["interpolation_radius_of_influence"] = (
+        xobj.attrs["sample_distance_km"] * 1000.0 * 1.5
+    )
     if metadata_only is True:
-        return {'METADATA': xobj}
+        return {"METADATA": xobj}
 
-    LOG.info('Obtaining lat/lon from xarray')
+    LOG.info("Obtaining lat/lon from xarray")
     # Meshgrid requires Latitude and Longitude at once, so don't put in loop
-    lat = xobj.variables['latArr'][...]
-    lon = xobj.variables['lonArr'][...]
+    lat = xobj.variables["latArr"][...]
+    lon = xobj.variables["lonArr"][...]
 
-    LOG.info('Calculating full lat/lon grid')
+    LOG.info("Calculating full lat/lon grid")
     import numpy
-    lon_final, lat_final = numpy.meshgrid(lon,lat)
 
-    LOG.info('Adding lat grid to xarray')
-    xobj['latitude'] = xarray.DataArray(numpy.ma.array(lat_final), dims=('lat', 'lon'))
-    LOG.info('Adding lon grid to xarray')
-    xobj['longitude'] =  xarray.DataArray(numpy.ma.array(lon_final), dims=('lat', 'lon'))
-    xobj = xobj.drop('latArr')
-    xobj = xobj.drop('lonArr')
-    xobj['tpw'] = xobj['tpwGrid']
+    lon_final, lat_final = numpy.meshgrid(lon, lat)
 
-    return {'MIMIC': xobj,
-            'METADATA': xobj[[]]}
+    LOG.info("Adding lat grid to xarray")
+    xobj["latitude"] = xarray.DataArray(numpy.ma.array(lat_final), dims=("lat", "lon"))
+    LOG.info("Adding lon grid to xarray")
+    xobj["longitude"] = xarray.DataArray(numpy.ma.array(lon_final), dims=("lat", "lon"))
+    xobj = xobj.drop("latArr")
+    xobj = xobj.drop("lonArr")
+    xobj["tpw"] = xobj["tpwGrid"]
+
+    return {"MIMIC": xobj, "METADATA": xobj[[]]}

@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-'''Standard TC filename production'''
+"""Standard TC filename production"""
 
 # Python Standard Libraries
 import logging
@@ -20,28 +20,47 @@ from os.path import join as pathjoin
 
 LOG = logging.getLogger(__name__)
 
-filename_type = 'data'
+filename_type = "data"
 
 
-def geoips_netcdf_fname(area_def, xarray_obj, product_names, coverage=None, output_type='nc', output_type_dir=None,
-                        product_dir=None, product_subdir=None, source_dir=None, basedir=None):
+def geoips_netcdf_fname(
+    area_def,
+    xarray_obj,
+    product_names,
+    coverage=None,
+    output_type="nc",
+    output_type_dir=None,
+    product_dir=None,
+    product_subdir=None,
+    source_dir=None,
+    basedir=None,
+):
 
     if basedir is None:
-        basedir = gpaths['PRECALCULATED_DATA_PATH']
-    ncdf_fname = assemble_geoips_netcdf_fname(basedir=basedir,
-                                              product_name='_'.join(product_names),
-                                              source_name=xarray_obj.source_name,
-                                              platform_name=xarray_obj.platform_name,
-                                              sector_name=xarray_obj.area_definition.area_id,
-                                              product_datetime=xarray_obj.start_datetime)
-
+        basedir = gpaths["PRECALCULATED_DATA_PATH"]
+    ncdf_fname = assemble_geoips_netcdf_fname(
+        basedir=basedir,
+        product_name="_".join(product_names),
+        source_name=xarray_obj.source_name,
+        platform_name=xarray_obj.platform_name,
+        sector_name=xarray_obj.area_definition.area_id,
+        product_datetime=xarray_obj.start_datetime,
+    )
 
     return ncdf_fname
 
 
-def assemble_geoips_netcdf_fname(basedir, product_name, source_name=None, platform_name=None,
-                                 sector_name=None, product_datetime=None, set_subpath=None, time_format='%H%M%S'):
-    ''' Produce full output product path from product / sensor specifications.
+def assemble_geoips_netcdf_fname(
+    basedir,
+    product_name,
+    source_name=None,
+    platform_name=None,
+    sector_name=None,
+    product_datetime=None,
+    set_subpath=None,
+    time_format="%H%M%S",
+):
+    """Produce full output product path from product / sensor specifications.
         netcdf paths are of the format:
           <basedir>/<product_name>/<source_name>/<platform_name>/<sector_name>/date{%Y%m%d}
         netcdf filenames are of the format:
@@ -62,10 +81,10 @@ def assemble_geoips_netcdf_fname(basedir, product_name, source_name=None, platfo
     | product_datetime:| *datetime*| Datetime object - start time of data used to      |
     |                  |           |     generate product                              |
     +------------------+-----------+---------------------------------------------------+
-    '''
+    """
 
     if set_subpath:
-        path = pathjoin(basedir,set_subpath)
+        path = pathjoin(basedir, set_subpath)
     else:
         path = basedir
         if product_name is not None:
@@ -77,17 +96,22 @@ def assemble_geoips_netcdf_fname(basedir, product_name, source_name=None, platfo
         if sector_name is not None:
             path = pathjoin(path, sector_name)
         if product_datetime is not None:
-            path = pathjoin(path, product_datetime.strftime('%Y%m%d'))
-    fname = ''
+            path = pathjoin(path, product_datetime.strftime("%Y%m%d"))
+    fname = ""
     path_parts = []
     if product_datetime is not None:
-        path_parts.extend([product_datetime.strftime('%Y%m%d'), product_datetime.strftime(time_format)])
+        path_parts.extend(
+            [
+                product_datetime.strftime("%Y%m%d"),
+                product_datetime.strftime(time_format),
+            ]
+        )
     if platform_name is not None:
         path_parts.extend([platform_name])
     if product_name is not None:
         path_parts.extend([product_name])
     if sector_name is not None:
         path_parts.extend([sector_name])
-    fname = '.'.join(path_parts+['nc'])
+    fname = ".".join(path_parts + ["nc"])
 
     return pathjoin(path, fname)

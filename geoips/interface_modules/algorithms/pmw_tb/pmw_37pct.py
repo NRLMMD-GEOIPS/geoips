@@ -10,45 +10,58 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-''' Data manipulation steps for "37pct" product.
+""" Data manipulation steps for "37pct" product.
 
     This algorithm expects Brightness Temperatures in units of degrees Kelvin
-'''
+"""
 
 import logging
 
 LOG = logging.getLogger(__name__)
 
-family = 'list_numpy_to_numpy'
-description = 'Passive Microwave 37 MHz Polarization Corrected Temperature'
+family = "list_numpy_to_numpy"
+description = "Passive Microwave 37 MHz Polarization Corrected Temperature"
 
 
-def pmw_37pct(arrays, output_data_range=None, min_outbounds='crop', max_outbounds='mask', norm=False, inverse=False):
-    ''' Data manipulation steps for "37pct" product algorithm.
+def pmw_37pct(
+    arrays,
+    output_data_range=None,
+    min_outbounds="crop",
+    max_outbounds="mask",
+    norm=False,
+    inverse=False,
+):
+    """Data manipulation steps for "37pct" product algorithm.
 
     This algorithm expects Brightness Temperatures in units of degrees Kelvin, and returns degrees Kelvin
 
     Args:
-        data (list[numpy.ndarray]) : 
+        data (list[numpy.ndarray]) :
             * numpy.ndarray or numpy.MaskedArray of channel data, in order of sensor "channels" list
             * Degrees Kelvin
 
     Returns:
         numpy.ndarray : numpy.ndarray or numpy.MaskedArray of appropriately scaled channel data,
                         in degrees Kelvin.
-    '''
+    """
 
     h37 = arrays[0]
     v37 = arrays[1]
 
-    out = (2.15*v37)-(1.15*h37)
+    out = (2.15 * v37) - (1.15 * h37)
 
     if output_data_range is None:
         output_data_range = [230.0, 280.0]
 
     from geoips.data_manipulations.corrections import apply_data_range
-    data = apply_data_range(out,
-                            min_val=output_data_range[0], max_val=output_data_range[1],
-                            min_outbounds=min_outbounds, max_outbounds=max_outbounds,
-                            norm=norm, inverse=inverse)
+
+    data = apply_data_range(
+        out,
+        min_val=output_data_range[0],
+        max_val=output_data_range[1],
+        min_outbounds=min_outbounds,
+        max_outbounds=max_outbounds,
+        norm=norm,
+        inverse=inverse,
+    )
     return data

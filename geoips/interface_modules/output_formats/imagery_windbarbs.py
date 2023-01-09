@@ -17,7 +17,10 @@ import numpy
 from matplotlib import colors
 import cartopy.crs as crs
 
-from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj, save_image
+from geoips.image_utils.mpl_utils import (
+    create_figure_and_main_ax_and_mapobj,
+    save_image,
+)
 from geoips.image_utils.maps import is_crs
 from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
 from geoips.image_utils.mpl_utils import plot_image, plot_overlays, create_colorbar
@@ -25,7 +28,7 @@ from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_titl
 
 LOG = logging.getLogger(__name__)
 
-output_type = 'image_overlay'
+output_type = "image_overlay"
 
 
 def plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict):
@@ -37,46 +40,57 @@ def plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict):
     # reprojecting to mapobj.  I don't fully understand it, but this
     # works beautifully, and transform=mapobj puts all the vectors
     # in the center of the image.
-    main_ax.scatter(x=formatted_data_dict['lon'].data[formatted_data_dict['rain_inds']],
-                    y=formatted_data_dict['lat'].data[formatted_data_dict['rain_inds']],
-                    transform=crs.PlateCarree(),
-                    marker='D',
-                    color='k',
-                    s=formatted_data_dict['rain_size'],
-                    zorder=2)
-    main_ax.barbs(formatted_data_dict['lon'].data,
-                  formatted_data_dict['lat'].data,
-                  formatted_data_dict['u'].data,
-                  formatted_data_dict['v'].data,
-                  formatted_data_dict['speed'].data,
-                  transform=crs.PlateCarree(),
-                  pivot='tip',
-                  rounding=False,
-                  cmap=mpl_colors_info['cmap'],
-                  flip_barb=formatted_data_dict['flip_barb'],
-                  # barb_increments=dict(half=10, full=20, flag=50),
-                  sizes=formatted_data_dict['sizes_dict'],
-                  length=formatted_data_dict['barb_length'],
-                  linewidth=formatted_data_dict['line_width'],
-                  norm=mpl_colors_info['norm'],
-                  zorder=1)
+    main_ax.scatter(
+        x=formatted_data_dict["lon"].data[formatted_data_dict["rain_inds"]],
+        y=formatted_data_dict["lat"].data[formatted_data_dict["rain_inds"]],
+        transform=crs.PlateCarree(),
+        marker="D",
+        color="k",
+        s=formatted_data_dict["rain_size"],
+        zorder=2,
+    )
+    main_ax.barbs(
+        formatted_data_dict["lon"].data,
+        formatted_data_dict["lat"].data,
+        formatted_data_dict["u"].data,
+        formatted_data_dict["v"].data,
+        formatted_data_dict["speed"].data,
+        transform=crs.PlateCarree(),
+        pivot="tip",
+        rounding=False,
+        cmap=mpl_colors_info["cmap"],
+        flip_barb=formatted_data_dict["flip_barb"],
+        # barb_increments=dict(half=10, full=20, flag=50),
+        sizes=formatted_data_dict["sizes_dict"],
+        length=formatted_data_dict["barb_length"],
+        linewidth=formatted_data_dict["line_width"],
+        norm=mpl_colors_info["norm"],
+        zorder=1,
+    )
 
 
-def output_clean_windbarbs(area_def, clean_fnames, mpl_colors_info, image_datetime, formatted_data_dict,
-                           fig=None, main_ax=None, mapobj=None):
-    ''' Function to actually plot and save "clean" windbarb imagery,  with no background imagery,
+def output_clean_windbarbs(
+    area_def,
+    clean_fnames,
+    mpl_colors_info,
+    image_datetime,
+    formatted_data_dict,
+    fig=None,
+    main_ax=None,
+    mapobj=None,
+):
+    """Function to actually plot and save "clean" windbarb imagery,  with no background imagery,
         coastlines, gridlines, titles, etc.
 
     Return: list[str]: Full paths to all resulting output files.
-    '''
+    """
 
-    LOG.info('Starting clean_fname')
+    LOG.info("Starting clean_fname")
     if fig is None and main_ax is None and mapobj is None:
         # Create matplotlib figure and main axis, where the main image will be plotted
-        fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(area_def.x_size,
-                                                                    area_def.y_size,
-                                                                    area_def,
-                                                                    noborder=True)
+        fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
+            area_def.x_size, area_def.y_size, area_def, noborder=True
+        )
 
     plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict)
 
@@ -84,13 +98,15 @@ def output_clean_windbarbs(area_def, clean_fnames, mpl_colors_info, image_dateti
 
     if clean_fnames is not None:
         for clean_fname in clean_fnames:
-            success_outputs += save_image(fig, clean_fname, is_final=False, image_datetime=image_datetime)
+            success_outputs += save_image(
+                fig, clean_fname, is_final=False, image_datetime=image_datetime
+            )
 
     return success_outputs
 
 
 def format_windbarb_data(xarray_obj, product_name):
-    '''
+    """
     lat=xarray_obj['latitude'].to_masked_array()
     lon2=xarray_obj['longitude'].to_masked_array()
     direction=xarray_obj['wind_dir_deg_met'].to_masked_array()
@@ -102,7 +118,7 @@ def format_windbarb_data(xarray_obj, product_name):
     #u=speed * numpy.sin(direction*3.1415926/180.0)
     #v=speed * numpy.cos(direction*3.1415926/180.0)
 
-    '''
+    """
 
     num_product_arrays = 1
     if len(xarray_obj[product_name].shape) == 3:
@@ -128,36 +144,40 @@ def format_windbarb_data(xarray_obj, product_name):
     # It will vary per-sensor / data type, these basically only currently work with
     # ASCAT 25 km data.
     # This would also avoid having the product names hard coded in the output module code.
-    if 'product_definition' in xarray_obj.attrs and 'barb_sizes' in xarray_obj.attrs['product_definition']:
+    if (
+        "product_definition" in xarray_obj.attrs
+        and "barb_sizes" in xarray_obj.attrs["product_definition"]
+    ):
         # Thinning the data points to better display the windbards
-        thinning = xarray_obj.attrs['product_definition']['barb_sizes']['thinning']
-        barblength = xarray_obj.attrs['product_definition']['barb_sizes']['barb_length']
-        linewidth = xarray_obj.attrs['product_definition']['barb_sizes']['line_width']
-        sizes_dict = xarray_obj.attrs['product_definition']['barb_sizes']['sizes_dict']
-        rain_size = xarray_obj.attrs['product_definition']['barb_sizes']['rain_size']
-    elif product_name == 'windbarbs':
+        thinning = xarray_obj.attrs["product_definition"]["barb_sizes"]["thinning"]
+        barblength = xarray_obj.attrs["product_definition"]["barb_sizes"]["barb_length"]
+        linewidth = xarray_obj.attrs["product_definition"]["barb_sizes"]["line_width"]
+        sizes_dict = xarray_obj.attrs["product_definition"]["barb_sizes"]["sizes_dict"]
+        rain_size = xarray_obj.attrs["product_definition"]["barb_sizes"]["rain_size"]
+    elif product_name == "windbarbs":
         # Thinning the data points to better display the windbards
-        thinning = 1                                                    # skip data points
-        barblength = 5.
+        thinning = 1  # skip data points
+        barblength = 5.0
         linewidth = 1.5
-        sizes_dict = dict(height=0.7,
-                          spacing=0.3)
+        sizes_dict = dict(height=0.7, spacing=0.3)
         rain_size = 10
-    elif product_name == 'wind-ambiguities':
+    elif product_name == "wind-ambiguities":
         # Thinning the data points to better display the windbards
-        thinning = 1                                                   # skip data points
-        barblength = 5    # Length of individual barbs
-        linewidth = 2     # Width of individual barbs
+        thinning = 1  # skip data points
+        barblength = 5  # Length of individual barbs
+        linewidth = 2  # Width of individual barbs
         rain_size = 10  # Marker size for rain_flag
-        sizes_dict = dict(height=0,
-                          spacing=0,
-                          width=0,  # flag width, relative to barblength
-                          emptybarb=0.5)
+        sizes_dict = dict(
+            height=0,
+            spacing=0,
+            width=0,  # flag width, relative to barblength
+            emptybarb=0.5,
+        )
 
-    lat = xarray_obj['latitude'].to_masked_array()
-    lon2 = xarray_obj['longitude'].to_masked_array()
-    u = speed * numpy.sin((direction+180)*3.1415926/180.0)
-    v = speed * numpy.cos((direction+180)*3.1415926/180.0)
+    lat = xarray_obj["latitude"].to_masked_array()
+    lon2 = xarray_obj["longitude"].to_masked_array()
+    u = speed * numpy.sin((direction + 180) * 3.1415926 / 180.0)
+    v = speed * numpy.cos((direction + 180) * 3.1415926 / 180.0)
 
     # convert longitudes to (-180,180)
     # lon=utils.wrap_longitudes(lon2)
@@ -188,46 +208,48 @@ def format_windbarb_data(xarray_obj, product_name):
     return_dict = {}
 
     if len(lon2.shape) != len(speed2.shape):
-        return_dict['lon'] = lon2[good_inds[0:2]]
+        return_dict["lon"] = lon2[good_inds[0:2]]
     else:
-        return_dict['lon'] = lon2[good_inds]
+        return_dict["lon"] = lon2[good_inds]
     if len(lat2.shape) != len(speed2.shape):
-        return_dict['lat'] = lat2[good_inds[0:2]]
+        return_dict["lat"] = lat2[good_inds[0:2]]
     else:
-        return_dict['lat'] = lat2[good_inds]
-    return_dict['u'] = u2[good_inds]
-    return_dict['v'] = v2[good_inds]
-    return_dict['speed'] = speed2[good_inds]
-    return_dict['rain_inds'] = numpy.ma.where(rain_flag2[good_inds])
-    return_dict['flip_barb'] = flip_barb
-    return_dict['barb_length'] = barblength
-    return_dict['line_width'] = linewidth
-    return_dict['sizes_dict'] = sizes_dict
-    return_dict['rain_size'] = rain_size
+        return_dict["lat"] = lat2[good_inds]
+    return_dict["u"] = u2[good_inds]
+    return_dict["v"] = v2[good_inds]
+    return_dict["speed"] = speed2[good_inds]
+    return_dict["rain_inds"] = numpy.ma.where(rain_flag2[good_inds])
+    return_dict["flip_barb"] = flip_barb
+    return_dict["barb_length"] = barblength
+    return_dict["line_width"] = linewidth
+    return_dict["sizes_dict"] = sizes_dict
+    return_dict["rain_size"] = rain_size
 
     return return_dict
 
 
-def imagery_windbarbs(area_def,
-                      xarray_obj,
-                      product_name,
-                      output_fnames,
-                      clean_fname=None,
-                      product_name_title=None,
-                      mpl_colors_info=None,
-                      boundaries_info=None,
-                      gridlines_info=None,
-                      product_datatype_title=None,
-                      bg_data=None,
-                      bg_mpl_colors_info=None,
-                      bg_xarray=None,
-                      bg_product_name_title=None,
-                      bg_datatype_title=None,
-                      remove_duplicate_minrange=None,
-                      title_copyright=None,
-                      title_format=None):
+def imagery_windbarbs(
+    area_def,
+    xarray_obj,
+    product_name,
+    output_fnames,
+    clean_fname=None,
+    product_name_title=None,
+    mpl_colors_info=None,
+    boundaries_info=None,
+    gridlines_info=None,
+    product_datatype_title=None,
+    bg_data=None,
+    bg_mpl_colors_info=None,
+    bg_xarray=None,
+    bg_product_name_title=None,
+    bg_datatype_title=None,
+    remove_duplicate_minrange=None,
+    title_copyright=None,
+    title_format=None,
+):
 
-    LOG.info('Startig imagery_windbarbs')
+    LOG.info("Startig imagery_windbarbs")
 
     if product_name_title is None:
         product_name_title = product_name
@@ -239,55 +261,73 @@ def imagery_windbarbs(area_def,
     formatted_data_dict = format_windbarb_data(xarray_obj, product_name)
 
     if clean_fname is not None:
-        success_outputs += output_clean_windbarbs(area_def,
-                                                  [clean_fname],
-                                                  mpl_colors_info,
-                                                  xarray_obj.start_datetime,
-                                                  formatted_data_dict)
+        success_outputs += output_clean_windbarbs(
+            area_def,
+            [clean_fname],
+            mpl_colors_info,
+            xarray_obj.start_datetime,
+            formatted_data_dict,
+        )
 
     if output_fnames is not None:
-        LOG.info('Starting output_fnames')
+        LOG.info("Starting output_fnames")
 
         # Create matplotlib figure and main axis, where the main image will be plotted
-        fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(area_def.x_size,
-                                                                    area_def.y_size,
-                                                                    area_def,
-                                                                    existing_mapobj=None,
-                                                                    noborder=False)
+        fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
+            area_def.x_size,
+            area_def.y_size,
+            area_def,
+            existing_mapobj=None,
+            noborder=False,
+        )
 
         if bg_data is not None:
             if not bg_mpl_colors_info:
-                bg_mpl_colors_info = set_matplotlib_colors_standard(data_range=[bg_data.min(), bg_data.max()],
-                                                                    cmap_name='Greys',
-                                                                    cbar_label=None,
-                                                                    create_colorbar=False)
+                bg_mpl_colors_info = set_matplotlib_colors_standard(
+                    data_range=[bg_data.min(), bg_data.max()],
+                    cmap_name="Greys",
+                    cbar_label=None,
+                    create_colorbar=False,
+                )
             # Plot the background data on a map
-            plot_image(main_ax,
-                       bg_data,
-                       mapobj,
-                       mpl_colors_info=bg_mpl_colors_info)
+            plot_image(main_ax, bg_data, mapobj, mpl_colors_info=bg_mpl_colors_info)
 
         plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict)
 
         # Set the title for final image
-        title_string = get_title_string_from_objects(area_def, xarray_obj, product_name_title,
-                                                     product_datatype_title=product_datatype_title,
-                                                     bg_xarray=bg_xarray,
-                                                     bg_product_name_title=bg_product_name_title,
-                                                     bg_datatype_title=bg_datatype_title,
-                                                     title_copyright=title_copyright,
-                                                     title_format=title_format)
+        title_string = get_title_string_from_objects(
+            area_def,
+            xarray_obj,
+            product_name_title,
+            product_datatype_title=product_datatype_title,
+            bg_xarray=bg_xarray,
+            bg_product_name_title=bg_product_name_title,
+            bg_datatype_title=bg_datatype_title,
+            title_copyright=title_copyright,
+            title_format=title_format,
+        )
         set_title(main_ax, title_string, area_def.y_size)
 
-        if mpl_colors_info['colorbar'] is True:
+        if mpl_colors_info["colorbar"] is True:
             # Create the colorbar to match the mpl_colors
             create_colorbar(fig, mpl_colors_info)
 
         # Plot gridlines and boundaries overlays
-        plot_overlays(mapobj, main_ax, area_def, boundaries_info=boundaries_info, gridlines_info=gridlines_info)
+        plot_overlays(
+            mapobj,
+            main_ax,
+            area_def,
+            boundaries_info=boundaries_info,
+            gridlines_info=gridlines_info,
+        )
 
         for annotated_fname in output_fnames:
             # Save the final image
-            success_outputs += save_image(fig, annotated_fname, is_final=True, image_datetime=xarray_obj.start_datetime)
+            success_outputs += save_image(
+                fig,
+                annotated_fname,
+                is_final=True,
+                image_datetime=xarray_obj.start_datetime,
+            )
 
     return success_outputs

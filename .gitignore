@@ -9,3 +9,4 @@ geoips.egg-info
 *.simg
 *.egg-info
 tests/data/**
+*.diff

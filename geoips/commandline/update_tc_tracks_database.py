@@ -11,19 +11,21 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 #!/bin/env python
-''' Command line script for updating the TC database '''
+""" Command line script for updating the TC database """
 
 
 def main():
     import sys
     from geoips.commandline.log_setup import setup_logging
+
     LOG = setup_logging()
     from geoips.sector_utils.tc_tracks_database import check_db
+
     if len(sys.argv) > 2:
         check_db(sys.argv[1:])
     else:
         check_db()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

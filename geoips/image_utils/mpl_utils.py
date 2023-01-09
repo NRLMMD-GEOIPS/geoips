@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.interfaces import title_formatters
 
-matplotlib.use('agg')
+matplotlib.use("agg")
 rc_params = matplotlib.rcParams
 LOG = logging.getLogger(__name__)
 
@@ -44,6 +44,7 @@ def percent_unmasked_rgba(rgba):
         Coverage in percentage, between 0 and 100.
     """
     import numpy
+
     coverage = 100.0 * numpy.count_nonzero(rgba[:, :, 3]) / rgba[:, :, 3].size
     return coverage
 
@@ -70,6 +71,7 @@ def rgba_from_arrays(red, grn, blu, alp=None):
         4 layer dimensional numpy.ndarray
     """
     import numpy
+
     if alp is None:
         alp = alpha_from_masked_arrays([red, grn, blu])
     red.fill_value = 0
@@ -98,6 +100,7 @@ def alpha_from_masked_arrays(arrays):
         0 and 1, where 0 is fully transparent and 1 is fully opaque
     """
     import numpy
+
     alp = numpy.zeros(arrays[0].shape, dtype=numpy.bool)
     for img in arrays:
         try:
@@ -113,8 +116,15 @@ def alpha_from_masked_arrays(arrays):
     return alp
 
 
-def plot_overlays(mapobj, curr_ax, area_def, boundaries_info, gridlines_info,
-                  boundaries_zorder=None, gridlines_zorder=None):
+def plot_overlays(
+    mapobj,
+    curr_ax,
+    area_def,
+    boundaries_info,
+    gridlines_info,
+    boundaries_zorder=None,
+    gridlines_zorder=None,
+):
     """
     Plot specified coastlines and gridlines on the matplotlib axes.
 
@@ -141,18 +151,33 @@ def plot_overlays(mapobj, curr_ax, area_def, boundaries_info, gridlines_info,
     geoips.image_utils.maps.set_gridlines_info_dict
         for required fields and defaults for gridlines_info
     """
-    from geoips.image_utils.maps import set_boundaries_info_dict, set_gridlines_info_dict
+    from geoips.image_utils.maps import (
+        set_boundaries_info_dict,
+        set_gridlines_info_dict,
+    )
+
     use_boundaries_info = set_boundaries_info_dict(boundaries_info)
     use_gridlines_info = set_gridlines_info_dict(gridlines_info, area_def)
 
     from geoips.image_utils.maps import draw_boundaries
+
     draw_boundaries(mapobj, curr_ax, use_boundaries_info, zorder=boundaries_zorder)
 
     from geoips.image_utils.maps import draw_gridlines
-    draw_gridlines(mapobj, area_def, curr_ax, use_gridlines_info, zorder=gridlines_zorder)
+
+    draw_gridlines(
+        mapobj, area_def, curr_ax, use_gridlines_info, zorder=gridlines_zorder
+    )
 
 
-def save_image(fig, out_fname, is_final=True, image_datetime=None, remove_duplicate_minrange=None, savefig_kwargs=None):
+def save_image(
+    fig,
+    out_fname,
+    is_final=True,
+    image_datetime=None,
+    remove_duplicate_minrange=None,
+    savefig_kwargs=None,
+):
     """
     Save the image specified by the matplotlib figure "fig" to the filename out_fname.
 
@@ -183,12 +208,18 @@ def save_image(fig, out_fname, is_final=True, image_datetime=None, remove_duplic
         if not pathexists(dirname(out_fname)):
             make_dirs(dirname(out_fname))
         for ax in fig.axes:
-            LOG.info('Adding ax to %s', ax)
+            LOG.info("Adding ax to %s", ax)
             ax.set_axis_on()
         # final with titles, labels, etc.  Note bbox_inches='tight' removes white space, pad_inches=0.1 puts back in
         # a bit of white space.
-        LOG.info('Writing %s', out_fname)
-        fig.savefig(out_fname, dpi=rc_params['figure.dpi'], pad_inches=0.1, bbox_inches='tight', transparent=False)
+        LOG.info("Writing %s", out_fname)
+        fig.savefig(
+            out_fname,
+            dpi=rc_params["figure.dpi"],
+            pad_inches=0.1,
+            bbox_inches="tight",
+            transparent=False,
+        )
         if remove_duplicate_minrange is not None:
             remove_duplicates(out_fname, remove_duplicate_minrange)
     else:
@@ -199,24 +230,31 @@ def save_image(fig, out_fname, is_final=True, image_datetime=None, remove_duplic
         # frameon=False makes it have no titles / lat/lons. does not avoid colorbar, since that is its own ax
         # frameon=False deprecated as of matplotlib 3.1.0.  Use facecolor="none" for the same results
         for ax in fig.axes:
-            LOG.info('Removing ax from %s', ax)
+            LOG.info("Removing ax from %s", ax)
             ax.set_axis_off()
 
-        LOG.info('Writing %s', out_fname)
+        LOG.info("Writing %s", out_fname)
 
         # Replace fig.savefig frameon=False argument with facecolor="none"
         # * frameon deprecated maplotlib v3.1.0, support removed v3.6.0
         # * facecolor="none" also works with 3.5.x
         # * https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon
-        fig.savefig(out_fname, dpi=rc_params['figure.dpi'], pad_inches=0.0,
-                    transparent=True, facecolor="none", **savefig_kwargs)
+        fig.savefig(
+            out_fname,
+            dpi=rc_params["figure.dpi"],
+            pad_inches=0.0,
+            transparent=True,
+            facecolor="none",
+            **savefig_kwargs
+        )
         if remove_duplicate_minrange is not None:
             remove_duplicates(out_fname, remove_duplicate_minrange)
 
-    LOG.info('IMAGESUCCESS wrote %s', out_fname)
+    LOG.info("IMAGESUCCESS wrote %s", out_fname)
     if image_datetime is not None:
         from datetime import datetime
-        LOG.info('LATENCY %s %s', datetime.utcnow() - image_datetime, out_fname)
+
+        LOG.info("LATENCY %s %s", datetime.utcnow() - image_datetime, out_fname)
     return [out_fname]
 
 
@@ -225,9 +263,17 @@ def remove_duplicates(fname, min_range):
     pass
 
 
-def get_title_string_from_objects(area_def, xarray_obj, product_name_title, product_datatype_title=None,
-                                  bg_xarray=None, bg_product_name_title=None, bg_datatype_title=None,
-                                  title_copyright=None, title_format=None):
+def get_title_string_from_objects(
+    area_def,
+    xarray_obj,
+    product_name_title,
+    product_datatype_title=None,
+    bg_xarray=None,
+    bg_product_name_title=None,
+    bg_datatype_title=None,
+    title_copyright=None,
+    title_format=None,
+):
     """
     Get the title from object information.
 
@@ -259,36 +305,45 @@ def get_title_string_from_objects(area_def, xarray_obj, product_name_title, prod
         the title to use for matplotlib
     """
     if title_copyright is None:
-        title_copyright = gpaths['GEOIPS_COPYRIGHT']
+        title_copyright = gpaths["GEOIPS_COPYRIGHT"]
 
     from geoips.sector_utils.utils import is_sector_type
 
     if product_datatype_title is None:
         product_source_name = xarray_obj.source_name
         product_platform_name = xarray_obj.platform_name
-        if 'model' in product_name_title:
+        if "model" in product_name_title:
             try:
                 product_source_name = xarray_obj.model_source
-                product_platform_name = ''
+                product_platform_name = ""
             except AttributeError:
-                LOG.info('No model source in xarray')
-        product_datatype_title = '{0} {1}'.format(product_platform_name.upper(), product_source_name.upper())
+                LOG.info("No model source in xarray")
+        product_datatype_title = "{0} {1}".format(
+            product_platform_name.upper(), product_source_name.upper()
+        )
 
     if bg_xarray is not None and bg_datatype_title is None:
-        bg_datatype_title = '{0} {1}'.format(bg_xarray.platform_name.upper(), bg_xarray.source_name.upper())
+        bg_datatype_title = "{0} {1}".format(
+            bg_xarray.platform_name.upper(), bg_xarray.source_name.upper()
+        )
 
     if title_format is not None:
         title_formatter = title_formatters.get(title_format)
-    elif is_sector_type(area_def, 'tc'):
-        title_formatter = title_formatters.get('tc_standard')
+    elif is_sector_type(area_def, "tc"):
+        title_formatter = title_formatters.get("tc_standard")
     else:
-        title_formatter = title_formatters.get('static_standard')
+        title_formatter = title_formatters.get("static_standard")
 
     title_string = title_formatter(
-        area_def, xarray_obj, product_name_title,
-        product_datatype_title=product_datatype_title, bg_xarray=bg_xarray,
-        bg_product_name_title=bg_product_name_title, bg_datatype_title=bg_datatype_title,
-        title_copyright=title_copyright)
+        area_def,
+        xarray_obj,
+        product_name_title,
+        product_datatype_title=product_datatype_title,
+        bg_xarray=bg_xarray,
+        bg_product_name_title=bg_product_name_title,
+        bg_datatype_title=bg_datatype_title,
+        title_copyright=title_copyright,
+    )
 
     return title_string
 
@@ -315,9 +370,10 @@ def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
     """
     # main_ax.set_aspect('auto')
 
-    LOG.info('imshow')
+    LOG.info("imshow")
     import numpy
     from geoips.image_utils.maps import is_crs
+
     if is_crs(mapobj):
         # Apparently cartopy handles the flipud
 
@@ -325,25 +381,30 @@ def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
         # Ensure if zorder is passed, it is propagated to imshow.
         extra_args = {}
         if zorder is not None:
-            extra_args = {'zorder': zorder}
-        main_ax.imshow(data,
-                       transform=mapobj,
-                       extent=mapobj.bounds,
-                       cmap=mpl_colors_info['cmap'],
-                       norm=mpl_colors_info['norm'],
-                       **extra_args)
+            extra_args = {"zorder": zorder}
+        main_ax.imshow(
+            data,
+            transform=mapobj,
+            extent=mapobj.bounds,
+            cmap=mpl_colors_info["cmap"],
+            norm=mpl_colors_info["norm"],
+            **extra_args
+        )
     else:
-        mapobj.imshow(numpy.flipud(data),
-                      ax=main_ax,
-                      cmap=mpl_colors_info['cmap'],
-                      norm=mpl_colors_info['norm'],
-                      aspect='auto')
+        mapobj.imshow(
+            numpy.flipud(data),
+            ax=main_ax,
+            cmap=mpl_colors_info["cmap"],
+            norm=mpl_colors_info["norm"],
+            aspect="auto",
+        )
 
     return mapobj
 
 
-def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
-                                         font_size=None, existing_mapobj=None, noborder=False):
+def create_figure_and_main_ax_and_mapobj(
+    x_size, y_size, area_def, font_size=None, existing_mapobj=None, noborder=False
+):
     """
     Create a figure of x pixels horizontally and y pixels vertically.
 
@@ -379,13 +440,14 @@ def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
         cartopy crs or Basemap object for plotting
     """
     import matplotlib
-    matplotlib.use('agg')
+
+    matplotlib.use("agg")
     rc_params = matplotlib.rcParams
 
     set_fonts(y_size, font_size=font_size)
 
     # Gather needed rcParam constants
-    dpi = rc_params['figure.dpi']
+    dpi = rc_params["figure.dpi"]
 
     # I can't seem to get a clean image with no border unless the ax fills the whole figure.
     # Titles / labels don't show up unless we use figure.subplot rc_params
@@ -396,26 +458,43 @@ def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
         bottom_margin = 0.0
         top_margin = 1.0
     else:
-        left_margin = rc_params['figure.subplot.left']   # Fractional distance from left edge of figure for subplot
-        right_margin = rc_params['figure.subplot.right']  # Fractional distance from right edge of figure for subplot
-        bottom_margin = rc_params['figure.subplot.bottom']  # Fractional distance from bottom edge of figure for subplot
-        top_margin = rc_params['figure.subplot.top']     # Fractional distance from top edge of figure for subplot
+        left_margin = rc_params[
+            "figure.subplot.left"
+        ]  # Fractional distance from left edge of figure for subplot
+        right_margin = rc_params[
+            "figure.subplot.right"
+        ]  # Fractional distance from right edge of figure for subplot
+        bottom_margin = rc_params[
+            "figure.subplot.bottom"
+        ]  # Fractional distance from bottom edge of figure for subplot
+        top_margin = rc_params[
+            "figure.subplot.top"
+        ]  # Fractional distance from top edge of figure for subplot
 
-    xsize = (float(x_size)/dpi)/(right_margin - left_margin)
-    ysize = (float(y_size)/dpi)/(top_margin - bottom_margin)
+    xsize = (float(x_size) / dpi) / (right_margin - left_margin)
+    ysize = (float(y_size) / dpi) / (top_margin - bottom_margin)
 
     if existing_mapobj is None:
-        LOG.info('creating mapobj instance')
+        LOG.info("creating mapobj instance")
         from geoips.image_utils.maps import area_def2mapobj
+
         mapobj = area_def2mapobj(area_def)
     else:
-        LOG.info('mapobj already exists, not recreating')
+        LOG.info("mapobj already exists, not recreating")
         mapobj = existing_mapobj
 
-    LOG.info('Creating figure: left, right, bottom, top, xsize, ysize %s %s %s %s %s %s',
-             left_margin, right_margin, bottom_margin, top_margin, xsize, ysize)
+    LOG.info(
+        "Creating figure: left, right, bottom, top, xsize, ysize %s %s %s %s %s %s",
+        left_margin,
+        right_margin,
+        bottom_margin,
+        top_margin,
+        xsize,
+        ysize,
+    )
 
     from geoips.image_utils.maps import is_crs
+
     if is_crs(mapobj):
         # frameon=False creates transparent titles with cartopy
         fig = plt.figure()
@@ -424,8 +503,13 @@ def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
     fig.set_size_inches(xsize, ysize)
     set_fonts(y_size, font_size=font_size)
 
-    LOG.info('Creating main ax: left, bottom, width, height %s %s %s %s',
-             left_margin, bottom_margin, right_margin - left_margin, top_margin - bottom_margin)
+    LOG.info(
+        "Creating main ax: left, bottom, width, height %s %s %s %s",
+        left_margin,
+        bottom_margin,
+        right_margin - left_margin,
+        top_margin - bottom_margin,
+    )
 
     # cartopy figure with non-transparent titles
     # In [71]: fig = plt.figure()
@@ -438,15 +522,26 @@ def create_figure_and_main_ax_and_mapobj(x_size, y_size, area_def,
 
     if is_crs(mapobj):
         # Transparent behind titles without frame_on True
-        main_ax = fig.add_axes([left_margin,
-                                bottom_margin,
-                                right_margin - left_margin,
-                                top_margin - bottom_margin],
-                                projection=mapobj,
-                                frame_on=not noborder,
-                               )
+        main_ax = fig.add_axes(
+            [
+                left_margin,
+                bottom_margin,
+                right_margin - left_margin,
+                top_margin - bottom_margin,
+            ],
+            projection=mapobj,
+            frame_on=not noborder,
+        )
     else:
-        main_ax = plt.Axes(fig, [left_margin, bottom_margin, right_margin-left_margin, top_margin-bottom_margin])
+        main_ax = plt.Axes(
+            fig,
+            [
+                left_margin,
+                bottom_margin,
+                right_margin - left_margin,
+                top_margin - bottom_margin,
+            ],
+        )
     main_ax.set_axis_off()
     fig.add_axes(main_ax)
 
@@ -463,23 +558,22 @@ def set_fonts(figure_y_size, font_size=None):
         Font size set relative to number of pixels in the y direction
     """
     import matplotlib
-    matplotlib.use('agg')
+
+    matplotlib.use("agg")
     mplrc = matplotlib.rc
 
     # Update font size based on number of lines
     if font_size is not None:
         title_fsize = font_size
-    elif int(figure_y_size)/1000 != 0:
-        title_fsize = 20*int(figure_y_size)/1000
+    elif int(figure_y_size) / 1000 != 0:
+        title_fsize = 20 * int(figure_y_size) / 1000
     else:
         title_fsize = 20
 
-    font = {'family': 'sans-serif',
-            'weight': 'bold',
-            'size': title_fsize}
+    font = {"family": "sans-serif", "weight": "bold", "size": title_fsize}
 
-    LOG.info('Setting font size to %s for figure_y_size %s', title_fsize, figure_y_size)
-    mplrc('font', **font)
+    LOG.info("Setting font size to %s for figure_y_size %s", title_fsize, figure_y_size)
+    mplrc("font", **font)
 
 
 def set_title(ax, title_string, figure_y_size, xpos=None, ypos=None, fontsize=None):
@@ -502,22 +596,30 @@ def set_title(ax, title_string, figure_y_size, xpos=None, ypos=None, fontsize=No
         matplotlib font size
     """
     import matplotlib
-    matplotlib.use('agg')
+
+    matplotlib.use("agg")
     rc_params = matplotlib.rcParams
 
     # Provide pad room between characters
-    fontspace = rc_params['font.size']
+    fontspace = rc_params["font.size"]
     title_line_space = float(fontspace) / figure_y_size
     # num_title_lines = len(title_string.split('\n'))
 
     if xpos is None:
-        xpos = 0.5          # This centers the title
+        xpos = 0.5  # This centers the title
     if ypos is None:
         # ypos = 1 + title_line_space*2
-        ypos = 1 + title_line_space*2 # This is relative to main_ax, so greater than 1.
-    LOG.info('Setting title: font size %s, xpos %s ypos %s, title_line_space %s',
-             fontspace, xpos, ypos, title_line_space)
-    LOG.info('    Title string: %s', title_string)
+        ypos = (
+            1 + title_line_space * 2
+        )  # This is relative to main_ax, so greater than 1.
+    LOG.info(
+        "Setting title: font size %s, xpos %s ypos %s, title_line_space %s",
+        fontspace,
+        xpos,
+        ypos,
+        title_line_space,
+    )
+    LOG.info("    Title string: %s", title_string)
 
     # from cartopy.mpl.geoaxes import GeoAxes # isinstance(ax, GeoAxes)
     # Slightly more space between title and lon labels
@@ -569,87 +671,101 @@ def create_colorbar(fig, mpl_colors_info):
     """
 
     # Required - needed for both colormaps and colorbars.
-    cmap_norm = mpl_colors_info['norm']
-    mpl_cmap = mpl_colors_info['cmap']
-    cmap_boundaries = mpl_colors_info['boundaries']
+    cmap_norm = mpl_colors_info["norm"]
+    mpl_cmap = mpl_colors_info["cmap"]
+    cmap_boundaries = mpl_colors_info["boundaries"]
 
     # Required, for setting colorbar labels with set_label and ticks with set_ticks
-    cbar_label = mpl_colors_info['cbar_label']
-    cbar_ticks = mpl_colors_info['cbar_ticks']
+    cbar_label = mpl_colors_info["cbar_label"]
+    cbar_ticks = mpl_colors_info["cbar_ticks"]
 
-    # Optional - can be specified in colorbar_kwargs 
-    cbar_spacing = 'proportional'
-    if 'cbar_spacing' in mpl_colors_info:
-        cbar_spacing = mpl_colors_info['cbar_spacing']
+    # Optional - can be specified in colorbar_kwargs
+    cbar_spacing = "proportional"
+    if "cbar_spacing" in mpl_colors_info:
+        cbar_spacing = mpl_colors_info["cbar_spacing"]
 
     # Optional - can be specified in set_ticks_kwargs. None will be mapped to cbar_ticks.
     cbar_tick_labels = None
-    if 'cbar_tick_labels' in mpl_colors_info:
-        cbar_tick_labels = mpl_colors_info['cbar_tick_labels']
-    if mpl_colors_info['cbar_tick_labels'] is None:
+    if "cbar_tick_labels" in mpl_colors_info:
+        cbar_tick_labels = mpl_colors_info["cbar_tick_labels"]
+    if mpl_colors_info["cbar_tick_labels"] is None:
         cbar_tick_labels = cbar_ticks
 
     # Allow arbitrary kwargs to colorbar, but ensure our defaults for extend and orientation are set.
     cbar_kwargs = {}
-    if 'colorbar_kwargs' in mpl_colors_info:
-        cbar_kwargs = mpl_colors_info['colorbar_kwargs'].copy()
-    if 'extend' not in cbar_kwargs:
-        cbar_kwargs['extend'] = 'both'
-    if 'spacing' not in cbar_kwargs:
-        cbar_kwargs['spacing'] = cbar_spacing
-    if 'orientation' not in cbar_kwargs:
-        cbar_kwargs['orientation'] = 'horizontal'
+    if "colorbar_kwargs" in mpl_colors_info:
+        cbar_kwargs = mpl_colors_info["colorbar_kwargs"].copy()
+    if "extend" not in cbar_kwargs:
+        cbar_kwargs["extend"] = "both"
+    if "spacing" not in cbar_kwargs:
+        cbar_kwargs["spacing"] = cbar_spacing
+    if "orientation" not in cbar_kwargs:
+        cbar_kwargs["orientation"] = "horizontal"
 
     # Allow arbitrary kwargs to set_ticks, but ensure our defaults for labels and font sizes are set
-    set_ticks_kwargs={}
-    if 'set_ticks_kwargs' in mpl_colors_info:
-        set_ticks_kwargs = mpl_colors_info['set_ticks_kwargs'].copy()
-    if 'size' not in set_ticks_kwargs:
-        set_ticks_kwargs['size'] = 'small'
-    if 'labels' not in set_ticks_kwargs or set_ticks_kwargs['labels'] is None:
-        set_ticks_kwargs['labels'] = cbar_tick_labels
+    set_ticks_kwargs = {}
+    if "set_ticks_kwargs" in mpl_colors_info:
+        set_ticks_kwargs = mpl_colors_info["set_ticks_kwargs"].copy()
+    if "size" not in set_ticks_kwargs:
+        set_ticks_kwargs["size"] = "small"
+    if "labels" not in set_ticks_kwargs or set_ticks_kwargs["labels"] is None:
+        set_ticks_kwargs["labels"] = cbar_tick_labels
 
     # Allow arbitrary kwargs to set_label
-    set_label_kwargs={}
-    if 'set_label_kwargs' in mpl_colors_info:
-        set_label_kwargs = mpl_colors_info['set_label_kwargs'].copy()
-    if 'size' not in set_label_kwargs:
-        set_label_kwargs['size'] = rc_params['font.size']
+    set_label_kwargs = {}
+    if "set_label_kwargs" in mpl_colors_info:
+        set_label_kwargs = mpl_colors_info["set_label_kwargs"].copy()
+    if "size" not in set_label_kwargs:
+        set_label_kwargs["size"] = rc_params["font.size"]
 
-    left_margin = rc_params['figure.subplot.left']    # Fractional distance from left edge of figure for subplot
-    right_margin = rc_params['figure.subplot.right']    # Fractional distance from left edge of figure for subplot
+    left_margin = rc_params[
+        "figure.subplot.left"
+    ]  # Fractional distance from left edge of figure for subplot
+    right_margin = rc_params[
+        "figure.subplot.right"
+    ]  # Fractional distance from left edge of figure for subplot
 
-    # Optional positioning information for the colorbar axis - default location appropriately 
-    if 'cbar_ax_left_start_pos' in mpl_colors_info:
-        ax_left_start_pos = mpl_colors_info['cbar_ax_left_start_pos']
+    # Optional positioning information for the colorbar axis - default location appropriately
+    if "cbar_ax_left_start_pos" in mpl_colors_info:
+        ax_left_start_pos = mpl_colors_info["cbar_ax_left_start_pos"]
     else:
-        ax_left_start_pos = 2*left_margin
-        if 'cbar_full_width' in mpl_colors_info and mpl_colors_info['cbar_full_width'] is True:
+        ax_left_start_pos = 2 * left_margin
+        if (
+            "cbar_full_width" in mpl_colors_info
+            and mpl_colors_info["cbar_full_width"] is True
+        ):
             ax_left_start_pos = left_margin  # Full width colorbar
 
     ax_bottom_start_pos = 0.05
-    if 'cbar_ax_bottom_start_pos' in mpl_colors_info:
-        ax_bottom_start_pos = mpl_colors_info['cbar_ax_bottom_start_pos']
+    if "cbar_ax_bottom_start_pos" in mpl_colors_info:
+        ax_bottom_start_pos = mpl_colors_info["cbar_ax_bottom_start_pos"]
 
-    if 'cbar_ax_width' in mpl_colors_info:
-        ax_width = mpl_colors_info['cbar_ax_width']
+    if "cbar_ax_width" in mpl_colors_info:
+        ax_width = mpl_colors_info["cbar_ax_width"]
     else:
-        ax_width = 1 - 4*left_margin
-        if 'cbar_full_width' in mpl_colors_info and mpl_colors_info['cbar_full_width'] is True:
+        ax_width = 1 - 4 * left_margin
+        if (
+            "cbar_full_width" in mpl_colors_info
+            and mpl_colors_info["cbar_full_width"] is True
+        ):
             ax_width = right_margin - left_margin  # Full width colorbar
 
     ax_height = 0.020
-    if 'cbar_ax_height' in mpl_colors_info:
-        ax_height = mpl_colors_info['cbar_ax_height']
+    if "cbar_ax_height" in mpl_colors_info:
+        ax_height = mpl_colors_info["cbar_ax_height"]
 
     # Note - if we want to support "automated" pyplot.colorbar placement, may need a method to "turn off" cbar_ax
     # [left, bottom, width, height]
-    cbar_ax = fig.add_axes([ax_left_start_pos, ax_bottom_start_pos, ax_width, ax_height])
-    cbar = plt.colorbar(mappable=matplotlib.cm.ScalarMappable(norm=cmap_norm, cmap=mpl_cmap),
-                        cax=cbar_ax,
-                        norm=cmap_norm,
-                        boundaries=cmap_boundaries,
-                        **cbar_kwargs)
+    cbar_ax = fig.add_axes(
+        [ax_left_start_pos, ax_bottom_start_pos, ax_width, ax_height]
+    )
+    cbar = plt.colorbar(
+        mappable=matplotlib.cm.ScalarMappable(norm=cmap_norm, cmap=mpl_cmap),
+        cax=cbar_ax,
+        norm=cmap_norm,
+        boundaries=cmap_boundaries,
+        **cbar_kwargs
+    )
     if cbar_ticks:
         # matplotlib 3.6.0 sometimes has inconsistent results with including minor ticks or not.
         # Unclear why it impacts some colorbars and not others.

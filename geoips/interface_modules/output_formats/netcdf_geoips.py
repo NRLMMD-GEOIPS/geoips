@@ -15,22 +15,25 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-output_type = 'xarray_data'
+output_type = "xarray_data"
 
 
-def netcdf_geoips(xarray_obj,
-                  product_names,
-                  output_fnames):
+def netcdf_geoips(xarray_obj, product_names, output_fnames):
 
     import xarray
+
     prod_xarray = xarray.Dataset()
 
     from geoips.dev.utils import copy_standard_metadata
+
     copy_standard_metadata(xarray_obj, prod_xarray)
     for product_name in product_names:
         prod_xarray[product_name] = xarray_obj[product_name]
 
-    from geoips.interface_modules.output_formats.netcdf_xarray import write_xarray_netcdf
+    from geoips.interface_modules.output_formats.netcdf_xarray import (
+        write_xarray_netcdf,
+    )
+
     for ncdf_fname in output_fnames:
         write_xarray_netcdf(prod_xarray, ncdf_fname)
     return output_fnames

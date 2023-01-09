@@ -10,28 +10,36 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-''' Data manipulation steps for surface winds products.
+""" Data manipulation steps for surface winds products.
 
     This algorithm expects surface wind speeds in units of kts
-'''
+"""
 
 import logging
 
 LOG = logging.getLogger(__name__)
 
-family = 'list_numpy_to_numpy'
-alg_func_type = 'list_numpy_to_numpy'
-description = 'Surface Winds plotted as Barbs in Knots'
+family = "list_numpy_to_numpy"
+alg_func_type = "list_numpy_to_numpy"
+description = "Surface Winds plotted as Barbs in Knots"
 
 
-def windbarbs(arrays, output_data_range=None, input_units=None, output_units=None,
-              min_outbounds='crop', max_outbounds='crop', norm=False, inverse=False):
-    ''' Data manipulation steps for "windbarbs" product algorithm.
+def windbarbs(
+    arrays,
+    output_data_range=None,
+    input_units=None,
+    output_units=None,
+    min_outbounds="crop",
+    max_outbounds="crop",
+    norm=False,
+    inverse=False,
+):
+    """Data manipulation steps for "windbarbs" product algorithm.
 
     This algorithm expects input windspeed with units "kts" and returns in "kts"
 
     Args:
-        data (list[numpy.ndarray]) : 
+        data (list[numpy.ndarray]) :
             * list of numpy.ndarray or numpy.MaskedArray of channel data, in order of sensor "channels" list
             * kts
         output_data_range (list[float]) :
@@ -65,9 +73,10 @@ def windbarbs(arrays, output_data_range=None, input_units=None, output_units=Non
                            * spd in kts
                            * direction in degrees
                            * rain_flag 0 or 1
-    '''
+    """
 
     import numpy
+
     spd = arrays[0]
     if output_data_range is None:
         output_data_range = (spd.min(), spd.max)
@@ -78,13 +87,18 @@ def windbarbs(arrays, output_data_range=None, input_units=None, output_units=Non
         rain_flag = numpy.zeros(arrays[1].shape)
 
     from geoips.data_manipulations.conversions import unit_conversion
+
     spd = unit_conversion(spd, input_units, output_units)
 
     from geoips.data_manipulations.corrections import apply_data_range
-    spd = apply_data_range(spd,
-                           min_val=output_data_range[0], max_val=output_data_range[1],
-                           min_outbounds=min_outbounds, max_outbounds=max_outbounds,
-                           norm=norm, inverse=inverse)
+
+    spd = apply_data_range(
+        spd,
+        min_val=output_data_range[0],
+        max_val=output_data_range[1],
+        min_outbounds=min_outbounds,
+        max_outbounds=max_outbounds,
+        norm=norm,
+        inverse=inverse,
+    )
     return numpy.ma.dstack((spd, direction, rain_flag)).squeeze()
-
-

@@ -17,21 +17,24 @@ import matplotlib.pyplot as plt
 import matplotlib
 
 from geoips.image_utils.mpl_utils import save_image
-matplotlib.use('agg')
+
+matplotlib.use("agg")
 
 LOG = logging.getLogger(__name__)
 
-output_type = 'unprojected'
+output_type = "unprojected"
 
 
-def unprojected_image(xarray_obj,
-                      product_name,
-                      output_fnames,
-                      product_name_title=None,
-                      mpl_colors_info=None,
-                      x_size=None,
-                      y_size=None,
-                      savefig_kwargs=None):
+def unprojected_image(
+    xarray_obj,
+    product_name,
+    output_fnames,
+    product_name_title=None,
+    mpl_colors_info=None,
+    x_size=None,
+    y_size=None,
+    savefig_kwargs=None,
+):
 
     if savefig_kwargs is None:
         # Default to no arguments, empty dictionary.  Will result in masked background
@@ -52,7 +55,7 @@ def unprojected_image(xarray_obj,
         x_size = float(ratio) * float(xarray_obj[product_name].shape[1])
 
     rc_params = matplotlib.rcParams
-    dpi = rc_params['figure.dpi']
+    dpi = rc_params["figure.dpi"]
 
     image_width = float(x_size) / dpi
     image_height = float(y_size) / dpi
@@ -63,13 +66,22 @@ def unprojected_image(xarray_obj,
     main_ax.set_axis_off()
     fig.add_axes(main_ax)
 
-    main_ax.imshow(xarray_obj[product_name], norm=mpl_colors_info['norm'], cmap=mpl_colors_info['cmap'])
+    main_ax.imshow(
+        xarray_obj[product_name],
+        norm=mpl_colors_info["norm"],
+        cmap=mpl_colors_info["cmap"],
+    )
 
     success_outputs = []
     for fname in output_fnames:
-        LOG.info('Plotting %s with plt', fname)
+        LOG.info("Plotting %s with plt", fname)
         # This just handles cleaning up the axes, creating directories, etc
-        success_outputs += save_image(fig, fname, is_final=False, image_datetime=xarray_obj.start_datetime,
-                                      savefig_kwargs=savefig_kwargs)
+        success_outputs += save_image(
+            fig,
+            fname,
+            is_final=False,
+            image_datetime=xarray_obj.start_datetime,
+            savefig_kwargs=savefig_kwargs,
+        )
 
     return success_outputs

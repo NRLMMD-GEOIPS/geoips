@@ -10,17 +10,27 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-'''Clean TC filename production'''
+"""Clean TC filename production"""
 
 from geoips.filenames.base_paths import PATHS as gpaths
 
-filename_type = 'standard'
+filename_type = "standard"
 
 
-def tc_clean_fname(area_def, xarray_obj, product_name, coverage, output_type='png', output_type_dir=None,
-                   product_dir=None, product_subdir=None, source_dir=None, basedir=gpaths['TCWWW'],
-                   output_dict=None):
-    ''' Standard type filename module to produce output filenames for "clean" TC products (no gridlines, titles, etc)
+def tc_clean_fname(
+    area_def,
+    xarray_obj,
+    product_name,
+    coverage,
+    output_type="png",
+    output_type_dir=None,
+    product_dir=None,
+    product_subdir=None,
+    source_dir=None,
+    basedir=gpaths["TCWWW"],
+    output_dict=None,
+):
+    """Standard type filename module to produce output filenames for "clean" TC products (no gridlines, titles, etc)
     This ensures output ends up in "png_clean" directory, with "-clean" appended to the extra field, to
     avoid conflict with tc_fname based annotated imagery.  Uses "tc_fname" module as a base.
 
@@ -38,9 +48,20 @@ def tc_clean_fname(area_def, xarray_obj, product_name, coverage, output_type='pn
     Returns:
         (str) : Full path to output "clean" filename - with "-clean" appended to extra field,
                 and "_clean" appended to output_type_dir.
-    '''
+    """
     from geoips.interfaces import filename_formatters
-    return filename_formatters.get('tc_fname')(area_def, xarray_obj, product_name, coverage, output_type=output_type,
-                                     output_type_dir=output_type+'_clean', product_dir=product_dir,
-                                     product_subdir=product_subdir, source_dir=source_dir, basedir=basedir,
-                                     extra_field='clean', output_dict=output_dict)
+
+    return filename_formatters.get("tc_fname")(
+        area_def,
+        xarray_obj,
+        product_name,
+        coverage,
+        output_type=output_type,
+        output_type_dir=output_type + "_clean",
+        product_dir=product_dir,
+        product_subdir=product_subdir,
+        source_dir=source_dir,
+        basedir=basedir,
+        extra_field="clean",
+        output_dict=output_dict,
+    )

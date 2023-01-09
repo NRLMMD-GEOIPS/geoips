@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-''' Interpolation methods using pyresample routines'''
+""" Interpolation methods using pyresample routines"""
 
 import logging
 
@@ -21,7 +21,7 @@ LOG = logging.getLogger(__name__)
 
 
 def get_data_box_definition(source_name, lons, lats):
-    ''' Obtain pyresample geometry definitions for use with pyresample based reprojections
+    """Obtain pyresample geometry definitions for use with pyresample based reprojections
     +------------------+-----------+---------------------------------------------------+
     | Parameters:      | Type:     | Description:                                      |
     +==================+===========+===================================================+
@@ -31,31 +31,47 @@ def get_data_box_definition(source_name, lons, lats):
     +------------------+-----------+---------------------------------------------------+
     | lats:            | *ndarray* | Numpy array of latitudes, -90 to 90               |
     +------------------+-----------+---------------------------------------------------+
-    '''
+    """
 
-    from geoips.interface_modules.interpolation.utils.boxdefinitions import MaskedCornersSwathDefinition
-    from geoips.interface_modules.interpolation.utils.boxdefinitions import PlanarPolygonDefinition
+    from geoips.interface_modules.interpolation.utils.boxdefinitions import (
+        MaskedCornersSwathDefinition,
+    )
+    from geoips.interface_modules.interpolation.utils.boxdefinitions import (
+        PlanarPolygonDefinition,
+    )
     from pyresample.geometry import GridDefinition
 
-    if source_name == 'abi':
+    if source_name == "abi":
         data_box_definition = GridDefinition(
             lons=numpy.ma.array(lons, subok=False),
-            lats=numpy.ma.array(lats, subok=False))
-    if source_name == 'ahi':
+            lats=numpy.ma.array(lats, subok=False),
+        )
+    if source_name == "ahi":
         data_box_definition = PlanarPolygonDefinition(
             lons=numpy.ma.array(lons, subok=False),
-            lats=numpy.ma.array(lats, subok=False))
+            lats=numpy.ma.array(lats, subok=False),
+        )
     else:
         data_box_definition = MaskedCornersSwathDefinition(
             lons=numpy.ma.array(lons, subok=False),
-            lats=numpy.ma.array(lats, subok=False))
+            lats=numpy.ma.array(lats, subok=False),
+        )
 
     return data_box_definition
 
 
-def interp_kd_tree(list_of_arrays, area_definition, data_box_definition, radius_of_influence,
-                   interp_type='nearest', sigmas=None, neighbours=None, nprocs=None, fill_value=None):
-    ''' Perform interpolation using pyresample's kd_tree.resample_nearest method
+def interp_kd_tree(
+    list_of_arrays,
+    area_definition,
+    data_box_definition,
+    radius_of_influence,
+    interp_type="nearest",
+    sigmas=None,
+    neighbours=None,
+    nprocs=None,
+    fill_value=None,
+):
+    """Perform interpolation using pyresample's kd_tree.resample_nearest method
     +-----------------------+-----------+---------------------------------------------------+
     | Parameters:           | Type:     | Description:                                      |
     +=======================+===========+===================================================+
@@ -83,39 +99,40 @@ def interp_kd_tree(list_of_arrays, area_definition, data_box_definition, radius_
     |                       |           |    factor for sigmas option:                      |
     |                       |           |    sigmas = [sigmas]*len(list_of_arrays)          |
     +-----------------------+-----------+---------------------------------------------------+
-    '''
+    """
 
     dstacked_arrays = numpy.ma.dstack(list_of_arrays)
 
-    if interp_type == 'nearest':
-        LOG.info('Using interp_type %s', interp_type)
-        dstacked_arrays = kd_tree.resample_nearest(data_box_definition,
-                                                   dstacked_arrays,
-                                                   area_definition,
-                                                   radius_of_influence=radius_of_influence,
-                                                   fill_value=None)
-    elif interp_type == 'gauss':
+    if interp_type == "nearest":
+        LOG.info("Using interp_type %s", interp_type)
+        dstacked_arrays = kd_tree.resample_nearest(
+            data_box_definition,
+            dstacked_arrays,
+            area_definition,
+            radius_of_influence=radius_of_influence,
+            fill_value=None,
+        )
+    elif interp_type == "gauss":
         kw_args = {}
-        kw_args['sigmas'] = [4000]*len(list_of_arrays)
-        kw_args['fill_value'] = None
-        kw_args['radius_of_influence'] = radius_of_influence
+        kw_args["sigmas"] = [4000] * len(list_of_arrays)
+        kw_args["fill_value"] = None
+        kw_args["radius_of_influence"] = radius_of_influence
 
         if sigmas is not None:
-            kw_args['sigmas'] = [sigmas]*len(list_of_arrays)
+            kw_args["sigmas"] = [sigmas] * len(list_of_arrays)
         if neighbours is not None:
-            kw_args['neighbours'] = neighbours
+            kw_args["neighbours"] = neighbours
         if nprocs is not None:
-            kw_args['nprocs'] = nprocs
+            kw_args["nprocs"] = nprocs
         if fill_value is not None:
-            kw_args['fill_value'] = fill_value
+            kw_args["fill_value"] = fill_value
 
-        LOG.info('Using interp_type %s %s', interp_type, sigmas)
-        dstacked_arrays = kd_tree.resample_gauss(data_box_definition,
-                                                 dstacked_arrays,
-                                                 area_definition,
-                                                 **kw_args)
+        LOG.info("Using interp_type %s %s", interp_type, sigmas)
+        dstacked_arrays = kd_tree.resample_gauss(
+            data_box_definition, dstacked_arrays, area_definition, **kw_args
+        )
     else:
-        raise TypeError('Unknown interp_type {0}, failing'.format(interp_type))
+        raise TypeError("Unknown interp_type {0}, failing".format(interp_type))
 
     interpolated_arrays = []
     # We are explicitly expecting 2d arrays back, so if 3d, break it down.

@@ -16,9 +16,9 @@
 # # # or FITNESS FOR A PARTICULAR PURPOSE.
 # # # See the included license for more details.
 
-'''
+"""
 Interface Under Development.  Please provide feedback to geoips@nrlmry.navy.mil
-'''
+"""
 
 import logging
 from importlib import import_module
@@ -34,69 +34,74 @@ def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
-def plugin_module_to_obj(interface, module, module_call_func='callable', obj_attrs={}):
-    obj_attrs['interface'] = interface
-    obj_attrs['module'] = module
+def plugin_module_to_obj(interface, module, module_call_func="callable", obj_attrs={}):
+    obj_attrs["interface"] = interface
+    obj_attrs["module"] = module
 
     try:
-        obj_attrs['__doc__'] = module.__doc__
+        obj_attrs["__doc__"] = module.__doc__
     except AttributeError:
         warn(
             f'Plugin module "{module.__name__}" does not have a docstring. Please add a module-level docstring',
             DeprecationWarning,
-            stacklevel=1
+            stacklevel=1,
         )
 
     try:
-        obj_attrs['name'] = module.name
+        obj_attrs["name"] = module.name
     except AttributeError:
         warn(
             f'Variable "name" not found in plugin module "{module.__name__}".'
-            'Assuming module name is `\',\'.join(module.__name__.split(\'.\')[-2:])`.'
+            "Assuming module name is `','.join(module.__name__.split('.')[-2:])`."
             'Please update to add "name" variable.'
         )
-        obj_attrs['name'] = module.__name__.split('.')[-1]
+        obj_attrs["name"] = module.__name__.split(".")[-1]
 
     try:
-        obj_attrs['family'] = module.family
+        obj_attrs["family"] = module.family
     except AttributeError:
         try:
-            obj_attrs['family'] = getattr(module, interface.deprecated_family_attr)
-            warn(f'Use of the "{interface.deprecated_family_attr}" attribute is deprecated. '
-                 'All uses should be replaced with an attribute named "family. '
-                 'In the future this iwll result in a TypeError.',
-                 DeprecationWarning,
-                 stacklevel=1)
+            obj_attrs["family"] = getattr(module, interface.deprecated_family_attr)
+            warn(
+                f'Use of the "{interface.deprecated_family_attr}" attribute is deprecated. '
+                'All uses should be replaced with an attribute named "family. '
+                "In the future this iwll result in a TypeError.",
+                DeprecationWarning,
+                stacklevel=1,
+            )
         except AttributeError:
             raise AttributeError(
                 f'Attribute not found `{module.__name__}.family`. Plugins must carry the "family" attribute.'
             )
 
     try:
-        obj_attrs['description'] = module.description
+        obj_attrs["description"] = module.description
     except AttributeError:
-        warn(f'Plugin module "{module.__name__}" does not implement a "description" attribute. '
-             'In future releases this will result in a TypeError.',
-             DeprecationWarning,
-             stacklevel=1
-             )
-        obj_attrs['description'] = None
+        warn(
+            f'Plugin module "{module.__name__}" does not implement a "description" attribute. '
+            "In future releases this will result in a TypeError.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
+        obj_attrs["description"] = None
 
-    if module_call_func != 'callable':
-        warn(f'Callable for plugin "{module.__name__}" is not named "callable". '
-             'This behavior is deprecated. The callable should be renamed to "callable". '
-             'In the future this will result in a TypeError.',
-             DeprecationWarning,
-             stacklevel=1
-             )
+    if module_call_func != "callable":
+        warn(
+            f'Callable for plugin "{module.__name__}" is not named "callable". '
+            'This behavior is deprecated. The callable should be renamed to "callable". '
+            "In the future this will result in a TypeError.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
     # Collect the callable and assign to __call__
     try:
-        obj_attrs['__call__'] = staticmethod(getattr(module, module_call_func))
+        obj_attrs["__call__"] = staticmethod(getattr(module, module_call_func))
     except AttributeError:
         raise TypeError(
-            f'Plugin module "{module.__name__}" does not implement a function named "{module_call_func}".')
+            f'Plugin module "{module.__name__}" does not implement a function named "{module_call_func}".'
+        )
 
-    plugin_type = f'{interface.__class__.__name__}Plugin'
+    plugin_type = f"{interface.__class__.__name__}Plugin"
     return type(plugin_type, (BaseInterfacePlugin,), obj_attrs)()
 
 
@@ -104,7 +109,7 @@ class BaseInterfacePlugin:
     pass
 
 
-interface_attrs_doc = '''
+interface_attrs_doc = """
 
     Attributes
     ----------
@@ -115,11 +120,11 @@ interface_attrs_doc = '''
     deprecated_family_attr : string
         If this attribute exists in a plugin module but "family" does not, use the contents of this attribute in place
         of "family" and raise a `DeprecationWarning`. If neither exist, a `TypeError` will be raised.
-    '''
+    """
 
 
 class BaseInterface:
-    '''Base Class for GeoIPS Interfaces
+    """Base Class for GeoIPS Interfaces
 
     This class should not be instantiated directly. Instead, interfaces should be accessed by importing them from
     `geoips.interfaces`. For example:
@@ -127,28 +132,33 @@ class BaseInterface:
         from geoips.interfaces import algorithms
         ```
     will retrieve an instance of `AlgorithmsInterface` which will provide access to the GeoIPS algorithm plugins.
-    '''
+    """
+
     def __new__(cls):
-        if not hasattr(cls, 'name') or not cls.name:
-            raise AttributeError(f'Error creating {cls.name} class. SubClasses of "BaseInterface" must have the '
-                                 'class attribute "name".')
+        if not hasattr(cls, "name") or not cls.name:
+            raise AttributeError(
+                f'Error creating {cls.name} class. SubClasses of "BaseInterface" must have the '
+                'class attribute "name".'
+            )
 
         # Default to using the name of the interface as its entrypoint
-        if hasattr(cls, 'entry_point_group') and cls.entry_point_group:
-            warn('Use of "entry_point_group" to specify the entry point group of an interface is deprecated. '
-                 'The interface name should match the name of the entry point group.',
-                 DeprecationWarning,
-                 stacklevel=1)
+        if hasattr(cls, "entry_point_group") and cls.entry_point_group:
+            warn(
+                'Use of "entry_point_group" to specify the entry point group of an interface is deprecated. '
+                "The interface name should match the name of the entry point group.",
+                DeprecationWarning,
+                stacklevel=1,
+            )
         else:
             cls.entry_point_group = cls.name
 
-        cls.__doc__ = f'GeoIPS interface for {cls.name} plugins.'
+        cls.__doc__ = f"GeoIPS interface for {cls.name} plugins."
         cls.__doc__ += interface_attrs_doc
 
         return super(BaseInterface, cls).__new__(cls)
 
     def __repr__(self):
-        return f'{self.__class__.__name__}()'
+        return f"{self.__class__.__name__}()"
 
     def get(self, name):
         """Retrieve a plugin's function.
@@ -173,12 +183,13 @@ class BaseInterface:
         else:
             func = module
             module = import_module(func.__module__)
-            warn(f'Entry point for plugin "{module.__name__}" point to the callable rather than the module. '
-                 'This behavior is deprecated. Please update the entry point to point to the plugin module. '
-                 'In the future this will raise a TypeError.',
-                 DeprecationWarning,
-                 stacklevel=1
-                 )
+            warn(
+                f'Entry point for plugin "{module.__name__}" point to the callable rather than the module. '
+                "This behavior is deprecated. Please update the entry point to point to the plugin module. "
+                "In the future this will raise a TypeError.",
+                DeprecationWarning,
+                stacklevel=1,
+            )
             return self.create_plugin(module, module_call_func=func.__name__)
 
     def get_list(self):
@@ -186,7 +197,7 @@ class BaseInterface:
         plugins = []
         for ep in get_all_entry_points(self.entry_point_group):
             module = import_module(ep.__module__)
-            if hasattr(module, 'callable'):
+            if hasattr(module, "callable"):
                 plugins.append(self.create_plugin(module))
             else:
                 plugins.append(self.create_plugin(module, module_call_func=ep.__name__))
@@ -250,8 +261,10 @@ class BaseInterface:
         """
         plugin = self.get(name)
 
-    def create_plugin(self, module, module_call_func='callable', obj_attrs={}):
-        return plugin_module_to_obj(self, module=module, module_call_func=module_call_func, obj_attrs=obj_attrs)
+    def create_plugin(self, module, module_call_func="callable", obj_attrs={}):
+        return plugin_module_to_obj(
+            self, module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
+        )
 
     def test_interface_plugins(self):
         """Test the current interface by validating every Plugin.
@@ -270,11 +283,16 @@ class BaseInterface:
             - 'family' contains a dict whose keys are plugin names and whose vlaues are the contents of the 'family'
               attribute for each Plugin.
         """
-        plugin_names = self.get_list(sort_by='family')
-        output = {'by_family': plugin_names, 'validity_check': {}, 'family': {}, 'func': {}}
+        plugin_names = self.get_list(sort_by="family")
+        output = {
+            "by_family": plugin_names,
+            "validity_check": {},
+            "family": {},
+            "func": {},
+        }
         for curr_family in plugin_names:
             for curr_name in plugin_names[curr_family]:
-                output['validity_check'][curr_name] = self.is_valid(curr_name)
-                output['func'][curr_name] = self.get(curr_name)
-                output['family'][curr_name] = self.get_family(curr_name)
+                output["validity_check"][curr_name] = self.is_valid(curr_name)
+                output["func"][curr_name] = self.get(curr_name)
+                output["family"][curr_name] = self.get_family(curr_name)
         return output

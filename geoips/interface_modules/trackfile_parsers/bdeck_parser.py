@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-''' TC trackfile parser for B-Deck formatted TC deck files.
+""" TC trackfile parser for B-Deck formatted TC deck files.
 
 Each B-Deck file contains the full history of storm BEST tracks, one storm location per line
 AL, 20, 2020091318,   , BEST,   0, 126N,  374W,  30, 1006, TD,   0,    ,    0,    0,    0,    0, 1011,  240, 100,  40,   0,   L,   0,    ,   0,   0,     TWENTY, M, 12, NEQ,   60,    0,    0,   60, genesis-num, 039,
@@ -44,7 +44,7 @@ AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  34, NEQ,  220,  
 AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  50, NEQ,   60,   50,   50,   70, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,
 AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  64, NEQ,   30,   25,   20,   30, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,
 
-'''
+"""
 
 import os
 import logging
@@ -54,7 +54,7 @@ LOG = logging.getLogger(__name__)
 
 
 def bdeck_parser(deckfile_name):
-    ''' TC deckfile parser for B-Deck files
+    """TC deckfile parser for B-Deck files
 
     Each B-Deck file contains the full history of storm BEST tracks, one storm location per line.
         AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64, NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,
@@ -67,8 +67,8 @@ def bdeck_parser(deckfile_name):
     Returns:
         (list) : List of Dictionaries of storm metadata fields from each storm location
                     Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
-    '''
-    LOG.info('STARTING getting fields from %s', deckfile_name)
+    """
+    LOG.info("STARTING getting fields from %s", deckfile_name)
     # Must get tcyear out of the filename in case a storm crosses TC vs calendar years.
     # tcyear = os.path.basename(deckfile_name)[5:9]
     tc_year = get_stormyear_from_bdeck_filename(deckfile_name)
@@ -84,124 +84,143 @@ def bdeck_parser(deckfile_name):
     # Note storms are often started with 3 locations, and the first 2 locations are removed in later deck files,
     # so initial storm start time often does not match the final storm start time.
     # Keep track of the start datetime referenced in the filename
-    filename_storm_start_datetime = get_storm_start_datetime_from_bdeck_filename(deckfile_name)
+    filename_storm_start_datetime = get_storm_start_datetime_from_bdeck_filename(
+        deckfile_name
+    )
 
-    LOG.info('  USING final_storm_name from bdeck %s', final_storm_name)
-    LOG.info('  USING storm_start_datetime from bdeck %s', entry_storm_start_datetime)
-    LOG.info('  USING original_storm_start_datetime from bdeck %s', filename_storm_start_datetime)
+    LOG.info("  USING final_storm_name from bdeck %s", final_storm_name)
+    LOG.info("  USING storm_start_datetime from bdeck %s", entry_storm_start_datetime)
+    LOG.info(
+        "  USING original_storm_start_datetime from bdeck %s",
+        filename_storm_start_datetime,
+    )
 
     # flatsf_lines go from OLDEST to NEWEST (so firsttime is the OLDEST
     # storm location)
     all_fields = []
 
     for line in flatsf_lines:
-        curr_fields = parse_bdeck_line(line,
-                                       source_filename=deckfile_name,
-                                       storm_year=tc_year,
-                                       final_storm_name=final_storm_name,
-                                       invest_number=invest_number,
-                                       storm_start_datetime=entry_storm_start_datetime,
-                                       original_storm_start_datetime=filename_storm_start_datetime,
-                                       parser_name='bdeck_parser')
+        curr_fields = parse_bdeck_line(
+            line,
+            source_filename=deckfile_name,
+            storm_year=tc_year,
+            final_storm_name=final_storm_name,
+            invest_number=invest_number,
+            storm_start_datetime=entry_storm_start_datetime,
+            original_storm_start_datetime=filename_storm_start_datetime,
+            parser_name="bdeck_parser",
+        )
         # Was previously RE-SETTING finalstormname here. That is why we were getting incorrect final_storm_name fields
         all_fields += [curr_fields]
 
-    LOG.info('FINISHED getting fields from %s', deckfile_name)
+    LOG.info("FINISHED getting fields from %s", deckfile_name)
 
     return all_fields, final_storm_name, tc_year
 
 
 def lat_to_dec(lat_str):
-    ''' Return decimal latitude based on N/S specified string'''
+    """Return decimal latitude based on N/S specified string"""
     latnodec = lat_str
-    latdec = latnodec[:-2]+'.'+latnodec[-2:]
-    latdecsign = latdec[:-1] if (latdec[-1] == 'N') else '-'+latdec[:-1]
+    latdec = latnodec[:-2] + "." + latnodec[-2:]
+    latdecsign = latdec[:-1] if (latdec[-1] == "N") else "-" + latdec[:-1]
     return latdecsign
 
 
 def lon_to_dec(lon_str):
-    ''' Return decimal longitude based on E/W specified string'''
+    """Return decimal longitude based on E/W specified string"""
     lonnodec = lon_str
-    londec = lonnodec[:-2]+'.'+lonnodec[-2:]
-    londecsign = londec[:-1] if (londec[-1] == 'E') else '-'+londec[:-1]
+    londec = lonnodec[:-2] + "." + lonnodec[-2:]
+    londecsign = londec[:-1] if (londec[-1] == "E") else "-" + londec[:-1]
     return londecsign
 
 
-
-def parse_bdeck_line(line, source_filename=None, storm_year=None,
-                     final_storm_name=None, invest_number=None,
-                     storm_start_datetime=None, original_storm_start_datetime=None,
-                     parser_name='bdeck_parser'):
-    ''' Retrieve the storm information from the current line from the deck file
+def parse_bdeck_line(
+    line,
+    source_filename=None,
+    storm_year=None,
+    final_storm_name=None,
+    invest_number=None,
+    storm_start_datetime=None,
+    original_storm_start_datetime=None,
+    parser_name="bdeck_parser",
+):
+    """Retrieve the storm information from the current line from the deck file
 
     Args:
         line (str) : Current line from the deck file including all storm information
             AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64, NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,
             AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  34, NEQ,  220,  100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
             AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  50, NEQ,   60,   50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
-        
+
 
     Returns:
         (dict) : Dictionary of the fields from the current storm location from the deck file
                     Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
-    '''
+    """
     # This works with G (GeoIPS) Deck files.  Need separate parser for B decks (best tracks)
     # parts = line.split(',', 40)
-    parts = [part.strip() for part in line.split(',')]
+    parts = [part.strip() for part in line.split(",")]
     if len(parts) != 38 and len(parts) != 30 and len(parts) != 40 and len(parts) != 42:
-        raise ValueError('Incorrectly formatted deck file - must have either 30 or 38 or 42 fields')
+        raise ValueError(
+            "Incorrectly formatted deck file - must have either 30 or 38 or 42 fields"
+        )
     fields = {}
-    fields['deck_line'] = line.strip()
-    fields['storm_basin'] = parts[0]
-    fields['storm_num'] = int(parts[1])
-    fields['synoptic_time'] = datetime.strptime(parts[2], '%Y%m%d%H')
+    fields["deck_line"] = line.strip()
+    fields["storm_basin"] = parts[0]
+    fields["storm_num"] = int(parts[1])
+    fields["synoptic_time"] = datetime.strptime(parts[2], "%Y%m%d%H")
 
     if isinstance(storm_start_datetime, datetime):
-        fields['storm_start_datetime'] = storm_start_datetime
+        fields["storm_start_datetime"] = storm_start_datetime
     if isinstance(original_storm_start_datetime, datetime):
-        fields['original_storm_start_datetime'] = original_storm_start_datetime
+        fields["original_storm_start_datetime"] = original_storm_start_datetime
 
-    fields['aid_type'] = parts[4]  # BEST, MBAM, OFCL, JTWC, etc - BEST202101220600 when updated
-                                   # CARQ - not best track, real time, A-deck (Aids), F (Fix), E (Error), B (Best)
-    fields['clat'] = float(lat_to_dec(parts[6]))
-    fields['clon'] = float(lon_to_dec(parts[7]))
-    fields['vmax'] = parts[8]
-    if fields['vmax']:
-        fields['vmax'] = float(fields['vmax'])
-    fields['pressure'] = parts[9]
-    if fields['pressure']:
-        fields['pressure'] = float(fields['pressure'])
+    fields["aid_type"] = parts[
+        4
+    ]  # BEST, MBAM, OFCL, JTWC, etc - BEST202101220600 when updated
+    # CARQ - not best track, real time, A-deck (Aids), F (Fix), E (Error), B (Best)
+    fields["clat"] = float(lat_to_dec(parts[6]))
+    fields["clon"] = float(lon_to_dec(parts[7]))
+    fields["vmax"] = parts[8]
+    if fields["vmax"]:
+        fields["vmax"] = float(fields["vmax"])
+    fields["pressure"] = parts[9]
+    if fields["pressure"]:
+        fields["pressure"] = float(fields["pressure"])
 
-    fields['storm_name'] = parts[27]
-    fields['final_storm_name'] = 'unknown'
+    fields["storm_name"] = parts[27]
+    fields["final_storm_name"] = "unknown"
     if final_storm_name:
-        LOG.debug('USING passed final_storm_name %s', final_storm_name)
-        fields['final_storm_name'] = final_storm_name
+        LOG.debug("USING passed final_storm_name %s", final_storm_name)
+        fields["final_storm_name"] = final_storm_name
     else:
-        LOG.debug('USING storm_name as final_storm_name %s', fields['storm_name'])
-        fields['final_storm_name'] = fields['storm_name']
+        LOG.debug("USING storm_name as final_storm_name %s", fields["storm_name"])
+        fields["final_storm_name"] = fields["storm_name"]
     if storm_year:
-        fields['storm_year'] = storm_year
-    if parts[-3] == 'TRANSITIONED':
+        fields["storm_year"] = storm_year
+    if parts[-3] == "TRANSITIONED":
         # shB02021
-        invest_id = parts[-2].split(' ')[0]
+        invest_id = parts[-2].split(" ")[0]
         invest_year = invest_id[4:]
         invest_basin = invest_id[0:2]
-        invest_num = '9'+invest_id[3]
+        invest_num = "9" + invest_id[3]
         # tc2021sh90invest
-        fields['invest_storm_id'] = 'tc'+invest_year+invest_basin+invest_num+'invest'
-    fields['invest_number'] = None
+        fields["invest_storm_id"] = (
+            "tc" + invest_year + invest_basin + invest_num + "invest"
+        )
+    fields["invest_number"] = None
 
     if invest_number:
-        fields['invest_number'] = invest_number
+        fields["invest_number"] = invest_number
 
     if source_filename:
         from geoips.dev.utils import replace_geoips_paths
+
         if isinstance(source_filename, str):
-            fields['source_filename'] = replace_geoips_paths(source_filename)
+            fields["source_filename"] = replace_geoips_paths(source_filename)
         else:
-            fields['source_filename'] = source_filename
-    fields['parser_name'] = parser_name
+            fields["source_filename"] = source_filename
+    fields["parser_name"] = parser_name
     return fields
 
 
@@ -209,38 +228,42 @@ def get_invest_number_bdeck(deck_lines):
     invest_number = None
     for line in deck_lines:
         fields = parse_bdeck_line(line)
-        if fields['storm_name'] == 'INVEST' and fields['storm_num'] > 89:
-            invest_number = fields['storm_num']
-        if 'invest_storm_id' in fields:
-            invest_number = int(fields['invest_storm_id'][8:10])
+        if fields["storm_name"] == "INVEST" and fields["storm_num"] > 89:
+            invest_number = fields["storm_num"]
+        if "invest_storm_id" in fields:
+            invest_number = int(fields["invest_storm_id"][8:10])
     return invest_number
 
 
 def get_storm_start_datetime_from_bdeck_entry(deck_lines):
     # Return the synoptic time of the first bdeck entry
     fields = parse_bdeck_line(deck_lines[0])
-    LOG.info('  GETTING storm start time from bdeck entry %s', fields['synoptic_time'])
-    return fields['synoptic_time']
+    LOG.info("  GETTING storm start time from bdeck entry %s", fields["synoptic_time"])
+    return fields["synoptic_time"]
 
 
 def get_storm_start_datetime_from_bdeck_filename(bdeck_filename):
     # Return the synoptic time found in the actual filename, if it exists!
-    # This will ONLY be the case for INVESTS, which can use the start 
+    # This will ONLY be the case for INVESTS, which can use the start
     # Gwp912022.2022101400.dat
-    bdeck_parts = os.path.basename(bdeck_filename).split('.')
+    bdeck_parts = os.path.basename(bdeck_filename).split(".")
     storm_start_datetime = None
     if len(bdeck_parts) > 2:
         try:
-            storm_start_datetime = datetime.strptime(bdeck_parts[1], '%Y%m%d%H')
-            LOG.info('  USING storm start time found in filename %s', storm_start_datetime)
+            storm_start_datetime = datetime.strptime(bdeck_parts[1], "%Y%m%d%H")
+            LOG.info(
+                "  USING storm start time found in filename %s", storm_start_datetime
+            )
         except ValueError:
-            LOG.warning('  SKIPPING no valid storm start time found in filename, using first entry in bdeck')
+            LOG.warning(
+                "  SKIPPING no valid storm start time found in filename, using first entry in bdeck"
+            )
             storm_start_datetime = None
     return storm_start_datetime
 
 
 def get_stormyear_from_bdeck_filename(bdeck_filename):
-    ''' Get the storm year from the B-deck filename
+    """Get the storm year from the B-deck filename
 
     Args:
         bdeck_filename (str) : Path to deck file to search for storm year
@@ -248,17 +271,17 @@ def get_stormyear_from_bdeck_filename(bdeck_filename):
 
     Returns:
         (int) : Storm year
-    '''
+    """
     return int(os.path.basename(bdeck_filename)[5:9])
 
 
 def get_final_storm_name_bdeck(deck_lines, tcyear):
-    final_storm_name = 'INVEST'
+    final_storm_name = "INVEST"
     for line in deck_lines:
         # curr_fields = parse_bdeck_line(line, tcyear, finalstormname)
         curr_fields = parse_bdeck_line(line, tcyear, final_storm_name)
         # if curr_fields['storm_name']:
-        if curr_fields['storm_name'] and curr_fields['storm_name'] != 'INVEST':
-            LOG.debug('UPDATING final_storm_name to %s', curr_fields['storm_name'])
-            final_storm_name = curr_fields['storm_name']
+        if curr_fields["storm_name"] and curr_fields["storm_name"] != "INVEST":
+            LOG.debug("UPDATING final_storm_name to %s", curr_fields["storm_name"])
+            final_storm_name = curr_fields["storm_name"]
     return final_storm_name
