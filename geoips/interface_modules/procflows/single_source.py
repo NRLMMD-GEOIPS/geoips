@@ -635,7 +635,7 @@ def get_alg_xarray(sect_xarrays, area_def, product_name, resector=True, resample
             interp_func_name = get_interp_name(product_name, sect_xarray.source_name)
             interp_func = None
             if interp_func_name is not None:
-                interp_func = get_interp(interp_func_name)
+                interp_func = interpolators.get(interp_func_name)
                 interp_args = get_interp_args(product_name, sect_xarray.source_name)
 
             # If a specific dataset was requested for the current variable, and this dataset was NOT requested via
