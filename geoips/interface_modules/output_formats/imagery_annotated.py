@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Matplot-lib based annotated image output."""
 import os
 import logging
 
@@ -41,7 +42,7 @@ def imagery_annotated(
     title_format=None,
     output_dict=None,
 ):
-
+    """Plot annotated imagery."""
     if product_name_title is None:
         product_name_title = product_name
 

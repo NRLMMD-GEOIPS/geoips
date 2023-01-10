@@ -10,19 +10,20 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""
-Notes:
-   1) At present, this reader does not work for High Resolution Visible data, which is ignored.
-      Additionally, to ease generation of geolocation fields, datasets are assumed to be square
-      and centered at their sub longitude.
+"""Read SEVIRI hrit data.
+
+Notes
+-----
+   1) At present, this reader does not work for High Resolution Visible data,
+      which is ignored. Additionally, to ease generation of geolocation fields,
+      datasets are assumed to be square and centered at their sub longitude.
 
 20170330 MLS Try to only decompress what we need (VERY filename dependent),
-              make scifile and hrit channel names match (more filename dependence),
-              don't try to decompress/open file for import_metadata (more filename dependence for time).
-              satpy requires time to open file, and requires standard (decompressed) filenames,
-              so built in filename dependence by using satpy
+  make scifile and hrit channel names match (more filename dependence),
+  don't try to decompress/open file for import_metadata (more filename
+  dependence for time). satpy requires time to open file, and requires standard
+  (decompressed) filenames, so built in filename dependence by using satpy.
 """
-
 # Python Standard Libraries
 import os
 import logging
@@ -121,6 +122,7 @@ reader_type = "standard"
 
 
 def calculate_chebyshev_polynomial(coefs, start_dt, end_dt, dt):
+    """Calculate Chebyshev Polynomial."""
     start_to_end = (end_dt - start_dt).seconds
     # dt_to_end = (end_dt - dt).seconds
     start_to_dt = (dt - start_dt).seconds
@@ -157,11 +159,15 @@ def calculate_chebyshev_polynomial(coefs, start_dt, end_dt, dt):
 
 
 class XritError(Exception):
+    """Raise exception on XritError."""
+
     def __init__(self, msg, code=None):
+        """Initialize XritError."""
         self.code = code
         self.value = msg
 
     def __str__(self):
+        """Return XritError string."""
         if self.code:
             return "{}: {}".format(self.code, self.value)
         else:
@@ -169,8 +175,8 @@ class XritError(Exception):
 
 
 def compare_dicts(d1, d2, skip=None):
-    """
-    Compare the values in two dictionaries
+    """Compare the values in two dictionaries.
+
     If they are equal, return True, otherwise False
     If skip is set and contains one of the keys, skip that key
     """
@@ -186,6 +192,7 @@ def compare_dicts(d1, d2, skip=None):
 
 
 def get_top_level_metadata(fnames, sect):
+    """Get top level metadata."""
     for fname in fnames:
         df = HritFile(fname)
         if "block_2" in df.metadata.keys():
@@ -225,9 +232,7 @@ def get_top_level_metadata(fnames, sect):
 
 
 def get_latitude_longitude(gmd, BADVALS, area_def):
-    """
-    Generate full-disk latitudes and longitudes.
-    """
+    """Generate full-disk latitudes and longitudes."""
     # Constants
     pi = np.pi
     rad2deg = 180.0 / pi
@@ -297,6 +302,7 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
 
 # def get_low_res_geolocation_args(prologue):
 def _get_geolocation_metadata(prologue, file_metadata):
+    """Get geolocation metadata."""
     geomet = {}
     geomet["platform_name"] = file_metadata["platform_name"]
     geomet["source_name"] = file_metadata["source_name"]
@@ -327,12 +333,14 @@ def _get_geolocation_metadata(prologue, file_metadata):
 
 
 def countsToRad(counts, slope, offset):
+    """Convert counts to rad."""
     rad = np.full_like(counts, -999.0)
     rad[counts > 0] = offset + (slope * counts[counts > 0])
     return rad
 
 
 def radToRef(rad, sun_zen, platform, band):
+    """Convert Rad to Ref."""
     irrad = VIS_CALIB[platform][band]
     ref = np.full_like(rad, -999.0)
     # 0 to 1 rather than 0 to 100
@@ -350,6 +358,7 @@ def radToRef(rad, sun_zen, platform, band):
 
 
 def radToBT(rad, platform, band):
+    """Convert rad to BT."""
     c1 = 1.19104e-05
     c2 = 1.43877
     wn = IR_CALIB[platform][band]["wn"]
@@ -361,6 +370,8 @@ def radToBT(rad, platform, band):
 
 
 class Chan(object):
+    """Channel class."""
+
     _good_names = [
         "B01Rad",
         "B01Ref",  # VIS0.6 Cloud mapping
@@ -387,6 +398,7 @@ class Chan(object):
     ]  # IR13.4 Carbon dioxide channel
 
     def __init__(self, name):
+        """Initialize Chan object."""
         if "B12" in name:
             raise HritError(
                 "Channel 12 (High Resolution Visible) currently not handled."
@@ -399,23 +411,30 @@ class Chan(object):
 
     @property
     def name(self):
+        """Name property."""
         return self._name
 
     @property
     def band(self):
+        """Band property."""
         return self._band
 
     @property
     def band_num(self):
+        """Band number property."""
         return int(self._band[1:])
 
     @property
     def type(self):
+        """Type property."""
         return self._type
 
 
 class ChanList(object):
+    """ChanList Class."""
+
     def __init__(self, chans):
+        """Initialize ChanList object."""
         chans = set(chans)
         self._info = {"chans": [Chan(chan) for chan in chans]}
         self._info["names"] = list(set([chan.name for chan in self.chans]))
@@ -424,18 +443,22 @@ class ChanList(object):
 
     @property
     def chans(self):
+        """Chans property."""
         return self._info["chans"]
 
     @property
     def names(self):
+        """Names property."""
         return self._info["names"]
 
     @property
     def bands(self):
+        """Bands property."""
         return self._info["bands"]
 
     @classmethod
     def _all_types_for_bands(cls, bands):
+        """List all types for bands."""
         good_names = Chan._good_names
         chans = set()
         for chan in good_names:
@@ -450,32 +473,36 @@ def seviri_hrit(
 ):
     """Read SEVIRI hrit data products.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-
     gvars = {}
     datavars = {}
     adname = "undefined"

@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Matplotlib-based unprojected image output."""
 import os
 import logging
 
@@ -35,7 +36,7 @@ def unprojected_image(
     y_size=None,
     savefig_kwargs=None,
 ):
-
+    """Plot unprojected image to matplotlib figure."""
     if savefig_kwargs is None:
         # Default to no arguments, empty dictionary.  Will result in masked background
         savefig_kwargs = {}

@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Read derived surface winds from SAR, SMAP, SMOS, and AMSR netcdf data."""
+"""Read derived surface winds from SAR netcdf data."""
 import logging
 from os.path import basename
 
@@ -23,9 +23,12 @@ reader_type = "standard"
 
 
 def read_sar_data(wind_xarray):
-    """Reformat SAR xarray object appropriately
-    variables: latitude, longitude, timestamp, wind_speed_kts
-    attributes: source_name, platform_name, data_provider, interpolation_radius_of_influence"""
+    """Reformat SAR xarray object appropriately.
+
+    * variables: latitude, longitude, timestamp, wind_speed_kts
+    * attributes: source_name, platform_name, data_provider,
+      interpolation_radius_of_influence
+    """
     # Setting standard geoips attributes
     LOG.info("Reading SAR data")
     wind_xarray.attrs["source_name"] = "sar-spd"
@@ -97,7 +100,8 @@ def read_sar_data(wind_xarray):
     wind_xarray["sigma"] = xarray.where(
         wind_xarray.sigma == 0, numpy.nan, wind_xarray.sigma
     )
-    # This is not correct - should be -35 to -20, need to find documentation for deriving NRCS from sigma
+    # This is not correct - should be -35 to -20, need to find documentation
+    # for deriving NRCS from sigma
     wind_xarray["nrcs"] = 10 * numpy.log10(wind_xarray.sigma)
     wind_xarray["incident_angle"] = wind_xarray["incid"]
     return [wind_xarray]
@@ -108,32 +112,40 @@ def sar_winds_netcdf(
 ):
     """Read SAR derived winds from netcdf data.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * NOT YET IMPLEMENTED
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-
     from geoips.xarray_utils.timestamp import (
         get_min_from_xarray_timestamp,
         get_max_from_xarray_timestamp,

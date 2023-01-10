@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Command line script for kicking off geoips based procflows"""
+"""Command line script for kicking off geoips based procflows."""
 
 import argparse
 import logging
@@ -21,17 +21,25 @@ LOG = logging.getLogger(__name__)
 
 
 def check_command_line_args(arglist, argdict):
-    """Check formatting of command line arguments
+    """Check formatting of command line arguments.
 
-    Args:
-        arglist (list) : List of desired command line arguments to check within argdict for appropriate formatting
-        argdict (dict) : Dictionary of command line arguments
+    Parameters
+    ----------
+    arglist : list of str
+        List of desired command line arguments to check within argdict for
+        appropriate formatting
+    argdict : dict
+        Dictionary of command line arguments
 
-    Returns:
-        (bool) : Return True if all arguments are of appropriate formatting.
+    Returns
+    -------
+    bool
+        Return True if all arguments are of appropriate formatting.
 
-    Raises:
-        (TypeError) : Incorrect command line formatting
+    Raises
+    ------
+    TypeError
+        Incorrect command line formatting
     """
     if arglist is None:
         return True
@@ -155,15 +163,26 @@ def check_command_line_args(arglist, argdict):
 def get_command_line_args(
     arglist=None, description=None, add_args_func=None, check_args_func=None
 ):
-    """Parse command line arguments specified by the requested list of arguments
+    """Parse command line arguments specified by the requested list of arguments.
 
-    Args:
-        arglist (:obj:`list`, optional) : DEFAULT None.
-                                            list of requested arguments to add to the ArgumentParser
-                                            if None, include all arguments
-        description (:obj:`str`, optional) : DEFAULT None. String description of arguments
-    Returns:
-        (dict) : Dictionary of command line arguments
+    Parameters
+    ----------
+    arglist : list, optional
+        list of requested arguments to add to the ArgumentParser, default None.
+        if None, include all arguments
+    description : str, optional
+        String description of arguments, default None
+    add_args_func : function, optional
+        Alternative "add_args" function, default None
+        If None, use internal "add_args"
+    check_args_func: function, optional
+        Alternative "check_args" function, default None
+        If None, use internal "check_args"
+
+    Returns
+    -------
+    dict
+        Dictionary of command line arguments
     """
     if add_args_func is None:
         add_args_func = add_args
@@ -178,18 +197,20 @@ def get_command_line_args(
 
 
 def add_args(parser, arglist=None):
-    """List of available standard arguments for calling data file processing command line.
+    """List of available standard arguments for calling data processing command line.
 
-    Args:
-        parser (ArgumentParser) : argparse ArgumentParser to add appropriate arguments
-        arglist (:obj:`list`, optional) : DEFAULT None
-                    list of requested arguments to add to the ArgumentParser
-                    if None, include all arguments
+    Parameters
+    ----------
+    parser : ArgumentParser
+        argparse ArgumentParser to add appropriate arguments
+    arglist : list, optional
+        list of requested arguments to add to the ArgumentParser, default None.
+        if None, include all arguments
 
-    Returns:
+    Returns
+    -------
         No return values (parser modified in place)
     """
-
     if arglist is None or "filenames" in arglist:
         parser.add_argument(
             "filenames",
@@ -208,7 +229,8 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             help="""Specify area def adjuster to be used within processing, located in:
-                                          <package>.interface_modules.area_def_adjusters.<myadjuster>.<myadjuster>""",
+                            <package>.interface_modules.area_def_adjusters.
+                                <myadjuster>.<myadjuster>""",
         )
 
     tc_group = parser.add_argument_group(
@@ -219,8 +241,8 @@ def add_args(parser, arglist=None):
             "--tc_template_yaml",
             nargs="?",
             default=None,
-            help="""YAML template for creating appropriate TC sector shape/resolution from
-                                        current storm location""",
+            help="""YAML template for creating appropriate TC sector
+                            shape/resolution from current storm location""",
         )
 
     trackfile_group = parser.add_argument_group(
@@ -232,8 +254,10 @@ def add_args(parser, arglist=None):
             nargs="*",
             default=None,
             help="""Specify TC trackfiles to include in processing
-                                             If --trackfile_sector_list is included, limit to the storms in list
-                                             If --trackfile_sector_list is not included, process all storms""",
+                            If --trackfile_sector_list is included,
+                                limit to the storms in list
+                            If --trackfile_sector_list is not included,
+                                process all storms""",
         )
     if arglist is None or "trackfile_parser" in arglist:
         trackfile_group.add_argument(
@@ -241,17 +265,18 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             help="""Specify TC trackfile parser to use with trackfiles, located in:
-                                                geoips*.interface_modules.trackfile_parsers.myparsername.myparsername,
-                                                The trackfile_parser string should be the parser module
-                                                name (no .py)""",
+                            geoips*.interface_modules.trackfile_parsers.
+                                myparsername.myparsername,
+                            The trackfile_parser string should be the parser module
+                            name (no .py)""",
         )
     if arglist is None or "trackfile_sector_list" in arglist:
         trackfile_group.add_argument(
             "--trackfile_sector_list",
             nargs="*",
             default=None,
-            help="""A list of sector names found specified trackfiles to include in processing.
-                                             Of format: tc2020io01amphan""",
+            help="""A list of sector names found specified trackfiles to include
+                    in processing. Of format: tc2020io01amphan""",
         )
 
     tcdb_group = parser.add_argument_group(title="Sector Requests: TC tracks database")
@@ -260,16 +285,19 @@ def add_args(parser, arglist=None):
             "--tcdb_sector_list",
             nargs="*",
             default=None,
-            help="""A list of sector names found in tc database to include in processing.
-                                         Of format: tc2020io01amphan""",
+            help="""A list of sector names found in tc database to include in
+                    processing. Of format: tc2020io01amphan""",
         )
     if arglist is None or "tcdb" in arglist:
         tcdb_group.add_argument(
             "--tcdb",
             action="store_true",
-            help="""Call with --tcdb to include the matching TC database sectors within processing
-                                         If --tcdb_sector_list is also included, limit the storms to those in list
-                                         If --tcdb_sector_list is not included, process all matching storms.""",
+            help="""Call with --tcdb to include the matching TC database sectors
+                            within processing
+                            If --tcdb_sector_list is also included,
+                                limit the storms to those in list
+                            If --tcdb_sector_list is not included,
+                                process all matching storms.""",
         )
 
     static_group = parser.add_argument_group(
@@ -280,17 +308,17 @@ def add_args(parser, arglist=None):
             "--sectored_read",
             action="store_true",
             help="""Call with --sectored_read to specify to sector the data
-                                          to specified area_defs during reading (ie, do not read all data
-                                          into memory in advance).""",
+                            to specified area_defs during reading (ie, do not
+                            read all data into memory in advance).""",
         )
     if arglist is None or "resampled_read" in arglist:
         static_group.add_argument(
             "--resampled_read",
             action="store_true",
             help="""Call with --resampled_read to specify to resample the data
-                                          to specified area_defs during reading (ie, do not read all data
-                                          into memory in advance).
-                                          This is required only for some geostationary readers""",
+                            to specified area_defs during reading (ie, do not
+                            read all data into memory in advance).
+                            This is required only for some geostationary readers""",
         )
     if arglist is None or "self_register_dataset" in arglist:
         static_group.add_argument(
@@ -298,7 +326,7 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             help="""Specify to register output data to the dataset specified by
-                                                self_register_dataset option.""",
+                            self_register_dataset option.""",
         )
     if arglist is None or "self_register_source" in arglist:
         static_group.add_argument(
@@ -306,15 +334,15 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             help="""Specify to register output data to the dataset specified by
-                                                self_register_dataset / self_register_source options.""",
+                            self_register_dataset / self_register_source options.""",
         )
     if arglist is None or "reader_defined_area_def" in arglist:
         static_group.add_argument(
             "--reader_defined_area_def",
             action="store_true",
             help="""Call with --reader_defined_area_def to specify to use only
-                                                area_definition defined within the reader
-                                                This option supercedes all other sector-specifying options.""",
+                            area_definition defined within the reader. This option
+                            supercedes all other sector-specifying options.""",
         )
     if arglist is None or "sectorfiles" in arglist:
         static_group.add_argument(
@@ -329,8 +357,8 @@ def add_args(parser, arglist=None):
             "--sector_list",
             nargs="*",
             default=None,
-            help="""A list of short sector names found within YAML sectorfiles over which the
-                                         data file should be processed.""",
+            help="""A list of short sector names found within YAML sectorfiles
+                            over which the data file should be processed.""",
         )
 
     prod_group = parser.add_argument_group(title="Product specification options")
@@ -347,15 +375,16 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             type=float,
-            help="""Minimum percent coverage required to produce product. Defaults to 10.""",
+            help="""Minimum percent coverage required to produce product.
+                            Defaults to 10.""",
         )
     if arglist is None or "product_options" in arglist:
         prod_group.add_argument(
             "--product_options",
             nargs="?",
             default=None,
-            help="""Specify product specific options (these must be parsed within the
-                                         individual product scripts)""",
+            help="""Specify product specific options (these must be parsed
+                            within the individual product scripts)""",
         )
     if arglist is None or "product_params_override" in arglist:
         prod_group.add_argument(
@@ -364,7 +393,7 @@ def add_args(parser, arglist=None):
             default={},
             type=jloads,
             help="""Specify product parameters to override the default specifications.
-                                        Should be formatted as a json dictionary string""",
+                            Should be formatted as a json dictionary string""",
         )
 
     comp_group = parser.add_argument_group(
@@ -375,8 +404,8 @@ def add_args(parser, arglist=None):
             "--output_file_list_fname",
             nargs="?",
             default=None,
-            help="""Specify full path to a single file to store the complete list of output files
-                                        produced during the current run""",
+            help="""Specify full path to a single file to store the complete list
+                            of output files produced during the current run""",
         )
 
     if arglist is None or "compare_path" in arglist:
@@ -384,8 +413,9 @@ def add_args(parser, arglist=None):
             "--compare_path",
             nargs="?",
             default=None,
-            help="""Specify full path to single directory (with <product> and <output> wildcards)
-                                        to be used for comparisons for ALL current outputs.""",
+            help="""Specify full path to single directory
+                            (with <product> and <output> wildcards)
+                            to be used for comparisons for ALL current outputs.""",
         )
 
     if arglist is None or "compare_paths_override" in arglist:
@@ -395,10 +425,12 @@ def add_args(parser, arglist=None):
             default={},
             type=jloads,
             help="""NOT YET IMPLEMENTED Specify dictionary of full paths to directories
-                                    (with <product> and <output> wildcards) containing output products to compare with
-                                    current outputs. This should be formatted as a json dictionary string, with
-                                    YAML output config output_types as keys, and full directory comparison output
-                                    path as values.  Special key "all" will pertain to all output types.""",
+                            (with <product> and <output> wildcards) containing
+                            output products to compare with current outputs.
+                            This should be formatted as a json dictionary string, with
+                            YAML output config output_types as keys, and full directory
+                            comparison output path as values.  Special key "all" will
+                            pertain to all output types.""",
         )
 
     if arglist is None or "compare_outputs_module" in arglist:
@@ -407,7 +439,8 @@ def add_args(parser, arglist=None):
             nargs="?",
             default="compare_outputs",
             help="""Specify module to use for comparing outputs.
-                                    Defaults to geoips.compare_outputs internally if not specified.""",
+                            Defaults to geoips.compare_outputs
+                            internally if not specified.""",
         )
 
     procflow_group = parser.add_argument_group(
@@ -418,8 +451,10 @@ def add_args(parser, arglist=None):
             "--procflow",
             default=None,
             help="""Specify procflow that should be followed for this file, located in:
-                                          geoips*.interface_modules.procflows.myprocflowname.myprocflowname,
-                                          The procflow string should be the procflow module name (no .py)""",
+                            geoips*.interface_modules.procflows.
+                                myprocflowname.myprocflowname,
+                            The procflow string should be the procflow module
+                            name (no .py)""",
         )
 
     if arglist is None or "filename_format" in arglist:
@@ -427,10 +462,11 @@ def add_args(parser, arglist=None):
             "--filename_format",
             nargs="?",
             default="geoips_fname",
-            help="""Specify filename format module_name that should be used for this file, where
-                                          Each filename_module_name is 'myfilemodule' where
-                                              from geoips*.filenames.myfilemodule import myfilemodule
-                                          would be the appropriate import statement""",
+            help="""Specify filename format module_name that should be used for
+                            this file, where each filename_module_name is
+                            'myfilemodule' where:
+                                from geoips*.filenames.myfilemodule import myfilemodule
+                            would be the appropriate import statement""",
         )
     if arglist is None or "filename_format_kwargs" in arglist:
         procflow_group.add_argument(
@@ -439,7 +475,8 @@ def add_args(parser, arglist=None):
             default={},
             type=jloads,
             help="""Specify filename format kwargs that should be used for
-                                            this filename_format. Should be formatted as a json dictionary string""",
+                            this filename_format. Should be formatted as a json
+                            dictionary string""",
         )
 
     if arglist is None or "metadata_filename_format" in arglist:
@@ -447,10 +484,11 @@ def add_args(parser, arglist=None):
             "--metadata_filename_format",
             nargs="?",
             default=None,
-            help="""Specify filename format module_name that should be used for metadata output,
-                                          where filename_module_name is 'myfilemodule' where
-                                              geoips.filename_formats.myfilemodule
-                                          would be the appropriate entry point""",
+            help="""Specify filename format module_name that should be used for
+                            metadata output, where filename_module_name is
+                            'myfilemodule' where:
+                                geoips.filename_formats.myfilemodule
+                            would be the appropriate entry point""",
         )
     if arglist is None or "metadata_filename_format_kwargs" in arglist:
         procflow_group.add_argument(
@@ -459,8 +497,8 @@ def add_args(parser, arglist=None):
             default={},
             type=jloads,
             help="""Specify filename format kwargs that should be used for
-                                            this metadata_filename_format.
-                                            Should be formatted as a json dictionary string""",
+                            this metadata_filename_format.
+                            Should be formatted as a json dictionary string""",
         )
 
     if arglist is None or "output_format" in arglist:
@@ -469,9 +507,9 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             help="""Specify output format module_name that should be used for this file,
-                                          each output_format is 'output_formats.imagery_annotated' where
-                                              from geoips*.output_formats.imagery_annotated import imagery_annotated
-                                          would be the appropriate import statement""",
+                    each output_format is 'output_formats.imagery_annotated' where
+                    from geoips*.output_formats.imagery_annotated import
+                    imagery_annotated would be the appropriate import statement""",
         )
     if arglist is None or "output_format_kwargs" in arglist:
         procflow_group.add_argument(
@@ -479,9 +517,9 @@ def add_args(parser, arglist=None):
             nargs="?",
             default={},
             type=jloads,
-            help="""Specify output format kwargs that should be used for this output_format.
-                                            should be formatted as a json dictionary string, ie:
-                                            '{"title_format": "tc_copyright", "title_copyright": "NRL"}' """,
+            help="""Specify output format kwargs that should be used for this
+                    output_format. should be formatted as a json dictionary string, ie:
+                    '{"title_format": "tc_copyright", "title_copyright": "NRL"}' """,
         )
 
     if arglist is None or "metadata_output_format" in arglist:
@@ -489,10 +527,10 @@ def add_args(parser, arglist=None):
             "--metadata_output_format",
             nargs="?",
             default=None,
-            help="""Specify output format module_name that should be used for metadata output,
-                                          each output_format is 'myoutputmodule' where
-                                              from geoips.output_formats.myoutputmodule.myoutputmodule
-                                          would be the appropriate entry point""",
+            help="""Specify output format module_name that should be used for
+                    metadata output, each output_format is 'myoutputmodule' where
+                        from geoips.output_formats.myoutputmodule.myoutputmodule
+                    would be the appropriate entry point""",
         )
     if arglist is None or "metadata_output_format_kwargs" in arglist:
         procflow_group.add_argument(
@@ -501,7 +539,7 @@ def add_args(parser, arglist=None):
             default={},
             type=jloads,
             help="""Specify output format kwargs that should be used for this metadata.
-                                            Should be formatted as a json dictionary string.""",
+                    Should be formatted as a json dictionary string.""",
         )
 
     if arglist is None or "output_config" in arglist:
@@ -520,8 +558,8 @@ def add_args(parser, arglist=None):
             "--reader_name",
             default=None,
             help="""If --reader_name is passed, the specific reader will be located in
-                                       geoips*.readers.myreader_name.myreader_name,
-                                       The reader_name string should be the reader module name (no .py)""",
+                    geoips*.readers.myreader_name.myreader_name,
+                    The reader_name string should be the reader module name (no .py)""",
         )
 
     if arglist is None or "bg_product_name" in arglist:
@@ -534,9 +572,9 @@ def add_args(parser, arglist=None):
         rdr_group.add_argument(
             "--bg_reader_name",
             default=None,
-            help="""If --bg_reader_name is passed, the specific reader will be located in
-                                    geoips*.readers.myreader_name.myreader_name,
-                                    The bg_reader_name string should be the reader module name (no .py)""",
+            help="""If --bg_reader_name is passed, the specific reader will be located
+                    in geoips*.readers.myreader_name.myreader_name, The bg_reader_name
+                    string should be the reader module name (no .py)""",
         )
     if arglist is None or "bg_fnames" in arglist:
         rdr_group.add_argument(
@@ -544,8 +582,8 @@ def add_args(parser, arglist=None):
             nargs="*",
             default=None,
             help="""Specify filenames to use for background imagery.
-                                    If --bg_reader_name included, use specific reader for reading background
-                                    datafiles.""",
+                    If --bg_reader_name included, use specific reader for
+                    reading background datafiles.""",
         )
 
     plt_group = parser.add_argument_group(title="Plotting parameter specifications")
@@ -553,26 +591,32 @@ def add_args(parser, arglist=None):
         plt_group.add_argument(
             "--gridlines_params",
             default=None,
-            help="""If --gridlines_params is passed, the specific gridline params will be located in
-                                    geoips*.image_utils.plotting_params.gridlines.gridlines_params,
-                                    The gridlines_params string should be the base gridline name (no .yaml)""",
+            help="""If --gridlines_params is passed, the specific gridline
+                    params will be located in
+                    geoips*.image_utils.plotting_params.gridlines.gridlines_params,
+                    The gridlines_params string should be the base gridline name
+                    (no .yaml)""",
         )
     if arglist is None or "boundaries_params" in arglist:
         plt_group.add_argument(
             "--boundaries_params",
             default=None,
-            help="""If --boundaries_params is passed, the specific boundary params will be located in
-                                    geoips*.image_utils.plotting_params.boundaries.<boundaries_params>,
-                                    The boundaries_params string should be the base boundaries name (no .yaml)""",
+            help="""If --boundaries_params is passed, the specific boundary
+                    params will be located in
+                    geoips*.image_utils.plotting_params.boundaries.<boundaries_params>,
+                    The boundaries_params string should be the base boundaries name
+                    (no .yaml)""",
         )
 
     if arglist is None or "model_reader_name" in arglist:
         rdr_group.add_argument(
             "--model_reader_name",
             default=None,
-            help="""If --model_reader_name is passed, the specific reader will be located in
-                                    geoips*.readers.my_reader_name.my_reader_name,
-                                    The model_reader_name string should be the reader module name (no .py)""",
+            help="""If --model_reader_name is passed, the specific reader
+                    will be located in
+                    geoips*.readers.my_reader_name.my_reader_name,
+                    The model_reader_name string should be the reader module name
+                    (no .py)""",
         )
     if arglist is None or "model_fnames" in arglist:
         rdr_group.add_argument(
@@ -580,16 +624,18 @@ def add_args(parser, arglist=None):
             nargs="*",
             default=None,
             help="""Specify filenames to use for NWP model data.
-                                    If --model_reader_name included, use specific reader for reading model
-                                    datafiles.""",
+                    If --model_reader_name included, use specific reader for
+                    reading model datafiles.""",
         )
     if arglist is None or "buoy_reader_name" in arglist:
         rdr_group.add_argument(
             "--buoy_reader_name",
             default=None,
-            help="""If --buoy_reader_name is passed, the specific reader will be located in
-                                    geoips*.readers.my_reader_name.my_reader_name,
-                                    The buoyreadername string should be the reader module name (no .py)""",
+            help="""If --buoy_reader_name is passed, the specific reader
+                    will be located in
+                    geoips*.readers.my_reader_name.my_reader_name,
+                    The buoyreadername string should be the reader module name
+                    (no .py)""",
         )
     if arglist is None or "buoy_fnames" in arglist:
         rdr_group.add_argument(
@@ -597,24 +643,26 @@ def add_args(parser, arglist=None):
             nargs="*",
             default=None,
             help="""Specify filenames to use for buoy data.
-                                    If --buoy_reader_name included, use specific reader for reading buoy
-                                    datafiles.""",
+                    If --buoy_reader_name included, use specific reader for
+                    reading buoy datafiles.""",
         )
     if arglist is None or "aeorsol_reader_name" in arglist:
         rdr_group.add_argument(
             "--aerosol_reader_name",
             default=None,
-            help="""If --model_reader_name is passed, the specific reader will be located in
-                                    geoips*.readers.my_reader_name.my_reader_name,
-                                    The model_reader_name string should be the reader module name (no .py)""",
+            help="""If --model_reader_name is passed, the specific reader
+                    will be located in
+                    geoips*.readers.my_reader_name.my_reader_name,
+                    The model_reader_name string should be the reader module name
+                    (no .py)""",
         )
     if arglist is None or "aerosol_fnames" in arglist:
         rdr_group.add_argument(
             "--aerosol_fnames",
             nargs="*",
             default=None,
-            help="""If --aerosol_reader_name included, use specific reader for reading aerosol
-                                    model datafiles.""",
+            help="""If --aerosol_reader_name included, use specific reader for
+                    reading aerosol model datafiles.""",
         )
 
     fusion_group = parser.add_argument_group(
@@ -626,78 +674,85 @@ def add_args(parser, arglist=None):
             action="append",
             nargs="+",
             default=None,
-            help="""Provide additional files required for fusion product. Files passed under
-                                       this flag MUST be from the same source. fuse_files may be passed multiple times.
-                                       Reader name for these files is specified with the fuse_reader flag.""",
+            help="""Provide additional files required for fusion product.
+                    Files passed under this flag MUST be from the same source.
+                    fuse_files may be passed multiple times.  Reader name for
+                    these files is specified with the fuse_reader flag.""",
         )
         fusion_group.add_argument(
             "--fuse_reader",
             action="append",
             default=None,
-            help="""Provide the reader name for files passed under the fuse_files flag.
-                                       Only provide one reader to this flag. If multiple fuse_files flags are passed,
-                                       the same number of fuse_readers must be passed in the same order.""",
+            help="""Provide the reader name for files passed under the
+                    fuse_files flag. Only provide one reader to this flag.
+                    If multiple fuse_files flags are passed, the same number of
+                    fuse_readers must be passed in the same order.""",
         )
         fusion_group.add_argument(
             "--fuse_product",
             action="append",
             default=None,
-            help="""Provide the product name for files passed under the fuse_files flag.
-                                       Only provide one product to this flag. If multiple fuse_files flags are passed,
-                                       the same number of fuse_products must be passed in the same order.""",
+            help="""Provide the product name for files passed under the
+                    fuse_files flag. Only provide one product to this flag.
+                    If multiple fuse_files flags are passed, the same number of
+                    fuse_products must be passed in the same order.""",
         )
         fusion_group.add_argument(
             "--fuse_resampled_read",
             action="append",
             default=None,
-            help="""Identify whether the reader specified for --fuse_files / --fuse_reader
-                                       perform a resampled_read.  If not specified, a resampled read will NOT
-                                       be performed.  If multiple fuse_files flags are passed, either
-                                       the same number of fuse_resampled_read flags must be passed
-                                       in the same order, or no fuse_resampled_read flags can be passed.""",
+            help="""Identify whether the reader specified for
+                    --fuse_files / --fuse_reader perform a resampled_read.
+                    If not specified, a resampled read will NOT be performed.
+                    If multiple fuse_files flags are passed, either the same
+                    number of fuse_resampled_read flags must be passed in the
+                    same order, or no fuse_resampled_read flags can be passed.""",
         )
         fusion_group.add_argument(
             "--fuse_sectored_read",
             action="append",
             default=None,
-            help="""Identify whether the reader specified for --fuse_files / --fuse_reader
-                                       perform a sectored_read.  If not specified, a sectored_read will NOT
-                                       be performed.  If multiple fuse_files flags are passed, either
-                                       the same number of fuse_sectored_read flags must be passed
-                                       in the same order, or no fuse_sectored_read flags can be passed.""",
+            help="""Identify whether the reader specified for --fuse_files/--fuse_reader
+                    perform a sectored_read.  If not specified, a sectored_read will NOT
+                    be performed.  If multiple fuse_files flags are passed, either
+                    the same number of fuse_sectored_read flags must be passed
+                    in the same order, or no fuse_sectored_read flags can be passed.""",
         )
         fusion_group.add_argument(
             "--fuse_self_register_dataset",
             action="append",
             default=None,
-            help="""Identify the DATASET of the data to which the associated fuse_files should
-                                       be registerd.
-                                       If not specified, data will not be registered to a dataset, but the requested
-                                       area_def. If multiple fuse_files flags are passed, either
-                                       the same number of fuse_self_register_dataset flags must be passed
-                                       in the same order, or no fuse_self_register_dataset flags can be passed.""",
+            help="""Identify the DATASET of the data to which the associated
+                    fuse_files should be registerd. If not specified, data will
+                    not be registered to a dataset, but the requested area_def.
+                    If multiple fuse_files flags are passed, either the same
+                    number of fuse_self_register_dataset flags must be passed in
+                    the same order, or no fuse_self_register_dataset flags can
+                    be passed.""",
         )
         fusion_group.add_argument(
             "--fuse_self_register_source",
             action="append",
             default=None,
-            help="""Identify the SOURCE of the data to which the associated fuse_files
-                                       should be registerd.
-                                       If not specified, data will not be registered to a dataset, but the requested
-                                       area_def. If multiple fuse_files flags are passed, either
-                                       the same number of fuse_self_register_source flags must be passed
-                                       in the same order, or no fuse_self_register_source flags can be passed.""",
+            help="""Identify the SOURCE of the data to which the associated
+                    fuse_files should be registerd If not specified, data will
+                    not be registered to a dataset, but the requested. area_def.
+                    If multiple fuse_files flags are passed, either the same
+                    number of fuse_self_register_source flags must be passed in
+                    the same order, or no fuse_self_register_source flags can be
+                    passed.""",
         )
         fusion_group.add_argument(
             "--fuse_self_register_platform",
             action="append",
             default=None,
-            help="""Identify the SOURCE of the data to which the associated fuse_files
-                                       should be registerd.
-                                       If not specified, data will not be registered to a dataset, but the requested
-                                       area_def. If multiple fuse_files flags are passed, either
-                                       the same number of fuse_self_register_source flags must be passed
-                                       in the same order, or no fuse_self_register_source flags can be passed.""",
+            help="""Identify the SOURCE of the data to which the associated
+                    fuse_files should be registerd. If not specified, data will
+                    not be registered to a dataset, but the requested area_def.
+                    If multiple fuse_files flags are passed, either the same
+                    number of fuse_self_register_source flags must be passed in
+                    the same order, or no fuse_self_register_source flags can be
+                    passed.""",
         )
 
     prod_db_group = parser.add_argument_group(title="Product database specifications")
@@ -710,15 +765,19 @@ def add_args(parser, arglist=None):
         prod_db_group.add_argument(
             "--product_db_writer",
             default=None,
-            help="""If --product_db_writer is passed, the specific product database writer will be located in
-                                       geoips*.interface_modules.postgres_database.mywriter_name.mywriter_name,
-                                       The writer_name string should be the reader module name (no .py)""",
+            help="""If --product_db_writer is passed, the specific product
+                    database writer will be located in
+                    geoips*.interface_modules.postgres_database.
+                        mywriter_name.mywriter_name,
+                    The writer_name string should be the reader module name
+                    (no .py)""",
         )
         prod_db_group.add_argument(
             "--product_db_writer_override",
             nargs="?",
             default={},
             type=jloads,
-            help="""Specify product database writer that should be used for each available sector.
-                                            Should be formatted as a json dictionary string.""",
+            help="""Specify product database writer that should be used for each
+                    available sector should be formatted as a json dictionary
+                    string.""",
         )

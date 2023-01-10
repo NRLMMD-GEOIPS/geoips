@@ -10,6 +10,8 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""ABI Level 2 NetCDF reader."""
+
 # Python Standard Libraries
 from datetime import datetime
 import logging
@@ -25,6 +27,7 @@ reader_type = "standard"
 
 
 def get_metadata(fname):
+    """Get metadata."""
     import netCDF4 as ncdf
     from geoips.interface_modules.readers.abi_netcdf import (
         _get_metadata as get_metadata,
@@ -36,6 +39,7 @@ def get_metadata(fname):
 
 
 def calculate_abi_geolocation(metadata, area_def):
+    """Calculate ABI geolocation."""
     from geoips.interface_modules.readers import abi_netcdf
 
     geometa = abi_netcdf._get_geolocation_metadata(metadata)
@@ -56,6 +60,39 @@ def calculate_abi_geolocation(metadata, area_def):
 def abi_l2_netcdf(
     fnames, area_def=None, metadata_only=False, chans=False, self_register=False
 ):
+    """
+    Read ABI Level 2 NetCDF data from a list of filenames.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     # Start with pulling metadata from the first and last files
     metadata = get_metadata(fnames[0])
     end_metadata = get_metadata(fnames[-1])
@@ -125,7 +162,8 @@ def abi_l2_netcdf(
         xarray.attrs["end_datetime"] = xarray.end_time
         xarrays.append(xarray)
     # If more than one file is passed, assuming more than one scan was passed.
-    # This might not work if multiple L2 product types are passed that are of different resolutions
+    # This might not work if multiple L2 product types are passed that are of
+    # different resolutions
     if len(xarrays) > 1:
         start_times = [x.attrs["start_datetime"] for x in xarrays]
         xarray_dset = xr.concat(xarrays, dim="time")

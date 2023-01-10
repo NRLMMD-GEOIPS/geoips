@@ -10,9 +10,9 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Data manipulation steps for standard Night Visible imagery from VIIRS DNB
+"""Data manipulation steps for "Night_Vis" product, standard Version.
 
-    This algorithm expects reflectances, between 0 and 1, uncorrected for lunar illumination.
+This algorithm expects one VIIRS channel (DNBRad) for a single channel image.
 """
 import logging
 
@@ -35,25 +35,39 @@ def Night_Vis(
     norm=None,
     inverse=None,
 ):
-    """Data manipulation steps for standard Night-Vis imagery output: DNB obs for visible product.
+    """Night-Vis algorithm data manipulation steps, standard version.
+
+    DNB obs for visible product.
 
     This algorithm expects radaiance, between 0 and 2.5*10^-8
 
-    This is only for nighttime product.  Due to a relative maximum value of the DNBRad is much larger than
-         that of the majority pixels in  moonlight/lighting situation, it could lead to a black image if the original maximum is
-         used to normalize the data (i.e., the normlized value is close to 0).  Thus, we need to setup an tuning factor to normalize the DNBRad.
-         We start to use 0.05 to tune the val_max in moonlight/other lighing source, 0.5 for no lighting source.
-         We might have to generate night-vis product only when moonlight is present (TBD).
+    This is only for nighttime product.
 
-    Args:
-        arrays (list[numpy.ndarray]) :
-            * list of numpy.ndarray or numpy.MaskedArray of channel data and other variables, in order of sensor "variables" list
-            * Channel data: Radiance, between 0 and 2.5*10^-8
+    Parameters
+    ----------
+    arrays : list of numpy.ndarray
+        * list of numpy.ndarray or numpy.MaskedArray of channel data
+        * Channel data: Radiance, between 0 and 2.5*10^-8
 
-    Returns:
-        numpy.ndarray : numpy.ndarray or numpy.MaskedArray of appropriately scaled channel data,
+    Returns
+    -------
+    numpy.ndarray
+        numpy.ndarray or numpy.MaskedArray of appropriately scaled channel data
+
+    Notes
+    -----
+    Due to a relative maximum value of the DNBRad is much larger than
+    that of the majority pixels in  moonlight/lighting situation,
+    it could lead to a black image if the original maximum is
+    used to normalize the data (i.e., the normlized value is close to 0).
+    Thus, we need to setup an tuning factor to normalize the DNBRad.
+
+    We start to use 0.05 to tune the val_max in moonlight/other lighing source,
+    0.5 for no lighting source.
+
+    We might have to generate night-vis product only when moonlight is present
+    (TBD).
     """
-
     dnb_data = arrays[0]
     sun_zenith = arrays[1]
 

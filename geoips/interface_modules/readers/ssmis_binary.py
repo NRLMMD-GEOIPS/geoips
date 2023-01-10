@@ -10,21 +10,22 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""This code is converted from geoips v1 into geoipd v2 framework.
-     This new version of reader  is indepent from the GEOIPS system whose environmental parametrs 
-     must be used in V1.  Now, only python functipns are used with geoips framework and xarray  is 
-     utilized to process datasets for product applications. 
+"""SSMIS Binary reader.
+
+This code is converted from geoips v1 into geoipd v2 framework. This new version
+of reader is indepent from the GEOIPS system whose environmental parametrs must
+be used in V1.  Now, only python functipns are used with geoips framework
+and xarray is utilized to process datasets for product applications.
 
 Version Histopry:
-     V1: initial code, July 24, 2020, NRL-MRY 
+     V1: initial code, July 24, 2020, NRL-MRY
 
 Input File
      SSMIS SDR data
 
 Output Fields
      XARRAY onjectives to hold variables
-     """
-
+"""
 # Python Standard Libraries
 import logging
 from os.path import basename
@@ -46,33 +47,39 @@ def ssmis_binary(
 ):
     """Read SSMIS binary data products.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        dict of xarray.Datasets: dict of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`),
-            dict key can be any descriptive dataset id
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-
     import os
     from datetime import datetime
     import numpy as np
@@ -169,7 +176,7 @@ def ssmis_binary(
         LOG.info("not a SSMIS SDR file: skip it")
         raise
 
-    # ------------------------  Process of dataset ----------------------------------------------
+    # ------------------------  Process of dataset ---------------------------
 
     f1 = open(fname, "rb")
 
@@ -196,7 +203,8 @@ def ssmis_binary(
     filler_bytes = np.fromstring(f1.read(nfiller), dtype=np.dtype("int8")).byteswap()
 
     # Rev 6A of the SSMIS SDR software changed the scalling of channel 12-16 to 100 (it was 10 before this change)
-    #     effective with orbit rev 12216 for F-16 and thereafter for all future satellites
+    # effective with orbit rev 12216 for F-16 and thereafter for all future
+    # satellites
     rev6a = 1
     if satid == 1 and rev[0] < 12216:
         rev6a = 0
@@ -827,7 +835,7 @@ def ssmis_binary(
 
     LOG.info("start_time, end_time= %s, %s", start_time, end_time)
 
-    # --------------------- Xarray Objects for Processing Datasets--------------------------------------------------
+    # --------------------- Xarray Objects for Processing Datasets------------
     #   conversion of TBs to K
     #             TBs/100 + 273.15   (K)
     #             setup xarray objects

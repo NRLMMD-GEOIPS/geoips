@@ -10,36 +10,37 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" This EWS-G(Electro-Optical Infrared Weather System - Geostationary) reader is designed for reading the
-    EWS-G data files (EWS-G is renamed from GOES-13).  The reader is only using the python functions and 
-    xarray variables.  The reader is based on EWS-G data in netcdf4 format.
+"""Read EWS-G data.
 
-    V1.0:  NRL-Monterey, 02/25/2021
+This EWS-G(Electro-Optical Infrared Weather System - Geostationary) reader is
+designed for reading theEWS-G data files (EWS-G is renamed from GOES-13).
+The reader is only using the python functions and xarray variables.
+The reader is based on EWS-G data in netcdf4 format.
 
-    ***************  EWS-G file information  ****************************
-   Example of the gvar filename:   2020.1212.0012.goes-13.gvar.nc
+ V1.0:  NRL-Monterey, 02/25/2021
 
-   Note:
-            channel-3 is not available for EWS-G.
-            gvar_Ch3(TIR=5.8-7.3um, ctr=6.48um,4km): unit=temp-deg(C), scale_factor=0.01 
+EWS-G file information::
 
-   variables: 
-            gvar_Ch1(VIS=0.55-0.75um, ctr=0.65um,1km): unit=albedo*100,  scale_factor=0.01
-            gvar_Ch2(MWIR=3.8-4.0um,  ctr=3.9um, 4km): unit=temp-deg(C), scale_factor=0.01
-            gvar_Ch4(TIR=10.2-11.2um, ctr=10.7um,4km): unit=temp-deg(C), scale_factor=0.01 
-            gvar_Ch6(TIR=12.9-13.7um, ctr=13.3um 4km): unit=temp-deg(C), scale_factor=0.01
-            latitude: unit=degree
-            longitude:unit=degree
-            sat_zenith: unit=degree
-            sun_zenith: unit=degree
-            rel_azimuth:unit=degree
+    Example of the gvar filename:   2020.1212.0012.goes-13.gvar.nc
 
-            variable array definition:  var(scan,pix); scan-->lines, pix-->samples
+    Note that channel-3 is not available for EWS-G.
+      gvar_Ch3(TIR=5.8-7.3um, ctr=6.48um,4km): unit=temp-deg(C), scale_factor=0.01
 
-   attributes: many 
+    variables:
+      gvar_Ch1(VIS=0.55-0.75um, ctr=0.65um,1km): unit=albedo*100,  scale_factor=0.01
+      gvar_Ch2(MWIR=3.8-4.0um,  ctr=3.9um, 4km): unit=temp-deg(C), scale_factor=0.01
+      gvar_Ch4(TIR=10.2-11.2um, ctr=10.7um,4km): unit=temp-deg(C), scale_factor=0.01
+      gvar_Ch6(TIR=12.9-13.7um, ctr=13.3um 4km): unit=temp-deg(C), scale_factor=0.01
+      latitude: unit=degree
+      longitude:unit=degree
+      sat_zenith: unit=degree
+      sun_zenith: unit=degree
+      rel_azimuth:unit=degree
 
+      variable array definition:  var(scan,pix); scan-->lines, pix-->samples
+
+    attributes: many
 """
-
 # Python Standard Libraries
 import logging
 import os
@@ -52,7 +53,8 @@ import pandas as pd
 
 
 # If this reader is not installed on the system, don't fail altogether, just skip this import. This reader will
-# not work if the import fails, and the package will have to be installed to process data of this type.
+# not work if the import fails, and the package will have to be installed
+# to process data of this type.
 
 try:
     import netCDF4 as ncdf
@@ -77,7 +79,8 @@ VARLIST = [
     "rel_azimuth",
 ]
 
-# setup needed to convert var_name used in geoips: i.e., SunZenith (not sun_zenith) is used.
+# setup needed to convert var_name used in geoips: i.e., SunZenith (not
+# sun_zenith) is used.
 xvarnames = {
     "sun_zenith": "SunZenith",
     "sat_zenith": "SatZenith",
@@ -90,36 +93,42 @@ reader_type = "standard"
 def ewsg_netcdf(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
-
     """Read EWS-G data in netcdf4 format.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * NOT YET IMPLEMENTED
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        dict of xarray.Datasets: dict of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`),
-            dict key can be any descriptive dataset id
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-
     # from IPython import embed as shell
     from datetime import datetime
     import pandas as pd
@@ -149,7 +158,7 @@ def ewsg_netcdf(
             print("not a NOAA EWS-G data file: skip it")
             raise
 
-        # *************** input VIRRS variables  and output xarray required by geoips *****************
+        # *************** input VIRRS variables  and output xarray required by geo
 
         # for varname in ncdf_file.variables.keys():
         for var in VARLIST:
@@ -165,11 +174,12 @@ def ewsg_netcdf(
             """
             # scale_factor should not be applied
             if 'scale_factor' in data.ncattrs():
-                # apply scale_factor correction 
+                # apply scale_factor correction
                 #xarray_ewsg[varname]=xarray_ewsg[varname]*ncdf_file[varname].scale_factor
                 xarray_ewsg[varname]=xarray_ewsg[varname]*data.scale_factor
             """
-            # convert unit from degree to Kelvin for ch2, ch4, and ch6 (ch1 is in unit of albedo)
+            # convert unit from degree to Kelvin for ch2, ch4, and ch6 (ch1 is in unit
+            # of albedo)
             if varname in ["gvar_ch2", "gvar_ch4", "gvar_ch6"]:
                 xarray_ewsg[varname] = xarray_ewsg[varname] + 273.15
                 xarray_ewsg[varname].attrs["units"] = "Kelvin"
@@ -179,14 +189,16 @@ def ewsg_netcdf(
         # test hour/minute/second of "start_datetime" info from start_time (second of the day)
         # add scan_time info to determine the "end_datetime". scan_time has time of scans for
         #     this input data file(one obs).  If end_time of this data >24 hr, modify value of "day"
-        #     from fname.  Note: scan_time units are seconds from (start_time + time_adjust)
+        # from fname.  Note: scan_time units are seconds from (start_time +
+        # time_adjust)
 
         # date info from fname
         #        1  2  3  4  5  6  7  8  9  10 11 12
         days_mo = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         days_mo_lp = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]  # Leap year
 
-        # date information is not contained in the data so we have to get it from filename
+        # date information is not contained in the data so we have to get it from
+        # filename
         data_name = os.path.basename(fname)
         yr = int(data_name.split(".")[0])
         mo = int(data_name.split(".")[1][0:2])
@@ -246,14 +258,16 @@ def ewsg_netcdf(
         xarray_ewsg.attrs["start_datetime"] = Start_date
         xarray_ewsg.attrs["end_datetime"] = End_date
         # Goes VARiable (gvar) data is on GOES-12/13 - older GOES satellites were gvissr
-        # ncdf_file.sensor_name is gvissr - I think that is a mistake on Terascan's part - hold out from years ago
+        # ncdf_file.sensor_name is gvissr - I think that is a mistake on
+        # Terascan's part - hold out from years ago
         xarray_ewsg.attrs["source_name"] = "gvar"
         if ncdf_file.satellite == "goes-13":
             xarray_ewsg.attrs["platform_name"] = "ews-g"
         xarray_ewsg.attrs["data_provider"] = "noaa"
         xarray_ewsg.attrs["original_source_filenames"] += [os.path.basename(fname)]
 
-        # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
+        # MTIFs need to be "prettier" for PMW products, so 2km resolution for
+        # final image
         xarray_ewsg.attrs["sample_distance_km"] = 2
         xarray_ewsg.attrs["interpolation_radius_of_influence"] = 3000
 

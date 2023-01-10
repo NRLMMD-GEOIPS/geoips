@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Include package metadata"""
+"""Include package metadata."""
 
 from importlib.metadata import version
 

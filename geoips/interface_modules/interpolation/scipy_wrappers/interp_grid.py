@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Xarray wrapper for driving the interpolation routines with basic Python inputs and outputs"""
+"""Geoips plugin for driving scipy griddata interpolation."""
 import logging
 
 import xarray
@@ -26,7 +26,7 @@ interp_type = "grid"
 def interp_grid(
     area_def, input_xarray, output_xarray, varlist, array_num=None, method=None
 ):
-    """Set imgkey as 'Griddata<method>' where <method> is one of 'cubic', 'linear' or 'nearest'"""
+    """Scipy griddata interpolation GeoIPS plugin."""
     LOG.info("Interpolating using scipy.interpolate.griddata %s", method)
 
     interp_datas = []

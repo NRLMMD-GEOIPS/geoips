@@ -10,14 +10,19 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Simple test script to run "test_<interface>_interface" for each dev and stable interface"""
+"""Simple test script to run "test_<interface>_interface" for each interface.
+
+This includes both dev and stable interfaces.
+Note this will be deprecated with v2.0 - replaced with a new class-based
+interface implementation.
+"""
 import pprint
 from importlib import import_module
 import traceback
 
 
 def main():
-    """Script to test all dev and stable interfaces"""
+    """Script to test all dev and stable interfaces."""
 
     interfaces = [
         "stable.reader",

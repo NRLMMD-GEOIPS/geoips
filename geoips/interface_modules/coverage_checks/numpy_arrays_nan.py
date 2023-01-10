@@ -10,9 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Coverage check routine for masked arrays
-"""
-
+"""Coverage check routine for masked arrays."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -25,16 +23,20 @@ def numpy_arrays_nan(
     alt_varname_for_covg=None,
     force_alt_varname=False,
 ):
-    """Coverage check routine for xarray objects with masked projected arrays.
+    """Coverage check routine for xarray objects with projected numpy arrays.
 
-    Args:
-        xarray_obj (xarray.Dataset) :  xarray object containing variable "variable_name"
-        variable_name (str) : variable name to check percent unmasked
+    Parameters
+    ----------
+    xarray_obj : xarray.Dataset
+        xarray object containing variable "variable_name"
+    variable_name : str
+        variable name to check percent unmasked
 
-    Returns:
-        float : Percent coverage of variable_name
+    Returns
+    -------
+    float
+        Percent coverage of variable_name
     """
-
     from geoips.data_manipulations.info import percent_not_nan
 
     varname_for_covg = variable_name

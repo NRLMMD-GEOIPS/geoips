@@ -10,11 +10,10 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Data manipulation steps for "color37" product.
+"""Data manipulation steps for "color37" product.
 
-    This algorithm expects Brightness Temperatures in units of degrees Kelvin
+This algorithm expects Brightness Temperatures in units of degrees Kelvin
 """
-
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -25,20 +24,23 @@ description = "Passive Microwave 37 MHz Colorized Brightness Temperature"
 
 
 def pmw_color37(arrays):
-    """Data manipulation steps for "color37" product algorithm.
+    """color37 product algorithm data manipulation steps.
 
     This algorithm expects Brightness Temperatures in units of degrees Kelvin,
     and returns red green and blue gun arrays.
 
-    Args:
-        data (list[numpy.ndarray]) :
-            * list of numpy.ndarray or numpy.MaskedArray of channel data, in order of channels list above
-            * Degrees Kelvin
+    Parameters
+    ----------
+    data : list of numpy.ndarray
+        * list of numpy.ndarray or numpy.MaskedArray of channel data,
+            in order of channels list above
+        * Degrees Kelvin
 
-    Returns:
-        numpy.ndarray : numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
+    Returns
+    -------
+    numpy.ndarray
+        numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
     """
-
     h37 = arrays[0]
     v37 = arrays[1]
 

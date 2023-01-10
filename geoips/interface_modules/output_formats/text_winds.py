@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Routines for outputting formatted text wind speed and vector data files """
+"""Routines for outputting formatted text wind speed and vector data files."""
 import logging
 import os
 from datetime import datetime
@@ -24,6 +24,7 @@ output_type = "xrdict_varlist_outfnames_to_outlist"
 def text_winds(
     xarray_dict, varlist, output_fnames, append=False, overwrite=True, source_names=None
 ):
+    """Write text windspeed output file."""
     output_products = []
     num_arrs = 0
     for key in xarray_dict:
@@ -53,22 +54,22 @@ def text_winds(
 def write_text_winds(
     xarray_obj, varlist, output_fnames, append=False, overwrite=True, source_names=None
 ):
-    """Write out TC formatted text file of wind speeds
-    +------------------+-----------+-------------------------------------------------------+
-    | Parameters:      | Type:     | Description:                                          |
-    +==================+===========+=======================================================+
-    | text_fname:      | *str*     | String full path to output filename                   |
-    +------------------+-----------+-------------------------------------------------------+
-    | speed_array:     | *ndarray* | array of windspeeds                                   |
-    +------------------+-----------+-------------------------------------------------------+
-    | time_array:      | *ndarray* | array of POSIX time stamps same length as speed_array |
-    +------------------+-----------+-------------------------------------------------------+
-    | lon_array:       | *ndarray* | array of longitudes of same length as speed_array     |
-    +------------------+-----------+-------------------------------------------------------+
-    | lat_array:       | *ndarray* | array of latitudes of same length as speed_array      |
-    +------------------+-----------+-------------------------------------------------------+
-    | platform_name:   | *str*     | String platform name                                  |
-    +------------------+-----------+-------------------------------------------------------+
+    """Write out TC formatted text file of wind speeds.
+
+    Parameters
+    ----------
+    text_fname : str
+        String full path to output filename
+    speed_array : ndarray
+        array of windspeeds
+    time_array : ndarray
+        array of POSIX time stamps same length as speed_array
+    lon_array : ndarray
+        array of longitudes of same length as speed_array
+    lat_array : ndarray
+        array of latitudes of same length as speed_array
+    platform_name : str
+        String platform name
     """
     # NOTE long does not exist in Python 3, so changed this to int.  This will
     # limit us to 32 bit integers within Python 2
@@ -82,7 +83,8 @@ def write_text_winds(
     lon_array = xarray_obj["longitude"].to_masked_array().flatten()
     platform_name = xarray_obj.platform_name
     source_name = platform_name.upper()
-    # If we passed a dictionary of source_name mappings, and it contains the current platform_name, swap it out.
+    # If we passed a dictionary of source_name mappings, and it contains the
+    # current platform_name, swap it out.
     if source_names is not None and platform_name in source_names:
         source_name = source_names[platform_name].upper()
     dir_array = None

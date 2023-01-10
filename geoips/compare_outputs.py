@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Test script for running representative products using data and comparison outputs from geoips_test_data_* """
-
+"""Test script for representative product comparisons."""
 import subprocess
 import logging
 from os.path import basename, join, splitext, dirname, isdir, isfile, exists
@@ -20,13 +19,17 @@ LOG = logging.getLogger(__name__)
 
 
 def is_geotiff(fname):
-    """Determine if fname is a geotiff file
+    """Determine if fname is a geotiff file.
 
-    Args:
-        fname (str) : Name of file to check.
+    Parameters
+    ----------
+    fname : str
+        Name of file to check.
 
-    Returns:
-        bool: True if it is an image file, False otherwise.
+    Returns
+    -------
+    bool
+        True if it is a geotiff file, False otherwise.
     """
     if splitext(fname)[-1] in [".tif"]:
         return True
@@ -34,13 +37,17 @@ def is_geotiff(fname):
 
 
 def is_image(fname):
-    """Determine if fname is an image file
+    """Determine if fname is an image file.
 
-    Args:
-        fname (str) : Name of file to check.
+    Parameters
+    ----------
+    fname : str
+        Name of file to check.
 
-    Returns:
-        bool: True if it is an image file, False otherwise.
+    Returns
+    -------
+    bool
+        True if it is an image file, False otherwise.
     """
     if splitext(fname)[-1] in [".png", ".jpg", ".jpeg", ".jif"]:
         return True
@@ -48,13 +55,17 @@ def is_image(fname):
 
 
 def is_geoips_netcdf(fname):
-    """Check if fname is a geoips formatted netcdf file
+    """Check if fname is a geoips formatted netcdf file.
 
-    Args:
-        fname (str) : Name of file to check.
+    Parameters
+    ----------
+    fname : str
+        Name of file to check.
 
-    Returns:
-        bool: True if it is a geoips netcdf file, False otherwise.
+    Returns
+    -------
+    bool
+        True if it is a geoips netcdf file, False otherwise.
     """
     import xarray
 
@@ -68,15 +79,18 @@ def is_geoips_netcdf(fname):
 
 
 def is_text(fname):
-    """Check if fname is a text file
+    """Check if fname is a text file.
 
-    Args:
-        fname (str) : Name of file to check.
+    Parameters
+    ----------
+    fname : str
+        Name of file to check.
 
-    Returns:
-        bool: True if it is a text file, False otherwise.
+    Returns
+    -------
+    bool
+        True if it is a text file, False otherwise.
     """
-
     if splitext(fname)[-1] in ["", ".txt", ".text", ".yaml"]:
         with open(fname) as f:
             line = f.readline()
@@ -86,13 +100,17 @@ def is_text(fname):
 
 
 def is_gz(fname):
-    """Check if fname is a gzip file
+    """Check if fname is a gzip file.
 
-    Args:
-        fname (str) : Name of file to check.
+    Parameters
+    ----------
+    fname : str
+        Name of file to check.
 
-    Returns:
-        bool: True if it is an image file, False otherwise.
+    Returns
+    -------
+    bool
+        True if it is a gz file, False otherwise.
     """
     if splitext(fname)[-1] in [".gz"]:
         return True
@@ -100,13 +118,17 @@ def is_gz(fname):
 
 
 def gunzip_product(fname):
-    """gunzip file fname
+    """Gunzip file fname.
 
-    Args:
-        fname (str) : File to gunzip
+    Parameters
+    ----------
+    fname : str
+        File to gunzip.
 
-    Returns:
-        str: Filename of file after gunzipping
+    Returns
+    -------
+    str
+        Filename after gunzipping
     """
     LOG.info("**** Gunzipping product for comparisons - will gzip after comparing")
     LOG.info("gunzip %s", fname)
@@ -115,13 +137,17 @@ def gunzip_product(fname):
 
 
 def gzip_product(fname):
-    """gzip file fname
+    """Gzip file fname.
 
-    Args:
-        fname (str) : File to gzip
+    Parameters
+    ----------
+    fname : str
+        File to gzip.
 
-    Returns:
-        str: Filename of file after gzipping
+    Returns
+    -------
+    str
+        Filename after gzipping
     """
     LOG.info("**** Gzipping product - leave things as we found them")
     LOG.info("gzip %s", fname)
@@ -130,6 +156,24 @@ def gzip_product(fname):
 
 
 def get_out_diff_fname(compare_product, output_product, ext=None, flag=None):
+    """Obtain the filename for output and comparison product diff.
+
+    Parameters
+    ----------
+    compare_product : str
+        Full path to product filename in the comparison directory
+    output_product : str
+        Full path to product filename in the current output directory
+    ext : str, default=None
+        Extension to use as an alternative to the original file extension
+    flag : str, default=None
+        Additional identifying string to include in output diff filename
+
+    Returns
+    -------
+    out_diff_fname : str
+        Full path to output diff file.
+    """
     from os import makedirs, getenv
     from os.path import exists
 
@@ -152,23 +196,29 @@ def get_out_diff_fname(compare_product, output_product, ext=None, flag=None):
 
 
 def images_match(output_product, compare_product, fuzz="5%"):
-    """Use imagemagick compare system command to compare currently produced image to correct image
+    """Use imagemagick compare system command to compare two images.
 
-    Args:
-        output_product (str) : Current output product
-        compare_product (str) : Path to comparison product
-        fuzz (str) : DEFAULT '1%', "fuzz" argument to pass to compare - larger "fuzz" factor to make
-                                    comparison less strict.
+    Parameters
+    ----------
+    output_product : str
+        Current output product
+    compare_product : str
+        Path to comparison product
+    fuzz : str, optional
+        "fuzz" argument to pass to compare - larger "fuzz" factor to make
+        comparison less strict, by default 5%.
 
-    Returns:
-        bool: Return True if images match, False if they differ
+    Returns
+    -------
+    bool
+        Return True if images match, False if they differ
     """
-    fuzz_out_diffimg = get_out_diff_fname(compare_product, output_product, flag="fuzz_")
+    out_diffimg = get_out_diff_fname(compare_product, output_product)
     exact_out_diffimg = get_out_diff_fname(
         compare_product, output_product, flag="exact_"
     )
 
-    fuzz_call_list = [
+    call_list = [
         "compare",
         "-verbose",
         "-quiet",
@@ -178,7 +228,7 @@ def images_match(output_product, compare_product, fuzz="5%"):
         fuzz,
         output_product,
         compare_product,
-        fuzz_out_diffimg,
+        out_diffimg,
     ]
 
     exact_call_list = [
@@ -192,21 +242,44 @@ def images_match(output_product, compare_product, fuzz="5%"):
         exact_out_diffimg,
     ]
 
-    LOG.info("**Running fuzzy approximate compare %s", " ".join(fuzz_call_list))
-    fuzz_retval = subprocess.call(fuzz_call_list)
-    LOG.info("**Done running fuzzy approximate compare")
+    LOG.info("**Running %s", " ".join(call_list))
+    fullimg_retval = subprocess.call(call_list)
+    LOG.info("**Done running compare")
 
-    if fuzz_retval != 0:
-        LOG.info("    ************************************************")
-        LOG.info("    *** BAD Images do NOT match within tolerance ***")
-        LOG.info("    ************************************************")
+    # call_list = ['compare', '-verbose', '-quiet',
+    #              '-metric', 'rmse',
+    #              '-dissimilarity-threshold', '{0:0.15f}'.format(threshold),
+    #              '-subimage-search',
+    #              output_product,
+    #              compare_product,
+    #              out_diffimg]
+
+    # LOG.info('Running %s', ' '.join(call_list))
+
+    # subimg_retval = subprocess.call(call_list)
+    # if subimg_retval != 0 and fullimg_retval != 0:
+    #     call_list = ['compare', '-verbose', '-quiet',
+    #                  '-metric', 'rmse',
+    #                  '-subimage-search',
+    #                  output_product,
+    #                  compare_product,
+    #                  out_diffimg]
+    #     subprocess.call(call_list)
+    #     LOG.info('    ***************************************')
+    #     LOG.info('    *** BAD Images do NOT match exactly ***')
+    #     LOG.info('    ***************************************')
+    #     return False
+    if fullimg_retval != 0:
+        LOG.info("    ***************************************")
+        LOG.info("    *** BAD Images do NOT match exactly ***")
+        LOG.info("    ***************************************")
         return False
 
     LOG.info("**Running exact %s", " ".join(exact_call_list))
-    exact_retval = subprocess.call(exact_call_list)
+    fullimg_retval = subprocess.call(exact_call_list)
     LOG.info("**Done running exact compare")
 
-    if exact_retval != 0:
+    if fullimg_retval != 0:
         LOG.info("    ******************************************")
         LOG.info("    *** GOOD Images match within tolerance ***")
         LOG.info("    ******************************************")
@@ -217,27 +290,32 @@ def images_match(output_product, compare_product, fuzz="5%"):
     # Remove the image if they matched so we don't have extra stuff to sort through.
     from os import unlink as osunlink
 
-    osunlink(fuzz_out_diffimg)
+    osunlink(out_diffimg)
     return True
 
 
 def geotiffs_match(output_product, compare_product):
-    """Use diff system command to compare currently produced image to correct image
+    """Use diff system command to compare currently produced image to correct image.
 
-    Args:
-        output_product (str) : Current output product
-        compare_product (str) : Path to comparison product
+    Parameters
+    ----------
+    output_product : str
+        Full path to current output product
+    compare_product : str
+        Full path to comparison product
 
-    Returns:
-        bool: Return True if images match, False if they differ
+    Returns
+    -------
+    bool
+        Return True if images match, False if they differ
     """
-    out_diffimg = get_out_diff_fname(compare_product, output_product)
+    # out_diffimg = get_out_diff_fname(compare_product, output_product)
 
     call_list = ["diff", output_product, compare_product]
     LOG.info("Running %s", " ".join(call_list))
     retval = subprocess.call(call_list)
 
-    subimg_retval = subprocess.call(call_list)
+    # subimg_retval = subprocess.call(call_list)
     if retval != 0:
         LOG.info("    *****************************************")
         LOG.info("    *** BAD geotiffs do NOT match exactly ***")
@@ -251,14 +329,19 @@ def geotiffs_match(output_product, compare_product):
 
 
 def geoips_netcdf_match(output_product, compare_product):
-    """Check if two geoips formatted netcdf files match
+    """Check if two geoips formatted netcdf files match.
 
-    Args:
-        output_product (str) : Current output product
-        compare_product (str) : Path to comparison product
+    Parameters
+    ----------
+    output_product : str
+        Full path to current output product
+    compare_product : str
+        Full path to comparison product
 
-    Returns:
-        bool: Return True if products match, False if they differ
+    Returns
+    -------
+    bool
+        Return True if products match, False if they differ
     """
     out_difftxt = get_out_diff_fname(compare_product, output_product)
     diffout = []
@@ -274,20 +357,36 @@ def geoips_netcdf_match(output_product, compare_product):
         LOG.info("    **************************************************************")
         for attr in out_xobj.attrs.keys():
             if attr not in compare_xobj.attrs:
-                diffstr = f"\nattr {attr}\n\noutput\n{out_xobj.attrs[attr]}\n\nnot in comparison\n"
+                diffstr = (
+                    f"\nattr {attr}\n\n"
+                    f"output\n{out_xobj.attrs[attr]}\n\n"
+                    "not in comparison\n"
+                )
                 diffout += [diffstr]
                 LOG.info(diffstr)
             elif out_xobj.attrs[attr] != compare_xobj.attrs[attr]:
-                diffstr = f"\nattr {attr}\n\noutput\n{out_xobj.attrs[attr]}\n\ncomparison\n{compare_xobj.attrs[attr]}\n"
+                diffstr = (
+                    f"\nattr {attr}\n\n"
+                    f"output\n{out_xobj.attrs[attr]}\n\n"
+                    f"comparison\n{compare_xobj.attrs[attr]}\n"
+                )
                 diffout += [diffstr]
                 LOG.info(diffstr)
         for attr in compare_xobj.attrs.keys():
             if attr not in out_xobj.attrs:
-                diffstr = f"\nattr {attr}\n\nnot in output\n\ncomparison\n{compare_xobj.attrs[attr]}\n"
+                diffstr = (
+                    f"\nattr {attr}\n\n"
+                    f"not in output\n\n"
+                    f"comparison\n{compare_xobj.attrs[attr]}\n"
+                )
                 diffout += [diffstr]
                 LOG.info(diffstr)
             elif out_xobj.attrs[attr] != compare_xobj.attrs[attr]:
-                diffstr = f"\nattr {attr}\n\noutput\n{out_xobj.attrs[attr]}\n\ncomparison\n{compare_xobj.attrs[attr]}\n"
+                diffstr = (
+                    f"\nattr {attr}\n\n"
+                    f"output\n{out_xobj.attrs[attr]}\n\n"
+                    f"comparison\n{compare_xobj.attrs[attr]}\n"
+                )
                 diffout += [diffstr]
                 LOG.info(diffstr)
         diffout += ["\n"]
@@ -306,7 +405,7 @@ def geoips_netcdf_match(output_product, compare_product):
         for line in str(resp).split("\n"):
             LOG.info(f"    *** {line} ***")
         diffout += [
-            f"\nxarray objects do not match between current output and comparison\n"
+            "\nxarray objects do not match between current output and comparison\n"
         ]
         diffout += [f"\nOut: {out_xobj}\n"]
         diffout += [f"\nCompare: {compare_xobj}\n"]
@@ -355,14 +454,19 @@ def geoips_netcdf_match(output_product, compare_product):
 
 
 def text_match(output_product, compare_product):
-    """Check if two text files match
+    """Check if two text files match.
 
-    Args:
-        output_product (str) : Current output product
-        compare_product (str) : Path to comparison product
+    Parameters
+    ----------
+    output_product : str
+        Full path to current output product
+    compare_product : str
+        Full path to "good" comparison product
 
-    Returns:
-        bool: Return True if products match, False if they differ
+    Returns
+    -------
+    bool
+        Return True if products match, False if they differ
     """
     retval = subprocess.call(["diff", output_product, compare_product])
     if retval == 0:
@@ -382,8 +486,41 @@ def text_match(output_product, compare_product):
 def test_product(output_product, compare_product, goodcomps, badcomps, compare_strings):
     """Test output_product against "good" product stored in "compare_path".
 
-    Args:
-        output_product
+    Parameters
+    ----------
+    output_product : str
+        * Full path to current output product
+    compare_product : str
+        * Full path to "good" comparison product
+    goodcomps : list of str
+        * List of full paths to all "good" successful comparisons
+          (output and compare images match)
+        * Each str is prepended with a "compare_string" tag to identify which
+          comparison type was performed.
+    badcomps : list of str
+        * List of full paths to all "bad" unsuccessful comparisons
+          (output and compare images differ)
+        * Each str is prepended with a "compare_string" tag to identify which
+          comparison type was performed.
+    compare_strings : list of str
+        * List of all comparison "tags" included in goodcomps and badcomps lists.
+        * This list is used to remove the comparison tags from goodcomps and
+          badcomps to retrieve only the file path.
+
+    Returns
+    -------
+    goodcomps: list of str
+        All current good comparisons appended to the list passed in.
+    badcomps: list of str
+        All current bad comparisons appended to the list passed in.
+    compare_strings: list of str
+        All current comparison "tags" added to the list passed in.
+
+    Raises
+    ------
+    TypeError
+        Raised when current output product does not have an associated
+        comparison test defined.
     """
     matched_one = False
     if is_image(output_product):
@@ -425,39 +562,63 @@ def test_product(output_product, compare_product, goodcomps, badcomps, compare_s
 
 
 def print_gunzip_to_file(fobj, gunzip_fname):
+    """Write the command to gunzip the passed "gunzip_fname" to file.
+
+    Writes to the currently open file object, if required.
+    """
     if exists(f"{gunzip_fname}.gz") and not exists(f"{gunzip_fname}"):
         fobj.write(f"gunzip -v {gunzip_fname}.gz\n")
 
 
 def print_gzip_to_file(fobj, gzip_fname):
+    """Write the command to gzip the passed "gzip_fname" to file.
+
+    Writes to the currently open file object, if required.
+    """
     if exists(f"{gzip_fname}.gz") and not exists(f"{gzip_fname}"):
         fobj.write(f"gzip -v {gzip_fname}\n")
 
 
 def compare_outputs(compare_path, output_products, test_product_func=None):
-    """Compare the "correct" imagery found in comparepath with the list of current output_products
+    """Compare the "correct" imagery found the list of current output_products.
 
-    Args:
-        comparepath (str) : Path to directory of "correct" products - filenames must match output_products
-        output_products (list) : List of strings of current output products, to compare with products in compare_path
-        test_product_func (function) : DEFAULT: None (which uses geoips.compare_outputs.test_product)
-                                      *Alternative function to be used for testing output product
-                                        * Call signature must be:
-                                            * output_product, compare_product, goodcomps, badcomps, compare_strings
-                                        * Return must be:
-                                            * goodcomps, badcomps, compare_strings
+    Compares files produced in the current processing run with the list of
+    "correct" files contained in "compare_path".
 
+    Parameters
+    ----------
+    compare_path : str
+        Path to directory of "correct" products - filenames must match output_products
+    output_products : list of str
+        List of strings of current output products,
+        to compare with products in compare_path
+    test_product_func : function, default=None
+        Alternative function to be used for testing output product
 
+          * Call signature must be:
 
-    Returns:
-        int: Binary code: Good products, bad products, missing products
+              * output_product, compare_product, goodcomps, badcomps, compare_strings
+
+          * Return must be:
+
+              * goodcomps, badcomps, compare_strings
+
+        * If None, use geoips.compare_outputs.test_product)
+
+    Returns
+    -------
+    int
+        Binary code: 0 if all comparisons were completed successfully.
     """
     try:
         from shutil import which
 
         if not which("compare"):
             raise OSError(
-                "Imagemagick compare does not exist, install if you want to check outputs"
+                (
+                    "Imagemagick compare does not exist, "
+                    "install if you want to check outputs"
+                )
             )
     except ImportError:
         pass
@@ -467,17 +628,17 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     missingproducts = []
     compare_strings = []
     LOG.info(
-        "********************************************************************************************"
+        "******************************************************************************"
     )
     LOG.info(
-        "********************************************************************************************"
+        "******************************************************************************"
     )
     LOG.info("*** RUNNING COMPARISONS OF KNOWN OUTPUTS IN %s ***", compare_path)
     LOG.info(
-        "********************************************************************************************"
+        "******************************************************************************"
     )
     LOG.info(
-        "********************************************************************************************"
+        "******************************************************************************"
     )
     LOG.info("")
     from glob import glob
@@ -491,11 +652,11 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
             continue
 
         LOG.info(
-            "********************************************************************************************"
+            "**************************************************************************"
         )
         LOG.info("*** COMPARE  %s ***", basename(output_product))
         LOG.info(
-            "********************************************************************************************"
+            "**************************************************************************"
         )
 
         rezip = False
@@ -523,17 +684,17 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
 
         LOG.info("")
     LOG.info(
-        "********************************************************************************************"
+        "******************************************************************************"
     )
     LOG.info(
-        "********************************************************************************************"
+        "******************************************************************************"
     )
     LOG.info("*** DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN %s ***", compare_path)
     LOG.info(
-        "********************************************************************************************"
+        "******************************************************************************"
     )
     LOG.info(
-        "********************************************************************************************"
+        "******************************************************************************"
     )
 
     product_basenames = [basename(yy) for yy in final_output_products]

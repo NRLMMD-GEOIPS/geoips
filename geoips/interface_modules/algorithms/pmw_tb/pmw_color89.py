@@ -10,11 +10,10 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Data manipulation steps for "color89" product.
+"""Data manipulation steps for "color89" product.
 
-    This algorithm expects Brightness Temperatures in units of degrees Kelvin
+This algorithm expects Brightness Temperatures in units of degrees Kelvin
 """
-
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -25,20 +24,23 @@ description = "Passive Microwave 89 MHz Colorized Brightness Temperature"
 
 
 def pmw_color89(arrays):
-    """Data manipulation steps for "color89" product algorithm.
+    """color89 product algorithm data manipulation steps.
 
     This algorithm expects Brightness Temperatures in units of degrees Kelvin,
     and returns red green and blue gun arrays.
 
-    Args:
-        arrays (list[numpy.ndarray]) :
-            * list of numpy.ndarray or numpy.MaskedArray of channel data and other variables, in order of sensor "variables" list
-            * Channel data: Degrees Kelvin
+    Parameters
+    ----------
+    arrays : list of numpy.ndarray
+        * list of numpy.ndarray or numpy.MaskedArray of channel data and
+            other variables, in order of sensor "variables" list
+        * Channel data: Degrees Kelvin
 
-    Returns:
-        numpy.ndarray : numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
+    Returns
+    -------
+    numpy.ndarray
+        numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
     """
-
     h89 = arrays[0]
     v89 = arrays[1]
 

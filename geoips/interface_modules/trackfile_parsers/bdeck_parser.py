@@ -10,42 +10,102 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" TC trackfile parser for B-Deck formatted TC deck files.
+"""TC trackfile parser for B-Deck formatted TC deck files.
 
-Each B-Deck file contains the full history of storm BEST tracks, one storm location per line
-AL, 20, 2020091318,   , BEST,   0, 126N,  374W,  30, 1006, TD,   0,    ,    0,    0,    0,    0, 1011,  240, 100,  40,   0,   L,   0,    ,   0,   0,     TWENTY, M, 12, NEQ,   60,    0,    0,   60, genesis-num, 039,
-AL, 20, 2020091400,   , BEST,   0, 130N,  386W,  30, 1006, TD,   0,    ,    0,    0,    0,    0, 1011,  240, 100,  40,   0,   L,   0,    ,   0,   0,     TWENTY, M, 12, NEQ,   60,   60,    0,    0, genesis-num, 039,
-AL, 20, 2020091406,   , BEST,   0, 130N,  404W,  35, 1004, TS,  34, NEQ,    0,    0,   40,   40, 1011,  240,  40,   0,   0,   L,   0,    ,   0,   0,      TEDDY, M,  0,    ,    0,    0,    0,    0, genesis-num, 039,
-AL, 20, 2020091412,   , BEST,   0, 128N,  422W,  35, 1004, TS,  34, NEQ,   50,   30,    0,   50, 1011,  240,  40,  45,   0,   L,   0,    ,   0,   0,      TEDDY, M,  0,    ,    0,    0,    0,    0, genesis-num, 039,
-AL, 20, 2020091418,   , BEST,   0, 129N,  434W,  40, 1003, TS,  34, NEQ,   80,   40,    0,   70, 1012,  210,  50,  55,   0,   L,   0,    ,   0,   0,      TEDDY, M, 12, NEQ,   90,   30,    0,   30, genesis-num, 039,
-AL, 20, 2020091500,   , BEST,   0, 130N,  445W,  45, 1002, TS,  34, NEQ,  100,   50,    0,   80, 1012,  210,  40,  55,   0,   L,   0,    ,   0,   0,      TEDDY, M, 12, NEQ,   90,   30,    0,   30, genesis-num, 039,
-AL, 20, 2020091506,   , BEST,   0, 134N,  455W,  50, 1001, TS,  34, NEQ,  100,   50,   20,   80, 1012,  210,  20,  60,   0,   L,   0,    ,   0,   0,      TEDDY, M, 12, NEQ,  300,  210,   30,    0, genesis-num, 039,
-AL, 20, 2020091506,   , BEST,   0, 134N,  455W,  50, 1001, TS,  50, NEQ,   20,    0,    0,    0, 1012,  210,  20,  60,   0,   L,   0,    ,   0,   0,      TEDDY, M, 12, NEQ,  300,  210,   30,    0, genesis-num, 039,
-AL, 20, 2020091512,   , BEST,   0, 138N,  466W,  55,  999, TS,  34, NEQ,  140,   60,   40,  160, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  210,   30,   30, genesis-num, 039,
-AL, 20, 2020091512,   , BEST,   0, 138N,  466W,  55,  999, TS,  50, NEQ,   30,    0,    0,   30, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  210,   30,   30, genesis-num, 039,
-AL, 20, 2020091518,   , BEST,   0, 142N,  475W,  55,  997, TS,  34, NEQ,  140,   80,   40,  160, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  240,   60,   60, genesis-num, 039,
-AL, 20, 2020091518,   , BEST,   0, 142N,  475W,  55,  997, TS,  50, NEQ,   30,    0,    0,   30, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  240,   60,   60, genesis-num, 039,
-AL, 20, 2020091600,   , BEST,   0, 147N,  480W,  65,  987, HU,  34, NEQ,  140,   80,   40,  150, 1010,  180,  20,  75,   0,   L,   0,    ,   0,   0,      TEDDY, D,  0,    ,    0,    0,    0,    0, genesis-num, 039,
-AL, 20, 2020091600,   , BEST,   0, 147N,  480W,  65,  987, HU,  50, NEQ,   40,   30,    0,   30, 1010,  180,  20,  75,   0,   L,   0,    ,   0,   0,      TEDDY, D,  0,    ,    0,    0,    0,    0, genesis-num, 039,
-AL, 20, 2020091600,   , BEST,   0, 147N,  480W,  65,  987, HU,  64, NEQ,   20,    0,    0,    0, 1010,  180,  20,  75,   0,   L,   0,    ,   0,   0,      TEDDY, D,  0,    ,    0,    0,    0,    0, genesis-num, 039,
-AL, 20, 2020091606,   , BEST,   0, 154N,  486W,  80,  978, HU,  34, NEQ,  140,   80,   40,  150, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  240,  120,  150, genesis-num, 039,
-AL, 20, 2020091606,   , BEST,   0, 154N,  486W,  80,  978, HU,  50, NEQ,   40,   30,   20,   30, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  240,  120,  150, genesis-num, 039,
-AL, 20, 2020091606,   , BEST,   0, 154N,  486W,  80,  978, HU,  64, NEQ,   20,   10,   10,   20, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  240,  120,  150, genesis-num, 039,
-AL, 20, 2020091612,   , BEST,   0, 161N,  493W,  85,  973, HU,  34, NEQ,  170,  170,   40,  150, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  270,  270,  240,  270, genesis-num, 039,
-AL, 20, 2020091612,   , BEST,   0, 161N,  493W,  85,  973, HU,  50, NEQ,   50,   50,   20,   30, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  270,  270,  240,  270, genesis-num, 039,
-AL, 20, 2020091612,   , BEST,   0, 161N,  493W,  85,  973, HU,  64, NEQ,   25,   25,   10,   20, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  270,  270,  240,  270, genesis-num, 039,
-AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  34, NEQ,  190,  100,   70,  170, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,
-AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  50, NEQ,   80,   50,   30,   90, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,
-AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64, NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,
-AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  34, NEQ,  220,  100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
-AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  50, NEQ,   60,   50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
-AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  64, NEQ,   30,   25,   20,   30, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
-AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  34, NEQ,  220,  100,   80,  170, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,
-AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  50, NEQ,   60,   50,   50,   70, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,
-AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  64, NEQ,   30,   25,   20,   30, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,
+Each B-Deck file contains the full history of storm BEST tracks, on storm per
+location per line (split between 3 lines each in comments for readability)::
 
+  AL, 20, 2020091318,   , BEST,   0, 126N,  374W,  30, 1006, TD,   0,    ,    0,
+      0,    0,    0, 1011,  240, 100,  40,   0,   L,   0,    ,   0,   0,
+           TWENTY, M, 12, NEQ,   60,    0,    0,   60, genesis-num, 039,
+  AL, 20, 2020091400,   , BEST,   0, 130N,  386W,  30, 1006, TD,   0,    ,    0,
+          0,    0,    0, 1011,  240, 100,  40,   0,   L,   0,    ,   0,   0,
+           TWENTY, M, 12, NEQ,   60,   60,    0,    0, genesis-num, 039,
+  AL, 20, 2020091406,   , BEST,   0, 130N,  404W,  35, 1004, TS,  34, NEQ,    0,
+          0,   40,   40, 1011,  240,  40,   0,   0,   L,   0,    ,   0,   0,
+            TEDDY, M,  0,    ,    0,    0,    0,    0, genesis-num, 039,
+  AL, 20, 2020091412,   , BEST,   0, 128N,  422W,  35, 1004, TS,  34, NEQ,   50,
+         30,    0,   50, 1011,  240,  40,  45,   0,   L,   0,    ,   0,   0,
+            TEDDY, M,  0,    ,    0,    0,    0,    0, genesis-num, 039,
+  AL, 20, 2020091418,   , BEST,   0, 129N,  434W,  40, 1003, TS,  34, NEQ,   80,
+         40,    0,   70, 1012,  210,  50,  55,   0,   L,   0,    ,   0,   0,
+            TEDDY, M, 12, NEQ,   90,   30,    0,   30, genesis-num, 039,
+  AL, 20, 2020091500,   , BEST,   0, 130N,  445W,  45, 1002, TS,  34, NEQ,  100,
+         50,    0,   80, 1012,  210,  40,  55,   0,   L,   0,    ,   0,   0,
+            TEDDY, M, 12, NEQ,   90,   30,    0,   30, genesis-num, 039,
+  AL, 20, 2020091506,   , BEST,   0, 134N,  455W,  50, 1001, TS,  34, NEQ,  100,
+         50,   20,   80, 1012,  210,  20,  60,   0,   L,   0,    ,   0,   0,
+            TEDDY, M, 12, NEQ,  300,  210,   30,    0, genesis-num, 039,
+  AL, 20, 2020091506,   , BEST,   0, 134N,  455W,  50, 1001, TS,  50, NEQ,   20,
+          0,    0,    0, 1012,  210,  20,  60,   0,   L,   0,    ,   0,   0,
+            TEDDY, M, 12, NEQ,  300,  210,   30,    0, genesis-num, 039,
+  AL, 20, 2020091512,   , BEST,   0, 138N,  466W,  55,  999, TS,  34, NEQ,  140,
+     60,   40,  160, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,
+        TEDDY, D, 12, NEQ,  300,  210,   30,   30, genesis-num, 039,
+  AL, 20, 2020091512,   , BEST,   0, 138N,  466W,  55,  999, TS,  50, NEQ,   30,
+      0,    0,   30, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  300,  210,   30,   30, genesis-num, 039,
+  AL, 20, 2020091518,   , BEST,   0, 142N,  475W,  55,  997, TS,  34, NEQ,  140,
+     80,   40,  160, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  300,  240,   60,   60, genesis-num, 039,
+  AL, 20, 2020091518,   , BEST,   0, 142N,  475W,  55,  997, TS,  50, NEQ,   30,
+      0,    0,   30, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  300,  240,   60,   60, genesis-num, 039,
+  AL, 20, 2020091600,   , BEST,   0, 147N,  480W,  65,  987, HU,  34, NEQ,  140,
+     80,   40,  150, 1010,  180,  20,  75,   0,   L,   0,    ,   0,   0,
+            TEDDY, D,  0,    ,    0,    0,    0,    0, genesis-num, 039,
+  AL, 20, 2020091600,   , BEST,   0, 147N,  480W,  65,  987, HU,  50, NEQ,   40,
+     30,    0,   30, 1010,  180,  20,  75,   0,   L,   0,    ,   0,   0,
+            TEDDY, D,  0,    ,    0,    0,    0,    0, genesis-num, 039,
+  AL, 20, 2020091600,   , BEST,   0, 147N,  480W,  65,  987, HU,  64, NEQ,   20,
+      0,    0,    0, 1010,  180,  20,  75,   0,   L,   0,    ,   0,   0,
+            TEDDY, D,  0,    ,    0,    0,    0,    0, genesis-num, 039,
+  AL, 20, 2020091606,   , BEST,   0, 154N,  486W,  80,  978, HU,  34, NEQ,  140,
+     80,   40,  150, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  300,  240,  120,  150, genesis-num, 039,
+  AL, 20, 2020091606,   , BEST,   0, 154N,  486W,  80,  978, HU,  50, NEQ,   40,
+     30,   20,   30, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  300,  240,  120,  150, genesis-num, 039,
+  AL, 20, 2020091606,   , BEST,   0, 154N,  486W,  80,  978, HU,  64, NEQ,   20,
+     10,   10,   20, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  300,  240,  120,  150, genesis-num, 039,
+  AL, 20, 2020091612,   , BEST,   0, 161N,  493W,  85,  973, HU,  34, NEQ,  170,
+    170,   40,  150, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  270,  270,  240,  270, genesis-num, 039,
+  AL, 20, 2020091612,   , BEST,   0, 161N,  493W,  85,  973, HU,  50, NEQ,   50,
+     50,   20,   30, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  270,  270,  240,  270, genesis-num, 039,
+  AL, 20, 2020091612,   , BEST,   0, 161N,  493W,  85,  973, HU,  64, NEQ,   25,
+     25,   10,   20, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  270,  270,  240,  270, genesis-num, 039,
+  AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  34, NEQ,  190,
+    100,   70,  170, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,
+  AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  50, NEQ,   80,
+     50,   30,   90, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,
+  AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64, NEQ,   30,
+     25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,
+  AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  34, NEQ,  220,
+    100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
+  AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  50, NEQ,   60,
+     50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
+  AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  64, NEQ,   30,
+     25,   20,   30, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
+  AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  34, NEQ,  220,
+    100,   80,  170, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,
+  AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  50, NEQ,   60,
+     50,   50,   70, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,
+  AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  64, NEQ,   30,
+     25,   20,   30, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,
+            TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,
 """
-
 import os
 import logging
 from datetime import datetime
@@ -54,22 +114,30 @@ LOG = logging.getLogger(__name__)
 
 
 def bdeck_parser(deckfile_name):
-    """TC deckfile parser for B-Deck files
+    """TC deckfile parser for B-Deck files.
 
-    Each B-Deck file contains the full history of storm BEST tracks, one storm location per line.
-        AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64, NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,
-        AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  34, NEQ,  220,  100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
-        AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  50, NEQ,   60,   50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
+    Each B-Deck file contains the full history of storm BEST tracks, one storm
+    location per line. Example b-deck files are available in the GeoIPS repo.
 
-    Args:
-        deckfile_name (str) : Path to bdeck file, with full 6 hourly storm track history, formatted as follows:
+    Parameters
+    ----------
+    deckfile_name : str
+        Path to bdeck file, with full 6 hourly storm track
+        history, formatted as follows:
 
-    Returns:
-        (list) : List of Dictionaries of storm metadata fields from each storm location
-                    Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
+    Returns
+    -------
+    list
+        List of Dictionaries of storm metadata fields from each storm location
+
+    See Also
+    --------
+    :ref:`api_sector_utils`
+        Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
     LOG.info("STARTING getting fields from %s", deckfile_name)
-    # Must get tcyear out of the filename in case a storm crosses TC vs calendar years.
+    # Must get tcyear out of the filename in case a storm
+    # crosses TC vs calendar years.
     # tcyear = os.path.basename(deckfile_name)[5:9]
     tc_year = get_stormyear_from_bdeck_filename(deckfile_name)
     # print tcyear
@@ -81,8 +149,9 @@ def bdeck_parser(deckfile_name):
     # This just pulls the time of the first entry in the deck file
     entry_storm_start_datetime = get_storm_start_datetime_from_bdeck_entry(flatsf_lines)
 
-    # Note storms are often started with 3 locations, and the first 2 locations are removed in later deck files,
-    # so initial storm start time often does not match the final storm start time.
+    # Note storms are often started with 3 locations, and the first 2 locations
+    # are removed in later deck files, so initial storm start time often does
+    # not match the final storm start time.
     # Keep track of the start datetime referenced in the filename
     filename_storm_start_datetime = get_storm_start_datetime_from_bdeck_filename(
         deckfile_name
@@ -110,7 +179,8 @@ def bdeck_parser(deckfile_name):
             original_storm_start_datetime=filename_storm_start_datetime,
             parser_name="bdeck_parser",
         )
-        # Was previously RE-SETTING finalstormname here. That is why we were getting incorrect final_storm_name fields
+        # Was previously RE-SETTING finalstormname here.
+        # That is why we were getting incorrect final_storm_name fields
         all_fields += [curr_fields]
 
     LOG.info("FINISHED getting fields from %s", deckfile_name)
@@ -119,7 +189,7 @@ def bdeck_parser(deckfile_name):
 
 
 def lat_to_dec(lat_str):
-    """Return decimal latitude based on N/S specified string"""
+    """Return decimal latitude based on N/S specified string."""
     latnodec = lat_str
     latdec = latnodec[:-2] + "." + latnodec[-2:]
     latdecsign = latdec[:-1] if (latdec[-1] == "N") else "-" + latdec[:-1]
@@ -127,7 +197,7 @@ def lat_to_dec(lat_str):
 
 
 def lon_to_dec(lon_str):
-    """Return decimal longitude based on E/W specified string"""
+    """Return decimal longitude based on E/W specified string."""
     lonnodec = lon_str
     londec = lonnodec[:-2] + "." + lonnodec[-2:]
     londecsign = londec[:-1] if (londec[-1] == "E") else "-" + londec[:-1]
@@ -144,20 +214,39 @@ def parse_bdeck_line(
     original_storm_start_datetime=None,
     parser_name="bdeck_parser",
 ):
-    """Retrieve the storm information from the current line from the deck file
+    """Retrieve the storm information from the current line from the deck file.
 
-    Args:
-        line (str) : Current line from the deck file including all storm information
-            AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64, NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,
-            AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  34, NEQ,  220,  100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
-            AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  50, NEQ,   60,   50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,
+    Parameters
+    ----------
+    line : str
+        Current line from the deck file including all storm information
 
+        * AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64,
+          NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,
+          0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300,
+          genesis-num, 039,
+        * AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  34,
+          NEQ,  220,  100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,
+          0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300,
+          genesis-num, 039,
+        * AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  50,
+          NEQ,   60,   50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,
+          0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300,
+          genesis-num, 039,
 
-    Returns:
-        (dict) : Dictionary of the fields from the current storm location from the deck file
-                    Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
+    Returns
+    -------
+    dict
+        Dictionary of the fields from the current storm location from the
+        deck file
+
+    See Also
+    --------
+    :ref:`api_sector_utils`
+        Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
-    # This works with G (GeoIPS) Deck files.  Need separate parser for B decks (best tracks)
+    # This works with G (GeoIPS) Deck files.
+    # Need separate parser for B decks (best tracks)
     # parts = line.split(',', 40)
     parts = [part.strip() for part in line.split(",")]
     if len(parts) != 38 and len(parts) != 30 and len(parts) != 40 and len(parts) != 42:
@@ -225,6 +314,7 @@ def parse_bdeck_line(
 
 
 def get_invest_number_bdeck(deck_lines):
+    """Get invest number from full bdeck file."""
     invest_number = None
     for line in deck_lines:
         fields = parse_bdeck_line(line)
@@ -236,6 +326,7 @@ def get_invest_number_bdeck(deck_lines):
 
 
 def get_storm_start_datetime_from_bdeck_entry(deck_lines):
+    """Get storm start datetime from full bdeck file."""
     # Return the synoptic time of the first bdeck entry
     fields = parse_bdeck_line(deck_lines[0])
     LOG.info("  GETTING storm start time from bdeck entry %s", fields["synoptic_time"])
@@ -243,6 +334,7 @@ def get_storm_start_datetime_from_bdeck_entry(deck_lines):
 
 
 def get_storm_start_datetime_from_bdeck_filename(bdeck_filename):
+    """Get storm start datetime from bdeck file name."""
     # Return the synoptic time found in the actual filename, if it exists!
     # This will ONLY be the case for INVESTS, which can use the start
     # Gwp912022.2022101400.dat
@@ -256,26 +348,33 @@ def get_storm_start_datetime_from_bdeck_filename(bdeck_filename):
             )
         except ValueError:
             LOG.warning(
-                "  SKIPPING no valid storm start time found in filename, using first entry in bdeck"
+                "  SKIPPING no valid storm start time found in filename, %s",
+                "using first entry in bdeck",
             )
             storm_start_datetime = None
     return storm_start_datetime
 
 
 def get_stormyear_from_bdeck_filename(bdeck_filename):
-    """Get the storm year from the B-deck filename
+    """Get the storm year from the B-deck filename.
 
-    Args:
-        bdeck_filename (str) : Path to deck file to search for storm year
-                               Must be of format: xxxxxYYYY.dat - pulls YYYY from filename based on location
+    Parameters
+    ----------
+    bdeck_filename : str
+        * Path to deck file to search for storm year
+        * Must be of format: xxxxxYYYY.dat - pulls YYYY from filename based on
+          location
 
-    Returns:
-        (int) : Storm year
+    Returns
+    -------
+    int
+        Storm year
     """
     return int(os.path.basename(bdeck_filename)[5:9])
 
 
 def get_final_storm_name_bdeck(deck_lines, tcyear):
+    """Get final storm name from full bdeck file."""
     final_storm_name = "INVEST"
     for line in deck_lines:
         # curr_fields = parse_bdeck_line(line, tcyear, finalstormname)

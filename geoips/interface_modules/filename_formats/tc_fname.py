@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Standard TC filename production"""
-
+"""Standard TC filename formatter."""
 # Python Standard Libraries
 import logging
 
@@ -47,7 +46,14 @@ def tc_fname(
     extra_field=None,
     output_dict=None,
 ):
+    """Create standard TC filenames.
 
+    See Also
+    --------
+    geoips.interface_modules.filename_formats.tc_fname.assemble_tc_fname
+        This uses the shared utility "assemble_tc_fname", such that a common
+        filename can be used by related filename formatters.
+    """
     from geoips.sector_utils.utils import is_sector_type
 
     if area_def and not is_sector_type(area_def, "tc"):
@@ -62,7 +68,8 @@ def tc_fname(
 
     # This allows you to explicitly set matplotlib parameters (colorbars, titles, etc).  Overrides were placed in
     # geoimgbase.py to allow using explicitly set values rather than geoimgbase determined defaults.
-    # Return reused parameters (min/max vals for normalization, colormaps, matplotlib Normalization)
+    # Return reused parameters (min/max vals for normalization, colormaps,
+    # matplotlib Normalization)
     from geoips.filenames.base_paths import PATHS as gpaths
     from geoips.xarray_utils.timestamp import get_min_from_xarray_timestamp
 
@@ -117,6 +124,13 @@ def tc_fname(
 
 
 def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
+    """Remove tc_fname duplicate files.
+
+    Matches storm name, sensor name, platform name, product name, and
+    resolution for all files within "mins_to_remove" minutes of the
+    current file.  All other fields are wild carded during the matching
+    process.
+    """
     # 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png
     # 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png.yaml
     matching_fnames = []
@@ -327,50 +341,54 @@ def assemble_tc_fname(
     sector_info=None,
 ):
     """Produce full output product path from product / sensor specifications.
-        tc web paths are of the format:
-        <basedir>/tc<tc_year>/<tc_basin>/<tc_basin><tc_stormnum><tc_year>/<output_type>/<product_name>/<platform_name>/
-        tc web filenames are of the format:
-        <date{%Y%m%d%H%M>_<tc_basin><tc_stormnum><tc_year>_<source_name>_<platform_name>_<product_name>_<intensity>_<coverage>_<extra>.<output_type>
-    +------------------+-----------+---------------------------------------------------+
-    | Parameters:      | Type:     | Description:                                      |
-    +==================+===========+===================================================+
-    | basedir:         | *str*     |                                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | tc_year:         | *int*     | Full 4 digit storm year                           |
-    +------------------+-----------+---------------------------------------------------+
-    | tc_basin:        | *str*     | 2 character basin designation                     |
-    |                  |           |   SH Southern Hemisphere                          |
-    |                  |           |   WP West Pacific                                 |
-    |                  |           |   EP East Pacific                                 |
-    |                  |           |   CP Central Pacific                              |
-    |                  |           |   IO Indian Ocean                                 |
-    |                  |           |   AL Atlantic                                     |
-    +------------------+-----------+---------------------------------------------------+
-    | tc_stormnum:     | *int*     | 2 digit storm number                              |
-    |                  |           |   90 through 99 for invests                       |
-    |                  |           |   01 through 69 for named storms                  |
-    +------------------+-----------+---------------------------------------------------+
-    | output_type:     | *str*     | file extension type                               |
-    +------------------+-----------+---------------------------------------------------+
-    | product_name:    | *str*     | Name of product                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | source_name:     | *str*     | Name of data source (sensor)                      |
-    +------------------+-----------+---------------------------------------------------+
-    | platform_name:   | *str*     | Name of platform (satellite)                      |
-    +------------------+-----------+---------------------------------------------------+
-    | coverage:        | *float*   | Image coverage, float between 0.0 and 100.0       |
-    +------------------+-----------+---------------------------------------------------+
-    | product_datetime:| *datetime*| Datetime object - start time of data used to      |
-    |                  |           |     generate product                              |
-    +------------------+-----------+---------------------------------------------------+
-    | output_type_dir: | *str*     | Default output_type, dir name                     |
-    +------------------+-----------+---------------------------------------------------+
-    | product_dir:     | *str*     | Default product_name, dir name                     |
-    +------------------+-----------+---------------------------------------------------+
 
-        Return values
-        ---------------
-        str to full path of output filename
+    tc web paths are of the format:
+        <basedir>/tc<tc_year>/<tc_basin>/<tc_basin><tc_stormnum><tc_year>/
+          <output_type>/<product_name>/<platform_name>/
+    tc web filenames are of the format:
+        <date{%Y%m%d%H%M>_<tc_basin><tc_stormnum><tc_year>_<source_name>_
+          <platform_name>_<product_name>_<intensity>_<coverage>_
+          <extra>.<output_type>
+
+    Parameters
+    ----------
+    basedir : str
+        Base directory for output file.
+    tc_year : int
+        Full 4 digit storm year
+    tc_basin : str
+        2 character basin designation
+          SH Southern Hemisphere
+          WP West Pacific
+          EP East Pacific
+          CP Central Pacific
+          IO Indian Ocean
+          AL Atlantic
+    tc_stormnum : int
+        2 digit storm number
+          90 through 99 for invests
+          01 through 69 for named storms
+    output_type : str
+        file extension type
+    product_name : str
+        Name of product
+    source_name : str
+        Name of data source (sensor)
+    platform_name : str
+        Name of platform (satellite)
+    coverage : float
+        Image coverage, float between 0.0 and 100.0
+    product_datetime : datetime.datetime
+        Datetime object - start time of data used to generate product
+    output_type_dir : str
+        Default output_type, dir name
+    product_dir : str
+        Default product_name, dir name
+
+    Returns
+    -------
+    str
+        full path to output file
     """
     if not output_type_dir:
         output_type_dir = output_type

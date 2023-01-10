@@ -10,14 +10,13 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Interface Under Development.  Please provide feedback to geoips@nrlmry.navy.mil
+"""Interpolation interface will be deprecated v2.0.
 
-    General utilities for geoips development and processing
+General utilities for geoips interface development and processing
 
-    As utility functions are finalized, they will be moved to
-    geoips/stable/utils.py module.
+This functionality will be replaced with a class-based implementation v2.0,
+and deprecated at that time.
 """
-
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -25,6 +24,7 @@ LOG = logging.getLogger(__name__)
 
 # Miscellaneous ###
 def deprecation(message):
+    """Interface deprecated v2.0."""
     import warnings
 
     warnings.warn(message, DeprecationWarning, stacklevel=2)
@@ -33,28 +33,40 @@ def deprecation(message):
 
 def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
     """Replace standard environment variables with their non-expanded equivalents.
-        Ie, replace
-            $HOME/geoproc with $GEOIPS_BASEDIR
-            $HOME/geoproc/geoips_outdirs with $GEOIPS_OUTDIRS
-        This allows generating output YAML fields / NetCDF attributes that can match between different
-        instantiations.
 
-        Note it replaces ALL standard variables that have a corresponding <key>_URL variable.
+    Ie, replace
 
-        Additionally, it replaces variables specified in "replace_paths" list with the
-        unexpanded environment variable name.
+        * ``$HOME/geoproc with $GEOIPS_BASEDIR``
+        * ``$HOME/geoproc/geoips_outdirs with $GEOIPS_OUTDIRS``
 
-    Args:
-        fname (str) :   Full path to a filename on disk
-        replace_paths (list) :  DEFAULT: None -> ['GEOIPS_OUTDIRS', 'GEOIPS_BASEDIR']
-                                Explicit list of standard variable names you would like replaced.
-        base_paths (list) : DEFAULT: None -> geoips.filenames.base_paths
-                            List of PATHS dictionaries in which to find the "replace_paths" variables
-    Returns:
-        (str) : Path to file on disk, with explicit path replaced with environment variable name and/or
-                full URL.
+    This allows generating output YAML fields / NetCDF attributes that can match
+    between different instantiations.
+
+    Parameters
+    ----------
+    fname : str
+        Full path to a filename on disk
+    replace_paths : list, default=None
+        * Explicit list of standard variable names you would like replaced.
+        * If None, replace ``['GEOIPS_OUTDIRS', 'GEOIPS_BASEDIR']``
+    base_paths : list, default=None
+        * List of PATHS dictionaries in which to find the "replace_paths" variables
+        * If None, use geoips.filenames.base_paths
+
+    Returns
+    -------
+    fname : str
+        Path to file on disk, with explicit path replaced with environment
+        variable name and/or full URL.
+
+    Notes
+    -----
+    Note it replaces ALL standard variables that have a corresponding
+    ``<key>_URL`` variable.
+
+    Additionally, it replaces variables specified in "replace_paths" list with
+    the unexpanded environment variable name.
     """
-
     # Allow multiple sets of base_path replacements
     from geoips.filenames.base_paths import PATHS as geoips_gpaths
 
@@ -78,6 +90,7 @@ def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
 
 
 def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=True):
+    """Interface deprecated v2.0."""
     attrs = [
         "start_datetime",
         "end_datetime",
@@ -106,6 +119,7 @@ def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=Tru
 
 
 def get_required_geoips_xarray_attrs():
+    """Interface deprecated v2.0."""
     required_xarray_attrs = [
         "source_name",
         "platform_name",
@@ -117,15 +131,22 @@ def get_required_geoips_xarray_attrs():
 
 
 def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
-    """Output process times stored within the process_datetimes dictionary
-    Args:
-        process_datetimes (dict) : dictionary formatted as follows:
-            process_datetimes['overall_start'] - overall start datetime of the entire script
-            process_datetimes['overall_end'] - overall end datetime of the entire script
-            process_datetimes[process_name]['start'] - start time of an individual process
-            process_datetimes[process_name]['end'] - end time of an individual process
-    """
+    """Output process times stored within the process_datetimes dictionary.
 
+    Parameters
+    ----------
+    process_datetimes : dict
+        dictionary formatted as follows:
+
+        * ``process_datetimes['overall_start']`` - overall start datetime of
+          the entire script
+        * ``process_datetimes['overall_end']`` - overall end datetime of the
+          entire script
+        * ``process_datetimes[process_name]['start']`` - start time of an
+          individual process
+        * ``process_datetimes[process_name]['end']`` - end time of an
+          individual process
+    """
     if "overall_end" in process_datetimes and "overall_start" in process_datetimes:
         LOG.info(
             "Total Time %s: %s Num jobs: %s",

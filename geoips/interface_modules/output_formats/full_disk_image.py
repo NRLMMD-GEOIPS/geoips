@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Full disk image matplotlib-based output format."""
 import os
 import logging
 
@@ -36,7 +37,7 @@ def full_disk_image(
     bg_datatype_title=None,
     remove_duplicate_minrange=None,
 ):
-
+    """Plot full disk image."""
     if product_name_title is None:
         product_name_title = product_name
 

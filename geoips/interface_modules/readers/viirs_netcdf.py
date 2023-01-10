@@ -10,45 +10,51 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" This VIIRS reader is designed for reading the NPP/JPSS VIIRS files geoips.  The reader is only 
-      using the python functions and xarray variables.  Although the file name indicates the data is in netcdf4 format.
-      Thus, the reader is based on the netcdf4 data format.
- 
-      The orginal reader (viirs_aotcimss_ncdf4_reader.py)  was developed for geoips1, which applied many geoips1 function.
+"""VIIRS NetCDF reader.
 
- V1.0:  NRL-Monterey, 09/17/2020 
+This VIIRS reader is designed for reading the NPP/JPSS VIIRS files geoips.
+The reader is only using the python functions and xarray variables.  Although
+the file name indicates the data is in netcdf4 format.
 
-   ***************   VIIRS file infOrmation  ****************************
-  There are 6 files for each time of VIIRS data, i.e.,
-  For NASA NPP VIIRS
-  20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02DNB.sdr.x.x.nc
-  20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02IMG.sdr.x.x.nc
-  20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02MOD.sdr.x.x.nc
-  20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP03DNB.sdr.x.x.nc
-  20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP03IMG.sdr.x.x.nc
-  20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP03MOD.sdr.x.x.nc
+Thus, the reader is based on the netcdf4 data format.
 
-  For JPSS VIIRS
-  20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ102DNB.sdr.x.x.nc
-  20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ102IMG.sdr.x.x.nc
-  20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ102MOD.sdr.x.x.nc
-  20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ103DNB.sdr.x.x.nc
-  20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ103IMG.sdr.x.x.nc
-  20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ103MOD.sdr.x.x.nc
- 
-  DNB: VIIRS day-night Band obs
-  MOD: VIIRS M-Band  obs
-  IMG: VIIRS I-Band  obs
+The orginal reader (viirs_aotcimss_ncdf4_reader.py) was developed for geoips1,
+which applied many geoips1 function.
 
-  The *.VNP02* files are for the data records, while the *.VNP03* files are for the geolocation data records.
+V1.0:  NRL-Monterey, 09/17/2020
 
-  The xarray of geoips reader need both the data and lat/lon info. Thus, this VIIRS reader is designed to read in the paired
-     VNP02 and VNP03 files, depending on any one of DNB or IMG or MOD file.  In order to minimize dupilcated excution of VIIRS files,
-     additional adjust of excution of the VIIRS files will be needed (discussion with Mindy on how to do it).  
+VIIRS file infOrmation::
 
-  ***********************************************************************************************************************
+    There are 6 files for each time of VIIRS data, i.e.,
+    For NASA NPP VIIRS
+    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02DNB.sdr.x.x.nc
+    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02IMG.sdr.x.x.nc
+    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02MOD.sdr.x.x.nc
+    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP03DNB.sdr.x.x.nc
+    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP03IMG.sdr.x.x.nc
+    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP03MOD.sdr.x.x.nc
+
+    For JPSS VIIRS
+    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ102DNB.sdr.x.x.nc
+    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ102IMG.sdr.x.x.nc
+    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ102MOD.sdr.x.x.nc
+    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ103DNB.sdr.x.x.nc
+    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ103IMG.sdr.x.x.nc
+    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ103MOD.sdr.x.x.nc
+
+    DNB: VIIRS day-night Band obs
+    MOD: VIIRS M-Band  obs
+    IMG: VIIRS I-Band  obs
+
+The *.VNP02* files are for the data records, while the *.VNP03* files are for
+the geolocation data records.
+
+The xarray of geoips reader need both the data and lat/lon info. Thus, this
+VIIRS reader is designed to read in the paired VNP02 and VNP03 files, depending
+on any one of DNB or IMG or MOD file.  In order to minimize dupilcated excution
+of VIIRS files, additional adjust of excution of the VIIRS files will be needed
+(discussion with Mindy on how to do it).
 """
-
 # Python Standard Libraries
 import logging
 import os
@@ -58,7 +64,8 @@ import numpy
 import xarray as xr
 
 # If this reader is not installed on the system, don't fail altogether, just skip this import. This reader will
-# not work if the import fails, and the package will have to be installed to process data of this type.
+# not work if the import fails, and the package will have to be installed
+# to process data of this type.
 
 try:
     import netCDF4 as ncdf
@@ -193,6 +200,7 @@ reader_type = "standard"
 
 
 def required_chan(chans, varnames):
+    """Return True if required channel."""
     if chans is None:
         return True
     for varname in varnames:
@@ -202,6 +210,7 @@ def required_chan(chans, varnames):
 
 
 def required_geo_chan(xarrays, xvarname):
+    """Return True if required geolocation channel."""
     # for data_type in list(xarrays.keys()):
     #     if xvarname in list(xarrays[data_type].keys()):
     #         LOG.info('        SKIPPING %s geolocation channel %s, xarray GEOLOCATION variable %s exists',
@@ -211,6 +220,7 @@ def required_geo_chan(xarrays, xvarname):
 
 
 def required_geo(chans, data_type):
+    """Return True if required geolocation dataset."""
     if chans is None:
         return True
     for varname in chans:
@@ -229,7 +239,7 @@ def required_geo(chans, data_type):
 
 
 def add_to_xarray(varname, nparr, xobj, dataset_masks, data_type, nparr_mask):
-
+    """Add variable to xarray Dataset."""
     # Add current dataset to xarray object
     if varname not in xobj.variables:
         merged_array = nparr
@@ -239,7 +249,8 @@ def add_to_xarray(varname, nparr, xobj, dataset_masks, data_type, nparr_mask):
         merged_array, dims=["dim_" + str(merged_array.shape[0]), "dim_1"]
     )
 
-    # If nparr_mask.shape != nparr.shape, then it is "False" so create an array of False the size of nparr
+    # If nparr_mask.shape != nparr.shape, then it is "False" so create an
+    # array of False the size of nparr
     if nparr_mask.shape != nparr.shape:
         nparr_mask = numpy.zeros(nparr.shape).astype(bool)
     # If we haven't merged nparr_mask into dataset_masks[data_type] yet, do it now
@@ -254,33 +265,38 @@ def viirs_netcdf(
 ):
     """Read VIIRS netcdf data products.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        dict of xarray.Datasets: dict of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`),
-            dict key can be any descriptive dataset id
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-
     from collections import defaultdict
     from datetime import datetime
     import pandas as pd
@@ -288,11 +304,11 @@ def viirs_netcdf(
     # since fname is a LIST of input files, this reader needs additional adjustments to read all files
     #       and put them into the XARRAY output (add one more array for number of files)
 
-    """ 
+    """
     fnames=['readers/data_viirs/20200916.081200.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02DNB.sdr.x.x.nc',\
            'readers/data_viirs/20200916.081200.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02IMG.sdr.x.x.nc',\
            'readers/data_viirs/20200916.081200.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02MOD.sdr.x.x.nc']
-    
+
     fnames=['data_viirs/20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02DNB.sdr.x.x.nc',\
            'data_viirs/20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02IMG.sdr.x.x.nc',\
            'data_viirs/20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02MOD.sdr.x.x.nc']
@@ -342,7 +358,8 @@ def viirs_netcdf(
         #  Python datetime64 time starts on '1970-01-01T00:00:00Z'
         #  Thus, 1/1/1993 datetime64 has seconds of 725846400
         #  The scan info does not match the line info of each fields (lines x pix)
-        #        thus, no tiemstamp is applied.  Just the Start_date and End_date are sued for time info.
+        # thus, no tiemstamp is applied.  Just the Start_date and End_date are
+        # sued for time info.
 
         scan_start_time = ncdf_file["scan_line_attributes"].variables[
             "scan_start_time"
@@ -356,15 +373,16 @@ def viirs_netcdf(
         s_time = scan_start_time + 725846400
         e_time = scan_end_time + 725846400
 
-        # convert it to UTC time in format: datetime.datetime(2020, 8, 26, 7, 48, 10, 445420)
+        # convert it to UTC time in format: datetime.datetime(2020, 8, 26, 7,
+        #                                                     48, 10, 445420)
         Start_date = datetime.utcfromtimestamp(s_time[0])
         End_date = datetime.utcfromtimestamp(e_time[-1])
 
         #    ************  setup VIIRS xarray variables *****************
         #    only the avaialble fileds are arranged in the xaaray object
         #         the missing fields in the data file are not included.
-        #         i.e, if I01-03 are missing the *IMG file, then only I04 and I05 fields will
-        #              be processed and output to Xarray
+        #         i.e, if I01-03 are missing the *IMG file, then only I04 and
+        #              I05 fields will be processed and output to Xarray
 
         # from IPython import embed as shell
 
@@ -386,7 +404,8 @@ def viirs_netcdf(
                 os.path.basename(fname)
             ]
 
-        # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
+        # MTIFs need to be "prettier" for PMW products, so 2km resolution for
+        # final image
         xarrays[data_type].attrs["sample_distance_km"] = 2
         xarrays[data_type].attrs["interpolation_radius_of_influence"] = 3000
 
@@ -407,7 +426,8 @@ def viirs_netcdf(
         # Assign visible chans to own data_type, since they will disappear from day -> night
         # These are located in the VNP02MOD/IMG files, or the MOD dataset type
         # Also keep track of all variables in the parent file of the data_type
-        # This will help determine if we need to add geolocation vars to the data_type xarray downstream
+        # This will help determine if we need to add geolocation vars to the
+        # data_type xarray downstream
         default_data_type = data_type
         vis_data_type = data_type + "-Vis"
         if Start_date not in tracked_data_type_vars[default_data_type]:
@@ -467,7 +487,8 @@ def viirs_netcdf(
                         attrname
                     )
 
-            # Apply Brightness Temperature conversions if BT version of variable was requested.
+            # Apply Brightness Temperature conversions if BT version of variable was
+            # requested.
             if (
                 var in BT_CHANNELS + REF_CHANNELS
                 and required_chan(chans, [btvarname])
@@ -565,7 +586,8 @@ def viirs_netcdf(
                     if geo_target_data_type == vis_data_type and not all(
                         [x in source_file_vars for x in vis_vars]
                     ):
-                        # Only add geolocation to vis_data_type if corresponding channels are in the source file
+                        # Only add geolocation to vis_data_type if corresponding
+                        # channels are in the source file
                         continue
                     xvarname = var
                     if var in xvarnames:
@@ -633,7 +655,8 @@ def viirs_netcdf(
         # This will not duplicate memory - reference
         xarray_returns[dtype] = xarrays[dtype]
 
-    # Force masking of latitude/longitude fill values, otherwise causes issues when sectoring
+    # Force masking of latitude/longitude fill values, otherwise causes issues
+    # when sectoring
     fill_value = -999.9
     for dtype in xarray_returns:
         bad_llmask = xarray_returns[dtype]["latitude"] == -999.9

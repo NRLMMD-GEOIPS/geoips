@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Specifications for output filename formats for text windspeed product types. """
-
+"""Filename formatter for text windspeed products."""
 import logging
 
 from os.path import join as pathjoin, splitext as pathsplitext
@@ -33,6 +32,17 @@ def text_winds_full_fname(
     extension=".txt",
     basedir=pathjoin(gpaths["ANNOTATED_IMAGERY_PATH"], "text_winds"),
 ):
+    """Create a single text winds file for all data in the current xarray.
+
+    This text windspeed filename includes YYYYMMDD.HHMN in the filename
+    in order to include only the current datafile in the file.
+
+    See Also
+    --------
+    geoips.interface_modules.filename_formats.text_winds_full_fname.
+        assemble_windspeeds_text_full_fname
+        Shared utility to create filenames with similar formatting requirements.
+    """
     return assemble_windspeeds_text_full_fname(
         basedir=basedir,
         source_name=xarray_obj.source_name,
@@ -55,28 +65,48 @@ def assemble_windspeeds_text_full_fname(
     extension=".txt",
     creation_time=None,
 ):
-    """Produce full output product path from product / sensor specifications.
+    """Produce full output product path using product / sensor specifications.
 
-    Parameters:
-        basedir (str) :  base directory
-        num_points(int) :  Number of points (lines) included in the text file
-        source_name (str) : Name of source (sensor)
-        platform_name (str) : Name of platform (satellite)
-        data_provider (str) : Name of data provider
-        product_datetime (datetime) : Start time of data used to generate product
-        dt_format (str) : Format used to display product_datetime within filename
-        creation_time (datetime) : Default None: Include given creation_time of file in filename
+    Parameters
+    ----------
+    basedir : str
+         base directory
+    source_name : str
+        Name of source (sensor)
+    platform_name : str
+        Name of platform (satellite)
+    data_provider : str
+        Name of data provider
+    product_datetime : datetime.datetime
+        Start time of data used to generate product
+    dt_format : str, default="%Y%m%d.%H%M"
+        Format used to display product_datetime within filename
+    extension : str, default=".txt"
+        File extension, specifying type.
+    creation_time : datetime.datetime, default=None
+        Include given creation_time of file in filename
+        If None, do not include creation time.
 
-    Returns:
-        str: to full path of output filename of the format:
-          <basedir>/<source_name>_<data_provider>_<platform_name>_surface_winds_<YYYYMMDDHHMN>
+    Returns
+    -------
+    str
+        full path of output filename of the format:
+          <basedir>/<source_name>_<data_provider>_<platform_name>_
+          surface_winds_<YYYYMMDDHHMN>
 
-    Usage:
-        >>> startdt = datetime.strptime('20200216T001412', '%Y%m%dT%H%M%S')
-        >>> assemble_windspeeds_text_full_fname('/outdir', 'smap-spd', 'smap', 'remss', startdt, '%Y%m%d')
-        '/outdir/smap-spd_remss_smap_surface_winds_20200216'
+    Examples
+    --------
+    >>> startdt = datetime.strptime('20200216T001412', '%Y%m%dT%H%M%S')
+    >>> assemble_windspeeds_text_full_fname(
+    ...     '/outdir',
+    ...     'smap-spd',
+    ...     'smap',
+    ...     'remss',
+    ...     startdt,
+    ...     '%Y%m%d'
+    ...     )
+    '/outdir/smap-spd_remss_smap_surface_winds_20200216'
     """
-
     fname = "_".join(
         [
             source_name,

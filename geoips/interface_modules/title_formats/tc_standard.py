@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Standard geoips TC title production"""
-
+"""Standard GeoIPS formatted titles for tropical cyclone products."""
 # Python Standard Libraries
 import logging
 
@@ -34,7 +33,7 @@ def tc_standard(
     bg_datatype_title=None,
     title_copyright=None,
 ):
-
+    """Create standard GeoIPS formatted title for tropical cyclone products."""
     LOG.info("Setting dynamic title")
 
     # Make sure we reflect the actual start_datetime in the filename

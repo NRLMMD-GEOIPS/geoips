@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Module containing colormap for 89pct product"""
+"""Module containing colormap for 89pct product."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -21,14 +21,20 @@ cmap_type = "linear_segmented"
 def cmap_89pct(data_range=[105, 280], cbar_label="TB (K)"):
     """Colormap for displaying ~89GHz PMW data for weak TCs.
 
-    Args:
-        data_range (list[float]): Default [105, 280], Min and max value for colormap.
-                                  Ensure the data range matches the range of the algorithm specified for use with this colormap
-                                  The 89pct colormap MUST include 125 and 265
-    Returns:
-        dictionary : Dictionary of matplotlib plotting parameters, to ensure consistent image output
-    """
+    Parameters
+    ----------
+    data_range : list of float, default=[105, 280]
+        * Min and max value for colormap.
+        * Ensure the data range matches the range of the algorithm specified for
+          use with this colormap
+        * This colormap MUST include 105 and 280
 
+    Returns
+    -------
+    mpl_colors_info : dict
+        Dictionary of matplotlib plotting parameters, to ensure consistent
+        image output
+    """
     min_tb = data_range[0]
     max_tb = data_range[1]
 

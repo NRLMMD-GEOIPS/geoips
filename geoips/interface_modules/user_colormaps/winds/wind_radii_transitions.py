@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Module containing wind speed colormap with transitions at 34, 50, 64, and 80 """
+"""Module containing wind speed colormap with transitions at 34, 50, 64, and 80."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -19,18 +19,25 @@ cmap_type = "linear_segmented"
 
 
 def wind_radii_transitions(data_range=[0, 200]):
-    """Generate appropriate matplotlib colors for plotting standard wind speeds. wind_radii_transitions
-        contains hard coded transition values for different colors, in order to have consistent imagery across all
-        sensors / products
+    """Generate appropriate matplotlib colors for plotting standard wind speeds.
 
-    Args:
-        data_range (list[float]): Default [0, 200], Min and max value for colormap.
-                                  Ensure the data range matches the range of the algorithm specified for use with this colormap
+    wind_radii_transitions contains hard coded transition values for different
+    colors, in order to have consistent imagery across all sensors / products.
 
-    Returns:
-        dictionary : Dictionary of matplotlib plotting parameters, to ensure consistent image output
+    Parameters
+    ----------
+    data_range : list of float, default=[0, 200]
+        * Min and max value for colormap.
+        * Ensure the data range matches the range of the algorithm specified for
+          use with this colormap
+        * This colormap MUST include 0 and 200
+
+    Returns
+    -------
+    mpl_colors_info : dict
+        Dictionary of matplotlib plotting parameters, to ensure consistent
+        image output
     """
-
     from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
 
     min_wind_speed = data_range[0]

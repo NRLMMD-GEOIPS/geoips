@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""MIMIC TPW NetCDF reader."""
 # Python Standard Libraries
 import logging
 import os
@@ -25,49 +26,57 @@ def mimic_netcdf(
 ):
     """Read TPW MIMIC data from a list of filenames.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Dataset information::
 
-    <xarray.Dataset>
-    Dimensions:             (lat: 721, lon: 1440)
-    Dimensions without coordinates: lat, lon
-    Data variables:
-        lonArr              (lon) float32 ...
-        latArr              (lat) float32 ...
-        tpwGrid             (lat, lon) float32 ...
-        tpwGridPrior        (lat, lon) float32 ...
-        tpwGridSubseq       (lat, lon) float32 ...
-        timeAwayGridPrior   (lat, lon) timedelta64[ns] ...
-        timeAwayGridSubseq  (lat, lon) timedelta64[ns] ...
-        footGridPrior       (lat, lon) float32 ...
-        footGridSubseq      (lat, lon) float32 ...
-        satGridPrior        (lat, lon) uint8 ...
-        satGridSubseq       (lat, lon) uint8 ...
+        <xarray.Dataset>
+        Dimensions:             (lat: 721, lon: 1440)
+        Dimensions without coordinates: lat, lon
+        Data variables:
+            lonArr              (lon) float32 ...
+            latArr              (lat) float32 ...
+            tpwGrid             (lat, lon) float32 ...
+            tpwGridPrior        (lat, lon) float32 ...
+            tpwGridSubseq       (lat, lon) float32 ...
+            timeAwayGridPrior   (lat, lon) timedelta64[ns] ...
+            timeAwayGridSubseq  (lat, lon) timedelta64[ns] ...
+            footGridPrior       (lat, lon) float32 ...
+            footGridSubseq      (lat, lon) float32 ...
+            satGridPrior        (lat, lon) uint8 ...
+            satGridSubseq       (lat, lon) uint8 ...
 
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-
     fname = fnames[0]
 
     import xarray

@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Xarray wrapper for driving the interpolation routines with basic Python inputs and outputs"""
+"""Geoips plugin for driving pyresample Nearest Neighbor interpolation."""
 import logging
 
 import xarray
@@ -28,6 +28,11 @@ interp_type = "2d"
 
 
 def get_final_roi(xarray_obj, area_def):
+    """Get the final interpolation Radius of Influence.
+
+    This takes the maximum of the xarray attribute, area_def pixel width,
+    and area_def pixel height.
+    """
     roi = None
     if "interpolation_radius_of_influence" in xarray_obj.attrs.keys():
         roi = xarray_obj.interpolation_radius_of_influence
@@ -42,10 +47,7 @@ def get_final_roi(xarray_obj, area_def):
 
 
 def interp_nearest(area_def, input_xarray, output_xarray, varlist, array_num=None):
-    """Set up the call to interp_kd_tree using standard attributes and variables in a given xarray object.
-    Returns:
-        list of numpy.ma.MaskedArray"""
-
+    """Pyresample interp_kd_tree nearest neighbor GeoIPS plugin."""
     LOG.info(
         "Interpolating nearest using standard scifile register method: kd_tree nearest"
     )

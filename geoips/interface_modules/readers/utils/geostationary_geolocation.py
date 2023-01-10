@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Generalized geolocation calculations for geostationary satellites. """
-
+"""Generalized geolocation calculations for geostationary satellites."""
 import os
 import logging
 import numpy as np
@@ -57,6 +56,14 @@ if os.getenv("READ_GEOLOCDIRS"):
 
 
 class AutoGenError(Exception):
+    """Raise exception on auto generated geolocation error."""
+
+    pass
+
+
+class CoverageError(Exception):
+    """Raise exception on data coverage error."""
+
     pass
 
 
@@ -65,13 +72,14 @@ class CoverageError(Exception):
 
 
 def get_geolocation_cache_filename(pref, metadata, area_def=None):
-    """
-    Set the location and filename format for the pre-generated cached geolocation
-    files.
-    There is a separate filename format for satellite lat lons and sector lat lons
-    If the filename format needs to change for the pre-generated geolocation
-    files, please discuss prior to changing.  It will force recreation of all
-    files, which can be problematic for large numbers of sectors
+    """Set the location and filename format for the cached geolocation files.
+
+    There is a separate filename format for satellite latlons and sector latlons
+
+    Notes
+    -----
+    Changing geolocation filename format will force recreation of all
+    files, which can be problematic for large numbers of sectors.
     """
     cache = os.path.join(GEOLOCDIR, metadata["platform_name"])
     from geoips.sector_utils.utils import is_dynamic_sector
@@ -146,11 +154,13 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
 def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
     """
     Gather and return the geolocation data for the input metadata.
+
     Input metadata should be the metadata for a single ABI data file.
 
-    If latitude/longitude have not been calculated with the metadata form the input data file
-    they will be recalculated and stored for future use.  They shouldn't change often.
-    This will be slow the first time it is called after a metadata update, but fast thereafter.
+    If latitude/longitude have not been calculated with the metadata form the
+    input data file they will be recalculated and stored for future use.
+    They shouldn't change often. This will be slow the first time it is called
+    after a metadata update, but fast thereafter.
 
     The same is true for satellite zenith and azimuth angles.
 
@@ -232,6 +242,7 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
 
 
 def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
+    """Get satellite angles."""
     # If the filename format needs to change for the pre-generated geolocation
     # files, please discuss prior to changing.  It will force recreation of all
     # files, which can be problematic for large numbers of sectors
@@ -295,7 +306,8 @@ def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
 
     # Create a memmap to the lat/lon file
     # Nothing will be read until explicitly requested
-    # We are mapping this here so that the lats and lons are available when calculating satlelite angles
+    # We are mapping this here so that the lats and lons are available when
+    # calculating satlelite angles
     log.info(
         "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["scene"])
     )
@@ -314,8 +326,10 @@ def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
 
 def get_indexes(metadata, lats, lons, area_def):
     """
-    Return two 2-D arrays containing the X and Y indexes that should be used from the raw data
-    for the input sector definition.
+    Return two 2-D arrays containing the X and Y indexes.
+
+    These are indices that should be used from the raw data for the input
+    sector definition.
     """
     # The get_neighbor_info function returns three four arrays:
     #    valid_input_index: a 1D boolean array indicating where the source lats and lons
@@ -372,7 +386,8 @@ def get_indexes(metadata, lats, lons, area_def):
 
         # Radius of influence will be 10 times the nominal spatial resolution of the data
         #   in meters
-        # This uses the only piece of information available concerning resolution in the metadata
+        # This uses the only piece of information available concerning resolution
+        # in the metadata
         log.info(
             "    GETGEOINDS Calculating radius of influence {}".format(area_def.area_id)
         )
@@ -502,6 +517,7 @@ def get_indexes(metadata, lats, lons, area_def):
 
 
 def calculate_solar_angles(metadata, lats, lons, dt):
+    """Calculate solar angles."""
     # If debug is set to True, memory savings will be turned off in order to keep
     # all calculated results for inspection.
     # If set to False, variables will attempt to reuse memory when possible which

@@ -10,11 +10,10 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Data manipulation steps for surface winds products.
+"""Data manipulation steps for surface winds products.
 
-    This algorithm expects surface wind speeds in units of kts
+This algorithm expects surface wind speeds in units of kts
 """
-
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -34,47 +33,62 @@ def windbarbs(
     norm=False,
     inverse=False,
 ):
-    """Data manipulation steps for "windbarbs" product algorithm.
+    """Windbarbs product algorithm data manipulation steps.
 
     This algorithm expects input windspeed with units "kts" and returns in "kts"
 
-    Args:
-        data (list[numpy.ndarray]) :
-            * list of numpy.ndarray or numpy.MaskedArray of channel data, in order of sensor "channels" list
-            * kts
-        output_data_range (list[float]) :
-            * list of min and max value for wind speeds (kts)
-        input_units (str) : DEFAULT None
-            * Units of input data, for applying necessary conversions
-        output_units (str) : DEFAULT None
-            * Units of output data, for applying necessary conversions
-        min_outbounds (str) : DEFAULT 'crop'
-            * Method to use when applying bounds.  Valid values are:
-                * retain: keep all pixels as is
-                * mask: mask all pixels that are out of range
-                * crop: set all out of range values to either min_val or max_val as appropriate
-        max_outbounds (str) : DEFAULT 'crop'
-            * Method to use when applying bounds.  Valid values are:
-                * retain: keep all pixels as is
-                * mask: mask all pixels that are out of range
-                * crop: set all out of range values to either min_val or max_val as appropriate
-        norm (bool) : DEFAULT True
-            * Boolean flag indicating whether to normalize (True) or not (False)
-                * If True, returned data will be in the range from 0 to 1
-                * If False, returned data will be in the range from min_val to max_val
-        inverse (bool) : DEFAULT True
-            * Boolean flag indicating whether to inverse (True) or not (False)
-                * If True, returned data will be inverted
-                * If False, returned data will not be inverted
+    Parameters
+    ----------
+    arrays : list of numpy.ndarray
+        * list of numpy.ndarray or numpy.MaskedArray of channel data,
+            in order of sensor "channels" list
+        * kts
+    output_data_range : list of float, default=None
+        * list of min and max value for wind speeds (kts)
+        * defaults to None, which results in using data.min and data.max.
+    input_units : str, default=None
+        * Units of input data, for applying necessary conversions
+        * defaults to None, resulting in no unit conversions.
+    output_units : str, default=None
+        * Units of output data, for applying necessary conversions
+        * defaults to None, resulting in no unit conversions.
+    min_outbounds : str, default='crop'
+        * Method to use when applying bounds.  Valid values are:
 
-    Returns:
-        numpy.ndarray : numpy.ndarray or numpy.MaskedArray of appropriately scaled channel data, dstacked as follows:
-                           * (spd, direction, rain_flag)
-                           * spd in kts
-                           * direction in degrees
-                           * rain_flag 0 or 1
+            * retain: keep all pixels as is
+            * mask: mask all pixels that are out of range
+            * crop: set all out of range values to either min_val or max_val
+              as appropriate
+    max_outbounds : str, default='crop'
+        * Method to use when applying bounds.  Valid values are:
+
+            * retain: keep all pixels as is
+            * mask: mask all pixels that are out of range
+            * crop: set all out of range values to either min_val or max_val
+              as appropriate
+    norm : bool, default=False
+        * Boolean flag indicating whether to normalize (True) or not (False)
+
+            * If True, returned data will be in the range from 0 to 1
+            * If False, returned data will be in the range from min_val to
+              max_val
+    inverse : bool, default=False
+        * Boolean flag indicating whether to inverse (True) or not (False)
+
+            * If True, returned data will be inverted
+            * If False, returned data will not be inverted
+
+    Returns
+    -------
+    numpy.ndarray
+        numpy.ndarray or numpy.MaskedArray of appropriately scaled channel data,
+        dstacked as follows:
+
+        * (spd, direction, rain_flag)
+        * spd in kts
+        * direction in degrees
+        * rain_flag 0 or 1
     """
-
     import numpy
 
     spd = arrays[0]

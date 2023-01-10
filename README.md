@@ -18,13 +18,13 @@ satellite and weather data processing. The modular nature of the GeoIPS base inf
 plug-and-play capability for user-specified custom functionality.
 
 Please see
-[GeoIPS documentation](https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/geoips_index.rst)
+[GeoIPS documentation](./docs/geoips_index.rst)
 for more information on GeoIPS capabilities and use cases.
 
 Installation
 ---------------------------------------
 See the
-[installation guide](https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/installation.rst)
+[installation guide](./docs/installation.rst)
 within the source code documentation for installation instructions. GeoIPS has a fully supported
 exhaustive installation process, including a full conda environment, as well as a more basic
 pip based installation for "expert" users.
@@ -40,7 +40,7 @@ Are you interested in
 We welcome all feedback and contributions!
 
 Please review our
-[contributers guide](https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/contributors.rst)
+[contributors guide](./docs/contributors.rst)
 for more information.
 
 Contact
@@ -57,5 +57,7 @@ Please display the following acknowledgment within all published research using 
     developed by the Naval Research Laboratory Marine Meteorology Division.
     https://github.com/NRLMMD-GEOIPS/"
 
-See GeoIPS LICENSE for more information:
-https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE
+See [GeoIPS LICENSE](https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE) for
+more information.
+
+* https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE

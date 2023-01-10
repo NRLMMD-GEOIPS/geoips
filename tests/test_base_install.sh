@@ -14,9 +14,9 @@
 
 # This should contain test calls to cover ALL required functionality tests for the geoips repo.
 
-# The $GEOIPS_PAKCAGES_DIR/geoips/tests modules sourced within this script handle:
+# The $GEOIPS_PACKAGES_DIR/geoips tests modules sourced within this script handle:
    # setting up the appropriate associative arrays for tracking the overall return value,
-   # calling the test scripts appropriately, and 
+   # calling the test scripts appropriately, and
    # setting the final return value.
 
 # Note you must use the variable "call" in the for the loop

@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Driver for standard single channel products """
-
+"""Processing workflow for config-based processing."""
 import logging
 from importlib import import_module
 
@@ -47,7 +46,7 @@ procflow_type = "standard"
 
 
 def update_output_dict_from_command_line_args(output_dict, command_line_args=None):
-
+    """Update output dict from command line args."""
     if command_line_args is None:
         LOG.info(
             "SKIPPING command_line_args not specified, returning original output_dict"
@@ -68,7 +67,8 @@ def update_output_dict_from_command_line_args(output_dict, command_line_args=Non
             LOG.info("SKIPPING %s argument not specified command line")
             continue
 
-        # Convert filename_format_kwargs and metadata_filename_format_kwargs to their plural counterparts
+        # Convert filename_format_kwargs and metadata_filename_format_kwargs to
+        # their plural counterparts
         if cmdline_fld_name == "filename_format_kwargs":
             output_fld_name = "filename_formats_kwargs"
             output_fld_val = {"all": command_line_args[cmdline_fld_name]}
@@ -79,7 +79,8 @@ def update_output_dict_from_command_line_args(output_dict, command_line_args=Non
             output_fld_name = cmdline_fld_name
             output_fld_val = command_line_args[cmdline_fld_name]
 
-        # If the current command line field is not in the output dict at all, just add the whole thing.
+        # If the current command line field is not in the output dict at all, just
+        # add the whole thing.
         if output_fld_name not in output_dict:
             LOG.info(
                 'ADDING output_dict "%s" from command_line_args: %s',
@@ -124,8 +125,7 @@ def update_output_dict_from_command_line_args(output_dict, command_line_args=Non
 
 
 def get_required_outputs(config_dict, sector_type):
-    """Get only the required outputs from the current sector_type"""
-
+    """Get only the required outputs from the current sector_type."""
     return_dict = {}
     for output_type, output_dict in config_dict["outputs"].items():
         # If the current output type does not require the current sector_type, skip
@@ -137,7 +137,6 @@ def get_required_outputs(config_dict, sector_type):
 
 
 def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
-
     from geoips.dev.product import get_interp_name, get_interp_args
 
     interp_func_name = get_interp_name(
@@ -211,8 +210,10 @@ def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
 def get_resampled_read(
     config_dict, area_defs, area_def_id, sector_type, reader, fnames, variables
 ):
-    """Return dictionary of xarray datasets for a given area def, resampled to that area_def"""
+    """Return dictionary of xarray datasets for a given area def.
 
+    Xarrays resampled to area_def
+    """
     return get_sectored_read(
         config_dict, area_defs, area_def_id, sector_type, reader, fnames, variables
     )
@@ -221,8 +222,10 @@ def get_resampled_read(
 def get_sectored_read(
     config_dict, area_defs, area_def_id, sector_type, reader, fnames, variables
 ):
-    """Return dictionary of xarray datasets for a given area def, sectored to that area_def"""
+    """Return dictionary of xarray datasets for a given area def.
 
+    Xarrays sectored to area_def
+    """
     area_def = area_defs[area_def_id][sector_type]["area_def"]
 
     from geoips.interface_modules.procflows.single_source import pad_area_definition
@@ -246,7 +249,10 @@ def get_sectored_read(
 
 
 def get_area_def_list_from_dict(area_defs):
-    """Get a list of actual area_defs from the full dictionary returned from get_area_defs_from_available_sectors"""
+    """Get a list of actual area_defs from full dictionary.
+
+    Dict returned from get_area_defs_from_available_sectors
+    """
     list_area_defs = []
     for area_def_id in area_defs:
         for sector_type in area_defs[area_def_id]:
@@ -256,18 +262,25 @@ def get_area_def_list_from_dict(area_defs):
 
 
 def set_comparison_path(output_dict, product_name, output_type, command_line_args=None):
-    """Replace variables specified by <varname> within the config-specified compare_path
-        with appropriate variable names.
+    """Replace variables specified by <varname> in compare_path.
 
-    Args:
-        config (dict) : Dictionary of output specifications, containing key "compare_path"
-        product_name (str) : Current requested product name, all instances of
-                                <product> in compare_path replaced with product_name argument
-        output_type (str) : Current requested output type, all instances of
-                                <output> in compare_path replaced with output argument
-    Returns:
-        (str) : Return a single string with the fully specified comparison path for current product"""
+    Parameters
+    ----------
+    config : dict
+        Dictionary of output specifications, containing key "compare_path"
+    product_name : str
+        Current requested product name, all instances of
+        <product> in compare_path replaced with product_name argument
+    output_type : str
+        Current requested output type, all instances of
+        <output> in compare_path replaced with output argument
 
+    Returns
+    -------
+    str
+        Return a single string with the fully specified comparison path for
+        current product
+    """
     compare_path = None
     if command_line_args is not None and command_line_args["compare_path"] is not None:
         compare_path = command_line_args["compare_path"]
@@ -297,16 +310,23 @@ def set_comparison_path(output_dict, product_name, output_type, command_line_arg
 
 
 def initialize_final_products(final_products, cpath, cmodule):
-    """Initialize the final_products dictionary with cpath dictionary key if needed.
+    """Initialize the final_products dictionary with cpath dict key if needed.
 
-    Args:
-        final_products (dict) : Dictionary of final products, with keys of final required "compare_path"
-                                    Products with no compare_path specified are stored with the key "no_comparison"
-        cpath (str) : Key to add to final_products dictionary
-    Returns:
-        (dict) : Return final_products dictionary, updated with current "cpath" key:
-                    final_products[cpath]['files'] = <list_of_files_in_given_cpath>"""
+    Parameters
+    ----------
+    final_products : dict
+        Dictionary of final products, with keys of final required "compare_path"
+        Products with no compare_path specified are stored with the key
+        "no_comparison"
+    cpath : str
+        Key to add to final_products dictionary
 
+    Returns
+    -------
+    dict
+        Return final_products dictionary, updated with current "cpath" key:
+        final_products[cpath]['files'] = <list_of_files_in_given_cpath>
+    """
     if cpath not in final_products:
         final_products[cpath] = {}
         # This is where we store all the files
@@ -325,19 +345,31 @@ def write_to_database(
     output_dict,
     **writer_kwargs,
 ):
-    """
+    r"""
     Add a final product to the product database.
-    Loads the correct database writer interface, and uses xarray attributes to create product metadata
 
-    Args:
-        final_product (str) : Full path to final product saved to disk
-        product_name (str) : Name of product
-        xarray_obj(xarray object or dict of xarray objects) : xarray object(s) holding metadata information
-        available_sectors_dict (dict) : dictionary holding available sectors for product
-        output_dict (dict) : dictionary of output specifications, with 'requested_sector_type'
-        **writer_kwargs : Other information to pass to database writer (such as area_def)
-    Returns:
-        (str) : Full final product path written to database
+    Loads the correct database writer interface, and uses xarray attributes
+    to create product metadata
+
+    Parameters
+    ----------
+    final_product : str
+        Full path to final product saved to disk
+    product_name : str
+        Name of product
+    xarray_obj : xarray object or dict of xarray objects
+        xarray object(s) holding metadata information
+    available_sectors_dict : dict
+        dictionary holding available sectors for product
+    output_dict : dict
+        dictionary of output specifications, with 'requested_sector_type'
+    \*\*writer_kwargs : dict
+        Other information to pass to database writer (such as area_def)
+
+    Returns
+    -------
+    str
+        Full final product path written to database
     """
     from geoips_db.dev.postgres_database import get_db_writer
 
@@ -370,24 +402,38 @@ def process_unsectored_data_outputs(
     command_line_args=None,
     write_to_product_db=False,
 ):
-    """Loop through all possible outputs, identifying output types that require unsectored data output.
-        Produce all required unsectored data output, update final_products dictionary accordingly, and
-        return final_products dictionary with the new unsectored outputs.
+    """Process unsectored data output.
 
-    Args:
-        final_products (dict) : Dictionary of final products, with keys of final required "compare_path"
-                                    Products with no compare_path specified are stored with the key "no_comparison"
-        available_outputs_dict (dict) : Dictionary of all available output product specifications
-        available_sectors_dict (dict) : Dictionary of available sector types - we are looking for available sectors
-                                        that contain the "unsectored" keyword.
-        xobjs (dict) : Dictionary of xarray datasets, for use in producing unsectored output formats
-        variables (list) : List of strings of required variables in the given product.
+    Loop through all possible outputs, identifying output types that require
+    unsectored data output. Produce all required unsectored data output,
+    update final_products dictionary accordingly, and
+    return final_products dictionary with the new unsectored outputs.
 
-    Returns:
-        (dict) : Return final_products dictionary, updated with current "cpath" key:
-                    final_products[cpath]['files'] = <list_of_files_in_given_cpath>"""
+    Parameters
+    ----------
+    final_products : dict
+        Dictionary of final products, with keys of final required "compare_path"
+        Products with no compare_path specified are stored with the key
+        "no_comparison"
+    available_outputs_dict : dict
+        Dictionary of all available output product specifications
+    available_sectors_dict : dict
+        Dictionary of available sector types - we are looking for available
+        sectors that contain the "unsectored" keyword.
+    xobjs : dict
+        Dictionary of xarray datasets, for use in producing unsectored output
+        formats
+    variables : list
+        List of strings of required variables in the given product.
 
-    # These are the different sectors, one for each method of reprojecting or sectoring or resampling the data
+    Returns
+    -------
+    dict
+        Return final_products dictionary, updated with current "cpath" key:
+        final_products[cpath]['files'] = <list_of_files_in_given_cpath>
+    """
+    # These are the different sectors, one for each method of reprojecting or
+    # sectoring or resampling the data
     for sector_type in available_sectors_dict:
         # We are looking for a sector_type that has the keyword "unsectored" meaning we want to process the dat
         # before doing anything else to it
@@ -403,7 +449,8 @@ def process_unsectored_data_outputs(
                     output_dict, command_line_args
                 )
                 if output_dict["requested_sector_type"] == sector_type:
-                    # Now we will produce all of the individual products for the given output_type/sector_type
+                    # Now we will produce all of the individual products for the given
+                    # output_type/sector_type
                     for product_name in output_dict["product_names"]:
                         # This grabs the compare_path that was requested in the YAML config, and replaces
                         # all instances of <product> with product_name and
@@ -411,18 +458,21 @@ def process_unsectored_data_outputs(
                         cpath, cmodule = set_comparison_path(
                             output_dict, product_name, output_type, command_line_args
                         )
-                        # This adds "cpath" to the final_products dictionary, if necessary
+                        # This adds "cpath" to the final_products dictionary, if
+                        # necessary
                         final_products = initialize_final_products(
                             final_products, cpath, cmodule
                         )
                         final_products[cpath]["compare_outputs_module"] = cmodule
 
-                        # This actually produces all the required output files for the current product
+                        # This actually produces all the required output files for the
+                        # current product
                         out = process_xarray_dict_to_output_format(
                             xobjs, variables, product_name, output_dict
                         )
 
-                        # Add them to the final_products dictionary - comparisons happen at the end.
+                        # Add them to the final_products dictionary - comparisons happen
+                        # at the end.
                         final_products[cpath]["files"] += out
                         if write_to_product_db:
                             for fprod in out.keys():
@@ -440,44 +490,67 @@ def process_unsectored_data_outputs(
 
 
 def requires_bg(available_outputs_dict, sector_type):
-    """Check if a given sector_type is requested for any product_types that also require background imagery.
+    """Check if current sector requires background imagery.
 
-    Args:
-        available_outputs_dict (dict) : Dictionary of all requested output_types (specified in YAML config)
-        sector_type (str) : sector_type to determine if any output_types that require background imagery also
-                                request the passed sector_type
-    Returns:
-        (bool) : True if any output_types that require background imagery require the passed "sector_type"
-                 False if no output_types require both background imagery and the passed "sector_type"
+    Check if a given sector_type is requested for any product_types that also
+    require background imagery.
+
+    Parameters
+    ----------
+    available_outputs_dict : dict
+        Dictionary of all requested output_types (specified in YAML config)
+    sector_type : str
+        sector_type to determine if any output_types that require background
+        imagery also request the passed sector_type
+
+    Returns
+    -------
+    bool
+        * True if any output_types that require background imagery require
+          the passed "sector_type"
+        * False if no output_types require both background imagery and the
+          passed "sector_type"
     """
     # Check each output_type in the full config_dict
     for output_type in available_outputs_dict:
         # If the current output_type has an entry for "background_products" that means it requires background imagery
-        # If the current output_type also requested the passed "sector_type", then return True.
+        # If the current output_type also requested the passed "sector_type", then
+        # return True.
         if (
             "background_products" in available_outputs_dict[output_type]
             and available_outputs_dict[output_type]["requested_sector_type"]
             == sector_type
         ):
             return True
-    # If no output_types required both background_products and the passed "sector_type" then return False
+    # If no output_types required both background_products and the passed
+    # "sector_type" then return False
     return False
 
 
 def is_required_sector_type(available_outputs_dict, sector_type):
-    """Check if a given sector_type is required for any currently requested output_types
+    """Check if current sector is required for any outputs.
 
-    Args:
-        available_outputs_dict (dict) : Dictionary of all requested output_types (specified in YAML config)
-        sector_type (str) : Determine if any output_types require the currently requested "sector_type"
+    Check if a given sector_type is required for any currently requested
+    output_types
 
-    Returns:
-        (bool) : True if any output_types require the passed "sector_type"
-                 False if no output_types require the passed "sector_type"
+    Parameters
+    ----------
+    available_outputs_dict : dict
+        Dictionary of all requested output_types (specified in YAML config)
+    sector_type : str
+        Determine if any output_types require the currently requested
+        "sector_type"
+
+    Returns
+    -------
+    bool
+        * True if any output_types require the passed "sector_type"
+        * False if no output_types require the passed "sector_type"
     """
     # Go through each output_type currently requested in the YAML config file
     for output_type in available_outputs_dict.keys():
-        # If the passed sector_type is requested for any output_type in the YAML config, return True
+        # If the passed sector_type is requested for any output_type in the YAML
+        # config, return True
         if sector_type == available_outputs_dict[output_type]["requested_sector_type"]:
             return True
     # If the passed sector_type is not needed in the YAML config, return False
@@ -485,16 +558,25 @@ def is_required_sector_type(available_outputs_dict, sector_type):
 
 
 def get_config_dict(config_yaml_file):
-    """Populate the full config dictionary (sector and output specifications) from a given YAML config file
+    """Populate the full config dictionary from a given YAML config file.
 
-    Args:
-        config_yaml_file (str) : Full path to YAML config file, containing sector and output specifications.
-                                    YAML config files support environment variables in entries flagged with !ENV
+    Includes both sector and output specifications.
 
-    Returns:
-        (dict) : Return dictionary of both sector and output specifications, as found in config_yaml_file
-                    The output dictionary references the "sector_types" found in the available_sectors dictionary,
-                    each output_type requests a specific "sector_type" to be used for processing.
+    Parameters
+    ----------
+    config_yaml_file : str
+        Full path to YAML config file, containing sector and output
+        specifications. YAML config files support environment variables in
+        entries flagged with !ENV
+
+    Returns
+    -------
+    dict
+        Return dictionary of both sector and output specifications,
+        as found in config_yaml_file. The output dictionary references the
+        "sector_types" found in the available_sectors dictionary,
+        each output_type requests a specific "sector_type" to be used for
+        processing.
     """
     # import yaml
     # with open(config_yaml_file, 'r') as f:
@@ -509,23 +591,33 @@ def get_config_dict(config_yaml_file):
 def get_variables_from_available_outputs_dict(
     available_outputs_dict, source_name, sector_types=None
 ):
-    """Get required variables for all outputs for a given "source_name" specified within the YAML config
+    """Get required variables for all outputs for a given "source_name".
 
-    Args:
-        available_outputs_dict (dict) : Dictionary of all requested output_types (specified in YAML config)
-        source_name (str) : Find all required variables for the passed "source_name"
-        sector_types (list) : DEFAULT None, if sector_types list of strings is passed, only include
-                                output_types that require one of the passed "sector_types"
+    Outputs specified within the YAML config.
 
-    Returns:
-        (list) : List of all required variables for all output products for the given source_name
+    Parameters
+    ----------
+    available_outputs_dict : dict
+        Dictionary of all requested output_types (specified in YAML config)
+    source_name : str
+        Find all required variables for the passed "source_name"
+    sector_types : list, default=None
+        if sector_types list of strings is passed, only include
+        output_types that require one of the passed "sector_types"
+
+    Returns
+    -------
+    list
+        List of all required variables for all output products for the given
+        source_name
     """
     from geoips.dev.product import get_required_variables
 
     variables = []
     # Loop through all possible output types
     for output_type in available_outputs_dict:
-        # If we requested specific sector_types, only include output_types that require that sector_type
+        # If we requested specific sector_types, only include output_types that
+        # require that sector_type
         if (
             sector_types is None
             or available_outputs_dict[output_type]["requested_sector_type"]
@@ -533,7 +625,8 @@ def get_variables_from_available_outputs_dict(
         ):
             # Loop through all products for the given output_type
             for product_name in available_outputs_dict[output_type]["product_names"]:
-                # Add all required variables for the current product and source to the list
+                # Add all required variables for the current product and source to the
+                # list
                 variables += get_required_variables(product_name, source_name)
     # Return list of all required variables
     return list(set(variables))
@@ -542,31 +635,43 @@ def get_variables_from_available_outputs_dict(
 def get_area_defs_from_available_sectors(
     available_sectors_dict, command_line_args, xobjs, variables
 ):
-    """Get all required area_defs for the given set of YAML config parameters (config_dict), command_line_args,
-        xobjs, and required variables. Command line args override config specifications
+    """Get all required area_defs for the given set of parameters.
 
-    Args:
-        available_sectors_dict (dict) : Dictionary of all requested sector_types (specified in YAML config)
-        command_line_args (dict) : Dictionary of command line arguments - any command line argument that is also
-                                    a key in available_sectors_dict[<sector_type>] will replace the value in
-                                    the available_sectors_dict[<sector_type>]
-        xobjs (dict) : Dictionary of xarray datasets, used in determining start/end time of data files for identifying
-                        dynamic sectors
-        variables (list) : List of required variables, for determining center coverage for TCs
+    YAML config parameters (config_dict), command_line_args,
+    xobjs, and required variables. Command line args override config
+    specifications.
 
-    Returns:
-        (dict) : Dictionary of required area_defs, with area_def.name as the dictionary keys.
-                    Based on YAML config-specified available_sectors, and command line args
+    Parameters
+    ----------
+    available_sectors_dict : dict
+        Dictionary of all requested sector_types (specified in YAML config)
+    command_line_args : dict
+        Dictionary of command line arguments - any command line argument that is
+        also a key in available_sectors_dict[<sector_type>] will replace the
+        value in the available_sectors_dict[<sector_type>]
+    xobjs : dict
+        Dictionary of xarray datasets, used in determining start/end time of
+        data files for identifying dynamic sectors
+    variables : list
+        List of required variables, for determining center coverage for TCs
 
-                    Each area_def.name key has one or more "sector_types" associated with it.
+    Returns
+    -------
+    dict
+        Dictionary of required area_defs, with area_def.name as the dictionary
+        keys. Based on YAML config-specified available_sectors, and command
+        line args
 
-                    Each sector_type dictionary contains the actual "requested_sector_dict" from the YAML config,
-                    and the actual AreaDefinition object that was returned.
+    Notes
+    -----
+    * Each area_def.name key has one or more "sector_types" associated with it.
+    * Each sector_type dictionary contains the actual "requested_sector_dict"
+      from the YAML config, and the actual AreaDefinition object that was
+      returned.
 
-                        area_defs[area_def.name][sector_type]['requested_sector_dict']
-                        area_defs[area_def.name][sector_type]['area_def']
+        * ``area_defs[area_def.name][sector_type]['requested_sector_dict']``
+        * ``area_defs[area_def.name][sector_type]['area_def']``
     """
-
     area_defs = {}
     from geoips.interface_modules.procflows.single_source import (
         get_area_defs_from_command_line_args,
@@ -576,7 +681,8 @@ def get_area_defs_from_available_sectors(
     for sector_type in available_sectors_dict:
         sector_dict = available_sectors_dict[sector_type].copy()
 
-        # If the current sector_type is "unsectored" skip it, because it has no associated sector information
+        # If the current sector_type is "unsectored" skip it, because it has no
+        # associated sector information
         if "unsectored" in sector_dict and sector_dict["unsectored"]:
             continue
 
@@ -620,15 +726,23 @@ def get_area_defs_from_available_sectors(
 
 
 def config_based(fnames, command_line_args=None):
-    """Workflow for efficiently running all required outputs (sectors and products) for a given set of data types,
-        specified via a YAML config file
+    """Workflow for efficiently running all required outputs.
 
-    Args:
-        fnames (list) : List of strings specifying full paths to input file names to process
-        command_line_args (dict) : dictionary of command line arguments
-                                     'output_config': Explicitly request full path to YAML config file
-    Returns:
-        (int) : 0 for successful completion, non-zero for error (incorrect comparison, or failed run)
+    Includes all sectors and products specified in a YAML output config file.
+    Specified via a YAML config file
+
+    Parameters
+    ----------
+    fnames : list
+        List of strings specifying full paths to input file names to process
+    command_line_args : dict
+        dictionary of command line arguments
+
+    Returns
+    -------
+    int
+        0 for successful completion,
+        non-zero for error (incorrect comparison, or failed run)
     """
     from datetime import datetime
 
@@ -783,7 +897,8 @@ def config_based(fnames, command_line_args=None):
         config_dict["available_sectors"], command_line_args, xobjs, variables
     )
 
-    # Check if we have any required unsectored outputs, if so produce here, then continue
+    # Check if we have any required unsectored outputs, if so produce here,
+    # then continue
     final_products = process_unsectored_data_outputs(
         final_products,
         config_dict["outputs"],
@@ -834,7 +949,8 @@ def config_based(fnames, command_line_args=None):
                 config_dict["outputs"], source_name, sector_types=[sector_type]
             )
 
-            # If we read separately for each sector (geostationary), then must set xobjs within area_def loop
+            # If we read separately for each sector (geostationary), then must set
+            # xobjs within area_def loop
             if sectored_read:
                 print_mem_usage("MEMUSG", verbose=False)
                 # This will return potentially multiple sectored datasets of different shapes/resolutions.
@@ -882,7 +998,8 @@ def config_based(fnames, command_line_args=None):
                 pad_area_def = area_def
 
             print_mem_usage("MEMUSG", verbose=False)
-            # See if this sector_type is used at all for product output, if not, skip it.
+            # See if this sector_type is used at all for product output, if not, skip
+            # it.
             if not is_required_sector_type(config_dict["outputs"], sector_type):
                 LOG.info(
                     "\n\n\nSKIPPING sector type: %s, not required for outputs %s",
@@ -930,7 +1047,8 @@ def config_based(fnames, command_line_args=None):
 
             print_mem_usage("MEMUSG", verbose=False)
 
-            # See what variables are left after sectoring (could lose some due to day/night)
+            # See what variables are left after sectoring (could lose some due to
+            # day/night)
             all_vars = []
             for key, xobj in pad_sect_xarrays.items():
                 # Double check the xarray object actually contains data
@@ -962,7 +1080,8 @@ def config_based(fnames, command_line_args=None):
                 )
                 continue
 
-            # Check the config dict to see if this sector_type requests background products
+            # Check the config dict to see if this sector_type requests background
+            # products
             if bg_files and requires_bg(config_dict["outputs"], sector_type):
                 # If we haven't created the bg_alg_xarray for the current sector_type yet, process it and add to the
                 # dictionary
@@ -988,7 +1107,8 @@ def config_based(fnames, command_line_args=None):
                         LOG.warning(
                             f"{resp} SKIPPING - NO COVERAGE FOR BACKGROUND DATA"
                         )
-                    # Only attempt to get bg xarrays if they weren't sectored away to nothing.
+                    # Only attempt to get bg xarrays if they weren't sectored away to
+                    # nothing.
                     if bg_pad_sect_xarrays:
                         bg_alg_xarrays[sector_type] = get_bg_xarray(
                             bg_pad_sect_xarrays,
@@ -998,7 +1118,8 @@ def config_based(fnames, command_line_args=None):
                         )
             print_mem_usage("MEMUSG", verbose=False)
 
-            # Must adjust the area definition AFTER sectoring xarray (to get valid start/end time
+            # Must adjust the area definition AFTER sectoring xarray (to get valid
+            # start/end time
             adjust_area_def = None
             if "adjust_area_def" in config_dict["available_sectors"][sector_type]:
                 adjust_area_def = config_dict["available_sectors"][sector_type][
@@ -1070,7 +1191,8 @@ def config_based(fnames, command_line_args=None):
                             ],
                         )
                 else:
-                    # AMSU-b specifically needs full swath width... Need a way to generalize this.
+                    # AMSU-b specifically needs full swath width... Need a way to
+                    # generalize this.
                     if (
                         area_def_adjuster_type
                         == "list_xarray_list_variables_to_area_def_out_fnames"
@@ -1136,7 +1258,8 @@ def config_based(fnames, command_line_args=None):
                 )
                 continue
 
-            # Keep track of the applied algorithms in order to prevent redundant algorithm application
+            # Keep track of the applied algorithms in order to prevent redundant
+            # algorithm application
             pad_alg_xarrays = {}
             alg_xarrays = {}
             output_num = 0
@@ -1262,7 +1385,8 @@ def config_based(fnames, command_line_args=None):
 
                     output_format = get_output_format(output_dict)
                     if output_formats.get(output_format).family == "xarray_data":
-                        # If we're saving out intermediate data file, write out pad_area_def.
+                        # If we're saving out intermediate data file, write out
+                        # pad_area_def.
                         if product_name not in pad_alg_xarrays:
                             pad_alg_xarrays[product_name] = get_alg_xarray(
                                 pad_sect_xarrays,
@@ -1282,7 +1406,8 @@ def config_based(fnames, command_line_args=None):
                             variable_names=product_variables,
                         )
                     else:
-                        # If we're writing out an image, cut it down to the desired size.
+                        # If we're writing out an image, cut it down to the desired
+                        # size.
                         if product_name not in alg_xarrays:
                             alg_xarrays[product_name] = get_alg_xarray(
                                 sect_xarrays,

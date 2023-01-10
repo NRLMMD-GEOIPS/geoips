@@ -10,17 +10,25 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Utility for estimating the area extent, used in pyresample area definitions."""
+
 import argparse
 import numpy as np
 
 
 def haversine_distance(lat1, lon1, lat2, lon2):
-    """
-    Calculate the distance between two latitude and longitude points
-    Using the haversine formula.
-    Inputs:
+    """Calculate the distance between two latitude and longitude points.
+
+    Uses the haversine formula.
+
+    Parameters
+    ----------
+    lat1, lon1, lat2, lon2 : float
         Pair of latitude and longitude coordinates in degrees
-    Output:
+
+    Returns
+    -------
+    float
         Distance in meters between two coordinates
     """
     # Haversine formula:
@@ -46,11 +54,16 @@ def haversine_distance(lat1, lon1, lat2, lon2):
 
 
 def convert_west2east(longitude):
-    """
-    Convert Longitude from degrees West to degrees East, if applicable
-    Input:
+    """Convert Longitude from degrees West to degrees East, if applicable.
+
+    Parameters
+    ----------
+    longitude : float
         Longitude (degrees West or East)
-    Output:
+
+    Returns
+    -------
+    float
         Longitude in degrees East
     """
     if longitude < 0:
@@ -61,12 +74,16 @@ def convert_west2east(longitude):
 
 
 def center_longitude(min_longitude, max_longitude):
-    """
-    Determine the center longitude based off longitude in either degW or degE
-    Inputs:
-        min_longitude (degrees West or East)
-        max_longitude (degrees West or East)
-    Output:
+    """Determine the center longitude based off longitude in either degW or degE.
+
+    Parameters
+    ----------
+    min_longitude, max_longitude : float
+        Min and Max Longitude (degrees West or East)
+
+    Returns
+    -------
+    float
         Center longitude in degrees West or East
     """
     min_lonE = convert_west2east(min_longitude)
@@ -82,19 +99,28 @@ def center_longitude(min_longitude, max_longitude):
 
 
 def estimate_area_extent(min_lat, min_lon, max_lat, max_lon, resolution):
-    """
-    Estimate the area extent for used in the YAML area definition
-    Inputs:
-        min_lat, min_lon, max_lat, max_lon in degrees
-        resolution in meters
-    Outputs:
+    """Estimate the area extent for use in the YAML area definition.
+
+    Parameters
+    ----------
+    min_lat, min_lon, max_lat, max_lon : float
+        Min/Max lat/lon values in degrees
+    resolution : float
+        Resolution in meters
+
+    Returns
+    -------
+    dict
         Dictionary holding:
-            lower_left_xy - list of projection x/y coordinates of lower left corner of lower left pixel
-            upper_right_xy - list of projection x/y coordinates of upper right corner of upper right pixel
-            height - number of grid rows
-            width - number of grid columns
-            lat_0 - Center latitude in degrees
-            lon_0 - Center longitude in degrees
+
+        * lower_left_xy - list of projection x/y coordinates of
+          lower left corner of lower left pixel
+        * upper_right_xy - list of projection x/y coordinates of
+          upper right corner of upper right pixel
+        * height - number of grid rows
+        * width - number of grid columns
+        * lat_0 - Center latitude in degrees
+        * lon_0 - Center longitude in degrees
     """
     if min_lat == max_lat:
         raise ValueError("MIN_LAT and MAX_LAT must be different")
@@ -154,6 +180,6 @@ if __name__ == "__main__":
     print(f"Shape:\n\theight: {height}\n\twidth: {width}")
     lower_left_xy = estimated_extent["lower_left_xy"]
     upper_right_xy = estimated_extent["upper_right_xy"]
-    print(
-        f"Area Extent:\n\tlower_left_xy: {lower_left_xy}\n\tupper_right_xy: {upper_right_xy}"
-    )
+    print("Area Extent:")
+    print(f"\tlower_left_xy: {lower_left_xy}")
+    print(f"\tupper_right_xy: {upper_right_xy}")

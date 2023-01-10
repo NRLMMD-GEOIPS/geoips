@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Read derived surface winds from SAR, SMAP, SMOS, and AMSR netcdf data."""
+"""Read derived surface winds from SAR, SMAP, SMOS, and AMSR text data."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -25,30 +25,39 @@ def sfc_winds_text(
 ):
     """Read one of SAR, SMAP, SMOS, AMSR derived winds from text data.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * NOT YET IMPLEMENTED
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
     fname = fnames[0]
     import numpy
@@ -98,9 +107,11 @@ def sfc_winds_text(
     )
     LOG.info("Converting to timestamp to datetime")
 
-    # This is ORDERS OF MAGNITUDE slower than giving the format directly. Seconds vs minutes
+    # This is ORDERS OF MAGNITUDE slower than giving the format directly.
+    # Seconds vs minutes
     # wind_xarray['timestamp'] = pandas.to_datetime(wind_xarray['timestamp'],
-    #                                                infer_datetime_format=True, errors='coerce')
+    #                                               infer_datetime_format=True,
+    #                                               errors='coerce')
     wind_xarray["timestamp"] = pandas.to_datetime(
         wind_xarray["timestamp"], format="%Y%m%d%H%M", errors="coerce"
     )

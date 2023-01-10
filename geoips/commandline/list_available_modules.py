@@ -10,8 +10,12 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Simple test script to run "test_<interface>_interface" for each dev and stable interface"""
+"""Simple script to list available modules for each interface.
 
+This includes both dev and stable interfaces.
+Note this will be deprecated with v2.0, replaced with a new class-based
+interface implementation.
+"""
 import pprint
 from importlib import import_module
 import traceback
@@ -23,8 +27,7 @@ warnings.simplefilter("always", DeprecationWarning)
 
 
 def main():
-    """Script to list all modules available in the current geoips instantiation"""
-
+    """Script to list all modules available in the current geoips instantiation."""
     interfaces = {
         "stable.reader": "list_readers_by_type",
         "dev.alg": "list_algs_by_type",

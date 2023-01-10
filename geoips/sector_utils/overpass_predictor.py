@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Overpass predictor, based on Two Line Element files."""
 # Standard libraries
 from datetime import timedelta
 import math
@@ -24,15 +25,23 @@ LOG = getLogger()
 
 
 def check_tle_name_to_passed_names(tle_name, satellite_names_list):
-    """Check if the satellite name in the TLE files is in the passed satellite names list.
+    """Check if the satellite name in the TLE files is in the satellite names list.
 
-    Satellite names in the TLE files may be longer than the names passed to the overpass predictor.
-    For example, a user might request 'GCOM-W1', and the name in the TLE file is 'GCOM-W1 (SHIZUKU)'
-    Args:
-        tle_name (str) : satellite name read from the TLE file
-        satellite_names_list (list) : list of user specified satellites to read from TLE file
-    Returns:
-        (bool) : True if tle_name is in the passed satellite names list
+    Satellite names in the TLE files may be longer than the names passed to the
+    overpass predictor For example, a user might request 'GCOM-W1', and the name
+    in the TLE file is 'GCOM-W1 (SHIZUKU)'.
+
+    Parameters
+    ----------
+    tle_name : str
+        satellite name read from the TLE file
+    satellite_names_list : list of str
+        list of user specified satellites to read from TLE file
+
+    Returns
+    -------
+    bool
+        True if tle_name is in the passed satellite names list
     """
     satellite_in_list = any(
         [x.lower() in tle_name.lower() for x in satellite_names_list]
@@ -41,13 +50,19 @@ def check_tle_name_to_passed_names(tle_name, satellite_names_list):
 
 
 def read_satellite_tle(tlefile, satellite_list):
-    """
-    Open and extract satellite infromation from TLE file
-    Args:
-        tlefile (str) : file path of TLE
-        satellite_list (list) : list of satellites to read from TLE
-    Returns:
-        (dict) :  satellite TLE data
+    """Open and extract satellite infromation from TLE file.
+
+    Parameters
+    ----------
+    tlefile : str
+        file path of TLE
+    satellite_list : list of str
+        list of satellites to read from TLE
+
+    Returns
+    -------
+    dict
+        satellite TLE data
     """
     with open(tlefile, "r") as tfile:
         tle_content = tfile.readlines()
@@ -65,11 +80,17 @@ def read_satellite_tle(tlefile, satellite_list):
 
 
 def floor_minute(datetime_obj):
-    """Remove seconds and microseconds from datetime object
-    Args:
-        datetime_obj (datetime.datetime) : datetime
-    Returns:
-        (datetime.datetime) : datetime with no seconds/microseconds
+    """Remove seconds and microseconds from datetime object.
+
+    Parameters
+    ----------
+    datetime_obj : datetime.datetime
+        datetime
+
+    Returns
+    -------
+    datetime.datetime
+        datetime with no seconds/microseconds
     """
     second = datetime_obj.second
     micro = datetime_obj.microsecond
@@ -77,15 +98,25 @@ def floor_minute(datetime_obj):
 
 
 def calculate_overpass(tle, observer_lat, observer_lon, date, satellite_name):
-    """Calculate next overpass information for a satellite at an observer location and time
-    Args:
-        tle (ephem.EarthSatellite) : tle for satellite
-        observer_lat (float) : observer latitude
-        observer_lon (float) : observer longitude
-        date (datetime) : start time for next overpass
-        satellite_name (str) : name of satellite
-    Returns:
-        (dict) : next overpass information
+    """Calculate next overpass for a satellite at an observer location and time.
+
+    Parameters
+    ----------
+    tle : ephem.EarthSatellite
+        tle for satellite
+    observer_lat : float
+        observer latitude
+    observer_lon : float
+        observer longitude
+    date : datetime.datetime
+        start time for next overpass
+    satellite_name : str
+        name of satellite
+
+    Returns
+    -------
+    dict
+        next overpass information
     """
     sector = ephem.Observer()
     sector.lon = str(observer_lon)
@@ -178,16 +209,27 @@ def predict_satellite_overpass(
     start_datetime,
     check_midpoints=False,
 ):
-    """Estimate next satellite overpass information with ephem
-    Args:
-        tlefile (str) : file path of TLE
-        satellite_name (str) : name of satellite
-        satellite_tle (dict) : dictionary holding satellite tle line1 and line2 data
-        area_def (pyresample) : area definition
-        start_datetime (datetime) : start time to find the next available overpass
-        check_midpoints (bool) : check mid points of area definition for additional overpassses
-    Returns:
-        (dict) : dictionary holding next overpass information
+    """Estimate next satellite overpass information with ephem.
+
+    Parameters
+    ----------
+    tlefile : str
+        file path of TLE
+    satellite_name : str
+        name of satellite
+    satellite_tle : dict
+        dictionary holding satellite tle line1 and line2 data
+    area_def : pyresample AreaDefinition
+        area definition
+    start_datetime :datetime.datetime
+        start time to find the next available overpass
+    check_midpoints :bool
+        check mid points of area definition for additional overpassses
+
+    Returns
+    -------
+    dict
+        dictionary holding next overpass information
     """
     tle = ephem.readtle(tlefile, satellite_tle["line1"], satellite_tle["line2"])
     ll_lon, ll_lat, ur_lon, ur_lat = area_def.area_extent_ll
@@ -235,16 +277,26 @@ def predict_satellite_overpass(
 def predict_overpass_area_def(
     tlefile, area_definition, satellite_list, start_datetime, check_midpoints=False
 ):
-    """Predict satellite overpass for an area_definition
-    Args:
-        tlefile (str) : file path of TLE
-        area_definition (pyresample) : pyresample area definition
-        satellite_list (list) : list of satellites to predict the overpass times
-        start_datetime (datetime) : start time to find the next available overpass
-        check_midpoints (bool) : check mid points of area definition for additional overpassses
-    Returns:
-        (dict) :  dictionary holding next satellite overpass estimates
-                  (sorted by satellite -> overpass info)
+    """Predict satellite overpass for an area_definition.
+
+    Parameters
+    ----------
+    tlefile : str
+        file path of TLE
+    area_definition : pyresample AreaDefinition
+        pyresample area definition
+    satellite_list : list
+        list of satellites to predict the overpass times
+    start_datetime : datetime.datetime
+        start time to find the next available overpass
+    check_midpoints : bool
+        check mid points of area definition for additional overpassses
+
+    Returns
+    -------
+    dict
+        dictionary holding next satellite overpass estimates
+        (sorted by satellite -> overpass info)
     """
     if not isinstance(satellite_list, list):
         raise TypeError("satellite_list must be type list")
@@ -272,17 +324,28 @@ def predict_overpass_yaml(
     start_datetime,
     check_midpoints=False,
 ):
-    """Predict satellite overpass for sectors from a given yaml sector file
-    Args:
-        tlefile (str) : file path of TLE
-        sectorfile  (str) : file path of sectorfile
-        sector_list (list) : list of sectors held within the sectorfile
-        satellite_list (list) : list of satellites to predict the overpass times
-        start_datetime (datetime) : start time to find the next available overpass
-        check_midpoints (bool) : check mid points of area definition for additional overpassses
-    Returns:
-        (dict) : dictionary holding next satellite overpass estimates for sectors
-                 (sorted by sector -> satellite -> overpass info)
+    """Predict satellite overpass for sectors from a given yaml sector file.
+
+    Parameters
+    ----------
+    tlefile : str
+        file path of TLE
+    sectorfile  : str
+        file path of sectorfile
+    sector_list : list
+        list of sectors held within the sectorfile
+    satellite_list : list
+        list of satellites to predict the overpass times
+    start_datetime : datetime.datetime
+        start time to find the next available overpass
+    check_midpoints : bool
+        check mid points of area definition for additional overpassses
+
+    Returns
+    -------
+    dict
+        dictionary holding next satellite overpass estimates for sectors
+        (sorted by sector -> satellite -> overpass info)
     """
     from geoips.sector_utils.utils import create_areadefinition_from_yaml
 

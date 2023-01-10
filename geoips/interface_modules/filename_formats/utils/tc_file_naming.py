@@ -10,6 +10,8 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Utilities for TC filenaming, for use within geoips filename formatters."""
+
 import logging
 from datetime import datetime, timedelta
 from glob import glob
@@ -22,7 +24,7 @@ LOG = logging.getLogger(__name__)
 def get_storm_subdir(
     basin_path, base_tc_stormname, tc_stormnum, output_dict, sector_info
 ):
-
+    """Get the TC storm subdirectory."""
     # Default to just the "base" tc storm name (ie, WP932022 or SH162022)
     tc_stormname = base_tc_stormname
 
@@ -96,23 +98,31 @@ def get_storm_subdir(
 def tc_storm_basedir(
     basedir, tc_year, tc_basin, tc_stormnum, output_dict=None, sector_info=None
 ):
-    """Produce base storm directory for TC web output
+    """Produce base storm directory for TC web output.
 
-    Args:
-        basedir (str) :  base directory
-        tc_year (int) :  Full 4 digit storm year
-        tc_basin (str) :  2 character basin designation
-                               SH Southern Hemisphere
-                               WP West Pacific
-                               EP East Pacific
-                               CP Central Pacific
-                               IO Indian Ocean
-                               AL Atlantic
-        tc_stormnum (int) : 2 digit storm number
-                               90 through 99 for invests
-                               01 through 69 for named storms
-    Returns:
-        (str) : Path to base storm web directory
+    Parameters
+    ----------
+    basedir : str
+         base directory
+    tc_year : int
+         Full 4 digit storm year
+    tc_basin : str
+         2 character basin designation
+            SH Southern Hemisphere
+            WP West Pacific
+            EP East Pacific
+            CP Central Pacific
+            IO Indian Ocean
+            AL Atlantic
+    tc_stormnum : int
+        2 digit storm number
+            90 through 99 for invests
+            01 through 69 for named storms
+
+    Returns
+    -------
+    path : str
+        Path to base storm web directory
     """
     tc_date = "tc{0:04d}".format(tc_year)
     base_tc_stormname = "{0}{1:02d}{2:04d}".format(tc_basin, tc_stormnum, tc_year)
@@ -121,7 +131,8 @@ def tc_storm_basedir(
         basin_path, base_tc_stormname, tc_stormnum, output_dict, sector_info
     )
     # Need to actually add a check to see if an invest directory exists that is "close"
-    # If one does, use that instead of a new one (which will result in creating the new directory downstream)
+    # If one does, use that instead of a new one (which will result in
+    # creating the new directory downstream)
     path = pathjoin(basin_path, tc_storm_subdir)
     return path
 
@@ -138,7 +149,7 @@ def update_extra_field(
     extra_field_resolution=False,
     include_filename_extra_fields=False,
 ):
-
+    """Finalize extra field using standard geoips arguments."""
     if extra_field_provider is True:
         from geoips.filenames.base_paths import PATHS as gpaths
 

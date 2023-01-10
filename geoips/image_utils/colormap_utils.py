@@ -182,7 +182,8 @@ def from_ascii(fname, reverse=False):
      * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0 for matplotlib usage)
      * One white space delimited RGB value per line
     """
-    # Read data from ascii file into an NLines by 3 float array, skipping lines preceded by "#"
+    # Read data from ascii file into an NLines by 3 float array, skipping
+    # lines preceded by "#"
     lines = []
     with open(fname) as palette:
         for line in palette.readlines():
@@ -235,10 +236,22 @@ def create_linear_segmented_colormap(
     transition_colors : array-like
         A list of color ranges specified as tuples for generating a
         specific range of colors corresponding to the transition_vals
-        specified ie
+        (see Notes below)
+
+    Returns
+    -------
+    cm : LinearSegmentedColormap
+        matplotlib colormap object
+
+    Notes
+    -----
+    Transition colors specified as::
+
             [('yellow', 'orange'),
              ('pink', 'red'),
              ('violet', 'purple')]
+
+    Where::
 
         TRANSITIONPOINT1 = 0.0
         TRANSITIONPOINT4 = 1.0
@@ -256,11 +269,6 @@ def create_linear_segmented_colormap(
                          (TRANSITIONPOINT3, 2to3ENDCOLOR, 3to4STARTCOLOR),
                          (TRANSITIONPOINT4, 3to4ENDCOLOR, IGNORED)),
             }
-
-    Returns
-    -------
-    cm : LinearSegmentedColormap
-        matplotlib colormap object
     """
     from matplotlib.colors import ColorConverter, LinearSegmentedColormap
 

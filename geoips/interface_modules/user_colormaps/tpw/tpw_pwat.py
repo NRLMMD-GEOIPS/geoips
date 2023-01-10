@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Module containing tpw_pwat ASCII palette based colormap"""
+"""Module containing tpw_pwat ASCII palette based colormap."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -21,13 +21,19 @@ cmap_type = "ascii"
 def tpw_pwat():
     """Colormap for displaying data using TPW PWAT ascii colormap.
 
-    ASCII palette is found in image_utils/ascii_palettes/tpw_pwat.txt
     Data range of ASCII palette is 1 to 90 mm, with numerous transitions
 
-    Returns:
-        dictionary : Dictionary of matplotlib plotting parameters, to ensure consistent image output
-    """
+    Returns
+    -------
+    mpl_colors_info : dict
+        Dictionary of matplotlib plotting parameters, to ensure consistent
+        image output
 
+    See Also
+    --------
+    :ref:`api_image_utils`
+        ASCII palette is found in image_utils/ascii_palettes/tpw_pwat.txt
+    """
     # levels in mm (evenly spaced by 2 mm except for 1-6):
     values = [
         1,
@@ -80,7 +86,7 @@ def tpw_pwat():
         90,
     ]
 
-    from os.path import basename as pathbasename, join as pathjoin
+    from os.path import join as pathjoin
     from geoips.filenames.base_paths import PATHS as gpaths
     from geoips.image_utils.colormap_utils import from_ascii
     from matplotlib.colors import BoundaryNorm

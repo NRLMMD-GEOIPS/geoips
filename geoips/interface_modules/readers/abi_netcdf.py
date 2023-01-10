@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Standard GeoIPS xarray dictionary based ABI NetCDF data reader."""
 # Python Standard Libraries
 import logging
 import os
@@ -35,7 +36,8 @@ import socket
 
 try:
     # If this reader is not installed on the system, don't fail alltogether, just skip this import.  This reader
-    # will not work if the import fails and the package will have to be installed to process data of this type.
+    # will not work if the import fails and the package will have to be
+    # installed to process data of this type.
     import netCDF4 as ncdf
 except ImportError:
     print(
@@ -147,9 +149,7 @@ ALL_CHANS = {
 
 
 def metadata_to_datetime(metadata):
-    """
-    Use information from the metadata to get the image datetime.
-    """
+    """Use information from the metadata to get the image datetime."""
     times = metadata["var_info"]["time_bounds"]
     epoch = datetime(2000, 1, 1, 12, 0, 0)
     start_time = epoch + timedelta(seconds=times[0])
@@ -158,9 +158,7 @@ def metadata_to_datetime(metadata):
 
 
 def _get_files(path):
-    """
-    Get a list of file names from the input path.
-    """
+    """Get a list of file names from the input path."""
     if os.path.isfile(path):
         fnames = [path]
     elif os.path.isdir(path):
@@ -174,7 +172,8 @@ def _get_files(path):
 
 def _check_file_consistency(metadata):
     """
-    Checks to be sure that all input metadata are from the same image time.
+    Check that all input metadata are from the same image time.
+
     Performs cheks on platform_ID, instrument_type, processing_level, and times.
     If these are all equal, returns True.
     If any differ, returns False.
@@ -203,9 +202,7 @@ def _check_file_consistency(metadata):
 
 
 def _get_file_metadata(df):
-    """
-    Gather all of the file-level metadata
-    """
+    """Gather all of the file-level metadata."""
     metadata = {}
     md_names = [
         "id",
@@ -251,7 +248,9 @@ def _get_file_metadata(df):
 
 def _get_variable_metadata(df):
     """
-    Gather all required variable level metadata.  Some are skipped or gathered later as needed.
+    Gather all required variable level metadata.
+
+    Some are skipped or gathered later as needed.
     """
     metadata = {}
     # Note: We have skipped DQF, Rad, band_wavelength_star_look, num_star_looks, star_id, t, t_star_look,
@@ -297,6 +296,7 @@ def _get_variable_metadata(df):
 
 
 def _get_lat_lon_extent_metadata(df):
+    """Get lat lon extent metadata."""
     glle = df.variables["geospatial_lat_lon_extent"]
     metadata = {}
     md_names = [
@@ -320,6 +320,7 @@ def _get_lat_lon_extent_metadata(df):
 
 
 def _get_imager_projection(df):
+    """Get imager projection."""
     gip = df.variables["goes_imager_projection"]
     metadata = {}
     md_names = [
@@ -345,7 +346,8 @@ def _get_metadata(df, fname, **kwargs):
     """
     Gather metadata for the data file and return as a dictionary.
 
-    Note: We are gathering all of the available metadata in case it is needed at some point.
+    Note: We are gathering all of the available metadata in case it is needed at
+    some point.
     """
     metadata = {}
     # Gather all file-level metadata
@@ -371,8 +373,10 @@ def _get_metadata(df, fname, **kwargs):
 
 def get_latitude_longitude(metadata, BADVALS, sect=None):
     """
-    This routine accepts a dictionary containing metadata as read from a NCDF4 format file
-    and returns latitudes and longitudes for a full disk.
+    Get latitudes and longitudes.
+
+    This routine accepts a dictionary containing metadata as read from a NCDF4
+    format file, and returns latitudes and longitudes for a full disk.
     """
     # If the filename format needs to change for the pre-generated geolocation
     # files, please discuss prior to changing.  It will force recreation of all
@@ -420,7 +424,8 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         # Note: In this next section, we will be reusing memory space as much as possible
         #       To make this as transparent as possible, we will do all variable assignment
         #       first, then fill them
-        # This method requires that all lines remain in the SAME ORDER or things will go very badly
+        # This method requires that all lines remain in the SAME ORDER or things
+        # will go very badly
         cosx = np.empty_like(x)
         cosy = np.empty_like(x)
         a = np.empty_like(x)
@@ -466,7 +471,8 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
 
     # Create memmap to the lat/lon file
     # Nothing will be read until explicitly requested
-    # We are mapping this here so that the lats and lons are available when calculating satlelite angles
+    # We are mapping this here so that the lats and lons are available when
+    # calculating satlelite angles
     log.info(
         "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["scene"])
     )
@@ -485,9 +491,11 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
 
 def _get_geolocation_metadata(metadata):
     """
-    Gather all of the metadata used in creating geolocation data for the input filename.
-    This is split out so we can easily create a chash of the data for creation of a unique filename.
-    This allows us to avoid recalculation of angles that have already been calculated.
+    Gather all of the metadata used in creating geolocation data for input file.
+
+    This is split out so we can easily create a chash of the data for creation
+    of a unique filename. This allows us to avoid recalculation of angles that
+    have already been calculated.
     """
     geomet = {}
     # G16 -> goes-16
@@ -516,31 +524,39 @@ def _get_geolocation_metadata(metadata):
 def abi_netcdf(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
-    """Read ABI NetCDF data from a list of filenames.
-
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
-
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * DEFAULT None (include all channels)
-            * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * DEFAULT None (read full disk)
-            * Specify region to read from ABI data
-        self_register (Optional[str]):
-            * DEFAULT False (read multiple resolutions of data)
-            * *MED, HIGH, LOW*: register all data to the specified resolution.
-
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
     """
+    Read ABI NetCDF data from a list of filenames.
 
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     gvars = {}
     datavars = {}
     standard_metadata = {}
@@ -603,7 +619,8 @@ def abi_netcdf(
     xarray_obj.attrs["file_metadata"] = file_info.copy()
 
     # Most of the metadata are the same between files.
-    # From here on we will just rely on the metadata from a single data file for each resolution
+    # From here on we will just rely on the metadata from a single data file
+    # for each resolution
     res_md = {}
     for res in ["LOW", "MED", "HIGH"]:
         # Find a file for this resolution: Any one will do
@@ -612,7 +629,8 @@ def abi_netcdf(
             res_md[res] = file_info[res_chans[0]]
 
     # If we plan to self register, make sure we requested a resolution that we actually plan to read
-    # This could be problematic if we try to self-register to LOW when only reading MED or something
+    # This could be problematic if we try to self-register to LOW when only
+    # reading MED or something
     if self_register and self_register not in res_md:
         raise ValueError(
             "Resolution requested for self registration has not been read."
@@ -666,7 +684,8 @@ def abi_netcdf(
         all_chans_list += chl
 
     # If specific channels were requested, check them against the input data
-    # If specific channels were requested, but no files exist for one of the channels, then error
+    # If specific channels were requested, but no files exist for one of the
+    # channels, then error
     if chans:
         for chan in chans:
             if chan in ALL_GEO_VARS:
@@ -899,7 +918,10 @@ def abi_netcdf(
 
 
 def get_band_metadata(all_metadata):
-    """This method basically just reformats the all_metadata
+    """
+    Get band metadata.
+
+    This method basically just reformats the all_metadata
     dictionary that is set based on the metadata found
     in the netcdf object itself to reference channel
     names as opposed to filenames as the dictionary keys.
@@ -913,9 +935,7 @@ def get_band_metadata(all_metadata):
 
 
 def get_data(md, gvars, rad=False, ref=False, bt=False):
-    """
-    Read data for a full channel's worth of files.
-    """
+    """Read data for a full channel's worth of files."""
     # Coordinate arrays for reading
     if "Lines" in gvars and "Samples" in gvars:
         full_disk = False
@@ -1097,7 +1117,8 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
         )
 
     # badvals are terribly
-    # latitude is sometimes fully specified from area_def... So does not relate to actual masked data..
+    # latitude is sometimes fully specified from area_def... So does not
+    # relate to actual masked data..
     usemask = np.ma.masked_less(gvars["Lines"], -990).mask
     # usemask = gvars['latitude'].mask
     for varname in gvars.keys():

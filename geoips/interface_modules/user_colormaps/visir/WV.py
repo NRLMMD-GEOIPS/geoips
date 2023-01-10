@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Module containing WV (water vapor) algorithm colormap"""
+"""Module containing WV (water vapor) algorithm colormap."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -21,14 +21,20 @@ cmap_type = "linear_segmented"
 def WV(data_range=[-70.0, 0.0]):
     """Colormap developed for displaying algorithms/WV.py processed data.
 
-    Args:
-        data_range (list[float]): Min and max value for colormap.
-                                  Ensure the data range matches the range of the algorithm specified for use with this colormap
-                                  The WV colormap MUST include -70 and 0
-    Returns:
-        dictionary : Dictionary of matplotlib plotting parameters, to ensure consistent image output
-    """
+    Parameters
+    ----------
+    data_range : list of float, default=[-70, 0]
+        * Min and max value for colormap.
+        * Ensure the data range matches the range of the algorithm specified for
+          use with this colormap
+        * This colormap MUST include -70 and 0
 
+    Returns
+    -------
+    mpl_colors_info : dict
+        Dictionary of matplotlib plotting parameters, to ensure consistent
+        image output
+    """
     min_tb = int(data_range[0])
     max_tb = int(data_range[1])
 

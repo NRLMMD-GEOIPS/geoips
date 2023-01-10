@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Utility for reading HRIT datasets."""
 import os
 import re
 import codecs
@@ -33,6 +34,8 @@ XRIT_URL = "http://www.eumetsat.int/website/home/Data/DataDeliver/SupportSoftwar
 
 
 class HritDtype(object):
+    """HRIT data type."""
+
     types = {
         "uint8": "u1",
         "uint16": ">u2",
@@ -47,6 +50,7 @@ class HritDtype(object):
     }
 
     def __getattr__(self, type_name):
+        """Get hritdtype attr."""
         try:
             return np.dtype(self.types[type_name])
         except KeyError:
@@ -62,9 +66,12 @@ dtype = HritDtype()
 
 
 def read10bit(buff):
-    """
-    Read 10 bit little endian data from a buffer and return 16 bit
-    unsigned integer data.
+    """Read 10 bit little endian data from a buffer.
+
+    Returns
+    -------
+    int
+        16 bit unsigned int.
     """
     while True:
         b = buff.read(5)
@@ -85,15 +92,15 @@ def read10bit(buff):
 
 
 class HritError(Exception):
-    """
-    Error raised when errors occur in reading xRIT data files.
-    """
+    """Raise exception when errors occur in reading xRIT data files."""
 
     def __init__(self, msg, code=None):
+        """Initialize HritError."""
         self.code = code
         self.value = msg
 
     def __str__(self):
+        """Hriterror str method."""
         if self.code:
             return "{}: {}".format(self.code, self.value)
         else:
@@ -101,6 +108,7 @@ class HritError(Exception):
 
 
 def check_for_hrit():
+    """Check for HRIT file."""
     if XRIT_PATH is None:
         raise HritError(
             "No path to xRIT decompression software "
@@ -117,6 +125,8 @@ def check_for_hrit():
 
 
 class HritFile(object):
+    """Hrit File class."""
+
     _file_type_map = {
         0: "image",
         1: "gts",
@@ -127,6 +137,7 @@ class HritFile(object):
     }
 
     def __init__(self, fname):
+        """Initialize HRIT File object."""
         # Test for file
         if not os.path.isfile(fname):
             raise IOError("No such file or directory: {}".format(fname))
@@ -228,15 +239,17 @@ class HritFile(object):
 
     @property
     def block_info(self):
+        """Block info."""
         if not hasattr(self, "_block_info"):
             self._block_info = self.__read_metadata_block_info()
         return self._block_info
 
     def __block_len_minus_two(self, block_num):
         """
-        Return the length of a header block minus 2 for reading to the end of the block.
+        Return the length of a header block minus 2.
 
-        This may seem silly, but is mainly used to make the code above readable.
+        This is for reading to the end of the block. This may seem silly,
+        but is mainly used to make the code above readable.
         """
         try:
             return self.block_info[block_num][1] - 2
@@ -245,10 +258,12 @@ class HritFile(object):
 
     @property
     def block_map(self):
+        """Return block map."""
         return self._block_map
 
     @property
     def metadata(self):
+        """Return metadata."""
         if not hasattr(self, "_metadata"):
             self._metadata = self._read_metadata()
         return self._metadata
@@ -274,6 +289,7 @@ class HritFile(object):
 
     @property
     def geolocation_metadata(self):
+        """Return geolocation metadata."""
         if not hasattr(self, "_geolocation_metadata"):
             geomet = {}
             geomet["ob_area"] = re.sub(
@@ -297,6 +313,7 @@ class HritFile(object):
 
     @property
     def prologue(self):
+        """Return prologue."""
         if not hasattr(self, "_prologue"):
             self._prologue = None
             if self.file_type == "prologue":
@@ -313,6 +330,7 @@ class HritFile(object):
 
     @property
     def epilogue(self):
+        """Return epilogue."""
         if not hasattr(self, "_epilogue"):
             self._epilogue = None
             if self.file_type == "epilogue":
@@ -321,26 +339,32 @@ class HritFile(object):
 
     @property
     def name(self):
+        """Return name."""
         return self._name
 
     @property
     def dirname(self):
+        """Return file dirname."""
         return self._dirname
 
     @property
     def basename(self):
+        """Return file basename."""
         return self._basename
 
     @property
     def file_type(self):
+        """Return file_type."""
         return self._file_type_map[self.metadata["block_0"]["type_code"]]
 
     @property
     def start_datetime(self):
+        """Return start_datetime."""
         return self.annotation_metadata["start_datetime"]
 
     @property
     def band(self):
+        """Return band specified in block_128, if it exists."""
         if "block_128" in self.metadata:
             return "B{:02d}".format(self.metadata["block_128"]["chan_id"])
         else:
@@ -348,6 +372,7 @@ class HritFile(object):
 
     @property
     def segment(self):
+        """Return segment specified in block_128, if it exists."""
         if "block_128" in self.metadata:
             return self.metadata["block_128"]["segment"]
         else:
@@ -355,6 +380,7 @@ class HritFile(object):
 
     @property
     def annotation_metadata(self):
+        """Return annotation metadata (ie, platform, start time, etc)."""
         field_names = [
             "type",
             "disseminationID",
@@ -380,10 +406,12 @@ class HritFile(object):
 
     @property
     def _parts(self):
+        """Return parts of filename, split on '-'."""
         return self.basename.split("-")
 
     @property
     def compressed(self):
+        """Return True if compressed, False if not."""
         if "C" in self._parts[-1]:
             return True
         else:
@@ -423,7 +451,9 @@ class HritFile(object):
 
     def __read_metadata_block_info(self):
         """
-        Read information about metadata blocks including which blocks are present
+        Read information about metadata blocks.
+
+        This includes info about metadata blocks including which blocks are present
         and their lengths.  Return a dictionary whose keys are metadata block numbers
         and whose values are tuple containing the block's starting byte number and its
         length in bytes.
@@ -453,9 +483,7 @@ class HritFile(object):
         return block_info
 
     def __read_metadata(self):
-        """
-        Read the metadata from the file and return as a dictionary.
-        """
+        """Read the metadata from the file and return as a dictionary."""
         metadata = {}
         for block_num in self.block_info.keys():
             # Get the block map for the current block number
@@ -506,6 +534,7 @@ class HritFile(object):
         return metadata
 
     def _read_image_data(self, sector=None):
+        """Read image data."""
         log.debug("Reading image file: {}".format(self.name))
         if self.file_type != "image":
             raise HritError(
@@ -520,6 +549,7 @@ class HritFile(object):
         return self._data
 
     def _read_prologue(self, sector=None):
+        """Read prologue file."""
         log.debug("Reading prologue file: {}".format(self.name))
         if self.file_type != "prologue":
             raise HritError(
@@ -835,6 +865,7 @@ class HritFile(object):
         return self._prologue
 
     def _read_epilogue(self, sector=None):
+        """Read epilogue file."""
         log.debug("Reading epilogue file: {}".format(self.name))
         if self.file_type != "epilogue":
             raise HritError(
@@ -847,6 +878,7 @@ class HritFile(object):
 
     # Routine for reading specific things
     def __read_field(self, dtype, shape=(1,)):
+        """Read field."""
         dtype = np.dtype(dtype)
         bytes_per_elem = dtype.itemsize
         nbytes = bytes_per_elem * reduce(operator.mul, shape, 1)
@@ -860,7 +892,12 @@ class HritFile(object):
     __rf = __read_field
 
     def __read_time_cds(self, expanded=False):
-        """Each self.__rf must remain, even if unused, since the reads increment the pointer."""
+        """
+        Read time CDS.
+
+        Each self.__rf must remain, even if unused, since the reads increment
+        the pointer.
+        """
         epoch = datetime(1958, 1, 1, 0, 0, 0)
         days = self.__rf(">u2")
         millisec = self.__rf(">u4")
@@ -876,6 +913,7 @@ class HritFile(object):
         return time
 
     def __read_orbit_polynomial(self):
+        """Read orbit polynomial."""
         poly = []
         for elemind in range(0, 100):
             elem = {
@@ -892,6 +930,7 @@ class HritFile(object):
         return poly
 
     def __read_attitude_polynomial(self):
+        """Read attitude polynomial."""
         poly = []
         for elemind in range(0, 100):
             elem = {
@@ -905,6 +944,7 @@ class HritFile(object):
         return poly
 
     def __read_ephemeris(self):
+        """Read ephemeris."""
         ephem = []
         for elemind in range(0, 100):
             elem = {
@@ -917,6 +957,7 @@ class HritFile(object):
         return ephem
 
     def __read_starcoeff(self):
+        """Read star coefficient."""
         coeff = []
         for coeffind in range(0, 100):
             stars = []
@@ -933,6 +974,7 @@ class HritFile(object):
         return coeff
 
     def __read_image_calibration(self):
+        """Read image calibration."""
         cal = []
         for chind in range(0, 12):
             chcal = {}
@@ -942,6 +984,7 @@ class HritFile(object):
         return cal
 
     def __read_extracted_bb_data(self):
+        """Read extracted BB data."""
         bb_data = []
         for chind in range(0, 12):
             dat = {}
@@ -956,6 +999,7 @@ class HritFile(object):
         return bb_data
 
     def __read_impf_cal_data(self):
+        """Read IMPF Calibration data."""
         cal_data = []
         for chind in range(0, 12):
             cal = {}

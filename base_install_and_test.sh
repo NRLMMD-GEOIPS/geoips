@@ -38,7 +38,6 @@ else
     conda_channel="conda-forge"
 fi
 
-
 if [[ "$GEOIPS_BASEDIR" == "" ]]; then
     echo "Must set GEOIPS_BASEDIR environment variable prior to installation"
     exit 1

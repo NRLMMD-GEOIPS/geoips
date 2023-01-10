@@ -23,9 +23,12 @@ reader_type = "standard"
 
 
 def read_smos_data(wind_xarray, fname):
-    """Reformat SMOS xarray object appropriately
-    variables: latitude, longitude, timestamp, wind_speed_kts
-    attributes: source_name, platform_name, data_provider, interpolation_radius_of_influence"""
+    """Reformat SMOS xarray object appropriately.
+
+    * variables: latitude, longitude, timestamp, wind_speed_kts
+    * attributes: source_name, platform_name, data_provider,
+      interpolation_radius_of_influence
+    """
     import xarray
     import numpy
     from datetime import datetime, timedelta
@@ -41,7 +44,8 @@ def read_smos_data(wind_xarray, fname):
         )[0, :, :]
     elif "_300_" in fname:
         # 2 eliminates everything anywhere close to land - initially we had kept everything (< 3) because there
-        # were large data gaps without, but the data near land really is poor quality so must remove.
+        # were large data gaps without, but the data near land really is poor
+        # quality so must remove.
         wind_xarray["wind_speed_kts"] = wind_xarray["wind_speed"].where(
             wind_xarray["quality_level"] < 2
         )[0, :, :]
@@ -104,34 +108,42 @@ def read_smos_data(wind_xarray, fname):
 def smos_winds_netcdf(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
-    """Read one of SAR, SMAP, SMOS, AMSR derived winds from netcdf data.
+    """Read SMOS derived winds from netcdf data.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * NOT YET IMPLEMENTED
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-
     from geoips.xarray_utils.timestamp import (
         get_min_from_xarray_timestamp,
         get_max_from_xarray_timestamp,

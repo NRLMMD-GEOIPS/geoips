@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Standard geoips filename production"""
-
+"""Standard geoips filename production."""
 # Python Standard Libraries
 import logging
 
@@ -36,9 +35,14 @@ def geoips_fname(
     source_dir=None,
     basedir=gpaths["ANNOTATED_IMAGERY_PATH"],
 ):
+    """Create GeoIPS standard filenames, sector-based subdirs.
 
-    from geoips.xarray_utils.timestamp import get_min_from_xarray_timestamp
-
+    This uses the sector specification (continent, country, area, subarea,
+    state, city), product name, source name, and platform name
+    to generate a full unique path, as well as additional attributes to
+    create a fully unique file name.
+    """
+    # from geoips.xarray_utils.timestamp import get_min_from_xarray_timestamp
     # start_dt = get_min_from_xarray_timestamp(xarray_obj, 'timestamp')
     start_dt = xarray_obj.start_datetime
 
@@ -99,52 +103,59 @@ def assemble_geoips_fname(
     state=None,
     city=None,
 ):
-
     """Produce full output product path from product / sensor specifications.
-        standard web paths are of the format:
-       '<basedir>/<continent>-<country>-<area>/<subarea>-<state>-<city>/<productname>/<sensorname>
-        standard filenames are of the format:
-        <date{%Y%m%d}>.<time{%H%M%S}>.<satname>.<sensorname>.<productname>.<sectorname>.<coverage>.<dataprovider>.<extra>
-    +------------------+-----------+---------------------------------------------------+
-    | Parameters:      | Type:     | Description:                                      |
-    +==================+===========+===================================================+
-    | basedir:         | *str*     |                                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | product_name:    | *str*     | Name of product                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | source_name:     | *str*     | Name of data source (sensor)                      |
-    +------------------+-----------+---------------------------------------------------+
-    | platform_name:   | *str*     | Name of platform (satellite)                      |
-    +------------------+-----------+---------------------------------------------------+
-    | coverage:        | *float*   | Image coverage, float between 0.0 and 100.0       |
-    +------------------+-----------+---------------------------------------------------+
-    | resolution:      | *float*   | Image resolution, float greater than 0.0          |
-    +------------------+-----------+---------------------------------------------------+
-    | product_datetime:| *datetime*| Datetime object - start time of data used to      |
-    |                  |           |     generate product                              |
-    +------------------+-----------+---------------------------------------------------+
 
-    +------------------+-----------+---------------------------------------------------+
-    | Key Word Args:   | Type:     | Description:                                      |
-    +==================+===========+===================================================+
-    | output_type:     | *str*     | file extension type                               |
-    +------------------+-----------+---------------------------------------------------+
-    | data_provider:   | *str*     |                                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | extra:           | *str*     |                                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | continent:       | *str*     |                                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | country:         | *str*     |                                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | area:            | *str*     |                                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | subarea:         | *str*     |                                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | state:           | *str*     |                                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | city:            | *str*     |                                                   |
-    +------------------+-----------+---------------------------------------------------+
+    standard web paths are of the format:
+        <basedir>/<continent>-<country>-<area>/<subarea>-<state>-<city>/
+        <productname>/<sensorname>``
+    standard filenames are of the format:
+        <date{%Y%m%d}>.<time{%H%M%S}>.<satname>.<sensorname>.<productname>.
+        <sectorname>.<coverage>.<dataprovider>.<extra>
+
+    Parameters
+    ----------
+    basedir : str
+        Full path to base directory of final product.
+    product_name : str
+        Name of product
+    source_name : str
+        Name of data source (sensor)
+    platform_name : str
+        Name of platform (satellite)
+    coverage : float
+        Image coverage, float between 0.0 and 100.0
+    resolution : float
+        Image resolution, float greater than 0.0
+    product_datetime : datetime.datetime
+        Datetime object - start time of data used to generate product.
+
+    Other Parameters
+    ----------------
+    output_type : str, optional
+        file extension type, default is png
+    data_provider :  str, optional
+        String to include in filename "data_provider" field
+    extra : str, optional
+        String to include in filename "extra" field, default is None
+        If None, use fillval of 'x'
+    continent : str, optional
+        String to include in filename "continent" field, default is None
+        If None, use fillval of 'x'
+    country : str, optional
+        String to include in filename "country" field, default is None
+        If None, use fillval of 'x'
+    area : str, optional
+        String to include in filename "area" field, default is None
+        If None, use fillval of 'x'
+    subarea : str, optional
+        String to include in filename "subarea" field, default is None
+        If None, use fillval of 'x'
+    state : str, optional
+        String to include in filename "state" field, default is None
+        If None, use fillval of 'x'
+    city : str, optional
+        String to include in filename "city" field, default is None
+        If None, use fillval of 'x'
     """
     fillval = "x"
     if continent is None:
@@ -177,8 +188,9 @@ def assemble_geoips_fname(
     )
     # source_dir,
     # '{0:0.1f}'.format(resolution).replace('.', 'p'))
-    # fname = '<date{%Y%m%d}>.<time{%H%M%S}>.<satname>.<sensorname>.<productname>.<sectorname>.
-    #          <coverage>.<dataprovider>.<extra>'
+    # fname = '<date{%Y%m%d}>.<time{%H%M%S}>.<satname>.<sensorname>
+    #          .<productname>.<sectorname>
+    #          .<coverage>.<dataprovider>.<extra>'
     fname = ".".join(
         [
             product_datetime.strftime("%Y%m%d"),
@@ -197,5 +209,14 @@ def assemble_geoips_fname(
 
 
 def geoips_fname_remove_duplicates(fname, mins_to_remove=10, remove_files=False):
+    """remove_duplicates function currently not defined.
+
+    If defined, this function will identify duplicate files, and remove
+    appropriately.  It should identify duplicates specifically based
+    on the format/location of the geoips_fname formatted files.
+
+    Currently returns empty lists.  When defined, will return a list of
+    deleted files and a list of saved files.
+    """
     LOG.info("MUST ADD LOGIC TO REMOVE STANDARD GEOIPS FILENAME DUPLICATES")
     return [], []

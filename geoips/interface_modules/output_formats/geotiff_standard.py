@@ -10,6 +10,8 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Geotiff image rasterio-based output format."""
+
 import os
 import logging
 
@@ -19,6 +21,7 @@ output_type = "image"
 
 
 def get_rasterio_cmap_dict(mpl_cmap, scale_data_min=1, scale_data_max=255):
+    """Get rasterio cmap dict."""
     num_8bit = 255
     num_colors = scale_data_max - scale_data_min + 1
 
@@ -32,6 +35,7 @@ def get_rasterio_cmap_dict(mpl_cmap, scale_data_min=1, scale_data_max=255):
 def scale_geotiff_data(
     plot_data, mpl_colors_info, scale_data_min=1, scale_data_max=255, missing_value=0
 ):
+    """Scale geotiff data."""
     from geoips.data_manipulations.corrections import apply_data_range
 
     min_val = None
@@ -68,7 +72,7 @@ def geotiff_standard(
     mpl_colors_info=None,
     existing_image=None,
 ):
-
+    """Create standard geotiff output using rasterio."""
     plot_data = scale_geotiff_data(
         xarray_obj[product_name].to_masked_array(), mpl_colors_info
     )

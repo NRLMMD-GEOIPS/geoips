@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Xarray wrapper for driving the interpolation routines with basic Python inputs and outputs"""
+"""Geoips plugin for driving pyresample Gaussian interpolation."""
 import logging
 
 import xarray
@@ -35,7 +35,7 @@ def interp_gauss(
     sigmaval=None,
     drop_nan=False,
 ):
-    """Use pyresample gaussian interpolation from interp_kd_tree:  return of list of numpy.ma.MaskedArray"""
+    """Pyresample interp_kd_tree gaussian interpolation GeoIPS plugin."""
     LOG.info(
         "Interpolating using standard scifile register method: kd_tree gauss sigmaval %s",
         sigmaval,

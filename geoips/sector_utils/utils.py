@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Utilities for working with dynamic sector specifications"""
-
+"""Utilities for working with dynamic sector specifications."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -58,14 +57,21 @@ SECTOR_INFO_ATTRS = {
 
 
 def set_text_area_def(xarray_obj, area_def):
-    """Set the area definition for the text files - raw sectored data, not interpolated
+    """Set the area definition for text files.
 
-    Args:
-        xarray_obj (Dataset) : xarray dataset
-        area_def (AreaDefinition) : original area definition
+    This uses raw sectored data, not interpolated.
 
-    Returns:
-        (AreaDefinition) : pyresample AreaDefinition pertaining to the region for generating text file
+    Parameters
+    ----------
+    xarray_obj : xarray.Dataset
+        xarray dataset
+    area_def : pyresample.AreaDefinition
+        original area definition
+
+    Returns
+    -------
+    pyresample.AreaDefinition
+        pyresample AreaDefinition pertaining to the region for generating text file
     """
     text_area_def = area_def
     num_lines = xarray_obj.wind_speed_kts.where(
@@ -100,10 +106,12 @@ def check_center_coverage(
     hours_before_sector_time=18,
     hours_after_sector_time=6,
 ):
-    """Check if there is any data covering the center of the sector"""
-    # Do not provide any longitude padding for coverage check sectoring - we want to see if there is any data within
-    # the exact center box, not within +- 3 degrees of the center box.
+    """Check if there is any data covering the center of the sector.
 
+    Do not provide any longitude padding for coverage check sectoring -
+    we want to see if there is any data within the exact center box,
+    not within +- 3 degrees of the center box.
+    """
     covg_area_def = set_tc_coverage_check_area_def(
         area_def, width_degrees=width_degrees, height_degrees=height_degrees
     )
@@ -126,7 +134,8 @@ def check_center_coverage(
     if covg_xarray is None:
         return False, covg_xarray
 
-    # If we passed in a list of coverage variables, loop through each one - if any are > 0, return True
+    # If we passed in a list of coverage variables, loop through each one - if
+    # any are > 0, return True
     if covg_varlist is not None:
         for curr_covg_varname in covg_varlist:
             if percent_unmasked(covg_xarray[curr_covg_varname].to_masked_array()) > 0:
@@ -142,6 +151,7 @@ def check_center_coverage(
 
 
 def copy_sector_info(src_area_def, dest_area_def):
+    """Copy sector info from src_area_def to dest_area_def."""
     if hasattr(src_area_def, "sector_info"):
         dest_area_def.sector_info = src_area_def.sector_info
     if hasattr(src_area_def, "sector_type"):
@@ -154,16 +164,21 @@ def copy_sector_info(src_area_def, dest_area_def):
 
 
 def set_tc_coverage_check_area_def(area_def, width_degrees=8, height_degrees=8):
-    """Set the area definition for checking coverage for TC overpasses - take a small box around the center of the
-        storm to evaluate coverage, rather than the entire image.
+    """Set the area definition for checking coverage for TC overpasses.
 
-    Args:
-        area_def (AreaDefinition) : original area definition
+    Take a small box around the center of the storm to evaluate coverage,
+    rather than the entire image.
 
-    Returns:
-        (AreaDefinition) : pyresample AreaDefinition pertaining to the region for plotting mtif
+    Parameters
+    ----------
+    area_def : pyresample.AreaDefinition
+        original area definition
+
+    Returns
+    -------
+    pyresample.AreaDefinition
+        pyresample AreaDefinition pertaining to the region for plotting
     """
-
     covg_area_def = area_def
     DEG_TO_KM = 111.321
     # Take a 8deg x 8deg box centered over the storm location for
@@ -200,37 +215,49 @@ def set_tc_coverage_check_area_def(area_def, width_degrees=8, height_degrees=8):
 
 
 def get_max_lat(lats):
-    """Get maximum latitude from array of latitudes
+    """Get maximum latitude from array of latitudes.
 
-    Args:
-        lats (ndarray) : numpy MaskedArray of latitudes
+    Parameters
+    ----------
+    lats : numpy.ndarray
+        numpy MaskedArray of latitudes
 
-    Return:
-        (float) : Maximum latitude, between -90 and 90
+    Returns
+    -------
+    float
+        Maximum latitude, between -90 and 90
     """
     return float(lats.max())
 
 
 def get_min_lat(lats):
-    """Get minimum latitude from array of latitudes
+    """Get minimum latitude from array of latitudes.
 
-    Args:
-        lats (ndarray) : numpy MaskedArray of latitudes
+    Parameters
+    ----------
+    lats : numpy.ndarray
+        numpy MaskedArray of latitudes
 
-    Return:
-        (float) : Minimum latitude, between -90 and 90
+    Returns
+    -------
+    float
+        Minimum latitude, between -90 and 90
     """
     return float(lats.min())
 
 
 def get_min_lon(lons):
-    """Get minimum longitude from array of longitudes, handling date line
+    """Get minimum longitude from array of longitudes, handling date line.
 
-    Args:
-        lons (ndarray) : numpy MaskedArray of longitudes
+    Parameters
+    ----------
+    lons : numpy.ndarray
+        numpy MaskedArray of longitudes
 
-    Return:
-        (float) : Minimum longitude, between -180 and 180
+    Returns
+    -------
+    float
+        Minimum longitude, between -180 and 180
     """
     if lons.max() > 179.5 and lons.min() < -179.5:
         import numpy
@@ -243,13 +270,17 @@ def get_min_lon(lons):
 
 
 def get_max_lon(lons):
-    """Get maximum longitude from array of longitudes, handling date line
+    """Get maximum longitude from array of longitudes, handling date line.
 
-    Args:
-        lons (ndarray) : numpy MaskedArray of longitudes
+    Parameters
+    ----------
+    lons : numpy.ndarray
+        numpy MaskedArray of longitudes
 
-    Return:
-        (float) : Maximum longitude, between -180 and 180
+    Returns
+    -------
+    float
+        Maximum longitude, between -180 and 180
     """
     if lons.max() > 179.5 and lons.max() < -179.5:
         import numpy
@@ -262,14 +293,13 @@ def get_max_lon(lons):
 
 
 def get_lat_center(lats):
-    """Return the center longitude point from lats array"""
+    """Return the center longitude point from lats array."""
     center_lat = lats.min() + (lats.max() - lats.min()) / 2.0
     return center_lat
 
 
 def get_lon_center(lons):
-    """Return the center longitude point from lons array"""
-
+    """Return the center longitude point from lons array."""
     import numpy
 
     if lons.max() > 179.5 and lons.min() < -179.5:
@@ -294,18 +324,24 @@ def get_trackfile_area_defs(
 ):
     """Get all TC area definitions for the current xarray object, and requested sectors.
 
-    Args:
-        trackfiles (list) : List of trackfiles to convert into area_defs
-        trackfile_parser (str) : Parser to use from interface_modules/trackfile_parsers on trackfiles
-        trackfile_sectorlist (list) :
-            * DEFAULT None
-            * list of sector names to process, of format: tc2020io01amphan.
-            * If 'all' contained in list, process all matching TC sectors.
-        aid_type (str) : Default None, string to look for in "aid_type" TC deck file field for inclusion
-    Returns:
-        (list) : List of pyresample AreaDefinition objects
-    """
+    Parameters
+    ----------
+    trackfiles : list
+        List of trackfiles to convert into area_defs
+    trackfile_parser : str
+        Parser to use from interface_modules/trackfile_parsers on trackfiles
+    trackfile_sectorlist list of str, default=None
+        * list of sector names to process, of format: tc2020io01amphan.
+        * If None, or 'all' contained in list, process all matching TC sectors.
+    aid_type : str, default=None
+        If specified, string to look for in "aid_type" TC deck file field for
+        inclusion
 
+    Returns
+    -------
+    list of pyresample.AreaDefinition
+        List of pyresample AreaDefinition objects
+    """
     area_defs = []
     final_area_defs = []
     from datetime import timedelta
@@ -343,14 +379,23 @@ def get_trackfile_area_defs(
 
 
 def get_static_area_defs_for_xarray(xarray_obj, sectorfiles, sectorlist):
-    """Get all STATIC area definitions for the current xarray object, and requested sectors.
+    """Get all STATIC area definitions for the current xarray object.
 
-    Args:
-        xarray_obj (xarray.Dataset) : xarray Dataset to which we are assigning area_defs
-        sectorfiles (list) : list of sectorfiles
-        sectorlist (list) : list of sector names
-    Returns:
-        (list) : List of pyresample AreaDefinition objects
+    Filter based on requested sectors.
+
+    Parameters
+    ----------
+    xarray_obj : xarray.Dataset
+        xarray Dataset to which we are assigning area_defs
+    sectorfiles : list of str
+        list of paths to sectorfiles
+    sectorlist : list of str
+        list of sector names
+
+    Returns
+    -------
+    list of pyresample.AreaDefinition
+        List of pyresample AreaDefinition objects
     """
     area_defs = []
     if (
@@ -393,19 +438,28 @@ def get_tc_area_defs_for_xarray(
 ):
     """Get all TC area definitions for the current xarray object, and requested sectors.
 
-    Args:
-        xarray_obj (xarray.Dataset) : xarray Dataset to which we are assigning area_defs
-        tcdb_sectorlist (list) :
-            * DEFAULT None
-            * list of sector names to process, of format: tc2020io01amphan.
-            * If 'all' contained in list, process all matching TC sectors.
-        actual_datetime (datetime) : Default None, optional datetime to match for dynamic sectors
-        var_for_coverage (str) : Default None, optional variable to sector to check exact time
-        hours_before_sector_time (float) : Default 18, hours to look before sector time
-        hours_after_sector_time (float) : Default 6, hours to look after sector time
-        aid_type (str) : Default None, string to look for in "aid_type" TC deck file field for inclusion
-    Returns:
-        (list) : List of pyresample AreaDefinition objects
+    Parameters
+    ----------
+    xarray_obj : xarray.Dataset
+        xarray Dataset to which we are assigning area_defs
+    tcdb_sectorlist : list of str, default=None
+        * list of sector names to process, of format: tc2020io01amphan.
+        * If None, or 'all' contained in list, process all matching TC sectors.
+    actual_datetime : datetime.datetime, default=None
+        Optional datetime to match for dynamic sectors
+    var_for_coverage : str
+        Default None, optional variable to sector to check exact time
+    hours_before_sector_time : float, default=18
+        hours to look before sector time
+    hours_after_sector_time : float, default=6
+        hours to look after sector time
+    aid_type : str, default=None
+        string to look for in "aid_type" TC deck file field for inclusion
+
+    Returns
+    -------
+    list of pyresample AreaDefinition
+        List of pyresample AreaDefinition objects required for passed xarray
     """
     if (
         "area_definition" in xarray_obj.attrs.keys()
@@ -441,6 +495,7 @@ def get_tc_area_defs_for_xarray(
 
 
 def is_requested_aid_type(area_def, aid_type=None):
+    """Return True if passed area_def is of requested aid_type."""
     if (
         aid_type is not None
         and "aid_type" in area_def.sector_info
@@ -451,6 +506,11 @@ def is_requested_aid_type(area_def, aid_type=None):
 
 
 def storm_locations_match(area_def, other_area_def):
+    """Return True if passed pyresample AreaDefinitions are the same location.
+
+    Match if center lat, center lon, storm year, storm basin, and synoptic time
+    all match.
+    """
     if (
         area_def.sector_info["clat"] == other_area_def.sector_info["clat"]
         and area_def.sector_info["clon"] == other_area_def.sector_info["clon"]
@@ -466,6 +526,10 @@ def storm_locations_match(area_def, other_area_def):
 
 
 def remove_duplicate_storm_positions(area_defs, aid_type=None):
+    """Remove duplicate storm positions from passed list of area_defs.
+
+    Uses "is_requested_aid_type" and "storm_locations_match" utilities.
+    """
     ret_area_defs = []
     for area_def in area_defs:
         if not is_requested_aid_type(area_def, aid_type):
@@ -523,6 +587,7 @@ def remove_duplicate_storm_positions(area_defs, aid_type=None):
 
 
 def filter_area_defs_actual_time(area_defs, actual_datetime):
+    """Filter list of area_defs to only include the passed actual_datetime."""
     ret_area_def_ids = {}
     for area_def in area_defs:
         if area_def.area_id not in ret_area_def_ids:
@@ -587,16 +652,23 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
 
 
 def get_sectors_from_yamls(sectorfnames, sectornames):
-    """Get AreaDefinition objects with custom "sector_info" dictionary from YAML area definition
+    """Get AreaDefinition objects with custom "sector_info" dictionary.
 
-    Args:
-        sectorfnames (list) : list of string full paths to YAML area definition files
-        sectornames (list) : list of strings of desired sector names to retrieve from YAML files
+    Based on YAML area definition contained in "sectorfnames" files.
 
-    Returns:
-        (list) : List of pyresample AreaDefinition objects, with arbitrary additional YAML
-                    entries added as attributes to each area def (this is to allow specifying
-                    "sector_info" metadata dictionary within the YAML file)
+    Parameters
+    ----------
+    sectorfnames : list of str
+        list of string full paths to YAML area definition files
+    sectornames : list of str
+        list of strings of desired sector names to retrieve from YAML files
+
+    Returns
+    -------
+    list
+        List of pyresample AreaDefinition objects, with arbitrary additional YAML
+        entries added as attributes to each area def (this is to allow specifying
+        "sector_info" metadata dictionary within the YAML file)
     """
     from pyresample import load_area
     import yaml
@@ -622,13 +694,22 @@ def get_sectors_from_yamls(sectorfnames, sectornames):
 
 
 def create_areadefinition_from_yaml(yamlfile, sector):
-    """Take a YAML with misc metadata and create a pyresample areadefinition
-    Misc. metadata will be parsed from the YAML file and manually added to the areadefinition
-    Args:
-        yamlfile : string full path to YAML area definition file
-        sector : string name of sector
-    Returns:
-        (obj) : pyresample areadefinition object
+    """Take a YAML with misc metadata and create a pyresample areadefinition.
+
+    Misc. metadata will be parsed from the YAML file and manually added to the
+    areadefinition
+
+    Parameters
+    ----------
+    yamlfile : str
+        full path to YAML area definition file
+    sector : str
+        name of sector
+
+    Returns
+    -------
+    pyresample.AreaDefinition
+        pyresample AreaDefinition based on YAML specification.
     """
     import pyresample
     import yaml
@@ -662,14 +743,21 @@ def create_areadefinition_from_yaml(yamlfile, sector):
 
 
 def is_sector_type(area_def, sector_type_str):
-    """Determine if the type of area_def sector is as specified in passed sector_type_str.
-    Parameters:
-        area_def (AreaDefinition): pyresample AreaDefinition object specifying region of interest
-        sector_type_str (str) String specifying the type of sector, must match 'sector_type'
-                              attribute on AreaDefinition object
-                              currently one of 'tc', 'pyrocb', 'volcano', 'atmosriver' 'static'
-    Returns:
-        bool, True if area_def.sector_type == 'sector_type', False otherwise
+    """Determine if the type of area_def sector is as specified in passed sector_type.
+
+    Parameters
+    ----------
+    area_def : pyresample.AreaDefinition
+        pyresample AreaDefinition object specifying region of interest
+    sector_type_str : str
+        * String specifying the type of sector, must match 'sector_type'
+          attribute on AreaDefinition object
+        * currently one of 'tc', 'pyrocb', 'volcano', 'atmosriver' 'static'
+
+    Returns
+    -------
+    bool
+        True if area_def.sector_type == 'sector_type', False otherwise
     """
     if not area_def:
         LOG.info("area_def not defined, not of type %s", sector_type_str)
@@ -689,11 +777,18 @@ def is_sector_type(area_def, sector_type_str):
 
 
 def is_dynamic_sector(area_def):
-    """Determine if the AreaDefinition object is a dynamic region of interest
-    Parameters:
-        area_def (AreaDefinition): pyresample AreaDefinition object specifying region of interest
-    Returns:
-        bool, True if area_def.sector_start_datetime exists and is not None, False otherwise
+    """Determine if the AreaDefinition object is a dynamic region of interest.
+
+    Parameters
+    ----------
+    area_def : pyresample.AreaDefinition
+        pyresample AreaDefinition object specifying region of interest
+
+    Returns
+    -------
+    bool
+        * True if area_def.sector_start_datetime exists and is not None,
+        * False otherwise
     """
     if not area_def:
         return False

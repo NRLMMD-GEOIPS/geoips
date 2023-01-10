@@ -10,11 +10,10 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Data manipulation steps for "37pct" product.
+"""Data manipulation steps for "37pct" product.
 
-    This algorithm expects Brightness Temperatures in units of degrees Kelvin
+This algorithm expects Brightness Temperatures in units of degrees Kelvin
 """
-
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -31,20 +30,24 @@ def pmw_37pct(
     norm=False,
     inverse=False,
 ):
-    """Data manipulation steps for "37pct" product algorithm.
+    """37pct product algorithm data manipulation steps.
 
-    This algorithm expects Brightness Temperatures in units of degrees Kelvin, and returns degrees Kelvin
+    This algorithm expects Brightness Temperatures in units of degrees Kelvin,
+    and returns degrees Kelvin
 
-    Args:
-        data (list[numpy.ndarray]) :
-            * numpy.ndarray or numpy.MaskedArray of channel data, in order of sensor "channels" list
-            * Degrees Kelvin
+    Parameters
+    ----------
+    arrays : list of numpy.ndarray
+        * numpy.ndarray or numpy.MaskedArray of channel data, in order of sensor
+            "channels" list
+        * Degrees Kelvin
 
-    Returns:
-        numpy.ndarray : numpy.ndarray or numpy.MaskedArray of appropriately scaled channel data,
-                        in degrees Kelvin.
+    Returns
+    -------
+    numpy.ndarray
+        numpy.ndarray or numpy.MaskedArray of appropriately scaled channel data,
+        in degrees Kelvin.
     """
-
     h37 = arrays[0]
     v37 = arrays[1]
 

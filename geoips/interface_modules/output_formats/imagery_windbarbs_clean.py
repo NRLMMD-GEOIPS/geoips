@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-
+"""Matplotlib-based windbarb clean image output (no overlays or backgrounds)."""
 import logging
 
 from geoips.interface_modules.output_formats.imagery_windbarbs import (
@@ -36,7 +36,7 @@ def imagery_windbarbs_clean(
     main_ax=None,
     mapobj=None,
 ):
-
+    """Plot clean windbarb imagery on matplotlib figure."""
     formatted_data_dict = format_windbarb_data(xarray_obj, product_name)
 
     success_outputs = output_clean_windbarbs(

@@ -10,24 +10,25 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""MODIS HDF4 reader.
+
+This reader is designed for geoips for importing MODIS data files in hdf4 format
+Example files are::
+
+    AQUA:      MYD files
+         MYD021KM.A2021004.2005.061.NRT.hdf
+         MYD03.A2021004.2005.061.NRT.hdf
+         MYD14.A2021004.2005.006.NRT.hdf
+    Terra:     MOD files
+         MOD021KM.A2021004.2005.061.NRT.hdf
+         MOD02HKM.A2021004.2005.061.NRT.hdf
+         MOD02QKM.A2021004.2005.061.NRT.hdf
+         MOD03.A2021004.2005.061.NRT.hdf
+         MOD14.A2021004.2005.006.NRT.hdf
+
+The MOD03 and MOD14 files have the geolocation (lat/lon) and sensor geoometry
+infomation, while other files have values at each channels.
 """
-This reader is designed for geoips for importing MODIS data files in hdf4 format.  Example files are:
-AQUA:      MYD files
-     MYD021KM.A2021004.2005.061.NRT.hdf
-     MYD03.A2021004.2005.061.NRT.hdf
-     MYD14.A2021004.2005.006.NRT.hdf
-Terra:     MOD files
-     MOD021KM.A2021004.2005.061.NRT.hdf
-     MOD02HKM.A2021004.2005.061.NRT.hdf
-     MOD02QKM.A2021004.2005.061.NRT.hdf
-     MOD03.A2021004.2005.061.NRT.hdf
-     MOD14.A2021004.2005.006.NRT.hdf
-
-The MOD03 and MOD14 files have the geolocation (lat/lon) and sensor geoometry infomation, while other files 
-    have values at each channels.
-
-"""
-
 # Python Standard Libraries
 from datetime import datetime
 from os.path import basename
@@ -71,6 +72,7 @@ reader_type = "standard"
 
 
 def parse_metadata(metadatadict):
+    """Parse MODIS metadata dictionary."""
     metadata = {}
     for ii in metadatadict.keys():
         # metadata passed by reference - add to it in subroutines.
@@ -86,10 +88,12 @@ def parse_metadata(metadatadict):
 
 
 def parse_struct_metadata(metadata, metadatastr):
+    """Parse metadata struct."""
     pass
 
 
 def parse_core_metadata(metadata, metadatastr):
+    """Parse core metadata."""
     ii = 0
     lines = metadatastr.split("\n")
     # The HDF4 structure is stored as a big text string in
@@ -134,6 +138,7 @@ def parse_core_metadata(metadata, metadatastr):
 
 
 def parse_archive_metadata(metadata, metadatastr):
+    """Parse archive metadata."""
     lines = metadatastr.split("\n")
     ii = 0
 
@@ -156,6 +161,7 @@ def parse_archive_metadata(metadata, metadatastr):
 
 
 def add_to_xarray(varname, nparr, xobj, cumulative_mask, data_type):
+    """Add variable to xarray Dataset."""
     # cumulative_mask is not the best name for this variable.  It is used for mask info of field 'varname'
     # so that is not actually a comulative mask.  It should be a mask for each variable.
     LOG.info("ADDING %s to xobj", varname)
@@ -183,35 +189,40 @@ def add_to_xarray(varname, nparr, xobj, cumulative_mask, data_type):
 def modis_hdf4(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
+    """Read MODIS Aqua and Terra hdf data files.
 
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-             Read the MODIS Aqua and Terra hdf data files
-
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
-
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required Variables and Attributes:
-            * See geoips/docs :doc:`xarray_standards`
-    """
-
     dataset_info = {
         "1KM": [
             "chan20.0Rad",  # emissive 3.750 sfc/cld temp
@@ -694,7 +705,8 @@ def modis_hdf4(
                         )
                         data2 = h * c / (bc * cor[0] * 1.0e-6) / data1
                         # masked_data = ((data2-cor[2])/cor[1]) - 273.15
-                        # By default, GeoIPS readers should store BT data internally in Kelvin.
+                        # By default, GeoIPS readers should store BT data internally in
+                        # Kelvin.
                         masked_data = (data2 - cor[2]) / cor[1]
 
                         LOG.info(

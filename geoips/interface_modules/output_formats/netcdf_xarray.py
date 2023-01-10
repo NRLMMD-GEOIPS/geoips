@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Standard xarray-based NetCDF output format."""
 import os
 import logging
 
@@ -19,16 +20,17 @@ output_type = "xarray_data"
 
 
 def netcdf_xarray(xarray_obj, product_names, output_fnames):
-
+    """Write xarray-based NetCDF outputs to disk."""
     for ncdf_fname in output_fnames:
         write_xarray_netcdf(xarray_obj, ncdf_fname)
     return output_fnames
 
 
 def write_xarray_netcdf(xarray_obj, ncdf_fname, clobber=False):
-    """Write out xarray_obj to netcdf file named ncdf_fname"""
+    """Write out xarray_obj to netcdf file named ncdf_fname."""
 
     def check_attr(xobj, attr):
+        """Check xarray attributes."""
         if isinstance(xobj.attrs[attr], datetime):
             xobj.attrs[attr] = xobj.attrs[attr].strftime("%c")
         if xobj.attrs[attr] is None:
@@ -86,7 +88,8 @@ def write_xarray_netcdf(xarray_obj, ncdf_fname, clobber=False):
         xarray_obj.attrs["area_def_str"] = area_def_str
     # If actual area_definition object, write it out to xarray as str
     elif "area_definition" in xarray_obj.attrs.keys():
-        # If area_definition_str was explicitly defined on the area_definition object, use that
+        # If area_definition_str was explicitly defined on the area_definition
+        # object, use that
         if hasattr(xarray_obj.area_definition, "area_definition_str"):
             # Must pop off the actual area_defintion - does not write to xarray properly
             area_def_str = xarray_obj.area_definition.area_definition_str

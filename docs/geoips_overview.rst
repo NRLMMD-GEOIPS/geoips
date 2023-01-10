@@ -95,7 +95,7 @@ GeoIPS Plugin Interface
 A primary goal of GeoIPS is to provide seamless integration of external functionality,
 with no reference to proprietary algorithms and readers from the base open source geoips code base.
 
-Example external plugin functionality: 
+Example external plugin functionality:
 
 .. image:: images/geoips_overview/Example_DEBRA_Processing_Workflow.png
    :width: 800
@@ -114,7 +114,7 @@ The current division of dev and stable packages are as follows:
         * **filename** - output filename specifications
         * **output** - output data/imagery format
         * **procflow** - processing workflow to follow
-        * **product** - overall product specification, including the following sub-modules: 
+        * **product** - overall product specification, including the following sub-modules:
             * **interp** - interpolation routines
             * **cmap** - colormap to apply to final product
             * **alg** - algorithm specifications
@@ -122,7 +122,7 @@ The current division of dev and stable packages are as follows:
             * **gridlines** - gridline specifications for cartopy/matplotlib plotting
 
 Each interface has a standard set of commands for interrogating the available functionality.
-These standard commands are used within the processing workflows in order to abstract access 
+These standard commands are used within the processing workflows in order to abstract access
 to these modules.
     * get_<interface>               (ie, get_reader)
     * get_<interface>_type          (ie, get_reader_type)
@@ -134,7 +134,7 @@ to these modules.
 .. code-block:: python
 
     In [1]: import geoips.stable.reader as reader
-    
+
     In [2]: reader.list_readers_by_type()
     Out[2]:
     defaultdict(list,
@@ -165,7 +165,7 @@ to these modules.
                   'wfabba_ascii',
                   'windsat_idr37_binary',
                   'windsat_remss_winds_netcdf']})
- 
+
     In [3]: reader.get_reader('abi_netcdf')
     Out[3]: <function geoips.interface_modules.readers.abi_netcdf.abi_netcdf(fnames, metadata_only=False, chans=None, area_def=None, self_register=False)>
 
@@ -210,4 +210,3 @@ the geoips namespace from within a package's setup.py (pseudo-code for external 
               ],
           }
       )
-

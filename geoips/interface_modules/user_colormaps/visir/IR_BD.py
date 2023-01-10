@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Module containing user-specified IR-BD algorithm colormap """
+"""Module containing user-specified IR-BD algorithm colormap."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -21,14 +21,20 @@ cmap_type = "linear_segmented"
 def IR_BD(data_range=[-90.0, 40.0]):
     """Colormap for displaying algorithms/visir/IR_BD.py processed data.
 
-    Args:
-        data_range (list[float]): Min and max value for colormap.
-                                  Ensure the data range matches the range of the algorithm specified for use with this colormap
-                                  The IR_BD colormap MUST include -90 and 40
-    Returns:
-        dictionary : Dictionary of matplotlib plotting parameters, to ensure consistent image output
-    """
+    Parameters
+    ----------
+    data_range : list of float, default=[-90, 40]
+        * Min and max value for colormap.
+        * Ensure the data range matches the range of the algorithm specified for
+          use with this colormap
+        * This colormap MUST include -90 and 40
 
+    Returns
+    -------
+    mpl_colors_info : dict
+        Dictionary of matplotlib plotting parameters, to ensure consistent
+        image output
+    """
     # for Infrared-Dvorak images at 11 um.  Unit: Celsius
     #     This special black-white color scheme is designed for TC intensity analysis
     min_tb = int(data_range[0])

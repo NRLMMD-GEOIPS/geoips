@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Read derived surface winds from SAR, SMAP, SMOS, and AMSR netcdf data."""
+"""Read derived surface winds from KNMI scatterometer netcdf data."""
 import logging
 from os.path import basename
 
@@ -23,9 +23,13 @@ reader_type = "standard"
 
 
 def read_knmi_data(wind_xarray):
-    """Reformat ascat xarray object appropriately
-    variables: latitude, longitude, timestamp, wind_speed_kts, wind_dir_deg_met
-    attributes: source_name, platform_name, data_provider, interpolation_radius_of_influence"""
+    """Reformat ascat xarray object appropriately.
+
+    * variables: latitude, longitude, timestamp,
+      wind_speed_kts, wind_dir_deg_met
+    * attributes: source_name, platform_name, data_provider,
+      interpolation_radius_of_influence
+    """
     wind_xarray.attrs["data_provider"] = "knmi"
     # Setting standard geoips attributes
     LOG.info("Reading %s data", wind_xarray.source)
@@ -104,34 +108,42 @@ def read_knmi_data(wind_xarray):
 def scat_knmi_winds_netcdf(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
-    """Read one of SAR, SMAP, SMOS, AMSR derived winds from netcdf data.
+    """Read KNMI scatterometer derived winds from netcdf data.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * NOT YET IMPLEMENTED
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-
     from geoips.xarray_utils.timestamp import (
         get_min_from_xarray_timestamp,
         get_max_from_xarray_timestamp,

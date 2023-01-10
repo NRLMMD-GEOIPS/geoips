@@ -10,86 +10,104 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" This code is designed to read windsat sdr binary data (idr37) file for windsat 37 GHz products in GEOIPS environments.
-      the input file name is something alike US058SORB-BINspp.wndmi_fws_d20191126_s134102_e153244_r87467_cfnmoc.idr37.
+"""Windsat binary data reader.
 
- V1.0: initial version.  Song Yang, NRL-MRY, 01/08/2020
+This code is designed to read windsat sdr binary data (idr37) file for windsat
+37 GHz products in GEOIPS environments. the input file name is something alike
+US058SORB-BINspp.wndmi_fws_d20191126_s134102_e153244_r87467_cfnmoc.idr37.
 
- -------------------------------------------------------------------------------------------------------------------
- errflag is the important parameter of the windsat edr dataset.  It is a 32-bit integer which describes what is the
-   current data point status.  Here are the meaning of each bit:
-   0-7: Wilheit rain flag
-     8: forward/aft scan (bit set to 1 for forward part of scan, 0 for aft scan )
-     9: ascending/descending pass flag (1 for ascending, 0 for descending)
-    10: Warm load flag
-    11: Warm load gains applied (1 = gains applied, 0 = gains not applied)
-    12: Glare angle invalid because no 1 vector or LOS doesn't pierce earth
-    13-18: Glare angle (0 to 30 represents angles of 0 to 60 degree in increments of 2 deg;
-           31 represents angles .gt. 60 deg; 32 represents invalid glare angle)
-    19: Cold load flag. If set to 1 the VH channel data had to be corrected due to interference
-           in the cold load signal, such as the moon or a geostationary satellite.
-    20: Gain Saturation flag. Set to 1 when strong RFI causes the gain to change. This is set
-           if any TDR saturation flag is set at this frequency
-    23: used to hold the rfi flag so that it may be passed on to other structures such as the resampling and
-           intermediate
-           structures. Finally RFI is placed in the sdr structure.
-    other bits are spare
+V1.0: initial version.  Song Yang, NRL-MRY, 01/08/2020
 
-  Here is the original sdr record in Fortran:
-     type IDRRecord_short
-        real(double) :: JD2000           8 bytes
-        real, dimension(4)::  stokes     16 bytes
-        real :: latitude                 4 bytes
-        real :: longitude                4 bytes
-        real :: EIA                      4 bytes: earth incidence angle, the angle on the ground between vertical and
-                                                  the satellite look vector
-        real :: PRA                      4 bytes: rotation of the polarization plane from true
-        real :: CAA                      4 bytes: compass azimuth angle on the ground
-        real :: tI45, tIcp, pra45        12 bytes
-        integer :: errflag               4 bytes (32-bits integer):a set of bit flags for data quality and conditions
-                                                 (above explanation)
-        integer :: Scan                  4 bytes: scan line number in the orbit. WindSat scans every 1.9 seconds
-        integer(int16) :: dcnum          2 bytes: pixel number along the scan, called 'downcount number',
-                                                  because the highest pixel number is measured first.
-        integer(int16) :: SurfaceType    2 bytes: legacy SSMI surface type
-        integer(int16) :: scanAngle      2 bytes: angle on the ground between the flight direction and the look
-                                                  direction
-        integer(int8) :: water2land ! copied from IDRL record   1 byte:
-        integer(int8) :: land2water ! copied from IDRL record   1 byte:
-     end type IDRRecord_short
+errflag is the important parameter of the windsat edr dataset.  It is a 32-bit
+integer which describes what is the current data point status.  Here are the
+meaning of each bit::
 
- Gain saturation is when a sudden, large signal causes the gain to change quickly and make averaged gain unreliable.
- Forward/Aft is for sensor view position
- The warm load flag indicates that calibration may be unreliable due to solar intrusion into the warm load.
- Cold load flags do not mean calibration is unreliable. It's a way for us to check the cold load correction algorithm.
- Sun glare is not something to worry about.
- The RFI flag is never set at 37 GHz.
- tI45, tIcp, pra45, scanAngleI, water2land, and land2water aren't commanly used. The first four are for
-       recreating the 6-element pre-Stokes polarization vector, and the last two measure coastal contamination
+    0-7: Wilheit rain flag
+      8: forward/aft scan (bit set to 1 for forward part of scan, 0 for aft scan )
+      9: ascending/descending pass flag (1 for ascending, 0 for descending)
+     10: Warm load flag
+     11: Warm load gains applied (1 = gains applied, 0 = gains not applied)
+     12: Glare angle invalid because no 1 vector or LOS doesn't pierce earth
+     13-18: Glare angle (0 to 30 represents angles of 0 to 60 degree in increments
+            of 2 deg; 31 represents angles .gt. 60 deg; 32 represents invalid
+            glare angle)
+     19: Cold load flag. If set to 1 the VH channel data had to be corrected due
+         to interference in the cold load signal, such as the moon or a
+         geostationary satellite.
+     20: Gain Saturation flag. Set to 1 when strong RFI causes the gain to change.
+         This is set if any TDR saturation flag is set at this frequency
+     23: used to hold the rfi flag so that it may be passed on to other structures
+         such as the resampling and intermediate structures. Finally RFI is placed
+         in the sdr structure.
+     other bits are spare
 
- The actual idr37 data record (idr_record) in C:
- typedef struct {
-    double jd2000;
-    float stokes[4];
-    float plat;     lat of earth observation
-    float plon;     lon of earth observation
-    float eia;      radiance= ~53deg
-    float pra;
-    float caa;
-    float slat;       latitude of satellite position?  not (need to check with YiPing?)
-    float slon;       longitude of satellite position? not
-    float salt;       altitude of satellite (meter? km?) not
-    int errflag;
-    int scan;
-    short dcnum;
-    short surf;
-    float spare;
- idr_record;
+Here is the original sdr record in Fortran::
 
- Its total length of idr_record is 72 bytes
--------------------------------------------------------------------------------------------------------------------
+    type IDRRecord_short
+       real(double) :: JD2000           8 bytes
+       real, dimension(4)::  stokes     16 bytes
+       real :: latitude                 4 bytes
+       real :: longitude                4 bytes
+       real :: EIA                      4 bytes: earth incidence angle, the angle
+                                                 on the ground between vertical and
+                                                 the satellite look vector
+       real :: PRA                      4 bytes: rotation of the polarization plane
+                                                 from true
+       real :: CAA                      4 bytes: compass azimuth angle on the ground
+       real :: tI45, tIcp, pra45        12 bytes
+       integer :: errflag               4 bytes (32-bits integer):a set of bit
+                                                flags for data quality and
+                                                conditions (above explanation)
+       integer :: Scan                  4 bytes: scan line number in the orbit.
+                                                 WindSat scans every 1.9 seconds
+       integer(int16) :: dcnum          2 bytes: pixel number along the scan,
+                                                 called 'downcount number',
+                                                 because the highest pixel number
+                                                 is measured first.
+       integer(int16) :: SurfaceType    2 bytes: legacy SSMI surface type
+       integer(int16) :: scanAngle      2 bytes: angle on the ground between the
+                                                 flight direction and the look
+                                                 direction
+       integer(int8) :: water2land ! copied from IDRL record   1 byte:
+       integer(int8) :: land2water ! copied from IDRL record   1 byte:
+    end type IDRRecord_short
+
+* Gain saturation is when a sudden, large signal causes the gain to change
+  quickly and make averaged gain unreliable.
+* Forward/Aft is for sensor view position
+* The warm load flag indicates that calibration may be unreliable due to solar
+  intrusion into the warm load.
+* Cold load flags do not mean calibration is unreliable. It's a way for us to
+  check the cold load correction algorithm.
+* Sun glare is not something to worry about.
+* The RFI flag is never set at 37 GHz.
+* tI45, tIcp, pra45, scanAngleI, water2land, and land2water aren't commanly used.
+
+   * The first four are for recreating the 6-element pre-Stokes polarization
+     vector, and the last two measure coastal contamination
+
+The actual idr37 data record (idr_record) in C::
+
+    typedef struct {
+       double jd2000;
+       float stokes[4];
+       float plat;     lat of earth observation
+       float plon;     lon of earth observation
+       float eia;      radiance= ~53deg
+       float pra;
+       float caa;
+       float slat;  latitude of satellite position?  not
+       float slon;  longitude of satellite position? not
+       float salt;  altitude of satellite (meter? km?) not
+       int errflag;
+       int scan;
+       short dcnum;
+       short surf;
+       float spare;
+    idr_record;
+
+    Its total length of idr_record is 72 bytes
 """
-
 # Python Standard Libraries
 import logging
 import os
@@ -136,30 +154,38 @@ def windsat_idr37_binary(
 ):
     """Read Windsat binary data products.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
     # get data time info from input fname
     fname = fnames[0]
@@ -177,7 +203,8 @@ def windsat_idr37_binary(
     time_e_month = int(time_s_month)
     time_e_day = int(time_s_day)
 
-    # if time_e_hhmm is less than time_s_hhmm, the data crossed the day bounday and entered the next day
+    # if time_e_hhmm is less than time_s_hhmm, the data crossed the day
+    # bounday and entered the next day
 
     if (int(time_s_year) % 400 == 0) or (
         (int(time_s_year) % 4 == 0) and (int(time_s_year) % 100 != 0)
@@ -239,7 +266,8 @@ def windsat_idr37_binary(
     xarray_obj.attrs["sample_distance_km"] = 2
     xarray_obj.attrs["data_provider"] = "NRL-NOAA"
 
-    # Passing chans == [] indicates we do not want ANY data, only metadata, so return once metadata is set.
+    # Passing chans == [] indicates we do not want ANY data, only metadata, so
+    # return once metadata is set.
     if metadata_only:
         return {"METADATA": xarray_obj}
 
@@ -358,7 +386,8 @@ def windsat_idr37_binary(
                 0
             ]  # spare var for space holder
 
-            # decode errflag to assign value to approperated variables, i.e., forward/aft mode, ascending/descending etc
+            # decode errflag to assign value to approperated variables, i.e.,
+            # forward/aft mode, ascending/descending etc
             fore_aft_scan = (
                 errflag >> 8 & 1
             )  # =1, foreward scan; =0, aft scan (foreward scan used for image)

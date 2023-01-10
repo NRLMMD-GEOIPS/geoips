@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Clean TC filename production"""
-
+"""Clean TC filename production (no backgrounds or overlays)."""
 from geoips.filenames.base_paths import PATHS as gpaths
 
 filename_type = "standard"
@@ -30,24 +29,41 @@ def tc_clean_fname(
     basedir=gpaths["TCWWW"],
     output_dict=None,
 ):
-    """Standard type filename module to produce output filenames for "clean" TC products (no gridlines, titles, etc)
-    This ensures output ends up in "png_clean" directory, with "-clean" appended to the extra field, to
-    avoid conflict with tc_fname based annotated imagery.  Uses "tc_fname" module as a base.
+    """Clean TC product filename formatter (no gridlines, titles, etc).
 
-    Args:
-        area_def (pyresample AreaDefinition) : Contains metadata regarding sector
-        xarray_obj (xarray Dataset) : Contains metadata regarding dataset
-        product_name (str) : String product_name specification for use in filename
-        coverage (float) : Percent coverage, for use in filename
-        output_type (str) : DEFAULT png. Requested output format, ie png, jpg, tif, etc.
-        output_type_dir (str) : DEFAULT None. Directory name for given output type (ie png_clean, png, etc)
-        product_dir (str) : DEFAULT None. Directory name for given product, defaults to product_name if not specified.
-        product_subdir (str) : DEFAULT None. Subdir name for given product, if any.
-        source_dir (str) : DEFAULT None. Directory name for given source, xarray_obj.source_name if not specified.
-        basedir (str) : DEFAULT $TCWWW. Base directory.
-    Returns:
-        (str) : Full path to output "clean" filename - with "-clean" appended to extra field,
-                and "_clean" appended to output_type_dir.
+    This ensures output ends up in "png_clean" directory, with "-clean"
+    appended to the extra field, to avoid conflict with tc_fname based
+    annotated imagery.  Uses "tc_fname" module as a base.
+
+    Parameters
+    ----------
+    area_def : pyresample AreaDefinition
+        Contains metadata regarding sector
+    xarray_obj : xarray Dataset
+        Contains metadata regarding dataset
+    product_name : str
+        String product_name specification for use in filename
+    coverage : float
+        Percent coverage, for use in filename
+    output_type : str, optional
+        Requested output format, ie png, jpg, tif, etc, defaults to None.
+    output_type_dir : str, optional
+        Directory name for given output type (ie png_clean, png, etc), defaults
+        to None.
+    product_dir : str, optional
+        Directory name for given product, defaults to None.
+    product_subdir : str, optional
+        Subdir name for given product, if any, defaults to None.
+    source_dir : str, optional
+        Directory name for given source, defaults to None.
+    basedir : str, optional
+        Base directory, defaults to $TCWWW.
+
+    Returns
+    -------
+    str
+        Full path to output "clean" filename - with "-clean" appended to
+        extra field, and "_clean" appended to output_type_dir.
     """
     from geoips.interfaces import filename_formatters
 

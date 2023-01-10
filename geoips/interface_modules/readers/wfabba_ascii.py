@@ -10,10 +10,10 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" WFABBA ascii data reader
-    WFABBA is a geostationary fire product produced by SSEC
-"""
+"""WFABBA ascii data reader.
 
+WFABBA is a geostationary fire product produced by SSEC
+"""
 # Python Standard Libraries
 import logging
 from os.path import basename
@@ -27,6 +27,7 @@ reader_type = "standard"
 
 
 def parse_header_line(line):
+    """Parse header line."""
     # Remove white space and '###' from header line
     line = line.replace("### ", "").strip()
     line = line.replace("   ", "")
@@ -66,6 +67,7 @@ def parse_header_line(line):
 
 
 def read_wfabba_header(wfabba_file):
+    """Read WFABBA header."""
     with open(wfabba_file, "r") as f:
         is_header = True
         header_length = 0
@@ -86,6 +88,7 @@ def read_wfabba_header(wfabba_file):
 
 
 def read_wfabba_text(wfabba_file):
+    """Read WFABBA text from file wfabba_file into xarray Dataset."""
     xobj = xarray.Dataset()
     header_meta = read_wfabba_header(wfabba_file)
     text = np.genfromtxt(
@@ -122,29 +125,41 @@ def wfabba_ascii(
 ):
     """Read WFABBA ascii data from a list of filenames.
 
-    WFABBA  ascii files contain list of fire detects with their latitude, longitude, and scan location
+    WFABBA  ascii files contain list of fire detects with their latitude,
+    longitude, and scan location
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * DEFAULT None (include all channels)
-            * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * DEFAULT None (read full disk)
-            * Specify region to read from ABI data
-        self_register (Optional[str]):
-            * DEFAULT False (read multiple resolutions of data)
-            * *MED, HIGH, LOW*: register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
     xarray_objs = []
     metadata = read_wfabba_header(fnames[0])

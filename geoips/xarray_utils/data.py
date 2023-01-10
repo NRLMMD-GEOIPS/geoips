@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" utilities for manipulating xarray Datasets or DataArrays """
+"""Utilities for manipulating xarray Datasets and DataArrays."""
 
 # Python Standard Libraries
 import logging
@@ -19,20 +19,36 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-# scipy.interpolate.griddata requires at least 4 points. Don't bother plotting if fewer than 4.
+# scipy.interpolate.griddata requires at least 4 points. Don't bother
+# plotting if fewer than 4.
 MIN_POINTS = 4
 
 
 def get_lat_lon_points(checklat, checklon, diff, sect_xarray, varname, drop=False):
-    """Utility for pulling the data values a given distance around a specified lat/lon location, from numpy arrays.
-    Parameters:
-        checklat (float): latitude of interest
-        checklon (float): longitude of interest
-        diff (float): check +- diff of latitude and longitude
-        sect_xarray (Dataset) : xarray dataset containing 'latitude' 'longitude' and varname variables
-        varname (str) : variable name of data array to use for returning data values
-    Returns:
-        (float, float, int) : min value in range, max value in range, and number of points in range
+    """Pull values from xarray Datasets in specified geographic location.
+
+    Return points a given distance around a specified lat/lon location,
+    from xarray Datasets.
+
+    Parameters
+    ----------
+    checklat : float
+        latitude of interest
+    checklon : float
+        longitude of interest
+    diff : float
+        check +- diff of latitude and longitude
+    sect_xarray : Dataset
+        xarray dataset containing 'latitude' 'longitude' and varname variables
+    varname : str
+        variable name of data array to use for returning data values
+
+    Returns
+    -------
+    float, float, int
+        * min value in range
+        * max value in range
+        * and number of points in range
     """
     xinds = (
         (sect_xarray["longitude"] > checklon - diff)
@@ -56,18 +72,33 @@ def get_lat_lon_points(checklat, checklon, diff, sect_xarray, varname, drop=Fals
 def get_lat_lon_points_numpy(
     checklat, checklon, diff, lat_array, lon_array, data_array
 ):
-    """Utility for pulling the data values a given distance around a specified lat/lon location, from numpy arrays.
-    Parameters:
-        checklat (float): latitude of interest
-        checklon (float): longitude of interest
-        diff (float): check +- diff of latitude and longitude
-        lat_array (ndarray) : numpy ndarray of latitude locations - same shape as lon_array and data_array
-        lon_array (ndarray) : numpy ndarray of longitude locations - same shape as lat_array and data_array
-        data_array (ndarray) : numpy ndarray data values - same shape as lat_array and lon_array
-    Returns:
-        (float, float, int) : min value in range, max value in range, and number of points in range
-    """
+    """Pull values from numpy arrays in specified geographic location.
 
+    Return points a given distance around a specified lat/lon location,
+    from numpy arrays.
+
+    Parameters
+    ----------
+    checklat : float
+        latitude of interest
+    checklon : float
+        longitude of interest
+    diff : float
+        check +- diff of latitude and longitude
+    lat_array : ndarray
+        numpy ndarray of latitude locations - same shape as lon_array and data_array
+    lon_array : ndarray
+        numpy ndarray of longitude locations - same shape as lat_array and data_array
+    data_array : ndarray
+        numpy ndarray data values - same shape as lat_array and lon_array
+
+    Returns
+    -------
+    float, float, int
+        * min value in range
+        * max value in range
+        * and number of points in range
+    """
     import numpy
 
     inds = numpy.logical_and(
@@ -85,16 +116,28 @@ def sector_xarray_temporal(
     full_xarray, mindt, maxdt, varnames, verbose=False, drop=False
 ):
     """Sector an xarray object temporally.  If full_xarray is None, return None.
-    Parameters:
-        full_xarray (xarray.Dataset): xarray object to sector temporally
-        mindt (datetime.datetime): minimum datetime of desired data
-        maxdt (datetime.datetime): maximum datetime of desired data
-        varnames (list of str): list of variable names that should be sectored based on 'timestamp', mindt, maxdt
-    Returns:
-        None: if full_xarray is None, return None
-        full full_xarray: return full original xarray object if 'timestamp' is not included in varnames list
-        time_xarray: return sectored xarray object with only the desired times, specified by mindt and maxdt"""
 
+    Parameters
+    ----------
+    full_xarray : xarray.Dataset
+        xarray object to sector temporally
+    mindt : datetime.datetime
+        minimum datetime of desired data
+    maxdt : datetime.datetime
+        maximum datetime of desired data
+    varnames : list of str
+        list of variable names that should be sectored based on 'timestamp',
+        mindt, maxdt
+
+    Returns
+    -------
+    xarray Dataset, or None
+        * if full_xarray is None, return None
+        * return full original xarray object if 'timestamp' is not included in
+          varnames list
+        * else, return sectored xarray object with only the desired times,
+          specified by mindt and maxdt
+    """
     import numpy
 
     if full_xarray is None:
@@ -197,15 +240,24 @@ def sector_xarray_spatial(
     drop=False,
 ):
     """Sector an xarray object spatially.  If full_xarray is None, return None.
-    Parameters:
-        full_xarray (xarray.Dataset): xarray object to sector spatially
-        extent_lonlat (list of float): Area to sector: [MINLON, MINLAT, MAXLON, MAXLAT]
-        varnames (list of str): list of variable names that should be sectored based on 'timestamp'
-        drop (bool): Specify whether to remove points with no coverage (rather than masking)
-    Returns:
-        None: if full_xarray is None, return None
-        time_xarray: return"""
 
+    Parameters
+    ----------
+    full_xarray : xarray.Dataset
+        xarray object to sector spatially
+    extent_lonlat : list of float
+        Area to sector: [MINLON, MINLAT, MAXLON, MAXLAT]
+    varnames : list of str
+        list of variable names that should be sectored based on 'timestamp'
+    drop : bool
+        Specify whether to remove points with no coverage (rather than masking)
+
+    Returns
+    -------
+    xarray.Dataset
+        * if full_xarray is None, return None,
+        * else return resulting xarray Dataset.
+    """
     if full_xarray is None:
         if verbose:
             LOG.info(
@@ -271,7 +323,8 @@ def sector_xarray_spatial(
             lats.max().data,
             lats.size,
         )
-        # lons.min().data, lons.max().data, lats.min().data, lats.max().data, good_speeds)
+        # lons.min().data, lons.max().data, lats.min().data, lats.max().data,
+        # good_speeds)
 
     xarray_sector_mask = (
         (lons > min_lon) & (lons < max_lon) & (lats > min_lat) & (lats < max_lat)
@@ -341,7 +394,8 @@ def sector_xarray_spatial(
         max_lat,
         sector_xarray["latitude"].size,
     )
-    # extent_lonlat[0], extent_lonlat[2], extent_lonlat[1], extent_lonlat[3], final_good_points)
+    # extent_lonlat[0], extent_lonlat[2], extent_lonlat[1], extent_lonlat[3],
+    # final_good_points)
     return sector_xarray
 
 
@@ -356,7 +410,7 @@ def sector_xarray_dataset(
     hours_after_sector_time=6,
     drop=False,
 ):
-    """Use the xarray to appropriately sector out data by lat/lon and time"""
+    """Use the xarray to appropriately sector out data by lat/lon and time."""
     from datetime import timedelta
 
     LOG.debug(
@@ -371,7 +425,8 @@ def sector_xarray_dataset(
             hasattr(area_def, "sector_start_datetime")
             and area_def.sector_start_datetime
         ):
-            # If it is a dynamic sector, sector temporally to make sure we use the appropriate data
+            # If it is a dynamic sector, sector temporally to make sure we use the
+            # appropriate data
             mindt = area_def.sector_start_datetime - timedelta(
                 hours=hours_before_sector_time
             )
@@ -382,7 +437,8 @@ def sector_xarray_dataset(
                 full_xarray, mindt, maxdt, varnames, verbose=verbose
             )
         else:
-            # If it is not a dynamic sector, just return all of the data, because all we care about is spatial coverage.
+            # If it is not a dynamic sector, just return all of the data, because all
+            # we care about is spatial coverage.
             time_xarray = full_xarray.copy()
 
         extent_lonlat = list(area_def.area_extent_ll)
@@ -434,7 +490,7 @@ def sector_xarray_dataset(
 
 
 def get_vis_ir_bg(sect_xarray):
-    """Find matching vis/ir background for data in sect_xarray"""
+    """Find matching vis/ir background for data in sect_xarray."""
     from geoips.data_manipulations.merge import get_matching_files
     from geoips.filenames.base_paths import PATHS as gpaths
     import xarray
@@ -496,7 +552,7 @@ def sector_xarrays(
     lon_pad=3,
     lat_pad=0,
 ):
-    """Return list of sectored xarray objects"""
+    """Return list of sectored xarray objects."""
     import numpy
 
     ret_xobjs = {}
@@ -535,7 +591,8 @@ def sector_xarrays(
         vars_to_sect = []
         vars_to_sect += vars_to_interp
         # we have to have 'latitude','longitude" in the full_xarray, and 'timestamp' if we want temporal sectoring
-        # Note if lat/lon/time are included as coordinates, they will NOT show up in data_vars, so must use variables
+        # Note if lat/lon/time are included as coordinates, they will NOT show up
+        # in data_vars, so must use variables
         if "latitude" in list(xobj.variables.keys()):
             vars_to_sect += ["latitude"]
         if "longitude" in list(xobj.variables.keys()):
@@ -564,7 +621,8 @@ def sector_xarrays(
                 LOG.info("  No coverage - skipping dataset %s", key)
             continue
 
-        # check for any obs  near TC center (with a box of 8deg X 8deg), i.e., within a  range of 400km)
+        # check for any obs  near TC center (with a box of 8deg X 8deg), i.e.,
+        # within a  range of 400km)
         from geoips.sector_utils.utils import is_sector_type
 
         if is_sector_type(area_def, "tc") and check_center:
@@ -586,7 +644,8 @@ def sector_xarrays(
                 )
                 continue
 
-            # If the time within the box is > 50 min, we have two overpasses. ALL PMW sensors are polar orbiters.
+            # If the time within the box is > 50 min, we have two overpasses. ALL PMW
+            # sensors are polar orbiters.
             if (covg_xarray.end_datetime - covg_xarray.start_datetime).seconds > 3000:
                 LOG.info(
                     "Original sectored xarray contains more than one overpass - switching to start/datetime in center"
@@ -607,7 +666,8 @@ def sector_xarrays(
             sect_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
                 sect_xarray, "timestamp"
             )
-            # Note:  need to test whether above two lines can reselect min and max time_info for this sector
+            # Note:  need to test whether above two lines can reselect min and max
+            # time_info for this sector
 
         LOG.debug(
             "  Sectored data start/end datetime: %s %s, %s points from var %s, all vars %s",
@@ -628,7 +688,10 @@ def sector_xarrays(
 def get_sectored_xarrays(
     xobjs, area_def, varlist, get_bg_xarrays=False, check_center=True, drop=False
 ):
-    """Get all xarray objects sectored to area_def, including PMW and VIS/IR overlays"""
+    """Get all xarray objects sectored to area_def.
+
+    Return primary dataset, as well as VIS/IR overlay datasets.
+    """
     # All datasets will be of the same data type
     sect_xarrays = sector_xarrays(
         xobjs, area_def, varlist, check_center=check_center, drop=drop

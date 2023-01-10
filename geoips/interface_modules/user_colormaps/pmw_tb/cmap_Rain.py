@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Module containing colormap for Rain Rate products"""
+"""Module containing colormap for Rain Rate products."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -21,14 +21,20 @@ cmap_type = "linear_segmented"
 def cmap_Rain(data_range=[0.05, 50.0], cbar_label=r"Rainrate $(mm hr^{-1})$"):
     """Colormap for displaying Rain Rate products.
 
-    Args:
-        data_range (list[float]): Default [0.05, 50.0], Min and max value for colormap.
-                                  Ensure the data range matches the range of the algorithm specified for use with this colormap
-                                  The Rain colormap MUST include 0.1 and 40.0
-    Returns:
-        dictionary : Dictionary of matplotlib plotting parameters, to ensure consistent image output
-    """
+    Parameters
+    ----------
+    data_range : list of float, default=[0.05, 50.0]
+        * Min and max value for colormap.
+        * Ensure the data range matches the range of the algorithm specified for
+          use with this colormap
+        * This colormap MUST include 0.05 and 50.0
 
+    Returns
+    -------
+    mpl_colors_info : dict
+        Dictionary of matplotlib plotting parameters, to ensure consistent
+        image output
+    """
     min_tb = data_range[0]
     max_tb = data_range[1]
 

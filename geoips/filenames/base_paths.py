@@ -10,11 +10,14 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Collection of base path names used throughout GeoIPS.  Everything defaults to subdirectories relative to
-    the REQUIRED environment variable GEOIPS_OUTDIRS.  Individual GEOIPS_OUTDIRS relative paths can be overridden
-    by setting appropriate environment variables. """
+"""Collection of base path names used throughout GeoIPS.
 
+Everything defaults to subdirectories relative to the
+REQUIRED environment variable GEOIPS_OUTDIRS.
 
+Individual GEOIPS_OUTDIRS relative paths can be overridden
+by setting appropriate environment variables.
+"""
 # Python Standard Libraries
 import logging
 from os import getenv, listdir
@@ -126,7 +129,8 @@ PATHS["GEOIPS_COPYRIGHT"] = "NRL-Monterey"
 if getenv("GEOIPS_COPYRIGHT"):
     PATHS["GEOIPS_COPYRIGHT"] = getenv("GEOIPS_COPYRIGHT")
 
-# GEOIPS_COPYRIGHT_ABBREVIATED provides an abbreviated version of the copyright, best for filenames, etc.
+# GEOIPS_COPYRIGHT_ABBREVIATED provides an abbreviated version of the
+# copyright, best for filenames, etc.
 PATHS["GEOIPS_COPYRIGHT_ABBREVIATED"] = "NRLMRY"
 if getenv("GEOIPS_COPYRIGHT_ABBREVIATED"):
     PATHS["GEOIPS_COPYRIGHT_ABBREVIATED"] = getenv("GEOIPS_COPYRIGHT_ABBREVIATED")
@@ -242,13 +246,17 @@ else:
 
 
 def make_dirs(path):
-    """Make directories, catching exceptions if directory already exists
+    """Make directories, catching exceptions if directory already exists.
 
-    Args:
-        path (str) : Path to directory to create
+    Parameters
+    ----------
+    path : str
+        Path to directory to create
 
-    Returns:
-        (str) : Path if successfully created
+    Returns
+    -------
+    str
+        Path if successfully created
     """
     from os import makedirs
 

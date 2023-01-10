@@ -10,14 +10,14 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Utilities for working with YAML sector specifications"""
-
+"""Utilities for working with YAML sector specifications."""
 import logging
 
 LOG = logging.getLogger(__name__)
 
 
 def area_def_to_yamldict(area_def):
+    """Convert passed pyresample AreaDefinition to a valid YAML dictionary."""
     yamldict = {}
     sectorname = str(area_def.area_id)
     yamldict[sectorname] = {}
@@ -48,19 +48,27 @@ def area_def_to_yamldict(area_def):
 
 
 def area_def_to_yamlfile(area_def, out_fname):
+    """Write pyresample AreaDefinition out as a valid YAML dictionary."""
     yamldict = area_def_to_yamldict(area_def)
     return write_yamldict(yamldict, out_fname=out_fname)
 
 
 def write_yamldict(yamldict, out_fname, force=False):
-    """Write yamldict to out_fname
+    """Write yamldict to out_fname.
 
-    Args:
-        yamldict (dict) : Dictionary to write out to YAML file
-        out_fname (str) : Output filename to write YAML dict to
+    Parameters
+    ----------
+    yamldict : dict
+        Dictionary to write out to YAML file
+    out_fname : str
+        Output filename to write YAML dict to
+    force : bool, default=False
+        If True, overwrite existing file.
 
-    Returns:
-        (str) : Path to output file if successfully produced
+    Returns
+    -------
+    str
+        Path to output file if successfully produced
     """
     from geoips.filenames.base_paths import make_dirs
     from os.path import dirname, exists
@@ -82,6 +90,7 @@ def write_yamldict(yamldict, out_fname, force=False):
 def add_dynamic_datetime_to_yamldict(
     yaml_dict, sectorname, sector_start_datetime, sector_end_datetime
 ):
+    """Add passed dynamic datetime info to passed YAML dictionary."""
     yaml_dict[sectorname]["sector_start_datetime"] = sector_start_datetime
     yaml_dict[sectorname]["sector_end_datetime"] = sector_end_datetime
     return yaml_dict
@@ -90,6 +99,7 @@ def add_dynamic_datetime_to_yamldict(
 def add_description_to_yamldict(
     yaml_dict, sectorname, sector_type, sector_start_datetime=None, info_dict=None
 ):
+    """Add passed sector description information to passed YAML dictionary."""
     yaml_dict[sectorname]["sector_type"] = sector_type
     if sector_type == "static":
         yaml_dict[sectorname]["description"] = sectorname
@@ -114,6 +124,7 @@ def add_description_to_yamldict(
 
 
 def add_sectorinfo_to_yamldict(yaml_dict, sectorname, sector_info_dict):
+    """Add sector_info dictionary to YAML dictionary."""
     yaml_dict[sectorname]["sector_info"] = sector_info_dict
     return yaml_dict
 
@@ -127,6 +138,7 @@ def add_projection_to_yamldict(
     center_y=0,
     template_yaml=None,
 ):
+    """Add projection information to YAML dictionary."""
     LOG.info("add_projection_to_yamldict - update to template_yaml")
     from IPython import embed as shell
 

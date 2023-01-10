@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Module containing Legacy colormap for ~89GHz PMW products"""
+"""Module containing Legacy colormap for ~89GHz PMW products."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -21,21 +21,28 @@ cmap_type = "linear_segmented"
 def cmap_89H_Legacy(data_range=[180.0, 280.0], cbar_label="TB (K)"):
     """Legacy Colormap for displaying ~89GHz PMW data.
 
-    Args:
-        data_range (list[float]): Default [180, 280], Min and max value for colormap.
-                                  Ensure the data range matches the range of the algorithm specified for use with this colormap
-                                  The 89H Legacy colormap MUST include 180 and 254
-    Returns:
-        dictionary : Dictionary of matplotlib plotting parameters, to ensure consistent image output
-    """
+    Parameters
+    ----------
+    data_range : list of float, default=[180, 280]
+        * Min and max value for colormap.
+        * Ensure the data range matches the range of the algorithm specified for
+          use with this colormap
+        * This colormap MUST include 180 and 280
 
+    Returns
+    -------
+    mpl_colors_info : dict
+        Dictionary of matplotlib plotting parameters, to ensure consistent
+        image output
+    """
     min_tb = data_range[0]
     max_tb = data_range[1]
 
     if min_tb > 180 or max_tb < 254:
         raise ValueError("89H Legacy TB range must include 180 and 254")
 
-    # use the TeraScan TC 89 GHz legacy color table for 89 GHz products (plus one Black for TB<=180)
+    # use the TeraScan TC 89 GHz legacy color table for 89 GHz products
+    # (plus one Black for TB<=180)
     from geoips.image_utils.colormap_utils import create_linear_segmented_colormap
 
     transition_vals = [(min_tb, 180), (180, 212), (212, 228), (228, 254), (254, max_tb)]

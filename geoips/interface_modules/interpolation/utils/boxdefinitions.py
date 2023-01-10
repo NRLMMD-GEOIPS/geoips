@@ -10,7 +10,8 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Classes for geometry operations that allow for masked data in the corners of a swath.
+"""Classes for geometry operations allowing masked data in swath corners.
+
 This package uses the pyresample geometry package as base classes:
 
 # pyresample, Resampling of remote sensing image data in python
@@ -21,7 +22,6 @@ This package uses the pyresample geometry package as base classes:
 #    Esben S. Nielsen
 #    Thomas Lavergne
 """
-
 from __future__ import absolute_import
 
 # Python Standard Libraries
@@ -42,16 +42,21 @@ EPSILON = 0.0000001
 
 
 class MaskedCornersSwathDefinition(SwathDefinition):
+    """Swath defined by lons and lats.
 
-    """Swath defined by lons and lats, allowing datasets with potentially masked data in the corners.
+    Allows datasets with potentially masked data in the corners.
 
-    :Parameters:
+    Parameters
+    ----------
     lons : numpy array
+        Longitude values
     lats : numpy array
+        Latitude values
     nprocs : int, optional
         Number of processor cores to be used for calculations.
 
-    :Attributes:
+    Attributes
+    ----------
     shape : tuple
         Swath shape
     size : int
@@ -59,7 +64,8 @@ class MaskedCornersSwathDefinition(SwathDefinition):
     ndims : int
         Swath dimensions
 
-    Properties:
+    Properties
+    ----------
     lons : object
         Swath lons
     lats : object
@@ -69,6 +75,7 @@ class MaskedCornersSwathDefinition(SwathDefinition):
     """
 
     def __init__(self, lons, lats, nprocs=1):
+        """Initialize class."""
         if lons.shape != lats.shape:
             raise ValueError("lon and lat arrays must have same shape")
         elif lons.ndim > 2:
@@ -119,14 +126,17 @@ class MaskedCornersSwathDefinition(SwathDefinition):
         self.cartesian_coords = None
 
     def intersection(self, other):
-        """Returns the corners of the intersection polygon of the current area
-        with *other*, allowing for potentially masked data in the corners.
+        """Return current area intersection polygon corners.
 
-        :Parameters:
+        *other* allows for potentially masked data in the corners.
+
+        Parameters
+        ----------
         other : object
             Instance of subclass of BaseDefinition
 
-        :Returns:
+        Returns
+        -------
         (corner1, corner2, corner3, corner4) : tuple of points
         """
         from pyresample.spherical_geometry import intersection_polygon
@@ -158,15 +168,18 @@ class MaskedCornersSwathDefinition(SwathDefinition):
         return retcorners
 
     def overlaps_minmaxlatlon(self, other):
-        """Tests if the current area overlaps the *other* area. This is based
-        solely on the min/max lat/lon of areas, assuming the boundaries to be
-        along lat/lon lines.
+        """Test current area overlaps *other* area.
 
-        :Parameters:
+        This is based solely on the min/max lat/lon of areas, assuming the
+         boundaries to be along lat/lon lines.
+
+        Parameters
+        ----------
         other : object
             Instance of subclass of BaseDefinition
 
-        :Returns:
+        Returns
+        -------
         overlaps : bool
         """
         self_corners = get_2d_false_corners(self)
@@ -184,7 +197,7 @@ class MaskedCornersSwathDefinition(SwathDefinition):
 
     @property
     def corners(self):
-        """Returns the corners of the current area."""
+        """Return current area corners."""
         try:
             # Try to just set normal CoordinateDefinition corners
             #    (Which doesn't work with bad vals in corners)
@@ -235,7 +248,8 @@ class MaskedCornersSwathDefinition(SwathDefinition):
         good = np.where(~lons[min_row, :].mask)[0]
         tries = 0
         while tries < 20 and good.min() == good.max():
-            # print 'good.min() can\'t equal good.max() for top side, incrementing min_row! Would have failed with ZeroDivisionError before!'
+            # print 'good.min() can\'t equal good.max() for top side, incrementing
+            # min_row! Would have failed with ZeroDivisionError before!'
             min_row += 1
             tries += 1
             good = np.where(~lons[min_row, :].mask)[0]
@@ -249,7 +263,8 @@ class MaskedCornersSwathDefinition(SwathDefinition):
         good = np.where(~lons[max_row, :].mask)[0]
         tries = 0
         while tries < 20 and good.min() == good.max():
-            # print 'good.min() can\'t equal good.max() for bottom side, decrementing max_row! Would have failed with ZeroDivisionError before!'
+            # print 'good.min() can\'t equal good.max() for bottom side, decrementing
+            # max_row! Would have failed with ZeroDivisionError before!'
             max_row -= 1
             tries += 1
             good = np.where(~lons[max_row, :].mask)[0]
@@ -263,7 +278,8 @@ class MaskedCornersSwathDefinition(SwathDefinition):
         good = np.where(~lons[:, min_col].mask)[0]
         tries = 0
         while tries < 20 and good.min() == good.max():
-            # print 'good.min() can\'t equal good.max() for left side, incrementing min_col! Would have failed with ZeroDivisionError before!'
+            # print 'good.min() can\'t equal good.max() for left side, incrementing
+            # min_col! Would have failed with ZeroDivisionError before!'
             min_col += 1
             tries += 1
             good = np.where(~lons[:, min_col].mask)[0]
@@ -277,7 +293,8 @@ class MaskedCornersSwathDefinition(SwathDefinition):
         good = np.where(~lons[:, max_col].mask)[0]
         tries = 0
         while tries < 20 and good.min() == good.max():
-            # print 'good.min() can\'t equal good.max() for right side, decrementing max_col! Would have failed with ZeroDivisionError before!'
+            # print 'good.min() can\'t equal good.max() for right side, decrementing
+            # max_col! Would have failed with ZeroDivisionError before!'
             max_col -= 1
             tries += 1
             good = np.where(~lons[:, max_col].mask)[0]
@@ -320,13 +337,15 @@ class MaskedCornersSwathDefinition(SwathDefinition):
         return _corners
 
     def get_bounding_box_lonlats(self, npts=100):
-        """Returns array of lon/lats along the bounding Arcs
+        """Return lon/lats along bounding Arcs.
 
-        :Parameters:
+        Parameters
+        ----------
         npts: int
             Number of points to return along each line
 
-        :Returns:
+        Returns
+        -------
         (top, right, bottom, left) : 4 tuples containing lists
                                     of len npts of lons/lats
         retval = (list(tplons),list(tplats)),
@@ -405,6 +424,8 @@ class MaskedCornersSwathDefinition(SwathDefinition):
 
 
 class PlanarPolygonDefinition(CoordinateDefinition):
+    """Planar polygon definition."""
+
     def __init__(self, lons, lats, nprocs=1):
         if lons.shape != lats.shape:
             raise ValueError("lon and lat arrays must have same shape")
@@ -456,14 +477,15 @@ class PlanarPolygonDefinition(CoordinateDefinition):
         self.cartesian_coords = None
 
     def get_bounding_box_lonlats(self, npts=100):
-        """Returns array of lon/lats along the bounding
-            lat/lon lines
+        """Return array of lon/lats along the bounding lat/lon lines.
 
-        :Parameters:
+        Parameters
+        ----------
         npts: int
             Number of points to return along each line
 
-        :Returns:
+        Returns
+        -------
         (top, right, bottom, left) : 4 tuples containing lists
                                     of len npts of lons/lats
         retval = (list(tplons),list(tplats)),
@@ -477,7 +499,6 @@ class PlanarPolygonDefinition(CoordinateDefinition):
            ([btlon0,btlon1,btlon2],[btlat0,btlat1,btlat2]),
            ([ltlon0,ltlon1,ltlon2],[ltlat0,ltlat1,ltlat2]),
         """
-
         # Top of bounding box
         tplons = np.linspace(self.corners[0].lon, self.corners[1].lon, npts)
         tplats = np.linspace(self.corners[0].lat, self.corners[1].lat, npts)
@@ -501,6 +522,7 @@ class PlanarPolygonDefinition(CoordinateDefinition):
 
     @property
     def corners(self):
+        """Return corners."""
         # print '    In 2D false corners for: '+str(self.name)
         try:
             # print '        Corners already set, returning'
@@ -511,8 +533,9 @@ class PlanarPolygonDefinition(CoordinateDefinition):
         return get_2d_false_corners(self)
 
     def __contains__(self, point):
-        """Is a point inside the 4 corners of the current area? This
-        DOES NOT use spherical geometry / great circle arcs.
+        """Idenfity if point inside the 4 corners of the current area.
+
+        This DOES NOT use spherical geometry / great circle arcs.
         """
         corners = self.corners
 
@@ -528,17 +551,17 @@ class PlanarPolygonDefinition(CoordinateDefinition):
         return retval
 
     def intersection(self, other):
-        """Returns the corners of the intersection polygon of the current area
-        with *other*.
+        """Return current area intersection polygon corners against other.
 
-        :Parameters:
+        Parameters
+        ----------
         other : object
             Instance of subclass of BaseDefinition
 
-        :Returns:
+        Returns
+        -------
         (corner1, corner2, corner3, corner4) : tuple of points
         """
-
         self_corners = self.corners
 
         other_corners = get_2d_false_corners(other)
@@ -548,22 +571,26 @@ class PlanarPolygonDefinition(CoordinateDefinition):
         return planar_intersection_polygon(self_corners, other_corners)
 
     def overlaps_minmaxlatlon(self, other):
+        """Determine if overlaps."""
         log.info("PlanarPolygonDefinition overlaps_minmaxlatlon")
         return self.overlaps(other)
 
     def overlaps(self, other):
-        """Tests if the current area overlaps the *other* area. This is based
+        """Test if the current area overlaps the *other* area.
+
+        This is based
         solely on the corners of areas, assuming the boundaries to be straight
         lines.
 
-        :Parameters:
+        Parameters
+        ----------
         other : object
             Instance of subclass of BaseDefinition
 
-        :Returns:
+        Returns
+        -------
         overlaps : bool
         """
-
         self_corners = self.corners
         other_corners = get_2d_false_corners(other)
 
@@ -604,16 +631,17 @@ class PlanarPolygonDefinition(CoordinateDefinition):
 
 
 class Line(object):
-
     """A Line between two lat/lon points."""
 
     start = None
     end = None
 
     def __init__(self, start, end):
+        """Initialize Line."""
         self.start, self.end = start, end
 
     def __eq__(self, other):
+        """Test two lines equal."""
         if (
             abs(self.start.lon - other.start.lon) < EPSILON
             and abs(self.end.lon - other.end.lon) < EPSILON
@@ -624,23 +652,30 @@ class Line(object):
         return 0
 
     def __ne__(self, other):
+        """Test two lines not equal."""
         return not self.__eq__(other)
 
     def __str__(self):
+        """Return string."""
         return str(self.start) + " -> " + str(self.end)
 
     def __repr__(self):
+        """Return representation."""
         return str(self.start) + " -> " + str(self.end)
 
     def intersects(self, other_line):
-        """Says if two lines defined by the current line and the *other_line*
+        """Test two lines intersect.
+
+        Says if two lines defined by the current line and the *other_line*
         intersect. A line is defined as the shortest tracks between two points.
         """
         intpt = self.intersection(other_line)
         return bool(intpt)
 
     def intersection(self, other):
-        """Says where, if two lines defined by the current line and the
+        """Identify intersection between two lines.
+
+        Says where, if two lines defined by the current line and the
         *other_line* intersect.
         """
         log.info("self: " + str(self) + " other: " + str(other))
@@ -695,7 +730,8 @@ class Line(object):
         ):
             log.info("    Both vertical, no intersection")
             return None
-        # If self is vertical, but not parallel, intersection will be selfstartlon and lat = Mother*lon+B_other
+        # If self is vertical, but not parallel, intersection will be selfstartlon
+        # and lat = Mother*lon+B_other
         if abs(selfendlon - selfstartlon) < EPSILON:
             lon = selfstartlon
             M_other = (other.end.lat - other.start.lat) / (otherendlon - otherstartlon)
@@ -786,6 +822,7 @@ class Line(object):
 
 
 def get_2d_false_corners(box_def):
+    """Identify false corners."""
     # print '    In 2D false corners for: '+str(box_def.name)
 
     min_row = 0
@@ -979,7 +1016,9 @@ def planar_intersection_polygon(area_corners, segment_corners):
 #
 # def planar_point_inside(point, boxdef):
 def planar_point_inside(point, corners):
-    """Is a point inside the 4 corners ? This DOES NOT USE great circle arcs as area
+    """Identify point inside 4 corners.
+
+    This DOES NOT USE great circle arcs as area
     boundaries.
     """
     #    lons = boxdef.get_lonlats()[0]
@@ -1015,8 +1054,7 @@ def planar_point_inside(point, corners):
 
 
 def _get_slice(segments, shape):
-    """Generator for segmenting a 1D or 2D array"""
-
+    """Segment a 1D or 2D array."""
     if not (1 <= len(shape) <= 2):
         raise ValueError("Cannot segment array of shape: %s" % str(shape))
     else:
@@ -1034,8 +1072,7 @@ def _get_slice(segments, shape):
 
 
 def _flatten_cartesian_coords(cartesian_coords):
-    """Flatten array to (n, 3) shape"""
-
+    """Flatten array to (n, 3) shape."""
     shape = cartesian_coords.shape
     if len(shape) > 2:
         cartesian_coords = cartesian_coords.reshape(shape[0] * shape[1], 3)
@@ -1043,6 +1080,7 @@ def _flatten_cartesian_coords(cartesian_coords):
 
 
 def _get_highest_level_class(obj1, obj2):
+    """Get highest level class."""
     if not issubclass(obj1.__class__, obj2.__class__) or not issubclass(
         obj2.__class__, obj1.__class__
     ):

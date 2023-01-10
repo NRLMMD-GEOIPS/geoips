@@ -107,8 +107,6 @@ def is_crs(mapobj):
     crs : bool
         True if it is a CRS object, False otherwise.
     """
-    import pyresample
-
     crs = False
     if "cartopy" in str(mapobj.__class__):
         crs = True
@@ -355,24 +353,6 @@ def set_gridlines_info_dict(gridlines_info, area_def):
         fields are available.  If a field is not included in the
         dictionary, the field is added to the return dictionary and the
         default is used.
-            gridlines_info['grid_lat_spacing']      default auto calculated 5 lat grid lines
-            gridlines_info['grid_lon_spacing']      default auto calculated 5 lon grid lines
-            gridlines_info['grid_lat_xoffset']      default None (0.01 * image height)
-            gridlines_info['grid_lon_xoffset']      default None (0.01 * image width)
-            gridlines_info['grid_lat_yoffset']      default None (0.01 * image height)
-            gridlines_info['grid_lon_yoffset']      default None (0.01 * image width)
-            gridlines_info['grid_lat_fontsize']     default None (plot fontsize)
-            gridlines_info['grid_lon_fontsize']     default None (plot fontsize)
-            gridlines_info['left_label']            default True
-            gridlines_info['right_label']           default False
-            gridlines_info['top_label']             default True
-            gridlines_info['bottom_label']          default False
-            gridlines_info['grid_lat_linewidth']    default 1
-            gridlines_info['grid_lon_linewidth']    default 1
-            gridlines_info['grid_lat_color']        default 'black'
-            gridlines_info['grid_lon_color']        default 'black'
-            gridlines_info['grid_lat_dashes']       default [4, 2]
-            gridlines_info['grid_lon_dashes']       default [4, 2]
     area_def : AreaDefinition
         pyresample AreaDefinition
 
@@ -380,6 +360,29 @@ def set_gridlines_info_dict(gridlines_info, area_def):
     -------
     use_gridlines_info : dict
         gridlines_info dictionary, with fields as specified above.
+
+    Notes
+    -----
+    Defaults specified as::
+
+        gridlines_info['grid_lat_spacing']      default auto calculated 5 lat grid lines
+        gridlines_info['grid_lon_spacing']      default auto calculated 5 lon grid lines
+        gridlines_info['grid_lat_xoffset']      default None (0.01 * image height)
+        gridlines_info['grid_lon_xoffset']      default None (0.01 * image width)
+        gridlines_info['grid_lat_yoffset']      default None (0.01 * image height)
+        gridlines_info['grid_lon_yoffset']      default None (0.01 * image width)
+        gridlines_info['grid_lat_fontsize']     default None (plot fontsize)
+        gridlines_info['grid_lon_fontsize']     default None (plot fontsize)
+        gridlines_info['left_label']            default True
+        gridlines_info['right_label']           default False
+        gridlines_info['top_label']             default True
+        gridlines_info['bottom_label']          default False
+        gridlines_info['grid_lat_linewidth']    default 1
+        gridlines_info['grid_lon_linewidth']    default 1
+        gridlines_info['grid_lat_color']        default 'black'
+        gridlines_info['grid_lon_color']        default 'black'
+        gridlines_info['grid_lat_dashes']       default [4, 2]
+        gridlines_info['grid_lon_dashes']       default [4, 2]
     """
     use_gridlines_info = {}
 
@@ -497,26 +500,33 @@ def set_boundaries_info_dict(boundaries_info):
     ----------
     boundaries_info : dict
         Dictionary of parameters for plotting gridlines.
-        The following fields are available.  If a field is not included in the dictionary,
-        the field is added to the return dictionary and the default is used.
-            boundaries_info['request_coastlines']       default True
-            boundaries_info['request_countries']        default True
-            boundaries_info['request_states']           default True
-            boundaries_info['request_rivers']           default True
+        The following fields are available.  If a field is not included in the
+        dictionary, the field is added to the return dictionary and the default
+        is used (see defaults in Notes below).
 
-            boundaries_info['coastlines_linewidth']     default 2
-            boundaries_info['countries_linewidth']      default 1
-            boundaries_info['states_linewidth']         default 0.5
-            boundaries_info['rivers_linewidth']         default 0
-
-            boundaries_info['coastlines_color']         default 'red'
-            boundaries_info['countries_color']          default 'red'
-            boundaries_info['states_color']             default 'red'
-            boundaries_info['rivers_color']             default 'red'
     Returns
     -------
     use_boundaries_info : dict
         boundaries_info dictionary, with fields as specified above.
+
+    Notes
+    -----
+    Defaults specified as::
+
+        boundaries_info['request_coastlines']       default True
+        boundaries_info['request_countries']        default True
+        boundaries_info['request_states']           default True
+        boundaries_info['request_rivers']           default True
+
+        boundaries_info['coastlines_linewidth']     default 2
+        boundaries_info['countries_linewidth']      default 1
+        boundaries_info['states_linewidth']         default 0.5
+        boundaries_info['rivers_linewidth']         default 0
+
+        boundaries_info['coastlines_color']         default 'red'
+        boundaries_info['countries_color']          default 'red'
+        boundaries_info['states_color']             default 'red'
+        boundaries_info['rivers_color']             default 'red'
     """
     use_boundaries_info = {}
     use_boundaries_info["request_coastlines"] = True
@@ -676,7 +686,8 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
         import matplotlib.ticker as mticker
         from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 
-        # Note: linestyle is specified by a tuple: (offset, (pixels_on, pixels_off, pxon, pxoff)), etc
+        # Note: linestyle is specified by a tuple: (offset, (pixels_on,
+        # pixels_off, pxon, pxoff)), etc
         linestyle_lat = (0, tuple(gridlines_info["grid_lat_dashes"]))
         # linestyle_lon = (0, tuple(grid_lon_dashes))
         glnr = curr_ax.gridlines(
@@ -729,7 +740,8 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
         # lat_formatter = cticker.LatitudeFormatter()
         # ax.xaxis.set_major_formatter(lon_formatter)
         # ax.yaxis.set_major_formatter(lat_formatter)
-        # ax.grid(linewidth=grid_lat_linewidth, color=grid_lat_color, linestyle=linestyle_lat,
+        # ax.grid(linewidth=grid_lat_linewidth, color=grid_lat_color,
+        #         linestyle=linestyle_lat,
         #         crs=mapobj)
 
     else:

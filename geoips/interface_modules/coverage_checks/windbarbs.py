@@ -10,9 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Coverage check routine for windbarb xarrays
-"""
-
+"""Coverage check routine for windbarb xarrays."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -27,16 +25,18 @@ def windbarbs(
 ):
     """Coverage check routine for wind barb xarray object.
 
-    This algorithm expects input windspeed with units "kts" and returns in "kts"
+    Parameters
+    ----------
+    xarray_obj : xarray.Dataset
+        xarray object containing variable "variable_name"
+    variable_name : str
+        variable name to check percent unmasked.
 
-    Args:
-        xarray_obj (xarray.Dataset) :  xarray object containing variable "variable_name" for registering to
-        variable_name (str) : variable name to register to
-
-    Returns:
-        float : Percent coverage of variable_name over area_def
+    Returns
+    -------
+    float
+        Percent coverage of variable_name over area_def
     """
-
     varname_for_covg = variable_name
     if (
         variable_name not in xarray_obj.variables.keys()

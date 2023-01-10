@@ -21,14 +21,23 @@ System Dependencies
 ----------------------
 Required
 
-* Python >= 3.9 (3.9 required for entry points)
-* cartopy >= 0.20.3 (0.21.0 required for matplotlib 3.6.0, does not install cleanly via pip)
-* rclone (required to obtain ABI and AHI test data from AWS)
-* Test data repos contained in $GEOIPS_TESTDATA_DIR (required for tests to pass)
 * wget (Miniconda and rclone setup)
 * git >= 2.19.1 (git -C commands in complete installation)
 * git-lfs (required for clones of test data repos)
 * imagemagick (required for test output comparisons)
+* Python >= 3.9 (3.9 required for entry points)
+
+  * included in `Complete Local conda-based GeoIPS Installation`_
+* cartopy >= 0.20.3 (0.21.0 required for matplotlib 3.6.0, does not install
+  cleanly via pip)
+
+  * included in `Complete Local conda-based GeoIPS Installation`_
+* rclone (required to obtain ABI and AHI test data from AWS)
+
+  * included in `Complete Local conda-based GeoIPS Installation`_
+* Test data repos contained in $GEOIPS_TESTDATA_DIR (required for tests to pass)
+
+  * included in `Complete Local conda-based GeoIPS Installation`_
 
 Optional
 
@@ -37,36 +46,35 @@ Optional
 * screen (convenience package)
 * ncurses (only required if building vim, ncurses and libncurses5-dev)
 
-`Complete conda-based GeoIPS Installation`_ and Test
------------------------------------------------------
-
-.. _Complete conda-based GeoIPS Installation: https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/installation.rst#complete-conda-based-geoips-installation-and-test
-
-This installation method includes the first 4 system requirements (Python, cartopy, rclone, and test repos)
-through a complete install of conda, geoips, test repos, and all Python dependencies.
-
-This is the fully supported installation method (as all installations performed in
-this manner are identical, and the GeoIPS Team can more easily provide assistance as needed).
-
 Expert User GeoIPS Installation
 ---------------------------------
 
-If you already have all system requirements installed (Python+cartopy), and do not wish to go through
-the full interactive installation process above (which includes conda, rclone, test data, etc),
-you can clone the geoips repo and pip install from the your local copy.
+For the fully supported installation, please use the
+`Complete Local conda-based GeoIPS Installation`_.
+
+If you are confident you have all system requirements installed (Python+cartopy),
+and do not wish to go through the full interactive installation process below
+(which includes conda, rclone, test data, etc), you can clone the geoips repo
+and pip install from the your local copy.
 
 .. code:: bash
 
-    git clone https://github.com/NRLMMD-GEOIPS/geoips/geoips.git <installation_location> 
+    git clone https://github.com/NRLMMD-GEOIPS/geoips/geoips.git <installation_location>
     cd <installation location>
     pip install -e .
 
 Complete Local conda-based GeoIPS Installation
 ================================================
-This is the fully supported installation method, which involves installing the entire Python environment
-from scratch using conda, to allow for consistency across installations.  This process ensures source code,
-test datasets, etc are all contained in the same location to facilitate assisting users if issues arise
+
+This is the fully supported installation method, which involves installing the entire
+Python environment from scratch using conda, to allow for consistency across
+installations.  This process ensures source code, test datasets, etc are all
+contained in the same location to facilitate assisting users if issues arise
 during the installation, testing, and development process.
+
+This installation method includes the first 4 system requirements (Python, cartopy,
+rclone, and test repos) through a complete install of conda, geoips, test repos,
+and all Python dependencies.
 
 GeoIPS Environment Variables for Complete conda-based Installation
 --------------------------------------------------------------------
@@ -81,24 +89,26 @@ GeoIPS Environment Variables for Complete conda-based Installation
     # Once geoips has been installed, the "GEOIPS_CONFIG_FILE" specified below will be sourced when running geoips,
     # and the direct environment variable assignments within this section are no longer required.
 
-    # If you would like to have the GEOIPS_CONFIG_FILE automatically sourced so you do not have to manually run the 
-    # appropriate source command for every new shell, you can add 
+    # If you would like to have the GEOIPS_CONFIG_FILE automatically sourced so you do not have to manually run the
+    # appropriate source command for every new shell, you can add
     # source </full/path/to/GEOIPS_CONFIG_FILE>
     # to your ~/.bashrc file
 
+    # GeoIPS default required packages
     git lfs install  # Required to clone test data repositories!
+
+    # GeoIPS Default Locations
     export GEOIPS_BASEDIR=$HOME/geoproc  # Contains all source, output, and external dependencies
     export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS  # Point to base URL for git clone commands
     GEOIPS_ACTIVE_BRANCH=main
-
-    # GeoIPS packages, test_data, and dependencies all default to locations under "GEOIPS_BASEDIR"
     export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
     export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
     export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_BASEDIR/geoips_dependencies
 
-    # This config file must be sourced ANY TIME you want to run geoips
+    # GeoIPS default configuration - must be source ANY TIME you want to run GeoIPS
     # You can create your own user/site specific version to replace this one as needed.
     export GEOIPS_CONFIG_FILE=$GEOIPS_PACKAGES_DIR/geoips/setup/config_geoips
+
 
 Complete conda-based Installation and Test
 ----------------------------------------------
@@ -108,7 +118,7 @@ Complete conda-based Installation and Test
     # Initial clone of geoips repo, to obtain setup scripts
     mkdir -p $GEOIPS_PACKAGES_DIR
     git clone $GEOIPS_REPO_URL/geoips.git $GEOIPS_PACKAGES_DIR/geoips
-    
+
     # This just makes sure you are *really* on $GEOIPS_ACTIVE_BRANCH
     git -C $GEOIPS_PACKAGES_DIR/geoips pull
     git -C $GEOIPS_PACKAGES_DIR/geoips checkout -t origin/$GEOIPS_ACTIVE_BRANCH

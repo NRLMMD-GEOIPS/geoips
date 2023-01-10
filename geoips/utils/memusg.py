@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Utilities for tracking and monitoring memory and resourc usage """
-
+"""Utilities for tracking and monitoring memory and resource usage."""
 import logging
 import socket
 
@@ -26,6 +25,11 @@ LOG = logging.getLogger(__name__)
 
 
 def print_mem_usage(logstr="", verbose=False):
+    """Print memory usage to LOG.info.
+
+    * By default include psutil output.
+    * If verbose is True, include output from both psutil and resource packages.
+    """
     # If psutil / socket / resource are not imported, do not fail
     try:
         LOG.info(
@@ -60,6 +64,7 @@ def print_mem_usage(logstr="", verbose=False):
 
 
 def print_resource_usage(logstr=""):
+    """Print verbose resource usage, using "resource" package."""
     try:
         usage = resource.getrusage(resource.RUSAGE_SELF)
         for name, desc in [

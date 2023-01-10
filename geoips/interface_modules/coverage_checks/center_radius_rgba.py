@@ -10,9 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Coverage check routine for RGBA center radius coverage checks.
-"""
-
+"""Coverage check routine for RGBA center radius coverage checks."""
 import logging
 
 import numpy
@@ -31,15 +29,21 @@ def center_radius_rgba(
 ):
     """Coverage check routine for xarray objects with masked projected arrays.
 
-    Args:
-        xarray_obj (xarray.Dataset) :  xarray object containing variable "variable_name"
-        variable_name (str) : variable name to check percent unmasked
+    Only calculates coverage within a "radius_km" radius of center.
+
+    Parameters
+    ----------
+    xarray_obj : xarray.Dataset
+        xarray object containing variable "variable_name"
+    variable_name : str
+        variable name to check percent unmasked
         radius_km (float) : Radius of center disk to check for coverage
 
-    Returns:
-        float : Percent coverage of variable_name
+    Returns
+    -------
+    float
+        Percent coverage of variable_name
     """
-
     varname_for_covg = variable_name
     if (
         variable_name not in xarray_obj.variables.keys()

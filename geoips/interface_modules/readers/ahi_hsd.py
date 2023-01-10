@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Advanced Himawari Imager Data Reader."""
 # Python Standard Libraries
 import os
 import logging
@@ -154,10 +155,13 @@ reader_type = "standard"
 
 
 class AutoGenError(Exception):
+    """Raise exception on geolocation autogeneration error."""
+
     pass
 
 
 def findDiff(d1, d2, path=""):
+    """Find diff."""
     for k in d1.keys():
         if k not in d2:
             print(path, ":")
@@ -177,9 +181,7 @@ def findDiff(d1, d2, path=""):
 
 
 def metadata_to_datetime(metadata, time_var="ob_start_time"):
-    """
-    Use information from block_01 to get the image datetime.
-    """
+    """Use information from block_01 to get the image datetime."""
     ost = metadata["block_01"][time_var]
     otl = metadata["block_01"]["ob_timeline"]
     dt = datetime(1858, 11, 17, 00, 00, 00)
@@ -190,9 +192,11 @@ def metadata_to_datetime(metadata, time_var="ob_start_time"):
 
 def _get_geolocation_metadata(metadata):
     """
-    Gather all of the metadata used in creating geolocation data for the input filename.
-    This is split out so we can easily create a hash of the data for creation of a unique filename.
-    This allows us to avoid recalculation of angles that have already been calculated.
+    Gather all of the metadata used in creating geolocation data for input file.
+
+    This is split out so we can easily create a hash of the data for creation
+    of a unique filename. This allows us to avoid recalculation of angles that
+    have already been calculated.
     """
     geomet = {}
     # Used for cached file paths
@@ -221,13 +225,17 @@ def _get_geolocation_metadata(metadata):
 
 def get_latitude_longitude(metadata, BADVALS, area_def=None):
     """
-    This routine accepts a dictionary containing metadata as read from an HSD format file
-    and returns latitudes and longitudes for a full disk image.
+    Get latitudes and longitudes.
 
-    Note: This code has been adapted from Dan Lindsey's Fortran90 code.  This was done in three steps
-    that ultimately culminated in faster, but more difficult to understand code.  If you plan to edit
-    this, I recommend that you return to Dan's original code, then explore the commented code here,
-    then finally, look at the single-command statements that are currently being used.
+    This routine accepts a dictionary containing metadata as read from an HSD
+    format file and returns latitudes and longitudes for a full disk image.
+
+    Note: This code has been adapted from Dan Lindsey's Fortran90 code.
+    This was done in three steps that ultimately culminated in faster, but more
+    difficult to understand code.  If you plan to edit this, I recommend that
+    you return to Dan's original code, then explore the commented code here,
+    then finally, look at the single-command statements that are currently being
+    used.
     """
     # If the filename format needs to change for the pre-generated geolocation
     # files, please discuss prior to changing.  It will force recreation of all
@@ -349,7 +357,8 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
 
         # The following equations have been combined from above.
         # The more we can fit into a single equation, the faster things will be.
-        # I know this makes things ugly, but hopefully this will never have to be edited.
+        # I know this makes things ugly, but hopefully this will never have to be
+        # edited.
         log.info("    LATLONCALC Calculating latitudes")
         bad = Sd == 0
         lats = ne.evaluate(
@@ -376,7 +385,8 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
 
     # Create a memmap to the lat/lon file
     # Nothing will be read until explicitly requested
-    # We are mapping this here so that the lats and lons are available when calculating satlelite angles
+    # We are mapping this here so that the lats and lons are available when
+    # calculating satlelite angles
     log.info(
         "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["ob_area"])
     )
@@ -395,8 +405,11 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
 
 def _get_metadata_block_info(df):
     """
-    Returns a dictionary whose keys represent metadata block numbers and whose values are tuples
-    containing the block's starting byte number and the block's length in bytes.
+    Get metadata block info.
+
+    Returns a dictionary whose keys represent metadata block numbers and whose
+    values are tuples containing the block's starting byte number and the
+    block's length in bytes.
     """
     # Initialize the first block's data
     block_info = {1: (0, 0)}
@@ -429,8 +442,10 @@ def _get_metadata_block_info(df):
 
 def _get_metadata_block_01(df, block_info):
     """
-    Parse the first metadata block from an AHI data file and return a dictionary containing
-    that metadata.
+    Get metadata block 01.
+
+    Parse the first metadata block from an AHI data file and return a dictionary
+    containing that metadata.
     """
     # Get the block start and length in bytes
     block_start, block_length = block_info[1]
@@ -469,8 +484,10 @@ def _get_metadata_block_01(df, block_info):
 
 def _get_metadata_block_02(df, block_info):
     """
-    Parse the second metadata block from an AHI data file and return a dictionary containing
-    that metadata.
+    Get metadata block 02.
+
+    Parse the second metadata block from an AHI data file and return a
+    dictionary containing that metadata.
     """
     # Get the block start and length in bytes
     block_start, block_length = block_info[2]
@@ -495,8 +512,10 @@ def _get_metadata_block_02(df, block_info):
 
 def _get_metadata_block_03(df, block_info):
     """
-    Parse the third metadata block from an AHI data file and return a dictionary containing
-    that metadata.
+    Get metadata block 03.
+
+    Parse the third metadata block from an AHI data file and return a
+    dictionary containing that metadata.
     """
     # Get the block start and length in bytes
     block_start, block_length = block_info[3]
@@ -542,8 +561,10 @@ def _get_metadata_block_03(df, block_info):
 
 def _get_metadata_block_04(df, block_info):
     """
-    Parse the third metadata block from an AHI data file and return a dictionary containing
-    that metadata.
+    Get metadata block 04.
+
+    Parse the 4th metadata block from an AHI data file and return a
+    dictionary containing that metadata.
     """
     # Get the block start and length in bytes
     block_start, block_length = block_info[4]
@@ -574,8 +595,10 @@ def _get_metadata_block_04(df, block_info):
 
 def _get_metadata_block_05(df, block_info):
     """
-    Parse the third metadata block from an AHI data file and return a dictionary containing
-    that metadata.
+    Get metadata block 05.
+
+    Parse the 5th metadata block from an AHI data file and return a
+    dictionary containing that metadata.
     """
     # Get the block start and length in bytes
     block_start, block_length = block_info[5]
@@ -616,8 +639,10 @@ def _get_metadata_block_05(df, block_info):
 
 def _get_metadata_block_06(df, block_info):
     """
-    Parse the third metadata block from an AHI data file and return a dictionary containing
-    that metadata.
+    Get metadata block 06.
+
+    Parse the 6th metadata block from an AHI data file and return a
+    dictionary containing that metadata.
     """
     # Get the block start and length in bytes
     block_start, block_length = block_info[6]
@@ -650,8 +675,10 @@ def _get_metadata_block_06(df, block_info):
 
 def _get_metadata_block_07(df, block_info):
     """
-    Parse the third metadata block from an AHI data file and return a dictionary containing
-    that metadata.
+    Get metadata block 07.
+
+    Parse the 7th metadata block from an AHI data file and return a
+    dictionary containing that metadata.
     """
     # Get the block start and length in bytes
     block_start, block_length = block_info[7]
@@ -675,8 +702,10 @@ def _get_metadata_block_07(df, block_info):
 
 def _get_metadata_block_08(df, block_info):
     """
-    Parse the third metadata block from an AHI data file and return a dictionary containing
-    that metadata.
+    Get metadata block 08.
+
+    Parse the 8th metadata block from an AHI data file and return a
+    dictionary containing that metadata.
     """
     # Get the block start and length in bytes
     block_start, block_length = block_info[8]
@@ -719,8 +748,10 @@ def _get_metadata_block_08(df, block_info):
 
 def _get_metadata_block_09(df, block_info):
     """
-    Parse the third metadata block from an AHI data file and return a dictionary containing
-    that metadata.
+    Get metadata block 09.
+
+    Parse the 9th metadata block from an AHI data file and return a
+    dictionary containing that metadata.
     """
     # Get the block start and length in bytes
     block_start, block_length = block_info[9]
@@ -754,8 +785,10 @@ def _get_metadata_block_09(df, block_info):
 
 def _get_metadata_block_10(df, block_info):
     """
-    Parse the third metadata block from an AHI data file and return a dictionary containing
-    that metadata.
+    Get metadata block 10.
+
+    Parse the 10th metadata block from an AHI data file and return a
+    dictionary containing that metadata.
     """
     # Get the block start and length in bytes
     block_start, block_length = block_info[10]
@@ -789,8 +822,10 @@ def _get_metadata_block_10(df, block_info):
 
 def _get_metadata_block_11(df, block_info):
     """
-    Parse the third metadata block from an AHI data file and return a dictionary containing
-    that metadata.
+    Get metadata block 11.
+
+    Parse the 11th metadata block from an AHI data file and return a
+    dictionary containing that metadata.
     """
     # Get the block start and length in bytes
     block_start, block_length = block_info[11]
@@ -810,9 +845,7 @@ def _get_metadata_block_11(df, block_info):
 
 
 def _get_metadata(df, **kwargs):
-    """
-    Gather metadata for the data file and return as a dictionary.
-    """
+    """Gather metadata for the data file and return as a dictionary."""
     metadata = {}
     # Get metadata block info
     try:
@@ -845,9 +878,7 @@ def _get_metadata(df, **kwargs):
 
 
 def _get_files(path):
-    """
-    Get a list of file names from the input path.
-    """
+    """Get a list of file names from the input path."""
     if os.path.isfile(path):
         fnames = [path]
     elif os.path.isdir(path):
@@ -861,8 +892,11 @@ def _get_files(path):
 
 def _check_file_consistency(metadata):
     """
+    Check file consistency.
+
     Checks to be sure that all input metadata are from the same image time.
-    Performs checks on ob_start_time (date only), ob_timeline, ob_area, and sub_lon.
+    Performs checks on ob_start_time (date only), ob_timeline, ob_area, and
+    sub_lon.
     If these are all equal, returns True.
     If any differ, returns False.
     """
@@ -895,6 +929,7 @@ def _check_file_consistency(metadata):
 
 
 def sort_by_band_and_seg(metadata):
+    """Sort by band and segment."""
     # cfac = metadata['block_03']['CFAC']
     band_number = metadata["block_05"]["band_number"]
     segment_number = metadata["block_07"]["segment_number"]
@@ -905,30 +940,38 @@ def sort_by_band_and_seg(metadata):
 def ahi_hsd(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
-    """Read AHI HSD data data from a list of filenames
+    """
+    Read AHI HSD data data from a list of filenames.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * DEFAULT None (include all channels)
-            * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * DEFAULT None (read full disk)
-            * Specify region to read from ABI data
-        self_register (Optional[str]):
-            * DEFAULT False (read multiple resolutions of data)
-            * *MED, HIGH, LOW*: register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        dict of xarray.Datasets: dict of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`),
-            dict key can be any descriptive id
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
     process_datetimes = {}
     print_mem_usage("MEMUSG", verbose=False)
@@ -1000,7 +1043,8 @@ def ahi_hsd(
     xarray_obj.attrs["file_metadata"] = file_info.copy()
 
     # Most of the metadata are the same between files.
-    # From here on we will just rely on the metadata from a single data file for each resolution.
+    # From here on we will just rely on the metadata from a single data file
+    # for each resolution.
     res_md = {}
     for res in ["LOW", "MED", "HIGH"]:
         # Find a file file for this resolution: Any one will do
@@ -1011,7 +1055,8 @@ def ahi_hsd(
             # Get the metadata for any of the segments (doesn't matter which)
             res_md[res] = segment_info[list(segment_info.keys())[0]]
 
-    # If we plan to self register, make sure we requested a resolution that we actually plan to read
+    # If we plan to self register, make sure we requested a resolution that we
+    # actually plan to read
     if self_register and self_register not in res_md:
         raise ValueError(
             "Resolution requested for self registration has not been read."
@@ -1069,7 +1114,8 @@ def ahi_hsd(
         all_chans_list += chl
 
     # If specific channels were requested, check them against input data
-    # If specific channels were requested, but no files exist for one of the channels, then error
+    # If specific channels were requested, but no files exist for one of the
+    # channels, then error
     if chans:
         for chan in chans:
             if chan not in all_chans_list:
@@ -1281,7 +1327,8 @@ def ahi_hsd(
         #                                                           xobj.area_definition.pixel_size_y)
         # else:
         #     xobj.attrs['interpolation_radius_of_influence'] = 2000
-        # Make this a fixed 3000 (1.5 * lowest resolution data) - may want to adjust for different channels.
+        # Make this a fixed 3000 (1.5 * lowest resolution data) - may want to
+        # adjust for different channels.
         xobj.attrs["interpolation_radius_of_influence"] = 3000
         xarray_objs[dsname] = xobj
         # May need to deconflict / combine at some point, but for now just use attributes from
@@ -1299,7 +1346,10 @@ def ahi_hsd(
 
 
 def set_variable_metadata(xobj_attrs, band_metadata, dsname, varname):
-    """MLS 20180914
+    """
+    Set variable metadata.
+
+    MLS 20180914
     Setting xobj_attrs at the variable level for the associated
     channel metadata pulled from the actual netcdf file.
     This will now be accessible from the scifile object.
@@ -1330,14 +1380,15 @@ def set_variable_metadata(xobj_attrs, band_metadata, dsname, varname):
                     "calibration_information"
                 ]["cent_wavelenth"]
 
-
 def get_band_metadata(all_metadata):
-    """This method basically just reformats the all_metadata
+    """
+    Get band metadata.
+
+    This method basically just reformats the all_metadata
     dictionary that is set based on the metadata found
     in the netcdf object itself to reference channel
     names as opposed to filenames as the dictionary keys.
     """
-
     bandmetadata = {}
     for fname in all_metadata.keys():
         bandnum = all_metadata[fname]["block_05"]["band_number"]
@@ -1354,15 +1405,14 @@ def get_band_metadata(all_metadata):
 
 
 def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
-    """
-    Read data for a full channel's worth of files.
-    """
+    """Read data for a full channel's worth of files."""
     # Coordinate arrays for reading
     # Unsure if Lines can ever be None, but the test below was causing an error due to testing
     #   the truth value of an entire array.  May need to implement test again here to ensure that
     #   gvars['Lines'] is actually something, but testing this method for now.
     # Test against full-disk.  Works for sectors...
-    # if ('Lines' in gvars and 'Samples' in gvars) and gvars['Lines'].any() and gvars['Samples'].any():
+    # if ('Lines' in gvars and 'Samples' in gvars) and gvars['Lines'].any()
+    # and gvars['Samples'].any():
     if "Lines" in gvars and "Samples" in gvars:
         full_disk = False
         line_inds = gvars["Lines"]
@@ -1472,7 +1522,8 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
     # It appears that some AHI data does not correctly set erroneous pixels to count_badval.
     # To fis this, we can find the count value at which radiances become less than or equal to zero.
     # Any counts above that value are bad.
-    # Note: This is only for use when calculating brightness temperatures (i.e. when gain is negative)
+    # Note: This is only for use when calculating brightness temperatures
+    # (i.e. when gain is negative)
     if gain < 0:
         root = -offset / gain
         root_inds = np.where(counts > root)
@@ -1481,7 +1532,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
 
     # Create mask for good values in order to suppress warning from log of negative values.
     # Note: This is only for use when calculating brightness temperatures
-    good = np.ones(counts.shape, dtype=np.bool)
+    good = np.ones(counts.shape, dtype=bool)
     good[root_inds] = 0
     good[outrange_inds] = 0
     good[error_inds] = 0

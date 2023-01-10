@@ -10,9 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Coverage check routine for center radius coverage checks
-"""
-
+"""Coverage check routine for center radius coverage checks."""
 import logging
 
 import numpy
@@ -22,18 +20,22 @@ LOG = logging.getLogger(__name__)
 
 
 def plot_coverage(main_ax, area_def, covg_args):
-    """Function to plot the coverage specified by the 'center_radius' coverage function
+    """Plot the coverage specified by the 'center_radius' function.
 
-    Args:
-        main_ax (matplotlib.axis): Axis on which to plot coverage representation
-        area_def (pyresample.AreaDefinition): area def for current plot
-        covg_args (dict): product params dictionary for current product -
-                                to ensure we plot the correct coverage params
+    Parameters
+    ----------
+    main_ax : matplotlib.axis
+        Axis on which to plot coverage representation
+    area_def : pyresample.AreaDefinition
+        area def for current plot
+    covg_args : dict
+        product params dictionary for current product -
+        to ensure we plot the correct coverage params
 
-    Returns:
-        No return value
+    Returns
+    -------
+    No return value
     """
-
     plot_color = "black"
 
     if "radius_km" in covg_args:
@@ -48,20 +50,28 @@ def plot_coverage(main_ax, area_def, covg_args):
 
 
 def create_radius(temp_arr, radius_pixels=300, x_center=0, y_center=0):
-    """Function to create a radius around given x,y coordinates in the 2d array.
+    """Create a radius around given x,y coordinates in the 2d array.
 
-    Given the radius and the x,y coordinates it creates a circle around those points using the skimage.draw library
+    Given the radius and the x,y coordinates it creates a circle around those
+    points using the skimage.draw library
 
-    Args:
-        temp_arr (int): The 2D array.
-        radius (int): The radius of the circle. 500 is default value.
-        x (int): The x coordinate of middle circle point. 0 is default value.
-        y (int): The x coordinate of middle circle point. 0 is default value.
+    Parameters
+    ----------
+    temp_arr : int
+        The 2D array.
+    radius : int, optional
+        The radius of the circle. 500 is default value.
+    x : int, optional
+        The x coordinate of middle circle point. 0 is default value.
+    y : int, optional
+        The x coordinate of middle circle point. 0 is default value.
 
-    Returns:
-        2D array with circle created at the x,y coordinate with the given radius. All circles are marked as 1.
+    Returns
+    -------
+    numpy.ndarray
+        2D array with circle created at the x,y coordinate with the given radius
+        All circles are marked as 1.
     """
-
     dumby_arr = numpy.zeros((temp_arr.shape), dtype=numpy.uint8)
     r_points, c_points = disk(
         (x_center, y_center), radius_pixels, shape=dumby_arr.shape
@@ -82,15 +92,20 @@ def center_radius(
 ):
     """Coverage check routine for xarray objects with masked projected arrays.
 
-    Args:
-        xarray_obj (xarray.Dataset) :  xarray object containing variable "variable_name"
-        variable_name (str) : variable name to check percent unmasked
-        radius_km (float) : Radius of center disk to check for coverage
+    Parameters
+    ----------
+    xarray_obj : xarray.Dataset
+        xarray object containing variable "variable_name"
+    variable_name : str
+        variable name to check percent unmasked
+    radius_km : float
+        Radius of center disk to check for coverage
 
-    Returns:
-        float : Percent coverage of variable_name
+    Returns
+    -------
+    float
+        Percent coverage of variable_name
     """
-
     varname_for_covg = variable_name
     if (
         variable_name not in xarray_obj.variables.keys()

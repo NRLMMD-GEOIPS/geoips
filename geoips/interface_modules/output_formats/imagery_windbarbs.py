@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Matplotlib-based windbarb annotated image output."""
 import os
 import logging
 
@@ -32,6 +33,7 @@ output_type = "image_overlay"
 
 
 def plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict):
+    """Plot windbarbs on matplotlib figure."""
     # main_ax.extent = area_def.area_extent_ll
     main_ax.set_extent(mapobj.bounds, crs=mapobj)
     # main_ax.extent = mapobj.bounds
@@ -79,12 +81,15 @@ def output_clean_windbarbs(
     main_ax=None,
     mapobj=None,
 ):
-    """Function to actually plot and save "clean" windbarb imagery,  with no background imagery,
-        coastlines, gridlines, titles, etc.
+    """Plot and save "clean" windbarb imagery.
 
-    Return: list[str]: Full paths to all resulting output files.
+    No background imagery, coastlines, gridlines, titles, etc.
+
+    Returns
+    -------
+    list of str
+        Full paths to all resulting output files.
     """
-
     LOG.info("Starting clean_fname")
     if fig is None and main_ax is None and mapobj is None:
         # Create matplotlib figure and main axis, where the main image will be plotted
@@ -106,30 +111,30 @@ def output_clean_windbarbs(
 
 
 def format_windbarb_data(xarray_obj, product_name):
-    """
-    lat=xarray_obj['latitude'].to_masked_array()
-    lon2=xarray_obj['longitude'].to_masked_array()
-    direction=xarray_obj['wind_dir_deg_met'].to_masked_array()
-    speed=xarray_obj['wind_speed_kts'].to_masked_array()
+    """Format windbarb data before plotting."""
+    # lat=xarray_obj['latitude'].to_masked_array()
+    # lon2=xarray_obj['longitude'].to_masked_array()
+    # direction=xarray_obj['wind_dir_deg_met'].to_masked_array()
+    # speed=xarray_obj['wind_speed_kts'].to_masked_array()
 
-    u=speed * numpy.sin((direction+180)*3.1415926/180.0)
-    v=speed * numpy.cos((direction+180)*3.1415926/180.0)
+    # u=speed * numpy.sin((direction+180)*3.1415926/180.0)
+    # v=speed * numpy.cos((direction+180)*3.1415926/180.0)
 
-    #u=speed * numpy.sin(direction*3.1415926/180.0)
-    #v=speed * numpy.cos(direction*3.1415926/180.0)
-
-    """
+    # u=speed * numpy.sin(direction*3.1415926/180.0)
+    # v=speed * numpy.cos(direction*3.1415926/180.0)
 
     num_product_arrays = 1
     if len(xarray_obj[product_name].shape) == 3:
         num_product_arrays = xarray_obj[product_name].shape[2]
 
-    # This is 2-D, with only one array per variable (speed, direction, rain_flag) - meaning NO ambiguities
+    # This is 2-D, with only one array per variable (speed, direction,
+    # rain_flag) - meaning NO ambiguities
     if len(xarray_obj[product_name].shape) == 3 and num_product_arrays == 3:
         speed = xarray_obj[product_name].to_masked_array()[:, :, 0]
         direction = xarray_obj[product_name].to_masked_array()[:, :, 1]
         rain_flag = xarray_obj[product_name].to_masked_array()[:, :, 2]
-    # This is 2-D, with FOUR arrays per variable (speed, direction, rain_flag) - meaning 4 ambiguities
+    # This is 2-D, with FOUR arrays per variable (speed, direction, rain_flag)
+    # - meaning 4 ambiguities
     elif len(xarray_obj[product_name].shape) == 3 and num_product_arrays == 12:
         speed = xarray_obj[product_name].to_masked_array()[:, :, 0:4]
         direction = xarray_obj[product_name].to_masked_array()[:, :, 4:8]
@@ -143,7 +148,8 @@ def format_windbarb_data(xarray_obj, product_name):
     # These should probably be specified in the product dictionary.
     # It will vary per-sensor / data type, these basically only currently work with
     # ASCAT 25 km data.
-    # This would also avoid having the product names hard coded in the output module code.
+    # This would also avoid having the product names hard coded in the output
+    # module code.
     if (
         "product_definition" in xarray_obj.attrs
         and "barb_sizes" in xarray_obj.attrs["product_definition"]
@@ -248,7 +254,7 @@ def imagery_windbarbs(
     title_copyright=None,
     title_format=None,
 ):
-
+    """Plot annotated windbarbs on matplotlib figure."""
     LOG.info("Startig imagery_windbarbs")
 
     if product_name_title is None:

@@ -10,12 +10,12 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Interface Under Development.  Please provide feedback to geoips@nrlmry.navy.mil
+"""Boundaries interface will be deprecated v2.0.
 
-    Wrapper functions for geoips boundaries plotting parameter specifications
+Wrapper functions for geoips boundaries interfacing.
 
-    Once all related wrapper functions are finalized,
-    this module will be moved to the geoips/stable sub-package.
+This functionality will be replaced with a class-based implementation v2.0,
+and deprecated at that time.
 """
 
 import logging
@@ -27,45 +27,49 @@ from geoips.geoips_utils import find_config
 
 ### Gridline parameter dictionaries ###
 def is_valid_boundaries(boundaries_name):
-    """Interface Under Development, please provide feedback to geoips@nrlmry.navy.mil
+    """Interface will be deprecated v2.0.
 
-        Check that requested boundaries parameter dictionary is properly formatted.
+        Check that requested boundaries parameter dictionary is properly
+        formatted.
 
-        The dictionary of boundaries parameters determines how the boundaries appear on the output
-        cartopy imagery.
+        The dictionary of boundaries parameters determines how the boundaries
+        appear on the output cartopy imagery.
 
         Dictionary of boundaries parameters currently specified by:
             yaml_configs.plotting_params.boundaries.<boundaries_name>
 
-    Args:
-        boundaries_name (str) : Name of requested boundaries parameter set (ie, 'tc_pmw', 'tc_visir', etc)
+    Parameters
+    ----------
+    boundaries_name : str
+        Name of requested boundaries parameter set
+        (ie, 'tc_pmw', 'tc_visir', etc)
 
-    Returns:
-        (bool) : True if 'boundaries_name' is a properly formatted dictionary of boundaries parameters.
-                 False if boundaries parameter dictionary:
-                        does not contain supported 'boundaries_dict_type',
-                        does not contain all 'required' fields,
-                        contains non-supported 'optional' fields
+    Returns
+    -------
+    is_valid : bool
+        * True if 'boundaries_name' is a properly formatted dictionary of boundaries parameters.
+        * False if boundaries parameter dictionary:
+            * does not contain supported 'boundaries_dict_type',
+            * does not contain all 'required' fields,
+            * contains non-supported 'optional' fields
 
-                 Gridline dictionary types currently one of:
+    Gridline dictionary types currently one of:
 
-                        'standard' : Include coastlines, countries, states, rivers info.
-                               dictionary fields: {'boundaries_dict_type': 'standard',
-                                                   'request_coastlines': <bool>,
-                                                   'request_countries': <bool>,
-                                                   'request_states': <bool>,
-                                                   'request_rivers': <bool>,
-                                                   'coastlines_linewidth': <float>,
-                                                   'countries_linewidth': <float>,
-                                                   'states_linewidth': <float>,
-                                                   'rivers_linewidth': <float>,
-                                                   'coastlines_color': <str>,
-                                                   'countries_color': <str>,
-                                                   'states_color': <str>,
-                                                   'rivers_color': <str>}
-
+        'standard' : Include coastlines, countries, states, rivers info.
+               dictionary fields: {'boundaries_dict_type': 'standard',
+                                   'request_coastlines': <bool>,
+                                   'request_countries': <bool>,
+                                   'request_states': <bool>,
+                                   'request_rivers': <bool>,
+                                   'coastlines_linewidth': <float>,
+                                   'countries_linewidth': <float>,
+                                   'states_linewidth': <float>,
+                                   'rivers_linewidth': <float>,
+                                   'coastlines_color': <str>,
+                                   'countries_color': <str>,
+                                   'states_color': <str>,
+                                   'rivers_color': <str>}
     """
-
     required_keys = {
         "standard": [
             "boundaries_dict_type",
@@ -162,17 +166,22 @@ def is_valid_boundaries(boundaries_name):
 
 
 def get_boundaries(boundaries_name):
-    """Interface Under Development, please provide feedback to geoips@nrlmry.navy.mil
+    """Interface will be deprecated v2.0.
 
     Get dictionary of requested boundaries parameters.
 
-    See: geoips.dev.boundaries.is_valid_boundaries for full list of supported boundaries dictionary formats
+    See: geoips.dev.boundaries.is_valid_boundaries for full list of supported
+    boundaries dictionary formats
 
-    Args:
-        boundaries_name (str) : Name of requested boundaries (ie, 'tc_pmw', 'visir_pmw', etc)
+    Parameters
+    ----------
+    boundaries_name : str
+        Name of requested boundaries (ie, 'tc_pmw', 'visir_pmw', etc)
 
-    Returns:
-        (dict) : Dictionary of desired boundaries specifications
+    Returns
+    -------
+    dict
+        Dictionary of desired boundaries specifications
     """
     if boundaries_name is None:
         return None
@@ -192,38 +201,48 @@ def get_boundaries(boundaries_name):
 
 
 def get_boundaries_type(boundaries_name):
-    """Interface Under Development, please provide feedback to geoips@nrlmry.navy.mil
+    """Interface will be deprecated v2.0.
 
     Retrieve boundaries_dict_type of the requested boundaries, found in:
-           geoips.dev.boundaries.get_boundaries(boundaries_name)['boundaries_dict_type']
+        geoips.dev.boundaries.get_boundaries(boundaries_name)['boundaries_dict_type']
 
-    See: geoips.dev.boundaries.is_valid_boundaries for full list of supported boundaries dict types.
+    See: geoips.dev.boundaries.is_valid_boundaries for full list of supported
+        boundaries dict types.
 
-    Args:
-        boundaries_name (str) : Name of requested boundaries (ie, 'tc_pmw', 'visir_pmw', etc)
+    Parameters
+    ----------
+    boundaries_name : str
+        Name of requested boundaries (ie, 'tc_pmw', 'visir_pmw', etc)
 
-    Returns:
-        (str) : boundaries dict type, found in
-                geoips.dev.boundaries.get_boundaries(boundaries_name)['boundaries_dict_type']
+    Returns
+    -------
+    str
+        boundaries dict type, found in
+        geoips.dev.boundaries.get_boundaries(boundaries_name)['boundaries_dict_type']
     """
     boundaries_dict = get_boundaries(boundaries_name)
     return boundaries_dict["boundaries_dict_type"]
 
 
 def list_boundaries_by_type():
-    """Interface Under Development, please provide feedback to geoips@nrlmry.navy.mil
+    """Interface will be deprecated v2.0.
 
-    List all available boundaries settings within the current GeoIPS instantiation, on a per-boundaries_dict_type basis.
+    List all available boundaries settings within the current GeoIPS
+    instantiation, on a per-boundaries_dict_type basis.
 
-    boundaries dict "type" determines exact required format of the boundaries parameter dictionary.
+    boundaries dict "type" determines exact required format of the boundaries
+    parameter dictionary.
 
-    See geoips.dev.boundaries.is_valid_boundaries? for a list of available boundaries types and associated dictionary formats.
-    See geoips.dev.boundaries.get_boundaries(boundaries_name) to retrieve the boundaries parameter dictionary
-                                                            for a given boundaries
+    See geoips.dev.boundaries.is_valid_boundaries? for a list of available
+        boundaries types and associated dictionary formats.
+    See geoips.dev.boundaries.get_boundaries(boundaries_name)
+        to retrieve the boundaries parameter dictionary for a given boundaries
 
-    Returns:
-        (dict) : Dictionary with all boundaries dict types as keys, and lists of associated boundaries names (str) as values.
-
+    Returns
+    -------
+    dict
+        Dictionary with all boundaries dict types as keys, and lists of
+        associated boundaries names (str) as values.
     """
     from os.path import basename, splitext
     from geoips.geoips_utils import list_boundaries_params_dict_yamls
@@ -245,13 +264,21 @@ def list_boundaries_by_type():
 
 
 def test_boundaries_interface():
-    """Finds and opens every boundaries params dict available within the current geoips instantiation
+    """Interface will be deprecated v2.0.
 
-    See geoips.dev.boundaries.is_valid_boundaries? for a list of available boundaries params dict types and associated call signatures / return values.
-    See geoips.dev.boundaries.get_boundaries(boundaries_params_dict_name) to retrieve the requested boundaries params dict
+    Finds and opens every boundaries params dict available within the current
+    geoips instantiation
 
-    Returns:
-        (list) : List of all successfully opened geoips boundaries params dicts
+    See geoips.dev.boundaries.is_valid_boundaries?
+        for a list of available boundaries params dict types and associated
+        call signatures / return values.
+    See geoips.dev.boundaries.get_boundaries(boundaries_params_dict_name)
+        to retrieve the requested boundaries params dict
+
+    Returns
+    -------
+    list
+        List of all successfully opened geoips boundaries params dicts
     """
     curr_names = list_boundaries_by_type()
     out_dict = {

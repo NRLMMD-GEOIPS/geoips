@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Projection information for setting up pyresample area definitions"""
+"""Projection information for setting up pyresample area definitions."""
 
 projections_avail = {
     ("aeqd", "aeqd", "Azimuthal Equidistant"): 0,
@@ -52,17 +52,22 @@ projections_avail = {
 
 
 def get_projection(name):
-    """Get a dictionary of projection names containing the following keys:
-        name:       the basemap projection short name
-        p4name:     the Proj4 projection name
-        longname:   a long name describing the projection
-        type:       an integer indicating how the projection must be set up
-    The type field tells the program which arguments will be useful to a given projection
-    0) Can use corner lats and lons or center lats and lons with width and height
-    1) Ignores corner lats and lons and width/height arguments.  Uses center lat/lon
-    2) Can use corner lats and lons or corner coordinates in the local projection
-       space, but ignores all other location parameters.
-    See http://matplotlib.sourceforge.net/basemap/doc/html/api/basemap_api.html"""
+    """Get a dictionary of projection names containing the specified keys.
+
+    Dictionary keys:
+        * name:       the basemap projection short name
+        * p4name:     the Proj4 projection name
+        * longname:   a long name describing the projection
+        * type:       an integer indicating how the projection must be set up
+
+    The type field tells the program which arguments will be useful to a given
+    projection
+
+    * Can use corner lats and lons or center lats and lons with width and height
+    * Ignores corner lats and lons and width/height arguments.  Uses center lat/lon
+    * Can use corner lats and lons or corner coordinates in the local projection
+      space, but ignores all other location parameters.
+    """
     proj_info = None
     for key, val in projections_avail.items():
         try:
@@ -78,7 +83,7 @@ def get_projection(name):
             }
             break
     if proj_info is None:
-        raise SectorFileError("%s projection is not defined in basemap." % name)
+        raise TypeError(f"{name} projection is not defined in geoips.")
     if proj_info["p4name"] is None:
-        raise SectorFileError("%s projection is not defined in Proj4." % name)
+        raise TypeError(f"{name} projection is not defined in Proj4.")
     return proj_info

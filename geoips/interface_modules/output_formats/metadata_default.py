@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Default YAML metadata output format."""
 import os
 import logging
 
@@ -32,15 +33,22 @@ def metadata_default(
     output_dict=None,
     include_metadata_filename=False,
 ):
-    """Produce metadata yaml file of sector information associated with the final_product
-    Args:
-        area_def (AreaDefinition) : Pyresample AreaDefintion object
-        final_product (str) : Product that is associated with the passed area_def
-        metadata_dir (str) : DEFAULT 'metadata' Subdirectory name for metadata (using non-default allows for
-                                                non-operational outputs)
+    """Produce metadata yaml file of sector info associated with final_product.
 
-    Returns:
-        (str) : Metadata yaml filename, if one was produced.
+    Parameters
+    ----------
+    area_def : AreaDefinition
+        Pyresample AreaDefintion object
+    final_product : str
+        Product that is associated with the passed area_def
+    metadata_dir : str, default='metadata'
+        Subdirectory name for metadata (using non-default allows for
+        non-operational outputs)
+
+    Returns
+    -------
+    str
+        Metadata yaml filename, if one was produced.
     """
     from geoips.sector_utils.utils import is_sector_type
 
@@ -63,19 +71,25 @@ def metadata_default(
 def update_sector_info_with_default_metadata(
     area_def, xarray_obj, product_filename=None, metadata_filename=None
 ):
-    """Update sector info found in "area_def" with standard metadata output
+    """Update sector info found in "area_def" with standard metadata output.
 
-    Args:
-        area_def (AreaDefinition) : Pyresample AreaDefinition of sector information
-        xarray_obj (xarray.Dataset) : xarray Dataset object that was used to produce product
-        product_filename (str) : Full path to full product filename that this YAML file refers to
-    Returns:
-        (dict) : sector_info dict with standard metadata added
-                    * bounding box
-                    * product filename with wildcards
-                    * basename of original source filenames
+    Parameters
+    ----------
+    area_def : AreaDefinition
+        Pyresample AreaDefinition of sector information
+    xarray_obj : xarray.Dataset
+        xarray Dataset object that was used to produce product
+    product_filename : str
+        Full path to full product filename that this YAML file refers to
+
+    Returns
+    -------
+    dict
+        sector_info dict with standard metadata added
+         * bounding box
+         * product filename with wildcards
+         * basename of original source filenames
     """
-
     sector_info = area_def.sector_info.copy()
 
     if hasattr(area_def, "sector_type") and "sector_type" not in sector_info:
@@ -111,17 +125,24 @@ def output_metadata_yaml(
     output_dict=None,
     include_metadata_filename=False,
 ):
-    """Write out yaml file "metadata_fname" of sector info found in "area_def"
+    """Write out yaml file "metadata_fname" of sector info found in "area_def".
 
-    Args:
-        metadata_fname (str) : Path to output metadata_fname
-        area_def (AreaDefinition) : Pyresample AreaDefinition of sector information
-        xarray_obj (xarray.Dataset) : xarray Dataset object that was used to produce product
-        productname (str) : Full path to full product filename that this YAML file refers to
-    Returns:
-        (str) : Path to metadata filename if successfully produced.
+    Parameters
+    ----------
+    metadata_fname : str
+        Path to output metadata_fname
+    area_def : AreaDefinition
+        Pyresample AreaDefinition of sector information
+    xarray_obj : xarray.Dataset
+        xarray Dataset object that was used to produce product
+    productname : str
+        Full path to full product filename that this YAML file refers to
+
+    Returns
+    -------
+    str
+        Path to metadata filename if successfully produced.
     """
-
     sector_info_kwargs = {}
     if include_metadata_filename:
         sector_info_kwargs["metadata_filename"] = metadata_fname

@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Matplotlib-based clean image output."""
 import os
 import logging
 
@@ -31,9 +32,12 @@ def imagery_clean(
     main_ax=None,
     mapobj=None,
 ):
-
+    """Plot clean image on matplotlib figure."""
     success_outputs = []
     plot_data = xarray_obj[product_name].to_masked_array()
+    plot_kwargs = {}
+    if hasattr(xarray_obj, "order"):
+        plot_kwargs = {"zorder": int(xarray_obj.order)}
     from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
     from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
     from geoips.image_utils.mpl_utils import plot_image, save_image
@@ -54,7 +58,9 @@ def imagery_clean(
         )
 
     # Plot the actual data on a map
-    plot_image(main_ax, plot_data, mapobj, mpl_colors_info=mpl_colors_info)
+    plot_image(
+        main_ax, plot_data, mapobj, mpl_colors_info=mpl_colors_info, **plot_kwargs
+    )
 
     if output_fnames is not None:
         for clean_fname in output_fnames:

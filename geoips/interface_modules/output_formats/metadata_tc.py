@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""TC product YAML metadata output format."""
 import os
 import logging
 
@@ -33,15 +34,22 @@ def metadata_tc(
     metadata_fname_dict=None,
     output_fname_dict=None,
 ):
-    """Produce metadata yaml file of sector information associated with the final_product
-    Args:
-        area_def (AreaDefinition) : Pyresample AreaDefintion object
-        final_product (str) : Product that is associated with the passed area_def
-        metadata_dir (str) : DEFAULT 'metadata' Subdirectory name for metadata (using non-default allows for
-                                                non-operational outputs)
+    """Produce metadata yaml file of sector info associated with final_product.
 
-    Returns:
-        (str) : Metadata yaml filename, if one was produced.
+    Parameters
+    ----------
+    area_def : AreaDefinition
+        Pyresample AreaDefintion object
+    final_product : str
+        Product that is associated with the passed area_def
+    metadata_dir : str, default="metadata"
+        Subdirectory name for metadata (using non-default allows for
+        non-operational outputs)
+
+    Returns
+    -------
+    str
+        Metadata yaml filename, if one was produced.
     """
     from geoips.sector_utils.utils import is_sector_type
 
@@ -65,6 +73,7 @@ def metadata_tc(
 def update_sector_info_with_coverage(
     sector_info, product_name, xarray_obj, area_def, output_dict
 ):
+    """Update sector info with coverage."""
     from geoips.dev.product import get_covg_from_product, get_covg_args_from_product
 
     covg_func_types = ["image_production", "fname", "full"]
@@ -147,15 +156,23 @@ def output_tc_metadata_yaml(
     metadata_fname_dict=None,
     output_fname_dict=None,
 ):
-    """Write out yaml file "metadata_fname" of sector info found in "area_def"
+    """Write out yaml file "metadata_fname" of sector info found in "area_def".
 
-    Args:
-        metadata_fname (str) : Path to output metadata_fname
-        area_def (AreaDefinition) : Pyresample AreaDefinition of sector information
-        xarray_obj (xarray.Dataset) : xarray Dataset object that was used to produce product
-        productname (str) : Full path to full product filename that this YAML file refers to
-    Returns:
-        (str) : Path to metadata filename if successfully produced.
+    Parameters
+    ----------
+    metadata_fname : str
+        Path to output metadata_fname
+    area_def : AreaDefinition
+        Pyresample AreaDefinition of sector information
+    xarray_obj : xarray.Dataset
+        xarray Dataset object that was used to produce product
+    productname : str
+        Full path to full product filename that this YAML file refers to
+
+    Returns
+    -------
+    str
+        Path to metadata filename if successfully produced.
     """
     from geoips.interface_modules.output_formats.metadata_default import (
         update_sector_info_with_default_metadata,

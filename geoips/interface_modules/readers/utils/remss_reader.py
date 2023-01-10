@@ -20,9 +20,13 @@ DEG_TO_KM = 111.321
 
 
 def read_remss_data(wind_xarray, data_type):
-    """Reformat SMAP or WindSat xarray object appropriately
+    """
+    Reformat SMAP or WindSat xarray object appropriately.
+
     variables: latitude, longitude, timestamp, wind_speed_kts
-    attributes: source_name, platform_name, data_provider, interpolation_radius_of_influence"""
+    attributes: source_name, platform_name, data_provider,
+    interpolation_radius_of_influence
+    """
     import xarray
     import numpy
     from datetime import datetime
@@ -95,7 +99,8 @@ def read_remss_data(wind_xarray, data_type):
     )
     # minarr = wind_xarray.minute
     minarr = numpy.flipud(wind_xarray[minute_varname])
-    # This is a hack to get latest version of numpy to work with masked datetime64 arrays.
+    # This is a hack to get latest version of numpy to work with masked
+    # datetime64 arrays.
     if hasattr(numpy, "isnat") and numpy.isnat(minarr.max()):
         minarr = (minarr.astype(numpy.int64) / 1000).astype(numpy.int64)
         minarr = numpy.ma.where(minarr < 0, numpy.nan, minarr)

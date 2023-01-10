@@ -10,14 +10,13 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Interface Under Development.  Please provide feedback to geoips@nrlmry.navy.mil
+"""Interpolation interface will be deprecated v2.0.
 
-    Wrapper functions for geoips output_config specifications.
+Wrapper functions for geoips output_config specifications.
 
-    Once all related wrapper functions are finalized,
-    this module will be moved to the geoips/stable sub-package.
+This functionality will be replaced with a class-based implementation v2.0,
+and deprecated at that time.
 """
-
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -27,34 +26,40 @@ from geoips.geoips_utils import find_entry_point, find_config
 
 ### Output config dictionaries ###
 def is_valid_output_config(output_config_dict):
-    """Interface Under Development, please provide feedback to geoips@nrlmry.navy.mil
+    """Interface will be deprecated v2.0.
 
-        Check that requested output_config dictionary is properly formatted.
+    Check that requested output_config dictionary is properly formatted.
 
-        The dictionary of output_config parameters fully determines the outputs required for a given set of
-        data files.
+    The dictionary of output_config
+    parameters fully determines the outputs required for a given set of
+    data files.
 
-        Dictionary of output_config parameters currently specified by a full path to a YAML file:
-        and requested via commandline with:
-            --output_config <full_path_to_YAML_output_config>
+    Dictionary of output_config parameters currently specified by a
+    full path to a YAML file:
+    and requested via commandline with:
+    ``--output_config <full_path_to_YAML_output_config>``
 
-    Args:
-        output_config_dict (dict) : Dictionary of output config parameters
+    Parameters
+    ----------
+    output_config_dict : dict
+        Dictionary of output config parameters
 
-    Returns:
-        (bool) : True if 'output_config_dict' is a properly formatted dictionary of output parameters.
-                 False if output_config_dict:
-                        does not contain supported 'output_config_type',
-                        does not contain all 'required' fields,
-                        contains non-supported 'optional' fields
+    Returns
+    -------
+    is_valid : bool
+        * True if ``output_config_dict`` is a properly formatted dictionary of
+          output parameters.
+        * False if output_config_dict:
+            * does not contain supported ``output_config_type``,
+            * does not contain all ``required`` fields,
+            * contains non-supported ``optional`` fields
 
-                 output_config_types currently one of:
-
-                        'single_source'
-                        'fused'
-
+    Notes
+    -----
+    output_config_types currently one of:
+        * ``single_source``
+        * ``fused``
     """
-
     required_keys = {}
     optional_keys = {}
 
@@ -150,23 +155,28 @@ def is_valid_output_config(output_config_dict):
 
 
 def get_output_config_type(output_config_dict):
-    """Interface Under Development, please provide feedback to geoips@nrlmry.navy.mil
+    """Interface will be deprecated v2.0.
 
     Retrieve output_config_type of the passed output_config_dict, found in:
            output_config_dict['output_config_type']
 
-    See: geoips.dev.output_config.is_valid_output_config for full list of supported output_config types.
+    See: geoips.dev.output_config.is_valid_output_config for full list of
+    supported output_config types.
 
-    Args:
-        output_config_dict (dict) : dictionary of complete output config parameters
+    Parameters
+    ----------
+    output_config_dict : dict
+        dictionary of complete output config parameters
 
-    Returns:
+    Returns
+    -------
         (str) : output_config type, found in output_config_dict['output_config_type']
     """
     return output_config_dict["output_config_type"]
 
 
 def get_filename_formats(output_dict):
+    """Interface will be deprecated v2.0."""
     if "filename_format" in output_dict and isinstance(
         output_dict["filename_format"], str
     ):
@@ -176,17 +186,19 @@ def get_filename_formats(output_dict):
 
 
 def get_output_format(output_dict):
+    """Interface will be deprecated v2.0."""
     return output_dict["output_format"]
 
 
 def get_metadata_output_format(output_dict):
+    """Interface will be deprecated v2.0."""
     if "metadata_output_format" in output_dict:
         return output_dict["metadata_output_format"]
     return None
 
 
 def get_metadata_filename_format(filename_format, output_dict):
-
+    """Interface will be deprecated v2.0."""
     fname_format = None
 
     if "metadata_filename_format" in output_dict and isinstance(
@@ -210,7 +222,7 @@ def get_metadata_filename_format(filename_format, output_dict):
 
 
 def get_minimum_coverage(product_name, output_dict):
-
+    """Interface will be deprecated v2.0."""
     minimum_coverage = None
 
     if (
@@ -241,10 +253,16 @@ def get_minimum_coverage(product_name, output_dict):
 
 
 def get_filename_format_kwargs(filename_format, output_dict):
-    """Return dictionary of filename_formats_kwargs based on what was passed in via the YAML output config
-    dictionary, as well as default kwargs. If "filename_format_kwargs (singular) is passed command line, use
-    that to override ALL filename_formats_kwargs specified in YAML output config."""
+    """Interface will be deprecated v2.0.
 
+    Return dictionary of filename_formats_kwargs.
+
+    based on what was passed in via the YAML output config
+    dictionary, as well as default kwargs.
+
+    If "filename_format_kwargs (singular) is passed command line, use
+    that to override ALL filename_formats_kwargs specified in YAML output config.
+    """
     filename_format_kwargs = {}
 
     # YAML output config arguments
@@ -268,9 +286,13 @@ def get_filename_format_kwargs(filename_format, output_dict):
 
 
 def get_metadata_filename_format_kwargs(filename_format, output_dict):
-    """Return dictionary of filename_formats_kwargs based on what was passed in via the YAML output config
-    dictionary, as well as default kwargs"""
+    """Interface will be deprecated v2.0.
 
+    Return dictionary of filename_formats_kwargs.
+
+    based on what was passed in via the YAML output config
+    dictionary, as well as default kwargs
+    """
     metadata_filename_format_kwargs = {}
 
     if (
@@ -303,6 +325,7 @@ def get_output_format_kwargs(
     bg_xarrays=None,
     bg_product_name=None,
 ):
+    """Interface will be deprecated v2.0."""
     from geoips.dev.product import get_cmap_name, get_cmap_args
     from geoips.interfaces import colormaps
     from geoips.dev.gridlines import get_gridlines, set_lonlat_spacing
@@ -354,6 +377,7 @@ def get_output_format_kwargs(
 
 
 def get_metadata_output_format_kwargs(output_dict):
+    """Interface will be deprecated v2.0."""
     metadata_output_format_kwargs = {}
     if "metadata_output_format_kwargs" in output_dict:
         metadata_output_format_kwargs = output_dict[
@@ -364,10 +388,15 @@ def get_metadata_output_format_kwargs(output_dict):
 
 
 def produce_current_time(config_dict, metadata_xobj, output_dict_keys=None):
-    """Determine if the current data file needs to be processed, based on the requested times.
-    If output_dict_key is included, apply to only the currently requested output_dict.
-    If output_dict_key is None, check ALL outputs to determine if ANY need the current time."""
+    """Interface will be deprecated v2.0.
 
+    Determine if the current data file needs to be processed,
+        based on the requested times.
+    If output_dict_key is included, apply to only the currently
+        requested output_dict.
+    If output_dict_key is None, check ALL outputs to determine if
+        ANY need the current time.
+    """
     if output_dict_keys is None:
         output_dict_keys = config_dict["outputs"].keys()
 
@@ -400,14 +429,20 @@ def produce_current_time(config_dict, metadata_xobj, output_dict_keys=None):
 
 
 def test_output_config_interface(output_config_dict):
-    """Finds and opens every product params dict available within the current geoips instantiation
+    """Interface will be deprecated v2.0.
 
-    See geoips.dev.output_config.is_valid_output_config? for a list of available product params dict types and associated call signatures / return values.
+    Finds and opens every product params dict available within the current
+    geoips instantiation
 
-    Returns:
-        (list) : List of all successful output_config information
+    See geoips.dev.output_config.is_valid_output_config?
+        for a list of available product params dict types and
+        associated call signatures / return values.
+
+    Returns
+    -------
+    list
+        List of all successful output_config information
     """
-
     out_dict = {}
     # LOG.info('Checking source %s', source_name)
     out_dict["validity_check"] = is_valid_output_config(output_config_dict)

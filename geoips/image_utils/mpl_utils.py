@@ -11,7 +11,6 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """matplotlib utilities."""
-
 # Python Standard Libraries
 import logging
 import matplotlib
@@ -101,7 +100,7 @@ def alpha_from_masked_arrays(arrays):
     """
     import numpy
 
-    alp = numpy.zeros(arrays[0].shape, dtype=numpy.bool)
+    alp = numpy.zeros(arrays[0].shape, dtype=bool)
     for img in arrays:
         try:
             if img.mask is not numpy.False_:
@@ -110,9 +109,9 @@ def alpha_from_masked_arrays(arrays):
             pass
     # You will get yelled at by numpy if you removed the "alp.dtype" portion of this.
     #   It thinks you are trying to cast alp to be an integer.
-    alp = numpy.array(alp, dtype=numpy.float)
-    alp -= numpy.float(1)
-    alp *= numpy.float(-1)
+    alp = numpy.array(alp, dtype=float)
+    alp -= float(1)
+    alp *= float(-1)
     return alp
 
 
@@ -227,8 +226,8 @@ def save_image(
         if not pathexists(dirname(out_fname)):
             make_dirs(dirname(out_fname))
         # no annotations
-        # frameon=False makes it have no titles / lat/lons. does not avoid colorbar, since that is its own ax
-        # frameon=False deprecated as of matplotlib 3.1.0.  Use facecolor="none" for the same results
+        # frameon=False makes it have no titles / lat/lons. does not avoid
+        # colorbar, since that is its own ax
         for ax in fig.axes:
             LOG.info("Removing ax from %s", ax)
             ax.set_axis_off()
@@ -451,7 +450,8 @@ def create_figure_and_main_ax_and_mapobj(
 
     # I can't seem to get a clean image with no border unless the ax fills the whole figure.
     # Titles / labels don't show up unless we use figure.subplot rc_params
-    # It does not appear to be possible to plot the image only once for both the clean and annotated image.
+    # It does not appear to be possible to plot the image only once for both
+    # the clean and annotated image.
     if noborder:
         left_margin = 0.0
         right_margin = 1.0
@@ -636,19 +636,8 @@ def create_colorbar(fig, mpl_colors_info):
     fig : matplotlib.figure.Figure
         Figure object to attach the colorbar - the colorbar will create its own ax
     mpl_colors_info : dict
-        Dictionary of matplotlib Color information, required fields below
-            mpl_colors_info['cmap'] (Colormap): matplotlib.colors.Colormap object (LinearSegmentedColormap, etc)
-                                                - this is used to plot the image and to generated the colorbar
-            mpl_colors_info['norm'] (Normalize): matplotlib.colors.Normalize object (BoundaryNorm, Normalize, etc)
-                                                - again, this should be used to plot the data also
-            mpl_colors_info['cbar_ticks'] (list): list of floats - values requiring tick marks on the colorbar
-            mpl_colors_info['cbar_tick_labels'] (list): list of values to use to label tick marks, if other than
-                                                        found in cbar_ticks
-            mpl_colors_info['boundaries'] (list): if cmap_norm is BoundaryNorm, list of boundaries for discrete
-                                                  colors
-            mpl_colors_info['cbar_spacing (string): DEFAULT 'proportional', 'uniform' or 'proportional'
-            mpl_colors_info['cbar_label (string): string label for colorbar
-            mpl_colors_info['colorbar']: (bool) True if a colorbar should be included in the image, False if no cbar
+        Dictionary of matplotlib Color information, required fields in Notes below.
+
     Returns
     -------
     cbar : matplotlib.colorbar.Colorbar
@@ -657,19 +646,44 @@ def create_colorbar(fig, mpl_colors_info):
 
     Notes
     -----
-    cbar_ax = fig.add_axes([<cbar_start_pos>, <cbar_bottom_pos>, <cbar_width>, <cbar_height>])
-    cbar = fig.colorbar(mappable=matplotlib.cm.ScalarMappable(norm=cmap_norm, cmap=mpl_cmap),
-                        cax=cbar_ax,
-                        norm=cmap_norm,
-                        boundaries=cmap_boundaries,
-                        spacing=cbar_spacing,
-                        **cbar_kwargs)
-    cbar.set_ticks(cbar_ticks, labels=cbar_tick_labels, **set_ticks_kwargs)
-    if cbar_label:
-        cbar.set_label(cbar_label, **set_label_kwargs)
+    Required mpl_colors_info fields::
 
+        mpl_colors_info['cmap'] (Colormap):
+            matplotlib.colors.Colormap object (LinearSegmentedColormap, etc)
+            this is used to plot the image and to generated the colorbar
+        mpl_colors_info['norm'] (Normalize):
+            matplotlib.colors.Normalize object (BoundaryNorm, Normalize, etc)
+            again, this should be used to plot the data also
+        mpl_colors_info['cbar_ticks'] (list):
+            list of floats - values requiring tick marks on the colorbar
+        mpl_colors_info['cbar_tick_labels'] (list)
+            list of values to use to label tick marks, if other than
+            found in cbar_ticks
+        mpl_colors_info['boundaries'] (list):
+            if cmap_norm is BoundaryNorm, list of boundaries for discrete colors
+        mpl_colors_info['cbar_spacing'] (string):
+            DEFAULT 'proportional', 'uniform' or 'proportional'
+        mpl_colors_info['cbar_label'] (string):
+            string label for colorbar
+        mpl_colors_info['colorbar']: (bool)
+            True if a colorbar should be included in the image, False if no cbar
+
+
+    Colorbar set as::
+
+        cbar_ax = fig.add_axes([<cbar_start_pos>, <cbar_bottom_pos>,
+                                <cbar_width>, <cbar_height>])
+        cbar = fig.colorbar(mappable=matplotlib.cm.ScalarMappable(norm=cmap_norm,
+                                                                  cmap=mpl_cmap),
+                            cax=cbar_ax,
+                            norm=cmap_norm,
+                            boundaries=cmap_boundaries,
+                            spacing=cbar_spacing,
+                            **cbar_kwargs)
+        cbar.set_ticks(cbar_ticks, labels=cbar_tick_labels, **set_ticks_kwargs)
+        if cbar_label:
+            cbar.set_label(cbar_label, **set_label_kwargs)
     """
-
     # Required - needed for both colormaps and colorbars.
     cmap_norm = mpl_colors_info["norm"]
     mpl_cmap = mpl_colors_info["cmap"]
@@ -684,14 +698,16 @@ def create_colorbar(fig, mpl_colors_info):
     if "cbar_spacing" in mpl_colors_info:
         cbar_spacing = mpl_colors_info["cbar_spacing"]
 
-    # Optional - can be specified in set_ticks_kwargs. None will be mapped to cbar_ticks.
+    # Optional - can be specified in set_ticks_kwargs. None will be mapped to
+    # cbar_ticks.
     cbar_tick_labels = None
     if "cbar_tick_labels" in mpl_colors_info:
         cbar_tick_labels = mpl_colors_info["cbar_tick_labels"]
     if mpl_colors_info["cbar_tick_labels"] is None:
         cbar_tick_labels = cbar_ticks
 
-    # Allow arbitrary kwargs to colorbar, but ensure our defaults for extend and orientation are set.
+    # Allow arbitrary kwargs to colorbar, but ensure our defaults for extend
+    # and orientation are set.
     cbar_kwargs = {}
     if "colorbar_kwargs" in mpl_colors_info:
         cbar_kwargs = mpl_colors_info["colorbar_kwargs"].copy()
@@ -702,7 +718,8 @@ def create_colorbar(fig, mpl_colors_info):
     if "orientation" not in cbar_kwargs:
         cbar_kwargs["orientation"] = "horizontal"
 
-    # Allow arbitrary kwargs to set_ticks, but ensure our defaults for labels and font sizes are set
+    # Allow arbitrary kwargs to set_ticks, but ensure our defaults for labels
+    # and font sizes are set
     set_ticks_kwargs = {}
     if "set_ticks_kwargs" in mpl_colors_info:
         set_ticks_kwargs = mpl_colors_info["set_ticks_kwargs"].copy()
@@ -725,7 +742,8 @@ def create_colorbar(fig, mpl_colors_info):
         "figure.subplot.right"
     ]  # Fractional distance from left edge of figure for subplot
 
-    # Optional positioning information for the colorbar axis - default location appropriately
+    # Optional positioning information for the colorbar axis - default
+    # location appropriately
     if "cbar_ax_left_start_pos" in mpl_colors_info:
         ax_left_start_pos = mpl_colors_info["cbar_ax_left_start_pos"]
     else:
@@ -770,7 +788,8 @@ def create_colorbar(fig, mpl_colors_info):
         # matplotlib 3.6.0 sometimes has inconsistent results with including minor ticks or not.
         # Unclear why it impacts some colorbars and not others.
         # We may eventually add support for including minor ticks within mpl_colors_info, but for now
-        # explicitly turn off minor ticks so outputs will continue to match (use the old default).
+        # explicitly turn off minor ticks so outputs will continue to match (use
+        # the old default).
         cbar.minorticks_off()
         cbar.set_ticks(cbar_ticks, **set_ticks_kwargs)
     if cbar_label:

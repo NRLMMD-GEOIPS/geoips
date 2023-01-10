@@ -10,11 +10,10 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Data manipulation steps for "Night_Vis_IR" product.
+"""Data manipulation steps for "Night_Vis" product, GeoIPS 1 Version.
 
-    This algorithm expects two VIIRS channels (DNBRad and M16BT) for a RGB image
+This algorithm expects one VIIRS channel (DNBRad) for a single channel image.
 """
-
 import logging
 from geoips.data_manipulations.corrections import mask_day
 from geoips.data_manipulations.corrections import apply_data_range, apply_gamma
@@ -28,23 +27,34 @@ alg_func_type = "list_numpy_to_numpy"
 def Night_Vis_GeoIPS1(
     arrays, min_outbounds="crop", max_outbounds="crop", max_night_zen=90
 ):
-    """Data manipulation steps for "rgb" product algorithm.
+    """Night Vis product algorithm data manipulation steps, GeoIPS 1 version.
 
-    This algorithm expects DNBRad in reflectance and M16BT Brightness Temperatures in units of degrees Kelvin,
-    and returns red green and blue gun arrays.
-    it will generate a product in daytime if we do not apply the daytime chech. For now, it is for both day/night.
-    (Will decide whether this product is only for nighttime.  if so, a daytime check is required.)
-    We might focus only on nighttime product with moonlight after additional validation (TBD).
+    This algorithm expects DNBRad in reflectance, and returns the adjusted
+    array.
 
-    Args:
-        data (list[numpy.ndarray]) :
-            * list of numpy.ndarray or numpy.MaskedArray of channel data, in order of sensor "channels" list
-            * Degrees Kelvin
+    Parameters
+    ----------
+    arrays : list of numpy.ndarray
+        * list of numpy.ndarray or numpy.MaskedArray of channel data,
+            in order of sensor "channels" list
+        * Degrees Kelvin
 
-    Returns:
-        numpy.ndarray : numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
+    Returns
+    -------
+    numpy.ndarray
+        numpy.ndarray or numpy.MaskedArray of adjusted DNB output.
+
+    Notes
+    -----
+    It will generate a product in daytime if we do not apply the daytime check.
+    For now, it is for both day/night.
+
+    We will decide whether this product is only for nighttime.
+    If so, a daytime check will be required.
+
+    We may focus only on nighttime product with moonlight after additional
+    validation (TBD).
     """
-
     data = arrays[0]
     sun_zenith = arrays[1]
 

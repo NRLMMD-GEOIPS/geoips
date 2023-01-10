@@ -10,40 +10,50 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" TC trackfile parser for flat text sectorfiles containing all currently active storms.
+"""TC trackfile parser for flat text sectorfiles containing current active storms.
 
-These files contain no storm history, only the currently active storm locations.  Useful for real-time processing.
+These files contain no storm history, only the currently active storm locations.
+Potentially useful for real-time processing.
 
 10S JOSHUA 210120 1200 21.8S 78.1E SHEM 20 1007
 12S ELOISE 210120 1800 15.6S 44.9E SHEM 35 1001
 92S INVEST 210120 1800 14.9S 120.8E SHEM 30 1002
 93S INVEST 210120 1800 12.6S 98.5E SHEM 30 1003
 """
-
 import logging
 
 LOG = logging.getLogger(__name__)
 
 
 def flat_sectorfile_parser(sectorfile_name):
-    """TC trackfile parser for flat text sectorfiles containing all currently active storms.
+    """TC trackfile parser for flat text sectorfiles containing current active storms.
 
-    These files contain no storm history, only the currently active storm locations.  Useful for real-time processing.
+    These files contain no storm history, only the currently active storm locations.
+    Potentially useful for real-time processing.
 
-    Args:
-        sectorfile_name (str) : Flat text sector file name containing all currently active storm locations,
-                                formatted as follows:
-                                    10S JOSHUA 210120 1200 21.8S 78.1E SHEM 20 1007
-                                    12S ELOISE 210120 1800 15.6S 44.9E SHEM 35 1001
-                                    92S INVEST 210120 1800 14.9S 120.8E SHEM 30 1002
-                                    93S INVEST 210120 1800 12.6S 98.5E SHEM 30 1003
+    Parameters
+    ----------
+    sectorfile_name : str
+        Flat text sector file name containing all currently active storm locations,
+        formatted as follows:
+        * 10S JOSHUA 210120 1200 21.8S 78.1E SHEM 20 1007
+        * 12S ELOISE 210120 1800 15.6S 44.9E SHEM 35 1001
+        * 92S INVEST 210120 1800 14.9S 120.8E SHEM 30 1002
+        * 93S INVEST 210120 1800 12.6S 98.5E SHEM 30 1003
 
-    Returns:
-        (list) : List of Dictionaries of storm metadata fields from each storm location in the flat text sector file
-                    Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
+    Returns
+    -------
+    list
+        List of Dictionaries of storm metadata fields from each storm location
+        in the flat text sector file
+
+    See Also
+    --------
+    :ref:`api_sector_utils`
+        Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
-
-    # These flat text sectorfiles contain all storms - no overall final_storm_name or tc_year
+    # These flat text sectorfiles contain all storms -
+    # no overall final_storm_name or tc_year
     final_storm_name = None
     tc_year = None
 
@@ -56,7 +66,8 @@ def flat_sectorfile_parser(sectorfile_name):
         curr_fields = parse_flat_sectorfile_line(
             line, sectorfile_name, parser_name="flat_sectorfile_parser"
         )
-        # Was previously RE-SETTING finalstormname here. That is why we were getting incorrect final_storm_name fields
+        # Was previously RE-SETTING finalstormname here.
+        # That is why we were getting incorrect final_storm_name fields
         all_fields += [curr_fields]
     return all_fields, final_storm_name, tc_year
 
@@ -64,17 +75,24 @@ def flat_sectorfile_parser(sectorfile_name):
 def parse_flat_sectorfile_line(
     line, source_filename, parser_name="flat_sectorfile_parser"
 ):
-    """Retrieve the storm information from the current line from the deck file
+    """Retrieve the storm information from the current line from the deck file.
 
-    Args:
-        line (str) : Current line from the deck file including all storm information
-                       10S JOSHUA 210120 1200 21.8S 78.1E SHEM 20 1007
+    Parameters
+    ----------
+    line : str
+        Current line from the deck file including all storm information
+        * 10S JOSHUA 210120 1200 21.8S 78.1E SHEM 20 1007
 
-    Returns:
-        (dict) : Dictionary of the fields from the current storm location from the deck file
-                    Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
+    Returns
+    -------
+    dict
+        Dictionary of the fields from the current storm location from the deck file
+
+    See Also
+    --------
+    :ref:`api_sector_utils`
+        Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
-
     from datetime import datetime
 
     parts = [part.strip() for part in line.split()]
@@ -122,15 +140,19 @@ def parse_flat_sectorfile_line(
 
 
 def NSEW_to_float(lat_lon_val):
-    """Convert lat/lon values with NSEW identifiers to positive or negative float values
+    """Convert lat/lon values with NSEW identifiers to positive or negative floats.
 
-    Args:
-        lat_lon_val (str) :  Latitude or longitude value as a string, with hemisphere specified by NSEW identifiers
+    Parameters
+    ----------
+    lat_lon_val : str
+        Latitude or longitude value as a string,
+        with hemisphere specified by NSEW identifiers
 
-    Returns:
-        (float) : Latitude or Longitude value as a float.
+    Returns
+    -------
+    float
+        Latitude or Longitude value as a float.
     """
-
     if "S" in lat_lon_val or "W" in lat_lon_val:
         lat_lon_val = -float(lat_lon_val.replace("S", "").replace("W", ""))
     else:
@@ -142,18 +164,24 @@ def NSEW_to_float(lat_lon_val):
 def get_storm_year(storm_basin, current_month, current_year):
     """Ensure correct storm_year is applied.
 
-    For Southern Hemisphere storms that initiate late in the year, the storm year identifier is for the
-    following year.
+    For Southern Hemisphere storms that initiate late in the year,
+    the storm year identifier is for the following year.
 
-    Args:
-        storm_basin (str) : basin of current storm, one of SH, AL, EP, CP, WP, IO
-        current_month (int) : Current month of storm location
-        current_year (int) : Current year of storm location
+    Parameters
+    ----------
+    storm_basin : str
+        basin of current storm, one of SH, AL, EP, CP, WP, IO
+    current_month : int
+        Current month of storm location
+    current_year : int
+        Current year of storm location
 
-    Returns:
-        (int) : Storm year identifier. current year, unless SH storm later than June, then current year + 1
+    Returns
+    -------
+    int
+        Storm year identifier. current year, unless SH storm later than June,
+        then current year + 1
     """
-
     storm_year = current_year
     if storm_basin == "SH" and current_month > 6:
         storm_year = current_year + 1

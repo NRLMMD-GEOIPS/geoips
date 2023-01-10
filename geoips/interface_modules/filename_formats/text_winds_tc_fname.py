@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Specifications for output filename formats for tc product types. """
-
+"""Filename formatter for TC-specific text windspeed outputs."""
 import logging
 
 from os.path import join as pathjoin, splitext as pathsplitext
@@ -31,6 +30,15 @@ LOG = logging.getLogger(__name__)
 def text_winds_tc_fname(
     xarray_obj, extension=".txt", basedir=gpaths["TCWWW"], output_dict=None
 ):
+    """Create TC-specific text windspeed filename.
+
+    See Also
+    --------
+    geoips.interface_modules.filename_formats.text_winds_tc_fname.
+        assemble_windspeeds_text_tc_fname
+        Shared utility to facilitate creating multiple similar filenames
+        from the same code.
+    """
     area_def = xarray_obj.area_definition
     return assemble_windspeeds_text_tc_fname(
         basedir=basedir,
@@ -64,33 +72,50 @@ def assemble_windspeeds_text_tc_fname(
 ):
     """Produce full output product path from product / sensor specifications.
 
-    Args:
-        basedir (str) :  base directory
-        tc_year (int) :  Full 4 digit storm year
-        tc_basin (str) :  2 character basin designation
-                               SH Southern Hemisphere
-                               WP West Pacific
-                               EP East Pacific
-                               CP Central Pacific
-                               IO Indian Ocean
-                               AL Atlantic
-        tc_stormnum (int) : 2 digit storm number
-                               90 through 99 for invests
-                               01 through 69 for named storms
-        platform_name (str) : Name of platform (satellite)
-        product_datetime (datetime) : Start time of data used to generate product
+    Parameters
+    ----------
+    basedir : str
+         base directory
+    tc_year : int
+         Full 4 digit storm year
+    tc_basin : str
+         2 character basin designation
+            SH Southern Hemisphere
+            WP West Pacific
+            EP East Pacific
+            CP Central Pacific
+            IO Indian Ocean
+            AL Atlantic
+    tc_stormnum : int
+        2 digit storm number
+            90 through 99 for invests
+            01 through 69 for named storms
+    platform_name : str
+        Name of platform (satellite)
+    product_datetime : datetime
+        Start time of data used to generate product
 
-    Returns:
-        str: to full path of output filename of the format:
-          <basedir>/tc<tc_year>/<tc_basin>/<tc_basin><tc_stormnum><tc_year>/txt/
-          <source_name>_<platform_name>_surface_winds_<data_provider>_<YYYYMMDDHHMN>
+    Returns
+    -------
+    str:
+        full path of output filename of the format:
+          <basedir>/tc<tc_year>/<tc_basin>/<tc_basin><tc_stormnum><tc_year>/
+            txt/<source_name>_<platform_name>_surface_winds_<data_provider>_
+            <YYYYMMDDHHMN>
 
-    Usage:
-        >>> startdt = datetime.strptime('20200216T001412', '%Y%m%dT%H%M%S')
-        >>> assemble_windspeeds_text_tc_fname('/outdir', 2020, 'SH', 16, 'smap-spd', 'smap', startdt, 'remss')
-        '/outdir/tc2020/SH/SH162020/txt/
+    Examples
+    --------
+    >>> startdt = datetime.strptime('20200216T001412', '%Y%m%dT%H%M%S')
+    >>> assemble_windspeeds_text_tc_fname('/outdir',
+    ...     2020,
+    ...     'SH',
+    ...     16,
+    ...     'smap-spd',
+    ...     'smap',
+    ...     startdt,
+    ...     'remss')
+    '/outdir/tc2020/SH/SH162020/txt/
     """
-
     from geoips.interface_modules.filename_formats.utils.tc_file_naming import (
         tc_storm_basedir,
     )

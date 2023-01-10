@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Geoips style NetCDF output format."""
 import os
 import logging
 
@@ -19,7 +20,7 @@ output_type = "xarray_data"
 
 
 def netcdf_geoips(xarray_obj, product_names, output_fnames):
-
+    """Write GeoIPS style NetCDF to disk."""
     import xarray
 
     prod_xarray = xarray.Dataset()

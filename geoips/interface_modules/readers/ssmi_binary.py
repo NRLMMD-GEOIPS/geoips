@@ -10,40 +10,45 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" This SSMI reader is desgined for importing SSMI sdr data files (such as
-      ssmi_orbital_sdrmi_f15_d20200427_s104500_e123100_r05323_cfnoc.def).  
-      This reader is created to read in TBs at 19 (V,H),22V, 37(V,H) and 85 (V,H) GHz channels.
-      There are A/B scans for 85 GHz.  The combined A/B scans will be used for
-      TC imagery products at 85 GHz.
+"""SSMI binary reader.
 
-      This GEOIPS python code is based on a SSMI SDR reader in C.
+This SSMI reader is desgined for importing SSMI sdr data files (such as
+ssmi_orbital_sdrmi_f15_d20200427_s104500_e123100_r05323_cfnoc.def). This reader
+is created to read in TBs at 19 (V,H),22V, 37(V,H) and 85 (V,H) GHz channels.
+There are A/B scans for 85 GHz.  The combined A/B scans will be used for
+TC imagery products at 85 GHz.
 
-  Convert SSMI_HIRES_AB for 85GHz and SSMI_LORES for 19-37GHz into xarray for GEOIPS framework
+This GEOIPS python code is based on a SSMI SDR reader in C.
 
- V1.0:  Initial version, NRL-MRY, May 19, 2020
----------------------------------------------------------------------------------------------------
+Convert SSMI_HIRES_AB for 85GHz and SSMI_LORES for 19-37GHz into xarray for
+GEOIPS framework
 
- SSMI input data info :
- pixels per scan:  LORES=64 for 19, 22, and 37 GHz channels;  HIRES=128 for 85 GHz channels
-            19V[LORES]                                             FOV:   69km x 43km
-            19H[LORES]
-            22V[LORES]                                                    50km x 40km
-            37V[LORES]                                                    37km x 28km
-            37H[LORES]
-            85V[HIRES][2]             [][0]: A scans; [][1]: B scans      15km x 13km
-            85H[HIRES][2]
+V1.0:  Initial version, NRL-MRY, May 19, 2020
 
-       -----header info-----
+SSMI input data info::
+
+    pixels per scan:
+    LORES=64 for 19, 22, and 37 GHz channels;
+    HIRES=128 for 85 GHz channels
+        19V[LORES]                                    FOV:   69km x 43km
+        19H[LORES]
+        22V[LORES]                                           50km x 40km
+        37V[LORES]                                           37km x 28km
+        37H[LORES]
+        85V[HIRES][2]    [][0]: A scans; [][1]: B scans      15km x 13km
+        85H[HIRES][2]
+
+           -----header info-----
     int32
-        cyr, cmon, cday,         /* file creation date */
-        chr, cmin,               /* file creation time */
-        scans,                   /* number of scans in file (from DataSeq) */
-        scid,                    /* spacecraft ID */
-        rev,                     /* nominal rev  */
-        bjld, bhr, bmin, bsec,   /* begin day of year (julian day), time=hr,min,sec */
-        ejld, ehr, emin, esec,   /* ending day of year, time */
-        ajld, ahr, amin, asec,   /* ascending node DOY, time */
-        lsat;                    /* logical satellite ID */
+        cyr, cmon, cday,       /* file creation date */
+        chr, cmin,             /* file creation time */
+        scans,                 /* number of scans in file (from DataSeq) */
+        scid,                  /* spacecraft ID */
+        rev,                   /* nominal rev  */
+        bjld, bhr, bmin, bsec, /* begin day of year (julian day), time=hr,min,sec */
+        ejld, ehr, emin, esec, /* ending day of year, time */
+        ajld, ahr, amin, asec, /* ascending node DOY, time */
+        lsat;                  /* logical satellite ID */
 
        -----scan data-----
     int32 scann;                 /* scan number (from ScanHdr1) */
@@ -60,7 +65,6 @@
         lon[HIRES][2];           /* longitudes */
     int16 lat[HIRES][2];         /* latitudes */
     char sft[HIRES][2];          /* surface types */
------------------------------------------------------------------------------------------------------------
 """
 # Python Standard Libraries
 import logging
@@ -79,34 +83,42 @@ reader_type = "standard"
 def ssmi_binary(
     fnames, metadata_only=False, chans=False, area_def=None, self_register=False
 ):
-    """Read SSMI FNMOC Binary Data
+    """Read SSMI FNMOC Binary Data.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * NOT YET IMPLEMENTED
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-
     import os
     from datetime import datetime
     import numpy as np
@@ -133,7 +145,7 @@ def ssmi_binary(
         raise IOError("Not an SSMI SDR file: skip it")
 
     """    ------  Notes  ------
-       Read in SSMI SDR files for 19v-h,22v,37v-h,85v-h(A and B scans) in binary data  
+       Read in SSMI SDR files for 19v-h,22v,37v-h,85v-h(A and B scans) in binary data
             Then, transform these variables (TBs) into xarray framework for GEOIPS
 
        Input Parameters:
@@ -141,13 +153,13 @@ def ssmi_binary(
        Returns:
            xarray.Dataset with required Variables and Attributes:
                Variables:
-                        LORES Channels:    
+                        LORES Channels:
                           'latitude', 'longitude', '19V', '19H', '22V', '37V','37H','time_scan'
-                        HIRES Channels (combined A-B scans):    
+                        HIRES Channels (combined A-B scans):
                           'latitude', 'longitude', '85V', '85H', 'sfcType', 'time_scan'
-               Attibutes: 
-                        'source_name', 'platform_name', 'data_provider', 
-                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'    
+               Attibutes:
+                        'source_name', 'platform_name', 'data_provider',
+                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'
                Optional Attrs:
                         'original_source_filenames', 'filename_datetimes'
     """

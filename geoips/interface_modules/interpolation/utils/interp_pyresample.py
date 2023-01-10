@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Interpolation methods using pyresample routines"""
-
+"""Interpolation methods using pyresample routines."""
 import logging
 
 import numpy
@@ -21,18 +20,19 @@ LOG = logging.getLogger(__name__)
 
 
 def get_data_box_definition(source_name, lons, lats):
-    """Obtain pyresample geometry definitions for use with pyresample based reprojections
-    +------------------+-----------+---------------------------------------------------+
-    | Parameters:      | Type:     | Description:                                      |
-    +==================+===========+===================================================+
-    | source_name:     | *str*     | geoips source_name for data type                  |
-    +------------------+-----------+---------------------------------------------------+
-    | lons:            | *ndarray* | Numpy array of longitudes, 0 to 360               |
-    +------------------+-----------+---------------------------------------------------+
-    | lats:            | *ndarray* | Numpy array of latitudes, -90 to 90               |
-    +------------------+-----------+---------------------------------------------------+
-    """
+    """Obtain pyresample geometry definitions.
 
+    For use with pyresample based reprojections
+
+    Parameters
+    ----------
+    source_name : str
+        geoips source_name for data type
+    lons : ndarray
+        Numpy array of longitudes, 0 to 360
+    lats : ndarray
+        Numpy array of latitudes, -90 to 90
+    """
     from geoips.interface_modules.interpolation.utils.boxdefinitions import (
         MaskedCornersSwathDefinition,
     )
@@ -71,36 +71,28 @@ def interp_kd_tree(
     nprocs=None,
     fill_value=None,
 ):
-    """Perform interpolation using pyresample's kd_tree.resample_nearest method
-    +-----------------------+-----------+---------------------------------------------------+
-    | Parameters:           | Type:     | Description:                                      |
-    +=======================+===========+===================================================+
-    | list_of_array:        | *list*    | list of arrays to be interpolated                 |
-    |                       |   of      |                                                   |
-    |                       |*ndarray*  |                                                   |
-    +-----------------------+-----------+---------------------------------------------------+
-    | area_definition:      |*areadef*  | pyresample area_definition object of current      |
-    |                       |           |    region of interest                             |
-    |                       |           |                                                   |
-    +-----------------------+-----------+---------------------------------------------------+
-    | data_box_definition:  } *datadef* | pyresample/geoips data_box_definition specifying  |
-    |                       |           |    region covered by source data                  |
-    +-----------------------+-----------+---------------------------------------------------+
-    | radius_of_influence:  | *float*   | radius of influence for interpolation             |
-    +-----------------------+-----------+---------------------------------------------------+
-    +-----------------------+-----------+---------------------------------------------------+
-    | Key Words:            | Type:     | Description:                                      |
-    +================-----==+===========+===================================================+
-    | interp_type:          | *string*  | One of 'nearest' or 'gauss' - kd_tree resampling  |
-    |                       |           |    methods                                        |
-    |                       |           |    *DEFAULT* 'nearest'                            |
-    +-----------------------+-----------+---------------------------------------------------+
-    | sigmas:               | *int*     | Used for interp_type 'gauss' - multiplication     |
-    |                       |           |    factor for sigmas option:                      |
-    |                       |           |    sigmas = [sigmas]*len(list_of_arrays)          |
-    +-----------------------+-----------+---------------------------------------------------+
-    """
+    """Interpolate using pyresample's kd_tree.resample_nearest method.
 
+    Parameters
+    ----------
+    list_of_array : list of numpy.ndarray
+        list of arrays to be interpolated
+    area_definition : areadef
+        pyresample area_definition object of current region of interest.
+    data_box_definition : datadef
+        pyresample/geoips data_box_definition specifying region covered
+        by source data.
+    radius_of_influence : float
+        radius of influence for interpolation
+
+    Other Parameters
+    ----------------
+    interp_type : str, default='nearest'
+        One of 'nearest' or 'gauss' - kd_tree resampling methods.
+    sigmas : int, default=None
+        Used for interp_type 'gauss' - multiplication factor for sigmas option:
+            * sigmas = [sigmas]*len(list_of_arrays)
+    """
     dstacked_arrays = numpy.ma.dstack(list_of_arrays)
 
     if interp_type == "nearest":

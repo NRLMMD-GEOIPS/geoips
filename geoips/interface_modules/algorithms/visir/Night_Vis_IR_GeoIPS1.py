@@ -10,11 +10,10 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Data manipulation steps for "Night_Vis_IR" product.
+"""Data manipulation steps for "Night_Vis_IR" product, GeoIPS 1 Version.
 
-    This algorithm expects two VIIRS channels (DNBRad and M16BT) for a RGB image
+This algorithm expects two VIIRS channels (DNBRad and M16BT) for a RGB image
 """
-
 import logging
 from geoips.data_manipulations.corrections import mask_day
 
@@ -25,23 +24,35 @@ alg_func_type = "list_numpy_to_numpy"
 
 
 def Night_Vis_IR_GeoIPS1(arrays, max_night_zen=90):
-    """Data manipulation steps for "rgb" product algorithm.
+    """Night Vis IR RGB product algorithm data manipulation steps.
 
-    This algorithm expects DNBRad in reflectance and M16BT Brightness Temperatures in units of degrees Kelvin,
+    This algorithm expects DNBRad in reflectance and M16BT
+    Brightness Temperatures in units of degrees Kelvin,
     and returns red green and blue gun arrays.
-    it will generate a product in daytime if we do not apply the daytime chech. For now, it is for both day/night.
-    (Will decide whether this product is only for nighttime.  if so, a daytime check is required.)
-    We might focus only on nighttime product with moonlight after additional validation (TBD).
 
-    Args:
-        data (list[numpy.ndarray]) :
-            * list of numpy.ndarray or numpy.MaskedArray of channel data, in order of sensor "channels" list
-            * Degrees Kelvin
+    Parameters
+    ----------
+    arrays : list of numpy.ndarray
+        * list of numpy.ndarray or numpy.MaskedArray of channel data,
+            in order of sensor "channels" list
+        * Degrees Kelvin
 
-    Returns:
-        numpy.ndarray : numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
+    Returns
+    -------
+    numpy.ndarray
+        numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
+
+    Notes
+    -----
+    It will generate a product in daytime if we do not apply the daytime check.
+    For now, it is for both day/night.
+
+    We will decide whether this product is only for nighttime.
+    If so, a daytime check will be required.
+
+    We may focus only on nighttime product with moonlight after additional
+    validation (TBD).
     """
-
     ch1 = arrays[0]  # Red gun: DNBRad
     ch2 = arrays[0]  # Green gun: DNBRad
     ch3 = arrays[1]  # Blue gun: M16BT (200-300K)

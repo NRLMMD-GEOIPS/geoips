@@ -10,9 +10,11 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Default TC metadata filename production"""
-# metadata_yaml_filename = tc_fname_metadata(area_def, xarray_obj, product_filename, metadata_dir,
-#                                            metadata_type='sector_information', basedir=basedir)
+"""Default TC metadata filename formatter."""
+# metadata_yaml_filename = tc_fname_metadata(area_def, xarray_obj,
+#                                            product_filename, metadata_dir,
+#                                            metadata_type='sector_information',
+#                                            basedir=basedir)
 
 # Python Standard Libraries
 from os.path import join as pathjoin
@@ -38,6 +40,16 @@ def metadata_default_fname(
     basedir=gpaths["TCWWW"],
     output_dict=None,
 ):
+    """Generate TC metadata filenames.
+
+    This uses attributes on both the xarray and area_def in order to produce
+    the YAML metadata output specifically for TC sectors.  Not valid for
+    other sector types.
+
+    This uses the "tc_storm_basedir" utility to ensure a consistent path
+    to the storm directory (so products and metadata end up in the same
+    location)
+    """
     from geoips.sector_utils.utils import is_sector_type
 
     if not is_sector_type(area_def, "tc"):

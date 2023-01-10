@@ -10,7 +10,11 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Utilities for merging granules from potentially different data sources / sensors / platforms into a single merge
+"""Utilities for merging granules into a single data array.
+
+These utilities can apply to potentially different data sources -
+spanning a variety of sensors and platforms into a single final
+dataset.
 """
 # Python Standard Libraries
 import logging
@@ -22,7 +26,7 @@ LOG = logging.getLogger(__name__)
 
 
 def minrange(start_date, end_date):
-    """Check one min at a time"""
+    """Check one minute at a time."""
     # log.info('in minrange')
     tr = end_date - start_date
     mins = int((tr.seconds + tr.days * 86400) / 60)
@@ -33,8 +37,10 @@ def minrange(start_date, end_date):
 
 def daterange(start_date, end_date):
     """Check one day at a time.
+
     If end_date - start_date is between 1 and 2, days will be 1,
-    and range(1) is 0. So add 2 to days to set range"""
+    and range(1) is 0. So add 2 to days to set range.
+    """
     # log.info('in minrange')
     tr = end_date - start_date
     for n in range(tr.days + 2):
@@ -63,6 +69,44 @@ def find_datafiles_in_range(
     actual_datetime=None,
     single_match=False,
 ):
+    """Find datafiles from a specified set of parameters.
+
+    Parameters
+    ----------
+    sector_name : str
+        Sector of interest
+    platform_name : str
+        platform of interest
+    source_name : str
+        Source of interest
+    min_time : datetime.datetime
+        Minimum time to search
+    max_time : datetime.datetime
+        Maximum time to search
+    basedir : str
+        Base directory to search
+    product_name : str
+        Product of interest
+    every_min : bool, optional
+        Check every minute, by default True
+    verbose : bool, optional
+        Print a lot of log output during the search, by default False
+    time_format : str, optional
+        Format of time information in filenames, by default "%H%M"
+    actual_datetime : datetime.datetime, optional
+        Actual datetime of the requested data, required if single_match is
+        True, by default None
+    single_match : bool, optional
+        Only return the closest matching file if True, else return all
+        matching files, by default False
+
+    Returns
+    -------
+    list of str
+        List of all filenames matching the given parameters
+        (list of length 1 if single_match is True, all matching files
+        if single_match is false)
+    """
     LOG.info(
         "Finding %s %s %s files between %s and %s",
         sector_name,
@@ -71,14 +115,13 @@ def find_datafiles_in_range(
         min_time,
         max_time,
     )
-    from os.path import exists
     from glob import glob
     from geoips.filenames.product_filenames import netcdf_write_filename
 
     fnames = []
     first = True
     min_timediff = 10000000
-    if (min_time - max_time) < timedelta(minutes=30) or every_min == True:
+    if (min_time - max_time) < timedelta(minutes=30) or every_min is True:
         for sdt in minrange(min_time, max_time):
             ncdf_fname = netcdf_write_filename(
                 basedir,
@@ -126,43 +169,70 @@ def get_matching_files(
     verbose=False,
     single_match=False,
 ):
-    """Given the current primary sector, and associated subsectors/platforms/sources, find all matching files
-    Parameters:
-        primary_sector_name (str): The final sector that all data will be stitched into
-                                   ie 'GlobalGlobal'
-        subsector_names (list of str): List of all subsectors that will be merged into the final sector (potentially
-                                       including the full primary_sector_name.)
-                                       ie ['GlobalGlobal', 'GlobalAntarctic', 'GlobalArctic']
-        platforms (list of str): List of all desired platforms - platforms, sources, and max_time_diffs correspond to
-                                 one another and should be the same length, in the same order.
-        sources (list of str): List of all desired sources - platforms, sources, and max_time_diffs correspond to
-                               one another and should be the same length, in the same order.
-        max_time_diffs (list of int): Minutes. List of allowed time diffs for given platform/source. Matches
-                                      max_time_diff before the requested merge_datetime argument - platforms, sources,
-                                      and max_time_diffs correspond to one another and should be the same length,
-                                      in the same order.
-        basedir (str): Base directory in which to look for the matching files
-        merge_datetime (datetime.datetime): Attempt matching max_time_diff prior to merge_datetime
-        product_name (str): product_name string found in matching files
-        time_format (str): Requested time format for filenames (strptime format string)
+    """Given the current set of parameters, find all matching files.
 
-    Returns: (list of str) List of file names that matched requested paramters.
+    Given the current primary sector, and associated subsectors, platforms,
+    and sources, find all matching files.
+
+    Parameters
+    ----------
+    primary_sector_name : str
+        The final sector that all data will be stitched into.
+        ie 'GlobalGlobal'
+    subsector_names : list of str
+        List of all subsectors that will be merged into the final sector.
+        (potentially including the full primary_sector_name.)
+        ie ['GlobalGlobal', 'GlobalAntarctic', 'GlobalArctic']
+    platforms : list of str
+        List of all desired platforms.
+        platforms, sources, and max_time_diffs correspond to one another
+        and should be the same length and in the same order.
+    sources : list of str
+        List of all desired sources.
+        platforms, sources, and max_time_diffs correspond to one another
+        and should be the same length and in the same order.
+    max_time_diffs : list of int
+        Minutes. List of allowed time diffs for given platform/source. Matches
+        max_time_diff before the requested merge_datetime argument.
+        platforms, sources, and max_time_diffs correspond to one another
+        and should be the same length and in the same order.
+    basedir : str
+        Base directory in which to look for the matching files.
+    merge_datetime : datetime.datetime
+        Attempt matching max_time_diff prior to merge_datetime
+    product_name : str
+        product_name string found in matching files
+    time_format : str, optional
+        Requested time format for filenames (strptime format string),
+        by default '%H%M'
+    verbose : bool, optional
+        Print a lot of log output during the search, by default False
+    single_match : bool, optional
+        Only return the closest matching file if True, else return all
+        matching files, by default False
+
+    Returns
+    -------
+    list of str
+        List of all filenames matching the given parameters
+        (list of length 1 if single_match is True, all matching files
+        if single_match is false)
     """
-
-    from geoips.filenames.base_paths import PATHS as gpaths
     from datetime import timedelta
 
-    # MLS1 prev_files should be a dictionary with primary sector names as keys - otherwise it will not work.
+    # MLS1 prev_files should be a dictionary with primary sector names as keys
+    # - otherwise it will not work.
     prev_files = []
     actual_datetime = None
     if single_match is True:
         actual_datetime = merge_datetime
 
-    # Go through the list of platforms / sources / allowed time diffs to find the appropriate files for each
-    # data type
+    # Go through the list of platforms / sources / allowed time diffs to find
+    # the appropriate files for each data type
     for platform, source, time_diff in zip(platforms, sources, max_time_diffs):
 
-        # Go through the list of all subsectors needed to merge into the primary sector listed above
+        # Go through the list of all subsectors needed to merge into the primary
+        # sector listed above
         for currsectname in subsector_names:
 
             # Get the sector name from the current subsector.
@@ -171,7 +241,8 @@ def get_matching_files(
             # if platform == 'npp':
             #     curr_verbose=False
 
-            # Use the time/source/platform/sector name to find the desired matching files.
+            # Use the time/source/platform/sector name to find the desired
+            # matching files.
             # MLS1 This should be prev_files[primary_sector_name]
             prev_files += find_datafiles_in_range(
                 currsectname,

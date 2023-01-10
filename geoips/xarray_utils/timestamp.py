@@ -10,18 +10,21 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Utils to handle time stamp information within xarray objects"""
+"""Utils to handle time stamp information within xarray objects."""
 
 
 def get_posix_from_datetime(dt):
-    """Return the POSIX timestamp in seconds
+    """Return the POSIX timestamp in seconds.
 
-    Parameters:
-        dt (datetime.datetime) : datetime object to convert to posix timestamp
+    Parameters
+    ----------
+    dt : datetime.datetime
+        datetime object to convert to posix timestamp
 
-    Returns:
-        long: representing seconds since 1 January 1970 at 00Z (epoch seconds)
-
+    Returns
+    -------
+    long
+        representing seconds since 1 January 1970 at 00Z (epoch seconds)
     """
     import calendar
 
@@ -29,13 +32,21 @@ def get_posix_from_datetime(dt):
 
 
 def get_datetime_from_datetime64(dt64):
-    """Get a python datetime object from a numpy datetime64 object, backwards compatible with numpy versions
+    """Get a python datetime object from a numpy datetime64 object.
 
-    Args:
-        dt64 (numpy.datetime64) : numpy.datetime64 object
+    Parameters
+    ----------
+    dt64 : numpy.datetime64'
+        numpy.datetime64 object
 
-    Returns:
-        datetime.datetime : Python datetime object
+    Returns
+    -------
+    datetime.datetime
+        Python datetime object
+
+    Notes
+    -----
+    Backwards compatible with numpy versions
     """
     scale = 1e-9
     if "[ns]" in dt64.dtype.name:
@@ -46,16 +57,21 @@ def get_datetime_from_datetime64(dt64):
 
 
 def get_min_from_xarray_timestamp(xarray_obj, varname):
-    """Get the minimum time as a datetime object from xarray object
+    """Get the minimum time as a datetime object from xarray object.
 
-    Parameters:
-        xarray_obj (xarray.Dataset or xarray.DataArray): xarray object from which to extract the minimum time
-        varname (str) : Timestamp variable name from which to extract the minimum time
+    Parameters
+    ----------
+    xarray_obj : xarray.Dataset or xarray.DataArray
+        xarray object from which to extract the minimum time
+    varname : str
+        Timestamp variable name from which to extract the minimum time
 
-    Returns:
-        Python datetime.datetime object representing minimum time of the Dataset or DataArray
+    Returns
+    -------
+    datetime.datetime
+        Python datetime.datetime object representing minimum time of the
+        Dataset or DataArray
     """
-
     minval = xarray_obj[varname].min().to_dict()["data"]
     # Hack to get around bug in most recent version of numpy
     if minval is None:
@@ -69,14 +85,20 @@ def get_min_from_xarray_timestamp(xarray_obj, varname):
 
 
 def get_max_from_xarray_timestamp(xarray_obj, varname):
-    """Get the maximum time as a datetime object from xarray object
+    """Get the maximum time as a datetime object from xarray object.
 
-    Parameters:
-        xarray_obj (xarray.Dataset or xarray.DataArray): xarray object from which to extract the maximum time
-        varname (str) : Timestamp variable name from which to extract the maximum time
+    Parameters
+    ----------
+    xarray_obj : xarray.Dataset or xarray.DataArray
+        xarray object from which to extract the maximum time
+    varname : str
+        Timestamp variable name from which to extract the maximum time
 
-    Returns:
-        Python datetime.datetime object representing maximum time of the Dataset or DataArray
+    Returns
+    -------
+    datetime.datetime
+        Python datetime.datetime object representing maximum time of the
+        Dataset or DataArray
     """
     maxval = xarray_obj[varname].max().to_dict()["data"]
     # Hack to get around bug in most recent version of numpy

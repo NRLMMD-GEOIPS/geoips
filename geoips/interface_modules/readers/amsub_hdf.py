@@ -10,43 +10,52 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" This reader is desgined for importing NOAA Advanced Microwave Sounding Unit (AMSU)-B/Microwave Humidity Sounder (HMS) 
-      and EUMETSAQT MHS data files in hdf format, such as NPR.MHOP.NP.D20153.S2046.E2230.B5832021.NS (N19), 
-      NPR.MHOP.NN.D20153.S1927.E2105.B7748081.NS (N18),  NPR.MHOP.M1.D20153.S2229.E2318.B3998282.NS (METOP).  
+"""Read AMSU-B and MHS passive microwave data files.
+
+This reader is desgined for importing NOAA Advanced Microwave Sounding Unit
+(AMSU)-B/Microwave Humidity Sounder (HMS) and EUMETSAQT MHS data files in hdf
+format, such as
+
+* NPR.MHOP.NP.D20153.S2046.E2230.B5832021.NS (N19),
+* NPR.MHOP.NN.D20153.S1927.E2105.B7748081.NS (N18),
+* NPR.MHOP.M1.D20153.S2229.E2318.B3998282.NS (METOP).
 
  V1.0:  Initial version, NRL-MRY, June 1, 2020
----------------------------------------------------------------------------------------------------
-  Basic information on AMSU-B product file
- 
-  Input SD Variables (nscan, npix):  npix=90 pixels per scan; nscan: vary with orbit
-     chan-1 AT:  89 GHz              as ch16    anttenna temperature at V-pol   FOV 16km at nadir
-     chan-2 AT:  150 (157) GHz       as ch17 the number in bracket is for MHS from metops at V-pol, 16km at nadir
-     chan-3 AT:  183.31 +-1 GHz          as ch18    at H-pol, 16km
-     chan-4 AT:  183.31 +-3 GHz          as ch19    at H-pol, 16km
-     chan-5 AT:  183.31 +-7 (190.3) GHz  as ch20    at V-pol, 16km
-     lat:     -90, 90     deg
-     lon:     -180, 180   deg
-     RR:  surface rainrate (mm/hr)
-     Snow: surafce snow cover
-     IWP:  ice water path (unit?)
-     SWE:  snow water equvelent  (unit)     
-     Sfc_type:  surface type
-     Orbit_mode:   -1: ascending, 1: decending, 2: both
-     SFR:  snowfall rate (unit?)
-     LZ_angle:  local zinath angle (deg)
-     SZ_angle:  solar zinath angle (deg)
 
-     Vdata info (definition of AMSU-B date:
-     ScanTime_year
-     ScanTime_month
-     ScanTime_day
-     ScanTime_hour
-     ScanTime_minute
-     ScanTime_second
-     ScanTime_Jday
-     Time
---------------------------------------------------------------------------------------------------"""
+Basic information on AMSU-B product file::
 
+    Input SD Variables
+    (nscan, npix):
+        npix=90 pixels per scan;
+        nscan: vary with orbit
+    chan-1 AT:  89 GHz as ch16 anttenna temperature at V-pol   FOV 16km at nadir
+    chan-2 AT:  150 (157) GHz as ch17 the number in bracket is for MHS from
+                                      metops at V-pol, 16km at nadir
+    chan-3 AT:  183.31 +-1 GHz as ch18    at H-pol, 16km
+    chan-4 AT:  183.31 +-3 GHz as ch19    at H-pol, 16km
+    chan-5 AT:  183.31 +-7 (190.3) GHz as ch20    at V-pol, 16km
+    lat:     -90, 90     deg
+    lon:     -180, 180   deg
+    RR:  surface rainrate (mm/hr)
+    Snow: surafce snow cover
+    IWP:  ice water path (unit?)
+    SWE:  snow water equvelent  (unit)
+    Sfc_type:  surface type
+    Orbit_mode:   -1: ascending, 1: decending, 2: both
+    SFR:  snowfall rate (unit?)
+    LZ_angle:  local zinath angle (deg)
+    SZ_angle:  solar zinath angle (deg)
+
+    Vdata info (definition of AMSU-B date):
+    ScanTime_year
+    ScanTime_month
+    ScanTime_day
+    ScanTime_hour
+    ScanTime_minute
+    ScanTime_second
+    ScanTime_Jday
+    Time
+"""
 # Python Standard Libraries
 import logging
 
@@ -70,33 +79,40 @@ def amsub_hdf(
 ):
     """Read AMSU-B hdf data products.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * NOT YET IMPLEMENTED
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        dict of xarray.Datasets: dict of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`),
-            dict key can be any descriptive dataset id
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-
     import os
     from datetime import datetime
     import numpy as np
@@ -125,7 +141,7 @@ def amsub_hdf(
         raise
 
     """    ------  Notes  ------
-       Read AMSU-B hdf files for 5 chan antenna temperature (AT) and asscoaited EDRs  
+       Read AMSU-B hdf files for 5 chan antenna temperature (AT) and asscoaited EDRs
          Then, transform these ATs and fields into xarray framework for GEOIPS
          ( AT will be corrected into brightness temperature (TB) later)
 
@@ -134,12 +150,12 @@ def amsub_hdf(
        Returns:
            xarray.Dataset with required Variables and Attributes:
                Variables:
-                        AMSUB vars:    
+                        AMSUB vars:
                           'latitude', 'longitude', 'Ch1', 'Ch2', 'Ch3', 'Ch4','Ch4',
                           'RR', 'Snow','SWE','IWP','SFR' 'sfcType', 'time_scan'
-               Attibutes: 
-                        'source_name', 'platform_name', 'data_provider', 
-                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'    
+               Attibutes:
+                        'source_name', 'platform_name', 'data_provider',
+                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'
     """
 
     SData_ID = SD(fname, SDC.READ)

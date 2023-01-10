@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Standard TC filename production"""
+"""Standard GeoIPS GEOTIFF filename formatter."""
 
 # Python Standard Libraries
 import logging
@@ -34,7 +34,11 @@ def geotiff_fname(
     source_dir=None,
     basedir=gpaths["ANNOTATED_IMAGERY_PATH"],
 ):
+    """GEOTIFF filename formatter.
 
+    This uses the standard "geoips_fname" formatter, but with a default
+    output type of "tif".
+    """
     from geoips.interfaces import filename_formatters
     from geoips.sector_utils.utils import is_sector_type
 

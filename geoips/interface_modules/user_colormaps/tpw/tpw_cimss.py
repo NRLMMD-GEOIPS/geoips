@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Module containing tpw_cimss ASCII palette based colormap"""
+"""Module containing tpw_cimss ASCII palette based colormap."""
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -21,14 +21,21 @@ cmap_type = "ascii"
 def tpw_cimss():
     """Colormap for displaying data using TPW CIMSS ascii colormap.
 
-    ASCII palette is found in image_utils/ascii_palettes/tpw_cimss.txt
-    Data range of ASCII palette is 5 to 65 mm, with transitions at 15, 25, 35, 45, and 55.
+    Data range of ASCII palette is 5 to 65 mm, with transitions at
+    15, 25, 35, 45, and 55.
 
-    Returns:
-        dictionary : Dictionary of matplotlib plotting parameters, to ensure consistent image output
+    Returns
+    -------
+    mpl_colors_info : dict
+        Dictionary of matplotlib plotting parameters, to ensure consistent
+        image output
+
+    See Also
+    --------
+    :ref:`api_image_utils`
+        ASCII palette is found in image_utils/ascii_palettes/tpw_cimss.txt
     """
-
-    from os.path import basename as pathbasename, join as pathjoin
+    from os.path import join as pathjoin
     from geoips.filenames.base_paths import PATHS as gpaths
     from geoips.image_utils.colormap_utils import from_ascii
     from matplotlib.colors import Normalize

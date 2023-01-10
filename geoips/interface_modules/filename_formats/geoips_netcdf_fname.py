@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Standard TC filename production"""
+"""Standard GeoIPS NetCDF filename production."""
 
 # Python Standard Libraries
 import logging
@@ -35,7 +35,14 @@ def geoips_netcdf_fname(
     source_dir=None,
     basedir=None,
 ):
+    """Filename formatting for standard GeoIPS-style NetCDF outputs.
 
+    This uses the "assemble_geoips_netcdf_fname" function to appropriately
+    assemble the filename from a base directory, product name, source
+    name, platform nae, sector name, and product time, to allow reuse
+    of this basic filename format from multiple filename formatter
+    plugins.
+    """
     if basedir is None:
         basedir = gpaths["PRECALCULATED_DATA_PATH"]
     ncdf_fname = assemble_geoips_netcdf_fname(
@@ -61,28 +68,30 @@ def assemble_geoips_netcdf_fname(
     time_format="%H%M%S",
 ):
     """Produce full output product path from product / sensor specifications.
-        netcdf paths are of the format:
-          <basedir>/<product_name>/<source_name>/<platform_name>/<sector_name>/date{%Y%m%d}
-        netcdf filenames are of the format:
-          <date{%Y%m%d>.<time{%H%M%S}>.<platform_name>.<product_name>.<sector_name>.nc
-    +------------------+-----------+---------------------------------------------------+
-    | Parameters:      | Type:     | Description:                                      |
-    +==============----+===========+===================================================+
-    | basedir:         | *str*     |                                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | product_name:    | *str*     | Name of product                                   |
-    +------------------+-----------+---------------------------------------------------+
-    | source_name:     | *str*     | Name of data source (sensor)                      |
-    +------------------+-----------+---------------------------------------------------+
-    | platform_name:   | *str*     | Name of platform (satellite)                      |
-    +------------------+-----------+---------------------------------------------------+
-    | coverage:        | *float*   | Image coverage, float between 0.0 and 100.0       |
-    +------------------+-----------+---------------------------------------------------+
-    | product_datetime:| *datetime*| Datetime object - start time of data used to      |
-    |                  |           |     generate product                              |
-    +------------------+-----------+---------------------------------------------------+
-    """
 
+    netcdf paths are of the format:
+        <basedir>/<product_name>/<source_name>/<platform_name>/
+          <sector_name>/date{%Y%m%d}
+    netcdf filenames are of the format:
+        <date{%Y%m%d>.<time{%H%M%S}>.<platform_name>.<product_name>.
+          <sector_name>.nc
+
+    Parameters
+    ----------
+    basedir : str
+        Base directory (additional subdirectories assembled below basedir)
+    product_name : str
+        Name of product, used in path and filename
+    source_name : str
+        Name of data source (sensor), used in path and filename
+    platform_name : str
+        Name of platform (satellite), used in path and filename
+    coverage : float
+        Image coverage, float between 0.0 and 100.0, used in filename
+    product_datetime : datetime
+        Datetime object - start time of data used to generate product, used
+        in filename
+    """
     if set_subpath:
         path = pathjoin(basedir, set_subpath)
     else:

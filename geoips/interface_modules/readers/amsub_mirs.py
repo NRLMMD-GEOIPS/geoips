@@ -10,134 +10,162 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" 
-This reader is desgined for importing the Advanced Microwave Sounding Unit (AMSU)-B/Microwave Humidity Sounder (HMS) 
-      and EUMETSAQT MHS data files in hdf5 from NOAA MIRS. These new data files have a different file name convention and 
-      and data structure from previous MSPPS.  Example of MIRIS files
-      NPR-MIRS-IMG_v11r4_ma1_s202101111916000_e202101112012000_c202101112047200.nc   (ma1 is for metop-B)
-      NPR-MIRS-IMG_v11r4_ma2_s202101111715000_e202101111857000_c202101111941370.nc   (ma2 is for metop-A)
-      NPR-MIRS-IMG_v11r4_n19_s202101111730000_e202101111916000_c202101112001590.nc   (NOAA-19)
+"""Read AMSU-B and MHS MIRS NetCDF data files.
 
-AMSU-A channel information:
-Chan#  Freq(MHz) bands	Bandwidth(MHz)	Beamwidth(deg)	NE#T(K) (Spec.)	Polarization at nadiri Instrument Component
-1	23.800	1	270	3.3	0.30	V	A2
-2	31.400	1	180	3.3	0.30	V	A2
-3	50.300	1	180	3.3	0.40	V	A1-2
-4	52.800	1	400	3.3	0.25	V	A1-2
-5	53.596 +-115	2	170	3.3	0.25	H	A1-2
-6	54.400	1	400	3.3	0.25	H	A1-1
-7	54.940	1	400	3.3	0.25	V	A1-1
-8	55.500	1	330	3.3	0.25	H	A1-2
-9	f0=57,290.344	1	330	3.3	0.25	H	A1-1
-10	f0+-217	2	78	3.3	0.40	H	A1-1
-11	f0+-322.2+-48	4	36	3.3	0.40	H	A1-1
-12	f0+-322.2+-22	4	16	3.3	0.60	H	A1-1
-13	f0+-322.2+-10	4	8	3.3	0.80	H	A1-1
-14	f0+-322.2+-4.5	4	3	3.3	1.20	H	A1-1
-15	89,000	1	<6,000	3.3	0.50	V	A1-1
+This reader is desgined for importing the Advanced Microwave Sounding Unit
+(AMSU)-B/Microwave Humidity Sounder (HMS) and EUMETSAQT MHS data files in
+hdf5 from NOAA MIRS. These new data files have a different file name convention
+and and data structure from previous MSPPS.  Example of MIRIS files:
 
-AMSU-B/MHS channel information:
-Channel	Centre Frequency (GHz)	Bandwidth (MHz)	NeDT (K)	Calibration Accuracy (K)	pol. angle (degree)
-16	89.0	<6000	1.0	1.0	90-q                  (Vertical pol)
-17	150	<4000	1.0	1.0	90-q                  (Vertical)
-18	183.31+-1.00	500	1.1	1.0	nospec        (Horizontal)
-19	183.31+-3.00	1000	1.0	1.0	nospec        (Horizontal)
-20	190.31+17.00	2000	1.2	1.0	90-q          (Vertical)
+* NPR-MIRS-IMG_v11r4_ma1_s202101111916000_e202101112012000_c202101112047200.nc
 
-Since AMSU-A sensor is no longer available, we select only the AMSU-B/MHS channels. We decide to use the same names of 
-      the five channels used for previous NOAA MSPPS data files. i.e., select frequench index 15-19 (start from 0).   
+    * (ma1 is for metop-B)
+* NPR-MIRS-IMG_v11r4_ma2_s202101111715000_e202101111857000_c202101111941370.nc
 
+    * (ma2 is for metop-A)
+* NPR-MIRS-IMG_v11r4_n19_s202101111730000_e202101111916000_c202101112001590.nc
 
- V1.0:  Initial version, NRL-MRY, January 26, 2021
----------------------------------------------------------------------------------------------------
-  Basic information on AMSU-B product file
-  index: 1     2    3    4      5      6    7       8     9      10    11   12   13     14
-  freq: 23.8,31.4,50.3,52.799,53.595,54.4,54.941,55.499,57.29,57.29,57.29,57.29,57.29,57.29,
-  index: 15  16  17    18      19     20
-  freq: 89.,89.,157.,183.311,183.311,190.311
+    * (NOAA-19)
 
-  dimensions:
-        Scanline = 2370 ;
-        Field_of_view = 90 ;
-        P_Layer = 100 ;
-        Channel = 20 ;
-        Qc_dim = 4 ;
-  variables:
-        Freq(Channel): Central Frequencies (GHz)
-        Polo(Channel): Polarizations
-        ScanTime_year(Scanline): Calendar Year 20XX
-        ScanTime_doy(Scanline: julian day 1-366
-        ScanTime_month(Scanline): Calendar month 1-12
-        ScanTime_dom(Scanline): Calendar day of the month 1-31
-        ScanTime_hour(Scanline: hour of the day 0-23
-        ScanTime_minute(Scanline): minute of the hour 0-59
-        ScanTime_second(Scanline): second of the minute 0-59
-        ScanTime_UTC(Scanline): Number of seconds since 00:00:00 UTC
-        Orb_mode(Scanline): 0-ascending,1-descending
-        Latitude(Scanline, Field_of_view):Latitude of the view (-90,90), unit: degree
-        Longitude(Scanline, Field_of_view):Longitude of the view (-180,180), unit: degree
-        Sfc_type(Scanline, Field_of_view):type of surface:0-ocean,1-sea ice,2-land,3-snow
-        Atm_type(Scanline, Field_of_view): type of atmosphere:currently missing ( note: not needed for geoips products)  
-        Qc(Scanline, Field_of_view, Qc_dim): Qc: 0-good, 1-usable with problem, 2-bad
-        ChiSqr(Scanline, Field_of_view): Convergence rate: <3-good,>10-bad
-        LZ_angle(Scanline, Field_of_view): Local Zenith Angle degree
-        RAzi_angle(Scanline, Field_of_view):Relative Azimuth Angle 0-360 degree
-        SZ_angle(Scanline, Field_of_view):Solar Zenith Angle (-90,90) degree
-        BT(Scanline, Field_of_view, Channel): Channel Temperature (K)
-        YM(Scanline, Field_of_view, Channel): Un-Corrected Channel Temperature (K)
-        ChanSel(Scanline, Field_of_view, Channel):Channels Selection Used in Retrieval
-        TPW(Scanline, Field_of_view): Total Precipitable Water (mm)
-        CLW(Scanline, Field_of_view):Cloud liquid Water (mm)
-        RWP(Scanline, Field_of_view): Rain Water Path (mm)
-        LWP(Scanline, Field_of_view): Liquid Water Path (mm)
-        SWP(Scanline, Field_of_view): Snow Water Path (mm)
-        IWP(Scanline, Field_of_view): Ice Water Path (mm)
-        GWP(Scanline, Field_of_view): Graupel Water Path (mm)
-        RR(Scanline, Field_of_view): Rain Rate (mm/hr)
-        Snow(Scanline, Field_of_view): Snow Cover (range: 0-1) i.e., 1 -> 100%
-        SWE(Scanline, Field_of_view): Snow Water Equivalent (cm)
-        SnowGS(Scanline, Field_of_view):Snow Grain Size (mm)
-        SIce(Scanline, Field_of_view):Sea Ice Concentration (%)
-        SIce_MY(Scanline, Field_of_view): Multi-Year Sea Ice Concentration (%)
-        SIce_FY(Scanline, Field_of_view): First-Year Sea Ice Concentration (%)
-        TSkin(Scanline, Field_of_view): Skin Temperature (K)
-        SurfP(Scanline, Field_of_view): Surface Pressure (mb)
-        Emis(Scanline, Field_of_view, Channel):Channel Emissivity (unit:1,  Emis:scale_factor = 0.0001)
-        SFR(Scanline, Field_of_view): Snow Fall Rate in mm/hr
-        CldTop(Scanline, Field_of_view): Cloud Top Pressure (scale_factor = 0.1)
-        CldBase(Scanline, Field_of_view): Cloud Base Pressure (scale_factor = 0.1)
-        CldThick(Scanline, Field_of_view): Cloud Thickness (scale_factor = 0.1)
-        PrecipType(Scanline, Field_of_view): Precipitation Type (Frozen/Liquid)
-        RFlag(Scanline, Field_of_view): Rain Flag
-        SurfM(Scanline, Field_of_view): Surface Moisture (scale_factor = 0.1)
-        WindSp(Scanline, Field_of_view): Wind Speed (m/s) (scale_factor = 0.01
-        WindDir(Scanline, Field_of_view: Wind Direction (scale_factor = 0.01)
-        WindU(Scanline, Field_of_view):U-direction Wind Speed (m/s) (scale_factor = 0.01)
-        WindV(Scanline, Field_of_view: V-direction Wind Speed (m/s) (scale_factor = 0.01)
-        Prob_SF(Scanline, Field_of_view): Probability of falling snow (%)
------------------------------------------------------------------------------------------------------------- 
-     Additionak info:
-     Variables (nscan, npix):  npix=90 pixels per scan; nscan: vary with orbit
-     chan-1 AT:  89 GHz              as ch16    anttenna temperature at V-pol   FOV 16km at nadir
-     chan-2 AT:  150 (157) GHz       as ch17 the number in bracket is for MHS from metops at V-pol, 16km at nadir
-     chan-3 AT:  183.31 +-1 GHz          as ch18    at H-pol, 16km
-     chan-4 AT:  183.31 +-3 GHz          as ch19    at H-pol, 16km
-     chan-5 AT:  183.31 +-7 (190.3) GHz  as ch20    at V-pol, 16km
-     lat:     -90, 90     deg
-     lon:     -180, 180   deg
-     RR:  surface rainrate (mm/hr)
-     Snow: surafce snow cover
-     IWP:  ice water path 
-     SWE:  snow water equvelent     
-     Sfc_type:  surface type
-     Orbit_mode:   -1: ascending, 1: decending, 2: both
-     SFR:  snowfall rate (unit?)
-     LZ_angle:  local zinath angle (deg)
-     SZ_angle:  solar zinath angle (deg)
+AMSU-A channel information::
 
+    Chan# / Freq(MHz) / bands / Bandwidth(MHz) / Beamwidth(deg) / NE#T(K) /
+                               (Spec.) Polarization at nadir / Instrument Component
+    1	23.800	1	270	3.3	0.30	V	A2
+    2	31.400	1	180	3.3	0.30	V	A2
+    3	50.300	1	180	3.3	0.40	V	A1-2
+    4	52.800	1	400	3.3	0.25	V	A1-2
+    5	53.596 +-115	2	170	3.3	0.25	H	A1-2
+    6	54.400	1	400	3.3	0.25	H	A1-1
+    7	54.940	1	400	3.3	0.25	V	A1-1
+    8	55.500	1	330	3.3	0.25	H	A1-2
+    9	f0=57,290.344	1	330	3.3	0.25	H	A1-1
+    10	f0+-217	2	78	3.3	0.40	H	A1-1
+    11	f0+-322.2+-48	4	36	3.3	0.40	H	A1-1
+    12	f0+-322.2+-22	4	16	3.3	0.60	H	A1-1
+    13	f0+-322.2+-10	4	8	3.3	0.80	H	A1-1
+    14	f0+-322.2+-4.5	4	3	3.3	1.20	H	A1-1
+    15	89,000	1	<6,000	3.3	0.50	V	A1-1
+
+AMSU-B/MHS channel information::
+
+    Channel / Centre Frequency (GHz) / Bandwidth (MHz) / NeDT (K) /
+                                     Calibration Accuracy (K) / pol. angle (degree)
+    16	89.0	<6000	1.0	1.0	90-q                  (Vertical pol)
+    17	150	<4000	1.0	1.0	90-q                  (Vertical)
+    18	183.31+-1.00	500	1.1	1.0	nospec        (Horizontal)
+    19	183.31+-3.00	1000	1.0	1.0	nospec        (Horizontal)
+    20	190.31+17.00	2000	1.2	1.0	90-q          (Vertical)
+
+Since AMSU-A sensor is no longer available, we select only the AMSU-B/MHS
+channels. We decide to use the same names of the five channels used for previous
+NOAA MSPPS data files. i.e., select frequench index 15-19 (start from 0).
+
+V1.0:  Initial version, NRL-MRY, January 26, 2021
+
+Dataset information::
+
+    Basic information on AMSU-B product file
+    index: 1     2    3    4      5      6    7
+    freq: 23.8,31.4,50.3,52.799,53.595,54.4,54.941,
+    55.499,57.29,57.29,57.29,57.29,57.29,57.29,
+    index:   8     9      10    11   12   13     14
+    freq: 55.499,57.29,57.29,57.29,57.29,57.29,57.29,
+    index: 15  16  17    18      19     20
+    freq: 89.,89.,157.,183.311,183.311,190.311
+
+    dimensions:
+          Scanline = 2370 ;
+          Field_of_view = 90 ;
+          P_Layer = 100 ;
+          Channel = 20 ;
+          Qc_dim = 4 ;
+    variables:
+          Freq(Channel): Central Frequencies (GHz)
+          Polo(Channel): Polarizations
+          ScanTime_year(Scanline): Calendar Year 20XX
+          ScanTime_doy(Scanline: julian day 1-366
+          ScanTime_month(Scanline): Calendar month 1-12
+          ScanTime_dom(Scanline): Calendar day of the month 1-31
+          ScanTime_hour(Scanline: hour of the day 0-23
+          ScanTime_minute(Scanline): minute of the hour 0-59
+          ScanTime_second(Scanline): second of the minute 0-59
+          ScanTime_UTC(Scanline): Number of seconds since 00:00:00 UTC
+          Orb_mode(Scanline): 0-ascending,1-descending
+          Latitude(Scanline, Field_of_view):Latitude of the view (-90,90),
+                                            unit: degree
+          Longitude(Scanline, Field_of_view):Longitude of the view (-180,180),
+                                             unit: degree
+          Sfc_type(Scanline, Field_of_view):type of surface:0-ocean,1-sea ice,
+                                            2-land,3-snow
+          Atm_type(Scanline, Field_of_view): type of atmosphere:currently missing
+                                          ( note: not needed for geoips products)
+          Qc(Scanline, Field_of_view, Qc_dim): Qc: 0-good, 1-usable with problem,
+                                                   2-bad
+          ChiSqr(Scanline, Field_of_view): Convergence rate: <3-good,>10-bad
+          LZ_angle(Scanline, Field_of_view): Local Zenith Angle degree
+          RAzi_angle(Scanline, Field_of_view):Relative Azimuth Angle 0-360 degree
+          SZ_angle(Scanline, Field_of_view):Solar Zenith Angle (-90,90) degree
+          BT(Scanline, Field_of_view, Channel): Channel Temperature (K)
+          YM(Scanline, Field_of_view, Channel): UnCorrected Channel Temperature(K)
+          ChanSel(Scanline, Field_of_view, Channel):Channels Selection Used in
+                                                    Retrieval
+          TPW(Scanline, Field_of_view): Total Precipitable Water (mm)
+          CLW(Scanline, Field_of_view):Cloud liquid Water (mm)
+          RWP(Scanline, Field_of_view): Rain Water Path (mm)
+          LWP(Scanline, Field_of_view): Liquid Water Path (mm)
+          SWP(Scanline, Field_of_view): Snow Water Path (mm)
+          IWP(Scanline, Field_of_view): Ice Water Path (mm)
+          GWP(Scanline, Field_of_view): Graupel Water Path (mm)
+          RR(Scanline, Field_of_view): Rain Rate (mm/hr)
+          Snow(Scanline, Field_of_view): Snow Cover (range: 0-1) i.e., 1 -> 100%
+          SWE(Scanline, Field_of_view): Snow Water Equivalent (cm)
+          SnowGS(Scanline, Field_of_view):Snow Grain Size (mm)
+          SIce(Scanline, Field_of_view):Sea Ice Concentration (%)
+          SIce_MY(Scanline, Field_of_view): Multi-Year Sea Ice Concentration (%)
+          SIce_FY(Scanline, Field_of_view): First-Year Sea Ice Concentration (%)
+          TSkin(Scanline, Field_of_view): Skin Temperature (K)
+          SurfP(Scanline, Field_of_view): Surface Pressure (mb)
+          Emis(Scanline, Field_of_view, Channel):Channel Emissivity
+                                          (unit:1,  Emis:scale_factor = 0.0001)
+          SFR(Scanline, Field_of_view): Snow Fall Rate in mm/hr
+          CldTop(Scanline, Field_of_view): Cloud Top Pressure (scale_factor = 0.1)
+          CldBase(Scanline, Field_of_view): Cloud Base Pressure
+                                            (scale_factor = 0.1)
+          CldThick(Scanline, Field_of_view): Cloud Thickness (scale_factor = 0.1)
+          PrecipType(Scanline, Field_of_view): Precipitation Type (Frozen/Liquid)
+          RFlag(Scanline, Field_of_view): Rain Flag
+          SurfM(Scanline, Field_of_view): Surface Moisture (scale_factor = 0.1)
+          WindSp(Scanline, Field_of_view): Wind Speed (m/s) (scale_factor = 0.01
+          WindDir(Scanline, Field_of_view: Wind Direction (scale_factor = 0.01)
+          WindU(Scanline, Field_of_view):U-direction Wind Speed (m/s)
+                                        (scale_factor = 0.01)
+          WindV(Scanline, Field_of_view: V-direction Wind Speed (m/s)
+                                        (scale_factor = 0.01)
+          Prob_SF(Scanline, Field_of_view): Probability of falling snow (%)
+
+Additional info::
+
+    Variables (nscan, npix):  npix=90 pixels per scan; nscan: vary with orbit
+    chan-1 AT:  89 GHz              as ch16    anttenna temperature at V-pol
+                                               FOV 16km at nadir
+    chan-2 AT:  150 (157) GHz       as ch17 the number in bracket is for MHS
+                                           from metops at V-pol, 16km at nadir
+    chan-3 AT:  183.31 +-1 GHz          as ch18    at H-pol, 16km
+    chan-4 AT:  183.31 +-3 GHz          as ch19    at H-pol, 16km
+    chan-5 AT:  183.31 +-7 (190.3) GHz  as ch20    at V-pol, 16km
+    lat:     -90, 90     deg
+    lon:     -180, 180   deg
+    RR:  surface rainrate (mm/hr)
+    Snow: surafce snow cover
+    IWP:  ice water path
+    SWE:  snow water equvelent
+    Sfc_type:  surface type
+    Orbit_mode:   -1: ascending, 1: decending, 2: both
+    SFR:  snowfall rate (unit?)
+    LZ_angle:  local zinath angle (deg)
+    SZ_angle:  solar zinath angle (deg)
 """
-# --------------------------------------------------------------------------------------------------
-
 # Python Standard Libraries
 import logging
 import matplotlib
@@ -207,34 +235,39 @@ reader_type = "standard"
 def amsub_mirs(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
-    """Read AMSU-B hdf data products.
+    """Read AMSU/MHS MIRS data products.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required Variables and Attributes:
-            * See geoips/docs :doc:`xarray_standards`
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
     """
-
     import os
     from datetime import datetime
     import numpy as np
@@ -258,7 +291,7 @@ def amsub_mirs(
         raise
 
     """    ------  Notes  ------
-       Read AMSU-B hdf files for 5 chan antenna temperature (AT) and asscoaited EDRs  
+       Read AMSU-B hdf files for 5 chan antenna temperature (AT) and asscoaited EDRs
          Then, transform these ATs and fields into xarray framework for GEOIPS
          ( AT will be corrected into brightness temperature (TB) later)
 
@@ -267,12 +300,12 @@ def amsub_mirs(
        Returns:
            xarray.Dataset with required Variables and Attributes:
                Variables:
-                        AMSUB vars:    
+                        AMSUB vars:
                           'latitude', 'longitude', 'Ch1', 'Ch2', 'Ch3', 'Ch4','Ch4',
                           'RR', 'Snow','SWE','IWP','SFR' 'sfcType', 'time_scan'
-               Attibutes: 
-                        'source_name', 'platform_name', 'data_provider', 
-                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'    
+               Attibutes:
+                        'source_name', 'platform_name', 'data_provider',
+                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'
     """
 
     # import all data contents
@@ -303,7 +336,8 @@ def amsub_mirs(
 
     # start_time=os.path.basename(fname).split('_')[3][1:13]
     # end_time=os.path.basename(fname).split('_')[4][1:13]
-    # Collect start_time and end_time of input file (one orbit) from attributes - filename wrong!
+    # Collect start_time and end_time of input file (one orbit) from
+    # attributes - filename wrong!
     start_datetime = datetime.strptime(
         fileobj.attrs["time_coverage_start"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
     )
@@ -342,7 +376,8 @@ def amsub_mirs(
 
     # setup attributes
 
-    # satID and start_end time from input filename (ma3 --> METOP-c?) - TBD: depending on data file )
+    # satID and start_end time from input filename (ma3 --> METOP-c?) - TBD:
+    # depending on data file )
     sat_id = os.path.basename(fname).split("_")[2]
     if sat_id == "n19":
         satid = "noaa-19"

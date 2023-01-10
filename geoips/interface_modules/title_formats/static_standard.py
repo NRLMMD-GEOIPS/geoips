@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Standard geoips standard static title production"""
-
+"""Standard GeoIPS static title production."""
 # Python Standard Libraries
 import logging
 
@@ -34,7 +33,7 @@ def static_standard(
     bg_datatype_title=None,
     title_copyright=None,
 ):
-
+    """Generate standard GeoIPS formatted title."""
     title_line1 = "{0} {1}".format(product_datatype_title, product_name_title)
     title_line2 = "{0}".format(xarray_obj.start_datetime.strftime("%Y/%m/%d %H:%M:%SZ"))
     if bg_xarray is not None:

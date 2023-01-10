@@ -10,6 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+"""Utilities for creating a database of tropical cyclone tracks."""
 from geoips.filenames.base_paths import PATHS as gpaths
 import logging
 
@@ -20,8 +21,7 @@ TC_DECKS_DIR = gpaths["TC_DECKS_DIR"]
 
 
 def open_tc_db(dbname=TC_DECKS_DB):
-    """Open the TC Decks Database, create it if it doesn't exist"""
-
+    """Open the TC Decks Database, create it if it doesn't exist."""
     # Make sure the directory exists.  If the db doesn't exist,
     # the sqlite3.connect command will create it - which will
     # fail if the directory doesn't exist.
@@ -60,9 +60,11 @@ def open_tc_db(dbname=TC_DECKS_DB):
 
 
 def check_db(filenames=None, process=False):
-    """filenames is a list of filenames and directories.
-    if a list element is a string directory name, it expands to list of files in dir"""
+    """Check TC database for passed filenames.
 
+    filenames is a list of filenames and directories. if a list element is a
+    string directory name, it expands to list of files in dir.
+    """
     from os.path import join as pathjoin
     from os.path import dirname as pathdirname
     from glob import glob
@@ -73,7 +75,8 @@ def check_db(filenames=None, process=False):
     updated_files = []
     cc, conn = open_tc_db()
 
-    # We might want to rearrange this so we don't open up every file... Check timestamps first.
+    # We might want to rearrange this so we don't open up every file...
+    # Check timestamps first.
     for filename in filenames:
         updated_files += update_fields(filename, cc, conn, process=process)
 
@@ -85,6 +88,7 @@ def check_db(filenames=None, process=False):
 
 
 def update_fields(tc_trackfilename, cc, conn, process=False):
+    """Update fields in TC track database with passed tc_trackfilename."""
     # Must be of form similar to
     # Gal912016.dat
 
@@ -97,7 +101,8 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
 
     LOG.info("Checking " + tc_trackfilename + " ... process " + str(process))
 
-    # Check if we match Gxxdddddd.dat filename format. If not just return and don't do anything.
+    # Check if we match Gxxdddddd.dat filename format.
+    # If not just return and don't do anything.
     if not re.compile("G\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat").match(
         pathbasename(tc_trackfilename)
     ) and not re.compile("G\D\D\d\d\d\d\d\d\.dat").match(
@@ -105,7 +110,7 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
     ):
         LOG.info("")
         LOG.warning(
-            "    DID NOT MATCH REQUIRED FILENAME FORMAT, SKIPPING: " + tc_trackfilename
+            "    DID NOT MATCH REQUIRED FILENAME FORMAT, SKIPPING: %s", tc_trackfilename
         )
         return []
 
@@ -115,7 +120,8 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
 
     file_timestamp = datetime.fromtimestamp(osstat(tc_trackfilename).st_mtime)
     # Reads timestamp out as string - convert to datetime object.
-    # Check if timestamp on file is newer than timestamp in database - if not, just return and don't do anything.
+    # Check if timestamp on file is newer than timestamp in database -
+    # if not, just return and don't do anything.
     if data:
         database_timestamp = datetime.strptime(
             cc.execute(
@@ -127,10 +133,9 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
         if file_timestamp < database_timestamp:
             LOG.info("")
             LOG.info(
-                tc_trackfilename
-                + " already in "
-                + TC_DECKS_DB
-                + " and up to date, not doing anything."
+                "%s already in %s and up to date, not doing anything",
+                tc_trackfilename,
+                TC_DECKS_DB,
             )
             return []
 
@@ -205,11 +210,11 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
             LOG.info("    Old vmax: " + str(old_vmax) + " to new: " + str(vmax))
             updated_files += [tc_trackfilename]
         cc.execute(
-            """UPDATE tc_trackfiles SET 
+            """UPDATE tc_trackfiles SET
                         last_updated=?,
                         start_datetime=?,
                         end_datetime=?,
-                        vmax=? 
+                        vmax=?
                       WHERE filename = ?""",
             # Eventually add in ?
             # storm_start_datetime=?,
@@ -280,7 +285,7 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
 
 
 def reprocess_storm(tc_trackfilename):
-
+    """Reprocess storm tc_trackfilename, using info in TC tracks database."""
     # from IPython import embed as shell; shell()
 
     datelist = [startdt.strftime("%Y%m%d")]
@@ -331,19 +336,26 @@ def reprocess_storm(tc_trackfilename):
 
 
 def get_all_storms_from_db(start_datetime, end_datetime, template_yaml=None):
-    """Get all entries from all storms within a specific range of time from the TC database
-    Parameters:
-        start_datetime (datetime) : Start time of desired range
-        end_datetime (datetime) : End time of desired range
+    """Get all entries from all storms within a specific range of time from the TC DB.
 
-    Returns:
-        list of Sectors: List of GeoIPS 1.0 Sector objects, each storm location that falls within the desired
-                         time range.
+    Parameters
+    ----------
+    start_datetime : datetime.datetime
+        Start time of desired range
+    end_datetime : datetime.datetime
+        End time of desired range
 
-    Usage:
-        >>> startdt = datetime.strptime('20200216', '%Y%m%d')
-        >>> enddt = datetime.strptime('20200217', '%Y%m%d')
-        >>> get_storm_from_db(startdt, enddt)
+    Returns
+    -------
+    list of pyresample Area Definitions
+        List of pyresample Area Definitions, each storm location that falls
+        within the desired time range.
+
+    Examples
+    --------
+    >>> startdt = datetime.strptime('20200216', '%Y%m%d')
+    >>> enddt = datetime.strptime('20200217', '%Y%m%d')
+    >>> get_storm_from_db(startdt, enddt)
     """
     from os.path import exists as path_exists
 

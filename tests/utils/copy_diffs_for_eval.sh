@@ -18,7 +18,7 @@ if [[ "$1" == "" ]]; then
     echo ""
     echo "Where <repo_name> either"
     echo "    $GEOIPS_PACKAGES_DIR/<repo_name>"
-    echo "    $GEOIPS_BASEDIR/test_data/<repo_name>"
+    echo "    $GEOIPS_TESTDATA_DIR/<repo_name>"
     exit 1
 fi
 
@@ -40,7 +40,7 @@ rm -fv $GEOIPS_PACKAGES_DIR/$repo_name/tests/outputs/*/*/*/*/*diff_test_output* 
 echo ""
 echo ""
 echo ""
-echo "Copying the updated imagery files into $GEOIPS_BASEDIR/test_data/$repo_name/outputs/ ..."
+echo "Copying the updated imagery files into $GEOIPS_TESTDATA_DIR/$repo_name/outputs/ ..."
 echo ""
 for fname in $GEOIPS_TESTDATA_DIR/$repo_name/outputs/*/diff_test_output*/cp_*; do source $fname; done
 for fname in $GEOIPS_TESTDATA_DIR/$repo_name/outputs/*/*/diff_test_output*/cp_*; do source $fname; done

@@ -10,8 +10,10 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Command line script for kicking off geoips based procflows. MUST call with --procflow"""
+"""Command line script for kicking off geoips based procflows.
 
+MUST call with --procflow.
+"""
 
 from datetime import datetime
 from geoips.commandline.log_setup import setup_logging
@@ -21,7 +23,13 @@ from geoips.interfaces import procflows
 
 def main(get_command_line_args_func=None):
     """Script to kick off processing based on command line args.
-    If "get_command_line_args_func" is passed, use that rather than default."""
+
+    Parameters
+    ----------
+    get_command_line_args_func : function, optional
+        Function to use in place of "get_command_line_args", default None
+        If None, use geoips.commandline.args.get_command_line_args
+    """
     DATETIMES = {}
     DATETIMES["start"] = datetime.utcnow()
     LOG = setup_logging()

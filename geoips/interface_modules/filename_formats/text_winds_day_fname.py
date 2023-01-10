@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Specifications for output filename formats for text windspeed product types. """
-
+"""Filename formatter for full-day text windspeed products."""
 import logging
 
 from os.path import join as pathjoin, splitext as pathsplitext
@@ -36,6 +35,17 @@ def text_winds_day_fname(
     extension=".txt",
     basedir=pathjoin(gpaths["ANNOTATED_IMAGERY_PATH"], "text_winds"),
 ):
+    """Create full-day text windspeed filenames.
+
+    text_winds_day_fname includes only YYYYMMDD in the filename, so all data for
+    a full day is appended into a single file.
+
+    See Also
+    --------
+    geoips.interface_modules.filename_formats.text_winds_full_fname.
+        assemble_text_windspeeds_text_full_fname
+        Shared utility for generating similarly formatted windspeed filenames.
+    """
     return assemble_windspeeds_text_full_fname(
         basedir=basedir,
         source_name=xarray_obj.source_name,

@@ -10,9 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Modules to access TC tracks, based on locations found in the deck files.  These are duplicated from
-    geoips.sectorfile.dynamic to avoid using modules from geoips. set_tc_sector still imports from sectorfile,
-    as we are still internally relying on the Sector objects. """
+"""Modules to access TC tracks, based on locations found in the deck files."""
 import os
 from datetime import datetime
 import logging
@@ -43,19 +41,40 @@ def create_tc_sector_info_dict(
     pressure=None,
     vmax=None,
 ):
-    """Create storm info dictionary from items
+    """Create storm info dictionary from items.
 
-    Args:
-        clat (float) : center latitude of storm
-        clon (float) : center longitude of storm
-        synoptic_time (datetime) : time of storm location
-        storm_year (int) : 4 digit year of storm
-        storm_basin (str) : 2 digit basin identifier
-        storm_num (int) : 2 digit storm number
-        storm_name (str) : Common name of storm
-        deck_line (str) :  source deck line for storm information
-        pressure (float) : minimum pressure
-        vmax (float) : maximum wind speed
+    Parameters
+    ----------
+    clat : float
+        center latitude of storm
+    clon : float
+        center longitude of storm
+    synoptic_time : datetime.datetime
+        time of storm location
+    storm_year : int
+        4 digit year of storm
+    storm_basin : str
+        2 digit basin identifier
+    storm_num : int
+        2 digit storm number
+    aid_type : str, default=None
+        type of TC aid (BEST, MBAM, etc)
+    storm_name : str, default=None
+        Common name of storm
+    final_storm_name : str, default=None
+        Final name found throughout entire track file (ie, if reprocessing,
+        will ensure early storm locations are identified with final storm name)
+    deck_line : str, default=None
+        source deck line for storm information
+    pressure : float, default=None
+        minimum pressure
+    vmax : float, default=None
+        maximum wind speed
+
+    Returns
+    -------
+    fields : dict
+        Dictionary of sector information, as passed into function.
     """
     fields = {}
     fields["clat"] = clat
@@ -91,6 +110,11 @@ def create_tc_sector_info_dict(
 
 
 def get_tc_area_id(fields, finalstormname, tcyear):
+    """Get TC area_id from fields, to be used as pyresample AreaDefinition area_id.
+
+    Will be of form:
+    * tcYYYYBBNNname (ie, tc2016io01one)
+    """
     if not finalstormname:
         finalstormname = fields["storm_name"]
     newname = "{0}{1:02d}{2}".format(
@@ -105,6 +129,11 @@ def get_tc_area_id(fields, finalstormname, tcyear):
 
 
 def get_tc_long_description(area_id, fields):
+    """Return long_description of TC sector.
+
+    This is commonly used as the long name/description on the
+    pyresample AreaDefinition.
+    """
     if "interpolated_time" in fields:
         long_description = "{0} interpolated_time {1}".format(
             area_id, str(fields["interpolated_time"])
@@ -128,22 +157,31 @@ def set_tc_area_def(
 ):
     """Set the TC area definition, using specified arguments.
 
-    Args:
-        fields (dict) : Dictionary of TC sector_info fields (clat, clon, storm name, etc)
-                            Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
-        tcyear (int) : DEFAULT None, Passed tcyear - since current year may not match tcyear for SHEM storms
-        finalstormname (str) : DEFAULT None, finalstormname allows reprocessed storms to go in final storm directory
-        source_sector_file (str) : DEFAULT None, attach source_sector_file to area_definition if known
-        clat (float) : DEFAULT None, specify clat/clon separately from that found in 'fields'
-        clon (float) : DEFAULT None, specify clat/clon separately from that found in 'fields'
-        template_yaml (str) : DEFAULT gpaths['TC_TEMPLATE']
-                                      Path to template YAML file to use when setting up area definition.
-        aid_type (str) : DEFAULT None, type of TC aid (BEST, MBAM, etc)
-    Returns:
-        (AreaDefinition) : List of pyresample AreaDefinition objects
+    Parameters
+    ----------
+    fields : dict
+        Dictionary of TC sector_info fields (clat, clon, storm name, etc)
+        Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
+    tcyear : int, default=None
+        Passed tcyear - since current year may not match tcyear for SHEM storms
+    finalstormname : str, default=None
+        finalstormname allows reprocessed storms to go in final storm directory
+    source_sector_file : str, default=None
+        attach source_sector_file to area_definition if known
+    clat : float, default=None
+        specify clat/clon separately from that found in 'fields'
+    clon : float, default=None
+        specify clat/clon separately from that found in 'fields'
+    template_yaml : str, default=gpaths['TC_TEMPLATE']
+        Path to template YAML file to use when setting up area definition.
+    aid_type : str, default=None
+        type of TC aid (BEST, MBAM, etc)
 
+    Returns
+    -------
+    pyresample.AreaDefinition
+        pyresample AreaDefinition object with specified parameters.
     """
-
     import yaml
 
     if template_yaml is None:
@@ -173,7 +211,8 @@ def set_tc_area_def(
 
     # These are things like 'clat_clon_resolution_shape'
     template_func = find_entry_point("area_def_generators", template_func_name)
-    # Probably generalize this at some point. For now I know those are the ones that are <template>
+    # Probably generalize this at some point. For now I know those are the
+    # ones that are <template>
     template_args["area_id"] = area_id
     template_args["long_description"] = long_description
     template_args["clat"] = clat
@@ -189,7 +228,8 @@ def set_tc_area_def(
     area_def.sector_type = "tc"
     area_def.sector_info = {}
 
-    # area_def.description is Python3 compatible, and area_def.name is Python2 compatible
+    # area_def.description is Python3 compatible,
+    # and area_def.name is Python2 compatible
     area_def.description = long_description
     if not hasattr(area_def, "name"):
         area_def.name = long_description
@@ -223,13 +263,21 @@ def set_tc_area_def(
 def trackfile_to_area_defs(
     trackfile_name, trackfile_parser="gdeck_parser", template_yaml=None
 ):
-    """Get TC area definitions for the specified text trackfile, limit to optionally specified trackfile_sectorlist
+    """Get TC area definitions for the specified text trackfile.
 
-    Args:
-        trackfile (str) : Full path to trackfile, convert each line into a separate area_def
-        trackfile_parser (str) : Parser to use from interface_modules/trackfile_parsers on trackfiles
-    Returns:
-        (list) : List of pyresample AreaDefinition objects
+    Limit to optionally specified trackfile_sectorlist
+
+    Parameters
+    ----------
+    trackfile : str
+        Full path to trackfile, convert each line into a separate area_def
+    trackfile_parser : str
+        Parser to use from interface_modules/trackfile_parsers on trackfiles
+
+    Returns
+    -------
+    list
+        List of pyresample AreaDefinition objects
     """
     if trackfile_parser is None:
         trackfile_parser = "gdeck_parser"
@@ -257,7 +305,10 @@ def trackfile_to_area_defs(
 
 
 def interpolate_storm_location(interp_dt, longitudes, latitudes, synoptic_times):
-    """Interpolate the storm location at a specific time based on a list of known locations and times"""
+    """Interpolate the storm location at a specific time.
+
+    Based on a list of known locations and times
+    """
     LOG.info(
         "interp_dt: %s\nlatitudes:\n%s\nlongitudes:\n%s\nsynoptic_times:\n%s",
         interp_dt,

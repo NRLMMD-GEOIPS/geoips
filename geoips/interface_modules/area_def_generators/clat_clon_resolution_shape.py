@@ -10,18 +10,16 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-""" Utility for generating standard pyresample area definitions (using clat, clon, projection, and area_extent) """
+"""Utility for generating standard pyresample area definitions.
+
+Uses clat, clon, projection, and area_extent.
+"""
 
 
 def set_clat_clon_proj_info(
     clat, clon, pr_proj, num_samples, num_lines, pixel_width, pixel_height
 ):
-    """Take the current storm location, and create the standard tc projection from those fields
-
-    Args:
-        fields (dict) : dictionary of storm info, including clat and clon
-                            Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
-    """
+    """Create standard proj4 dictionary from passed projection information."""
     width_m = num_samples * pixel_width
     height_m = num_lines * pixel_height
 
@@ -51,7 +49,7 @@ def clat_clon_resolution_shape(
     num_samples,
     num_lines,
 ):
-
+    """Create area definition using clat, clon, resolution, and shape."""
     proj4_dict, area_extent = set_clat_clon_proj_info(
         clat=clat,
         clon=clon,
