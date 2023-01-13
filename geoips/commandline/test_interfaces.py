@@ -23,7 +23,6 @@ import traceback
 
 def main():
     """Script to test all dev and stable interfaces."""
-
     interfaces = [
         "stable.reader",
         "dev.alg",
