@@ -26,15 +26,16 @@
 echo ""
 # "call" used in test_all_run.sh
 for call in \
+    "$GEOIPS_PACKAGES_DIR/geoips/tests/utils/check_code.sh all `dirname $0`/../ flake8_docstring_only" \                                                                                             
     "$GEOIPS_PACKAGES_DIR/geoips/tests/uncompress_test_data.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_amsr2 dev" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_gpm dev" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_sar dev" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_scat dev" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_smap dev" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_viirs dev" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_amsr2 main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_gpm main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_sar main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_scat main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_smap main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_viirs main" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
     "test_interfaces" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
