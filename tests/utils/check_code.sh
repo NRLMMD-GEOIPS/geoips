@@ -98,7 +98,7 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
     retval=$((flake8_retval+retval))
 fi
 if [[ "$test" == "bandit" || "$test" == "all" ]]; then
-    echo "bandit -r path"
+    echo "bandit -ll -r path"
     bandit -ll -r $path
     bandit_retval=$?
     retval=$((bandit_retval+retval))
