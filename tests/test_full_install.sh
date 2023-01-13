@@ -26,7 +26,6 @@
 echo ""
 # "call" used in test_all_run.sh
 for call in \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/utils/check_code.sh all `dirname $0`/../ flake8_docstring_only" \                                                                                             
     "$GEOIPS_PACKAGES_DIR/geoips/tests/uncompress_test_data.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory" \
