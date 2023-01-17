@@ -25,9 +25,9 @@ files as well as docstrings contained within the GeoIPS 2.0 source code.
 GeoIPS 2.0 Syntax and Style Checking
 ------------------------------------
 
-GeoIPS 2.0 uses the Google Style Guide, including Google style docstrings within the code base for simplicity:
+GeoIPS 2.0 uses the NumPy docstring format within the code base for simplicity:
 
-https://google.github.io/styleguide/pyguide.html
+https://numpydoc.readthedocs.io/en/latest/format.html
 
 bandit, flake8, and pylint are used to enforce appropriate style, security, and syntax usage.
 
