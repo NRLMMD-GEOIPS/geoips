@@ -16,8 +16,8 @@ GeoIPS Contributors Guide
 The GeoIPS Team encourages active participation by the user and developer community,
 so we welcome any and all feedback on and updates to the code base.
 
-Each step in this process can be completed by one or more individuals (we encourage collaboration!).
-Feel free to submit an Issue if you have no intention of resolving it yourself. And feel free to
+Each step in this process can be completed by one or more individuals (we encourage collaboration!),
+so feel free to submit Issues even if you have no intention of resolving it yourself. And feel free to
 submit a Pull Request even if all tests are not complete - someone else may have time to finalize
 for approval even if you are unable.
 

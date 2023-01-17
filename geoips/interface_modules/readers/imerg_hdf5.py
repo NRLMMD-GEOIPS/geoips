@@ -10,27 +10,37 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-'''A reader is designed to import IMERG rainfall data for GeoIPS using only python libraries
-    Aug 17, 2020 
-   for a IMERG 30min data file, the time is the start time of a 30min interval: 0000-0030-0100-0130-0200 .... 
-    Spatial resolution is 0.1 deg. 1st grid is at (-179.95, -89.95).  Last grid is at (175.95, 89.95)
-    variable array is (3600,1800)
-    
-    metadata['top']['dataprovider'] = 'NASA-GPM'
+"""Read IMERG rainfall data.
 
-    dataset_info = { 'Grid': {'MWtime': 'HQobservationTime',
-                              'MWid': 'HQprecipSource',
-                              'MWrr': 'HQprecipitation',
-                              'IRweight': 'IRkalmanFilterWeight',
-                              'IRrr': 'IRprecipitation',
-                              'rain': 'precipitationCal',
-                              'rrQC': 'precipitationQualityIndex',
-                              'rrUncal': 'precipitationUncal',
-                              'rrProb': 'probabilityLiquidPrecipitation',
-                              'rrErr': 'randomError',},
-             }
-'''
- 
+A reader is designed to import IMERG rainfall data for GeoIPS using only
+python libraries
+
+Aug 17, 2020
+
+for a IMERG 30min data file, the time is the start time of a 30min interval:
+    0000-0030-0100-0130-0200 ....
+
+Dataset information::
+
+    Spatial resolution is 0.1 deg.
+    1st grid is at (-179.95, -89.95).
+    Last grid is at (175.95, 89.95)
+    variable array is (3600,1800)
+
+     metadata['top']['dataprovider'] = 'NASA-GPM'
+
+     dataset_info = { 'Grid': {'MWtime': 'HQobservationTime',
+                               'MWid': 'HQprecipSource',
+                               'MWrr': 'HQprecipitation',
+                               'IRweight': 'IRkalmanFilterWeight',
+                               'IRrr': 'IRprecipitation',
+                               'rain': 'precipitationCal',
+                               'rrQC': 'precipitationQualityIndex',
+                               'rrUncal': 'precipitationUncal',
+                               'rrProb': 'probabilityLiquidPrecipitation',
+                               'rrErr': 'randomError',},
+              }
+"""
 # Python Standard Libraries
 import logging
 from os.path import basename
@@ -39,67 +49,80 @@ from os.path import basename
 import h5py
 import numpy as np
 import matplotlib
-matplotlib.use('agg')
+
+matplotlib.use("agg")
 import matplotlib.pyplot as plt
 
 LOG = logging.getLogger(__name__)
 
-reader_type = 'standard'
+reader_type = "standard"
 
 
-def imerg_hdf5(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
-    ''' Read IMERG hdf5 rain rate data products.
+def imerg_hdf5(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
+    """Read IMERG hdf5 rain rate data products.
 
-    All GeoIPS 2.0 readers read data into xarray Datasets - a separate
-    dataset for each shape/resolution of data - and contain standard metadata information.
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * NOT YET IMPLEMENTED
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
 
-    Args:
-        fnames (list): List of strings, full paths to files
-        metadata_only (Optional[bool]):
-            * DEFAULT False
-            * return before actually reading data if True
-        chans (Optional[list of str]):
-            * NOT IMPLEMENTED
-                * DEFAULT None (include all channels)
-                * List of desired channels (skip unneeded variables as needed)
-        area_def (Optional[pyresample.AreaDefinition]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT None (read all data)
-                * Specify region to read
-        self_register (Optional[str]):
-            * NOT YET IMPLEMENTED
-                * DEFAULT False (read multiple resolutions of data)
-                * register all data to the specified resolution.
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
 
-    Returns:
-        list of xarray.Datasets: list of xarray.Dataset objects with required
-            Variables and Attributes: (See geoips/docs :doc:`xarray_standards`)
-            
-    '''
-
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     from datetime import datetime, timedelta
     import pandas as pd
     import xarray as xr
-    #from IPython import embed as shell
+
+    # from IPython import embed as shell
     fname = fnames[0]
 
-    LOG.info('Reading file %s', fname)
+    LOG.info("Reading file %s", fname)
 
-    def get_header_info(header,field):
-        head = header.split(';\n')
+    def get_header_info(header, field):
+        head = header.split(";\n")
         for ii in head:
             if field in ii:
-                fld,val = ii.split('=')
+                fld, val = ii.split("=")
                 return val
         return None
 
-    #open one input imerg hdf5 file
+    # open one input imerg hdf5 file
 
-    fileobj = h5py.File(str(fname), mode='r')
+    fileobj = h5py.File(str(fname), mode="r")
 
-    #header = fileobj.attrs['FileHeader']
-    #start_time =get_header_info(header,'StartGranuleDateTime')     # '2011-07-18T01:00:00.000Z'
-    #end_time   =get_header_info(header,'StopGranuleDateTime')      # '2011-07-18T01:29:59.999Z'
+    # header = fileobj.attrs['FileHeader']
+    # start_time =get_header_info(header,'StartGranuleDateTime')
+    #             '2011-07-18T01:00:00.000Z'
+    # end_time   =get_header_info(header,'StopGranuleDateTime')
+    #             '2011-07-18T01:29:59.999Z'
 
     # get the time info from inport file name
     # date_yrmody       = os.path.basename(fname).split('-')[1].split('.')[-1]
@@ -109,67 +132,73 @@ def imerg_hdf5(fnames, metadata_only=False, chans=None, area_def=None, self_regi
     # start_time = date_yrmody + date_hhmmse_start
     # end_time   = date_yrmody + date_hhmmse_end
 
-    # get imerg variables    
-    if hasattr(fileobj['Grid']['lat'], 'value'):
+    # get imerg variables
+    if hasattr(fileobj["Grid"]["lat"], "value"):
         # Older versions of h5py - 2.10.0
-        lat=fileobj['Grid']['lat'].value                          #(1800)
-        lon=fileobj['Grid']['lon'].value                          #(3600)
-        
-        rain  =fileobj['Grid']['precipitationCal'].value                        #(1,3600,1800)
-        rrProb=fileobj['Grid']['probabilityLiquidPrecipitation'].value          #(1,3600,1800)
-        rrErr =fileobj['Grid']['randomError'].value                             #(1,3600,1800)
-        IRrr  =fileobj['Grid']['IRprecipitation'].value                         #(1,3600,1800)
+        lat = fileobj["Grid"]["lat"].value  # (1800)
+        lon = fileobj["Grid"]["lon"].value  # (3600)
+
+        rain = fileobj["Grid"]["precipitationCal"].value  # (1,3600,1800)
+        rrProb = fileobj["Grid"][
+            "probabilityLiquidPrecipitation"
+        ].value  # (1,3600,1800)
+        rrErr = fileobj["Grid"]["randomError"].value  # (1,3600,1800)
+        IRrr = fileobj["Grid"]["IRprecipitation"].value  # (1,3600,1800)
     else:
         # Newer versions of h5py - 3.2.1
-        lat=fileobj['Grid']['lat'][:]                          #(1800)
-        lon=fileobj['Grid']['lon'][:]                          #(3600)
-        
-        rain  =fileobj['Grid']['precipitationCal'][:]                        #(1,3600,1800)
-        rrProb=fileobj['Grid']['probabilityLiquidPrecipitation'][:]          #(1,3600,1800)
-        rrErr =fileobj['Grid']['randomError'][:]                             #(1,3600,1800)
-        IRrr  =fileobj['Grid']['IRprecipitation'][:]                         #(1,3600,1800)
+        lat = fileobj["Grid"]["lat"][:]  # (1800)
+        lon = fileobj["Grid"]["lon"][:]  # (3600)
 
-    lat_2d,lon_2d=np.meshgrid(lat,lon)                        #(3600,1800)
+        rain = fileobj["Grid"]["precipitationCal"][:]  # (1,3600,1800)
+        rrProb = fileobj["Grid"]["probabilityLiquidPrecipitation"][:]  # (1,3600,1800)
+        rrErr = fileobj["Grid"]["randomError"][:]  # (1,3600,1800)
+        IRrr = fileobj["Grid"]["IRprecipitation"][:]  # (1,3600,1800)
 
-    # take out the fake additional array of 3d_array (actually 2D array), i.e., delete the "1" array of above variables
-    rain  =np.squeeze(rain)
-    rrProb=np.squeeze(rrProb) 
-    rrErr =np.squeeze(rrErr) 
-    IRrr  =np.squeeze(IRrr) 
+    lat_2d, lon_2d = np.meshgrid(lat, lon)  # (3600,1800)
 
-    start_dt = datetime.utcfromtimestamp(fileobj['Grid']['time'][...][0])
-    end_dt = start_dt + timedelta(minutes=int(fileobj['Grid']['HQobservationTime'][...].max()))
+    # take out the fake additional array of 3d_array (actually 2D array),
+    # i.e., delete the "1" array of above variables
+    rain = np.squeeze(rain)
+    rrProb = np.squeeze(rrProb)
+    rrErr = np.squeeze(rrErr)
+    IRrr = np.squeeze(IRrr)
 
-    #close the h5 object
+    start_dt = datetime.utcfromtimestamp(fileobj["Grid"]["time"][...][0])
+    end_dt = start_dt + timedelta(
+        minutes=int(fileobj["Grid"]["HQobservationTime"][...].max())
+    )
+
+    # close the h5 object
     fileobj.close()
 
     #          ------  setup xarray variables   ------
-    #  since IMERG time is fixed for 30 minutes, timestamp is not needed. only start_time and end_time needed.
+    # since IMERG time is fixed for 30 minutes, timestamp is not needed. only
+    # start_time and end_time needed.
 
-    #namelist_gmi  = ['latitude', 'longitude', 'rain', 'rrProb', 'rrErr','IRrr']
+    # namelist_gmi  = ['latitude', 'longitude', 'rain', 'rrProb', 'rrErr','IRrr']
 
     # setup xarray for IMERG fields
     xarray_imerg = xr.Dataset()
-    xarray_imerg['latitude'] =xr.DataArray(lat_2d)
-    xarray_imerg['longitude']=xr.DataArray(lon_2d)
-    xarray_imerg['rain']     =xr.DataArray(rain)
-    xarray_imerg['rrProb']   =xr.DataArray(rrProb)
-    xarray_imerg['rrErr']    =xr.DataArray(rrErr)
-    xarray_imerg['IRrr']     =xr.DataArray(IRrr)
+    xarray_imerg["latitude"] = xr.DataArray(lat_2d)
+    xarray_imerg["longitude"] = xr.DataArray(lon_2d)
+    xarray_imerg["rain"] = xr.DataArray(rain)
+    xarray_imerg["rrProb"] = xr.DataArray(rrProb)
+    xarray_imerg["rrErr"] = xr.DataArray(rrErr)
+    xarray_imerg["IRrr"] = xr.DataArray(IRrr)
 
     # setup attributors
-    # xarray_imerg.attrs['start_datetime'] = datetime.strptime(start_time,'%Y%m%d%H%M%S')
-    xarray_imerg.attrs['start_datetime'] = start_dt
+    # xarray_imerg.attrs['start_datetime'] = datetime.strptime(start_time,
+    #                                                          '%Y%m%d%H%M%S')
+    xarray_imerg.attrs["start_datetime"] = start_dt
     # xarray_imerg.attrs['end_datetime']   = datetime.strptime(end_time,'%Y%m%d%H%M%S')
-    xarray_imerg.attrs['end_datetime'] = end_dt
-    xarray_imerg.attrs['source_name']    = 'imerg'
-    xarray_imerg.attrs['platform_name']  = 'GPM'
-    xarray_imerg.attrs['data_provider']  = 'NASA'
-    xarray_imerg.attrs['original_source_filenames'] = [basename(fname)]
+    xarray_imerg.attrs["end_datetime"] = end_dt
+    xarray_imerg.attrs["source_name"] = "imerg"
+    xarray_imerg.attrs["platform_name"] = "GPM"
+    xarray_imerg.attrs["data_provider"] = "NASA"
+    xarray_imerg.attrs["original_source_filenames"] = [basename(fname)]
 
     # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
-    xarray_imerg.attrs['sample_distance_km'] = 2
-    xarray_imerg.attrs['interpolation_radius_of_influence'] = 15000
+    xarray_imerg.attrs["sample_distance_km"] = 2
+    xarray_imerg.attrs["interpolation_radius_of_influence"] = 15000
 
-    return {'IMERG': xarray_imerg,
-            'METADATA': xarray_imerg[[]]}
+    return {"IMERG": xarray_imerg, "METADATA": xarray_imerg[[]]}

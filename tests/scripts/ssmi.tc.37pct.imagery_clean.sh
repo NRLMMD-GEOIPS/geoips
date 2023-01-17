@@ -17,8 +17,8 @@
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 run_procflow \
-          $GEOIPS_BASEDIR/test_data/test_data_ssmi/data/US058SORB-DEFspp.sdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def \
-          $GEOIPS_BASEDIR/test_data/test_data_ssmi/data/US058SORB-DEFspp.tdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def \
+          $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.sdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def \
+          $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.tdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def \
           --procflow single_source \
           --reader_name ssmi_binary \
           --product_name 37pct \
@@ -27,8 +27,8 @@ run_procflow \
           --metadata_filename_format metadata_default_fname \
           --metadata_output_format metadata_default \
           --trackfile_parser bdeck_parser \
-          --trackfiles $GEOIPS/tests/sectors/tc_bdecks/bio012020.dat \
-          --compare_path "$GEOIPS/tests/outputs/ssmi.tc.37pct.imagery_clean" \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ssmi.tc.37pct.imagery_clean" \
           --product_params_override '{}' \
           --output_format_kwargs '{}' \
           --filename_format_kwargs '{}' \

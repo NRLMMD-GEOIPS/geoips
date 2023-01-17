@@ -12,7 +12,7 @@
 
 #!/bin/bash
 
-out_path=$GEOIPS/tests/outputs
+out_path=$GEOIPS_PACKAGES_DIR/geoips/tests/outputs
 
 # Ensure netcdf output files are gunzipped
     date -u

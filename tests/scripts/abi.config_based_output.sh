@@ -13,7 +13,7 @@
 #!/bin/bash
 
 run_procflow --procflow config_based \
-             --output_config $GEOIPS/tests/yaml_configs/abi_test.yaml
+             --output_config $GEOIPS_PACKAGES_DIR/geoips/tests/yaml_configs/abi_test.yaml
 config_retval=$?
 
 # Produce an overall return value, sum of all 3

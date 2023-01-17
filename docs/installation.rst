@@ -28,16 +28,16 @@ Required
 * Python >= 3.9 (3.9 required for entry points)
 
   * included in `Complete Local conda-based GeoIPS Installation`_
-* cartopy >= 0.20.3 (0.21.0 required for matplotlib 3.6.0, does not install cleanly via pip)
+* cartopy >= 0.20.3 (0.21.0 required for matplotlib 3.6.0, does not install
+  cleanly via pip)
 
-  * included in `Complete Local conda-based GeoIPS Installation`_)
+  * included in `Complete Local conda-based GeoIPS Installation`_
 * rclone (required to obtain ABI and AHI test data from AWS)
 
   * included in `Complete Local conda-based GeoIPS Installation`_
 * Test data repos contained in $GEOIPS_TESTDATA_DIR (required for tests to pass)
 
   * included in `Complete Local conda-based GeoIPS Installation`_
-
 
 Optional
 
@@ -49,7 +49,8 @@ Optional
 Expert User GeoIPS Installation
 ---------------------------------
 
-For the fully supported installation, please use the `Complete Local conda-based GeoIPS Installation`_.
+For the fully supported installation, please use the
+`Complete Local conda-based GeoIPS Installation`_.
 
 If you are confident you have all system requirements installed (Python+cartopy),
 and do not wish to go through the full interactive installation process below
@@ -65,13 +66,15 @@ and pip install from the your local copy.
 Complete Local conda-based GeoIPS Installation
 ================================================
 
-This is the fully supported installation method, which involves installing the entire Python environment
-from scratch using conda, to allow for consistency across installations.  This process ensures source code,
-test datasets, etc are all contained in the same location to facilitate assisting users if issues arise
+This is the fully supported installation method, which involves installing the entire
+Python environment from scratch using conda, to allow for consistency across
+installations.  This process ensures source code, test datasets, etc are all
+contained in the same location to facilitate assisting users if issues arise
 during the installation, testing, and development process.
 
-This installation method includes the first 4 system requirements (Python, cartopy, rclone, and test repos)
-through a complete install of conda, geoips, test repos, and all Python dependencies.
+This installation method includes the first 4 system requirements (Python, cartopy,
+rclone, and test repos) through a complete install of conda, geoips, test repos,
+and all Python dependencies.
 
 GeoIPS Environment Variables for Complete conda-based Installation
 --------------------------------------------------------------------
@@ -91,19 +94,21 @@ GeoIPS Environment Variables for Complete conda-based Installation
     # source </full/path/to/GEOIPS_CONFIG_FILE>
     # to your ~/.bashrc file
 
+    # GeoIPS default required packages
     git lfs install  # Required to clone test data repositories!
+
+    # GeoIPS Default Locations
     export GEOIPS_BASEDIR=$HOME/geoproc  # Contains all source, output, and external dependencies
     export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS  # Point to base URL for git clone commands
     GEOIPS_ACTIVE_BRANCH=main
-
-    # GeoIPS packages, test_data, and dependencies all default to locations under "GEOIPS_BASEDIR"
     export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
     export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
     export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_BASEDIR/geoips_dependencies
 
-    # This config file must be sourced ANY TIME you want to run geoips
+    # GeoIPS default configuration - must be source ANY TIME you want to run GeoIPS
     # You can create your own user/site specific version to replace this one as needed.
     export GEOIPS_CONFIG_FILE=$GEOIPS_PACKAGES_DIR/geoips/setup/config_geoips
+
 
 Complete conda-based Installation and Test
 ----------------------------------------------
