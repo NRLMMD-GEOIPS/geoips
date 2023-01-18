@@ -5,39 +5,42 @@ changelog:
         - "breaking change"
         - "api change"
         - "deprecation"
+    - title: Security Updates
+      labels:
+        - "security"
     - title: Exciting New Features 🎉
       labels:
         - "enhancement"
         - "new functionality"
         - "new feature"
+    - title: Regression Fixes
+      labels:
+        - "regression"
+    - title: Bug Fixes
+      labels:
+        - "bug"
     - title: Efficiency Improvements
       labels:
         - "efficiency"
-    - title: Documentation Updates
+    - title: Installation Updates
       labels:
-        - "documentation"
+        - "installation"
+    - title: Real-time Processing Improvements
+      labels:
+        - "real-time processing"
     - title: Code Formatting / Style / Refactoring Updates
       labels:
         - "formatting"
         - "refactor"
-    - title: Security Updates
-      labels:
-        - "security"
     - title: Git Workflow Improvements
       labels:
         - "git workflow"
-    - title: Real-time Processing Improvements
-      labels:
-        - "real-time processing"
-    - title: Installation Updates
-      labels:
-        - "installation"
     - title: Testing Updates
       labels:
         - "testing"
-    - title: Bug Fixes
+    - title: Documentation Updates
       labels:
-        - "bug"
+        - "documentation"
     - title: Changes During Release Process
       labels:
         - "Version Release"
