@@ -4,31 +4,40 @@ changelog:
       labels:
         - "breaking change"
         - "api change"
+        - "deprecation"
     - title: Exciting New Features 🎉
       labels:
-        - enhancement
+        - "enhancement"
         - "new functionality"
         - "new feature"
     - title: Efficiency Improvements
       labels:
         - "efficiency"
+    - title: Documentation Updates
+      labels:
+        - "documentation"
     - title: Code Formatting / Style / Refactoring Updates
       labels:
         - "formatting"
         - "refactor"
+    - title: Security Updates
+      labels:
+        - "security"
     - title: Git Workflow Improvements
       labels:
         - "git workflow"
     - title: Real-time Processing Improvements
       labels:
         - "real-time processing"
-    - title: Installation and Test
+    - title: Installation Updates
       labels:
-        - installation
-        - testing
+        - "installation"
+    - title: Testing Updates
+      labels:
+        - "testing"
     - title: Bug Fixes
       labels:
-        - bug
+        - "bug"
     - title: Changes During Release Process
       labels:
         - "Version Release"
