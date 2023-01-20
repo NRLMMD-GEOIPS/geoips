@@ -17,6 +17,7 @@ import logging
 from glob import glob
 from importlib import metadata
 
+from geoips.errors import EntryPointError
 from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
@@ -104,10 +105,9 @@ def find_entry_point(namespace, name, default=None):
         if default is not None:
             return default
         else:
-            raise Exception(
-                "Failed to find object matching {0} in namespace {1}".format(
-                    name, ep_namespace
-                )
+            raise EntryPointError(
+                f"Failed to find object matching {name} "
+                "in namespace {ep_namespace}"
             )
 
 
