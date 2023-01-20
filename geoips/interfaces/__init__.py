@@ -1,36 +1,19 @@
-from geoips.interfaces.algorithms import algorithms, AlgorithmsInterfacePlugin
-from geoips.interfaces.colormaps import colormaps, ColorMapsInterfacePlugin
-from geoips.interfaces.filename_formatters import (
-    filename_formatters,
-    FilenameFormattersInterfacePlugin,
-)
-from geoips.interfaces.interpolators import interpolators, InterpolatorsInterfacePlugin
-from geoips.interfaces.output_formats import (
-    output_formats,
-    OutputFormatsInterfacePlugin,
-)
-from geoips.interfaces.procflows import procflows, ProcflowsInterfacePlugin
-from geoips.interfaces.readers import readers, ReadersInterfacePlugin
-from geoips.interfaces.title_formatters import (
-    title_formatters,
-    TitleFormattersInterfacePlugin,
-)
+from geoips.interfaces.algorithms import algorithms
+from geoips.interfaces.colormaps import colormaps
+from geoips.interfaces.filename_formatters import filename_formatters
+from geoips.interfaces.interpolators import interpolators
+from geoips.interfaces.output_formats import output_formats
+from geoips.interfaces.procflows import procflows
+from geoips.interfaces.readers import readers
+from geoips.interfaces.title_formatters import title_formatters
 
 all = [
     algorithms,
-    AlgorithmsInterfacePlugin,
     colormaps,
-    ColorMapsInterfacePlugin,
     filename_formatters,
-    FilenameFormattersInterfacePlugin,
     interpolators,
-    InterpolatorsInterfacePlugin,
     output_formats,
-    OutputFormatsInterfacePlugin,
     procflows,
-    ProcflowsInterfacePlugin,
     readers,
-    ReadersInterfacePlugin,
     title_formatters,
-    TitleFormattersInterfacePlugin,
 ]
