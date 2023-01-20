@@ -1,4 +1,4 @@
-from geoips.interfaces.base_interface import BaseInterface, BaseInterfacePlugin
+from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
 class ColorMapsInterface(BaseInterface):
@@ -10,5 +10,5 @@ class ColorMapsInterface(BaseInterface):
 colormaps = ColorMapsInterface()
 
 
-class ColorMapsInterfacePlugin(BaseInterfacePlugin):
-    interface = colormaps
+# class ColorMapsPlugin(BasePlugin):
+#     interface = colormaps

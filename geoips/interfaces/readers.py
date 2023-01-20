@@ -1,4 +1,4 @@
-from geoips.interfaces.base_interface import BaseInterface, BaseInterfacePlugin
+from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
 class ReadersInterface(BaseInterface):
@@ -9,5 +9,5 @@ class ReadersInterface(BaseInterface):
 readers = ReadersInterface()
 
 
-class ReadersInterfacePlugin(BaseInterfacePlugin):
-    interface = readers
+# class ReadersPlugin(BasePlugin):
+#     interface = readers

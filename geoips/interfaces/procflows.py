@@ -1,4 +1,4 @@
-from geoips.interfaces.base_interface import BaseInterface, BaseInterfacePlugin
+from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
 class ProcflowsInterface(BaseInterface):
@@ -9,5 +9,5 @@ class ProcflowsInterface(BaseInterface):
 procflows = ProcflowsInterface()
 
 
-class ProcflowsInterfacePlugin(BaseInterfacePlugin):
-    interface = procflows
+# class ProcflowsPlugin(BasePlugin):
+#     interface = procflows

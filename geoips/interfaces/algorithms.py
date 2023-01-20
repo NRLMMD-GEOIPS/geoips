@@ -1,4 +1,4 @@
-from geoips.interfaces.base_interface import BaseInterface, BaseInterfacePlugin
+from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
 class AlgorithmsInterface(BaseInterface):
@@ -9,5 +9,5 @@ class AlgorithmsInterface(BaseInterface):
 algorithms = AlgorithmsInterface()
 
 
-class AlgorithmsInterfacePlugin(BaseInterfacePlugin):
-    interface = algorithms
+# class AlgorithmsPlugin(BasePlugin):
+#     interface = algorithms

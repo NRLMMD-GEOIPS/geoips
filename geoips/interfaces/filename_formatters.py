@@ -1,4 +1,4 @@
-from geoips.interfaces.base_interface import BaseInterface, BaseInterfacePlugin
+from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
 class FilenameFormattersInterface(BaseInterface):
@@ -23,5 +23,5 @@ class FilenameFormattersInterface(BaseInterface):
 filename_formatters = FilenameFormattersInterface()
 
 
-class FilenameFormattersInterfacePlugin(BaseInterfacePlugin):
-    interface = filename_formatters
+# class FilenameFormattersPlugin(BasePlugin):
+#     interface = filename_formatters

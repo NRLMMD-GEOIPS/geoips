@@ -1,4 +1,4 @@
-from geoips.interfaces.base_interface import BaseInterface, BaseInterfacePlugin
+from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
 class OutputFormatsInterface(BaseInterface):
@@ -9,5 +9,5 @@ class OutputFormatsInterface(BaseInterface):
 output_formats = OutputFormatsInterface()
 
 
-class OutputFormatsInterfacePlugin(BaseInterfacePlugin):
-    interface = output_formats
+# class OutputFormatsPlugin(BasePlugin):
+#     interface = output_formats

@@ -1,4 +1,4 @@
-from geoips.interfaces.base_interface import BaseInterface, BaseInterfacePlugin
+from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
 class InterpolatorsInterface(BaseInterface):
@@ -10,5 +10,5 @@ class InterpolatorsInterface(BaseInterface):
 interpolators = InterpolatorsInterface()
 
 
-class InterpolatorsInterfacePlugin(BaseInterfacePlugin):
-    interface = interpolators
+# class InterpolatorsPlugin(BasePlugin):
+#     interface = interpolators

@@ -1,4 +1,4 @@
-from geoips.interfaces.base_interface import BaseInterface, BaseInterfacePlugin
+from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
 class TitleFormattersInterface(BaseInterface):
@@ -10,5 +10,5 @@ class TitleFormattersInterface(BaseInterface):
 title_formatters = TitleFormattersInterface()
 
 
-class TitleFormattersInterfacePlugin(BaseInterfacePlugin):
-    interface = title_formatters
+# class TitleFormattersPlugin(BasePlugin):
+#     interface = title_formatters

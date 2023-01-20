@@ -7,7 +7,7 @@ from argparse import (
     RawDescriptionHelpFormatter,
 )
 from geoips import dev, interfaces
-from geoips.interfaces.base_interface import BaseInterface
+from geoips.interfaces.base import BaseInterface
 import warnings
 
 # Always actually raise DeprecationWarnings
