@@ -31,9 +31,8 @@ from geoips.geoips_utils import find_entry_point, get_all_entry_points
 LOG = logging.getLogger(__name__)
 
 plugin_deprecations = True
-if geoips_version >= '2.0.0':
+if geoips_version >= "2.0.0":
     plugin_deprecations = False
-
 
 
 def plugin_repr(obj):
@@ -178,10 +177,13 @@ def plugin_module_to_obj(interface, module, module_call_func="callable", obj_att
 class PluginMetaclass:
     """Metaclass for GeoIPS plugins.
 
-    This metaclass accepts a module 
+    This metaclass accepts a module
     """
+
+
 class BasePlugin:
     """Base class for GeoIPS plugins."""
+
     pass
 
 
@@ -241,7 +243,7 @@ class BaseInterface:
     def _plugin_module_to_obj(self, module, module_call_func="callable", obj_attrs={}):
         """Convert a plugin module into an object.
 
-        Convert the passed module into an object of type """
+        Convert the passed module into an object of type"""
         return plugin_module_to_obj(
             self, module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
         )
@@ -268,9 +270,7 @@ class BaseInterface:
         try:
             module = find_entry_point(self.entry_point_group, name)
         except EntryPointError as err:
-            raise PluginError(
-                f"Plugin {name} not found for {self.name} interface"
-            )
+            raise PluginError(f"Plugin {name} not found for {self.name} interface")
         # This assumes that the module's callable is named "callable"
         if not isinstance(module, Callable):
             return plugin_module_to_obj(self, module)
@@ -299,7 +299,9 @@ class BaseInterface:
             if hasattr(module, "callable"):
                 plugins.append(plugin_module_to_name(module))
             else:
-                plugins.append(plugin_module_to_name(module, module_call_func=ep.__name__))
+                plugins.append(
+                    plugin_module_to_name(module, module_call_func=ep.__name__)
+                )
 
         # plugins = [
         #     self.create_plugin(import_module(ep.__module__),

@@ -17,6 +17,7 @@ LOG = logging.getLogger(__name__)
 
 cmap_type = "builtin_matplotlib_cmap"
 
+
 def matplotlib_linear_norm(
     data_range,
     cmap_name="Greys",

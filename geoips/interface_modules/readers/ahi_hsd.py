@@ -1380,6 +1380,7 @@ def set_variable_metadata(xobj_attrs, band_metadata, dsname, varname):
                     "calibration_information"
                 ]["cent_wavelenth"]
 
+
 def get_band_metadata(all_metadata):
     """
     Get band metadata.

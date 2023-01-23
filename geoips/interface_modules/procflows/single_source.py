@@ -457,7 +457,10 @@ def get_filename(
         filename_formatters.get(filename_format).family == "xarray_metadata_to_filename"
     ):
         fname = filename_func(alg_xarray, **curr_kwargs)
-    elif filename_formatters.get(filename_format).family == "xarray_area_product_to_filename":
+    elif (
+        filename_formatters.get(filename_format).family
+        == "xarray_area_product_to_filename"
+    ):
         fname = filename_func(alg_xarray, area_def, product_name, **curr_kwargs)
     else:
         fname = filename_func(area_def, alg_xarray, product_name, covg, **curr_kwargs)

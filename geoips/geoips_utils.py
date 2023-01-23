@@ -106,8 +106,7 @@ def find_entry_point(namespace, name, default=None):
             return default
         else:
             raise EntryPointError(
-                f"Failed to find object matching {name} "
-                "in namespace {ep_namespace}"
+                f"Failed to find object matching {name} " "in namespace {ep_namespace}"
             )
 
 
