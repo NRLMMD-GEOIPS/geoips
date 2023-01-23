@@ -16,7 +16,7 @@
 
 # The $GEOIPS_PACKAGES_DIR/geoips tests modules sourced within this script handle:
    # setting up the appropriate associative arrays for tracking the overall return value,
-   # calling the test scripts appropriately, and 
+   # calling the test scripts appropriately, and
    # setting the final return value.
 
 # Note you must use the variable "call" in the for the loop
@@ -29,12 +29,12 @@ for call in \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/uncompress_test_data.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_amsr2 dev" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_gpm dev" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_sar dev" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_scat dev" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_smap dev" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_viirs dev" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_amsr2 main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_gpm main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_sar main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_scat main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_smap main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_viirs main" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
     "test_interfaces" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh" \

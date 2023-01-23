@@ -23,7 +23,6 @@ format, such as
  V1.0:  Initial version, NRL-MRY, June 1, 2020
 
 Basic information on AMSU-B product file::
-
     Input SD Variables
     (nscan, npix):
         npix=90 pixels per scan;
@@ -155,7 +154,8 @@ def amsub_hdf(
                           'RR', 'Snow','SWE','IWP','SFR' 'sfcType', 'time_scan'
                Attibutes:
                         'source_name', 'platform_name', 'data_provider',
-                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'
+                        'interpolation_radius_of_influence', 'start_datetime',
+                        'end_datetime'
     """
 
     SData_ID = SD(fname, SDC.READ)

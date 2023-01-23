@@ -67,10 +67,6 @@ class CoverageError(Exception):
     pass
 
 
-class CoverageError(Exception):
-    pass
-
-
 def get_geolocation_cache_filename(pref, metadata, area_def=None):
     """Set the location and filename format for the cached geolocation files.
 

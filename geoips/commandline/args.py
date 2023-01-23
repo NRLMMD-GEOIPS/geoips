@@ -51,7 +51,8 @@ def check_command_line_args(arglist, argdict):
         for fname in argdict["filenames"]:
             if not exists(fname):
                 raise IOError(
-                    f"Filename {fname} does not exist - all requested files must exist on disk"
+                    f"Filename {fname} does not exist - all requested files must "
+                    "exist on disk"
                 )
         # LOG.info('COMMANDLINEARG filenames: %s', argdict['filenames'])
     if "self_register_dataset" in arglist:
@@ -131,7 +132,8 @@ def check_command_line_args(arglist, argdict):
             argdict["output_file_list_fname"], str
         ):
             raise TypeError(
-                'Must pass a single string for "output_file_list_fname" dictionary entry'
+                "Must pass a single string for 'output_file_list_fname' dictionary "
+                "entry"
             )
         LOG.info(
             "COMMANDLINEARG output_file_list_fname: %s",

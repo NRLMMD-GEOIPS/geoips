@@ -168,7 +168,6 @@ def plot_overlays(
         mapobj, area_def, curr_ax, use_gridlines_info, zorder=gridlines_zorder
     )
 
-
 def save_image(
     fig,
     out_fname,

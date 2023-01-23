@@ -843,13 +843,22 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     if retval != 0:
         LOG.info("Nonzero return value indicates error, 6 bit binary code: WXY where:")
         LOG.info(
-            "    Y (0-1): BADCOMP: number of bad comparisons found between comparepath and current run output path"
+            (
+                "    Y (0-1): BADCOMP: number of bad comparisons found between"
+                "comparepath and current run output path"
+            )
         )
         LOG.info(
-            "    X (2-3): MISSINGCOMP: Number of products missing in compare path but existing in current output path"
+            (
+                "    X (2-3): MISSINGCOMP: Number of products missing in "
+                "compare path but existing in current output path"
+            )
         )
         LOG.info(
-            "    W (4-5): MISSINGPROD: Number of products existing in comparepath, but missing in current output path"
+            (
+                "    W (4-5): MISSINGPROD: Number of products existing in "
+                "comparepath, but missing in current output path"
+            )
         )
 
     return retval

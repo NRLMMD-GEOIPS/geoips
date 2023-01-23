@@ -305,7 +305,8 @@ def amsub_mirs(
                           'RR', 'Snow','SWE','IWP','SFR' 'sfcType', 'time_scan'
                Attibutes:
                         'source_name', 'platform_name', 'data_provider',
-                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'
+                        'interpolation_radius_of_influence', 'start_datetime',
+                        'end_datetime'
     """
 
     # import all data contents

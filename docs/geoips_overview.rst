@@ -100,7 +100,7 @@ Example external plugin functionality:
 .. image:: images/geoips_overview/Example_DEBRA_Processing_Workflow.png
    :width: 800
 
-GeoIPS 2.0 makes use of Python entry points to install external packages within the geoips namespace,
+GeoIPS makes use of Python entry points to install external packages within the geoips namespace,
 then an internal Application Programming Interface to access specific modules.
 
 There are currently both a "stable" interface and "dev" interface within geoips.

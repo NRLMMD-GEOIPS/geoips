@@ -1365,7 +1365,8 @@ def config_based(fnames, command_line_args=None):
                         output_dict,
                         area_def=area_def,
                     )
-                    # If the current product required sectored data processing, skip the rest of the loop
+                    # If the current product required sectored data processing, skip the
+                    # rest of the loop
                     if curr_output_products:
                         final_products[cpath]["files"] += curr_output_products
                         if product_db:
