@@ -43,11 +43,11 @@ def geotiff_fname(
     from geoips.sector_utils.utils import is_sector_type
 
     if is_sector_type(area_def, "tc"):
-        fname_func = filename_formatters.get("tc_fname")
+        fname_fmt_plugin = filename_formatters.get("tc_fname")
         basedir = gpaths["TCWWW"]
     else:
-        fname_func = filename_formatters.get("geoips_fname")
-    geotiff_fname = fname_func(
+        fname_fmt_plugin = filename_formatters.get("geoips_fname")
+    geotiff_fname = fname_fmt_plugin(
         area_def,
         xarray_obj,
         product_name,

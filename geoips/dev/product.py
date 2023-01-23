@@ -911,10 +911,10 @@ def get_data_range(product_name, source_name, output_dict=None):
         alg_func_name = get_alg_name(product_name, source_name)
         from geoips.interfaces import algorithms
 
-        alg_type = algorithms.get(alg_func_name).family
+        alg_func = algorithms.get(alg_func_name)
         raise TypeError(
-            f'Can not call get_data_range on "{alg_type}" algs, '
-            f'"output_data_range" not defined (alg "{alg_func_name}" / prod "{product_name}"'
+            f"Can not call get_data_range on '{alg_func.family}' algs, "
+            f"'output_data_range' not defined (alg '{alg_func_name}' / prod '{product_name}'"
         )
     return alg_args["output_data_range"]
 

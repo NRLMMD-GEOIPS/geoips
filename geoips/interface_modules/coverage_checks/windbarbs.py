@@ -58,8 +58,8 @@ def windbarbs(
 
     from geoips.interfaces import interpolators
 
-    interp_func = interpolators.get("pyresample_wrappers.interp_nearest")
-    output_xarray = interp_func(
+    interp_plugin = interpolators.get("pyresample_wrappers.interp_nearest")
+    output_xarray = interp_plugin(
         area_def, xarray_obj, None, [varname_for_covg], array_num=0
     )
 

@@ -50,12 +50,13 @@ def remove_duplicates(fnames, remove_files=False):
 
     for fname in fnames:
         filename_format = fnames[fname]["filename_format"]
-        fnamer = filename_formatters.get(fnames[fname]["filename_format"])
+        fname_fmt_plugin = filename_formatters.get(fnames[fname]["filename_format"])
         if hasattr(
-            import_module(fnamer.__module__), f"{filename_format}_remove_duplicates"
+            import_module(fname_fmt_plugin.__module__),
+            f"{filename_format}_remove_duplicates"
         ):
             fnamer_remove_dups = getattr(
-                import_module(fnamer.__module__), f"{filename_format}_remove_duplicates"
+                import_module(fname_fmt_plugin.__module__), f"{filename_format}_remove_duplicates"
             )
             curr_removed_files, curr_saved_files = fnamer_remove_dups(
                 fname, remove_files=remove_files

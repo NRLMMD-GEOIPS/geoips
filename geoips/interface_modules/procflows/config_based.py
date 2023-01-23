@@ -14,26 +14,34 @@
 import logging
 from importlib import import_module
 
+from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.geoips_utils import find_entry_point
+from geoips.utils.memusg import print_mem_usage
+from geoips.dev.utils import output_process_times
+
+# Old interfaces (YAML, will migrate to new soon)
+from geoips.dev.output_config import (
+    get_output_format_kwargs,
+    get_output_format,
+    get_minimum_coverage,
+    produce_current_time
+)
+
+# New interfaces
 from geoips.interfaces import interpolators
 from geoips.interfaces import output_formats
 from geoips.interfaces import readers
-from geoips.utils.memusg import print_mem_usage
-from geoips.dev.utils import output_process_times
+
+# Collect functions from single_source (should consolidate these somewhere)
 from geoips.interface_modules.procflows.single_source import (
     process_sectored_data_output,
-)
-from geoips.interface_modules.procflows.single_source import (
     process_xarray_dict_to_output_format,
 )
+# Should move CoverageError into top-level errors module
+# See issue #67
 from geoips.interface_modules.readers.utils.geostationary_geolocation import (
     CoverageError,
 )
-from geoips.dev.output_config import get_output_format_kwargs
-from geoips.dev.output_config import get_output_format
-from geoips.dev.output_config import get_minimum_coverage
-from geoips.dev.output_config import produce_current_time
-from geoips.geoips_utils import find_entry_point
-from geoips.filenames.base_paths import PATHS as gpaths
 
 PMW_NUM_PIXELS_X = 1400
 PMW_NUM_PIXELS_Y = 1400
@@ -139,12 +147,12 @@ def get_required_outputs(config_dict, sector_type):
 def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
     from geoips.dev.product import get_interp_name, get_interp_args
 
-    interp_func_name = get_interp_name(
+    interp_plugin_name = get_interp_name(
         product_name, sect_xarrays["METADATA"].source_name
     )
-    interp_func = None
-    if interp_func_name is not None:
-        interp_func = interpolators.get(interp_func_name)
+    interp_plugin = None
+    if interp_plugin_name is not None:
+        interp_plugin = interpolators.get(interp_plugin_name)
         interp_args = get_interp_args(
             product_name, sect_xarrays["METADATA"].source_name
         )
@@ -165,7 +173,7 @@ def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
         #          sect_xarray[product_name].to_masked_array().min(),
         #          sect_xarray[product_name].to_masked_array().max())
 
-        alg_xarray = interp_func(
+        alg_xarray = interp_plugin(
             area_def, sect_xarray, alg_xarray, varlist=[product_name], **interp_args
         )
 
@@ -189,7 +197,7 @@ def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
         sect_xarray = get_alg_xarray(
             sect_xarrays, pad_area_def, product_name, resampled_read=resampled_read
         )
-        alg_xarray = interp_func(
+        alg_xarray = interp_plugin(
             area_def, sect_xarray, alg_xarray, varlist=[product_name]
         )
 
@@ -1385,7 +1393,9 @@ def config_based(fnames, command_line_args=None):
                         continue
 
                     output_format = get_output_format(output_dict)
-                    if output_formats.get(output_format).family == "xarray_data":
+                    output_fmt_plugin = output_formats.get(output_format)
+
+                    if output_fmt_plugin.family == "xarray_data":
                         # If we're saving out intermediate data file, write out
                         # pad_area_def.
                         if product_name not in pad_alg_xarrays:
