@@ -16,15 +16,15 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_BASEDIR/test_data/test_data_ewsg/data/2020.1211.2312.goes-13.gvar.nc \
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312.goes-13.gvar.nc \
           --procflow single_source \
           --reader_name ewsg_netcdf \
           --product_name Infrared \
           --filename_format geoips_fname \
           --output_format imagery_clean \
           --sector_list ewsg \
-          --sectorfiles $GEOIPS/tests/sectors/static/ewsg.yaml \
-          --compare_path "$GEOIPS/tests/outputs/ewsg.static.<product>.imagery_clean"
+          --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/ewsg.yaml \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ewsg.static.<product>.imagery_clean"
 retval=$?
 
 exit $retval

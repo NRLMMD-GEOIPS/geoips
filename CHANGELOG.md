@@ -16,9 +16,109 @@
   than `ls --full-time` to get file creation time.
 
 
-# v1.5.4: 2022-11-28, open source release
+# v1.6.1: 2023-01-04, update formatting, test full install, bug fixes
+
+## GEOIPS#144: 2023-01-04, slight doc updates.
+### Documentation Updates
+* Replace full links with relative - will work on different branches
+* Slightly rearrange installation.rst - only include a single "Complete conda-based
+  installation" section to avoid confusion.
+
+## GEOIPS#153: 2023-01-04, GEOIPS->GEOIPS_PACKAGES_DIR/geoips
+### Testing Updates
+* Replace all instances of $GEOIPS with $GEOIPS_PACKAGES_DIR/geoips
+  * $GEOIPS is an optional environment variable.
+
+## GEOIPS#149: 2023-01-04, GEOIPS_BASEDIR/test_data->GEOIPS_TESTDATA_DIR
+### Testing Updates
+* Replacing all instances of GEOIPS_BASEDIR/test_data with GEOIPS_TESTDATA_DIR
+* REMOVE tests/README.md - deprecated, info now included in template repos.
+
+## GEOIPS#147: 2023-01-03, add test_full_install.sh
+### Testing Updates
+* Add script to obtain and test all test repos.
+* Add "setup_test_repos" to setup.sh, which clones, updates, and uncompresses test repo.
+```
+setup.sh
+tests/test_full_install.sh
+```
+
+## GEOIPS#145: 2023-01-03, remove numpy aliases to builtin types
+### Bug fixes
+* Update AHI HSD reader to replace numpy.bool with bool
+* numpy v1.20.0 no longer allows using numpy aliases to builtin types.
+```
+geoips/interface_modules/readers/ahi_hsd.py
+```
+
+## GEOIPS#126: 2022-12-29, update code style
+### Major New Functionality
+* new file: tests/utils/check_code.sh
+    * black
+    * flake8
+    * bandit
+### Documentation and Formatting Updates
+* Update all docstrings to numpy formatting
+* Apply black with default options to all Python code
+* Begin applying flake8 updates
+
+## GEOIPS#2: 2022-12-06, update interface types
+### Major New Functionality
+#### geoips/interface_modules/filename_formats/basic_fname.py
+* Add very basic filename module - just put a straightforwardly named file in a specified directory
+    * Only relying on required geoips xarray attributes, passed product name, and area_def.area_id if defined
+#### geoips/interface_modules/procflows/single_source.py
+* Denote output families that require a specified list of output files in advance separately from
+  those that do NOT require a complete list of files in advance
+    * Allows dynamically determining output filenames from within an output format.
+    * Do not automatically generate metadata if output filenames not pre-specified
+* Add support for unsectored products that require area_def
+#### geoips/dev/filename.py
+* Add xarray_area_product_to_filename filename type
+    * Only xarray, area_def, and product_name as args, and output_type and basedir as kwargs
+    * Other filename types have a LOT of required kwargs
+#### geoips/dev/output.py
+* Add xrdict_area_product_to_outlist output type
+    * xarray_dict, area_def, product_name args
+    * NOTE: output_fnames is NOT included in argument list, which means resulting file list will
+      NOT be checked for consistency.
+#### geoips/dev/product.py
+* Add unsectored_xarray_dict_area_to_output_format
+    * This indicates procflow must process this unsectored data type from within the area_def loop.
+    * Ie, unsectored read, but final product may require area information
+#### geoips/interface_modules/output_formats/imagery_clean.py
+* Allow using "order" attribute on xarray object to set zorder in plot
+#### tests/download_noaa_aws.sh
+* Allow wildcards in NOAA AWS downloads
+
+
+# v1.6.0: 2022-11-28, open source release
+
+## GEOIPS#11: 2022-12-12, use original AMSR2-MBT filenames
+### Test Repo Updates
+* Renamed AMSR2 test datasets to use original filenames, for reference.
+* Update test scripts/outputs accordingly
+    * Source filename in call and YAML metadata output
+```
+modified: tests/scripts/amsr2.config_based_overlay_output_low_memory.sh
+modified: tests/scripts/amsr2.config_based_overlay_output.sh
+modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml
+modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml
+modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml
+modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml
+modified: tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png.yaml
+```
+
 ## GEOIPS#119: 2022-11-16, installation updates, test script bug fixes
 ### Bug fixes
+#### geoips/filenames/duplicate_files.py
+* Fix indentation for if/else duplicate removal SKIP
+#### setup/bash_setup/check_continue
+* Add +z to variable checks
+* Failed with different invocations of calling the script
+#### Update YAML metadata storm_start_datetime
+```tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean/20200518_073601_IO012020_amsr2_gcom-w1_windspeed_140kts_85p45_1p0-clean.png.yaml
 ### Documentation Updates
 #### Add Contributors documentation page
 * Link to contributors page from README
@@ -1602,7 +1702,7 @@ metadata filename and output format specifications.  These changes will not impa
         * --atcfdb command line option with --tcdb
         * --get_atcf_area_defs_for_xarray -> get_tc_area_defs_for_xarray
         * "atcf" -> "tc" sector_type 
-    * Removed support for SATOPS, GEOIPSFINAL, and GEOIPSTEMP environment variables / base_paths
+    * Removed support for deprecated environment variables / base_paths
         * GEOIPSFINAL -> ANNOTATED_IMAGERY_PATH
         * GEOIPSTEMP -> CLEAN_IMAGERY_PATH
         * PREGENERATED_IMAGERY_PATH -> CLEAN_IMAGERY_PATH

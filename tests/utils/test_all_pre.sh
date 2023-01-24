@@ -17,16 +17,16 @@ else
 fi
 
 if [[ "$2" == "" ]]; then
-    basedir=$GEOIPS_BASEDIR
+    testdatadir=$GEOIPS_TESTDATA_DIR
 else
-    basedir=$2
+    testdatadir=$2/test_data
 fi
 
 overall_start=`date +%s`
 
 dtstr=`date -u +%Y%m%d.%H%M%S`
 
-LOGFILE=$basedir/test_data/logs/`date -u +%Y%m%d`/${dtstr}_${package_name}/test_all_${package_name}.log
+LOGFILE=$testdatadir/logs/`date -u +%Y%m%d`/${dtstr}_${package_name}/test_all_${package_name}.log
 mkdir -p `dirname $LOGFILE`
 
 echo `date` Running pre, log: $LOGFILE

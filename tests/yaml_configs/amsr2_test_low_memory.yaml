@@ -6,7 +6,7 @@ available_sectors:
     trackfile_parser: bdeck_parser
     trackfiles:
       - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bio012020.dat
-    tc_template_yaml: !ENV ${GEOIPS}/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
+    tc_template_yaml: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
 
   global:
     sectorfiles:
@@ -22,7 +22,7 @@ outputs:
     product_names:
       - 37pct
       - 89pct
-    compare_path: !ENV ${GEOIPS}/tests/outputs/amsr2.<output>.<product>.imagery_annotated_over_Infrared-Gray
+    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2.<output>.<product>.imagery_annotated_over_Infrared-Gray
     metadata_filename_formats:
         tc_fname: metadata_default_fname
     metadata_output_format: metadata_tc
@@ -48,7 +48,7 @@ outputs:
     product_names:
       - 89pct
       - 37pct
-    compare_path: !ENV ${GEOIPS}/tests/outputs/amsr2.<output>.<product>.imagery_annotated_over_Infrared-Gray
+    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2.<output>.<product>.imagery_annotated_over_Infrared-Gray
     background_products:
       config_names: ['abi', 'ahi', 'seviri']
       product_names: ['Visible', 'Infrared-Gray']
