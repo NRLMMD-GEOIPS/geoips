@@ -361,7 +361,7 @@ def get_output_format_kwargs(
             output_dict=output_dict,
         )
         if bg_cmap_plugin_name is not None:
-            bg_cmap_plugin = colormaps.get(bg_cmap_plugin_name )
+            bg_cmap_plugin = colormaps.get_plugin(bg_cmap_plugin_name )
             bg_cmap_args = get_cmap_args(
                 bg_product_name,
                 output_format_kwargs["bg_xarray"].source_name,

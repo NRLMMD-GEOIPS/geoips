@@ -45,12 +45,12 @@ def remove_duplicates(fnames, remove_files=False):
     removed_files = []
     saved_files = []
     from geoips.sector_utils.utils import is_sector_type
-    from geoips.interfaces import filename_formatters
+    from geoips.interfaces import filename_formats
     from importlib import import_module
 
     for fname in fnames:
         filename_format = fnames[fname]["filename_format"]
-        fname_fmt_plugin = filename_formatters.get(fnames[fname]["filename_format"])
+        fname_fmt_plugin = filename_formats.get_plugin(fnames[fname]["filename_format"])
         if hasattr(
             import_module(fname_fmt_plugin.__module__),
             f"{filename_format}_remove_duplicates"

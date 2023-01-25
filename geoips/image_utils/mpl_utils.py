@@ -17,7 +17,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.interfaces import title_formatters
+from geoips.interfaces import title_formats
 
 matplotlib.use("agg")
 rc_params = matplotlib.rcParams
@@ -326,11 +326,11 @@ def get_title_string_from_objects(
         )
 
     if title_format is not None:
-        title_formatter = title_formatters.get(title_format)
+        title_formatter = title_formats.get_plugin(title_format)
     elif is_sector_type(area_def, "tc"):
-        title_formatter = title_formatters.get("tc_standard")
+        title_formatter = title_formats.get_plugin("tc_standard")
     else:
-        title_formatter = title_formatters.get("static_standard")
+        title_formatter = title_formats.get_plugin("static_standard")
 
     title_string = title_formatter(
         area_def,

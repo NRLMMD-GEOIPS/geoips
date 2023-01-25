@@ -39,7 +39,7 @@ def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
-def plugin_module_to_obj(interface, module, module_call_func="callable", obj_attrs={}):
+def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={}):
     """Convert a plugin module to an object.
 
     Convert the passed plugin module into an object and return it. The returned object
@@ -60,7 +60,7 @@ def plugin_module_to_obj(interface, module, module_call_func="callable", obj_att
       - family: The family of plugins within the interface that the plugin belongs to
       - description: A short description of the plugin. This will be used frequently on
         the command line and should be limited to something small.
-    - A callable named `callable` that will be called when the plugin is used.
+    - A callable named `call` that will be called when the plugin is used.
 
     Parameters
     ----------
@@ -70,7 +70,7 @@ def plugin_module_to_obj(interface, module, module_call_func="callable", obj_att
       Name of the desired plugin.
     module_call_func : str, optional
       Use of this parameter is deprecated. Name of the callable within the plugin
-      (defaults to "callable").
+      (defaults to "call").
     obj_attrs : dict, optional
       Additional attributes to be assigned to the plugin object.
 
@@ -151,11 +151,11 @@ def plugin_module_to_obj(interface, module, module_call_func="callable", obj_att
                 f"Required 'description' attribute not found in '{module.__name__}'"
             )
 
-    if module_call_func != "callable":
+    if module_call_func != "call":
         warn(
-            f"Callable for plugin '{module.__name__}' is not named 'callable'. "
+            f"Callable for plugin '{module.__name__}' is not named 'call'. "
             "This behavior is deprecated. The callable should be renamed to "
-            "'callable'. In the future this will result in a TypeError.",
+            "'call'. In the future this will result in a TypeError.",
             DeprecationWarning,
             stacklevel=1,
         )
@@ -240,7 +240,7 @@ class BaseInterface:
     def __repr__(self):
         return f"{self.__class__.__name__}()"
 
-    def _plugin_module_to_obj(self, module, module_call_func="callable", obj_attrs={}):
+    def _plugin_module_to_obj(self, module, module_call_func="call", obj_attrs={}):
         """Convert a plugin module into an object.
 
         Convert the passed module into an object of type"""
@@ -248,10 +248,8 @@ class BaseInterface:
             self, module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
         )
 
-    def get(self, name):
+    def get_plugin(self, name):
         """Retrieve a plugin from this interface by name.
-
-        Each plugin defines one callable function. Given the name of a function, returns that plugin's function.
 
         Parameters
         ----------
@@ -289,18 +287,18 @@ class BaseInterface:
             )
             return plugin_module_to_obj(self, module, module_call_func=func.__name__)
 
-    def get_list(self):
+    def get_plugins(self):
         """Get a list of plugins for this interface."""
         # This is more complicated than needed. To simplify, we will need to remove the
         # function name from entry points.
         plugins = []
         for ep in get_all_entry_points(self.entry_point_group):
             module = import_module(ep.__module__)
-            if hasattr(module, "callable"):
-                plugins.append(plugin_module_to_name(module))
+            if hasattr(module, "call"):
+                plugins.append(plugin_module_to_obj(module))
             else:
                 plugins.append(
-                    plugin_module_to_name(module, module_call_func=ep.__name__)
+                    plugin_module_to_obj(module, module_call_func=ep.__name__)
                 )
 
         # plugins = [
@@ -328,7 +326,7 @@ class BaseInterface:
           True if valid, False if invalid
         '''
         """
-        plugin = self.get(name)
+        plugin = self.get_plugin(name)
 
     def test_interface_plugins(self):
         """Test the current interface by validating every Plugin.
@@ -347,7 +345,7 @@ class BaseInterface:
             - 'family' contains a dict whose keys are plugin names and whose vlaues are the contents of the 'family'
               attribute for each Plugin.
         """
-        plugin_names = self.get_list(sort_by="family")
+        plugin_names = self.get_plugins(sort_by="family")
         output = {
             "by_family": plugin_names,
             "validity_check": {},
@@ -357,6 +355,6 @@ class BaseInterface:
         for curr_family in plugin_names:
             for curr_name in plugin_names[curr_family]:
                 output["validity_check"][curr_name] = self.is_valid(curr_name)
-                output["func"][curr_name] = self.get(curr_name)
+                output["func"][curr_name] = self.get_plugin(curr_name)
                 output["family"][curr_name] = self.get_family(curr_name)
         return output

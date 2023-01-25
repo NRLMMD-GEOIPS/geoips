@@ -145,13 +145,13 @@ def list_interfaces(dev=False):
 
 def list_interface_plugins(interface_name):
     inter = get_interface(interface_name)
-    plugins = inter.get_list()
+    plugins = inter.get_plugins()
     rows = [(pl.name, pl.family, pl.description) for pl in plugins]
     print_table(interface_name, ["Name", "Family", "Description"], rows)
 
 
 # def print_interface_list(inter):
-#     mod_list = inter.get_list()
+#     mod_list = inter.get_plugins()
 #
 #     # Determine column widths for output
 #     ncol = len(mod_list[0])
@@ -219,7 +219,7 @@ def main():
     # add_list_interface_parser(list_subparsers, 'boundaries', aliases=['bound', 'bounds'])
     add_list_interface_parser(list_subparsers, "colormaps", aliases=["cmap", "cmaps"])
     add_list_interface_parser(
-        list_subparsers, "filename_formatters", aliases=["ff", "ffs"]
+        list_subparsers, "filename_formats", aliases=["ff", "ffs"]
     )
     # add_list_interface_parser(list_subparsers, 'gridline_formatters', aliases=['gf', 'gfs'])
     add_list_interface_parser(
@@ -233,7 +233,7 @@ def main():
     # add_list_interface_parser(list_subparsers, 'products', aliases=['prod', 'prods'])
     add_list_interface_parser(list_subparsers, "readers", aliases=["reader"])
     add_list_interface_parser(
-        list_subparsers, "title_formatters", aliases=["tf", "tfs"]
+        list_subparsers, "title_formats", aliases=["tf", "tfs"]
     )
 
     args = parser.parse_args()
@@ -244,8 +244,8 @@ def main():
         else:
             list_interface_plugins(args.interface)
             # print(get_interface(args.interface))
-            # print(get_interface(args.interface).get_list())
-            # getattr(interfaces, args.interface).get_list(pretty=True, with_family=True, with_description=True)
+            # print(get_interface(args.interface).get_plugins())
+            # getattr(interfaces, args.interface).get_plugins(pretty=True, with_family=True, with_description=True)
 
 
 if __name__ == "__main__":

@@ -52,7 +52,7 @@ def main(get_command_line_args_func=None):
     COMMAND_LINE_ARGS = ARGS.__dict__
     # LOG.info(COMMAND_LINE_ARGS)
     LOG.info("GETTING PROCFLOW MODULE")
-    PROCFLOW = procflows.get(COMMAND_LINE_ARGS["procflow"])
+    PROCFLOW = procflows.get_plugin(COMMAND_LINE_ARGS["procflow"])
 
     LOG.info("CALLING PROCFLOW MODULE")
     if PROCFLOW:

@@ -911,7 +911,7 @@ def get_data_range(product_name, source_name, output_dict=None):
         alg_func_name = get_alg_name(product_name, source_name)
         from geoips.interfaces import algorithms
 
-        alg_func = algorithms.get(alg_func_name)
+        alg_func = algorithms.get_plugin(alg_func_name)
         raise TypeError(
             f"Can not call get_data_range on '{alg_func.family}' algs, "
             f"'output_data_range' not defined (alg '{alg_func_name}' / prod '{product_name}'"
@@ -1134,7 +1134,7 @@ def get_cmap_from_product(product_name, source_name, output_dict=None):
     try:
         from geoips.interfaces import colormaps
 
-        cmap_func = colormaps.get(cmap_func_name)
+        cmap_func = colormaps.get_plugin(cmap_func_name)
     except Exception as resp:
         raise ValueError(
             f"UNDEFINED CMAP FUNC '{cmap_func_name}'"

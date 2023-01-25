@@ -39,14 +39,14 @@ def geotiff_fname(
     This uses the standard "geoips_fname" formatter, but with a default
     output type of "tif".
     """
-    from geoips.interfaces import filename_formatters
+    from geoips.interfaces import filename_formats
     from geoips.sector_utils.utils import is_sector_type
 
     if is_sector_type(area_def, "tc"):
-        fname_fmt_plugin = filename_formatters.get("tc_fname")
+        fname_fmt_plugin = filename_formats.get_plugin("tc_fname")
         basedir = gpaths["TCWWW"]
     else:
-        fname_fmt_plugin = filename_formatters.get("geoips_fname")
+        fname_fmt_plugin = filename_formats.get_plugin("geoips_fname")
     geotiff_fname = fname_fmt_plugin(
         area_def,
         xarray_obj,

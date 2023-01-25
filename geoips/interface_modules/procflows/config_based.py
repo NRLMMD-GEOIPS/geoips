@@ -152,7 +152,7 @@ def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
     )
     interp_plugin = None
     if interp_plugin_name is not None:
-        interp_plugin = interpolators.get(interp_plugin_name)
+        interp_plugin = interpolators.get_plugin(interp_plugin_name)
         interp_args = get_interp_args(
             product_name, sect_xarrays["METADATA"].source_name
         )
@@ -385,7 +385,7 @@ def write_to_database(
     db_writer_name = available_sectors_dict[req_sector_type]["product_database_writer"]
     db_writer = get_db_writer(db_writer_name)
 
-    area_def = writer_kwargs.get("area_def")
+    area_def = writer_kwargs.get_plugin("area_def")
     file_split = final_product.split(".")
     if len(file_split) > 1:
         file_type = file_split[-1]
@@ -701,7 +701,7 @@ def get_area_defs_from_available_sectors(
                 sector_dict[argname] = command_line_args[argname]
 
         # Double check if tcdb should be set to false
-        if sector_dict.get("trackfiles"):
+        if sector_dict.get_plugin("trackfiles"):
             sector_dict["tcdb"] = False
 
         # This is the standard "get_area_defs_from_command_line_args", YAML config specified sector information
@@ -806,9 +806,9 @@ def config_based(fnames, command_line_args=None):
         "fuse_reader" in command_line_args
         and command_line_args["fuse_reader"] is not None
     ):
-        bg_reader = readers.get(command_line_args["fuse_reader"][0])
+        bg_reader = readers.get_plugin(command_line_args["fuse_reader"][0])
     elif "fuse_reader" in config_dict:
-        bg_reader = readers.get(config_dict["fuse_reader"])
+        bg_reader = readers.get_plugin(config_dict["fuse_reader"])
 
     if (
         "fuse_product" in command_line_args
@@ -871,7 +871,7 @@ def config_based(fnames, command_line_args=None):
             raise ValueError("Need to set both $GEOIPS_DB_USER and $GEOIPS_DB_PASS")
 
     print_mem_usage("MEMUSG", verbose=False)
-    reader = readers.get(config_dict["reader_name"])
+    reader = readers.get_plugin(config_dict["reader_name"])
     xobjs = reader(fnames, metadata_only=True)
     source_name = xobjs["METADATA"].source_name
 
@@ -1393,7 +1393,7 @@ def config_based(fnames, command_line_args=None):
                         continue
 
                     output_format = get_output_format(output_dict)
-                    output_fmt_plugin = output_formats.get(output_format)
+                    output_fmt_plugin = output_formats.get_plugin(output_format)
 
                     if output_fmt_plugin.family == "xarray_data":
                         # If we're saving out intermediate data file, write out

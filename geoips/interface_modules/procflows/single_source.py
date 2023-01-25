@@ -56,7 +56,7 @@ from geoips.dev.output_config import (
 # New class-based interfaces
 from geoips.interfaces import colormaps
 from geoips.interfaces import output_formats
-from geoips.interfaces import filename_formatters
+from geoips.interfaces import filename_formats
 from geoips.interfaces import interpolators
 from geoips.interfaces import algorithms
 
@@ -100,7 +100,7 @@ def output_all_metadata(
                 output_fname
             ]
             metadata_output_format_kwargs["output_dict"] = output_dict
-            output_plugin = output_formats.get(metadata_output_format)
+            output_plugin = output_formats.get_plugin(metadata_output_format)
             output_kwargs = remove_unsupported_kwargs(
                 output_plugin, metadata_output_format_kwargs
             )
@@ -122,7 +122,7 @@ def output_all_metadata(
 
 
 def get_output_filenames(
-    filename_formats,
+    fname_formats,
     output_dict,
     product_name,
     xarray_obj=None,
@@ -132,7 +132,7 @@ def get_output_filenames(
     """Get output filenames."""
     output_fnames = {}
     metadata_fnames = {}
-    for filename_format in filename_formats:
+    for filename_format in fname_formats:
         filename_format_kwargs = get_filename_format_kwargs(
             filename_format, output_dict
         )
@@ -165,7 +165,7 @@ def get_output_filenames(
 
         metadata_fname = None
         if metadata_filename_format:
-            fname_fmt_plugin = filename_formatters.get(metadata_filename_format)
+            fname_fmt_plugin = filename_formats.get_plugin(metadata_filename_format)
             if fname_fmt_plugin.family == "standard_metadata":
                 metadata_filename_format_kwargs = remove_unsupported_kwargs(
                     fname_fmt_plugin, metadata_filename_format_kwargs
@@ -266,7 +266,7 @@ def process_xarray_dict_to_output_format(
         OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG + OUTPUT_FAMILIES_WITH_NO_OUTFNAMES_ARG
     )
 
-    output_plugin = output_formats.get(output_format)
+    output_plugin = output_formats.get_plugin(output_format)
 
     # Only get output filenames if needed
     if output_plugin.family in OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG:
@@ -274,9 +274,9 @@ def process_xarray_dict_to_output_format(
             "xarray_metadata_to_filename",
             "xarray_area_product_to_filename",
         ]
-        filename_formats = get_filename_formats(output_dict)
+        fname_formats = get_filename_formats(output_dict)
         output_fnames, metadata_fnames = get_output_filenames(
-            filename_formats,
+            fname_formats,
             output_dict,
             product_name,
             xarray_obj=xobjs["METADATA"],
@@ -411,7 +411,7 @@ def get_filename(
     filename_format_kwargs=None,
 ):
     """Get filename."""
-    filename_fmt_plugin = filename_formatters.get(filename_format)
+    filename_fmt_plugin = filename_formats.get_plugin(filename_format)
     if (
         supported_filenamer_types is not None
         and filename_fmt_plugin.family not in supported_filenamer_types
@@ -452,7 +452,7 @@ def get_filename(
     elif filename_fmt_plugin.family == "xarray_metadata_to_filename":
         fname = filename_fmt_plugin(alg_xarray, **curr_kwargs)
     elif (
-        filename_formatters.get(filename_format).family ==
+        filename_fmt_plugin.family ==
         "xarray_area_product_to_filename"
     ):
         fname = filename_fmt_plugin(alg_xarray, area_def, product_name, **curr_kwargs)
@@ -478,15 +478,15 @@ def plot_data(
     # If keyword argument is allowed for output function, include it
     output_kwargs["output_dict"] = output_dict
     output_format = get_output_format(output_dict)
-    output_plugin = output_formats.get(output_format)
+    output_plugin = output_formats.get_plugin(output_format)
 
     if no_output or output_plugin.family in OUTPUT_FAMILIES_WITH_NO_OUTFNAMES_ARG:
         output_fnames = {}
         metadata_fnames = {}
     else:
-        filename_formats = get_filename_formats(output_dict)
+        fname_formats = get_filename_formats(output_dict)
         output_fnames, metadata_fnames = get_output_filenames(
-            filename_formats, output_dict, product_name, alg_xarray, area_def
+            fname_formats, output_dict, product_name, alg_xarray, area_def
         )
 
     if output_plugin.family == "xarray_data":
@@ -501,11 +501,11 @@ def plot_data(
         cmap_plugin_name = get_cmap_name(product_name, alg_xarray.source_name)
         mpl_colors_info = None
         if cmap_plugin_name is not None:
-            cmap_plugin = colormaps.get(cmap_plugin_name)
+            cmap_plugin = colormaps.get_plugin(cmap_plugin_name)
             cmap_args = get_cmap_args(product_name, alg_xarray.source_name)
             mpl_colors_info = cmap_plugin(**cmap_args)
 
-        output_plugin = output_formats.get(output_format)
+        output_plugin = output_formats.get_plugin(output_format)
         output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
         if output_plugin.family == "image":
             # This returns None if not specified
@@ -813,7 +813,7 @@ def get_alg_xarray(
         "interp_alg_cmap",
         "alg_interp_cmap",
     ]:
-        alg_plugin = algorithms.get(
+        alg_plugin = algorithms.get_plugin(
             get_alg_name(product_name, sect_xarrays["METADATA"].source_name)
         )
         alg_family= alg_plugin.family
@@ -827,7 +827,7 @@ def get_alg_xarray(
     )
     interp_plugin = None
     if interp_plugin_name is not None:
-        interp_plugin = interpolators.get(interp_plugin_name)
+        interp_plugin = interpolators.get_plugin(interp_plugin_name)
         interp_args = get_interp_args(
             product_name, sect_xarrays["METADATA"].source_name
         )
@@ -948,7 +948,7 @@ def get_alg_xarray(
             interp_plugin_name = get_interp_name(product_name, sect_xarray.source_name)
             interp_plugin = None
             if interp_plugin_name is not None:
-                interp_plugin = interpolators.get(interp_plugin_name)
+                interp_plugin = interpolators.get_plugin(interp_plugin_name)
                 interp_args = get_interp_args(product_name, sect_xarray.source_name)
 
             # If a specific dataset was requested for the current variable, and this dataset was NOT requested via
@@ -1198,7 +1198,7 @@ def single_source(fnames, command_line_args=None):
 
     from geoips.interfaces import readers
 
-    reader = readers.get(reader_name)
+    reader = readers.get_plugin(reader_name)
     print_mem_usage("MEMUSG", verbose=False)
 
     num_jobs = 0
@@ -1395,7 +1395,7 @@ def single_source(fnames, command_line_args=None):
 
             # We want to write out the padded xarray for "xarray_data" output types
             # Otherwise, we need the fully sectored output
-            output_plugin = output_formats.get(output_format)
+            output_plugin = output_formats.get_plugin(output_format)
             if output_plugin.family == "xarray_data":
                 alg_xarray = get_alg_xarray(
                     pad_sect_xarrays,
