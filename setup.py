@@ -47,6 +47,22 @@ setuptools.setup(
         "shapely>=1.8.2",
         "cartopy>=0.20.3",  # Currently must install via conda,
         # 20220922: 0.20.3 incompatible with mpl 3.6.0, 0.21.0 works
+        "pyaml_env",  # Reading YAML output config files, with paths
+        "h5py",  # hdf5 readers (GMI)
+        "pyhdf",  # hdf4 readers (MODIS)
+        "rasterio",  # GEOTIFF output
+        "flake8",  # Syntax checking
+        "pylint",  # Syntax checking
+        "bandit",  # Syntax/security checking
+        "sphinx",  # Required for building documentation
+        "ipython",  # Required for Debugging purposes
+        "psutil",  # Required for memory checks
+        "pyorbital",  # required by satpy
+        "ephem",  # Required for overpass predictor
+        "isodate",  # Required for overpass predictor
+        "satpy",  # efficiency improvements >= 0.33.1
+        "numexpr",  # for efficiency improvements
+        "scikit-image",
     ],
     extras_require={
         "cicd_pipeline": [
