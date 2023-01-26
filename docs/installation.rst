@@ -92,6 +92,7 @@ appropriate source command for every new shell, you can add
 to your ~/.bashrc file.
 
 .. code:: bash
+  
     # GeoIPS default required packages
     git lfs install  # Required to clone test data repositories!
 
