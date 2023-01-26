@@ -28,10 +28,7 @@ Required
 * Python >= 3.9 (3.9 required for entry points)
 
   * included in `Complete Local conda-based GeoIPS Installation`_
-* cartopy >= 0.20.3 (0.21.0 required for matplotlib 3.6.0, does not install
-  cleanly via pip)
-
-  * included in `Complete Local conda-based GeoIPS Installation`_
+* libgeos-dev (required to install cartopy via pip)
 * rclone (required to obtain ABI and AHI test data from AWS)
 
   * included in `Complete Local conda-based GeoIPS Installation`_
@@ -52,7 +49,7 @@ Expert User GeoIPS Installation
 For the fully supported installation, please use the
 `Complete Local conda-based GeoIPS Installation`_.
 
-If you are confident you have all system requirements installed (Python+cartopy),
+If you are confident you have all system requirements installed (Python+libgeos-dev+git),
 and do not wish to go through the full interactive installation process below
 (which includes conda, rclone, test data, etc), you can clone the geoips repo
 and pip install from the your local copy.
