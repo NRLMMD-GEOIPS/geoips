@@ -87,8 +87,10 @@ and the direct environment variable assignments within this section are no longe
 
 If you would like to have the GEOIPS_CONFIG_FILE automatically sourced so you do not have to manually run the 
 appropriate source command for every new shell, you can add 
+
 .. code:: bash
     source </full/path/to/GEOIPS_CONFIG_FILE>
+
 to your ~/.bashrc file.
 
 .. code:: bash
