@@ -10,27 +10,43 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+## GEOIPS#73: 2023-01-25, update BaseInterface method names
+### Refactor
+* Update `BaseInterface.get` to `BaseInterface.get_plugin`
+* Update `BaseInterface.get_list` to `BaseInterface.get_plugins`
+* Replace all uses of both methods across entire package
 
-## 37-create-cli: 2022-10-19, typo corrections, frameon deprecation update
-### Bug fixes
-#### modified: geoips/image_utils/mpl_utils.py
-* Replace fig.savefig frameon=False argument with facecolor="none"
-    * frameon deprecated maplotlib v3.1.0
-    * https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon
-#### modified: geoips/interface_modules/coverage_checks/windbarbs.py
-* Correct typo: interpoloators -> interpolators
-#### modified: geoips/interface_modules/filename_formats/geotiff_fname.py
-* Correct typo: filename_formatter -> filename_formatters
-#### modified: geoips/interface_modules/output_formats/unprojected_image.py
-* Replace fig.savefig frameon=False argument with facecolor="none"
-    * frameon deprecated maplotlib v3.1.0
-    * https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon
-#### modified: geoips/interface_modules/procflows/single_source.py
-* Correct typo: output_fnames -> output_formats
-#### modified: geoips/interface_modules/readers/scat_knmi_winds_netcdf.py
-* Replace xarray.ufuncs with numpy.ufuncs (deprecated)
-#### modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
-* Correct typo: Add "geoips" to geoips_packages path for test outputs
+## GEOIPS#69: 2023-01-25, classes for module based plugins and their interfaces
+### Deprecations
+* A module-based Plugin will raise a DeprecationWarning if it does not define:
+  * a module-level docstring
+  * a "name" module-level variable - Defaults to the module name for now
+  * a "family" module-level variable - Defaults to an interface specific value
+  * a "description" module-level variable - Defaults to an empty string
+  * a function named "call" - Defaults to the name of the module for now
+* A module-based plugin Interface will raise a DeprecationWarning if it sets an
+  "entry_point_group" variable. This variable is used to point to old entry point groups
+  that need to be updated to match the name of the interface.
+### Major Functionality Changes
+* Create `BaseInterface` class with standardized methods for common actions
+* Create classes for all module-based plugin interfaces
+* Create class factory to convert module-based plugins into objects
+* Standardize structure for module-based plugins
+* Replace all uses of `dev.*` and `stable.*` with `interfaces.*` for module-based interfaces
+* Replace module-based interfaces with Interface classes
+### Major New Functionality
+* A beta version of a new CLI is under development here. Will become more useful in
+  future updates.
+### Improvements
+* Create new top-level `errors.py` to hold all GeoIPS-specific error classes
+* Add `EntryPointError` and `PluginError` error classes
+### Refactor
+* Refactored many files to accomodate new interface and plugin classes
+* Refactored mpl_utils.py to reduce duplication by making better use of plugin classes
+### Testing Updates
+* Replace a few remaining uses of $GEOIPS (see #153)
+### Bug Fixes
+* Fix printing of `out_dict` in list_available_modules.py
 
 # v1.6.1: 2023-01-04, update formatting, test full install, bug fixes
 
