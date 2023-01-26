@@ -57,6 +57,10 @@
 ### Bug Fixes
 * Fix printing of `out_dict` in list_available_modules.py
 
+## GEOIPS/geoips#68: 2023-01-25, change full install requirements
+### Installation and Test
+* Copied extra requirements to "install_requires" in "setup.py"
+
 # v1.6.1: 2023-01-04, update formatting, test full install, bug fixes
 
 ## GEOIPS#144: 2023-01-04, slight doc updates.
