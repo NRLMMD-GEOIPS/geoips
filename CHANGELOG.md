@@ -11,6 +11,12 @@
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 
+## GEOIPS/geoips#80: 2023-01-26, update system dependencies
+### Documentation Updates
+* installation.rst:
+    * Added libgeos-dev to system requirements
+    * Improved readability of environment variable instructions.
+
 ## GEOIPS/geoips#68: 2023-01-25, change full install requirements
 ### Installation and Test
 * Copied extra requirements to "install_requires" in "setup.py"
