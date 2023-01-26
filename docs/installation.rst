@@ -76,21 +76,22 @@ and all Python dependencies.
 GeoIPS Environment Variables for Complete conda-based Installation
 --------------------------------------------------------------------
 
+Set up appropriate environment variables for conda-based geoips setup steps.
+
+The steps within this section will need to be copied and pasted into your shell any time you want to
+run the conda-based setup commands directly. Typical users do not have to make any modifications to the
+commands within this README and can copy and paste directly.
+
+Once geoips has been installed, the "GEOIPS_CONFIG_FILE" specified below will be sourced when running geoips,
+and the direct environment variable assignments within this section are no longer required.
+
+If you would like to have the GEOIPS_CONFIG_FILE automatically sourced so you do not have to manually run the 
+appropriate source command for every new shell, you can add 
 .. code:: bash
+    source </full/path/to/GEOIPS_CONFIG_FILE>
+to your ~/.bashrc file.
 
-    # Set up appropriate environment variables for conda-based geoips setup steps.
-    # The steps within this section will need to be copied and pasted into your shell any time you want to
-    # run the conda-based setup commands directly. Typical users do not have to make any modifications to the
-    # commands within this README and can copy and paste directly.
-
-    # Once geoips has been installed, the "GEOIPS_CONFIG_FILE" specified below will be sourced when running geoips,
-    # and the direct environment variable assignments within this section are no longer required.
-
-    # If you would like to have the GEOIPS_CONFIG_FILE automatically sourced so you do not have to manually run the 
-    # appropriate source command for every new shell, you can add 
-    # source </full/path/to/GEOIPS_CONFIG_FILE>
-    # to your ~/.bashrc file
-
+.. code:: bash
     # GeoIPS default required packages
     git lfs install  # Required to clone test data repositories!
 
