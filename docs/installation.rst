@@ -29,6 +29,8 @@ Required
 
   * included in `Complete Local conda-based GeoIPS Installation`_
 * libgeos-dev (required to install cartopy via pip)
+
+  * included in `Complete Local conda-based GeoIPS Installation`_
 * rclone (required to obtain ABI and AHI test data from AWS)
 
   * included in `Complete Local conda-based GeoIPS Installation`_
