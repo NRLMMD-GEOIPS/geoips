@@ -10,7 +10,7 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-## GEOIPS/geoips#89: 2023-01-31, fix bug in actions on forks
+## GEOIPS/geoips#83: 2023-01-31, fix bug in actions on forks
 ### Actions
 * Update docker actions to only push to ghcr.io from `main` or for new tags.
 * Disable cache-to and set cache-from to use `latest` tag.
