@@ -32,5 +32,4 @@ jobs:
           push: ${{ vars.GITHUB_REF_TYPE == 'tag' || vars.GITHUB_REF_NAME == 'main' }}
           tags: ghcr.io/${{ env.IMAGE_NAME }}:latest
           file: "Dockerfile"
-          cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache,mode=max
+          cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:latest

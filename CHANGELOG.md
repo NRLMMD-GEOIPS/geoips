@@ -13,6 +13,7 @@
 ## GEOIPS/geoips#89: 2023-01-31, fix bug in actions on forks
 ### Actions
 * Update docker actions to only push to ghcr.io from `main` or for new tags.
+* Disable cache-to and set cache-from to use `latest` tag.
 
 ## GEOIPS/geoips#68: 2023-01-25, change full install requirements
 ### Installation and Test
