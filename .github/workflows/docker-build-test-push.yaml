@@ -29,7 +29,7 @@ jobs:
       - name: Build and Push image
         uses: docker/build-push-action@v3.1.0
         with:
-          push: ${{ vars.GITHUB_REF_TYPE == "tag" || vars.GITHUB_REF_NAME == "main" }}
+          push: ${{ vars.GITHUB_REF_TYPE == 'tag' || vars.GITHUB_REF_NAME == 'main' }}
           tags: ghcr.io/${{ env.IMAGE_NAME }}:latest
           file: "Dockerfile"
           cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache
