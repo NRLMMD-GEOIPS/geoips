@@ -12,7 +12,7 @@ jobs:
       - name: Ensure CHANGELOG.md is changed
         shell: bash
         run: |
-          REM="/remotes/origin"
+          REM="remotes/origin"
           ret=$(git diff --name-only --diff-filter=M \
               ${REM}/${GITHUB_BASE_REF}..${REM}/${GITHUB_HEAD_REF} -- CHANGELOG.md)
           if [[ "${ret}" != "CHANGELOG.md" ]]; then
