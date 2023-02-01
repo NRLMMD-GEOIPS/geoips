@@ -1,0 +1,20 @@
+name: Validate Pull Request
+on: [pull_request]
+
+jobs:
+  changelog_is_changed:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Ensure CHANGELOG.md is changed
+        shell: bash
+        run: |
+          ret=$(git diff --name-only --diff-filter=M \
+              remotes/origin/${GITHUB_BASE_REF} -- CHANGELOG.md)
+          if [[ "${ret}" != "CHANGELOG.md" ]]; then
+              echo "CHANGELOG.md has not been updated"
+              exit 1
+          fi

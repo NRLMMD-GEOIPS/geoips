@@ -62,6 +62,13 @@
 * Updated `geoips/interface_modules/output_formats/text_winds.py` to use `os.stat`
   rather than `ls --full-time` to get file creation time.
 
+## NRLMMD-GEOIPS/geoips#86: 2023-01-31, disallow PR that don't change CHANGELOG.md
+### Actions
+* Add test to block merging until CHANGELOG.md has been updated
+```
+.github/workflows/validate-pull-request.yaml
+```
+
 ## NRLMMD-GEOIPS/geoips#68: 2023-01-25, change full install requirements
 ### Installation and Test
 * Copied extra requirements to "install_requires" in "setup.py"
