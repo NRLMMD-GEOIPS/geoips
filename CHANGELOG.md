@@ -11,6 +11,13 @@
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 
+## NRLMMD-GEOIPS/geoips#86: 2023-01-31, disallow PR that don't change CHANGELOG.md
+### Actions
+* Add test to block merging until CHANGELOG.md has been updated
+```
+.github/workflows/validate-pull-request.yaml
+```
+
 ## GEOIPS/geoips#68: 2023-01-25, change full install requirements
 ### Installation and Test
 * Copied extra requirements to "install_requires" in "setup.py"
@@ -135,7 +142,7 @@ modified: docs/setup-new-plugin.rst
 * Include more generalized information in README, with link to full documentation/installation.
 * Move the complete conda-based installation to the bottom of docs/installation.rst
 * Include system requirements, and a basic geoips installation process (not requiring full conda based install)
-  in installation.rst 
+  in installation.rst
 ```
 modified: README.md
 modified: docs/installation.rst
@@ -163,7 +170,7 @@ modified: tests/download_noaa_aws.sh
 ```
 
 
-# v1.5.3: 2022-11-07, update python install process, alternate command line args funcs, unique storm dirnames for invests, bug fixes 
+# v1.5.3: 2022-11-07, update python install process, alternate command line args funcs, unique storm dirnames for invests, bug fixes
 ## GEOIPS#108: 2022-11-04, bug fixes
 ### Documentation Updates
 * Clarify steps in updating CHANGELOG during internal release process
@@ -390,10 +397,10 @@ geoips/interface_modules/output_formats/unprojected_image.py
 
 ### Bug fixes
 * **geoips/interface_modules/readers/viirs_netcdf.nc**
-    * Move VIIRS solar reflective bands to neww data_type: 
+    * Move VIIRS solar reflective bands to neww data_type:
         * MOD-Vis: M01, M02, M03, M04, M05, M06, M09
         * IMG-Vis: I01, I02, I03
-        * These reflective bands are not present in nighttime granules, 
+        * These reflective bands are not present in nighttime granules,
          and causes issues when dealing with a pair of granules that cross the terminator.
     * Reader now capable of reading geo fields from a single file into multiple datasets
 
@@ -635,7 +642,7 @@ geoips/interface_modules/output_formats/unprojected_image.py
     * **def pad_area_definition**
         * Allow passing "force_pad" for non-TC sectors
         * Allow passing x_scale_factor and y_scale_factor for different scaling factors
-    * **def plot_data**: Support xarray_dict output format type. 
+    * **def plot_data**: Support xarray_dict output format type.
     * **def get_alg_xarray**: Support data_fusion processing
         * If variable_names is passed, use it (impacts reader_defined and self_registered products)
         * set "alg_func_type" to None if no algorithm defined.
@@ -646,7 +653,7 @@ geoips/interface_modules/output_formats/unprojected_image.py
         * Copy standard metadata to "interp_xarray" before returning, using "force=False"
 * **geoips/dev/utils.py**
     * Add "force" option to copy_standard_metadata - allow NOT replacing existing fields.
-    * This will not impact existing functionality - default is force=True, and when force=True the original 
+    * This will not impact existing functionality - default is force=True, and when force=True the original
       if statement will always be used.
 * **geoips/geoips_utils.py**
     * Pass "force" option directly through to dev.utils.copy_standard_metadata
@@ -1074,7 +1081,7 @@ geoips/interface_modules/output_formats/unprojected_image.py
 * **Pull Request Templates**
     * Note that updates to CHANGELOG are *required* prior to pull request approval.
     * Use CHANGELOG updates copy-pasted as the "Summary" section in the pull request.
-    * Add template for pull request title (<ticket num> <repo name> <short description> 
+    * Add template for pull request title (<ticket num> <repo name> <short description>
 * **CHANGELOG_TEMPLATE.md**
     * Add template with appropriate headers, formatting, and categories for proper CHANGELOG.md updates.
 * **Available functionality**
@@ -1142,7 +1149,7 @@ geoips/interface_modules/output_formats/unprojected_image.py
 * **Product Display**
     * Add "cbar\_label" kwarg to all passive microwave colormaps
         * Allows passing "cbar_lable" from product inputs and product params YAMLs
-    * Add Coverage Function information 
+    * Add Coverage Function information
 * **Coverage Checks**
     * Add center\_radius\_rgba coverage check
         * use arr[:, :, 3] alpha layer for masked values rather than arr.mask
@@ -1172,7 +1179,7 @@ geoips/interface_modules/output_formats/unprojected_image.py
     * single\_source.py/config\_based.py
         * Use "image_production_covg_*" when determining if there is sufficient coverage
             to generate an output product
-            * Defaults to use "covg_func" if "image_production_covg_*" not defined        
+            * Defaults to use "covg_func" if "image_production_covg_*" not defined
 * **area_def_adjusters**
     * Support list\_xarray\_list\_variables\_to\_area\_def\_out\_fnames adjuster\_type
         * Allows returning list of output filenames, in addition to adjusted area def
@@ -1253,7 +1260,7 @@ geoips/interface_modules/output_formats/unprojected_image.py
 * **compare_outputs.py**: In test repo auto-generated update scripts, print gunzip before copy,
     and gzip after copy for files that must be gzipped before comparisons.
 * **single_source and config_based**: Add newline to the end of "output_file_list", otherwise skipped during shell loop
-   
+
 
 
 
@@ -1440,10 +1447,10 @@ geoips/interface_modules/output_formats/unprojected_image.py
 * ASCAT UHR windbarbs test script
 * "unprojected\_image" output\_format module
     * Plots the data with no resampling - no area\_def required
-    * Call signature: xarray\_obj, product\_name, output\_fnames, product\_name\_title=None, mpl\_colors\_info=None 
+    * Call signature: xarray\_obj, product\_name, output\_fnames, product\_name\_title=None, mpl\_colors\_info=None
                       x\_size=None, y\_size=None
 * "unprojected" outputter\_type
-    * Call signature: xarray\_obj, product\_name, output\_fnames, product\_name\_title=None, mpl\_colors\_info=None 
+    * Call signature: xarray\_obj, product\_name, output\_fnames, product\_name\_title=None, mpl\_colors\_info=None
 * Support <DATASET>:<VARNAME> variable requests in product\_inputs YAML config files
     * Update VIIRS Night-Visible to use DNB:SunZenith
     * Update VIIRS Visible to use MOD:Sunzenith
@@ -1513,12 +1520,12 @@ geoips/interface_modules/output_formats/unprojected_image.py
 ### Improvements
 * Add aerosol reader and fname as arg options
 * Add channel number as variable in AHI HSD reader
-* Adjust selection of variable for interpolation in single\_source.py if the same variable name is contained in multiple datasets 
+* Adjust selection of variable for interpolation in single\_source.py if the same variable name is contained in multiple datasets
  (ie, VIIRS geolocation variables - slightly different for each resolution dataset - caused issues with differing test outputs between single source and config\_based when multiple datasets are present)
     * Use variable from dataset that contains ALL required variables
     * Use variable from first dataset
 * config\_based procflow now always sector to the adjusted area\_def to ensure we get all of the data.
-    * Also must sector before adjusting the area\_def to ensure we have a consistent center time for determining new area\_def 
+    * Also must sector before adjusting the area\_def to ensure we have a consistent center time for determining new area\_def
       (slightly different center times resulting from different sectoring can cause very slightly different recentering)
 
 ### Documentation Updates
@@ -1546,11 +1553,11 @@ metadata filename and output format specifications.  These changes will not impa
     * Takes in variable for kwargs rather than \*\*kwargs
         (so it is explicit which kwargs should be applied to which module)
 * single\_source.plot\_sectored\_data\_output (ie, sectored, unregistered outputs)
-    * Takes in output\_dict rather than individual filename/output formats 
+    * Takes in output\_dict rather than individual filename/output formats
     * Add area\_def argument
     * Returns dictionary of output file names with associated filename formats, rather than list of filenames
 * single\_source.process\_xarray\_dict\_to\_output\_format (ie, unsectored, unregistered outputs)
-    * Takes in output\_dict rather than individual filename/output formats 
+    * Takes in output\_dict rather than individual filename/output formats
     * Add area\_def argument
     * Returns dictionary of output file names with associated filename formats, rather than list of filenames
 * single\_source.get\_filename
@@ -1700,7 +1707,7 @@ metadata filename and output format specifications.  These changes will not impa
     * Replaced instances of "atcf" within geoips repo with "tc"
         * --atcfdb command line option with --tcdb
         * --get_atcf_area_defs_for_xarray -> get_tc_area_defs_for_xarray
-        * "atcf" -> "tc" sector_type 
+        * "atcf" -> "tc" sector_type
     * Removed support for deprecated environment variables / base_paths
         * GEOIPSFINAL -> ANNOTATED_IMAGERY_PATH
         * GEOIPSTEMP -> CLEAN_IMAGERY_PATH
@@ -1787,7 +1794,7 @@ metadata filename and output format specifications.  These changes will not impa
         * Hooks in single_source and config_based procflows to generate product immediately after sectoring
     * Text wind output capability
         * 'unsectored' and 'sectored' products
-        * 'text_winds_full_fname' and 'text_winds_tc_fname' filename formats 
+        * 'text_winds_full_fname' and 'text_winds_tc_fname' filename formats
     * SMAP and AMSR2 config-based processing
 
 ### Improvements
@@ -1931,7 +1938,7 @@ metadata filename and output format specifications.  These changes will not impa
 ### Bug fixes
     * Resolved sectoring issue, allowing complete center coverage
         * Previously when sectoring based on min/max lat/lon, any values outside the explicit
-          requested values would be masked, causing masked data on non-square datasets when 
+          requested values would be masked, causing masked data on non-square datasets when
           good data was actually available for the entire requested region. Only drop rows outside
           requested range, do not mask data.
 
@@ -2026,7 +2033,7 @@ metadata filename and output format specifications.  These changes will not impa
         * UPDATED find_modules_in_geoips_packages(subpackage_name, module_name, method_name=None)
             * from geoips.subpackage_name.module_name import method_name
         * Imports in "drivers" will require updating to new terminology. Note this will all go away with Tim entry points
-    
+
     * geoips_modules / $GEOIPS_MODULES_DIR -> geoips_packages and $GEOIPS_PACKAGES_DIR
         * These are convenience variables / directory structures for storing multiple geoips repositories.
         * Updated modules to packages for accurate naming conventions, handle discrepancies in gpaths/config
@@ -2037,7 +2044,7 @@ metadata filename and output format specifications.  These changes will not impa
 
     * BREAKING CHANGE: standardized platform names
         * sen1 -> sentinel-1, metopa -> metop-a, metopb -> metop-b, metopc -> metop-c, radarsat2 -> radarsat-2
-        * NOAA-19 -> noaa-19, NOAA-18 -> noaa-18, amsub -> amsu-b, 
+        * NOAA-19 -> noaa-19, NOAA-18 -> noaa-18, amsub -> amsu-b,
 
     * BREAKING CHANGE: Changed wind_speed to vmax in sector_info dictionary for TCs ALSO CHANGED IN PYROCB!!!!!!!
         * Change track_type -> aid_type
@@ -2050,7 +2057,7 @@ metadata filename and output format specifications.  These changes will not impa
     * get_area_defs_for_xarray -> get_static_area_defs_for_xarray AND get_atcf_area_defs_for_xarray
         * (added get_trackfile_area_defs)
 
-    * commandline run_yaml_from_deckfile.py -> convert_trackfile_to_yaml.py 
+    * commandline run_yaml_from_deckfile.py -> convert_trackfile_to_yaml.py
 
     * commandline update_atcf_database.py -> update_tc_tracks_database.py
 
