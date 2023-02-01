@@ -7,12 +7,12 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Ensure CHANGELOG.md is changed
         shell: bash
         run: |
-          git remote -v
-          ls -lha
-          git fetch --depth=1 .git ${GITHUB_BASE_REF}
+          # git fetch --depth=1 .git ${GITHUB_BASE_REF}
           ret=$(git diff --name-only --diff-filter=M \
               ${GITHUB_BASE_REF}..${GITHUB_HEAD_REF} -- CHANGELOG.md)
           if [[ "${ret}" != "CHANGELOG.md" ]]; then
