@@ -5,6 +5,8 @@ jobs:
   changelog_is_changed:
     runs-on: ubuntu-22.04
     steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
       - name: Ensure CHANGELOG.md is changed
         shell: bash
         run: |
