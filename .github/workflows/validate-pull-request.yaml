@@ -10,7 +10,7 @@ jobs:
       - name: Ensure CHANGELOG.md is changed
         shell: bash
         run: |
-          git branch -v
+          git fetch --depth=1 ${GITHUB_BASE_REF}
           ret=$(git diff --name-only --diff-filter=M \
               ${GITHUB_BASE_REF}..${GITHUB_HEAD_REF} -- CHANGELOG.md)
           if [[ "${ret}" != "CHANGELOG.md" ]]; then
