@@ -21,6 +21,7 @@ with open(
 ) as version_file:
     version = version_file.read().strip()
 
+#Arbitrary change to test geoips#87
 setuptools.setup(
     name="geoips",
     version=version,
