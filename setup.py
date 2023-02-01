@@ -52,6 +52,9 @@ setuptools.setup(
         "pyhdf",  # hdf4 readers (MODIS)
         "rasterio",  # GEOTIFF output
         "flake8",  # Syntax checking
+        "flake8-rst-docstrings",  # numpy docstring checking
+        "flake8-rst",  # RST checking
+        "black",  # black style enforcement
         "pylint",  # Syntax checking
         "bandit",  # Syntax/security checking
         "sphinx",  # Required for building documentation
@@ -85,6 +88,9 @@ setuptools.setup(
         "syntax_checking": [
             "flake8",  # Syntax checking
             "pylint",  # Syntax checking
+            "flake8-rst-docstrings",  # numpy docstring checking
+            "flake8-rst",  # RST checking
+            "black",  # black style enforcement
             "bandit",  # Syntax/security checking
         ],
         "documentation": [
