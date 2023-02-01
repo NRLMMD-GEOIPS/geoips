@@ -10,6 +10,11 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+### Fix linux commands `date` and `ls` on Mac
+* Updated `setup.sh` and `tests/download_noaa_aws.sh` to use `gdate` on Mac
+* Updated `geoips/interface_modules/output_formats/text_winds.py` to use `os.stat` rather
+  than `ls --full-time` to get file creation time.
+
 
 ## GEOIPS/geoips#68: 2023-01-25, change full install requirements
 ### Installation and Test
