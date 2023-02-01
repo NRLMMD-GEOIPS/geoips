@@ -11,6 +11,10 @@
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 
+## GEOIPS/geoips#89: 2023-02-01, test CHANGELOG block
+### Actions
+* Arbitrary change made to test. 
+
 ## NRLMMD-GEOIPS/geoips#86: 2023-01-31, disallow PR that don't change CHANGELOG.md
 ### Actions
 * Add test to block merging until CHANGELOG.md has been updated
