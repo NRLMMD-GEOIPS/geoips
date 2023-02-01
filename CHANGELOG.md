@@ -10,12 +10,16 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-## GEOIPS/geoips#83: 2023-01-31, fix bug in actions on forks
+## NRLMMD-GEOIPS/geoips#83: 2023-01-31, fix bug in actions on forks
 ### Actions
 * Update docker actions to only push to ghcr.io from `main` or for new tags.
 * Disable cache-to and set cache-from to use `latest` tag.
-
-## GEOIPS/geoips#68: 2023-01-25, change full install requirements
+## NRLMMD-GEOIPS/geoips#59: 2023-02-01, fix date and ls on mac
+### Fix linux commands `date` and `ls` on Mac
+* Updated `setup.sh` and `tests/download_noaa_aws.sh` to use `gdate` on Mac
+* Updated `geoips/interface_modules/output_formats/text_winds.py` to use `os.stat` rather
+  than `ls --full-time` to get file creation time.
+## NRLMMD-GEOIPS/geoips#68: 2023-01-25, change full install requirements
 ### Installation and Test
 * Copied extra requirements to "install_requires" in "setup.py"
 

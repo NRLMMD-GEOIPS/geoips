@@ -12,6 +12,15 @@
 
 #!/bin/bash
 
+date_cmd=date
+if [[ $OSTYPE == 'darwin'* ]]; then
+    date_cmd="$(which gdate)"
+    if [[ $? -ne 0 ]]; then
+        echo "On Mac, please install gdate. For example, brew install coreutils."
+        exit 1
+    fi
+fi
+
 if [[ -z "$GEOIPS_BASEDIR" ]]; then
     echo "Must define GEOIPS_BASEDIR environment variable prior to setting up geoips"
     exit 1
@@ -142,7 +151,7 @@ elif [[ "$1" == "setup_abi_test_data" ]]; then
     echo "** Setting up abi test data, from publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/ to $abidir"
     echo ""
     echo "NOAA Geostationary Operational Environmental Satellites (GOES) 16 & 17 was accessed on "
-    echo `date -u` "from https://registry.opendata.aws/noaa-goes."
+    echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-goes."
     echo ""
 
     if [[ "$2" == "low_bandwidth" ]]; then
@@ -313,7 +322,7 @@ elif [[ "$1" =~ "clone_test_repo" ]]; then
         else
             repo_url=`dirname $GEOIPS_REPO_URL`/$repo_org/$repo_name
         fi
-    fi 
+    fi
 
     if [[ ! -d $GEOIPS_TESTDATA_DIR/$repo_name ]]; then
         git clone $repo_url.git $GEOIPS_TESTDATA_DIR/$repo_name
@@ -427,7 +436,7 @@ elif [[ "$1" =~ "clone_source_repo" ]]; then
         else
             repo_url=`dirname $GEOIPS_REPO_URL`/$repo_org/$repo_name
         fi
-    fi 
+    fi
 
     git clone $repo_url.git $GEOIPS_PACKAGES_DIR/$repo_name
     retval=$?
