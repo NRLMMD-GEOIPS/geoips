@@ -15,6 +15,15 @@
 # rclone lsf publicAWS:noaa-goes17/ABI-L1b-RadF/2020/184/16/
 # rclone lsf publicAWS:noaa-himawari8/AHI-L1b-FLDK/2022/02/05/0420
 
+date_cmd=date
+if [[ $OSTYPE == 'darwin'* ]]; then
+    date_cmd="$(which gdate)"
+    if [[ $? -ne 0 ]]; then
+        echo "On Mac, please install gdate. For example, brew install coreutils."
+        exit 1
+    fi
+fi
+
 bad_command=0
 if [[ "$7" == "" && -z "$GEOIPS_TESTDATA_DIR" ]]; then
     bad_command=1
@@ -42,7 +51,7 @@ dd=$4
 hh=$5
 mn=$6
 
-jday=`date -u -d "$yyyy-$mm-$dd $hh:$mn:00" +%j`
+jday=`$date_cmd -u -d "$yyyy-$mm-$dd $hh:$mn:00" +%j`
 
 if [[ "$7" == "" || "$7" == "default" ]]; then
     testdata_dir="$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/$satellite/$yyyy$mm$dd/$hh$mn"
