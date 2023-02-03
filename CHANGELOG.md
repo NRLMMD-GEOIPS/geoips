@@ -27,6 +27,15 @@
 * A module-based plugin Interface will raise a DeprecationWarning if it sets an
   "entry_point_group" variable. This variable is used to point to old entry point groups
   that need to be updated to match the name of the interface.
+* Remove unsupported dev and stable interfaces from "test_interfaces". These will be
+  reimplemented for updated interfaces, remove for now so test_interfaces passes.
+  * stable.reader
+  * dev.alg
+  * dev.cmap
+  * dev.filename
+  * dev.interp
+  * dev.output
+  * dev.procflow
 ### Major Functionality Changes
 * Create `BaseInterface` class with standardized methods for common actions
 * Create classes for all module-based plugin interfaces
