@@ -701,7 +701,7 @@ def get_area_defs_from_available_sectors(
                 sector_dict[argname] = command_line_args[argname]
 
         # Double check if tcdb should be set to false
-        if sector_dict.get_plugin("trackfiles"):
+        if sector_dict.get("trackfiles"):
             sector_dict["tcdb"] = False
 
         # This is the standard "get_area_defs_from_command_line_args", YAML config specified sector information
