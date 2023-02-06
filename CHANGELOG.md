@@ -30,6 +30,8 @@ modified: geoips/interface_modules/algorithms/pmw_tb/pmw_37pct.py
 ```
 ### Testing Updates
 * Add clone and test of all available repos and test datasets.
+  * recenter_tc
+  * data_fusion
 ```
 modified: tests/test_full_install.sh
 ```
