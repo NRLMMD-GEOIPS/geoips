@@ -55,6 +55,11 @@
 * Replace a few remaining uses of $GEOIPS (see #153)
 ### Bug Fixes
 * Fix printing of `out_dict` in list_available_modules.py
+## GEOIPS/geoips#80: 2023-01-26, update system dependencies
+### Documentation Updates
+* installation.rst:
+  * Added libgeos-dev to system requirements
+  * Improved readability of environment variable instructions.
 ## NRLMMD-GEOIPS/geoips#83: 2023-01-31, fix bug in actions on forks
 ### Actions
 * Update docker actions to only push to ghcr.io from `main` or for new tags.
