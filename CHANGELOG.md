@@ -10,13 +10,13 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-## GEOIPS#73: 2023-01-25, update BaseInterface method names
+## NRLMMD-GEOIPS/geoips#73: 2023-01-25, update BaseInterface method names
 ### Refactor
 * Update `BaseInterface.get` to `BaseInterface.get_plugin`
 * Update `BaseInterface.get_list` to `BaseInterface.get_plugins`
 * Replace all uses of both methods across entire package
 
-## GEOIPS#69: 2023-01-25, classes for module based plugins and their interfaces
+## NRLMMD-GEOIPS/geoips#69: 2023-01-25, classes for module based plugins and their interfaces
 ### Deprecations
 * A module-based Plugin will raise a DeprecationWarning if it does not define:
   * a module-level docstring
@@ -57,7 +57,12 @@
 ### Bug Fixes
 * Fix printing of `out_dict` in list_available_modules.py
 
-## GEOIPS/geoips#68: 2023-01-25, change full install requirements
+## NRLMMD-GEOIPS/geoips#59, 2023-02-01, Fix linux commands `date` and `ls` on Mac
+* Updated `setup.sh` and `tests/download_noaa_aws.sh` to use `gdate` on Mac
+* Updated `geoips/interface_modules/output_formats/text_winds.py` to use `os.stat`
+  rather than `ls --full-time` to get file creation time.
+
+## NRLMMD-GEOIPS/geoips#68: 2023-01-25, change full install requirements
 ### Installation and Test
 * Copied extra requirements to "install_requires" in "setup.py"
 
