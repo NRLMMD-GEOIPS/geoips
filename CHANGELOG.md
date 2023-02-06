@@ -10,6 +10,17 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+## NRLMMD-GEOIPS/geoips#69, 2023-02-06, bug fixes
+### Bug fixes
+* Remove extra "," at the end of filename formats without covg list
+  * Previously was attempting to match a list of lists, causing "unsectored" test
+    output to fail since it was attempting to match the full list of filename formats,
+    rather than the single filename format string.
+  * Moving the lists to global variables at the top just happened to remove the errant
+    comma.
+```
+modified: geoips/interface_modules/procflows/single_source.py
+```
 ## NRLMMD-GEOIPS/geoips#73: 2023-01-25, update BaseInterface method names
 ### Refactor
 * Update `BaseInterface.get` to `BaseInterface.get_plugin`
