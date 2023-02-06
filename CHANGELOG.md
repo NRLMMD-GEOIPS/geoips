@@ -15,7 +15,6 @@
 * Update `BaseInterface.get` to `BaseInterface.get_plugin`
 * Update `BaseInterface.get_list` to `BaseInterface.get_plugins`
 * Replace all uses of both methods across entire package
-
 ## NRLMMD-GEOIPS/geoips#69: 2023-01-25, classes for module based plugins and their interfaces
 ### Deprecations
 * A module-based Plugin will raise a DeprecationWarning if it does not define:
@@ -56,22 +55,25 @@
 * Replace a few remaining uses of $GEOIPS (see #153)
 ### Bug Fixes
 * Fix printing of `out_dict` in list_available_modules.py
-
-## NRLMMD-GEOIPS/geoips#59, 2023-02-01, Fix linux commands `date` and `ls` on Mac
+## NRLMMD-GEOIPS/geoips#83: 2023-01-31, fix bug in actions on forks
+### Actions
+* Update docker actions to only push to ghcr.io from `main` or for new tags.
+* Disable cache-to and set cache-from to use `latest` tag.
+## NRLMMD-GEOIPS/geoips#59: 2023-02-01, fix date and ls on mac
+### Bug fixes
 * Updated `setup.sh` and `tests/download_noaa_aws.sh` to use `gdate` on Mac
-* Updated `geoips/interface_modules/output_formats/text_winds.py` to use `os.stat`
-  rather than `ls --full-time` to get file creation time.
-
+* Updated `geoips/interface_modules/output_formats/text_winds.py` to use `os.stat` rather
+  than `ls --full-time` to get file creation time.
 ## NRLMMD-GEOIPS/geoips#86: 2023-01-31, disallow PR that don't change CHANGELOG.md
 ### Actions
 * Add test to block merging until CHANGELOG.md has been updated
 ```
 .github/workflows/validate-pull-request.yaml
 ```
-
 ## NRLMMD-GEOIPS/geoips#68: 2023-01-25, change full install requirements
 ### Installation and Test
 * Copied extra requirements to "install_requires" in "setup.py"
+
 
 # v1.6.1: 2023-01-04, update formatting, test full install, bug fixes
 
