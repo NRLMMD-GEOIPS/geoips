@@ -21,6 +21,13 @@
 ```
 modified: geoips/interface_modules/procflows/single_source.py
 ```
+* Replace pmw_37pct callable function name of "call" with "pmw_37pct"
+  * pmw_37pct plugin will serve as the token example of the fully updated formatting,
+    but for now using "call" as the callable function name is not quite working.
+  * Leave callable function name as pmw_37pct until "call" is working.
+```
+modified: geoips/interface_modules/algorithms/pmw_tb/pmw_37pct.py
+```
 ### Testing Updates
 * Add clone and test of all available repos and test datasets.
 ```
