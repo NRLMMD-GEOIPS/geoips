@@ -91,6 +91,31 @@ modified: geoips/interface_modules/procflows/single_source.py
 * Copied extra requirements to "install_requires" in "setup.py"
 
 
+## GEOIPS/geoips#80: 2023-01-26, update system dependencies
+### Documentation Updates
+* installation.rst:
+    * Added libgeos-dev to system requirements
+    * Improved readability of environment variable instructions.
+
+## NRLMMD-GEOIPS/geoips#83: 2023-01-31, fix bug in actions on forks
+### Actions
+* Update docker actions to only push to ghcr.io from `main` or for new tags.
+* Disable cache-to and set cache-from to use `latest` tag.
+## NRLMMD-GEOIPS/geoips#59: 2023-02-01, fix date and ls on mac
+### Fix linux commands `date` and `ls` on Mac
+* Updated `setup.sh` and `tests/download_noaa_aws.sh` to use `gdate` on Mac
+* Updated `geoips/interface_modules/output_formats/text_winds.py` to use `os.stat` rather
+  than `ls --full-time` to get file creation time.
+## NRLMMD-GEOIPS/geoips#86: 2023-01-31, disallow PR that don't change CHANGELOG.md
+### Actions
+* Add test to block merging until CHANGELOG.md has been updated
+```
+.github/workflows/validate-pull-request.yaml
+```
+## NRLMMD-GEOIPS/geoips#68: 2023-01-25, change full install requirements
+### Installation and Test
+* Copied extra requirements to "install_requires" in "setup.py"
+
 # v1.6.1: 2023-01-04, update formatting, test full install, bug fixes
 
 ## GEOIPS#144: 2023-01-04, slight doc updates.
