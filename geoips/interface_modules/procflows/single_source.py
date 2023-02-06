@@ -72,6 +72,22 @@ OUTPUT_FAMILIES_WITH_NO_OUTFNAMES_ARG = [
     "xrdict_area_product_to_outlist",
 ]
 
+FILENAME_FORMATS_WITHOUT_COVG = [
+    "xarray_metadata_to_filename",
+    "xarray_area_product_to_filename",
+]
+
+FILENAME_FORMATS_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT = [
+    "xarray_metadata_to_filename",
+    "xarray_area_product_to_filename",
+]
+
+PRODUCT_FAMILIES_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT = [
+    "sectored_xarray_dict_to_output_format",
+    "unsectored_xarray_dict_to_output_format",
+    "unsectored_xarray_dict_area_to_output_format",
+]
+
 
 PMW_NUM_PIXELS_X = 1400
 PMW_NUM_PIXELS_Y = 1400
@@ -248,11 +264,8 @@ def process_xarray_dict_to_output_format(
 
     output_format_kwargs = get_output_format_kwargs(output_dict)
 
-    supported_product_types = [
-        "sectored_xarray_dict_to_output_format",
-        "unsectored_xarray_dict_to_output_format",
-        "unsectored_xarray_dict_area_to_output_format",
-    ]
+    supported_product_types = PRODUCT_FAMILIES_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT
+
     product_type = get_product_type(product_name, xobjs["METADATA"].source_name)
     if product_type not in supported_product_types:
         raise TypeError(
@@ -270,10 +283,7 @@ def process_xarray_dict_to_output_format(
 
     # Only get output filenames if needed
     if output_plugin.family in OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG:
-        supported_filenamer_types = [
-            "xarray_metadata_to_filename",
-            "xarray_area_product_to_filename",
-        ]
+        supported_filenamer_types = FILENAME_FORMATS_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT
         fname_formats = get_filename_formats(output_dict)
         output_fnames, metadata_fnames = get_output_filenames(
             fname_formats,
@@ -423,9 +433,7 @@ def get_filename(
         )
 
     # They all use covg except those in list
-    if (filename_fmt_plugin.family not in
-        ["xarray_metadata_to_filename", "xarray_area_product_to_filename"],
-    ):
+    if (filename_fmt_plugin.family not in FILENAME_FORMATS_WITHOUT_COVG):
         covg_func = get_covg_from_product(
             product_name,
             alg_xarray.source_name,
