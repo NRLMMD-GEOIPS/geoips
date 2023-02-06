@@ -21,6 +21,11 @@
 ```
 modified: geoips/interface_modules/procflows/single_source.py
 ```
+### Testing Updates
+* Add clone and test of all available repos and test datasets.
+```
+modified: tests/test_full_install.sh
+```
 ## NRLMMD-GEOIPS/geoips#73: 2023-01-25, update BaseInterface method names
 ### Refactor
 * Update `BaseInterface.get` to `BaseInterface.get_plugin`
