@@ -30,6 +30,8 @@ modified: geoips/interface_modules/algorithms/pmw_tb/pmw_37pct.py
 ```
 ### Testing Updates
 * Add clone and test of all available repos and test datasets.
+  * recenter_tc
+  * data_fusion
 ```
 modified: tests/test_full_install.sh
 ```
@@ -127,6 +129,7 @@ modified: tests/test_full_install.sh
 ## NRLMMD-GEOIPS/geoips#68: 2023-01-25, change full install requirements
 ### Installation and Test
 * Copied extra requirements to "install_requires" in "setup.py"
+* Add black, flake8-rst, and flake8-rst-doctrings requirements for code checks (ALL required)
 
 # v1.6.1: 2023-01-04, update formatting, test full install, bug fixes
 
