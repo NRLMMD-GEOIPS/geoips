@@ -10,6 +10,13 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+
+## GEOIPS/geoips#80: 2023-01-26, update system dependencies
+### Documentation Updates
+* installation.rst:
+    * Added libgeos-dev to system requirements
+    * Improved readability of environment variable instructions.
+
 ## NRLMMD-GEOIPS/geoips#83: 2023-01-31, fix bug in actions on forks
 ### Actions
 * Update docker actions to only push to ghcr.io from `main` or for new tags.
