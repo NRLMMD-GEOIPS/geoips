@@ -120,7 +120,7 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
             warn(
                 f"Use of the '{interface.deprecated_family_attr}' attribute is "
                 "deprecated. All uses should be replaced with an attribute named "
-                "'family'. In the future this will result in a TypeError.",
+                "'family'. In the future this will result in a PluginError.",
                 DeprecationWarning,
                 stacklevel=1,
             )
@@ -141,7 +141,7 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
         if plugin_deprecations:
             warn(
                 f"Plugin module '{module.__name__}' does not implement a 'description' "
-                "attribute. In future releases this will result in a TypeError.",
+                "attribute. In future releases this will result in a PluginError.",
                 DeprecationWarning,
                 stacklevel=1,
             )
@@ -155,7 +155,7 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
         warn(
             f"Callable for plugin '{module.__name__}' is not named 'call'. "
             "This behavior is deprecated. The callable should be renamed to "
-            "'call'. In the future this will result in a TypeError.",
+            "'call'. In the future this will result in a PluginError.",
             DeprecationWarning,
             stacklevel=1,
         )
@@ -197,7 +197,7 @@ interface_attrs_doc = """
         The name of the group in entry_points to use when looking for Plugins of this type. If not set, "name" will be used.
     deprecated_family_attr : string
         If this attribute exists in a plugin module but "family" does not, use the contents of this attribute in place
-        of "family" and raise a `DeprecationWarning`. If neither exist, a `TypeError` will be raised.
+        of "family" and raise a `DeprecationWarning`. If neither exist, a `PluginError` will be raised.
     """
 
 
@@ -281,7 +281,7 @@ class BaseInterface:
                 f"Entry point for plugin '{module.__name__}' point to the callable "
                 "rather than the module. This behavior is deprecated. Please update "
                 "the entry point to point to the plugin module. In the future this "
-                "will raise a TypeError.",
+                "will raise a PluginError.",
                 DeprecationWarning,
                 stacklevel=1,
             )
