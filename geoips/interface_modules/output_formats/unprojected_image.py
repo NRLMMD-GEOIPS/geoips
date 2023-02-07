@@ -61,10 +61,6 @@ def unprojected_image(
     image_width = float(x_size) / dpi
     image_height = float(y_size) / dpi
 
-    # Replace fig.savefig frameon=False argument with facecolor="none"
-    # * frameon deprecated maplotlib v3.1.0, support removed v3.6.0
-    # * facecolor="none" also works with 3.5.x
-    # * https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon
     fig = plt.figure(facecolor="none")
     fig.set_size_inches(image_width, image_height)
     main_ax = plt.Axes(fig, [0, 0, 1, 1])

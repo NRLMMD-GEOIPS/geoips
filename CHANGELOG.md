@@ -10,6 +10,104 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+## NRLMMD-GEOIPS/geoips#69, 2023-02-06, bug fixes
+### Bug fixes
+* Remove extra "," at the end of filename formats without covg list
+  * Previously was attempting to match a list of lists, causing "unsectored" test
+    output to fail since it was attempting to match the full list of filename formats,
+    rather than the single filename format string.
+  * Moving the lists to global variables at the top just happened to remove the errant
+    comma.
+```
+modified: geoips/interface_modules/procflows/single_source.py
+```
+* Replace pmw_37pct callable function name of "call" with "pmw_37pct"
+  * pmw_37pct plugin will serve as the token example of the fully updated formatting,
+    but for now using "call" as the callable function name is not quite working.
+  * Leave callable function name as pmw_37pct until "call" is working.
+```
+modified: geoips/interface_modules/algorithms/pmw_tb/pmw_37pct.py
+```
+* Remove style_tests.sh - replaced with tests/utils/code_checks.sh
+```
+deleted: style_tests.sh
+```
+### Testing Updates
+* Add clone and test of all available repos and test datasets.
+  * recenter_tc
+  * data_fusion
+```
+modified: tests/test_full_install.sh
+```
+## NRLMMD-GEOIPS/geoips#73: 2023-01-25, update BaseInterface method names
+### Refactor
+* Update `BaseInterface.get` to `BaseInterface.get_plugin`
+* Update `BaseInterface.get_list` to `BaseInterface.get_plugins`
+* Replace all uses of both methods across entire package
+## NRLMMD-GEOIPS/geoips#69: 2023-01-25, classes for module based plugins and their interfaces
+### Deprecations
+* A module-based Plugin will raise a DeprecationWarning if it does not define:
+  * a module-level docstring
+  * a "name" module-level variable - Defaults to the module name for now
+  * a "family" module-level variable - Defaults to an interface specific value
+  * a "description" module-level variable - Defaults to an empty string
+  * a function named "call" - Defaults to the name of the module for now
+* A module-based plugin Interface will raise a DeprecationWarning if it sets an
+  "entry_point_group" variable. This variable is used to point to old entry point groups
+  that need to be updated to match the name of the interface.
+* Remove unsupported dev and stable interfaces from "test_interfaces". These will be
+  reimplemented for updated interfaces, remove for now so test_interfaces passes.
+  * stable.reader
+  * dev.alg
+  * dev.cmap
+  * dev.filename
+  * dev.interp
+  * dev.output
+  * dev.procflow
+### Major Functionality Changes
+* Create `BaseInterface` class with standardized methods for common actions
+* Create classes for all module-based plugin interfaces
+* Create class factory to convert module-based plugins into objects
+* Standardize structure for module-based plugins
+* Replace all uses of `dev.*` and `stable.*` with `interfaces.*` for module-based interfaces
+* Replace module-based interfaces with Interface classes
+### Major New Functionality
+* A beta version of a new CLI is under development here. Will become more useful in
+  future updates.
+### Improvements
+* Create new top-level `errors.py` to hold all GeoIPS-specific error classes
+* Add `EntryPointError` and `PluginError` error classes
+### Refactor
+* Refactored many files to accomodate new interface and plugin classes
+* Refactored mpl_utils.py to reduce duplication by making better use of plugin classes
+### Testing Updates
+* Replace a few remaining uses of $GEOIPS (see #153)
+### Bug Fixes
+* Fix printing of `out_dict` in list_available_modules.py
+## GEOIPS/geoips#80: 2023-01-26, update system dependencies
+### Documentation Updates
+* installation.rst:
+  * Added libgeos-dev to system requirements
+  * Improved readability of environment variable instructions.
+## NRLMMD-GEOIPS/geoips#83: 2023-01-31, fix bug in actions on forks
+### Actions
+* Update docker actions to only push to ghcr.io from `main` or for new tags.
+* Disable cache-to and set cache-from to use `latest` tag.
+## NRLMMD-GEOIPS/geoips#59: 2023-02-01, fix date and ls on mac
+### Bug fixes
+* Updated `setup.sh` and `tests/download_noaa_aws.sh` to use `gdate` on Mac
+* Updated `geoips/interface_modules/output_formats/text_winds.py` to use `os.stat` rather
+  than `ls --full-time` to get file creation time.
+## NRLMMD-GEOIPS/geoips#86: 2023-01-31, disallow PR that don't change CHANGELOG.md
+### Actions
+* Add test to block merging until CHANGELOG.md has been updated
+```
+.github/workflows/validate-pull-request.yaml
+```
+## NRLMMD-GEOIPS/geoips#68: 2023-01-25, change full install requirements
+### Installation and Test
+* Copied extra requirements to "install_requires" in "setup.py"
+
 
 ## GEOIPS/geoips#80: 2023-01-26, update system dependencies
 ### Documentation Updates
@@ -35,6 +133,7 @@
 ## NRLMMD-GEOIPS/geoips#68: 2023-01-25, change full install requirements
 ### Installation and Test
 * Copied extra requirements to "install_requires" in "setup.py"
+* Add black, flake8-rst, and flake8-rst-doctrings requirements for code checks (ALL required)
 
 # v1.6.1: 2023-01-04, update formatting, test full install, bug fixes
 

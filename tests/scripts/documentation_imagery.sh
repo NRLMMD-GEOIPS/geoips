@@ -23,7 +23,7 @@
 
 
 retval=0
-avfunc=$GEOIPS/docs/images/available_functionality
+avfunc=$GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality
 globdir=$GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x
 
 check_returns() {
@@ -60,7 +60,7 @@ output_image=$GEOIPS_OUTDIRS/preprocessed/annotated_imagery/x-x-x/x-x-x/Infrared
 cp -v $output_image $avfunc
 cp_retval=$?
 retval=$((curr_retval+cp_retval+retval))
-ls -lh $GEOIPS/docs/images/available_functionality/*modis*
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*modis*
 check_returns $retval $output_image
 
 ####################################################################
@@ -103,7 +103,7 @@ output_image=$globdir/windspeed/hscat/20211202.080644.hy-2b.hscat.windspeed.glob
 cp -v $output_image $avfunc
 cp_retval=$?
 retval=$((curr_retval+cp_retval+retval))
-ls -lh $GEOIPS/docs/images/available_functionality/*hy*
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*hy*
 check_returns $retval $output_image
 
 ####################################################################
@@ -130,7 +130,7 @@ output_image=$globdir/Infrared-Gray/abi/20210718.015031.goes-17.abi.Infrared-Gra
 cp -v $output_image $avfunc
 cp_retval=$?
 retval=$((curr_retval+cp_retval+retval))
-ls -lh $GEOIPS/docs/images/available_functionality/*goes-17*
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*goes-17*
 check_returns $retval $output_image
 
 ####################################################################
@@ -153,7 +153,7 @@ output_image=$globdir/Infrared-Gray/abi/20200918.195020.goes-16.abi.Infrared-Gra
 cp -v $output_image $avfunc
 cp_retval=$?
 retval=$((curr_retval+cp_retval+retval))
-ls -lh $GEOIPS/docs/images/available_functionality/*goes-16*
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*goes-16*
 check_returns $retval $output_image
 
 ####################################################################
@@ -185,7 +185,7 @@ output_image=$globdir/Infrared-Gray/ahi/20200405.000000.himawari-8.ahi.Infrared-
 cp -v $output_image $avfunc
 cp_retval=$?
 retval=$((curr_retval+cp_retval+retval))
-ls -lh $GEOIPS/docs/images/available_functionality/*ahi*
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*ahi*
 check_returns $retval $output_image
 
 ####################################################################
@@ -208,7 +208,7 @@ output_image=$globdir/Infrared-Gray/gvar/20201211.230905.ews-g.gvar.Infrared-Gra
 cp -v $output_image $avfunc
 cp_retval=$?
 retval=$((curr_retval+cp_retval+retval))
-ls -lh $GEOIPS/docs/images/available_functionality/*ews*
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*ews*
 check_returns $retval $output_image
 
 ####################################################################
@@ -355,7 +355,7 @@ output_image=$globdir/Infrared-Gray/viirs/20210209.074210.jpss-1.viirs.Infrared-
 cp -v $output_image $avfunc
 cp_retval=$?
 retval=$((curr_retval+cp_retval+retval))
-ls -lh $GEOIPS/docs/images/available_functionality/*jpss*
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*jpss*
 check_returns $retval $output_image
 
 ####################################################################
@@ -383,7 +383,7 @@ output_image=$globdir/Infrared-Gray/viirs/20210205.080611.npp.viirs.Infrared-Gra
 cp -v $output_image $avfunc
 cp_retval=$?
 retval=$((curr_retval+cp_retval+retval))
-ls -lh $GEOIPS/docs/images/available_functionality/*npp*
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*npp*
 check_returns $retval $output_image
 
 #######################################################################
@@ -423,7 +423,7 @@ output_image=$globdir/89H/gmi/20200917.171519.GPM.gmi.89H.global.0p84.NASA.20p0.
 cp -v $output_image $avfunc
 cp_retval=$?
 retval=$((curr_retval+cp_retval+retval))
-ls -lh $GEOIPS/docs/images/available_functionality/*gmi*
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*gmi*
 check_returns $retval $output_image
 
 

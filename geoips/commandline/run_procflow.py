@@ -15,6 +15,11 @@
 MUST call with --procflow.
 """
 
+from datetime import datetime
+from geoips.commandline.log_setup import setup_logging
+from geoips.commandline.args import get_command_line_args
+from geoips.interfaces import procflows
+
 
 def main(get_command_line_args_func=None):
     """Script to kick off processing based on command line args.
@@ -25,15 +30,9 @@ def main(get_command_line_args_func=None):
         Function to use in place of "get_command_line_args", default None
         If None, use geoips.commandline.args.get_command_line_args
     """
-    from datetime import datetime
-
     DATETIMES = {}
     DATETIMES["start"] = datetime.utcnow()
-    from geoips.commandline.log_setup import setup_logging
-
     LOG = setup_logging()
-
-    from geoips.commandline.args import get_command_line_args
 
     if get_command_line_args_func is None:
         get_command_line_args_func = get_command_line_args
@@ -52,13 +51,14 @@ def main(get_command_line_args_func=None):
 
     COMMAND_LINE_ARGS = ARGS.__dict__
     # LOG.info(COMMAND_LINE_ARGS)
-    from geoips.dev.procflow import get_procflow
-
     LOG.info("GETTING PROCFLOW MODULE")
-    PROCFLOW = get_procflow(COMMAND_LINE_ARGS["procflow"])
+    PROCFLOW = procflows.get_plugin(COMMAND_LINE_ARGS["procflow"])
 
     LOG.info("CALLING PROCFLOW MODULE")
     if PROCFLOW:
+        LOG.info(COMMAND_LINE_ARGS["filenames"])
+        LOG.info(COMMAND_LINE_ARGS)
+        LOG.info(PROCFLOW)
         RETVAL = PROCFLOW(COMMAND_LINE_ARGS["filenames"], COMMAND_LINE_ARGS)
         LOG.info(
             "Completed geoips PROCFLOW %s processing, done!",

@@ -174,7 +174,7 @@ def ewsg_netcdf(
             """
             # scale_factor should not be applied
             if 'scale_factor' in data.ncattrs():
-                # apply scale_factor correction 
+                # apply scale_factor correction
                 #xarray_ewsg[varname]=xarray_ewsg[varname]*ncdf_file[varname].scale_factor
                 xarray_ewsg[varname]=xarray_ewsg[varname]*data.scale_factor
             """

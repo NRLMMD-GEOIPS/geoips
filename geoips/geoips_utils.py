@@ -12,8 +12,13 @@
 
 """General high level utilities for geoips processing."""
 
+import os
 import logging
+from glob import glob
 from importlib import metadata
+
+from geoips.errors import EntryPointError
+from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
@@ -45,7 +50,6 @@ def find_config(subpackage_name, config_basename, txt_suffix=".yaml"):
     """
     text_fname = None
     from geoips.filenames.base_paths import PATHS as gpaths
-    import os
 
     for package_name in gpaths["GEOIPS_PACKAGES"]:
         fname = os.path.join(
@@ -101,11 +105,15 @@ def find_entry_point(namespace, name, default=None):
         if default is not None:
             return default
         else:
-            raise Exception(
-                "Failed to find object matching {0} in namespace {1}".format(
-                    name, ep_namespace
-                )
+            raise EntryPointError(
+                f"Failed to find object matching {name} " "in namespace {ep_namespace}"
             )
+
+
+def get_all_entry_points(namespace):
+    entry_points = metadata.entry_points()
+    ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
+    return [ep.load() for ep in entry_points[ep_namespace]]
 
 
 def list_entry_points(namespace):
@@ -131,9 +139,6 @@ def list_product_specs_dict_yamls():
     list
         List of all product params dict YAMLs in all geoips packages
     """
-    from glob import glob
-    from geoips.filenames.base_paths import PATHS as gpaths
-
     all_files = []
     for package_name in gpaths["GEOIPS_PACKAGES"]:
         all_files += glob(
@@ -173,9 +178,6 @@ def list_product_source_dict_yamls():
     list
         List of all gridlines params dict YAMLs in all geoips packages
     """
-    from glob import glob
-    from geoips.filenames.base_paths import PATHS as gpaths
-
     all_files = []
     for package_name in gpaths["GEOIPS_PACKAGES"]:
         all_files += glob(
@@ -201,9 +203,6 @@ def list_gridlines_params_dict_yamls():
     list
         List of all gridlines params dict YAMLs in all geoips packages
     """
-    from glob import glob
-    from geoips.filenames.base_paths import PATHS as gpaths
-
     all_files = []
     for package_name in gpaths["GEOIPS_PACKAGES"]:
         all_files += glob(
@@ -229,9 +228,6 @@ def list_boundaries_params_dict_yamls():
     list
         List of all coastline params dict YAMLs in all geoips packages
     """
-    from glob import glob
-    from geoips.filenames.base_paths import PATHS as gpaths
-
     all_files = []
     for package_name in gpaths["GEOIPS_PACKAGES"]:
         all_files += glob(

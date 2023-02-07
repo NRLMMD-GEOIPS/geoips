@@ -81,7 +81,7 @@ to convert the JPSS IDPS Epoch time to the humman-readable date.
 This reader is developed to read one granual a time from ATMS npp and
 jpss-1(n20) data files.
 
-The example files are:  
+The example files are:
 
 * ``SATMS_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5``: for TBs.  'b': orbit#
 * ``GATMO_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5``: for geolocations

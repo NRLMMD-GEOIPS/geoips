@@ -19,7 +19,7 @@ check_continue() {
         exit 1
     elif [[ $CONTINUE == "k" || $CONTINUE == "K" ]]; then
         echo "Skipping"
-        skip_next="yes" 
+        skip_next="yes"
     elif [[ $CONTINUE == "y" || $CONTINUE == "Y" ]]; then
         echo "Continuing!"
         skip_next="no"
@@ -30,4 +30,3 @@ check_continue() {
         check_continue "$1" "$2"
     fi
 }
-

@@ -58,7 +58,7 @@ and pip install from the your local copy.
 
 .. code:: bash
 
-    git clone https://github.com/NRLMMD-GEOIPS/geoips/geoips.git <installation_location> 
+    git clone https://github.com/NRLMMD-GEOIPS/geoips/geoips.git <installation_location>
     cd <installation location>
     pip install -e .
 
@@ -93,6 +93,7 @@ appropriate source command for every new shell, you can add
 .. code:: bash
 
     source </full/path/to/GEOIPS_CONFIG_FILE>
+
 to your ~/.bashrc file.
 
 .. code:: bash
@@ -121,7 +122,7 @@ Complete conda-based Installation and Test
     # Initial clone of geoips repo, to obtain setup scripts
     mkdir -p $GEOIPS_PACKAGES_DIR
     git clone $GEOIPS_REPO_URL/geoips.git $GEOIPS_PACKAGES_DIR/geoips
-    
+
     # This just makes sure you are *really* on $GEOIPS_ACTIVE_BRANCH
     git -C $GEOIPS_PACKAGES_DIR/geoips pull
     git -C $GEOIPS_PACKAGES_DIR/geoips checkout -t origin/$GEOIPS_ACTIVE_BRANCH

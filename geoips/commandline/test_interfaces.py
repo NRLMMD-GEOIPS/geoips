@@ -22,16 +22,19 @@ import traceback
 
 def main():
     """Script to test all dev and stable interfaces."""
+    # Removed all interfaces that have been moved to new setup.
+    # This entire testing construct will be updated in the future to more fully
+    # test/validate the plugins.
     interfaces = [
-        "stable.reader",
-        "dev.alg",
+        # "stable.reader",
+        # "dev.alg",
         "dev.boundaries",
-        "dev.cmap",
-        "dev.filename",
+        # "dev.cmap",
+        # "dev.filename",
         "dev.gridlines",
-        "dev.interp",
-        "dev.output",
-        "dev.procflow",
+        # "dev.interp",
+        # "dev.output",
+        # "dev.procflow",
         "dev.product",
     ]
 

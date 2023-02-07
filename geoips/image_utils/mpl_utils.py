@@ -17,6 +17,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.interfaces import title_formats
 
 matplotlib.use("agg")
 rc_params = matplotlib.rcParams
@@ -167,7 +168,6 @@ def plot_overlays(
         mapobj, area_def, curr_ax, use_gridlines_info, zorder=gridlines_zorder
     )
 
-
 def save_image(
     fig,
     out_fname,
@@ -306,7 +306,6 @@ def get_title_string_from_objects(
         title_copyright = gpaths["GEOIPS_COPYRIGHT"]
 
     from geoips.sector_utils.utils import is_sector_type
-    from geoips.dev.title import get_title
 
     if product_datatype_title is None:
         product_source_name = xarray_obj.source_name
@@ -327,38 +326,23 @@ def get_title_string_from_objects(
         )
 
     if title_format is not None:
-        title_string = get_title(title_format)(
-            area_def,
-            xarray_obj,
-            product_name_title,
-            product_datatype_title=product_datatype_title,
-            bg_xarray=bg_xarray,
-            bg_product_name_title=bg_product_name_title,
-            bg_datatype_title=bg_datatype_title,
-            title_copyright=title_copyright,
-        )
+        title_formatter = title_formats.get_plugin(title_format)
     elif is_sector_type(area_def, "tc"):
-        title_string = get_title("tc_standard")(
-            area_def,
-            xarray_obj,
-            product_name_title,
-            product_datatype_title=product_datatype_title,
-            bg_xarray=bg_xarray,
-            bg_product_name_title=bg_product_name_title,
-            bg_datatype_title=bg_datatype_title,
-            title_copyright=title_copyright,
-        )
+        title_formatter = title_formats.get_plugin("tc_standard")
     else:
-        title_string = get_title("static_standard")(
-            area_def,
-            xarray_obj,
-            product_name_title,
-            product_datatype_title=product_datatype_title,
-            bg_xarray=bg_xarray,
-            bg_product_name_title=bg_product_name_title,
-            bg_datatype_title=bg_datatype_title,
-            title_copyright=title_copyright,
-        )
+        title_formatter = title_formats.get_plugin("static_standard")
+
+    title_string = title_formatter(
+        area_def,
+        xarray_obj,
+        product_name_title,
+        product_datatype_title=product_datatype_title,
+        bg_xarray=bg_xarray,
+        bg_product_name_title=bg_product_name_title,
+        bg_datatype_title=bg_datatype_title,
+        title_copyright=title_copyright,
+    )
+
     return title_string
 
 

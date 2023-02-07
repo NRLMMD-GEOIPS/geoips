@@ -139,6 +139,7 @@ elif [[ "$1" == "install" ]]; then
                                                 coverage_checks,\
                                                 geostationary_readers]"
 
+
 elif [[ "$1" == "setup_abi_test_data" ]]; then
     # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
     # rclone lsf publicAWS:noaa-goes17/ABI-L1b-RadF/2020/184/16/

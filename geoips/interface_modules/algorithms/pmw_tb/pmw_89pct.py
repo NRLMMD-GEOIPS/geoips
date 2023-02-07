@@ -18,7 +18,8 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-alg_func_type = "list_numpy_to_numpy"
+family = "list_numpy_to_numpy"
+description = "Passive Microwave 89 MHz Polarization Corrected Temperature"
 
 
 def pmw_89pct(

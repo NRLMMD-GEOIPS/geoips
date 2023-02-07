@@ -21,8 +21,6 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-from geoips.geoips_utils import find_entry_point, find_config
-
 
 ### Output config dictionaries ###
 def is_valid_output_config(output_config_dict):
@@ -327,7 +325,7 @@ def get_output_format_kwargs(
 ):
     """Interface will be deprecated v2.0."""
     from geoips.dev.product import get_cmap_name, get_cmap_args
-    from geoips.dev.cmap import get_cmap
+    from geoips.interfaces import colormaps
     from geoips.dev.gridlines import get_gridlines, set_lonlat_spacing
     from geoips.dev.boundaries import get_boundaries
 
@@ -357,19 +355,19 @@ def get_output_format_kwargs(
         ].to_masked_array()
         output_format_kwargs["bg_product_name_title"] = bg_product_name
         output_format_kwargs["bg_mpl_colors_info"] = None
-        bg_cmap_func_name = get_cmap_name(
+        bg_cmap_plugin_name = get_cmap_name(
             bg_product_name,
             output_format_kwargs["bg_xarray"].source_name,
             output_dict=output_dict,
         )
-        if bg_cmap_func_name is not None:
-            bg_cmap_func = get_cmap(bg_cmap_func_name)
+        if bg_cmap_plugin_name is not None:
+            bg_cmap_plugin = colormaps.get_plugin(bg_cmap_plugin_name )
             bg_cmap_args = get_cmap_args(
                 bg_product_name,
                 output_format_kwargs["bg_xarray"].source_name,
                 output_dict=output_dict,
             )
-            output_format_kwargs["bg_mpl_colors_info"] = bg_cmap_func(**bg_cmap_args)
+            output_format_kwargs["bg_mpl_colors_info"] = bg_cmap_plugin(**bg_cmap_args)
 
     output_format_kwargs["output_dict"] = output_dict
 

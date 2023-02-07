@@ -27,8 +27,8 @@ if [[ "$1" == "" || "$2" == "" ]]; then
     echo ""
     echo "Returns 0 if all checks pass"
     echo ""
-    echo "Supported extra arguments:"                                                                                                                                                                                    
-    echo "    flake8_docstring_only"     
+    echo "Supported extra arguments:"
+    echo "    flake8_docstring_only"
     echo ""
     exit 1
 fi

@@ -16,7 +16,7 @@
 
 # The $GEOIPS_PACKAGES_DIR/geoips tests modules sourced within this script handle:
    # setting up the appropriate associative arrays for tracking the overall return value,
-   # calling the test scripts appropriately, and 
+   # calling the test scripts appropriately, and
    # setting the final return value.
 
 # Note you must use the variable "call" in the for the loop

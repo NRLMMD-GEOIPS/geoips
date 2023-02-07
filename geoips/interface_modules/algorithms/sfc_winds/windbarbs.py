@@ -18,7 +18,9 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+family = "list_numpy_to_numpy"
 alg_func_type = "list_numpy_to_numpy"
+description = "Surface Winds plotted as Barbs in Knots"
 
 
 def windbarbs(

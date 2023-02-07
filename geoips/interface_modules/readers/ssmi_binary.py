@@ -145,7 +145,7 @@ def ssmi_binary(
         raise IOError("Not an SSMI SDR file: skip it")
 
     """    ------  Notes  ------
-       Read in SSMI SDR files for 19v-h,22v,37v-h,85v-h(A and B scans) in binary data  
+       Read in SSMI SDR files for 19v-h,22v,37v-h,85v-h(A and B scans) in binary data
             Then, transform these variables (TBs) into xarray framework for GEOIPS
 
        Input Parameters:
@@ -153,13 +153,13 @@ def ssmi_binary(
        Returns:
            xarray.Dataset with required Variables and Attributes:
                Variables:
-                        LORES Channels:    
+                        LORES Channels:
                           'latitude', 'longitude', '19V', '19H', '22V', '37V','37H','time_scan'
-                        HIRES Channels (combined A-B scans):    
+                        HIRES Channels (combined A-B scans):
                           'latitude', 'longitude', '85V', '85H', 'sfcType', 'time_scan'
-               Attibutes: 
-                        'source_name', 'platform_name', 'data_provider', 
-                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'    
+               Attibutes:
+                        'source_name', 'platform_name', 'data_provider',
+                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'
                Optional Attrs:
                         'original_source_filenames', 'filename_datetimes'
     """

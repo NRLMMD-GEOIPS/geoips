@@ -53,7 +53,7 @@ Acknowledgments and Citations
 ------------------------------
 Please display the following acknowledgment within all published research using this software:
 
-    "This work uses the GeoIPS(R) software package written and 
+    "This work uses the GeoIPS(R) software package written and
     developed by the Naval Research Laboratory Marine Meteorology Division.
     https://github.com/NRLMMD-GEOIPS/"
 

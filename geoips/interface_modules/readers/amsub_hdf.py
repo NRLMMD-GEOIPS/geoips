@@ -23,7 +23,6 @@ format, such as
  V1.0:  Initial version, NRL-MRY, June 1, 2020
 
 Basic information on AMSU-B product file::
- 
     Input SD Variables
     (nscan, npix):
         npix=90 pixels per scan;
@@ -141,7 +140,7 @@ def amsub_hdf(
         raise
 
     """    ------  Notes  ------
-       Read AMSU-B hdf files for 5 chan antenna temperature (AT) and asscoaited EDRs  
+       Read AMSU-B hdf files for 5 chan antenna temperature (AT) and asscoaited EDRs
          Then, transform these ATs and fields into xarray framework for GEOIPS
          ( AT will be corrected into brightness temperature (TB) later)
 
@@ -150,12 +149,13 @@ def amsub_hdf(
        Returns:
            xarray.Dataset with required Variables and Attributes:
                Variables:
-                        AMSUB vars:    
+                        AMSUB vars:
                           'latitude', 'longitude', 'Ch1', 'Ch2', 'Ch3', 'Ch4','Ch4',
                           'RR', 'Snow','SWE','IWP','SFR' 'sfcType', 'time_scan'
-               Attibutes: 
-                        'source_name', 'platform_name', 'data_provider', 
-                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'    
+               Attibutes:
+                        'source_name', 'platform_name', 'data_provider',
+                        'interpolation_radius_of_influence', 'start_datetime',
+                        'end_datetime'
     """
 
     SData_ID = SD(fname, SDC.READ)

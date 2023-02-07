@@ -210,11 +210,11 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
             LOG.info("    Old vmax: " + str(old_vmax) + " to new: " + str(vmax))
             updated_files += [tc_trackfilename]
         cc.execute(
-            """UPDATE tc_trackfiles SET 
+            """UPDATE tc_trackfiles SET
                         last_updated=?,
                         start_datetime=?,
                         end_datetime=?,
-                        vmax=? 
+                        vmax=?
                       WHERE filename = ?""",
             # Eventually add in ?
             # storm_start_datetime=?,

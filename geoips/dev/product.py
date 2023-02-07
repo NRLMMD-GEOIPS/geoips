@@ -812,8 +812,8 @@ def get_required_variables(product_name, source_name, output_dict=None):
     variables = get_product(product_name, source_name, output_dict=output_dict)[
         "variables"
     ]
-    # Support categorizing variables in a dictionary - var_dict[var_type] =
-    # ['var1', 'var2', 'varn']
+    # Support categorizing variables in a dictionary
+    # var_dict[var_type] = ['var1', 'var2', 'varn']
     if isinstance(variables, dict):
         return_vars = {}
         for vartype in variables:
@@ -909,12 +909,12 @@ def get_data_range(product_name, source_name, output_dict=None):
     alg_args = get_alg_args(product_name, source_name)
     if "output_data_range" not in alg_args:
         alg_func_name = get_alg_name(product_name, source_name)
-        from geoips.dev.alg import get_alg_type
+        from geoips.interfaces import algorithms
 
-        alg_type = get_alg_type(alg_func_name)
+        alg_func = algorithms.get_plugin(alg_func_name)
         raise TypeError(
-            f'Can not call get_data_range on "{alg_type}" algs, '
-            f'"output_data_range" not defined (alg "{alg_func_name}" / prod "{product_name}"'
+            f"Can not call get_data_range on '{alg_func.family}' algs, "
+            f"'output_data_range' not defined (alg '{alg_func_name}' / prod '{product_name}'"
         )
     return alg_args["output_data_range"]
 
@@ -1132,9 +1132,9 @@ def get_cmap_from_product(product_name, source_name, output_dict=None):
     """
     cmap_func_name = get_cmap_name(product_name, source_name, output_dict=output_dict)
     try:
-        from geoips.dev.cmap import get_cmap
+        from geoips.interfaces import colormaps
 
-        cmap_func = get_cmap(cmap_func_name)
+        cmap_func = colormaps.get_plugin(cmap_func_name)
     except Exception as resp:
         raise ValueError(
             f"UNDEFINED CMAP FUNC '{cmap_func_name}'"

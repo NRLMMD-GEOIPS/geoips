@@ -38,7 +38,6 @@ else
     conda_channel="conda-forge"
 fi
 
-    
 if [[ "$GEOIPS_BASEDIR" == "" ]]; then
     echo "Must set GEOIPS_BASEDIR environment variable prior to installation"
     exit 1
@@ -72,14 +71,14 @@ check_continue "update geoips repo to $GEOIPS_ACTIVE_BRANCH"
         # Initial clone of geoips repo, to obtain setup scripts
         mkdir -p $GEOIPS_BASEDIR/geoips_packages
         git clone $GEOIPS_REPO_URL/geoips.git $GEOIPS_BASEDIR/geoips_packages/geoips
-        
+
         git -C $GEOIPS_BASEDIR/geoips_packages/geoips pull
         git -C $GEOIPS_BASEDIR/geoips_packages/geoips checkout -t origin/$GEOIPS_ACTIVE_BRANCH
         git -C $GEOIPS_BASEDIR/geoips_packages/geoips checkout $GEOIPS_ACTIVE_BRANCH
         git -C $GEOIPS_BASEDIR/geoips_packages/geoips pull
 
         ls -ld $GEOIPS_BASEDIR/geoips_packages/*
-        
+
         echo ""
         echo "Confirm environment variables point to desired installation parameters:"
         echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"

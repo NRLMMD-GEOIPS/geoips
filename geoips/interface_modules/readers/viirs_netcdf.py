@@ -53,7 +53,7 @@ The xarray of geoips reader need both the data and lat/lon info. Thus, this
 VIIRS reader is designed to read in the paired VNP02 and VNP03 files, depending
 on any one of DNB or IMG or MOD file.  In order to minimize dupilcated excution
 of VIIRS files, additional adjust of excution of the VIIRS files will be needed
-(discussion with Mindy on how to do it).  
+(discussion with Mindy on how to do it).
 """
 # Python Standard Libraries
 import logging
@@ -304,11 +304,11 @@ def viirs_netcdf(
     # since fname is a LIST of input files, this reader needs additional adjustments to read all files
     #       and put them into the XARRAY output (add one more array for number of files)
 
-    """ 
+    """
     fnames=['readers/data_viirs/20200916.081200.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02DNB.sdr.x.x.nc',\
            'readers/data_viirs/20200916.081200.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02IMG.sdr.x.x.nc',\
            'readers/data_viirs/20200916.081200.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02MOD.sdr.x.x.nc']
-    
+
     fnames=['data_viirs/20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02DNB.sdr.x.x.nc',\
            'data_viirs/20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02IMG.sdr.x.x.nc',\
            'data_viirs/20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02MOD.sdr.x.x.nc']

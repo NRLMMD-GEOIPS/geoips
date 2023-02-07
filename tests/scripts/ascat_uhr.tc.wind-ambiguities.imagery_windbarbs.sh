@@ -37,4 +37,3 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_scat/data/20210421_metopc_byu_uhr_tc
 ss_retval=$?
 
 exit $((ss_retval))
-
