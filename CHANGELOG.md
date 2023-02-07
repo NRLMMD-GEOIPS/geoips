@@ -28,6 +28,10 @@ modified: geoips/interface_modules/procflows/single_source.py
 ```
 modified: geoips/interface_modules/algorithms/pmw_tb/pmw_37pct.py
 ```
+* Remove style_tests.sh - replaced with tests/utils/code_checks.sh
+```
+deleted: style_tests.sh
+```
 ### Testing Updates
 * Add clone and test of all available repos and test datasets.
   * recenter_tc
