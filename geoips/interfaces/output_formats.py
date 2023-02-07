@@ -8,6 +8,3 @@ class OutputFormatsInterface(BaseInterface):
 
 output_formats = OutputFormatsInterface()
 
-
-# class OutputFormatsPlugin(BasePlugin):
-#     interface = output_formats

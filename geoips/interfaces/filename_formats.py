@@ -22,6 +22,3 @@ class FilenameFormattersInterface(BaseInterface):
 
 filename_formats = FilenameFormattersInterface()
 
-
-# class FilenameFormattersPlugin(BasePlugin):
-#     interface = filename_formats

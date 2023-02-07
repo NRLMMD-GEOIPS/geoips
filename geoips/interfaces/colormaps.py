@@ -9,6 +9,3 @@ class ColorMapsInterface(BaseInterface):
 
 colormaps = ColorMapsInterface()
 
-
-# class ColorMapsPlugin(BasePlugin):
-#     interface = colormaps

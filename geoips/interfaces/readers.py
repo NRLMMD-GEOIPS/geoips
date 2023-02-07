@@ -8,6 +8,3 @@ class ReadersInterface(BaseInterface):
 
 readers = ReadersInterface()
 
-
-# class ReadersPlugin(BasePlugin):
-#     interface = readers

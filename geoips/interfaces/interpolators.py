@@ -9,6 +9,3 @@ class InterpolatorsInterface(BaseInterface):
 
 interpolators = InterpolatorsInterface()
 
-
-# class InterpolatorsPlugin(BasePlugin):
-#     interface = interpolators

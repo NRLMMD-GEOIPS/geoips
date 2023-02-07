@@ -8,6 +8,3 @@ class AlgorithmsInterface(BaseInterface):
 
 algorithms = AlgorithmsInterface()
 
-
-# class AlgorithmsPlugin(BasePlugin):
-#     interface = algorithms

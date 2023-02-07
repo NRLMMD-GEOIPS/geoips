@@ -8,6 +8,3 @@ class ProcflowsInterface(BaseInterface):
 
 procflows = ProcflowsInterface()
 
-
-# class ProcflowsPlugin(BasePlugin):
-#     interface = procflows

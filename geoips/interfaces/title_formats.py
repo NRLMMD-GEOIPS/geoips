@@ -9,6 +9,3 @@ class TitleFormattersInterface(BaseInterface):
 
 title_formats = TitleFormattersInterface()
 
-
-# class TitleFormattersPlugin(BasePlugin):
-#     interface = title_formats
