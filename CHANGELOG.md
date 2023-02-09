@@ -10,6 +10,12 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+## GEOIPS/geoips#67: 2023-02-09, move CoverageError to top-level
+### Refactor
+* Moved CovereageError from geostationary_geolocation.py
+  (in geoips.interface_modules.readers.utils) to errors.py (top-level geoips)
+* Updated imports in config_based.py that utilize CoverageError.
+
 ## NRLMMD-GEOIPS/geoips#69, 2023-02-06, bug fixes
 ### Bug fixes
 * Remove extra "," at the end of filename formats without covg list
