@@ -1,7 +1,7 @@
 from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
-class FilenameFormattersInterface(BaseInterface):
+class FilenameFormats(BaseInterface):
     name = "filename_formats"
     entry_point_group = "filename_formats"
     deprecated_family_attr = "filename_type"
@@ -20,5 +20,5 @@ class FilenameFormattersInterface(BaseInterface):
         duplicates = self.find_duplicates()
 
 
-filename_formats = FilenameFormattersInterface()
+filename_formats = FilenameFormats()
 
