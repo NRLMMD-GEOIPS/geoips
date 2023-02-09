@@ -37,11 +37,8 @@ from geoips.interface_modules.procflows.single_source import (
     process_sectored_data_output,
     process_xarray_dict_to_output_format,
 )
-# Should move CoverageError into top-level errors module
-# See issue #67
-from geoips.interface_modules.readers.utils.geostationary_geolocation import (
-    CoverageError,
-)
+# Moved to top-level errors module, fixing issue #67
+from geoips.errors import CoverageError
 
 PMW_NUM_PIXELS_X = 1400
 PMW_NUM_PIXELS_Y = 1400
