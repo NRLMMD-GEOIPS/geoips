@@ -10,6 +10,20 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+## GEOIPS/geoips#71: 2023-02-10, add interface class docstrings
+### Documentation Updates
+* Added basic docstrings based on geoips_overview documentation to the following
+  interface classes:
+    * algorithms
+    * boundaries
+    * colormaps
+    * filename_formats
+    * interpolators
+    * output_formats
+    * procflows
+    * readers
+    * title_formats
+
 ## NRLMMD-GEOIPS/geoips#69, 2023-02-06, bug fixes
 ### Bug fixes
 * Remove extra "," at the end of filename formats without covg list
