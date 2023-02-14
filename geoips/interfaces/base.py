@@ -266,17 +266,27 @@ class BaseInterface:
             Nothing
         """
         try:
-            module = find_entry_point(self.entry_point_group, name)
+            # Below line doesn't seem to deal with entry points inside directories.
+            # i.e. searches for "pmw_37pct", but can't find it because it is defined
+            #   as "pmw_tb.pmw_37pct"
+            #module = find_entry_point(self.entry_point_group, name)
+            eps = get_all_entry_points(self.entry_point_group)
+            eps_names = [ep.__name__ for ep in eps]
+            ep_index = eps_names.index(name)
+            module = import_module(eps[ep_index].__module__)
         except EntryPointError as err:
             raise PluginError(f"Plugin {name} not found for {self.name} interface")
         # This assumes that the module's callable is named "callable"
-        if not isinstance(module, Callable):
+        if isinstance(module, Callable):
             return plugin_module_to_obj(self, module)
-        # If "module" is callable, treat this as a deprecated entry point
+        # If "module" is not callable, treat this as a deprecated entry point
         # whose callable is specified in setup.py directly
         else:
-            func = module
-            module = import_module(func.__module__)
+            #func = module
+            #module = import_module(func.__module__)
+            # Below line can probably be replaced with above two lines if
+            # commented out line in try block above is fixed.
+            func = eps[ep_index]
             warn(
                 f"Entry point for plugin '{module.__name__}' point to the callable "
                 "rather than the module. This behavior is deprecated. Please update "
@@ -298,7 +308,8 @@ class BaseInterface:
                 plugins.append(plugin_module_to_obj(module))
             else:
                 plugins.append(
-                    plugin_module_to_obj(module, module_call_func=ep.__name__)
+                    plugin_module_to_obj(self, module, module_call_func=ep.__name__)
+                    #self._plugin_module_to_obj(module, module_call_func=ep.__name__)
                 )
 
         # plugins = [
@@ -327,6 +338,16 @@ class BaseInterface:
         '''
         """
         plugin = self.get_plugin(name)
+        expected_args = self.required_args[plugin.family]
+
+        import inspect
+        sig = inspect.signature(plugin.__call__)
+        arg_list = [s.strip().split('=')[0] for s in str(sig).strip('()').split(',')]
+
+        for expected_arg in expected_args:
+            if expected_arg not in arg_list:
+                return False
+        return True
 
     def test_interface_plugins(self):
         """Test the current interface by validating every Plugin.
@@ -345,7 +366,16 @@ class BaseInterface:
             - 'family' contains a dict whose keys are plugin names and whose vlaues are the contents of the 'family'
               attribute for each Plugin.
         """
-        plugin_names = self.get_plugins(sort_by="family")
+        #plugin_names = self.get_plugins(sort_by="family")
+        plugins = self.get_plugins()
+        family_list = []
+        plugin_names = {}
+        for plugin in plugins:
+            if plugin.family not in family_list:
+                family_list.append(plugin.family)
+                plugin_names[plugin.family] = []
+            plugin_names[plugin.family].append(plugin.__call__.__name__)
+
         output = {
             "by_family": plugin_names,
             "validity_check": {},
@@ -356,5 +386,6 @@ class BaseInterface:
             for curr_name in plugin_names[curr_family]:
                 output["validity_check"][curr_name] = self.is_valid(curr_name)
                 output["func"][curr_name] = self.get_plugin(curr_name)
-                output["family"][curr_name] = self.get_family(curr_name)
+                #output["family"][curr_name] = self.get_family(curr_name)
+                output["family"][curr_name] = curr_family
         return output

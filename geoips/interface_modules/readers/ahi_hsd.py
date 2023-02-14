@@ -17,7 +17,6 @@ import logging
 from glob import glob
 from struct import unpack
 from datetime import datetime, timedelta
-from collections import Hashable
 import socket
 
 # Installed Libraries

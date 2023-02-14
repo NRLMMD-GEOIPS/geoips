@@ -1,10 +1,19 @@
 from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
-class FilenameFormats(BaseInterface):
+class FilenameFormatsInterface(BaseInterface):
     name = "filename_formats"
     entry_point_group = "filename_formats"
     deprecated_family_attr = "filename_type"
+
+    required_args = {'standard': ['area_def', 'xarray_obj', 'product_name'],
+                     'xarray_metadata_to_filename': ['xarray_obj'],
+                     'data': ['area_def', 'xarray_obj', 'product_names'],
+                     'standard_metadata': ['area_def',
+                                           'xarray_obj',
+                                           'product_filename'
+                                           ],
+                     }
 
     def find_duplicates(self, *args, **kwargs):
         try:
@@ -20,5 +29,5 @@ class FilenameFormats(BaseInterface):
         duplicates = self.find_duplicates()
 
 
-filename_formats = FilenameFormats()
+filename_formats = FilenameFormatsInterface()
 

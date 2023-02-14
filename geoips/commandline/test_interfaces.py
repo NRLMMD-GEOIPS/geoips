@@ -26,36 +26,80 @@ def main():
     # This entire testing construct will be updated in the future to more fully
     # test/validate the plugins.
     interfaces = [
-        # "stable.reader",
-        # "dev.alg",
+        "interfaces.algorithms",
         "dev.boundaries",
-        # "dev.cmap",
-        # "dev.filename",
+        "interfaces.colormaps",
+        "interfaces.filename_formats",
         "dev.gridlines",
-        # "dev.interp",
-        # "dev.output",
-        # "dev.procflow",
-        "dev.product",
+        "interfaces.interpolators",
+        "interfaces.output_formats",
+        "interfaces.procflows",
+        #"dev.product",
+        "interfaces.readers",
+        "interfaces.title_formats",
     ]
 
+    interface_name_outliers = {'Boundaries': 'Map',
+                               'Colormaps': 'ColorMaps',
+                               'TitleFormats': 'TitleFormatters',
+                               }
+
     for curr_interface in interfaces:
-        interface_name = curr_interface.split(".")[1]
+        #interface_name = curr_interface.split(".")[1]
+        raw_interface_name = curr_interface.split(".")[1]
+
+        interface_name = "".join([name.capitalize() for name in raw_interface_name.split('_')])
+
+        if interface_name in interface_name_outliers:
+            interface_name = interface_name_outliers[interface_name]
+
         print("")
         print(f"Testing {curr_interface}...")
         print("ipython")
-        print(
-            f"    from geoips.{curr_interface} import test_{interface_name}_interface"
-        )
-        print(f"    test_{interface_name}_interface()")
-        test_curr_interface = getattr(
-            import_module(f"geoips.{curr_interface}"),
-            f"test_{interface_name}_interface",
-        )
+
         try:
-            out_dict = test_curr_interface()
-        except Exception:
-            print(traceback.format_exc())
-            raise
+            test_curr_interface = getattr(
+                import_module(f"geoips.{curr_interface}"),
+                f"{interface_name}Interface",
+            )
+            print(
+                f"    from geoips.{curr_interface} import {interface_name}Interface"
+            )
+            print(f"    {interface_name}Interface()")
+
+            curr_class = test_curr_interface()
+            
+            try:
+                out_dict = curr_class.test_interface_plugins()
+            except Exception:
+                print(traceback.format_exc())
+                raise
+        except AttributeError:
+            interface_name = raw_interface_name
+
+            test_curr_interface = getattr(
+                import_module(f"geoips.{curr_interface}"),
+                f"test_{interface_name}_interface",
+            )
+            print(
+                f"    from geoips.{curr_interface} import test_{interface_name}_interface"
+            )
+            print(f"    test_{interface_name}_interface()")
+
+            try:
+                out_dict = test_curr_interface()
+            except Exception:
+                print(traceback.format_exc())
+                raise
+
+
+
+
+        #from geoips.interfaces.algorithms import AlgorithmsInterface
+        #alg = AlgorithmsInterface()
+        #out_dict = alg.test_interface_plugins()
+
+
 
         print(f"SUCCESSFUL INTERFACE {curr_interface}")
 

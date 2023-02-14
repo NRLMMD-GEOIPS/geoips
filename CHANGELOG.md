@@ -10,6 +10,21 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+## GEOIPS/geoips#91: 2023-02-14, update test_interfaces
+### Installation and Test
+* interfaces:
+  * Added required arguments to class interfaces
+  * Renamed FilenameFormats class to FilenameFormatsInterface to match other interfaces
+* test_interfaces.py:
+  * Some modifications to work with the name changes in the class-based interfaces
+* base.py:
+  * is_valid: Added checks of required arguments to determine if a plugin's call
+    signature matches what is expected
+  * get_plugin, get_plugins, test_interface_plugins: A few bug fixes, but mostly
+    changes to avoid future functionality to get tests to run successfully
+* abi_netcdf.py, ahi_hsd.py:
+  * Removed unused import of Hashable
+
 ## GEOIPS/geoips#92: 2023-02-09, update FilenameFormats class name
 ### Bug fixes
 * filename_formats.py:
