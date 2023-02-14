@@ -16,6 +16,16 @@
   (in geoips.interface_modules.readers.utils) to errors.py (top-level geoips)
 * Updated imports in config_based.py that utilize CoverageError.
 
+## NRLMMD-GEOIPS/geoips#96: 2023-02-13, Require flake8-docstrings in setup.py
+### Bug fixes
+* setup.py:
+  * Add flake8-docstrings to requirements in setup.py
+
+## GEOIPS/geoips#92: 2023-02-09, update FilenameFormats class name
+### Bug fixes
+* filename_formats.py:
+  * Renamed FilenameFormattersInterface class to FilenameFormats
+
 ## NRLMMD-GEOIPS/geoips#69, 2023-02-06, bug fixes
 ### Bug fixes
 * Remove extra "," at the end of filename formats without covg list
