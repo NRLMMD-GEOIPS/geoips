@@ -25,6 +25,7 @@ except ImportError:
         "Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. If you need it, install it."
     )
 
+from geoips.errors import CoverageError
 from geoips.filenames.base_paths import PATHS as gpaths
 
 log = logging.getLogger(__name__)
@@ -57,12 +58,6 @@ if os.getenv("READ_GEOLOCDIRS"):
 
 class AutoGenError(Exception):
     """Raise exception on auto generated geolocation error."""
-
-    pass
-
-
-class CoverageError(Exception):
-    """Raise exception on data coverage error."""
 
     pass
 
