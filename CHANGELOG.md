@@ -10,6 +10,11 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+## NRLMMD-GEOIPS/geoips#96: 2023-02-13, Require flake8-docstrings in setup.py
+### Bug fixes
+* setup.py:
+  * Add flake8-docstrings to requirements in setup.py
+
 ## GEOIPS/geoips#92: 2023-02-09, update FilenameFormats class name
 ### Bug fixes
 * filename_formats.py:
