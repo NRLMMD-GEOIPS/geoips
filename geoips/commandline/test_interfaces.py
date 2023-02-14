@@ -34,7 +34,7 @@ def main():
         "interfaces.interpolators",
         "interfaces.output_formats",
         "interfaces.procflows",
-        #"dev.product",
+        "dev.product",
         "interfaces.readers",
         "interfaces.title_formats",
     ]
@@ -68,7 +68,7 @@ def main():
             print(f"    {interface_name}Interface()")
 
             curr_class = test_curr_interface()
-            
+
             try:
                 out_dict = curr_class.test_interface_plugins()
             except Exception:
@@ -91,15 +91,6 @@ def main():
             except Exception:
                 print(traceback.format_exc())
                 raise
-
-
-
-
-        #from geoips.interfaces.algorithms import AlgorithmsInterface
-        #alg = AlgorithmsInterface()
-        #out_dict = alg.test_interface_plugins()
-
-
 
         print(f"SUCCESSFUL INTERFACE {curr_interface}")
 

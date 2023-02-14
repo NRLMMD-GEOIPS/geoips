@@ -19,6 +19,7 @@
 """Base classes for BaseInterface and BasePlugin.
 """
 
+import inspect
 import logging
 from importlib import import_module
 from typing import Callable
@@ -340,7 +341,6 @@ class BaseInterface:
         plugin = self.get_plugin(name)
         expected_args = self.required_args[plugin.family]
 
-        import inspect
         sig = inspect.signature(plugin.__call__)
         arg_list = [s.strip().split('=')[0] for s in str(sig).strip('()').split(',')]
 
