@@ -51,9 +51,19 @@ Add validation tests to Base interface class
 Add separate interface tests for deprecated and new interfaces
 --------------------------------------------------------------
 
-* test_interfaces.py:
+* Move tests for deprecated interfaces to a separate function - will eventually be
+  removed.
+* Call both "plugins_all_valid" and "test_interface_plugins" for new interfaces.
 
-  * Some modifications to work with the name changes in the class-based interfaces
+  * "plugins_all_valid" merely returns True or False for full interface (if any fail,
+    returns False, error raised at the end of "test_interfaces")
+  * "test_interface_plugins" actually opens every plugin, and tests individually - if
+    any fail, they will be added to the failed_plugins list and an error raised at the
+    end for non-zero return.
+
+* Add logic to save lists of successful and failed interfaces - print all status at
+  the end, and only raise an error after printing full list of successful/failed
+  plugins.
 
 ::
 

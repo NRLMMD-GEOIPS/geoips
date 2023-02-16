@@ -20,11 +20,15 @@ from importlib import import_module
 import traceback
 
 
-def test_deprecated_interfaces():
+def test_deprecated_interfaces(
+    failed_plugins, successful_interfaces, successful_plugins
+):
     """Test the "old" deprecated interfaces.
 
     This function will be removed once all interfaces are moved to the "new" setup.
     """
+
+    out_dicts = {}
 
     interfaces = [
         "dev.boundaries",
@@ -47,6 +51,7 @@ def test_deprecated_interfaces():
         )
         try:
             out_dict = test_curr_interface()
+            out_dicts[curr_interface] = out_dict
         except Exception:
             print(traceback.format_exc())
             raise
@@ -54,21 +59,37 @@ def test_deprecated_interfaces():
         ppprinter = pprint.PrettyPrinter(indent=2)
         ppprinter.pprint(out_dict)
 
+    for intname in out_dicts:
+        failed_one = False
+        out_dict = out_dicts[intname]
         for modname in out_dict["validity_check"]:
             if not out_dict["validity_check"][modname]:
-                print(f"FAILED INTERFACE {curr_interface} on {modname}")
-                raise TypeError(
-                    f"Failed validity check on {modname} in interface {curr_interface}"
-                )
+                failed_plugins += [f"{intname} on {modname}"]
+                failed_one = True
+            else:
+                successful_plugins += [f"{intname} on {modname}"]
+        if not failed_one:
+            successful_interfaces += [intname]
 
-        print(f"SUCCESSFUL INTERFACE {curr_interface}")
+    return failed_plugins, successful_interfaces, successful_plugins
 
 
 def main():
     """Script to test all dev and stable interfaces."""
 
+    failed_interfaces = []
+    failed_plugins = []
+    successful_interfaces = []
+    successful_plugins = []
+
     # Test all the "old" interfaces using the original logic.
-    test_deprecated_interfaces()
+    # (
+    #     failed_plugins,
+    #     successful_interfaces,
+    #     successful_plugins,
+    # ) = test_deprecated_interfaces(
+    #     failed_plugins, successful_interfaces, successful_plugins
+    # )
 
     interfaces = [
         "algorithms",
@@ -80,6 +101,8 @@ def main():
         "readers",
         "title_formats",
     ]
+
+    out_dicts = {}
 
     for curr_interface in interfaces:
 
@@ -94,31 +117,45 @@ def main():
         # First just use plugins_all_valid, will return True or False
         all_valid = test_curr_interface.plugins_all_valid()
         if not all_valid:
-            raise TypeError(
-                f"Failed validity check on interface {curr_interface}",
-                f"plugins_all_valid returned {all_valid}"
-            )
+            failed_interfaces += [curr_interface]
+        else:
+            successful_interfaces += [curr_interface]
 
         # Now open all the interfaces (not just checking call signatures)
         # This returns a dictionary of all sorts of stuff.
         # If this fails and plugins_all_valid passes, we have a problem.
         try:
             out_dict = test_curr_interface.test_interface_plugins()
+            out_dicts[curr_interface] = out_dict
         except Exception:
             print(traceback.format_exc())
-            raise
+            failed_plugins += [curr_interface]
 
-        ppprinter = pprint.PrettyPrinter(indent=2)
+    ppprinter = pprint.PrettyPrinter(indent=2)
+
+    for intname in out_dicts:
         ppprinter.pprint(out_dict)
-
+        out_dict = out_dicts[intname]
         for modname in out_dict["validity_check"]:
             if not out_dict["validity_check"][modname]:
-                print(f"FAILED INTERFACE {curr_interface} on {modname}")
-                raise TypeError(
-                    f"Failed validity check on {modname} in interface {curr_interface}"
-                )
+                failed_plugins += [f"{intname} on {modname}"]
+            else:
+                successful_plugins += [f"{intname} on {modname}"]
 
+    for curr_plugin in successful_plugins:
+        print(f"SUCCESSFUL PLUGIN {curr_plugin}")
+
+    for curr_interface in successful_interfaces:
         print(f"SUCCESSFUL INTERFACE {curr_interface}")
+
+    for curr_failed in failed_plugins:
+        print(f"FAILED PLUGIN {curr_failed}")
+
+    for curr_failed in failed_interfaces:
+        print(f"FAILED INTERFACE {curr_failed}")
+
+    if len(failed_interfaces) > 0 or len(failed_plugins) > 0:
+        raise TypeError(f"Failed validity check on plugins {failed_plugins}")
 
 
 if __name__ == "__main__":
