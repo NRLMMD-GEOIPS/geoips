@@ -10,22 +10,76 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+
 ## GEOIPS/geoips#91: 2023-02-14, update test_interfaces
-### Installation and Test
-* interfaces:
-  * Added required arguments to class interfaces
-  * Renamed FilenameFormats class to FilenameFormatsInterface to match other interfaces
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+************************************************************************
+
+Bug fixes
+=========
+
+Removed unused import of Hashable
+---------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+::
+
+    geoips/interface_modules/readers/abi_netcdf.py
+    geoips/interface_modules/readers/ahi_hsd.py
+
+Installation and Test
+=====================
+
+Add validation tests to Base interface class
+--------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+* plugin_is_valid: Added checks of required arguments to determine if a plugin's call
+  signature matches what is expected
+* get_plugin, get_plugins, test_interface_plugins: A few bug fixes, but mostly
+  changes to avoid future functionality to get tests to run successfully
+* plugins_all_valid: returns True if all plugins in the current interface are valid,
+  False if any plugins are invalid (calls "plugin_is_valid" on each plugin)
+
+::
+
+    modified:   geoips/interfaces/base.py
+
+Add separate interface tests for deprecated and new interfaces
+--------------------------------------------------------------
+
 * test_interfaces.py:
+
   * Some modifications to work with the name changes in the class-based interfaces
-* base.py:
-  * plugin_is_valid: Added checks of required arguments to determine if a plugin's call
-    signature matches what is expected
-  * get_plugin, get_plugins, test_interface_plugins: A few bug fixes, but mostly
-    changes to avoid future functionality to get tests to run successfully
-  * plugins_all_valid: returns True if all plugins in the current interface are valid,
-    False if any plugins are invalid (calls "plugin_is_valid" on each plugin)
-* abi_netcdf.py, ahi_hsd.py:
-  * Removed unused import of Hashable
+
+::
+
+    modified:   geoips/commandline/test_interfaces.py
+
+Update interface modules for validation testing
+-----------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+* Add required_args and required_kwargs to all interface modules
+* Standardize interface class names
+  * FilenameFormats -> FilenameFormatsInterface
+  * ColorMapInterface -> ColormapsInterface
+  * TitleFormattersInterface -> TitleFormatsInterface
+
+::
+
+    modified:   geoips/interfaces/algorithms.py
+    modified:   geoips/interfaces/colormaps.py
+    modified:   geoips/interfaces/filename_formats.py
+    modified:   geoips/interfaces/interpolators.py
+    modified:   geoips/interfaces/output_formats.py
+    modified:   geoips/interfaces/procflows.py
+    modified:   geoips/interfaces/readers.py
+    modified:   geoips/interfaces/title_formats.py
 
 ## GEOIPS/geoips#92: 2023-02-09, update FilenameFormats class name
 ### Bug fixes
