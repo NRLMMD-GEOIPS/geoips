@@ -62,6 +62,9 @@ class OutputFormatsInterface(BaseInterface):
         "xarray_dict_to_image": [],
         "xarray_data": [],
         "standard_metadata": ["metadata_dir", "basedir", "output_dict"],
+        "xrdict_varlist_outfnames_to_outlist": [],
+        "xrdict_area_varlist_to_outlist": [],
+        "xrdict_area_product_outfnames_to_outlist": [],
     }
 
 
