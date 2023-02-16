@@ -37,8 +37,8 @@ Add validation tests to Base interface class
 
 *From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
 
-* plugin_is_valid: Added checks of required arguments to determine if a plugin's call
-  signature matches what is expected
+* plugin_is_valid: Added checks for required arguments and keyword arguments
+  to determine if a plugin call signature matches what is expected
 * get_plugin, get_plugins, test_interface_plugins: A few bug fixes, but mostly
   changes to avoid future functionality to get tests to run successfully
 * plugins_all_valid: returns True if all plugins in the current interface are valid,

@@ -340,15 +340,28 @@ class BaseInterface:
         """
         plugin = self.get_plugin(name)
         expected_args = self.required_args[plugin.family]
+        expected_kwargs = self.required_kwargs[plugin.family]
 
         sig = inspect.signature(plugin.__call__)
-        arg_list = [s.strip().split("=")[0] for s in str(sig).strip("()").split(",")]
+        arg_list = []
+        kwarg_list = []
+        for param in sig.parameters.values():
+            # kwargs are identified by a default value - parameter will include "="
+            if "=" in str(param):
+                kwarg_list += [str(param).split("=")[0]]
+            # If there is no "=", then it is a positional parameter
+            else:
+                arg_list += [str(param)]
 
         for expected_arg in expected_args:
             if expected_arg not in arg_list:
+                LOG.error("MISSING expected arg %s", expected_arg)
+                return False
+        for expected_kwarg in expected_kwargs:
+            if expected_kwarg not in kwarg_list:
+                LOG.error("MISSING expected kwarg %s", expected_kwarg)
                 return False
 
-        expected_kwargs = self.required_kwargs[plugin.family]
         return True
 
     def plugins_all_valid(self):
