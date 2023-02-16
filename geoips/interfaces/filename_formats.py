@@ -6,14 +6,34 @@ class FilenameFormatsInterface(BaseInterface):
     entry_point_group = "filename_formats"
     deprecated_family_attr = "filename_type"
 
-    required_args = {'standard': ['area_def', 'xarray_obj', 'product_name'],
-                     'xarray_metadata_to_filename': ['xarray_obj'],
-                     'data': ['area_def', 'xarray_obj', 'product_names'],
-                     'standard_metadata': ['area_def',
-                                           'xarray_obj',
-                                           'product_filename'
-                                           ],
-                     }
+    required_args = {
+        "standard": ["area_def", "xarray_obj", "product_name"],
+        "xarray_metadata_to_filename": ["xarray_obj"],
+        "data": ["area_def", "xarray_obj", "product_names"],
+        "standard_metadata": ["area_def", "xarray_obj", "product_filename"],
+    }
+    required_kwargs = {
+        "standard": [
+            "coverage",
+            "output_type",
+            "output_type_dir",
+            "product_dir",
+            "product_subdir",
+            "source_dir",
+            "basedir",
+        ],
+        "xarray_metadata_to_filename": ["extension", "basedir"],
+        "data": [
+            "coverage",
+            "output_type",
+            "output_type_dir",
+            "product_dir",
+            "product_subdir",
+            "source_dir",
+            "basedir",
+        ],
+        "standard_metadata": ["metadata_dir", "metadata_type", "basedir"],
+    }
 
     def find_duplicates(self, *args, **kwargs):
         try:
@@ -30,4 +50,3 @@ class FilenameFormatsInterface(BaseInterface):
 
 
 filename_formats = FilenameFormatsInterface()
-
