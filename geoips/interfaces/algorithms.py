@@ -17,7 +17,7 @@ class AlgorithmsInterface(BaseInterface):
         "xarray_dict_area_def_to_numpy": ["xarray_dict", "area_def"],
     }
 
-    required_keyword_args = {
+    required_kwargs = {
         "single_channel": [],
         "channel_combination": [],
         "xarray_to_numpy": [],
