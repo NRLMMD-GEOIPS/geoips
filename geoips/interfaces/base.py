@@ -320,7 +320,7 @@ class BaseInterface:
         # ]
         return plugins
 
-    def is_valid(self, name):
+    def plugin_is_valid(self, name):
         """Check that an interface is valid.
 
         Check that the requested interface function has the correct call signature.
@@ -347,13 +347,27 @@ class BaseInterface:
         for expected_arg in expected_args:
             if expected_arg not in arg_list:
                 return False
+
+        expected_kwargs = self.required_kwargs[plugin.family]
+        return True
+
+    def plugins_all_valid(self):
+        """Test the current interface by validating every Plugin.
+
+        Returns:
+            True if all plugins are valid, False if any plugin is invalid.
+        """
+        plugins = self.get_plugins()
+        for plugin in plugins:
+            if not self.plugin_is_valid(plugin.name):
+                return False
         return True
 
     def test_interface_plugins(self):
         """Test the current interface by validating every Plugin.
 
         Test this interface by opening every Plugin available to the interface. Then validate each plugin by calling
-        `is_valid` for each.
+        `plugin_is_valid` for each.
 
         Returns:
             A dictionary containing three keys: 'by_family', 'validity_check', 'func', and 'family'. The value for each
@@ -361,7 +375,7 @@ class BaseInterface:
 
             - 'by_family' contains a dictionary of plugin names sorted by family.
             - 'validity_check' contains a dict whose keys are plugin names and whose values are bools where `True`
-              indicates that the Plugin's function is valid according to `is_valid`.
+              indicates that the Plugin's function is valid according to `plugin_is_valid`.
             - 'func' contains a dict whose keys are plugin names and whose values are the function for each Plugin.
             - 'family' contains a dict whose keys are plugin names and whose vlaues are the contents of the 'family'
               attribute for each Plugin.
@@ -384,7 +398,7 @@ class BaseInterface:
         }
         for curr_family in plugin_names:
             for curr_name in plugin_names[curr_family]:
-                output["validity_check"][curr_name] = self.is_valid(curr_name)
+                output["validity_check"][curr_name] = self.plugin_is_valid(curr_name)
                 output["func"][curr_name] = self.get_plugin(curr_name)
                 # output["family"][curr_name] = self.get_family(curr_name)
                 output["family"][curr_name] = curr_family

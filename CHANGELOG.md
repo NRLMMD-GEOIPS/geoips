@@ -18,10 +18,12 @@
 * test_interfaces.py:
   * Some modifications to work with the name changes in the class-based interfaces
 * base.py:
-  * is_valid: Added checks of required arguments to determine if a plugin's call
+  * plugin_is_valid: Added checks of required arguments to determine if a plugin's call
     signature matches what is expected
   * get_plugin, get_plugins, test_interface_plugins: A few bug fixes, but mostly
     changes to avoid future functionality to get tests to run successfully
+  * plugins_all_valid: returns True if all plugins in the current interface are valid,
+    False if any plugins are invalid (calls "plugin_is_valid" on each plugin)
 * abi_netcdf.py, ahi_hsd.py:
   * Removed unused import of Hashable
 
