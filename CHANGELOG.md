@@ -29,6 +29,19 @@ Removed unused import of Hashable
     geoips/interface_modules/readers/abi_netcdf.py
     geoips/interface_modules/readers/ahi_hsd.py
 
+Switched coverage from positional parameter to keyword argument
+---------------------------------------------------------------
+
+Standard filename format expects "coverage" to be a keyword argument, not a positional
+parameter.  Update filename formats accordingly so test_interfaces passes.
+
+::
+
+    modified: geoips/interface_modules/filename_formats/geoips_fname.py
+    modified: geoips/interface_modules/filename_formats/geotiff_fname.py
+    modified: geoips/interface_modules/filename_formats/tc_clean_fname.py
+    modified: geoips/interface_modules/filename_formats/tc_fname.py
+
 Installation and Test
 =====================
 
