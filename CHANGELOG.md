@@ -19,6 +19,16 @@
 Bug fixes
 =========
 
+Add "self" to plugin_module_to_obj calls in "get_plugins"
+---------------------------------------------------------
+
+Fixed incorrect calls to plugin_module_to_obj from within get_plugins method.
+This was previously untested (prior to implementing "test_interfaces"
+
+::
+
+    modified:   geoips/interfaces/base.py
+
 Removed unused import of Hashable
 ---------------------------------
 
@@ -66,8 +76,7 @@ Add validation tests to Base interface class
 
 * plugin_is_valid: Added checks for required arguments and keyword arguments
   to determine if a plugin call signature matches what is expected
-* get_plugin, get_plugins, test_interface_plugins: A few bug fixes, but mostly
-  changes to avoid future functionality to get tests to run successfully
+* test_interface: ensure all methods are functional, and all plugins are valid
 * plugins_all_valid: returns True if all plugins in the current interface are valid,
   False if any plugins are invalid (calls "plugin_is_valid" on each plugin)
 

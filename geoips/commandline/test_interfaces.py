@@ -125,7 +125,7 @@ def main():
         # This returns a dictionary of all sorts of stuff.
         # If this fails and plugins_all_valid passes, we have a problem.
         try:
-            out_dict = test_curr_interface.test_interface_plugins()
+            out_dict = test_curr_interface.test_interface()
             out_dicts[curr_interface] = out_dict
         except Exception:
             print(traceback.format_exc())

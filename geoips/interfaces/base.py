@@ -302,10 +302,10 @@ class BaseInterface:
         for ep in get_all_entry_points(self.entry_point_group):
             module = import_module(ep.__module__)
             if hasattr(module, "call"):
-                plugins.append(plugin_module_to_obj(module))
+                plugins.append(plugin_module_to_obj(self, module))
             else:
                 plugins.append(
-                    plugin_module_to_obj(module, module_call_func=ep.__name__)
+                    plugin_module_to_obj(self, module, module_call_func=ep.__name__)
                 )
 
         # plugins = [
@@ -371,25 +371,35 @@ class BaseInterface:
                 return False
         return True
 
-    def test_interface_plugins(self):
-        """Test the current interface by validating every Plugin.
+    def test_interface(self):
+        """Test the current interface by validating each Plugin and testing each method.
 
-        Test this interface by opening every Plugin available to the interface. Then validate each plugin by calling
-        `plugin_is_valid` for each.
+        Test this interface by opening every Plugin available to the interface,
+        and validating each plugin by calling `plugin_is_valid` for each.
+        Additionally, ensure all methods of this interface work as expected:
+
+        * get_plugins
+        * get_plugin
+        * plugin_is_valid
+        * plugins_all_valid
 
         Returns:
-            A dictionary containing three keys: 'by_family', 'validity_check', 'func', and 'family'. The value for each
+            A dictionary containing three keys:
+            'by_family', 'validity_check', 'func', and 'family'. The value for each
             of these keys is a dictionary whose keys are the names of the Plugins.
 
             - 'by_family' contains a dictionary of plugin names sorted by family.
-            - 'validity_check' contains a dict whose keys are plugin names and whose values are bools where `True`
-              indicates that the Plugin's function is valid according to `plugin_is_valid`.
-            - 'func' contains a dict whose keys are plugin names and whose values are the function for each Plugin.
-            - 'family' contains a dict whose keys are plugin names and whose vlaues are the contents of the 'family'
-              attribute for each Plugin.
+            - 'validity_check' contains a dict whose keys are plugin names and whose
+              values are bools where `True` indicates that the Plugin's function is
+              valid according to `plugin_is_valid`.
+            - 'func' contains a dict whose keys are plugin names and whose values are
+              the function for each Plugin.
+            - 'family' contains a dict whose keys are plugin names and whose vlaues
+              are the contents of the 'family' attribute for each Plugin.
         """
         # plugin_names = self.get_plugins(sort_by="family")
         plugins = self.get_plugins()
+        all_valid = self.plugins_all_valid()
         family_list = []
         plugin_names = {}
         for plugin in plugins:
@@ -399,15 +409,17 @@ class BaseInterface:
             plugin_names[plugin.family].append(plugin.__call__.__name__)
 
         output = {
+            "all_valid": all_valid,
             "by_family": plugin_names,
             "validity_check": {},
             "family": {},
             "func": {},
+            "description": {},
         }
         for curr_family in plugin_names:
             for curr_name in plugin_names[curr_family]:
                 output["validity_check"][curr_name] = self.plugin_is_valid(curr_name)
                 output["func"][curr_name] = self.get_plugin(curr_name)
-                # output["family"][curr_name] = self.get_family(curr_name)
                 output["family"][curr_name] = curr_family
+                output["description"][curr_name] = output["func"][curr_name].description
         return output
