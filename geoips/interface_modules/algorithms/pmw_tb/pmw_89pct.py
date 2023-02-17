@@ -22,7 +22,7 @@ family = "list_numpy_to_numpy"
 description = "Passive Microwave 89 MHz Polarization Corrected Temperature"
 
 
-def pmw_89pct(
+def call(
     arrays,
     output_data_range,
     min_outbounds="crop",

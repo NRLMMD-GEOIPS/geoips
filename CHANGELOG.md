@@ -45,6 +45,20 @@ parameter.  Update filename formats accordingly so test_interfaces passes.
 Installation and Test
 =====================
 
+Updated 89pct and 37pct products for function name "call"
+---------------------------------------------------------
+
+* Replaced pmw_37pct and pmw_89pct algorithm function names with default "call"
+* Updated setup.py to point to pmw_37pct module vs pmw_37pct.pmw_37pct Callable
+  function.
+* This provides 2 working examples of fully updated plugins.
+
+::
+
+        modified:   geoips/interface_modules/algorithms/pmw_tb/pmw_37pct.py
+        modified:   geoips/interface_modules/algorithms/pmw_tb/pmw_89pct.py
+        modified:   setup.py
+
 Add validation tests to Base interface class
 --------------------------------------------
 
