@@ -267,27 +267,17 @@ class BaseInterface:
             Nothing
         """
         try:
-            # Below line doesn't seem to deal with entry points inside directories.
-            # i.e. searches for "pmw_37pct", but can't find it because it is defined
-            #   as "pmw_tb.pmw_37pct"
-            # module = find_entry_point(self.entry_point_group, name)
-            eps = get_all_entry_points(self.entry_point_group)
-            eps_names = [ep.__name__ for ep in eps]
-            ep_index = eps_names.index(name)
-            module = import_module(eps[ep_index].__module__)
+            module = find_entry_point(self.entry_point_group, name)
         except EntryPointError as err:
             raise PluginError(f"Plugin {name} not found for {self.name} interface")
         # This assumes that the module's callable is named "callable"
-        if isinstance(module, Callable):
+        if not isinstance(module, Callable):
             return plugin_module_to_obj(self, module)
-        # If "module" is not callable, treat this as a deprecated entry point
+        # If "module" is callable, treat this as a deprecated entry point
         # whose callable is specified in setup.py directly
         else:
-            # func = module
-            # module = import_module(func.__module__)
-            # Below line can probably be replaced with above two lines if
-            # commented out line in try block above is fixed.
-            func = eps[ep_index]
+            func = module
+            module = import_module(func.__module__)
             warn(
                 f"Entry point for plugin '{module.__name__}' point to the callable "
                 "rather than the module. This behavior is deprecated. Please update "
@@ -309,8 +299,7 @@ class BaseInterface:
                 plugins.append(plugin_module_to_obj(module))
             else:
                 plugins.append(
-                    plugin_module_to_obj(self, module, module_call_func=ep.__name__)
-                    # self._plugin_module_to_obj(module, module_call_func=ep.__name__)
+                    plugin_module_to_obj(module, module_call_func=ep.__name__)
                 )
 
         # plugins = [
