@@ -156,7 +156,8 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
         warn(
             f"Callable for plugin '{module.__name__}' is not named 'call'. "
             "This behavior is deprecated. The callable should be renamed to "
-            "'call'. In the future this will result in a PluginError.",
+            "'call', and setup.py updated to point to the module vs function. "
+            "In the future this will result in a PluginError.",
             DeprecationWarning,
             stacklevel=1,
         )
@@ -270,16 +271,21 @@ class BaseInterface:
             module = find_entry_point(self.entry_point_group, name)
         except EntryPointError as err:
             raise PluginError(f"Plugin {name} not found for {self.name} interface")
-        # This assumes that the module's callable is named "callable"
+        # This assumes that the module's Callable is named "call", so the module
+        # itself is NOT a Callable instance.
+        # Note this implies setup.py has been updated to point to the
+        # MODULE vs the FUNCTION for fully updated plugins.
+        # Since we know the function will always be named "call", we can just specify
+        # the module in setup.py.
         if not isinstance(module, Callable):
             return plugin_module_to_obj(self, module)
         # If "module" is callable, treat this as a deprecated entry point
-        # whose callable is specified in setup.py directly
+        # whose callable is specified in setup.py directly.
         else:
             func = module
             module = import_module(func.__module__)
             warn(
-                f"Entry point for plugin '{module.__name__}' point to the callable "
+                f"Entry point for plugin '{module.__name__}' points to the Callable "
                 "rather than the module. This behavior is deprecated. Please update "
                 "the entry point to point to the plugin module. In the future this "
                 "will raise a PluginError.",
