@@ -19,6 +19,45 @@
 Bug fixes
 =========
 
+Do not attempt to import module prior to passing into plugin_module_to_obj
+--------------------------------------------------------------------------
+
+New style plugins are already valid modules upon identifying via entry points
+(since we now point to the full module in setup.py vs individual functions for old
+style plugins).
+
+Old style plugins must first identify the module via ep.__module__, then import
+that module to pass into plugin_module_to_obj.
+
+Additionally - must check that the entry point is NOT a Callable instance to determine
+if it is a new-style plugin, vs checking that the entry point has an attribute named
+"call".  This matches how we determine if a plugin is a new style plugin in
+plugin_module_to_obj.
+
+::
+
+    geoips/interfaces/base.py, get_plugins function
+
+Include full entry point path for deprecated plugin names
+---------------------------------------------------------
+
+If "name" is not set as an attribute on a plugin, that means we must use the
+deprecated functionality of determining the plugin name from the entry point.
+
+Initially the "name" was getting set only to the function name - this caused issues
+when attempting to re-import the plugin via entry points (since it would look for
+e.g. pmw_89pct based on the function name, but the entry point is e.g. pmw_tb.pmw_89pct)
+
+Ensure the deprecated names get set to the full path after "interface_modules", which
+will match what is set within setup.py.
+
+For "new" style plugins, this is not an issue because we are only using the module-level
+imports within the Base Interface - since we are assuming the function name is "call".
+
+::
+
+    geoips/interfaces/base.py, plugin_module_to_obj function
+
 Add "self" to plugin_module_to_obj calls in "get_plugins"
 ---------------------------------------------------------
 
@@ -76,6 +115,10 @@ Add validation tests to Base interface class
 
 * plugin_is_valid: Added checks for required arguments and keyword arguments
   to determine if a plugin call signature matches what is expected
+
+  * expected_kwargs supports lists of tuples - to allow specifying both the kwarg name
+    and the default value.
+
 * test_interface: ensure all methods are functional, and all plugins are valid
 * plugins_all_valid: returns True if all plugins in the current interface are valid,
   False if any plugins are invalid (calls "plugin_is_valid" on each plugin)
@@ -111,7 +154,13 @@ Update interface modules for validation testing
 *From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
 
 * Add required_args and required_kwargs to all interface modules
+
+  * required_kwargs includes lists of tuples - to allow specifying required
+    default values.
+  * required_args includes lists of strings
+
 * Standardize interface class names
+
   * FilenameFormats -> FilenameFormatsInterface
   * ColorMapInterface -> ColormapsInterface
   * TitleFormattersInterface -> TitleFormatsInterface

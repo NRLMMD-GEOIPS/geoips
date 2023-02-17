@@ -36,6 +36,21 @@ if geoips_version >= "2.0.0":
     plugin_deprecations = False
 
 
+def get_deprecated_name(module_name):
+    # module_name == module.__name__
+    # module.__name__ is ie geoips.interface_modules.algorithms.pmw_tb.pmw_89pct
+    # First split on interface name (algorithms), then drop the leading '.'
+    path = module_name.split("interface_modules")[-1]
+    deprecated_name = path.split(".", 2)[2]
+    warn(
+        f"Variable 'name' not found in plugin module '{module_name}'."
+        f"Assuming module name is "
+        f"'{deprecated_name}'. "
+        "Please update to add 'name' variable."
+    )
+    return deprecated_name
+
+
 def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
@@ -102,13 +117,7 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
         obj_attrs["name"] = module.name
     except AttributeError:
         if plugin_deprecations:
-            warn(
-                f"Variable 'name' not found in plugin module '{module.__name__}'."
-                f"Assuming module name is "
-                f"`{'.'.join(module.__name__.split('.')[-2:])}`. "
-                "Please update to add 'name' variable."
-            )
-            obj_attrs["name"] = module.__name__.split(".")[-1]
+            obj_attrs["name"] = get_deprecated_name(module.__name__)
         else:
             raise PluginError(
                 f"Required 'name' attribute not found in '{module.__name__}'"
@@ -296,23 +305,22 @@ class BaseInterface:
 
     def get_plugins(self):
         """Get a list of plugins for this interface."""
-        # This is more complicated than needed. To simplify, we will need to remove the
-        # function name from entry points.
         plugins = []
         for ep in get_all_entry_points(self.entry_point_group):
-            module = import_module(ep.__module__)
-            if hasattr(module, "call"):
-                plugins.append(plugin_module_to_obj(self, module))
+            # If this is pointing to the full module, and NOT the Callable function
+            # instance, that means it is a "new" style plugin.
+            # Just call plugin_module_to_obj on it directly.
+            if not isinstance(ep, Callable):
+                plugins.append(plugin_module_to_obj(self, ep))
             else:
+                # If the entry point points to the Callable function, that means
+                # it is an old style plugin.  We need to get the name of the function
+                # from ep.__name__ and pass it to plugin_module_to_obj so it knows
+                # what function it is looking for.
+                module = import_module(ep.__module__)
                 plugins.append(
                     plugin_module_to_obj(self, module, module_call_func=ep.__name__)
                 )
-
-        # plugins = [
-        #     self.create_plugin(import_module(ep.__module__),
-        #     module_call_func=ep.__name__)
-        #     for ep in get_all_entry_points(self.entry_point_group)
-        # ]
         return plugins
 
     def plugin_is_valid(self, name):
@@ -340,10 +348,13 @@ class BaseInterface:
         sig = inspect.signature(plugin.__call__)
         arg_list = []
         kwarg_list = []
+        kwarg_defaults_list = []
         for param in sig.parameters.values():
             # kwargs are identified by a default value - parameter will include "="
             if "=" in str(param):
-                kwarg_list += [str(param).split("=")[0]]
+                kwarg, default_value = str(param).split("=")
+                kwarg_list += [kwarg]
+                kwarg_defaults_list += [default_value]
             # If there is no "=", then it is a positional parameter
             else:
                 arg_list += [str(param)]
@@ -353,7 +364,12 @@ class BaseInterface:
                 LOG.error("MISSING expected arg %s", expected_arg)
                 return False
         for expected_kwarg in expected_kwargs:
-            if expected_kwarg not in kwarg_list:
+            # If expected_kwarg is a tuple, first item is kwarg, second default value
+            if isinstance(expected_kwarg, tuple):
+                if expected_kwarg[0] not in kwarg_list:
+                    LOG.error("MISSING expected kwarg %s", expected_kwarg)
+                    return False
+            elif expected_kwarg not in kwarg_list:
                 LOG.error("MISSING expected kwarg %s", expected_kwarg)
                 return False
 
@@ -367,6 +383,7 @@ class BaseInterface:
         """
         plugins = self.get_plugins()
         for plugin in plugins:
+
             if not self.plugin_is_valid(plugin.name):
                 return False
         return True
@@ -406,7 +423,7 @@ class BaseInterface:
             if plugin.family not in family_list:
                 family_list.append(plugin.family)
                 plugin_names[plugin.family] = []
-            plugin_names[plugin.family].append(plugin.__call__.__name__)
+            plugin_names[plugin.family].append(plugin.name)
 
         output = {
             "all_valid": all_valid,
