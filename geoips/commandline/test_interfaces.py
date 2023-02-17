@@ -114,16 +114,8 @@ def main():
         )
         print(f"    from geoips.interfaces import {curr_interface}")
 
-        # First just use plugins_all_valid, will return True or False
-        all_valid = test_curr_interface.plugins_all_valid()
-        if not all_valid:
-            failed_interfaces += [curr_interface]
-        else:
-            successful_interfaces += [curr_interface]
-
-        # Now open all the interfaces (not just checking call signatures)
+        # Open all the interfaces (not just checking call signatures)
         # This returns a dictionary of all sorts of stuff.
-        # If this fails and plugins_all_valid passes, we have a problem.
         try:
             out_dict = test_curr_interface.test_interface()
             out_dicts[curr_interface] = out_dict
@@ -136,6 +128,10 @@ def main():
     for intname in out_dicts:
         ppprinter.pprint(out_dict)
         out_dict = out_dicts[intname]
+        if out_dict["all_valid"] is True:
+            successful_interfaces += [intname]
+        else:
+            failed_interfaces += [intname]
         for modname in out_dict["validity_check"]:
             if not out_dict["validity_check"][modname]:
                 failed_plugins += [f"{intname} on {modname}"]
