@@ -10,6 +10,21 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+*From issue NRLMMD-GEOIPS/geoips#102: 2023-02-22, improve imports*
+
+Refactor
+========
+* Explicitly add submodule imports to `__init__.py`
+* Move version resolution from `__init__.py` to `__version__.py`
+* Make `commandline.test_interfaces.main` implicitly find interfaces for testing by
+  inspecting `interfaces.__dict__.values()`
+
+::
+
+    geoips/__init__.py
+    geoips/__version__.py
+    geoips/commandline/test_interfaces.py, main function
+
 *From issue NRLMMD-GEOIPS/geoips#100: 2023-02-22, bug in abi netcdf reader*
 
 Bug fixes
