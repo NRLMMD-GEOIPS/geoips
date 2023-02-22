@@ -22,13 +22,8 @@ family = "list_numpy_to_numpy"
 description = "Passive Microwave 37 MHz Polarization Corrected Temperature"
 
 
-# Eventually the callable function for all plugins will be named "call".
-# Currently this functionality does not quite work, so changing back to pmw_37pct
-# (current/old default is to use the plugin name as the callable function name).
-# Once using "call" is fully functional, this plugin will be the first example
-# using the fully updated formatting (family and description currently working)
-# def call(
-def pmw_37pct(
+# This is the "new" format for plugins - default to "call" function name for Callable.
+def call(
     arrays,
     output_data_range=None,
     min_outbounds="crop",

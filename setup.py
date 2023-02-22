@@ -182,8 +182,10 @@ setuptools.setup(
         ],
         "geoips.algorithms": [
             "single_channel=geoips.interface_modules.algorithms.single_channel:single_channel",
-            "pmw_tb.pmw_37pct=geoips.interface_modules.algorithms.pmw_tb.pmw_37pct:pmw_37pct",
-            "pmw_tb.pmw_89pct=geoips.interface_modules.algorithms.pmw_tb.pmw_89pct:pmw_89pct",
+            # Note 37pct has been updated for function name "call"
+            "pmw_tb.pmw_37pct=geoips.interface_modules.algorithms.pmw_tb.pmw_37pct",
+            # Note 89pct has been updated for function name "call"
+            "pmw_tb.pmw_89pct=geoips.interface_modules.algorithms.pmw_tb.pmw_89pct",
             "pmw_tb.pmw_color37=geoips.interface_modules.algorithms.pmw_tb.pmw_color37:pmw_color37",
             "pmw_tb.pmw_color89=geoips.interface_modules.algorithms.pmw_tb.pmw_color89:pmw_color89",
             "sfc_winds.windbarbs=geoips.interface_modules.algorithms.sfc_winds.windbarbs:windbarbs",

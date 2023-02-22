@@ -16,7 +16,6 @@ import logging
 import os
 from glob import glob
 from datetime import datetime, timedelta
-from collections import Hashable
 import numpy as np
 import xarray
 

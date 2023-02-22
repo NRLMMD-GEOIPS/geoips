@@ -10,6 +10,183 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+************************************************************************
+
+Bug fixes
+=========
+
+Do not attempt to import module prior to passing into plugin_module_to_obj
+--------------------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+New style plugins are already valid modules upon identifying via entry points
+(since we now point to the full module in setup.py vs individual functions for old
+style plugins).
+
+Old style plugins must first identify the module via ep.__module__, then import
+that module to pass into plugin_module_to_obj.
+
+Additionally - must check that the entry point is NOT a Callable instance to determine
+if it is a new-style plugin, vs checking that the entry point has an attribute named
+"call".  This matches how we determine if a plugin is a new style plugin in
+plugin_module_to_obj.
+
+::
+
+    geoips/interfaces/base.py, get_plugins function
+
+Include full entry point path for deprecated plugin names
+---------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+If "name" is not set as an attribute on a plugin, that means we must use the
+deprecated functionality of determining the plugin name from the entry point.
+
+Initially the "name" was getting set only to the function name - this caused issues
+when attempting to re-import the plugin via entry points (since it would look for
+e.g. pmw_89pct based on the function name, but the entry point is e.g. pmw_tb.pmw_89pct)
+
+Ensure the deprecated names get set to the full path after "interface_modules", which
+will match what is set within setup.py.
+
+For "new" style plugins, this is not an issue because we are only using the module-level
+imports within the Base Interface - since we are assuming the function name is "call".
+
+::
+
+    geoips/interfaces/base.py, plugin_module_to_obj function
+
+Add "self" to plugin_module_to_obj calls in "get_plugins"
+---------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+Fixed incorrect calls to plugin_module_to_obj from within get_plugins method.
+This was previously untested (prior to implementing "test_interfaces"
+
+::
+
+    modified:   geoips/interfaces/base.py
+
+Removed unused import of Hashable
+---------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+::
+
+    geoips/interface_modules/readers/abi_netcdf.py
+    geoips/interface_modules/readers/ahi_hsd.py
+
+Switched coverage from positional parameter to keyword argument
+---------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+Standard filename format expects "coverage" to be a keyword argument, not a positional
+parameter.  Update filename formats accordingly so test_interfaces passes.
+
+::
+
+    modified: geoips/interface_modules/filename_formats/geoips_fname.py
+    modified: geoips/interface_modules/filename_formats/geotiff_fname.py
+    modified: geoips/interface_modules/filename_formats/tc_clean_fname.py
+    modified: geoips/interface_modules/filename_formats/tc_fname.py
+
+Installation and Test
+=====================
+
+Updated 89pct and 37pct products for function name "call"
+---------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+* Replaced pmw_37pct and pmw_89pct algorithm function names with default "call"
+* Updated setup.py to point to pmw_37pct module vs pmw_37pct.pmw_37pct Callable
+  function.
+* This provides 2 working examples of fully updated plugins.
+
+::
+
+        modified:   geoips/interface_modules/algorithms/pmw_tb/pmw_37pct.py
+        modified:   geoips/interface_modules/algorithms/pmw_tb/pmw_89pct.py
+        modified:   setup.py
+
+Add validation tests to Base interface class
+--------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+* plugin_is_valid: Added checks for required arguments and keyword arguments
+  to determine if a plugin call signature matches what is expected
+
+  * expected_kwargs supports lists of tuples - to allow specifying both the kwarg name
+    and the default value.
+
+* test_interface: ensure all methods are functional, and all plugins are valid
+* plugins_all_valid: returns True if all plugins in the current interface are valid,
+  False if any plugins are invalid (calls "plugin_is_valid" on each plugin)
+
+::
+
+    modified:   geoips/interfaces/base.py
+
+Add separate interface tests for deprecated and new interfaces
+--------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+* Move tests for deprecated interfaces to a separate function - will eventually be
+  removed.
+* Call only "test_interfaces" for all new-style interfaces.
+
+  * "test_interface_plugins" actually tests every interface method, to ensure all work.
+
+    * get_plugins
+    * plugins_all_valid
+    * get_plugin
+    * plugin_is_valid
+    * Check every attribute (family, name, description)
+
+* Add logic to save lists of successful and failed interfaces - print all status at
+  the end, and only raise an error after printing full list of successful/failed
+  plugins.
+
+::
+
+    modified:   geoips/commandline/test_interfaces.py
+
+Update interface modules for validation testing
+-----------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
+* Add required_args and required_kwargs to all interface modules
+
+  * required_kwargs includes lists of tuples - to allow specifying required
+    default values.
+  * required_args includes lists of strings
+
+* Standardize interface class names
+
+  * FilenameFormats -> FilenameFormatsInterface
+  * ColorMapInterface -> ColormapsInterface
+  * TitleFormattersInterface -> TitleFormatsInterface
+
+::
+
+    modified:   geoips/interfaces/algorithms.py
+    modified:   geoips/interfaces/colormaps.py
+    modified:   geoips/interfaces/filename_formats.py
+    modified:   geoips/interfaces/interpolators.py
+    modified:   geoips/interfaces/output_formats.py
+    modified:   geoips/interfaces/procflows.py
+    modified:   geoips/interfaces/readers.py
+    modified:   geoips/interfaces/title_formats.py
+
 ## NRLMMD-GEOIPS/geoips#71: 2023-02-10, add interface class docstrings
 ### Documentation Updates
 * Added basic docstrings based on geoips_overview documentation to the following

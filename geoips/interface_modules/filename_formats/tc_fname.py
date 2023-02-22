@@ -36,7 +36,7 @@ def tc_fname(
     area_def,
     xarray_obj,
     product_name,
-    coverage,
+    coverage=None,
     output_type="png",
     output_type_dir=None,
     product_dir=None,

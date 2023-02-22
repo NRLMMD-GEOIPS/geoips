@@ -19,6 +19,7 @@
 """Base classes for BaseInterface and BasePlugin.
 """
 
+import inspect
 import logging
 from importlib import import_module
 from typing import Callable
@@ -33,6 +34,21 @@ LOG = logging.getLogger(__name__)
 plugin_deprecations = True
 if geoips_version >= "2.0.0":
     plugin_deprecations = False
+
+
+def get_deprecated_name(module_name):
+    # module_name == module.__name__
+    # module.__name__ is ie geoips.interface_modules.algorithms.pmw_tb.pmw_89pct
+    # First split on interface name (algorithms), then drop the leading '.'
+    path = module_name.split("interface_modules")[-1]
+    deprecated_name = path.split(".", 2)[2]
+    warn(
+        f"Variable 'name' not found in plugin module '{module_name}'."
+        f"Assuming module name is "
+        f"'{deprecated_name}'. "
+        "Please update to add 'name' variable."
+    )
+    return deprecated_name
 
 
 def plugin_repr(obj):
@@ -101,13 +117,7 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
         obj_attrs["name"] = module.name
     except AttributeError:
         if plugin_deprecations:
-            warn(
-                f"Variable 'name' not found in plugin module '{module.__name__}'."
-                f"Assuming module name is "
-                f"`{'.'.join(module.__name__.split('.')[-2:])}`. "
-                "Please update to add 'name' variable."
-            )
-            obj_attrs["name"] = module.__name__.split(".")[-1]
+            obj_attrs["name"] = get_deprecated_name(module.__name__)
         else:
             raise PluginError(
                 f"Required 'name' attribute not found in '{module.__name__}'"
@@ -155,7 +165,8 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
         warn(
             f"Callable for plugin '{module.__name__}' is not named 'call'. "
             "This behavior is deprecated. The callable should be renamed to "
-            "'call'. In the future this will result in a PluginError.",
+            "'call', and setup.py updated to point to the module vs function. "
+            "In the future this will result in a PluginError.",
             DeprecationWarning,
             stacklevel=1,
         )
@@ -269,16 +280,21 @@ class BaseInterface:
             module = find_entry_point(self.entry_point_group, name)
         except EntryPointError as err:
             raise PluginError(f"Plugin {name} not found for {self.name} interface")
-        # This assumes that the module's callable is named "callable"
+        # This assumes that the module's Callable is named "call", so the module
+        # itself is NOT a Callable instance.
+        # Note this implies setup.py has been updated to point to the
+        # MODULE vs the FUNCTION for fully updated plugins.
+        # Since we know the function will always be named "call", we can just specify
+        # the module in setup.py.
         if not isinstance(module, Callable):
             return plugin_module_to_obj(self, module)
         # If "module" is callable, treat this as a deprecated entry point
-        # whose callable is specified in setup.py directly
+        # whose callable is specified in setup.py directly.
         else:
             func = module
             module = import_module(func.__module__)
             warn(
-                f"Entry point for plugin '{module.__name__}' point to the callable "
+                f"Entry point for plugin '{module.__name__}' points to the Callable "
                 "rather than the module. This behavior is deprecated. Please update "
                 "the entry point to point to the plugin module. In the future this "
                 "will raise a PluginError.",
@@ -289,26 +305,25 @@ class BaseInterface:
 
     def get_plugins(self):
         """Get a list of plugins for this interface."""
-        # This is more complicated than needed. To simplify, we will need to remove the
-        # function name from entry points.
         plugins = []
         for ep in get_all_entry_points(self.entry_point_group):
-            module = import_module(ep.__module__)
-            if hasattr(module, "call"):
-                plugins.append(plugin_module_to_obj(module))
+            # If this is pointing to the full module, and NOT the Callable function
+            # instance, that means it is a "new" style plugin.
+            # Just call plugin_module_to_obj on it directly.
+            if not isinstance(ep, Callable):
+                plugins.append(plugin_module_to_obj(self, ep))
             else:
+                # If the entry point points to the Callable function, that means
+                # it is an old style plugin.  We need to get the name of the function
+                # from ep.__name__ and pass it to plugin_module_to_obj so it knows
+                # what function it is looking for.
+                module = import_module(ep.__module__)
                 plugins.append(
-                    plugin_module_to_obj(module, module_call_func=ep.__name__)
+                    plugin_module_to_obj(self, module, module_call_func=ep.__name__)
                 )
-
-        # plugins = [
-        #     self.create_plugin(import_module(ep.__module__),
-        #     module_call_func=ep.__name__)
-        #     for ep in get_all_entry_points(self.entry_point_group)
-        # ]
         return plugins
 
-    def is_valid(self, name):
+    def plugin_is_valid(self, name):
         """Check that an interface is valid.
 
         Check that the requested interface function has the correct call signature.
@@ -327,34 +342,101 @@ class BaseInterface:
         '''
         """
         plugin = self.get_plugin(name)
+        expected_args = self.required_args[plugin.family]
+        expected_kwargs = self.required_kwargs[plugin.family]
 
-    def test_interface_plugins(self):
+        sig = inspect.signature(plugin.__call__)
+        arg_list = []
+        kwarg_list = []
+        kwarg_defaults_list = []
+        for param in sig.parameters.values():
+            # kwargs are identified by a default value - parameter will include "="
+            if "=" in str(param):
+                kwarg, default_value = str(param).split("=")
+                kwarg_list += [kwarg]
+                kwarg_defaults_list += [default_value]
+            # If there is no "=", then it is a positional parameter
+            else:
+                arg_list += [str(param)]
+
+        for expected_arg in expected_args:
+            if expected_arg not in arg_list:
+                LOG.error("MISSING expected arg %s", expected_arg)
+                return False
+        for expected_kwarg in expected_kwargs:
+            # If expected_kwarg is a tuple, first item is kwarg, second default value
+            if isinstance(expected_kwarg, tuple):
+                if expected_kwarg[0] not in kwarg_list:
+                    LOG.error("MISSING expected kwarg %s", expected_kwarg)
+                    return False
+            elif expected_kwarg not in kwarg_list:
+                LOG.error("MISSING expected kwarg %s", expected_kwarg)
+                return False
+
+        return True
+
+    def plugins_all_valid(self):
         """Test the current interface by validating every Plugin.
 
-        Test this interface by opening every Plugin available to the interface. Then validate each plugin by calling
-        `is_valid` for each.
+        Returns:
+            True if all plugins are valid, False if any plugin is invalid.
+        """
+        plugins = self.get_plugins()
+        for plugin in plugins:
+
+            if not self.plugin_is_valid(plugin.name):
+                return False
+        return True
+
+    def test_interface(self):
+        """Test the current interface by validating each Plugin and testing each method.
+
+        Test this interface by opening every Plugin available to the interface,
+        and validating each plugin by calling `plugin_is_valid` for each.
+        Additionally, ensure all methods of this interface work as expected:
+
+        * get_plugins
+        * get_plugin
+        * plugin_is_valid
+        * plugins_all_valid
 
         Returns:
-            A dictionary containing three keys: 'by_family', 'validity_check', 'func', and 'family'. The value for each
+            A dictionary containing three keys:
+            'by_family', 'validity_check', 'func', and 'family'. The value for each
             of these keys is a dictionary whose keys are the names of the Plugins.
 
             - 'by_family' contains a dictionary of plugin names sorted by family.
-            - 'validity_check' contains a dict whose keys are plugin names and whose values are bools where `True`
-              indicates that the Plugin's function is valid according to `is_valid`.
-            - 'func' contains a dict whose keys are plugin names and whose values are the function for each Plugin.
-            - 'family' contains a dict whose keys are plugin names and whose vlaues are the contents of the 'family'
-              attribute for each Plugin.
+            - 'validity_check' contains a dict whose keys are plugin names and whose
+              values are bools where `True` indicates that the Plugin's function is
+              valid according to `plugin_is_valid`.
+            - 'func' contains a dict whose keys are plugin names and whose values are
+              the function for each Plugin.
+            - 'family' contains a dict whose keys are plugin names and whose vlaues
+              are the contents of the 'family' attribute for each Plugin.
         """
-        plugin_names = self.get_plugins(sort_by="family")
+        # plugin_names = self.get_plugins(sort_by="family")
+        plugins = self.get_plugins()
+        all_valid = self.plugins_all_valid()
+        family_list = []
+        plugin_names = {}
+        for plugin in plugins:
+            if plugin.family not in family_list:
+                family_list.append(plugin.family)
+                plugin_names[plugin.family] = []
+            plugin_names[plugin.family].append(plugin.name)
+
         output = {
+            "all_valid": all_valid,
             "by_family": plugin_names,
             "validity_check": {},
             "family": {},
             "func": {},
+            "description": {},
         }
         for curr_family in plugin_names:
             for curr_name in plugin_names[curr_family]:
-                output["validity_check"][curr_name] = self.is_valid(curr_name)
+                output["validity_check"][curr_name] = self.plugin_is_valid(curr_name)
                 output["func"][curr_name] = self.get_plugin(curr_name)
-                output["family"][curr_name] = self.get_family(curr_name)
+                output["family"][curr_name] = curr_family
+                output["description"][curr_name] = output["func"][curr_name].description
         return output
