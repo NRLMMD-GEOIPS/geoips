@@ -10,6 +10,18 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+*From issue NRLMMD-GEOIPS/geoips#100: 2023-02-22, bug in abi netcdf reader*
+
+Bug fixes
+=========
+
+Allow loading full-disk ABI imagery without an area definition
+
+Formatting fixes
+================
+
+Applied linter conventions to abi_netcdf.py
+
 *From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
 ************************************************************************
 
