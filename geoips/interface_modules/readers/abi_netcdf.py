@@ -1115,11 +1115,14 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
             "(fk2 / log(fk1 / rad_data + 1) - bc1) / bc2"
         )
 
-    # badvals are terribly
     # latitude is sometimes fully specified from area_def... So does not
     # relate to actual masked data..
-    usemask = np.ma.masked_less(gvars["Lines"], -990).mask
-    # usemask = gvars['latitude'].mask
+    # This should only occur when area_def was provided and breaks when it wasn't.
+    if "Lines" in gvars:
+        usemask = np.ma.masked_less(gvars["Lines"], -990).mask
+    else:
+        usemask = gvars["latitude"].mask
+
     for varname in gvars.keys():
         if varname in ["latitude", "longitude"]:
             continue
