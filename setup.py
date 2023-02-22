@@ -52,6 +52,7 @@ setuptools.setup(
         "pyhdf",  # hdf4 readers (MODIS)
         "rasterio",  # GEOTIFF output
         "flake8",  # Syntax checking
+        "flake8-docstrings",  # numpy docstring checking
         "flake8-rst-docstrings",  # numpy docstring checking
         "flake8-rst",  # RST checking
         "black",  # black style enforcement

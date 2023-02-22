@@ -2,6 +2,11 @@ from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
 class FilenameFormatsInterface(BaseInterface):
+    """Specification for formatting the full path and file name.
+
+    File path and name formatting is determined using attributes within the
+    GeoIPS xarray objects.
+    """
     name = "filename_formats"
     entry_point_group = "filename_formats"
     deprecated_family_attr = "filename_type"

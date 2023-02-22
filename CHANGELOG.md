@@ -10,9 +10,6 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-
-## GEOIPS/geoips#91: 2023-02-14, update test_interfaces
-
 *From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
 ************************************************************************
 
@@ -21,6 +18,8 @@ Bug fixes
 
 Do not attempt to import module prior to passing into plugin_module_to_obj
 --------------------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
 
 New style plugins are already valid modules upon identifying via entry points
 (since we now point to the full module in setup.py vs individual functions for old
@@ -40,6 +39,8 @@ plugin_module_to_obj.
 
 Include full entry point path for deprecated plugin names
 ---------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
 
 If "name" is not set as an attribute on a plugin, that means we must use the
 deprecated functionality of determining the plugin name from the entry point.
@@ -61,6 +62,8 @@ imports within the Base Interface - since we are assuming the function name is "
 Add "self" to plugin_module_to_obj calls in "get_plugins"
 ---------------------------------------------------------
 
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
 Fixed incorrect calls to plugin_module_to_obj from within get_plugins method.
 This was previously untested (prior to implementing "test_interfaces"
 
@@ -81,6 +84,8 @@ Removed unused import of Hashable
 Switched coverage from positional parameter to keyword argument
 ---------------------------------------------------------------
 
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
+
 Standard filename format expects "coverage" to be a keyword argument, not a positional
 parameter.  Update filename formats accordingly so test_interfaces passes.
 
@@ -96,6 +101,8 @@ Installation and Test
 
 Updated 89pct and 37pct products for function name "call"
 ---------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
 
 * Replaced pmw_37pct and pmw_89pct algorithm function names with default "call"
 * Updated setup.py to point to pmw_37pct module vs pmw_37pct.pmw_37pct Callable
@@ -129,6 +136,8 @@ Add validation tests to Base interface class
 
 Add separate interface tests for deprecated and new interfaces
 --------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
 
 * Move tests for deprecated interfaces to a separate function - will eventually be
   removed.
@@ -178,7 +187,32 @@ Update interface modules for validation testing
     modified:   geoips/interfaces/readers.py
     modified:   geoips/interfaces/title_formats.py
 
-## GEOIPS/geoips#92: 2023-02-09, update FilenameFormats class name
+## NRLMMD-GEOIPS/geoips#71: 2023-02-10, add interface class docstrings
+### Documentation Updates
+* Added basic docstrings based on geoips_overview documentation to the following
+  interface classes:
+    * algorithms
+    * boundaries
+    * colormaps
+    * filename_formats
+    * interpolators
+    * output_formats
+    * procflows
+    * readers
+    * title_formats
+
+## NRLMMD-GEOIPS/geoips#67: 2023-02-09, move CoverageError to top-level
+### Refactor
+* Moved CovereageError from geostationary_geolocation.py
+  (in geoips.interface_modules.readers.utils) to errors.py (top-level geoips)
+* Updated imports in config_based.py that utilize CoverageError.
+
+## NRLMMD-GEOIPS/geoips#96: 2023-02-13, Require flake8-docstrings in setup.py
+### Bug fixes
+* setup.py:
+  * Add flake8-docstrings to requirements in setup.py
+
+## NRLMMD-GEOIPS/geoips#92: 2023-02-09, update FilenameFormats class name
 ### Bug fixes
 * filename_formats.py:
   * Renamed FilenameFormattersInterface class to FilenameFormats

@@ -8,3 +8,9 @@ class PluginError(Exception):
     """Exception to be raised when there is an error in a plugin module."""
 
     pass
+
+
+class CoverageError(Exception):
+    """Raise exception on data coverage error."""
+
+    pass
