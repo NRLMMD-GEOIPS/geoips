@@ -17,7 +17,6 @@ import os
 from glob import glob
 from datetime import datetime, timedelta
 import numpy as np
-import xarray
 
 from scipy.ndimage.interpolation import zoom
 
@@ -30,28 +29,24 @@ from geoips.interface_modules.readers.utils.geostationary_geolocation import (
 
 # np.seterr(all='raise')
 
-# Installed Libraries
-import socket
-
 try:
-    # If this reader is not installed on the system, don't fail alltogether, just skip this import.  This reader
-    # will not work if the import fails and the package will have to be
-    # installed to process data of this type.
+    # If this reader is not installed on the system, don't fail alltogether, just skip
+    # this import. This reader will not work if the import fails and the package will
+    # have to be installed to process data of this type.
     import netCDF4 as ncdf
 except ImportError:
     print(
-        "Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. If you need it, install it."
+        "Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. "
+        "If you need it, install it."
     )
 
 try:
     import numexpr as ne
 except ImportError:
     print(
-        "Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. If you need it, install it."
+        "Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. "
+        "If you need it, install it."
     )
-
-# GeoIPS Libraries
-from geoips.filenames.base_paths import PATHS as gpaths
 
 family = "standard"
 reader_type = "standard"
@@ -64,9 +59,8 @@ try:
     ne.set_num_threads(nprocs)
 except Exception:
     print(
-        "Failed numexpr.set_num_threads in {}. If numexpr is not installed and you need it, install it.".format(
-            __file__
-        )
+        f"Failed numexpr.set_num_threads in {__file__}. "
+        f"If numexpr is not installed and you need it, install it."
     )
 
 DONT_AUTOGEN_GEOLOCATION = False
@@ -181,8 +175,8 @@ def _check_file_consistency(metadata):
     # Was failing on processing_level due to extra NASA text sometimes
     # Also fails on time_coverage_end due to deviations on the order of 0.5 seconds
     #   Probably should fashion better checks for these two.
-    # checks = ['platform_ID', 'instrument_type', 'processing_level', 'timeline_id', 'scene_id',
-    #           'time_coverage_start', 'time_coverage_end']
+    # checks = ['platform_ID', 'instrument_type', 'processing_level', 'timeline_id',
+    #           'scene_id', 'time_coverage_start', 'time_coverage_end']
     checks = [
         "platform_ID",
         "instrument_type",
@@ -252,9 +246,9 @@ def _get_variable_metadata(df):
     Some are skipped or gathered later as needed.
     """
     metadata = {}
-    # Note: We have skipped DQF, Rad, band_wavelength_star_look, num_star_looks, star_id, t, t_star_look,
-    #       x_image, x_image_bounds, y_image, y_image_bounds, geospatial_lat_lon_extent,
-    #       goes_imager_projection
+    # Note: We have skipped DQF, Rad, band_wavelength_star_look, num_star_looks,
+    #       star_id, t, t_star_look, x_image, x_image_bounds, y_image, y_image_bounds,
+    #       geospatial_lat_lon_extent, goes_imager_projection
     md_names = [
         "band_id",
         "band_wavelength",
@@ -384,9 +378,9 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
     if not os.path.isfile(fname):
         if sect is not None and DONT_AUTOGEN_GEOLOCATION and "tc2019" not in sect.name:
             msg = (
-                "GETGEO Requested NO AUTOGEN GEOLOCATION. "
-                + "Could not create latlonfile for ad {}: {}"
-            ).format(metadata["scene"], fname)
+                f"GETGEO Requested NO AUTOGEN GEOLOCATION. "
+                f"Could not create latlonfile for ad {metadata['scene']}: {fname}"
+            )
             log.error(msg)
             raise AutoGenError(msg)
 
@@ -402,8 +396,9 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         H = metadata["H_m"]
         c = H**2 - Re**2  # NOQA
 
-        # Python 3 netcdf reads create a masked array, while Python 2 netcdf reads create ndarray
-        # These should NOT be masked, so if we have a masked array, fill it.
+        # Python 3 netcdf reads create a masked array, while Python 2 netcdf reads
+        # create ndarray. These should NOT be masked, so if we have a masked array,
+        # fill it.
         if isinstance(metadata["x"], np.ma.core.MaskedArray):
             x = np.float64(metadata["x"].filled())
         else:
@@ -420,9 +415,9 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         # Repeat lonline latsize times
         x = np.vstack([x for num in range(yT.size)])
 
-        # Note: In this next section, we will be reusing memory space as much as possible
-        #       To make this as transparent as possible, we will do all variable assignment
-        #       first, then fill them
+        # Note: In this next section, we will be reusing memory space as much as
+        #       possible. To make this as transparent as possible, we will do all
+        #       variable assignment first, then fill them
         # This method requires that all lines remain in the SAME ORDER or things
         # will go very badly
         cosx = np.empty_like(x)
@@ -464,8 +459,13 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         with open(fname, "w") as df:
             lats.tofile(df)
             lons.tofile(df)
-        # Possible switch to xarray based geolocation files, but we lose memmapping.
-        # ds = xarray.Dataset({'latitude':(['x','y'],lats),'longitude':(['x','y'],lons)})
+        # # Possible switch to xarray based geolocation files, but we lose memmapping.
+        # ds = xarray.Dataset(
+        #     {
+        #         'latitude':(['x','y'],lats),
+        #         'longitude':(['x','y'],lons)
+        #         }
+        #     )
         # ds.to_netcdf(fname)
 
     # Create memmap to the lat/lon file
@@ -604,7 +604,8 @@ def abi_netcdf(
         raise ValueError("Input files inconsistent.")
 
     # Now put together a dict that shows what we actually got
-    # This is largely to help us read in order and only create arrays of the minimum required size
+    # This is largely to help us read in order and only create arrays of the minimum
+    # required size.
     # Dict structure is channel{metadata}
     file_info = {}
     import xarray
@@ -627,7 +628,9 @@ def abi_netcdf(
         if res_chans:
             res_md[res] = file_info[res_chans[0]]
 
-    # If we plan to self register, make sure we requested a resolution that we actually plan to read
+    # If we plan to self register, make sure we requested a resolution that we actually
+    # plan to read.
+    #
     # This could be problematic if we try to self-register to LOW when only
     # reading MED or something
     if self_register and self_register not in res_md:
@@ -657,9 +660,8 @@ def abi_netcdf(
     else:
         if self_register and self_register not in DATASET_INFO:
             raise ValueError(
-                "Unrecognized resolution name requested for self registration: {}".format(
-                    self_register
-                )
+                f"Unrecognized resolution name requested for self "
+                f"registration: {self_register}"
             )
         scene_id = highest_md["file_info"]["dataset_name"].split("_")[1].split("-")[2]
         if scene_id == "RadF":
@@ -693,14 +695,16 @@ def abi_netcdf(
                 raise ValueError("Requested channel {0} not recognized.".format(chan))
             if chan[0:3] not in file_info.keys():
                 continue
-                # raise ValueError('Requested channel {0} not found in input data.'.format(chan))
+                # raise ValueError(
+                #     'Requested channel {0} not found in input data.'.format(chan)
+                # )
 
     # If no specific channels were requested, get everything
     if not chans:
         chans = all_chans_list
 
-    # Creates dict whose keys are band numbers in the form B## and whose values are lists
-    # containing the data types(s) requested for the band (e.g. Rad, Ref, BT).
+    # Creates dict whose keys are band numbers in the form B## and whose values are
+    # lists containing the data types(s) requested for the band (e.g. Rad, Ref, BT).
     chan_info = {}
     for ch in chans:
         if ch in ALL_GEO_VARS:
@@ -732,9 +736,8 @@ def abi_netcdf(
         )
         if not gvars[adname]:
             log.error(
-                "GEOLOCATION FAILED for adname {} DONT_AUTOGEN_GEOLOCATION is: {}".format(
-                    adname, DONT_AUTOGEN_GEOLOCATION
-                )
+                f"GEOLOCATION FAILED for adname {adname} DONT_AUTOGEN_GEOLOCATION "
+                f"is: {DONT_AUTOGEN_GEOLOCATION}"
             )
             gvars[adname] = {}
     else:
@@ -758,12 +761,16 @@ def abi_netcdf(
                         resp, adname, res
                     )
                 )
-            # Not sure what this does, but it fails if we only pass one resolution worth of data...
-            # MLS I think this may be necessary to avoid catastrophic failure if geolocation has not been
-            # autogenerated.  I'll see.
+            # Not sure what this does, but it fails if we only pass one resolution
+            # worth of data...
+            #
+            # MLS I think this may be necessary to avoid catastrophic failure if
+            # geolocation has not been autogenerated.  I'll see.
             # if not gvars[res]:
-            #     log.error('GEOLOCATION FAILED for '+adname+' resolution '+res+' DONT_AUTOGEN_GEOLOCATION is: '\
-            #               +str(DONT_AUTOGEN_GEOLOCATION))
+            #     log.error(
+            #         f"GEOLOCATION FAILED for {adname} resolution {res} "
+            #         f"DONT_AUTOGEN_GEOLOCATION is: {DONT_AUTOGEN_GEOLOCATION}"
+            #     )
             #     gvars[res] = {}
 
     log.info("Done with geolocation for {}".format(adname))
@@ -785,9 +792,8 @@ def abi_netcdf(
             res not in gvars.keys() or not gvars[res] or "latitude" not in gvars[res]
         ):
             log.info(
-                "We don't have geolocation information for {} for {} skipping {}.".format(
-                    res, adname, chan
-                )
+                f"We don't have geolocation information for {res} for {adname} "
+                f"skipping {chan}."
             )
             continue
         if not area_def:
@@ -866,7 +872,7 @@ def abi_netcdf(
 
     # basically just reformat the all_metadata dictionary to
     # reference channel names as opposed to file names..
-    band_metadata = get_band_metadata(all_metadata)
+    # band_metadata = get_band_metadata(all_metadata)
 
     # Remove lines and samples arrays.  Not needed.
     for res in gvars.keys():
@@ -1017,7 +1023,9 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
                 df.variables["Rad"][...][:: zoom_factor[0], :: zoom_factor[0]]
             )
             qf = df.variables["DQF"][...][:: zoom_factor[0], :: zoom_factor[0]]
-            # rad_data = np.float64(df.variables['Rad'][::zoom_factor[0], ::zoom_factor[0]])
+            # rad_data = np.float64(
+            #     df.variables['Rad'][::zoom_factor[0], ::zoom_factor[0]]
+            # )
             # qf = df.variables['DQF'][::zoom_factor[0], ::zoom_factor[0]]
             log.info("After zoom")
         else:
@@ -1060,7 +1068,10 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
 
         k0 = md["var_info"]["kappa0"]  # NOQA
         sun_zenith = gvars["SunZenith"][~bad_data_mask]  # NOQA
-        # zoom_info = np.array(rad_data.shape, dtype=np.float) / np.array(sun_zenith.shape, dtype=np.float)
+        # zoom_info = (
+        #     np.array(rad_data.shape, dtype=np.float) /
+        #     np.array(sun_zenith.shape, dtype=np.float
+        # )
         # if zoom_info[0] == zoom_info[1] and int(zoom_info[0]) == zoom_info[0]:
         #     if zoom_info[0] > 1 and int(zoom_info[0]) == zoom_info[0]:
         #         sun_zenith = zoom(sun_zenith, zoom_info[0])
