@@ -1,3 +1,5 @@
+"""GeoIPS interface module."""
+
 from geoips.interfaces.algorithms import algorithms
 from geoips.interfaces.colormaps import colormaps
 from geoips.interfaces.filename_formats import filename_formats
@@ -7,7 +9,7 @@ from geoips.interfaces.procflows import procflows
 from geoips.interfaces.readers import readers
 from geoips.interfaces.title_formats import title_formats
 
-all = [
+__all__ = [
     algorithms,
     colormaps,
     filename_formats,

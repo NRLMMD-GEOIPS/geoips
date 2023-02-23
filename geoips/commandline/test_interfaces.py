@@ -18,6 +18,8 @@ interface implementation.
 import pprint
 from importlib import import_module
 import traceback
+from geoips import interfaces
+from geoips.interfaces.base import BaseInterface
 
 
 def test_deprecated_interfaces(
@@ -27,16 +29,15 @@ def test_deprecated_interfaces(
 
     This function will be removed once all interfaces are moved to the "new" setup.
     """
-
     out_dicts = {}
 
-    interfaces = [
+    check_interfaces = [
         "dev.boundaries",
         "dev.gridlines",
         "dev.product",
     ]
 
-    for curr_interface in interfaces:
+    for curr_interface in check_interfaces:
         interface_name = curr_interface.split(".")[1]
         print("")
         print(f"Testing {curr_interface}...")
@@ -76,52 +77,38 @@ def test_deprecated_interfaces(
 
 def main():
     """Script to test all dev and stable interfaces."""
-
     failed_interfaces = []
     failed_plugins = []
     successful_interfaces = []
     successful_plugins = []
 
-    # Test all the "old" interfaces using the original logic.
-    # (
-    #     failed_plugins,
-    #     successful_interfaces,
-    #     successful_plugins,
-    # ) = test_deprecated_interfaces(
-    #     failed_plugins, successful_interfaces, successful_plugins
-    # )
-
-    interfaces = [
-        "algorithms",
-        "colormaps",
-        "filename_formats",
-        "interpolators",
-        "output_formats",
-        "procflows",
-        "readers",
-        "title_formats",
-    ]
-
     out_dicts = {}
 
-    for curr_interface in interfaces:
+    failed_plugins, successful_interfaces, successful_plugins = (
+        test_deprecated_interfaces(
+            failed_plugins,
+            successful_interfaces,
+            successful_plugins
+        )
+    )
+
+    for curr_interface in interfaces.__dict__.values():
+        if (type(curr_interface) is BaseInterface) or not isinstance(
+            curr_interface, BaseInterface
+        ):
+            continue
 
         print("")
-        print(f"Testing {curr_interface}...")
-
-        test_curr_interface = getattr(
-            import_module(f"geoips.interfaces"), curr_interface
-        )
-        print(f"    from geoips.interfaces import {curr_interface}")
+        print(f"Testing {curr_interface.name}...")
 
         # Open all the interfaces (not just checking call signatures)
         # This returns a dictionary of all sorts of stuff.
         try:
-            out_dict = test_curr_interface.test_interface()
-            out_dicts[curr_interface] = out_dict
+            out_dict = curr_interface.test_interface()
+            out_dicts[curr_interface.name] = out_dict
         except Exception:
             print(traceback.format_exc())
-            failed_plugins += [curr_interface]
+            failed_plugins += [curr_interface.name]
 
     ppprinter = pprint.PrettyPrinter(indent=2)
 
@@ -141,8 +128,8 @@ def main():
     for curr_plugin in successful_plugins:
         print(f"SUCCESSFUL PLUGIN {curr_plugin}")
 
-    for curr_interface in successful_interfaces:
-        print(f"SUCCESSFUL INTERFACE {curr_interface}")
+    for curr_successful in successful_interfaces:
+        print(f"SUCCESSFUL INTERFACE {curr_successful}")
 
     for curr_failed in failed_plugins:
         print(f"FAILED PLUGIN {curr_failed}")

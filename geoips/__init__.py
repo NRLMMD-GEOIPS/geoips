@@ -10,8 +10,16 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Include package metadata."""
+"""The Geolocated Information Processing System (GeoIPS).
 
-from importlib.metadata import version
+Homepage: https://github.com/NRLMMD-GEOIPS/geoips
+"""
 
-__version__ = version(__name__)
+from geoips.__version__ import __version__
+from geoips import errors
+from geoips import filenames
+from geoips import interfaces
+from geoips import utils
+from geoips import xarray_utils
+
+__all__ = [__version__, interfaces, errors, filenames, utils, xarray_utils]
