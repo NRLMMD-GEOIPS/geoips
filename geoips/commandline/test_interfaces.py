@@ -29,7 +29,6 @@ def test_deprecated_interfaces(
 
     This function will be removed once all interfaces are moved to the "new" setup.
     """
-
     out_dicts = {}
 
     check_interfaces = [
