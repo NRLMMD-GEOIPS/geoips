@@ -85,6 +85,14 @@ def main():
 
     out_dicts = {}
 
+    (
+        failed_plugins,
+        successful_interfaces,
+        successful_plugins,
+    ) = test_deprecated_interfaces(
+        failed_plugins, successful_interfaces, successful_plugins
+    )
+
     for curr_interface in interfaces.__dict__.values():
         if (type(curr_interface) is BaseInterface) or not isinstance(
             curr_interface, BaseInterface
