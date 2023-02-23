@@ -11,31 +11,67 @@
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 *From issue NRLMMD-GEOIPS/geoips#102: 2023-02-22, improve imports*
+******************************************************************
 
 Refactor
 ========
-* Explicitly add submodule imports to `__init__.py`
+
+Move __version__ to its own file
+--------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#102: 2023-02-22, improve imports*
+
 * Move version resolution from `__init__.py` to `__version__.py`
+
+::
+
+    geoips/__version__.py
+    geoips/__init__.py
+
+Improve imports in __init__ to support implicitly finding interfaces for testing
+--------------------------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#102: 2023-02-22, improve imports*
+
+* Explicitly add submodule imports to `__init__.py`
 * Make `commandline.test_interfaces.main` implicitly find interfaces for testing by
   inspecting `interfaces.__dict__.values()`
 
 ::
 
     geoips/__init__.py
-    geoips/__version__.py
     geoips/commandline/test_interfaces.py, main function
 
+
+
 *From issue NRLMMD-GEOIPS/geoips#100: 2023-02-22, bug in abi netcdf reader*
+***************************************************************************
 
 Bug fixes
 =========
 
 Allow loading full-disk ABI imagery without an area definition
+--------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#100: 2023-02-22, bug in abi netcdf reader*
+
+::
+
+    geoips/interface_modules/readers/abi_netcdf.py
 
 Formatting fixes
 ================
 
 Applied linter conventions to abi_netcdf.py
+-------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#100: 2023-02-22, bug in abi netcdf reader*
+
+::
+
+    geoips/interface_modules/readers/abi_netcdf.py
+
+
 
 *From issue NRLMMD-GEOIPS/geoips#91: 2023-02-14, update test_interfaces*
 ************************************************************************
