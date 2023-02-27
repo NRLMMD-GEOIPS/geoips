@@ -13,6 +13,9 @@ changelog:
         - "enhancement"
         - "new functionality"
         - "new feature"
+    - title: Deprecations
+      labels:
+        - "deprecation"
     - title: Regression Fixes
       labels:
         - "regression"
@@ -32,6 +35,9 @@ changelog:
       labels:
         - "formatting"
         - "refactor"
+    - title: GitHub Actions Updates
+      labels:
+        - "actions"
     - title: Git Workflow Improvements
       labels:
         - "git workflow"
