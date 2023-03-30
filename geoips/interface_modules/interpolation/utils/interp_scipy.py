@@ -55,6 +55,8 @@ def interp_gaussian_kde(data_lons, data_lats, target_lons, target_lats, vw_metho
     """
     from scipy import stats
 
+    interp_data = None
+
     positions = numpy.vstack([target_lons.ravel(), target_lats.ravel()])
     values = numpy.vstack([data_lons, data_lats])
     kernel = stats.gaussian_kde(values)

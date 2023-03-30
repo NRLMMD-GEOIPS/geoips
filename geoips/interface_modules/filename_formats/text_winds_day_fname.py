@@ -13,14 +13,9 @@
 """Filename formatter for full-day text windspeed products."""
 import logging
 
-from os.path import join as pathjoin, splitext as pathsplitext
-from os.path import dirname as pathdirname, basename as pathbasename
-from datetime import datetime, timedelta
-from glob import glob
-from os import unlink as osunlink
+from os.path import join as pathjoin
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.data_manipulations.merge import minrange
 from geoips.interface_modules.filename_formats.text_winds_full_fname import (
     assemble_windspeeds_text_full_fname,
 )

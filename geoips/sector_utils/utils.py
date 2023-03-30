@@ -715,7 +715,7 @@ def create_areadefinition_from_yaml(yamlfile, sector):
     import yaml
 
     with open(yamlfile, "r") as f:
-        sectorfile_yaml = yaml.load(f, Loader=yaml.FullLoader)
+        sectorfile_yaml = yaml.safe_load(f)
     sector_info = sectorfile_yaml[sector]
     area_id = sector
     description = sector_info.pop("description")

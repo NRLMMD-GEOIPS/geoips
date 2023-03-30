@@ -13,14 +13,9 @@
 """Filename formatter for TC-specific text windspeed outputs."""
 import logging
 
-from os.path import join as pathjoin, splitext as pathsplitext
-from os.path import dirname as pathdirname, basename as pathbasename
-from datetime import datetime, timedelta
-from glob import glob
-from os import unlink as osunlink
+from os.path import join as pathjoin
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.data_manipulations.merge import minrange
 
 filename_type = "xarray_metadata_to_filename"
 

@@ -29,15 +29,16 @@ from geoips.interface_modules.readers.utils.geostationary_geolocation import (
 
 # np.seterr(all='raise')
 
+# Installed Libraries
+
 try:
-    # If this reader is not installed on the system, don't fail alltogether, just skip
-    # this import. This reader will not work if the import fails and the package will
-    # have to be installed to process data of this type.
+    # If this reader is not installed on the system, don't fail alltogether, just skip this import.  This reader
+    # will not work if the import fails and the package will have to be
+    # installed to process data of this type.
     import netCDF4 as ncdf
 except ImportError:
     print(
-        "Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. "
-        "If you need it, install it."
+        "Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. If you need it, install it."
     )
 
 try:

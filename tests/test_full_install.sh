@@ -23,15 +23,21 @@
 
 . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_pre.sh geoips_full
 
+echo "Updated versions of gfortran and git required for tests to pass"
+
 echo ""
 # "call" used in test_all_run.sh
 for call in \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh clone_source_repo recenter_tc" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh clone_source_repo data_fusion" \
+    "$GEOIPS_PACKAGES_DIR/geoips/tests/utils/check_code.sh all `dirname $0`/../ flake8_docstring_only" \
+    "$GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.sh `dirname $0`/../ html_only" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin recenter_tc" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin data_fusion" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin geoips_clavrx" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/uncompress_test_data.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_amsr2 main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_clavrx main" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_gpm main" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_sar main" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_scat main" \
@@ -68,6 +74,7 @@ for call in \
     "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/sar.tc.nrcs.imagery_clean.sh" \
     "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/smap.tc.windspeed.imagery_clean.sh" \
     "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/viirs.tc.Infrared-Gray.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh" \
     "$GEOIPS_PACKAGES_DIR/data_fusion/tests/scripts/layered.sh"
 do
     . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh

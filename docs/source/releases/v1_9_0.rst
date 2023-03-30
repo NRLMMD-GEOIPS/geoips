@@ -1,0 +1,105 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.9.0 (2023-03-23)
+**************************
+
+Update test repo outputs to use pip-installed latest versions of matplotlib and cartopy
+
+* DO NOT require conda-installing matplotlib and cartopy for test outputs to match
+* Use pip installed matplotlib >= 3.7.0
+* For conda-based installations, only install libgeos and blas via conda, pip install
+  all Python packages.
+
+Bug Fixes
+=========
+
+Update SSMIS test script name in test_all.sh from 89 to 91
+----------------------------------------------------------
+
+::
+
+  modified: tests/test_all.sh
+
+Test Repo updates
+=================
+
+Update for matplotlib version update
+------------------------------------
+
+*From issue GEOIPS#28: 2023-03-21, update test outputs for new matplotlib*
+
+Slight changes due to matplotlib 3.7.0 update
+
+::
+
+    modified: tests/outputs/abi.static.Infrared.imagery_annotated/20200918.195020.goes-16.abi.Infrared.goes16.45p56.noaa.10p0.png
+    modified: tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes16.41p12.noaa.10p0.png
+    modified: tests/outputs/abi.tc.IR-BD.imagery_annotated/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png
+    modified: tests/outputs/abi.tc.Infrared.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Infrared_110kts_100p00_1p0.png
+    modified: tests/outputs/abi.tc.Visible.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Visible_110kts_100p00_1p0.png
+    modified: tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+    modified: tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+    modified: tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+    modified: tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+    modified: tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png
+    modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png
+    modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png
+    modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png
+    modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png
+    modified: tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs/20210421_014156_WP022021_ascat_metop-c_windbarbs_120kts_35p17_1p0.png
+    modified: tests/outputs/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs/20210421_014200_WP022021_ascatuhr_metop-c_wind-ambiguities_120kts_100p00_0p1.png
+    modified: tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs/20210209_025351_SH192021_oscat_scatsat-1_windbarbs_135kts_75p10_1p0.png
+    modified: tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png
+    modified: tests/outputs/viirsday.tc.Night-Vis-IR.imagery_annotated/20210209_074210_SH192021_viirs_noaa-20_Night-Vis-IR_130kts_100p00_1p0.png
+    modified: tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+    modified: tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+    modified: tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+    modified: tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+    modified: tests/outputs/amsub_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_amsu-b_metop-a_183-3H_115kts_100p00_1p0.png
+    modified: tests/outputs/hy2.tc.windspeed.imagery_annotated/20211202_084039_WP272021_hscat_hy-2b_windspeed_95kts_97p06_1p0.png
+    modified: tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global.83p60.cimss.20p0.png
+    modified: tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated/20210419_230000_WP022021_mimic_tpw_TPW-PWAT_115kts_100p00_1p0.png
+    modified: tests/outputs/saphir.tc.183-3HNearest.imagery_annotated/20210209_003103_SH192021_saphir_meghatropiques_183-3HNearest_135kts_88p76_1p0.png
+    modified: tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+    modified: tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+
+Installation Updates
+====================
+
+Update setup scripts to use pip installed matplotlib >= 3.7.0
+-------------------------------------------------------------
+
+*From issue GEOIPS#208: 2023-03-22, use pip installed matplotlib >= 3.7.0*
+
+update to pip installed matplotlib>=3.7.0, cartopy>=0.21.0.
+
+Only install via conda:
+
+* openblas (scipy dependency) and
+* geos (shapely/cartopy dependency)
+
+Conda installations of the SAME verson of matplotlib and cartopy as the pip
+installed versions result in slightly different annotated outputs!
+
+So, ensure we always install the Python packages via pip for consistency,
+only use conda for dependencies.
+
+Must also update of all test repo outputs required for tests to pass.
+
+Eventually we will likely want to modify the annotated imagery comparison tests
+to not rely on the exact placement of annotations, but for now, just update a
+few test repo outputs on dependency version updates.
+
+::
+    modified: setup.py
+    modified: setup.sh

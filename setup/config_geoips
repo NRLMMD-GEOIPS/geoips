@@ -3,12 +3,12 @@ if [ -L $BASH_SOURCE ]; then
     # Used in qsub.py
     export GEOIPS_RCFILE=$linkpath
     CURRENT_CONFIGPATH=`dirname $linkpath`
-    export GEOIPS_VERS=`cat $CURRENT_CONFIGPATH/../VERSION`
+    export GEOIPS_VERS=`git -C $CURRENT_CONFIGPATH/.. tag | grep -v osr | tail -n 1`
 else
     CURRENT_CONFIGPATH="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd)"
     # Used in qsub.py
     export GEOIPS_RCFILE=$CURRENT_CONFIGPATH/"$(basename "${BASH_SOURCE[0]}")"
-    export GEOIPS_VERS=`cat $CURRENT_CONFIGPATH/../VERSION`
+    export GEOIPS_VERS=`git -C $CURRENT_CONFIGPATH/.. tag | grep -v osr | tail -n 1`
 fi
 
 export GEOIPS_BASEDIR=`dirname $CURRENT_CONFIGPATH`

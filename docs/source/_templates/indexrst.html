@@ -1,0 +1,138 @@
+:notoc:
+
+.. GEOIPS documentation master file, created by
+
+.. module:: geoips
+
+***************************
+GeoIPS |reg|  Documentation
+***************************
+
+**Date**: |today| **Version**: |release|
+
+**Download PDF documentation**: :download:`GeoIPS.pdf`
+
+**Previous versions**: Documentation of previous geoips versions are available at
+`github.com/NRLMMD-GEOIPS <https://github.com/NRLMMD-GEOIPS/>`__.
+
+**Useful links**:
+`Source Repository <https://github.com/NRLMMD-GeoIPS/geoips>`__ |
+`GeoIPS License <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE>`__ |
+`NRLMMD <https://www.nrlmry.navy.mil>`__ |
+
+:mod:`geoips` is a free software program, United States Governmnet NRLMMD licensed.
+
+::
+
+    Distribution Statement A. Approved for public release. Distribution unlimited.
+
+    Author:
+    Naval Research Laboratory, Marine Meteorology Division
+
+    This program is free software: you can redistribute it and/or modify it under
+    the terms of the NRLMMD License included with this program. This program is
+    distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+    for more details. If you did not receive the license, for more information see:
+    https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+GeoIPS |reg| Base Package
+-------------------------
+
+The GeoIPS Base Package provides a Python 3 based architecture supporting a wide
+variety of satellite and weather data processing. The modular nature of the GeoIPS
+base infrastructure also allows plug-and-play capability for user-specified custom
+functionality.
+
+{% if not single_doc -%}
+.. grid:: 1 2 2 2
+    :gutter: 2
+
+    .. grid-item-card:: User Guide
+
+        .. image:: _static/index_user_guide.png
+           :alt: user guide
+           :scale: 25%
+           :align: center
+
+        The user guide provides in-depth information on the key concepts of
+        geoips with useful background information and explanation.
+
+        .. button-link:: userguide/index.html
+            :ref-type: ref
+            :color: secondary
+            :expand:
+            :click-parent:
+
+            User Guide
+
+    .. grid-item-card:: The API reference guide
+
+        .. image:: _static/index_api.png
+           :alt: API Reference
+           :scale: 25%
+           :align: center
+
+        The reference guide contains a detailed description of geoips API.
+        The reference describes how the methods work and which parameters can
+        be used. It assumes that you have an understanding of the key concepts.
+
+        .. button-link:: geoips_api/index.html
+            :ref-type: ref
+            :color: secondary
+            :expand:
+            :click-parent:
+
+            API
+
+    .. grid-item-card:: To the release notes
+
+        .. image:: _static/index_contribute.png
+           :alt: release notes
+           :scale: 25%
+           :align: center
+
+        Change logs, versioning and contribution history.
+
+        .. button-link:: releases/index.html
+            :ref-type: ref
+            :color: secondary
+            :expand:
+            :click-parent:
+
+            Release Notes
+
+{% endif %}
+{% if single_doc and single_doc.endswith('.rst') -%}
+.. toctree::
+    :maxdepth: 3
+    :titlesonly:
+
+    {{ single_doc[:-4] }}
+{% elif single_doc and single_doc.count('.') <= 1 %}
+.. autosummary::
+    :toctree: geoips_api/
+
+    {{ single_doc }}
+{% elif single_doc %}
+.. autosummary::
+    :toctree: geoips_api/
+
+    {{ single_doc }}
+{% else -%}
+.. toctree::
+    :maxdepth: 3
+    :hidden:
+    :titlesonly:
+{% endif %}
+{% if not single_doc %}
+    introduction/index
+    starter/index
+    userguide/index
+    devguide/index
+    geoips_api/index
+    releases/index
+    contact/index
+{% endif %}
+
+.. |reg|    unicode:: U+000AE .. REGISTERED SIGN

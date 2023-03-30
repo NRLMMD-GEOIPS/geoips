@@ -84,14 +84,12 @@ def amsr2_remss_winds_netcdf(
         hasattr(wind_xarray, "institution")
         and "Remote Sensing Systems" in wind_xarray.institution
     ):
-
         if hasattr(wind_xarray, "title") and "AMSR2" in wind_xarray.title:
             from .utils.remss_reader import read_remss_data
 
             wind_xarrays = read_remss_data(wind_xarray, "amsr2")
 
     for wind_xarray in wind_xarrays.values():
-
         LOG.info("Setting standard metadata")
         wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
             wind_xarray, "timestamp"

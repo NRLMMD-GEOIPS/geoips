@@ -37,7 +37,8 @@ def interp_gauss(
 ):
     """Pyresample interp_kd_tree gaussian interpolation GeoIPS plugin."""
     LOG.info(
-        "Interpolating using standard scifile register method: kd_tree gauss sigmaval %s",
+        "Interpolating using standard scifile register method: "
+        "kd_tree gauss sigmaval %s",
         sigmaval,
     )
 

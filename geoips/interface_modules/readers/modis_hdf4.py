@@ -40,7 +40,6 @@ LOG = logging.getLogger(__name__)
 # Installed Libraries
 import numpy as np
 import xarray as xr
-from IPython import embed as shell
 
 try:
     from pyhdf.HDF import ishdf
@@ -305,7 +304,6 @@ def modis_hdf4(
     corrections_ref = {"aqua": {}, "terra": {}}
 
     for fname in fnames:  # Loop MODIS files
-
         LOG.info("Reading file %s", fname)
 
         # check for a right input MODIS data file
@@ -473,7 +471,6 @@ def modis_hdf4(
             }
 
             for datasettag in dataset_info.keys():  # loop the data_type
-
                 #  create a xarray for a data_type if it does not exist
                 if datasettag not in cumulative_mask:
                     cumulative_mask[datasettag] = xr.Dataset()

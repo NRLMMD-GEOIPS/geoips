@@ -18,13 +18,12 @@ This functionality will be replaced with a class-based implementation v2.0,
 and deprecated at that time.
 """
 import logging
+from geoips.geoips_utils import find_entry_point
 
 LOG = logging.getLogger(__name__)
 
-from geoips.geoips_utils import find_entry_point, find_config
 
-
-### Product parameter dictionaries ###
+# ### Product parameter dictionaries ###
 def is_valid_product(product_name, source_name, output_dict=None):
     """Interface will be deprecated v2.0.
 
@@ -205,13 +204,15 @@ def is_valid_product(product_name, source_name, output_dict=None):
 
     if "product_type" not in product_dict:
         LOG.error(
-            "INVALID PRODUCT '%s': 'product_type' must be defined within product parameter dictionary",
+            "INVALID PRODUCT '%s': "
+            "'product_type' must be defined within product parameter dictionary",
             product_name,
         )
         return False
     if product_dict["product_type"] not in required_keys.keys():
         LOG.error(
-            "INVALID PRODUCT '%s': 'product_type' in product parameter dictionary must be one of '%s'",
+            "INVALID PRODUCT '%s': "
+            "'product_type' in product parameter dictionary must be one of '%s'",
             product_name,
             list(required_keys.keys()),
         )
@@ -222,7 +223,8 @@ def is_valid_product(product_name, source_name, output_dict=None):
     # If we don't have all of the required keys, return False
     if not set(required_keys[product_type]).issubset(set(product_dict)):
         LOG.error(
-            "INVALID PRODUCT '%s': '%s' product parameter dictionary must contain the following fields: '%s'",
+            "INVALID PRODUCT '%s': "
+            "'%s' product parameter dictionary must contain the following fields: '%s'",
             product_name,
             product_type,
             list(required_keys[product_type]),
@@ -234,7 +236,8 @@ def is_valid_product(product_name, source_name, output_dict=None):
         required_keys[product_type] + optional_keys[product_type]
     ):
         LOG.error(
-            "INVALID PRODUCT '%s': Unknown fields in '%s' product parameter dictionary: '%s'",
+            "INVALID PRODUCT '%s': "
+            "Unknown fields in '%s' product parameter dictionary: '%s'",
             product_name,
             product_type,
             set(product_dict).difference(
@@ -267,8 +270,6 @@ def get_product(product_name, source_name, output_dict=None):
     dict
         Dictionary of desired product specifications
     """
-    all_products = {}
-
     source_dict = get_source_inputs(source_name)
 
     # Allow specifying product_template within product_inputs - allows fully
@@ -302,20 +303,24 @@ def get_product(product_name, source_name, output_dict=None):
 
     if product_name not in product_dict:
         raise KeyError(
-            f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: product name {product_name} "
+            f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: "
+            f"product name {product_name} "
             f"must be top level of yaml file {product_dict['yaml_files']}"
         )
 
     if source_name not in source_dict:
         raise KeyError(
-            f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: source name {source_name} "
+            f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: "
+            f"source name {source_name} "
             f"must be top level of yaml file {source_dict['yaml_files']}"
         )
 
     if product_name not in source_dict[source_name]:
         raise KeyError(
-            f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: product name '{product_name}' "
-            f"must be contained in source dict '{source_name}' in {source_dict['yaml_files']}"
+            f"INVALID PRODUCT/SOURCE {product_name}/{source_name}: "
+            f"product name '{product_name}' "
+            f"must be contained in source dict '{source_name}' "
+            "in {source_dict['yaml_files']}"
         )
 
     for key in source_dict[source_name][product_name]:
@@ -340,7 +345,8 @@ def get_product(product_name, source_name, output_dict=None):
         ):
             for subkey in source_dict[source_name][product_name][key]:
                 LOG.debug(
-                    "Replacing key '%s/%s' in %s product_dict with source specification",
+                    "Replacing key '%s/%s' in %s "
+                    "product_dict with source specification",
                     key,
                     subkey,
                     product_name,
@@ -522,8 +528,14 @@ def list_products():
     product_names = sorted(list(set(product_names)))
     source_names = sorted(list(set(source_names)))
     for source_name in source_names:
+        if source_name[0] == "@":
+            LOG.warning("SKIPPING invalid source name %s", source_name)
+            continue
         # LOG.info('Adding source %s', source_name)
         for product_name in product_names:
+            if product_name[0] == "@":
+                LOG.warning("SKIPPING invalid product name %s", product_name)
+                continue
             # LOG.info('    Adding product %s', product_name)
             try:
                 product = get_product(product_name, source_name)
@@ -756,7 +768,8 @@ def get_alg_name(product_name, source_name, output_dict=None):
 
     if not product_params:
         raise ValueError(
-            f"UNSUPPORTED product_name {product_name} not supported for source {source_name}"
+            f"UNSUPPORTED product_name {product_name} "
+            f"not supported for source {source_name}"
         )
 
     if "alg_func" not in product_params:
@@ -914,7 +927,8 @@ def get_data_range(product_name, source_name, output_dict=None):
         alg_func = algorithms.get_plugin(alg_func_name)
         raise TypeError(
             f"Can not call get_data_range on '{alg_func.family}' algs, "
-            f"'output_data_range' not defined (alg '{alg_func_name}' / prod '{product_name}'"
+            "'output_data_range' not defined "
+            f"(alg '{alg_func_name}' / prod '{product_name}'"
         )
     return alg_args["output_data_range"]
 
@@ -945,9 +959,8 @@ def get_interp_name(product_name, source_name, output_dict=None):
 
     if not products:
         raise ValueError(
-            "UNSUPPORTED product_name %s not supported for source %s".format(
-                product_name, source_name
-            )
+            f"UNSUPPORTED product_name '{product_name}' "
+            f"not supported for source '{source_name}'"
         )
     if "interp_func" not in products:
         return None
@@ -981,9 +994,8 @@ def get_interp_args(product_name, source_name, output_dict=None):
 
     if not products:
         raise ValueError(
-            "UNSUPPORTED product_name %s not supported for source %s".format(
-                product_name, source_name
-            )
+            f"UNSUPPORTED product_name '{product_name}' "
+            f"not supported for source '{source_name}'"
         )
 
     interp_args = products["interp_args"]
@@ -1019,9 +1031,8 @@ def get_product_display_name(product_name, source_name, output_dict=None):
 
     if not products:
         raise ValueError(
-            "UNSUPPORTED product_name %s not supported for source %s".format(
-                product_name, source_name
-            )
+            f"UNSUPPORTED product_name '{product_name}' "
+            f"not supported for source '{source_name}'"
         )
 
     if "display_name" not in products or products["display_name"] is None:
@@ -1056,9 +1067,8 @@ def get_cmap_name(product_name, source_name, output_dict=None):
 
     if not products:
         raise ValueError(
-            "UNSUPPORTED product_name %s not supported for source %s".format(
-                product_name, source_name
-            )
+            f"UNSUPPORTED product_name '{product_name}' "
+            f"not supported for source '{source_name}'"
         )
 
     if "cmap_func" not in products:
@@ -1096,9 +1106,8 @@ def get_cmap_args(product_name, source_name, output_dict=None):
 
     if not products:
         raise ValueError(
-            "UNSUPPORTED product_name %s not supported for source %s".format(
-                product_name, source_name
-            )
+            f"UNSUPPORTED product_name '{product_name}' "
+            f"not supported for source '{source_name}'"
         )
 
     args = products["cmap_args"]
@@ -1181,9 +1190,8 @@ def get_covg_from_product(
 
     if not products:
         raise ValueError(
-            "UNSUPPORTED product_name %s not supported for source %s".format(
-                product_name, source_name
-            )
+            f"UNSUPPORTED product_name '{product_name}' "
+            f"not supported for source '{source_name}'"
         )
 
     if covg_func_field_name in products:
@@ -1227,9 +1235,8 @@ def get_covg_args_from_product(
 
     if not products:
         raise ValueError(
-            "UNSUPPORTED product_name %s not supported for source %s".format(
-                product_name, source_name
-            )
+            f"UNSUPPORTED product_name '{product_name}' "
+            f"not supported for source '{source_name}'"
         )
 
     if covg_args_field_name in products:

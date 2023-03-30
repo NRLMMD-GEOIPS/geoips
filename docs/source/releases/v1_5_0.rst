@@ -1,0 +1,343 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.5.0 (2022-06-09)
+**************************
+
+v1.5.0: 2022-06-09, consolidate/update test outputs to latest dependencies, geoips2->geoips, update GEOIPS\_REPO\_URL
+
+v1.5.0post2: 2022-06-16, update to github.com/NRLMMD-GeoIPS
+
+Installation and test
+=====================
+
+* Replace github.com/U-S-NRL-Marine-Meteorology-Division with github.com/NRLMMD-GeoIPS
+
+    * git-workflow.rst
+    * installation.rst
+    * README.md
+    * config_geoips
+
+v1.5.0post1: 2022-06-11, support \<ORG>/\<REPO> specifications
+
+Improvements
+============
+
+* **setup.sh repository name specifications**
+
+    * "\<repo\_name>" - $GEOIPS\_BASE\_URL/GEOIPS/\<repo\_name>.git == $GEOIPS\_REPO\_URL/\<repo\_name>.git
+    * "\<repo\_org\>/\<repo\_name>" - $GEOIPS\_BASE\_URL/\<repo\_org\>/\<repo\_name>.git
+    * "/\<repo\_name>" - $GEOIPS\_BASE\_URL/\<repo\_name>.git
+
+* **Remove .github/hooks/update.ry - unused**
+
+Test Repo Updates
+=================
+
+Test Sectors
+------------
+
+* Add bdeck files
+
+    * bwp012020.dat
+    * bep112021.dat
+    * bsh082021.dat
+
+Additional direct test calls and outputs
+----------------------------------------
+
+* ATMS 165H reprojected netcdf output, bep112021
+
+    * Test script: $GEOIPS/tests/scripts/atms.tc.165H.netcdf_geoips.sh
+    * Output dir: $GEOIPS/tests/outputs/atms.tc.165H.netcdf_geoips
+
+* EWS-G Infrared reprojected clean imagery, ewsg.yaml
+
+    * Test script: $GEOIPS/tests/scripts/ewsg.static.Infrared.imagery_clean.sh
+    * Output dir: $GEOIPS/tests/outputs/ewsg.static.Infrared.imagery_clean
+
+* SAPHIR 183-3HNearest reprojected annotated imagery, bsh192021
+
+    * Test script: $GEOIPS/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh
+    * Output dir: $GEOIPS/tests/outputs/saphir.tc.183-3HNearest.imagery_annotated
+
+* AMSR2 OCEAN windspeed clean imagery output
+
+    * Test script: $GEOIPS/tests/scripts/amsr2_winds.tc.windspeed.imagery_clean.sh
+    * Output dir: $GEOIPS/tests/outputs/amsr2_winds.tc.windspeed.imagery_clean
+
+* ASCAT METOP-C Low resolution (25km) windbarb annotated imagery output
+
+    * Test script: $GEOIPS/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh
+    * Output dir: $GEOIPS/tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs
+
+* SSMI 37pct clean imagery output
+
+    * Test script: $GEOIPS/tests/scripts/ssmi.tc.37pct.imagery_clean.sh
+    * Output dir: $GEOIPS/tests/outputs/ssmi.tc.37pct.imagery_clean
+
+* TPW MIMIC fine, TPW-PWAT product annotated imagery output
+
+    * Test script: $GEOIPS/tests/scripts/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh
+    * Output dir: $GEOIPS/tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated
+
+Updated test scripts
+--------------------
+
+* ahi.IR-BD.imagery\_clean.sh -> ahi.WV.geotiff.sh
+
+Update test script names to include sector type
+-----------------------------------------------
+
+::
+
+    abi.Visible.imagery\_annotated.sh ->                  abi.static.Visible.imagery\_annotated
+    ahi.WV.geotiff.sh ->                                  ahi.tc.WV.geotiff.sh
+    amsr2.89H-Physical.imagery\_annotated.sh ->           amsr2.tc.89H-Physical.imagery\_annotated.sh
+    amsub\_mirs.tc.183-3H.imagery\_annotated ->           amsub\_mirs.tc.183-3H.imagery\_annotated.sh
+    ascat\_uhr.wind-ambiguities.imagery\_windbarbs.sh ->  ascat\_uhr.tc.wind-ambiguities.imagery\_windbarbs.sh
+    ascat\_knmi.windbarbs.imagery\_windbarbs\_clean.sh -> ascat\_knmi.tc.windbarbs.imagery\_windbarbs\_clean.sh
+    atms.165H.netcdf\_geoips.sh ->                        atms.tc.165H.netcdf\_geoips.sh
+    ewsg.Infrared.imagery\_clean.sh ->                    ewsg.static.Infrared.imagery\_clean.sh
+    gmi.89pct.imagery\_clean.sh ->                        gmi.tc.89pct.imagery\_clean.sh
+    imerg.Rain.imagery\_clean.sh ->                       imerg.tc.Rain.imagery\_clean.sh
+    oscat\_knmi.windbarbs.imagery\_windbarbs.sh ->        oscat\_knmi.tc.windbarbs.imagery\_windbarbs.sh
+    hy2.windspeed.imagery\_annotated.sh ->                hy2.tc.windspeed.imagery\_annotated.sh
+    mimic.TPW\_CIMSS.imagery\_annotated ->                mimic\_coarse.static.TPW-CIMSS.imagery\_annotated.sh
+    sar.nrcs.imagery\_annotated.sh ->                     sar.tc.nrcs.imagery\_annotated.sh
+    smos.sectored.text\_winds ->                          smos.tc.sectored.text\_winds.sh
+    viirsday.Night-Vis-IR.imagery\_annotated.sh->         viirsday.tc.Night-Vis-IR.imagery\_annotated.sh
+    viirsmoon.Night-Vis-GeoIPS1.clean.sh ->               viirsmoon.tc.Night-Vis-GeoIPS1.imagery\_clean.sh
+
+Update test output directories to include sector type and output type
+---------------------------------------------------------------------
+
+::
+
+    abi\_Visible\_image ->                   abi.static.Visible.annotated
+    ahi\_IR-BD ->                            ahi.tc.WV.geotiff
+    amsr2\_89H-Physical ->                   amsr2.tc.89H-Physical.imagery\_annotated
+    amsub\_183-3H ->                         amsub\_mirs.tc.183-3H.imagery\_annotated
+    ascat\_uhr\_wind-ambiguities ->          ascat\_uhr.tc.wind-ambiguities.imagery\_windbarbs
+    ascat\_knmi\_windbarbs ->                ascat\_knmi.tc.windbarbs.imagery\_windbarbs\_clean
+    atms\_165H ->                            atms.tc.165H.netcdf\_geoips
+    ewsg\_Infrared ->                        ewsg.static.Infrared.imagery\_clean
+    gmi\_89pct ->                            gmi.tc.89pct.imagery\_clean
+    hy2\_windspeed ->                        hy2.tc.windspeed.imagery\_annotated
+    imerg\_Rain ->                           imerg.tc.Rain.imagery\_clean
+    mimic\_TPW\_CIMSS ->                     mimic\_coarse.static.TPW-CIMSS.imagery\_annotated
+    modis\_Infrared ->                       modis.Infrared.unprojected\_image
+    oscat\_knmi\_windbarbs ->                oscat\_knmi.tc.windbarbs.imagery\_windbarbs
+    sar\_nrcs ->                             sar.tc.nrcs.imagery\_annotated
+    smap\_text\_winds ->                     smap.unsectored.text\_winds
+    smos\_sectored ->                        smos.tc.sectored.text\_winds
+    seviri\_WV-Upper ->                      seviri.WV-Upper.unprojected\_image
+    ssmis\_color89 ->                        ssmis.color89.unprojected\_image
+    viirsclearnight\_Night-Vis-IR-GeoIPS1 -> viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected\_image
+    viirsday\_Night-Vis-IR ->                viirsday.tc.Night-Vis-IR.imagery\_annotated
+    viirsmoon\_Night-Vis-GeoIPS1 ->          viirsmoon.tc.Night-Vis-GeoIPS1.imagery\_clean
+
+Added TC bdeck files
+--------------------
+
+::
+
+    bal052021.dat (SAPHIR test case, unused)
+    bal032020.dat (SAR test cases, unused)
+    bwp252021.dat (SAR test cases, unused)
+    bsh242020.dat (SEVIRI test case)
+
+ABI config-based test script
+----------------------------
+
+* Update to standard \<sensor>.\<sector\_type>.\<product>.\<output\_type> directory format
+* Update YAML metadata to use sectors/tc\_bdecks sector path
+
+Dependency Version Update
+=========================
+
+* matplotlib 3.4.3->3.5.2
+* cartopy 0.20.0 -> 0.20.2
+* pyshp 2.1.3 -> 2.2.0
+* natural-earth-vector 5.0.0 -> 5.2.0
+
+Impacted test outputs
+---------------------
+
+* amsub_mirs.tc.183-3H.imagery_annotated
+* ascat_low_knmi.tc.windbarbs.imagery_windbarbs
+* hy2.tc.windspeed.imagery_annotated
+* mimic_coarse.static.TPW-CIMSS.imagery_annotated
+* mimic_fine.tc.TPW-PWAT.imagery_annotated
+* oscat_knmi.tc.windbarbs.imagery_windbarbs
+* saphir.tc.183-3HNearest.imagery_annotated
+* sar.tc.nrcs.imagery_annotated
+* AFTER TEST DATA UNCOMPRESS BUG FIX: amsr2.tc.89H-Physical.imagery_annotated
+* AFTER TEST DATA UNCOMPRESS BUG FIX: ascat_uhr.tc.wind-ambiguities.imagery_windbarbs
+
+Refactor
+========
+
+File modifications
+------------------
+
+* Update all instances of 'geoips2' with 'geoips'
+* Update all instances of 'GEOIPS2' with 'GEOIPS'
+* Update GEOIPS\_REPO\_URL to github.com/NRLMMD-GeoIPS
+
+File renaming
+-------------
+
+* Rename all files and directories containing 'geoips2' with \*geoips\*
+
+Setup standardization
+---------------------
+
+* Replace 'setup\_geoips2.sh install\_geoips2' with 'setup.sh install'
+* Replace all instances of 'setup\_geoips2.sh' with 'setup.sh'
+
+Test sectors
+------------
+
+* Organize test sectors for easier identification of available sectors,
+    and easier expansion to additional sector types in the future.
+
+    * static (currently large global and geostationary coverage sectors)
+    * tc_bdecks (bdeck files only)
+
+* Update all test scripts and YAML configs for new test sector locations
+* Add tc\_bdeck files
+
+    * bep062021.dat - used with ABI daytime test dataset
+    * bwp192021.dat - Large WPAC storm 2021, Chantu (not currently used with any test datasets)
+
+* Update bep112021.dat - used with ATMS test script
+
+    * File reprocessed April 2022 was of incorrect format for bdeck_parser - replace with last "realtime"
+        bdeck file.
+    * Probably need to eventually create new parser for reprocessed deck files.
+
+Major New Functionality
+=======================
+
+Product types
+-------------
+
+* Add 'alg\_interp\_cmap' product type to geoips/dev/product.py
+* Add 'interp' product type to geoips/dev/product.py
+
+Algorithm / interpolation order in procflows
+--------------------------------------------
+
+* Check explicit list of product types when attempting to pull "alg" from product
+
+    * ['alg', 'alg_cmap', 'interp_alg', 'interp_alg_cmap', 'alg_interp_cmap']
+
+* Check explicit list of product types when attempting to apply algorithm prior to interpolation
+
+    * ['alg_cmap', 'alg_interp_cmap', 'alg']
+
+* Check explicit lists of product types / algorithm types when attempting to apply the results of interpolation/
+    algorithm application to the final xarray object
+
+    * ['interp']:
+
+        * Use interp_xarray unchanged as final xarray object
+
+    * ['xarray_to_numpy']:
+
+        * Pass entire "interp_xarray" to algorithm,
+        * set returned numpy array as "product_name" variable
+
+    * ['xarray_to_xarray']:
+
+        * Pass entire "interp_xarray" to algorithm,
+        * set entire returned xarray object as "interp_xarray"
+
+    * ['single_channel', 'channel_combination', 'list_numpy_to_numpy', 'rgb']
+
+        * Pass list of numpy arrays to algorithm.
+        * Set returned numpy array to "product_name" variable in xarray object.
+
+    * Anything else
+
+        * Raise ValueError - must explicitly implement new types to work within procflow.
+        * Previously we defaulted to list_numpy_to_numpy
+        * If we do want a default, it should probably be "xarray_to_xarray", but for now we will leave it explicit.
+
+Coverage checks
+---------------
+
+* Add kwarg to existing coverage checks allowing passing an alternative variable name to the coverage check,
+    to be used in the event the primary variable name does not exist (useful when no "product_name" variable
+    exists in the xarray object)
+
+* Allows passing explicitly variable name to use for coverage checks from "covg\_args" in product YAML specs.
+
+Improvements
+============
+
+Pre-receive Hook
+----------------
+
+* Added "update" pre-receive hook to allow git commit message format hooks before push to GitHub
+* Requires only one commit message in the current push to pass
+
+    * Must include valid Issue ID (GEOIPS/<issue_repo_name>#<issue_num>)
+    * Must follow format specification:
+
+        * one summary line
+        * one blank line (if more than one line in commit message)
+        * OPTIONAL: additional lines with detailed information
+
+ssmi_binary
+-----------
+
+* Raise sensible exception when incorrect data file passed into ssmi\_binary reader
+
+TPW Products
+------------
+
+* Update TPW product names to use '-' rather than '\_', to follow standard practice
+
+Documentation Updates
+=====================
+
+GitHub Workflow
+---------------
+
+* Add rst documentation for full GitHub workflow
+
+    * Creating Issue
+    * Making changes to repositories
+    * Pushing changes to GitHub
+    * Creating a Pull Request
+
+CHANGELOG_TEMPLATE.md
+---------------------
+
+* Add note at beginning that CHANGELOG\_TEMPLATE.md itself should *not* be modified.
+
+Bug fixes
+=========
+
+ATMS Reader
+-----------
+
+* Add atms reader to setup.py
+* Update original\_source\_filenames to support multiple files in atms reader
+
+SAPHIR Reader
+-------------
+
+* Replace h5\_dataset.value construct with h5\_dataset[...]
+

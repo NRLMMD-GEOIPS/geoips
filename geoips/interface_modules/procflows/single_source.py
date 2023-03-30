@@ -11,7 +11,8 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Processing workflow for single data source processing."""
-import os
+from os import getenv
+from os.path import basename
 import logging
 from datetime import timedelta
 import inspect
@@ -39,7 +40,7 @@ from geoips.dev.product import (
     get_interp_name,
     get_interp_args,
     get_alg_name,
-    get_alg_args
+    get_alg_args,
 )
 from geoips.dev.output_config import (
     get_filename_formats,
@@ -87,7 +88,6 @@ PRODUCT_FAMILIES_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT = [
     "unsectored_xarray_dict_to_output_format",
     "unsectored_xarray_dict_area_to_output_format",
 ]
-
 
 PMW_NUM_PIXELS_X = 1400
 PMW_NUM_PIXELS_Y = 1400
@@ -296,7 +296,9 @@ def process_xarray_dict_to_output_format(
 
     if "output_dict" not in output_format_kwargs:
         output_format_kwargs["output_dict"] = output_dict
-    output_format_kwargs = remove_unsupported_kwargs(output_plugin, output_format_kwargs)
+    output_format_kwargs = remove_unsupported_kwargs(
+        output_plugin, output_format_kwargs
+    )
 
     if output_plugin.family == "xrdict_varlist_outfnames_to_outlist":
         curr_products = output_plugin(
@@ -319,9 +321,13 @@ def process_xarray_dict_to_output_format(
             raise (ValueError("Did not produce expected products"))
 
     elif output_plugin.family == "xrdict_area_product_to_outlist":
-        curr_products = output_plugin(xobjs, area_def, product_name, **output_format_kwargs)
+        curr_products = output_plugin(
+            xobjs, area_def, product_name, **output_format_kwargs
+        )
         # No input filename list, no check that output filename list matches
-        LOG.info("Not checking output file list for output family %s", output_plugin.family)
+        LOG.info(
+            "Not checking output file list for output family %s", output_plugin.family
+        )
 
     else:
         raise TypeError(
@@ -433,7 +439,7 @@ def get_filename(
         )
 
     # They all use covg except those in list
-    if (filename_fmt_plugin.family not in FILENAME_FORMATS_WITHOUT_COVG):
+    if filename_fmt_plugin.family not in FILENAME_FORMATS_WITHOUT_COVG:
         covg_func = get_covg_from_product(
             product_name,
             alg_xarray.source_name,
@@ -459,13 +465,12 @@ def get_filename(
         )
     elif filename_fmt_plugin.family == "xarray_metadata_to_filename":
         fname = filename_fmt_plugin(alg_xarray, **curr_kwargs)
-    elif (
-        filename_fmt_plugin.family ==
-        "xarray_area_product_to_filename"
-    ):
+    elif filename_fmt_plugin.family == "xarray_area_product_to_filename":
         fname = filename_fmt_plugin(alg_xarray, area_def, product_name, **curr_kwargs)
     else:
-        fname = filename_fmt_plugin(area_def, alg_xarray, product_name, covg, **curr_kwargs)
+        fname = filename_fmt_plugin(
+            area_def, alg_xarray, product_name, covg, **curr_kwargs
+        )
     return fname
 
 
@@ -589,10 +594,12 @@ def plot_data(
                 product_name=product_name,
                 **output_kwargs,
             )
+            for output_product in output_products:
+                output_fnames[output_product] = {}
             # No input filename list, no check that output filename list matches
             LOG.info(
                 "Not checking output file list for output family %s",
-                output_plugin.family
+                output_plugin.family,
             )
         else:
             raise ValueError(
@@ -630,7 +637,8 @@ def get_area_defs_from_command_line_args(
     self_register_source = None
     area_defs = []
 
-    # If we are requesting an area definition that is tied directly to the reader METADATA, identify it here.
+    # If we are requesting an area definition that is tied directly to the reader
+    # METADATA, identify it here.
     # This is useful for datasets that are pre-registered to a specific region
     # (like TCs, etc)
     if (
@@ -771,8 +779,8 @@ def get_area_defs_from_command_line_args(
             end_datetime=xobjs["METADATA"].end_datetime + timedelta(hours=3),
         )
 
-    # If we have a "short" data file, return only a single dynamic sector closest to the start time.
-    # If longer than one swath for polar orbiters, we may have more than one
+    # If we have a "short" data file, return only a single dynamic sector closest to the
+    # start time. If longer than one swath for polar orbiters, we may have more than one
     # "hit", so don't filter.
     if (
         filter_time
@@ -824,7 +832,7 @@ def get_alg_xarray(
         alg_plugin = algorithms.get_plugin(
             get_alg_name(product_name, sect_xarrays["METADATA"].source_name)
         )
-        alg_family= alg_plugin.family
+        alg_family = alg_plugin.family
         alg_args = get_alg_args(product_name, sect_xarrays["METADATA"].source_name)
     else:
         # Default to "None" so it is defined when used below.
@@ -840,7 +848,8 @@ def get_alg_xarray(
             product_name, sect_xarrays["METADATA"].source_name
         )
 
-    # If the initial sectoring was to a padded area definition, must sector to final area_def here.
+    # If the initial sectoring was to a padded area definition, must sector to final
+    # area_def here.
     # Allow specifying whether it needs to be resectored or not via kwargs.
     if resector:
         curr_sect_xarrays = sector_xarrays(
@@ -858,14 +867,14 @@ def get_alg_xarray(
     LOG.info("get_alg_xarray required variables: %s", variables)
     LOG.info("get_alg_xarray requested datasets for variables: %s", datasets_for_vars)
 
-    # If we want to run the algorithm prior to interpolation, apply the algorithm here, and return either
-    # the unprojected result or interpolated result appropriately.
+    # If we want to run the algorithm prior to interpolation, apply the algorithm here,
+    # and return either the unprojected result or interpolated result appropriately.
     if product_type in ["alg_cmap", "alg_interp_cmap", "alg"]:
         alg_xarray = xarray.Dataset()
         alg_xarray.attrs = sect_xarrays["METADATA"].attrs.copy()
         if alg_family in ["xarray_to_numpy"]:
-            # Format the call signature for passing a dictionary of xarrays, plus area_def, and return a single
-            # numpy array
+            # Format the call signature for passing a dictionary of xarrays,
+            # plus area_def, and return a single numpy array
             for dsname in sect_xarrays.keys():
                 if set(variable_names).issubset(
                     set(sect_xarrays[dsname].variables.keys())
@@ -874,14 +883,14 @@ def get_alg_xarray(
                         alg_plugin(sect_xarrays[dsname], **alg_args)
                     )
         elif alg_family in ["xarray_dict_area_def_to_numpy"]:
-            # Format the call signature for passing a dictionary of xarrays, plus area_def, and return a single
-            # numpy array
+            # Format the call signature for passing a dictionary of xarrays,
+            # plus area_def, and return a single numpy array
             alg_xarray[product_name] = xarray.DataArray(
                 alg_plugin(sect_xarrays, area_def, **alg_args)
             )
         elif alg_family in ["xarray_dict_to_xarray"]:
-            # Format the call signature for passing a dictionary of xarrays, plus area_def, and return a single
-            # numpy array
+            # Format the call signature for passing a dictionary of xarrays,
+            # plus area_def, and return a single numpy array
             alg_xarray = alg_plugin(sect_xarrays, **alg_args)
         elif alg_family in ["xarray_to_xarray"]:
             input_alg_xarray = None
@@ -909,7 +918,8 @@ def get_alg_xarray(
                 )
             alg_xarray = alg_plugin(input_alg_xarray, **alg_args)
         elif alg_family in ["list_numpy_to_numpy"]:
-            # Need to pull all the required variables out of the various xarray datasets, and add them to numpy list
+            # Need to pull all the required variables out of the various xarray datasets
+            # and add them to numpy list.
             # Then assign the resulting numpy array to the "product_name" DataArray
             # within the xarray Dataset
             numpys = []
@@ -926,7 +936,9 @@ def get_alg_xarray(
         # If required, interpolate the result prior to returning
         elif product_type == "alg_interp_cmap":
             interp_args["varlist"] = [product_name]
-            final_xarray = interp_plugin(area_def, alg_xarray, alg_xarray, **interp_args)
+            final_xarray = interp_plugin(
+                area_def, alg_xarray, alg_xarray, **interp_args
+            )
 
         # Ensure we have the "adjustment"id" in the filename appropriately
         if "adjustment_id" in area_def.sector_info:
@@ -1201,7 +1213,7 @@ def single_source(fnames, command_line_args=None):
         from geoips_db.dev.postgres_database import get_db_writer
 
         db_writer = get_db_writer(product_db_writer)
-        if not os.getenv("G2DB_USER") or not os.getenv("G2DB_PASS"):
+        if not getenv("G2DB_USER") or not getenv("G2DB_PASS"):
             raise ValueError("Need to set both $G2DB_USER and $G2DB_PASS")
 
     from geoips.interfaces import readers
@@ -1400,7 +1412,6 @@ def single_source(fnames, command_line_args=None):
         # If the required variables are not contained within the xarray objects, do not
         # attempt to process (variables in product algorithm are not available)
         if set(variables).issubset(all_vars):
-
             # We want to write out the padded xarray for "xarray_data" output types
             # Otherwise, we need the fully sectored output
             output_plugin = output_formats.get_plugin(output_format)
@@ -1546,7 +1557,7 @@ def single_source(fnames, command_line_args=None):
     process_datetimes["overall_end"] = datetime.utcnow()
 
     LOG.info(
-        "The following products were produced from procflow %s", os.path.basename(__file__)
+        "The following products were produced from procflow %s", basename(__file__)
     )
     for output_product in final_products:
         LOG.info("    SINGLESOURCESUCCESS %s", output_product)

@@ -1,0 +1,29 @@
+channels:
+- conda-forge
+- defaults
+dependencies:
+- pyresample
+- numpy
+- xarray
+- matplotlib=3.5.3
+- scipy
+- pyshp
+- shapely
+- cartopy=0.20.3
+- h5py
+- pyhdf
+- rasterio
+- flake8
+- pylint
+- bandit
+- ipython
+- psutil
+- pyorbital
+- ephem
+- isodate
+- satpy
+- numexpr
+- python=3.9
+- sphinx=5.1.1
+- pydata-sphinx-theme
+- sphinx-design

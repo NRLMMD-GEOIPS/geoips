@@ -111,6 +111,15 @@ def find_entry_point(namespace, name, default=None):
 
 
 def get_all_entry_points(namespace):
+    """Return all entry points in GEOIPS entry point namespace 'namespace'.
+
+    Automatically add 'geoips' prefix to namespace for disambiguation.
+
+    Parameters
+    ----------
+    namespace :str
+        Entry point namespace (e.g. 'readers')
+    """
     entry_points = metadata.entry_points()
     ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
     return [ep.load() for ep in entry_points[ep_namespace]]

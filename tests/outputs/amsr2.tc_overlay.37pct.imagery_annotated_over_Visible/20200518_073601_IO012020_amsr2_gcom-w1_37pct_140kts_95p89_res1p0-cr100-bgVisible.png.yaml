@@ -23,6 +23,10 @@ covg_info:
   image_production_covg: 21.588979591836736
   image_production_covg_args: {}
   image_production_covg_func: masked_arrays
+data_times:
+  end: 2020-05-18 07:41:24
+  mid: 2020-05-18 07:38:42.500000
+  start: 2020-05-18 07:36:01
 deck_line: IO, 01, 2020051806,   , BEST,   0, 134N,  862E, 140,  911, ST,  34, NEQ,  155,  125,  160,  145,  999,  200,   5,   0,  10,   B,   0,    ,   0,   0,     AMPHAN,
   D,
 final_storm_name: AMPHAN

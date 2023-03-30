@@ -1,0 +1,126 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.4.6 (2022-04-18)
+**************************
+
+v1.4.6: 2022-04-18, metadata\_tc, center\_radius\_rgba, coverage check info in metadata, real-time bug fixes
+
+Major New Functionality
+=======================
+
+Product Display
+---------------
+
+* Add "cbar\_label" kwarg to all passive microwave colormaps
+
+    * Allows passing "cbar_lable" from product inputs and product params YAMLs
+
+* Add Coverage Function information
+
+Coverage Checks
+---------------
+
+* Add center\_radius\_rgba coverage check
+
+    * use arr[:, :, 3] alpha layer for masked values rather than arr.mask
+
+Metadata YAML outputs
+---------------------
+
+* Add new metadata\_tc output format
+
+    * metadata_default will NOT change, for consistent general test outputs
+    * Include coverage check function information within metadata_tc.
+
+* single\_source.py/config\_based.py
+
+    * Allow passing "product_name" to metadata output format modules (via metadata_fname_dict kwarg)
+
+        * This allows accessing information via "dev/product.py" interfaces for metadata outputs
+
+Database Hooks
+--------------
+
+* Add hooks for accessing modules capable of generating and populating a database of product outputs during
+    geoips processing
+
+Command line arguments
+----------------------
+
+* --product\_db\_writer: Controls interface module used to populate product database by single\_source procflow
+* --product\_db\_writer\_override: Adds ability to override database interface modules set under the
+        available sectors in the output config file
+
+Improvements
+============
+
+Coverage Checks
+---------------
+
+* dev/product.py
+
+    * allow alternate field name for coverage funcs in output config
+    * Defaults to "covg_func" and "covg_args"
+    * Pass "covg_args_field_name" to get_covg_args_from_product or get_covg_from_product to use alternative
+        field name
+    * This allows specifying multiple coverage check functions (ie, one for image_production and one for fnames)
+
+* single\_source.py/config\_based.py
+
+    * Use "image_production_covg_*" when determining if there is sufficient coverage
+        to generate an output product
+
+        * Defaults to use "covg_func" if "image_production_covg_*" not defined
+
+area_def_adjusters
+------------------
+
+* Support list\_xarray\_list\_variables\_to\_area\_def\_out\_fnames adjuster\_type
+
+    * Allows returning list of output filenames, in addition to adjusted area def
+    * Allows producing valid output products via an area_def_adjuster
+
+Bug fixes
+=========
+
+Real-time processing
+--------------------
+
+* Reduce tc\_fname remove duplicates search time from 10 min to 3 min
+
+    * This was previously deleting geostationary products from consecutive collect times.
+
+* Update search time for matching dynamic sector times to -6h to +9h
+
+    * ie, data can come up to 9h after sector time and still match given sector.
+    * This allows for TC sector updates delayed up to 9h during real-time processing
+
+Coverage Checks
+---------------
+
+* center\_radius coverage check
+
+    * previously computed the circle based on radius in pixels rather than radius in km
+    * Update so we convert radius in km to pixels prior to passing into center_radius coverage check.
+
+        * radius_pixels = radius_km / res_km
+        * Results in higher coverage for many products (with resolution > 1km)
+
+1.4.6post1 Post Release Patch (2022-04-21)
+==========================================
+
+Bug fixes
+=========
+
+* Update cartopy map data pull to ensure v5.0.0 natural earth vector data (required for test outputs)
+

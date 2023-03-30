@@ -1,3 +1,15 @@
+    # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+    # # #
+    # # # Author:
+    # # # Naval Research Laboratory, Marine Meteorology Division
+    # # #
+    # # # This program is free software: you can redistribute it and/or modify it under
+    # # # the terms of the NRLMMD License included with this program. This program is
+    # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+    # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+    # # # for more details. If you did not receive the license, for more information see:
+    # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
 # GeoIPS Yaml-based Plugin Options
 Internally, we would like Plugins to behave the same, regardless of whether they are Module-based or Yaml-based. This
 means that we would like to automatically discover Plugins of both types and automatically create Python objects for

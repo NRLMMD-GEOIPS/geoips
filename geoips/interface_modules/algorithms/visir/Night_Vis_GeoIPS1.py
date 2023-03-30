@@ -21,7 +21,6 @@ from geoips.data_manipulations.corrections import apply_data_range, apply_gamma
 LOG = logging.getLogger(__name__)
 
 family = "list_numpy_to_numpy"
-alg_func_type = "list_numpy_to_numpy"
 
 
 def Night_Vis_GeoIPS1(

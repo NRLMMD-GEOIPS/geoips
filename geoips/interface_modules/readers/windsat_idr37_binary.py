@@ -355,7 +355,7 @@ def windsat_idr37_binary(
             lon = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
                 0
             ]  # deg
-            # if lon > 180.0:                                                        # windbarbs needs lon in (-180,180)
+            # if lon > 180.0:          # windbarbs needs lon in (-180,180)
             #   lon=lon-360
 
             eia = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[

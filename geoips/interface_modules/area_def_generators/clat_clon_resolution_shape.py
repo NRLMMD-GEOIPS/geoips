@@ -60,7 +60,8 @@ def clat_clon_resolution_shape(
         pixel_height=pixel_height,
     )
 
-    # Create the AreaDefinition object from given fields.  We are currently relying on Sector objects
+    # Create the AreaDefinition object from given fields.
+    # We are currently relying on Sector objects
     # for some information - need to decide how to handle this directly.
     # This is area_id= then name= for Python2, area_id= then description= for Python3
     from pyresample import AreaDefinition

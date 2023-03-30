@@ -109,35 +109,27 @@ elif [[ "$1" == "create_geoips_conda_env" ]]; then
     echo "conda activate geoips_conda"
 elif [[ "$1" == "install" ]]; then
     echo ""
-    echo "**Installing cartopy from conda-forge"
+    echo "**Installing geos/openblas from conda-forge, for shapely/cartopy/scipy"
 
-    # cartopy and matplotlib must be obtained from conda-forge!
+    # 20230321, update to pip installed matplotlib>=3.7.0, cartopy>=0.21.0.
 
-    # cartopy 0.19.0 and matplotlib 3.4.0 both cause slightly shifted figures compared to old versions
-    # Updating test outputs to latest versions
-    # $BASECONDAPATH/conda install -c conda-forge cartopy matplotlib
-    # This was getting 0.18.0 sometimes without specifying version ???  Force to 0.20.0
+    # Only install via conda:
+    #   openblas (scipy dependency) and
+    #   geos (shapely/cartopy dependency)
+    # Conda installations of the SAME verson of matplotlib and cartopy as the pip
+    #   installed versions result in slightly different annotated outputs!
+    # So, ensure we always install the Python packages via pip for consistency,
+    #   only use conda for dependencies.
 
-    # Update to latest 20220607, previously cartopy 0.20.2 and matplotlib 3.4.3.
-    # 20220922 force to 0.20.3 and 3.5.3
-    #          0.21.0 compatible with 3.6.0, but 0.20.3 not.
-    #          3.6.0 changes output images (letters in plots)
-    # conda install -c conda-forge "cartopy==0.20.3" "matplotlib==3.5.3" --yes
-    # Allow the latest for now, until outputs break again.
-    conda install -c conda-forge "cartopy" "matplotlib" --yes
+    # Must also update all test repo outputs required for tests to pass.
+    # Eventually we will likely want to modify the annotated imagery comparison tests
+    #   to not rely on the exact placement of annotations, but for now, just update a
+    #   few test repo outputs on dependency version updates.
 
-    pip install -e "$GEOIPS_PACKAGES_DIR/geoips[efficiency_improvements,\
-                                                test_outputs,\
-                                                config_based,\
-                                                hdf5_readers,\
-                                                hdf4_readers,\
-                                                geotiff_output,\
-                                                syntax_checking,\
-                                                documentation,\
-                                                debug,\
-                                                overpass_predictor,\
-                                                coverage_checks,\
-                                                geostationary_readers]"
+    # conda install -c conda-forge "cartopy" "matplotlib==3.6.3" --yes
+    conda install -c conda-forge geos openblas --yes
+
+    pip install -e "$GEOIPS_PACKAGES_DIR/geoips"
 
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
@@ -228,7 +220,7 @@ elif [[ "$1" == "setup_vim8_plugins" ]]; then
     fi
 elif [[ "$1" == "download_cartopy_natural_earth" ]]; then
     echo ""
-    echo "**Installing github.com/nvkelso/natural-earth-vector map data v5.2.0, this will take a while"
+    echo "**Installing github.com/nvkelso/natural-earth-vector map data latest version, (last tested v5.2.0) this will take a while"
     cartopy_data=$GEOIPS_DEPENDENCIES_DIR/cartopy_map_data
     echo "    destination: $cartopy_data"
     mkdir -p $cartopy_data
@@ -240,6 +232,7 @@ elif [[ "$1" == "download_cartopy_natural_earth" ]]; then
     # Previously 5.0.0, 20220607 5.2.0
     # echo "    **Checking out tag v5.2.0, to ensure tests pass"
     # git checkout tags/v5.2.0
+    git tag | tail -n 5
     cd $cwd
 elif [[ "$1" == "link_cartopy_natural_earth" ]]; then
     echo ""
@@ -420,6 +413,11 @@ elif [[ "$1" == "recompress_test_data" ]]; then
             exit 1
         fi
     fi
+
+elif [[ "$1" =~ "install_geoips_plugin" ]]; then
+    $0 clone_source_repo $2
+    pip install -e $GEOIPS_PACKAGES_DIR/$2
+
 elif [[ "$1" =~ "clone_source_repo" ]]; then
     echo ""
     echo "**Cloning $2.git"

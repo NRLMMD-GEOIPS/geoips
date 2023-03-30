@@ -1,0 +1,66 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.4.1 (2022-01-21)
+**************************
+
+v1.4.1: 2022-01-21, viirs and smap output config test scripts and documentation
+
+Refactor
+========
+
+* Allow passing cbar\_ticks to matplotlib\_linear\_norm module
+
+Major New Functionality
+=======================
+
+* Add SMAP unsectored text winds explicit test call and sample output
+* Add SMAP test script to test\_all.sh
+* Add bwp202021.dat deck file with SMAP test dataset coverage
+* Add VIIRS explicit test script and sample outputs
+
+    * bsh192021.dat sector
+    * IR-BD and Night-Vis-IR annotated imagery output
+
+* Add himawari8 test sector
+* Add VIIRS explicit est call to test\_all.sh
+
+Improvements
+============
+
+* Add aerosol reader and fname as arg options
+* Add channel number as variable in AHI HSD reader
+* Adjust selection of variable for interpolation in single\_source.py if the same variable name is contained in multiple datasets 
+
+    (ie, VIIRS geolocation variables - slightly different for each resolution dataset - caused issues with differing test outputs between single source and config\_based when multiple datasets are present)
+
+    * Use variable from dataset that contains ALL required variables
+    * Use variable from first dataset
+
+* config\_based procflow now always sector to the adjusted area\_def to ensure we get all of the data.
+
+    * Also must sector before adjusting the area\_def to ensure we have a consistent center time for determining new area\_def 
+      (slightly different center times resulting from different sectoring can cause very slightly different recentering)
+
+Documentation Updates
+=====================
+
+* Add VIIRS sensor and Night-Vis-IR product to avaialble functionality documentation
+* Add SMAP unsectored text winds sample output to "available\_functionality" documentation
+
+Bug fixes
+=========
+
+* Correct typo in config\_based.py (product\_name in pad\_alg\_xarrays, not alg\_xarrays)
+* Update viirs\_netcdf.py to sort filenames prior to reading - intermittent failure if filenames are not sorted in advance
+* No longer converting min/max value to int before normalizing in matplotlib\_linear\_norm colormap
+

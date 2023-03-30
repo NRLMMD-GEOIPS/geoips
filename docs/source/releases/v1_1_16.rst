@@ -1,0 +1,48 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.1.16 (2021-03-03)
+***************************
+
+v1.1.16: rearranged for pip installability for open source release, product updates per JTWC request
+
+Refactor
+========
+
+* Moved fortran algorithms into separate repositories
+* Identified differences between 1.1.3 and 1.1.16
+
+    * Restored and marked retired code as deprecated
+
+Major New Functionality
+=======================
+
+* Created sector overpass database
+* Turned on Visible global stitched
+* Allow ASCAT ESA primary solutions text output
+* Implemented API structure for accessing modules from multiple repos
+    (unused, but functional)
+
+Improvements
+============
+
+* Updated 89H and 89H-Legacy color schemes per JTWC request
+* Switched active MTIFs from smoothed new colormaps to nearest neighbor "legacy" colormaps
+* Apply color ranges to PMW products directly rather than relying on matplotlibs normalize routine.
+
+Bug fixes
+=========
+
+* Partially resolved RGB MTIF color issue (0 is bad val)
+* Corrected TC web output (was matching dictionary keys incorrectly)
+* Resolved multiple errors with MODIS global stitched processing.
+

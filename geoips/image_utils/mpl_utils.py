@@ -168,6 +168,7 @@ def plot_overlays(
         mapobj, area_def, curr_ax, use_gridlines_info, zorder=gridlines_zorder
     )
 
+
 def save_image(
     fig,
     out_fname,
@@ -208,7 +209,8 @@ def save_image(
         for ax in fig.axes:
             LOG.info("Adding ax to %s", ax)
             ax.set_axis_on()
-        # final with titles, labels, etc.  Note bbox_inches='tight' removes white space, pad_inches=0.1 puts back in
+        # final with titles, labels, etc.
+        # Note bbox_inches='tight' removes white space, pad_inches=0.1 puts back in
         # a bit of white space.
         LOG.info("Writing %s", out_fname)
         fig.savefig(
@@ -233,10 +235,6 @@ def save_image(
 
         LOG.info("Writing %s", out_fname)
 
-        # Replace fig.savefig frameon=False argument with facecolor="none"
-        # * frameon deprecated maplotlib v3.1.0, support removed v3.6.0
-        # * facecolor="none" also works with 3.5.x
-        # * https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon
         fig.savefig(
             out_fname,
             dpi=rc_params["figure.dpi"],
@@ -431,7 +429,8 @@ def create_figure_and_main_ax_and_mapobj(
     Returns
     -------
     fig : matplotlib.figure.Figure
-        matplotlib Figure object to subsequently use for plotting imagery / colorbars / etc
+        matplotlib Figure object to subsequently use for plotting
+        imagery / colorbars / etc
     main_ax : matplotlib.axes._axes.Axes
         matplotlib Axes object corresponding to the single main plotting area.
     mapobj : mapobject
@@ -447,7 +446,8 @@ def create_figure_and_main_ax_and_mapobj(
     # Gather needed rcParam constants
     dpi = rc_params["figure.dpi"]
 
-    # I can't seem to get a clean image with no border unless the ax fills the whole figure.
+    # I can't seem to get a clean image with no border unless the ax fills the
+    # whole figure.
     # Titles / labels don't show up unless we use figure.subplot rc_params
     # It does not appear to be possible to plot the image only once for both
     # the clean and annotated image.
@@ -771,7 +771,8 @@ def create_colorbar(fig, mpl_colors_info):
     if "cbar_ax_height" in mpl_colors_info:
         ax_height = mpl_colors_info["cbar_ax_height"]
 
-    # Note - if we want to support "automated" pyplot.colorbar placement, may need a method to "turn off" cbar_ax
+    # Note - if we want to support "automated" pyplot.colorbar placement,
+    # may need a method to "turn off" cbar_ax
     # [left, bottom, width, height]
     cbar_ax = fig.add_axes(
         [ax_left_start_pos, ax_bottom_start_pos, ax_width, ax_height]
@@ -784,11 +785,12 @@ def create_colorbar(fig, mpl_colors_info):
         **cbar_kwargs
     )
     if cbar_ticks:
-        # matplotlib 3.6.0 sometimes has inconsistent results with including minor ticks or not.
+        # matplotlib 3.6.0 sometimes has inconsistent results with including
+        # minor ticks or not.
         # Unclear why it impacts some colorbars and not others.
-        # We may eventually add support for including minor ticks within mpl_colors_info, but for now
-        # explicitly turn off minor ticks so outputs will continue to match (use
-        # the old default).
+        # We may eventually add support for including minor ticks within
+        # mpl_colors_info, but for now explicitly turn off minor ticks so
+        # outputs will continue to match (use the old default).
         cbar.minorticks_off()
         cbar.set_ticks(cbar_ticks, **set_ticks_kwargs)
     if cbar_label:

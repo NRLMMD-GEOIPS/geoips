@@ -15,11 +15,11 @@
 Homepage: https://github.com/NRLMMD-GEOIPS/geoips
 """
 
-from geoips.__version__ import __version__
 from geoips import errors
 from geoips import filenames
 from geoips import interfaces
 from geoips import utils
 from geoips import xarray_utils
+from .version import __version__, __version_tuple__
 
-__all__ = [__version__, interfaces, errors, filenames, utils, xarray_utils]
+__all__ = ["interfaces", "errors", "filenames", "utils", "xarray_utils"]

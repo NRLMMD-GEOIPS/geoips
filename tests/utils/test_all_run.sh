@@ -10,9 +10,6 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-    echo `date` " Running " `basename $call`
-    echo $call
-
     # Set a unique log file for the current script - this allows us to check output from individual calls.
     script_path=`echo $call | cut -d " " -f1`
     script_args=`echo $call | cut -d " " -f2-`
@@ -25,6 +22,9 @@
     fi
     script_name=`basename $script_path`
     script_log=${LOGFILE}_${script_name}${script_args}.log
+
+    echo `date` " Running $script_name"
+    echo $call
 
     overall_num=$((overall_num+1))
     curr_start=`date +%s`
@@ -42,6 +42,8 @@
     echo "$script_log" >> $LOGFILE 2>&1
     echo "" >> $LOGFILE 2>&1
 
+    # Just log this, do not use for return value
+    grep "Number outputs expected" $script_log >> $LOGFILE 2>&1
     grep "BADCOMPARE " $script_log >> $LOGFILE 2>&1
     bad_compare_retval=$?
     grep "MISSINGCOMPARE " $script_log >> $LOGFILE 2>&1
@@ -52,6 +54,8 @@
     failed_interface_retval=$?
     grep "DATABASEFAILURE" $script_log >> $LOGFILE 2>&1
     database_failed_retval=$?
+    # Just log this, do not use for return value
+    grep "Error" $script_log >> $LOGFILE 2>&1
 
 
     grep "SUCCESSFUL COMPARISON DIR:" $script_log >> $LOGFILE 2>&1

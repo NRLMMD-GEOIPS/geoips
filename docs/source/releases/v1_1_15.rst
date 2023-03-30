@@ -1,0 +1,34 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.1.15 (2021-02-15)
+***************************
+
+Refactor
+========
+
+* BREAKING CHANGE: Modularized PMW algorithms and colormaps
+* Finalized bash setup to enable Python 3 exclusive operation
+
+Improvements
+============
+
+* Update 37H and 89H colormaps to more closely match Legacy colormaps,
+    but with extended range
+* Standardize Visible products
+
+Features
+========
+
+* MODIS reader
+* Finalized stitched product output
+

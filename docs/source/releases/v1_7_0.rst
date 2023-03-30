@@ -1,0 +1,307 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+
+Version 1.7.0 (2023-02-15)
+**************************************
+
+
+Regression Fixes
+================
+
+Force matplotlib to v3.6.3 until we can update all test outputs
+---------------------------------------------------------------
+
+*From issue GEOIPS#184: 2023-02-15, version update*
+
+* matplotlib 3.7.0 causes slight changes in labels for annotated imagery outputs
+* Note when we update all outputs, we will also switch from conda install of
+  matplotlib and cartopy to pip install.
+
+::
+
+    setup.py
+    setup.sh
+
+Update format for SAR coverage start and end time
+-------------------------------------------------
+
+*From issue GEOIPS#139: 2023-02-10, Update SAR reader for new coverage start and end time format*
+
+* Until 20221103, SAR coverage start and end time was formatted as YYYYMMDDTHHMNSS
+* As of 20221105, updated to YYYY-MM-DDTHH:MN:SSZ
+* Update reader to support both (old and new file formats)
+* Added B-deck file with coverage over a SAR file with the new format.
+
+::
+
+    modified: geoips/interface_modules/readers/sar_winds_netcdf.py
+    new file: tests/sectors/tc_bdecks/bsh112023.dat
+
+Bug fixes
+=========
+
+Fix minor issues during docs build
+----------------------------------
+
+*From issue GEOIPS#166: 2023-01-31, fix minor issues during docs build*
+
+* Remove imports of ``collections.Hashable`` from ``ahi_hsd`` and
+  ``abi_netcdf`` readers.
+* Remove import of ``IPython.embed`` from ``modis_hdf4`` reader.
+* Ignore GeoIPS.pdf in ``.gitignore``.
+
+
+Testing Updates
+===============
+
+Extend SAR incident angle plots to 70 degrees
+---------------------------------------------
+
+*From issue GEOIPS#141: 2023-02-10, Increase range for SAR incident angle plots*
+
+Some SAR satellites have retrievals very near edge of scan, so increase the
+allowed range for the incident angle plots to cover to the edge.  This will
+impact any test outputs.
+
+* Add ticks for 55, 60, 65, 70 degrees
+* Increase range from [15, 50] to [15, 70] degrees
+
+::
+
+    geoips/yaml_configs/product_params/sfc_winds/incident-angle.yaml
+
+
+Documentation Updates
+=====================
+
+Update all release note distro statements to use RST-formatting
+---------------------------------------------------------------
+
+*From issue GEOIPS#184: 2023-02-15, version update*
+
+* Use ``| # # #`` for release note distro statements
+
+::
+
+    modified: docs/source/releases/*.rst
+
+
+Convert CHANGELOG from md to rst
+--------------------------------
+
+*From issue GEOIPS#172: 2023-02-06, convert CHANGELOG from md to rst*
+
+* RST supports sphinx-built release notes - can copy CHANGELOG.rst directly to
+  release notes on version update.
+* Used pandoc, with slight modifications after convert to match current release notes
+* Formatted to match CHANGELOG_TEMPLATE.rst requirements
+
+::
+
+    renamed/modified: CHANGELOG.md -> CHANGELOG.rst
+
+Removed test_data_amsr2 section from v1.6.0 release notes
+---------------------------------------------------------
+
+*From issue GEOIPS#172: 2023-02-06, convert CHANGELOG from md to rst*
+
+* Removed GEOIPS#11 section from v1.6.0 release notes
+
+  * This was already included in v1.6.1
+
+::
+
+    modified: docs/source/releases/logs/v1_6_0.rst
+
+Convert CHANGELOG_TEMPLATE from md to rst
+-----------------------------------------
+
+*From issue GEOIPS#172: 2023-02-06, convert CHANGELOG from md to rst*
+
+* Rearrange to be in same order as release.yml (with similar headers)
+* Update to always include top level header of Issue ID, date, and summary
+
+  * This will NOT be included in the release notes - used to separate PRs until
+    next release
+  * Actual changes will be sorted into the second level header label categories
+    when generating the release notes during the release process.
+
+* Update to always include second level headers of "label" categories
+* Update to always include a summary of each individual change as a third level
+  header
+
+  * This allows proper summarization of all changes via RST headers.
+
+* Update to always include the Issue ID / PR summary with each third level individual
+  change header
+
+  * These will all be sorted into the second level header label categories during
+    version release, so including the Issue ID and PR summary with each change will
+    facilitate rapidly re-organizing the CHANGELOG into the release notes, and still
+    maintaining a connection to the original PRs.
+
+* Update to always include list of changed files under each third level individual
+  change header
+
+::
+
+    renamed/modified: CHANGELOG_TEMPLATE.md -> CHANGELOG_TEMPLATE.rst
+
+Moved v1.6.1 and v1.6.3 into separate release notes
+---------------------------------------------------
+
+*From issue GEOIPS#172: 2023-02-06, convert CHANGELOG from md to rst*
+
+* removed old versions from from CHANGELOG
+* Added to docs/source/releases/index.rst
+* Update to match new CHANGELOG_TEMPLATE.rst formatting
+
+::
+
+    new file: docs/source/releases/logs/v1_6_1.rst
+    new file: docs/source/releases/logs/v1_6_3.rst
+    modified: docs/source/releases/index.rst
+
+Update all release notes to match standardized format
+-----------------------------------------------------
+
+*From issue GEOIPS#172: 2023-02-06, convert CHANGELOG from md to rst*
+
+* Top level header of "Version X.Y.Z (YYYY-MM-DD)"
+* Second level headers of label categories (like release.yml)
+* Third level headers of actual individual changes
+
+  * Include reference to Issue ID and PR summary with each individual change
+
+* NOTE: Only v1.6.x release notes were fully updated - others only finalized
+  as far as the top level header.
+
+Include explicit links to correct github URLs
+---------------------------------------------
+
+*From issue GEOIPS#175: 2023-02-06, update to explicit links*
+
+::
+
+   modified: docs/source/_templates/indexrst.html
+   modified: docs/source/conf.py
+
+Allow passing full path and html-only to build_docs.sh
+------------------------------------------------------
+
+*From issue GEOIPS#179: 2023-02-06, build_docs.sh path and html-only*
+
+* Added ``pydata_sphinx_theme``, and ``sphinx_design`` to setup.py
+* modified ``build_docs.sh`` to take full path to package for
+  documentation build.
+* Added ``html_only`` option to ``build_docs.sh`` that does NOT produce
+  pdf output
+
+::
+
+   setup.py
+   docs/build_docs.sh
+
+Update SRS to v1.1 with code style enforcement
+----------------------------------------------
+
+*From issue GEOIPS#176: 2023-02-06,
+Update SRS to v1.1 with code style enforcement*
+
+* Update SRS to v1.1
+
+  * Use black/flake8/bandit code checks
+  * Use NumPy docstring formatting / style guide.
+
+::
+
+   modified: docs/source/devguide/software_requirements_specification.rst
+
+RST implementation of new docs organization
+-------------------------------------------
+
+*From issue GEOIPS#156: 2023-02-01, rst implementation of new docs organization*
+
+* modified .gitignore to ignore ``DS_Store`` tha showup on MacOS
+  directories.
+* modified .gitignore to ignore build files
+* modified conf.py, setup.py and added environment.yml to add new
+  sphinx extensions.
+* modified and add rst files to build new layout
+* Removed ``geoips_index.rst`` (replaced with new sphinx-based
+  organization)
+* modified ``build_docs.sh`` to have GeoIPS.pdf be in docs/source
+
+::
+
+   modified: .gitignore
+   modified: setup.py
+   modified: docs/build_docs.sh
+   added: docs/source/_static/index_api.png
+   added: docs/source/_static/index_contribute.png
+   added: docs/source/_static/index_getting_started.png
+   added: docs/source/_static/index_user_guide.png
+   modified: docs/source/_templates/geoips_footer.html
+   added: docs/source/_templates/indexrst.html
+   modified: docs/source/conf.py
+   added: docs/source/contact/about.rst
+   added: docs/source/contact/index.rst
+   modified: docs/source/devguide/contributors.rst
+   modified: docs/source/devguide/documentation_strategy.rst
+   modified: docs/source/devguide/git_workflow.rst
+   modified: docs/source/devguide/index.rst
+   modified: docs/source/devguide/setup_new_plugin.rst
+   modified: docs/source/devguide/software_requirements_specification.rst
+   modified: docs/source/devguide/xarray_standards.rst
+   modified: docs/source/introduction/entry_points.rst
+   added: docs/source/introduction/index.rst
+   added: docs/source/releases/index.rst
+   modified: docs/source/releases/release.rst
+   added: docs/source/starter/index.rst
+   modified: docs/source/starter/installation.rst
+   modified: docs/source/userguide/available_functionality.rst
+   modified: docs/source/userguide/command_line_examples.rst
+   added: docs/source/userguide/index.rst
+   added envronment.yml
+   removed: docs/source/devguide/geoips_index.rst
+
+Remove “2.0” from documentation
+-------------------------------
+
+*From issue GEOIPS#168: 2023-01-31, remove “2.0” from documentation*
+
+* Found and removed all references to “2.0” in the documentation
+
+::
+
+   modified:   source/conf.py
+   modified:   source/devguide/documentation_strategy.rst
+   modified:   source/devguide/geoips_index.rst
+   modified:   source/devguide/software_requirements_specification.rst
+   modified:   source/devguide/xarray_standards.rst
+   modified:   source/introduction/geoips_overview.rst
+
+
+Release Updates
+===============
+
+Update VERSION to 1.7.0, add 1.7.0 release note
+-------------------------------------------------
+
+*From issue GEOIPS#184: 2023-02-15, version update*
+
+::
+
+    modified: VERSION
+    modified: CHANGELOG.rst
+    new file: docs/source/releases/v1_7_0.rst

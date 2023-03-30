@@ -240,7 +240,6 @@ def sar_winds_netcdf(
             wind_xarrays = {"WINDSPEED": final_xarray}
 
     for wind_xarray in wind_xarrays.values():
-
         if not hasattr(wind_xarray, "minimum_coverage"):
             wind_xarray.attrs["minimum_coverage"] = 20
 
@@ -271,11 +270,21 @@ def sar_winds_netcdf(
         # Use alternate attributes to set start and end datetime
         from datetime import datetime
 
-        wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
-            wind_xarray.time_coverage_start, "%Y%m%dT%H%M%S"
-        )
-        wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
-            wind_xarray.time_coverage_end, "%Y%m%dT%H%M%S"
-        )
+        try:
+            wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
+                wind_xarray.time_coverage_start, "%Y%m%dT%H%M%S"
+            )
+            wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
+                wind_xarray.time_coverage_end, "%Y%m%dT%H%M%S"
+            )
+        except ValueError:
+            # 20221103 used YYYYMMDDTHHMNSS, on 20221105 switched to YYYY-MM-DDTHH:MN:SSZ
+            # Allow both
+            wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
+                wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%SZ"
+            )
+            wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
+                wind_xarray.time_coverage_end, "%Y-%m-%dT%H:%M:%SZ"
+            )
 
     return wind_xarrays

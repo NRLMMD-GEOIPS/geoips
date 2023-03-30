@@ -1,4 +1,17 @@
+# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # #
+# # # Author:
+# # # Naval Research Laboratory, Marine Meteorology Division
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
+# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
 #!/usr/bin/env python
+"""GeoIPS command line interface."""
 
 import pkgutil
 from argparse import (
@@ -32,8 +45,10 @@ simplified interfacing between modules.
 class RawDescriptionArgumentDefaultsHelpFormatter(
     ArgumentDefaultsHelpFormatter, RawDescriptionHelpFormatter
 ):
-    """
-    Compound formatter class that preserves the raw description formatting and adds defaults to helps.
+    """Compound formatter class for user-readable help.
+
+    * preserves the raw description formatting
+    * adds defaults to helps.
     """
 
     pass
@@ -89,6 +104,7 @@ def print_table(title, headings, rows):
 
 
 def get_interface(name):
+    """Get interface."""
     try:
         return getattr(interfaces, name)
     except AttributeError:
@@ -104,6 +120,7 @@ def get_interface(name):
 
 
 def add_list_interface_parser(subparsers, name, aliases=None):
+    """Add list interface parser."""
     # list interpolators
     interface_parser = subparsers.add_parser(
         name,
@@ -117,13 +134,12 @@ def add_list_interface_parser(subparsers, name, aliases=None):
 
 
 def list_dev_interfaces():
-    """
-    Return a list of all developmental interfaces
-    """
+    """Return a list of all developmental interfaces."""
     return [name for _, name, _ in pkgutil.iter_modules(dev.__path__)]
 
 
 def list_interfaces(dev=False):
+    """List interfaces."""
     inter_names = []
     inter_descs = []
     for attr in dir(interfaces):
@@ -144,6 +160,7 @@ def list_interfaces(dev=False):
 
 
 def list_interface_plugins(interface_name):
+    """List interface plugins."""
     inter = get_interface(interface_name)
     plugins = inter.get_plugins()
     rows = [(pl.name, pl.family, pl.description) for pl in plugins]
@@ -183,6 +200,7 @@ def list_interface_plugins(interface_name):
 
 
 def main():
+    """Command line interface main function."""
     parser = ArgumentParser(description=__doc__, formatter_class=formclass)
     subparsers = parser.add_subparsers(
         title="Commands", description="GeoIPS commands", dest="cmd"
@@ -232,9 +250,7 @@ def main():
     add_list_interface_parser(list_subparsers, "procflows", aliases=["pf", "pfs"])
     # add_list_interface_parser(list_subparsers, 'products', aliases=['prod', 'prods'])
     add_list_interface_parser(list_subparsers, "readers", aliases=["reader"])
-    add_list_interface_parser(
-        list_subparsers, "title_formats", aliases=["tf", "tfs"]
-    )
+    add_list_interface_parser(list_subparsers, "title_formats", aliases=["tf", "tfs"])
 
     args = parser.parse_args()
 

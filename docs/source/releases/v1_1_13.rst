@@ -1,0 +1,140 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.1.13 (2021-01-29)
+***************************
+
+previously known as v1.1.3
+
+(Pending) Remove Code
+=====================
+
+* old_tcweb_fnames (Added tc_lon argument to old_tcweb_fnames)
+* Remove products/pmw_mint.py
+
+(Pending) Deprecation Warnings
+==============================
+
+* find_modules_in_geoips_packages -> find_modules
+
+    * Corrected find module terminology and added support for different module and method names
+    * PREVIOUS find_modules_in_geoips_packages(module_name, method_name)
+
+        * from geoips.module_name.method_name import method_name  # Always same method name
+
+    * UPDATED find_modules_in_geoips_packages(subpackage_name, module_name, method_name=None)
+
+        * from geoips.subpackage_name.module_name import method_name
+
+    * Imports in "drivers" will require updating to new terminology. Note this will all go away with Tim entry points
+
+* geoips_modules / $GEOIPS_MODULES_DIR -> geoips_packages and $GEOIPS_PACKAGES_DIR
+
+    * These are convenience variables / directory structures for storing multiple geoips repositories.
+    * Updated modules to packages for accurate naming conventions, handle discrepancies in gpaths/config
+    * Note this will also all go away with Tim entry points
+
+Breaking Changes
+================
+
+* BREAKING CHANGE: standardized platform names
+
+    * sen1 -> sentinel-1, metopa -> metop-a, metopb -> metop-b, metopc -> metop-c, radarsat2 -> radarsat-2
+    * NOAA-19 -> noaa-19, NOAA-18 -> noaa-18, amsub -> amsu-b,
+
+* BREAKING CHANGE: Changed wind_speed to vmax in sector_info dictionary for TCs ALSO CHANGED IN PYROCB!!!!!!!
+
+    * Change track_type -> aid_type
+
+* BREAKING CHANGE: Renamed area_def -> area_definition xarray attribute
+
+Deprecation Warnings
+====================
+
+* get_area_defs_for_xarray -> get_static_area_defs_for_xarray AND get_atcf_area_defs_for_xarray
+
+    * (added get_trackfile_area_defs)
+
+* commandline run_yaml_from_deckfile.py -> convert_trackfile_to_yaml.py
+
+* commandline update_atcf_database.py -> update_tc_tracks_database.py
+
+* sector_utils/atcf_tracks.py -> sector_utils/tc_tracks.py
+
+    * sector_utils/atcf_database.py -> tc_tracks_database.py
+
+* colormaps.py -> colormap_utils.py - moved colormaps into subpackage user_colormaps
+
+* moved set_matplotlib_colors_standard from mpl_utils to colormap_utils
+
+    * -    from geoips.image_utils.mpl_utils import set_matplotlib_colors_standard
+    * +    from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
+
+* products/global_stitched -> products/stitched
+
+* some imports from mpl_utils moved to user_colormaps and/or colormap_utils
+
+    * -from geoips.image_utils.mpl_utils import set_matplotlib_colors_37H
+    * +from geoips.image_utils.user_colormaps.pmw import set_matplotlib_colors_37H
+    * +from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
+    * +from geoips.image_utils.user_colormaps.winds import set_matplotlib_colors_winds
+
+Refactoring
+===========
+
+* Created separate modules for each visir and pmw products within algorithms/visir and algorithms/pmw
+
+    * Previously all separate products were combined within products/visir.py and products/pmw_tb.py
+
+* Standardized geolocation generation for ABI/AHI/SEVIRI
+
+New Readers
+===========
+
+* Added amsu-b MIRS reader
+* Added MIMIC reader
+* Added MODIS hdf4 reader
+
+Performance Upgrades
+====================
+
+* For xarray sectoring - pass "check_center" and "drop" to allow checking coverage based on the center of the image,
+    and completely dropping rows and columns that are unneeded
+
+New functionality
+=================
+
+* Added additional command line arguments:
+    * atcf_db, atcf_db_sectorlist to specify TC processing based on the TC database
+    * trackfiles, trackfile_parser, and trackfile_sectorlist to specify processing based on the flat sectorfile
+* Added support for arbitrary TC trackfile parsing - currently flat sectorfile and G-decks
+*  Added xml_to_yaml geoips1 sectorfile conversion utility
+*  Added parallax_correction argument to data_manipulations.merge.merge_data
+    * Currently does not blend msg-1 with AHI near the equator, later could implement optical flow based corrections
+*  Allow building documentation for alternative geoips packages, not only geoips
+*  Added ambiguity wind barb plotting
+*  Added global stitched imagery capability
+*  Added TPW processing
+*  Allow optional fields for netcdf output filename
+*  Fully support xml -> yaml conversions for geoips1 sectorfiles.
+*  Replace '-' with '_' in method and module names for find_modules
+*  Added overpass predictor
+*  Added static sector database
+*  Added database of TC overpasses
+
+Bug Fixes
+=========
+
+* Resolved bug with transparency behind titles / borders for cartopy plotting
+* Ensure metadata goes in _dev directory if product is in _dev directory
+* Use make_dirs for netcdf write (sets permissions) rather than os.makedirs()
+

@@ -1,0 +1,37 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.1.14 (2021-02-07)
+***************************
+
+Refactor
+========
+
+* BREAKING CHANGE: "channels" dictionary in algorithms now contains lists of
+    variables by default (rather than a single variable)
+
+Features
+========
+
+* Overpass predictor database - polar orbiting and geostationary satellites
+* Upper and lower level water vapor algorithms, MODIS Visible algorithm
+* Add FINAL_DATA_PATH variable in base_paths for default final processed data output location
+* Allow output netcdf filenames using subset of field names
+* Generalized product stitching capability for single channel products
+* Initial attempt at parallax correction in generalized stitched products
+* Allow text trackfile based processing
+
+Fix
+===
+
+* Resolve errors when XRIT decompress software is missing
+

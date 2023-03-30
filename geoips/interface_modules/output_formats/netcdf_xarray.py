@@ -11,7 +11,6 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Standard xarray-based NetCDF output format."""
-import os
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -102,7 +101,8 @@ def write_xarray_netcdf(xarray_obj, ncdf_fname, clobber=False):
             xarray_obj.attrs["area_definition_str"] = area_def_str
 
     LOG.info(
-        "Writing xarray obj to file %s, source %s, platform %s, start_dt %s, end_dt %s, %s %s, %s %s, %s %s",
+        "Writing xarray obj to file %s, source %s, platform %s, start_dt %s, end_dt %s,"
+        " %s %s, %s %s, %s %s",
         ncdf_fname,
         xarray_obj.source_name,
         xarray_obj.platform_name,

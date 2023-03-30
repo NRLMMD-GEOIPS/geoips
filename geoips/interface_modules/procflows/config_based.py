@@ -19,12 +19,21 @@ from geoips.geoips_utils import find_entry_point
 from geoips.utils.memusg import print_mem_usage
 from geoips.dev.utils import output_process_times
 
+try:
+    from geoips_db.utils.database_writes import (
+        write_to_database,
+        flag_product_as_deleted,
+        write_stats_to_database,
+    )
+except ImportError:
+    print("Please install geoips_db package if required")
+
 # Old interfaces (YAML, will migrate to new soon)
 from geoips.dev.output_config import (
     get_output_format_kwargs,
     get_output_format,
     get_minimum_coverage,
-    produce_current_time
+    produce_current_time,
 )
 
 # New interfaces
@@ -37,6 +46,7 @@ from geoips.interface_modules.procflows.single_source import (
     process_sectored_data_output,
     process_xarray_dict_to_output_format,
 )
+
 # Moved to top-level errors module, fixing issue #67
 from geoips.errors import CoverageError
 
@@ -63,7 +73,6 @@ def update_output_dict_from_command_line_args(output_dict, command_line_args=Non
         "filename_format_kwargs",
         "metadata_filename_format_kwargs",
     ]:
-
         # Skip fields that are NOT in command_line_args
         if (
             cmdline_fld_name not in command_line_args
@@ -142,6 +151,7 @@ def get_required_outputs(config_dict, sector_type):
 
 
 def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
+    """Get background xarray."""
     from geoips.dev.product import get_interp_name, get_interp_args
 
     interp_plugin_name = get_interp_name(
@@ -307,7 +317,6 @@ def set_comparison_path(output_dict, product_name, output_type, command_line_arg
         )
     # If there is no comparison specified, identify as "no_comparison"
     else:
-
         cpath = "no_comparison"
         compare_outputs_module = "no_compare_outputs_module"
 
@@ -340,62 +349,6 @@ def initialize_final_products(final_products, cpath, cmodule):
         final_products[cpath]["compare_outputs_module"] = cmodule
 
     return final_products
-
-
-def write_to_database(
-    final_product,
-    product_name,
-    xarray_obj,
-    available_sectors_dict,
-    output_dict,
-    **writer_kwargs,
-):
-    r"""
-    Add a final product to the product database.
-
-    Loads the correct database writer interface, and uses xarray attributes
-    to create product metadata
-
-    Parameters
-    ----------
-    final_product : str
-        Full path to final product saved to disk
-    product_name : str
-        Name of product
-    xarray_obj : xarray object or dict of xarray objects
-        xarray object(s) holding metadata information
-    available_sectors_dict : dict
-        dictionary holding available sectors for product
-    output_dict : dict
-        dictionary of output specifications, with 'requested_sector_type'
-    \*\*writer_kwargs : dict
-        Other information to pass to database writer (such as area_def)
-
-    Returns
-    -------
-    str
-        Full final product path written to database
-    """
-    from geoips_db.dev.postgres_database import get_db_writer
-
-    req_sector_type = output_dict["requested_sector_type"]
-    db_writer_name = available_sectors_dict[req_sector_type]["product_database_writer"]
-    db_writer = get_db_writer(db_writer_name)
-
-    area_def = writer_kwargs.get_plugin("area_def")
-    file_split = final_product.split(".")
-    if len(file_split) > 1:
-        file_type = file_split[-1]
-    else:
-        file_type = ""
-    writer_kwargs["fileType"] = file_type
-    writer_kwargs["product"] = product_name
-
-    product_added = db_writer(
-        final_product, xarray_obj, area_def=area_def, additional_attrs=writer_kwargs
-    )
-
-    return product_added
 
 
 def process_unsectored_data_outputs(
@@ -1148,7 +1101,6 @@ def config_based(fnames, command_line_args=None):
                 # sectored arrays, so for consistency if we change padding amounts, use the fully sectored
                 # array for adjusting the area_def.
                 if pad_sect_xarrays["METADATA"].source_name not in ["amsu-b", "mhs"]:
-
                     # The exact sectored arrays, without padding.
                     # Note this must be sectored both before AND after adjust_area_def -
                     # to ensure we both have an accurate center time for adjustments, and so we
@@ -1574,6 +1526,9 @@ def config_based(fnames, command_line_args=None):
 
     for removed_product in removed_products:
         LOG.info("    DELETEDPRODUCT %s", removed_product)
+        if product_db:
+            LOG.info("    FLAGGING as deleted in product database")
+            flag_product_as_deleted(removed_product, area_defs)
 
     if output_file_list_fname:
         LOG.info("Writing successful outputs to %s", output_file_list_fname)
@@ -1605,12 +1560,12 @@ def config_based(fnames, command_line_args=None):
                         cpath,
                     )
 
-    print_mem_usage("MEMUSG", verbose=True)
+    mem_usage_stats = print_mem_usage("MEMUSG", verbose=True)
     LOG.info("READER_NAME: %s", config_dict["reader_name"])
-    LOG.info(
-        "NUM_PRODUCTS: %s",
-        sum([len(final_products[cpath]["files"]) for cpath in final_products]),
+    num_products = sum(
+        [len(final_products[cpath]["files"]) for cpath in final_products]
     )
+    LOG.info("NUM_PRODUCTS: %s", num_products)
     if product_db:
         LOG.info(
             "NUM_DATABASE_WRITES: %s",
@@ -1625,4 +1580,30 @@ def config_based(fnames, command_line_args=None):
     LOG.info("NUM_SUCCESSFUL_COMPARISON_DIRS: %s", successful_comparison_dirs)
     LOG.info("NUM_FAILED_COMPARISON_DIRS: %s", failed_comparison_dirs)
     output_process_times(process_datetimes, num_jobs)
+    if product_db:
+        all_sectors_use_tcdb = all(
+            [
+                config_dict["available_sectors"][x].get("tcdb")
+                for x in config_dict["available_sectors"].keys()
+            ]
+        )
+        if (
+            command_line_args.get("tcdb")
+            or command_line_args.get("trackfiles")
+            or all_sectors_use_tcdb
+        ):
+            sector_type = "dynamic_tc"
+        else:
+            sector_type = "static"
+        write_stats_to_database(
+            procflow_name="config_based",
+            platform=xobjs["METADATA"].platform_name.lower(),
+            source=xobjs["METADATA"].source_name,
+            product="multi",
+            sector_type=sector_type,
+            process_times=process_datetimes,
+            num_products_created=num_products,
+            num_products_deleted=len(removed_products),
+            resource_usage_dict=mem_usage_stats,
+        )
     return retval

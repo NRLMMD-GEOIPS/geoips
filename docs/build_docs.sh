@@ -11,89 +11,135 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 #!/bin/sh
-geoips_package=geoips
-if [[ "$1" != "" ]]; then
-    geoips_package=$1
-fi
-docpath=`dirname $0`
-if [[ "$2" != "" ]]; then
-    docpath=$2
-fi
-if [[ "$3" != "" ]]; then
-    rel=$3
-elif [ -z "$GEOIPS_VERS" ]; then
-    echo "Must source config_geoips - need GEOIPS_VERS defined"
-    exit
-else
-    rel=$GEOIPS_VERS
+# Build Sphinx doc
+
+if [[ "$1" == "" ]]; then
+    echo "Must call with path to package for documentation build.  Ie"
+    echo "    $0 $GEOIPS_PACKAGES_DIR/geoips"
+    exit 1
 fi
 
-modulepath=$docpath/../
-echo "$docpath"
-echo "$modulepath"
-vers=`echo $rel | cut -d . -f 1`.`echo $rel | cut -d . -f 2`
-echo "$rel $vers"
-echo ""
-echo ""
-echo "***********************************************"
-echo "sphinx-quickstart"
-date -u
-echo "***********************************************"
-echo ""
-sphinx-quickstart -p $geoips_package -a nrlmry -v $vers -r $rel -l en --master=index \
-                --ext-autodoc --ext-doctest --ext-intersphinx --ext-todo --ext-coverage --ext-imgmath --ext-ifconfig \
-                --ext-viewcode --ext-githubpages --extensions=sphinx.ext.napoleon \
-                --makefile --no-batchfile -m --sep --dot=_ --suffix='.rst' --epub --ext-mathjax $docpath
-echo ""
-echo ""
-echo "***********************************************"
-echo "sphinx-apidoc"
-date -u
-echo "***********************************************"
-echo ""
-sphinx-apidoc -o $docpath/source $modulepath
-echo ""
-echo ""
-echo "***********************************************"
-echo "copying files into $docpath/source"
-date -u
-echo "***********************************************"
-echo ""
-find $modulepath -name '*.rst' \( -not -path "*docs/source*" \) -exec echo cp {} $docpath/source \;
-find $modulepath -name '*.rst' \( -not -path "*docs/source*" \) -exec cp {} $docpath/source \;
-cp -rp $docpath/images $docpath/source
-cp -rp $docpath/yaml $docpath/source
-cp $docpath/style.css $docpath/source/_static
-cp $docpath/layout.html $docpath/source/_templates
-# echo "" >> $docpath/source/conf.py
-# echo "" >> $docpath/source/conf.py
-# echo "def setup(app):" >> $docpath/source/conf.py
-# echo "    app.add_css_file('style.css')" >> $docpath/source/conf.py
-mv $docpath/source/${geoips_package}_index.rst $docpath/source/index.rst
-echo ""
-echo ""
-echo "***********************************************"
-echo "building sphinx html documentation"
-date -u
-echo "***********************************************"
-echo ""
-make -C $docpath html
-# make pdf
-echo ""
-echo ""
-echo "***********************************************"
-echo "updating permissions on new files and directories"
-date -u
-echo "***********************************************"
-echo ""
-find $docpath -type d -exec chmod 755 {} \;
-find $docpath -type f -exec chmod 644 {} \;
-chmod 755 $docpath/build_docs.sh
-if [[ "$GEOIPS_DOCSDIR" != "" ]]; then
-    echo ""
-    echo ""
-    echo "copying files into $GEOIPS_DOCS_DIR"
-    echo ""
-    mkdir -p $GEOIPS_DOCSDIR
-    cp -rp $docpath/build/html/ $GEOIPS_DOCSDIR
+pdf_required="True"
+html_required="True"
+if [[ "$2" == "html_only" ]]; then
+    pdf_required="False"
+    html_required="True"
 fi
+
+echo "pdf_required $pdf_required"
+echo "html_required $html_required"
+
+if [[ "$pdf_required" != "True" && "$html_required" != "True" ]]; then
+    echo "Did not request pdf or html documentation, quitting."
+    exit 1
+fi
+
+docpath=$1
+
+echo "GEOIPS_REPO_URL $GEOIPS_REPO_URL"
+echo "GEOIPS_BASEDIR $GEOIPS_BASEDIR"
+echo "GEOIPS_PACKAGES_DIR $GEOIPS_PACKAGES_DIR"
+echo "docpath=$docpath"
+
+echo "***********************************************"
+echo "change dir to docpath=$docpath"
+echo "***********************************************"
+cd $docpath
+
+echo "***********************************************"
+echo "python setup.py install to get latest changes"
+echo "prerequisite conda environment activated"
+date -u
+echo "***********************************************"
+echo ""
+python setup.py install
+retval_install=$?
+
+retval_latex="None"
+retval_make="None"
+# Always touch GeoIPS.pdf so the file exists if html_only
+echo "***********************************************"
+echo "touch $docpath/docs/source/GeoIPS.pdf"
+echo "***********************************************"
+touch $docpath/docs/source/GeoIPS.pdf
+echo ""
+if [[ "$pdf_required" == "True" ]]; then
+    echo "***********************************************"
+    echo "building sphinx PDF documentation"
+    echo "prerequisite latex installed"
+    echo "try 'module load latex'"
+    date -u
+    echo "***********************************************"
+    echo ""
+
+    output_latex=`python setup.py build_sphinx -b latex --warning-is-error`
+    retval_latex=$?
+    warnings_latex=`echo "$output_latex" | grep "warnings"`
+
+    cd $docpath/build/sphinx/latex
+
+    output_make=`make`
+    retval_make=$?
+    warnings_make=`echo "$output_make" | grep "Latexmk"`
+
+    cd $docpath
+    echo "$docpath/build/sphinx/latex/GeoIPS.pdf $docpath/docs/source/GeoIPS.pdf"
+    cp $docpath/build/sphinx/latex/GeoIPS.pdf $docpath/docs/source/GeoIPS.pdf
+fi
+
+retval_html="None"
+if [[ "$html_required" == "True" ]]; then
+    echo "***********************************************"
+    echo "building sphinx html documentation"
+    date -u
+    echo "***********************************************"
+    echo ""
+    output_html=`python setup.py build_sphinx --warning-is-error`
+    retval_html=$?
+    warnings_html=`echo "$output_html" | grep "warnings"`
+
+    echo ""
+    echo "***********************************************"
+    echo "updating permissions on new files and directories"
+    date -u
+    echo "***********************************************"
+    echo ""
+    find $docpath/build/sphinx/html -type d -exec chmod 755 {} \;
+    find $docpath/build/sphinx/html -type f -exec chmod 644 {} \;
+    if [[ "$GEOIPS_DOCSDIR" != "" ]]; then
+        echo ""
+        echo ""
+        echo "copying files into $GEOIPS_DOCS_DIR"
+        echo ""
+        mkdir -p $GEOIPS_DOCSDIR
+        cp -rp $docpath/build/sphinx/html/ $GEOIPS_DOCSDIR
+    fi
+fi
+
+echo "Return values:"
+echo "  Python install: $retval_install"
+echo "  sphinx html:    $retval_html"
+echo "  sphinx latex:   $retval_latex"
+echo "  latex pdf make: $retval_make"
+echo "  warnings html:  $warnings_html"
+echo "  warnings latex: $warnings_latex"
+echo "  warnings make:  $warnings_make"
+retval=$retval_install
+if [[ "$retval_html" != "None" ]]; then
+    retval=$((retval+retval_html))
+fi
+if [[ "$retval_latex" != "None" ]]; then
+    retval=$((retval+retval_latex))
+fi
+if [[ "$retval_make" != "None" ]]; then
+    retval=$((retval+retval_make))
+fi
+if [[ "$warnings_latex" != "" ]]; then
+    retval=$((retval+1))
+fi
+if [[ "$warnings_html" != "" ]]; then
+    retval=$((retval+1))
+fi
+echo ""
+echo "Final retval: $retval"
+exit $retval

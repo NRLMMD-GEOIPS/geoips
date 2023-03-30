@@ -1,0 +1,100 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.4.7 (2022-05-06)
+**************************
+
+v1.4.7: 2022-05-06, multiple coverage check types, ability to plot coverage outline, optional version requirements
+
+Major New Functionality
+=======================
+
+Add ability to plot coverage outline
+------------------------------------
+
+single_source.py procflow
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Allow passing optional "output_dict" to output_format modules
+
+imagery_annotated.py output_format
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Allow checking for "plot_coverage" option in product params from imagery_annotated output format
+
+center_radius.py coverage check module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Add "plot_coverage" function to center_radius coverage check module.
+* When "plot_coverage" is added to product params imagery_annotated will call this function to
+    include the outline of the coverage check function. Add via:
+
+    * in YAML product spec, or
+    * command line "product_params_override", or
+    * in YAML output config "product_params_override"
+    * imagery_annotated will call this function to include the outline of the coverage check function.
+
+Improvements
+============
+
+Update Coverage Checks to Allow filename, full, and image_production based checks
+---------------------------------------------------------------------------------
+
+* Include fname, full, and image_production covg funcs in metadata_tc outputs
+* Use "fname_covg_func" rather than "covg_func" when setting coverage for filename
+* Use max of "fname_covg" and "image_production_covg" when testing for minimum coverage
+
+Installation Updates
+--------------------
+
+* Moving version requirements for efficiency improvements to extra_requires
+
+    * Rather than forcing satpy>=0.33.1 and pyresample>=1.22.3, include as an extra
+        "efficiency_improvements" package in setup.py
+
+    * Then, install efficiency_improvements and test_outputs extras FIRST so those packages and dependencies are
+        installed first if desired.
+
+Duplicate File Removal
+----------------------
+
+* For tc_fname format, rather than only checking coverage, now have a 3 tiered duplicate file check:
+
+    * If file has < max_coverage, delete
+    * If file has > min_dt, delete
+    * If another file has already been matched, delete (this is random!)
+
+Output Filenames
+----------------
+
+* If output_fname is None, do not add to list or attempt to create metadata filename
+
+    * Allow filename_formats to return None. If invalid, just continue.
+    * This allows specifying multiple filename formats, and skipping formats that are invalid.
+
+Real-time processing
+--------------------
+
+* config\_based.py
+
+    * Moved product database writes to new write_to_database function
+
+Bug fixes
+=========
+
+Real-time processing
+--------------------
+
+* config\_based.py
+
+    * Added two new calls to write_to_database function, that stores unsectored and sectored products to database (these were previously missed)
+

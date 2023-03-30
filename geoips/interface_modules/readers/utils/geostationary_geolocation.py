@@ -90,7 +90,7 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
         if mkey == "start_datetime":
             continue
         metadata_string += str(metadata[mkey])
-    md_hash = sha1(metadata_string.encode("ascii")).hexdigest()
+    md_hash = sha1(metadata_string.encode("ascii"), usedforsecurity=False).hexdigest()
     # md_hash = hash(frozenset((k, v) for k, v in metadata.items() if isinstance(v, Hashable)))
 
     fname = "{}_{}_{}x{}".format(
@@ -119,7 +119,9 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
             if mkey == "start_datetime":
                 continue
             metadata_string += str(ad.proj_dict[mkey])
-        sector_hash = sha1(metadata_string.encode("ascii")).hexdigest()
+        sector_hash = sha1(
+            metadata_string.encode("ascii"), usedforsecurity=False
+        ).hexdigest()
         sect_nlines = ad.shape[0]
         sect_nsamples = ad.shape[1]
         sect_clat = area_def.proj_dict["lat_0"]

@@ -9,4 +9,8 @@ geoips.egg-info
 *.simg
 *.egg-info
 tests/data/**
-*.diff
+.DS_Store
+build
+dist
+docs/source/index.rst
+**/GeoIPS.pdf

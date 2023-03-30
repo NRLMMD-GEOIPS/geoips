@@ -18,13 +18,13 @@ satellite and weather data processing. The modular nature of the GeoIPS base inf
 plug-and-play capability for user-specified custom functionality.
 
 Please see
-[GeoIPS documentation](./docs/geoips_index.rst)
+[GeoIPS documentation](./docs/source/geoips_index.rst)
 for more information on GeoIPS capabilities and use cases.
 
 Installation
 ---------------------------------------
 See the
-[installation guide](./docs/installation.rst)
+[installation guide](./docs/source/installation.rst)
 within the source code documentation for installation instructions. GeoIPS has a fully supported
 exhaustive installation process, including a full conda environment, as well as a more basic
 pip based installation for "expert" users.
@@ -40,7 +40,7 @@ Are you interested in
 We welcome all feedback and contributions!
 
 Please review our
-[contributors guide](./docs/contributors.rst)
+[contributors guide](./docs/source/contributors.rst)
 for more information.
 
 Contact

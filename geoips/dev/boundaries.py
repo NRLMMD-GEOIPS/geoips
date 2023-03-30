@@ -20,23 +20,39 @@ and deprecated at that time.
 
 import logging
 
-LOG = logging.getLogger(__name__)
-
 from geoips.geoips_utils import find_config
 
+LOG = logging.getLogger(__name__)
 
-### Gridline parameter dictionaries ###
+
+# ### Gridline parameter dictionaries ###
 def is_valid_boundaries(boundaries_name):
     """Interface will be deprecated v2.0.
 
-        Check that requested boundaries parameter dictionary is properly
-        formatted.
+    Check that requested boundaries parameter dictionary is properly
+    formatted.
 
-        The dictionary of boundaries parameters determines how the boundaries
-        appear on the output cartopy imagery.
+    The dictionary of boundaries parameters determines how the boundaries
+    appear on the output cartopy imagery.
 
-        Dictionary of boundaries parameters currently specified by:
-            yaml_configs.plotting_params.boundaries.<boundaries_name>
+    Dictionary of boundaries parameters currently specified by:
+       yaml_configs.plotting_params.boundaries.<boundaries_name>
+
+    Gridline dictionary types currently one of:
+       'standard' : Include coastlines, countries, states, rivers info.
+       dictionary fields: {'boundaries_dict_type': 'standard',
+       'request_coastlines': <bool>,
+       'request_countries': <bool>,
+       'request_states': <bool>,
+       'request_rivers': <bool>,
+       'coastlines_linewidth': <float>,
+       'countries_linewidth': <float>,
+       'states_linewidth': <float>,
+       'rivers_linewidth': <float>,
+       'coastlines_color': <str>,
+       'countries_color': <str>,
+       'states_color': <str>,
+       'rivers_color': <str>}
 
     Parameters
     ----------
@@ -47,28 +63,12 @@ def is_valid_boundaries(boundaries_name):
     Returns
     -------
     is_valid : bool
-        * True if 'boundaries_name' is a properly formatted dictionary of boundaries parameters.
-        * False if boundaries parameter dictionary:
-            * does not contain supported 'boundaries_dict_type',
-            * does not contain all 'required' fields,
-            * contains non-supported 'optional' fields
-
-    Gridline dictionary types currently one of:
-
-        'standard' : Include coastlines, countries, states, rivers info.
-               dictionary fields: {'boundaries_dict_type': 'standard',
-                                   'request_coastlines': <bool>,
-                                   'request_countries': <bool>,
-                                   'request_states': <bool>,
-                                   'request_rivers': <bool>,
-                                   'coastlines_linewidth': <float>,
-                                   'countries_linewidth': <float>,
-                                   'states_linewidth': <float>,
-                                   'rivers_linewidth': <float>,
-                                   'coastlines_color': <str>,
-                                   'countries_color': <str>,
-                                   'states_color': <str>,
-                                   'rivers_color': <str>}
+        True if 'boundaries_name' is a properly formatted dictionary of
+        boundaries parameters.
+        False if boundaries parameter dictionary:
+        does not contain supported 'boundaries_dict_type',
+        does not contain all 'required' fields,
+        contains non-supported 'optional' fields
     """
     required_keys = {
         "standard": [
@@ -110,20 +110,23 @@ def is_valid_boundaries(boundaries_name):
 
     boundaries_dict = get_boundaries(boundaries_name)
     # if boundaries_dict is None:
-    #     LOG.error("INVALID PRODUCT '%s': boundaries parameter dictionary did not exist",
+    #     LOG.error("INVALID PRODUCT '%s': boundaries parameter "
+    #               "dictionary did not exist",
     #               boundaries_name)
     #     return False
 
     if "boundaries_dict_type" not in boundaries_dict:
         LOG.error(
-            f"""INVALID GRIDLINE '{boundaries_name}':
-                  'boundaries_dict_type' must be defined within boundaries parameter dictionary"""
+            f"INVALID GRIDLINE '{boundaries_name}': "
+            "'boundaries_dict_type' must be defined within "
+            "boundaries parameter dictionary"
         )
         return False
     if boundaries_dict["boundaries_dict_type"] not in required_keys.keys():
         LOG.error(
-            f"""INVALID GRIDLINE '{boundaries_name}':
-                  'boundaries_dict_type' in boundaries parameter dictionary must be one of '{list(required_keys.keys())}' """
+            f"INVALID GRIDLINE '{boundaries_name}': "
+            "'boundaries_dict_type' in boundaries parameter dictionary "
+            "must be one of '{list(required_keys.keys())}' "
         )
         return False
 
@@ -132,8 +135,9 @@ def is_valid_boundaries(boundaries_name):
     # If we don't have all of the required keys, return False
     if not set(required_keys[boundaries_dict_type]).issubset(set(boundaries_dict)):
         LOG.error(
-            f"""INVALID GRIDLINE "{boundaries_name}": boundaries parameter dictionary must contain the following fields:
-                  "{list(required_keys.keys())}" """
+            f"INVALID GRIDLINE '{boundaries_name}': "
+            "boundaries parameter dictionary must contain the following fields:"
+            "{list(required_keys.keys())}"
         )
         return False
 
@@ -141,9 +145,13 @@ def is_valid_boundaries(boundaries_name):
     if not set(boundaries_dict).issubset(
         required_keys[boundaries_dict_type] + optional_keys[boundaries_dict_type]
     ):
+        unknown_fields = set(boundaries_dict).difference(
+            required_keys[boundaries_dict_type] + optional_keys[boundaries_dict_type]
+        )
         LOG.error(
-            f'''INVALID GRIDLINE "{boundaries_name}": Unknown fields in boundaries parameter dictionary:
-                  "{set(boundaries_dict).difference(required_keys[boundaries_dict_type]+optional_keys[boundaries_dict_type])}"'''
+            f"INVALID GRIDLINE '{boundaries_name}': "
+            "Unknown fields in boundaries parameter dictionary: "
+            f"'{unknown_fields}'"
         )
         return False
 
@@ -152,12 +160,14 @@ def is_valid_boundaries(boundaries_name):
             boundaries_dict[field_name], field_types[boundaries_dict_type][field_name]
         ):
             try:
-                test = field_types[boundaries_dict_type][field_name](
+                field_types[boundaries_dict_type][field_name](
                     boundaries_dict[field_name]
                 )
             except Exception:
                 LOG.error(
-                    f'''INVALID GRIDLINE {boundaries_name}: boundaries field '{field_name}' must be of type "{field_types[boundaries_dict_type][field_name]}"'''
+                    f"INVALID GRIDLINE '{boundaries_name}': "
+                    f"boundaries field '{field_name}' must be of type: "
+                    f"'{field_types[boundaries_dict_type][field_name]}'"
                 )
                 return False
 
@@ -195,7 +205,8 @@ def get_boundaries(boundaries_name):
         boundaries_dict = yaml.safe_load(fobj)
     if boundaries_name not in boundaries_dict:
         raise ValueError(
-            f"boundaries file {boundaries_fname} must contain boundaries name {boundaries_name} as key"
+            f"boundaries file {boundaries_fname} must contain boundaries name "
+            f"{boundaries_name} as key"
         )
     return boundaries_dict[boundaries_name]
 
@@ -204,7 +215,7 @@ def get_boundaries_type(boundaries_name):
     """Interface will be deprecated v2.0.
 
     Retrieve boundaries_dict_type of the requested boundaries, found in:
-        geoips.dev.boundaries.get_boundaries(boundaries_name)['boundaries_dict_type']
+        geoips.dev.boundaries.get_boundaries (boundaries_name) ['boundaries_dict_type']
 
     See: geoips.dev.boundaries.is_valid_boundaries for full list of supported
         boundaries dict types.
@@ -218,7 +229,7 @@ def get_boundaries_type(boundaries_name):
     -------
     str
         boundaries dict type, found in
-        geoips.dev.boundaries.get_boundaries(boundaries_name)['boundaries_dict_type']
+        geoips.dev.boundaries.get_boundaries (boundaries_name) ['boundaries_dict_type']
     """
     boundaries_dict = get_boundaries(boundaries_name)
     return boundaries_dict["boundaries_dict_type"]

@@ -3,21 +3,14 @@
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
 # # #
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # #
-# # # If you did not receive the license, see
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # #
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
 
-"""Base classes for BaseInterface and BasePlugin.
-"""
+"""Base classes for BaseInterface and BasePlugin."""
 
 import inspect
 import logging
@@ -25,7 +18,7 @@ from importlib import import_module
 from typing import Callable
 from warnings import warn
 
-from geoips import __version__ as geoips_version
+from geoips.version import __version__ as geoips_version
 from geoips.errors import EntryPointError, PluginError
 from geoips.geoips_utils import find_entry_point, get_all_entry_points
 
@@ -37,6 +30,7 @@ if geoips_version >= "2.0.0":
 
 
 def get_deprecated_name(module_name):
+    """Get deprecated name."""
     # module_name == module.__name__
     # module.__name__ is ie geoips.interface_modules.algorithms.pmw_tb.pmw_89pct
     # First split on interface name (algorithms), then drop the leading '.'
@@ -52,6 +46,7 @@ def get_deprecated_name(module_name):
 
 
 def plugin_repr(obj):
+    """Repr plugin string."""
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
@@ -68,10 +63,12 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
     ``__call__`` from the plugin modules and using them in the objects.
 
     For a module to be converted into an object it must meet the following requirements:
+
     - The module must define a docstring. This will be used as the docstring for the
       plugin class as well as the description for the plugin when requested on the
       command line.
     - The following global attributes must be defined in the module:
+
       - name: The name of the plugin (must be unique for the interface)
       - family: The family of plugins within the interface that the plugin belongs to
       - description: A short description of the plugin. This will be used frequently on
@@ -205,10 +202,13 @@ interface_attrs_doc = """
     name : string
         The name of the interface.
     entry_point_group : string
-        The name of the group in entry_points to use when looking for Plugins of this type. If not set, "name" will be used.
+        The name of the group in entry_points to use when looking for Plugins
+        of this type. If not set, "name" will be used.
     deprecated_family_attr : string
-        If this attribute exists in a plugin module but "family" does not, use the contents of this attribute in place
-        of "family" and raise a `DeprecationWarning`. If neither exist, a `PluginError` will be raised.
+        If this attribute exists in a plugin module but "family" does not,
+        use the contents of this attribute in place
+        of "family" and raise a `DeprecationWarning`.
+        If neither exist, a `PluginError` will be raised.
     """
 
 
@@ -225,6 +225,7 @@ class BaseInterface:
     """
 
     def __new__(cls):
+        """Plugin interface new method."""
         if not hasattr(cls, "name") or not cls.name:
             raise AttributeError(
                 f"Error creating {cls.name} class. SubClasses of ``BaseInterface`` "
@@ -249,12 +250,14 @@ class BaseInterface:
         return super(BaseInterface, cls).__new__(cls)
 
     def __repr__(self):
+        """Plugin interface repr method."""
         return f"{self.__class__.__name__}()"
 
     def _plugin_module_to_obj(self, module, module_call_func="call", obj_attrs={}):
         """Convert a plugin module into an object.
 
-        Convert the passed module into an object of type"""
+        Convert the passed module into an object of type.
+        """
         return plugin_module_to_obj(
             self, module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
         )
@@ -278,8 +281,15 @@ class BaseInterface:
         """
         try:
             module = find_entry_point(self.entry_point_group, name)
-        except EntryPointError as err:
-            raise PluginError(f"Plugin {name} not found for {self.name} interface")
+        except EntryPointError:
+            raise PluginError(
+                f"Plugin '{name}' not found for '{self.name}' interface."
+                " Note for deprecated plugins, function name MUST match"
+                " name used within entry point.  Please check that"
+                " module name, function name, and entry point name"
+                " in setup.py all match if using deprecated interface."
+                " Note you must reinstall after updating setup.py."
+            )
         # This assumes that the module's Callable is named "call", so the module
         # itself is NOT a Callable instance.
         # Note this implies setup.py has been updated to point to the
@@ -339,9 +349,22 @@ class BaseInterface:
         -------
         bool
           True if valid, False if invalid
-        '''
         """
         plugin = self.get_plugin(name)
+        if plugin.family not in self.required_args:
+            raise PluginError(
+                f"'{plugin.family}' must be added to required args list"
+                f" for '{self.name}' interface,"
+                f" found in '{plugin.name}' plugin,"
+                f" in '{plugin.module.__name__}' module"
+            )
+        if plugin.family not in self.required_kwargs:
+            raise PluginError(
+                f"'{plugin.family}' must be added to required kwargs list"
+                f" for '{self.name}' interface,"
+                f" found in '{plugin.name}' plugin,"
+                f" in '{plugin.module.__name__}' module"
+            )
         expected_args = self.required_args[plugin.family]
         expected_kwargs = self.required_kwargs[plugin.family]
 
@@ -378,12 +401,12 @@ class BaseInterface:
     def plugins_all_valid(self):
         """Test the current interface by validating every Plugin.
 
-        Returns:
+        Returns
+        -------
             True if all plugins are valid, False if any plugin is invalid.
         """
         plugins = self.get_plugins()
         for plugin in plugins:
-
             if not self.plugin_is_valid(plugin.name):
                 return False
         return True
@@ -400,7 +423,8 @@ class BaseInterface:
         * plugin_is_valid
         * plugins_all_valid
 
-        Returns:
+        Returns
+        -------
             A dictionary containing three keys:
             'by_family', 'validity_check', 'func', and 'family'. The value for each
             of these keys is a dictionary whose keys are the names of the Plugins.

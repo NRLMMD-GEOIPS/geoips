@@ -198,7 +198,7 @@ def get_matching_files(
         and should be the same length and in the same order.
     basedir : str
         Base directory in which to look for the matching files.
-    merge_datetime : datetime.datetime
+    merge_datetime : datetime
         Attempt matching max_time_diff prior to merge_datetime
     product_name : str
         product_name string found in matching files
@@ -230,11 +230,9 @@ def get_matching_files(
     # Go through the list of platforms / sources / allowed time diffs to find
     # the appropriate files for each data type
     for platform, source, time_diff in zip(platforms, sources, max_time_diffs):
-
         # Go through the list of all subsectors needed to merge into the primary
         # sector listed above
         for currsectname in subsector_names:
-
             # Get the sector name from the current subsector.
             LOG.info("Checking %s %s %s %s", currsectname, platform, source, time_diff)
             curr_verbose = verbose

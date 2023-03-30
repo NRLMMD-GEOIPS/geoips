@@ -139,7 +139,6 @@ def ewsg_netcdf(
     # LOG.info('Requested Channels: %s', chans)
 
     for fname in fnames:
-
         # check for a correct goes-13 data file
 
         data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]

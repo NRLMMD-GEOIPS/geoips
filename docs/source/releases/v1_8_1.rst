@@ -1,0 +1,212 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.8.1 (2023-03-22)
+**************************
+
+* Rename SSMI/S 89GHz products to 91GHz
+* Update F-16 SSMI/S scaling for channels 12-16
+* Ensure test_full_install both clones and installs available plugins
+* Resolve basename: extra operands error in tests
+* Add geoips_clavrx to test_full_install.sh
+* Minor sphinx build updates
+
+Breaking Changes
+================
+
+Rename 89GHz SSMI/S products to 91GHz
+-------------------------------------
+
+*From issue GEOIPS#198: 2023-03-15, SSMI/S 89GHz -> 91GHz*
+
+We are moving away from categorically naming products, instead using the actual
+frequency in the product and file names.
+
+We could potentially use the "product_template" field in the future to categorize
+products into different groupings - but the actual product names themselves should
+be accurate.
+
+::
+
+    modified: geoips/yaml_configs/product_inputs/ssmis.yaml
+
+Major New Functionality
+=======================
+
+Add geoips_clavrx to test_full_install.sh
+-----------------------------------------
+
+*From issue GEOIPS#212: 2023-03-22, add geoips_clavrx to test_full_install*
+
+Add geoips_clavrx plugin clone and install, test_data_clavrx clone, and geoips_clavrx
+test calls to test_full_install.sh, to ensure it is included in integration tests.
+
+::
+
+    tests/test_full_install.sh
+
+Regression Fixes
+================
+
+Correct minor sphinx build warnings
+-----------------------------------
+
+*From issue GEOIPS#206: 2023-03-22, minor sphinx build warnings*
+
+Fix minor warnings in sphinx documentation builds
+
+#. footer_items -> footer_start in conf.py
+#. Update incorrect path to NRL_logo_RGB.jpg in conf.py
+#. Ensure GeoIPS.pdf is created even for pdf_required != "True"
+
+   * GeoIPS.pdf download link included in html documentation by default. Must
+     exist or sphinx warning due to missing file.
+
+::
+
+    modified: docs/build_docs.sh
+    modified: docs/source/conf.py
+
+Bug Fixes
+=========
+
+Resolve basename: extra operands error in tests
+-----------------------------------------------
+
+*From issue GEOIPS#214: 2023-03-22, resolve basename test error*
+
+Do not attempt to take the basename of the script path PLUS arguments - only
+take basename of script path.
+
+::
+
+    modified: tests/utils/test_all_run.sh
+
+Update SSMI/S scaling for F-16 datasets after 7 March
+-----------------------------------------------------
+
+*From issue GEOIPS#134: 2023-03-15, fix SSMI/S F-16 37GHz scaling*
+
+Update SSMI/S reader to apply appropriate scaling for F-16 channels 12-16 datasets
+(including 37GHz products).
+
+When the rev numbers rolled back to 0 on 7 March, the
+rev number check began failing, resulting in incorrectly scaled imagery (scaling
+changed with rev 12216, so code was initially applying a new scaling for rev>12216,
+which failed when the rev rolled back to 0).
+
+Now only apply the old scaling if rev < 12216 AND year < 2023.
+
+::
+
+    modified: geoips/interface_modules/readers/ssmis_binary.py
+
+Update xobj.platform_name -> xobjs["METADATA"].platform_name for config_based
+-----------------------------------------------------------------------------
+
+*From issue GEOIPS#198: 2023-03-15, SSMI/S 89GHz -> 91GHz*
+
+I have no idea how this was not fixed sooner...
+
+::
+
+    modified: geoips/interface_modules/procflows/config_based.py
+
+Installation Updates
+====================
+
+Add notes to test_full_install.sh that gfortran and git required
+----------------------------------------------------------------
+
+*From issue GEOIPS#210: 2023-03-22, install geoips plugins in test_full_install*
+
+* Note that gfortran version compatible with f2py required for recenter_tc akima build
+* Note that git required for git lfs test repos
+
+::
+
+    modified: tests/test_full_install.sh
+
+Update test_full_install.sh to clone and install plugins
+--------------------------------------------------------
+
+*From issue GEOIPS#210: 2023-03-22, install geoips plugins in test_full_install*
+
+Previously was only cloning plugin packages, not installing, so recenter_tc and
+data_fusion tests failed.
+
+Update so plugin packages are cloned AND installed.  Eventually this will be
+replaced with a direct pip install (without cloning)
+
+::
+    modified: setup.sh
+    modified: tests/test_full_install.sh
+
+Update test_full_install.sh to clone and install plugins
+--------------------------------------------------------
+
+*From issue GEOIPS#210: 2023-03-22, install geoips plugins in test_full_install*
+
+Previously was only cloning plugin packages, not installing, so recenter_tc and
+data_fusion tests failed.
+
+Update so plugin packages are cloned AND installed.  Eventually this will be
+replaced with a direct pip install (without cloning)
+
+::
+    modified: setup.sh
+    modified: tests/test_full_install.sh
+
+Refactoring Updates
+===================
+
+*From issue GEOIPS#16: 2023-03-20, move database write functions to geoips_db*
+
+Move database write functions to geoips_db.
+
+::
+
+    modified: geoips/interface_modules/procflows/config_based.py
+
+Test Repo Updates
+=================
+
+Renamed SSMI/S 89GHz test output to 91GHz
+-----------------------------------------
+
+*From issue GEOIPS#198: 2023-03-15, SSMI/S 89GHz -> 91GHz*
+
+Rename test script and test outputs from 89 to 91GHz (contents did not change,
+because no titles/labels in the unsectored test output).
+
+::
+
+    renamed: tests/outputs/ssmis.color89.unprojected_image/20200519.084400.F16.ssmis.color89.self_register.100p00.DMSP.15p0.png -> tests/outputs/ssmis.color91.unprojected_image/20200519.084400.F16.ssmis.color91.self_register.100p00.DMSP.15p0.png
+    renamed: tests/scripts/ssmis.color89.unprojected_image.sh -> tests/scripts/ssmis.color91.unprojected_image.sh
+
+Documentation Updates
+=====================
+
+Note developer can update docs/source/releases directly in CHANGELOG_TEMPLATE.rst
+---------------------------------------------------------------------------------
+
+*From issue GEOIPS#172: 2023-03-15, RST CHANGELOG and release notes*
+
+Make a note in CHANGELOG_TEMPLATE.rst that CHANGELOG.rst gets moved to
+docs/source/releases/vX_Y_Z.rst (where X.Y.Z is the NEXT version),
+during the PR review process, and the developer can make changes directly
+in docs/source/releases/vX_Y_Z.rst if they understand the process, and
+want to save a step.
+
+::
+
+    modified: CHANGELOG_TEMPLATE.rst

@@ -1,0 +1,103 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.6.0 (2022-11-28)
+**************************
+
+This release includes primarily installation and documentation updates, and bug fixes.
+
+Installation Updates
+====================
+
+Maintain GEOIPS_REPO_URL if set
+-------------------------------
+
+*From issue GEOIPS#119: 2022-11-16,
+installation updates and test script bug fixes*
+
+* Only re-set GEOIPS_REPO_URL if it is not already set.  Assume if someone explicitly sets it, they mean it.
+
+::
+
+    modified:   setup/config_geoips
+
+Add rclone lsf --config option
+------------------------------
+
+*From issue GEOIPS#119: 2022-11-16,
+installation updates and test script bug fixes*
+
+* Add --config option for rclone lsf command, was failing without ~/.config/rclone/rclone.conf
+
+::
+
+    modified: tests/download_noaa_aws.sh
+
+Testing Updates
+===============
+
+Add AMSR2 test scripts
+----------------------
+
+*From issue GEOIPS#119: 2022-11-16,
+installation updates and test script bug fixes*
+
+* Add additional AMSR2 test scripts to test_all.sh - not previously tested.
+* Update YAML metadata output for previously non-tested AMSR2 scripts to include storm_start_datetime
+
+::
+
+    modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml
+    modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml
+    modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml
+    modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml
+    modified: tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean/20200518_073601_IO012020_amsr2_gcom-w1_windspeed_140kts_85p45_1p0-clean.png.yaml
+    modified: tests/test_all.sh
+
+
+Documentation Updates
+=====================
+
+Add Contributors documentation page
+-----------------------------------
+
+*From issue GEOIPS#119: 2022-11-16,
+installation updates and test script bug fixes*
+
+* Link to contributors page from README
+* Link to git-workflow.rst from Contributors page
+* Replace full URLs with linked text in git-workflow.rst
+
+::
+    new file: docs/contributors.rst
+    modified: README.md
+    modified: docs/git-workflow.rst
+    modified: docs/setup-new-plugin.rst
+
+Simplify README and installation
+--------------------------------
+
+*From issue GEOIPS#119: 2022-11-16,
+installation updates and test script bug fixes*
+
+* Only include next step once in check_continue output, for simplicity
+* Remove direct installation steps from README.md
+* Include more generalized information in README, with link to full documentation/installation.
+* Move the complete conda-based installation to the bottom of docs/installation.rst
+* Include system requirements, and a basic geoips installation process (not requiring full conda based install)
+  in installation.rst
+
+::
+
+    modified: README.md
+    modified: docs/installation.rst
+    modified: setup/bash_setup/check_continue

@@ -1,8 +1,23 @@
+# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # #
+# # # Author:
+# # # Naval Research Laboratory, Marine Meteorology Division
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
+# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+"""Output formats interface module."""
+
 from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
 class OutputFormatsInterface(BaseInterface):
     """Data format for the resulting output product (e.g. netCDF, png)."""
+
     name = "output_formats"
     deprecated_family_attr = "output_type"
     required_args = {
@@ -22,6 +37,11 @@ class OutputFormatsInterface(BaseInterface):
             "area_def",
             "product_name",
             "output_fnames",
+        ],
+        "xrdict_area_product_to_outlist": [
+            "xarray_dict",
+            "area_def",
+            "product_name",
         ],
         "xrdict_varlist_outfnames_to_outlist": [
             "xarray_dict",
@@ -66,6 +86,7 @@ class OutputFormatsInterface(BaseInterface):
         "xrdict_varlist_outfnames_to_outlist": [],
         "xrdict_area_varlist_to_outlist": [],
         "xrdict_area_product_outfnames_to_outlist": [],
+        "xrdict_area_product_to_outlist": [],
     }
 
 

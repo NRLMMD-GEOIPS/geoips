@@ -11,7 +11,6 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Matplotlib-based clean image output."""
-import os
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -36,15 +35,16 @@ def imagery_clean(
     success_outputs = []
     plot_data = xarray_obj[product_name].to_masked_array()
     plot_kwargs = {}
-    if hasattr(xarray_obj, "order"):
-        plot_kwargs = {"zorder": int(xarray_obj.order)}
+    if hasattr(xarray_obj, "fuse_order"):
+        plot_kwargs = {"zorder": int(xarray_obj.fuse_order)}
     from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
     from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
     from geoips.image_utils.mpl_utils import plot_image, save_image
 
     if not mpl_colors_info:
-        # Create the matplotlib color info dict - the fields in this dictionary (cmap, norm, boundaries,
-        # etc) will be used in plot_image to ensure the image matches the colorbar.
+        # Create the matplotlib color info dict - the fields in this dictionary
+        # (cmap, norm, boundaries, etc) will be used in plot_image to ensure the image
+        # matches the colorbar.
         mpl_colors_info = set_matplotlib_colors_standard(
             data_range=[plot_data.min(), plot_data.max()],
             cmap_name=None,

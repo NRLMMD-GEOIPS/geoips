@@ -18,7 +18,6 @@ from os.path import join as pathjoin, splitext as pathsplitext
 from os.path import (
     dirname as pathdirname,
     basename as pathbasename,
-    exists as pathexists,
 )
 from datetime import datetime, timedelta
 from glob import glob
@@ -66,20 +65,20 @@ def tc_fname(
     if not output_type_dir:
         output_type_dir = output_type
 
-    # This allows you to explicitly set matplotlib parameters (colorbars, titles, etc).  Overrides were placed in
-    # geoimgbase.py to allow using explicitly set values rather than geoimgbase determined defaults.
+    # This allows you to explicitly set matplotlib parameters (colorbars, titles, etc).
+    # Overrides were placed in geoimgbase.py to allow using explicitly set values
+    # rather than geoimgbase determined defaults.
     # Return reused parameters (min/max vals for normalization, colormaps,
     # matplotlib Normalization)
-    from geoips.filenames.base_paths import PATHS as gpaths
-    from geoips.xarray_utils.timestamp import get_min_from_xarray_timestamp
-
+    # from geoips.xarray_utils.timestamp import get_min_from_xarray_timestamp
     # start_dt = get_min_from_xarray_timestamp(xarray_obj, 'timestamp')
     start_dt = xarray_obj.start_datetime
 
     if area_def.sector_info["vmax"]:
         intensity = "{0:0.0f}kts".format(area_def.sector_info["vmax"])
     else:
-        # This is pulling intensity directly from the deck file, and sometimes it is not defined - if empty, just
+        # This is pulling intensity directly from the deck file,
+        # and sometimes it is not defined - if empty, just
         # use "unknown" for intensity
         intensity = "unknown"
 
@@ -138,10 +137,11 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
     saved_fnames = []
     ext1 = pathsplitext(fname)[-1]
     ext2 = pathsplitext(pathsplitext(fname)[0])[-1]
-    ext3 = pathsplitext(pathsplitext(pathsplitext(fname)[0])[0])[-1]
+    # ext3 = pathsplitext(pathsplitext(pathsplitext(fname)[0])[0])[-1]
     if (ext1 == ".png") or (ext1 == ".yaml" and ext2 == ".png"):
         LOG.info(
-            "MATCHES EXT FORMAT. png or png.yaml. Attempting to remove old_tcweb duplicates"
+            "MATCHES EXT FORMAT. png or png.yaml. "
+            "Attempting to remove old_tcweb duplicates"
         )
     else:
         LOG.info("NOT REMOVING DUPLICATES. Not tc_web filename, not png or png.yaml.")
@@ -168,24 +168,28 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
         res = parts[8]
         if "p" not in coverage or "p" not in res:
             LOG.info(
-                'NOT REMOVING DUPLICATES. Not tc_web filename, coverage or res not "NNpNN.'
+                "NOT REMOVING DUPLICATES. Not tc_web filename, "
+                "coverage or res not 'NNpNN'."
             )
             return [], []
         if "kts" not in intensity:
             LOG.info(
-                'NOT REMOVING DUPLICATES. Not tc_web filename, intensity does not contain "kts".'
+                "NOT REMOVING DUPLICATES. Not tc_web filename, "
+                "intensity does not contain 'kts'."
             )
             return [], []
     except IndexError:
         LOG.info(
-            "NOT REMOVING DUPLICATES. Unmatched filename format, incorrect number of _ delimited fields"
+            "NOT REMOVING DUPLICATES. Unmatched filename format, "
+            "incorrect number of _ delimited fields"
         )
         return [], []
     try:
         fname_dt = datetime.strptime(yyyymmdd + hhmnss, "%Y%m%d%H%M%S")
     except ValueError:
         LOG.info(
-            "NOT REMOVING DUPLICATES. Unmatched filename format, incorrect date time string."
+            "NOT REMOVING DUPLICATES. Unmatched filename format, "
+            "incorrect date time string."
         )
         return [], []
     timediff = timedelta(minutes=mins_to_remove)
@@ -233,7 +237,8 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
                     osunlink(matching_fname)
                 except FileNotFoundError as resp:
                     LOG.warning(
-                        "FAILDELETE %s: File %s did not exist, someone must have deleted it for us?",
+                        "FAILDELETE %s: File %s did not exist, "
+                        "someone must have deleted it for us?",
                         matching_fname,
                         str(resp),
                     )
@@ -259,7 +264,8 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
                     osunlink(matching_fname)
                 except FileNotFoundError as resp:
                     LOG.warning(
-                        "FAILDELETE %s: File %s did not exist, someone must have deleted it for us?",
+                        "FAILDELETE %s: File %s did not exist, "
+                        "someone must have deleted it for us?",
                         matching_fname,
                         str(resp),
                     )
@@ -276,7 +282,8 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
             # Test it out for a bit first
             if remove_files is True:
                 LOG.info(
-                    "DELETING DUPLICATE FILE with same coverage %s = %s and same start_dt %s = %s, %s",
+                    "DELETING DUPLICATE FILE with same coverage %s = %s "
+                    "and same start_dt %s = %s, %s",
                     coverage,
                     max_coverage,
                     start_dt,
@@ -287,14 +294,16 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
                     osunlink(matching_fname)
                 except FileNotFoundError as resp:
                     LOG.warning(
-                        "FAILDELETE %s: File %s did not exist, someone must have deleted it for us?",
+                        "FAILDELETE %s: File %s did not exist, "
+                        "someone must have deleted it for us?",
                         matching_fname,
                         str(resp),
                     )
 
             else:
                 LOG.info(
-                    "TEST DELETING DUPLICATE FILE with same coverage %s = %s and same start_dt %s = %s, %s",
+                    "TEST DELETING DUPLICATE FILE with same coverage %s = %s "
+                    "and same start_dt %s = %s, %s",
                     coverage,
                     max_coverage,
                     start_dt,
