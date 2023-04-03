@@ -1,16 +1,25 @@
-tc_pmw:
-  boundaries_dict_type: 'standard'
-  request_coastlines: True
-  request_countries: True
-  request_states: True
-  request_rivers: True
-  
-  coastlines_linewidth: 2
-  countries_linewidth: 1
-  states_linewidth: 0.5
-  rivers_linewidth: 0
-  
-  coastlines_color: '#00B4B4B4'
-  countries_color: '#00B4B4B4'
-  states_color: '#00B4B4B4'
-  rivers_color: '#00B4B4B4'
+interface: boundaries
+metadata:
+  name: tc_pmw
+  family: standard
+  short-description: "The tc_pmw boundaries configuration"
+  long-description: |
+    All line types enabled. All colored red. 2px coastlines, 1px countries,
+    0.5px states borders, and 0px rivers.
+spec:
+  coastlines:
+    enabled: True
+    color: '#00B4B4B4'
+    linewidth: 2
+  countries:
+    enabled: True
+    color: '#00B4B4B4'
+    linewidth: 1
+  states:
+    enabled: True
+    color: '#00B4B4B4'
+    linewidth: 0.5
+  rivers:
+    enabled: True
+    color: '#00B4B4B4'
+    linewidth: 0
