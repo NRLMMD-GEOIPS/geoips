@@ -1,0 +1,67 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.3.1 (2021-12-07)
+**************************
+
+v1.3.1: 2021-12-07, hscat processing
+
+Refactor
+========
+
+* Remove unused code
+* Use console scripts rather than calling command line python utilities explicitly
+
+    * list_available_modules
+    * test_interfaces
+
+Major New Functionality
+=======================
+
+* Add hscat hy-2b and hy-2c processing
+
+    * windspeed
+    * windbarbs
+    * unsectored text
+    * sectored text
+
+* Add test script to test all dev and stable interfaces
+
+    * list_available_modules
+    * test_interfaces
+
+* imagery_windbarbs_clean output_format
+* output_format_kwargs and filename_format_kwargs options in YAML output config and command line
+
+    * Useful for append, overwrite, basedir options
+
+* text_winds_day_fname with %Y%m%d dtg
+
+Bug fixes
+=========
+
+* Remove duplicates from list_<interface>s_by_type output
+* Update bdeck_parser to allow 30 or 38 or 40 or 42 fields
+* Include header in text wind output when the file does not exist, or we are not in append mode
+* Pass padded xarray to adjust_area_def for amsu-b data
+
+    * amsu-b requires full swath width
+
+* Update to log filename for test scripts
+
+    * command line arg now has ' ' and '/' replaced with '_' to get a single unique filename with no additional subdirectories
+
+Deprecations
+============
+
+* Removed basemap-based windbarb plotting commands (no longer functional)
+

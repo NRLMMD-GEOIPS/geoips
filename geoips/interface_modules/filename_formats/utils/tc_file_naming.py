@@ -36,7 +36,8 @@ def get_storm_subdir(
         storm_start_datetime = sector_info["storm_start_datetime"]
 
     # Now check if any "file_path_modifications" were specified in the output config.
-    # This will determine if we need a more specific/unique subdirectory for a specific storm.
+    # This will determine if we need a more specific/unique subdirectory for a specific
+    # storm.
     # Ie, WP932022.2022020506 vs WP932022
     if (
         isinstance(output_dict, dict)
@@ -69,7 +70,8 @@ def get_storm_subdir(
                         )
                     except ValueError:
                         LOG.warning(
-                            "SKIPPING using existing invest dir, no valid start datetime in path %s",
+                            "SKIPPING using existing invest dir, "
+                            "no valid start datetime in path %s",
                             path,
                         )
                         continue

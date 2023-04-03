@@ -1,0 +1,69 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.2.0 (2021-09-15)
+**************************
+
+v1.2.0: Major backwards incompatible update for stable and dev plugin interface implementation
+
+Breaking Interface Changes
+==========================
+
+* Removed all deprecated code
+* Developed dev interface for accessing modules, moved plugins to geoips/interface_modules
+
+    * algorithms, area_def_generators, coverage_checks, filename_formats, interpolation,
+        mtif_params, output_formats, procflows, trackfile_parsers, user_colormaps
+
+* Developed finalized stable interface, moved stable plugins to geoips/interface_modules
+
+    * readers
+
+* Consolidated YAML config files in geoips/yaml_configs
+
+Refactor
+========
+
+* Moved geoips package into subdirectory for pip installability
+
+Major New Functionality
+=======================
+
+* Exhaustive test scripts with final return value of 0 for successful completion of all functionality
+* dev and stable interfaces, allowing entry point based plugins
+* Initial geotiff output support
+* Initial full disk output support
+* Night Visible products
+* Gdeck and flat sectorfile trackfile parsers
+
+Improvements
+============
+
+* YAML based product specifications (references colormaps, algorithms,
+    interpolation routines, coverage checks, etc)
+
+Bug fixes
+=========
+
+* Resolved sectoring issue, allowing complete center coverage
+
+    * Previously when sectoring based on min/max lat/lon, any values outside the explicit
+        requested values would be masked, causing masked data on non-square datasets when 
+        good data was actually available for the entire requested region. Only drop rows outside
+        requested range, do not mask data.
+
+Performance Upgrades
+====================
+
+* Initial config-based processing implementation, which will allow efficiently processing
+    multiple output types in a single run.
+

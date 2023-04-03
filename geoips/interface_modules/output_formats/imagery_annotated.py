@@ -11,7 +11,6 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Matplot-lib based annotated image output."""
-import os
 import logging
 
 from geoips.dev.product import get_product
@@ -59,8 +58,9 @@ def imagery_annotated(
     from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
 
     if not mpl_colors_info:
-        # Create the matplotlib color info dict - the fields in this dictionary (cmap, norm, boundaries,
-        # etc) will be used in plot_image to ensure the image matches the colorbar.
+        # Create the matplotlib color info dict - the fields in this dictionary
+        # (cmap, norm, boundaries, etc) will be used in plot_image to ensure the image
+        # matches the colorbar.
         mpl_colors_info = set_matplotlib_colors_standard(
             data_range=[plot_data.min(), plot_data.max()],
             cmap_name=None,

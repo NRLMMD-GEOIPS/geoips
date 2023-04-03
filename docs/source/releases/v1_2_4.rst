@@ -1,0 +1,45 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.2.4 (2021-11-12)
+**************************
+
+v1.2.4: 2021-11-12, original_source_filename->original_source_filenames, simplify setup
+
+Breaking Interface Changes
+==========================
+
+* Replaced optional original_source_filename attribute with list of original_source_filenames
+
+Breaking Test Repo Updates
+==========================
+
+* Replaced original_source_filename attribute with list of original_source_filenames
+
+    * Updated all metadata YAML outputs
+    * Updated all NetCDF outputs for datasets that had implemented the original_source_filename attribute
+        in the reader
+
+Improvements
+============
+
+* Automatically check command line args (including filenames) before attempting processing
+* Assume standard geoips_conda installation for standard config_geoips usage
+
+    * Simplifies config files
+    * Still allows individuals to override functionality and use their own environment
+
+* Simplified README installation steps
+
+    * Create base_install_and_test.sh script that handles complete consistent conda-based geoips installation
+    * remove "active_branch" (assume dev)
+

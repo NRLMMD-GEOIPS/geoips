@@ -1,0 +1,134 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.4.3 (2022-02-17)
+**************************
+
+v1.4.3: 2022-02-17, updated test scripts and documentation, jpss-1 to noaa-20
+
+Breaking Interface Changes
+==========================
+
+Replace jpss-1 with noaa-20 for VIIRS platform_name
+---------------------------------------------------
+
+* VIIRS reader
+* VIIRS Night Vis test outputs
+
+Major New Functionality
+=======================
+
+Minimum coverage capability
+---------------------------
+
+* Add minimum\_coverage option to command line arguments
+* Add minimum\_coverage / minimum\_coverages option to YAML output config
+
+    * 'minimum\_coverage' covers all products
+    * 'minimum\_coverages' dictionary is on a per-product basis
+    * Special "all" key within minimum\_coverages dictionary applies to all products
+        (can additionally specify individual products within dictionary).
+
+* Add get\_minimum\_coverage function to dev.output\_config interface module
+
+Expanded example test scripts
+-----------------------------
+
+* coverage over the various readers, products, and output formats
+
+    * NEW Visible annotated ABI static
+    * NEW IR-BD clean AHI TC
+    * 89H-Physical annotated AMSR2 TC
+    * 183-3H annotated AMSU-B TC
+    * windbarbs clean ASCAT KNMI TC
+    * Remove ASCAT UHR annotated windbarbs
+    * NEW wind-ambiguities annotated ASCAT UHR TC
+    * NEW 89pct clean GMI TC
+    * windspeed annotated HY-2B TC
+    * NEW Rain clean IMERG TC, no metadata
+    * NEW TPW\_CIMSS MIMIC annotated global
+    * NEW Infrared unprojected\_image MODIS
+    * NEW windbarbs annotated OSCAT KNMI TC
+    * NRCS annotated SAR TC
+    * WV-Upper unprojected\_image SEVIRI
+    * SMAP unsectored text winds (gzipped txt file)
+    * SMOS sectored text winds (not gzipped txt file)
+    * color89 unprojected\_image SSMIS (multiple granules, RGB)
+    * REMOVE VIIRS IR-BD and Visible
+    * Night-Vis-IR annotated VIIRS TC (day time! Need to update for night!)
+
+* Add documentation\_imagery.sh script to generate all imagery used in the available\_functionality.rst
+    documentation, and copy it into the appropriate directory for use in documentation.
+    Return non-zero if any of the commands failed (run\_procflow or copy)
+* Add minimum\_coverage and minimum\_coverages options to yaml\_configs/abi\_test.yaml for referencex
+    (does not change output)
+
+Expanded available functionality documentation
+----------------------------------------------
+
+* Readers - each reader contains a global registered image for reference
+
+    * ABI
+    * AHI
+    * EWS-G
+    * SEVIRI
+    * MODIS
+    * SMAP (updated with full command)
+    * SMOS (updated with full command)
+    * HY2 (updted with full command and global registered image)
+
+* Output Formats
+
+    * Unprojected Imagery
+
+Additional test sectors
+-----------------------
+
+* bsh062022.dat b-deck file
+* bsh252020.dat b-deck file
+* bsh112022.dat b-deck file
+* bio022021.dat b-deck file
+* global.yaml 20km 1000x2000 global area\_def
+
+Updated Night-Vis VIIRS products
+--------------------------------
+
+* Added Night-Vis-GeoIPS1 and Night-Vis-IR-GeoIPS1 products for comparison with geoips versions
+
+Improvements
+============
+
+* Update imagery\_windbarbs to handle 1D vectors, 2-D vectors only, and 2-D vectors with
+    ambiguitie (different numbers of arrays). Ambiguities were NOT getting
+    plotted correctly previously.
+
+* Update unprojected\_imagery to allow specifying either or both of x\_size and y\_size,
+    and calculating the other if only one was included.
+
+* Rename geoips test scripts to make it clear at a glance what reader, product, and output format they are testing.
+* Print copy-and-pasteable command line call at the beginning of each run\_procflow call.
+* Installation improvements
+
+    * Separate base requirements from optional requirements.
+    * Update setup\_geoips.sh install\_geoips to explicitly include all optional requirements.
+
+Bug fixes
+=========
+
+* swap x\_size and y\_size for unprojected imagery
+* Update EWS-G to "gvar" source name rather than gvissr
+* Added uncompress test script to uncompress the .txt.gz unsectored text wind output.
+* Update abi test script names in test\_base\_install.sh (no longer abi.sh and abi\_config.sh)
+
+    * Call test\_base\_install.sh from test\_all.sh
+    * Remove abi test calls from test\_all.sh, since they are included in test\_base\_install.sh
+

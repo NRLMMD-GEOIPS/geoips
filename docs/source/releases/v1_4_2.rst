@@ -1,0 +1,122 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.4.2 (2022-02-05)
+**************************
+
+v1.4.2: 2022-02-05, finalizing procflows to allow unprojected outputs, updating test outputs for consistent shapefiles
+
+Test Repo Updates
+=================
+
+* Updated to Natural Earth Vector v5.0.0 shapefiles
+
+    * AMSR2 TC image - very slightly modified political boundaries
+    * AHI global image - very slightly modified political boundaries
+
+Major New Functionality
+=======================
+
+* SAR Incident Angle Product
+
+    * Added "incident\_angle" variable to SAR xarray output
+    * Added "incident-angle" product to "sar-spd" product\_inputs
+    * Added "incident-angle" YAML product\_params, and test script
+
+* ASCAT UHR windbarbs test script
+* "unprojected\_image" output\_format module
+
+    * Plots the data with no resampling - no area\_def required
+    * Call signature: xarray\_obj, product\_name, output\_fnames, product\_name\_title=None, mpl\_colors\_info=None 
+                      x\_size=None, y\_size=None
+
+* "unprojected" outputter\_type
+
+    * Call signature: xarray\_obj, product\_name, output\_fnames, product\_name\_title=None, mpl\_colors\_info=None 
+
+* Support <DATASET>:<VARNAME> variable requests in product\_inputs YAML config files
+
+    * Update VIIRS Night-Visible to use DNB:SunZenith
+    * Update VIIRS Visible to use MOD:Sunzenith
+    * Update AHI Visible to use MED:Sunzenith
+
+* Added noaa-20 platform to amsub\_mirs reader
+* Filter "poor" quality data within SMOS reader
+
+    * previously was saving poor, fair, and good
+
+Improvements
+============
+
+* Installation Improvements
+
+    * Allow skipping installation steps, rather than just continuing or quitting altogether
+    * Separate steps for downloading cartopy map data and linking to ~/.local
+    * Separate rclone, seviri, and vim8 installation steps (to allow skipping one or more if not needed)
+
+* Updated command line arguments
+
+    * sectored\_read / resampled\_read - specifications for primary dataset
+
+        * Determines whether to read data initially or within area\_def loop
+
+    * self\_register\_dataset, self\_register\_source, and self\_register\_platform
+
+        * Explicitly request using specific dataset lat/lons as the area\_def target for resampling
+        * Add self\_register area\_def specification in get\_area\_defs\_from\_commandline\_args
+
+    * fuse\_sectored\_read / fuse\_resampled\_read - specifications for additional datasets
+    * fuse\_self\_register\_dataset, fuse\_self\_register\_source, fuse\_self\_register\_platform
+
+* Updated procflow ordering
+
+    * Tunable data read order within procflows (based on data read requirements)
+
+        * For self\_register or reader\_defined area\_defs - must read data prior to calling
+            get\_area\_defs\_from\_commandline\_args (so area information is available within the xarray
+            dataset when identifying area\_defs)
+        * For externally specified area\_defs, read data after calling get\_area\_defs\_from\_commandline\_args,
+            to reduce processing time if there is no coverage
+        * For sectored\_read / resampled\_read data types, do not read data until we are within the area\_defs loop
+
+    * Tunable algorithm order within procflows (based on alg\_type specified in dev/alg.py)
+
+        * Support alg\_cmap and alg\_interp\_cmap algorithm types (previously only interp\_alg\_cmap supported -
+            allow calling algorithm prior to data interpolation)
+
+    * Tunable sectoring order within procflows (based on data read requirements)
+
+        * Do not sector reader\_defined or self\_register sector types - must use full dataset, no padding available
+
+    * Tunable outputter\_types within procflows (variable call signatures)
+
+        * xarray\_data
+        * image
+        * image\_overlay
+        * unprojected\_image
+
+* Add mem\_usg and process\_times output to procflows for monitoring
+
+Bug fixes
+=========
+
+* Update pmw\_37 and windbarbs algorithms to only include mandatory "arrays" argument, make output\_data\_range optional
+
+    * If None, output\_data\_range will default to 230 to 280 for 37pct, and data min/max for windbarbs.
+
+* Update single\_source procflow to ensure "resampled\_read" is passed to get\_alg\_xarray
+
+    * to allow using the resampled dataset for retrieving the requested variables
+    * if \<DATASET\_NAME>:\<VARIABLE\_NAME> construct used in product\_inputs YAML configs,
+        we must assure resampled data is not limited to the native datasets,
+        since they will no longer exist
+

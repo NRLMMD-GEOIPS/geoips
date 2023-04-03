@@ -9,6 +9,7 @@
 # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
 """Simple test script to run "test_<interface>_interface" for each interface.
 
 This includes both dev and stable interfaces.
@@ -81,15 +82,17 @@ def main():
     failed_plugins = []
     successful_interfaces = []
     successful_plugins = []
+    failed_plugins_errors = []
+    failed_plugins_tracebacks = []
 
     out_dicts = {}
 
-    failed_plugins, successful_interfaces, successful_plugins = (
-        test_deprecated_interfaces(
-            failed_plugins,
-            successful_interfaces,
-            successful_plugins
-        )
+    (
+        failed_plugins,
+        successful_interfaces,
+        successful_plugins,
+    ) = test_deprecated_interfaces(
+        failed_plugins, successful_interfaces, successful_plugins
     )
 
     for curr_interface in interfaces.__dict__.values():
@@ -106,9 +109,15 @@ def main():
         try:
             out_dict = curr_interface.test_interface()
             out_dicts[curr_interface.name] = out_dict
-        except Exception:
+        except Exception as resp:
             print(traceback.format_exc())
             failed_plugins += [curr_interface.name]
+            failed_plugins_tracebacks += [
+                f"Failed: {curr_interface.name}\n\n" f"{traceback.format_exc()}"
+            ]
+            failed_plugins_errors += [
+                f"Failed: {curr_interface.name}\n\n" f"{str(resp)}"
+            ]
 
     ppprinter = pprint.PrettyPrinter(indent=2)
 
@@ -125,6 +134,10 @@ def main():
             else:
                 successful_plugins += [f"{intname} on {modname}"]
 
+    for failed_plugins_traceback in failed_plugins_tracebacks:
+        print(failed_plugins_traceback)
+        print("")
+
     for curr_plugin in successful_plugins:
         print(f"SUCCESSFUL PLUGIN {curr_plugin}")
 
@@ -136,6 +149,10 @@ def main():
 
     for curr_failed in failed_interfaces:
         print(f"FAILED INTERFACE {curr_failed}")
+
+    for failed_plugins_error in failed_plugins_errors:
+        print(failed_plugins_error)
+        print("")
 
     if len(failed_interfaces) > 0 or len(failed_plugins) > 0:
         raise TypeError(f"Failed validity check on plugins {failed_plugins}")

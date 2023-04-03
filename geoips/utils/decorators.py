@@ -3,18 +3,14 @@
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
 # # #
-# # # This program is free software:
-# # # you can redistribute it and/or modify it under the terms
-# # # of the NRLMMD License included with this program.
-# # #
-# # # If you did not receive the license, see
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-# # # for more information.
-# # #
-# # # This program is distributed WITHOUT ANY WARRANTY;
-# # # without even the implied warranty of MERCHANTABILITY
-# # # or FITNESS FOR A PARTICULAR PURPOSE.
-# # # See the included license for more details.
+
+"""GeoIPS decorators module."""
 
 from warnings import warn
 from functools import wraps
@@ -25,16 +21,19 @@ class deprecated:
     """
     A decorator that deprecates a function.
 
-    When applied to a function, will cause that function to raise a DeprecationWarning when called.
+    When applied to a function, will cause that function to raise a
+    DeprecationWarning when called.
     """
 
     def __init__(self, replacement=None):
         self.replacement = replacement
 
     def __call__(self, func):
+        """Call method."""
         func_mod = inspect.getmodule(func).__name__
         func_name = f"{func_mod}.{func.__name__}"
-        msg = f'Function "{func_name}" is deprecated and will be removed in a future version.'
+        msg = f"Function '{func_name}' is deprecated and "
+        msg += "will be removed in a future version."
         if self.replacement:
             repl_mod = inspect.getmodule(self.replacement).__name__
             repl_name = f"{repl_mod}.{self.replacement.__name__}"
@@ -51,15 +50,17 @@ class deprecated:
 
 
 def developmental(func):
-    """
-    A decorator that marks an interfaces as developmental.
+    """Mark an interfaces as developmental.
 
-    When applied to a function, will prepend a "developmental" message to the beginning of that function's docstring.
+    When applied to a function, will prepend a "developmental" message to the
+    beginning of that function's docstring.
     """
     func_mod = inspect.getmodule(func).__name__
     func_name = f"{func_mod}.{func.__name__}"
-    msg = f'"{func_name}" is currently under development and should be expected to change in the future.\n'
-    msg += "Please provide feedback at https://github.com/NRLMMD-GEOIPS/geoips or geoips@nrlmry.navy.mil."
+    msg = f"'{func_name}' is currently under development "
+    msg += "and should be expected to change in the future.\n"
+    msg += "Please provide feedback at "
+    msg += "https://github.com/NRLMMD-GEOIPS/geoips or geoips@nrlmry.navy.mil."
 
     @wraps(func)
     def wrapped_func(*args, **kwargs):

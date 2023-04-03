@@ -19,7 +19,6 @@ import logging
 LOG = logging.getLogger(__name__)
 
 family = "list_numpy_to_numpy"
-alg_func_type = "list_numpy_to_numpy"
 
 
 def Night_Vis(
@@ -77,7 +76,7 @@ def Night_Vis(
     if val_max >= 1.0e-8:
         val_max = 0.05 * val_max  # with moonlight
     else:
-        max_val = 0.5 * val_max  # no moonlight/other light source
+        val_max = 0.5 * val_max  # no moonlight/other light source
 
     from geoips.data_manipulations.info import percent_unmasked
     from geoips.data_manipulations.corrections import mask_day

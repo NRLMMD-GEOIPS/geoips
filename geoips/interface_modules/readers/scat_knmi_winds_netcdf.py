@@ -183,7 +183,6 @@ def scat_knmi_winds_netcdf(
         wind_xarrays = read_knmi_data(wind_xarray)
 
     for wind_xarray in wind_xarrays.values():
-
         LOG.info("Setting standard metadata")
         wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
             wind_xarray, "timestamp"

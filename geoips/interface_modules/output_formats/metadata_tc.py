@@ -11,7 +11,6 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """TC product YAML metadata output format."""
-import os
 import logging
 
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -56,9 +55,11 @@ def metadata_tc(
     if not is_sector_type(area_def, "tc"):
         return None
     # os.path.join does not take a list, so "*" it
-    # product_partial_path = product_filename.replace(gpaths['TCWWW'], 'https://www.nrlmry.navy.mil/tcdat')
+    # product_partial_path = product_filename.replace(gpaths['TCWWW'],
+    #   'https://www.nrlmry.navy.mil/tcdat')
     product_partial_path = replace_geoips_paths(product_filename)
-    # product_partial_path = pathjoin(*final_product.split('/')[-5:-1]+[basename(final_product)])
+    # product_partial_path = pathjoin(
+    #   *final_product.split('/')[-5:-1]+[basename(final_product)])
     return output_tc_metadata_yaml(
         metadata_yaml_filename,
         area_def,
@@ -70,10 +71,22 @@ def metadata_tc(
     )
 
 
+def update_sector_info_with_data_times(sector_info, xarray_obj):
+    """Update sector info with data times, for YAML metadata output."""
+    start = xarray_obj.start_datetime
+    end = xarray_obj.end_datetime
+    mid = start + (end - start) / 2.0
+    sector_info["data_times"] = {}
+    sector_info["data_times"]["start"] = start
+    sector_info["data_times"]["end"] = end
+    sector_info["data_times"]["mid"] = mid
+    return sector_info
+
+
 def update_sector_info_with_coverage(
     sector_info, product_name, xarray_obj, area_def, output_dict
 ):
-    """Update sector info with coverage."""
+    """Update sector info with coverage, for YAML metadata output."""
     from geoips.dev.product import get_covg_from_product, get_covg_args_from_product
 
     covg_func_types = ["image_production", "fname", "full"]
@@ -188,6 +201,11 @@ def output_tc_metadata_yaml(
         xarray_obj,
         area_def,
         output_dict,
+    )
+
+    sector_info = update_sector_info_with_data_times(
+        sector_info,
+        xarray_obj,
     )
 
     returns = write_yamldict(sector_info, metadata_fname, force=True)

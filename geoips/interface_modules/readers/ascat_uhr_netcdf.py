@@ -200,7 +200,6 @@ def read_byu_data(wind_xarray, fname):
         ) / 3
 
     if "time" in wind_xarray.variables:
-
         # These files are not correct yet.  Pull YYYYMMDD from filename for now, set hour to 1200.
         # Just to get something to plot.
         expected_yyyymmdd = os.path.basename(
@@ -301,7 +300,6 @@ def ascat_uhr_netcdf(
         wind_xarrays = read_byu_data(wind_xarray, fname)
 
     for wind_xarray in wind_xarrays.values():
-
         LOG.info("Setting standard metadata")
         wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
             wind_xarray, "timestamp"

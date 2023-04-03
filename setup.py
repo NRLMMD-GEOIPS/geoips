@@ -12,18 +12,18 @@
 
 """Installation instructions for base geoips package."""
 
-from os.path import realpath, join, dirname
-
 import setuptools
 
-with open(
-    join(dirname(realpath(__file__)), "VERSION"), encoding="utf-8"
-) as version_file:
-    version = version_file.read().strip()
+package_name = "geoips"
 
 setuptools.setup(
-    name="geoips",
-    version=version,
+    name=package_name,
+    use_scm_version={
+        "write_to": f"{package_name}/version.py",  # Writes hard coded version to file
+        "version_scheme": "post-release",  # Use current version .postN vs incrementing
+        "local_scheme": "no-local-version",
+    },  # Does not include extra hash info
+    setup_requires=["setuptools_scm"],
     packages=setuptools.find_packages(),
     include_package_data=True,
     package_data={
@@ -38,27 +38,37 @@ setuptools.setup(
         "pyresample",  # Base requirement - efficiency improvements >= 1.22.3
         "numpy",  # Base requirement
         "xarray",  # Base requirement
-        "matplotlib>=3.6.0",  # Base requirement 20220922, force to 0.20.3/3.5.3 until outputs updated
-        #                  also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
-        "scipy",  # Base requirement
+        "matplotlib>=3.7.0",  # Base requirement
+        # 20230321, allow >=3.7.0, changes annotated imagery outputs
+        # 20230214, force to 3.6.3 until outputs updated
+        # 20220922, force to 0.20.3/3.5.3 until outputs updated
+        #           also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
+        "scipy",  # Base requirement, requires openblas
         "netcdf4",  # Base requirement
         "pyyaml",  # Base requirement
         "pyshp>=2.2.0",
-        "shapely>=1.8.2",
-        "cartopy>=0.21.0",  # Currently must install via conda,
-        # 20220922: 0.20.3 incompatible with mpl 3.6.0, 0.21.0 works
+        "shapely>=1.8.2",  # requires libgeos
+        "cartopy>=0.21.0",  # requires libgeos
+        # NOTE: conda install of matplotlib and cartopy required for tests to pass!
+        #       eventually will update test outputs for pip-only install, for now
+        #       must install matplotlib and cartopy via conda for 0 test returns.
         "pyaml_env",  # Reading YAML output config files, with paths
         "h5py",  # hdf5 readers (GMI)
         "pyhdf",  # hdf4 readers (MODIS)
         "rasterio",  # GEOTIFF output
         "flake8",  # Syntax checking
-        "flake8-docstrings",  # numpy docstring checking
-        "flake8-rst-docstrings",  # numpy docstring checking
-        "flake8-rst",  # RST checking
-        "black",  # black style enforcement
+        "bandit",  # Syntax/security checking
         "pylint",  # Syntax checking
         "bandit",  # Syntax/security checking
+        "flake8-rst-docstrings",  # numpy docstring checking
+        "flake8-docstrings",  # docstring checking
+        "flake8-rst",  # RST checking
+        "black",  # code formatting
+        "prettier",  # YAML, JSON, etc linting
+        "doc8",  # RST linting
         "sphinx",  # Required for building documentation
+        "sphinx_design",  # Required for building documentation
+        "pydata_sphinx_theme",  # Required for building documentation
         "ipython",  # Required for Debugging purposes
         "psutil",  # Required for memory checks
         "pyorbital",  # required by satpy
@@ -66,7 +76,7 @@ setuptools.setup(
         "isodate",  # Required for overpass predictor
         "satpy",  # efficiency improvements >= 0.33.1
         "numexpr",  # for efficiency improvements
-        "scikit-image",
+        "scikit-image",  # Radius based center coverage checks
     ],
     extras_require={
         "cicd_pipeline": [
@@ -89,13 +99,16 @@ setuptools.setup(
         "syntax_checking": [
             "flake8",  # Syntax checking
             "pylint",  # Syntax checking
-            "flake8-rst-docstrings",  # numpy docstring checking
-            "flake8-rst",  # RST checking
-            "black",  # black style enforcement
             "bandit",  # Syntax/security checking
+            "flake8-rst-docstrings",  # numpy docstring checking
+            "flake8-docstrings",  # docstring checking
+            "flake8-rst",  # RST checking
+            "black",  # code formatting
         ],
         "documentation": [
             "sphinx",  # Required for building documentation
+            "pydata-sphinx-theme",  # Extension required for building documentation
+            "sphinx-design",  # Extension required for building documentation
         ],
         "debug": [
             "ipython",  # Required for Debugging purposes
@@ -111,10 +124,15 @@ setuptools.setup(
             "numexpr",  # for efficiency improvements
         ],
         "test_outputs": [
-            "matplotlib>=3.6.0",  # Previously v3.3, then 3.4.3, 20220607 3.5.2
+            "matplotlib>=3.7.0",
+            # Previously v3.3, then 3.4.3,
+            # 20220607 v3.5.2,
+            # 20220922 v3.5.3,
+            # 20230321 v3.7.1
+            "cartopy>=0.21.0",  # 0.21.0 incompatible with 3.5.3
         ],
         "coverage_checks": [
-            "scikit-image",
+            "scikit-image",  # Radius based center coverage checks
         ],
         "efficiency_improvements": [
             "satpy>=0.36.0",  # efficiency improvements >= 0.33.1, 20220607 0.36.0

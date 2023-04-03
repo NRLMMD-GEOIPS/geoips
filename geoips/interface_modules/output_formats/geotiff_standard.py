@@ -22,9 +22,6 @@ output_type = "image"
 
 def get_rasterio_cmap_dict(mpl_cmap, scale_data_min=1, scale_data_max=255):
     """Get rasterio cmap dict."""
-    num_8bit = 255
-    num_colors = scale_data_max - scale_data_min + 1
-
     cmap_arr = mpl_cmap(range(0, 255)) * 255
     cmap_dict = {}
     for ii in range(0, 255):
@@ -49,13 +46,12 @@ def scale_geotiff_data(
         min_val = mpl_colors_info["norm"].vmin
         max_val = mpl_colors_info["norm"].vmax
 
-    num_8bit = 255
     num_colors = scale_data_max - scale_data_min + 1
 
     scale_data = (
         scale_data_min
         + apply_data_range(
-            plot_data, min_val=min_val, max_val=max_val, inverse=False, norm=True
+            plot_data, min_val=min_val, max_val=max_val, inverse=inverse, norm=True
         )
         * num_colors
     )
@@ -84,7 +80,6 @@ def geotiff_standard(
 
         make_dirs(os.path.dirname(output_fname))
         with rasterio.Env():
-
             lons, lats = area_def.get_lonlats()
 
             height = plot_data.shape[0]

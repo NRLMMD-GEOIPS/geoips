@@ -18,13 +18,12 @@ This functionality will be replaced with a class-based implementation v2.0,
 and deprecated at that time.
 """
 import logging
+from geoips.geoips_utils import find_config
 
 LOG = logging.getLogger(__name__)
 
-from geoips.geoips_utils import find_config
 
-
-### Gridline parameter dictionaries ###
+# ### Gridline parameter dictionaries ###
 def is_valid_gridlines(gridlines_name):
     """Interface will be deprecated v2.0.
 
@@ -104,18 +103,23 @@ def is_valid_gridlines(gridlines_name):
 
     gridlines_dict = get_gridlines(gridlines_name)
     # if gridlines_dict is None:
-    #     LOG.error("INVALID PRODUCT '%s': gridlines parameter dictionary did not exist",
+    #     LOG.error("INVALID PRODUCT '%s': "
+    #               "gridlines parameter dictionary did not exist",
     #               gridlines_name)
     #     return False
 
     if "gridlines_dict_type" not in gridlines_dict:
         LOG.error(
-            f"INVALID GRIDLINE '{gridlines_name}': 'gridlines_dict_type' must be defined within gridlines parameter dictionary"
+            f"INVALID GRIDLINE '{gridlines_name}': "
+            "'gridlines_dict_type' must be defined within "
+            "gridlines parameter dictionary"
         )
         return False
     if gridlines_dict["gridlines_dict_type"] not in required_keys.keys():
         LOG.error(
-            f"INVALID GRIDLINE '{gridlines_name}': 'gridlines_dict_type' in gridlines parameter dictionary must be one of '{list(required_keys.keys())}'"
+            f"INVALID GRIDLINE '{gridlines_name}': "
+            "'gridlines_dict_type' in gridlines parameter dictionary "
+            f"must be one of: '{list(required_keys.keys())}'"
         )
         return False
 
@@ -124,8 +128,9 @@ def is_valid_gridlines(gridlines_name):
     # If we don't have all of the required keys, return False
     if not set(required_keys[gridlines_dict_type]).issubset(set(gridlines_dict)):
         LOG.error(
-            f"""INVALID GRIDLINE "{gridlines_name}": gridlines parameter dictionary must contain the following fields:
-                  "{list(required_keys.keys())}" """
+            f"INVALID GRIDLINE '{gridlines_name}': "
+            "gridlines parameter dictionary must contain the following fields: "
+            f"{list(required_keys.keys())}"
         )
         return False
 
@@ -133,9 +138,12 @@ def is_valid_gridlines(gridlines_name):
     if not set(gridlines_dict).issubset(
         required_keys[gridlines_dict_type] + optional_keys[gridlines_dict_type]
     ):
+        unknown_fields = set(gridlines_dict).difference(
+            required_keys[gridlines_dict_type] + optional_keys[gridlines_dict_type]
+        )
         LOG.error(
-            f'''INVALID GRIDLINE "{gridlines_name}": Unknown fields in gridlines parameter dictionary:
-                  "{set(gridlines_dict).difference(required_keys[gridlines_dict_type]+optional_keys[gridlines_dict_type])}"'''
+            f"INVALID GRIDLINE '{gridlines_name}': "
+            f"Unknown fields in gridlines parameter dictionary: {unknown_fields}"
         )
         return False
 
@@ -173,7 +181,8 @@ def get_gridlines(gridlines_name):
         gridlines_dict = yaml.safe_load(fobj)
     if gridlines_name not in gridlines_dict:
         raise ValueError(
-            f"gridlines file {gridlines_fname} must contain gridlines name {gridlines_name} as key"
+            f"gridlines file '{gridlines_fname}' "
+            f"must contain gridlines name '{gridlines_name}' as key"
         )
     return gridlines_dict[gridlines_name]
 

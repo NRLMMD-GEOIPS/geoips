@@ -11,18 +11,15 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Matplotlib-based windbarb annotated image output."""
-import os
 import logging
 
 import numpy
-from matplotlib import colors
 import cartopy.crs as crs
 
 from geoips.image_utils.mpl_utils import (
     create_figure_and_main_ax_and_mapobj,
     save_image,
 )
-from geoips.image_utils.maps import is_crs
 from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
 from geoips.image_utils.mpl_utils import plot_image, plot_overlays, create_colorbar
 from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title

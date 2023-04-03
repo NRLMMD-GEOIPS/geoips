@@ -13,6 +13,7 @@
 """Module for generating specific colormaps on the fly."""
 # Installed Libraries
 import logging
+import ast
 
 LOG = logging.getLogger(__name__)
 
@@ -292,11 +293,11 @@ def create_linear_segmented_colormap(
             start_color = cc.to_rgb(str(tstart_color))
         except ValueError:
             # Allow for tuples as well as string representations
-            start_color = cc.to_rgb(eval(str(tstart_color)))
+            start_color = cc.to_rgb(ast.literal_eval(str(tstart_color)))
         try:
             end_color = cc.to_rgb(str(tend_color))
         except ValueError:
-            end_color = cc.to_rgb(eval(str(tend_color)))
+            end_color = cc.to_rgb(ast.literal_eval(str(tend_color)))
         bluetuple += ((transition_point, old_end_color[2], start_color[2]),)
         redtuple += ((transition_point, old_end_color[0], start_color[0]),)
         greentuple += ((transition_point, old_end_color[1], start_color[1]),)

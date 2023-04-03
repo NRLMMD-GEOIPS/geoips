@@ -22,7 +22,7 @@ import logging
 LOG = logging.getLogger(__name__)
 
 
-### Output config dictionaries ###
+# ### Output config dictionaries ###
 def is_valid_output_config(output_config_dict):
     """Interface will be deprecated v2.0.
 
@@ -107,14 +107,16 @@ def is_valid_output_config(output_config_dict):
 
     if "output_config_type" not in output_config_dict:
         LOG.error(
-            "INVALID OUTPUT CONFIG '%s': 'output_config_type' must be defined within output config dictionary",
+            "INVALID OUTPUT CONFIG '%s': "
+            "'output_config_type' must be defined within output config dictionary",
             output_config_dict.keys(),
         )
         return False
 
     if output_config_dict["output_config_type"] not in required_keys:
         LOG.error(
-            "INVALID OUTPUT CONFIG '%s': 'output_config_type' in output config dictionary must be one of '%s'",
+            "INVALID OUTPUT CONFIG '%s': "
+            "'output_config_type' in output config dictionary must be one of '%s'",
             output_config_dict.keys(),
             list(required_keys.keys()),
         )
@@ -125,7 +127,8 @@ def is_valid_output_config(output_config_dict):
     # If we don't have all of the required keys, return False
     if not set(required_keys[output_config_type]).issubset(set(output_config_dict)):
         LOG.error(
-            "INVALID OUTPUT CONFIG '%s': '%s' output config dictionary must contain the following fields: '%s'",
+            "INVALID OUTPUT CONFIG '%s': "
+            "'%s' output config dictionary must contain the following fields: '%s'",
             output_config_dict.keys(),
             output_config_type,
             list(required_keys[output_config_type]),
@@ -137,7 +140,8 @@ def is_valid_output_config(output_config_dict):
         required_keys[output_config_type] + optional_keys[output_config_type]
     ):
         LOG.error(
-            "INVALID OUTPUT CONFIG'%s': Unknown fields in '%s' output config dictionary: '%s'",
+            "INVALID OUTPUT CONFIG'%s': "
+            "Unknown fields in '%s' output config dictionary: '%s'",
             output_config_dict.keys(),
             output_config_type,
             set(output_config_dict).difference(
@@ -244,7 +248,8 @@ def get_minimum_coverage(product_name, output_dict):
         minimum_coverage < 0 or minimum_coverage > 100
     ):
         raise ValueError(
-            f"Minimum coverage must be percentage between 0 and 100, {minimum_coverage} invalid"
+            "Minimum coverage must be percentage between 0 and 100, "
+            f"{minimum_coverage} invalid"
         )
 
     return minimum_coverage
@@ -361,7 +366,7 @@ def get_output_format_kwargs(
             output_dict=output_dict,
         )
         if bg_cmap_plugin_name is not None:
-            bg_cmap_plugin = colormaps.get_plugin(bg_cmap_plugin_name )
+            bg_cmap_plugin = colormaps.get_plugin(bg_cmap_plugin_name)
             bg_cmap_args = get_cmap_args(
                 bg_product_name,
                 output_format_kwargs["bg_xarray"].source_name,
@@ -402,7 +407,8 @@ def produce_current_time(config_dict, metadata_xobj, output_dict_keys=None):
     for output_dict_key in output_dict_keys:
         LOG.info("CHECKING for required time in output_dict: %s", output_dict_key)
         output_dict = config_dict["outputs"][output_dict_key]
-        # If 'produce_times' is not in the current output_dict, it means we DO NOT filter based on time, so we
+        # If 'produce_times' is not in the current output_dict,
+        # it means we DO NOT filter based on time, so we
         # will need this file time processed.
         if "produce_times" not in output_dict:
             LOG.info(
@@ -416,7 +422,8 @@ def produce_current_time(config_dict, metadata_xobj, output_dict_keys=None):
                 in output_dict["produce_times"]["required_minutes"]
             ):
                 LOG.info(
-                    'WILL PROCESS produce_times["required_minutes"]=%s includes current minute %s, %s',
+                    "WILL PROCESS produce_times['required_minutes']=%s "
+                    "includes current minute '%s', '%s'",
                     output_dict["produce_times"]["required_minutes"],
                     metadata_xobj.start_datetime.minute,
                     metadata_xobj.start_datetime,

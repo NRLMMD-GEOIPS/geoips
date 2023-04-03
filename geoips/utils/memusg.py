@@ -31,40 +31,52 @@ def print_mem_usage(logstr="", verbose=False):
     * If verbose is True, include output from both psutil and resource packages.
     """
     # If psutil / socket / resource are not imported, do not fail
+    usage_dict = {}
     try:
+        vmem_percent = psutil.virtual_memory().percent
         LOG.info(
             "virtual perc: %s on %s %s",
-            str(psutil.virtual_memory().percent),
+            str(vmem_percent),
             str(socket.gethostname()),
             logstr,
         )
+        swap_percent = psutil.swap_memory().percent
         LOG.info(
             "swap perc:    %s on %s %s",
-            str(psutil.swap_memory().percent),
+            str(swap_percent),
             str(socket.gethostname()),
             logstr,
         )
     except NameError as resp:
+        vmem_percent = swap_percent = "nan"
         LOG.info(
             "%s: psutil or socket not defined, no percent memusg output", str(resp)
         )
     try:
+        highest = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
         LOG.info(
             "highest:      %s on %s %s",
-            str(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss),
+            str(highest),
             str(socket.gethostname()),
             logstr,
         )
     except NameError as resp:
+        highest = "nan"
         LOG.info(
             "%s: resource or socket not defined, no highest memusg output", str(resp)
         )
+
     if verbose:
-        print_resource_usage(logstr)
+        usage_dict = print_resource_usage(logstr)
+    usage_dict["memusg_virtual"] = vmem_percent
+    usage_dict["memusg_swap"] = swap_percent
+    usage_dict["memusg_highest"] = highest
+    return usage_dict
 
 
 def print_resource_usage(logstr=""):
     """Print verbose resource usage, using "resource" package."""
+    usage_dict = {}
     try:
         usage = resource.getrusage(resource.RUSAGE_SELF)
         for name, desc in [
@@ -78,5 +90,7 @@ def print_resource_usage(logstr=""):
             ("ru_oublock", "RESOURCE " + logstr + " Block outputs"),
         ]:
             LOG.info("%-25s (%-10s) = %s", desc, name, getattr(usage, name))
+            usage_dict[name] = getattr(usage, name)
     except NameError:
         LOG.info("resource not defined")
+    return usage_dict

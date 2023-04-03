@@ -30,7 +30,7 @@ def mask_day(data_array, sunzen_array, max_zenith=90):
     ----------
     data_array : numpy.ndarray or numpy.ma.MaskedArray
         data values to be masked
-    sunzen_array : ndarray
+    sunzen_array : numpy.ndarray
         numpy.ndarray or numpy.ma.MaskedArray of solar zenith angles,
         of the same shape as the data array
     max_zenith : float, optional
@@ -99,9 +99,9 @@ def apply_gamma(data_array, gamma):
 
     Returns
     -------
-    ndarray
-        Return numpy.ndarray (or numpy.ma.MaskedArray if data_array
-        was MaskedArray) with gamma correction applied:
+    numpy.ndarray
+        Return numpy.ndarray or numpy.ma.MaskedArray
+        if data_array was MaskedArray with gamma correction applied
         data_array ** (1.0 / float(gamma))
     """
     LOG.info("CORRECTION Applying gamma correction of %s", gamma)
@@ -122,10 +122,10 @@ def apply_solar_zenith_correction(data_array, sunzen_array):
 
     Returns
     -------
-    ndarray
-        Return numpy.ndarray (or numpy.ma.MaskedArray if original
-        data_array was MaskedArray) with each value in the data_array
-        divided by cos(sunzen).
+    numpy.ndarray
+        Return numpy.ndarray or numpy.ma.MaskedArray if original
+        data_array was MaskedArray with each value in the
+        data_array divided by cos(sunzen).
     """
     origmask = data_array.mask
     LOG.info(
@@ -153,8 +153,9 @@ def apply_scale_factor(data_array, scale_factor):
 
     Returns
     -------
-    numpy.ndarray or numpy.ma.MaskedArray
-        Input data array with scale factor applied:
+    numpy.ndarray
+        Return numpy.ndarray or numpy.ma.MaskedArray
+        Input data array with scale factor applied
         data_array * scale_factor
     """
     LOG.info(
@@ -180,8 +181,9 @@ def apply_offset(data_array, offset):
 
     Returns
     -------
-    numpy.ndarray or numpy.ma.MaskedArray
-        Input data array with offset applied:
+    numpy.ndarray
+        Return numpy.ndarray or numpy.ma.MaskedArray
+        Input data array with offset applied
         data_array + offset
     """
     LOG.info(
@@ -210,8 +212,9 @@ def apply_minimum_value(data, min_val, outbounds):
 
     Returns
     -------
-    numpy.ndarray or numpy.ma.MaskedArray
-        Input data array with values below "min_val"
+    numpy.ndarray
+        Return numpy.ndarray or numpy.ma.MaskedArray
+        Input data array with values below 'min_val'
         retained, cropped, or masked appropriately.
     """
     LOG.info("Applying minimum value of %r to data with min %f", min_val, data.min())
@@ -266,8 +269,9 @@ def apply_maximum_value(data, max_val, outbounds):
 
     Returns
     -------
-    numpy.ndarray or numpy.ma.MaskedArray
-        Input data array with values above "max_val"
+    numpy.ndarray
+        Return numpy.ndarray or numpy.ma.MaskedArray
+        Input data array with values above 'max_val'
         retained, cropped, or masked appropriately.
     """
     LOG.info("Applying maximum value of %r to data with max %f", max_val, data.max())
@@ -354,8 +358,9 @@ def apply_data_range(
 
     Returns
     -------
-    numpy.ndarray or numpy.ma.MaskedArray
-        Input data array with values above "max_val" or below "min_val"
+    numpy.ndarray
+        Return numpy.ndarray or numpy.ma.MaskedArray
+        Input data array with values above 'max_val' or below 'min_val'
         retained, cropped, or masked.
     """
     # Invert data if minimum value is greater than maximum value
@@ -402,7 +407,8 @@ def invert_data_range(data, min_val=None, max_val=None):
 
     Returns
     -------
-    numpy.ndarray or numpy.ma.MaskedArray
+    numpy.ndarray
+        Return numpy.ndarray or numpy.ma.MaskedArray
         Input data array with values inverted.
     """
     if min_val is None:
@@ -455,9 +461,10 @@ def normalize(data, min_val=None, max_val=None, min_bounds="crop", max_bounds="c
 
     Returns
     -------
-    numpy.ndarray or numpy.ma.MaskedArray
+    numpy.ndarray
+        Return numpy.ndarray or numpy.ma.MaskedArray
         Input data array normalized between 0 and 1, with values above
-        "max_val" or below "min_val" retained, cropped, or masked.
+        'max_val' or below 'min_val' retained, cropped, or masked.
     """
     # Determine if mask is currently hardened
     hardmask = None

@@ -67,7 +67,7 @@ def single_channel(
             * retain: keep all pixels as is
             * mask: mask all pixels that are out of range
             * crop: set all out of range values to either min_val or max_val
-                as appropriate
+              as appropriate
     max_outbounds : str, default='crop'
         * Method to use when applying bounds.  Valid values are:
 
@@ -91,13 +91,8 @@ def single_channel(
 
             * If True, returned data will have solar zenith correction applied
               (see data_manipulations.corrections.apply_solar_zenith_correction)
-            * If False, returned data will not be modified based on solar zenith angle
-
-    Returns
-    -------
-    numpy.ndarray
-        numpy.ndarray or numpy.MaskedArray of appropriately scaled channel data,
-        in units "output_units".
+            * If False, returned data will not be modified based on solar zenith
+              angle
 
     Notes
     -----
@@ -118,6 +113,12 @@ def single_channel(
     If you require a different order of operations than that specified within
     "single_channel" algorithm, please create a new algorithm for your desired
     order of operations.
+
+    Returns
+    -------
+    numpy.ndarray
+        numpy.ndarray or numpy.MaskedArray of appropriately scaled channel data,
+        in units "output_units".
     """
     data = arrays[0]
     if output_data_range is None:

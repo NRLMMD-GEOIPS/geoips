@@ -1,0 +1,77 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.5.1 (2022-07-13)
+**************************
+
+v1.5.1: 2022-07-13, fix overpass error handling, fix ticklabels error, add area_def_adjuster outputs, update test rm
+
+Improvements
+============
+
+config_based final outputs
+--------------------------
+
+* Add output filenames from area\_def\_aduster call to final\_products
+* NOTE: area\_def\_adjuster outputs NOT included in single\_source processing - it must be explicitly requested
+  within YAML output config - not explicitly requested in single_source command line call, so not supported
+  to include via single_source processing.
+
+metadata_default output format
+------------------------------
+
+* Allow optional "include\_metadata\_filename" kwarg (default False for backwards compatibility)
+
+    * Helpful for confirming metadata is going to the expected output location!
+
+config-based metadata YAML kwargs specifications
+------------------------------------------------
+
+* Update so metadata YAML kwargs are specified in the YAML output config using "metadata\_filename\_format" rather
+  than "filename_format"
+
+Documentation Updates
+=====================
+
+* Update \*.md Distro statement headers to use 4 spaces prefix rather than ### (formatting improvement)
+
+Bug fixes
+=========
+
+tests/utils
+-----------
+
+* Go 3 levels deep for delete\_diff\_dirs.sh and delete\_files\_from\_repo.sh
+
+  * Allow additional levels for test output directories, for better organization.
+
+overpass predictor
+------------------
+
+* Add handling for AttributeErrors encountered under overpass\_predictor.calculate\_overpass
+* Replace print statements with logger, and show which satellite has the bad overpass prediction
+
+image_utils.mpl_utils
+---------------------
+
+* Do not try to set cbar.set\_ticklabels unless cmap\_ticklabels exists
+
+metadata_tc
+-----------
+
+* remove unused fname argument from update\_sector\_info\_with\_default\_metadata call signature
+
+gmi.tc.89pct.imagery_clean.sh
+-----------------------------
+
+* Update gmi 89pct test to use tc\_clean\_fname rather than tc\_fname
+

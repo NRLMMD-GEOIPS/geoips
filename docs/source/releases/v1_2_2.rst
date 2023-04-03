@@ -1,0 +1,98 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.2.2 (2021-10-25)
+**************************
+
+ v1.2.2: 2021-10-25, config-based processing, global stitching, AWS-based test cases, separate sfc_winds readers
+
+Breaking Interface Changes
+==========================
+
+* Separated all surface winds readers from sfc_winds_netcdf
+
+    * smos_winds_netcdf
+    * smap_remss_winds_netcdf
+    * amsr2_remss_winds_netcdf
+    * windsat_remss_winds_netcdf
+    * scat_knmi_winds_netcdf
+    * ascat_uhr_netcdf
+
+Breaking Test Repo Updates
+==========================
+
+* Updated default padding amount from 2.5x to 1.5x
+
+    * caused slightly modified output times in titles for some data types (identical data output, slightly modified center time)
+
+        * test_data_ahi_day
+        * test_data_amsr2
+        * test_data_ascat_bin
+        * test_data_smap
+        * test_data_viirs
+
+Refactor
+========
+
+* Separated all surface winds readers from sfc_winds_netcdf (see breaking interface changes)
+
+Major New Functionality
+=======================
+
+* Modular geostationary stitching capability
+
+    * SEVIRI, ABI, and AHI
+    * single channel products tested (Infrared-Gray and WV)
+
+Improvements
+============
+
+* Single installation script with prompts to step through all installation/testing steps
+
+    * Replaces step-by-step copy-paste in README with single call to full_nrl_installation.sh
+
+* Installation steps now return 1 for failed pulls and updates and fail catastrophically
+
+    * Ensure timely notification of failure to reduce incomplete installations
+    * Does not continue with further steps until all steps complete
+
+* Standard installation and testing now includes AWS-based ABI testing
+
+    * Prevents requiring separate test data repo for basic testing -
+        everything required is included in the geoips repo
+        (comparison outputs, and commands to obtain test datasets).
+
+* Added SatZenith, sensor_scan_angle, and channel number attributes to PMW readers (supports CRTM)
+
+    * SSMI/S
+    * AMSU-B
+    * AMSR2
+
+Bug fixes
+=========
+
+Resolved issue with SMAP only processing one of the 2 daily overpasses
+----------------------------------------------------------------------
+
+* Previously always filtered dynamic area_defs to return a single area_def based on the data center_time
+
+    * Now only return single area_def for data files covering < 3h
+    * Now return ALL area_defs for data files covering > 3h
+    * Now filter area_defs during processing - after sectoring datafile,
+        check if the current area_def is the "closest", if not, skip.
+
+Resolved bug in AMSU-b start and end time
+-----------------------------------------
+
+* Previously pulled start/end time from filename - test datafile actually had incorrect time listed!
+* Updated to pull directly from the metadata.
+

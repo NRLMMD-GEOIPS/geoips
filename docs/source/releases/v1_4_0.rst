@@ -1,0 +1,160 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.4.0 (2022-01-10)
+**************************
+
+v1.4.0: 2022-01-10, add modular metadata output support, causing some internal interface changes
+
+All interface changes due to this update are isolated to internal functions, required to support modular
+metadata filename and output format specifications.  These changes will not impact any user/developer interfaces.
+
+Breaking Interface Changes
+==========================
+
+* Removed "overlay" procflow - functionality completely covered by config\_based procflow.
+* remove\_duplicates:
+
+  * Now takes dictionary of filenames with associated format information, rather than list of filenames
+
+    * No longer takes separate "filename\_format" argument that must apply to all files
+
+* single\_source.plot\_data
+
+    * Takes in output\_dict rather than separate output file names and output format
+    * Returns dictionary of output file names with associated filename formats, rather than list of filenames
+    * Takes in variable for kwargs rather than \*\*kwargs
+        (so it is explicit which kwargs should be applied to which module)
+
+* single\_source.plot\_sectored\_data\_output (ie, sectored, unregistered outputs)
+
+    * Takes in output\_dict rather than individual filename/output formats
+    * Add area\_def argument
+    * Returns dictionary of output file names with associated filename formats, rather than list of filenames
+
+* single\_source.process\_xarray\_dict\_to\_output\_format (ie, unsectored, unregistered outputs)
+
+    * Takes in output\_dict rather than individual filename/output formats
+    * Add area\_def argument
+    * Returns dictionary of output file names with associated filename formats, rather than list of filenames
+
+* single\_source.get\_filename
+
+    * (alg\_xarray, area\_def, filename\_format, product\_name)
+        -> (filename\_format, product\_name=None, alg\_xarray=None, area\_def=None,
+            output\_dict=None, suppored\_filenamer\_type=None)
+
+    * Consolidated to support
+
+        * metadata outputs
+        * sectored/unsectored outputs
+        * registered outputs
+
+* Remove center coverage check from 89H-Physical product
+
+    * For consistency with other products, request at the command line / output config level
+    * Add center coverage product\_params\_override to direct command line amsr2.sh test call
+
+Refactor
+========
+
+* Pass "output\_dict" to all filename and output modules, for consistent application of options
+    (allows specifying arguments via single\_source command line or output YAML config dict)
+
+    * kwarg to all product modular interface functions
+    * Optional kwarg to all filename and output modules (if it is not included as a kwarg, it is filtered
+        out from within single\_source and not attempted to be passed in)
+
+        * tc\_clean\_fname - for including coverage function information in filename
+        * tc\_fname - for including coverage function information in filename
+
+* single\_source.output\_all\_metadata
+
+    * Returns dictionary of output filenames and formats
+
+* single\_source.get\_output\_filenames
+
+    * Returns dictionary of output\_filenames and metadata\_filenames with associated formats
+
+* Separate test\_all.sh (includes test scripts that do not have bundled test data) and test\_base\_install.sh
+    (only includes test scripts with bundled test data)
+* Move "get\_bg\_xarray" from overlay procflow to config\_based procflow
+
+
+Major New Functionality
+=======================
+
+* Updated "product" modular interface
+
+    * Add "list\_products\_by\_source" and "list\_products\_by\_products"
+
+* Available functionality documentation page - includes readers and products, with examples
+
+    * Readers
+
+        * AMSU-B
+        * HY2
+        * SAR
+        * SMOS
+
+    * Products
+
+        * 183-3H
+        * NRCS
+        * sectored text winds
+        * unsectored text winds
+
+* Sample test scripts with explicit command line call examples - input dataset NOT included, but
+    all sector information and output comparison files are available directly within geoips
+
+    * AMSR2 89H-Physical, using bdeck bio012020.dat
+    * AMSU-B 183-3H, using bdeck bwp022021.dat
+    * SAR windspeed, using bdeck bwp312018.dat
+    * SMOS sectored, using bdeck bsh162020.dat
+
+* Sectored and Unsectored text wind outputs
+
+    * SAR
+
+* Support user-defineable metadata output formats, command line args and YAML output config fields
+
+    * metadata\_filename\_format (default None)
+    * metadata\_filename\_format\_kwargs (default {})
+    * metadata\_output\_format  (default None)
+    * metadata\_output\_format\_kwargs (default {})
+
+* Support user-defineable modifications to product parameters, via command line or output config fields
+
+    * product\_params\_override (default {})
+
+* Add "standard\_metadata" filename and output format types (to match version previously used automatically for
+    all TC sectors - will continue to use "standard\_metadata" for testing purposes to avoid changing all
+    test repo outputs)
+
+* Add "output\_config" interface module to pull parameters from output config dictionaries
+
+    * output\_config\_dict: full dictionary referring to complete YAML output config file
+    * output\_dict: dictionary referring to a single set of output parameters for a single output type
+        (subset of output\_config\_dict - matches "command\_line\_args" in single\_source procflow)
+
+Improvements
+============
+
+* Moved documentation imagery into subdirectories
+
+    * available\_functionality
+    * geoips\_overview
+    * command\_line\_examples
+
+* More informative log statement at the end of single\_source and config\_based procflows
+* During output comparisons, name diff directory "diff\_test\_output\_dir" and files "diff\_test\_output"
+

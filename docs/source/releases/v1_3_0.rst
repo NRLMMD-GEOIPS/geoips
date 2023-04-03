@@ -1,0 +1,73 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.3.0 (2021-11-24)
+**************************
+
+v1.3.0: 2021-11-24, atcf->tc, consolidate paths
+
+Breaking Interface Changes
+==========================
+
+* Replaced instances of "atcf" within geoips repo with "tc"
+
+    * --atcfdb command line option with --tcdb
+    * --get_atcf_area_defs_for_xarray -> get_tc_area_defs_for_xarray
+    * "atcf" -> "tc" sector_type 
+
+* Removed support for GEOIPSFINAL, and GEOIPSTEMP environment variables / base_paths
+
+    * GEOIPSFINAL -> ANNOTATED_IMAGERY_PATH
+    * GEOIPSTEMP -> CLEAN_IMAGERY_PATH
+    * PREGENERATED_IMAGERY_PATH -> CLEAN_IMAGERY_PATH
+
+* Consolidate directories into "geoips_outdirs"
+
+    * intermediate_files/GeoIPSfinal -> geoips_outdirs/preprocessed/annotated_imagery
+    * intermediate_files/GeoIPStemp -> geoips_outdirs/preprocessed/clean_imagery
+    * longterm_files -> geoips_outdirs/longterm_files
+
+* Moved TCWWW, PUBLICWWW, and PRIVATEWWW directly under geoips_outdirs/preprocessed
+
+    * Previously were under ANNOTATED_IMAGERY_PATH
+
+Breaking Test Repo Updates
+==========================
+
+* Replaced sector_type "atcf" with "tc" in all TC metadata YAML outputs
+* Updated paths in metadata YAML outputs
+
+    * intermediate_files/GeoIPSfinal -> geoips_outdirs/preprocessed/annotated_imagery
+    * intermediate_files/GeoIPStemp -> geoips_outdirs/preprocessed/clean_imagery
+
+* Updated TCWWW, PUBLICWWW, and PRIVATEWWW paths in metadata YAML outputs
+
+    * preprocessed/annotated_imagery/tcwww -> preprocessed/tcwww
+    * preprocessed/annotated_imagery/publicwww -> preprocessed/publicwww
+    * preprocessed/annotated_imagery/privatewww -> preprocessed/privatewww
+
+Improvements
+============
+
+* Simplified top level scripts
+
+    * Moved Pull Request and Ticket Resolution templates into sphinx documentation
+    * Moved entry point READMEs into sphinx documentation
+
+* Updated copy_diffs_for_eval.sh, delete_files_from_repo.sh, and delete_diff_dirs.sh to take "repo_name"
+
+    * Previously ran on ALL repos.
+    * Force user to select a specific repo to udpate
+
+* Updated tests README to include specific instructions for generating new test scripts
+* Added support for external compare_outputs module (to allow output type comparisons not specified within geoips)
+

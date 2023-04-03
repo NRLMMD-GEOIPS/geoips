@@ -322,7 +322,6 @@ def viirs_netcdf(
     tracked_data_type_vars = defaultdict(dict)
     # This fails if fnames happens to be in a different order
     for fname in sorted(fnames):
-
         # print('tst name= ', fname)
 
         # # chech for right VIIRS file
@@ -449,7 +448,6 @@ def viirs_netcdf(
             vis_vars = []
 
         for var in list_vars:
-
             xvarname = var
             if var in xvarnames:
                 xvarname = xvarnames[var]

@@ -21,7 +21,7 @@ by setting appropriate environment variables.
 # Python Standard Libraries
 import logging
 from os import getenv, listdir
-from os.path import exists, dirname, join as pathjoin, split as pathsplit
+from os.path import exists, dirname, join as pathjoin
 import socket
 
 LOG = logging.getLogger(__name__)
@@ -38,7 +38,8 @@ if getenv("GEOIPS_OPERATIONAL_USER"):
 # At a minimum, GEOIPS_OUTDIRS must be defined.
 if not getenv("GEOIPS_OUTDIRS"):
     raise KeyError(
-        "GEOIPS_OUTDIRS must be set in your environment.  Please set GEOIPS_OUTDIRS and try again"
+        "GEOIPS_OUTDIRS must be set in your environment.  "
+        "Please set GEOIPS_OUTDIRS and try again"
     )
 else:
     PATHS["GEOIPS_OUTDIRS"] = getenv("GEOIPS_OUTDIRS").rstrip("/")
@@ -172,14 +173,15 @@ else:
     PATHS["SHAREDSCRATCH"] = getenv("SHAREDSCRATCH").rstrip("/")
 
 # This is the default ANCILDATDIR specified in $GEOIPS/geoips/geoalgs/Makefile
-# These MUST match or geoalgs won't find ancildat files (ANCILDATDIR gets built into fortran
-# routines).
+# These MUST match or geoalgs won't find ancildat files
+# (ANCILDATDIR gets built into fortran routines).
 # Used to be $GEOIPS/geoips/geoalgs/dat, but decided it shouldn't be relative to
 # source by default...
-# Also note I added GEOALGSAUTOGENDATA - these were going directly in ancildat previously, which
-# can get rather crowded with TCs and other dynamic sectors.  Also, separating the auto-generated
-# files from the source files allows for individual users to read from the shared ancildat, and write to
-# their own auto-generated location
+# Also note I added GEOALGSAUTOGENDATA - these were going directly in ancildat
+# previously, which can get rather crowded with TCs and other dynamic sectors.
+# Also, separating the auto-generated files from the source files allows for
+# individual users to read from the shared ancildat, and write to their own
+# auto-generated location
 if not getenv("ANCILDATDIR"):
     PATHS["ANCILDATDIR"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "ancildat")
     PATHS["ANCILDATEXTERNAL"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "ancildat_external")
@@ -266,7 +268,8 @@ def make_dirs(path):
             makedirs(path, mode=0o755)
         except OSError as resp:
             LOG.warning(
-                "%s: We thought %s did not exist, but then it did. Not trying to make directory",
+                "%s: We thought %s did not exist, but then it did. "
+                "Not trying to make directory",
                 resp,
                 path,
             )

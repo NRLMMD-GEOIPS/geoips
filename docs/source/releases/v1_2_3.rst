@@ -1,0 +1,93 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.2.3 (2021-11-05)
+**************************
+
+v1.2.3: 2021-11-05, text wind outputs, internal dictionary of xarray datasets, unique TC filenames
+
+Breaking Interface Changes
+==========================
+
+* Replaced internal lists of xarray datasets with dictionary of xarray datasets
+
+    * xarray_utils/data.py sector_xarrays function now takes and returns dictionaries
+    * procflows/single_source.py get_area_defs_from_command_line_args function now takes dictionary
+
+Breaking Test Repo Updates
+==========================
+
+* Updated filenames to identify product implementation
+
+    * bg<product_name> (ie, bgVisible) if background imagery was applied
+
+Major New Functionality
+=======================
+
+* unsectored_xarray_dict_to_output_format product type
+
+    * Hooks in single_source and config_based procflows to generate product immediately after reading data
+
+* sectored_xarray_dict_to_output_format product type
+
+    * Hooks in single_source and config_based procflows to generate product immediately after sectoring
+
+* Text wind output capability
+
+    * 'unsectored' and 'sectored' products
+    * 'text_winds_full_fname' and 'text_winds_tc_fname' filename formats
+
+* SMAP and AMSR2 config-based processing
+
+Improvements
+============
+
+Updated test_all.sh script set up to take any script that has a valid exit code
+-------------------------------------------------------------------------------
+
+* Previously test scripts called from test_all.sh required specific setup
+* Updated to generically handle return codes from any scripts - simplifies testing setup
+
+Updated test_all_run.sh sub-script to check log outputs for "success" strings before returning 0
+------------------------------------------------------------------------------------------------
+
+* If return is 0, grep the log output for one of a set of "success" strings
+
+    * SETUPSUCCESS
+    * FOUNDPRODUCT
+    * SUCCESSFUL COMPARISON DIR
+    * GOODCOMPARE
+
+* If no success strings are present, return 42.
+* protects against test scripts that inadvertently do not exit with the proper error code
+
+Removed old testing construct - replace with explicit test scripts
+------------------------------------------------------------------
+
+* config-based testing now handles the exhaustive functionality tests (much faster)
+
+    * SMAP fully implemented
+    * AMSR2 fully implemented
+
+* scripts with explicit command line call for minimal single_source and overlay functionality testing
+
+Additional information in tc_fname extra field for different product enhancements
+---------------------------------------------------------------------------------
+
+* bg<product_name> (ie, bgVisible) if background imagery was applied
+* cr<radius> (ie, cr300) if center radius coverage check was used
+
+Bug fixes
+=========
+
+* Update all readers to include 'METADATA' field (now explicitly required)
+

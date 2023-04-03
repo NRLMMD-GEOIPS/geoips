@@ -33,7 +33,6 @@ import logging
 import numpy as np
 from pyproj import Geod
 from pyresample import utils
-from pyresample import _spatial_mp
 from pyresample.geometry import SwathDefinition, CoordinateDefinition
 
 log = logging.getLogger(__name__)
@@ -115,8 +114,9 @@ class MaskedCornersSwathDefinition(SwathDefinition):
             # issue warning
             warnings.warn(
                 "All geometry objects expect longitudes in the [-180:+180[ range. "
-                + "We will now automatically wrap your longitudes into [-180:+180[, and continue. "
-                + "To avoid this warning next time, use routine utils.wrap_longitudes()."
+                "We will now automatically wrap your longitudes into [-180:+180[, "
+                "and continue. "
+                "To avoid this warning next time, use routine utils.wrap_longitudes()."
             )
             # wrap longitudes to [-180;+180[
             self.lons = utils.wrap_longitudes(lons)
@@ -242,9 +242,9 @@ class MaskedCornersSwathDefinition(SwathDefinition):
 
         # Calculate the eight possible corners and produce arcs for each pair
         # Corners for top side
-        # Right side was failing with Divide by Zero error for NCC data because there was
-        # a single good point in the max_col.  Keep incrementing or decrementing until good.min
-        # doesn't equal good.max
+        # Right side was failing with Divide by Zero error for NCC data because there
+        # was a single good point in the max_col.  Keep incrementing or decrementing
+        # until good.min doesn't equal good.max
         good = np.where(~lons[min_row, :].mask)[0]
         tries = 0
         while tries < 20 and good.min() == good.max():
@@ -466,8 +466,9 @@ class PlanarPolygonDefinition(CoordinateDefinition):
             # issue warning
             warnings.warn(
                 "All geometry objects expect longitudes in the [-180:+180[ range. "
-                + "We will now automatically wrap your longitudes into [-180:+180[, and continue. "
-                + "To avoid this warning next time, use routine utils.wrap_longitudes()."
+                "We will now automatically wrap your longitudes into [-180:+180[, "
+                "and continue. "
+                "To avoid this warning next time, use routine utils.wrap_longitudes()."
             )
             # wrap longitudes to [-180;+180[
             self.lons = utils.wrap_longitudes(lons)
@@ -681,8 +682,8 @@ class Line(object):
         log.info("self: " + str(self) + " other: " + str(other))
         if self == other:
             # Used to be return True, that is definitely not right (expects Coordinate)
-            # Do we want start or end ? Does it matter? Lines are the same, everything is
-            # an intersection.
+            # Do we want start or end ? Does it matter? Lines are the same, everything
+            # is an intersection.
             return self.start
         # If any of the start/end points match, return that point.
         if self.end == other.start or self.end == other.end:
@@ -1037,15 +1038,19 @@ def planar_point_inside(point, corners):
     if point.lon < 0:
         point.lon += 2 * math.pi
     #    print '    IN PlanarPolygonDefinition point_inside!!! '+\
-    #        ' point: '+str(point)+' '+str(math.degrees(minlat))+' '+str(math.degrees(maxlat))+' '+str(math.degrees(minlon))+' '+str(math.degrees(maxlon))
+    #        ' point: '+str(point)+' '+str(math.degrees(minlat))+' '+
+    #                 str(math.degrees(maxlat))+' '+str(math.degrees(minlon))+' '+
+    #                 str(math.degrees(maxlon))
     #        ' point: '+str(point)+'\n'+\
     #        'c0 '+str(corners[0])+'\n'+\
     #        'c1 '+str(corners[1])+'\n'+\
     #        'c2 '+str(corners[2])+'\n'+\
     #        'c3 '+str(corners[3])+'\n'+\
     #        str(minlat)+' '+str(maxlat)+' '+str(minlon)+' '+str(maxlon)
-    # MLS 20160405 NOTE point prints degrees for str, but point.lon and point.lat are stored as radians.
-    # minlon/maxlon also radians. This is why big sectors were failing, after fixing the
+    # MLS 20160405 NOTE point prints degrees for str, but point.lon and point.lat are
+    # stored as radians.
+    # minlon/maxlon also radians.
+    # This is why big sectors were failing, after fixing the
     # "other side of the world" problem.
     # Also, Coordinate takes degrees when passing it a lat lon
     if minlon < point.lon < maxlon and minlat < point.lat < maxlat:

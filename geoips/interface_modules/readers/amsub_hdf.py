@@ -23,6 +23,7 @@ format, such as
  V1.0:  Initial version, NRL-MRY, June 1, 2020
 
 Basic information on AMSU-B product file::
+ 
     Input SD Variables
     (nscan, npix):
         npix=90 pixels per scan;

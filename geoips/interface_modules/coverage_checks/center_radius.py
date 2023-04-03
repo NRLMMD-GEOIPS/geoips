@@ -39,8 +39,6 @@ def plot_coverage(main_ax, area_def, covg_args):
     plot_color = "black"
 
     if "radius_km" in covg_args:
-        import matplotlib.pyplot as plt
-
         radius_km = covg_args["radius_km"]
         res_km = max(area_def.pixel_size_x, area_def.pixel_size_y) / 1000.0
         radius_pixels = 1.0 * radius_km / res_km
@@ -119,7 +117,8 @@ def center_radius(
         varname_for_covg = alt_varname_for_covg
     if force_alt_varname and alt_varname_for_covg is not None:
         LOG.info(
-            '    UPDATING force_alt_varname set, using alternate "%s" rather than variable "%s"',
+            "    UPDATING force_alt_varname set, "
+            'using alternate "%s" rather than variable "%s"',
             alt_varname_for_covg,
             variable_name,
         )

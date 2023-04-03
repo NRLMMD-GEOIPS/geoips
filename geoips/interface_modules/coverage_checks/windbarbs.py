@@ -50,7 +50,8 @@ def windbarbs(
         varname_for_covg = alt_varname_for_covg
     if force_alt_varname and alt_varname_for_covg is not None:
         LOG.info(
-            '    UPDATING force_alt_varname set, using alternate "%s" rather than variable "%s"',
+            "    UPDATING force_alt_varname set, "
+            'using alternate "%s" rather than variable "%s"',
             alt_varname_for_covg,
             variable_name,
         )

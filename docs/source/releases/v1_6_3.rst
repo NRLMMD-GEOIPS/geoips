@@ -1,0 +1,422 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.6.3 (2023-02-02)
+**************************
+
+This release includes an updated capability for writing resource statistics to a
+database, documentation updates, and a script to perform code checks for style
+enforcement.
+
+Major New Functionality
+=======================
+
+Add procflow overall resource usage statistics
+----------------------------------------------
+
+*From issue GEOIPS#4: 2022-12-09, Procflow resource usage statistics*
+
+* Add write_stats_to_database function that calls the resource_usage_stats_table database writer
+
+  * Only called when product_db is True
+
+::
+
+      modified: geoips/interface_modules/procflows/config_based.py
+
+* Update print_mem_usage functions to return dictionary of resource usage
+
+::
+
+      modified: geoips/utils/memusg.py
+
+
+Enhancements
+============
+
+Add start, end, and mid data times to TC YAML metadata output
+-------------------------------------------------------------
+
+*From issue GEOIPS#162: 2023-01-27, Add data times to TC YAML metadata*
+
+::
+
+   modified: geoips/interface_modules/output_formats/metadata_tc.py
+
+
+Bug fixes
+=========
+
+Remove numpy builtin aliases
+----------------------------
+
+*From issue GEOIPS#170: 2023-02-02, version release updates*
+
+* Replace numpy.float with float.
+* Finalizes GEOIPS#145 - numpy no longer supports aliasing builtin types
+
+::
+
+    geoips/interface_modules/readers/seviri_hrit.py
+
+Fix product family typo
+-----------------------
+
+*From issue GEOIPS#170: 2023-02-02, version release updates*
+
+* Fix typo: xrdict_area_product_outlist -> xrdict_area_product_to_outlist
+* Finalizes GEOIPS#104
+
+::
+
+    geoips/dev/output.py
+
+
+
+Add missing output family to required_kwargs
+--------------------------------------------
+
+*From issue GEOIPS#104: 2023-01-27, bug fixes*
+
+* Add xrdict_area_product_to_outlist to required_kwargs list in
+  output.py interface
+
+  * caused test_interfaces to fail for output formats of that type
+
+::
+
+   modified: geoips/dev/output.py
+
+
+Use xobj.use_order in imagery_clean
+-----------------------------------
+
+*From issue GEOIPS#2: 2023-01-11, support xobj.fuse_order vs order*
+
+* Update imagery_clean to use xobj.fuse_order for determining zorder, vs just order
+
+::
+
+   modified: geoips/interface_modules/output_formats/imagery_clean.py
+
+Skip duplicate files with undefined format
+------------------------------------------
+
+*From issue GEOIPS#2: 2023-01-11, support xobj.fuse_order vs order*
+
+* Update duplicate_files.py to skip files that do not have a format defined.
+
+   * Allow filenames that are not pre-determined.
+   * If we do not know the exact filename format, we cannot use the filename to determine which files are duplicates.
+
+::
+
+   modified: geoips/filenames/duplicate_files.py
+
+Return dict vs list of filenames in procflow
+--------------------------------------------
+
+*From issue GEOIPS#2: 2023-01-11, support xobj.fuse_order vs order*
+
+* Convert returned list of filenames to dict with filenames as keys
+
+  * Expected input to “output_all_metadata”, which determines final output file list.
+
+::
+
+   modified: geoips/interface_modules/procflows/single_source.py
+
+
+Replace datetime.datetime docstring parameter type with “datetime”
+------------------------------------------------------------------
+
+*From issue GEOIPS#100: 2022-12-23, automodule API build*
+
+* Why does datetime.datetime fail?
+
+::
+
+      modified: geoips/data_manipulations/merge.py
+
+Remove “See” and “See Also” docstring references
+------------------------------------------------
+
+*From issue GEOIPS#100: 2022-12-23, automodule API build*
+
+* Why did these fail and not others? Non-existent references?
+* This also included removal of “<” and “>”, and escaping “*”
+
+  * May have been unnecessary - other instances with same string construct.
+
+::
+
+      modified: geoips/dev/alg.py
+      modified: geoips/dev/cmap.py
+      modified: geoips/dev/interp.py
+
+Remove docstring reference to geoips.dev.alg.get_alg_args
+---------------------------------------------------------
+
+*From issue GEOIPS#100: 2022-12-23, automodule API build*
+
+* Undefined function in geoips/dev/alg.py ? Is this also the cause of many other reference failures?
+
+::
+
+   modified: geoips/dev/alg.py
+
+Add missing xarray_standards reference in xarray_standards.rst
+--------------------------------------------------------------
+
+*From issue GEOIPS#100: 2022-12-23, automodule API build*
+
+::
+
+      docs/source/xarray_standards.rst
+
+Fix too-short underline for mpl_utils header in API reference
+-------------------------------------------------------------
+
+*From issue GEOIPS#100: 2022-12-23, automodule API build*
+
+::
+
+      docs/source/geoips_api/api_image_utils.rst
+
+
+Installation Updates
+====================
+
+Install all requirements by default
+-----------------------------------
+
+*From issue GEOIPS#159: 2023-01-24, install all requirements by default*
+
+* Update setup.py to install all requirements by default
+* Previously had to install each “extra” separately
+* In the future may allow more granular installations again, but will
+  wait until pyproject.toml is implemented.
+
+::
+
+   modified: setup.py
+
+
+
+Code Formatting and Style Updates
+=================================
+
+Default to full black, flake8, and bandit checks in check_code.sh
+-----------------------------------------------------------------
+
+*From issue GEOIPS#3: 2023-01-12, updates to syntax checking*
+
+* If “flake8_docstring_only” argument passed to check_code.sh, limit to
+  flake8 docstring checks
+
+* Call check_code.sh all $GEOIPS flake8_docstring_only from
+  test_full_install.sh
+
+   * Allows the default to be complete flake8 testing, while still
+     allowing geoips repo to pass with a limited set of flake8 codes.
+
+* Add flake8-rst and flake8-rst-docstrings to syntax_check
+  extras_requires in setup.py
+
+::
+
+   modified: setup.py
+   modified: tests/utils/check_code.sh
+   modified: tests/test_full_install.sh
+
+black code formatting updates
+-----------------------------
+
+*From issue GEOIPS#3: 2023-01-12, updates to syntax checking*
+
+::
+
+   modified: docs/source/conf.py
+   modified: geoips/interface_modules/readers/utils/geostationary_geolocation.py
+   modified: geoips/sector_utils/utils.py
+
+flake8 code format update
+-------------------------
+
+*From issue GEOIPS#3: 2023-01-12, updates to syntax checking*
+
+* ““” -> r”“” due to backslash escaped characters
+
+::
+
+   modified: geoips/dev/alg.py
+
+flake8 docstring format updates
+-------------------------------
+
+*From issue GEOIPS#3: 2023-01-12, updates to syntax checking*
+
+* Remove blank lines after function docstrings
+* Add missing module level docstrings
+
+::
+
+   modified: docs/source/conf.py
+   modified: geoips/commandline/test_interfaces.py
+
+Testing Updates
+===============
+
+Include grep of “Error” and “Number expected files”
+---------------------------------------------------
+
+*From issue GEOIPS#104: 2023-01-27, bug fixes*
+
+* Not used for return values - just for reference when reviewing
+  logs.
+
+::
+
+   modified: tests/utils/test_all_run.sh
+
+Add “data_times” to AMSR2 TC YAML metadata outputs
+--------------------------------------------------
+
+*From issue GEOIPS#104: 2023-01-27, bug fixes*
+
+::
+
+      modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml
+      modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml
+      modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml
+      modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml
+
+
+Documentation Updates
+=====================
+
+Update style requirements
+-------------------------
+
+*From issue GEOIPS#3: 2023-01-12, updates to syntax checking*
+
+* GeoIPS 2.0 -> GeoIPS in geoips_overview.rst
+* google -> numpy docstring formatting in documentation_strategy.rst
+
+::
+
+   modified: docs/source/geoips_overview.rst
+   modified: docs/source/documentation_strategy.rst
+
+
+Restructured text automodule API capability
+-------------------------------------------
+
+*From issue GEOIPS#100: 2022-12-23, automodule API build*
+
+* Removed unnecessary section from contributors.rst relative links
+* Modified and added new API restructured text automodule capability
+
+::
+
+      modified: docs/source/index.rst
+      modified: docs/source/contributors.rst
+      new: docs/source/geoips_api/api_commandline.rst
+      new: docs/source/geoips_api/api_data_manipulations.rst
+      new: docs/source/geoips_api/api_dev.rst
+      new: docs/source/geoips_api/api_filenames.rst
+      new: docs/source/geoips_api/api_image_utils.rst
+      new: docs/source/geoips_api/api_interface_algorithms.rst
+      new: docs/source/geoips_api/api_interface_area_def_generators.rst
+      new: docs/source/geoips_api/api_interface_coverage_checks.rst
+      new: docs/source/geoips_api/api_interface_filename_formats.rst
+      new: docs/source/geoips_api/api_interface_interpolation.rst
+      new: docs/source/geoips_api/api_interface_output_formats.rst
+      new: docs/source/geoips_api/api_interface_procflows.rst
+      new: docs/source/geoips_api/api_interface_readers.rst
+      new: docs/source/geoips_api/api_interface_title_formats.rst
+      new: docs/source/geoips_api/api_interface_trackfile_parsers.rst
+      new: docs/source/geoips_api/api_interface_user_colormaps.rst
+      new: docs/source/geoips_api/api_sector_utils.rst
+      new: docs/source/geoips_api/api_utils.rst
+      new: docs/source/geoips_api/api_xarray_utils.rst
+      new: docs/source/geoips_api/index.rst
+
+
+Sphinx documentation automation
+-------------------------------
+
+*From issue GEOIPS#100: 2022-12-20, NRL sphinx template and framework*
+
+* Modified build process of Sphinx documentation
+* Build generates html files and GeoIPS.pdf
+* requires sphinx=5.1.1
+* Sphinx conf.py supports extensions autodoc, mathjax, napoleon, viewcode
+* New Sphinx NRL theme static and template content
+* Modified change log and release note organization
+* Converted change logs from md to rst
+
+::
+
+      added: docs/requirements.txt
+      added: docs/source/conf.py
+      added: docs/source/_static/
+      added: docs/source/_templates/
+      added: docs/source/index.rst
+      added: docs/source/releases/index.rst
+      converted: docs/logs/*.md to  docs/source/releases/*.rst
+      modified: README.md
+      modified: docs/build_docs.sh
+      modified: docs/contributors.rst
+      moved: docs/available_functionality.rst -> docs/source
+      moved: docs/contributors.rst -> docs/source
+      moved: docs/command_line_examples.rst -> docs/source
+      moved: docs/documentation_strategy.rst -> docs/source
+      moved: docs/entry_points.rst -> docs/source
+      moved: docs/geoips_index.rst -> docs/source
+      moved: docs/geoips_overview.rst -> docs/source
+      moved: docs/git_workflow.rst -> docs/source
+      moved: docs/installation.rst -> docs/source
+      moved: docs/images -> docs/source
+      moved: docs/logs -> docs/source/releases/logs
+      moved: docs/yaml -> docs/source
+      removed: layout.html
+      removed: style.css
+
+
+Release Updates
+===============
+
+Update VERSION
+--------------
+
+*From issue GEOIPS#170: 2023-02-02, version release updates*
+
+* Update VERSION
+
+   * Update VERSION to 1.6.3, add CHANGELOG 1.6.3 line
+
+::
+
+    VERSION
+    CHANGELOG.md
+
+Add fields to release notes
+---------------------------
+
+*From issue GEOIPS#170: 2023-02-02, version release updates*
+
+* Add Actions and Deprecations to release.yml
+
+::
+
+    .github/release.yml

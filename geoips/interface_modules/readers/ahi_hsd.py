@@ -17,7 +17,6 @@ import logging
 from glob import glob
 from struct import unpack
 from datetime import datetime, timedelta
-import socket
 
 # Installed Libraries
 import numpy as np
@@ -1027,7 +1026,6 @@ def ahi_hsd(
     file_info = {}
     file_segs = set()
     file_chans = set()
-    import xarray
 
     xarray_obj = xarray.Dataset()
     for md in all_metadata.values():

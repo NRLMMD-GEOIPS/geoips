@@ -90,7 +90,6 @@ def smap_remss_winds_netcdf(
             wind_xarrays = read_remss_data(wind_xarray, "smap")
 
     for wind_xarray in wind_xarrays.values():
-
         LOG.info("Setting standard metadata")
         wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
             wind_xarray, "timestamp"

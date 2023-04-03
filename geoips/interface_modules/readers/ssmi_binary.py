@@ -367,7 +367,6 @@ def ssmi_binary(
     scan_read = 0  # initilization of scan count
 
     while f1:  # loop scans of this file
-
         # Read Scan Header Block
         while True:
             buf = np.frombuffer(
@@ -495,7 +494,6 @@ def ssmi_binary(
     # assignment of data for variables
 
     for ii in range(scan_read):  # loop of scans
-
         ii2 = ii * 2  # for combined A-B scans
 
         for jj in range(LORES):  # loop of pixels per scan for LORES channels

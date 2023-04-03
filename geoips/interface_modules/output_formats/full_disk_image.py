@@ -11,7 +11,6 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Full disk image matplotlib-based output format."""
-import os
 import logging
 
 LOG = logging.getLogger(__name__)

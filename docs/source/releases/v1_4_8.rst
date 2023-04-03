@@ -1,0 +1,49 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.4.8 (2022-05-15)
+**************************
+
+v1.4.8: 2022-05-15, use consistent shapefiles, require CHANGELOG update for PR approval, GMI in documentation
+
+Documentation Updates
+=====================
+
+Pull Request Templates
+----------------------
+
+* Note that updates to CHANGELOG are *required* prior to pull request approval.
+* Use CHANGELOG updates copy-pasted as the "Summary" section in the pull request.
+* Add template for pull request title (<ticket num> <repo name> <short description>)
+
+CHANGELOG_TEMPLATE.md
+^^^^^^^^^^^^^^^^^^^^^
+
+* Add template with appropriate headers, formatting, and categories for proper CHANGELOG.md updates.
+
+Available functionality
+=======================
+
+GMI Reader Example
+------------------
+
+* documentation_imagery.sh: Added GMI global reprojected image call
+* available_functionality.rst: Added GMI reader section
+* docs/images: Added GMI global image output
+
+Installation and test
+=====================
+
+* Add "cd natural-earth-vector" prior to checking out v5.0.0 cartopy shapefiles
+
+    * v5.0.0 required in order for test outputs to match.
+

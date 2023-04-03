@@ -63,8 +63,14 @@ args=""
 # These are the actual supported calls to black, flake8, and bandit.
 # Don't allow too many options, to ensure we have consistent application / enforcement.
 if [[ "$test" == "black" || "$test" == "all" ]]; then
-    echo "black --check $path"
-    black --check $path
+    # black excludes regex for file names - so include leading "/" so it matches
+    # EXACTLY the file named version.py
+    # NOTE this will exclude ANY file named version.py ANYWHERE in the code base.
+    # This will probably be fine, but if we determine in the future that we
+    # really want to be able to name a file "version.py" and want it checked
+    # for compliance, we will need to rethink.
+    echo "black --check --extend-exclude /version.py $path"
+    black --check --extend-exclude /version.py $path
     black_retval=$?
     retval=$((black_retval+retval))
 fi
@@ -78,9 +84,15 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
     else
         select_string=""
     fi
+    # flake8 excludes exact file name - so no leading "/"
+    # NOTE this will exclude ANY file named version.py ANYWHERE in the code base.
+    # This will probably be fine, but if we determine in the future that we
+    # really want to be able to name a file "version.py" and want it checked
+    # for compliance, we will need to rethink.
     echo flake8 --max-line-length=88 \
            $select_string \
            --ignore=E203 \
+           --extend-exclude="version.py" \
            --docstring-convention=numpy \
            --rst-roles=class,func,ref \
            --rst-directives=envvar,exception \
@@ -89,6 +101,7 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
     flake8 --max-line-length=88 \
            $select_string \
            --ignore=E203 \
+           --extend-exclude="version.py" \
            --docstring-convention=numpy \
            --rst-roles=class,func,ref \
            --rst-directives=envvar,exception \
@@ -106,9 +119,9 @@ fi
 echo ""
 echo "$0 $@"
 echo ""
-echo "black return: $black_retval"
-echo "flake8 return: $flake8_retval"
-echo "bandit return: $bandit_retval"
+echo "  black return: $black_retval"
+echo "  flake8 return: $flake8_retval"
+echo "  bandit return: $bandit_retval"
 echo ""
-echo "Overall return: $retval"
+echo "Overall `basename $0` return: $retval"
 exit $retval

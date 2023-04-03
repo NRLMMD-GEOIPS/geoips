@@ -692,7 +692,7 @@ def seviri_hrit(
             LOG.error("No data in band %s, SKIPPING", band)
             continue
         # Create empty full-disk array for this channel
-        data = np.full((num_lines, num_samples), -999.9, dtype=np.float)
+        data = np.full((num_lines, num_samples), -999.9, dtype=float)
         # Read data into data array
         for seg, df in dfs[band].items():
             seg_num_lines = df.metadata["block_1"]["num_lines"]
@@ -772,7 +772,6 @@ def seviri_hrit(
     bottomlat = gvars[adname]["latitude"][np.ma.where(gvars[adname]["latitude"])][-1]
 
     for var in gvars[adname].keys():
-
         if toplat < bottomlat:
             gvars[adname][var] = np.ma.masked_less_equal(
                 np.flipud(gvars[adname][var]), -999
@@ -786,7 +785,6 @@ def seviri_hrit(
             )
 
     for var in datavars[adname].keys():
-
         if toplat < bottomlat:
             datavars[adname][var] = np.ma.masked_less_equal(
                 np.flipud(datavars[adname][var]), -999

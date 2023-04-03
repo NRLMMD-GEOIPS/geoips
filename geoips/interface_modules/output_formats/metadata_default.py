@@ -11,7 +11,6 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Default YAML metadata output format."""
-import os
 import logging
 
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -55,9 +54,11 @@ def metadata_default(
     if not is_sector_type(area_def, "tc"):
         return None
     # os.path.join does not take a list, so "*" it
-    # product_partial_path = product_filename.replace(gpaths['TCWWW'], 'https://www.nrlmry.navy.mil/tcdat')
+    # product_partial_path = product_filename.replace(gpaths['TCWWW'],
+    #   'https://www.nrlmry.navy.mil/tcdat')
     product_partial_path = replace_geoips_paths(product_filename)
-    # product_partial_path = pathjoin(*final_product.split('/')[-5:-1]+[basename(final_product)])
+    # product_partial_path = pathjoin(
+    #   *final_product.split('/')[-5:-1]+[basename(final_product)])
     return output_metadata_yaml(
         metadata_yaml_filename,
         area_def,

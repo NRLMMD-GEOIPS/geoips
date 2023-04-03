@@ -189,7 +189,6 @@ def smos_winds_netcdf(
     wind_xarrays = read_smos_data(wind_xarray, fname)
 
     for wind_xarray in wind_xarrays.values():
-
         LOG.info("Setting standard metadata")
         wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
             wind_xarray, "timestamp"

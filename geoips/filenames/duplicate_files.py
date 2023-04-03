@@ -44,19 +44,23 @@ def remove_duplicates(fnames, remove_files=False):
     """
     removed_files = []
     saved_files = []
-    from geoips.sector_utils.utils import is_sector_type
     from geoips.interfaces import filename_formats
     from importlib import import_module
 
     for fname in fnames:
+        if "filename_format" not in fnames[fname]:
+            LOG.info("SKIPPING %s, no filename_format defined", fname)
+            saved_files += [fname]
+            continue
         filename_format = fnames[fname]["filename_format"]
         fname_fmt_plugin = filename_formats.get_plugin(fnames[fname]["filename_format"])
         if hasattr(
             import_module(fname_fmt_plugin.__module__),
-            f"{filename_format}_remove_duplicates"
+            f"{filename_format}_remove_duplicates",
         ):
             fnamer_remove_dups = getattr(
-                import_module(fname_fmt_plugin.__module__), f"{filename_format}_remove_duplicates"
+                import_module(fname_fmt_plugin.__module__),
+                f"{filename_format}_remove_duplicates",
             )
             curr_removed_files, curr_saved_files = fnamer_remove_dups(
                 fname, remove_files=remove_files
@@ -65,7 +69,8 @@ def remove_duplicates(fnames, remove_files=False):
             saved_files += curr_saved_files
         else:
             LOG.warning(
-                f"SKIPPING DUPLICATE REMOVAL no {filename_format}_remove_duplicates defined"
+                "SKIPPING DUPLICATE REMOVAL no "
+                f"{filename_format}_remove_duplicates defined"
             )
 
     return removed_files, saved_files

@@ -39,7 +39,6 @@ def text_winds(
         else:
             curr_append = True
         num_arrs = num_arrs + 1
-
         output_products += write_text_winds(
             xarray_obj,
             varlist,
@@ -183,11 +182,15 @@ def write_text_winds(
         output_products += [text_fname]
 
     ctime = datetime.fromtimestamp(os.stat(text_fname).st_ctime)
-    LOG.info(f'    SUCCESS wrote out text windspeed file {text_fname} at {ctime}')
+    LOG.info("    SUCCESS wrote out text windspeed file %s at %s", text_fname, ctime)
 
     for additional_text_fname in output_fnames:
         shutil.copy(text_fname, additional_text_fname)
-        LOG.info(f'    SUCCESS wrote out text windspeed file {text_fname} at {ctime}')
-
+        ctime = datetime.fromtimestamp(os.stat(additional_text_fname).st_ctime)
+        LOG.info(
+            "    SUCCESS wrote out text windspeed file %s at %s",
+            additional_text_fname,
+            ctime,
+        )
         output_products += [additional_text_fname]
     return output_products

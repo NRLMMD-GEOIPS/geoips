@@ -206,7 +206,9 @@ def ssmis_binary(
     # effective with orbit rev 12216 for F-16 and thereafter for all future
     # satellites
     rev6a = 1
-    if satid == 1 and rev[0] < 12216:
+    # When revs wrapped back to 0, the rev[0] < 12216 was no longer valid.
+    # Check that rev < 12216, AND year < 2023 (revs wrapped on 7 March 2023)
+    if satid == 1 and rev[0] < 12216 and year < 2023:
         rev6a = 0
 
     if satid == 1:

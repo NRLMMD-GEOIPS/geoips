@@ -1,0 +1,159 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.4.4 (2022-03-06)
+**************************
+
+v1.4.4: 2022-03-06, command line override, unsectored product, product database support; Visible product corrections
+
+Test Repo Updates
+=================
+
+Update ABI Visible Products with more informative colorbar label
+----------------------------------------------------------------
+
+    * Include channel and wavelength in colorbar label
+    * ABI static and TC Visible test png outputs
+
+Breaking Interface Changes
+==========================
+
+single_channel algorithm - rename solar zenith angle specifications
+-------------------------------------------------------------------
+
+* See "Bug fixes"
+
+Improvements
+============
+
+Product tuning updates
+----------------------
+
+* Add "update\_output\_dict\_from\_command\_line\_args" to support command line modifications to YAML output config
+
+    * filename\_format\_kwargs
+    * metadata\_filename\_format\_kwargs
+
+* Add "produce\_current\_time" function in output\_config interface
+
+    * Support "produce\_times" field in output config to filter required times for processing
+
+* Add "Uncorrected-Channel" product, that just plots normalized data directly (using min/max of data itself)
+* Update colorbar labels for ABI, AHI, SEVIRI, MODIS, and VIIRS Visible imagery to include the channel used in the plot
+* dev/product.py get\_product: Loop through dictionary elements in product\_inputs, only replacing what exists.
+
+    * To allow specifying only specific elements within one of the product parameters dictionaries
+        from within product\_inputs specifications, if one of the dictionary elements is a dictionary
+        itself, loop through that, replacing with the updated values found in product\_inputs.
+    * This allows maintaining all the defaults, and only specifying things that must change.
+
+* Add "numpy\_arrays\_nan" coverage check interface module (for non-masked-arrays)
+
+TC YAML Template Updates
+------------------------
+
+* Add tc\_visir\_3200km YAML gridlines parameters file - identical to tc\_visir, but 5 degree grid spacing.
+* Created 1400x1400, 1024x1024, 256x256, 512x512, 800x800, and 1600x1600 subdirectories for tc templates.
+
+    * 2km and 4km 1600x1600 TC template YAMLs
+    * 4km 256x256
+
+* Will NOT change tc\_web\_template.yaml, etc, since ALL test scripts use those.
+* Perhaps explicitly setting these values in the YAML configs would be better than having
+    completely separate files for each shape/resolution - will address direct YAML output
+    config modifications at a later date - likely would be a method for overriding fields of
+    TC template yamls, plotting\_params YAMLs, as well as product params YAMLs (so you could still use
+    completely separate individual files, but also override individual fields within as needed).
+
+Sectoring / Processing Order
+----------------------------
+
+    * Add "resector=False" get\_alg\_xarray option to config\_based
+
+        * this enables alg\_interp\_cmap and alg\_cmap product types (no pre-interpolation).
+        * Currently "self\_register" and "reader\_defined" area\_def types lead to "resector=False" for get\_alg\_xarray.
+
+            * Skip ALL sectoring for reader\_defined and self\_register.
+
+    * Add xarray\_to\_numpy alg type support to get\_alg\_xarray
+
+        * for alg\_interp\_cmap and alg\_cmap product types
+
+            * no pre-interpolation - must pass sectored xarray, so can only include a single dataset
+
+Product database support
+------------------------
+
+* Added product database command line argument
+* Added hooks to single\_source and config\_based procflows
+
+    * Checks if database environment variables are set
+    * Uses yaml metadata file to populate the database
+    * Prints "DATABASESUCCESS" for all products written to the database
+
+Installation / Setup / Logging Process
+--------------------------------------
+
+* Separate vim8 installation and vim8 plugin setup in base\_install\_and\_test.sh
+* Remove verbose log statements including entire command line arguments
+
+    * lots and lots of filenames, and now the command line call is printed on multiple lines separately
+
+Bug fixes
+=========
+
+Resolve issues with Visible products
+------------------------------------
+
+* Update AHI Visible parameters (was washed out / saturated)
+
+    * gamma\_list: []
+    * data\_range: [0.0, 120.0]
+    * scalefactor still 100
+
+* Update MODIS Visible parameters (was all white)
+
+    * gamma\_list: []
+    * scale\_factor: 1.0 (comes out of the reader 0 to 100!)
+
+* Update Visible product
+
+    * min\_day\_zen -> max\_day\_zen for single\_channel algorithm
+    * Add comments that AHI and MODIS override standard parameters for Visible
+
+* SEVIRI reader reflectance calculations
+
+    * reinstate: ref[rad > 0] = np.pi * rad[rad > 0] / irrad
+
+        * Previously included solar zenith correction, so I had removed the entire line
+
+    * Add log statements with min/max data values for reference
+
+single_channel algorithm - rename solar zenith angle specifications
+-------------------------------------------------------------------
+
+* rename min\_day\_zen -> max\_day\_zen
+
+    * since day is 0-90, we want to identify the max zenith angle that will still be considered daytime
+
+* rename max\_night\_zen -> min\_night\_zen
+
+    * night is 90-180, identify minimum zenith angle that will still be night
+
+* Updated Visible product with new names
+
+Error Checking
+--------------
+
+* Added check in overpass\_predictor.py if sun.rise\_time exists
+* Added handling in amsub\_mirs reader for if there are bad ScanTime values
+

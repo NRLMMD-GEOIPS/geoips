@@ -732,7 +732,6 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
         with open(fname_goodcptest, "w") as fobj:
             fobj.write("mkdir {0}/GOODCOMPARE\n".format(diffdir))
             for goodcomp in goodcomps:
-
                 if compare_strings is not None:
                     for compare_string in compare_strings:
                         goodcomp = goodcomp.replace(compare_string, "")
@@ -796,7 +795,6 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
         print("# source {0}".format(fname_cp))
         with open(fname_cp, "w") as fobj:
             for badcomp in badcomps:
-
                 if compare_strings is not None:
                     for compare_string in compare_strings:
                         badcomp = badcomp.replace(compare_string, "")
