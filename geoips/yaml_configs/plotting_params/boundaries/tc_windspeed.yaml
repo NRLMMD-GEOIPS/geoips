@@ -4,7 +4,7 @@ metadata:
   family: standard
   short-description: "The tc_windspeed boundaries configuration"
   long-description: |
-    All line types enabled. All colored red. 2px coastlines, 1px countries,
+    All line types enabled. All colored #00B4B4B4. 2px coastlines, 1px countries,
     0.5px states borders, and 0px rivers.
 spec:
   coastlines:
