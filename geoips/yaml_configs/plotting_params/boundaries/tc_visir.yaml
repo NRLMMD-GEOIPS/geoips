@@ -1,16 +1,26 @@
-tc_visir:
-  boundaries_dict_type: 'standard'
-  request_coastlines: True
-  request_countries: True
-  request_states: False
-  request_rivers: False
-  
-  coastlines_linewidth: 0.5
-  countries_linewidth: 0.25
-  states_linewidth: 0
-  rivers_linewidth: 0
-  
-  coastlines_color: '#000000'
-  countries_color: '#000000'
-  states_color: '#000000'
-  rivers_color: '#000000'
+interface: boundaries
+metadata:
+  name: tc_visir
+  family: standard
+  short-description: "The tc_visir boundaries configuration"
+  long-description: |
+    All line types enabled. All colored red. 2px coastlines, 1px countries,
+    0.5px states borders, and 0px rivers.
+spec:
+  coastlines:
+    enabled: True
+    color: '#000000'
+    linewidth: 0.5
+  countries:
+    enabled: True
+    color: '#000000'
+    linewidth: 0.25
+  states:
+    enabled: False
+    color: '#000000'
+    linewidth: 0
+  rivers:
+    enabled: False
+    color: '#000000'
+    linewidth: 0
+
