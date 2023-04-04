@@ -20,11 +20,11 @@ properties:
   spec:
     type: object
     additionalProperties: false
-    parameters:
+    properties:
       labels:
         type: object
         additionalProperties: false
-        parameters:
+        properties:
           top:
             type: boolean
             default: true
@@ -40,7 +40,7 @@ properties:
       latitude-lines:
         type: object
         additionalProperties: false
-        parameters:
+        properties:
           color:
             type: string
             default: black
@@ -61,7 +61,7 @@ properties:
       longitude-lines:
         type: object
         additionalProperties: false
-        parameters:
+        properties:
           color:
             type: string
             default: black
