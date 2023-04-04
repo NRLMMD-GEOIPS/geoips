@@ -81,7 +81,7 @@ setup_geoips.sh
     * setup.sh install
     * setup.py (uses pip install)
 
-* If plugin exists in $GEOIPS_BASEDIR/installed_geoips_plugins.txt, do not attempt to reinstall
+* If plugin exists in $GEOIPS BASEDIR/installed_geoips_plugins.txt, do not attempt to reinstall
 
     * Allows initializing installed_geoips_plugins at the beginning of system installation to avoid
         massive reinstallations of common geoips plugin dependencies.

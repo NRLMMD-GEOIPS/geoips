@@ -1,5 +1,5 @@
 # EXT_REGISTRY allows specifying a different registry that is acting as a pull-through cache for Docker Hub.
-# To provide EXT_REGISTRY at build time, supply it as a build argument 
+# To provide EXT_REGISTRY at build time, supply it as a build argument
 #     `docker build . --build-arg EXT_REGISTRY=https://myregistry.com/`
 # Note that the value MUST contain a trailing slash
 # If not provided, images will be pulled from Docker Hub
@@ -56,8 +56,7 @@ FROM ${EXT_REGISTRY}docker.io/library/debian:${IMAGE_TAG} as geoips
 ARG EXT_REGISTRY IMAGE_TAG
 
 # Base GeoIPS installation directory
-ARG GEOIPS_BASEDIR=/app
-ARG GEOIPS_PACKAGES_DIR=${GEOIPS_BASEDIR}/geoips_packages
+ARG GEOIPS_PACKAGES_DIR=/app/geoips_packages
 
 WORKDIR $GEOIPS_PACKAGES_DIR
 
@@ -91,7 +90,6 @@ ARG GEOIPS_DEPENDENCIES_DIR=/data
 ARG GEOIPS_TESTDATA_DIR=/data
 
 ENV PATH=${PATH}:/home/${USER}/.local/bin:${GEOIPS_DEPENDENCIES_DIR}/bin
-ENV GEOIPS_BASEDIR=${GEOIPS_BASEDIR}
 ENV GEOIPS_REPO_URL=${GEOIPS_REPO_URL}
 ENV GEOIPS_OUTDIRS=${GEOIPS_OUTDIRS}
 ENV GEOIPS_PACKAGES_DIR=${GEOIPS_PACKAGES_DIR}

@@ -22,8 +22,8 @@ parser_name: bdeck_parser
 pressure: 911.0
 product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2020/IO/IO012020/png_clean/windspeed/gcom-w1/20200518_073601_IO012020_amsr2_gcom-w1_windspeed_140kts_85p45_1p0-clean.png
 sector_type: tc
-source_filename: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bio012020.dat
-source_sector_file: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bio012020.dat
+source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat
+source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat
 storm_basin: IO
 storm_name: AMPHAN
 storm_num: 1

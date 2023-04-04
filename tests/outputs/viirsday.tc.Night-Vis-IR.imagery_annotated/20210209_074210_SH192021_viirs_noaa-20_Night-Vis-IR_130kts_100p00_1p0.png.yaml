@@ -25,8 +25,8 @@ parser_name: bdeck_parser
 pressure: 930.0
 product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2021/SH/SH192021/png/Night-Vis-IR/noaa-20/20210209_074210_SH192021_viirs_noaa-20_Night-Vis-IR_130kts_100p00_1p0.png
 sector_type: tc
-source_filename: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bsh192021.dat
-source_sector_file: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bsh192021.dat
+source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat
+source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat
 storm_basin: SH
 storm_name: FARAJI
 storm_num: 19

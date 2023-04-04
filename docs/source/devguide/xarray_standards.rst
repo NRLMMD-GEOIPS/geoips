@@ -64,7 +64,7 @@ The following optional attributes can be used within processing if available.
     * base paths, including only the filename and excluding the path
       altogether, or
     * full paths with GeoIPS environment variables replacing specific paths
-      (ie, $GEOIPS_OUTDIRS, $GEOIPS_BASEDIR, etc)
+      (ie, $GEOIPS_OUTDIRS, $GEOIPS_TESTDATA_DIR, etc)
 
 * 'filename_datetimes' - OPTIONAL
 

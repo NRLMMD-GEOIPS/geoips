@@ -21,13 +21,13 @@ if [[ $OSTYPE == 'darwin'* ]]; then
     fi
 fi
 
-if [[ -z "$GEOIPS_BASEDIR" ]]; then
-    echo "Must define GEOIPS_BASEDIR environment variable prior to setting up geoips"
+if [[ -z "$GEOIPS_PACKAGES_DIR" ]]; then
+    echo "Must define GEOIPS_PACKAGES_DIR environment variable prior to setting up geoips"
     exit 1
 fi
 
 # This sets required environment variables for setup - without requiring sourcing a geoips config in advance
-. $GEOIPS_BASEDIR/geoips_packages/geoips/setup/repo_clone_update_install.sh setup
+. $GEOIPS_PACKAGES_DIR/geoips/setup/repo_clone_update_install.sh setup
 
 if [[ ! -d $GEOIPS_DEPENDENCIES_DIR/bin ]]; then
     mkdir $GEOIPS_DEPENDENCIES_DIR/bin
@@ -529,7 +529,7 @@ elif [[ "$1" =~ "update_external_repo" ]]; then
     fi
 elif [[ "$1" =~ "install_plugin" ]]; then
     plugin=$2
-    installed_plugins_path=$GEOIPS_BASEDIR/installed_geoips_plugins.txt
+    installed_plugins_path=$GEOIPS_PACKAGES_DIR/installed_geoips_plugins.txt
     echo ""
     echo "**Installing plugin $plugin"
     # First check if setup_<package>.sh exists

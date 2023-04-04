@@ -31,7 +31,7 @@ def tpw_pwat():
 
     See Also
     --------
-    :ref:`api_image_utils`
+    :ref:`api`
         ASCII palette is found in image_utils/ascii_palettes/tpw_pwat.txt
     """
     # levels in mm (evenly spaced by 2 mm except for 1-6):
