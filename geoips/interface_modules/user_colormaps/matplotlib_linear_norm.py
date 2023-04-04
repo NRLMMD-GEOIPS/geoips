@@ -52,7 +52,7 @@ def matplotlib_linear_norm(
 
     See Also
     --------
-    :ref:`api_image_utils`
+    :ref:`api`
         See geoips.image_utils.mpl_utils.create_colorbar for field descriptions.
     """
     min_val = data_range[0]

@@ -15,3 +15,15 @@ CHANGELOG appropriately with each PR
 
 Release notes for previous/upcoming versions can be found in docs/source/releases,
 for reference.
+
+Enhancements
+============
+
+Adds schema for gridlines plugins.
+-----------------------------------------------
+
+*From issue GEOIPS/geoips#109: 2023-04-04, Adds schema for gridlines plugins.*
+
+::
+
+    added: geoips/geoips/schema/gridlines.yaml

@@ -17,17 +17,21 @@ The GeoIPS Base Package provides a Python 3 based architecture supporting a wide
 satellite and weather data processing. The modular nature of the GeoIPS base infrastructure also allows
 plug-and-play capability for user-specified custom functionality.
 
-Please see
-[GeoIPS documentation](./docs/source/geoips_index.rst)
-for more information on GeoIPS capabilities and use cases.
-
 Installation
----------------------------------------
+------------
 See the
-[installation guide](./docs/source/installation.rst)
+[installation guide](./docs/source/starter/installation.rst)
 within the source code documentation for installation instructions. GeoIPS has a fully supported
 exhaustive installation process, including a full conda environment, as well as a more basic
 pip based installation for "expert" users.
+
+Creating your own GeoIPS Plugin
+-------------------------------
+
+See the instructions to
+[setup a new plugin](./docs/source/devguide/setup_new_plugin.rst)
+if you are interested in creating your own functionality using the GeoIPS
+infrastructure.
 
 Contributing
 -------------
@@ -40,7 +44,7 @@ Are you interested in
 We welcome all feedback and contributions!
 
 Please review our
-[contributors guide](./docs/source/contributors.rst)
+[contributors guide](./docs/source/devguide/contributors.rst)
 for more information.
 
 Contact

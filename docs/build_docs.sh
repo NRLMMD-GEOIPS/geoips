@@ -13,11 +13,16 @@
 #!/bin/sh
 # Build Sphinx doc
 
+echo "GEOIPS_REPO_URL $GEOIPS_REPO_URL"
+echo "GEOIPS_PACKAGES_DIR $GEOIPS_PACKAGES_DIR"
+
 if [[ "$1" == "" ]]; then
     echo "Must call with path to package for documentation build.  Ie"
     echo "    $0 $GEOIPS_PACKAGES_DIR/geoips"
     exit 1
 fi
+docpath=$1
+echo "docpath=$docpath"
 
 pdf_required="True"
 html_required="True"
@@ -34,26 +39,26 @@ if [[ "$pdf_required" != "True" && "$html_required" != "True" ]]; then
     exit 1
 fi
 
-docpath=$1
-
-echo "GEOIPS_REPO_URL $GEOIPS_REPO_URL"
-echo "GEOIPS_BASEDIR $GEOIPS_BASEDIR"
-echo "GEOIPS_PACKAGES_DIR $GEOIPS_PACKAGES_DIR"
-echo "docpath=$docpath"
-
 echo "***********************************************"
 echo "change dir to docpath=$docpath"
 echo "***********************************************"
 cd $docpath
 
 echo "***********************************************"
-echo "python setup.py install to get latest changes"
-echo "prerequisite conda environment activated"
+echo "prerequisite geoips installed"
 date -u
 echo "***********************************************"
 echo ""
-python setup.py install
+python3 -m pip install --upgrade build pydata-sphinx-theme
 retval_install=$?
+
+echo "*****************************************************************************"
+echo "remove previously generated to clear discontinued modulees"
+echo "rm -f $docpath/docs/source/geoips_api/geoips.*"
+echo "sphinx-apidoc $docpath/geoips -f -T -o $docpath/docs/source/geoips_api"
+echo "*****************************************************************************"
+rm -f $docpath/docs/source/geoips_api/geoips.*
+sphinx-apidoc $docpath/geoips -f -T -o $docpath/docs/source/geoips_api
 
 retval_latex="None"
 retval_make="None"
@@ -68,11 +73,15 @@ if [[ "$pdf_required" == "True" ]]; then
     echo "building sphinx PDF documentation"
     echo "prerequisite latex installed"
     echo "try 'module load latex'"
+    echo "sphinx-build $docpath/docs/source $docpath/build/sphinx/latex -b latex -W"
+    echo "cd $docpath/build/sphinx/latex"
+    echo "make"
+    echo "cd -"
     date -u
     echo "***********************************************"
     echo ""
 
-    output_latex=`python setup.py build_sphinx -b latex --warning-is-error`
+    output_latex=`sphinx-build $docpath/docs/source $docpath/build/sphinx/latex -b latex -W`
     retval_latex=$?
     warnings_latex=`echo "$output_latex" | grep "warnings"`
 
@@ -82,7 +91,9 @@ if [[ "$pdf_required" == "True" ]]; then
     retval_make=$?
     warnings_make=`echo "$output_make" | grep "Latexmk"`
 
-    cd $docpath
+    echo "return to cwd"
+    cd -
+
     echo "$docpath/build/sphinx/latex/GeoIPS.pdf $docpath/docs/source/GeoIPS.pdf"
     cp $docpath/build/sphinx/latex/GeoIPS.pdf $docpath/docs/source/GeoIPS.pdf
 fi
@@ -91,10 +102,11 @@ retval_html="None"
 if [[ "$html_required" == "True" ]]; then
     echo "***********************************************"
     echo "building sphinx html documentation"
+    echo "sphinx-build $docpath/docs/source $docpath/build/sphinx/html -b html -W"
     date -u
     echo "***********************************************"
     echo ""
-    output_html=`python setup.py build_sphinx --warning-is-error`
+    output_html=`sphinx-build $docpath/docs/source $docpath/build/sphinx/html -b html -W`
     retval_html=$?
     warnings_html=`echo "$output_html" | grep "warnings"`
 

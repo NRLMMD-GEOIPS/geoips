@@ -5,7 +5,7 @@
 # These lines are pulled directly from the auto-generated .bashrc conda init.
 
 if [[ -z $GEOIPS_DEPENDENCIES_DIR ]]; then
-    GEOIPS_CONDA_DIR=$GEOIPS_BASEDIR/geoips_dependencies/miniconda3
+    GEOIPS_CONDA_DIR=$GEOIPS_PACKAGES_DIR/../geoips_dependencies/miniconda3
 else
     GEOIPS_CONDA_DIR=$GEOIPS_DEPENDENCIES_DIR/miniconda3
 fi

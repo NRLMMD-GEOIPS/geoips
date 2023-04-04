@@ -12,7 +12,7 @@
 
 #!/bin/bash
 
-source $GEOIPS_BASEDIR/geoips_packages/geoips/setup/bash_setup/check_continue
+source $GEOIPS_PACKAGES_DIR/geoips/setup/bash_setup/check_continue
 
 if [[ "$1" == "" ]]; then
     GEOIPS_ACTIVE_BRANCH=main
@@ -38,13 +38,13 @@ else
     conda_channel="conda-forge"
 fi
 
-if [[ "$GEOIPS_BASEDIR" == "" ]]; then
-    echo "Must set GEOIPS_BASEDIR environment variable prior to installation"
+if [[ "$GEOIPS_PACKAGES_DIR" == "" ]]; then
+    echo "Must set GEOIPS_PACKAGES_DIR environment variable prior to installation"
     exit 1
 fi
 
 # This checks/sets required environment variables for setup - without requiring sourcing a geoips config in advance
-. $GEOIPS_BASEDIR/geoips_packages/geoips/setup/repo_clone_update_install.sh setup
+. $GEOIPS_PACKAGES_DIR/geoips/setup/repo_clone_update_install.sh setup
 
     echo ""
     echo "NOTE Approximately 30GB disk space / 10GB memory required for complete installation and test"
@@ -59,7 +59,7 @@ fi
     echo "          * vim8 installation with syntax highlighting to encourage following style guide"
     echo ""
     echo "Confirm environment variables point to desired installation parameters:"
-    echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+    echo "    GEOIPS_PACKAGES_DIR:  $GEOIPS_PACKAGES_DIR"
     echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
     echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
     echo "    which conda (should not exist yet): "`which conda`
@@ -69,19 +69,19 @@ check_continue "update geoips repo to $GEOIPS_ACTIVE_BRANCH"
     if [[ "$skip_next" == "no" ]]; then
         date -u
         # Initial clone of geoips repo, to obtain setup scripts
-        mkdir -p $GEOIPS_BASEDIR/geoips_packages
-        git clone $GEOIPS_REPO_URL/geoips.git $GEOIPS_BASEDIR/geoips_packages/geoips
+        mkdir -p $GEOIPS_PACKAGES_DIR
+        git clone $GEOIPS_REPO_URL/geoips.git $GEOIPS_PACKAGES_DIR/geoips
 
-        git -C $GEOIPS_BASEDIR/geoips_packages/geoips pull
-        git -C $GEOIPS_BASEDIR/geoips_packages/geoips checkout -t origin/$GEOIPS_ACTIVE_BRANCH
-        git -C $GEOIPS_BASEDIR/geoips_packages/geoips checkout $GEOIPS_ACTIVE_BRANCH
-        git -C $GEOIPS_BASEDIR/geoips_packages/geoips pull
+        git -C $GEOIPS_PACKAGES_DIR/geoips pull
+        git -C $GEOIPS_PACKAGES_DIR/geoips checkout -t origin/$GEOIPS_ACTIVE_BRANCH
+        git -C $GEOIPS_PACKAGES_DIR/geoips checkout $GEOIPS_ACTIVE_BRANCH
+        git -C $GEOIPS_PACKAGES_DIR/geoips pull
 
-        ls -ld $GEOIPS_BASEDIR/geoips_packages/*
+        ls -ld $GEOIPS_PACKAGES_DIR/*
 
         echo ""
         echo "Confirm environment variables point to desired installation parameters:"
-        echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+        echo "    GEOIPS_PACKAGES_DIR:  $GEOIPS_PACKAGES_DIR"
         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
         echo "    which conda (should not exist yet!): "`which conda`
@@ -94,7 +94,7 @@ check_continue "install conda with $conda_channel"
         date -u
         # Install conda
         # Do not initialize your shell at the end, to allow switching between versions!!!
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_install $conda_channel
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh conda_install $conda_channel
 
         # Activate current conda base environment - note geoips_conda doesn't exist yet, but that is ok.
         # We need to at least point to "new" python and conda
@@ -102,7 +102,7 @@ check_continue "install conda with $conda_channel"
 
         echo ""
         echo "Confirm environment variables point to desired installation parameters:"
-        echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+        echo "    GEOIPS_PACKAGES_DIR:  $GEOIPS_PACKAGES_DIR"
         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
         echo "    which conda (point to geoips_dependencies/miniconda3): "`which conda`
@@ -116,12 +116,12 @@ check_continue "update conda with $conda_channel"
     if [[ "$skip_next" == "no" ]]; then
         date -u
         # Create geoips conda environment
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh conda_update $conda_channel # only for a fresh Miniconda install
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh conda_update $conda_channel # only for a fresh Miniconda install
         # Now we can use source $GEOIPS_CONFIG_FILE
         source $GEOIPS_CONFIG_FILE
         echo ""
         echo "Confirm environment variables point to desired installation parameters:"
-        echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+        echo "    GEOIPS_PACKAGES_DIR:  $GEOIPS_PACKAGES_DIR"
         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
         echo "    which conda (should point to geoips_dependencies/bin): "`which conda`
@@ -135,12 +135,12 @@ check_continue "create geoips_conda_env with $conda_channel"
     if [[ "$skip_next" == "no" ]]; then
         date -u
         # Create geoips conda environment
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh create_geoips_conda_env $conda_channel
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh create_geoips_conda_env $conda_channel
         # Now we can use source $GEOIPS_CONFIG_FILE
         source $GEOIPS_CONFIG_FILE
         echo ""
         echo "Confirm environment variables point to desired installation parameters:"
-        echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+        echo "    GEOIPS_PACKAGES_DIR:  $GEOIPS_PACKAGES_DIR"
         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
         echo "    which conda (should point to geoips_dependencies/bin): "`which conda`
@@ -155,10 +155,10 @@ check_continue "install geoips and dependencies"
         date -u
         # Actually install geoips and all dependencies (cartopy, etc)
         source $GEOIPS_CONFIG_FILE
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh install $bandwidth_option
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh install $bandwidth_option
         echo ""
         echo "Confirm environment variables point to desired installation parameters:"
-        echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+        echo "    GEOIPS_PACKAGES_DIR:  $GEOIPS_PACKAGES_DIR"
         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
         echo "    which conda (should point to geoips_dependencies/bin): "`which conda`
@@ -173,7 +173,7 @@ check_continue "install rclone (REQUIRED for test script)"
         $GEOIPS/setup.sh setup_rclone # abi/ahi ingest
         echo ""
         echo "Confirm environment variables point to desired installation parameters:"
-        echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+        echo "    GEOIPS_PACKAGES_DIR:  $GEOIPS_PACKAGES_DIR"
         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
         echo "    which conda (should point geoips_dependencies/bin): "`which conda`
@@ -186,7 +186,7 @@ check_continue "run basic test script"
     if [[ "$skip_next" == "no" ]]; then
         date -u
         source $GEOIPS_CONFIG_FILE
-        $GEOIPS_BASEDIR/geoips_packages/geoips/setup.sh setup_abi_test_data $bandwidth_option
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data $bandwidth_option
         if [[ "$memory_option" == "low_memory" ]]; then
             $GEOIPS/tests/test_base_install_low_memory.sh
         else
@@ -198,7 +198,7 @@ check_continue "run basic test script"
         echo "full return: $retval"
         echo ""
         echo "Confirm environment variables pointed to desired installation parameters:"
-        echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+        echo "    GEOIPS_PACKAGES_DIR:  $GEOIPS_PACKAGES_DIR"
         echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
         echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
         echo "    which conda (should point geoips_dependencies/bin): "`which conda`
@@ -231,7 +231,7 @@ check_continue "Running AMSR2 tests"
     fi
 
 echo "Confirm environment variables pointed to desired installation parameters:"
-echo "    GEOIPS_BASEDIR:       $GEOIPS_BASEDIR"
+echo "    GEOIPS_PACKAGES_DIR:  $GEOIPS_PACKAGES_DIR"
 echo "    GEOIPS_CONFIG_FILE:   $GEOIPS_CONFIG_FILE"
 echo "    GEOIPS_ACTIVE_BRANCH: $GEOIPS_ACTIVE_BRANCH"
 echo "    which conda (should point geoips_dependencies/bin): "`which conda`

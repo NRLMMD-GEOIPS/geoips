@@ -1,0 +1,58 @@
+type: object
+required:
+  - interface
+  - metadata
+  - spec
+properties:
+  interface:
+    type: string
+  metadata:
+    type: object
+    properties:
+      name:
+        type: string
+      family:
+        type: string
+      short-description:
+        type: string
+      long-description:
+        type: string
+  spec:
+    type: object
+    parameters:
+      coastlines:
+        type: object
+        parameters:
+          enabled:
+            type: boolean
+          color:
+            type: string
+          linewidth:
+            type: number
+      countries:
+        type: object
+        parameters:
+          enabled:
+            type: boolean
+          color:
+            type: string
+          linewidth:
+            type: number
+      riveres:
+        type: object
+        parameters:
+          enabled:
+            type: boolean
+          color:
+            type: string
+          linewidth:
+            type: number
+      states:
+        type: object
+        parameters:
+          enabled:
+            type: boolean
+          color:
+            type: string
+          linewidth:
+            type: number

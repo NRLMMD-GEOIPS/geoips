@@ -1,0 +1,81 @@
+type: object
+required:
+  - interface
+  - metadata
+  - spec
+properties:
+  interface:
+    type: string
+  metadata:
+    type: object
+    properties:
+      name:
+        type: string
+      family:
+        type: string
+      short-description:
+        type: string
+      long-description:
+        type: string
+  spec:
+    type: object
+    additionalProperties: false
+    parameters:
+      labels:
+        type: object
+        additionalProperties: false
+        parameters:
+          top:
+            type: boolean
+            default: true
+          bottom:
+            type: boolean
+            default: false
+          left:
+            type: boolean
+            default: true
+          right:
+            type: boolean
+            default: false
+      latitude-lines:
+        type: object
+        additionalProperties: false
+        parameters:
+          color:
+            type: string
+            default: black
+          linestyle:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: number
+            default: [4, 2]
+          linewidth:
+            type: number
+            default: 1
+          spacing:
+            type: [number, string]
+            enum: [auto]
+            default: auto
+      longitude-lines:
+        type: object
+        additionalProperties: false
+        parameters:
+          color:
+            type: string
+            default: black
+          linestyle:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: number
+            default: [4, 2]
+          linewidth:
+            type: number
+            default: 1
+          spacing:
+            type: [number, string]
+            enum: [auto]
+            default: auto

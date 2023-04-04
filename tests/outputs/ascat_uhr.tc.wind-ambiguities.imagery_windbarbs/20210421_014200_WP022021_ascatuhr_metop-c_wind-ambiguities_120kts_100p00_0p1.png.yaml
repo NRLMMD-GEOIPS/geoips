@@ -22,8 +22,8 @@ parser_name: bdeck_parser
 pressure: 935.0
 product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2021/WP/WP022021/png/wind-ambiguities/metop-c/20210421_014200_WP022021_ascatuhr_metop-c_wind-ambiguities_120kts_100p00_0p1.png
 sector_type: tc
-source_filename: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bwp022021.dat
-source_sector_file: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bwp022021.dat
+source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat
+source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat
 storm_basin: WP
 storm_name: SURIGAE
 storm_num: 2

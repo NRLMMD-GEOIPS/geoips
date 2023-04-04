@@ -1,0 +1,12 @@
+Version 1.10.0.dev0 (2023-04-04)
+********************************
+
+Enhancements
+============
+Add a schema for validating `Boundaries` plugins.
+-------------------------------------------------
+* From issue NRLMMD-GEOIPS/geoips#108: 2023-04-04, Add a schema for `Boundaries` plugins.
+
+::
+
+    modified: /geoips/schema/boundaries.yaml

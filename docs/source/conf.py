@@ -41,7 +41,7 @@ with open(os.path.join(source_path, "index.rst"), "w") as f:
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-needs_sphinx = "5.1.1"
+needs_sphinx = "5.3.0"
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -140,7 +140,7 @@ html_theme = "pydata_sphinx_theme"
 # documentation.
 html_theme_options = {
     "external_links": [],
-    "footer_start": ["geoips_footer"],
+    "footer_end": ["geoips_footer"],
     "github_url": "https://github.com/NRLMMD-GEOIPS/geoips",
     "navbar_end": ["theme-switcher", "navbar-icon-links"],
     "logo": {

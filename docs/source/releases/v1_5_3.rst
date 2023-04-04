@@ -472,7 +472,7 @@ README.md
 * Update GEOIPS_ACTIVE_BRANCH to dev for NRLONLY
 * add GEOIPS_PACKAGES_DIR, GEOIPS_TESTDATA_DIR, and GEOIPS_DEPENDENCIES_DIR env vars for completeness
 
-    * Do not use GEOIPS_BASEDIR within README EXCEPT to set above env vars
+    * Do not use GEOIPS BASEDIR within README EXCEPT to set above env vars
 
 * Pass "conda-forge" to base_install_and_test.sh to explicitly request "conda-forge" channel
 

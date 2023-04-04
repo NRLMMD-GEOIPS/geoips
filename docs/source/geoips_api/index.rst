@@ -16,65 +16,9 @@
 GeoIPS API
 **********
 
-
-Command API
-===========
+geoips Reference
+================
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
-   api_commandline
-
-Data Manipulations API
-======================
-.. toctree::
-   :maxdepth: 2
-
-   api_data_manipulations
-
-Plugin Interfaces API
-=====================
-.. toctree::
-   :maxdepth: 2
-
-   api_interfaces
-
-Dev API
-=======
-.. toctree::
-   :maxdepth: 2
-
-   api_dev
-
-filenames API
-=============
-.. toctree::
-   :maxdepth: 2
-
-   api_filenames
-
-Interface Modules API
-=====================
-.. toctree::
-   :maxdepth: 2
-
-   api_interface_algorithms
-   api_interface_area_def_generators
-   api_interface_coverage_checks
-   api_interface_filename_formats
-   api_interface_interpolation
-   api_interface_output_formats
-   api_interface_procflows
-   api_interface_readers
-   api_interface_title_formats
-   api_interface_trackfile_parsers
-   api_interface_user_colormaps
-
-Utils API
-=========
-.. toctree::
-   :maxdepth: 2
-
-   api_utils
-   api_image_utils
-   api_sector_utils
-   api_xarray_utils
+   geoips
