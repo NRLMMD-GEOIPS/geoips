@@ -18,7 +18,7 @@ from importlib import import_module
 from typing import Callable
 from warnings import warn
 
-from geoips import __version__ as geoips_version
+from geoips.version import __version__ as geoips_version
 from geoips.errors import EntryPointError, PluginError
 from geoips.geoips_utils import find_entry_point, get_all_entry_points
 

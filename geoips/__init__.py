@@ -20,6 +20,14 @@ from geoips import filenames
 from geoips import interfaces
 from geoips import utils
 from geoips import xarray_utils
-from .version import __version__, __version_tuple__
+from geoips.version import __version__, __version_tuple__
 
-__all__ = ["interfaces", "errors", "filenames", "utils", "xarray_utils"]
+__all__ = [
+    "__version__",
+    "__version_tuple__",
+    "interfaces",
+    "errors",
+    "filenames",
+    "utils",
+    "xarray_utils",
+]
