@@ -6,10 +6,10 @@ metadata:
   long-description: Long description
 spec:
   labels:
-    top: True
-    bottom: True
+    top: true
+    bottom: true
     left: 5
-    right: True
+    right: true
   latitude-lines:
     color: 7
     linestyle: [4]

@@ -6,8 +6,8 @@ metadata:
   long-description: Long description
 spec:
   labels:
-    bottom: True
-    left: True
+    bottom: true
+    left: true
   latitude-lines:
     color: "#00B4B4B4"
     linewidth: 1

@@ -6,10 +6,10 @@ metadata:
   long-name: Long description
 spec:
   labels:
-    top: True
-    bottom: True
-    left: True
-    right: True
+    top: true
+    bottom: true
+    left: true
+    right: true
   latitudelines:
     colors: "#00B4B4B4"
     dashes: [4, 2]

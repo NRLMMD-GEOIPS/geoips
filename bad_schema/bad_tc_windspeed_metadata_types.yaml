@@ -3,13 +3,13 @@ metadata:
   name: tc_windspeed
   family: [standard, standard]
   short-description: 9.75
-  long-description: False
+  long-description: false
 spec:
   labels:
-    top: True
-    bottom: True
-    left: True
-    right: True
+    top: true
+    bottom: true
+    left: true
+    right: true
   latitude-lines:
     color: "#00B4B4B4"
     linestyle: [4, 2]
