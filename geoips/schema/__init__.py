@@ -1,1 +1,1 @@
-from .plugin_validator import validate
+from geoips.schema.plugin_validator import validate
