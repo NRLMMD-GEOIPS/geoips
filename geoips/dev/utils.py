@@ -36,8 +36,9 @@ def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
 
     Ie, replace
 
-        * ``$HOME/geoproc with $GEOIPS_BASEDIR``
+        * ``$HOME/geoproc/geoips_packages with $GEOIPS_PACKAGES_DIR``
         * ``$HOME/geoproc/geoips_outdirs with $GEOIPS_OUTDIRS``
+        * ``$HOME/geoproc with $GEOIPS_BASEDIR``
 
     This allows generating output YAML fields / NetCDF attributes that can match
     between different instantiations.
@@ -48,7 +49,9 @@ def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
         Full path to a filename on disk
     replace_paths : list, default=None
         * Explicit list of standard variable names you would like replaced.
-        * If None, replace ``['GEOIPS_OUTDIRS', 'GEOIPS_BASEDIR']``
+        * If None, replace
+          ``['GEOIPS_OUTDIRS', 'GEOIPS_PACKAGES_DIR', 'GEOIPS_TESTDATA_DIR',
+          'GEOIPS_DEPENDENCIES_DIR', 'GEOIPS_BASEDIR']``
     base_paths : list, default=None
         * List of PATHS dictionaries in which to find the "replace_paths" variables
         * If None, use geoips.filenames.base_paths
@@ -81,7 +84,13 @@ def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
 
     # Replace full paths with environment variables
     if replace_paths is None:
-        replace_paths = ["GEOIPS_OUTDIRS", "GEOIPS_BASEDIR"]
+        replace_paths = [
+            "GEOIPS_OUTDIRS",
+            "GEOIPS_PACKAGES_DIR",
+            "GEOIPS_TESTDATA_DIR",
+            "GEOIPS_DEPENDENCIES_DIR",
+            "GEOIPS_BASEDIR",
+        ]
     for replace_path in replace_paths:
         for gpaths in base_paths:
             if replace_path in gpaths:

@@ -49,7 +49,7 @@ def flat_sectorfile_parser(sectorfile_name):
 
     See Also
     --------
-    :ref:`api_sector_utils`
+    :ref:`api`
         Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
     # These flat text sectorfiles contain all storms -
@@ -90,7 +90,7 @@ def parse_flat_sectorfile_line(
 
     See Also
     --------
-    :ref:`api_sector_utils`
+    :ref:`api`
         Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
     from datetime import datetime

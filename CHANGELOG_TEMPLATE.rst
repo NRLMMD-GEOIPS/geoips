@@ -66,6 +66,9 @@
 Version X.Y.Z (YYYY-MM-DD)
 **************************
 
+* Very brief bulleted summary of changes
+* Should reference major changes outlined below
+
 Breaking Changes
 ================
 

@@ -275,7 +275,7 @@ Text wind vectors sectored to a given region
 .. code:: bash
     :number-lines:
 
-    run_procflow ${GEOIPS_BASEDIR}/test_data/test_data_smos/data/SM_OPER_MIR_SCNFSW_20200216T120839_20200216T135041_110_001_7.nc \
+    run_procflow ${GEOIPS_TESTDATA_DIR}/test_data_smos/data/SM_OPER_MIR_SCNFSW_20200216T120839_20200216T135041_110_001_7.nc \
                  --procflow single_source \
                  --reader_name smos_winds_netcdf \
                  --product_name sectored \
@@ -318,7 +318,7 @@ text winds
 .. code:: bash
     :number-lines:
 
-    run_procflow ${GEOIPS_BASEDIR}/test_data/test_data_smap/data/RSS_smap_wind_daily_2021_09_26_NRT_v01.0.nc \
+    run_procflow ${GEOIPS_TESTDATA_DIR}/test_data_smap/data/RSS_smap_wind_daily_2021_09_26_NRT_v01.0.nc \
                  --procflow single_source \
                  --reader_name smap_remss_winds_netcdf \
                  --product_name unsectored \

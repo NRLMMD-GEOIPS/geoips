@@ -132,7 +132,7 @@ def bdeck_parser(deckfile_name):
 
     See Also
     --------
-    :ref:`api_sector_utils`
+    :ref:`api`
         Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
     LOG.info("STARTING getting fields from %s", deckfile_name)
@@ -242,7 +242,7 @@ def parse_bdeck_line(
 
     See Also
     --------
-    :ref:`api_sector_utils`
+    :ref:`api`
         Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
     # This works with G (GeoIPS) Deck files.

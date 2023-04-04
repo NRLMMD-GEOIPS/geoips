@@ -77,7 +77,7 @@ def geoips_fname(
         extra=extra,
         product_dir=product_dir,
         source_dir=source_dir,
-        **kwargs
+        **kwargs,
     )
     return web_fname
 
