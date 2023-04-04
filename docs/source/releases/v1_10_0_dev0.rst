@@ -10,3 +10,15 @@ Add a schema for validating `Boundaries` plugins.
 ::
 
     modified: /geoips/schema/boundaries.yaml
+
+Bug Fixes
+=========
+Fix version imports.
+--------------------
+* Form issue NRLMMD-GEOIPS/geoips#133: 2023-04-04, Fix version imports.
+
+::
+
+    deleted: /geoips/__version__.py
+    modified: /geoips/__init__.py
+    modified: /geoips/interfaces/base.py
