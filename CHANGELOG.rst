@@ -19,11 +19,11 @@ for reference.
 Enhancements
 ============
 
-Adds schema for gridlines plugins.
+Correct "parameters" to "properties" in gridlines.yaml.
 -----------------------------------------------
 
-*From issue GEOIPS/geoips#109: 2023-04-04, Adds schema for gridlines plugins.*
+*From issue GEOIPS/geoips#136: 2023-04-04, Correct "parameters" to "properties".*
 
 ::
 
-    added: geoips/geoips/schema/gridlines.yaml
+    modified: geoips/geoips/schema/gridlines.yaml
