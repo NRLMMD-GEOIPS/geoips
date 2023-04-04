@@ -1,0 +1,13 @@
+interface: gridlines
+metadata:
+  name: tc_windspeed
+  family: standard
+  short-description: Gridlines for TC wind speed
+  long-description: Long description
+spec:
+  labels:
+    bottom: True
+    left: True
+  latitude-lines:
+    color: "#00B4B4B4"
+    linewidth: 1
