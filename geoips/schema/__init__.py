@@ -1,1 +1,1 @@
-from plugin_validator import validate
+from .plugin_validator import validate
