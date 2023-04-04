@@ -1,0 +1,20 @@
+interface: gridlines
+metadata:
+  name: tc_pmw
+  family: standard
+  short-description: "TC Passive Microwave gridlines configuration"
+  long-description: |
+    All gridline labels enabled, latitude and longitude lines colored
+    #00B4B4B4, 2 degree spacing, 1px linewidth, and [4, 2] linestyle
+spec:
+  labels:
+    top: True
+    bottom: True
+    left: True
+    right: True
+  latitude-lines: &grid-lines
+    color: #00B4B4B4
+    linestyle: [4, 2]
+    linewidth: 1
+    spacing: 2
+  longitude-lines: *grid-lines
