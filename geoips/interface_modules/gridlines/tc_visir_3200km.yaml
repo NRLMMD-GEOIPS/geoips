@@ -13,7 +13,7 @@ spec:
     left: True
     right: True
   latitude-lines: &grid-lines
-    color: #000000
+    color: '#000000'
     linestyle: [4, 2]
     linewidth: 1
     spacing: 5
