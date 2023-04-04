@@ -241,7 +241,7 @@ def save_image(
             pad_inches=0.0,
             transparent=True,
             facecolor="none",
-            **savefig_kwargs
+            **savefig_kwargs,
         )
         if remove_duplicate_minrange is not None:
             remove_duplicates(out_fname, remove_duplicate_minrange)
@@ -384,7 +384,7 @@ def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
             extent=mapobj.bounds,
             cmap=mpl_colors_info["cmap"],
             norm=mpl_colors_info["norm"],
-            **extra_args
+            **extra_args,
         )
     else:
         mapobj.imshow(
@@ -782,7 +782,7 @@ def create_colorbar(fig, mpl_colors_info):
         cax=cbar_ax,
         norm=cmap_norm,
         boundaries=cmap_boundaries,
-        **cbar_kwargs
+        **cbar_kwargs,
     )
     if cbar_ticks:
         # matplotlib 3.6.0 sometimes has inconsistent results with including

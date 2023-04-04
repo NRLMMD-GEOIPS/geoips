@@ -15,23 +15,20 @@
 # internal_plugins, internal_algs, external_repos, and test_repos set within <package> setup_<package>.sh
 
 if [[ "$1" == "setup" ]]; then
-    if [[ -z "$GEOIPS_BASEDIR" ]]; then
-        echo "Must define GEOIPS_BASEDIR environment variable prior to setting up geoips"
+    if [[ -z "$GEOIPS_PACKAGES_DIR" ]]; then
+        echo "Must define GEOIPS_PACKAGES_DIR environment variable prior to setting up geoips"
         exit 1
     fi
     if [[ -z "$GEOIPS_REPO_URL" && -z "$GEOIPS_BASE_URL" ]]; then
         echo "Must defined GEOIPS_REPO_URL environment variable prior to setting up geoips"
         exit 1
     fi
-    
+
     if [[ -z $GEOIPS_DEPENDENCIES_DIR ]]; then
-        export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_BASEDIR/geoips_dependencies
-    fi
-    if [[ -z $GEOIPS_PACKAGES_DIR ]]; then
-        export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
+        export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_PACKAGES_DIR/../geoips_dependencies
     fi
     if [[ -z $GEOIPS_TESTDATA_DIR ]]; then
-        export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
+        export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/../test_data
     fi
     if [[ -z $BASECONDAPATH ]]; then
         export BASECONDAPATH=$GEOIPS_DEPENDENCIES_DIR/miniconda3/bin
@@ -114,7 +111,7 @@ elif [[ "$1" == "repo_update" ]]; then
 
 elif [[ "$1" == "install_plugins" ]]; then
 
-    installed_plugins_path=$GEOIPS_BASEDIR/installed_geoips_plugins.txt
+    installed_plugins_path=$GEOIPS_PACKAGES_DIR/installed_geoips_plugins.txt
 
     for plugin in $internal_plugins $internal_algs $external_repos; do
         echo ""
@@ -123,7 +120,7 @@ elif [[ "$1" == "install_plugins" ]]; then
         if [[ -f $installed_plugins_path ]]; then
             while read installed_plugin; do
                 if [[ "$installed_plugin" == "$plugin" ]]; then
-                    found="true"    
+                    found="true"
                 fi
             done < $installed_plugins_path
             if [[ "$found" == "true" ]]; then

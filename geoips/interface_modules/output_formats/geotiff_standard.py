@@ -108,7 +108,7 @@ def geotiff_standard(
                 height=height,
                 crs=crs,
                 transform=transform,
-                **profile
+                **profile,
             ) as dst:
                 dst.write(plot_data.astype(rasterio.uint8), indexes=1)
                 cmap_dict = get_rasterio_cmap_dict(mpl_colors_info["cmap"])

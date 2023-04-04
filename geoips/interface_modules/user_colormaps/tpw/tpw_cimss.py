@@ -32,7 +32,7 @@ def tpw_cimss():
 
     See Also
     --------
-    :ref:`api_image_utils`
+    :ref:`api`
         ASCII palette is found in image_utils/ascii_palettes/tpw_cimss.txt
     """
     from os.path import join as pathjoin

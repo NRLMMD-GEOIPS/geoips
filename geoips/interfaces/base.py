@@ -245,7 +245,7 @@ class BaseInterface:
             cls.entry_point_group = cls.name
 
         cls.__doc__ = f"GeoIPS interface for {cls.name} plugins."
-        cls.__doc__ += interface_attrs_doc
+        # cls.__doc__ += interface_attrs_doc causes duplication warnings
 
         return super(BaseInterface, cls).__new__(cls)
 

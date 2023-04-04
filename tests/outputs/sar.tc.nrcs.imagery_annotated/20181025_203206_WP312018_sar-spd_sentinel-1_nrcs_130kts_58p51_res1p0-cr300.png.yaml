@@ -20,8 +20,8 @@ parser_name: bdeck_parser
 pressure: 926.0
 product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2018/WP/WP312018/png/nrcs/sentinel-1/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png
 sector_type: tc
-source_filename: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bwp312018.dat
-source_sector_file: $GEOIPS_BASEDIR/geoips_packages/geoips/tests/sectors/tc_bdecks/bwp312018.dat
+source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp312018.dat
+source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp312018.dat
 storm_basin: WP
 storm_name: YUTU
 storm_num: 31

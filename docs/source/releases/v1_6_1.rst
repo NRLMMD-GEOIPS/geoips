@@ -241,8 +241,8 @@ Standardize geoips test data variables
 
 *From issue GEOIPS#149: 2023-01-04, standardize testing variables*
 
-* Replace GEOIPS_BASEDIR/test_data with GEOIPS_TESTDATA_DIR
-* Replacing all instances of GEOIPS_BASEDIR/test_data with GEOIPS_TESTDATA_DIR
+* Replace GEOIPS BASEDIR/test_data with GEOIPS_TESTDATA_DIR
+* Replacing all instances of GEOIPS BASEDIR/test_data with GEOIPS_TESTDATA_DIR
 * Remove tests/README.md
 * REMOVE tests/README.md - deprecated, info now included in template repos.
 

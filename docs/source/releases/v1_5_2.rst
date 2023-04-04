@@ -658,7 +658,7 @@ Installation and Test
 * **config_geoips**
 
     * Add git lfs install, for redundancy
-    * Add GEOIPS_TESTDATA_DIR environment variable, to allow non-GEOIPS_BASEDIR test data locations.
+    * Add GEOIPS_TESTDATA_DIR environment variable, to allow non-GEOIPS BASEDIR test data locations.
 
 * **AMSR2 Test Scripts**
 
@@ -681,7 +681,7 @@ Installation and Test
 base_install_and_test.sh
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Exit immediately if GEOIPS_BASEDIR or GEOIPS_REPO_URL are not defined
+* Exit immediately if GEOIPS BASEDIR or GEOIPS_REPO_URL are not defined
 * Comment out several sections of installation, to reduce time and disk space
 
     * natural-earth-vector data download (will rely on latest shapefiles during cartopy processing)
@@ -723,7 +723,7 @@ repo_clone_update_install.sh
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * If GEOIPS_TESTDATA_DIR, GEOIPS_PACKAGES_DIR, or GEOIPS_DEPENDENCIES_DIR are set, use those,
-    otherwise default to placing under $GEOIPS_BASEDIR
+    otherwise default to placing under $GEOIPS BASEDIR
 
 * Update default branch from dev to main
 
