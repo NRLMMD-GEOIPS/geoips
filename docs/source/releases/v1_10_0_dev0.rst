@@ -1,8 +1,13 @@
 Version 1.10.0.dev0 (2023-04-04)
 ********************************
 
+* Add YAML-based plugin validator
+* Add "boundaries" plugin schema
+* Convert "gridlines" plugins to new YAML plugin format
+
 Enhancements
 ============
+
 Add a validator for YAML-based plugins.
 ---------------------------------------
 *From issue NRLMMD-GEOIPS/geoips#132: 2023-04-04, Add a validator for YAML-based plugins.*
