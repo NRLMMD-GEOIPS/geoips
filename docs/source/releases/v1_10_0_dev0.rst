@@ -20,7 +20,7 @@ Convert all the old "Boundaries" YAML files to the new Boundaries interface json
 
 Add a validator for YAML-based plugins.
 ---------------------------------------
-* From issue NRLMMD-GEOIPS/geoips#132: 2023-04-04, Add a validator for YAML-based plugins.
+*From issue NRLMMD-GEOIPS/geoips#132: 2023-04-04, Add a validator for YAML-based plugins.*
 
 ::
 
@@ -29,7 +29,7 @@ Add a validator for YAML-based plugins.
 
 Add a schema for validating `Boundaries` plugins.
 -------------------------------------------------
-* From issue NRLMMD-GEOIPS/geoips#108: 2023-04-04, Add a schema for `Boundaries` plugins.
+*From issue NRLMMD-GEOIPS/geoips#108: 2023-04-04, Add a schema for `Boundaries` plugins.*
 
 ::
 
@@ -37,7 +37,7 @@ Add a schema for validating `Boundaries` plugins.
 
 Create yaml files for gridlines following gridlines schema
 ----------------------------------------------------------
-* From issue NRLMMD-GEOIPS/geoips#118: 2023-04-04, convert yaml files for gridlines interface
+*From issue NRLMMD-GEOIPS/geoips#118: 2023-04-04, convert yaml files for gridlines interface*
 
 ::
 
