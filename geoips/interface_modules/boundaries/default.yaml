@@ -9,10 +9,16 @@ metadata:
 spec:
   coastlines:
     enabled: true
+    color: red
+    linewidth: 2
   countries:
     enabled: true
+    color: red
+    linewidth: 1
   states:
     enabled: true
+    color: red
+    linewidth: 0.5
   rivers:
-    enabled: true
+    enabled: false
 
