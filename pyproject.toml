@@ -40,6 +40,7 @@ classifiers = [
 ]
 dynamic = ["version"]
 dependencies = [
+    "jsonschema",  # Provides validation for YAML plugins
     "pyresample",  # Base requirement - efficiency improvements >= 1.22.3
     "numpy",  # Base requirement
     "xarray",  # Base requirement
