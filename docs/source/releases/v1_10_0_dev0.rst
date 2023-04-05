@@ -1,14 +1,25 @@
 Version 1.10.0.dev0 (2023-04-04)
 ********************************
 
-* Add YAML-based plugin validator
+* Add YAML-based plugin validator - support both interface and interface.family schema.
 * Add "boundaries" plugin schema
+* Add "product_templates" plugin schemas
+
+  * geoips/schema/product_templates/alg.yaml
 
 Enhancements
 ============
+
 Add a validator for YAML-based plugins.
 ---------------------------------------
-* From issue NRLMMD-GEOIPS/geoips#132: 2023-04-04, Add a validator for YAML-based plugins.
+
+*From issue NRLMMD-GEOIPS/geoips#132: 2023-04-04, Add a validator for YAML plugins*
+
+This parses the path to the schema file in order to determine the interface and
+family name.
+
+geoips/schema/<interface>.yaml for interface specific schema.
+geoips/schema/<interface>/<family>.yaml for family-specific schema.
 
 ::
 
@@ -17,8 +28,40 @@ Add a validator for YAML-based plugins.
 
 Add a schema for validating `Boundaries` plugins.
 -------------------------------------------------
-* From issue NRLMMD-GEOIPS/geoips#108: 2023-04-04, Add a schema for `Boundaries` plugins.
+
+*From issue NRLMMD-GEOIPS/geoips#108: 2023-04-04, Add schema for `Boundaries` plugins.*
 
 ::
 
     modified: /geoips/schema/boundaries.yaml
+
+Add schema for validating `product_templates` plugins
+-----------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#122: 2023-04-04, Add `product_templates` plugins*
+
+product_templates plugins require family-specific schema - each family within the
+interface has a unique schema for validation.
+
+These schema are added to the "product_templates" subdirectory under geoips/schema
+
+::
+
+    new: geoips/schema/product_templates/alg.yaml
+
+Add valid product_templates plugins
+-----------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#122: 2023-04-04, Add `product_templates` plugins*
+
+Convert all YAML files under geoips/yaml_configs/product_params to valid YAML-based
+plugins.
+
+Note the interface is "product_templates" for these plugins, and the family can vary.
+The family determines the contents/layout of the "spec", and the plugin format
+must conform with the schema defined in:
+geoips/schema/product_templates/<family>.yaml
+
+::
+
+    new: geoips/interface_modules/product_templates/alg.yaml
