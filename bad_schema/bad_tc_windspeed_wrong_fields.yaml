@@ -10,7 +10,7 @@ spec:
     bottom: true
     left: true
     right: true
-  latitudelines:
+  latitude-lines:
     colors: "#00B4B4B4"
     dashes: [4, 2]
     linewidth: 1

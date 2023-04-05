@@ -1,7 +1,4 @@
 interface: gridlines
-metadata:
-  name: tc_windspeed
-  short-description: Gridlines for TC wind speed
 spec:
   labels:
     top: true
