@@ -1,4 +1,4 @@
-interface: product-template
+interface: product_templates
 metadata:
   name: Infrared
   family: interp_alg_cmap
