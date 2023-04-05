@@ -19,6 +19,7 @@ properties:
         type: string
   spec:
     type: object
+    required: [coastlines, countries, rivers, states]
     properties:
       coastlines:
         type: object
@@ -38,7 +39,7 @@ properties:
             type: string
           linewidth:
             type: number
-      riveres:
+      rivers:
         type: object
         properties:
           enabled:
