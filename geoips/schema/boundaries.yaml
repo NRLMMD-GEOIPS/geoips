@@ -19,57 +19,32 @@ properties:
         type: string
   spec:
     type: object
-    required: [coastlines, countries, rivers, states]
+    additionalProperties: false
     properties:
-      coastlines:
+      coastlines: &line-args
         type: object
-        default: {}
-        properties:
-          enabled:
-            type: boolean
-            default: true
-          color:
-            type: string
-            default: black
-          linewidth:
-            type: number
-            default: 1
-      countries:
-        type: object
-        default: {}
-        properties:
-          enabled:
-            type: boolean
-            default: true
-          color:
-            type: string
-            default: black
-          linewidth:
-            type: number
-            default: 1
-      rivers:
-        type: object
-        default: {}
-        properties:
-          enabled:
-            type: boolean
-            default: true
-          color:
-            type: string
-            default: black
-          linewidth:
-            type: number
-            default: 1
-      states:
-        type: object
-        default: {}
-        properties:
-          enabled:
-            type: boolean
-            default: true
-          color:
-            type: string
-            default: black
-          linewidth:
-            type: number
-            default: 1
+        default:
+          enabled: false
+        if:
+          properties:
+            enabled:
+              const: false
+        then:
+          additionalProperties: false
+          properties:
+            enabled:
+              type: boolean
+        else:
+          additionalProperties: false
+          properties:
+            enabled:
+              type: boolean
+            color:
+              type: string
+              default: black
+            linewidth:
+              type: number
+              default: 1
+      countries: *line-args
+      rivers: *line-args
+      states: *line-args
