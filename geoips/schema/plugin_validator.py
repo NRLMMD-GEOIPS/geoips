@@ -7,6 +7,7 @@ from importlib.resources import files
 import jsonschema
 
 
+
 def extend_with_default(validator_class):
     validate_properties = validator_class.VALIDATORS["properties"]
 
@@ -38,6 +39,7 @@ validators = {}
 for schema_file in schema_files:
     schema_name = os.path.splitext(os.path.basename(schema_file))[0]
     schema = yaml.safe_load(open(schema_file, "r"))
+
     DefaultValidatingValidator.check_schema(schema)
     all_schema[schema_name] = schema
     validators[schema_name] = DefaultValidatingValidator(schema)
