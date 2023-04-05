@@ -24,6 +24,7 @@ properties:
     properties:
       labels:
         type: object
+        default: {}
         additionalProperties: false
         properties:
           top:
@@ -40,6 +41,7 @@ properties:
             default: false
       latitude-lines: &lines-args
         type: object
+        default: {}
         additionalProperties: false
         properties:
           color:
