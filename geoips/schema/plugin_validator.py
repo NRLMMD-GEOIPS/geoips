@@ -7,7 +7,6 @@ from importlib.resources import files
 import jsonschema
 
 
-
 def extend_with_default(validator_class):
     """Extend a jsonschema validator to make it respect default values.
 
