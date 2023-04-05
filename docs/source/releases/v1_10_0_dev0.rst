@@ -21,6 +21,7 @@ Add a schema for validating `Boundaries` plugins.
     modified: /geoips/schema/boundaries.yaml
 
 Create yaml files for gridlines following gridlines schema
+----------------------------------------------------------
 * From issue NRLMMD-GEOIPS/geoips#118: 2023-04-04, convert yaml files for gridlines interface
 
 ::
