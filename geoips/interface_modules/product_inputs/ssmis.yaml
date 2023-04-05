@@ -8,131 +8,131 @@ metadata:
    150H, 183-1H, 183-3H, 183-7H, 190V, 19H, 19V, 37H-Legacy, 37H-Physical, 37H, and 37V products."
 spec:
   products:
-    color37:
+    - name: color37
       variables: ["H37", "V37"]
       interp_args:
         sigmaval: 25000
-    color37Nearest:
+    - name: color37Nearest
       variables: ["H37", "V37"]
-    37pct:
+    - name: 37pct
       variables: ["H37", "V37"]
       interp_args:
         sigmaval: 25000
-    37pctNearest:
+    - name: 37pctNearest
       variables: ["H37", "V37"]
-    color91:
+    - name: color91
       product_template: "color89"
       variables: ["H91", "V91"]
       interp_args:
         sigmaval: 10000
-    color91Nearest:
+    - name: color91Nearest
       variables: ["H91", "V91"]
-    91pct:
+    - name: 91pct
       product_template: "89pct"
       variables: ["H91", "V91"]
       interp_args:
         sigmaval: 10000
-    91pctNearest:
+    - name: 91pctNearest
       product_template: "89pctNearest"
       variables: ["H91", "V91"]
-    91H:
+    - name: 91H
       product_template: "89H"
       variables: ["H91"]
       interp_args:
         sigmaval: 10000
-    91HNearest:
+    - name: 91HNearest
       product_template: "89HNearest"
       variables: ["H91"]
-    91V:
+    - name: 91V
       product_template: "89V"
       variables: ["V91"]
       interp_args:
         sigmaval: 10000
-    91VNearest:
+    - name: 91VNearest
       product_template: "89VNearest"
       variables: ["V91"]
-    91HW:
+    - name: 91HW
       product_template: "89HW"
       variables: ["H91"]
       interp_args:
         sigmaval: 10000
-    91HWNearest:
+    - name: 91HWNearest
       product_template: "89HWNearest"
       variables: ["H91"]
-    91H-Physical:
+    - name: 91H-Physical
       product_template: "89H-Physical"
       variables: ["H91"]
       interp_args:
         sigmaval: 10000
-    91H-PhysicalNearest:
+    - name: 91H-PhysicalNearest
       product_template: "89H-PhysicalNearest"
       variables: ["H91"]
-    91H-Legacy:
+    - name: 91H-Legacy
       product_template: "89H-Legacy"
       variables: ["H91"]
       interp_args:
         sigmaval: 10000
-    91H-LegacyNearest:
+    - name: 91H-LegacyNearest
       variables: ["H91"]
-    150H:
+    - name: 150H
       variables: ["H150"]
       interp_args:
         sigmaval: 10000
-    183-1H:
+    - name: 183-1H
       variables: ["H183-1"]
       interp_args:
         sigmaval: 10000
-    183-1HNearest:
+    - name: 183-1HNearest
       variables: ["H183-1"]
-    183-3H:
+    - name: 183-3H
       variables: ["H183-3"]
       interp_args:
         sigmaval: 10000
-    183-3HNearest:
+    - name: 183-3HNearest
       variables: ["H183-3"]
-    183-7H:
+    - name: 183-7H
       variables: ["H183-7"]
       interp_args:
         sigmaval: 10000
-    190V:
+    - name: 190V
       variables: ["H183-7"]
       interp_args:
         sigmaval: 10000
-    190VNearest:
+    - name: 190VNearest
       variables: ["H183-7"]
-    19H:
+    - name: 19H
       variables: ["H19"]
       interp_args:
         sigmaval: 25000
-    19HNearest:
+    - name: 19HNearest
       variables: ["H19"]
-    19V:
+    - name: 19V
       variables: ["V19"]
       interp_args:
         sigmaval: 25000
-    19VNearest:
+    - name: 19VNearest
       variables: ["V19"]
-    37H-Legacy:
+    - name: 37H-Legacy
       variables: ["H37"]
       interp_args:
         sigmaval: 25000
-    37H-LegacyNearest:
+    - name: 37H-LegacyNearest
       variables: ["H37"]
-    37H-Physical:
-      variables: ["H37"]
-      interp_args:
-        sigmaval: 25000
-    37H-PhysicalNearest:
-      variables: ["H37"]
-    37H:
+    - name: 37H-Physical
       variables: ["H37"]
       interp_args:
         sigmaval: 25000
-    37HNearest:
+    - name: 37H-PhysicalNearest
       variables: ["H37"]
-    37V:
+    - name: 37H
+      variables: ["H37"]
+      interp_args:
+        sigmaval: 25000
+    - name: 37HNearest
+      variables: ["H37"]
+    - name: 37V
       variables: ["V37"]
       interp_args:
         sigmaval: 25000
-    37VNearest:
+    - name: 37VNearest
       variables: ["V37"]

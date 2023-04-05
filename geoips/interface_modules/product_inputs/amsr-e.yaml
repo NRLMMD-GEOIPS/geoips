@@ -7,57 +7,57 @@ metadata:
     "The amsr-e product_inputs configuration, which produces color89, 89pct, 89H, 89V, 89HW, 89H-Physical, 89H-Legacy, 19H, and 19V products."
 spec:
   products:
-    color89:
+    - name: color89
       variables: ['H89', 'V89']
       interp_args:
         sigmaval: 10000
-    color89Nearest:
+    - name: color89Nearest
       variables: ['H89', 'V89']
-    89pct:
+    - name: 89pct
       variables: ['H89', 'V89']
       interp_args:
         sigmaval: 10000
-    89pctNearest:
+    - name: 89pctNearest
       variables: ['H89', 'V89']
-    89H:
+    - name: 89H
       variables: ['H89']
       interp_args:
         sigmaval: 10000
-    89HNearest:
+    - name: 89HNearest
       variables: ['H89']
-    89V:
+    - name: 89V
       variables: ['V89']
       interp_args:
         sigmaval: 10000
-    89VNearest:
+    - name: 89VNearest
       variables: ['V89']
-    89HW:
+    - name: 89HW
       variables: ['H89']
       interp_args:
         sigmaval: 10000
-    89HNearest:
+    - name: 89HNearest
       variables: ['H89']
-    89H-Physical:
-      variables: ['H89']
-      interp_args:
-        sigmaval: 10000
-    89H-PhysicalNearest:
-      variables: ['H89']
-    89H-Legacy:
+    - name: 89H-Physical
       variables: ['H89']
       interp_args:
         sigmaval: 10000
-    89H-LegacyNearest:
+    - name: 89H-PhysicalNearest
       variables: ['H89']
-    19H:
+    - name: 89H-Legacy
+      variables: ['H89']
+      interp_args:
+        sigmaval: 10000
+    - name: 89H-LegacyNearest
+      variables: ['H89']
+    - name: 19H
       variables: ['H19']
       interp_args:
         sigmaval: 25000
-    19HNearest:
+    - name: 19HNearest
       variables: ['H19']
-    19V:
+    - name: 19V
       variables: ['V19']
       interp_args:
         sigmaval: 25000
-    19VNearest:
+    - name: 19VNearest
       variables: ['V19']

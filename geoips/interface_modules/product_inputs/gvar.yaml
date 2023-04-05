@@ -7,11 +7,11 @@ metadata:
     "The gvar product_inputs configuration, which produces Infrared, Infrared-Gray, IR-BD, and Visible products."
 spec:
   products:
-    Infrared:
+    - name: Infrared
       variables: ['gvar_ch4']
-    Infrared-Gray:
+    - name: Infrared-Gray
       variables: ['gvar_ch4']
-    IR-BD:
+    - name: IR-BD
       variables: ['gvar_ch4']
-    Visible:
+    - name: Visible
       variables: ['gvar_ch1', 'SunZenith']

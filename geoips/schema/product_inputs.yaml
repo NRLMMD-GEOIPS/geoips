@@ -21,13 +21,15 @@ properties:
     type: object
     required:
       - products
-    parameters:
+    additionalProperties: false
+    properties:
       products:
+        minItems: 1
         type: array
         required:
           - name
           - variables
-        parameters:
+        properties:
           name:
             type: string
           variables:
@@ -37,7 +39,7 @@ properties:
             type: object
             required:
               - cbar_label
-            parameters:
+            properties:
               cbar_label:
                 type: string
               cmap_name:
@@ -50,7 +52,7 @@ properties:
                 type: array
           alg_args:
             type: object
-            parameters:
+            properties:
               output_data_range:
                 type: array
                 minItems: 2
@@ -78,7 +80,7 @@ properties:
             type: object
             required:
               - sigmaval
-            parameters:
+            properties:
               sigmaval:
                 type: number
           product_template:
@@ -87,7 +89,7 @@ properties:
             type: string
           barb_sizes:
             type: object
-            parameters:
+            properties:
               thinning:
                 type: number
               barb_length:
@@ -96,13 +98,13 @@ properties:
                 type: number
               sizes_dict:
                 type: object
-                parameters:
+                properties:
                   dict_entry:
                     type: object
                     required:
                       - key
                       - value
-                    parameters:
+                    properties:
                       key:
                         type: string
                       value:

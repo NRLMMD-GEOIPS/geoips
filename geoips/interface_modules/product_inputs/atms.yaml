@@ -7,21 +7,21 @@ metadata:
     "The atms product_inputs configuration, which produces 89V products, 165H products, and 183H products"
 spec:
   products:
-    89V:
+    - name: 89V
       variables: ['V89']
       interp_args:
         sigmaval: 15000
-    89VNearest:
+    - name: 89VNearest
       variables: ['V89']
-    165H:
+    - name: 165H
       variables: ['H165']
       interp_args:
         sigmaval: 15000
-    165HNearest:
+    - name: 165HNearest
       variables: ['H165']
-    183H:
+    - name: 183H
       variables: ['H183']
       interp_args:
         sigmaval: 15000
-    183HNearest:
+    - name: 183HNearest
       variables: ['H183']

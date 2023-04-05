@@ -3,25 +3,24 @@ metadata:
   name: viirs
   family: standard
   short-description: "The viirs product_inputs configuration"
-  long-description:
-    "The viirs product_inputs configuration, which produces Infrared, Night-vis, and Visible products."
+  long-description: "The viirs product_inputs configuration, which produces Infrared, Night-vis, and Visible products."
 spec:
   products:
-    Infrared:
-      variables: ['I05BT']
-    Infrared-Gray:
-      variables: ['I05BT']
-    IR-BD:
-      variables: ['I05BT']
-    Night-Vis:
-      variables: ['DNBRad', 'DNB:SunZenith']
-    Night-Vis-GeoIPS1:
-      variables: ['DNBRad', 'DNB:SunZenith']
-    Night-Vis-IR:
-      variables: ['DNBRad', 'M16BT']
-    Night-Vis-IR-GeoIPS1:
-      variables: ['DNBRad', 'M16BT', 'DNB:SunZenith']
-    Visible:
-      variables: ['M05Ref']  # Ocean Color Aerosol: VIIRS M05 0.673um
-      cmap_args:             # This replaces the version found in product_params/visir/Visible.yaml 
+    - name: Infrared
+      variables: ["I05BT"]
+    - name: Infrared-Gray
+      variables: ["I05BT"]
+    - name: IR-BD
+      variables: ["I05BT"]
+    - name: Night-Vis
+      variables: ["DNBRad", "DNB:SunZenith"]
+    - name: Night-Vis-GeoIPS1
+      variables: ["DNBRad", "DNB:SunZenith"]
+    - name: Night-Vis-IR
+      variables: ["DNBRad", "M16BT"]
+    - name: Night-Vis-IR-GeoIPS1
+      variables: ["DNBRad", "M16BT", "DNB:SunZenith"]
+    - name: Visible
+      variables: ["M05Ref"] # Ocean Color Aerosol: VIIRS M05 0.673um
+      cmap_args: # This replaces the version found in product_params/visir/Visible.yaml
         cbar_label: "Reflectance, VIIRS M05 0.673um Band"

@@ -7,10 +7,10 @@ metadata:
     "The smap-spd product_inputs configuration, which produces windspeed, unsectored, and sectored products."
 spec:
   products:
-    windspeed:
+    - name: windspeed
       variables: ['wind_speed_kts']
-    unsectored:
+    - name: unsectored
       variables: ['wind_speed_kts']
-    sectored:
+    - name: sectored
       variables: ['wind_speed_kts']
 

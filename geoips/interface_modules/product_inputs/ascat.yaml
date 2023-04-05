@@ -7,9 +7,9 @@ metadata:
     "The ascat product_inputs configuration, which produces Windspeed products, Windbarbs products, Wind-ambiguity products, and Unsectored/Sectored products."
 spec:
   products:
-    windspeed:
+    - name: windspeed
       variables: ['wind_speed_kts']
-    Windbarbs-Gray:
+    - name: Windbarbs-Gray
       product_template: "windbarbs"
       variables: ['wind_speed_kts', 'wind_dir_deg_met', 'rain_flag']
       cmap_func: "matplotlib_linear_norm"
@@ -23,11 +23,11 @@ spec:
         line_width: 1.5
         sizes_dict: {'height': 0.7, 'spacing': 0.3}
         rain_size: 10
-    windbarbs:
+    - name: windbarbs
       variables: ['wind_speed_kts', 'wind_dir_deg_met', 'rain_flag']
-    wind-ambiguities:
+    - name: wind-ambiguities
       variables: ['wind_speed_ambiguity_kts', 'wind_dir_deg_ambiguity_met', 'rain_flag_ambiguity']
-    unsectored:
+    - name: unsectored
       variables: ['wind_speed_kts', 'wind_dir_deg_met']
-    sectored:
+    - name: sectored
       variables: ['wind_speed_kts', 'wind_dir_deg_met']

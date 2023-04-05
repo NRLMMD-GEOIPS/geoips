@@ -7,11 +7,11 @@ metadata:
     "The hscat product_inputs configuration, which produces windspeed, windbarbs, unsectored, and sectored products."
 spec:
   products:
-    windspeed:
+    - name: windspeed
       variables: ['wind_speed_kts']
-    windbarbs:
+    - name: windbarbs
       variables: ['wind_speed_kts', 'wind_dir_deg_met', 'rain_flag']
-    unsectored:
+    - name: unsectored
       variables: ['wind_speed_kts', 'wind_dir_deg_met']
-    sectored:
+    - name: sectored
       variables: ['wind_speed_kts', 'wind_dir_deg_met']
