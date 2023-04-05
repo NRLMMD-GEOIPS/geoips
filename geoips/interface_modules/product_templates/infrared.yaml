@@ -1,0 +1,23 @@
+interface: product-template
+metadata:
+  name: Infrared
+  family: interp_alg_cmap
+spec:
+  algorithm:
+    name: single_channel
+    arguments:
+      range: [-90.0, 30.0]
+      input_units: Kelvin
+      output_units: celsius
+      min_outbounds: crop
+      max_outbounds: crop
+      norm: null
+      inverse: null
+  mtif_type: ir
+  colormap:
+    name: visir.Infrared
+    arguments:
+      range: [-90.0, 30.0]
+  interpolation:
+    name: pyresample_wrappers.interp_nearest
+    arguments: {}
