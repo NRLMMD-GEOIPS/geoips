@@ -1,0 +1,17 @@
+
+interface: product_inputs
+metadata:
+  name: oscat
+  family: standard
+  short-description: "The oscat product_inputs configuration"
+  long-description:
+    "The oscat product_inputs configuration, which produces windspeed, windbarbs, and wind-ambiguities products."
+spec:
+  products:
+    windspeed:
+      variables: ['wind_speed_kts']
+    windbarbs:
+      variables: ['wind_speed_kts', 'wind_dir_deg_met', 'rain_flag']
+    wind-ambiguities:
+      variables: ['wind_speed_ambiguity_kts', 'wind_dir_deg_ambiguity_met', 'rain_flag_ambiguity']
+

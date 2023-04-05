@@ -1,0 +1,16 @@
+interface: product_inputs
+metadata:
+  name: smap-spd
+  family: standard
+  short-description: "The smap-spd product_inputs configuration"
+  long-description:
+    "The smap-spd product_inputs configuration, which produces windspeed, unsectored, and sectored products."
+spec:
+  products:
+    windspeed:
+      variables: ['wind_speed_kts']
+    unsectored:
+      variables: ['wind_speed_kts']
+    sectored:
+      variables: ['wind_speed_kts']
+

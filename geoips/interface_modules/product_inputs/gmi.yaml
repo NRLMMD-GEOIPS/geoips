@@ -1,0 +1,130 @@
+interface: product_inputs
+metadata:
+  name: gmi
+  family: standard
+  short-description: "The gmi product_inputs configuration"
+  long-description:
+    "The gmi product_inputs configuration, which produces color37, 37pct, color89, 89H, 89V, 89HW, 89H-Legacy, 89H-Physical, 166H, 166V, 
+    183-1H, 183-3H, 190V, 19H, 19V, 37H-Legacy, 37H-Physical, 37H, and 37V products."
+spec:
+  products:
+    color37:
+      variables: ['H37', 'V37']
+      interp_args:
+        sigmaval: 25000
+    color37Nearest:
+      variables: ['H37', 'V37']
+    37pct:
+      variables: ['H37', 'V37']
+      interp_args:
+        sigmaval: 25000
+    37pctNearest:
+      variables: ['H37', 'V37']
+    color89:
+      variables: ['H89', 'V89']
+      interp_args:
+        sigmaval: 10000
+    color89Nearest:
+      variables: ['H89', 'V89']
+    89pct:
+      variables: ['H89', 'V89']
+      interp_args:
+        sigmaval: 10000
+    89pctNearest:
+      variables: ['H89', 'V89']
+    89H:
+      variables: ['H89']
+      interp_args:
+        sigmaval: 10000
+    89HNearest:
+      variables: ['H89']
+    89V:
+      variables: ['V89']
+      interp_args:
+        sigmaval: 10000
+    89VNearest:
+      variables: ['V89']  
+    89HW:
+      variables: ['H89']
+      interp_args:
+        sigmaval: 10000
+    89HWNearest:
+      variables: ['H89']
+    89H-Legacy:
+      variables: ['H89']
+      interp_args:
+        sigmaval: 10000
+    89H-LegacyNearest:
+      variables: ['H89']
+    89H-Physical:
+      variables: ['H89']
+      interp_args:
+        sigmaval: 10000
+    89H-PhysicalNearest:
+      variables: ['H89']
+    166H:
+      variables: ['H166']
+      interp_args:
+        sigmaval: 10000
+    166HNearest:
+      variables: ['H166']
+    166V:
+      variables: ['V166']
+      interp_args:
+        sigmaval: 10000
+    166VNearest:
+      variables: ['V166']
+    183-1H:
+      variables: ['V183-3']
+      interp_args:
+        sigmaval: 10000
+    183-1HNearest:
+      variables: ['V183-3']
+    183-3H:
+      variables: ['V183-3']
+      interp_args:
+        sigmaval: 10000
+    183-3HNearest:
+      variables: ['V183-3']
+    190V:
+      variables: ['V183-7']
+      interp_args:
+        sigmaval: 10000
+    190VNearest:
+      variables: ['V183-7']
+    19H:
+      variables: ['H19']
+      interp_args:
+        sigmaval: 25000
+    19HNearest:
+      variables: ['H19']
+    19V:
+      variables: ['V19']
+      interp_args:
+        sigmaval: 25000
+    19VNearest:
+      variables: ['V19']
+    37H-Legacy:
+      variables: ['H37']
+      interp_args:
+        sigmaval: 25000
+    37H-LegacyNearest:
+      variables: ['H37']
+    37H-Physical:
+      variables: ['H37']
+      interp_args:
+        sigmaval: 25000
+    37H-PhysicalNearest:
+      variables: ['H37']
+    37H:
+      variables: ['H37']
+      interp_args:
+        sigmaval: 25000
+    37HNearest:
+      variables: ['H37']
+    37V:
+      variables: ['V37']
+      interp_args:
+        sigmaval: 25000
+    37VNearest:
+      variables: ['V37']

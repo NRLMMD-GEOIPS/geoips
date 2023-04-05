@@ -1,0 +1,15 @@
+interface: product_inputs
+metadata:
+  name: smos-spd
+  family: standard
+  short-description: "The smos-spd product_inputs configuration"
+  long-description:
+    "The smos-spd product_inputs configuration, which produces windspeed, unsectored, and sectored products."
+spec:
+  products:
+    windspeed:
+      variables: ['wind_speed_kts']
+    unsectored:
+      variables: ['wind_speed_kts']
+    sectored:
+      variables: ['wind_speed_kts']
