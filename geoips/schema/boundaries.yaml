@@ -8,6 +8,7 @@ properties:
     type: string
   metadata:
     type: object
+    required: [name, family, short-description, long-description]
     properties:
       name:
         type: string
@@ -25,25 +26,22 @@ properties:
         type: object
         default:
           enabled: false
+        properties:
+          enabled:
+            type: boolean
+          color:
+            type: string
+          linewidth:
+            type: number
         if:
           properties:
             enabled:
-              const: false
+              const: true
         then:
-          additionalProperties: false
           properties:
-            enabled:
-              type: boolean
-        else:
-          additionalProperties: false
-          properties:
-            enabled:
-              type: boolean
             color:
-              type: string
               default: black
             linewidth:
-              type: number
               default: 1
       countries: *line-args
       rivers: *line-args
