@@ -9,6 +9,17 @@ Version 1.10.0.dev0 (2023-04-04)
 
 Enhancements
 ============
+The enhancements done in this PR are to convert all the old "Boundaries" YAML files to the new Boundaries interface json/yaml schema.
+-----------------------------------------------
+*From issue GEOIPS/geoips#117: 2023-04-02, Convert yaml files for boundaries interface*
+* Details about change related to improvements or enhancements to the code
+::
+
+    created: /geoips/interface_modules/boundaries/
+    created: /geoips/interface_modules/boundaries/default.yaml
+    created: /geoips/interface_modules/boundaries/tc_pmw.yaml
+    created: /geoips/interface_modules/boundaries/tc_visir.yaml
+    created: /geoips/interface_modules/boundaries/tc_windspeed.yaml
 
 Add a validator for YAML-based plugins.
 ---------------------------------------

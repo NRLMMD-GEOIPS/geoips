@@ -7,6 +7,7 @@ from importlib.resources import files
 import jsonschema
 
 
+
 def extend_with_default(validator_class):
     validate_properties = validator_class.VALIDATORS["properties"]
 
