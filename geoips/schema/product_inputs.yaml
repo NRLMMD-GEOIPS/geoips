@@ -1,0 +1,111 @@
+type: object
+required:
+  - interface
+  - metadata
+  - spec
+properties:
+  interface:
+    type: string
+  metadata:
+    type: object
+    properties:
+      name:
+        type: string
+      family:
+        type: string
+      short-description:
+        type: string
+      long-description:
+        type: string
+  spec:
+    type: object
+    required:
+      - products
+    parameters:
+      products:
+        type: array
+        required:
+          - name
+          - variables
+        parameters:
+          name:
+            type: string
+          variables:
+            type: array
+            minItems: 1
+          cmap_args:
+            type: object
+            required:
+              - cbar_label
+            parameters:
+              cbar_label:
+                type: string
+              cmap_name:
+                type: string
+              data_range:
+                type: array
+                minItems: 2
+                maxItems: 2
+              cbar_ticks:
+                type: array
+          alg_args:
+            type: object
+            parameters:
+              output_data_range:
+                type: array
+                minItems: 2
+              gamma_list:
+                type: array
+              scale_factor:
+                type: number
+              input_units:
+                type: string
+                enum: [dB]
+              output_units:
+                type: string
+                enum: [dB]
+              min_outbounds:
+                type: string
+                enum: [crop]
+              max_outbounds:
+                type: string
+                enum: [crop]
+              norm:
+                type: string
+              inverse:
+                type: string
+          interp_args:
+            type: object
+            required:
+              - sigmaval
+            parameters:
+              sigmaval:
+                type: number
+          product_template:
+            type: string
+          cmap_func:
+            type: string
+          barb_sizes:
+            type: object
+            parameters:
+              thinning:
+                type: number
+              barb_length:
+                type: number
+              line_width:
+                type: number
+              sizes_dict:
+                type: object
+                parameters:
+                  dict_entry:
+                    type: object
+                    required:
+                      - key
+                      - value
+                    parameters:
+                      key:
+                        type: string
+                      value:
+                        type: number
+              rain_size:
+                type: number
