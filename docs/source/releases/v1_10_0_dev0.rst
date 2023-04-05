@@ -1,6 +1,9 @@
 Version 1.10.0.dev0 (2023-04-04)
 ********************************
 
+* Add YAML-based plugin validator
+* Add "boundaries" plugin schema
+
 Enhancements
 ============
 The enhancements done in this PR are to convert all the old "Boundaries" YAML files to the new Boundaries interface json/yaml schema.
