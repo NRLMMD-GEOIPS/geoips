@@ -23,37 +23,53 @@ properties:
     properties:
       coastlines:
         type: object
+        default: {}
         properties:
           enabled:
             type: boolean
+            default: true
           color:
             type: string
+            default: black
           linewidth:
             type: number
+            default: 1
       countries:
         type: object
+        default: {}
         properties:
           enabled:
             type: boolean
+            default: true
           color:
             type: string
+            default: black
           linewidth:
             type: number
+            default: 1
       rivers:
         type: object
+        default: {}
         properties:
           enabled:
             type: boolean
+            default: true
           color:
             type: string
+            default: black
           linewidth:
             type: number
+            default: 1
       states:
         type: object
+        default: {}
         properties:
           enabled:
             type: boolean
+            default: true
           color:
             type: string
+            default: black
           linewidth:
             type: number
+            default: 1
