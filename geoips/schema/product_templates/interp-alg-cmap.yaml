@@ -34,3 +34,4 @@ properties:
       interpolation: *name-plug-args
       mtif_type:
         type: string
+      coverage: *name-plus-args

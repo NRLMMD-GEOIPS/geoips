@@ -1,0 +1,22 @@
+interface: product_templates.interp-alg-cmap
+metadata:
+  name: 89pct
+  family: interp_alg_cmap
+spec:
+  algorithm:
+    name: pmw_tc.pmw89pct
+    arguments:
+      output_data_range: [105.0, 280.0]
+      min_outbounds: crop
+      max_outbounds: mask
+      norm: null
+      inverse: null
+  mtif_type: pmw
+  colormap:
+    name: pmw_tb.cmap_89pct
+    arguments:
+      data_range: [105, 280]
+  interpolation:
+    name: pyresample_wrappers.interp_gauss
+    arguments:
+      sigmaval: 10000
