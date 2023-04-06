@@ -145,3 +145,17 @@ Add unit tests to validate yaml-based plugins and schema
     created: tests/test_pytest/test_yaml_plugins.py
     modified: pyproject.toml
     moved: bad_schema -> tests/pytests/bad_plugins
+
+Bug Fixes
+=========
+
+Don't rely on environment variables in unit tests
+-------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#156: 2023-04-06, Don't rely on environment variables in unit tests*
+
+* Switched from using GEOIPS_PACKAGES_DIR to importlib.resources.files
+
+::
+
+    modified: tests/test_pytest/test_yaml_plugins.py
