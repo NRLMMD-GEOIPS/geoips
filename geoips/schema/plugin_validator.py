@@ -5,12 +5,20 @@ import yaml
 from glob import glob
 from importlib.resources import files
 import jsonschema
-# import geoips.schema.refResolver as rr
+
 
 def extend_with_default(validator_class):
+    """Extend a jsonschema validator to make it respect default values.
+
+    This will cause the validator to fill in fields that have default values. In
+    cases where fields with default values are contained inside a mapping, that
+    mapping must have `default: {}` and may not have `requires`.
+    """
     validate_properties = validator_class.VALIDATORS["properties"]
 
     def set_defaults(validator, properties, instance, schema):
+        print("In set_defaults")
+        print(properties)
         for property, subschema in properties.items():
             if "default" in subschema:
                 instance.setdefault(property, subschema["default"])
@@ -26,41 +34,46 @@ def extend_with_default(validator_class):
     return jsonschema.validators.extend(
         validator_class,
         {"properties": set_defaults},
-    ) 
+    )
 
-schema_path = files("geoips.schema")
-# var = jsonschema.Draft202012Validator(rr.base_schema,resolver=rr.all_refs)
-# print(var)
+
+# Create a validator that respects defaults
 DefaultValidatingValidator = extend_with_default(jsonschema.Draft202012Validator)
-# Don't use `schema_path.glob` since if it is a MultiplexedPath it won't have `glob`
-schema_files = glob(str(schema_path / "*.yaml"))
-all_schema = {}
-validators = {}
-for schema_file in schema_files:
-    schema_name = os.path.splitext(os.path.basename(schema_file))[0]
-    # print(schema_name)
-    schema = yaml.safe_load(open(schema_file, "r"))
 
-    DefaultValidatingValidator.check_schema(schema)
-    all_schema[schema_name] = schema
-    validators[schema_name] = DefaultValidatingValidator(schema)
 
-def createInterfaceValidators(reference_dict):
-    all_validators = {}
-    for key in reference_dict:
-        # uri = key
-        schema_resolver = jsonschema.RefResolver.from_schema(reference_dict[key], store=reference_dict)
-        all_validators[key] = DefaultValidatingValidator(reference_dict[key],resolver=schema_resolver)
-    return all_validators
+def get_all_schema():
+    """Collect all of the interface schema"""
+    schema_path = files("geoips.schema")
+    # Don't use `schema_path.glob` since if it is a MultiplexedPath it won't have `glob`
+    schema_files = glob(str(schema_path / "*.yaml"))
+
+    all_schema = {}
+    for schema_file in schema_files:
+        schema_name = os.path.splitext(os.path.basename(schema_file))[0]
+        schema = yaml.safe_load(open(schema_file, "r"))
+
+        DefaultValidatingValidator.check_schema(schema)
+        all_schema[schema_name] = schema
+
+    return all_schema
+
+
+def get_validators(schema_dict):
+    validators = {}
+    for name, schema in schema_dict.items():
+        resolver = jsonschema.RefResolver.from_schema(schema, store=schema_dict)
+        validators[name] = DefaultValidatingValidator(schema, resolver=resolver)
+    return validators
+
+
+all_schema = get_all_schema()
+validators = get_validators(all_schema)
+
 
 def validate(plugin_file):
-    all_validators = createInterfaceValidators(all_schema)
-    plugin_name = plugin_file.split("/")[-2]
-    # print(plugin_name)
     """Validate the a YAML-based plugin."""
     plugin_yaml = yaml.safe_load(open(plugin_file, "r"))
-    validator = all_validators[plugin_name]
-    # print(type(validator))
+    validator = validators[plugin_yaml["interface"]]
     validator.validate(plugin_yaml)
 
     return plugin_yaml
