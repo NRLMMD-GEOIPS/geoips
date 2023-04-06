@@ -1,6 +1,8 @@
 Version 1.10.0.dev0 (2023-04-04)
 ********************************
 
+* Improve output from estimate area extent script
+
 Enhancements
 ============
 Add a schema for validating `Boundaries` plugins.
@@ -10,3 +12,15 @@ Add a schema for validating `Boundaries` plugins.
 ::
 
     modified: /geoips/schema/boundaries.yaml
+
+Update output from estimate area extent script.
+-----------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#123: 2023-04-06, update estimate_area_extent*
+
+* estimate_area_extent script now provides copy/pastable formatted yaml
+* Change sector_type to sector_family
+
+::
+
+    modified: geoips/sector_utils/estimate_area_extent.py
