@@ -14,7 +14,9 @@
 
 import argparse
 import numpy as np
+from string import Template
 
+EARTH_RADIUS_METERS = 6371228.0
 
 def haversine_distance(lat1, lon1, lat2, lon2):
     """Calculate the distance between two latitude and longitude points.
@@ -41,15 +43,14 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     phi_2 = np.deg2rad(lat2)
     d_phi = np.deg2rad(lat2 - lat1)
     d_lambda = np.deg2rad(lon2 - lon1)
-    # Radius of Earth in meters
-    R = 6371e3
+
     # Calculate haversine distance
     a = (
         np.sin(d_phi / 2.0) ** 2
         + np.cos(phi_1) * np.cos(phi_2) * np.sin(d_lambda / 2.0) ** 2
     )
     c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1 - a))
-    d = R * c
+    d = EARTH_RADIUS_METERS * c
     return d
 
 
@@ -157,6 +158,39 @@ def estimate_area_extent(min_lat, min_lon, max_lat, max_lon, resolution):
     }
 
 
+AREA_DEF_TEMPLATE = """
+# Copy and paste the following into a yaml sector file.
+# Replace @SECTOR_NAME@ and @SECTOR_DESCRIPTION@ with appropriate information.
+# Update sector_info as needed as well
+
+@SECTOR_NAME@:
+  description: @SECTOR_DESCRIPTION@
+  projection:
+      a: $EARTH_RADIUS_METERS
+      lat_0: $lat_0
+      lon_0: $lon_0
+      proj: eqc
+      units: m
+  resolution:
+  - $resolution
+  - $resolution
+  sector_info:
+      continent: x
+      country: x
+      area: x
+      subarea: x
+      state: x
+      city: x
+  sector_family: static
+  shape:
+      height: $height
+      width: $width
+  area_extent:
+      lower_left_xy: $lower_left_xy
+      upper_right_xy: $upper_right_xy
+"""
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--max_lat", type=float, required=True)
@@ -172,14 +206,20 @@ if __name__ == "__main__":
     )
     lat_0 = estimated_extent["lat_0"]
     lon_0 = estimated_extent["lon_0"]
-    print("Copy and paste the following numbers into a YAML sectorfile")
-    print(f"Projection Information:\n\tlat_0: {lat_0:3.2f}\n\tlon_0 {lon_0:3.2f}")
-    print("\tunits: m")
-    print(f"Resolution:\n\t- {ARGS.resolution}\n\t- {ARGS.resolution}")
     height, width = estimated_extent["height"], estimated_extent["width"]
-    print(f"Shape:\n\theight: {height}\n\twidth: {width}")
     lower_left_xy = estimated_extent["lower_left_xy"]
     upper_right_xy = estimated_extent["upper_right_xy"]
-    print("Area Extent:")
-    print(f"\tlower_left_xy: {lower_left_xy}")
-    print(f"\tupper_right_xy: {upper_right_xy}")
+
+    populated_template = Template(AREA_DEF_TEMPLATE).substitute(
+        {
+            "EARTH_RADIUS_METERS": EARTH_RADIUS_METERS,
+            "lat_0": lat_0,
+            "lon_0": lon_0,
+            "resolution": ARGS.resolution,
+            "height": height,
+            "width": width,
+            "lower_left_xy": lower_left_xy,
+            "upper_right_xy": upper_right_xy
+        }
+    )
+    print(populated_template)
