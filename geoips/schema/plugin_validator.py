@@ -8,9 +8,17 @@ import jsonschema
 
 
 def extend_with_default(validator_class):
+    """Extend a jsonschema validator to make it respect default values.
+
+    This will cause the validator to fill in fields that have default values. In
+    cases where fields with default values are contained inside a mapping, that
+    mapping must have `default: {}` and may not have `requires`.
+    """
     validate_properties = validator_class.VALIDATORS["properties"]
 
     def set_defaults(validator, properties, instance, schema):
+        print("In set_defaults")
+        print(properties)
         for property, subschema in properties.items():
             if "default" in subschema:
                 instance.setdefault(property, subschema["default"])
@@ -29,19 +37,37 @@ def extend_with_default(validator_class):
     )
 
 
+# Create a validator that respects defaults
 DefaultValidatingValidator = extend_with_default(jsonschema.Draft202012Validator)
-schema_path = files("geoips.schema")
-# Don't use `schema_path.glob` since if it is a MultiplexedPath it won't have `glob`
-schema_files = glob(str(schema_path / "*.yaml"))
-all_schema = {}
-validators = {}
-for schema_file in schema_files:
-    schema_name = os.path.splitext(os.path.basename(schema_file))[0]
-    schema = yaml.safe_load(open(schema_file, "r"))
 
-    DefaultValidatingValidator.check_schema(schema)
-    all_schema[schema_name] = schema
-    validators[schema_name] = DefaultValidatingValidator(schema)
+
+def get_all_schema():
+    """Collect all of the interface schema"""
+    schema_path = files("geoips.schema")
+    # Don't use `schema_path.glob` since if it is a MultiplexedPath it won't have `glob`
+    schema_files = glob(str(schema_path / "*.yaml"))
+
+    all_schema = {}
+    for schema_file in schema_files:
+        schema_name = os.path.splitext(os.path.basename(schema_file))[0]
+        schema = yaml.safe_load(open(schema_file, "r"))
+
+        DefaultValidatingValidator.check_schema(schema)
+        all_schema[schema_name] = schema
+
+    return all_schema
+
+
+def get_validators(schema_dict):
+    validators = {}
+    for name, schema in schema_dict.items():
+        resolver = jsonschema.RefResolver.from_schema(schema, store=schema_dict)
+        validators[name] = DefaultValidatingValidator(schema, resolver=resolver)
+    return validators
+
+
+all_schema = get_all_schema()
+validators = get_validators(all_schema)
 
 
 def validate(plugin_file):
