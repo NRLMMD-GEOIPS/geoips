@@ -89,6 +89,6 @@ Add unit tests to validate yaml-based plugins and schema
 ::
 
     modified: tests/test_full_install.sh
-    created: tests/pytests/test_yaml_plugins.py
+    created: tests/test_pytest/test_yaml_plugins.py
     modified: pyproject.toml
     moved: bad_schema -> tests/pytests/bad_plugins
