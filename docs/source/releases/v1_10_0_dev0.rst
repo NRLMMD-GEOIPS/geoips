@@ -2,12 +2,57 @@ Version 1.10.0.dev0 (2023-04-04)
 ********************************
 
 * Improve output from estimate area extent script
+* Add YAML-based plugin validator
+* Add "boundaries" plugin schema
+* Add "gridlines" plugin schema
+* Convert old boundaries YAML to new format
+* Convert old gridlines YAML to new format
+* Update boundaries and gridlines schema to better handle defaults
 
 Enhancements
 ============
+Update boundaries and gridlines schema to simplify and handle default values better
+-----------------------------------------------------------------------------------
+*From issue NRLMMD-GEOIPS/geoips#144: 2023-04-05, Update boundaries and gridlines schema*
+::
+
+    modified: /geoips/interface_modules/boundaries/default.yaml
+    modified: /geoips/interface_modules/gridlines/default.yaml
+    modified: /geoips/schema/boundaries.yaml
+    modified: /geoips/schema/gridlines.yaml
+
+Convert all the old "Boundaries" YAML files to the new Boundaries interface json/yaml schema.
+---------------------------------------------------------------------------------------------
+*From issue GEOIPS/geoips#117: 2023-04-02, Convert yaml files for boundaries interface*
+* Details about change related to improvements or enhancements to the code
+::
+
+    created: /geoips/interface_modules/boundaries/
+    created: /geoips/interface_modules/boundaries/default.yaml
+    created: /geoips/interface_modules/boundaries/tc_pmw.yaml
+    created: /geoips/interface_modules/boundaries/tc_visir.yaml
+    created: /geoips/interface_modules/boundaries/tc_windspeed.yaml
+
+Add a validator for YAML-based plugins.
+---------------------------------------
+*From issue NRLMMD-GEOIPS/geoips#132: 2023-04-04, Add a validator for YAML-based plugins.*
+
+::
+
+    created: /geoips/schema/__init__.py
+    created: /geoips/schema/plugin_validator.py
+
 Add a schema for validating `Boundaries` plugins.
 -------------------------------------------------
-* From issue NRLMMD-GEOIPS/geoips#108: 2023-04-04, Add a schema for `Boundaries` plugins.
+*From issue NRLMMD-GEOIPS/geoips#108: 2023-04-04, Add a schema for `Boundaries` plugins.*
+
+::
+
+    modified: /geoips/schema/boundaries.yaml
+
+Create yaml files for gridlines following gridlines schema
+----------------------------------------------------------
+*From issue NRLMMD-GEOIPS/geoips#118: 2023-04-04, convert yaml files for gridlines interface*
 
 ::
 
@@ -24,3 +69,9 @@ Update output from estimate area extent script.
 ::
 
     modified: geoips/sector_utils/estimate_area_extent.py
+    created: /geoips/interface_modules/gridlines/default.yaml
+    created: /geoips/interface_modules/gridlines/tc_0p25degree.yaml
+    created: /geoips/interface_modules/gridlines/tc_pmw.yaml
+    created: /geoips/interface_modules/gridlines/tc_visir_3200km.yaml
+    created: /geoips/interface_modules/gridlines/tc_visir.yaml
+    created: /geoips/interface_modules/gridlines/tc_windspeed.yaml
