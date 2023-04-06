@@ -31,4 +31,5 @@ properties:
             type: object
             additionalProperties: true
       colormap: *name-plus-args
+      coverage: *name-plus-args
       

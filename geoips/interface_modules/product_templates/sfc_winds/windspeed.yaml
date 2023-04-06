@@ -1,21 +1,23 @@
 interface: product_templates.interp-alg-cmap
 metadata:
-  name: RainNearest
+  name: windspeed
   family: interp_alg_cmap
 spec:
   algorithm:
     name: single_channel
     arguments:
-      output_data_range: [0.05, 50.0]
-      min_outbounds: mask
+      output_data_range: [0, 200]
+      input_units: kts
+      output_units: kts
+      min_outbounds: crop
       max_outbounds: crop
       norm: null
       inverse: null
-  mtif_type: rain
+  mtif_type: windspeed
   colormap:
-    name: pmw_tb.cmap_Rain
+    name: winds.wind_radii_transitions
     arguments:
-      data_range: [0.05, 50.0]
+      data_range: [0, 200]
   interpolation:
     name: pyresample_wrappers.interp_nearest
     arguments: {}
