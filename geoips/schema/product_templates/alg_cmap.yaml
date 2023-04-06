@@ -32,4 +32,5 @@ properties:
             additionalProperties: true
       colormap: *name-plus-args
       coverage: *name-plus-args
-      
+      mtif_type:
+        type: string     
