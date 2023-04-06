@@ -10,12 +10,16 @@ Version 1.10.0.dev0 (2023-04-04)
 * Convert old boundaries YAML to new format
 * Convert old gridlines YAML to new format
 * Update boundaries and gridlines schema to better handle defaults
+* Add unit tests to validate yaml-based plugins and schema
 
 Enhancements
 ============
+
 Update boundaries and gridlines schema to simplify and handle default values better
 -----------------------------------------------------------------------------------
+
 *From issue NRLMMD-GEOIPS/geoips#144: 2023-04-05, Update boundaries and gridlines schema*
+
 ::
 
     modified: /geoips/interface_modules/boundaries/default.yaml
@@ -25,8 +29,11 @@ Update boundaries and gridlines schema to simplify and handle default values bet
 
 Convert all the old "Boundaries" YAML files to the new Boundaries interface json/yaml schema.
 ---------------------------------------------------------------------------------------------
+
 *From issue GEOIPS/geoips#117: 2023-04-02, Convert yaml files for boundaries interface*
+
 * Details about change related to improvements or enhancements to the code
+
 ::
 
     created: /geoips/interface_modules/boundaries/
@@ -37,6 +44,7 @@ Convert all the old "Boundaries" YAML files to the new Boundaries interface json
 
 Add a validator for YAML-based plugins.
 ---------------------------------------
+
 
 *From issue NRLMMD-GEOIPS/geoips#132: 2023-04-04, Add a validator for YAML plugins*
 
@@ -54,6 +62,7 @@ geoips/schema/<interface>/<family>.yaml for family-specific schema.
 Add a schema for validating `Boundaries` plugins.
 -------------------------------------------------
 
+
 *From issue NRLMMD-GEOIPS/geoips#108: 2023-04-04, Add schema for `Boundaries` plugins.*
 
 ::
@@ -62,6 +71,7 @@ Add a schema for validating `Boundaries` plugins.
 
 Create yaml files for gridlines following gridlines schema
 ----------------------------------------------------------
+
 *From issue NRLMMD-GEOIPS/geoips#118: 2023-04-04, convert yaml files for gridlines interface*
 
 ::
@@ -103,3 +113,23 @@ geoips/schema/product_templates/<family>.yaml
 ::
 
     new: geoips/interface_modules/product_templates/alg.yaml
+Testing Updates
+===============
+
+Add unit tests to validate yaml-based plugins and schema
+--------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#151: 2023-04-06, Add unit tests to validate plugins*
+
+* Added pytest requirements to pyproject.toml
+* Moved bad plugin examples to tests/pytests
+* Added test script to validate all good YAML plugins, as well as confirm bad
+  yaml plugins fail.
+* Add pytest tests/pytests to test_full_install.sh
+
+::
+
+    modified: tests/test_full_install.sh
+    created: tests/test_pytest/test_yaml_plugins.py
+    modified: pyproject.toml
+    moved: bad_schema -> tests/pytests/bad_plugins
