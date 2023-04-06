@@ -21,7 +21,7 @@ properties:
     type: object
     additionalProperties: false
     properties:
-      algorithm: &name-plug-args
+      algorithm: &name-plus-args
         type: object
         additionalProperties: false
         properties:
@@ -30,8 +30,8 @@ properties:
           arguments:
             type: object
             additionalProperties: true
-      colormap: *name-plug-args
-      interpolation: *name-plug-args
+      colormap: *name-plus-args
+      interpolation: *name-plus-args
       mtif_type:
         type: string
       coverage: *name-plus-args
