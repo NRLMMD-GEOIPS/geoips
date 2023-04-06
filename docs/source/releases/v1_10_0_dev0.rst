@@ -7,6 +7,7 @@ Version 1.10.0.dev0 (2023-04-04)
 * Convert old boundaries YAML to new format
 * Convert old gridlines YAML to new format
 * Update boundaries and gridlines schema to better handle defaults
+* Add unit tests to validate yaml-based plugins and schema
 
 Enhancements
 ============
@@ -61,3 +62,16 @@ Create yaml files for gridlines following gridlines schema
     created: /geoips/interface_modules/gridlines/tc_visir_3200km.yaml
     created: /geoips/interface_modules/gridlines/tc_visir.yaml
     created: /geoips/interface_modules/gridlines/tc_windspeed.yaml
+
+Testing Updates
+===============
+
+Add unit tests to validate yaml-based plugins and schema
+--------------------------------------------------------
+*From issue NRLMMD-GEOIPS/geoips#151: 2023-04-06, Add unit tests to validate plugins*
+
+::
+
+    created: /geoips/tests/test_yaml_plugins.py
+    modified: /geoips/pyproject.toml
+    moved: /bad_schema -> /tests/bad_plugins
