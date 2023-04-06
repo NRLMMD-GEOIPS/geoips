@@ -1,0 +1,18 @@
+interface: product_templates.interp-alg-cmap
+metadata:
+  name: Night-Vis-IR-GeoIPS1
+  family: interp_alg_cmap
+spec:
+  algorithm:
+    name: visir.Night_Vis_IR_GeoIPS1
+    arguments: {}
+  mtif_type: rgb
+  colormap:
+    name: cmap_rgb
+    arguments: {}
+  interpolation:
+    name: pyresample_wrappers.interp_nearest
+    arguments: {}
+  coverage:
+    name: rgba
+    arguments: {}

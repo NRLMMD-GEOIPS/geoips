@@ -1,0 +1,25 @@
+interface: product_templates.interp-alg-cmap
+metadata:
+  name: Infrared-Gray
+  family: interp_alg_cmap
+spec:
+  algorithm:
+    name: single_channel
+    arguments:
+      range: [-100.0, 50.0]
+      input_units: Kelvin
+      output_units: celsius
+      min_outbounds: crop
+      max_outbounds: crop
+      norm: null
+      inverse: null
+  mtif_type: ir
+  colormap:
+    name: matplotlib_linear_norm
+    arguments:
+      data_range: [-100.0, 50.0]
+      cmap_name: Greys
+      cbar_label: 'Brightness Temperatures (degrees Celsius)'
+  interpolation:
+    name: pyresample_wrappers.interp_nearest
+    arguments: {}

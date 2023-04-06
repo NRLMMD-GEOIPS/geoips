@@ -1,0 +1,23 @@
+interface: product_templates.interp-alg-cmap
+metadata:
+  name: WV-Upper
+  family: interp_alg_cmap
+spec:
+  algorithm:
+    name: single_channel
+    arguments:
+      output_data_range: [-70.0, 0.0]
+      input_units: Kelvin
+      output_units: celsius
+      min_outbounds: crop
+      max_outbounds: crop
+      norm: null
+      inverse: null
+  mtif_type: ir
+  colormap:
+    name: visir.WV
+    arguments:
+      data_range: [-70.0, 0.0]
+  interpolation:
+    name: pyresample_wrappers.interp_nearest
+    arguments: {}
