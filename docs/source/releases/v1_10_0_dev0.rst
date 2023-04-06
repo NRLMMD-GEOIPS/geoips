@@ -11,9 +11,12 @@ Version 1.10.0.dev0 (2023-04-04)
 
 Enhancements
 ============
+
 Update boundaries and gridlines schema to simplify and handle default values better
 -----------------------------------------------------------------------------------
+
 *From issue NRLMMD-GEOIPS/geoips#144: 2023-04-05, Update boundaries and gridlines schema*
+
 ::
 
     modified: /geoips/interface_modules/boundaries/default.yaml
@@ -23,8 +26,11 @@ Update boundaries and gridlines schema to simplify and handle default values bet
 
 Convert all the old "Boundaries" YAML files to the new Boundaries interface json/yaml schema.
 ---------------------------------------------------------------------------------------------
+
 *From issue GEOIPS/geoips#117: 2023-04-02, Convert yaml files for boundaries interface*
+
 * Details about change related to improvements or enhancements to the code
+
 ::
 
     created: /geoips/interface_modules/boundaries/
@@ -35,6 +41,7 @@ Convert all the old "Boundaries" YAML files to the new Boundaries interface json
 
 Add a validator for YAML-based plugins.
 ---------------------------------------
+
 *From issue NRLMMD-GEOIPS/geoips#132: 2023-04-04, Add a validator for YAML-based plugins.*
 
 ::
@@ -44,6 +51,7 @@ Add a validator for YAML-based plugins.
 
 Add a schema for validating `Boundaries` plugins.
 -------------------------------------------------
+
 *From issue NRLMMD-GEOIPS/geoips#108: 2023-04-04, Add a schema for `Boundaries` plugins.*
 
 ::
@@ -52,6 +60,7 @@ Add a schema for validating `Boundaries` plugins.
 
 Create yaml files for gridlines following gridlines schema
 ----------------------------------------------------------
+
 *From issue NRLMMD-GEOIPS/geoips#118: 2023-04-04, convert yaml files for gridlines interface*
 
 ::
@@ -68,10 +77,18 @@ Testing Updates
 
 Add unit tests to validate yaml-based plugins and schema
 --------------------------------------------------------
+
 *From issue NRLMMD-GEOIPS/geoips#151: 2023-04-06, Add unit tests to validate plugins*
+
+* Added pytest requirements to pyproject.toml
+* Moved bad plugin examples to tests/pytests
+* Added test script to validate all good YAML plugins, as well as confirm bad
+  yaml plugins fail.
+* Add pytest tests/pytests to test_full_install.sh
 
 ::
 
-    created: /geoips/tests/test_yaml_plugins.py
-    modified: /geoips/pyproject.toml
-    moved: /bad_schema -> /tests/bad_plugins
+    modified: tests/test_full_install.sh
+    created: tests/pytests/test_yaml_plugins.py
+    modified: pyproject.toml
+    moved: bad_schema -> tests/pytests/bad_plugins
