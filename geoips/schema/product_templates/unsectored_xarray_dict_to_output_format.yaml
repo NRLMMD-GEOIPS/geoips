@@ -20,15 +20,3 @@ properties:
   spec:
     type: object
     additionalProperties: false
-    properties:
-      algorithm: &name-plus-args
-        type: object
-        additionalProperties: false
-        properties:
-          name:
-            type: string
-          arguments:
-            type: object
-            additionalProperties: true
-      colormap: *name-plus-args
-      

@@ -1,0 +1,21 @@
+interface: product_templates.interp-alg-cmap
+metadata:
+  name: 183-1HNearest
+  family: interp_alg_cmap
+spec:
+  algorithm:
+    name: single_channel
+    arguments:
+      output_data_range: [110, 310]
+      min_outbounds: crop
+      max_outbounds: crop
+      norm: null
+      inverse: null
+  mtif_type: pmw
+  colormap:
+    name: pmw_tb.cmap_150H
+    arguments:
+      data_range: [110, 310]
+  interpolation:
+    name: pyresample_wrappers.interp_nearest
+    arguments: {}

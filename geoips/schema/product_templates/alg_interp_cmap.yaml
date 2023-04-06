@@ -5,7 +5,7 @@ required:
   - spec
 properties:
   interface:
-    type: string:
+    type: string
   metadata:
     type: object
     properties:
