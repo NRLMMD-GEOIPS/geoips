@@ -1,0 +1,64 @@
+type: object
+required:
+  - interface
+  - metadata
+  - spec
+properties:
+  interface:
+    type: string
+  metadata:
+    type: object
+    required: [name, family, short-description, long-description]
+    properties:
+      name:
+        type: string
+      family:
+        type: string
+      short-description:
+        type: string
+      long-description:
+        type: string
+  spec:
+    type: object
+    properties:
+      area_def_generators:
+        type: array
+        required:
+          - area_def_generator_func
+          - area_def_generator_args
+        additionalProperties: false
+        properties:
+          area_def_generator_func:
+            type: object
+            required:
+              - func_name
+            properties:
+              func_name:
+                type: string
+          area_def_generator_args:
+            type: object
+            default: {}
+            properties:
+              area_id:
+                type: string
+                default: null
+              long_description:
+                type: string
+                default: null
+              clat:
+                type: string
+                default: null
+              clon:
+                type: string
+                default: null
+              projection:
+                type: string
+                default: eqc
+              pixel_width:
+                type: number
+              pixel_height:
+                type: number
+              num_lines:
+                type: number
+              num_samples:
+                type: number
