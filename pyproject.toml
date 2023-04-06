@@ -69,6 +69,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+test = [
+    "pytest",  # Required for unit tests
+    "pytest-cov"
+]
 doc = [
     "sphinx",  # Required for building documentation
     "sphinx-design",  # Required for building documentation
