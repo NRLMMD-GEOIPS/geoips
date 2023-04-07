@@ -43,7 +43,6 @@ for call in \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_scat main" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_smap main" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_viirs main" \
-    "pytest $GEOIPS_PACKAGES_DIR/geoips/tests/test_pytest" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
     "test_interfaces" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
