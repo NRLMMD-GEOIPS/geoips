@@ -46,11 +46,18 @@ def get_all_schema():
     schema_path = files("geoips.schema")
     # Don't use `schema_path.glob` since if it is a MultiplexedPath it won't have `glob`
     schema_files = glob(str(schema_path / "*.yaml"))
+    schema_files += glob(str(schema_path / "*/*.yaml"))
 
     all_schema = {}
     for schema_file in schema_files:
-        schema_name = os.path.splitext(os.path.basename(schema_file))[0]
         schema = yaml.safe_load(open(schema_file, "r"))
+        schema_name = (
+            schema_file.replace(str(schema_path) + "/", "")
+            .replace("/", ".")
+            .replace(".yaml", "")
+        )
+        schema = yaml.safe_load(open(schema_file, "r"))
+        print(f"Adding validator {schema_name}")
 
         DefaultValidatingValidator.check_schema(schema)
         all_schema[schema_name] = schema
@@ -75,6 +82,7 @@ def validate(plugin_file):
     plugin_yaml = yaml.safe_load(open(plugin_file, "r"))
     family = plugin_yaml["metadata"]["family"]
     validator_name = plugin_yaml["interface"]
+    print(f"Checking validator {validator_name}.{family}")
     if f"{validator_name}.{family}" in validators:
         validator_name = f"{validator_name}.{family}"
     print(f"Using validator {validator_name}")
