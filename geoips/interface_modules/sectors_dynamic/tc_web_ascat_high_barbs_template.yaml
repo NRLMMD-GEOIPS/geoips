@@ -3,7 +3,7 @@ metadata:
   name: "tc_web_ascat_high_barbs_template"
   family: "standard"
   short-description: "The tc_web_ascat_high_barbs_template boundaries configuration"
-  long-description: "Using   pixel_width: 500,   pixel_height: 500,   num_lines: 1400,   num_samples: 1400."
+  long-description: "Using pixel_width: 500, pixel_height: 500, num_lines: 1400, num_samples: 1400."
 spec:
   area_def_generator:
   area_def_generator:
