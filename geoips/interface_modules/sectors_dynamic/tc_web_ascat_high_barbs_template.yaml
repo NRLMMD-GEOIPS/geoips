@@ -7,7 +7,7 @@ metadata:
 spec:
   area_def_generator:
   area_def_generator:
-  area_def_generator_func: clat_clon_resolution_shape
+    name: clat_clon_resolution_shape
   area_def_generator_args:
     projection: eqc
     pixel_width: 500

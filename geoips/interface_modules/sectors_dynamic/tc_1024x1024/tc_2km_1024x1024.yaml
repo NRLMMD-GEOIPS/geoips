@@ -6,7 +6,7 @@ metadata:
   long-description: "Using pixel_width: 2000, pixel_height: 2000, num_lines: 1024, num_samples: 1024."
 spec:
   area_def_generator:
-  area_def_generator_func: clat_clon_resolution_shape
+    name: clat_clon_resolution_shape
   area_def_generator_args:
     projection: eqc
     pixel_width: 2000
