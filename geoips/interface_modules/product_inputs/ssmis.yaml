@@ -1,0 +1,138 @@
+interface: product_inputs
+metadata:
+  name: ssmis
+  family: standard
+  short-description: "The ssmis product_inputs configuration"
+  long-description:
+    "The ssmis product_inputs configuration, which produces color37, 37pct, color91, 91pct, 91H, 91V, 91HW, 91H-Physical, 91H-Legacy, 
+   150H, 183-1H, 183-3H, 183-7H, 190V, 19H, 19V, 37H-Legacy, 37H-Physical, 37H, and 37V products."
+spec:
+  products:
+    - name: color37
+      variables: ["H37", "V37"]
+      interp_args:
+        sigmaval: 25000
+    - name: color37Nearest
+      variables: ["H37", "V37"]
+    - name: 37pct
+      variables: ["H37", "V37"]
+      interp_args:
+        sigmaval: 25000
+    - name: 37pctNearest
+      variables: ["H37", "V37"]
+    - name: color91
+      product_template: "color89"
+      variables: ["H91", "V91"]
+      interp_args:
+        sigmaval: 10000
+    - name: color91Nearest
+      variables: ["H91", "V91"]
+    - name: 91pct
+      product_template: "89pct"
+      variables: ["H91", "V91"]
+      interp_args:
+        sigmaval: 10000
+    - name: 91pctNearest
+      product_template: "89pctNearest"
+      variables: ["H91", "V91"]
+    - name: 91H
+      product_template: "89H"
+      variables: ["H91"]
+      interp_args:
+        sigmaval: 10000
+    - name: 91HNearest
+      product_template: "89HNearest"
+      variables: ["H91"]
+    - name: 91V
+      product_template: "89V"
+      variables: ["V91"]
+      interp_args:
+        sigmaval: 10000
+    - name: 91VNearest
+      product_template: "89VNearest"
+      variables: ["V91"]
+    - name: 91HW
+      product_template: "89HW"
+      variables: ["H91"]
+      interp_args:
+        sigmaval: 10000
+    - name: 91HWNearest
+      product_template: "89HWNearest"
+      variables: ["H91"]
+    - name: 91H-Physical
+      product_template: "89H-Physical"
+      variables: ["H91"]
+      interp_args:
+        sigmaval: 10000
+    - name: 91H-PhysicalNearest
+      product_template: "89H-PhysicalNearest"
+      variables: ["H91"]
+    - name: 91H-Legacy
+      product_template: "89H-Legacy"
+      variables: ["H91"]
+      interp_args:
+        sigmaval: 10000
+    - name: 91H-LegacyNearest
+      variables: ["H91"]
+    - name: 150H
+      variables: ["H150"]
+      interp_args:
+        sigmaval: 10000
+    - name: 183-1H
+      variables: ["H183-1"]
+      interp_args:
+        sigmaval: 10000
+    - name: 183-1HNearest
+      variables: ["H183-1"]
+    - name: 183-3H
+      variables: ["H183-3"]
+      interp_args:
+        sigmaval: 10000
+    - name: 183-3HNearest
+      variables: ["H183-3"]
+    - name: 183-7H
+      variables: ["H183-7"]
+      interp_args:
+        sigmaval: 10000
+    - name: 190V
+      variables: ["H183-7"]
+      interp_args:
+        sigmaval: 10000
+    - name: 190VNearest
+      variables: ["H183-7"]
+    - name: 19H
+      variables: ["H19"]
+      interp_args:
+        sigmaval: 25000
+    - name: 19HNearest
+      variables: ["H19"]
+    - name: 19V
+      variables: ["V19"]
+      interp_args:
+        sigmaval: 25000
+    - name: 19VNearest
+      variables: ["V19"]
+    - name: 37H-Legacy
+      variables: ["H37"]
+      interp_args:
+        sigmaval: 25000
+    - name: 37H-LegacyNearest
+      variables: ["H37"]
+    - name: 37H-Physical
+      variables: ["H37"]
+      interp_args:
+        sigmaval: 25000
+    - name: 37H-PhysicalNearest
+      variables: ["H37"]
+    - name: 37H
+      variables: ["H37"]
+      interp_args:
+        sigmaval: 25000
+    - name: 37HNearest
+      variables: ["H37"]
+    - name: 37V
+      variables: ["V37"]
+      interp_args:
+        sigmaval: 25000
+    - name: 37VNearest
+      variables: ["V37"]
