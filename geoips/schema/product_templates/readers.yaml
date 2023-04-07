@@ -1,0 +1,15 @@
+$id: geoips/schema/product_templates/readers
+$ref: geoips/schema/base
+properties:
+  spec:
+    type: object
+    additionalProperties: false
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      arguments:
+        type: object
+        additionalProperties: true
+        default: {}

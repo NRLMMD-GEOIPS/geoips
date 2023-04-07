@@ -1,0 +1,11 @@
+$id: geoips/schema/product_templates/boundaries
+$ref: geoips/schema/base
+properties:
+  spec:
+    type: object
+    additionalProperties: false
+    required:
+      - name
+    properties:
+      name:
+        type: string
