@@ -8,87 +8,87 @@ metadata:
     89V, 89HW, 89H-Physical, 89H-Legacy, 37H-Legacy, 37H-Physical, 37H, and 37V products."
 spec:
   products:
-    windspeed:
+    - name: windspeed
       variables: ['wind_speed_kts']
-    unsectored:
+    - name: unsectored
       variables: ['wind_speed_kts']
-    sectored:
+    - name: sectored
       variables: ['wind_speed_kts']
-    color37:
+    - name: color37
       variables: ['tb36h', 'tb36v']
       interp_args:
         sigmaval: 10000
-    color37Nearest:
+    - name: color37Nearest
       variables: ['tb36h', 'tb36v']
-    37pct:
+    - name: 37pct
       variables: ['tb36h', 'tb36v']
       interp_args:
         sigmaval: 10000
-    37pctNearest:
+    - name: 37pctNearest
       variables: ['tb36h', 'tb36v']
-    color89:
+    - name: color89
       variables: ['tb89hA', 'tb89vA']
       interp_args:
         sigmaval: 10000
-    color89Nearest:
+    - name: color89Nearest
       variables: ['tb89hA', 'tb89vA']
-    89pct:
+    - name: 89pct
       variables: ['tb89hA', 'tb89vA']
       interp_args:
         sigmaval: 10000
-    89pctNearest:
+    - name: 89pctNearest
       variables: ['tb89hA', 'tb89vA']
-    89H:
+    - name: 89H
       variables: ['tb89hA']
       interp_args:
         sigmaval: 10000
-    89HNearest:
+    - name: 89HNearest
       variables: ['tb89hA']
-    89V:
+    - name: 89V
       variables: ['tb89vA']
       interp_args:
         sigmaval: 10000
-    89VNearest:
+    - name: 89VNearest
       variables: ['tb89vA']
-    89HW:
+    - name: 89HW
       variables: ['tb89hA']
       interp_args:
         sigmaval: 10000
-    89HWNearest:
+    - name: 89HWNearest
       variables: ['tb89hA']
-    89H-Physical:
-      variables: ['tb89hA']
-      interp_args:
-        sigmaval: 10000
-    89H-PhysicalNearest:
-      variables: ['tb89hA']
-    89H-Legacy:
+    - name: 89H-Physical
       variables: ['tb89hA']
       interp_args:
         sigmaval: 10000
-    89H-LegacyNearest:
+    - name: 89H-PhysicalNearest
       variables: ['tb89hA']
-    37H-Legacy:
+    - name: 89H-Legacy
+      variables: ['tb89hA']
+      interp_args:
+        sigmaval: 10000
+    - name: 89H-LegacyNearest
+      variables: ['tb89hA']
+    - name: 37H-Legacy
       variables: ['tb36h']
       interp_args:
         sigmaval: 10000
-    37H-LegacyNearest:
+    - name: 37H-LegacyNearest
       variables: ['tb36h']
-    37H-Physical:
-      variables: ['tb36h']
-      interp_args:
-        sigmaval: 10000
-    37H-PhysicalNearest:
-      variables: ['tb36h']
-    37H:
+    - name: 37H-Physical
       variables: ['tb36h']
       interp_args:
         sigmaval: 10000
-    37HNearest:
+    - name: 37H-PhysicalNearest
       variables: ['tb36h']
-    37V:
+    - name: 37H
+      variables: ['tb36h']
+      interp_args:
+        sigmaval: 10000
+    - name: 37HNearest
+      variables: ['tb36h']
+    - name: 37V
       variables: ['tb36v']
       interp_args:
         sigmaval: 10000
-    37VNearest:
+    - name: 37VNearest
       variables: ['tb36v']

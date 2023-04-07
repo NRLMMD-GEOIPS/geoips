@@ -7,17 +7,17 @@ metadata:
     "The modis product_inputs configuration, which produces Infrared, Vertical Velocity, and Visible products."
 spec:
   products:
-    Infrared:
+    - name: Infrared
       variables: ['chan31.0BT']
-    Infrared-Gray:
+    - name: Infrared-Gray
       variables: ['chan31.0BT']
-    IR-BD:
+    - name: IR-BD
       variables: ['chan31.0BT']
-    WV:
+    - name: WV
       variables: ['chan27.0BT']  # B09 abi, 6.9um Mid-level WV; B09 ahi 6.9410 Mid-level WV; B27 modis 6.535-6.895um
-    WV-Lower:
+    - name: WV-Lower
       variables: ['chan28.0BT']  # B10 abi, 7.3um Lower-level WV; B10 ahi 7.3467um Lower-level WV; B28 modis, B06 seviri IR7.3
-    Visible:
+    - name: Visible
       variables: ['chan1.0Ref', 'SunZenith']  # chan-1 is MODIS high res vis at 250m
       cmap_args: 
         cbar_label: "Reflectance, MODIS Channel 1 0.645um"

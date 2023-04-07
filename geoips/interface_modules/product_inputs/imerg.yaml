@@ -7,7 +7,7 @@ metadata:
     "The imerg product_inputs configuration, which produces Rain and RainNearest products."
 spec:
   products:
-    Rain:
+    - name: Rain
       variables: ['rain']
-    RainNearest:
+    - name: RainNearest
       variables: ['rain']

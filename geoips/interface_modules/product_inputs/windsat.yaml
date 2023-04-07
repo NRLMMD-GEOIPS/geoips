@@ -7,41 +7,41 @@ metadata:
     "The windsat product_inputs configuration, which produces windspeed, color37, 37pct, 37H-Legacy, 37H-Physical, 37H, and 37V products."
 spec:
   products:
-    windspeed:
+    - name: windspeed
       variables: ['wind_speed_kts']
-    color37:
+    - name: color37
       variables: ['ftb37h', 'ftb37v']
       interp_args:
         sigmaval: 10000
-    color37Nearest:
+    - name: color37Nearest
       variables: ['ftb37h', 'ftb37v']
-    37pct:
+    - name: 37pct
       variables: ['ftb37h', 'ftb37v']
       interp_args:
         sigmaval: 10000
-    37pctNearest:
+    - name: 37pctNearest
       variables: ['ftb37h', 'ftb37v']
-    37H-Legacy:
+    - name: 37H-Legacy
       variables: ['ftb37h']
       interp_args:
         sigmaval: 10000
-    37H-LegacyNearest:
+    - name: 37H-LegacyNearest
       variables: ['ftb37h']
-    37H-Physical:
-      variables: ['ftb37h']
-      interp_args:
-        sigmaval: 10000
-    37H-PhysicalNearest:
-      variables: ['ftb37h']
-    37H:
+    - name: 37H-Physical
       variables: ['ftb37h']
       interp_args:
         sigmaval: 10000
-    37HNearest:
+    - name: 37H-PhysicalNearest
       variables: ['ftb37h']
-    37V:
+    - name: 37H
+      variables: ['ftb37h']
+      interp_args:
+        sigmaval: 10000
+    - name: 37HNearest
+      variables: ['ftb37h']
+    - name: 37V
       variables: ['ftb37v']
       interp_args:
         sigmaval: 10000
-    37VNearest:
+    - name: 37VNearest
       variables: ['ftb37v']

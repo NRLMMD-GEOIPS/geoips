@@ -7,9 +7,9 @@ metadata:
     "The mimic product_inputs configuration, which produces TPW-CIMSS, TPW-PWAT, and TPW-PURPLE products."
 spec:
   products:
-    TPW-CIMSS:
+    - name: TPW-CIMSS
       variables: ['tpw']
-    TPW-PWAT:
+    - name: TPW-PWAT
       variables: ['tpw']
-    TPW-PURPLE:
+    - name: TPW-PURPLE
       variables: ['tpw']
