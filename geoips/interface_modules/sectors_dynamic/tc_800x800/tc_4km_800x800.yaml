@@ -1,0 +1,15 @@
+interface: "sectors_dynamic"
+metadata:
+  name: "tc_4km_800x800"
+  family: "standard"
+  short-description: "The tc_4km_800x800 boundaries configuration"
+  long-description: "Using pixel_width: 4000, pixel_height: 4000, num_lines: 800, num_samples: 800."
+spec:
+  area_def_generator:
+    name: clat_clon_resolution_shape
+    arguments:
+      projection: eqc
+      pixel_width: 4000
+      pixel_height: 4000
+      num_lines: 800
+      num_samples: 800

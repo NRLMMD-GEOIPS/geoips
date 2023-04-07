@@ -1,0 +1,60 @@
+type: object
+required:
+  - interface
+  - metadata
+  - spec
+properties:
+  interface:
+    type: string
+  metadata:
+    type: object
+    required: [name, family, short-description, long-description]
+    properties:
+      name:
+        type: string
+      family:
+        type: string
+      short-description:
+        type: string
+      long-description:
+        type: string
+  spec:
+    type: object
+    additionalProperties: false # Ensure top level fields are consistent
+    properties:
+      area_def_generator:
+        type: object
+        required:
+          - name
+          - arguments
+        additionalProperties: false
+        properties:
+          name:
+            type: string
+          arguments:
+            type: object
+            default: {}
+            properties:
+              area_id:
+                type: ["string", "null"]
+                default: null
+              long_description:
+                type: ["string", "null"]
+                default: null
+              clat:
+                type: ["string", "null"]
+                default: null
+              clon:
+                type: ["string", "null"]
+                default: null
+              projection:
+                type: string
+                default: eqc
+              pixel_width:
+                type: number
+              pixel_height:
+                type: number
+              num_lines:
+                type: number
+              num_samples:
+                type: number
