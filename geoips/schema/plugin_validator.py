@@ -18,8 +18,8 @@ def extend_with_default(validator_class):
     validate_properties = validator_class.VALIDATORS["properties"]
 
     def set_defaults(validator, properties, instance, schema):
-        # print("In set_defaults")
-        # print(properties)
+        print("In set_defaults")
+        print(properties)
         for property, subschema in properties.items():
             if "default" in subschema:
                 instance.setdefault(property, subschema["default"])
@@ -125,14 +125,11 @@ def merge_product_with_product_template(plugin_yaml):
         file_idx = np.argmax([pname + ".yaml" in filepath for filepath in product_template_files])
         if file_idx >= 0:
             correlated_product_template_plugins[pname] = yaml.safe_load(open(product_template_files[file_idx],"r"))
-            # print(correlated_product_template_plugins[pname]["spec"])
             for product_template_key in correlated_product_template_plugins[pname]["spec"]:
-                # print(product_template_key)
                 product_key = product_template_key
                 if product_template_key in product_template_args_mapping:
                     product_key = product_template_args_mapping[product_template_key]
                 product_keys = list(plugin_yaml["spec"]["products"][product].keys())
-                # print(product_keys)
                 if product_key not in product_keys:
                     plugin_yaml["spec"]["products"][product][product_key] = correlated_product_template_plugins[pname]["spec"][product_template_key]
     return plugin_yaml
