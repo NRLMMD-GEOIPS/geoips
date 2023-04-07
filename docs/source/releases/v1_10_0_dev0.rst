@@ -26,6 +26,21 @@ Add a validator for YAML-based plugins.
     created: /geoips/schema/plugin_validator.py
 
 
+Update validator to use both interface and family names
+-------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#122: 2023-04-04, Add `product_templates` plugins*
+
+This parses the path to the schema file in order to determine the interface and
+family name.
+
+geoips/schema/<interface>.yaml for interface specific schema.
+geoips/schema/<interface>/<family>.yaml for family-specific schema.
+
+::
+
+    modified: /geoips/schema/plugin_validator.py
+
 Update plugin validator to follow references and add a base schema for all schema
 ---------------------------------------------------------------------------------
 
@@ -147,6 +162,17 @@ These schema are added to the "product_templates" subdirectory under geoips/sche
     new: geoips/interface_modules/product_templates/interp_alg_cmap.yaml
     new: geoips/interface_modules/product_templates/interp_alg.yaml
     new: geoips/interface_modules/product_templates/interp.yaml
+
+Note the following families have "additionalProprerties: true" set on the spec,
+which means the actual contents of the products are not validated at all.
+
+We will likely want to update these in the future to be named "unvalidated_*" to
+make it clear that they are intended to be used as temporary product families
+during development, and once the format of the family is fully identified,
+we can define a new family to comply.
+
+::
+
     new: geoips/interface_modules/product_templates/sectored_xarray_dict_to_output_format.yaml
     new: geoips/interface_modules/product_templates/unmodified.yaml
     new: geoips/interface_modules/product_templates/unsectored_xarray_dict_area_to_output_format.yaml
