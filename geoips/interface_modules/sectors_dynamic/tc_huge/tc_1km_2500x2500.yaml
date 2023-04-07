@@ -3,13 +3,13 @@ metadata:
   name: "tc_1km_2500x2500"
   family: "standard"
   short-description: "The tc_1km_2500x2500 boundaries configuration"
-  long-description: "Using pixel_width: 1000, pixel_height: 1000, num_lines: 2500, num_samples: 2500."
+  long-description: "Using   pixel_width: 1000,   pixel_height: 1000,   num_lines: 2500,   num_samples: 2500."
 spec:
   area_def_generator:
     name: clat_clon_resolution_shape
-  area_def_generator_args:
-    projection: eqc
-    pixel_width: 1000
-    pixel_height: 1000
-    num_lines: 2500
-    num_samples: 2500
+    arguments:
+      projection: eqc
+      pixel_width: 1000
+      pixel_height: 1000
+      num_lines: 2500
+      num_samples: 2500
