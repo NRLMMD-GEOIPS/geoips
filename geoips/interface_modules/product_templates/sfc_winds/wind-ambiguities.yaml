@@ -1,4 +1,4 @@
-interface: product_templates.alg_cmap
+interface: product_templates
 metadata:
   name: wind-ambiguities
   family: alg_cmap

@@ -1,7 +1,7 @@
 # This is what it should look like:
 # https://www.star.nesdis.noaa.gov/socd/mecb/sar/AKDEMO_products/APL_winds/tropical/2018/WP312018_YUTU/
 # S1A_ESA_2018_10_25_20_32_29_0593814749_140.47E_16.41N_VH_C-_MERGED02_nrcs.png
-interface: product_templates.interp-alg-cmap
+interface: product_templates
 metadata:
   name: incident-angle
   family: interp_alg_cmap
