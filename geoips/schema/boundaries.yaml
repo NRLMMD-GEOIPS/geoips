@@ -1,58 +1,31 @@
-type: object
-required:
-  - interface
-  - metadata
-  - spec
+$id: boundaries
+$ref: "geoips/schema/base"
 properties:
-  interface:
-    type: string
-  metadata:
-    type: object
-    properties:
-      name:
-        type: string
-      family:
-        type: string
-      short-description:
-        type: string
-      long-description:
-        type: string
   spec:
     type: object
-    parameters:
-      coastlines:
+    additionalProperties: false
+    properties:
+      coastlines: &line-args
         type: object
-        parameters:
+        default:
+          enabled: false
+        properties:
           enabled:
             type: boolean
           color:
             type: string
           linewidth:
             type: number
-      countries:
-        type: object
-        parameters:
-          enabled:
-            type: boolean
-          color:
-            type: string
-          linewidth:
-            type: number
-      riveres:
-        type: object
-        parameters:
-          enabled:
-            type: boolean
-          color:
-            type: string
-          linewidth:
-            type: number
-      states:
-        type: object
-        parameters:
-          enabled:
-            type: boolean
-          color:
-            type: string
-          linewidth:
-            type: number
+        if:
+          properties:
+            enabled:
+              const: true
+        then:
+          properties:
+            color:
+              default: black
+            linewidth:
+              default: 1
+      countries: *line-args
+      rivers: *line-args
+      states: *line-args
