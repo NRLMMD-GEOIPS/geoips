@@ -20,36 +20,32 @@ properties:
         type: string
   spec:
     type: object
+    additionalProperties: false # Ensure top level fields are consistent
     properties:
-      area_def_generators:
-        type: array
+      area_def_generator:
+        type: object
         required:
-          - area_def_generator_func
-          - area_def_generator_args
+          - name
+          - arguments
         additionalProperties: false
         properties:
-          area_def_generator_func:
-            type: object
-            required:
-              - func_name
-            properties:
-              func_name:
-                type: string
-          area_def_generator_args:
+          name:
+            type: string
+          arguments:
             type: object
             default: {}
             properties:
               area_id:
-                type: string
+                type: ["string", "null"]
                 default: null
               long_description:
-                type: string
+                type: ["string", "null"]
                 default: null
               clat:
-                type: string
+                type: ["string", "null"]
                 default: null
               clon:
-                type: string
+                type: ["string", "null"]
                 default: null
               projection:
                 type: string
