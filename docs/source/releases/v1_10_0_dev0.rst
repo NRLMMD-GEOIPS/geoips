@@ -16,6 +16,21 @@ Version 1.10.0.dev0 (2023-04-04)
 Enhancements
 ============
 
+Update validator to use both interface and family names
+-------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#122: 2023-04-04, Add `product_templates` plugins*
+
+This parses the path to the schema file in order to determine the interface and
+family name.
+
+geoips/schema/<interface>.yaml for interface specific schema.
+geoips/schema/<interface>/<family>.yaml for family-specific schema.
+
+::
+
+    modified: /geoips/schema/plugin_validator.py
+
 Update plugin validator to follow references and add a base schema for all schema
 ---------------------------------------------------------------------------------
 
