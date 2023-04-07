@@ -1,4 +1,4 @@
-interface: product_templates.interp-alg-cmap
+interface: product_templates
 metadata:
   name: IR-BD
   family: interp_alg_cmap
