@@ -1,6 +1,20 @@
 $id: gridlines
 $ref: "geoips/schema/base"
 properties:
+  interface:
+    type: string
+  metadata:
+    type: object
+    required: [name, family, short-description, long-description]
+    properties:
+      name:
+        type: string
+      family:
+        type: string
+      short-description:
+        type: string
+      long-description:
+        type: string
   spec:
     type: object
     default: {}
