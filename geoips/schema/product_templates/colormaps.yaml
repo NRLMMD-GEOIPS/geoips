@@ -6,10 +6,19 @@ properties:
     additionalProperties: false
     required:
       - name
+    default: {}
     properties:
       name:
         type: string
+        default: "matplotlib_linear_norm"
       arguments:
         type: object
-        additionalProperties: true
         default: {}
+        additionalProperties: true
+        properties:
+          cbar_label:
+            type: string
+          data_range:
+            type: array
+          cbar_ticks:
+            type: array

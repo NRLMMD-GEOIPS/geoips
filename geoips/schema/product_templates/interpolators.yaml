@@ -13,3 +13,6 @@ properties:
         type: object
         additionalProperties: true
         default: {}
+        properties:
+          sigmaval:
+            type: number

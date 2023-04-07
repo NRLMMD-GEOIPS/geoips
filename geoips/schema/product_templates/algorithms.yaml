@@ -13,3 +13,10 @@ properties:
         type: object
         additionalProperties: true
         default: {}
+        properties:
+          output_data_range:
+            type: array
+          gamma_list:
+            type: array
+          scale_factor:
+            type: number
