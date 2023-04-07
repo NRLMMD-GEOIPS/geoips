@@ -5,8 +5,10 @@ Version 1.10.0.dev0 (2023-04-04)
 * Add YAML-based plugin validator
 * Add "boundaries" plugin schema
 * Add "gridlines" plugin schema
+* Add "product_templates" plugin schema (for each of 11 families)
 * Convert old boundaries YAML to new format
 * Convert old gridlines YAML to new format
+* Convert old product_params YAML to new product_templates format
 * Update boundaries and gridlines schema to better handle defaults
 * Update plugin validator to follow references and add a base schema
 * Add unit tests to validate yaml-based plugins and schema
@@ -23,6 +25,21 @@ Add a validator for YAML-based plugins.
     created: /geoips/schema/__init__.py
     created: /geoips/schema/plugin_validator.py
 
+
+Update validator to use both interface and family names
+-------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#122: 2023-04-04, Add `product_templates` plugins*
+
+This parses the path to the schema file in order to determine the interface and
+family name.
+
+geoips/schema/<interface>.yaml for interface specific schema.
+geoips/schema/<interface>/<family>.yaml for family-specific schema.
+
+::
+
+    modified: /geoips/schema/plugin_validator.py
 
 Update plugin validator to follow references and add a base schema for all schema
 ---------------------------------------------------------------------------------
@@ -42,13 +59,10 @@ Add a validator for YAML-based plugins.
 
 *From issue NRLMMD-GEOIPS/geoips#132: 2023-04-04, Add a validator for YAML-based plugins.*
 
-Add a schema for validating `Boundaries` plugins.
--------------------------------------------------
-
-*From issue NRLMMD-GEOIPS/geoips#108: 2023-04-04, Add a schema for Boundaries plugins.*
-
 ::
-    modified: /geoips/schema/boundaries.yaml
+
+    created: /geoips/schema/__init__.py
+    created: /geoips/schema/plugin_validator.py
 
 Update boundaries and gridlines schema to simplify and handle default values better
 -----------------------------------------------------------------------------------
@@ -58,6 +72,7 @@ Update boundaries and gridlines schema to simplify and handle default values bet
 ::
 
     modified: /geoips/schema/boundaries.yaml
+    modified: /geoips/schema/gridlines.yaml
 
 Convert all the old "Boundaries" YAML files to the new Boundaries interface json/yaml schema.
 ---------------------------------------------------------------------------------------------
@@ -80,15 +95,9 @@ Add a schema for validating `Gridlines` plugins.
 
 *From issue NRLMMD-GEOIPS/geoips#109: 2023-04-04, Add a schema for Gridlines plugins.*
 
-Add a validator for YAML-based plugins.
----------------------------------------
-
-*From issue NRLMMD-GEOIPS/geoips#132: 2023-04-04, Add a validator for YAML-based plugins.*
-
 ::
 
-    created: /geoips/schema/__init__.py
-    created: /geoips/schema/plugin_validator.py
+    modified: /geoips/schema/gridlines.yaml
 
 Add a schema for validating `Boundaries` plugins.
 -------------------------------------------------
@@ -97,7 +106,7 @@ Add a schema for validating `Boundaries` plugins.
 
 ::
 
-    modified: /geoips/schema/gridlines.yaml
+    modified: /geoips/schema/boundaries.yaml
 
 Create yaml files for gridlines following gridlines schema
 ----------------------------------------------------------
@@ -134,6 +143,135 @@ Update output from estimate area extent script.
 ::
 
     modified: geoips/sector_utils/estimate_area_extent.py
+
+Add schema for validating `product_templates` plugins
+-----------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#122: 2023-04-04, Add `product_templates` plugins*
+
+product_templates plugins require family-specific schema - each family within the
+interface has a unique schema for validation.
+
+These schema are added to the "product_templates" subdirectory under geoips/schema
+
+::
+
+    new: geoips/interface_modules/product_templates/alg_cmap.yaml
+    new: geoips/interface_modules/product_templates/alg_interp_cmap.yaml
+    new: geoips/interface_modules/product_templates/alg.yaml
+    new: geoips/interface_modules/product_templates/interp_alg_cmap.yaml
+    new: geoips/interface_modules/product_templates/interp_alg.yaml
+    new: geoips/interface_modules/product_templates/interp.yaml
+
+Note the following families have "additionalProprerties: true" set on the spec,
+which means the actual contents of the products are not validated at all.
+
+We will likely want to update these in the future to be named "unvalidated_*" to
+make it clear that they are intended to be used as temporary product families
+during development, and once the format of the family is fully identified,
+we can define a new family to comply.
+
+::
+
+    new: geoips/interface_modules/product_templates/sectored_xarray_dict_to_output_format.yaml
+    new: geoips/interface_modules/product_templates/unmodified.yaml
+    new: geoips/interface_modules/product_templates/unsectored_xarray_dict_area_to_output_format.yaml
+    new: geoips/interface_modules/product_templates/unsectored_xarray_dict_to_output_format.yaml
+    new: geoips/interface_modules/product_templates/xarray_dict_to_output_format.yaml
+
+Add valid product_templates plugins
+-----------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#122: 2023-04-04, Add `product_templates` plugins*
+
+Convert all YAML files under geoips/yaml_configs/product_params to valid YAML-based
+plugins.
+
+Note the interface is "product_templates" for these plugins, and the family can vary.
+The family determines the contents/layout of the "spec", and the plugin format
+must conform with the schema defined in:
+geoips/schema/product_templates/<family>.yaml
+
+::
+
+    new: geoips/interface_modules/product_templates/alg.yaml
+    new: geoips/interface_modules/product_templates/Uncorrected-Channel.yaml
+    new: geoips/interface_modules/product_templates/interp.yaml
+    new: geoips/interface_modules/product_templates/sectored.yaml
+    new: geoips/interface_modules/product_templates/unmodified.yaml
+    new: geoips/interface_modules/product_templates/unsectored.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/150H.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/150VNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/150V.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/157VNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/157V.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/165HNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/165H.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/166HNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/166H.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/166VNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/166V.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/183-1HNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/183-1H.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/183-3HNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/183-3H.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/183-7H.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/183HNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/183H.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/190VNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_150/190V.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/19HNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/19H.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/19VNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/19V.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/37H-LegacyNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/37H-Legacy.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/37HNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/37H-PhysicalNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/37H-Physical.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/37H.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/37pctNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/37pct.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/37VNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/37V.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/color37Nearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_37/color37.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89H-LegacyNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89H-Legacy.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89HNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89H-PhysicalNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89H-Physical.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89HWNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89HW.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89H.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89pctNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89pct.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89VNearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/89V.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/color89Nearest.yaml
+    new: geoips/interface_modules/product_templates/pmw_89/color89.yaml
+    new: geoips/interface_modules/product_templates/rain_rate/RainNearest.yaml
+    new: geoips/interface_modules/product_templates/rain_rate/Rain.yaml
+    new: geoips/interface_modules/product_templates/sfc_winds/incident-angle.yaml
+    new: geoips/interface_modules/product_templates/sfc_winds/nrcs.yaml
+    new: geoips/interface_modules/product_templates/sfc_winds/wind-ambiguities.yaml
+    new: geoips/interface_modules/product_templates/sfc_winds/windbarbs.yaml
+    new: geoips/interface_modules/product_templates/sfc_winds/windspeed.yaml
+    new: geoips/interface_modules/product_templates/tpw/TPW-CIMSS.yaml
+    new: geoips/interface_modules/product_templates/tpw/TPW-Purple.yaml
+    new: geoips/interface_modules/product_templates/tpw/TPW-PWAT.yaml
+    new: geoips/interface_modules/product_templates/visir/Infrared-Gray.yaml
+    new: geoips/interface_modules/product_templates/visir/Infrared.yaml
+    new: geoips/interface_modules/product_templates/visir/IR-BD.yaml
+    new: geoips/interface_modules/product_templates/visir/Night-Vis-GeoIPS1.yaml
+    new: geoips/interface_modules/product_templates/visir/Night-Vis-IR-GeoIPS1.yaml
+    new: geoips/interface_modules/product_templates/visir/Night-Vis-IR.yaml
+    new: geoips/interface_modules/product_templates/visir/Night-Vis.yaml
+    new: geoips/interface_modules/product_templates/visir/Visible.yaml
+    new: geoips/interface_modules/product_templates/visir/WV-Lower.yaml
+    new: geoips/interface_modules/product_templates/visir/WV-Upper.yaml
+    new: geoips/interface_modules/product_templates/visir/WV.yaml
+
 Testing Updates
 ===============
 
