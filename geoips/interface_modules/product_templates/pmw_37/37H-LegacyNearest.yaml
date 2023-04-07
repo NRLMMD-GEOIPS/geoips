@@ -1,0 +1,21 @@
+interface: product_templates
+metadata:
+    name: 37H-LegacyNearest
+    family: interp_alg_cmap
+spec:
+    algorithm:
+        name: single_channel
+        arguments: 
+            output_data_range: [180, 280]
+            min_outbounds: crop
+            max_outbounds: crop
+            norm: null
+            inverse: null
+    mtif_type: pmw
+    colormap:
+        name: pmw_tb.cmap_37H_Legacy
+        arguments: 
+            data_range: [180, 280]
+    interpolation:
+        name: pyresample_wrappers.interp_nearest
+        arguments: {}

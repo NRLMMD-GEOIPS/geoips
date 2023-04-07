@@ -1,0 +1,33 @@
+type: object
+required:
+  - interface
+  - metadata
+  - spec
+properties:
+  interface:
+    type: string
+  metadata:
+    type: object
+    properties:
+      name:
+        type: string
+      family:
+        type: string
+      short-description:
+        type: string
+      long-description:
+        type: string
+  spec:
+    type: object
+    additionalProperties: false
+    properties:
+      interpolation: &name-plus-args
+        type: object
+        additionalProperties: false
+        properties:
+          name:
+            type: string
+          arguments:
+            type: object
+            additionalProperties: true
+      coverage: *name-plus-args

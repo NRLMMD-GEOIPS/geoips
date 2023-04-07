@@ -1,0 +1,21 @@
+interface: product_templates
+metadata:
+    name: 37pctNearest
+    family: interp_alg_cmap
+spec:
+    algorithm:
+        name: pmw_tb.pmw_37pct
+        arguments: 
+            output_data_range: [230, 280]
+            min_outbounds: crop
+            max_outbounds: mask
+            norm: null
+            inverse: null
+    mtif_type: pmw
+    colormap:
+        name: pmw_tb.cmap_37pct
+        arguments: 
+            data_range: [230, 280]
+    interpolation:
+        name: pyresample_wrappers.interp_nearest
+        arguments: {}
