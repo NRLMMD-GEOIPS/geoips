@@ -8,7 +8,6 @@ properties:
     type: string
   metadata:
     type: object
-    required: [name, family, short-description, long-description]
     properties:
       name:
         type: string
@@ -20,29 +19,40 @@ properties:
         type: string
   spec:
     type: object
-    additionalProperties: false
-    properties:
-      coastlines: &line-args
+    parameters:
+      coastlines:
         type: object
-        default:
-          enabled: false
-        properties:
+        parameters:
           enabled:
             type: boolean
           color:
             type: string
           linewidth:
             type: number
-        if:
-          properties:
-            enabled:
-              const: true
-        then:
-          properties:
-            color:
-              default: black
-            linewidth:
-              default: 1
-      countries: *line-args
-      rivers: *line-args
-      states: *line-args
+      countries:
+        type: object
+        parameters:
+          enabled:
+            type: boolean
+          color:
+            type: string
+          linewidth:
+            type: number
+      riveres:
+        type: object
+        parameters:
+          enabled:
+            type: boolean
+          color:
+            type: string
+          linewidth:
+            type: number
+      states:
+        type: object
+        parameters:
+          enabled:
+            type: boolean
+          color:
+            type: string
+          linewidth:
+            type: number

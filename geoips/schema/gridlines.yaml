@@ -8,7 +8,6 @@ properties:
     type: string
   metadata:
     type: object
-    required: [name, family, short-description, long-description]
     properties:
       name:
         type: string
@@ -24,7 +23,6 @@ properties:
     properties:
       labels:
         type: object
-        default: {}
         additionalProperties: false
         properties:
           top:
@@ -39,9 +37,8 @@ properties:
           right:
             type: boolean
             default: false
-      latitude-lines: &lines-args
+      latitude-lines:
         type: object
-        default: {}
         additionalProperties: false
         properties:
           color:
@@ -59,6 +56,24 @@ properties:
             default: 1
           spacing:
             type: [number, string]
-            pattern: "auto"
             default: auto
-      longitude-lines: *lines-args
+      longitude-lines:
+        type: object
+        additionalProperties: false
+        properties:
+          color:
+            type: string
+            default: black
+          linestyle:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: number
+            default: [4, 2]
+          linewidth:
+            type: number
+            default: 1
+          spacing:
+            type: [number, string]
+            default: auto

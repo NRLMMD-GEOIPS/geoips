@@ -6,4 +6,15 @@ metadata:
   long-description: |
     Top and left gridline labels, latitude and longitude lines colored
     black, auto spacing, 1px linewidth, and [4, 2] linestyle
-spec: {}
+spec:
+  labels:
+    top: True
+    bottom: False
+    left: True
+    right: False
+  latitude-lines: &grid-lines
+    color: black
+    linestyle: [4, 2]
+    linewidth: 1
+    spacing: auto
+  longitude-lines: *grid-lines
