@@ -13,23 +13,9 @@ Version 1.10.0.dev0 (2023-04-04)
 * Update boundaries and gridlines schema to better handle defaults
 * Update plugin validator to follow references and add a base schema
 * Add unit tests to validate yaml-based plugins and schema
-* Add "gridlines" plugin schema
-* Convert old boundaries YAML to new format
-* Convert old gridlines YAML to new format
-* Update boundaries and gridlines schema to better handle defaults
 
 Enhancements
 ============
-Update boundaries and gridlines schema to simplify and handle default values better
------------------------------------------------------------------------------------
-*From issue NRLMMD-GEOIPS/geoips#144: 2023-04-05, Update boundaries and gridlines schema*
-::
-
-    modified: /geoips/interface_modules/boundaries/default.yaml
-    modified: /geoips/interface_modules/gridlines/default.yaml
-    modified: /geoips/schema/boundaries.yaml
-    modified: /geoips/schema/gridlines.yaml
-
 
 Update plugin validator to follow references and add a base schema for all schema
 ---------------------------------------------------------------------------------
