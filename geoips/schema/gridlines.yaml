@@ -56,6 +56,7 @@ properties:
             default: 1
           spacing:
             type: [number, string]
+            enum: [auto]
             default: auto
       longitude-lines:
         type: object
@@ -76,4 +77,5 @@ properties:
             default: 1
           spacing:
             type: [number, string]
+            enum: [auto]
             default: auto
