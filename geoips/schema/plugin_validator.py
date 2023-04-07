@@ -73,7 +73,7 @@ def get_all_schema():
     return all_schema
 
 
-def get_validators(schema_dict,display=False):
+def get_validators(schema_dict, display=False):
     """Create validators for each schema in the input dictionary of schema.
 
     Parameters
@@ -92,14 +92,22 @@ def get_validators(schema_dict,display=False):
     for name, schema in schema_dict.items():
         resolver = jsonschema.RefResolver.from_schema(schema, store=schema_dict)
         if display:
-            for key in list(resolver.store.keys()): #displays the resolved references for each schema provided.
+            for key in list(
+                resolver.store.keys()
+            ):  # displays the resolved references for each schema provided.
                 resolver.resolve(key)
         validators[name] = DefaultValidatingValidator(schema, resolver=resolver)
     return validators
 
+
 all_schema = get_all_schema()
 validators = get_validators(all_schema)
-product_template_args_mapping = {"algorithm": "alg_args", "interpolation": "interp_args", "colormap": "cmap_args"}
+product_template_args_mapping = {
+    "algorithm": "alg_args",
+    "interpolation": "interp_args",
+    "colormap": "cmap_args",
+}
+
 
 def merge_product_with_product_template(plugin_yaml):
     """Update the provided product_inputs yaml plugin to include the additional values held in the correlated product_templates plugin.
@@ -116,28 +124,40 @@ def merge_product_with_product_template(plugin_yaml):
         A dictionary whose keys/values have been updated to include the additional values held in the correlated product_templates plugin.
     """
     correlated_product_template_plugins = {}
-    product_template_files = glob("geoips/interface_modules/product_templates/**/*.yaml")
+    product_template_files = glob(
+        "geoips/interface_modules/product_templates/**/*.yaml"
+    )
     other_product_temp_files = glob("geoips/interface_modules/product_templates/*.yaml")
     for f in other_product_temp_files:
         product_template_files.append(f)
     for product in range(len(plugin_yaml["spec"]["products"])):
         pname = plugin_yaml["spec"]["products"][product]["name"]
-        file_idx = np.argmax([pname + ".yaml" in filepath for filepath in product_template_files])
+        file_idx = np.argmax(
+            [pname + ".yaml" in filepath for filepath in product_template_files]
+        )
         if file_idx >= 0:
-            correlated_product_template_plugins[pname] = yaml.safe_load(open(product_template_files[file_idx],"r"))
-            for product_template_key in correlated_product_template_plugins[pname]["spec"]:
+            correlated_product_template_plugins[pname] = yaml.safe_load(
+                open(product_template_files[file_idx], "r")
+            )
+            for product_template_key in correlated_product_template_plugins[pname][
+                "spec "
+            ]:
                 product_key = product_template_key
                 if product_template_key in product_template_args_mapping:
                     product_key = product_template_args_mapping[product_template_key]
                 product_keys = list(plugin_yaml["spec"]["products"][product].keys())
                 if product_key not in product_keys:
-                    plugin_yaml["spec"]["products"][product][product_key] = correlated_product_template_plugins[pname]["spec"][product_template_key]
+                    plugin_yaml["spec"]["products"][product][
+                        product_key
+                    ] = correlated_product_template_plugins[pname]["spec"][
+                        product_template_key
+                    ]
     return plugin_yaml
 
 
 def validate(plugin_file):
     """Validate the a YAML-based plugin.
-    
+
     Parameters
     ----------
     plugin_file : string
@@ -150,7 +170,9 @@ def validate(plugin_file):
     """
     plugin_yaml = yaml.safe_load(open(plugin_file, "r"))
     validator_name = plugin_yaml["interface"]
-    if "product_inputs" in validator_name: #dynamically add reference to product_templates
+    if (
+        "product_inputs" in validator_name
+    ):  # dynamically add reference to product_templates
         plugin_yaml = merge_product_with_product_template(plugin_yaml)
     family = plugin_yaml["metadata"]["family"]
     if f"{validator_name}.{family}" in validators:
