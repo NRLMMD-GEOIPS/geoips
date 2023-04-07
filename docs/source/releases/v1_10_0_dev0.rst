@@ -15,6 +15,16 @@ Version 1.10.0.dev0 (2023-04-04)
 
 Enhancements
 ============
+Add a validator for YAML-based plugins.
+---------------------------------------
+
+* From issue NRLMMD-GEOIPS/geoips#132: 2023-04-04, Add a validator for YAML-based plugins.
+
+::
+
+    created: /geoips/schema/__init__.py
+    created: /geoips/schema/plugin_validator.py
+
 
 Update plugin validator to follow references and add a base schema for all schema
 ---------------------------------------------------------------------------------
