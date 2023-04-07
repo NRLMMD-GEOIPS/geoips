@@ -5,6 +5,7 @@ metadata:
   short-description: "The tc_web_ascatuhr_barbs_template boundaries configuration"
   long-description: "Using pixel_width: 50, pixel_height: 50, num_lines: 1400, num_samples: 1400."
 spec:
+  area_def_generator:
   area_def_generator_func: clat_clon_resolution_shape
   area_def_generator_args:
     projection: eqc
