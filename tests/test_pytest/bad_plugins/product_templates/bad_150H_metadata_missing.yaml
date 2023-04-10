@@ -1,4 +1,5 @@
 interface: product_templates
+family: standard
 spec:
   algorithm:
     name: single_channel

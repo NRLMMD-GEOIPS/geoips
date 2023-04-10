@@ -1,7 +1,7 @@
 interface: gridlines
+family: [standard, standard]
 metadata:
   name: tc_windspeed
-  family: [standard, standard]
   short-description: 9.75
   long-description: false
 spec:

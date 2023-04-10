@@ -1,7 +1,7 @@
 interface: gridlines
+family: standard
 metadata:
   name: tc_windspeed
-  family: standard
   short-description: Gridlines for TC wind speed
   long-name: Long description
 spec:

@@ -1,7 +1,7 @@
 interface: product_templates
+family: interp_alg_cmap
 metadata:
   name: 150H
-  family: interp_alg_cmap
 spec:
   algorithm:
     name: single_channel

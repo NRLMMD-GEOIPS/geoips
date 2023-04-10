@@ -1,4 +1,5 @@
 interface: gridlines
+family: standard
 spec:
   labels:
     top: true
