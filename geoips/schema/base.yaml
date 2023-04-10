@@ -1,15 +1,22 @@
 $id: "geoips/schema/base"
+title: "Base"
+description: |
+  The base for all YAML-based plugins. This should be used as a reference at the
+  top of all yaml-based plugin schema.
 type: object
 required:
   - interface
+  - family
   - metadata
   - spec
 properties:
   interface:
     type: string
+  family:
+    type: string
   metadata:
     type: object
-    required: [name, family, short-description, long-description]
+    required: [name, short-description, long-description]
     properties:
       name:
         type: string
