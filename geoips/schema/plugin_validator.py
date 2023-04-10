@@ -59,7 +59,10 @@ def get_all_schema():
         schema = yaml.safe_load(open(schema_file, "r"))
         print(f"Adding validator {schema_name}")
 
-        DefaultValidatingValidator.check_schema(schema)
+        try:
+            DefaultValidatingValidator.check_schema(schema)
+        except jsonschema.exceptions.SchemaError as err:
+            raise ValueError(f"Invalid schema {schema_file}") from err
         all_schema[schema_name] = schema
 
     return all_schema
@@ -80,11 +83,13 @@ validators = get_validators(all_schema)
 def validate(plugin_file):
     """Validate the a YAML-based plugin."""
     plugin_yaml = yaml.safe_load(open(plugin_file, "r"))
-    family = plugin_yaml["metadata"]["family"]
-    validator_name = plugin_yaml["interface"]
-    print(f"Checking validator {validator_name}.{family}")
-    if f"{validator_name}.{family}" in validators:
-        validator_name = f"{validator_name}.{family}"
+    interface = plugin_yaml["interface"]
+    family = plugin_yaml["family"]
+    print(f"Checking validator {interface}.{family}")
+    if f"{interface}.{family}" in validators:
+        validator_name = f"{interface}.{family}"
+    else:
+        validator_name = interface
     print(f"Using validator {validator_name}")
     validator = validators[validator_name]
     validator.validate(plugin_yaml)
