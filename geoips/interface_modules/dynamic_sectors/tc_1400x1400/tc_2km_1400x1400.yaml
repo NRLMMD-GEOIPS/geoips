@@ -1,7 +1,7 @@
 interface: "dynamic_sectors"
+family: "standard"
 metadata:
   name: "tc_2km_1400x1400"
-  family: "standard"
   short-description: "The tc_2km_1400x1400 boundaries configuration"
   long-description: "Using pixel_width: 2000, pixel_height: 2000, num_lines: 1400, num_samples: 1400."
 spec:
