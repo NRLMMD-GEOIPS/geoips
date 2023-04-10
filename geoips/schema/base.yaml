@@ -8,7 +8,6 @@ required:
   - interface
   - family
   - metadata
-  - spec
 properties:
   interface:
     type: string
