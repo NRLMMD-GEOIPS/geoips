@@ -1,7 +1,7 @@
 interface: "boundaries"
+family: "standard"
 metadata:
   name: "default"
-  family: "standard"
   short-description: "The default boundaries configuration"
   long-description:
     "All line types enabled. All colored red. 2px coastlines, 1px countries,

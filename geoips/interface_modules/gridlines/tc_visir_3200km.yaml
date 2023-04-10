@@ -1,7 +1,7 @@
 interface: gridlines
+family: standard
 metadata:
   name: tc_visir_3200km
-  family: standard
   short-description: "TC Visible Infrared 3200km gridlines configuration"
   long-description: |
     All gridline labels enabled, latitude and longitude lines colored

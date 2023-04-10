@@ -1,7 +1,7 @@
 interface: "boundaries"
+family: "standard"
 metadata:
   name: "tc_visir"
-  family: "standard"
   short-description: "The tc_visir boundaries configuration"
   long-description:
     "Coastlines and Countries Enabled. All colored #000000. 0.5px coastlines, 0.25px countries,

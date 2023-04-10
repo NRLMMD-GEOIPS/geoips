@@ -1,8 +1,14 @@
 $id: boundaries
 $ref: "geoips/schema/base"
+title: "Boundaries"
+description: |
+  Defines which geographical boundaries should be drawn over the output products and
+  how they should be drawn. Can enable coastlines, countries, states, and rivers and
+  control their line width and color.
 properties:
   spec:
     type: object
+    default: {}
     additionalProperties: false
     properties:
       coastlines: &line-args

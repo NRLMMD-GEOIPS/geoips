@@ -1,7 +1,7 @@
 interface: "boundaries"
+family: "standard"
 metadata:
   name: "tc_pmw"
-  family: "standard"
   short-description: "The tc_pmw boundaries configuration"
   long-description:
     "All line types enabled. All colored #00B4B4B4. 2px coastlines, 1px countries,

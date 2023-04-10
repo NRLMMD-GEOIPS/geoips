@@ -1,5 +1,11 @@
 $id: gridlines
 $ref: "geoips/schema/base"
+title: "Gridlines"
+description: |
+  Defines latitude and longitude gridlines and associated labels. Both latitude and
+  longitude lines will always be drawn. Their color, style, width, and spacing in
+  degrees can be controlled. Labels can be turned on and off for the top, bottom, left,
+  and right sides of the imagery.
 properties:
   spec:
     type: object
