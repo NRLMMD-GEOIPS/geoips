@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: smos-spd
-  family: standard
   short-description: "The smos-spd product_inputs configuration"
   long-description:
     "The smos-spd product_inputs configuration, which produces windspeed, unsectored, and sectored products."

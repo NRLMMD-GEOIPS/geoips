@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: smap-spd
-  family: standard
   short-description: "The smap-spd product_inputs configuration"
   long-description:
     "The smap-spd product_inputs configuration, which produces windspeed, unsectored, and sectored products."

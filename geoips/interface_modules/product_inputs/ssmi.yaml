@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: ssmi
-  family: standard
   short-description: "The ssmi product_inputs configuration"
   long-description:
     "The ssmi product_inputs configuration, which produces color37, 37pct, color89, 89pct, 89H, 89V, 89HW, 89H-Physical, 89H-Legacy, 19H, 19V, 37H,

@@ -1,10 +1,10 @@
 interface: product_inputs
+family: standard
 metadata:
   name: gmi
-  family: standard
   short-description: "The gmi product_inputs configuration"
   long-description:
-    "The gmi product_inputs configuration, which produces color37, 37pct, color89, 89H, 89V, 89HW, 89H-Legacy, 89H-Physical, 166H, 166V, 
+    "The gmi product_inputs configuration, which produces color37, 37pct, color89, 89H, 89V, 89HW, 89H-Legacy, 89H-Physical, 166H, 166V,
     183-1H, 183-3H, 190V, 19H, 19V, 37H-Legacy, 37H-Physical, 37H, and 37V products."
 spec:
   products:
@@ -43,7 +43,7 @@ spec:
       interp_args:
         sigmaval: 10000
     - name: 89VNearest
-      variables: ['V89']  
+      variables: ['V89']
     - name: 89HW
       variables: ['H89']
       interp_args:

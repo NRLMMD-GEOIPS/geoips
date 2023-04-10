@@ -1,8 +1,7 @@
-
 interface: product_inputs
+family: standard
 metadata:
   name: oscat
-  family: standard
   short-description: "The oscat product_inputs configuration"
   long-description:
     "The oscat product_inputs configuration, which produces windspeed, windbarbs, and wind-ambiguities products."

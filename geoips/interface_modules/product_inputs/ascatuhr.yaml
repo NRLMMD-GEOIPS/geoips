@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: ascatuhr
-  family: standard
   short-description: "The ascatuhr product_inputs configuration"
   long-description:
     "The ascatuhr product_inputs configuration, which produces Windspeed products, Windbarbs products, Wind-ambiguity products, Unsectored/Sectored products, Sigma0 products, and NRCS products"
@@ -24,7 +24,7 @@ spec:
       # variables: ['sig_fore']
       # variables: ['sig_mid']
       # variables: ['sig_aft']
-      alg_args: 
+      alg_args:
         output_data_range: [-30, -1]
         input_units: dB
         output_units: dB
@@ -32,6 +32,6 @@ spec:
         max_outbounds: crop
         norm: null
         inverse: null
-      cmap_args: 
+      cmap_args:
         data_range: [-30, -1]
         cmap_name: Greys_r

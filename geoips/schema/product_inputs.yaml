@@ -1,22 +1,11 @@
+$id: "product_inputs"
+$ref: "geoips/schema/base"
+title: "Product Inputs"
+description: A list of products that can be produced from a specific data source.
 type: object
 required:
-  - interface
-  - metadata
   - spec
 properties:
-  interface:
-    type: string
-  metadata:
-    type: object
-    properties:
-      name:
-        type: string
-      family:
-        type: string
-      short-description:
-        type: string
-      long-description:
-        type: string
   spec:
     type: object
     required:

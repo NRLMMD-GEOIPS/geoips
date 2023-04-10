@@ -1,10 +1,10 @@
 interface: product_inputs
+family: standard
 metadata:
   name: amsr2
-  family: standard
   short-description: "The amsr2 product_inputs configuration"
   long-description:
-    "The amsr2 product_inputs configuration, which produces windspeed, unsectored, sectored, color37, 37pct, color89, 89pct, 89H, 
+    "The amsr2 product_inputs configuration, which produces windspeed, unsectored, sectored, color37, 37pct, color89, 89pct, 89H,
     89V, 89HW, 89H-Physical, 89H-Legacy, 37H-Legacy, 37H-Physical, 37H, and 37V products."
 spec:
   products:

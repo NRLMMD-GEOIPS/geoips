@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: windsat
-  family: standard
   short-description: "The windsat product_inputs configuration"
   long-description:
     "The windsat product_inputs configuration, which produces windspeed, color37, 37pct, 37H-Legacy, 37H-Physical, 37H, and 37V products."

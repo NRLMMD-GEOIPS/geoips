@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: hscat
-  family: standard
   short-description: "The hscat product_inputs configuration"
   long-description:
     "The hscat product_inputs configuration, which produces windspeed, windbarbs, unsectored, and sectored products."

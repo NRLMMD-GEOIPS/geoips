@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: ascat
-  family: standard
   short-description: "The ascat product_inputs configuration"
   long-description:
     "The ascat product_inputs configuration, which produces Windspeed products, Windbarbs products, Wind-ambiguity products, and Unsectored/Sectored products."
@@ -12,6 +12,10 @@ spec:
     - name: Windbarbs-Gray
       product_template: "windbarbs"
       variables: ['wind_speed_kts', 'wind_dir_deg_met', 'rain_flag']
+      colormap:
+        name: "matplotlib_linear_norm"
+        arguments:
+          data_range:
       cmap_func: "matplotlib_linear_norm"
       cmap_args:
         data_range: [0, 200]

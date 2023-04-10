@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: amsr-e
-  family: standard
   short-description: "The amsr-e product_inputs configuration"
   long-description:
     "The amsr-e product_inputs configuration, which produces color89, 89pct, 89H, 89V, 89HW, 89H-Physical, 89H-Legacy, 19H, and 19V products."

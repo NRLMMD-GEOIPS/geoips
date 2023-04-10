@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: amsu-b
-  family: standard
   short-description: "The amsu-b product_inputs configuration"
   long-description: "The amsu-b product_inputs configuration, which produces 89V, 157V, 183-1H, 183-3H, and 190V products."
 spec:

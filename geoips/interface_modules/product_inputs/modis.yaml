@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: modis
-  family: standard
   short-description: "The modis product_inputs configuration"
   long-description:
     "The modis product_inputs configuration, which produces Infrared, Vertical Velocity, and Visible products."
@@ -19,7 +19,7 @@ spec:
       variables: ['chan28.0BT']  # B10 abi, 7.3um Lower-level WV; B10 ahi 7.3467um Lower-level WV; B28 modis, B06 seviri IR7.3
     - name: Visible
       variables: ['chan1.0Ref', 'SunZenith']  # chan-1 is MODIS high res vis at 250m
-      cmap_args: 
+      cmap_args:
         cbar_label: "Reflectance, MODIS Channel 1 0.645um"
       alg_args:
         gamma_list: []      # This replaces the default value found in product_params/Visible.yaml

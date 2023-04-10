@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: atms
-  family: standard
   short-description: "The atms product_inputs configuration"
   long-description:
     "The atms product_inputs configuration, which produces 89V products, 165H products, and 183H products"

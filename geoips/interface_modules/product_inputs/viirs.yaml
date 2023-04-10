@@ -1,7 +1,7 @@
 interface: product_inputs
+family: standard
 metadata:
   name: viirs
-  family: standard
   short-description: "The viirs product_inputs configuration"
   long-description: "The viirs product_inputs configuration, which produces Infrared, Night-vis, and Visible products."
 spec:
