@@ -1,0 +1,31 @@
+interface: "static_sectors"
+family: "areadefinition"
+metadata:
+  name: himawari8
+  short-description: "himawari8"
+  long-description: "himawari8"
+himawari8:
+  description: Himawari-8 Coverage
+  projection:
+    a: 6371228.0
+    lat_0: 0
+    lon_0: 140.7
+    proj: eqc
+    units: m
+  resolution:
+  - 10000
+  - 10000
+  sector_info:
+    continent: Global
+    country: x
+    area: Himawari-8
+    subarea: x
+    state: x
+    city: x
+  sector_type: static
+  shape:
+    height: 2000
+    width: 2000
+  area_extent:
+    lower_left_xy: [-10000000, -10000000]
+    upper_right_xy: [10000000, 10000000]
