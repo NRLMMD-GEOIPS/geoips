@@ -1,4 +1,4 @@
-interface: "sectors_dynamic"
+interface: "dynamic_sectors"
 metadata:
   name: "tc_0p1km_3200x3200"
   family: "standard"
