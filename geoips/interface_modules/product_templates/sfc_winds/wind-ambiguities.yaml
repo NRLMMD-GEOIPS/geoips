@@ -1,7 +1,9 @@
 interface: product_templates
+family: algorithm_colormap
 metadata:
   name: wind-ambiguities
-  family: alg_cmap
+  short-description: "Wind Ambiguities"
+  long-description: "Default values for Wind Ambiguities products"
 spec:
   algorithm:
     name: sfc_winds.windbarbs
@@ -13,11 +15,11 @@ spec:
       max_outbounds: crop
       norm: null
       inverse: null
-  mtif_type: windspeed
   colormap:
     name: winds.wind_radii_transitions
     arguments:
       data_range: [0, 200]
-  coverage:
+  coverage_check:
     name: windbarbs
     arguments: {}
+  mtif_type: windspeed

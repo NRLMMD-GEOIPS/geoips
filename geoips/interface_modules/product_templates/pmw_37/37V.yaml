@@ -1,22 +1,22 @@
 interface: product_templates
 metadata:
-    name: 37V
-    family: interp_alg_cmap
+  name: 37V
+  family: interp_alg_cmap
 spec:
-    algorithm:
-        name: single_channel
-        arguments: 
-            output_data_range: [125, 300]
-            min_outbounds: crop
-            max_outbounds: crop
-            norm: null
-            inverse: null
-    mtif_type: pmw
-    colormap:
-        name: pmw_tb.cmap_37H
-        arguments: 
-            data_range: [125, 300]
-    interpolation:
-        name: pyresample_wrappers.interp_gauss
-        arguments:
-            sigmaval: 25000
+  algorithm:
+    name: single_channel
+    arguments:
+      output_data_range: [125, 300]
+      min_outbounds: crop
+      max_outbounds: crop
+      norm: null
+      inverse: null
+  mtif_type: pmw
+  colormap:
+    name: pmw_tb.cmap_37H
+    arguments:
+      data_range: [125, 300]
+  interpolation:
+    name: pyresample_wrappers.interp_gauss
+    arguments:
+      sigmaval: 25000
