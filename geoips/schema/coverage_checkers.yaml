@@ -1,0 +1,12 @@
+$id: coverage_checkers
+$ref: base
+title: "Coverage Checkers"
+properties:
+  spec:
+    type: object
+    properties:
+      name:
+        type: string
+      arguments:
+        type: object
+        additionalProperties: true

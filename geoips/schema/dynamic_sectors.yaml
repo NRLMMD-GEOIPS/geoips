@@ -1,5 +1,5 @@
 $id: dynamic_sectors
-$ref: geoips/schema/base
+$ref: base
 title: "Dynamic Sectors"
 description: The definition for a GeoIPS Dynamic Sector.
 type: object

@@ -1,0 +1,13 @@
+$id: interpolators
+$reg: base
+title: "Interpolators"
+properties:
+  spec:
+    type: object
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      arguments:
+        type: object
+        additionalProperties: true

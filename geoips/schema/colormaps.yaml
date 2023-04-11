@@ -1,0 +1,26 @@
+$id: colormaps
+$ref: base
+title: "Colormaps"
+properties:
+  spec:
+    type: object
+    properties:
+      name:
+        type: string
+      range:
+        type: array
+        minItems: 2
+        maxItems: 2
+        items:
+          type: number
+    colorbar:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        label:
+          type: string
+        ticks:
+          type: array
+          items:
+            type: number

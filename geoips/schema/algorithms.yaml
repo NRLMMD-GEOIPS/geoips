@@ -1,0 +1,13 @@
+$id: algorithms
+$ref: base
+title: "Algorithms"
+properties:
+  spec:
+    type: object
+    additionalProperties: false
+    properties:
+      name:
+        type: string
+      arguments:
+        type: object
+        additionalProperties: true

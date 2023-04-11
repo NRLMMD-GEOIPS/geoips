@@ -1,5 +1,5 @@
 $id: static_sectors
-$ref: geoips/schema/base
+$ref: base
 title: "Static Sectors"
 description: The definition for a GeoIPS Static Sector.
 type: object

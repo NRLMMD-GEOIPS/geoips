@@ -1,5 +1,5 @@
 $id: gridlines
-$ref: "geoips/schema/base"
+$ref: base
 title: "Gridlines"
 description: |
   Defines latitude and longitude gridlines and associated labels. Both latitude and

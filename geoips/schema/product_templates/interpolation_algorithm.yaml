@@ -1,0 +1,21 @@
+$id: interpolation_algorithm
+$ref: base
+type: object
+required:
+  - spec
+properties:
+  spec:
+    type: object
+    additionalProperties: false
+    required:
+      - algorithm
+      - interpolation
+    properties:
+      algorithm:
+        $ref: "algorithms#/properties/spec"
+      interpolation:
+        $ref: "interpolators#/properties/spec"
+      coverage_check:
+        $ref: "colormaps#/properties/coverage_checkers"
+      mtif_type:
+        type: string

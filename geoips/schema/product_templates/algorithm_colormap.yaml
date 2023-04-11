@@ -1,0 +1,21 @@
+$id: "algorithm_colormap"
+$ref: "base"
+type: object
+required:
+  - spec
+properties:
+  spec:
+    type: object
+    additionalProperties: false
+    required:
+      - algorithm
+      - colormap
+    properties:
+      algorithm:
+        $ref: "algorithms#/properties/spec"
+      colormap:
+        $ref: "colormaps#/properties/spec"
+      coverage_check:
+        $ref: "coverage_checkers#/properties/spec"
+      mtif_type:
+        type: string

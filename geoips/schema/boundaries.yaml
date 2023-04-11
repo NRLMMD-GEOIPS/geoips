@@ -1,5 +1,5 @@
 $id: boundaries
-$ref: "geoips/schema/base"
+$ref: "base"
 title: "Boundaries"
 description: |
   Defines which geographical boundaries should be drawn over the output products and
