@@ -3,23 +3,23 @@ family: "standard"
 metadata:
   name: "tc_windspeed"
   short-description: "The tc_windspeed boundaries configuration"
-  long-description:
-    "All line types enabled. All colored #00B4B4B4. 2px coastlines, 1px countries,
-    0.5px states borders, and 0px rivers."
+  long-description: >
+    All line types enabled. All colored #00B4B4B4. 2px coastlines, 1px countries,
+    0.5px states borders, and 0px rivers.
 spec:
   coastlines:
     enabled: true
-    color: '#00B4B4B4'
+    color: "#00B4B4B4"
     linewidth: 2
   countries:
     enabled: true
-    color: '#00B4B4B4'
+    color: "#00B4B4B4"
     linewidth: 1
   states:
     enabled: true
-    color: '#00B4B4B4'
+    color: "#00B4B4B4"
     linewidth: 0.5
   rivers:
     enabled: true
-    color: '#00B4B4B4'
+    color: "#00B4B4B4"
     linewidth: 0

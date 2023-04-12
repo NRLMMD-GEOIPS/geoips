@@ -3,9 +3,9 @@ family: standard
 metadata:
   name: tc_0p25degree
   short-description: "TC 0.25 degree gridlines configuration"
-  long-description:
-    "All gridline labels enabled, latitude and longitude lines colored
-    #00B4B4B4, 0.25 degree spacing, 1px linewidth, and [4, 2] linestyle"
+  long-description: >
+    All gridline labels enabled, latitude and longitude lines colored
+    #00B4B4B4, 0.25 degree spacing, 1px linewidth, and [4, 2] linestyle
 spec:
   labels:
     top: True
