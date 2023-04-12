@@ -1,7 +1,5 @@
 interface: product_defaults
-family: interp_alg_cmap
-metadata:
-  name: 150H
+family: algorithm_interpolator_colormap
 spec:
   algorithm:
     name: single_channel
@@ -13,10 +11,10 @@ spec:
       inverse: null
   mtif_type: pmw
   colormap:
-    func: pmw_tb.cmap_150H
+    name: pmw_tb.cmap_150H
     arguments:
       data_range: [110, 310]
-  interpolation:
+  interpolator:
     name: pyresample_wrappers.interp_gauss
-    argument:
+    arguments:
       sigmaval: 10000

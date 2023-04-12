@@ -1,5 +1,5 @@
 interface: product_defaults
-family: interp_alg_cmap
+family: does_not_exist
 metadata:
   name: 150H
 spec:
@@ -13,14 +13,10 @@ spec:
       inverse: null
   mtif_type: pmw
   colormap:
-    name: pmw_tb.cmap_150H
-    interpreter: {}
+    func: pmw_tb.cmap_150H
     arguments:
       data_range: [110, 310]
   interpolation:
     name: pyresample_wrappers.interp_gauss
-    arguments:
+    argument:
       sigmaval: 10000
-  processing:
-    name: invalid
-    arguments: {}
