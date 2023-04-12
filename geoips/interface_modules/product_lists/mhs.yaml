@@ -1,39 +1,38 @@
-interface: product_inputs
+interface: product_lists
 family: standard
 metadata:
   name: mhs
-  short-description: "The mhs product_inputs configuration"
-  long-description:
-    "The mhs product_inputs configuration, which produces 89V, 157V, 183-1H, 183-3H, and 190V products."
+  short-description: "The mhs product_lists configuration"
+  long-description: "The mhs product_lists configuration, which produces 89V, 157V, 183-1H, 183-3H, and 190V products."
 spec:
   products:
     - name: 89V
-      variables: ['Chan1_AT']
+      variables: ["Chan1_AT"]
       interp_args:
         sigmaval: 10000
     - name: 89VNearest
-      variables: ['Chan1_AT']
+      variables: ["Chan1_AT"]
     - name: 157V
-      variables: ['Chan2_AT']
+      variables: ["Chan2_AT"]
       interp_args:
         sigmaval: 10000
     - name: 157VNearest
-      variables: ['Chan2_AT']
+      variables: ["Chan2_AT"]
     - name: 183-1H
-      variables: ['Chan3_AT']
+      variables: ["Chan3_AT"]
       interp_args:
         sigmaval: 10000
     - name: 183-1HNearest
-      variables: ['Chan3_AT']
+      variables: ["Chan3_AT"]
     - name: 183-3H
-      variables: ['Chan4_AT']
+      variables: ["Chan4_AT"]
       interp_args:
         sigmaval: 10000
     - name: 183-3HNearest
-      variables: ['Chan4_AT']
+      variables: ["Chan4_AT"]
     - name: 190V
-      variables: ['Chan5_AT']
+      variables: ["Chan5_AT"]
       interp_args:
         sigmaval: 10000
     - name: 190VNearest
-      variables: ['Chan5_AT']
+      variables: ["Chan5_AT"]

@@ -1,4 +1,4 @@
-interface: product_templates
+interface: product_defaults
 family: interpolation_algorithm_colormap
 metadata:
   name: 19H

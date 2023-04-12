@@ -1,6 +1,6 @@
 # This YAML product config is useful only as a "product_template" to
-# define products directly within product_inputs/<source>.yaml
-interface: product_templates
+# define products directly within product_lists/<source>.yaml
+interface: product_defaults
 metadata:
   name: unmodified
   family: unmodified

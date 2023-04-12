@@ -1,4 +1,4 @@
-interface: product_templates
+interface: product_defaults
 metadata:
   name: color37
   family: interp_alg_cmap

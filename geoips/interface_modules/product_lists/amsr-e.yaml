@@ -1,63 +1,62 @@
-interface: product_inputs
+interface: product_lists
 family: standard
 metadata:
   name: amsr-e
-  short-description: "The amsr-e product_inputs configuration"
-  long-description:
-    "The amsr-e product_inputs configuration, which produces color89, 89pct, 89H, 89V, 89HW, 89H-Physical, 89H-Legacy, 19H, and 19V products."
+  short-description: "The amsr-e product_lists configuration"
+  long-description: "The amsr-e product_lists configuration, which produces color89, 89pct, 89H, 89V, 89HW, 89H-Physical, 89H-Legacy, 19H, and 19V products."
 spec:
   products:
     - name: color89
-      variables: ['H89', 'V89']
+      variables: ["H89", "V89"]
       interp_args:
         sigmaval: 10000
     - name: color89Nearest
-      variables: ['H89', 'V89']
+      variables: ["H89", "V89"]
     - name: 89pct
-      variables: ['H89', 'V89']
+      variables: ["H89", "V89"]
       interp_args:
         sigmaval: 10000
     - name: 89pctNearest
-      variables: ['H89', 'V89']
+      variables: ["H89", "V89"]
     - name: 89H
-      variables: ['H89']
+      variables: ["H89"]
       interp_args:
         sigmaval: 10000
     - name: 89HNearest
-      variables: ['H89']
+      variables: ["H89"]
     - name: 89V
-      variables: ['V89']
+      variables: ["V89"]
       interp_args:
         sigmaval: 10000
     - name: 89VNearest
-      variables: ['V89']
+      variables: ["V89"]
     - name: 89HW
-      variables: ['H89']
+      variables: ["H89"]
       interp_args:
         sigmaval: 10000
     - name: 89HNearest
-      variables: ['H89']
+      variables: ["H89"]
     - name: 89H-Physical
-      variables: ['H89']
+      variables: ["H89"]
       interp_args:
         sigmaval: 10000
     - name: 89H-PhysicalNearest
-      variables: ['H89']
+      variables: ["H89"]
     - name: 89H-Legacy
-      variables: ['H89']
+      variables: ["H89"]
       interp_args:
         sigmaval: 10000
     - name: 89H-LegacyNearest
-      variables: ['H89']
+      variables: ["H89"]
     - name: 19H
-      variables: ['H19']
+      variables: ["H19"]
       interp_args:
         sigmaval: 25000
     - name: 19HNearest
-      variables: ['H19']
+      variables: ["H19"]
     - name: 19V
-      variables: ['V19']
+      variables: ["V19"]
       interp_args:
         sigmaval: 25000
     - name: 19VNearest
-      variables: ['V19']
+      variables: ["V19"]

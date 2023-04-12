@@ -1,19 +1,18 @@
-interface: product_inputs
+interface: product_lists
 family: standard
 metadata:
   name: sar-spd
-  short-description: "The sar-spd product_inputs configuration"
-  long-description:
-    "The sar-spd product_inputs configuration, which produces windspeed, nrcs, incident-angle, unsectored, and sectored products."
+  short-description: "The sar-spd product_lists configuration"
+  long-description: "The sar-spd product_lists configuration, which produces windspeed, nrcs, incident-angle, unsectored, and sectored products."
 spec:
   products:
     - name: windspeed
-      variables: ['wind_speed_kts']
+      variables: ["wind_speed_kts"]
     - name: nrcs
-      variables: ['nrcs']
+      variables: ["nrcs"]
     - name: incident-angle
-      variables: ['incident_angle']
+      variables: ["incident_angle"]
     - name: unsectored
-      variables: ['wind_speed_kts']
+      variables: ["wind_speed_kts"]
     - name: sectored
-      variables: ['wind_speed_kts']
+      variables: ["wind_speed_kts"]

@@ -1,4 +1,4 @@
-interface: product_templates
+interface: product_defaults
 metadata:
   name: 183-1H
   family: interp_alg_cmap

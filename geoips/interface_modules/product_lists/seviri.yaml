@@ -1,9 +1,9 @@
-interface: product_inputs
+interface: product_lists
 family: standard
 metadata:
   name: seviri
-  short-description: "The seviri product_inputs configuration"
-  long-description: "The seviri product_inputs configuration, which produces Infrared, Vertical Velocity, and Visible products."
+  short-description: "The seviri product_lists configuration"
+  long-description: "The seviri product_lists configuration, which produces Infrared, Vertical Velocity, and Visible products."
 spec:
   products:
     - name: Infrared

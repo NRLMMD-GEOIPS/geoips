@@ -1,4 +1,4 @@
-interface: product_templates
+interface: product_defaults
 metadata:
   name: Visible
   family: interp_alg_cmap
@@ -6,8 +6,8 @@ spec:
   algorithm:
     name: single_channel
     # This works as-is with defaults for VIIRS and ABI and SEVIRI.
-    # AHI does NOT use gamma! Replacement values in product_inputs/ahi.yaml
-    # MODIS does NOT use gamma, and has scale_factor of 1.0! Replacement values in product_inputs/modis.yaml
+    # AHI does NOT use gamma! Replacement values in product_lists/ahi.yaml
+    # MODIS does NOT use gamma, and has scale_factor of 1.0! Replacement values in product_lists/modis.yaml
     arguments:
       output_data_range: [0.0, 100.0]
       input_units: reflectance

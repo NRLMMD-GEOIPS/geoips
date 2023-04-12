@@ -1,21 +1,20 @@
-interface: product_inputs
+interface: product_lists
 family: standard
 metadata:
   name: saphir
-  short-description: "The saphir product_inputs configuration"
-  long-description:
-    "The saphir product_inputs configuration, which produces 183-1H, and 183-3H products."
+  short-description: "The saphir product_lists configuration"
+  long-description: "The saphir product_lists configuration, which produces 183-1H, and 183-3H products."
 spec:
   products:
     - name: 183-1H
-      variables: ['ch3_183.31_2.8']
+      variables: ["ch3_183.31_2.8"]
       interp_args:
         sigmaval: 10000
     - name: 183-1HNearest
-      variables: ['ch3_183.31_2.8']
+      variables: ["ch3_183.31_2.8"]
     - name: 183-3H
-      variables: ['ch3_183.31_2.8']
+      variables: ["ch3_183.31_2.8"]
       interp_args:
         sigmaval: 10000
     - name: 183-3HNearest
-      variables: ['ch3_183.31_2.8']
+      variables: ["ch3_183.31_2.8"]

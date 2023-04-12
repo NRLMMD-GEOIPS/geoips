@@ -1,4 +1,4 @@
-interface: product_templates
+interface: product_defaults
 metadata:
   name: Infrared-Gray
   family: interp_alg_cmap
@@ -19,7 +19,7 @@ spec:
     arguments:
       data_range: [-100.0, 50.0]
       cmap_name: Greys
-      cbar_label: 'Brightness Temperatures (degrees Celsius)'
+      cbar_label: "Brightness Temperatures (degrees Celsius)"
   interpolation:
     name: pyresample_wrappers.interp_nearest
     arguments: {}

@@ -1,11 +1,11 @@
-interface: product_inputs
+interface: product_lists
 family: standard
 metadata:
   name: ssmis
-  short-description: "The ssmis product_inputs configuration"
+  short-description: "The ssmis product_lists configuration"
   long-description:
-    "The ssmis product_inputs configuration, which produces color37, 37pct, color91, 91pct, 91H, 91V, 91HW, 91H-Physical, 91H-Legacy,
-   150H, 183-1H, 183-3H, 183-7H, 190V, 19H, 19V, 37H-Legacy, 37H-Physical, 37H, and 37V products."
+    "The ssmis product_lists configuration, which produces color37, 37pct, color91, 91pct, 91H, 91V, 91HW, 91H-Physical, 91H-Legacy,
+    150H, 183-1H, 183-3H, 183-7H, 190V, 19H, 19V, 37H-Legacy, 37H-Physical, 37H, and 37V products."
 spec:
   products:
     - name: color37

@@ -1,9 +1,9 @@
-interface: product_inputs
+interface: product_lists
 family: standard
 metadata:
   name: viirs
-  short-description: "The viirs product_inputs configuration"
-  long-description: "The viirs product_inputs configuration, which produces Infrared, Night-vis, and Visible products."
+  short-description: "The viirs product_lists configuration"
+  long-description: "The viirs product_lists configuration, which produces Infrared, Night-vis, and Visible products."
 spec:
   products:
     - name: Infrared
@@ -22,5 +22,5 @@ spec:
       variables: ["DNBRad", "M16BT", "DNB:SunZenith"]
     - name: Visible
       variables: ["M05Ref"] # Ocean Color Aerosol: VIIRS M05 0.673um
-      cmap_args: # This replaces the version found in product_params/visir/Visible.yaml
+      cmap_args: # This replaces the version found in product_defaults/visir/Visible.yaml
         cbar_label: "Reflectance, VIIRS M05 0.673um Band"

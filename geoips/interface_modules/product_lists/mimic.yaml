@@ -1,15 +1,14 @@
-interface: product_inputs
+interface: product_lists
 family: standard
 metadata:
   name: mimic
-  short-description: "The mimic product_inputs configuration"
-  long-description:
-    "The mimic product_inputs configuration, which produces TPW-CIMSS, TPW-PWAT, and TPW-PURPLE products."
+  short-description: "The mimic product_lists configuration"
+  long-description: "The mimic product_lists configuration, which produces TPW-CIMSS, TPW-PWAT, and TPW-PURPLE products."
 spec:
   products:
     - name: TPW-CIMSS
-      variables: ['tpw']
+      variables: ["tpw"]
     - name: TPW-PWAT
-      variables: ['tpw']
+      variables: ["tpw"]
     - name: TPW-PURPLE
-      variables: ['tpw']
+      variables: ["tpw"]

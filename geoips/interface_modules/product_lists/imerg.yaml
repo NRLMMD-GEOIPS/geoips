@@ -1,13 +1,12 @@
-interface: product_inputs
+interface: product_lists
 family: standard
 metadata:
   name: imerg
-  short-description: "The imerg product_inputs configuration"
-  long-description:
-    "The imerg product_inputs configuration, which produces Rain and RainNearest products."
+  short-description: "The imerg product_lists configuration"
+  long-description: "The imerg product_lists configuration, which produces Rain and RainNearest products."
 spec:
   products:
     - name: Rain
-      variables: ['rain']
+      variables: ["rain"]
     - name: RainNearest
-      variables: ['rain']
+      variables: ["rain"]

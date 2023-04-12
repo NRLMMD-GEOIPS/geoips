@@ -1,26 +1,25 @@
-interface: product_inputs
+interface: product_lists
 family: standard
 metadata:
   name: ascatuhr
-  short-description: "The ascatuhr product_inputs configuration"
-  long-description:
-    "The ascatuhr product_inputs configuration, which produces Windspeed products, Windbarbs products, Wind-ambiguity products, Unsectored/Sectored products, Sigma0 products, and NRCS products"
+  short-description: "The ascatuhr product_lists configuration"
+  long-description: "The ascatuhr product_lists configuration, which produces Windspeed products, Windbarbs products, Wind-ambiguity products, Unsectored/Sectored products, Sigma0 products, and NRCS products"
 spec:
   products:
     - name: windspeed
-      variables: ['wind_speed_kts']
+      variables: ["wind_speed_kts"]
     - name: windbarbs
-      variables: ['wind_speed_kts', 'wind_dir_deg_met']
+      variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: wind-ambiguities
-      variables: ['wind_speed_ambiguities_kts', 'wind_dir_ambiguities_deg_met']
+      variables: ["wind_speed_ambiguities_kts", "wind_dir_ambiguities_deg_met"]
     - name: unsectored
-      variables: ['wind_speed_kts', 'wind_dir_deg_met']
+      variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: sectored
-      variables: ['wind_speed_kts', 'wind_dir_deg_met']
+      variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: sigma0
-      variables: ['sigma0_mean']
+      variables: ["sigma0_mean"]
     - name: nrcs
-      variables: ['sigma0_mean']
+      variables: ["sigma0_mean"]
       # variables: ['sig_fore']
       # variables: ['sig_mid']
       # variables: ['sig_aft']
