@@ -5,7 +5,6 @@ description: |
   Defines which geographical boundaries should be drawn over the output products and
   how they should be drawn. Can enable coastlines, countries, states, and rivers and
   control their line width and color.
-additionalProperties: false
 properties:
   spec:
     type: object
