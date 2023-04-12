@@ -3,7 +3,7 @@ $reg: base
 title: "Interpolator"
 additionalProperties: false
 required:
-  - name
+  - plugin_name
 properties:
   plugin_name:
     type: string

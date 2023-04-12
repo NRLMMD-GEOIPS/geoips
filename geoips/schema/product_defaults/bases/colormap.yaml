@@ -3,8 +3,7 @@ title: "Colormap"
 type: object
 additionalProperties: false
 required:
-  - name
-  - range
+  - plugin_name
 properties:
   plugin_name:
     type: string
