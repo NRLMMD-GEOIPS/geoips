@@ -4,7 +4,7 @@ metadata:
   family: interp_alg_cmap
 spec:
   algorithm:
-    name: pmw_tc.pmw89pct
+    name: pmw_tb.pmw89pct
     arguments:
       output_data_range: [105.0, 280.0]
       min_outbounds: crop
