@@ -17,5 +17,7 @@ properties:
         $ref: "product_defaults.colormap"
       coverage_checker:
         $ref: "product_defaults.coverage_checker"
+      windbarbs:
+        $ref: "product_defaults.windbarbs"
       mtif_type:
         type: string
