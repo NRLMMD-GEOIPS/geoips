@@ -1,10 +1,12 @@
 interface: product_defaults
+family: interpolator_algorithm_colormap
 metadata:
   name: windspeed
-  family: interp_alg_cmap
+  short-description: "windspeed"
+  long-description: ""
 spec:
   algorithm:
-    name: single_channel
+    plugin_name: single_channel
     arguments:
       output_data_range: [0, 200]
       input_units: kts
@@ -15,9 +17,9 @@ spec:
       inverse: null
   mtif_type: windspeed
   colormap:
-    name: winds.wind_radii_transitions
+    plugin_name: winds.wind_radii_transitions
     arguments:
       data_range: [0, 200]
   interpolation:
-    name: pyresample_wrappers.interp_nearest
+    plugin_name: pyresample_wrappers.interp_nearest
     arguments: {}
