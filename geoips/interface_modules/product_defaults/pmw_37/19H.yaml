@@ -13,7 +13,6 @@ spec:
       max_outbounds: crop
       norm: null
       inverse: null
-  mtif_type: pmw
   colormap:
     name: pmw_tb.cmap_37H
     arguments:
@@ -22,3 +21,4 @@ spec:
     name: pyresample_wrappers.interp_gauss
     arguments:
       sigmaval: 25000
+  mtif_type: pmw
