@@ -3,9 +3,9 @@ family: standard
 metadata:
   name: tc_visir_3200km
   short-description: "TC Visible Infrared 3200km gridlines configuration"
-  long-description: |
-    All gridline labels enabled, latitude and longitude lines colored
-    #000000, 5 degree spacing, 1px linewidth, and [4, 2] linestyle
+  long-description:
+    "All gridline labels enabled, latitude and longitude lines colored
+    #000000, 5 degree spacing, 1px linewidth, and [4, 2] linestyle"
 spec:
   labels:
     top: True
@@ -13,7 +13,7 @@ spec:
     left: True
     right: True
   latitude-lines: &grid-lines
-    color: '#000000'
+    color: "#000000"
     linestyle: [4, 2]
     linewidth: 1
     spacing: 5
