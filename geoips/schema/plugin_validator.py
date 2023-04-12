@@ -46,31 +46,36 @@ def get_all_schema():
     schema_path = files("geoips.schema")
     # Don't use `schema_path.glob` since if it is a MultiplexedPath it won't have `glob`
     schema_files = glob(str(schema_path / "*.yaml"))
-    schema_files.append(str(schema_path / "product_templates/algorithm_colormap.yaml"))
+    schema_files.extend(glob(str(schema_path / "product_defaults/base/*.yaml")))
+    schema_files.append(str(schema_path / "product_defaults/algorithm_colormap.yaml"))
     schema_files.append(
-        str(schema_path / "product_templates/algorithm_interpolation_colormap.yaml")
+        str(schema_path / "product_defaults/interpolator_algorithm.yaml")
     )
     schema_files.append(
-        str(schema_path / "product_templates/interpolation_algorithm_colormap.yaml")
+        str(schema_path / "product_defaults/algorithm_interpolator_colormap.yaml")
+    )
+    schema_files.append(
+        str(schema_path / "product_defaults/interpolator_algorithm_colormap.yaml")
     )
     # schema_files += glob(str(schema_path / "*.yaml"))
 
     all_schema = {}
     for schema_file in schema_files:
         schema = yaml.safe_load(open(schema_file, "r"))
-        schema_name = (
-            schema_file.replace(str(schema_path) + "/", "")
-            .replace("/", ".")
-            .replace(".yaml", "")
-        )
+        schema_id = schema["$id"]
+        # schema_name = (
+        #     schema_file.replace(str(schema_path) + "/", "")
+        #     .replace("/", ".")
+        #     .replace(".yaml", "")
+        # )
         schema = yaml.safe_load(open(schema_file, "r"))
-        print(f"Adding validator {schema_name}")
+        print(f"Adding validator {schema_id}")
 
         try:
             DefaultValidatingValidator.check_schema(schema)
         except jsonschema.exceptions.SchemaError as err:
             raise ValueError(f"Invalid schema {schema_file}") from err
-        all_schema[schema_name] = schema
+        all_schema[schema_id] = schema
 
     return all_schema
 
@@ -89,14 +94,25 @@ validators = get_validators(all_schema)
 
 def validate(plugin_file):
     """Validate the a YAML-based plugin."""
+
+    # Read the plugin
     plugin_yaml = yaml.safe_load(open(plugin_file, "r"))
+
+    # Validate against the base schema
+    # This ensures that "interface" and "family" are set correctly before trying to use
+    # them
+    validators["base"].validate(plugin_yaml)
+
+    # Build the name of the schema to validate against
     interface = plugin_yaml["interface"]
     family = plugin_yaml["family"]
     print(f"Checking validator {interface}.{family}")
-    if f"{interface}.{family}" in validators:
-        validator_name = f"{interface}.{family}"
-    else:
-        validator_name = interface
+    validator_name = f"{interface}.{family}"
+    if validator_name not in validators:
+        raise jsonschema.exceptions.ValidationError(
+            f"No validator found for the '{family}' family "
+            f"in the '{interface}' interface."
+        )
     print(f"Using validator {validator_name}")
     validator = validators[validator_name]
     validator.validate(plugin_yaml)

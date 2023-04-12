@@ -1,4 +1,4 @@
-$id: product_lists
+$id: product_lists.standard
 $ref: base
 title: "Product Inputs"
 description: A list of products that can be produced from a specific data source.

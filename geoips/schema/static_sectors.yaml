@@ -1,4 +1,4 @@
-$id: static_sectors
+$id: static_sectors.areadefinition
 $ref: base
 title: "Static Sectors"
 description: The definition for a GeoIPS Static Sector.
