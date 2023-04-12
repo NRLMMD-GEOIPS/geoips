@@ -1,6 +1,5 @@
 """Implements valdation machinery for YAML-based plugins."""
 
-import os
 import yaml
 from glob import glob
 from importlib.resources import files
@@ -74,7 +73,9 @@ def get_all_schema():
         try:
             DefaultValidatingValidator.check_schema(schema)
         except jsonschema.exceptions.SchemaError as err:
-            raise ValueError(f"Invalid schema {schema_file}") from err
+            raise jsonschema.exceptions.SchemaError(
+                f"Invalid schema {schema_file}"
+            ) from err
         all_schema[schema_id] = schema
 
     return all_schema
