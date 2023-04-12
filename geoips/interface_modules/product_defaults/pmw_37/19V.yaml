@@ -6,7 +6,7 @@ metadata:
   long-description: ""
 spec:
   algorithm:
-    name: single_channel
+    plugin_name: single_channel
     arguments:
       output_data_range: [125, 300]
       min_outbounds: crop
@@ -15,10 +15,10 @@ spec:
       inverse: null
   mtif_type: pmw
   colormap:
-    name: pmw_tb.cmap_37H
+    plugin_name: pmw_tb.cmap_37H
     arguments:
       data_range: [125, 300]
   interpolation:
-    name: pyresample_wrappers.interp_gauss
+    plugin_name: pyresample_wrappers.interp_gauss
     arguments:
       sigmaval: 25000
