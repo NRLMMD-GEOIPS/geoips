@@ -2,7 +2,7 @@ interface: "dynamic_sectors"
 family: "standard"
 metadata:
   name: "tc_web_ascat_high_barbs_template"
-  short-description: "The tc_web_ascat_high_barbs_template boundaries configuration"
+  short-description: "The tc_web_ascat_high_barbs_template dynamic_sectors configuration"
   long-description: "Using pixel_width: 500, pixel_height: 500, num_lines: 1400, num_samples: 1400."
 spec:
   area_def_generator:

@@ -3,9 +3,9 @@ family: standard
 metadata:
   name: ssmi
   short-description: "The ssmi product_lists configuration"
-  long-description:
-    "The ssmi product_lists configuration, which produces color37, 37pct, color89, 89pct, 89H, 89V, 89HW, 89H-Physical, 89H-Legacy, 19H, 19V, 37H,
-    37H-Physical, 37H-Legacy, and 37V products."
+  long-description: >
+    The ssmi product_lists configuration, which produces color37, 37pct, color89, 89pct, 89H, 89V, 89HW, 89H-Physical, 89H-Legacy, 19H, 19V, 37H,
+    37H-Physical, 37H-Legacy, and 37V products.
 spec:
   products:
     - name: color37

@@ -6,7 +6,7 @@ metadata:
   long-description: "Default values for Wind Ambiguities products"
 spec:
   algorithm:
-    name: sfc_winds.windbarbs
+    plugin_name: sfc_winds.windbarbs
     arguments:
       output_data_range: [0, 200]
       input_units: kts
@@ -16,10 +16,10 @@ spec:
       norm: null
       inverse: null
   colormap:
-    name: winds.wind_radii_transitions
+    plugin_name: winds.wind_radii_transitions
     arguments:
       data_range: [0, 200]
   coverage_check:
-    name: windbarbs
+    plugin_name: windbarbs
     arguments: {}
   mtif_type: windspeed

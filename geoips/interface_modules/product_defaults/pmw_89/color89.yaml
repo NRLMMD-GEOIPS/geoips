@@ -1,19 +1,21 @@
 interface: product_defaults
+family: interpolator_algorithm_colormap
 metadata:
   name: color89
-  family: interp_alg_cmap
+  short-description: "color89"
+  long-description: ""
 spec:
   algorithm:
-    name: pmw_tb.pmw_color89
+    plugin_name: pmw_tb.pmw_color89
     arguments: {}
   mtif_type: rgb
   colormap:
-    name: cmap_rgb
+    plugin_name: cmap_rgb
     arguments: {}
   interpolation:
-    name: pyresample_wrappers.interp_gauss
+    plugin_name: pyresample_wrappers.interp_gauss
     arguments:
       sigmaval: 10000
   coverage:
-    name: rgba
+    plugin_name: rgba
     arguments: {}

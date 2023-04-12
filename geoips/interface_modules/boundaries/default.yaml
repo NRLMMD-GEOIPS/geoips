@@ -3,9 +3,9 @@ family: "standard"
 metadata:
   name: "default"
   short-description: "The default boundaries configuration"
-  long-description:
-    "All line types enabled. All colored red. 2px coastlines, 1px countries,
-    0.5px states borders, and 0px rivers."
+  long-description: >
+    All line types enabled. All colored red. 2px coastlines, 1px countries,
+    0.5px states borders, and 0px rivers.
 spec:
   coastlines:
     enabled: true
@@ -21,4 +21,3 @@ spec:
     linewidth: 0.5
   rivers:
     enabled: false
-

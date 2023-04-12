@@ -1,10 +1,12 @@
 interface: product_defaults
+family: algorithm_colormap
 metadata:
   name: windbarbs
-  family: alg_cmap
+  short-description: "windbarbs"
+  long-description: ""
 spec:
   algorithm:
-    name: sfc_winds.windbarbs
+    plugin_name: sfc_winds.windbarbs
     arguments:
       output_data_range: [0, 200]
       input_units: kts
@@ -15,9 +17,9 @@ spec:
       inverse: null
   mtif_type: image
   colormap:
-    name: winds.wind_radii_transitions
+    plugin_name: winds.wind_radii_transitions
     arguments:
       data_range: [0, 200]
   coverage:
-    name: windbarbs
+    plugin_name: windbarbs
     arguments: {}

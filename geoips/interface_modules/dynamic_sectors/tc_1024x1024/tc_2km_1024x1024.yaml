@@ -2,7 +2,7 @@ interface: "dynamic_sectors"
 family: "standard"
 metadata:
   name: "tc_2km_1024x1024"
-  short-description: "The tc_2km_1024x1024 boundaries configuration"
+  short-description: "The tc_2km_1024x1024 dynamic_sectors configuration"
   long-description: "Using pixel_width: 2000, pixel_height: 2000, num_lines: 1024, num_samples: 1024."
 spec:
   area_def_generator:

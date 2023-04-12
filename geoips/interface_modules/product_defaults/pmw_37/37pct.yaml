@@ -1,10 +1,12 @@
 interface: product_defaults
+family: interpolator_algorithm_colormap
 metadata:
   name: 37pct
-  family: interp_alg_cmap
+  short-description: "37pct"
+  long-description: ""
 spec:
   algorithm:
-    name: pmw_tb.pmw_37pct
+    plugin_name: pmw_tb.pmw_37pct
     arguments:
       output_data_range: [230, 280]
       min_outbounds: crop
@@ -13,10 +15,10 @@ spec:
       inverse: null
   mtif_type: pmw
   colormap:
-    name: pmw_tb.cmap_37pct
+    plugin_name: pmw_tb.cmap_37pct
     arguments:
       data_range: [230, 280]
   interpolation:
-    name: pyresample_wrappers.interp_gauss
+    plugin_name: pyresample_wrappers.interp_gauss
     arguments:
       sigmaval: 10000

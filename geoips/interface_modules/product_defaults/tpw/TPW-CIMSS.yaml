@@ -1,10 +1,12 @@
 interface: product_defaults
+family: interpolator_algorithm_colormap
 metadata:
   name: TPW-CIMSS
-  family: interp_alg_cmap
+  short-description: "TPW-CIMSS"
+  long-description: ""
 spec:
   algorithm:
-    name: single_channel
+    plugin_name: single_channel
     arguments:
       output_data_range: [5, 65.0]
       min_outbounds: mask
@@ -12,9 +14,9 @@ spec:
       norm: null
       inverse: null
   colormap:
-    name: tpw.tpw_cimss
+    plugin_name: tpw.tpw_cimss
     arguments: {}
   interpolation:
-    name: pyresample_wrappers.interp_gauss
+    plugin_name: pyresample_wrappers.interp_gauss
     arguments:
       sigmaval: 10000
