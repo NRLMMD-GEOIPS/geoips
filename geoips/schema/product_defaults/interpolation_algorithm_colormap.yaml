@@ -1,0 +1,24 @@
+$id: plugin_defaults.interpolator_algorithm_colormap
+$ref: base
+type: object
+required:
+  - spec
+properties:
+  spec:
+    type: object
+    additionalProperties: false
+    required:
+      - algorithm
+      - interpolation
+      - colormap
+    properties:
+      algorithm:
+        $ref: "plugin_defaults.algorithm"
+      interpolator:
+        $ref: "plugin_defaults.interpolator"
+      colormap:
+        $ref: "plugin_defaults.colormap"
+      coverage_checker:
+        $ref: "plugin_defaults.coverage_checker"
+      mtif_type:
+        type: string

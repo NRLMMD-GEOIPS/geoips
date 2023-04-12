@@ -1,0 +1,13 @@
+$id: plugin_defaults.interpolator
+$reg: base
+title: "Interpolator"
+additionalProperties: false
+required:
+  - name
+properties:
+  plugin_name:
+    type: string
+  arguments:
+    type: object
+    additionalProperties: true
+    default: {}

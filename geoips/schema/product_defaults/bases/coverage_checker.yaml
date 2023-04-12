@@ -1,0 +1,12 @@
+$id: plugin_defaults.coverage_checker
+title: "Coverage Checker"
+additionalProperties: false
+required:
+  - name
+properties:
+  plugin_name:
+    type: string
+  arguments:
+    type: object
+    additionalProperties: true
+    default: {}

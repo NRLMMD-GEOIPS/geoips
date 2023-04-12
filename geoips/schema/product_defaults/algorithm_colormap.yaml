@@ -1,4 +1,4 @@
-$id: "algorithm_colormap"
+$id: "plugin_defaults.algorithm_colormap"
 $ref: "base"
 type: object
 required:
@@ -12,10 +12,10 @@ properties:
       - colormap
     properties:
       algorithm:
-        $ref: "algorithms#/properties/spec"
+        $ref: "plugin_defaults.algorithm"
       colormap:
-        $ref: "colormaps#/properties/spec"
-      coverage_check:
-        $ref: "coverage_checkers#/properties/spec"
+        $ref: "plugin_defaults.colormap"
+      coverage_checker:
+        $ref: "plugin_defaults.coverage_checker"
       mtif_type:
         type: string

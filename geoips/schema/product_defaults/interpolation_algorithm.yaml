@@ -1,4 +1,4 @@
-$id: interpolation_algorithm
+$id: plugin_defaults.interpolator_algorithm
 $ref: base
 type: object
 required:
@@ -12,10 +12,10 @@ properties:
       - interpolation
     properties:
       algorithm:
-        $ref: "algorithms#/properties/spec"
-      interpolation:
-        $ref: "interpolators#/properties/spec"
-      coverage_check:
-        $ref: "colormaps#/properties/coverage_checkers"
+        $ref: "plugin_defaults.algorithm"
+      interpolator:
+        $ref: "plugin_defaults.interpolator"
+      coverage_checker:
+        $ref: "plugin_defaults.coverage_checker"
       mtif_type:
         type: string

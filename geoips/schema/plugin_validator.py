@@ -46,7 +46,14 @@ def get_all_schema():
     schema_path = files("geoips.schema")
     # Don't use `schema_path.glob` since if it is a MultiplexedPath it won't have `glob`
     schema_files = glob(str(schema_path / "*.yaml"))
-    schema_files += glob(str(schema_path / "*/*.yaml"))
+    schema_files.append(str(schema_path / "product_templates/algorithm_colormap.yaml"))
+    schema_files.append(
+        str(schema_path / "product_templates/algorithm_interpolation_colormap.yaml")
+    )
+    schema_files.append(
+        str(schema_path / "product_templates/interpolation_algorithm_colormap.yaml")
+    )
+    # schema_files += glob(str(schema_path / "*.yaml"))
 
     all_schema = {}
     for schema_file in schema_files:
