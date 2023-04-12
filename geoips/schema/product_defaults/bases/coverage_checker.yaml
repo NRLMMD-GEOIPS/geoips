@@ -1,4 +1,4 @@
-$id: plugin_defaults.coverage_checker
+$id: product_defaults.coverage_checker
 title: "Coverage Checker"
 additionalProperties: false
 required:

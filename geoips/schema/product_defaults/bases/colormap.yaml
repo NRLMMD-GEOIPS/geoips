@@ -1,4 +1,4 @@
-$id: plugin_templates.colormap
+$id: product_defaults.colormap
 title: "Colormap"
 type: object
 additionalProperties: false

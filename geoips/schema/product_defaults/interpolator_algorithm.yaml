@@ -1,4 +1,4 @@
-$id: plugin_defaults.interpolator_algorithm_colormap
+$id: product_defaults.interpolator_algorithm
 $ref: base
 type: object
 required:
@@ -10,15 +10,12 @@ properties:
     required:
       - algorithm
       - interpolation
-      - colormap
     properties:
       algorithm:
-        $ref: "plugin_defaults.algorithm"
+        $ref: "product_defaults.algorithm"
       interpolator:
-        $ref: "plugin_defaults.interpolator"
-      colormap:
-        $ref: "plugin_defaults.colormap"
+        $ref: "product_defaults.interpolator"
       coverage_checker:
-        $ref: "plugin_defaults.coverage_checker"
+        $ref: "product_defaults.coverage_checker"
       mtif_type:
         type: string

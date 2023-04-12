@@ -1,4 +1,4 @@
-$id: plugin_defaults.algorithm
+$id: product_defaults.algorithm
 title: "Algorithm"
 type: object
 additionalProperties: false

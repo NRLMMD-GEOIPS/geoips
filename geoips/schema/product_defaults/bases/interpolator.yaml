@@ -1,4 +1,4 @@
-$id: plugin_defaults.interpolator
+$id: product_defaults.interpolator
 $reg: base
 title: "Interpolator"
 additionalProperties: false
