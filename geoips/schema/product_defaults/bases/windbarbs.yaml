@@ -1,0 +1,20 @@
+$id: product_defaults.windbarbs
+title: "Windbarbs"
+type: object
+additionalProperties: false
+properties:
+  thinning:
+    type: number
+  length:
+    type: number
+  width:
+    type: number
+  sizes_dict:
+    type: object
+    properties:
+      height:
+        type: number
+      spacing:
+        type: number
+  rain_size:
+    type: number
