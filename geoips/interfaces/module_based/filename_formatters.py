@@ -15,7 +15,7 @@
 from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
-class FilenameFormatsInterface(BaseInterface):
+class FilenameFormattersInterface(BaseInterface):
     """Specification for formatting the full path and file name.
 
     File path and name formatting is determined using attributes within the
@@ -71,4 +71,4 @@ class FilenameFormatsInterface(BaseInterface):
         duplicates = self.find_duplicates()
 
 
-filename_formats = FilenameFormatsInterface()
+filename_formats = FilenameFormattersInterface()

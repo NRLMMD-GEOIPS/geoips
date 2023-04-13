@@ -15,7 +15,7 @@
 from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
-class TitleFormatsInterface(BaseInterface):
+class TitleFormattersInterface(BaseInterface):
     """Interface for creating GeoIPS formatted titles."""
 
     name = "title_formats"
@@ -25,4 +25,4 @@ class TitleFormatsInterface(BaseInterface):
     required_kwargs = {"standard": []}
 
 
-title_formats = TitleFormatsInterface()
+title_formats = TitleFormattersInterface()
