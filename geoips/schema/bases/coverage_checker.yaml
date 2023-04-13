@@ -1,6 +1,5 @@
-$id: product_defaults.interpolator
-$reg: base
-title: "Interpolator"
+$id: bases.coverage_checker
+title: "Coverage Checker"
 additionalProperties: false
 required:
   - plugin_name

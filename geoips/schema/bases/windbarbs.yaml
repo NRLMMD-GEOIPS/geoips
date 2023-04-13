@@ -1,4 +1,4 @@
-$id: product_defaults.windbarbs
+$id: bases.windbarbs
 title: "Windbarbs"
 type: object
 additionalProperties: false

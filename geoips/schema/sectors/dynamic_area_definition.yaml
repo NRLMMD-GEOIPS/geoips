@@ -1,11 +1,18 @@
-$id: dynamic_sectors.standard
-$ref: base
-title: "Dynamic Sector"
+$id: sectors.dynamic_area_definition
+$ref: bases.base
+title: "Dynamic Area Definition Sectors"
 description: The definition for a GeoIPS Dynamic Sector.
 type: object
 required:
   - spec
 properties:
+  sector_loader:
+    type: object
+    default: {}
+    properties:
+      name:
+        type: string
+        default: dynamic_area_definition
   spec:
     type: object
     additionalProperties: false # Ensure top level fields are consistent

@@ -1,4 +1,4 @@
-$id: product_defaults.algorithm
+$id: bases.algorithm
 title: "Algorithm"
 type: object
 additionalProperties: false

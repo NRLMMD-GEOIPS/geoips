@@ -1,4 +1,4 @@
-$id: "base"
+$id: "bases.base"
 title: "Base"
 description: |
   The base for all YAML-based plugins. This should be used as a reference at the
