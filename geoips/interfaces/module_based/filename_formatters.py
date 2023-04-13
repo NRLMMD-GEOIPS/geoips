@@ -23,7 +23,7 @@ class FilenameFormattersInterface(BaseInterface):
     """
 
     name = "filename_formatters"
-    entry_point_group = "filename_formatters"
+    entry_point_group = "filename_formats"
     deprecated_family_attr = "filename_type"
 
     required_args = {
