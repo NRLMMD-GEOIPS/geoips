@@ -24,19 +24,25 @@ spec:
         # BLU: B01 0.47um ahi (med res) and B01 0.47um abi (med), no seviri equiv
         # GRN: B02 0.51um ahi (med res) no abi grn band,          no seviri equiv
         # VEG: B04 0.86um ahi (med res) and B03 0.86um abi (med), B02 0.81um seviri
-      cmap_args:
-        cbar_label: "Reflectance, AHI B02 0.51um Green Band"
-        data_range: [0.0, 120.0] # This replaces the default value found in product_defaults/Visible.yaml
-        cbar_ticks: [0, 40, 80, 120] # This replaces the default value found in product_defaults/Visible.yaml
-      alg_args:
-        output_data_range: [0, 120.0] # This replaces the default value found in product_defaults/Visible.yaml
-        gamma_list: [] # This replaces the default value found in product_defaults/Visible.yaml
-        scale_factor: 100.0 # This replaces the default value found in product_defaults/Visible.yaml
+      default_overrides:
+        colormap:
+          plugin_name: matplotlib_linear_norm
+          arguments:
+            data_range: [0.0, 120.0] # This replaces the default value found in product_defaults/Visible.yaml
+            colorbar_label: "Reflectance, AHI B02 0.51um Green Band"
+            colorbar_ticks: [0, 40, 80, 120] # This replaces the default value found in product_defaults/Visible.yaml
+        algorithm:
+          arguments:
+            output_data_range: [0, 120.0] # This replaces the default value found in product_defaults/Visible.yaml
+            gamma_list: [] # This replaces the default value found in product_defaults/Visible.yaml
+            scale_factor: 100.0 # This replaces the default value found in product_defaults/Visible.yaml
     - name: Uncorrected-Channel
       variables:
         ["B02Ref"] # RED: B03 0.64um ahi (hi  res) and B02 0.64um abi (hi), B01 0.635um seviri
         # BLU: B01 0.47um ahi (med res) and B01 0.47um abi (med), no seviri equiv
         # GRN: B02 0.51um ahi (med res) no abi grn band,          no seviri equiv
         # VEG: B04 0.86um ahi (med res) and B03 0.86um abi (med), B02 0.81um seviri
-      cmap_args:
-        cbar_label: "Normalized Channel Data, AHI B02 0.51um Green Band"
+      default_overrides:
+        colormap:
+          arguments:
+            colorbar_label: "Normalized Channel Data, AHI B02 0.51um Green Band"
