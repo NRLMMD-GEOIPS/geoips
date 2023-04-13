@@ -71,4 +71,4 @@ class FilenameFormattersInterface(BaseInterface):
         duplicates = self.find_duplicates()
 
 
-filename_formats = FilenameFormattersInterface()
+filename_formatters = FilenameFormattersInterface()
