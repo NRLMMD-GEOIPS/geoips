@@ -1,5 +1,5 @@
-interface: product_lists
-family: standard
+interface: products
+family: by_source
 metadata:
   name: seviri
   short-description: "The seviri product_lists configuration"

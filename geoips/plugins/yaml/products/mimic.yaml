@@ -1,5 +1,5 @@
-interface: product_lists
-family: standard
+interface: products
+family: by_source
 metadata:
   name: mimic
   short-description: "The mimic product_lists configuration"

@@ -1,5 +1,5 @@
-interface: product_lists
-family: standard
+interface: products
+family: by_source
 metadata:
   name: smos-spd
   short-description: "The smos-spd product_lists configuration"

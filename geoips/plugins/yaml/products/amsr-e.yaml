@@ -1,5 +1,5 @@
-interface: product_lists
-family: standard
+interface: products
+family: by_source
 metadata:
   name: amsr-e
   short-description: "The amsr-e product_lists configuration"

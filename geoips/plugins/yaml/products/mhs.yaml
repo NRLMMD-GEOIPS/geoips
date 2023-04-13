@@ -1,5 +1,5 @@
-interface: product_lists
-family: standard
+interface: products
+family: by_source
 metadata:
   name: mhs
   short-description: "The mhs product_lists configuration"

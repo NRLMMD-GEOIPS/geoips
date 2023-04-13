@@ -1,5 +1,5 @@
-interface: product_lists
-family: standard
+interface: products
+family: by_source
 metadata:
   name: ssmis
   short-description: "The ssmis product_lists configuration"

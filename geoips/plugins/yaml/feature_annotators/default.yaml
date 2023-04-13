@@ -1,5 +1,5 @@
-interface: "boundaries"
-family: "standard"
+interface: "feature_annotators"
+family: "cartopy"
 metadata:
   name: "default"
   short-description: "The default boundaries configuration"

@@ -1,5 +1,5 @@
-interface: "dynamic_sectors"
-family: "standard"
+interface: "sectors"
+family: "dynamic_area_definition"
 metadata:
   name: "tc_4km_512x512"
   short-description: "The tc_4km_512x512 dynamic_sectors configuration"

@@ -1,5 +1,5 @@
-interface: "dynamic_sectors"
-family: "standard"
+interface: "sectors"
+family: "dynamic_area_definition"
 metadata:
   name: "tc_1km_2500x2500"
   short-description: "The tc_1km_2500x2500 dynamic_sectors configuration"

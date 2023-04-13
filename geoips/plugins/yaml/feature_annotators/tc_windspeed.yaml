@@ -1,5 +1,5 @@
-interface: "boundaries"
-family: "standard"
+interface: "feature_annotators"
+family: "cartopy"
 metadata:
   name: "tc_windspeed"
   short-description: "The tc_windspeed boundaries configuration"
