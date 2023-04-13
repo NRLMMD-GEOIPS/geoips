@@ -1,0 +1,14 @@
+$id: sectors.area_definition
+$ref: bases.base
+title: "Static Area Definition Sectors"
+description: The definition for a GeoIPS Static Sector.
+type: object
+additionalProperties: true
+properties:
+  sector_loader:
+    type: object
+    default: {}
+    properties:
+      name:
+        type: string
+        default: area_definition

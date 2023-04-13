@@ -1,5 +1,5 @@
-$id: product_defaults.coverage_checker
-title: "Coverage Checker"
+$id: bases.interpolator
+title: "Interpolator"
 additionalProperties: false
 required:
   - plugin_name

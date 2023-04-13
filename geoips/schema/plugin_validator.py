@@ -15,9 +15,45 @@ def extend_with_default(validator_class):
     """
     validate_properties = validator_class.VALIDATORS["properties"]
 
+    # @classmethod
+    # def check_schema(cls, schema, format_checker=_UNSET):
+    #     Validator = validator_for(cls.META_SCHEMA, default=cls)
+    #     if format_checker is _UNSET:
+    #         format_checker = Validator.FORMAT_CHECKER
+    #     validator = Validator(
+    #         schema=cls.META_SCHEMA,
+    #         format_checker=format_checker,
+    #     )
+    #     for error in validator.iter_errors(schema):
+    #         raise exceptions.SchemaError.create_from(error)
+
+    def required_no_defaults(validator, required, instance, schema):
+        print("IN REQUIRED")
+        print("Schema", schema)
+        print("Instance", instance)
+        if not validator.is_type(instance, "object"):
+            return
+
+        properties = schema["properties"]
+
+        for property in required:
+            properties = schema["properties"]
+            if property in properties and "default" in properties[property]:
+                yield jsonschema.exceptions.ValidationError(
+                    f"property {property!r} is both required and sets a default value"
+                )
+            if property not in instance:
+                yield jsonschema.exceptions.ValidationError(
+                    f"{property!r} is a required property"
+                )
+            # if property not in instance:
+            #     if property not in properties or "default" not in properties[property]:
+            #         yield jsonschema.exceptions.ValidationError(
+            #             f"required property {property!r} "
+            #             f"was not provided and has no default value."
+            #         )
+
     def set_defaults(validator, properties, instance, schema):
-        print("In set_defaults")
-        print(properties)
         for property, subschema in properties.items():
             if "default" in subschema:
                 instance.setdefault(property, subschema["default"])
@@ -32,7 +68,10 @@ def extend_with_default(validator_class):
 
     return jsonschema.validators.extend(
         validator_class,
-        {"properties": set_defaults},
+        {
+            "required": required_no_defaults,
+            "properties": set_defaults,
+        },
     )
 
 

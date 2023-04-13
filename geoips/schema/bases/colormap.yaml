@@ -1,4 +1,4 @@
-$id: product_defaults.colormap
+$id: bases.colormap
 title: "Colormap"
 type: object
 additionalProperties: false

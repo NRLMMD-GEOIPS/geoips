@@ -1,5 +1,5 @@
-$id: boundaries.standard
-$ref: "base"
+$id: feature_annotators.cartopy
+$ref: "bases.base"
 title: "Boundaries"
 description: |
   Defines which geographical boundaries should be drawn over the output products and

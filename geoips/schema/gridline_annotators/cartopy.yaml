@@ -1,5 +1,5 @@
-$id: gridlines.standard
-$ref: base
+$id: gridline_annotators.cartopy
+$ref: bases.base
 title: "Gridlines"
 description: |
   Defines latitude and longitude gridlines and associated labels. Both latitude and
