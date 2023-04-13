@@ -1,10 +1,12 @@
 interface: product_defaults
+family: interpolator_algorithm_colormap
 metadata:
   name: Uncorrected-Channel
-  family: interp_alg_cmap
+  short-description: "Uncorrected-Channel"
+  long-description: ""
 spec:
   algorithm:
-    name: single_channel
+    plugin_name: single_channel
     arguments:
       output_data_range: null # Not specifying output_data_range will use actual min and max
       input_units: null
@@ -19,11 +21,11 @@ spec:
       inverse: null
   mtif_type: vis
   colormap:
-    name: matplotlib_linear_norm
+    plugin_name: matplotlib_linear_norm
     arguments:
       data_range: [0.0, 1.0] # MUST pass data_range, it will not auto-detect
       cmap_name: Greys_r
       cbar_label: Normalized Channel Data
   interpolation:
-    name: pyresample_wrappers.interp_nearest
+    plugin_name: pyresample_wrappers.interp_nearest
     arguments: {}

@@ -1,10 +1,12 @@
 interface: product_defaults
+family: interpolator_algorithm_colormap
 metadata:
   name: Visible
-  family: interp_alg_cmap
+  short-description: "Visible"
+  long-description: ""
 spec:
   algorithm:
-    name: single_channel
+    plugin_name: single_channel
     # This works as-is with defaults for VIIRS and ABI and SEVIRI.
     # AHI does NOT use gamma! Replacement values in product_lists/ahi.yaml
     # MODIS does NOT use gamma, and has scale_factor of 1.0! Replacement values in product_lists/modis.yaml
@@ -22,11 +24,11 @@ spec:
       norm: null
   mtif_type: vis
   colormap:
-    name: matplotlib_linear_norm
+    plugin_name: matplotlib_linear_norm
     arguments:
       data_range: [0.0, 100.0]
       cmap_name: Greys_r
       cbar_label: Reflectance
   interpolation:
-    name: pyresample_wrappers.interp_nearest
+    plugin_name: pyresample_wrappers.interp_nearest
     arguments: {}

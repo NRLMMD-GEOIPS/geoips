@@ -1,10 +1,12 @@
 interface: product_defaults
+family: interpolator_algorithm_colormap
 metadata:
   name: Night-Vis
-  family: interp_alg_cmap
+  short-description: "Night-Vis"
+  long-description: ""
 spec:
   algorithm:
-    name: visir.Night_Vis
+    plugin_name: visir.Night_Vis
     arguments:
       output_data_range: [0, 100]
       input_units: radiance
@@ -18,11 +20,11 @@ spec:
       norm: false
   mtif_type: vis
   colormap:
-    name: matplotlib_linear_norm
+    plugin_name: matplotlib_linear_norm
     arguments:
       data_range: [0, 100]
       cmap_name: Greys_r
       cbar_label: Normalized Radiance
   interpolation:
-    name: pyresample_wrappers.interp_nearest
+    plugin_name: pyresample_wrappers.interp_nearest
     arguments: {}

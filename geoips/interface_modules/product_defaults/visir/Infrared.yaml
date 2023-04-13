@@ -1,10 +1,12 @@
 interface: product_defaults
+family: interpolator_algorithm_colormap
 metadata:
   name: Infrared
-  family: interp_alg_cmap
+  short-description: "Infrared"
+  long-description: ""
 spec:
   algorithm:
-    name: single_channel
+    plugin_name: single_channel
     arguments:
       output_data_range: [-90.0, 30.0]
       input_units: Kelvin
@@ -15,9 +17,9 @@ spec:
       inverse: null
   mtif_type: ir
   colormap:
-    name: visir.Infrared
+    plugin_name: visir.Infrared
     arguments:
       data_range: [-90.0, 30.0]
   interpolation:
-    name: pyresample_wrappers.interp_nearest
+    plugin_name: pyresample_wrappers.interp_nearest
     arguments: {}
