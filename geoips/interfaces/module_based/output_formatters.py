@@ -90,4 +90,4 @@ class OutputFormattersInterface(BaseInterface):
     }
 
 
-output_formats = OutputFormattersInterface()
+output_formatters = OutputFormattersInterface()
