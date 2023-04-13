@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Filename formats interface module."""
+"""Filename formatters interface module."""
 
 from geoips.interfaces.base import BaseInterface, BasePlugin
 
@@ -22,8 +22,8 @@ class FilenameFormattersInterface(BaseInterface):
     GeoIPS xarray objects.
     """
 
-    name = "filename_formats"
-    entry_point_group = "filename_formats"
+    name = "filename_formatters"
+    entry_point_group = "filename_formatters"
     deprecated_family_attr = "filename_type"
 
     required_args = {
