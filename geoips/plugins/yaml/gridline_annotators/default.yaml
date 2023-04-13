@@ -1,5 +1,5 @@
 interface: gridline_annotators
-family: standard
+family: cartopy
 metadata:
   name: default
   short-description: "The default gridlines configuration"

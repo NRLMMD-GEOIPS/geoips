@@ -1,5 +1,5 @@
 interface: gridline_annotators
-family: standard
+family: cartopy
 metadata:
   name: tc_pmw
   short-description: "TC Passive Microwave gridlines configuration"

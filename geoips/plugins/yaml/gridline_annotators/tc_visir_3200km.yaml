@@ -1,5 +1,5 @@
 interface: gridline_annotators
-family: standard
+family: cartopy
 metadata:
   name: tc_visir_3200km
   short-description: "TC Visible Infrared 3200km gridlines configuration"
