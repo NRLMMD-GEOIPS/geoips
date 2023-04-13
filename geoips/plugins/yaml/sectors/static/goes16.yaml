@@ -1,5 +1,5 @@
 interface: sectors
-family: "areadefinition"
+family: area_definition
 metadata:
   name: goes16
   short-description: "goes16"
