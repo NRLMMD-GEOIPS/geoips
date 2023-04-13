@@ -1,4 +1,4 @@
-interface: gridlines
+interface: gridline_annotators
 family: standard
 metadata:
   name: default
