@@ -1,4 +1,4 @@
-interface: "static_sectors"
+interface: sectors
 family: "areadefinition"
 metadata:
   name: goes17
