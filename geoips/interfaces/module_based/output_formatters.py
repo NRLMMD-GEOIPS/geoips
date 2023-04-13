@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Output formats interface module."""
+"""Output formatters interface module."""
 
 from geoips.interfaces.base import BaseInterface, BasePlugin
 
@@ -18,7 +18,7 @@ from geoips.interfaces.base import BaseInterface, BasePlugin
 class OutputFormattersInterface(BaseInterface):
     """Data format for the resulting output product (e.g. netCDF, png)."""
 
-    name = "output_formats"
+    name = "output_formatters"
     deprecated_family_attr = "output_type"
     required_args = {
         "image": ["area_def", "xarray_obj", "product_name", "output_fnames"],
