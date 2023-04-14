@@ -9,12 +9,17 @@ properties:
   spec:
     type: object
     default: {}
+    # Only allow coastlines, countries, rivers, states for now
+    # Each is optional - can leave any out as appropriate.
     additionalProperties: false
     properties:
       coastlines: &line-args
         type: object
         default:
           enabled: false
+        # Only allow enabled, color, linewidth for now. Update if others needed.
+        # Each is optional - can leave any out as appropriate.
+        additionalProperties: false
         properties:
           enabled:
             type: boolean
