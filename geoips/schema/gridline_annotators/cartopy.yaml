@@ -1,6 +1,6 @@
 $id: gridline_annotators.cartopy
 $ref: bases.base
-title: "Gridlines"
+title: "Gridline Annotator"
 description: |
   Defines latitude and longitude gridlines and associated labels. Both latitude and
   longitude lines will always be drawn. Their color, style, width, and spacing in
