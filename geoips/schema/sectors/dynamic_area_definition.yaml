@@ -17,7 +17,7 @@ properties:
     type: object
     additionalProperties: false # Ensure top level fields are consistent
     properties:
-      area_def_generator:
+      sector_loader:
         type: object
         required:
           - name
