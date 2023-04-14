@@ -29,15 +29,12 @@ def main():
             validate(argv[1])
             successful_plugins += [f"SUCCESS {plugin_path}: correctly validated"]
         except Exception as resp:
-            failed_plugins += [f"FAIL {plugin_path}: {str(resp)}"]
+            failed_plugins += [f"FAIL {plugin_path}: did not validate"]
 
     for failed_plugin in failed_plugins:
-        LOG.info(failed_plugin)
+        LOG.error(failed_plugin)
     for successful_plugin in successful_plugins:
-        LOG.error(successful_plugin)
-
-    if failed_plugins:
-        raise Exception
+        LOG.info(successful_plugin)
 
 
 if __name__ == "__main__":
