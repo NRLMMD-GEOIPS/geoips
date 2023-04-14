@@ -33,7 +33,7 @@ spec:
         data_range: [0.0, 100.0]
         cmap_name: Greys_r
         cbar_label: Reflectance
-  interpolation:
+  interpolator:
     plugin:
       name: pyresample_wrappers.interp_nearest
       arguments: {}
