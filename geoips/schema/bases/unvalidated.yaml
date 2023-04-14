@@ -1,0 +1,9 @@
+$id: bases.unvalidated
+$ref: bases.base
+type: object
+required:
+  - spec
+properties:
+  spec:
+    type: object
+    additionalProperties: true  # Family/schema specifies order of ops but not format
