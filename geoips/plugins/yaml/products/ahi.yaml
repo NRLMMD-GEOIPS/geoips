@@ -7,42 +7,51 @@ metadata:
 spec:
   products:
     - name: Infrared
+      product_defaults: Infrared
       variables: ["B13BT"]
     - name: Infrared-Gray
+      product_defaults: Infrared-Gray
       variables: ["B13BT"]
     - name: IR-BD
+      product_defaults: IR-BD
       variables: ["B13BT"] # JTWC requested Ch13 for ahi IR-BD, I don't know if it is necessary for all IR products.
     - name: WV
+      product_defaults: WV
       variables: ["B09BT"] # B09 abi, 6.9um Mid-level WV; B09 ahi 6.9410 Mid-level WV; B27 modis 6.535-6.895um
     - name: WV-Lower
+      product_defaults: WV-Lower
       variables: ["B10BT"] # B10 abi, 7.3um Lower-level WV; B10 ahi 7.3467um Lower-level WV; B28 modis, B06 seviri IR7.3
     - name: WV-Upper
+      product_defaults: WV-Upper
       variables: ["B08BT"] # B08 abi, 6.2um Upper-level WV; B08 ahi 6.2429um Upper-level WV; B05 seviri IR6.2
     - name: Visible
+      product_defaults: Visible
       variables:
         ["B02Ref", "MED:SunZenith"] # RED: B03 0.64um ahi (hi  res) and B02 0.64um abi (hi), B01 0.635um seviri
         # BLU: B01 0.47um ahi (med res) and B01 0.47um abi (med), no seviri equiv
         # GRN: B02 0.51um ahi (med res) no abi grn band,          no seviri equiv
         # VEG: B04 0.86um ahi (med res) and B03 0.86um abi (med), B02 0.81um seviri
-      default_overrides:
-        colormap:
-          plugin_name: matplotlib_linear_norm
+      colormap:
+        plugin:
+          name: matplotlib_linear_norm
           arguments:
-            data_range: [0.0, 120.0] # This replaces the default value found in product_defaults/Visible.yaml
+            data_range: [0.0, 120.0] # This replaces the default value found in product_product_defaults/Visible.yaml
             colorbar_label: "Reflectance, AHI B02 0.51um Green Band"
-            colorbar_ticks: [0, 40, 80, 120] # This replaces the default value found in product_defaults/Visible.yaml
-        algorithm:
+            colorbar_ticks: [0, 40, 80, 120] # This replaces the default value found in product_product_defaults/Visible.yaml
+      algorithm:
+        plugin:
           arguments:
-            output_data_range: [0, 120.0] # This replaces the default value found in product_defaults/Visible.yaml
-            gamma_list: [] # This replaces the default value found in product_defaults/Visible.yaml
-            scale_factor: 100.0 # This replaces the default value found in product_defaults/Visible.yaml
+            output_data_range: [0, 120.0] # This replaces the default value found in product_product_defaults/Visible.yaml
+            gamma_list: [] # This replaces the default value found in product_product_defaults/Visible.yaml
+            scale_factor: 100.0 # This replaces the default value found in product_product_defaults/Visible.yaml
     - name: Uncorrected-Channel
+      product_defaults: Uncorrected-Channel
       variables:
         ["B02Ref"] # RED: B03 0.64um ahi (hi  res) and B02 0.64um abi (hi), B01 0.635um seviri
         # BLU: B01 0.47um ahi (med res) and B01 0.47um abi (med), no seviri equiv
         # GRN: B02 0.51um ahi (med res) no abi grn band,          no seviri equiv
         # VEG: B04 0.86um ahi (med res) and B03 0.86um abi (med), B02 0.81um seviri
-      default_overrides:
-        colormap:
+      colormap:
+        plugin:
           arguments:
             colorbar_label: "Normalized Channel Data, AHI B02 0.51um Green Band"
