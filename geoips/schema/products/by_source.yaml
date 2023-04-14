@@ -1,7 +1,7 @@
 $id: products.by_source
 $ref: bases.base
 title: "Products by Source"
-description: "A list of products that can be produced from a specific data source."
+description: "A set of products that can be produced from a specific data source."
 type: object
 required:
   - spec
