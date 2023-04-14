@@ -1,6 +1,6 @@
 $id: feature_annotators.cartopy
 $ref: "bases.base"
-title: "Boundaries"
+title: "Feature Annotators"
 description: |
   Defines which geographical boundaries should be drawn over the output products and
   how they should be drawn. Can enable coastlines, countries, states, and rivers and
