@@ -19,8 +19,6 @@ properties:
     properties:
       name:
         type: string
-      family:
-        type: string
       short-description:
         type: string
       long-description:
