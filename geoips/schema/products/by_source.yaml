@@ -18,12 +18,12 @@ properties:
         required:
           - name
           - variables
+        additionalProperties: true
         properties:
           name:
             type: string
           variables:
             type: array
             minItems: 1
-          default_overrides:
-            type: object
-            additionalProperties: true
+          product_defaults:
+            type: string
