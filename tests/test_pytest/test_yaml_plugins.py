@@ -10,17 +10,18 @@ from geoips.schema import validate
 test_path = Path(__file__).parent
 package_path = Path(resources.files("geoips"))
 
-# yaml_plugins = Path(f"{package_path}/plugins/").rglob("*.yaml")
-plugins_to_test = [
-    "boundaries",
-    "gridlines",
-    "dynamic_sectors",
-    "static_sectors",
-]
-yaml_plugins = []
-for plg in plugins_to_test:
-    yaml_plugins.extend(Path(f"{package_path}/plugins/{plg}").rglob("*.yaml"))
+yaml_plugins = Path(f"{package_path}/plugins/").rglob("*.yaml")
 bad_yaml_plugins = Path(f"{test_path}/bad_plugins").rglob("*.yaml")
+
+# plugins_to_test = [
+#     "boundaries",
+#     "gridlines",
+#     "dynamic_sectors",
+#     "static_sectors",
+# ]
+# yaml_plugins = []
+# for plg in plugins_to_test:
+#     yaml_plugins.extend(Path(f"{package_path}/plugins/{plg}").rglob("*.yaml"))
 
 
 @pytest.mark.parametrize("plugin_file", yaml_plugins)
