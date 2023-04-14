@@ -3,32 +3,37 @@ family: interpolator_algorithm_colormap
 metadata:
   name: Visible
   short-description: "Visible"
-  long-description: ""
+  long-description: "Visible daytime product with solar zenith correction"
 spec:
   algorithm:
-    plugin_name: single_channel
-    # This works as-is with defaults for VIIRS and ABI and SEVIRI.
-    # AHI does NOT use gamma! Replacement values in product_lists/ahi.yaml
-    # MODIS does NOT use gamma, and has scale_factor of 1.0! Replacement values in product_lists/modis.yaml
-    arguments:
-      output_data_range: [0.0, 100.0]
-      input_units: reflectance
-      output_units: reflectance
-      min_outbounds: crop
-      max_outbounds: crop
-      scale_factor: 100
-      gamma_list: [1.5]
-      sun_zen_correction: true
-      max_day_zen: 90
-      inverse: null
-      norm: null
+    plugin:
+      name: single_channel
+      # This works as-is with defaults for VIIRS and ABI and SEVIRI.
+      # AHI does NOT use gamma!
+      #    Replacement values in products/ahi.yaml
+      # MODIS does NOT use gamma, and has scale_factor of 1.0!
+      #    Replacement values in products/modis.yaml
+      arguments:
+        output_data_range: [0.0, 100.0]
+        input_units: reflectance
+        output_units: reflectance
+        min_outbounds: crop
+        max_outbounds: crop
+        scale_factor: 100
+        gamma_list: [1.5]
+        sun_zen_correction: true
+        max_day_zen: 90
+        inverse: null
+        norm: null
   mtif_type: vis
   colormap:
-    plugin_name: matplotlib_linear_norm
-    arguments:
-      data_range: [0.0, 100.0]
-      cmap_name: Greys_r
-      cbar_label: Reflectance
+    plugin:
+      name: matplotlib_linear_norm
+      arguments:
+        data_range: [0.0, 100.0]
+        cmap_name: Greys_r
+        cbar_label: Reflectance
   interpolation:
-    plugin_name: pyresample_wrappers.interp_nearest
-    arguments: {}
+    plugin:
+      name: pyresample_wrappers.interp_nearest
+      arguments: {}
