@@ -10,6 +10,7 @@ properties:
     type: object
     required:
       - products
+    # Only allow the list of "products" under spec, and also require it.
     additionalProperties: false
     properties:
       products:
@@ -18,6 +19,18 @@ properties:
         required:
           - name
           - variables
+          # Note currently you MUST specify an external product_defaults to be used
+          # as the "base" for the current product.  In the future, if we wanted to
+          # allow fully specifying a product directly from within the products.by_source
+          # YAMLs, we would have to implement the ability to set family, interface,
+          # metadata, and spec from within each product in the list.
+          - product_defaults
+        # additionalProperties: true ensures the product_defaults specific fields are
+        # allowed within the individual products.  The individual product_defaults
+        # fields will be validated programmatically from within the validator.
+        # So, name, variables, and product_defaults are required, and additional
+        # fields from within the "spec" sections of the product_defaults will
+        # be included from within the validator.
         additionalProperties: true
         properties:
           name:
