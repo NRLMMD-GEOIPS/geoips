@@ -31,10 +31,13 @@ def main():
         except Exception as resp:
             failed_plugins += [f"FAIL {plugin_path}: did not validate"]
 
+    print("")
     for failed_plugin in failed_plugins:
         LOG.error(failed_plugin)
+    print("")
     for successful_plugin in successful_plugins:
         LOG.info(successful_plugin)
+    print("")
 
 
 if __name__ == "__main__":
