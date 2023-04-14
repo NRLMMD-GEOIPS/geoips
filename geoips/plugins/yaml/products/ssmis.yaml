@@ -9,49 +9,54 @@ metadata:
 spec:
   products:
     - name: color37
+      product_defaults: color37
       variables: ["H37", "V37"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 25000
     - name: color37Nearest
+      product_defaults: color37Nearest
       variables: ["H37", "V37"]
     - name: 37pct
+      product_defaults: 37pct
       variables: ["H37", "V37"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 25000
     - name: 37pctNearest
+      product_defaults: 37pctNearest
       variables: ["H37", "V37"]
     - name: color91
-      product_defaults: "color89"
+      product_defaults: color89
       variables: ["H91", "V91"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 10000
     - name: color91Nearest
+      product_defaults: color89Nearest
       variables: ["H91", "V91"]
     - name: 91pct
-      product_defaults: "89pct"
+      product_defaults: 89pct
       variables: ["H91", "V91"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 10000
     - name: 91pctNearest
-      product_defaults: "89pctNearest"
+      product_defaults: 89pctNearest
       variables: ["H91", "V91"]
     - name: 91H
-      product_defaults: "89H"
+      product_defaults: 89H
       variables: ["H91"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 10000
     - name: 91HNearest
-      product_defaults: "89HNearest"
+      product_defaults: 89HNearest
       variables: ["H91"]
     - name: 91V
       product_defaults: "89V"
@@ -61,36 +66,37 @@ spec:
           arguments:
             sigmaval: 10000
     - name: 91VNearest
-      product_defaults: "89VNearest"
+      product_defaults: 89VNearest
       variables: ["V91"]
     - name: 91HW
-      product_defaults: "89HW"
+      product_defaults: 89HW
       variables: ["H91"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 10000
     - name: 91HWNearest
-      product_defaults: "89HWNearest"
+      product_defaults: 89HWNearest
       variables: ["H91"]
     - name: 91H-Physical
-      product_defaults: "89H-Physical"
+      product_defaults: 89H-Physical
       variables: ["H91"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 10000
     - name: 91H-PhysicalNearest
-      product_defaults: "89H-PhysicalNearest"
+      product_defaults: 89H-PhysicalNearest
       variables: ["H91"]
     - name: 91H-Legacy
-      product_defaults: "89H-Legacy"
+      product_defaults: 89H-Legacy
       variables: ["H91"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 10000
     - name: 91H-LegacyNearest
+      product_defaults: 89H-LegacyNearest
       variables: ["H91"]
     - name: 150H
       variables: ["H150"]
@@ -99,80 +105,99 @@ spec:
           arguments:
             sigmaval: 10000
     - name: 183-1H
+      product_defaults: 183-1H
       variables: ["H183-1"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 10000
     - name: 183-1HNearest
+      product_defaults: 183-1HNearest
       variables: ["H183-1"]
     - name: 183-3H
+      product_defaults: 183-3H
       variables: ["H183-3"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 10000
     - name: 183-3HNearest
+      product_defaults: 183-3HNearest
       variables: ["H183-3"]
     - name: 183-7H
+      product_defaults: 183-7H
       variables: ["H183-7"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 10000
     - name: 190V
+      product_defaults: 190V
       variables: ["H183-7"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 10000
     - name: 190VNearest
+      product_defaults: 190VNearest
       variables: ["H183-7"]
     - name: 19H
+      product_defaults: 19H
       variables: ["H19"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 25000
     - name: 19HNearest
+      product_defaults: 19HNearest
       variables: ["H19"]
     - name: 19V
+      product_defaults: 19V
       variables: ["V19"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 25000
     - name: 19VNearest
+      product_defaults: 19VNearest
       variables: ["V19"]
     - name: 37H-Legacy
+      product_defaults: 37H-Legacy
       variables: ["H37"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 25000
     - name: 37H-LegacyNearest
+      product_defaults: 37H-LegacyNearest
       variables: ["H37"]
     - name: 37H-Physical
+      product_defaults: 37H-Physical
       variables: ["H37"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 25000
     - name: 37H-PhysicalNearest
+      product_defaults: 37H-PhysicalNearest
       variables: ["H37"]
     - name: 37H
+      product_defaults: 37H
       variables: ["H37"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 25000
     - name: 37HNearest
+      product_defaults: 37HNearest
       variables: ["H37"]
     - name: 37V
+      product_defaults: 37V
       variables: ["V37"]
       interpolator:
         plugin:
           arguments:
             sigmaval: 25000
     - name: 37VNearest
+      product_defaults: 37VNearest
       variables: ["V37"]
