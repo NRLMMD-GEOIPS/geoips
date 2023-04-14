@@ -7,7 +7,8 @@ properties:
   spec:
     type: object
     # ONLY allow algorithm, interpolator, colormap, coverage_checker,
-    # windbarbs, and mtif_type fields under "spec"
+    # windbarbs, and mtif_type fields under "spec". If additional fields are required
+    # in the future, must update schema appropriately.
     # REQUIRE algorithm, interpolator, and colormap
     additionalProperties: false
     required:
