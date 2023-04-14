@@ -8,12 +8,12 @@ spec:
   algorithm:
     plugin:
       name: pmw_tb.pmw89pct
-        arguments:
-          output_data_range: [105.0, 280.0]
-          min_outbounds: crop
-          max_outbounds: mask
-          norm: null
-          inverse: null
+      arguments:
+        output_data_range: [105.0, 280.0]
+        min_outbounds: crop
+        max_outbounds: mask
+        norm: null
+        inverse: null
   mtif_type: pmw
   colormap:
     plugin:
