@@ -6,19 +6,22 @@ metadata:
   long-description: ""
 spec:
   algorithm:
-    plugin_name: pmw_tb.pmw89pct
-    arguments:
-      output_data_range: [105.0, 280.0]
-      min_outbounds: crop
-      max_outbounds: mask
-      norm: null
-      inverse: null
+    plugin:
+      name: pmw_tb.pmw89pct
+        arguments:
+          output_data_range: [105.0, 280.0]
+          min_outbounds: crop
+          max_outbounds: mask
+          norm: null
+          inverse: null
   mtif_type: pmw
   colormap:
-    plugin_name: pmw_tb.cmap_89pct
-    arguments:
-      data_range: [105, 280]
-  interpolation:
-    plugin_name: pyresample_wrappers.interp_gauss
-    arguments:
-      sigmaval: 10000
+    plugin:
+      name: pmw_tb.cmap_89pct
+      arguments:
+        data_range: [105, 280]
+  interpolator:
+    plugin:
+      name: pyresample_wrappers.interp_gauss
+      arguments:
+        sigmaval: 10000
