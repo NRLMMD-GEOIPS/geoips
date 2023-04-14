@@ -13,17 +13,31 @@
 """Simple script to validate a list of plugins provided command line."""
 
 from sys import argv
-import logging
+from geoips.commandline.log_setup import setup_logging
 from geoips.schema import validate
-
-LOG = logging.getLogger(__name__)
 
 
 def main():
     """Validate list of plugins passed command line."""
+
+    LOG = setup_logging()
+    failed_plugins = []
+    successful_plugins = []
     for plugin_path in argv[1:]:
-        LOG.info("Testing {plugin_path}...")
-        validate(argv[1])
+        LOG.info(f"Testing {plugin_path}...")
+        try:
+            validate(argv[1])
+            successful_plugins += [f"SUCCESS {plugin_path}: correctly validated"]
+        except Exception as resp:
+            failed_plugins += [f"FAIL {plugin_path}: {str(resp)}"]
+
+    for failed_plugin in failed_plugins:
+        LOG.info(failed_plugin)
+    for successful_plugin in successful_plugins:
+        LOG.error(successful_plugin)
+
+    if failed_plugins:
+        raise Exception
 
 
 if __name__ == "__main__":
