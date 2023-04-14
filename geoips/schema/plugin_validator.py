@@ -1,7 +1,6 @@
 """Implements valdation machinery for YAML-based plugins."""
 
 import yaml
-from glob import glob
 from importlib.resources import files
 from pathlib import Path
 import jsonschema
@@ -83,7 +82,7 @@ DefaultValidatingValidator = extend_with_default(jsonschema.Draft202012Validator
 
 
 def get_all_schema():
-    """Collect all of the interface schema"""
+    """Collect all of the interface schema."""
     schema_path = files("geoips.schema")
 
     schema_files = Path(f"{str(schema_path)}/").rglob("*.yaml")
