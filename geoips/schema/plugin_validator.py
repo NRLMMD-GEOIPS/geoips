@@ -3,7 +3,10 @@
 import yaml
 from glob import glob
 from importlib.resources import files
+from pathlib import Path
 import jsonschema
+
+package_path = Path(files("geoips"))
 
 
 def extend_with_default(validator_class):
@@ -82,30 +85,16 @@ DefaultValidatingValidator = extend_with_default(jsonschema.Draft202012Validator
 def get_all_schema():
     """Collect all of the interface schema"""
     schema_path = files("geoips.schema")
-    # Don't use `schema_path.glob` since if it is a MultiplexedPath it won't have `glob`
-    schema_files = glob(str(schema_path / "*.yaml"))
-    schema_files.extend(glob(str(schema_path / "product_defaults/base/*.yaml")))
-    schema_files.append(str(schema_path / "product_defaults/algorithm_colormap.yaml"))
-    schema_files.append(
-        str(schema_path / "product_defaults/interpolator_algorithm.yaml")
-    )
-    schema_files.append(
-        str(schema_path / "product_defaults/algorithm_interpolator_colormap.yaml")
-    )
-    schema_files.append(
-        str(schema_path / "product_defaults/interpolator_algorithm_colormap.yaml")
-    )
-    # schema_files += glob(str(schema_path / "*.yaml"))
+
+    schema_files = Path(f"{str(schema_path)}/").rglob("*.yaml")
 
     all_schema = {}
     for schema_file in schema_files:
         schema = yaml.safe_load(open(schema_file, "r"))
+
+        print(f"Adding schema file {schema_file}")
+
         schema_id = schema["$id"]
-        # schema_name = (
-        #     schema_file.replace(str(schema_path) + "/", "")
-        #     .replace("/", ".")
-        #     .replace(".yaml", "")
-        # )
         schema = yaml.safe_load(open(schema_file, "r"))
         print(f"Adding validator {schema_id}")
 
