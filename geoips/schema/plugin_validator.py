@@ -129,7 +129,7 @@ def validate(plugin_file):
     # Validate against the base schema
     # This ensures that "interface" and "family" are set correctly before trying to use
     # them
-    validators["base"].validate(plugin_yaml)
+    validators["bases.base"].validate(plugin_yaml)
 
     # Build the name of the schema to validate against
     interface = plugin_yaml["interface"]
