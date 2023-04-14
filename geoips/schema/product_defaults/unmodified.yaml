@@ -1,2 +1,2 @@
 $id: product_defaults.unmodified
-$ref: bases.unvalidated
+$ref: bases.unvalidated  # Family specifies order of ops but not YAML formatting
