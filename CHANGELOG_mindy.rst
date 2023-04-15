@@ -72,6 +72,19 @@ Update all instances of title_formats with title_formatters
   modified:   image_utils/mpl_utils.py
   modified:   interfaces/module_based/title_formatters.py
 
+Update all instances of interpolation with interpolators
+--------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
+
+::
+
+  modified: interfaces/module_based/interpolators.py
+  modified: plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
+  modified: plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
+  modified: plugins/modules/interpolators/scipy_wrappers/interp_grid.py
+  modified: plugins/modules/interpolators/utils/interp_pyresample.py
+
 Major New Functionality
 =======================
 
