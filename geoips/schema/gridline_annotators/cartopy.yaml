@@ -10,11 +10,17 @@ properties:
   spec:
     type: object
     default: {}
+    # Allow ONLY labels, latitude-lines, longitude-lines.
+    # If additional properties required, must update schema accordingly.
+    # None required - defaults provided for all.
     additionalProperties: false
     properties:
       labels:
         type: object
         default: {}
+        # ONLY allow top, bottom, left, right.
+        # If additional properties required, must update schema accordingly.
+        # None required - defaults provided for all.
         additionalProperties: false
         properties:
           top:
@@ -32,6 +38,9 @@ properties:
       latitude-lines: &lines-args
         type: object
         default: {}
+        # ONLY allow color, linestyle, linewidth, spacing.
+        # If additional properties required, must update schema accordingly.
+        # None required - defaults provided for all.
         additionalProperties: false
         properties:
           color:

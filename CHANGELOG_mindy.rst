@@ -9,12 +9,19 @@ Update schema for all YAML-based interfaces
 
 * feature_annotators.cartopy
 
-  * spec: coastlines, countries, states, rivers only
-  * coastlines, etc: enabled, color, and linewidth ONLY
+  * spec: ONLY and OPTIONAL coastlines, countries, states, rivers
+  * coastlines, etc: ONLY and OPTIONAL enabled, color, and linewidth
+
+* gridline_annotators.cartopy
+
+  * spec: ONLY and OPTIONAL labels, latitude-lines, longitude-lines
+  * labels: ONLY and OPTIONAL top, bottom, left, right
+  * lat/lon: ONLY and OPTIONAL color, linestyle, linewidth, spacing
 
 ::
 
   geoips/schema/feature_annotators/cartopy.yaml
+  geoips/schema/gridline_annotators/cartopy.yaml
 
 Update YAML-based plugins for new formatting
 --------------------------------------------
