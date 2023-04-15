@@ -29,9 +29,9 @@ run_procflow ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/data/AMSR2-OCEAN_v2r2_GW1_s2
           --compare_path "${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean" \
           --product_params_override '{}' \
           --output_formatter_kwargs '{}' \
-          --filename_formatterkwargs '{}' \
+          --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \
-          --metadata_filename_formatterkwargs '{}'
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))

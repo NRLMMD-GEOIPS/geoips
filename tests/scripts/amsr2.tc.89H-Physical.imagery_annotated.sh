@@ -31,9 +31,9 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s20200
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.tc.<product>.imagery_annotated" \
           --product_params_override '{"89H-Physical": {"covg_func": "center_radius", "covg_args": {"radius_km": 300}}}' \
           --output_formatter_kwargs '{}' \
-          --filename_formatterkwargs '{}' \
+          --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \
-          --metadata_filename_formatterkwargs '{}'
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))

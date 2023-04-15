@@ -31,9 +31,9 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_saphir/data/MT1SAPSL1A__1.09_000_1_1
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/saphir.tc.183-3HNearest.imagery_annotated" \
           --product_params_override '{}' \
           --output_formatter_kwargs '{}' \
-          --filename_formatterkwargs '{}' \
+          --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \
-          --metadata_filename_formatterkwargs '{}'
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))

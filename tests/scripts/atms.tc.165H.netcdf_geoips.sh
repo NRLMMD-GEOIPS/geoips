@@ -42,9 +42,9 @@ run_procflow \
           --tc_template_yaml $GEOIPS_PACKAGES_DIR/geoips/geoips/yaml_configs/sectors_dynamic/tc_256x256/tc_4km_256x256.yaml \
           --product_params_override '{}' \
           --output_formatter_kwargs '{}' \
-          --filename_formatterkwargs '{}' \
+          --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \
-          --metadata_filename_formatterkwargs '{}'
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))

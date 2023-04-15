@@ -32,9 +32,9 @@ run_procflow \
     --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs" \
     --product_params_override '{}' \
     --output_formatter_kwargs '{}' \
-    --filename_formatterkwargs '{}' \
+    --filename_formatter_kwargs '{}' \
     --metadata_output_formatter_kwargs '{}' \
-    --metadata_filename_formatterkwargs '{}'
+    --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))

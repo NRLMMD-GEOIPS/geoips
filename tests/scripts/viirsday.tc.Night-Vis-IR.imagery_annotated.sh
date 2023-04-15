@@ -39,9 +39,9 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ10
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsday.tc.<product>.imagery_annotated" \
              --product_params_override '{}' \
              --output_formatter_kwargs '{}' \
-             --filename_formatterkwargs '{}' \
+             --filename_formatter_kwargs '{}' \
              --metadata_output_formatter_kwargs '{}' \
-             --metadata_filename_formatterkwargs '{}'
+             --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
