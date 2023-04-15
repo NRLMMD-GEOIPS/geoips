@@ -40,6 +40,15 @@ Update all instances of filename_formats with filename_formatters
   modified: plugins/modules/procflows/config_based.py
   modified: plugins/modules/procflows/single_source.py
 
+Update all instances of user_colormaps with colormaps
+-----------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
+
+::
+
+  modified:   interfaces/module_based/colormaps.py
+
 Major New Functionality
 =======================
 
