@@ -22,6 +22,9 @@ Update all instances of output_format with output_formatter
 
 *From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
 
+
+(grep "output_format[^t]")
+
 ::
 
 
@@ -58,6 +61,7 @@ Update all instances of filename_format with filename_formatter
 *From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
 
 Replacing just the singular (after replacing plural)
+(grep "filename_format[^t]")
 
 ::
 
