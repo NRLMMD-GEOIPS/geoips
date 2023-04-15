@@ -526,7 +526,7 @@ def get_vis_ir_bg(sect_xarray):
     LOG.info("irfnames: %s", irfnames)
     LOG.info("visfnames: %s", visfnames)
     ret_arr = {}
-    from geoips.interface_modules.readers.geoips_netcdf import read_xarray_netcdf
+    from geoips.plugins.modules.readers.geoips_netcdf import read_xarray_netcdf
 
     if irfnames:
         ir_bg = read_xarray_netcdf(irfnames[0])

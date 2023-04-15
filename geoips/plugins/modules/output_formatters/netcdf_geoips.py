@@ -30,7 +30,7 @@ def netcdf_geoips(xarray_obj, product_names, output_fnames):
     for product_name in product_names:
         prod_xarray[product_name] = xarray_obj[product_name]
 
-    from geoips.interface_modules.output_formatters.netcdf_xarray import (
+    from geoips.plugins.modules.output_formatters.netcdf_xarray import (
         write_xarray_netcdf,
     )
 

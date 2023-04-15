@@ -272,7 +272,7 @@ def trackfile_to_area_defs(
     trackfile : str
         Full path to trackfile, convert each line into a separate area_def
     trackfile_parser : str
-        Parser to use from interface_modules/trackfile_parsers on trackfiles
+        Parser to use from plugins/modules/trackfile_parsers on trackfiles
 
     Returns
     -------

@@ -231,7 +231,7 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             help="""Specify area def adjuster to be used within processing, located in:
-                            <package>.interface_modules.area_def_adjusters.
+                            <package>.plugins.modules.area_def_adjusters.
                                 <myadjuster>.<myadjuster>""",
         )
 
@@ -267,7 +267,7 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             help="""Specify TC trackfile parser to use with trackfiles, located in:
-                            geoips*.interface_modules.trackfile_parsers.
+                            geoips*.plugins.modules.trackfile_parsers.
                                 myparsername.myparsername,
                             The trackfile_parser string should be the parser module
                             name (no .py)""",
@@ -453,7 +453,7 @@ def add_args(parser, arglist=None):
             "--procflow",
             default=None,
             help="""Specify procflow that should be followed for this file, located in:
-                            geoips*.interface_modules.procflows.
+                            geoips*.plugins.modules.procflows.
                                 myprocflowname.myprocflowname,
                             The procflow string should be the procflow module
                             name (no .py)""",
@@ -769,7 +769,7 @@ def add_args(parser, arglist=None):
             default=None,
             help="""If --product_db_writer is passed, the specific product
                     database writer will be located in
-                    geoips*.interface_modules.postgres_database.
+                    geoips*.plugins.modules.database.
                         mywriter_name.mywriter_name,
                     The writer_name string should be the reader module name
                     (no .py)""",

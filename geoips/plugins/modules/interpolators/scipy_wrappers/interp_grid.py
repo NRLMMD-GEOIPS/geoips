@@ -16,7 +16,7 @@ import logging
 import xarray
 
 from geoips.dev.utils import copy_standard_metadata
-from geoips.interface_modules.interpolators.utils.interp_scipy import interp_griddata
+from geoips.plugins.modules.interpolators.utils.interp_scipy import interp_griddata
 
 LOG = logging.getLogger(__name__)
 

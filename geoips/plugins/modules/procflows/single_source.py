@@ -394,7 +394,7 @@ def pad_area_definition(
             clat = area_def.proj_dict["lat_0"]
             clon = area_def.proj_dict["lon_0"]
 
-        from geoips.interface_modules.sector_loaders.clat_clon_resolution_shape import (
+        from geoips.plugins.modules.sector_loaders.clat_clon_resolution_shape import (
             clat_clon_resolution_shape,
         )
 
@@ -1090,7 +1090,7 @@ def get_alg_xarray(
     else:
         raise TypeError(
             f'UNSUPPORTED alg_family "{alg_family}" or product_type "{product_type}", '
-            'please add to geoips/interface_modules/procflows/single_source.py "get_alg_xarray" '
+            'please add to geoips/plugins/modules/procflows/single_source.py "get_alg_xarray" '
             "function appropriately"
         )
 
