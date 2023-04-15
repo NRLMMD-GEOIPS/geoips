@@ -210,7 +210,7 @@ def set_tc_area_def(
     from geoips.geoips_utils import find_entry_point
 
     # These are things like 'clat_clon_resolution_shape'
-    template_func = find_entry_point("area_def_generators", template_func_name)
+    template_func = find_entry_point("sector_loaders", template_func_name)
     # Probably generalize this at some point. For now I know those are the
     # ones that are <template>
     template_args["area_id"] = area_id

@@ -394,7 +394,7 @@ def pad_area_definition(
             clat = area_def.proj_dict["lat_0"]
             clon = area_def.proj_dict["lon_0"]
 
-        from geoips.interface_modules.area_def_generators.clat_clon_resolution_shape import (
+        from geoips.interface_modules.sector_loaders.clat_clon_resolution_shape import (
             clat_clon_resolution_shape,
         )
 

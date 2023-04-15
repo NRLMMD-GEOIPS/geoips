@@ -49,6 +49,18 @@ Update all instances of user_colormaps with colormaps
 
   modified:   interfaces/module_based/colormaps.py
 
+Update all instances of area_def_generators with sector_loaders
+---------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
+
+::
+
+  modified: plugins/modules/procflows/single_source.py
+  modified: plugins/modules/sector_loaders/__init__.py
+  modified: sector_utils/tc_tracks.py
+  modified: sector_utils/utils.py
+
 Major New Functionality
 =======================
 
