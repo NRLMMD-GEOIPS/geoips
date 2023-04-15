@@ -30,6 +30,7 @@ def main():
             successful_plugins += [f"SUCCESS {plugin_path}: correctly validated"]
         except Exception as resp:
             failed_plugins += [f"FAIL {plugin_path}: did not validate"]
+            LOG.exception(str(resp))
 
     print("")
     for failed_plugin in failed_plugins:
