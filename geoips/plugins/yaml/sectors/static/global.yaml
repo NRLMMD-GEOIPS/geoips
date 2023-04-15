@@ -4,6 +4,11 @@ metadata:
   name: global
   short-description: "global"
   long-description: "global"
+spec:
+  sector_loader:
+    plugin:
+      name: pyresample_area_definition
+# From here down is a fully valid pyresample area definition
 global:
   description: Global Sector
   projection:

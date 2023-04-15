@@ -1,15 +1,16 @@
 interface: "sectors"
-family: "dynamic_area_definition"
+family: "dynamic"
 metadata:
   name: "tc_web_2km_template"
   short-description: "The tc_web_2km_template dynamic_sectors configuration"
   long-description: "Using pixel_width: 2000, pixel_height: 2000, num_lines: 700, num_samples: 700."
 spec:
-  area_def_generator:
-    name: clat_clon_resolution_shape
-    arguments:
-      projection: eqc
-      pixel_width: 2000
-      pixel_height: 2000
-      num_lines: 700
-      num_samples: 700
+  sector_loader:
+    plugin:
+      name: clat_clon_resolution_shape
+      arguments:
+        projection: eqc
+        pixel_width: 2000
+        pixel_height: 2000
+        num_lines: 700
+        num_samples: 700
