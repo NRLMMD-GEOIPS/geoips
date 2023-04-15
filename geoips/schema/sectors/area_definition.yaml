@@ -2,13 +2,26 @@ $id: sectors.area_definition
 $ref: bases.base
 title: "Static Area Definition Sectors"
 description: The definition for a GeoIPS Static Sector.
-type: object
+# MUST allow additional properties, because pyresample area_definitions must have the
+# area_id as a top level key in the YAML file.
 additionalProperties: true
 properties:
-  sector_loader:
+  spec:
     type: object
-    default: {}
+    required:
+      - sector_loader
+    additionalProperties: false # ONLY and REQUIRED sector_loader
     properties:
-      name:
-        type: string
-        default: area_definition
+      sector_loader:
+        type: object
+        required:
+          - plugin
+        additionalProperties: false # ONLY and REQUIRED plugin
+        properties:
+          plugin:
+            required:
+              - name
+            additionalProperties: false # ONLY and REQUIRED name
+            properties:
+              name:
+                type: string

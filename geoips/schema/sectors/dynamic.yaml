@@ -1,0 +1,56 @@
+$id: sectors.dynamic
+$ref: bases.base
+title: "Dynamic Sectors"
+description: The definition for a GeoIPS Dynamic Sector.
+properties:
+  spec:
+    type: object
+    required:
+      - sector_loader
+    additionalProperties: false # ONLY and REQUIRED sector_loader
+    properties:
+      sector_loader:
+        type: object
+        required:
+          - plugin
+        additionalProperties: false # ONLY and REQUIRED plugin
+        properties:
+          plugin:
+            type: object
+            required:
+              - name
+            additionalProperties: false  # ONLY and REQUIRED name, arguments
+            properties:
+              name:
+                type: string
+              arguments:
+                type: object
+                default: {}
+                # Currently only support the arguments to clat_clon_resolution_shape
+                # May need to adjust in the future - potentially pull arguments from
+                # actual call signature (since these are module-based plugins)
+                additionalProperties: false
+                properties:
+                  area_id:
+                    type: ["string", "null"]
+                    default: null
+                  long_description:
+                    type: ["string", "null"]
+                    default: null
+                  clat:
+                    type: ["string", "null"]
+                    default: null
+                  clon:
+                    type: ["string", "null"]
+                    default: null
+                  projection:
+                    type: string
+                    default: eqc
+                  pixel_width:
+                    type: number
+                  pixel_height:
+                    type: number
+                  num_lines:
+                    type: number
+                  num_samples:
+                    type: number
