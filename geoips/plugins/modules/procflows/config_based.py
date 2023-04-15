@@ -38,7 +38,7 @@ from geoips.dev.output_config import (
 
 # New interfaces
 from geoips.interfaces import interpolators
-from geoips.interfaces import output_formats
+from geoips.interfaces import output_formatters
 from geoips.interfaces import readers
 
 # Collect functions from single_source (should consolidate these somewhere)
@@ -1342,7 +1342,7 @@ def config_based(fnames, command_line_args=None):
                         continue
 
                     output_format = get_output_format(output_dict)
-                    output_fmt_plugin = output_formats.get_plugin(output_format)
+                    output_fmt_plugin = output_formatters.get_plugin(output_format)
 
                     if output_fmt_plugin.family == "xarray_data":
                         # If we're saving out intermediate data file, write out

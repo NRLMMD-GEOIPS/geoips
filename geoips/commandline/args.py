@@ -509,8 +509,8 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             help="""Specify output format module_name that should be used for this file,
-                    each output_format is 'output_formats.imagery_annotated' where
-                    from geoips*.output_formats.imagery_annotated import
+                    each output_format is 'output_formatters.imagery_annotated' where
+                    from geoips*.output_formatters.imagery_annotated import
                     imagery_annotated would be the appropriate import statement""",
         )
     if arglist is None or "output_format_kwargs" in arglist:
@@ -531,7 +531,7 @@ def add_args(parser, arglist=None):
             default=None,
             help="""Specify output format module_name that should be used for
                     metadata output, each output_format is 'myoutputmodule' where
-                        from geoips.output_formats.myoutputmodule.myoutputmodule
+                        from geoips.output_formatters.myoutputmodule.myoutputmodule
                     would be the appropriate entry point""",
         )
     if arglist is None or "metadata_output_format_kwargs" in arglist:

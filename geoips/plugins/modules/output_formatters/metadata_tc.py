@@ -187,7 +187,7 @@ def output_tc_metadata_yaml(
     str
         Path to metadata filename if successfully produced.
     """
-    from geoips.interface_modules.output_formats.metadata_default import (
+    from geoips.interface_modules.output_formatters.metadata_default import (
         update_sector_info_with_default_metadata,
     )
 
