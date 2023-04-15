@@ -145,25 +145,25 @@ def is_valid_product(product_name, source_name, output_dict=None):
             "cmap_func",
             "cmap_args",
         ],
-        "sectored_xarray_dict_to_output_format": [
+        "sectored_xarray_dict_to_output_formatter": [
             "product_type",
             "product_name",
             "source_input",
             "variables",
         ],
-        "unsectored_xarray_dict_to_output_format": [
+        "unsectored_xarray_dict_to_output_formatter": [
             "product_type",
             "product_name",
             "source_input",
             "variables",
         ],
-        "unsectored_xarray_dict_area_to_output_format": [
+        "unsectored_xarray_dict_area_to_output_formatter": [
             "product_type",
             "product_name",
             "source_input",
             "variables",
         ],
-        "xarray_dict_to_output_format": [
+        "xarray_dict_to_output_formatter": [
             "product_type",
             "product_name",
             "source_input",
@@ -178,17 +178,17 @@ def is_valid_product(product_name, source_name, output_dict=None):
         "interp_alg": ["display_name", "covg_func", "covg_args"],
         "alg": ["display_name", "covg_func", "covg_args"],
         "cmap": ["display_name", "covg_func", "covg_args"],
-        "sectored_xarray_dict_to_output_format": [
+        "sectored_xarray_dict_to_output_formatter": [
             "display_name",
             "covg_func",
             "covg_args",
         ],
-        "unsectored_xarray_dict_to_output_format": [
+        "unsectored_xarray_dict_to_output_formatter": [
             "display_name",
             "covg_func",
             "covg_args",
         ],
-        "unsectored_xarray_dict_area_to_output_format": [
+        "unsectored_xarray_dict_area_to_output_formatter": [
             "display_name",
             "covg_func",
             "covg_args",

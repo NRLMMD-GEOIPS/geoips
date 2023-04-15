@@ -69,7 +69,7 @@ def is_valid_output_config(output_config_dict):
         "available_sectors": [],
         "outputs": [
             "requested_sector_type",
-            "output_format",
+            "output_formatter",
             "filename_formatters",
             "product_names",
         ],
@@ -187,15 +187,15 @@ def get_filename_formatters(output_dict):
         return output_dict["filename_formatters"]
 
 
-def get_output_format(output_dict):
+def get_output_formatter(output_dict):
     """Interface will be deprecated v2.0."""
-    return output_dict["output_format"]
+    return output_dict["output_formatter"]
 
 
-def get_metadata_output_format(output_dict):
+def get_metadata_output_formatter(output_dict):
     """Interface will be deprecated v2.0."""
-    if "metadata_output_format" in output_dict:
-        return output_dict["metadata_output_format"]
+    if "metadata_output_formatter" in output_dict:
+        return output_dict["metadata_output_formatter"]
     return None
 
 
@@ -319,7 +319,7 @@ def get_metadata_filename_formatterkwargs(filename_formatter output_dict):
     return metadata_filename_formatterkwargs
 
 
-def get_output_format_kwargs(
+def get_output_formatter_kwargs(
     output_dict,
     xarray_obj=None,
     area_def=None,
@@ -334,9 +334,9 @@ def get_output_format_kwargs(
     from geoips.dev.gridlines import get_gridlines, set_lonlat_spacing
     from geoips.dev.boundaries import get_boundaries
 
-    output_format_kwargs = {}
-    if "output_format_kwargs" in output_dict:
-        output_format_kwargs = output_dict["output_format_kwargs"].copy()
+    output_formatter_kwargs = {}
+    if "output_formatter_kwargs" in output_dict:
+        output_formatter_kwargs = output_dict["output_formatter_kwargs"].copy()
 
     if (
         "gridlines_params" in output_dict
@@ -344,50 +344,50 @@ def get_output_format_kwargs(
     ):
         gridlines_info = get_gridlines(output_dict["gridlines_params"])
         gridlines_info = set_lonlat_spacing(gridlines_info, area_def)
-        output_format_kwargs["gridlines_info"] = gridlines_info
+        output_formatter_kwargs["gridlines_info"] = gridlines_info
 
     if (
         "boundaries_params" in output_dict
         and output_dict["boundaries_params"] is not None
     ):
         boundaries_info = get_boundaries(output_dict["boundaries_params"])
-        output_format_kwargs["boundaries_info"] = boundaries_info
+        output_formatter_kwargs["boundaries_info"] = boundaries_info
 
     if bg_files and "background_products" in output_dict and sector_type in bg_xarrays:
-        output_format_kwargs["bg_xarray"] = bg_xarrays[sector_type]
-        output_format_kwargs["bg_data"] = output_format_kwargs["bg_xarray"][
+        output_formatter_kwargs["bg_xarray"] = bg_xarrays[sector_type]
+        output_formatter_kwargs["bg_data"] = output_formatter_kwargs["bg_xarray"][
             bg_product_name
         ].to_masked_array()
-        output_format_kwargs["bg_product_name_title"] = bg_product_name
-        output_format_kwargs["bg_mpl_colors_info"] = None
+        output_formatter_kwargs["bg_product_name_title"] = bg_product_name
+        output_formatter_kwargs["bg_mpl_colors_info"] = None
         bg_cmap_plugin_name = get_cmap_name(
             bg_product_name,
-            output_format_kwargs["bg_xarray"].source_name,
+            output_formatter_kwargs["bg_xarray"].source_name,
             output_dict=output_dict,
         )
         if bg_cmap_plugin_name is not None:
             bg_cmap_plugin = colormaps.get_plugin(bg_cmap_plugin_name)
             bg_cmap_args = get_cmap_args(
                 bg_product_name,
-                output_format_kwargs["bg_xarray"].source_name,
+                output_formatter_kwargs["bg_xarray"].source_name,
                 output_dict=output_dict,
             )
-            output_format_kwargs["bg_mpl_colors_info"] = bg_cmap_plugin(**bg_cmap_args)
+            output_formatter_kwargs["bg_mpl_colors_info"] = bg_cmap_plugin(**bg_cmap_args)
 
-    output_format_kwargs["output_dict"] = output_dict
+    output_formatter_kwargs["output_dict"] = output_dict
 
-    return output_format_kwargs
+    return output_formatter_kwargs
 
 
-def get_metadata_output_format_kwargs(output_dict):
+def get_metadata_output_formatter_kwargs(output_dict):
     """Interface will be deprecated v2.0."""
-    metadata_output_format_kwargs = {}
-    if "metadata_output_format_kwargs" in output_dict:
-        metadata_output_format_kwargs = output_dict[
-            "metadata_output_format_kwargs"
+    metadata_output_formatter_kwargs = {}
+    if "metadata_output_formatter_kwargs" in output_dict:
+        metadata_output_formatter_kwargs = output_dict[
+            "metadata_output_formatter_kwargs"
         ].copy()
-        metadata_output_format_kwargs["output_dict"] = output_dict
-    return metadata_output_format_kwargs
+        metadata_output_formatter_kwargs["output_dict"] = output_dict
+    return metadata_output_formatter_kwargs
 
 
 def produce_current_time(config_dict, metadata_xobj, output_dict_keys=None):

@@ -30,8 +30,8 @@ except ImportError:
 
 # Old interfaces (YAML, will migrate to new soon)
 from geoips.dev.output_config import (
-    get_output_format_kwargs,
-    get_output_format,
+    get_output_formatter_kwargs,
+    get_output_formatter,
     get_minimum_coverage,
     produce_current_time,
 )
@@ -44,7 +44,7 @@ from geoips.interfaces import readers
 # Collect functions from single_source (should consolidate these somewhere)
 from geoips.plugins.modules.procflows.single_source import (
     process_sectored_data_output,
-    process_xarray_dict_to_output_format,
+    process_xarray_dict_to_output_formatter,
 )
 
 # Moved to top-level errors module, fixing issue #67
@@ -425,7 +425,7 @@ def process_unsectored_data_outputs(
 
                         # This actually produces all the required output files for the
                         # current product
-                        out = process_xarray_dict_to_output_format(
+                        out = process_xarray_dict_to_output_formatter(
                             xobjs, variables, product_name, output_dict
                         )
 
@@ -1341,8 +1341,8 @@ def config_based(fnames, command_line_args=None):
                                 ]
                         continue
 
-                    output_format = get_output_format(output_dict)
-                    output_fmt_plugin = output_formatters.get_plugin(output_format)
+                    output_formatter = get_output_formatter(output_dict)
+                    output_fmt_plugin = output_formatters.get_plugin(output_formatter)
 
                     if output_fmt_plugin.family == "xarray_data":
                         # If we're saving out intermediate data file, write out
@@ -1430,7 +1430,7 @@ def config_based(fnames, command_line_args=None):
                         )
                         continue
 
-                    plot_data_kwargs = get_output_format_kwargs(
+                    plot_data_kwargs = get_output_formatter_kwargs(
                         output_dict,
                         alg_xarray,
                         area_def,

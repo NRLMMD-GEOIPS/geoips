@@ -45,12 +45,12 @@ from geoips.dev.product import (
 from geoips.dev.output_config import (
     get_filename_formatters,
     get_filename_formatterkwargs,
-    get_output_format,
-    get_output_format_kwargs,
+    get_output_formatter,
+    get_output_formatter_kwargs,
     get_metadata_filename_formatter
     get_metadata_filename_formatterkwargs,
-    get_metadata_output_format,
-    get_metadata_output_format_kwargs,
+    get_metadata_output_formatter,
+    get_metadata_output_formatter_kwargs,
     get_minimum_coverage,
 )
 
@@ -84,9 +84,9 @@ FILENAME_FORMATS_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT = [
 ]
 
 PRODUCT_FAMILIES_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT = [
-    "sectored_xarray_dict_to_output_format",
-    "unsectored_xarray_dict_to_output_format",
-    "unsectored_xarray_dict_area_to_output_format",
+    "sectored_xarray_dict_to_output_formatter",
+    "unsectored_xarray_dict_to_output_formatter",
+    "unsectored_xarray_dict_area_to_output_formatter",
 ]
 
 PMW_NUM_PIXELS_X = 1400
@@ -104,21 +104,21 @@ def output_all_metadata(
 ):
     """Output all metadata."""
     final_outputs = output_fnames.copy()
-    metadata_output_format = get_metadata_output_format(output_dict)
-    metadata_output_format_kwargs = get_metadata_output_format_kwargs(output_dict)
+    metadata_output_formatter = get_metadata_output_formatter(output_dict)
+    metadata_output_formatter_kwargs = get_metadata_output_formatter_kwargs(output_dict)
     for metadata_fname, output_fname in zip(metadata_fnames, output_fnames):
         if metadata_fname is not None:
             # Optional arguments for standard metadata formats (like "output_dict")
-            metadata_output_format_kwargs["metadata_fname_dict"] = metadata_fnames[
+            metadata_output_formatter_kwargs["metadata_fname_dict"] = metadata_fnames[
                 metadata_fname
             ]
-            metadata_output_format_kwargs["output_fname_dict"] = output_fnames[
+            metadata_output_formatter_kwargs["output_fname_dict"] = output_fnames[
                 output_fname
             ]
-            metadata_output_format_kwargs["output_dict"] = output_dict
-            output_plugin = output_formatters.get_plugin(metadata_output_format)
+            metadata_output_formatter_kwargs["output_dict"] = output_dict
+            output_plugin = output_formatters.get_plugin(metadata_output_formatter)
             output_kwargs = remove_unsupported_kwargs(
-                output_plugin, metadata_output_format_kwargs
+                output_plugin, metadata_output_formatter_kwargs
             )
             if output_plugin.family == "standard_metadata":
                 curr_outputs = output_plugin(
@@ -242,7 +242,7 @@ def process_sectored_data_output(
     output_products = []
     if (
         get_product_type(product_name, xobjs["METADATA"].source_name)
-        == "sectored_xarray_dict_to_output_format"
+        == "sectored_xarray_dict_to_output_formatter"
     ):
         # xdict = {}
         # dsnum = 0
@@ -250,19 +250,19 @@ def process_sectored_data_output(
         #     xdict[f'DS{dsnum}'] = sect_xarray
         #     dsnum += 1
         # xdict['METADATA'] = xobjs[0][[]]
-        output_products += process_xarray_dict_to_output_format(
+        output_products += process_xarray_dict_to_output_formatter(
             xobjs, variables, product_name, output_dict, area_def=area_def
         )
     return output_products
 
 
-def process_xarray_dict_to_output_format(
+def process_xarray_dict_to_output_formatter(
     xobjs, variables, product_name, output_dict, area_def=None
 ):
     """Process xarray dict to output format."""
-    output_format = get_output_format(output_dict)
+    output_formatter = get_output_formatter(output_dict)
 
-    output_format_kwargs = get_output_format_kwargs(output_dict)
+    output_formatter_kwargs = get_output_formatter_kwargs(output_dict)
 
     supported_product_types = PRODUCT_FAMILIES_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT
 
@@ -279,7 +279,7 @@ def process_xarray_dict_to_output_format(
         OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG + OUTPUT_FAMILIES_WITH_NO_OUTFNAMES_ARG
     )
 
-    output_plugin = output_formatters.get_plugin(output_format)
+    output_plugin = output_formatters.get_plugin(output_formatter)
 
     # Only get output filenames if needed
     if output_plugin.family in OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG:
@@ -294,15 +294,15 @@ def process_xarray_dict_to_output_format(
             supported_filenamer_types=supported_filenamer_types,
         )
 
-    if "output_dict" not in output_format_kwargs:
-        output_format_kwargs["output_dict"] = output_dict
-    output_format_kwargs = remove_unsupported_kwargs(
-        output_plugin, output_format_kwargs
+    if "output_dict" not in output_formatter_kwargs:
+        output_formatter_kwargs["output_dict"] = output_dict
+    output_formatter_kwargs = remove_unsupported_kwargs(
+        output_plugin, output_formatter_kwargs
     )
 
     if output_plugin.family == "xrdict_varlist_outfnames_to_outlist":
         curr_products = output_plugin(
-            xobjs, variables, list(output_fnames.keys()), **output_format_kwargs
+            xobjs, variables, list(output_fnames.keys()), **output_formatter_kwargs
         )
         # If we pass it a list of filenames, assume we create exactly those filenames
         if curr_products != list(output_fnames.keys()):
@@ -314,7 +314,7 @@ def process_xarray_dict_to_output_format(
             area_def,
             product_name,
             list(output_fnames.keys()),
-            **output_format_kwargs,
+            **output_formatter_kwargs,
         )
         # If we pass it a list of filenames, assume we create exactly those filenames
         if curr_products != list(output_fnames.keys()):
@@ -322,7 +322,7 @@ def process_xarray_dict_to_output_format(
 
     elif output_plugin.family == "xrdict_area_product_to_outlist":
         curr_products = output_plugin(
-            xobjs, area_def, product_name, **output_format_kwargs
+            xobjs, area_def, product_name, **output_formatter_kwargs
         )
         # No input filename list, no check that output filename list matches
         LOG.info(
@@ -331,7 +331,7 @@ def process_xarray_dict_to_output_format(
 
     else:
         raise TypeError(
-            f'UNSUPPORTED output_format "{output_format}" '
+            f'UNSUPPORTED output_formatter "{output_formatter}" '
             f"for product_family {product_type}\n"
             f'      output_plugin_family: "{output_plugin.family}"\n'
             f"      output_plugin_type must be one of {supported_output_plugin_types}"
@@ -490,8 +490,8 @@ def plot_data(
     """
     # If keyword argument is allowed for output function, include it
     output_kwargs["output_dict"] = output_dict
-    output_format = get_output_format(output_dict)
-    output_plugin = output_formatters.get_plugin(output_format)
+    output_formatter = get_output_formatter(output_dict)
+    output_plugin = output_formatters.get_plugin(output_formatter)
 
     if no_output or output_plugin.family in OUTPUT_FAMILIES_WITH_NO_OUTFNAMES_ARG:
         output_fnames = {}
@@ -518,7 +518,7 @@ def plot_data(
             cmap_args = get_cmap_args(product_name, alg_xarray.source_name)
             mpl_colors_info = cmap_plugin(**cmap_args)
 
-        output_plugin = output_formatters.get_plugin(output_format)
+        output_plugin = output_formatters.get_plugin(output_formatter)
         output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
         if output_plugin.family == "image":
             # This returns None if not specified
@@ -604,7 +604,7 @@ def plot_data(
         else:
             raise ValueError(
                 f"Unsupported output family {output_plugin.family} "
-                f"for output format {output_format}"
+                f"for output format {output_formatter}"
             )
 
     all_final_products = output_all_metadata(
@@ -1173,13 +1173,13 @@ def single_source(fnames, command_line_args=None):
         "gridlines_params",
         "boundaries_params",
         "product_params_override",
-        "output_format",
+        "output_formatter",
         "filename_formatter,
-        "output_format_kwargs",
+        "output_formatter_kwargs",
         "filename_formatterkwargs",
-        "metadata_output_format",
+        "metadata_output_formatter",
         "metadata_filename_formatter,
-        "metadata_output_format_kwargs",
+        "metadata_output_formatter_kwargs",
         "metadata_filename_formatterkwargs",
         "adjust_area_def",
         "reader_defined_area_def",
@@ -1193,8 +1193,8 @@ def single_source(fnames, command_line_args=None):
     check_command_line_args(check_args, command_line_args)
 
     product_name = command_line_args["product_name"]  # 89HNearest
-    output_format = command_line_args[
-        "output_format"
+    output_formatter = command_line_args[
+        "output_formatter"
     ]  # output_formatters.imagery_annotated
     reader_name = command_line_args["reader_name"]  # ssmis_binary
     compare_path = command_line_args["compare_path"]
@@ -1255,14 +1255,14 @@ def single_source(fnames, command_line_args=None):
         xobjs = reader(fnames, metadata_only=False, chans=variables)
 
     print_mem_usage("MEMUSG", verbose=False)
-    # If we have a product of type "unsectored_xarray_dict_to_output_format" process it here
+    # If we have a product of type "unsectored_xarray_dict_to_output_formatter" process it here
     # This will not have any required area_defs
-    if product_type == "unsectored_xarray_dict_to_output_format":
+    if product_type == "unsectored_xarray_dict_to_output_formatter":
         xdict = reader(fnames, metadata_only=False)
-        final_products += process_xarray_dict_to_output_format(
+        final_products += process_xarray_dict_to_output_formatter(
             xdict, variables, product_name, command_line_args
         )
-    elif product_type == "unsectored_xarray_dict_area_to_output_format":
+    elif product_type == "unsectored_xarray_dict_area_to_output_formatter":
         xdict = reader(fnames, metadata_only=False)
 
     print_mem_usage("MEMUSG", verbose=False)
@@ -1271,8 +1271,8 @@ def single_source(fnames, command_line_args=None):
     new_attrs = {"filename_extra_fields": {}}
     # setup for TC products
     for area_def in area_defs:
-        if product_type == "unsectored_xarray_dict_area_to_output_format":
-            final_products += process_xarray_dict_to_output_format(
+        if product_type == "unsectored_xarray_dict_area_to_output_formatter":
+            final_products += process_xarray_dict_to_output_formatter(
                 xdict, variables, product_name, command_line_args, area_def
             )
             continue
@@ -1414,7 +1414,7 @@ def single_source(fnames, command_line_args=None):
         if set(variables).issubset(all_vars):
             # We want to write out the padded xarray for "xarray_data" output types
             # Otherwise, we need the fully sectored output
-            output_plugin = output_formatters.get_plugin(output_format)
+            output_plugin = output_formatters.get_plugin(output_formatter)
             if output_plugin.family == "xarray_data":
                 alg_xarray = get_alg_xarray(
                     pad_sect_xarrays,
@@ -1510,7 +1510,7 @@ def single_source(fnames, command_line_args=None):
                 )
                 continue
 
-            output_format_kwargs = get_output_format_kwargs(
+            output_formatter_kwargs = get_output_formatter_kwargs(
                 command_line_args, xarray_obj=alg_xarray, area_def=area_def
             )
 
@@ -1519,7 +1519,7 @@ def single_source(fnames, command_line_args=None):
                 alg_xarray,
                 area_def,
                 product_name,
-                output_format_kwargs,
+                output_formatter_kwargs,
             )
 
             print_mem_usage("MEMUSG", verbose=False)
