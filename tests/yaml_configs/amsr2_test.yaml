@@ -18,12 +18,12 @@ outputs:
   tc_overlay:
     requested_sector_type: tcweb_bdeck
     output_format: imagery_annotated
-    filename_formats: ['tc_fname']
+    filename_formatters: ['tc_fname']
     product_names:
       - 37pct
       - 89pct
     compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2.<output>.<product>.imagery_annotated_over_Visible
-    metadata_filename_formats:
+    metadata_filename_formatters:
         tc_fname: metadata_default_fname
     metadata_output_format: metadata_tc
     product_params_override:
@@ -44,7 +44,7 @@ outputs:
     produce_times:
       required_minutes: [0, 20, 40]
     output_format: imagery_annotated
-    filename_formats: ['geoips_fname']
+    filename_formatters: ['geoips_fname']
     compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2.<output>.<product>.imagery_annotated_over_Visible
     product_names:
       - 89pct

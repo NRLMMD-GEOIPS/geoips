@@ -19,7 +19,7 @@ outputs:
   static:
     requested_sector_type: static
     output_format: imagery_annotated
-    filename_formats: ['geoips_fname']
+    filename_formatters: ['geoips_fname']
     remove_duplicates: null
     product_names:
       - Infrared
@@ -28,8 +28,8 @@ outputs:
   tc:
     requested_sector_type: tc
     output_format: imagery_annotated
-    filename_formats: ['tc_fname']
-    metadata_filename_formats:
+    filename_formatters: ['tc_fname']
+    metadata_filename_formatters:
         tc_fname: metadata_default_fname
     metadata_output_format: metadata_default
     remove_duplicates: null

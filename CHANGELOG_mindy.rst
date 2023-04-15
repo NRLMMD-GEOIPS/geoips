@@ -24,21 +24,33 @@ Update all instances of filename_formats with filename_formatters
 
 ::
 
-  modified: cli.py
-  modified: commandline/args.py
-  modified: dev/output_config.py
-  modified: filenames/duplicate_files.py
-  modified: interfaces/module_based/filename_formatters.py
-  modified: plugins/modules/filename_formatters/__init__.py
-  modified: plugins/modules/filename_formatters/geotiff_fname.py
-  modified: plugins/modules/filename_formatters/metadata_default_fname.py
-  modified: plugins/modules/filename_formatters/tc_clean_fname.py
-  modified: plugins/modules/filename_formatters/tc_fname.py
-  modified: plugins/modules/filename_formatters/text_winds_day_fname.py
-  modified: plugins/modules/filename_formatters/text_winds_full_fname.py
-  modified: plugins/modules/filename_formatters/text_winds_tc_fname.py
-  modified: plugins/modules/procflows/config_based.py
-  modified: plugins/modules/procflows/single_source.py
+  modified: geoips/cli.py
+  modified: geoips/commandline/args.py
+  modified: geoips/dev/output_config.py
+  modified: geoips/filenames/duplicate_files.py
+  modified: geoips/interfaces/module_based/filename_formatters.py
+  modified: geoips/plugins/modules/filename_formatters/__init__.py
+  modified: geoips/plugins/modules/filename_formatters/geotiff_fname.py
+  modified: geoips/plugins/modules/filename_formatters/metadata_default_fname.py
+  modified: geoips/plugins/modules/filename_formatters/tc_clean_fname.py
+  modified: geoips/plugins/modules/filename_formatters/tc_fname.py
+  modified: geoips/plugins/modules/filename_formatters/text_winds_day_fname.py
+  modified: geoips/plugins/modules/filename_formatters/text_winds_full_fname.py
+  modified: geoips/plugins/modules/filename_formatters/text_winds_tc_fname.py
+  modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: tests/yaml_configs/abi_test.yaml
+  modified: tests/yaml_configs/abi_test_low_memory.yaml
+  modified: tests/yaml_configs/amsr2_test.yaml
+  modified: tests/yaml_configs/amsr2_test_low_memory.yaml
+
+Update all instances of filename_format with filename_formatter
+---------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
+
+::
+
 
 Update all instances of user_colormaps with colormaps
 -----------------------------------------------------
