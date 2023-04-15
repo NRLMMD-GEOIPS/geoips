@@ -61,6 +61,17 @@ Update all instances of area_def_generators with sector_loaders
   modified: sector_utils/tc_tracks.py
   modified: sector_utils/utils.py
 
+Update all instances of title_formats with title_formatters
+-----------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
+
+::
+
+  modified:   cli.py
+  modified:   image_utils/mpl_utils.py
+  modified:   interfaces/module_based/title_formatters.py
+
 Major New Functionality
 =======================
 

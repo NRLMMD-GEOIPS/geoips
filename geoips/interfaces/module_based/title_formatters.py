@@ -19,7 +19,7 @@ class TitleFormattersInterface(BaseInterface):
     """Interface for creating GeoIPS formatted titles."""
 
     name = "title_formatters"
-    entry_point_group = "title_formats"
+    entry_point_group = "title_formatters"
     deprecated_family_attr = "title_type"
     required_args = {"standard": []}
     required_kwargs = {"standard": []}
