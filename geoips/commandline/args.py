@@ -459,9 +459,9 @@ def add_args(parser, arglist=None):
                             name (no .py)""",
         )
 
-    if arglist is None or "filename_formatter in arglist:
+    if arglist is None or "filename_formatter" in arglist:
         procflow_group.add_argument(
-            "--filename_formatter,
+            "--filename_formatter",
             nargs="?",
             default="geoips_fname",
             help="""Specify filename format module_name that should be used for
@@ -470,9 +470,9 @@ def add_args(parser, arglist=None):
                                 from geoips*.filenames.myfilemodule import myfilemodule
                             would be the appropriate import statement""",
         )
-    if arglist is None or "filename_formatterkwargs" in arglist:
+    if arglist is None or "filename_formatter_kwargs" in arglist:
         procflow_group.add_argument(
-            "--filename_formatterkwargs",
+            "--filename_formatter_kwargs",
             nargs="?",
             default={},
             type=jloads,
@@ -481,9 +481,9 @@ def add_args(parser, arglist=None):
                             dictionary string""",
         )
 
-    if arglist is None or "metadata_filename_formatter in arglist:
+    if arglist is None or "metadata_filename_formatter" in arglist:
         procflow_group.add_argument(
-            "--metadata_filename_formatter,
+            "--metadata_filename_formatter",
             nargs="?",
             default=None,
             help="""Specify filename format module_name that should be used for
@@ -492,9 +492,9 @@ def add_args(parser, arglist=None):
                                 geoips.filename_formatters.myfilemodule
                             would be the appropriate entry point""",
         )
-    if arglist is None or "metadata_filename_formatterkwargs" in arglist:
+    if arglist is None or "metadata_filename_formatter_kwargs" in arglist:
         procflow_group.add_argument(
-            "--metadata_filename_formatterkwargs",
+            "--metadata_filename_formatter_kwargs",
             nargs="?",
             default={},
             type=jloads,
@@ -520,7 +520,8 @@ def add_args(parser, arglist=None):
             default={},
             type=jloads,
             help="""Specify output format kwargs that should be used for this
-                    output_formatter. should be formatted as a json dictionary string, ie:
+                    output_formatter. should be formatted as a json dictionary string,
+                    ie:
                     '{"title_format": "tc_copyright", "title_copyright": "NRL"}' """,
         )
 

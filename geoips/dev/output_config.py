@@ -85,7 +85,7 @@ def is_valid_output_config(output_config_dict):
         ],
         "outputs": [
             "remove_duplicates",
-            "metadata_filename_formatter,
+            "metadata_filename_formatter",
             "metadata_filename_formatters",
             "metadata_filename_formatters_kwargs",
             "minimum_coverages",
@@ -179,10 +179,10 @@ def get_output_config_type(output_config_dict):
 
 def get_filename_formatters(output_dict):
     """Interface will be deprecated v2.0."""
-    if "filename_formatter in output_dict and isinstance(
-        output_dict["filename_formatter], str
+    if "filename_formatter" in output_dict and isinstance(
+        output_dict["filename_formatter"], str
     ):
-        return [output_dict["filename_formatter]]
+        return [output_dict["filename_formatter"]]
     else:
         return output_dict["filename_formatters"]
 
@@ -199,20 +199,20 @@ def get_metadata_output_formatter(output_dict):
     return None
 
 
-def get_metadata_filename_formatterfilename_formatter output_dict):
+def get_metadata_filename_formatter(filename_formatter, output_dict):
     """Interface will be deprecated v2.0."""
     fname_format = None
 
-    if "metadata_filename_formatter in output_dict and isinstance(
-        output_dict["metadata_filename_formatter], str
+    if "metadata_filename_formatter" in output_dict and isinstance(
+        output_dict["metadata_filename_formatter"], str
     ):
-        fname_format = output_dict["metadata_filename_formatter]
+        fname_format = output_dict["metadata_filename_formatter"]
 
     elif (
         "metadata_filename_formatters" in output_dict
-        and filename_formatterin output_dict["metadata_filename_formatters"]
+        and filename_formatter in output_dict["metadata_filename_formatters"]
     ):
-        fname_format = output_dict["metadata_filename_formatters"][filename_formatter
+        fname_format = output_dict["metadata_filename_formatters"][filename_formatter]
 
     elif (
         "metadata_filename_formatters" in output_dict
@@ -255,7 +255,7 @@ def get_minimum_coverage(product_name, output_dict):
     return minimum_coverage
 
 
-def get_filename_formatterkwargs(filename_formatter output_dict):
+def get_filename_formatter_kwargs(filename_formatter, output_dict):
     """Interface will be deprecated v2.0.
 
     Return dictionary of filename_formatters_kwargs.
@@ -263,32 +263,34 @@ def get_filename_formatterkwargs(filename_formatter output_dict):
     based on what was passed in via the YAML output config
     dictionary, as well as default kwargs.
 
-    If "filename_formatterkwargs (singular) is passed command line, use
+    If "filename_formatter_kwargs" (singular) is passed command line, use
     that to override ALL filename_formatters_kwargs specified in YAML output config.
     """
-    filename_formatterkwargs = {}
+    filename_formatter_kwargs = {}
 
     # YAML output config arguments
     if (
         "filename_formatters_kwargs" in output_dict
         and "all" in output_dict["filename_formatters_kwargs"]
     ):
-        filename_formatterkwargs = output_dict["filename_formatters_kwargs"]["all"]
+        filename_formatter_kwargs = output_dict["filename_formatters_kwargs"]["all"]
     if (
         "filename_formatters_kwargs" in output_dict
-        and filename_formatterin output_dict["filename_formatters_kwargs"]
+        and filename_formatter in output_dict["filename_formatters_kwargs"]
     ):
-        filename_formatterkwargs = output_dict["filename_formatters_kwargs"][filename_formatter
+        filename_formatter_kwargs = output_dict["filename_formatters_kwargs"][
+            filename_formatter
+        ]
     # Command line argument overrides all
-    if "filename_formatterkwargs" in output_dict:
-        filename_formatterkwargs = output_dict["filename_formatterkwargs"]
+    if "filename_formatter_kwargs" in output_dict:
+        filename_formatter_kwargs = output_dict["filename_formatter_kwargs"]
 
-    filename_formatterkwargs["output_dict"] = output_dict
+    filename_formatter_kwargs["output_dict"] = output_dict
 
-    return filename_formatterkwargs
+    return filename_formatter_kwargs
 
 
-def get_metadata_filename_formatterkwargs(filename_formatter output_dict):
+def get_metadata_filename_formatter_kwargs(filename_formatter, output_dict):
     """Interface will be deprecated v2.0.
 
     Return dictionary of filename_formatters_kwargs.
@@ -296,27 +298,27 @@ def get_metadata_filename_formatterkwargs(filename_formatter output_dict):
     based on what was passed in via the YAML output config
     dictionary, as well as default kwargs
     """
-    metadata_filename_formatterkwargs = {}
+    metadata_filename_formatter_kwargs = {}
 
     if (
         "metadata_filename_formatters_kwargs" in output_dict
         and "all" in output_dict["metadata_filename_formatters_kwargs"]
     ):
-        metadata_filename_formatterkwargs = output_dict[
+        metadata_filename_formatter_kwargs = output_dict[
             "metadata_filename_formatters_kwargs"
         ]["all"]
 
     if (
         "metadata_filename_formatters_kwargs" in output_dict
-        and filename_formatterin output_dict["metadata_filename_formatters_kwargs"]
+        and filename_formatter in output_dict["metadata_filename_formatters_kwargs"]
     ):
-        metadata_filename_formatterkwargs = output_dict[
+        metadata_filename_formatter_kwargs = output_dict[
             "metadata_filename_formatters_kwargs"
-        ][filename_formatter
+        ][filename_formatter]
 
-    metadata_filename_formatterkwargs["output_dict"] = output_dict
+    metadata_filename_formatter_kwargs["output_dict"] = output_dict
 
-    return metadata_filename_formatterkwargs
+    return metadata_filename_formatter_kwargs
 
 
 def get_output_formatter_kwargs(
@@ -372,7 +374,9 @@ def get_output_formatter_kwargs(
                 output_formatter_kwargs["bg_xarray"].source_name,
                 output_dict=output_dict,
             )
-            output_formatter_kwargs["bg_mpl_colors_info"] = bg_cmap_plugin(**bg_cmap_args)
+            output_formatter_kwargs["bg_mpl_colors_info"] = bg_cmap_plugin(
+                **bg_cmap_args
+            )
 
     output_formatter_kwargs["output_dict"] = output_dict
 

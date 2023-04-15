@@ -13,7 +13,7 @@
 """Module to handle removing duplicate files, based on filename formats.
 
 If an individual filename format has a method named
-``"<filename_formatter_remove_duplicates"``
+``"<filename_formatter>_remove_duplicates"``
 defined, use that method to remove duplicates for the given current filename.
 """
 
@@ -29,7 +29,7 @@ def remove_duplicates(fnames, remove_files=False):
     ----------
     fnames : dict
         Dictionary with individual filenames as keys, and a field named
-        "filename_formatter which indicates the filename format used to
+        "filename_formatter" which indicates the filename format used to
         generate the given filename.
     remove_files : bool, optional
         Specify whether to remove files (True), or just list what would have
@@ -48,19 +48,21 @@ def remove_duplicates(fnames, remove_files=False):
     from importlib import import_module
 
     for fname in fnames:
-        if "filename_formatter not in fnames[fname]:
-            LOG.info("SKIPPING %s, no filename_formatterdefined", fname)
+        if "filename_formatter" not in fnames[fname]:
+            LOG.info("SKIPPING %s, no filename_formatter defined", fname)
             saved_files += [fname]
             continue
-        filename_formatter= fnames[fname]["filename_formatter]
-        fname_fmt_plugin = filename_formatters.get_plugin(fnames[fname]["filename_formatter])
+        filename_formatter = fnames[fname]["filename_formatter"]
+        fname_fmt_plugin = filename_formatters.get_plugin(
+            fnames[fname]["filename_formatter"]
+        )
         if hasattr(
             import_module(fname_fmt_plugin.__module__),
-            f"{filename_formatter_remove_duplicates",
+            f"{filename_formatter}_remove_duplicates",
         ):
             fnamer_remove_dups = getattr(
                 import_module(fname_fmt_plugin.__module__),
-                f"{filename_formatter_remove_duplicates",
+                f"{filename_formatter}_remove_duplicates",
             )
             curr_removed_files, curr_saved_files = fnamer_remove_dups(
                 fname, remove_files=remove_files
@@ -70,7 +72,7 @@ def remove_duplicates(fnames, remove_files=False):
         else:
             LOG.warning(
                 "SKIPPING DUPLICATE REMOVAL no "
-                f"{filename_formatter_remove_duplicates defined"
+                f"{filename_formatter}_remove_duplicates defined"
             )
 
     return removed_files, saved_files

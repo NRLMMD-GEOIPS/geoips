@@ -70,8 +70,8 @@ def update_output_dict_from_command_line_args(output_dict, command_line_args=Non
 
     final_output_dict = output_dict.copy()
     for cmdline_fld_name in [
-        "filename_formatterkwargs",
-        "metadata_filename_formatterkwargs",
+        "filename_formatter_kwargs",
+        "metadata_filename_formatter_kwargs",
     ]:
         # Skip fields that are NOT in command_line_args
         if (
@@ -81,12 +81,12 @@ def update_output_dict_from_command_line_args(output_dict, command_line_args=Non
             LOG.info("SKIPPING %s argument not specified command line")
             continue
 
-        # Convert filename_formatterkwargs and metadata_filename_formatterkwargs to
+        # Convert filename_formatter_kwargs and metadata_filename_formatter_kwargs to
         # their plural counterparts
-        if cmdline_fld_name == "filename_formatterkwargs":
+        if cmdline_fld_name == "filename_formatter_kwargs":
             output_fld_name = "filename_formatters_kwargs"
             output_fld_val = {"all": command_line_args[cmdline_fld_name]}
-        elif cmdline_fld_name == "metadata_filename_formatterkwargs":
+        elif cmdline_fld_name == "metadata_filename_formatter_kwargs":
             output_fld_name = "metadata_filename_formatters_kwargs"
             output_fld_val = {"all": command_line_args[cmdline_fld_name]}
         else:
@@ -720,8 +720,8 @@ def config_based(fnames, command_line_args=None):
         "fuse_reader",
         "fuse_resampled_read",
         "fuse_product",
-        "filename_formatterkwargs",
-        "metadata_filename_formatterkwargs",
+        "filename_formatter_kwargs",
+        "metadata_filename_formatter_kwargs",
         "tcdb_sector_list",
         "product_db",
         "product_db_writer_override",
