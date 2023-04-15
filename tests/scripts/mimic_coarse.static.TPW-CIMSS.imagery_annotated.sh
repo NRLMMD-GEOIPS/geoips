@@ -24,7 +24,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_tpw/data/coarse/comp20210723.000000.
           --output_formatter imagery_annotated \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated" \
           --sector_list global \
-          --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+          --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 ss_retval=$?
 
 exit $((ss_retval))

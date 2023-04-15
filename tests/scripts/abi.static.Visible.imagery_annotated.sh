@@ -25,7 +25,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list goes16 \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/goes16.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/goes16.yaml
 retval=$?
 
 exit $retval
