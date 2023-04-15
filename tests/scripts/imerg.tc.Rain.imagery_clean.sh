@@ -20,7 +20,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_gpm/data/3B-HHR-L.MS.MRG.3IMERG.2020
           --procflow single_source \
           --reader_name imerg_hdf5 \
           --product_name Rain \
-          --filename_formattertc_fname \
+          --filename_formatter tc_fname \
           --output_formatter imagery_clean \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal202020.dat \

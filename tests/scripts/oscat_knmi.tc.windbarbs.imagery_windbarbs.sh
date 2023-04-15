@@ -22,9 +22,9 @@ run_procflow \
     --procflow single_source \
     --reader_name scat_knmi_winds_netcdf \
     --product_name windbarbs \
-    --filename_formattertc_fname \
+    --filename_formatter tc_fname \
     --output_formatter imagery_windbarbs \
-    --metadata_filename_formattermetadata_default_fname \
+    --metadata_filename_formatter metadata_default_fname \
     --metadata_output_formatter metadata_default \
     --tc_template_yaml $GEOIPS_PACKAGES_DIR/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml \
     --trackfile_parser bdeck_parser \

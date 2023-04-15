@@ -21,9 +21,9 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_scat/data/20210421_metopc_byu_uhr_tc
           --procflow single_source \
           --reader_name ascat_uhr_netcdf \
           --product_name wind-ambiguities \
-          --filename_formattertc_fname \
+          --filename_formatter tc_fname \
           --output_formatter imagery_windbarbs \
-          --metadata_filename_formattermetadata_default_fname \
+          --metadata_filename_formatter metadata_default_fname \
           --metadata_output_formatter metadata_default \
           --tc_template_yaml $GEOIPS_PACKAGES_DIR/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_ascatuhr_barbs_template.yaml \
           --trackfile_parser bdeck_parser \

@@ -34,7 +34,7 @@ run_procflow \
           --procflow single_source \
           --reader_name atms_hdf5 \
           --product_name 165H \
-          --filename_formattergeoips_netcdf_fname \
+          --filename_formatter geoips_netcdf_fname \
           --output_formatter netcdf_geoips \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bep112021.dat \

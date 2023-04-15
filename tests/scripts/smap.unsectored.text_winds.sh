@@ -23,7 +23,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_smap/data/RSS_smap_wind_daily_2021_0
              --procflow single_source \
              --reader_name smap_remss_winds_netcdf \
              --product_name unsectored \
-             --filename_formattertext_winds_full_fname \
+             --filename_formatter text_winds_full_fname \
              --output_formatter text_winds \
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smap.unsectored.text_winds"
 ss_retval=$?

@@ -20,11 +20,11 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_080644_hy_2b
           --procflow single_source \
           --reader_name scat_knmi_winds_netcdf \
           --product_name windspeed \
-          --filename_formattertc_fname \
+          --filename_formatter tc_fname \
           --output_formatter imagery_annotated \
           --boundaries_params default \
           --gridlines_params default \
-          --metadata_filename_formattermetadata_default_fname \
+          --metadata_filename_formatter metadata_default_fname \
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp272021.dat \

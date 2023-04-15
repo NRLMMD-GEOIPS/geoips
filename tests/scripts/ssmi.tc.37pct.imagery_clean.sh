@@ -22,9 +22,9 @@ run_procflow \
           --procflow single_source \
           --reader_name ssmi_binary \
           --product_name 37pct \
-          --filename_formattertc_clean_fname \
+          --filename_formatter tc_clean_fname \
           --output_formatter imagery_clean \
-          --metadata_filename_formattermetadata_default_fname \
+          --metadata_filename_formatter metadata_default_fname \
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \

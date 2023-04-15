@@ -31,7 +31,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc
              --product_name WV-Upper \
              --output_formatter unprojected_image \
              --output_formatter_kwargs '{"x_size": "1000", "y_size": "1000"}' \
-             --filename_formattergeoips_fname \
+             --filename_formatter geoips_fname \
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.WV-Upper.unprojected_image" \
              --self_register_dataset 'FULL_DISK' \
              --self_register_source seviri
