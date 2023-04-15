@@ -2,8 +2,8 @@
 Major New Functionality
 =======================
 
-Update schema for all YAML-based interfaces
--------------------------------------------
+Add schema for all YAML-based interfaces
+----------------------------------------
 
 *From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
 
@@ -20,11 +20,11 @@ Update schema for all YAML-based interfaces
 
 ::
 
-  geoips/schema/feature_annotators/cartopy.yaml
-  geoips/schema/gridline_annotators/cartopy.yaml
+  new: geoips/schema/feature_annotators/cartopy.yaml
+  new: geoips/schema/gridline_annotators/cartopy.yaml
 
-Update YAML-based plugins for new formatting
---------------------------------------------
+Add YAML-based plugins with new formatting
+------------------------------------------
 
 *From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
 
@@ -32,14 +32,24 @@ Update YAML-based plugins for new formatting
 
   * all currently of family "cartopy"
   * currently only support coastlines, countries, states, rivers specifications
-  * unmodified with latest update to schema.
+
+* gridline_annotators
+
+  * all currently of family "cartopy"
+  * Currently only support color, linestyle, linewidth, spacing specifications
 
 ::
 
-  new: default.yaml
-  new: tc_pmw.yaml
-  new: tc_visir.yaml
-  new: tc_windspeed.yaml
+  new: geoips/plugins/yaml/feature_annotators/default.yaml
+  new: geoips/plugins/yaml/feature_annotators/tc_pmw.yaml
+  new: geoips/plugins/yaml/feature_annotators/tc_visir.yaml
+  new: geoips/plugins/yaml/feature_annotators/tc_windspeed.yaml
+  new: geoips/plugins/yaml/gridline_annotators/default.yaml
+  new: geoips/plugins/yaml/gridline_annotators/tc_0p25degree.yaml
+  new: geoips/plugins/yaml/gridline_annotators/tc_pmw.yaml
+  new: geoips/plugins/yaml/gridline_annotators/tc_visir_3200km.yaml
+  new: geoips/plugins/yaml/gridline_annotators/tc_visir.yaml
+  new: geoips/plugins/yaml/gridline_annotators/tc_windspeed.yaml
 
 
 Testing Updates
