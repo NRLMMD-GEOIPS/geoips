@@ -1,3 +1,44 @@
+Breaking Changes
+================
+
+Update all instances of output_formats with output_formatters
+-------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
+
+::
+
+  modified: pyproject.toml
+  modified: cli.py
+  modified: commandline/args.py
+  modified: plugins/modules/output_formatters/imagery_windbarbs_clean.py
+  modified: plugins/modules/output_formatters/metadata_tc.py
+  modified: plugins/modules/output_formatters/netcdf_geoips.py
+  modified: plugins/modules/procflows/config_based.py
+  modified: plugins/modules/procflows/single_source.py
+
+Update all instances of filename_formats with filename_formatters
+-----------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
+
+::
+
+  modified: cli.py
+  modified: commandline/args.py
+  modified: dev/output_config.py
+  modified: filenames/duplicate_files.py
+  modified: interfaces/module_based/filename_formatters.py
+  modified: plugins/modules/filename_formatters/__init__.py
+  modified: plugins/modules/filename_formatters/geotiff_fname.py
+  modified: plugins/modules/filename_formatters/metadata_default_fname.py
+  modified: plugins/modules/filename_formatters/tc_clean_fname.py
+  modified: plugins/modules/filename_formatters/tc_fname.py
+  modified: plugins/modules/filename_formatters/text_winds_day_fname.py
+  modified: plugins/modules/filename_formatters/text_winds_full_fname.py
+  modified: plugins/modules/filename_formatters/text_winds_tc_fname.py
+  modified: plugins/modules/procflows/config_based.py
+  modified: plugins/modules/procflows/single_source.py
 
 Major New Functionality
 =======================
