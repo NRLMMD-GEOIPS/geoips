@@ -20,7 +20,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_ssmis/data/US058SORB-RAWspp.sdris_f1
           --procflow single_source \
           --reader_name ssmis_binary \
           --product_name color91 \
-         --output_format unprojected_image \
+         --output_formatter unprojected_image \
          --filename_formattergeoips_fname \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ssmis.color91.unprojected_image" \
          --self_register_dataset 'IMAGER' \

@@ -22,8 +22,8 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_tpw/data/fine/comp20210419.230000.nc
           --product_name TPW-PWAT \
           --filename_formattertc_fname \
           --metadata_filename_formattermetadata_default_fname \
-          --metadata_output_format metadata_default \
-          --output_format imagery_annotated \
+          --metadata_output_formatter metadata_default \
+          --output_formatter imagery_annotated \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated" \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat

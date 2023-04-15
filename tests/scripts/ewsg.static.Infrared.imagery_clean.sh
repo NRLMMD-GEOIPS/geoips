@@ -21,7 +21,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312.goes-13.gva
           --reader_name ewsg_netcdf \
           --product_name Infrared \
           --filename_formattergeoips_fname \
-          --output_format imagery_clean \
+          --output_formatter imagery_clean \
           --sector_list ewsg \
           --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/ewsg.yaml \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ewsg.static.<product>.imagery_clean"

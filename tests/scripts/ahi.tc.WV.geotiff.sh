@@ -21,7 +21,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/* \
           --reader_name ahi_hsd \
           --product_name WV \
           --filename_formattergeotiff_fname \
-          --output_format geotiff_standard \
+          --output_formatter geotiff_standard \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh252020.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ahi.tc.<product>.geotiff" \

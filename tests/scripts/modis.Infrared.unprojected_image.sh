@@ -25,8 +25,8 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD0
              --procflow single_source \
              --reader_name modis_hdf4 \
              --product_name Infrared \
-             --output_format unprojected_image \
-             --output_format_kwargs '{"x_size": "250"}' \
+             --output_formatter unprojected_image \
+             --output_formatter_kwargs '{"x_size": "250"}' \
              --filename_formattergeoips_fname \
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/modis.<product>.unprojected_image" \
              --self_register_dataset '1KM' \

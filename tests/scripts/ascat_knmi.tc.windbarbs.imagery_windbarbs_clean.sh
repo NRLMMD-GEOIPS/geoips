@@ -22,17 +22,17 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_scat/data/metopc_knmi_125/ascat_2021
           --reader_name scat_knmi_winds_netcdf \
           --product_name windbarbs \
           --filename_formattertc_clean_fname \
-          --output_format imagery_windbarbs_clean \
+          --output_formatter imagery_windbarbs_clean \
           --metadata_filename_formattermetadata_default_fname \
-          --metadata_output_format metadata_default \
+          --metadata_output_formatter metadata_default \
           --tc_template_yaml $GEOIPS_PACKAGES_DIR/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_ascat_high_barbs_template.yaml \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean" \
           --product_params_override '{}' \
-          --output_format_kwargs '{}' \
+          --output_formatter_kwargs '{}' \
           --filename_formatterkwargs '{}' \
-          --metadata_output_format_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
           --metadata_filename_formatterkwargs '{}'
 ss_retval=$?
 

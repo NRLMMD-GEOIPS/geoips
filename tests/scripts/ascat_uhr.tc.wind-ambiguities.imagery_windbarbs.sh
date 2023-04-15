@@ -22,17 +22,17 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_scat/data/20210421_metopc_byu_uhr_tc
           --reader_name ascat_uhr_netcdf \
           --product_name wind-ambiguities \
           --filename_formattertc_fname \
-          --output_format imagery_windbarbs \
+          --output_formatter imagery_windbarbs \
           --metadata_filename_formattermetadata_default_fname \
-          --metadata_output_format metadata_default \
+          --metadata_output_formatter metadata_default \
           --tc_template_yaml $GEOIPS_PACKAGES_DIR/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_ascatuhr_barbs_template.yaml \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs" \
           --product_params_override '{}' \
-          --output_format_kwargs '{}' \
+          --output_formatter_kwargs '{}' \
           --filename_formatterkwargs '{}' \
-          --metadata_output_format_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
           --metadata_filename_formatterkwargs '{}'
 ss_retval=$?
 

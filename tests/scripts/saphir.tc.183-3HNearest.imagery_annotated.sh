@@ -21,18 +21,18 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_saphir/data/MT1SAPSL1A__1.09_000_1_1
           --reader_name saphir_hdf5 \
           --product_name 183-3HNearest \
           --filename_formattertc_fname \
-          --output_format imagery_annotated \
+          --output_formatter imagery_annotated \
           --boundaries_params tc_pmw \
           --gridlines_params tc_pmw \
           --metadata_filename_formattermetadata_default_fname \
-          --metadata_output_format metadata_default \
+          --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/saphir.tc.183-3HNearest.imagery_annotated" \
           --product_params_override '{}' \
-          --output_format_kwargs '{}' \
+          --output_formatter_kwargs '{}' \
           --filename_formatterkwargs '{}' \
-          --metadata_output_format_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
           --metadata_filename_formatterkwargs '{}'
 ss_retval=$?
 

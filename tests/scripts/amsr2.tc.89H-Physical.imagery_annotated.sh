@@ -21,18 +21,18 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s20200
           --reader_name amsr2_netcdf \
           --product_name 89H-Physical \
           --filename_formattertc_fname \
-          --output_format imagery_annotated \
+          --output_formatter imagery_annotated \
           --boundaries_params tc_pmw \
           --gridlines_params tc_pmw \
           --metadata_filename_formattermetadata_default_fname \
-          --metadata_output_format metadata_default \
+          --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.tc.<product>.imagery_annotated" \
           --product_params_override '{"89H-Physical": {"covg_func": "center_radius", "covg_args": {"radius_km": 300}}}' \
-          --output_format_kwargs '{}' \
+          --output_formatter_kwargs '{}' \
           --filename_formatterkwargs '{}' \
-          --metadata_output_format_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
           --metadata_filename_formatterkwargs '{}'
 ss_retval=$?
 
