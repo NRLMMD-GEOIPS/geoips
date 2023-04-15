@@ -84,10 +84,10 @@ def update_output_dict_from_command_line_args(output_dict, command_line_args=Non
         # Convert filename_format_kwargs and metadata_filename_format_kwargs to
         # their plural counterparts
         if cmdline_fld_name == "filename_format_kwargs":
-            output_fld_name = "filename_formats_kwargs"
+            output_fld_name = "filename_formatters_kwargs"
             output_fld_val = {"all": command_line_args[cmdline_fld_name]}
         elif cmdline_fld_name == "metadata_filename_format_kwargs":
-            output_fld_name = "metadata_filename_formats_kwargs"
+            output_fld_name = "metadata_filename_formatters_kwargs"
             output_fld_val = {"all": command_line_args[cmdline_fld_name]}
         else:
             output_fld_name = cmdline_fld_name

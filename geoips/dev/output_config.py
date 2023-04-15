@@ -70,7 +70,7 @@ def is_valid_output_config(output_config_dict):
         "outputs": [
             "requested_sector_type",
             "output_format",
-            "filename_formats",
+            "filename_formatters",
             "product_names",
         ],
     }
@@ -86,8 +86,8 @@ def is_valid_output_config(output_config_dict):
         "outputs": [
             "remove_duplicates",
             "metadata_filename_format",
-            "metadata_filename_formats",
-            "metadata_filename_formats_kwargs",
+            "metadata_filename_formatters",
+            "metadata_filename_formatters_kwargs",
             "minimum_coverages",
             "minimum_coverage",
             "compare_path",
@@ -177,14 +177,14 @@ def get_output_config_type(output_config_dict):
     return output_config_dict["output_config_type"]
 
 
-def get_filename_formats(output_dict):
+def get_filename_formatters(output_dict):
     """Interface will be deprecated v2.0."""
     if "filename_format" in output_dict and isinstance(
         output_dict["filename_format"], str
     ):
         return [output_dict["filename_format"]]
     else:
-        return output_dict["filename_formats"]
+        return output_dict["filename_formatters"]
 
 
 def get_output_format(output_dict):
@@ -209,16 +209,16 @@ def get_metadata_filename_format(filename_format, output_dict):
         fname_format = output_dict["metadata_filename_format"]
 
     elif (
-        "metadata_filename_formats" in output_dict
-        and filename_format in output_dict["metadata_filename_formats"]
+        "metadata_filename_formatters" in output_dict
+        and filename_format in output_dict["metadata_filename_formatters"]
     ):
-        fname_format = output_dict["metadata_filename_formats"][filename_format]
+        fname_format = output_dict["metadata_filename_formatters"][filename_format]
 
     elif (
-        "metadata_filename_formats" in output_dict
-        and "all" in output_dict["metadata_filename_formats"]
+        "metadata_filename_formatters" in output_dict
+        and "all" in output_dict["metadata_filename_formatters"]
     ):
-        fname_format = output_dict["metadata_filename_formats"]["all"]
+        fname_format = output_dict["metadata_filename_formatters"]["all"]
 
     return fname_format
 
@@ -258,27 +258,27 @@ def get_minimum_coverage(product_name, output_dict):
 def get_filename_format_kwargs(filename_format, output_dict):
     """Interface will be deprecated v2.0.
 
-    Return dictionary of filename_formats_kwargs.
+    Return dictionary of filename_formatters_kwargs.
 
     based on what was passed in via the YAML output config
     dictionary, as well as default kwargs.
 
     If "filename_format_kwargs (singular) is passed command line, use
-    that to override ALL filename_formats_kwargs specified in YAML output config.
+    that to override ALL filename_formatters_kwargs specified in YAML output config.
     """
     filename_format_kwargs = {}
 
     # YAML output config arguments
     if (
-        "filename_formats_kwargs" in output_dict
-        and "all" in output_dict["filename_formats_kwargs"]
+        "filename_formatters_kwargs" in output_dict
+        and "all" in output_dict["filename_formatters_kwargs"]
     ):
-        filename_format_kwargs = output_dict["filename_formats_kwargs"]["all"]
+        filename_format_kwargs = output_dict["filename_formatters_kwargs"]["all"]
     if (
-        "filename_formats_kwargs" in output_dict
-        and filename_format in output_dict["filename_formats_kwargs"]
+        "filename_formatters_kwargs" in output_dict
+        and filename_format in output_dict["filename_formatters_kwargs"]
     ):
-        filename_format_kwargs = output_dict["filename_formats_kwargs"][filename_format]
+        filename_format_kwargs = output_dict["filename_formatters_kwargs"][filename_format]
     # Command line argument overrides all
     if "filename_format_kwargs" in output_dict:
         filename_format_kwargs = output_dict["filename_format_kwargs"]
@@ -291,7 +291,7 @@ def get_filename_format_kwargs(filename_format, output_dict):
 def get_metadata_filename_format_kwargs(filename_format, output_dict):
     """Interface will be deprecated v2.0.
 
-    Return dictionary of filename_formats_kwargs.
+    Return dictionary of filename_formatters_kwargs.
 
     based on what was passed in via the YAML output config
     dictionary, as well as default kwargs
@@ -299,19 +299,19 @@ def get_metadata_filename_format_kwargs(filename_format, output_dict):
     metadata_filename_format_kwargs = {}
 
     if (
-        "metadata_filename_formats_kwargs" in output_dict
-        and "all" in output_dict["metadata_filename_formats_kwargs"]
+        "metadata_filename_formatters_kwargs" in output_dict
+        and "all" in output_dict["metadata_filename_formatters_kwargs"]
     ):
         metadata_filename_format_kwargs = output_dict[
-            "metadata_filename_formats_kwargs"
+            "metadata_filename_formatters_kwargs"
         ]["all"]
 
     if (
-        "metadata_filename_formats_kwargs" in output_dict
-        and filename_format in output_dict["metadata_filename_formats_kwargs"]
+        "metadata_filename_formatters_kwargs" in output_dict
+        and filename_format in output_dict["metadata_filename_formatters_kwargs"]
     ):
         metadata_filename_format_kwargs = output_dict[
-            "metadata_filename_formats_kwargs"
+            "metadata_filename_formatters_kwargs"
         ][filename_format]
 
     metadata_filename_format_kwargs["output_dict"] = output_dict

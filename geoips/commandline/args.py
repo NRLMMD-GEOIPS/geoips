@@ -489,7 +489,7 @@ def add_args(parser, arglist=None):
             help="""Specify filename format module_name that should be used for
                             metadata output, where filename_module_name is
                             'myfilemodule' where:
-                                geoips.filename_formats.myfilemodule
+                                geoips.filename_formatters.myfilemodule
                             would be the appropriate entry point""",
         )
     if arglist is None or "metadata_filename_format_kwargs" in arglist:

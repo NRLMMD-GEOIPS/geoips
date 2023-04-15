@@ -43,7 +43,7 @@ from geoips.dev.product import (
     get_alg_args,
 )
 from geoips.dev.output_config import (
-    get_filename_formats,
+    get_filename_formatters,
     get_filename_format_kwargs,
     get_output_format,
     get_output_format_kwargs,
@@ -57,7 +57,7 @@ from geoips.dev.output_config import (
 # New class-based interfaces
 from geoips.interfaces import colormaps
 from geoips.interfaces import output_formatters
-from geoips.interfaces import filename_formats
+from geoips.interfaces import filename_formatters
 from geoips.interfaces import interpolators
 from geoips.interfaces import algorithms
 
@@ -181,7 +181,7 @@ def get_output_filenames(
 
         metadata_fname = None
         if metadata_filename_format:
-            fname_fmt_plugin = filename_formats.get_plugin(metadata_filename_format)
+            fname_fmt_plugin = filename_formatters.get_plugin(metadata_filename_format)
             if fname_fmt_plugin.family == "standard_metadata":
                 metadata_filename_format_kwargs = remove_unsupported_kwargs(
                     fname_fmt_plugin, metadata_filename_format_kwargs
@@ -284,7 +284,7 @@ def process_xarray_dict_to_output_format(
     # Only get output filenames if needed
     if output_plugin.family in OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG:
         supported_filenamer_types = FILENAME_FORMATS_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT
-        fname_formats = get_filename_formats(output_dict)
+        fname_formats = get_filename_formatters(output_dict)
         output_fnames, metadata_fnames = get_output_filenames(
             fname_formats,
             output_dict,
@@ -427,7 +427,7 @@ def get_filename(
     filename_format_kwargs=None,
 ):
     """Get filename."""
-    filename_fmt_plugin = filename_formats.get_plugin(filename_format)
+    filename_fmt_plugin = filename_formatters.get_plugin(filename_format)
     if (
         supported_filenamer_types is not None
         and filename_fmt_plugin.family not in supported_filenamer_types
@@ -497,7 +497,7 @@ def plot_data(
         output_fnames = {}
         metadata_fnames = {}
     else:
-        fname_formats = get_filename_formats(output_dict)
+        fname_formats = get_filename_formatters(output_dict)
         output_fnames, metadata_fnames = get_output_filenames(
             fname_formats, output_dict, product_name, alg_xarray, area_def
         )

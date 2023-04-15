@@ -44,7 +44,7 @@ def remove_duplicates(fnames, remove_files=False):
     """
     removed_files = []
     saved_files = []
-    from geoips.interfaces import filename_formats
+    from geoips.interfaces import filename_formatters
     from importlib import import_module
 
     for fname in fnames:
@@ -53,7 +53,7 @@ def remove_duplicates(fnames, remove_files=False):
             saved_files += [fname]
             continue
         filename_format = fnames[fname]["filename_format"]
-        fname_fmt_plugin = filename_formats.get_plugin(fnames[fname]["filename_format"])
+        fname_fmt_plugin = filename_formatters.get_plugin(fnames[fname]["filename_format"])
         if hasattr(
             import_module(fname_fmt_plugin.__module__),
             f"{filename_format}_remove_duplicates",
