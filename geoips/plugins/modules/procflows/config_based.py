@@ -1091,7 +1091,7 @@ def config_based(fnames, command_line_args=None):
                     "\n\n\n\nBEFORE ADJUSTMENT area definition: %s\n\n\n\n", area_def
                 )
                 area_def_adjuster = find_entry_point(
-                    "area_def_adjusters", adjust_area_def
+                    "sector_adjusters", adjust_area_def
                 )
                 area_def_adjuster_type = getattr(
                     import_module(area_def_adjuster.__module__), "adjuster_type"

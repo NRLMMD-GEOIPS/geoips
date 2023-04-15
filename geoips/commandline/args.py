@@ -231,7 +231,7 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             help="""Specify area def adjuster to be used within processing, located in:
-                            <package>.plugins.modules.area_def_adjusters.
+                            <package>.plugins.modules.sector_adjusters.
                                 <myadjuster>.<myadjuster>""",
         )
 

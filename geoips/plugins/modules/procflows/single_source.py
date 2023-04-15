@@ -1348,7 +1348,7 @@ def single_source(fnames, command_line_args=None):
         if adjust_area_def:
             from geoips.geoips_utils import find_entry_point
 
-            area_def_adjuster = find_entry_point("area_def_adjusters", adjust_area_def)
+            area_def_adjuster = find_entry_point("sector_adjusters", adjust_area_def)
             area_def_adjuster_type = getattr(
                 import_module(area_def_adjuster.__module__), "adjuster_type"
             )

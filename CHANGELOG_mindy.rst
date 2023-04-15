@@ -96,6 +96,19 @@ Update all instances of coverage_checks with coverage_checkers
   modified: plugins/modules/coverage_checkers/__init__.py
   modified: plugins/modules/coverage_checkers/center_radius_rgba.py
 
+Update all instances of area_def_adjusters with sector_adjusters
+----------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
+
+Note these are actually contained in recenter_tc repo.
+
+::
+
+  modified: commandline/args.py
+  modified: plugins/modules/procflows/config_based.py
+  modified: plugins/modules/procflows/single_source.py
+
 Update all instances of interface_modules with plugins.modules
 --------------------------------------------------------------
 
