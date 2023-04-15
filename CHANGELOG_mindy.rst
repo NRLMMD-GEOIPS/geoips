@@ -85,6 +85,17 @@ Update all instances of interpolation with interpolators
   modified: plugins/modules/interpolators/scipy_wrappers/interp_grid.py
   modified: plugins/modules/interpolators/utils/interp_pyresample.py
 
+Update all instances of coverage_checks with coverage_checkers
+--------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
+
+::
+
+  modified: dev/product.py
+  modified: plugins/modules/coverage_checkers/__init__.py
+  modified: plugins/modules/coverage_checkers/center_radius_rgba.py
+
 Update all instances of interface_modules with plugins.modules
 --------------------------------------------------------------
 

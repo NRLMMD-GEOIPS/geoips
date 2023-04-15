@@ -1195,12 +1195,12 @@ def get_covg_from_product(
         )
 
     if covg_func_field_name in products:
-        return find_entry_point("coverage_checks", products[covg_func_field_name])
+        return find_entry_point("coverage_checkers", products[covg_func_field_name])
     if default_covg_func_field_name in products:
         return find_entry_point(
-            "coverage_checks", products[default_covg_func_field_name]
+            "coverage_checkers", products[default_covg_func_field_name]
         )
-    return find_entry_point("coverage_checks", "masked_arrays")
+    return find_entry_point("coverage_checkers", "masked_arrays")
 
 
 def get_covg_args_from_product(
