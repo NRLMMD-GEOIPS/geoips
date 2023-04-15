@@ -20,7 +20,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_smos/data/SM_OPER_MIR_SCNFSW_2020021
              --procflow single_source \
              --reader_name smos_winds_netcdf \
              --product_name sectored \
-             --filename_format text_winds_tc_fname \
+             --filename_formattertext_winds_tc_fname \
              --output_format text_winds \
              --trackfile_parser bdeck_parser \
              --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh162020.dat \

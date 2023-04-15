@@ -459,9 +459,9 @@ def add_args(parser, arglist=None):
                             name (no .py)""",
         )
 
-    if arglist is None or "filename_format" in arglist:
+    if arglist is None or "filename_formatter in arglist:
         procflow_group.add_argument(
-            "--filename_format",
+            "--filename_formatter,
             nargs="?",
             default="geoips_fname",
             help="""Specify filename format module_name that should be used for
@@ -470,20 +470,20 @@ def add_args(parser, arglist=None):
                                 from geoips*.filenames.myfilemodule import myfilemodule
                             would be the appropriate import statement""",
         )
-    if arglist is None or "filename_format_kwargs" in arglist:
+    if arglist is None or "filename_formatterkwargs" in arglist:
         procflow_group.add_argument(
-            "--filename_format_kwargs",
+            "--filename_formatterkwargs",
             nargs="?",
             default={},
             type=jloads,
             help="""Specify filename format kwargs that should be used for
-                            this filename_format. Should be formatted as a json
+                            this filename_formatter Should be formatted as a json
                             dictionary string""",
         )
 
-    if arglist is None or "metadata_filename_format" in arglist:
+    if arglist is None or "metadata_filename_formatter in arglist:
         procflow_group.add_argument(
-            "--metadata_filename_format",
+            "--metadata_filename_formatter,
             nargs="?",
             default=None,
             help="""Specify filename format module_name that should be used for
@@ -492,14 +492,14 @@ def add_args(parser, arglist=None):
                                 geoips.filename_formatters.myfilemodule
                             would be the appropriate entry point""",
         )
-    if arglist is None or "metadata_filename_format_kwargs" in arglist:
+    if arglist is None or "metadata_filename_formatterkwargs" in arglist:
         procflow_group.add_argument(
-            "--metadata_filename_format_kwargs",
+            "--metadata_filename_formatterkwargs",
             nargs="?",
             default={},
             type=jloads,
             help="""Specify filename format kwargs that should be used for
-                            this metadata_filename_format.
+                            this metadata_filename_formatter
                             Should be formatted as a json dictionary string""",
         )
 

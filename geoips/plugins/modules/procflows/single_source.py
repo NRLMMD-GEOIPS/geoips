@@ -44,11 +44,11 @@ from geoips.dev.product import (
 )
 from geoips.dev.output_config import (
     get_filename_formatters,
-    get_filename_format_kwargs,
+    get_filename_formatterkwargs,
     get_output_format,
     get_output_format_kwargs,
-    get_metadata_filename_format,
-    get_metadata_filename_format_kwargs,
+    get_metadata_filename_formatter
+    get_metadata_filename_formatterkwargs,
     get_metadata_output_format,
     get_metadata_output_format_kwargs,
     get_minimum_coverage,
@@ -148,25 +148,25 @@ def get_output_filenames(
     """Get output filenames."""
     output_fnames = {}
     metadata_fnames = {}
-    for filename_format in fname_formats:
-        filename_format_kwargs = get_filename_format_kwargs(
-            filename_format, output_dict
+    for filename_formatterin fname_formats:
+        filename_formatterkwargs = get_filename_formatterkwargs(
+            filename_formatter output_dict
         )
-        metadata_filename_format = get_metadata_filename_format(
-            filename_format, output_dict
+        metadata_filename_formatter= get_metadata_filename_formatter
+            filename_formatter output_dict
         )
-        metadata_filename_format_kwargs = get_metadata_filename_format_kwargs(
-            metadata_filename_format, output_dict
+        metadata_filename_formatterkwargs = get_metadata_filename_formatterkwargs(
+            metadata_filename_formatter output_dict
         )
 
         output_fname = get_filename(
-            filename_format,
+            filename_formatter
             product_name,
             xarray_obj,
             area_def,
             output_dict=output_dict,
             supported_filenamer_types=supported_filenamer_types,
-            filename_format_kwargs=filename_format_kwargs,
+            filename_formatterkwargs=filename_formatterkwargs,
         )
 
         # If we weren't able to get a valid output filename, do not proceed.
@@ -174,29 +174,29 @@ def get_output_filenames(
             continue
 
         output_fnames[output_fname] = {
-            "filename_format": filename_format,
-            "filename_format_kwargs": filename_format_kwargs,
+            "filename_formatter: filename_formatter
+            "filename_formatterkwargs": filename_formatterkwargs,
             "product_name": product_name,
         }
 
         metadata_fname = None
-        if metadata_filename_format:
-            fname_fmt_plugin = filename_formatters.get_plugin(metadata_filename_format)
+        if metadata_filename_formatter
+            fname_fmt_plugin = filename_formatters.get_plugin(metadata_filename_formatter
             if fname_fmt_plugin.family == "standard_metadata":
-                metadata_filename_format_kwargs = remove_unsupported_kwargs(
-                    fname_fmt_plugin, metadata_filename_format_kwargs
+                metadata_filename_formatterkwargs = remove_unsupported_kwargs(
+                    fname_fmt_plugin, metadata_filename_formatterkwargs
                 )
                 metadata_fname = fname_fmt_plugin(
                     area_def,
                     xarray_obj,
                     output_fname,
-                    **metadata_filename_format_kwargs,
+                    **metadata_filename_formatterkwargs,
                 )
         metadata_fnames[metadata_fname] = {
-            "filename_format": filename_format,
-            "filename_format_kwargs": filename_format_kwargs,
-            "metadata_filename_format": metadata_filename_format,
-            "metadata_filename_format_kwargs": metadata_filename_format_kwargs,
+            "filename_formatter: filename_formatter
+            "filename_formatterkwargs": filename_formatterkwargs,
+            "metadata_filename_formatter: metadata_filename_formatter
+            "metadata_filename_formatterkwargs": metadata_filename_formatterkwargs,
             "product_name": product_name,
         }
     return output_fnames, metadata_fnames
@@ -418,22 +418,22 @@ def pad_area_definition(
 
 
 def get_filename(
-    filename_format,
+    filename_formatter
     product_name=None,
     alg_xarray=None,
     area_def=None,
     supported_filenamer_types=None,
     output_dict=None,
-    filename_format_kwargs=None,
+    filename_formatterkwargs=None,
 ):
     """Get filename."""
-    filename_fmt_plugin = filename_formatters.get_plugin(filename_format)
+    filename_fmt_plugin = filename_formatters.get_plugin(filename_formatter
     if (
         supported_filenamer_types is not None
         and filename_fmt_plugin.family not in supported_filenamer_types
     ):
         raise TypeError(
-            f'UNSUPPORTED filename_format "{filename_format}" '
+            f'UNSUPPORTED filename_formatter"{filename_formatter" '
             f'      filenamer_type: "{filename_fmt_plugin.family}"\n'
             f"      filenamer_type must be one of {supported_filenamer_types}"
         )
@@ -454,7 +454,7 @@ def get_filename(
         )
         covg = covg_func(alg_xarray, product_name, area_def, **covg_args)
 
-    curr_kwargs = remove_unsupported_kwargs(filename_fmt_plugin, filename_format_kwargs)
+    curr_kwargs = remove_unsupported_kwargs(filename_fmt_plugin, filename_formatterkwargs)
     if filename_fmt_plugin.family == "data":
         fname = filename_fmt_plugin(
             area_def,
@@ -1174,13 +1174,13 @@ def single_source(fnames, command_line_args=None):
         "boundaries_params",
         "product_params_override",
         "output_format",
-        "filename_format",
+        "filename_formatter,
         "output_format_kwargs",
-        "filename_format_kwargs",
+        "filename_formatterkwargs",
         "metadata_output_format",
-        "metadata_filename_format",
+        "metadata_filename_formatter,
         "metadata_output_format_kwargs",
-        "metadata_filename_format_kwargs",
+        "metadata_filename_formatterkwargs",
         "adjust_area_def",
         "reader_defined_area_def",
         "self_register_source",

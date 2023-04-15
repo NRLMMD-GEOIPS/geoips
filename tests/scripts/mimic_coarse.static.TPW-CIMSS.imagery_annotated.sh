@@ -20,7 +20,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_tpw/data/coarse/comp20210723.000000.
           --procflow single_source \
           --reader_name mimic_netcdf \
           --product_name TPW-CIMSS \
-          --filename_format geoips_fname \
+          --filename_formattergeoips_fname \
           --output_format imagery_annotated \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated" \
           --sector_list global \

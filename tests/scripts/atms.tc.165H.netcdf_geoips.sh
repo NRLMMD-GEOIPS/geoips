@@ -34,7 +34,7 @@ run_procflow \
           --procflow single_source \
           --reader_name atms_hdf5 \
           --product_name 165H \
-          --filename_format geoips_netcdf_fname \
+          --filename_formattergeoips_netcdf_fname \
           --output_format netcdf_geoips \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bep112021.dat \
@@ -42,9 +42,9 @@ run_procflow \
           --tc_template_yaml $GEOIPS_PACKAGES_DIR/geoips/geoips/yaml_configs/sectors_dynamic/tc_256x256/tc_4km_256x256.yaml \
           --product_params_override '{}' \
           --output_format_kwargs '{}' \
-          --filename_format_kwargs '{}' \
+          --filename_formatterkwargs '{}' \
           --metadata_output_format_kwargs '{}' \
-          --metadata_filename_format_kwargs '{}'
+          --metadata_filename_formatterkwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))

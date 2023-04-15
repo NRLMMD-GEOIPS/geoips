@@ -22,9 +22,9 @@ run_procflow \
     --procflow single_source \
     --reader_name scat_knmi_winds_netcdf \
     --product_name windbarbs \
-    --filename_format tc_fname \
+    --filename_formattertc_fname \
     --output_format imagery_windbarbs \
-    --metadata_filename_format metadata_default_fname \
+    --metadata_filename_formattermetadata_default_fname \
     --metadata_output_format metadata_default \
     --tc_template_yaml $GEOIPS_PACKAGES_DIR/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml \
     --trackfile_parser bdeck_parser \
@@ -32,9 +32,9 @@ run_procflow \
     --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs" \
     --product_params_override '{}' \
     --output_format_kwargs '{}' \
-    --filename_format_kwargs '{}' \
+    --filename_formatterkwargs '{}' \
     --metadata_output_format_kwargs '{}' \
-    --metadata_filename_format_kwargs '{}'
+    --metadata_filename_formatterkwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))
