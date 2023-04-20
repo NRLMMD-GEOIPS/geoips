@@ -16,14 +16,17 @@ CHANGELOG appropriately with each PR
 Release notes for previous/upcoming versions can be found in docs/source/releases,
 for reference.
 
-Enhancements
-============
+Bug Fixes
+=========
 
-Correct "parameters" to "properties" in gridlines.yaml.
------------------------------------------------
+<Short summary of a bug fix from this PR>
+-----------------------------------------
 
-*From issue GEOIPS/geoips#136: 2023-04-04, Correct "parameters" to "properties".*
+*From issue GEOIPS/recenter_tc#10: 2023-04-20, Import and entry points updated*
+
+* Updated imports and entry points revealed to be outdated in recenter_tc tests.
 
 ::
 
-    modified: geoips/geoips/schema/gridlines.yaml
+    modified: pyproject.toml
+    modified: geoips/sector_utils/utils.py
