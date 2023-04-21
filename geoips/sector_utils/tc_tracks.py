@@ -188,8 +188,12 @@ def set_tc_area_def(
         template_yaml = gpaths["TC_TEMPLATE"]
     with open(template_yaml, "r") as fobj:
         template_dict = yaml.safe_load(fobj)
-    template_func_name = template_dict["area_def_generator_func"]
-    template_args = template_dict["area_def_generator_args"]
+    try:
+        template_func_name = template_dict["area_def_generator_func"]
+        template_args = template_dict["area_def_generator_args"]
+    except:
+        template_func_name = template_dict["spec"]["area_def_generator"]["name"]
+        template_args = template_dict["spec"]["area_def_generator"]["arguments"]
 
     if not finalstormname and "final_storm_name" in fields:
         finalstormname = fields["final_storm_name"]
