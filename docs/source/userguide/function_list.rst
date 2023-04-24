@@ -10,16 +10,11 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-************
-Introduction
-************
+********************
+GeoIPS Functionality
+********************
 
-:ref:`requirement_spec`
-
-.. toctree::
-   :maxdepth: 2
-
-   description_geoips
-   function_summary
-   examples_output
-   conduct
+The GeoIPS Command Line Interface is currently under development -
+once the CLI is complete, it will provide a simple method of listing
+all possible GeoIPS Plugins with a single command. The resulting
+functionality list will be outlined in this section.

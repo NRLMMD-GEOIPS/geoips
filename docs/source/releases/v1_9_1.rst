@@ -13,18 +13,46 @@
 Version 1.9.1 (2023-04-03)
 **************************
 
-* Remove GEOIPS BASEDIR references
-* Implement sphinx-apidoc for documentation build
+* Remove GEOIPS_BASEDIR references
+
+  * Add GEOIPS_TESTDATA_DIR and GEOIPS_DEPEDNENCIES_DIR to filenames/base_paths.py
+* Sphinx Documentation Updates
+
+  * Implement sphinx-apidoc for documentation build
+  * Finalize RST documentation outline to match sharepoint doc
+  * Update some documentation links
+  * Implement sphinx-apidoc for documentation build
 * Replace setup.py with pyproject.toml
-* Update some documentation links
+* Add missing fields in Rain colormap mpl_color_info
+* Allow processing if no TCs in database
+* Install geoips[doc,test,lint] in setup.sh
+* Only add product to database if returned product is not None
+* Replace <output> in single_source procflow in addition to <product>
+
+  * This matches functionality in config_based.py
+* Ignore flake8 W503 (conflicts with black)
 
 Breaking Changes
 ================
 
-Update replace_geoips_paths to replace GEOIPS BASEDIR last
+Include GEOIPS_TESTDATA_DIR and GEOIPS_DEPENDENCIES_DIR in geoips/filenames/base_paths.py
+-----------------------------------------------------------------------------------------
+
+*From GEOIPS#223: 2023-03-30, remove GEOIPS_BASEDIR from YAML metadata*
+
+Note geoips/filenames/base_paths.py must include GEOIPS_TESTDATA_DIR
+and GEOIPS_DEPENDENCIES_DIR included in gpaths,
+since replace_geoips_paths in geoips/dev/utils.py only replaces paths contained
+in geoips/filenames/base_paths.py.
+
+::
+
+    geoips/filenames/base_paths.py
+
+Update replace_geoips_paths to replace GEOIPS_BASEDIR last
 ----------------------------------------------------------
 
-*From issue GEOIPS#223: 2023-03-30, remove GEOIPS BASEDIR from YAML metadata*
+*From GEOIPS#223: 2023-03-30, remove GEOIPS_BASEDIR from YAML metadata*
 
 To avoid reliance on GEOIPS BASEDIR, replace GEOIPS_OUTDIRS, GEOIPS_PACKAGES_DIR
 GEOIPS_TESTDATA_DIR, and GEOIPS_DEPENDENCIES_DIR before falling back on
@@ -44,8 +72,46 @@ GEOIPS BASEDIR
     setup/geoips_conda_init_setup
     setup/repo_clone_update_install.sh
 
+Enhancements
+============
+
+Replace <output> in compare_paths from single_source procflow
+-------------------------------------------------------------
+
+* Replace <output> in single_source procflow in addition to <product>
+
+  * This matches functionality in config_based.py
+
+::
+
+    modified: geoips/interface_modules/procflows/single_source.py
+
 Bug Fixes
 =========
+
+Only add product to database if returned product is not None
+------------------------------------------------------------
+
+*From GEOIPS#95, 2023-04-11, add EWS-G suite*
+
+Ensure we do not attempt to add product to list if "None".
+
+::
+
+    geoips/interface_modules/procflows/config_based.py
+
+Return empty list if no storms in trackfile database
+-----------------------------------------------------
+
+*From GEOIPS#95: 2023-04-07, add EWS-G processing*
+
+Previously would raise error if attempting to get all storms from database if
+there are no active storms available.  Update to catch error, print warning,
+and return empty list.
+
+::
+
+  modified: geoips/sector_utils/tc_tracks_database.py
 
 Add geoips/dev/__init__.py
 --------------------------
@@ -58,8 +124,30 @@ Installation fails without __init__.py in each sub-package
 
     new file:   geoips/dev/__init__.py
 
+Update Rain colormap mpl_colors_info
+------------------------------------
+
+*From issue GEOIPS#9: 2023-04-05, IMERG TC processing suite*
+
+* Add "cbar_tick_labels" and "cbar_spacing" as keys under mpl_colors_info
+
+  * These are required when producing annotated imagery
+
+::
+    modified: geoips/interface_modules/user_colormaps/pmw_tb/cmap_Rain.py
+
 Code Formatting and Style Updates
 =================================
+
+Ignore flake8 W503 in check_code.sh
+-----------------------------------
+
+W503 and E203 both conflict with black, so ignore in flake8 tests.
+W503 is line break before binary operator, E203 is white space before :.
+
+::
+
+    modified:   tests/utils/check_code.sh
 
 Minor black updates
 -------------------
@@ -76,6 +164,15 @@ Minor black updates
 
 Installation Updates
 ====================
+
+Install geoips[doc,test,lint] from setup.sh
+-------------------------------------------
+
+Ensure full installation from setup.sh
+
+::
+
+    setup.sh
 
 Update setuptools_scm versioning settings
 -----------------------------------------
@@ -150,6 +247,34 @@ Replace GEOIPS BASEDIR/geoips_packages_dir with GEOIPS_PACKAGES_DIR
 
 Documentation Updates
 =====================
+
+Finalize RST documentation outline
+----------------------------------
+
+*From issue GEOIPS#156: 2023-04-11, finalize doc outline*
+
+Match the sharepoint outline exactly.
+
+::
+
+    A docs/source/devguide/build_docs.rst
+    M docs/source/devguide/contributors.rst
+    M docs/source/devguide/dev_setup.rst
+    M docs/source/devguide/git_workflow.rst
+    M docs/source/devguide/index.rst
+    M docs/source/geoips_api/index.rst
+    M docs/source/introduction/description_geoips.rst
+    M docs/source/introduction/conduct.rst
+    M docs/source/introduction/examples_output.rst
+    M docs/source/introduction/function_summary.rst
+    M docs/source/starter/extending.rst
+    M docs/source/starter/index.rst
+    M docs/source/starter/installation.rst
+    M docs/source/starter/starter_examples.rst
+    M docs/source/userguide/command_line.rst
+    M docs/source/userguide/function_list.rst
+    M docs/source/userguide/geoips_structure.rst
+    M docs/source/userguide/plugin_extend.rst
 
 Finalize sphinx-apidoc build
 ----------------------------

@@ -17,5 +17,7 @@ User Guide
 .. toctree::
    :maxdepth: 2
 
-   available_functionality
-   command_line_examples
+   geoips_structure
+   command_line
+   function_list
+   plugin_extend

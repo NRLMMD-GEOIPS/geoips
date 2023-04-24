@@ -78,17 +78,17 @@ def cmap_Rain(data_range=[0.05, 50.0], cbar_label=r"Rainrate $(mm hr^{-1})$"):
     mpl_colors_info = {
         "cmap": mpl_cmap,
         "norm": mpl_norm,
-        "boundaries": mpl_boundaries,
         "cbar_ticks": ticks,
+        "cbar_tick_labels": mpl_tick_labels,
         "cbar_label": cbar_label,
+        "boundaries": mpl_boundaries,
+        "cbar_spacing": cbar_spacing,
         "colorbar": True,
         "cbar_full_width": True,
         "colorbar_kwargs": {
-            "spacing": cbar_spacing,
             "extend": "both",
         },
         "set_ticks_kwargs": {
-            "labels": mpl_tick_labels,
             "size": "small",
         },
     }

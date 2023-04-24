@@ -1588,9 +1588,9 @@ def single_source(fnames, command_line_args=None):
 
         compare_outputs = find_entry_point("output_comparisons", compare_outputs_module)
         retval = compare_outputs(
-            compare_path.replace("<product>", product_name).replace(
-                "<procflow>", "single_source"
-            ),
+            compare_path.replace("<product>", product_name)
+            .replace("<procflow>", "single_source")
+            .replace("<output>", output_format),
             final_products,
         )
 

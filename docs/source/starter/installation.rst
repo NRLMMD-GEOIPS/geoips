@@ -10,15 +10,17 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-GeoIPS Base Installation Guide
-==================================
+************
+Installation
+************
 
 Using a fresh Mini/Anaconda Python 3.9 Environment is the easiest way to get geoips up and running.
 
 GeoIPS does not support Python 2 development.
 
-System Dependencies
-----------------------
+Software Requirements
+=====================
+
 Required
 
 * wget (Miniconda and rclone setup)
@@ -58,8 +60,11 @@ all test outputs to be generated using a pip-only install of all python packages
 but for now if your tests fail, try installing cartopy and matplotlib via conda
 vs pip.
 
+PIP Installation
+================
+
 Expert User GeoIPS Installation
----------------------------------
+-------------------------------
 
 For the fully supported installation, please use the
 `Complete Local conda-based GeoIPS Installation`_.
@@ -71,12 +76,19 @@ and pip install from the your local copy.
 
 .. code:: bash
 
-    git clone https://github.com/NRLMMD-GEOIPS/geoips/geoips.git <installation_location> 
+    export GEOIPS_PACKAGES_DIR=<installation_location>
+    export GEOIPS_TESTDATA_DIR=<desired_test_data_location>
+    export GEOIPS_OUTDIRS=<desired_output_file_location>
+    export GEOIPS_REPO_URL=https://github.com/NRLMMD-GEOIPS
     cd <installation location>
+    git clone https://github.com/NRLMMD-GEOIPS/geoips/geoips.git <installation_location>
     pip install -e .
 
+Conda Installation
+==================
+
 Complete Local conda-based GeoIPS Installation
-================================================
+----------------------------------------------
 
 This is the fully supported installation method, which involves installing the entire
 Python environment from scratch using conda, to allow for consistency across
@@ -89,7 +101,7 @@ rclone, and test repos) through a complete install of conda, geoips, test repos,
 and all Python dependencies.
 
 GeoIPS Environment Variables for Complete conda-based Installation
---------------------------------------------------------------------
+------------------------------------------------------------------
 
 .. code:: bash
 
@@ -101,8 +113,8 @@ GeoIPS Environment Variables for Complete conda-based Installation
     # Once geoips has been installed, the "GEOIPS_CONFIG_FILE" specified below will be sourced when running geoips,
     # and the direct environment variable assignments within this section are no longer required.
 
-    # If you would like to have the GEOIPS_CONFIG_FILE automatically sourced so you do not have to manually run the 
-    # appropriate source command for every new shell, you can add 
+    # If you would like to have the GEOIPS_CONFIG_FILE automatically sourced so you do not have to manually run the
+    # appropriate source command for every new shell, you can add
     # source </full/path/to/GEOIPS_CONFIG_FILE>
     # to your ~/.bashrc file
 
@@ -123,14 +135,14 @@ GeoIPS Environment Variables for Complete conda-based Installation
 
 
 Complete conda-based Installation and Test
-----------------------------------------------
+------------------------------------------
 
 .. code:: bash
 
     # Initial clone of geoips repo, to obtain setup scripts
     mkdir -p $GEOIPS_PACKAGES_DIR
     git clone $GEOIPS_REPO_URL/geoips.git $GEOIPS_PACKAGES_DIR/geoips
-    
+
     # This just makes sure you are *really* on $GEOIPS_ACTIVE_BRANCH
     git -C $GEOIPS_PACKAGES_DIR/geoips pull
     git -C $GEOIPS_PACKAGES_DIR/geoips checkout -t origin/$GEOIPS_ACTIVE_BRANCH
