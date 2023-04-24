@@ -59,6 +59,16 @@ if not getenv("GEOIPS_BASEDIR"):
 else:
     PATHS["GEOIPS_BASEDIR"] = getenv("GEOIPS_BASEDIR").rstrip("/")
 
+if getenv("GEOIPS_TESTDATA_DIR"):
+    PATHS["GEOIPS_TESTDATA_DIR"] = getenv("GEOIPS_TESTDATA_DIR")
+else:
+    PATHS["GEOIPS_TESTDATA_DIR"] = PATHS["GEOIPS_BASEDIR"] + "/test_data"
+
+if getenv("GEOIPS_DEPENDENCIES_DIR"):
+    PATHS["GEOIPS_DEPENDENCIES_DIR"] = getenv("GEOIPS_DEPENDENCIES_DIR")
+else:
+    PATHS["GEOIPS_DEPENDENCIES_DIR"] = PATHS["GEOIPS_BASEDIR"] + "/geoips_dependencies"
+
 # Location for writing out presectored data files, but unregistered
 if getenv("PRESECTORED_DATA_PATH"):
     PATHS["PRESECTORED_DATA_PATH"] = getenv("PRESECTORED_DATA_PATH").rstrip("/")

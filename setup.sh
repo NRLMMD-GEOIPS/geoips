@@ -129,7 +129,7 @@ elif [[ "$1" == "install" ]]; then
     # conda install -c conda-forge "cartopy" "matplotlib==3.6.3" --yes
     conda install -c conda-forge geos openblas --yes
 
-    pip install -e "$GEOIPS_PACKAGES_DIR/geoips"
+    pip install -e "$GEOIPS_PACKAGES_DIR/geoips"[doc,test,lint]
 
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then

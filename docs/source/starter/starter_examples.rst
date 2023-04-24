@@ -10,16 +10,21 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-************
-Introduction
-************
+****************************
+Simple command line examples
+****************************
 
-:ref:`requirement_spec`
+Full Install
+============
 
-.. toctree::
-   :maxdepth: 2
+In order to obtain all test repos and plugin repositories currently
+available publicly, you can run the test script
+$GEOIPS_PACKAGES_DIR/geoips/tests/test_full_install.sh.
+This will download, install, and test all possible data types and products.
 
-   description_geoips
-   function_summary
-   examples_output
-   conduct
+Step by Step
+============
+
+In the future, we will provide simple step by step examples using Jupyter
+Notebooks in order to quickly get up to speed on GeoIPS capabilities and
+functionality. Maybe we could link to some Jupyter notebooks here?

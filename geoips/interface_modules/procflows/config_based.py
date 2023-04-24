@@ -796,6 +796,7 @@ def config_based(fnames, command_line_args=None):
         product_db = command_line_args["product_db"]
     elif "product_db" in config_dict:
         product_db = config_dict["product_db"]
+
     else:
         product_db = False
 
@@ -1336,9 +1337,10 @@ def config_based(fnames, command_line_args=None):
                                     output_dict,
                                     area_def=area_def,
                                 )
-                                final_products[cpath]["database writes"] += [
-                                    product_added
-                                ]
+                                if product_added is not None:
+                                    final_products[cpath]["database writes"] += [
+                                        product_added
+                                    ]
                         continue
 
                     output_format = get_output_format(output_dict)
@@ -1470,7 +1472,10 @@ def config_based(fnames, command_line_args=None):
                                 coverage=covg,
                                 area_def=area_def,
                             )
-                            final_products[cpath]["database writes"] += [product_added]
+                            if product_added is not None:
+                                final_products[cpath]["database writes"] += [
+                                    product_added
+                                ]
 
                     if (
                         "remove_duplicates" in output_dict

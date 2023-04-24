@@ -10,16 +10,6 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-************
-Introduction
-************
-
-:ref:`requirement_spec`
-
-.. toctree::
-   :maxdepth: 2
-
-   description_geoips
-   function_summary
-   examples_output
-   conduct
+********************************
+Summary of current Functionality
+********************************

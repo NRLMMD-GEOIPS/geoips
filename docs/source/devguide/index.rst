@@ -18,8 +18,9 @@ Developer Guide
    :maxdepth: 2
 
    software_requirements_specification
-   setup_new_plugin
    contributors
+   dev_setup
+   build_docs
    git_workflow
    documentation_strategy
    xarray_standards
