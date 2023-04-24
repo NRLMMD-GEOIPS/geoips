@@ -1,10 +1,14 @@
 ---
+error: ValidationError
+error_pattern: ".*'spec' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
 docstring: "Missing spec"
 
 ---
+error: ValidationError
+error_pattern: ".*'coastlines' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
@@ -12,6 +16,8 @@ docstring: "Missing all features"
 spec: {}
 
 ---
+error: ValidationError
+error_pattern: ".*'coastlines' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
@@ -25,6 +31,8 @@ spec:
     enabled: false
 
 ---
+error: ValidationError
+error_pattern: ".*'countries' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
@@ -38,6 +46,8 @@ spec:
     enabled: false
 
 ---
+error: ValidationError
+error_pattern: ".*'states' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
@@ -51,6 +61,8 @@ spec:
     enabled: false
 
 ---
+error: ValidationError
+error_pattern: ".*'rivers' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
@@ -64,6 +76,8 @@ spec:
     enabled: false
 
 ---
+error: ValidationError
+error_pattern: ".*Unevaluated properties are not allowed \\('unhandled' was unexpected\\)"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
@@ -81,6 +95,8 @@ spec:
     enabled: false
 
 ---
+error: ValidationError
+error_pattern: ".*'color' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
@@ -97,6 +113,8 @@ spec:
     enabled: false
 
 ---
+error: ValidationError
+error_pattern: ".*'linewidth' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
@@ -113,14 +131,12 @@ spec:
     enabled: false
 
 ---
+error: ValidationError
+error_pattern: ".*Unevaluated properties are not allowed \\('idontexist' was unexpected\\).*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
-docstring: |
-  The default boundaries configuration.
-
-  All line types enabled. All colored red. 2px coastlines, 1px countries,
-  0.5px states borders, and 0px rivers.
+docstring: "Extra 'idontexist' property"
 spec:
   coastlines:
     enabled: true

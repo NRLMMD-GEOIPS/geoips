@@ -80,7 +80,15 @@ def test_is_plugin_invalid(validator_name, plugin):
         error_name = "ValidationError"
     error = get_error(error_name)
 
+    # If interface and family are in the plugin, don't pass validator_name
+    try:
+        plugin["interface"]
+        plugin["family"]
+        validator_id = None
+    except (KeyError, TypeError):
+        validator_id = validator_name
+
     with pytest.raises(error) as excinfo:
-        validator.validate(plugin, validator_id=validator_name)
+        validator.validate(plugin, validator_id=validator_id)
     if error_pattern is not None:
         assert re.match(error_pattern, str(excinfo.value))

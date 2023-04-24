@@ -1,0 +1,16 @@
+---
+error: ValidationError
+error_pattern: ".*123 is not of type 'string'.*"
+plugin:
+  name: 123
+  arguments: {}
+---
+error: ValidationError
+error_pattern: ".*'name' is a required property.*"
+plugin:
+  arguments: {}
+---
+error: ValidationError
+error_pattern: ".*'arguments' is a required property.*"
+plugin:
+  name: 123

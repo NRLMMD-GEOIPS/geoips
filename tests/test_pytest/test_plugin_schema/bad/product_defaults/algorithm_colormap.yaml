@@ -1,4 +1,6 @@
 ---
+error: ValidationError
+error_pattern: ".*No validator found for product_defaults.bad_family.*"
 interface: product_defaults
 family: bad_family
 name: good_test
@@ -14,12 +16,16 @@ spec:
       arguments: {}
 
 ---
+error: ValidationError
+error_pattern: ".*'spec' is a required property.*"
 interface: product_defaults
 family: algorithm_colormap
 name: good_test
 docstring: "A product_defaults instance missing its spec"
 
 ---
+error: ValidationError
+error_pattern: ".*'algorithm' is a required property.*"
 interface: product_defaults
 family: algorithm_colormap
 name: good_test
@@ -31,6 +37,8 @@ spec:
       arguments: {}
 
 ---
+error: ValidationError
+error_pattern: ".*'colormap' is a required property.*"
 interface: product_defaults
 family: algorithm_colormap
 name: good_test
@@ -42,6 +50,8 @@ spec:
       arguments: {}
 
 ---
+error: ValidationError
+error_pattern: "Unevaluated properties are not allowed \\('interpolator' was unexpected\\)"
 interface: product_defaults
 family: algorithm_colormap
 name: good_test
@@ -60,6 +70,8 @@ spec:
       name: matplotlib.colormap
 
 ---
+error: ValidationError
+error_pattern: ".*'arguments' is a required property.*"
 interface: product_defaults
 family: algorithm_colormap
 name: good_test
