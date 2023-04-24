@@ -10,16 +10,12 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-************
-Introduction
-************
+********************************************
+Extending GeoIPS with your own functionality
+********************************************
 
-:ref:`requirement_spec`
+Discussion
+==========
 
-.. toctree::
-   :maxdepth: 2
-
-   description_geoips
-   function_summary
-   examples_output
-   conduct
+Please see “Extending GeoIPS with Plugins” in the User's Guide
+for more information on using GeoIPS for your own use cases.

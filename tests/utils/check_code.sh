@@ -89,9 +89,13 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
     # This will probably be fine, but if we determine in the future that we
     # really want to be able to name a file "version.py" and want it checked
     # for compliance, we will need to rethink.
+
+    # W503 and E203 conflict with black, so ignore.
+    # W503 is line break before binary operator
+    # E203 is white space before :
     echo flake8 --max-line-length=88 \
            $select_string \
-           --ignore=E203 \
+           --ignore=E203,W503 \
            --extend-exclude="version.py" \
            --docstring-convention=numpy \
            --rst-roles=class,func,ref \
@@ -100,7 +104,7 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
            $path
     flake8 --max-line-length=88 \
            $select_string \
-           --ignore=E203 \
+           --ignore=E203,W503 \
            --extend-exclude="version.py" \
            --docstring-convention=numpy \
            --rst-roles=class,func,ref \

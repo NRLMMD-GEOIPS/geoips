@@ -10,8 +10,8 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-GeoIPS Contributors Guide
-=========================
+Contributors Guide
+==================
 
 The GeoIPS Team encourages active participation by the user and developer community,
 so we welcome any and all feedback on and updates to the code base.
@@ -25,10 +25,10 @@ else may have time to finalize for approval even if you are unable.
 
 Contributions generally follow the process of:
 
-1. `Submit a GitHub Issue`_ for a bug fix or feature request.
-2. `Branch off a given Issue`_ in order to make the required changes
-3. `Create a github Pull Request`_ in order for your changes to be reviewed
-   prior to being merged to the integration branch
+1. Submit a GitHub Issue for a bug fix or feature request. :ref:`create_issue`
+2. Branch off a given Issue in order to make the required changes :ref:`create_branch`
+3. Create a github Pull Request in order for your changes to be reviewed
+   prior to being merged to the integration branch :ref:`create_pull`
 4. Ensure all required tests pass prior to PR approval (more info coming soon)
 
    * Unit tests
@@ -36,9 +36,5 @@ Contributions generally follow the process of:
    * Code formatting/style tests
    * Documentation formatting/style tests
 
-5. `Merge your changes`_ into the main code base!
+5. Merge your changes into the main code base! :ref:`merge_pr_close`
 
-.. _Submit a GitHub Issue: ./git_workflow.rst#geoips-github-issue-creation-workflow
-.. _Branch off a given Issue: ./git_workflow.rst#from-web-members-create-branch-from-existing-issue
-.. _Create a GitHub Pull Request: ./git_workflow.rst#geoips-github-pull-request-workflow
-.. _Merge your changes: ./git_workflow.rst#geoips-merge-pr-and-close-issue-workflow

@@ -29,7 +29,7 @@ Creating your own GeoIPS Plugin
 -------------------------------
 
 See the instructions to
-[setup a new plugin](./docs/source/devguide/setup_new_plugin.rst)
+[setup a new plugin](./docs/source/devguide/dev_setup.rst)
 if you are interested in creating your own functionality using the GeoIPS
 infrastructure.
 

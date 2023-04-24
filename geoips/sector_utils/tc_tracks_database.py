@@ -14,6 +14,8 @@
 from geoips.filenames.base_paths import PATHS as gpaths
 import logging
 
+import sqlite3
+
 LOG = logging.getLogger(__name__)
 
 TC_DECKS_DB = gpaths["TC_DECKS_DB"]
@@ -29,8 +31,6 @@ def open_tc_db(dbname=TC_DECKS_DB):
     from geoips.filenames.base_paths import make_dirs
 
     make_dirs(pathdirname(dbname))
-
-    import sqlite3
 
     conn = sqlite3.connect(dbname)
     conn_cursor = conn.cursor()
@@ -210,11 +210,11 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
             LOG.info("    Old vmax: " + str(old_vmax) + " to new: " + str(vmax))
             updated_files += [tc_trackfilename]
         cc.execute(
-            """UPDATE tc_trackfiles SET 
+            """UPDATE tc_trackfiles SET
                         last_updated=?,
                         start_datetime=?,
                         end_datetime=?,
-                        vmax=? 
+                        vmax=?
                       WHERE filename = ?""",
             # Eventually add in ?
             # storm_start_datetime=?,
@@ -359,16 +359,20 @@ def get_all_storms_from_db(start_datetime, end_datetime, template_yaml=None):
     """
     from os.path import exists as path_exists
 
+    return_area_defs = []
     connection_cursor, connection = open_tc_db()
     LOG.info("connection: %s", connection)
-    connection_cursor.execute(
-        """SELECT filename from tc_trackfiles WHERE
-                                 end_datetime >= ?
-                                 AND start_datetime <= ?""",
-        (start_datetime, end_datetime),
-    )
+    try:
+        connection_cursor.execute(
+            """SELECT filename from tc_trackfiles WHERE
+                                     end_datetime >= ?
+                                     AND start_datetime <= ?""",
+            (start_datetime, end_datetime),
+        )
+    except sqlite3.InterfaceError as resp:
+        LOG.exception(f"{resp} error getting fields from database, return empty list")
+        return return_area_defs
     deck_filenames = connection_cursor.fetchall()
-    return_area_defs = []
     from geoips.sector_utils.tc_tracks import trackfile_to_area_defs
 
     for deck_filename in deck_filenames:

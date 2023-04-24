@@ -46,7 +46,7 @@
    -  Simple changes can just have the list of modified files directly
       under the “Summary of change” section, without additional details.
 
-4. Issue ID should match related linked issue, like: GEOIPS/geoips#27
+4. Issue ID should match related linked issue, like: NRLMMD-GEOIPS/geoips#27
 5. Note the contents of CHANGELOG.rst will be moved to
    docs/source/releases/vX_Y_Z.rst  during the PR review process. If you
    are feeling adventurous, you can add your entries directly there.
@@ -75,7 +75,7 @@ Breaking Changes
 <Short summary of breaking change 1 from this PR>
 -------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * More info about the change
 
@@ -91,7 +91,7 @@ Breaking Changes
 <Short summary of breaking change 2 from this PR>
 -------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * More info about breaking Change 2
 
@@ -110,7 +110,7 @@ Security Updates
 <Short summary of a security related change from this PR>
 ---------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * required security change due to file update
 
@@ -125,7 +125,7 @@ Major New Functionality
 <Short summary of new functionality from this PR>
 -------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to new functionality
 
@@ -140,7 +140,7 @@ Enhancements
 <Short summary of one enhancement from this PR>
 -----------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to improvements or enhancements to the code
 
@@ -155,7 +155,7 @@ Deprecations
 <Short summary of a deprecation related change from this PR>
 ------------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to code that has been or will be deprecated
 
@@ -170,7 +170,7 @@ Regression Fixes
 <Short summary of a regression related change from this PR>
 -----------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to code that used to work in a previous release,
   and is now broken.
@@ -186,7 +186,7 @@ Bug Fixes
 <Short summary of a bug fix from this PR>
 -----------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to bug fixes
 
@@ -201,7 +201,7 @@ Efficiency Improvements
 <Short summary of an efficiency related change from this PR>
 ------------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to efficiency improvements
 
@@ -216,7 +216,7 @@ Installation Updates
 <Short summary of an installation related change from this PR>
 --------------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to installation updates
 
@@ -231,7 +231,7 @@ Real-time Processing Updates
 <Short summary of a real time processing related change from this PR>
 ---------------------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to real-time processing updates
 
@@ -246,7 +246,7 @@ Refactoring Updates
 <Short summary of a refactoring related change from this PR>
 ------------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to code refactoring
 
@@ -261,7 +261,7 @@ Code Formatting and Style Updates
 <Short summary of a formatting related change from this PR>
 -----------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to code formatting and style updates
 
@@ -276,7 +276,7 @@ GitHub Actions Updates
 <Short summary of a github actions related change from this PR>
 ---------------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to GitHub Actions updates
 
@@ -291,7 +291,7 @@ Git Workflow Improvements
 <Short summary of a git workflow related change from this PR>
 -------------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change related to Git workflow improvements
 
@@ -305,7 +305,7 @@ Test Repo Updates
 <Short summary of a testing related change from this PR>
 --------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change to TEST REPO OUTPUT
 
@@ -319,7 +319,7 @@ Testing Updates
 <Short summary of a testing related change from this PR>
 --------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change that WILL IMPACT TESTING
   (or change to testing process)
@@ -335,7 +335,7 @@ Documentation Updates
 <Short summary of a documentation related change from this PR>
 --------------------------------------------------------------
 
-*From issue GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
+*From NRLMMD-GEOIPS/geoips#NN: YYYY-MM-DD, <short summary of all changes in this PR>*
 
 * Details about change to documentation (contents, or build process)
 

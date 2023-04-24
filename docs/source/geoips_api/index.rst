@@ -12,12 +12,9 @@
 
 .. _api:
 
-**********
-GeoIPS API
-**********
-
-geoips Reference
-================
+*************
+API Reference
+*************
 .. toctree::
    :maxdepth: 4
 

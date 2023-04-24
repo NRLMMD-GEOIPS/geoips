@@ -40,17 +40,15 @@ if [[ "$pdf_required" != "True" && "$html_required" != "True" ]]; then
 fi
 
 echo "***********************************************"
-echo "change dir to docpath=$docpath"
-echo "***********************************************"
-cd $docpath
-
-echo "***********************************************"
-echo "prerequisite geoips installed"
+echo "prerequisite: geoips[doc] installed"
 date -u
 echo "***********************************************"
 echo ""
-python3 -m pip install --upgrade build pydata-sphinx-theme
-retval_install=$?
+
+echo "***********************************************"
+echo "change dir to docpath=$docpath"
+echo "***********************************************"
+cd $docpath
 
 echo "*****************************************************************************"
 echo "remove previously generated to clear discontinued modulees"

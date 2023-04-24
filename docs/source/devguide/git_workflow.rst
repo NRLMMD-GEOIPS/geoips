@@ -10,12 +10,14 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-#############################################################
-GeoIPS git workflow, for updates to any geoips packages
-#############################################################
+###################
+GeoIPS git workflow
+###################
 
 Follow these steps when making modifications to geoips-based
 packages or plugins
+
+.. _create_issue:
 
 ***************************************
 GeoIPS GitHub Issue Creation Workflow
@@ -43,6 +45,7 @@ FROM WEB: Create an Issue for something that needs to be done
     other Projects as appropriate
 * Click “Submit new issue”
 
+.. _create_branch:
 
 FROM WEB: MEMBERS: Create Branch from Existing Issue
 ===================================================================
@@ -139,6 +142,8 @@ Push changes to github
   * git push
 
 
+.. _create_pull:
+
 *************************************
 GeoIPS GitHub Pull Request workflow
 *************************************
@@ -166,7 +171,7 @@ Issue.
   * Click green “Create pull request” button
 * Fill Auto-populated template with appropriate content:
 
-  * Generated from `Global Pull Request Template <https://github.com/NRLMMD-GEOIPS/.github/blob/dev/.github/pull_request_template.md>`_
+  * Generated from `Global Pull Request Template <https://github.com/NRLMMD-GEOIPS/.github/blob/main/.github/pull_request_template.md>`_
   * **Important to follow template title and contents directions**
     **for ease of review**
   * **Pull request will be denied if template is not followed appropriately**
@@ -181,6 +186,7 @@ Issue.
   * Now wait for the automated emails from GitHub saying your changes have been
     approved and merged.
 
+.. _merge_pr_close:
 
 ******************************************
 GeoIPS Merge PR and Close Issue workflow
