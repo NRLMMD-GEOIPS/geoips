@@ -1,63 +1,70 @@
 $id: gridline_annotators.cartopy
-$ref: bases.base
+$ref: bases.top
 title: "Gridline Annotator"
 description: |
   Defines latitude and longitude gridlines and associated labels. Both latitude and
   longitude lines will always be drawn. Their color, style, width, and spacing in
   degrees can be controlled. Labels can be turned on and off for the top, bottom, left,
   and right sides of the imagery.
+required:
+  - spec
 properties:
   spec:
     type: object
-    default: {}
     # Allow ONLY labels, latitude-lines, longitude-lines.
     # If additional properties required, must update schema accordingly.
-    # None required - defaults provided for all.
-    additionalProperties: false
+    unevaluatedProperties: false
+    required:
+      - labels
+      - lines
     properties:
       labels:
         type: object
-        default: {}
         # ONLY allow top, bottom, left, right.
         # If additional properties required, must update schema accordingly.
-        # None required - defaults provided for all.
-        additionalProperties: false
+        unevaluatedProperties: false
+        required:
+          - top
+          - bottom
+          - left
+          - right
         properties:
           top:
             type: boolean
-            default: true
           bottom:
             type: boolean
-            default: false
           left:
             type: boolean
-            default: true
           right:
             type: boolean
-            default: false
-      latitude-lines: &lines-args
+      lines:
         type: object
-        default: {}
-        # ONLY allow color, linestyle, linewidth, spacing.
-        # If additional properties required, must update schema accordingly.
-        # None required - defaults provided for all.
-        additionalProperties: false
+        required:
+          - latitude
+          - longitude
         properties:
-          color:
-            type: string
-            default: black
-          linestyle:
-            type: array
-            minItems: 2
-            maxItems: 2
-            items:
-              type: number
-            default: [4, 2]
-          linewidth:
-            type: number
-            default: 1
-          spacing:
-            type: [number, string]
-            pattern: "auto"
-            default: auto
-      longitude-lines: *lines-args
+          latitude: &lines-args
+            type: object
+            # ONLY allow color, linestyle, linewidth, spacing.
+            # If additional properties required, must update schema accordingly.
+            unevaluatedProperties: false
+            required:
+              - color
+              - linestyle
+              - linewidth
+              - spacing
+            properties:
+              color:
+                type: string
+              linestyle:
+                type: array
+                minItems: 2
+                maxItems: 2
+                items:
+                  type: number
+              linewidth:
+                type: number
+              spacing:
+                type: [number, string]
+                pattern: "auto"
+          longitude: *lines-args

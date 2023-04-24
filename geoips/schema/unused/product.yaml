@@ -1,0 +1,62 @@
+$id: bases.product
+# $ref: bases.top
+required:
+  - spec
+unevaluatedProperties: false
+properties:
+  interface:
+    $ref: bases.interface
+  name:
+    $ref: bases.name
+  docstring:
+    $ref: bases.docstring
+  spec:
+    type: object
+    required:
+      - family
+      - source_name
+      - variables
+    unevaluatedProperties: false
+    properties:
+      family:
+        $ref: bases.family
+      source_name:
+        type: string
+      variables:
+        type: array
+        items:
+          type: string
+        minItems: 1
+    allOf:
+      - if:
+          properties:
+            family:
+              pattern: ".*algorithm.*"
+        then:
+          required:
+            - algorithm
+          properties:
+            algorithm:
+              type: string
+              # $ref: bases.algorithm
+      - if:
+          properties:
+            family:
+              pattern: ".*interpolator.*"
+        then:
+          required:
+            - interpolator
+          properties:
+            interpolator:
+              type: string
+              # $ref: bases.interpolator
+#   - if:
+#       properties:
+#         metadata:
+#           properties:
+#             family:
+#               pattern: ".*colormap.*"
+#     then:
+#       properties:
+#         interpolation:
+#         $ref: bases.colormap

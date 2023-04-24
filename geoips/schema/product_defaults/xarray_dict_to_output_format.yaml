@@ -1,2 +1,5 @@
-$id: product_defaults.sectored_xarray_dict_to_output_format
-$ref: bases.unvalidated  # Family specifies order of ops but not YAML formatting
+$id: product_defaults.xarray_dict_to_output_format
+$ref: bases.unvalidated # Family specifies order of ops but not YAML formatting
+properties:
+  family:
+    const: xarray_dict_to_output_format

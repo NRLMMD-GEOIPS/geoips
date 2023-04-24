@@ -1,0 +1,26 @@
+interface: products
+family: list
+name: abi
+docstring: >
+  List of products for the ABI sensor
+
+  A list of products for the Advanced Baseline Imager on the GOES satellites.
+spec:
+  - interface: products
+    family: interpolator_algorithm_colormap
+    name: infrared
+    docstring: >
+      11um Infrared
+
+      11um infrared product with a multi-hue colorbar
+  - interface: products
+    family: interpolator_algorithm_colormap
+    name: infrared-grey
+    docstring: >
+      11um Infrared
+
+      11um infrared product with a multi-hue colorbar
+    spec:
+      colormap:
+        arguments:
+          colormap_name: greys_r

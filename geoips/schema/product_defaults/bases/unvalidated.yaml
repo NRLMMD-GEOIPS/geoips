@@ -1,7 +1,6 @@
-$id: bases.unvalidated
-$ref: bases.top
+$id: product_defaults.bases.unvalidated
+$ref: bases.base
 type: object
-unevaluatedProperties: false
 required:
   - spec
 properties:

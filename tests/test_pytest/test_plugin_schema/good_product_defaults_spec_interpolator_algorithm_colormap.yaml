@@ -1,0 +1,62 @@
+---
+algorithm:
+  plugin:
+    name: single_channel
+    arguments: {}
+interpolator:
+  plugin:
+    name: pyresample.nearest_neighbor
+    arguments: {}
+colormap:
+  plugin:
+    name: something
+    arguments: {}
+coverage_checker:
+  plugin:
+    name: something
+    arguments: {}
+mtif_type: blah
+
+---
+algorithm:
+  plugin:
+    name: single_channel
+    arguments: {}
+interpolator:
+  plugin:
+    name: pyresample.nearest_neighbor
+    arguments: {}
+colormap:
+  plugin:
+    name: something
+    arguments: {}
+
+---
+algorithm:
+  plugin:
+    name: single_channel
+    arguments: {}
+interpolator:
+  plugin:
+    name: pyresample.nearest_neighbor
+    arguments: {}
+colormap:
+  plugin:
+    name: something
+    arguments: {}
+coverage_checker:
+  plugin:
+    name: something
+    arguments: {}
+windbarb_plotter:
+  plugin:
+    name: something
+    arguments:
+      thinning: 1
+      length: 1
+      width: 1
+      sizes_dict:
+        height: 1
+        spacing: 1
+      rain_size: 1
+mtif_type: blah

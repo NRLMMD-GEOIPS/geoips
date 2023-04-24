@@ -1,23 +1,12 @@
 $id: product_defaults.algorithm_colormap
-$ref: bases.base
+$ref: bases.top
 type: object
+unevaluatedProperties: false
 required:
   - spec
 properties:
+  family:
+    const: algorithm_colormap
   spec:
-    type: object
-    additionalProperties: false
-    required:
-      - algorithm
-      - colormap
-    properties:
-      algorithm:
-        $ref: "bases.algorithm"
-      colormap:
-        $ref: "bases.colormap"
-      coverage_checker:
-        $ref: "bases.coverage_checker"
-      windbarbs:
-        $ref: "bases.windbarbs"
-      mtif_type:
-        type: string
+    unevaluatedProperties: false
+    $ref: "product_defaults.specs.algorithm_colormap"

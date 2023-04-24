@@ -1,0 +1,96 @@
+---
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing spec"
+
+---
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing labels"
+spec:
+  lines:
+    latitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+    longitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+
+---
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing lines"
+spec:
+  labels:
+    top: true
+    bottom: true
+    left: true
+    right: true
+
+---
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing labels: top"
+spec:
+  labels:
+    bottom: true
+    left: true
+    right: true
+  lines:
+    latitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+    longitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+
+---
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing lines: longitude"
+spec:
+  labels:
+    top: true
+    bottom: true
+    left: true
+    right: true
+  lines:
+    latitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+
+---
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing lines: longitude: color"
+spec:
+  labels:
+    bottom: true
+    left: true
+    right: true
+  lines:
+    latitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+    longitude:
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto

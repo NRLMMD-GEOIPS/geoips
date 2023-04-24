@@ -1,0 +1,74 @@
+---
+interface: product_defaults
+family: bad_family
+name: good_test
+docstring: "A product_defaults instance with a bad family"
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormap:
+    plugin:
+      name: matplotlib.colormap
+      arguments: {}
+
+---
+interface: product_defaults
+family: algorithm_colormap
+name: good_test
+docstring: "A product_defaults instance missing its spec"
+
+---
+interface: product_defaults
+family: algorithm_colormap
+name: good_test
+docstring: "A product_defaults instance missing its algorithm property"
+spec:
+  colormap:
+    plugin:
+      name: matplotlib.colormap
+      arguments: {}
+
+---
+interface: product_defaults
+family: algorithm_colormap
+name: good_test
+docstring: "A product_defaults instance missing its colormap property"
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+
+---
+interface: product_defaults
+family: algorithm_colormap
+name: good_test
+docstring: "Extra plugin"
+spec:
+  interpolator:
+    plugin:
+      name: pyresample.nearest_neighbor
+      arguments: {}
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormap:
+    plugin:
+      name: matplotlib.colormap
+
+---
+interface: product_defaults
+family: algorithm_colormap
+name: good_test
+docstring: "A product_defaults instance missing its colormap.arguments"
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormap:
+    plugin:
+      name: matplotlib.colormap

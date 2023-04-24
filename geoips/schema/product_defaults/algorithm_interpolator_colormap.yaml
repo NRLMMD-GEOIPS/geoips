@@ -1,26 +1,12 @@
 $id: product_defaults.algorithm_interpolator_colormap
-$ref: bases.base
+$ref: bases.top
 type: object
+unevaluatedProperties: false
 required:
   - spec
 properties:
+  family:
+    const: algorithm_interpolator_colormap
   spec:
-    type: object
-    additionalProperties: false
-    required:
-      - algorithm
-      - interpolator
-      - colormap
-    properties:
-      algorithm:
-        $ref: "bases.algorithm"
-      interpolator:
-        $ref: "bases.interpolator"
-      colormap:
-        $ref: "bases.colormap"
-      coverage_checker:
-        $ref: "bases.coverage_checker"
-      windbarbs:
-        $ref: "bases.windbarbs"
-      mtif_type:
-        type: string
+    unevaluatedProperties: false
+    $ref: "product_defaults.specs.algorithm_interpolator_colormap"

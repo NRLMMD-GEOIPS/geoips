@@ -1,0 +1,16 @@
+$id: product_defaults.specs.algorithm_colormap
+type: object
+required:
+  - algorithm
+  - colormap
+properties:
+  algorithm:
+    $ref: "product_defaults.bases.algorithm"
+  colormap:
+    $ref: "product_defaults.bases.colormap"
+  coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  windbarb_plotter:
+    $ref: "product_defaults.bases.windbarb_plotter"
+  mtif_type:
+    type: string
