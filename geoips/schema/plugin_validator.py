@@ -161,6 +161,16 @@ class PluginValidator:
     validators = get_validators(schemas, _validator)
 
     def validate(self, plugin, validator_id=None):
+        # Pop off unit-test properties
+        try:
+            plugin.pop("error")
+        except (KeyError, AttributeError, TypeError):
+            pass
+        try:
+            plugin.pop("error_pattern", None)
+        except (KeyError, AttributeError, TypeError):
+            pass
+
         if not validator_id:
             self.validators["bases.top"].validate(plugin)
             validator_id = f"{plugin['interface']}.{plugin['family']}"
