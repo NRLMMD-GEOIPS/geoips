@@ -33,10 +33,10 @@ def get_data_box_definition(source_name, lons, lats):
     lats : ndarray
         Numpy array of latitudes, -90 to 90
     """
-    from geoips.interface_modules.interpolation.utils.boxdefinitions import (
+    from geoips.plugins.modules.interpolation.utils.boxdefinitions import (
         MaskedCornersSwathDefinition,
     )
-    from geoips.interface_modules.interpolation.utils.boxdefinitions import (
+    from geoips.plugins.modules.interpolation.utils.boxdefinitions import (
         PlanarPolygonDefinition,
     )
     from pyresample.geometry import GridDefinition
