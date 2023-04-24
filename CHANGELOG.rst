@@ -16,17 +16,3 @@ CHANGELOG appropriately with each PR
 Release notes for previous/upcoming versions can be found in docs/source/releases,
 for reference.
 
-Bug Fixes
-=========
-
-Import and entry points updated
------------------------------------------
-
-*From issue GEOIPS/recenter_tc#10: 2023-04-21, Import and entry points updated*
-
-* Updated imports and entry points revealed to be outdated in recenter_tc tests.
-
-::
-
-    modified: pyproject.toml
-    modified: geoips/sector_utils/utils.py
