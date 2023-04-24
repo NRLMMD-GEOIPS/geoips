@@ -22,7 +22,7 @@ from os.path import basename
 import logging
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.interface_modules.filename_formats.utils.tc_file_naming import (
+from geoips.plugins.modules.filename_formats.utils.tc_file_naming import (
     tc_storm_basedir,
 )
 

@@ -42,7 +42,7 @@ from geoips.interfaces import output_formats
 from geoips.interfaces import readers
 
 # Collect functions from single_source (should consolidate these somewhere)
-from geoips.interface_modules.procflows.single_source import (
+from geoips.plugins.modules.procflows.single_source import (
     process_sectored_data_output,
     process_xarray_dict_to_output_format,
 )
@@ -193,13 +193,13 @@ def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
     # If this is a raw datafile, pull the required variables for applying the given algorithm, and generate the
     # product array.
     else:
-        from geoips.interface_modules.procflows.single_source import pad_area_definition
+        from geoips.plugins.modules.procflows.single_source import pad_area_definition
 
         pad_area_def = pad_area_definition(area_def)
         # Ensure pre-processed and raw look the same - this requires applying algorithm to padded sectored data,
         # since that is what is written out to the pre-processed netcdf file,
         # then interpolating to the desired area definition.
-        from geoips.interface_modules.procflows.single_source import get_alg_xarray
+        from geoips.plugins.modules.procflows.single_source import get_alg_xarray
 
         sect_xarray = get_alg_xarray(
             sect_xarrays, pad_area_def, product_name, resampled_read=resampled_read
@@ -211,7 +211,7 @@ def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
     alg_xarray.attrs["registered_dataset"] = True
     alg_xarray.attrs["area_definition"] = area_def
     if product_name in alg_xarray.variables:
-        from geoips.interface_modules.procflows.single_source import (
+        from geoips.plugins.modules.procflows.single_source import (
             add_filename_extra_field,
         )
 
@@ -243,7 +243,7 @@ def get_sectored_read(
     """
     area_def = area_defs[area_def_id][sector_type]["area_def"]
 
-    from geoips.interface_modules.procflows.single_source import pad_area_definition
+    from geoips.plugins.modules.procflows.single_source import pad_area_definition
 
     if "primary_sector" in config_dict:
         primary_sector_type = area_defs[area_def_id][config_dict["primary_sector"]]
@@ -631,7 +631,7 @@ def get_area_defs_from_available_sectors(
         * ``area_defs[area_def.name][sector_type]['area_def']``
     """
     area_defs = {}
-    from geoips.interface_modules.procflows.single_source import (
+    from geoips.plugins.modules.procflows.single_source import (
         get_area_defs_from_command_line_args,
     )
 
@@ -871,16 +871,16 @@ def config_based(fnames, command_line_args=None):
 
     from geoips.xarray_utils.data import sector_xarrays
     from geoips.filenames.duplicate_files import remove_duplicates
-    from geoips.interface_modules.procflows.single_source import (
+    from geoips.plugins.modules.procflows.single_source import (
         pad_area_definition,
         get_filename,
     )
-    from geoips.interface_modules.procflows.single_source import (
+    from geoips.plugins.modules.procflows.single_source import (
         plot_data,
         combine_filename_extra_fields,
     )
-    from geoips.interface_modules.procflows.single_source import get_alg_xarray
-    from geoips.interface_modules.procflows.single_source import verify_area_def
+    from geoips.plugins.modules.procflows.single_source import get_alg_xarray
+    from geoips.plugins.modules.procflows.single_source import verify_area_def
     from geoips.dev.product import get_covg_from_product, get_covg_args_from_product
 
     list_area_defs = get_area_def_list_from_dict(area_defs)

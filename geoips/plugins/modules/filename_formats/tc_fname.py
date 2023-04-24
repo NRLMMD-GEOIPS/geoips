@@ -49,7 +49,7 @@ def tc_fname(
 
     See Also
     --------
-    geoips.interface_modules.filename_formats.tc_fname.assemble_tc_fname
+    geoips.plugins.modules.filename_formats.tc_fname.assemble_tc_fname
         This uses the shared utility "assemble_tc_fname", such that a common
         filename can be used by related filename formatters.
     """
@@ -82,7 +82,7 @@ def tc_fname(
         # use "unknown" for intensity
         intensity = "unknown"
 
-    from geoips.interface_modules.filename_formats.utils.tc_file_naming import (
+    from geoips.plugins.modules.filename_formats.utils.tc_file_naming import (
         update_extra_field,
     )
 
@@ -406,7 +406,7 @@ def assemble_tc_fname(
     if not product_subdir:
         product_subdir = platform_name
 
-    from geoips.interface_modules.filename_formats.utils.tc_file_naming import (
+    from geoips.plugins.modules.filename_formats.utils.tc_file_naming import (
         tc_storm_basedir,
     )
 

@@ -20,7 +20,7 @@ import numpy as np
 
 from scipy.ndimage.interpolation import zoom
 
-from geoips.interface_modules.readers.utils.geostationary_geolocation import (
+from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
     AutoGenError,

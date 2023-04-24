@@ -33,7 +33,7 @@ except Exception:
     )
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.interface_modules.readers.utils.geostationary_geolocation import (
+from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
     AutoGenError,

@@ -29,7 +29,7 @@ reader_type = "standard"
 def get_metadata(fname):
     """Get metadata."""
     import netCDF4 as ncdf
-    from geoips.interface_modules.readers.abi_netcdf import (
+    from geoips.plugins.modules.readers.abi_netcdf import (
         _get_metadata as get_metadata,
     )
 
@@ -40,7 +40,7 @@ def get_metadata(fname):
 
 def calculate_abi_geolocation(metadata, area_def):
     """Calculate ABI geolocation."""
-    from geoips.interface_modules.readers import abi_netcdf
+    from geoips.plugins.modules.readers import abi_netcdf
 
     geometa = abi_netcdf._get_geolocation_metadata(metadata)
     sdt = datetime.strptime(
