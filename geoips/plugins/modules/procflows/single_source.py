@@ -1352,11 +1352,11 @@ def single_source(fnames, command_line_args=None):
         if adjust_area_def:
             from geoips.geoips_utils import find_entry_point
 
-            area_def_adjuster = find_entry_point("area_def_adjusters", adjust_area_def)
-            area_def_adjuster_type = getattr(
-                import_module(area_def_adjuster.__module__), "adjuster_type"
+            sector_adjuster = find_entry_point("sector_adjusters", adjust_area_def)
+            sector_adjuster_type = getattr(
+                import_module(sector_adjuster.__module__), "adjuster_type"
             )
-            # Use normal size sectored xarray when running area_def_adjuster, not padded
+            # Use normal size sectored xarray when running sector_adjuster, not padded
             # Center time (mintime + (maxtime - mintime)/2) is very slightly different for different size
             # sectored arrays, so for consistency if we change padding amounts, use the fully sectored
             # array for adjusting the area_def.
@@ -1376,27 +1376,27 @@ def single_source(fnames, command_line_args=None):
                         drop=True,
                     )
                 if (
-                    area_def_adjuster_type
+                    sector_adjuster_type
                     == "list_xarray_list_variables_to_area_def_out_fnames"
                 ):
-                    area_def, adadj_fnames = area_def_adjuster(
+                    area_def, adadj_fnames = sector_adjuster(
                         list(sect_xarrays.values()), area_def, variables
                     )
                 else:
-                    area_def = area_def_adjuster(
+                    area_def = sector_adjuster(
                         list(sect_xarrays.values()), area_def, variables
                     )
             else:
                 # AMSU-b specifically needs full swath width...
                 if (
-                    area_def_adjuster_type
+                    sector_adjuster_type
                     == "list_xarray_list_variables_to_area_def_out_fnames"
                 ):
-                    area_def, adadj_fnames = area_def_adjuster(
+                    area_def, adadj_fnames = sector_adjuster(
                         list(pad_sect_xarrays.values()), area_def, variables
                     )
                 else:
-                    area_def = area_def_adjuster(
+                    area_def = sector_adjuster(
                         list(pad_sect_xarrays.values()), area_def, variables
                     )
             # These will be added to the alg_xarray
