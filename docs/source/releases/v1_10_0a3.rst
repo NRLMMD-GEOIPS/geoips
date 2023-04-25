@@ -44,10 +44,11 @@ Update all instances of title_formats with title_formatters
 ::
 
   moved: geoips/plugins/modules/title_formats -> geoips/plugins/modules/title_formatters
+  moved: geoips/interfaces/title_formats.py -> geoips/interfaces/title_formatters.py
   modified: pyproject.toml
   modified: geoips/cli.py
   modified: geoips/image_utils/mpl_utils.py
-  modified: geoips/interfaces/module_based/title_formatters.py
+  modified: geoips/interfaces/title_formatters.py
   modified: geoips/interfaces/__init__.py
 
 Update all instances of title_format with title_formatter
