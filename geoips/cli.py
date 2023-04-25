@@ -237,7 +237,7 @@ def main():
     # add_list_interface_parser(list_subparsers, 'boundaries', aliases=['bound', 'bounds'])
     add_list_interface_parser(list_subparsers, "colormaps", aliases=["cmap", "cmaps"])
     add_list_interface_parser(
-        list_subparsers, "filename_formats", aliases=["ff", "ffs"]
+        list_subparsers, "filename_formatters", aliases=["ff", "ffs"]
     )
     # add_list_interface_parser(list_subparsers, 'gridline_formatters', aliases=['gf', 'gfs'])
     add_list_interface_parser(
