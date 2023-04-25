@@ -21,17 +21,38 @@ Breaking Changes
 Update OutputFormats class name to OutputFormatters
 ---------------------------------------------------
 
-*From issue NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_formats -> output_formatters*
+*From NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_format->output_formatter*
 
 ::
 
-  modified: interfaces/output_formats.py
+  modified: geoips/interfaces/output_formats.py
+
+Update all instances of output_formats with output_formatters
+-------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_format->output_formatter*
+
+::
+
+  modified: pyproject.toml
+  modified: geoips/cli.py
+  modified: geoips/commandline/args.py
+  modified: geoips/plugins/modules/output_formatters/imagery_windbarbs_clean.py
+  modified: geoips/plugins/modules/output_formatters/metadata_tc.py
+  modified: geoips/plugins/modules/output_formatters/netcdf_geoips.py
+  modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/procflows/single_source.py
 
 Update all instances of output_format with output_formatter
 -----------------------------------------------------------
 
-*From issue NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_formats -> output_formatters*
+*From NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_format->output_formatter*
 
+NOTE: Did NOT replace references to "xarray_dict_to_output_format" families,
+either within YAML configs, or within single_source.py or config_based.py
+procflows. All other references replaced.
+
+To only include singular if plural has already been replaced:
 (grep "output_format[^t]")
 
 ::
@@ -74,19 +95,3 @@ Update all instances of output_format with output_formatter
   modified: tests/yaml_configs/abi_test_low_memory.yaml
   modified: tests/yaml_configs/amsr2_test.yaml
   modified: tests/yaml_configs/amsr2_test_low_memory.yaml
-
-Update all instances of output_formats with output_formatters
--------------------------------------------------------------
-
-*From issue NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_formats -> output_formatters*
-
-::
-
-  modified: pyproject.toml
-  modified: cli.py
-  modified: commandline/args.py
-  modified: plugins/modules/output_formatters/imagery_windbarbs_clean.py
-  modified: plugins/modules/output_formatters/metadata_tc.py
-  modified: plugins/modules/output_formatters/netcdf_geoips.py
-  modified: plugins/modules/procflows/config_based.py
-  modified: plugins/modules/procflows/single_source.py
