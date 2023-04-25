@@ -32,9 +32,9 @@ if geoips_version >= "2.0.0":
 def get_deprecated_name(module_name):
     """Get deprecated name."""
     # module_name == module.__name__
-    # module.__name__ is ie geoips.interface_modules.algorithms.pmw_tb.pmw_89pct
+    # module.__name__ is ie geoips.plugins.modules.algorithms.pmw_tb.pmw_89pct
     # First split on interface name (algorithms), then drop the leading '.'
-    path = module_name.split("interface_modules")[-1]
+    path = module_name.split("plugins.modules")[-1]
     deprecated_name = path.split(".", 2)[2]
     warn(
         f"Variable 'name' not found in plugin module '{module_name}'."

@@ -1,0 +1,56 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a1 (2023-04-25)
+*****************************
+
+* Replace interface_modules with plugins.modules
+
+Breaking Changes
+================
+
+Update all instances of interface_modules with plugins.modules
+--------------------------------------------------------------
+
+*From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
+
+* Moved interface_modules to geoips/plugins/modules
+* Updated all scripts that directly references interface_modules
+
+::
+
+  modified: pyproject.toml
+  modified: geoips/commandline/args.py
+  modified: geoips/interfaces/base.py
+  modified: geoips/plugins/__init__.py
+  modified: geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
+  modified: geoips/plugins/modules/filename_formatters/metadata_default_fname.py
+  modified: geoips/plugins/modules/filename_formatters/tc_fname.py
+  modified: geoips/plugins/modules/filename_formatters/text_winds_day_fname.py
+  modified: geoips/plugins/modules/filename_formatters/text_winds_full_fname.py
+  modified: geoips/plugins/modules/filename_formatters/text_winds_tc_fname.py
+  modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
+  modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
+  modified: geoips/plugins/modules/interpolators/scipy_wrappers/interp_grid.py
+  modified: geoips/plugins/modules/interpolators/utils/interp_pyresample.py
+  modified: geoips/plugins/modules/output_formatters/imagery_windbarbs_clean.py
+  modified: geoips/plugins/modules/output_formatters/metadata_tc.py
+  modified: geoips/plugins/modules/output_formatters/netcdf_geoips.py
+  modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+  modified: geoips/plugins/modules/readers/abi_netcdf.py
+  modified: geoips/plugins/modules/readers/ahi_hsd.py
+  modified: geoips/plugins/modules/readers/seviri_hrit.py
+  modified: geoips/sector_utils/tc_tracks.py
+  modified: geoips/sector_utils/utils.py
+  modified: geoips/xarray_utils/data.py
