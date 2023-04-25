@@ -43,9 +43,25 @@ Update all instances of title_formats with title_formatters
 
 ::
 
-  modified:   geoips/cli.py
-  modified:   geoips/image_utils/mpl_utils.py
-  modified:   geoips/interfaces/module_based/title_formatters.py
+  modified: pyproject.toml
+  modified: geoips/cli.py
+  modified: geoips/image_utils/mpl_utils.py
+  modified: geoips/interfaces/module_based/title_formatters.py
+  modified: geoips/interfaces/__init__.py
+  moved: geoips/plugins/modules/title_formats -> geoips/plugins/modules/title_formatters
+
+Update all instances of title_format with title_formatter
+---------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
+
+::
+
+  modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
+  modified: geoips/commandline/args.py
+  modified: geoips/image_utils/mpl_utils.py
+  modified: modules/output_formatters/imagery_annotated.py
+  modified: modules/output_formatters/imagery_windbarbs.py
 
 Update all instances of interpolation with interpolators
 --------------------------------------------------------
