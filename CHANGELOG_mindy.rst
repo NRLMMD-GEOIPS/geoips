@@ -4,6 +4,8 @@ Breaking Changes
 Update all instances of interface_modules with plugins.modules
 --------------------------------------------------------------
 
+DONE not fully tested yet.
+
 *From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
 
 ::
@@ -36,6 +38,8 @@ Update all instances of interface_modules with plugins.modules
 
 Update all instances of output_formats with output_formatters
 -------------------------------------------------------------
+
+NOT STARTED YET.
 
 *From issue NRLMMD-GEOIPS/geoips#165: 2023-04-14, update interface names*
 
