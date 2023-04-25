@@ -15,7 +15,7 @@ import logging
 
 import xarray
 
-from geoips.plugins.modules.interpolation.utils.interp_pyresample import (
+from geoips.plugins.modules.interpolators.utils.interp_pyresample import (
     interp_kd_tree,
     get_data_box_definition,
 )
