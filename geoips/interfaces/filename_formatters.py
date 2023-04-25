@@ -22,8 +22,8 @@ class FilenameFormattersInterface(BaseInterface):
     GeoIPS xarray objects.
     """
 
-    name = "filename_formats"
-    entry_point_group = "filename_formats"
+    name = "filename_formatters"
+    entry_point_group = "filename_formatters"
     deprecated_family_attr = "filename_type"
 
     required_args = {
@@ -71,4 +71,4 @@ class FilenameFormattersInterface(BaseInterface):
         duplicates = self.find_duplicates()
 
 
-filename_formats = FilenameFormattersInterface()
+filename_formatters = FilenameFormattersInterface()
