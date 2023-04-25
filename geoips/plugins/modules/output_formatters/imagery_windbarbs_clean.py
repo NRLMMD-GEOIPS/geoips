@@ -13,7 +13,7 @@
 """Matplotlib-based windbarb clean image output (no overlays or backgrounds)."""
 import logging
 
-from geoips.plugins.modules.output_formats.imagery_windbarbs import (
+from geoips.plugins.modules.output_formatters.imagery_windbarbs import (
     output_clean_windbarbs,
     format_windbarb_data,
 )
