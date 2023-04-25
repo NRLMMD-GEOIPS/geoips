@@ -38,4 +38,3 @@ run_procflow \
 ss_retval=$?
 
 exit $((ss_retval))
-

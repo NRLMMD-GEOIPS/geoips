@@ -181,7 +181,9 @@ def get_output_filenames(
 
         metadata_fname = None
         if metadata_filename_formatter:
-            fname_fmt_plugin = filename_formatters.get_plugin(metadata_filename_formatter)
+            fname_fmt_plugin = filename_formatters.get_plugin(
+                metadata_filename_formatter
+            )
             if fname_fmt_plugin.family == "standard_metadata":
                 metadata_filename_formatter_kwargs = remove_unsupported_kwargs(
                     fname_fmt_plugin, metadata_filename_formatter_kwargs
@@ -454,7 +456,9 @@ def get_filename(
         )
         covg = covg_func(alg_xarray, product_name, area_def, **covg_args)
 
-    curr_kwargs = remove_unsupported_kwargs(filename_fmt_plugin, filename_formatter_kwargs)
+    curr_kwargs = remove_unsupported_kwargs(
+        filename_fmt_plugin, filename_formatter_kwargs
+    )
     if filename_fmt_plugin.family == "data":
         fname = filename_fmt_plugin(
             area_def,
