@@ -32,7 +32,9 @@ Update all instances of user_colormaps with colormaps
 
 ::
 
-  modified:   geoips/interfaces/module_based/colormaps.py
+  modified: pyproject.toml
+  modified: geoips/plugins/modules/user_colormaps -> geoips/plugins/modules/colormaps
+  modified: geoips/interfaces/module_based/colormaps.py
 
 Update all instances of area_def_generators with sector_loaders
 ---------------------------------------------------------------
