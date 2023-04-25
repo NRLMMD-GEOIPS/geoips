@@ -70,6 +70,7 @@ Update all instances of interpolation with interpolators
 
 ::
 
+  moved: geoips/plugins/modules/interpolation -> geoips/plugins/modules/interpolators
   modified: geoips/interfaces/module_based/interpolators.py
   modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
   modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
