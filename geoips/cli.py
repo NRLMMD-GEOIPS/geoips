@@ -245,7 +245,7 @@ def main():
     )
     # add_list_interface_parser(list_subparsers, 'outputter_configs', aliases=['oc', 'ocs'])
     add_list_interface_parser(
-        list_subparsers, "output_formatterss", aliases=["out", "outs"]
+        list_subparsers, "output_formatters", aliases=["out", "outs"]
     )
     add_list_interface_parser(list_subparsers, "procflows", aliases=["pf", "pfs"])
     # add_list_interface_parser(list_subparsers, 'products', aliases=['prod', 'prods'])
