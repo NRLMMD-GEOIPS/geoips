@@ -15,7 +15,7 @@
 from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
-class OutputFormatsInterface(BaseInterface):
+class OutputFormattersInterface(BaseInterface):
     """Data format for the resulting output product (e.g. netCDF, png)."""
 
     name = "output_formats"
@@ -90,4 +90,4 @@ class OutputFormatsInterface(BaseInterface):
     }
 
 
-output_formats = OutputFormatsInterface()
+output_formats = OutputFormattersInterface()
