@@ -218,4 +218,3 @@ windbarbs = "geoips.plugins.modules.coverage_checkers.windbarbs:windbarbs"
 
 [project.entry-points."geoips.output_comparisons"]
 compare_outputs = "geoips.compare_outputs:compare_outputs"
-

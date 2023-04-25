@@ -10,20 +10,77 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Coverage check routine for RGBA center radius coverage checks."""
+"""Coverage check routine for center radius coverage checks."""
 import logging
 
 import numpy
-<<<<<<<< HEAD:geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
-from geoips.plugins.modules.coverage_checkers.center_radius import create_radius
-========
-from geoips.plugins.modules.coverage_checks.center_radius import create_radius
->>>>>>>> integration:geoips/plugins/modules/coverage_checks/center_radius_rgba.py
+from skimage.draw import disk
 
 LOG = logging.getLogger(__name__)
 
 
-def center_radius_rgba(
+def plot_coverage(main_ax, area_def, covg_args):
+    """Plot the coverage specified by the 'center_radius' function.
+
+    Parameters
+    ----------
+    main_ax : matplotlib.axis
+        Axis on which to plot coverage representation
+    area_def : pyresample.AreaDefinition
+        area def for current plot
+    covg_args : dict
+        product params dictionary for current product -
+        to ensure we plot the correct coverage params
+
+    Returns
+    -------
+    No return value
+    """
+    plot_color = "black"
+
+    if "radius_km" in covg_args:
+        radius_km = covg_args["radius_km"]
+        res_km = max(area_def.pixel_size_x, area_def.pixel_size_y) / 1000.0
+        radius_pixels = 1.0 * radius_km / res_km
+        main_ax.scatter(
+            0, 0, s=2 * radius_pixels**2, facecolors="none", edgecolors=plot_color
+        )
+
+
+def create_radius(temp_arr, radius_pixels=300, x_center=0, y_center=0):
+    """Create a radius around given x,y coordinates in the 2d array.
+
+    Given the radius and the x,y coordinates it creates a circle around those
+    points using the skimage.draw library
+
+    Parameters
+    ----------
+    temp_arr : int
+        The 2D array.
+    radius : int, optional
+        The radius of the circle. 500 is default value.
+    x : int, optional
+        The x coordinate of middle circle point. 0 is default value.
+    y : int, optional
+        The x coordinate of middle circle point. 0 is default value.
+
+    Returns
+    -------
+    numpy.ndarray
+        2D array with circle created at the x,y coordinate with the given radius
+        All circles are marked as 1.
+    """
+    dumby_arr = numpy.zeros((temp_arr.shape), dtype=numpy.uint8)
+    r_points, c_points = disk(
+        (x_center, y_center), radius_pixels, shape=dumby_arr.shape
+    )
+
+    dumby_arr[r_points, c_points] = 1
+
+    return dumby_arr
+
+
+def center_radius(
     xarray_obj,
     variable_name,
     area_def=None,
@@ -33,15 +90,14 @@ def center_radius_rgba(
 ):
     """Coverage check routine for xarray objects with masked projected arrays.
 
-    Only calculates coverage within a "radius_km" radius of center.
-
     Parameters
     ----------
     xarray_obj : xarray.Dataset
         xarray object containing variable "variable_name"
     variable_name : str
         variable name to check percent unmasked
-        radius_km (float) : Radius of center disk to check for coverage
+    radius_km : float
+        Radius of center disk to check for coverage
 
     Returns
     -------
@@ -61,14 +117,14 @@ def center_radius_rgba(
         varname_for_covg = alt_varname_for_covg
     if force_alt_varname and alt_varname_for_covg is not None:
         LOG.info(
-            "    UPDATING force_alt_varname set, using alternate '%s' "
-            "rather than variable '%s'",
+            "    UPDATING force_alt_varname set, "
+            'using alternate "%s" rather than variable "%s"',
             alt_varname_for_covg,
             variable_name,
         )
         varname_for_covg = alt_varname_for_covg
 
-    temp_arr = xarray_obj[varname_for_covg][:, :, 3]
+    temp_arr = xarray_obj[varname_for_covg].to_masked_array()
 
     res_km = (
         min(
@@ -94,7 +150,8 @@ def center_radius_rgba(
     )
 
     num_valid_in_radius = numpy.count_nonzero(
-        numpy.logical_and(numpy.where(dumby_arr, 1, 0), numpy.where(temp_arr, 1, 0))
+        numpy.where(dumby_arr & ~temp_arr.mask, 1, 0)
     )
     num_total_in_radius = numpy.count_nonzero(dumby_arr)
+
     return (float(num_valid_in_radius) / num_total_in_radius) * 100.0
