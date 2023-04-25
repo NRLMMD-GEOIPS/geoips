@@ -158,12 +158,12 @@ single_channel = "geoips.plugins.modules.algorithms.single_channel:single_channe
 single_source = "geoips.plugins.modules.procflows.single_source:single_source"
 config_based = "geoips.plugins.modules.procflows.config_based:config_based"
 
-[project.entry-points."geoips.trackfile_parsers"]
-flat_sectorfile_parser = "geoips.plugins.modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
-bdeck_parser = "geoips.plugins.modules.trackfile_parsers.bdeck_parser:bdeck_parser"
+[project.entry-points."geoips.sector_loaders.trackfiles"]
+flat_sectorfile_parser = "geoips.plugins.modules.sector_loaders.trackfiles.flat_sectorfile_parser:flat_sectorfile_parser"
+bdeck_parser = "geoips.plugins.modules.sector_loaders.trackfiles.bdeck_parser:bdeck_parser"
 
-[project.entry-points."geoips.area_def_generators"]
-clat_clon_resolution_shape = "geoips.plugins.modules.area_def_generators.clat_clon_resolution_shape:clat_clon_resolution_shape"
+[project.entry-points."geoips.sector_loaders.dynamic"]
+clat_clon_resolution_shape = "geoips.plugins.modules.sector_loaders.dynamic.clat_clon_resolution_shape:clat_clon_resolution_shape"
 
 [project.entry-points."geoips.interpolators"]
 "pyresample_wrappers.interp_nearest" = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_nearest:interp_nearest"

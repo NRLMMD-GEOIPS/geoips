@@ -15,7 +15,8 @@ Version 1.10.0a4 (2023-04-25)
 
 * Update to finalized interface names throughout code base.
 
-  * area_def_generators -> sector_loaders
+  * area_def_generators -> sector_loaders/dynamic
+  * trackfile_parsers -> sector_loaders/trackfiles
   * area_def_adjusters -> sector_adjusters
 
 Breaking Changes
