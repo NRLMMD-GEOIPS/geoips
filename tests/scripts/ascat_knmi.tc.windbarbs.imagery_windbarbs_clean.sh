@@ -37,4 +37,3 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_scat/data/metopc_knmi_125/ascat_2021
 ss_retval=$?
 
 exit $((ss_retval))
-
