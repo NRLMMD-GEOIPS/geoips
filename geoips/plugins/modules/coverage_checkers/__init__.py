@@ -10,4 +10,4 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""geoips coverage_checks init file."""
+"""geoips coverage_checkers init file."""
