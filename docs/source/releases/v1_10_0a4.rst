@@ -10,67 +10,84 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.10.0a4 (2023-04-25)
+Version 1.10.0a3 (2023-04-25)
 *****************************
 
 * Update to finalized interface names throughout code base.
 
-  * area_def_generators -> sector_loaders/dynamic
-  * trackfile_parsers -> sector_loaders/trackfiles
-  * area_def_adjusters -> sector_adjusters
+  * user_colormaps -> colormaps
+  * title_formats -> title_formatters
+  * interpolation -> interpolators
+  * coverage_checks -> coverage_checkers
 
 Breaking Changes
 ================
 
-Move area_def_generators to geoips/plugins/modules/sector_loaders/dynamic
--------------------------------------------------------------------------
+Update all instances of user_colormaps with colormaps
+-----------------------------------------------------
 
-*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
-
-Classifying both of these under "sector_loaders".  Presumably at some point, we
-would additionally have a "static" sector loader which would just read in a
-pyresample
+*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
 
 ::
 
-  renamed: area_def_generators/__init__.py -> sector_loaders/dynamic/__init__.py
-  renamed: area_def_generators/clat_clon_resolution_shape.py -> sector_loaders/dynamic/clat_clon_resolution_shape.py
-  renamed: trackfile_parsers/__init__.py -> sector_loaders/trackfiles/__init__.py
-  renamed: trackfile_parsers/bdeck_parser.py -> sector_loaders/trackfiles/bdeck_parser.py
-  renamed: trackfile_parsers/flat_sectorfile_parser.py -> sector_loaders/trackfiles/flat_sectorfile_parser.py
+  moved: geoips/plugins/modules/user_colormaps -> geoips/plugins/modules/colormaps
+  modified: pyproject.toml
+  modified: geoips/interfaces/colormaps.py
 
-Update all instances of trackfile_parsers with sector_loaders.trackfiles
-------------------------------------------------------------------------
+Update all instances of title_formats with title_formatters
+-----------------------------------------------------------
 
-*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
 
 ::
 
-  modified: commandline/args.py
-  modified: sector_utils/tc_tracks.py
-  modified: sector_utils/utils.py
+  moved: geoips/plugins/modules/title_formats -> geoips/plugins/modules/title_formatters
+  moved: geoips/interfaces/title_formats.py -> geoips/interfaces/title_formatters.py
+  modified: pyproject.toml
+  modified: geoips/cli.py
+  modified: geoips/image_utils/mpl_utils.py
+  modified: geoips/interfaces/title_formatters.py
+  modified: geoips/interfaces/__init__.py
 
-Update all instances of area_def_generators with sector_loaders.dynamic
------------------------------------------------------------------------
+Update all instances of title_format with title_formatter
+---------------------------------------------------------
 
-*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
 
-::
-
-  modified: geoips/plugins/modules/procflows/single_source.py
-  modified: geoips/plugins/modules/sector_loaders/__init__.py
-  modified: geoips/sector_utils/tc_tracks.py
-  modified: geoips/sector_utils/utils.py
-
-Update all instances of area_def_adjusters with sector_adjusters
-----------------------------------------------------------------
-
-*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
-
-Note these plugins are actually currently only contained in recenter_tc repo.
+These are command line singular usage.
 
 ::
 
+  modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
   modified: geoips/commandline/args.py
-  modified: geoips/plugins/modules/procflows/config_based.py
-  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/image_utils/mpl_utils.py
+  modified: modules/output_formatters/imagery_annotated.py
+  modified: modules/output_formatters/imagery_windbarbs.py
+
+Update all instances of interpolation with interpolators
+--------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
+
+::
+
+  moved: geoips/plugins/modules/interpolation -> geoips/plugins/modules/interpolators
+  modified: pyproject.toml
+  modified: geoips/interfaces/interpolators.py
+  modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
+  modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
+  modified: geoips/plugins/modules/interpolators/scipy_wrappers/interp_grid.py
+  modified: geoips/plugins/modules/interpolators/utils/interp_pyresample.py
+
+Update all instances of coverage_checks with coverage_checkers
+--------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
+
+::
+
+  moved: geoips/plugins/modules/coverage_checks -> geoips/plugins/modules/coverage_checkers
+  modified: pyproject.toml
+  modified: geoips/dev/product.py
+  modified: geoips/plugins/modules/coverage_checkers/__init__.py
+  modified: geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
