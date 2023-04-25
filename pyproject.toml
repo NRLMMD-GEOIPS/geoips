@@ -192,16 +192,16 @@ matplotlib_linear_norm = "geoips.plugins.modules.user_colormaps.matplotlib_linea
 "visir.WV" = "geoips.plugins.modules.user_colormaps.visir.WV:WV"
 "winds.wind_radii_transitions" = "geoips.plugins.modules.user_colormaps.winds.wind_radii_transitions:wind_radii_transitions"
 
-[project.entry-points."geoips.filename_formats"]
-geoips_fname = "geoips.plugins.modules.filename_formats.geoips_fname:geoips_fname"
-geoips_netcdf_fname = "geoips.plugins.modules.filename_formats.geoips_netcdf_fname:geoips_netcdf_fname"
-geotiff_fname = "geoips.plugins.modules.filename_formats.geotiff_fname:geotiff_fname"
-tc_fname = "geoips.plugins.modules.filename_formats.tc_fname:tc_fname"
-tc_clean_fname = "geoips.plugins.modules.filename_formats.tc_clean_fname:tc_clean_fname"
-text_winds_day_fname = "geoips.plugins.modules.filename_formats.text_winds_day_fname:text_winds_day_fname"
-text_winds_full_fname = "geoips.plugins.modules.filename_formats.text_winds_full_fname:text_winds_full_fname"
-text_winds_tc_fname = "geoips.plugins.modules.filename_formats.text_winds_tc_fname:text_winds_tc_fname"
-metadata_default_fname = "geoips.plugins.modules.filename_formats.metadata_default_fname:metadata_default_fname"
+[project.entry-points."geoips.filename_formatters"]
+geoips_fname = "geoips.plugins.modules.filename_formatters.geoips_fname:geoips_fname"
+geoips_netcdf_fname = "geoips.plugins.modules.filename_formatters.geoips_netcdf_fname:geoips_netcdf_fname"
+geotiff_fname = "geoips.plugins.modules.filename_formatters.geotiff_fname:geotiff_fname"
+tc_fname = "geoips.plugins.modules.filename_formatters.tc_fname:tc_fname"
+tc_clean_fname = "geoips.plugins.modules.filename_formatters.tc_clean_fname:tc_clean_fname"
+text_winds_day_fname = "geoips.plugins.modules.filename_formatters.text_winds_day_fname:text_winds_day_fname"
+text_winds_full_fname = "geoips.plugins.modules.filename_formatters.text_winds_full_fname:text_winds_full_fname"
+text_winds_tc_fname = "geoips.plugins.modules.filename_formatters.text_winds_tc_fname:text_winds_tc_fname"
+metadata_default_fname = "geoips.plugins.modules.filename_formatters.metadata_default_fname:metadata_default_fname"
 
 [project.entry-points."geoips.title_formats"]
 tc_standard = "geoips.plugins.modules.title_formats.tc_standard:tc_standard"
