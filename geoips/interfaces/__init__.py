@@ -16,7 +16,7 @@ from geoips.interfaces.algorithms import algorithms
 from geoips.interfaces.colormaps import colormaps
 from geoips.interfaces.filename_formats import filename_formats
 from geoips.interfaces.interpolators import interpolators
-from geoips.interfaces.output_formats import output_formats
+from geoips.interfaces.output_formatters import output_formatters
 from geoips.interfaces.procflows import procflows
 from geoips.interfaces.readers import readers
 from geoips.interfaces.title_formats import title_formats
@@ -26,7 +26,7 @@ __all__ = [
     "colormaps",
     "filename_formats",
     "interpolators",
-    "output_formats",
+    "output_formatters",
     "procflows",
     "readers",
     "title_formats",

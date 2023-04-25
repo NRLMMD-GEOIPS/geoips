@@ -503,40 +503,40 @@ def add_args(parser, arglist=None):
                             Should be formatted as a json dictionary string""",
         )
 
-    if arglist is None or "output_format" in arglist:
+    if arglist is None or "output_formatter" in arglist:
         procflow_group.add_argument(
-            "--output_format",
+            "--output_formatter",
             nargs="?",
             default=None,
             help="""Specify output format module_name that should be used for this file,
-                    each output_format is 'output_formats.imagery_annotated' where
-                    from geoips*.output_formats.imagery_annotated import
+                    each output_formatter is 'output_formatters.imagery_annotated' where
+                    from geoips*.output_formatters.imagery_annotated import
                     imagery_annotated would be the appropriate import statement""",
         )
-    if arglist is None or "output_format_kwargs" in arglist:
+    if arglist is None or "output_formatter_kwargs" in arglist:
         procflow_group.add_argument(
-            "--output_format_kwargs",
+            "--output_formatter_kwargs",
             nargs="?",
             default={},
             type=jloads,
             help="""Specify output format kwargs that should be used for this
-                    output_format. should be formatted as a json dictionary string, ie:
+                    output_formatter. should be formatted as a json dictionary string, ie:
                     '{"title_format": "tc_copyright", "title_copyright": "NRL"}' """,
         )
 
-    if arglist is None or "metadata_output_format" in arglist:
+    if arglist is None or "metadata_output_formatter" in arglist:
         procflow_group.add_argument(
-            "--metadata_output_format",
+            "--metadata_output_formatter",
             nargs="?",
             default=None,
             help="""Specify output format module_name that should be used for
-                    metadata output, each output_format is 'myoutputmodule' where
-                        from geoips.output_formats.myoutputmodule.myoutputmodule
+                    metadata output, each output_formatter is 'myoutputmodule' where
+                        from geoips.output_formatters.myoutputmodule.myoutputmodule
                     would be the appropriate entry point""",
         )
-    if arglist is None or "metadata_output_format_kwargs" in arglist:
+    if arglist is None or "metadata_output_formatter_kwargs" in arglist:
         procflow_group.add_argument(
-            "--metadata_output_format_kwargs",
+            "--metadata_output_formatter_kwargs",
             nargs="?",
             default={},
             type=jloads,
