@@ -21,18 +21,18 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsub/data/NPR-MIRS-IMG_v11r4_ma2_s2
           --reader_name amsub_mirs \
           --product_name 183-3H \
           --filename_format tc_fname \
-          --output_format imagery_annotated \
+          --output_formatter imagery_annotated \
           --boundaries_params tc_pmw \
           --gridlines_params tc_pmw \
           --metadata_filename_format metadata_default_fname \
-          --metadata_output_format metadata_default \
+          --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsub_mirs.tc.<product>.imagery_annotated" \
           --product_params_override '{}' \
-          --output_format_kwargs '{}' \
+          --output_formatter_kwargs '{}' \
           --filename_format_kwargs '{}' \
-          --metadata_output_format_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
           --metadata_filename_format_kwargs '{}'
 ss_retval=$?
 
