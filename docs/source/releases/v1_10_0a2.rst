@@ -1,0 +1,98 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a2 (2023-04-25)
+*****************************
+
+* Update from output_format to output_formatters throughout code base.
+
+Breaking Changes
+================
+
+Update OutputFormats class name to OutputFormatters
+---------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_format->output_formatter*
+
+::
+
+  moved: geoips/interfaces/output_formats.py -> geoips/interfaces/output_formatters.py``
+  modified: geoips/interfaces/output_formatters.py
+
+Update all instances of output_formats with output_formatters
+-------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_format->output_formatter*
+
+::
+
+  modified: pyproject.toml
+  modified: geoips/cli.py
+  modified: geoips/commandline/args.py
+  modified: geoips/plugins/modules/output_formatters/imagery_windbarbs_clean.py
+  modified: geoips/plugins/modules/output_formatters/metadata_tc.py
+  modified: geoips/plugins/modules/output_formatters/netcdf_geoips.py
+  modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+
+Update all instances of output_format with output_formatter
+-----------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_format->output_formatter*
+
+NOTE: Did NOT replace references to "xarray_dict_to_output_format" families,
+either within YAML configs, or within single_source.py or config_based.py
+procflows. All other references replaced.
+
+To only include singular if plural has already been replaced:
+(grep "output_format[^t]")
+
+::
+
+  modified: geoips/commandline/args.py
+  modified: geoips/dev/output_config.py
+  modified: geoips/dev/product.py
+  modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: tests/scripts/abi.static.Infrared.imagery_annotated.sh
+  modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
+  modified: tests/scripts/ahi.tc.WV.geotiff.sh
+  modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+  modified: tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh
+  modified: tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh
+  modified: tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh
+  modified: tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh
+  modified: tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh
+  modified: tests/scripts/atms.tc.165H.netcdf_geoips.sh
+  modified: tests/scripts/documentation_imagery.sh
+  modified: tests/scripts/ewsg.static.Infrared.imagery_clean.sh
+  modified: tests/scripts/gmi.tc.89pct.imagery_clean.sh
+  modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
+  modified: tests/scripts/imerg.tc.Rain.imagery_clean.sh
+  modified: tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
+  modified: tests/scripts/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh
+  modified: tests/scripts/modis.Infrared.unprojected_image.sh
+  modified: tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh
+  modified: tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh
+  modified: tests/scripts/sar.tc.nrcs.imagery_annotated.sh
+  modified: tests/scripts/seviri.WV-Upper.unprojected_image.sh
+  modified: tests/scripts/smap.unsectored.text_winds.sh
+  modified: tests/scripts/smos.tc.sectored.text_winds.sh
+  modified: tests/scripts/ssmi.tc.37pct.imagery_clean.sh
+  modified: tests/scripts/ssmis.color91.unprojected_image.sh
+  modified: tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh
+  modified: tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh
+  modified: tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh
+  modified: tests/yaml_configs/abi_test.yaml
+  modified: tests/yaml_configs/abi_test_low_memory.yaml
+  modified: tests/yaml_configs/amsr2_test.yaml
+  modified: tests/yaml_configs/amsr2_test_low_memory.yaml

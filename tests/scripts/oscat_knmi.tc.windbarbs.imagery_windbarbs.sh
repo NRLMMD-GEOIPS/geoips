@@ -23,17 +23,17 @@ run_procflow \
     --reader_name scat_knmi_winds_netcdf \
     --product_name windbarbs \
     --filename_format tc_fname \
-    --output_format imagery_windbarbs \
+    --output_formatter imagery_windbarbs \
     --metadata_filename_format metadata_default_fname \
-    --metadata_output_format metadata_default \
+    --metadata_output_formatter metadata_default \
     --tc_template_yaml $GEOIPS_PACKAGES_DIR/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml \
     --trackfile_parser bdeck_parser \
     --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat \
     --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs" \
     --product_params_override '{}' \
-    --output_format_kwargs '{}' \
+    --output_formatter_kwargs '{}' \
     --filename_format_kwargs '{}' \
-    --metadata_output_format_kwargs '{}' \
+    --metadata_output_formatter_kwargs '{}' \
     --metadata_filename_format_kwargs '{}'
 ss_retval=$?
 

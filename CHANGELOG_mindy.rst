@@ -208,4 +208,3 @@ Note these are actually contained in recenter_tc repo.
   modified: commandline/args.py
   modified: plugins/modules/procflows/config_based.py
   modified: plugins/modules/procflows/single_source.py
-
