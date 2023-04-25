@@ -17,7 +17,7 @@ available_sectors:
 outputs:
   tc_overlay:
     requested_sector_type: tcweb_bdeck
-    output_format: imagery_annotated
+    output_formatter: imagery_annotated
     filename_formats: ['tc_fname']
     product_names:
       - 37pct
@@ -25,7 +25,7 @@ outputs:
     compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2.<output>.<product>.imagery_annotated_over_Visible
     metadata_filename_formats:
         tc_fname: metadata_default_fname
-    metadata_output_format: metadata_tc
+    metadata_output_formatter: metadata_tc
     product_params_override:
       all:
         fname_covg_func: center_radius
@@ -43,7 +43,7 @@ outputs:
     minimum_coverage: 10
     produce_times:
       required_minutes: [0, 20, 40]
-    output_format: imagery_annotated
+    output_formatter: imagery_annotated
     filename_formats: ['geoips_fname']
     compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2.<output>.<product>.imagery_annotated_over_Visible
     product_names:
