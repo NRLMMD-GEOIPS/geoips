@@ -19,7 +19,7 @@ from geoips.interfaces.interpolators import interpolators
 from geoips.interfaces.output_formatters import output_formatters
 from geoips.interfaces.procflows import procflows
 from geoips.interfaces.readers import readers
-from geoips.interfaces.title_formats import title_formats
+from geoips.interfaces.title_formatters import title_formatters
 
 __all__ = [
     "algorithms",
@@ -29,5 +29,5 @@ __all__ = [
     "output_formatters",
     "procflows",
     "readers",
-    "title_formats",
+    "title_formatters",
 ]
