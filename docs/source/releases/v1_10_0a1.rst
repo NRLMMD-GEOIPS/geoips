@@ -25,7 +25,8 @@ Update OutputFormats class name to OutputFormatters
 
 ::
 
-  modified: geoips/interfaces/output_formats.py
+  moved: geoips/interfaces/output_formats.py -> geoips/interfaces/output_formatters.py``
+  modified: geoips/interfaces/output_formatters.py
 
 Update all instances of output_formats with output_formatters
 -------------------------------------------------------------
