@@ -210,7 +210,7 @@ def set_tc_area_def(
     from geoips.geoips_utils import find_entry_point
 
     # These are things like 'clat_clon_resolution_shape'
-    template_func = find_entry_point("area_def_generators", template_func_name)
+    template_func = find_entry_point("sector_loaders.dynamic", template_func_name)
     # Probably generalize this at some point. For now I know those are the
     # ones that are <template>
     template_args["area_id"] = area_id
@@ -272,7 +272,7 @@ def trackfile_to_area_defs(
     trackfile : str
         Full path to trackfile, convert each line into a separate area_def
     trackfile_parser : str
-        Parser to use from plugins.modules/trackfile_parsers on trackfiles
+        Parser to use from plugins.modules.sector_loaders.trackfiles on trackfiles
 
     Returns
     -------
@@ -284,7 +284,7 @@ def trackfile_to_area_defs(
 
     from geoips.geoips_utils import find_entry_point
 
-    parser = find_entry_point("trackfile_parsers", trackfile_parser)
+    parser = find_entry_point("sector_loaders.trackfiles", trackfile_parser)
 
     all_fields, final_storm_name, tc_year = parser(trackfile_name)
 
