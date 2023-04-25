@@ -17,7 +17,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.interfaces import title_formats
+from geoips.interfaces import title_formatters
 
 matplotlib.use("agg")
 rc_params = matplotlib.rcParams
@@ -268,7 +268,7 @@ def get_title_string_from_objects(
     bg_product_name_title=None,
     bg_datatype_title=None,
     title_copyright=None,
-    title_format=None,
+    title_formatter=None,
 ):
     """
     Get the title from object information.
@@ -292,7 +292,7 @@ def get_title_string_from_objects(
         background data type
     title_copyright : str, optional
         string for copyright
-    title_format : str, optional
+    title_formatter : str, optional
         format for title
 
     Returns
@@ -323,14 +323,14 @@ def get_title_string_from_objects(
             bg_xarray.platform_name.upper(), bg_xarray.source_name.upper()
         )
 
-    if title_format is not None:
-        title_formatter = title_formats.get_plugin(title_format)
+    if title_formatter is not None:
+        title_formatter_plugin = title_formatters.get_plugin(title_formatter)
     elif is_sector_type(area_def, "tc"):
-        title_formatter = title_formats.get_plugin("tc_standard")
+        title_formatter_plugin = title_formatters.get_plugin("tc_standard")
     else:
-        title_formatter = title_formats.get_plugin("static_standard")
+        title_formatter_plugin = title_formatters.get_plugin("static_standard")
 
-    title_string = title_formatter(
+    title_string = title_formatter_plugin(
         area_def,
         xarray_obj,
         product_name_title,
