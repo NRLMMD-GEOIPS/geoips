@@ -75,3 +75,44 @@ Note these plugins are actually currently only contained in recenter_tc repo.
   modified: geoips/commandline/args.py
   modified: geoips/plugins/modules/procflows/config_based.py
   modified: geoips/plugins/modules/procflows/single_source.py
+
+Move plugins/yaml/sectors_dynamic to plugins/yaml/sectors/dynamic
+-----------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+
+::
+
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1024x1024/tc_1km_1024x1024.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1024x1024/tc_2km_1024x1024.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1400x1400/tc_1km_1400x1400.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1400x1400/tc_2km_1400x1400.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_2km_1400x1400.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1600x1600/tc_2km_1600x1600.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_2km_1600x1600.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1600x1600/tc_4km_1600x1600.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_4km_1600x1600.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_256x256/tc_4km_256x256.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_256x256/tc_4km_256x256.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_512x512/tc_2km_512x512.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_2km_512x512.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_512x512/tc_4km_512x512.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_4km_512x512.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_800x800/tc_2km_800x800.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_2km_800x800.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_800x800/tc_4km_800x800.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_4km_800x800.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_huge/tc_0p1km_3200x3200.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_0p1km_3200x3200.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_huge/tc_1km_2500x2500.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_2500x2500.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_huge/tc_1km_3200x3200.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_3200x3200.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_2km_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_2km_template.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_ascat_high_barbs_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_ascat_high_barbs_template.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_ascatuhr_barbs_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_ascatuhr_barbs_template.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_halfkm_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_halfkm_template.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_qkm_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_qkm_template.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_template.yaml
+
+Move tests/sectors/static to plugins/yaml/sectors/static
+--------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+
+::
+
+  renamed: tests/sectors/static/ewsg.yaml -> geoips/plugins/yaml/sectors/static/static/ewsg.yaml
+  renamed: tests/sectors/static/global.yaml -> geoips/plugins/yaml/sectors/static/static/global.yaml
+  renamed: tests/sectors/static/goes16.yaml -> geoips/plugins/yaml/sectors/static/static/goes16.yaml
+  renamed: tests/sectors/static/goes17.yaml -> geoips/plugins/yaml/sectors/static/static/goes17.yaml
+  renamed: tests/sectors/static/himawari8.yaml -> geoips/plugins/yaml/sectors/static/static/himawari8.yaml
