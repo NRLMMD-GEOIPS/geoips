@@ -203,10 +203,10 @@ text_winds_full_fname = "geoips.plugins.modules.filename_formatters.text_winds_f
 text_winds_tc_fname = "geoips.plugins.modules.filename_formatters.text_winds_tc_fname:text_winds_tc_fname"
 metadata_default_fname = "geoips.plugins.modules.filename_formatters.metadata_default_fname:metadata_default_fname"
 
-[project.entry-points."geoips.title_formats"]
-tc_standard = "geoips.plugins.modules.title_formats.tc_standard:tc_standard"
-tc_copyright = "geoips.plugins.modules.title_formats.tc_copyright:tc_copyright"
-static_standard = "geoips.plugins.modules.title_formats.static_standard:static_standard"
+[project.entry-points."geoips.title_formatters"]
+tc_standard = "geoips.plugins.modules.title_formatters.tc_standard:tc_standard"
+tc_copyright = "geoips.plugins.modules.title_formatters.tc_copyright:tc_copyright"
+static_standard = "geoips.plugins.modules.title_formatters.static_standard:static_standard"
 
 [project.entry-points."geoips.coverage_checks"]
 masked_arrays = "geoips.plugins.modules.coverage_checks.masked_arrays:masked_arrays"
