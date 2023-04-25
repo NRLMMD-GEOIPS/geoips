@@ -71,6 +71,7 @@ Update all instances of interpolation with interpolators
 ::
 
   moved: geoips/plugins/modules/interpolation -> geoips/plugins/modules/interpolators
+  modified: pyproject.toml
   modified: geoips/interfaces/module_based/interpolators.py
   modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
   modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
@@ -84,6 +85,7 @@ Update all instances of coverage_checks with coverage_checkers
 
 ::
 
+  moved: geoips/plugins/modules/coverage_checks -> geoips/plugins/modules/coverage_checkers
   modified: geoips/dev/product.py
   modified: geoips/plugins/modules/coverage_checkers/__init__.py
   modified: geoips/plugins/modules/coverage_checkers/center_radius_rgba.py

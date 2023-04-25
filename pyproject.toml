@@ -165,10 +165,10 @@ bdeck_parser = "geoips.plugins.modules.trackfile_parsers.bdeck_parser:bdeck_pars
 [project.entry-points."geoips.area_def_generators"]
 clat_clon_resolution_shape = "geoips.plugins.modules.area_def_generators.clat_clon_resolution_shape:clat_clon_resolution_shape"
 
-[project.entry-points."geoips.interpolation"]
-"pyresample_wrappers.interp_nearest" = "geoips.plugins.modules.interpolation.pyresample_wrappers.interp_nearest:interp_nearest"
-"pyresample_wrappers.interp_gauss" = "geoips.plugins.modules.interpolation.pyresample_wrappers.interp_gauss:interp_gauss"
-"scipy_wrappers.interp_grid" = "geoips.plugins.modules.interpolation.scipy_wrappers.interp_grid:interp_grid"
+[project.entry-points."geoips.interpolators"]
+"pyresample_wrappers.interp_nearest" = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_nearest:interp_nearest"
+"pyresample_wrappers.interp_gauss" = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_gauss:interp_gauss"
+"scipy_wrappers.interp_grid" = "geoips.plugins.modules.interpolators.scipy_wrappers.interp_grid:interp_grid"
 
 [project.entry-points."geoips.colormaps"]
 cmap_rgb = "geoips.plugins.modules.colormaps.cmap_rgb:cmap_rgb"
