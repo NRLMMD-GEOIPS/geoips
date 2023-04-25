@@ -250,7 +250,9 @@ def main():
     add_list_interface_parser(list_subparsers, "procflows", aliases=["pf", "pfs"])
     # add_list_interface_parser(list_subparsers, 'products', aliases=['prod', 'prods'])
     add_list_interface_parser(list_subparsers, "readers", aliases=["reader"])
-    add_list_interface_parser(list_subparsers, "title_formatters", aliases=["tf", "tfs"])
+    add_list_interface_parser(
+        list_subparsers, "title_formatters", aliases=["tf", "tfs"]
+    )
 
     args = parser.parse_args()
 

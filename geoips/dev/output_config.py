@@ -278,7 +278,9 @@ def get_filename_formatter_kwargs(filename_formatter, output_dict):
         "filename_formatters_kwargs" in output_dict
         and filename_formatter in output_dict["filename_formatters_kwargs"]
     ):
-        filename_formatter_kwargs = output_dict["filename_formatters_kwargs"][filename_formatter]
+        filename_formatter_kwargs = output_dict["filename_formatters_kwargs"][
+            filename_formatter
+        ]
     # Command line argument overrides all
     if "filename_formatter_kwargs" in output_dict:
         filename_formatter_kwargs = output_dict["filename_formatter_kwargs"]
@@ -372,7 +374,9 @@ def get_output_formatter_kwargs(
                 output_formatter_kwargs["bg_xarray"].source_name,
                 output_dict=output_dict,
             )
-            output_formatter_kwargs["bg_mpl_colors_info"] = bg_cmap_plugin(**bg_cmap_args)
+            output_formatter_kwargs["bg_mpl_colors_info"] = bg_cmap_plugin(
+                **bg_cmap_args
+            )
 
     output_formatter_kwargs["output_dict"] = output_dict
 
