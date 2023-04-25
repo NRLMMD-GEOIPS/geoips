@@ -23,7 +23,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312.goes-13.gva
           --filename_formatter geoips_fname \
           --output_formatter imagery_clean \
           --sector_list ewsg \
-          --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/ewsg.yaml \
+          --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/ewsg.yaml \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ewsg.static.<product>.imagery_clean"
 retval=$?
 

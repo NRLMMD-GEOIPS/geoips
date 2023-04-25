@@ -111,6 +111,11 @@ Move tests/sectors/static to plugins/yaml/sectors/static
 
 ::
 
+  modified: tests/scripts/abi.static.Infrared.imagery_annotated.sh
+  modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
+  modified: tests/scripts/documentation_imagery.sh
+  modified: tests/scripts/ewsg.static.Infrared.imagery_clean.sh
+  modified: tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
   renamed: tests/sectors/static/ewsg.yaml -> geoips/plugins/yaml/sectors/static/static/ewsg.yaml
   renamed: tests/sectors/static/global.yaml -> geoips/plugins/yaml/sectors/static/static/global.yaml
   renamed: tests/sectors/static/goes16.yaml -> geoips/plugins/yaml/sectors/static/static/goes16.yaml

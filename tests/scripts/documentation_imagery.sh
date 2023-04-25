@@ -96,7 +96,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_080644_hy_2b
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/windspeed/hscat/20211202.080644.hy-2b.hscat.windspeed.global.6p83.knmi.20p0.png
@@ -123,7 +123,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/goes17_20210718_0150/OR
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/Infrared-Gray/abi/20210718.015031.goes-17.abi.Infrared-Gray.global.22p79.noaa.20p0.png
@@ -146,7 +146,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/O
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/Infrared-Gray/abi/20200918.195020.goes-16.abi.Infrared-Gray.global.22p84.noaa.20p0.png
@@ -178,7 +178,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/Infrared-Gray/ahi/20200405.000000.himawari-8.ahi.Infrared-Gray.global.29p98.jma.20p0.png
@@ -201,7 +201,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312.goes-13.gva
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/Infrared-Gray/gvar/20201211.230905.ews-g.gvar.Infrared-Gray.global.33p25.noaa.20p0.png
@@ -233,7 +233,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/Infrared-Gray/seviri/20200404.080000.msg-1.seviri.Infrared-Gray.global.22p84.nesdisstar.20p0.png
@@ -265,7 +265,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/Infrared-Gray/seviri/20220209.220000.msg-4.seviri.Infrared-Gray.global.22p84.nesdisstar.20p0.png
@@ -297,7 +297,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD0
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/Infrared-Gray/modis/20210104.201500.aqua.modis.Infrared-Gray.global.2p08.nasa.20p0.png
@@ -322,7 +322,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_modis/data/terra/170500/MOD021KM.A20
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/Infrared-Gray/modis/20210104.170500.terra.modis.Infrared-Gray.global.0p63.nasa.20p0.png
@@ -348,7 +348,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ10
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/Infrared-Gray/viirs/20210209.074210.jpss-1.viirs.Infrared-Gray.global.2p00.NASA.20p0.png
@@ -376,7 +376,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP02
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/Infrared-Gray/viirs/20210205.080611.npp.viirs.Infrared-Gray.global.0p97.NASA.20p0.png
@@ -416,7 +416,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-
              --minimum_coverage 0 \
              --filename_formatter geoips_fname \
              --sector_list global \
-             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
+             --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/global.yaml
 curr_retval=$?
 echo ""
 output_image=$globdir/89H/gmi/20200917.171519.GPM.gmi.89H.global.0p84.NASA.20p0.png
