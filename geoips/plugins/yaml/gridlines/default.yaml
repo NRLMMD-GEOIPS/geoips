@@ -1,9 +1,0 @@
-interface: gridlines
-metadata:
-  name: default
-  family: standard
-  short-description: "The default gridlines configuration"
-  long-description: |
-    Top and left gridline labels, latitude and longitude lines colored
-    black, auto spacing, 1px linewidth, and [4, 2] linestyle
-spec: {}
