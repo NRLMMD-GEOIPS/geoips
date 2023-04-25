@@ -1,0 +1,18 @@
+interface: product_templates
+metadata:
+    name: color37Nearest
+    family: interp_alg_cmap
+spec:
+    algorithm:
+        name: pmw_tc.pmw_color37
+        arguments: {}
+    mtif_type: rgb
+    colormap:
+        name: cmap_rgb
+        arguments: {}
+    interpolation:
+        name: pyresample_wrappers.interp_nearest
+        arguments: {}
+    coverage:
+        name: rgba
+        arguments: {}

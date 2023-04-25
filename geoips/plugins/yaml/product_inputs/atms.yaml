@@ -1,0 +1,27 @@
+interface: product_inputs
+metadata:
+  name: atms
+  family: standard
+  short-description: "The atms product_inputs configuration"
+  long-description:
+    "The atms product_inputs configuration, which produces 89V products, 165H products, and 183H products"
+spec:
+  products:
+    - name: 89V
+      variables: ['V89']
+      interp_args:
+        sigmaval: 15000
+    - name: 89VNearest
+      variables: ['V89']
+    - name: 165H
+      variables: ['H165']
+      interp_args:
+        sigmaval: 15000
+    - name: 165HNearest
+      variables: ['H165']
+    - name: 183H
+      variables: ['H183']
+      interp_args:
+        sigmaval: 15000
+    - name: 183HNearest
+      variables: ['H183']
