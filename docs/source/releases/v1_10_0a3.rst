@@ -16,10 +16,8 @@ Version 1.10.0a3 (2023-04-25)
 * Update to finalized interface names throughout code base.
 
   * user_colormaps -> colormaps
-  * area_def_generators -> sector_loaders
   * title_formats -> title_formatters
   * interpolation -> interpolators
-  * area_def_adjusters -> sector_adjusters
   * coverage_checks -> coverage_checkers
 
 Breaking Changes
@@ -34,7 +32,7 @@ Update all instances of user_colormaps with colormaps
 
   moved: geoips/plugins/modules/user_colormaps -> geoips/plugins/modules/colormaps
   modified: pyproject.toml
-  modified: geoips/interfaces/module_based/colormaps.py
+  modified: geoips/interfaces/colormaps.py
 
 Update all instances of title_formats with title_formatters
 -----------------------------------------------------------
@@ -75,7 +73,7 @@ Update all instances of interpolation with interpolators
 
   moved: geoips/plugins/modules/interpolation -> geoips/plugins/modules/interpolators
   modified: pyproject.toml
-  modified: geoips/interfaces/module_based/interpolators.py
+  modified: geoips/interfaces/interpolators.py
   modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
   modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
   modified: geoips/plugins/modules/interpolators/scipy_wrappers/interp_grid.py
