@@ -208,13 +208,13 @@ tc_standard = "geoips.plugins.modules.title_formatters.tc_standard:tc_standard"
 tc_copyright = "geoips.plugins.modules.title_formatters.tc_copyright:tc_copyright"
 static_standard = "geoips.plugins.modules.title_formatters.static_standard:static_standard"
 
-[project.entry-points."geoips.coverage_checks"]
-masked_arrays = "geoips.plugins.modules.coverage_checks.masked_arrays:masked_arrays"
-numpy_arrays_nan = "geoips.plugins.modules.coverage_checks.numpy_arrays_nan:numpy_arrays_nan"
-center_radius = "geoips.plugins.modules.coverage_checks.center_radius:center_radius"
-center_radius_rgba = "geoips.plugins.modules.coverage_checks.center_radius_rgba:center_radius_rgba"
-rgba = "geoips.plugins.modules.coverage_checks.rgba:rgba"
-windbarbs = "geoips.plugins.modules.coverage_checks.windbarbs:windbarbs"
+[project.entry-points."geoips.coverage_checkers"]
+masked_arrays = "geoips.plugins.modules.coverage_checkers.masked_arrays:masked_arrays"
+numpy_arrays_nan = "geoips.plugins.modules.coverage_checkers.numpy_arrays_nan:numpy_arrays_nan"
+center_radius = "geoips.plugins.modules.coverage_checkers.center_radius:center_radius"
+center_radius_rgba = "geoips.plugins.modules.coverage_checkers.center_radius_rgba:center_radius_rgba"
+rgba = "geoips.plugins.modules.coverage_checkers.rgba:rgba"
+windbarbs = "geoips.plugins.modules.coverage_checkers.windbarbs:windbarbs"
 
 [project.entry-points."geoips.output_comparisons"]
 compare_outputs = "geoips.compare_outputs:compare_outputs"
