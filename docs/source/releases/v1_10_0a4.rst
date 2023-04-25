@@ -39,8 +39,19 @@ pyresample
   renamed: trackfile_parsers/bdeck_parser.py -> sector_loaders/trackfiles/bdeck_parser.py
   renamed: trackfile_parsers/flat_sectorfile_parser.py -> sector_loaders/trackfiles/flat_sectorfile_parser.py
 
-Update all instances of area_def_generators with sector_loaders
----------------------------------------------------------------
+Update all instances of trackfile_parsers with sector_loaders.trackfiles
+------------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+
+::
+
+  modified: commandline/args.py
+  modified: sector_utils/tc_tracks.py
+  modified: sector_utils/utils.py
+
+Update all instances of area_def_generators with sector_loaders.dynamic
+-----------------------------------------------------------------------
 
 *From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
 
