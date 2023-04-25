@@ -28,6 +28,15 @@ Update FilenameFormats class to FilenameFormatters
   moved: geoips/interfaces/filename_formats.py -> geoips/interfaces/filename_formatters.py``
   modified: geoips/interfaces/filename_formatters.py
 
+Move plugins/modules/filename_formats to plugins/modules/filename_formatters
+----------------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#179: 2023-04-25, update to filename_formatter*
+
+::
+
+  moved: geoips/plugins/modules/filename_formats -> geoips/plugins/modules/filename_formatters
+
 Update all instances of filename_formats with filename_formatters
 -----------------------------------------------------------------
 
