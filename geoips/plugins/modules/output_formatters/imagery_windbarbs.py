@@ -249,7 +249,7 @@ def imagery_windbarbs(
     bg_datatype_title=None,
     remove_duplicate_minrange=None,
     title_copyright=None,
-    title_format=None,
+    title_formatter=None,
 ):
     """Plot annotated windbarbs on matplotlib figure."""
     LOG.info("Startig imagery_windbarbs")
@@ -307,7 +307,7 @@ def imagery_windbarbs(
             bg_product_name_title=bg_product_name_title,
             bg_datatype_title=bg_datatype_title,
             title_copyright=title_copyright,
-            title_format=title_format,
+            title_formatter=title_formatter,
         )
         set_title(main_ax, title_string, area_def.y_size)
 

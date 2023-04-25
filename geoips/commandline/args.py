@@ -521,7 +521,7 @@ def add_args(parser, arglist=None):
             type=jloads,
             help="""Specify output format kwargs that should be used for this
                     output_formatter. should be formatted as a json dictionary string, ie:
-                    '{"title_format": "tc_copyright", "title_copyright": "NRL"}' """,
+                    '{"title_formatter": "tc_copyright", "title_copyright": "NRL"}' """,
         )
 
     if arglist is None or "metadata_output_formatter" in arglist:

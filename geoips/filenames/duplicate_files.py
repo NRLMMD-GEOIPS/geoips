@@ -53,7 +53,9 @@ def remove_duplicates(fnames, remove_files=False):
             saved_files += [fname]
             continue
         filename_formatter = fnames[fname]["filename_formatter"]
-        fname_fmt_plugin = filename_formatters.get_plugin(fnames[fname]["filename_formatter"])
+        fname_fmt_plugin = filename_formatters.get_plugin(
+            fnames[fname]["filename_formatter"]
+        )
         if hasattr(
             import_module(fname_fmt_plugin.__module__),
             f"{filename_formatter}_remove_duplicates",

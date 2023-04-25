@@ -38,7 +38,7 @@ def imagery_annotated(
     bg_datatype_title=None,
     remove_duplicate_minrange=None,
     title_copyright=None,
-    title_format=None,
+    title_formatter=None,
     output_dict=None,
 ):
     """Plot annotated imagery."""
@@ -136,7 +136,7 @@ def imagery_annotated(
         bg_product_name_title=bg_product_name_title,
         bg_datatype_title=bg_datatype_title,
         title_copyright=title_copyright,
-        title_format=title_format,
+        title_formatter=title_formatter,
     )
     set_title(main_ax, title_string, area_def.y_size)
 

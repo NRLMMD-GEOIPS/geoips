@@ -18,6 +18,7 @@ from string import Template
 
 EARTH_RADIUS_METERS = 6371228.0
 
+
 def haversine_distance(lat1, lon1, lat2, lon2):
     """Calculate the distance between two latitude and longitude points.
 
@@ -219,7 +220,7 @@ if __name__ == "__main__":
             "height": height,
             "width": width,
             "lower_left_xy": lower_left_xy,
-            "upper_right_xy": upper_right_xy
+            "upper_right_xy": upper_right_xy,
         }
     )
     print(populated_template)
