@@ -10,57 +10,73 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.10.0a1 (2023-04-25)
+Version 1.10.0a2 (2023-04-25)
 *****************************
 
-* Update from output_format to output_formatters throughout code base.
+* Update from filename_format to filename_formatters throughout code base.
 
 Breaking Changes
 ================
 
-Update OutputFormats class name to OutputFormatters
----------------------------------------------------
+Update FilenameFormats class to FilenameFormatters
+--------------------------------------------------
 
-*From NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_format->output_formatter*
-
-::
-
-  moved: geoips/interfaces/output_formats.py -> geoips/interfaces/output_formatters.py``
-  modified: geoips/interfaces/output_formatters.py
-
-Update all instances of output_formats with output_formatters
--------------------------------------------------------------
-
-*From NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_format->output_formatter*
+*From NRLMMD-GEOIPS/geoips#179: 2023-04-25, update to filename_formatter*
 
 ::
 
-  modified: pyproject.toml
+  moved: geoips/interfaces/filename_formats.py -> geoips/interfaces/filename_formatters.py``
+  modified: geoips/interfaces/filename_formatters.py
+
+Move plugins/modules/filename_formats to plugins/modules/filename_formatters
+----------------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#179: 2023-04-25, update to filename_formatter*
+
+::
+
+  moved: geoips/plugins/modules/filename_formats -> geoips/plugins/modules/filename_formatters
+
+Update all instances of filename_formats with filename_formatters
+-----------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#179: 2023-04-25, update to filename_formatter*
+
+::
+
   modified: geoips/cli.py
   modified: geoips/commandline/args.py
-  modified: geoips/plugins/modules/output_formatters/imagery_windbarbs_clean.py
-  modified: geoips/plugins/modules/output_formatters/metadata_tc.py
-  modified: geoips/plugins/modules/output_formatters/netcdf_geoips.py
+  modified: geoips/dev/output_config.py
+  modified: geoips/filenames/duplicate_files.py
+  modified: geoips/interfaces/module_based/filename_formatters.py
+  modified: geoips/plugins/modules/filename_formatters/__init__.py
+  modified: geoips/plugins/modules/filename_formatters/geotiff_fname.py
+  modified: geoips/plugins/modules/filename_formatters/metadata_default_fname.py
+  modified: geoips/plugins/modules/filename_formatters/tc_clean_fname.py
+  modified: geoips/plugins/modules/filename_formatters/tc_fname.py
+  modified: geoips/plugins/modules/filename_formatters/text_winds_day_fname.py
+  modified: geoips/plugins/modules/filename_formatters/text_winds_full_fname.py
+  modified: geoips/plugins/modules/filename_formatters/text_winds_tc_fname.py
   modified: geoips/plugins/modules/procflows/config_based.py
   modified: geoips/plugins/modules/procflows/single_source.py
+  modified: tests/yaml_configs/abi_test.yaml
+  modified: tests/yaml_configs/abi_test_low_memory.yaml
+  modified: tests/yaml_configs/amsr2_test.yaml
+  modified: tests/yaml_configs/amsr2_test_low_memory.yaml
 
-Update all instances of output_format with output_formatter
------------------------------------------------------------
+Update all instances of filename_format with filename_formatter
+---------------------------------------------------------------
 
-*From NRLMMD-GEOIPS/geoips#176: 2023-04-25, output_format->output_formatter*
+*From NRLMMD-GEOIPS/geoips#179: 2023-04-25, update to filename_formatter*
 
-NOTE: Did NOT replace references to "xarray_dict_to_output_format" families,
-either within YAML configs, or within single_source.py or config_based.py
-procflows. All other references replaced.
-
-To only include singular if plural has already been replaced:
-(grep "output_format[^t]")
+Replacing just the singular (after replacing plural)
+(grep "filename_format[^t]")
 
 ::
 
   modified: geoips/commandline/args.py
   modified: geoips/dev/output_config.py
-  modified: geoips/dev/product.py
+  modified: geoips/filenames/duplicate_files.py
   modified: geoips/plugins/modules/procflows/config_based.py
   modified: geoips/plugins/modules/procflows/single_source.py
   modified: tests/scripts/abi.static.Infrared.imagery_annotated.sh
@@ -92,7 +108,3 @@ To only include singular if plural has already been replaced:
   modified: tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh
   modified: tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh
   modified: tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh
-  modified: tests/yaml_configs/abi_test.yaml
-  modified: tests/yaml_configs/abi_test_low_memory.yaml
-  modified: tests/yaml_configs/amsr2_test.yaml
-  modified: tests/yaml_configs/amsr2_test_low_memory.yaml
