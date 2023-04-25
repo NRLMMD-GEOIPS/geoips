@@ -32,8 +32,8 @@ Update all instances of user_colormaps with colormaps
 
 ::
 
+  moved: geoips/plugins/modules/user_colormaps -> geoips/plugins/modules/colormaps
   modified: pyproject.toml
-  modified: geoips/plugins/modules/user_colormaps -> geoips/plugins/modules/colormaps
   modified: geoips/interfaces/module_based/colormaps.py
 
 Update all instances of title_formats with title_formatters
@@ -43,17 +43,19 @@ Update all instances of title_formats with title_formatters
 
 ::
 
+  moved: geoips/plugins/modules/title_formats -> geoips/plugins/modules/title_formatters
   modified: pyproject.toml
   modified: geoips/cli.py
   modified: geoips/image_utils/mpl_utils.py
   modified: geoips/interfaces/module_based/title_formatters.py
   modified: geoips/interfaces/__init__.py
-  moved: geoips/plugins/modules/title_formats -> geoips/plugins/modules/title_formatters
 
 Update all instances of title_format with title_formatter
 ---------------------------------------------------------
 
 *From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
+
+These are command line singular usage.
 
 ::
 
@@ -86,6 +88,7 @@ Update all instances of coverage_checks with coverage_checkers
 ::
 
   moved: geoips/plugins/modules/coverage_checks -> geoips/plugins/modules/coverage_checkers
+  modified: pyproject.toml
   modified: geoips/dev/product.py
   modified: geoips/plugins/modules/coverage_checkers/__init__.py
   modified: geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
