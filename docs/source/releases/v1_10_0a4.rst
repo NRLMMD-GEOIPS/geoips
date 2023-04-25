@@ -21,10 +21,27 @@ Version 1.10.0a4 (2023-04-25)
 Breaking Changes
 ================
 
+Move area_def_generators to geoips/plugins/modules/sector_loaders/dynamic
+-------------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+
+Classifying both of these under "sector_loaders".  Presumably at some point, we
+would additionally have a "static" sector loader which would just read in a
+pyresample
+
+::
+
+  renamed: area_def_generators/__init__.py -> sector_loaders/dynamic/__init__.py
+  renamed: area_def_generators/clat_clon_resolution_shape.py -> sector_loaders/dynamic/clat_clon_resolution_shape.py
+  renamed: trackfile_parsers/__init__.py -> sector_loaders/trackfiles/__init__.py
+  renamed: trackfile_parsers/bdeck_parser.py -> sector_loaders/trackfiles/bdeck_parser.py
+  renamed: trackfile_parsers/flat_sectorfile_parser.py -> sector_loaders/trackfiles/flat_sectorfile_parser.py
+
 Update all instances of area_def_generators with sector_loaders
 ---------------------------------------------------------------
 
-*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
 
 ::
 
@@ -36,9 +53,9 @@ Update all instances of area_def_generators with sector_loaders
 Update all instances of area_def_adjusters with sector_adjusters
 ----------------------------------------------------------------
 
-*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
 
-Note these are actually used in recenter_tc repo.
+Note these plugins are actually currently only contained in recenter_tc repo.
 
 ::
 
