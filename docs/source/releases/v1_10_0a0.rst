@@ -1,8 +1,5 @@
-Version 1.10.0a00 (2023-04-04)
-******************************
-
-Once all 1.10.0aN PRs are merged, open another PR *just* to move the release
-notes so this becomes 1.10.0a0, and others are incremented.
+Version 1.10.0a0 (2023-04-04)
+*****************************
 
 First attempt at YAML-based plugin interfaces.  These updates will be superseded
 by later alpha releases of v1.10.0. Tagging this version for reference.
