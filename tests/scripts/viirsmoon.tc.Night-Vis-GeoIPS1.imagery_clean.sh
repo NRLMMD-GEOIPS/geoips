@@ -28,7 +28,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210525/191200/VJ10
              --product_name Night-Vis-GeoIPS1 \
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsmoon.tc.<product>.imagery_clean" \
              --output_formatter imagery_clean \
-             --filename_format tc_clean_fname \
+             --filename_formatter tc_clean_fname \
              --trackfile_parser bdeck_parser \
              --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio022021.dat
 
