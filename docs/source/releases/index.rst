@@ -22,6 +22,7 @@ Version 1.10
 .. toctree::
    :maxdepth: 1
 
+   v1_10_0a3
    v1_10_0a2
    v1_10_0a1
    v1_10_0a0

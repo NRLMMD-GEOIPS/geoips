@@ -22,7 +22,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*
              --product_name Infrared \
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
              --output_formatter imagery_annotated \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list goes16 \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/goes16.yaml

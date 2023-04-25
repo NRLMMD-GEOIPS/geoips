@@ -6,12 +6,12 @@ resampled_read: True
 available_sectors:
   static:
     sectorfiles:
-        - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/static/goes16.yaml 
-    sector_list: 
+        - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/static/goes16.yaml
+    sector_list:
         - goes16
   tc:
     trackfile_parser: bdeck_parser
-    trackfiles: 
+    trackfiles:
         - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bal202020.dat
     tc_template_yaml: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
 
@@ -19,7 +19,7 @@ outputs:
   static:
     requested_sector_type: static
     output_formatter: imagery_annotated
-    filename_formats: ['geoips_fname']
+    filename_formatters: ['geoips_fname']
     remove_duplicates: null
     product_names:
       - Visible
@@ -28,13 +28,13 @@ outputs:
   tc:
     requested_sector_type: tc
     output_formatter: imagery_annotated
-    filename_formats: ['tc_fname']
-    metadata_filename_formats:
+    filename_formatters: ['tc_fname']
+    metadata_filename_formatters:
         tc_fname: metadata_default_fname
     metadata_output_formatter: metadata_default
     remove_duplicates: null
     product_names:
-      - IR-BD 
+      - IR-BD
       - Visible
     minimum_coverages:
         all: 100

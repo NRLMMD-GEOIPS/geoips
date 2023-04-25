@@ -29,7 +29,7 @@ def text_winds_tc_fname(
 
     See Also
     --------
-    geoips.plugins.modules.filename_formats.text_winds_tc_fname.
+    geoips.plugins.modules.filename_formatters.text_winds_tc_fname.
         assemble_windspeeds_text_tc_fname
         Shared utility to facilitate creating multiple similar filenames
         from the same code.
@@ -111,7 +111,7 @@ def assemble_windspeeds_text_tc_fname(
     ...     'remss')
     '/outdir/tc2020/SH/SH162020/txt/
     """
-    from geoips.plugins.modules.filename_formats.utils.tc_file_naming import (
+    from geoips.plugins.modules.filename_formatters.utils.tc_file_naming import (
         tc_storm_basedir,
     )
 

@@ -20,20 +20,20 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_sar/data/STAR_SAR_20181025203206_WP3
           --procflow single_source \
           --reader_name sar_winds_netcdf \
           --product_name nrcs \
-          --filename_format tc_fname \
+          --filename_formatter tc_fname \
           --output_formatter imagery_annotated \
           --boundaries_params default \
           --gridlines_params default \
-          --metadata_filename_format metadata_default_fname \
+          --metadata_filename_formatter metadata_default_fname \
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp312018.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/sar.tc.nrcs.imagery_annotated" \
           --product_params_override '{}' \
           --output_formatter_kwargs '{}' \
-          --filename_format_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \
-          --metadata_filename_format_kwargs '{}'
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))

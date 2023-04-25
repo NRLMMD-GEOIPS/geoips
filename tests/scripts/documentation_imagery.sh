@@ -93,7 +93,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_080644_hy_2b
              --product_name windspeed \
              --minimum_coverage 0 \
              --output_formatter imagery_annotated \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
@@ -120,7 +120,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/goes17_20210718_0150/OR
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
@@ -143,7 +143,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/O
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
@@ -175,7 +175,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
@@ -198,7 +198,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312.goes-13.gva
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
@@ -230,7 +230,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
@@ -262,7 +262,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
@@ -294,7 +294,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD0
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
@@ -319,7 +319,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_modis/data/terra/170500/MOD021KM.A20
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
@@ -345,7 +345,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ10
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
@@ -373,7 +373,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP02
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
@@ -414,7 +414,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-
              --product_name 89H \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
-             --filename_format geoips_fname \
+             --filename_formatter geoips_fname \
              --sector_list global \
              --sectorfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/static/global.yaml
 curr_retval=$?

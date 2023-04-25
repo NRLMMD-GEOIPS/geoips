@@ -15,15 +15,15 @@
 from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
-class FilenameFormatsInterface(BaseInterface):
+class FilenameFormattersInterface(BaseInterface):
     """Specification for formatting the full path and file name.
 
     File path and name formatting is determined using attributes within the
     GeoIPS xarray objects.
     """
 
-    name = "filename_formats"
-    entry_point_group = "filename_formats"
+    name = "filename_formatters"
+    entry_point_group = "filename_formatters"
     deprecated_family_attr = "filename_type"
 
     required_args = {
@@ -71,4 +71,4 @@ class FilenameFormatsInterface(BaseInterface):
         duplicates = self.find_duplicates()
 
 
-filename_formats = FilenameFormatsInterface()
+filename_formatters = FilenameFormattersInterface()
