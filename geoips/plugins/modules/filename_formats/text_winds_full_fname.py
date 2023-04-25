@@ -34,7 +34,7 @@ def text_winds_full_fname(
 
     See Also
     --------
-    geoips.plugins.modules.filename_formats.text_winds_full_fname.
+    geoips.plugins.modules.filename_formatters.text_winds_full_fname.
         assemble_windspeeds_text_full_fname
         Shared utility to create filenames with similar formatting requirements.
     """

@@ -65,9 +65,9 @@ def tc_clean_fname(
         Full path to output "clean" filename - with "-clean" appended to
         extra field, and "_clean" appended to output_type_dir.
     """
-    from geoips.interfaces import filename_formats
+    from geoips.interfaces import filename_formatters
 
-    return filename_formats.get_plugin("tc_fname")(
+    return filename_formatters.get_plugin("tc_fname")(
         area_def,
         xarray_obj,
         product_name,
