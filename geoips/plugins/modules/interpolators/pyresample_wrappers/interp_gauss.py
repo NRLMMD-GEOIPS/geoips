@@ -15,11 +15,7 @@ import logging
 
 import xarray
 
-<<<<<<<< HEAD:geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
 from geoips.plugins.modules.interpolators.utils.interp_pyresample import (
-========
-from geoips.plugins.modules.interpolation.utils.interp_pyresample import (
->>>>>>>> integration:geoips/plugins/modules/interpolation/pyresample_wrappers/interp_gauss.py
     interp_kd_tree,
     get_data_box_definition,
 )

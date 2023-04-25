@@ -14,11 +14,7 @@
 import logging
 
 import numpy
-<<<<<<<< HEAD:geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
 from geoips.plugins.modules.coverage_checkers.center_radius import create_radius
-========
-from geoips.plugins.modules.coverage_checks.center_radius import create_radius
->>>>>>>> integration:geoips/plugins/modules/coverage_checks/center_radius_rgba.py
 
 LOG = logging.getLogger(__name__)
 
