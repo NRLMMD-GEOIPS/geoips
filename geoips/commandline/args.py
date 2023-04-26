@@ -267,7 +267,7 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             help="""Specify TC trackfile parser to use with trackfiles, located in:
-                            geoips*.plugins.modules.trackfile_parsers.
+                            geoips*.plugins.modules.sector_loaders.trackfiles .
                                 myparsername.myparsername,
                             The trackfile_parser string should be the parser module
                             name (no .py)""",

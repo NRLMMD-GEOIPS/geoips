@@ -10,7 +10,7 @@ available_sectors:
 
   global:
     sectorfiles:
-      - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/static/global.yaml
+      - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/geoips/plugins/yaml/sectors/static/global.yaml
     sector_list:
       - global
 
