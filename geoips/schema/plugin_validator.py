@@ -7,6 +7,7 @@ from pathlib import Path
 import jsonschema
 from jsonschema.exceptions import ValidationError, SchemaError
 import referencing
+from referencing import jsonschema as refjs
 
 
 JSONSCHEMA_DRAFT = "202012"
@@ -107,7 +108,7 @@ def get_validators(schema_dict, validator_class):
     #
     # This could likely have a better variable name, but I don't really know what to
     # call it...
-    ref = getattr(referencing.jsonschema, f"DRAFT{JSONSCHEMA_DRAFT}")
+    ref = getattr(refjs, f"DRAFT{JSONSCHEMA_DRAFT}")
     resources = [(name, ref.create_resource(sch)) for name, sch in schema_dict.items()]
     registry = referencing.Registry().with_resources(resources)
 
