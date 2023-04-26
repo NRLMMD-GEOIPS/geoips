@@ -1,0 +1,4 @@
+---
+plugin:
+  name: single_channel
+  arguments: {}

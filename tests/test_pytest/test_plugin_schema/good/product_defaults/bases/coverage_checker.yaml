@@ -1,0 +1,12 @@
+---
+plugin:
+  name: infrared
+  arguments: {}
+---
+plugin:
+  name: infrared
+  arguments:
+    argument1:
+      subargment1: blah
+      subargment2: blah
+    argument2: blahblah

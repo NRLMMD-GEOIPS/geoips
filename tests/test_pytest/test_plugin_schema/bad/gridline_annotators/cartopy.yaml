@@ -1,0 +1,109 @@
+---
+error: ValidationError
+error_pattern: ".*'spec' is a required property.*"
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing spec"
+
+---
+error: ValidationError
+error_pattern: ".*'labels' is a required property.*"
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing labels"
+spec:
+  lines:
+    latitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+    longitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+
+---
+error: ValidationError
+error_pattern: ".*'lines' is a required property.*"
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing lines"
+spec:
+  labels:
+    top: true
+    bottom: true
+    left: true
+    right: true
+
+---
+error: ValidationError
+error_pattern: ".*'top' is a required property.*"
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing labels: top"
+spec:
+  labels:
+    bottom: true
+    left: true
+    right: true
+  lines:
+    latitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+    longitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+
+---
+error: ValidationError
+error_pattern: ".*'longitude' is a required property.*"
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing lines: longitude"
+spec:
+  labels:
+    top: true
+    bottom: true
+    left: true
+    right: true
+  lines:
+    latitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+
+---
+error: ValidationError
+error_pattern: ".*'color' is a required property.*"
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing lines: longitude: color"
+spec:
+  labels:
+    top: true
+    bottom: true
+    left: true
+    right: true
+  lines:
+    latitude:
+      color: black
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
+    longitude:
+      linestyle: [4, 2]
+      linewidth: 1
+      spacing: auto
