@@ -1,22 +1,26 @@
-interface: product_templates
-metadata:
-    name: 37V
-    family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: pmw_37_37V
+docstring: |
+    The 37V product_defaults configuration.
 spec:
+    interpolator:
+        plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+                sigmaval: 25000
     algorithm:
-        name: single_channel
-        arguments: 
-            output_data_range: [125, 300]
-            min_outbounds: crop
-            max_outbounds: crop
-            norm: null
-            inverse: null
+        plugin:
+            name: single_channel
+            arguments:
+                output_data_range: [125, 300]
+                min_outbounds: crop
+                max_outbounds: crop
+                norm: null
+                inverse: null
     mtif_type: pmw
     colormap:
-        name: pmw_tb.cmap_37H
-        arguments: 
-            data_range: [125, 300]
-    interpolation:
-        name: pyresample_wrappers.interp_gauss
-        arguments:
-            sigmaval: 25000
+        plugin:
+            name: pmw_tb.cmap_37H
+            arguments:
+                data_range: [125, 300]

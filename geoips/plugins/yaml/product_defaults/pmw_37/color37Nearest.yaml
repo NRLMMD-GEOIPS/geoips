@@ -1,18 +1,23 @@
-interface: product_templates
-metadata:
-    name: color37Nearest
-    family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: pmw_37_color37Nearest
+docstring: |
+    The color37Nearest product_defaults configuration.
 spec:
+    interpolator:
+        plugin:
+            name: pyresample_wrappers.interp_nearest
+            arguments: {}
     algorithm:
-        name: pmw_tc.pmw_color37
-        arguments: {}
+        plugin:
+            name: pmw_tc.pmw_color37
+            arguments: {}
     mtif_type: rgb
     colormap:
-        name: cmap_rgb
-        arguments: {}
-    interpolation:
-        name: pyresample_wrappers.interp_nearest
-        arguments: {}
-    coverage:
-        name: rgba
-        arguments: {}
+        plugin:
+            name: cmap_rgb
+            arguments: {}
+    coverage_checker:
+        plugin:
+            name: rgba
+            arguments: {}
