@@ -1,0 +1,67 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a7 (2023-04-26)
+*****************************
+
+* Finalize directory structure for products and product_defaults YAML files.
+
+  * geoips/plugins/yaml/product_inputs -> geoips/plugins/yaml/products
+  * geoips/plugins/yaml/product_templates -> geoips/plugins/yaml/product_defaults
+
+Breaking Changes
+================
+
+Move product_inputs to geoips/plugins/yaml/products
+---------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#188: 2023-04-26, update product YAML paths*
+
+::
+
+  renamed: geoips/plugins/yaml/product_inputs/abi.yaml -> geoips/plugins/yaml/products/abi.yaml
+  renamed: geoips/plugins/yaml/product_inputs/ahi.yaml -> geoips/plugins/yaml/products/ahi.yaml
+  renamed: geoips/plugins/yaml/product_inputs/amsr-e.yaml -> geoips/plugins/yaml/products/amsr-e.yaml
+  renamed: geoips/plugins/yaml/product_inputs/amsr2.yaml -> geoips/plugins/yaml/products/amsr2.yaml
+  renamed: geoips/plugins/yaml/product_inputs/amsu-b.yaml -> geoips/plugins/yaml/products/amsu-b.yaml
+  renamed: geoips/plugins/yaml/product_inputs/ascat.yaml -> geoips/plugins/yaml/products/ascat.yaml
+  renamed: geoips/plugins/yaml/product_inputs/ascatuhr.yaml -> geoips/plugins/yaml/products/ascatuhr.yaml
+  renamed: geoips/plugins/yaml/product_inputs/atms.yaml -> geoips/plugins/yaml/products/atms.yaml
+  renamed: geoips/plugins/yaml/product_inputs/gmi.yaml -> geoips/plugins/yaml/products/gmi.yaml
+  renamed: geoips/plugins/yaml/product_inputs/gvar.yaml -> geoips/plugins/yaml/products/gvar.yaml
+  renamed: geoips/plugins/yaml/product_inputs/hscat.yaml -> geoips/plugins/yaml/products/hscat.yaml
+  renamed: geoips/plugins/yaml/product_inputs/imerg.yaml -> geoips/plugins/yaml/products/imerg.yaml
+  renamed: geoips/plugins/yaml/product_inputs/mhs.yaml -> geoips/plugins/yaml/products/mhs.yaml
+  renamed: geoips/plugins/yaml/product_inputs/mimic.yaml -> geoips/plugins/yaml/products/mimic.yaml
+  renamed: geoips/plugins/yaml/product_inputs/modis.yaml -> geoips/plugins/yaml/products/modis.yaml
+  renamed: geoips/plugins/yaml/product_inputs/oscat.yaml -> geoips/plugins/yaml/products/oscat.yaml
+  renamed: geoips/plugins/yaml/product_inputs/saphir.yaml -> geoips/plugins/yaml/products/saphir.yaml
+  renamed: geoips/plugins/yaml/product_inputs/sar-spd.yaml -> geoips/plugins/yaml/products/sar-spd.yaml
+  renamed: geoips/plugins/yaml/product_inputs/seviri.yaml -> geoips/plugins/yaml/products/seviri.yaml
+  renamed: geoips/plugins/yaml/product_inputs/smap-spd.yaml -> geoips/plugins/yaml/products/smap-spd.yaml
+  renamed: geoips/plugins/yaml/product_inputs/smos-spd.yaml -> geoips/plugins/yaml/products/smos-spd.yaml
+  renamed: geoips/plugins/yaml/product_inputs/ssmi.yaml -> geoips/plugins/yaml/products/ssmi.yaml
+  renamed: geoips/plugins/yaml/product_inputs/ssmis.yaml -> geoips/plugins/yaml/products/ssmis.yaml
+  renamed: geoips/plugins/yaml/product_inputs/tmi.yaml -> geoips/plugins/yaml/products/tmi.yaml
+  renamed: geoips/plugins/yaml/product_inputs/viirs.yaml -> geoips/plugins/yaml/products/viirs.yaml
+  renamed: geoips/plugins/yaml/product_inputs/windsat.yaml -> geoips/plugins/yaml/products/windsat.yaml
+
+Move product_templates to geoips/plugins/yaml/product_defaults
+--------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#188: 2023-04-26, update product YAML paths*
+
+Lots of files.
+
+::
+
+  renamed: geoips/plugins/yaml/product_templates/* -> geoips/plugins/yaml/product_defaults/*
