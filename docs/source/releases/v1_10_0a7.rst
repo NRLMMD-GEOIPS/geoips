@@ -60,4 +60,8 @@ Move product_templates to geoips/plugins/yaml/product_defaults
 
 *From NRLMMD-GEOIPS/geoips#188: 2023-04-26, update product YAML paths*
 
+Lots of files.
+
 ::
+
+  renamed: geoips/plugins/yaml/product_templates/* -> geoips/plugins/yaml/product_defaults/*
