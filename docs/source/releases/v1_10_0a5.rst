@@ -22,16 +22,16 @@ Version 1.10.0a5 (2023-04-25)
 
   * tests/sectors/static to geoips/plugins/yaml/sectors/static
   * geoips/plugins/yaml/dynamic_sectors to geoips/plugins/yaml/sectors/dynamic
-* Add support for updated sector_loaders.dynamic formatting (not finalized).
+* Add support for updated dynamic sector YAML formatting (not finalized).
 
 Breaking Changes
 ================
 
-Support both old and new "sector_loaders.dynamic" YAML template formatting
---------------------------------------------------------------------------
+Support both old and new dynamic sector YAML formatting
+-------------------------------------------------------
 
 Note this is not finalized, and updates to the schema / format for the
-sector_loaders.dynamic template will be made in a future PR, requiring
+dynamic sectors will be made in a future PR, requiring
 a final update to this piece of code.
 
 For now, add a try/except within sector_utils/tc_tracks.py to support
