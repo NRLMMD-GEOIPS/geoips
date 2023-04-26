@@ -1,0 +1,49 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a6 (2023-04-26)
+*****************************
+
+* Finalize directory structure for gridline_annotators and feature_annotators
+  YAML files.
+
+  * geoips/plugins/yaml/gridlines -> geoips/plugins/yaml/gridline_annotators
+  * geoips/plugins/yaml/boundaries -> geoips/plugins/yaml/feature_annotators
+
+Breaking Changes
+================
+
+Move boundaries to geoips/plugins/yaml/feature_annotators
+---------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#186: 2023-04-26, feature and gridline annotator path*
+
+::
+
+  renamed: geoips/plugins/yaml/boundaries/default.yaml -> geoips/plugins/yaml/feature_annotators/default.yaml
+  renamed: geoips/plugins/yaml/boundaries/tc_pmw.yaml -> geoips/plugins/yaml/feature_annotators/tc_pmw.yaml
+  renamed: geoips/plugins/yaml/boundaries/tc_visir.yaml -> geoips/plugins/yaml/feature_annotators/tc_visir.yaml
+  renamed: geoips/plugins/yaml/boundaries/tc_windspeed.yaml -> geoips/plugins/yaml/feature_annotators/tc_windspeed.yaml
+
+Move gridlines to geoips/plugins/yaml/gridline_annotators
+---------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#186: 2023-04-26, feature and gridline annotator path*
+
+::
+
+  renamed: geoips/plugins/yaml/gridlines/default.yaml -> geoips/plugins/yaml/gridline_annotators/default.yaml
+  renamed: geoips/plugins/yaml/gridlines/tc_0p25degree.yaml -> geoips/plugins/yaml/gridline_annotators/tc_0p25degree.yaml
+  renamed: geoips/plugins/yaml/gridlines/tc_pmw.yaml -> geoips/plugins/yaml/gridline_annotators/tc_pmw.yaml
+  renamed: geoips/plugins/yaml/gridlines/tc_visir.yaml -> geoips/plugins/yaml/gridline_annotators/tc_visir.yaml
+  renamed: geoips/plugins/yaml/gridlines/tc_visir_3200km.yaml -> geoips/plugins/yaml/gridline_annotators/tc_visir_3200km.yaml
+  renamed: geoips/plugins/yaml/gridlines/tc_windspeed.yaml -> geoips/plugins/yaml/gridline_annotators/tc_windspeed.yaml
