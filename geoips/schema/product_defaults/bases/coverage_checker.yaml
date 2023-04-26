@@ -1,0 +1,17 @@
+$id: product_defaults.bases.coverage_checker
+title: "Coverage Checker"
+unevaluatedProperties: false
+required:
+  - plugin
+properties:
+  plugin:
+    type: object
+    required:
+      - name
+      - arguments
+    properties:
+      name:
+        type: string
+      arguments:
+        type: object
+        unevaluatedProperties: true

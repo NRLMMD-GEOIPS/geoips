@@ -1,0 +1,5 @@
+$id: product_defaults.unmodified
+$ref: bases.unvalidated # Family specifies order of ops but not formatting
+properties:
+  family:
+    const: unmodified
