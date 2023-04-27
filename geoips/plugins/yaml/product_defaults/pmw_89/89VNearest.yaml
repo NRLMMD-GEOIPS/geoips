@@ -1,21 +1,25 @@
-interface: product_templates
-metadata:
-  name: 89VNearest
-  family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: pmw_89_89VNearest
+docstring: |
+  The 89VNearest product_defaults configuration.
 spec:
   algorithm:
-    name: single_channel
-    arguments:
-      output_data_range: [105, 305]
-      min_outbounds: crop
-      max_outbounds: crop
-      norm: null
-      inverse: null
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [105, 305]
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
   mtif_type: pmw
   colormap:
-    name: pmw_tb.cmap_89H
-    arguments:
-      data_range: [105, 305]
-  interpolation:
-    name: pyresample_wrappers.interp_nearest
-    arguments: {}
+    plugin:
+      name: pmw_tb.cmap_89H
+      arguments:
+        data_range: [105, 305]
+  interpolator:
+    plugin:
+      name: pyresample_wrappers.interp_nearest
+      arguments: {}

@@ -1,21 +1,25 @@
-interface: product_templates
-metadata:
-  name: 89pctNearest
-  family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: pmw_89_89pctNearest
+docstring: |
+  The 89pctNearest product_defaults configuration.
 spec:
   algorithm:
-    name: pmw_tc.pmw89pct
-    arguments:
-      output_data_range: [105.0, 280.0]
-      min_outbounds: crop
-      max_outbounds: mask
-      norm: null
-      inverse: null
+    plugin:
+      name: pmw_tc.pmw89pct
+      arguments:
+        output_data_range: [105.0, 280.0]
+        min_outbounds: crop
+        max_outbounds: mask
+        norm: null
+        inverse: null
   mtif_type: pmw
   colormap:
-    name: pmw_tb.cmap_89pct
-    arguments:
-      data_range: [105, 280]
-  interpolation:
-    name: pyresample_wrappers.interp_nearest
-    arguments: {}
+    plugin:
+      name: pmw_tb.cmap_89pct
+      arguments:
+        data_range: [105, 280]
+  interpolator:
+    plugin:
+      name: pyresample_wrappers.interp_nearest
+      arguments: {}

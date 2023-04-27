@@ -1,22 +1,26 @@
-interface: product_templates
-metadata:
-  name: 89H-Legacy
-  family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: pmw_89_89H_Legacy
+docstring: |
+  The 89H_Legacy product_defaults configuration.
 spec:
   algorithm:
-    name: single_channel
-    arguments:
-      output_data_range: [180, 280]
-      min_outbounds: crop
-      max_outbounds: crop
-      norm: null
-      inverse: null
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [180, 280]
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
   mtif_type: pmw
   colormap:
-    name: pmw_tb.cmap_89H_Legacy
-    arguments:
-      data_range: [180, 280]
-  interpolation:
-    name: pyresample_wrappers.interp_gauss
-    arguments:
-      sigmaval: 10000
+    plugin:
+      name: pmw_tb.cmap_89H_Legacy
+      arguments:
+        data_range: [180, 280]
+  interpolator:
+    plugin:
+      name: pyresample_wrappers.interp_gauss
+      arguments:
+        sigmaval: 10000
