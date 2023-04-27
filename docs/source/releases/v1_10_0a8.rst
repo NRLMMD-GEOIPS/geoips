@@ -19,9 +19,28 @@ Version 1.10.0a8 (2023-04-27)
   * family
   * name
   * module-level docstring
+* Replace "description" attribute with "docstring" in BaseInterface.
 
 Breaking Changes
 ================
+
+Replace "description" attribute with "docstring" in BaseInterface
+-----------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#193: 2023-04-27, finalize module plugin attributes*
+
+Update the BaseInterface to require module-level docstring (since
+numpy-docstring formatting is already enforced, all Python plugins
+will already have a module-level docstring defined, so we do not
+have to support deprecated formatting).
+
+Set the explicit "docstring" attribute on the plugin, in addition to __doc__.
+
+Remove the "description" attribute from the module-based plugins.
+
+::
+
+  modified:   geoips/interfaces/base.py
 
 Update all python module-based plugins to use finalized attributes
 ------------------------------------------------------------------
