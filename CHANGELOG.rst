@@ -16,14 +16,3 @@ CHANGELOG appropriately with each PR
 Release notes for previous/upcoming versions can be found in docs/source/releases,
 for reference.
 
-Enhancements
-============
-
-Correct "parameters" to "properties" in gridlines.yaml.
------------------------------------------------
-
-*From issue GEOIPS/geoips#136: 2023-04-04, Correct "parameters" to "properties".*
-
-::
-
-    modified: geoips/geoips/schema/gridlines.yaml
