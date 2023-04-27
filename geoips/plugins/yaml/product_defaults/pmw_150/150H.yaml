@@ -1,23 +1,26 @@
-interface: product_templates
+interface: product_defaults
 family: interpolator_algorithm_colormap
-metadata:
-  name: 150H
-  family: interp_alg_cmap
+name: 150H
+docstring: |
+  The 150H product_defaults configuration.
 spec:
   algorithm:
-    name: single_channel
-    arguments:
-      output_data_range: [110, 310]
-      min_outbounds: crop
-      max_outbounds: crop
-      norm: null
-      inverse: null
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [110, 310]
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
   mtif_type: pmw
   colormap:
-    name: pmw_tb.cmap_150H
-    arguments:
-      data_range: [110, 310]
-  interpolation:
-    name: pyresample_wrappers.interp_gauss
-    arguments:
-      sigmaval: 10000
+    plugin:
+      name: pmw_tb.cmap_150H
+      arguments:
+        data_range: [110, 310]
+  interpolator:
+    plugin:
+      name: pyresample_wrappers.interp_gauss
+      arguments:
+        sigmaval: 10000
