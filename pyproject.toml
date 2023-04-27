@@ -158,12 +158,14 @@ single_channel = "geoips.plugins.modules.algorithms.single_channel:single_channe
 single_source = "geoips.plugins.modules.procflows.single_source:single_source"
 config_based = "geoips.plugins.modules.procflows.config_based:config_based"
 
-[project.entry-points."geoips.sector_loaders.trackfiles"]
-flat_sectorfile_parser = "geoips.plugins.modules.sector_loaders.trackfiles.flat_sectorfile_parser:flat_sectorfile_parser"
-bdeck_parser = "geoips.plugins.modules.sector_loaders.trackfiles.bdeck_parser:bdeck_parser"
+# sed -i "s,flat_sectorfile_parser,tc_sector_file_parser,g" plugins/yaml/product*/*
+[project.entry-points."geoips.sector_metadata_generators"]
+tc_sector_file_parser = "geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser"
+bdeck_parser = "geoips.plugins.modules.sector_metadata_generators.bdeck_parser"
 
-[project.entry-points."geoips.sector_loaders.dynamic"]
-clat_clon_resolution_shape = "geoips.plugins.modules.sector_loaders.dynamic.clat_clon_resolution_shape:clat_clon_resolution_shape"
+# sed -i "s,clat_clon_resolution_shape,center_coordinates,g" plugins/yaml/product*/*
+[project.entry-points."geoips.sector_spec_generators"]
+center_coordinates = "geoips.plugins.modules.sector_spec_generators.center_coordinates"
 
 [project.entry-points."geoips.interpolators"]
 "pyresample_wrappers.interp_nearest" = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_nearest:interp_nearest"
