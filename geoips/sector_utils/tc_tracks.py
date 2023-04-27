@@ -265,7 +265,7 @@ def set_tc_area_def(
 
 
 def trackfile_to_area_defs(
-    trackfile_name, sector_metadata_generator="gdeck_parser", template_yaml=None
+    trackfile_name, trackfile_parser="bdeck_parser", template_yaml=None
 ):
     """Get TC area definitions for the specified text trackfile.
 
@@ -275,7 +275,7 @@ def trackfile_to_area_defs(
     ----------
     trackfile : str
         Full path to trackfile, convert each line into a separate area_def
-    sector_metadata_generator : str
+    trackfile_parser : str
         Parser to use from plugins.modules.sector_metadata_generators on trackfiles
 
     Returns
@@ -283,12 +283,12 @@ def trackfile_to_area_defs(
     list
         List of pyresample AreaDefinition objects
     """
-    if sector_metadata_generator is None:
-        sector_metadata_generator = "gdeck_parser"
+    if trackfile_parser is None:
+        trackfile_parser = "bdeck_parser"
 
     from geoips.geoips_utils import find_entry_point
 
-    parser = find_entry_point("sector_metadata_generators", sector_metadata_generator)
+    parser = find_entry_point("sector_metadata_generators", trackfile_parser)
 
     all_fields, final_storm_name, tc_year = parser(trackfile_name)
 
