@@ -192,8 +192,8 @@ def set_tc_area_def(
         template_func_name = template_dict["area_def_generator_func"]
         template_args = template_dict["area_def_generator_args"]
     except:
-        template_func_name = template_dict["spec"]["sector_generator"]["name"]
-        template_args = template_dict["spec"]["sector_generator"]["arguments"]
+        template_func_name = template_dict["spec"]["sector_spec_generator"]["name"]
+        template_args = template_dict["spec"]["sector_spec_generator"]["arguments"]
 
     if not finalstormname and "final_storm_name" in fields:
         finalstormname = fields["final_storm_name"]
@@ -214,7 +214,7 @@ def set_tc_area_def(
     from geoips.geoips_utils import find_entry_point
 
     # These are things like 'clat_clon_resolution_shape'
-    template_func = find_entry_point("sector_generators", template_func_name)
+    template_func = find_entry_point("sector_spec_generators", template_func_name)
     # Probably generalize this at some point. For now I know those are the
     # ones that are <template>
     template_args["area_id"] = area_id
@@ -265,7 +265,7 @@ def set_tc_area_def(
 
 
 def trackfile_to_area_defs(
-    trackfile_name, trackfile_parser="gdeck_parser", template_yaml=None
+    trackfile_name, sector_metadata_generator="gdeck_parser", template_yaml=None
 ):
     """Get TC area definitions for the specified text trackfile.
 
@@ -275,20 +275,20 @@ def trackfile_to_area_defs(
     ----------
     trackfile : str
         Full path to trackfile, convert each line into a separate area_def
-    trackfile_parser : str
-        Parser to use from plugins.modules.sector_loaders.trackfiles on trackfiles
+    sector_metadata_generator : str
+        Parser to use from plugins.modules.sector_metadata_generators on trackfiles
 
     Returns
     -------
     list
         List of pyresample AreaDefinition objects
     """
-    if trackfile_parser is None:
-        trackfile_parser = "gdeck_parser"
+    if sector_metadata_generator is None:
+        sector_metadata_generator = "gdeck_parser"
 
     from geoips.geoips_utils import find_entry_point
 
-    parser = find_entry_point("sector_loaders.trackfiles", trackfile_parser)
+    parser = find_entry_point("sector_metadata_generators", sector_metadata_generator)
 
     all_fields, final_storm_name, tc_year = parser(trackfile_name)
 
