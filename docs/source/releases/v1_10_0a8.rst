@@ -1,0 +1,42 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a8 (2023-04-27)
+*****************************
+
+* Move sector_loaders.dynamic back to sector_generators
+
+  * Originally was area_def_generators
+
+Breaking Changes
+================
+
+Move sector_loaders.dynamic to sector_generators
+------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#195: 2023-04-26, sector_generators*
+
+These were originally called "area_def_generators", but we moved to
+sector_loaders.dynamic originally to generalize for multiple use cases.
+Since determined they really are generating area definitions, but
+should be generalized to "sector_generators" in case we ever
+implement a non-area_def based sector back end.
+
+Note I did not update all of the YAML plugins - they will be updated in
+a later PR.
+
+::
+
+  modified: sector_utils/tc_tracks.py
+  modified: sector_utils/utils.py
+  renamed: geoips/plugins/modules/sector_loaders/dynamic/__init__.py -> geoips/plugins/modules/sector_generators/__init__.py
+  renamed: geoips/plugins/modules/sector_loaders/dynamic/clat_clon_resolution_shape.py -> geoips/plugins/modules/sector_generators/clat_clon_resolution_shape.py
