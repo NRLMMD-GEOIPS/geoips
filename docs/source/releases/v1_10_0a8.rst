@@ -13,6 +13,8 @@
 Version 1.10.0a8 (2023-04-27)
 *****************************
 
+* Move clat_clon_resolution_shape to center_coordinates
+* Move flat_sectorfile_parser to tc_sector_file_parser
 * Move sector_loaders.dynamic back to sector_spec_generators
 
   * Originally was area_def_generators
@@ -22,6 +24,41 @@ Version 1.10.0a8 (2023-04-27)
 
 Breaking Changes
 ================
+
+Move flat_sectorfile_parser to tc_sector_file_parser
+----------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#195: 2023-04-26, sector_spec/metadata_generators*
+
+With the reorg to include the TC trackfile parsers under
+sector_metadata_generators, update the "flat_sectorfile_parser" plugin
+name to reflect the fact that it is a TC-based metadata parser.
+
+::
+
+  modified: pyproject.toml
+
+
+Move clat_clon_resolution_shape to center_coordinates
+-----------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#195: 2023-04-26, sector_spec/metadata_generators*
+
+Simplify plugin name for specifying dynamic sectors based on center location.
+Since the call signature for "sector_spec_generators" are fully specified
+within the YAML sector specifications, the names and families can be
+more concise and informative to the relevant information.
+
+Ie, the relevant information here is that we wish to define a sector based
+on the center lat/lon, vs min/max lat/lon).
+
+::
+
+  modified: pyproject.toml
+  renamed: geoips/plugins/modules/sector_spec_generators/clat_clon_resolution_shape.py -> geoips/plugins/modules/sector_spec_generators/center_coordinates.py
+  modified: geoips/plugins/modules/sector_spec_generators/center_coordinates.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/sector_utils/utils.py
 
 Move sector_loaders.dynamic to sector_spec_generators
 -----------------------------------------------------
@@ -69,12 +106,21 @@ sector object, so are not actually "loading" a sector.
 Landed on sector_metadata_generators, because these plugins are exclusively
 generating the metadata dictionaries for different dynamic sectors.
 
+NOTE: I did NOT change the command line argument for "trackfile_parser",
+because that is specifically being used to identify the
+sector_metadata_generator to use with the "trackfiles" argument that is
+also passed command line.  We will revisit the command line arguments at
+a later date.
+
 Note this PR is only updating the location of the module-based plugins, and
 updating the code accordingly.  YAML plugins and schema will be updated in
 a separate PR.
 
 ::
 
+  modified: geoips/commandline/args.py
+  modified: geoips/sector_utils/tc_tracks.py
+  modified: geoips/sector_utils/utils.py
   renamed: geoips/plugins/modules/sector_loaders/trackfiles/__init__.py -> geoips/plugins/modules/sector_metadata_generators/__init__.py
   renamed: geoips/plugins/modules/sector_loaders/trackfiles/bdeck_parser.py -> geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
   renamed: geoips/plugins/modules/sector_loaders/trackfiles/flat_sectorfile_parser.py -> geoips/plugins/modules/sector_metadata_generators/flat_sectorfile_parser.py
