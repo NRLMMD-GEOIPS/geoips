@@ -187,11 +187,9 @@ def set_tc_coverage_check_area_def(area_def, width_degrees=8, height_degrees=8):
     height_km = DEG_TO_KM * height_degrees
     LOG.info("  Changing area definition for checking TC coverage")
 
-    from geoips.plugins.modules.sector_generators.clat_clon_resolution_shape import (
-        clat_clon_resolution_shape,
-    )
+    from geoips.plugins.modules.sector_spec_generators.center_coordinates import call
 
-    covg_area_def = clat_clon_resolution_shape(
+    covg_area_def = call(
         area_id=area_def.area_id,
         long_description=area_def.description,
         clat=area_def.sector_info["clat"],
@@ -329,7 +327,7 @@ def get_trackfile_area_defs(
     trackfiles : list
         List of trackfiles to convert into area_defs
     trackfile_parser : str
-        Parser to use from plugins.modules.sector_loaders.trackfiles on trackfiles
+        Parser to use from plugins.modules.sector_metadata_generators on trackfiles
     trackfile_sectorlist list of str, default=None
         * list of sector names to process, of format: tc2020io01amphan.
         * If None, or 'all' contained in list, process all matching TC sectors.
