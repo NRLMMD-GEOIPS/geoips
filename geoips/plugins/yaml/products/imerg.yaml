@@ -1,13 +1,21 @@
 interface: products
 family: list
-metadata:
-  name: imerg
-  family: standard
-  short-description: "The imerg product_inputs configuration"
-  long-description: "The imerg product_inputs configuration, which produces Rain and RainNearest products."
+name: imerg
+docstring: |
+  The imerg product_inputs configuration, which produces Rain and RainNearest products.
 spec:
   products:
     - name: Rain
-      variables: ["rain"]
+      docstring: |
+        The Rain product_defaults configuration for imerg products.
+      product_defaults: Rain
+      spec:
+        source_name: imerg
+        variables: ["rain"]
     - name: RainNearest
-      variables: ["rain"]
+      docstring: |
+        The RainNearest product_defaults configuration for imerg products.
+      product_defaults: RainNearest
+      spec:
+        source_name: imerg
+        variables: ["rain"]

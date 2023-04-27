@@ -1,17 +1,35 @@
 interface: products
 family: list
-metadata:
-  name: gvar
-  family: standard
-  short-description: "The gvar product_inputs configuration"
-  long-description: "The gvar product_inputs configuration, which produces Infrared, Infrared-Gray, IR-BD, and Visible products."
+name: gvar
+docstring: |
+  The gvar product_inputs configuration, which produces Infrared, Infrared-Gray, IR-BD, and Visible products.
 spec:
   products:
     - name: Infrared
-      variables: ["gvar_ch4"]
+      docstring: |
+        The Infrared product_defaults configuration for gvar products.
+      product_defaults: Infrared
+      spec:
+        source_name: gvar
+        variables: ["gvar_ch4"]
     - name: Infrared-Gray
-      variables: ["gvar_ch4"]
+      docstring: |
+        The Infrared-Gray product_defaults configuration for gvar products.
+      product_defaults: Infrared-Gray
+      spec:
+        source_name: gvar
+        variables: ["gvar_ch4"]
     - name: IR-BD
-      variables: ["gvar_ch4"]
+      docstring: |
+        The IR-BD product_defaults configuration for gvar products.
+      product_defaults: IR-BD
+      spec:
+        source_name: gvar
+        variables: ["gvar_ch4"]
     - name: Visible
-      variables: ["gvar_ch1", "SunZenith"]
+      docstring: |
+        The Visible product_defaults configuration for gvar products.
+      product_defaults: Visible
+      spec:
+        source_name: gvar
+        variables: ["gvar_ch1", "SunZenith"]

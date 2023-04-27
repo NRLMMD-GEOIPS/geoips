@@ -10,12 +10,27 @@ metadata:
 spec:
   products:
     - name: color37
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H37", "V37"]
       interp_args:
         sigmaval: 25000
     - name: color37Nearest
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H37", "V37"]
     - name: 37pct
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H37", "V37"]
       interp_args:
         sigmaval: 25000
@@ -23,18 +38,38 @@ spec:
       variables: ["H37", "V37"]
     - name: color91
       product_template: "color89"
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H91", "V91"]
       interp_args:
         sigmaval: 10000
     - name: color91Nearest
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H91", "V91"]
     - name: 91pct
       product_template: "89pct"
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H91", "V91"]
       interp_args:
         sigmaval: 10000
     - name: 91pctNearest
       product_template: "89pctNearest"
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H91", "V91"]
     - name: 91H
       product_template: "89H"
@@ -70,70 +105,175 @@ spec:
       variables: ["H91"]
     - name: 91H-Legacy
       product_template: "89H-Legacy"
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H91"]
       interp_args:
         sigmaval: 10000
     - name: 91H-LegacyNearest
       variables: ["H91"]
     - name: 150H
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H150"]
       interp_args:
         sigmaval: 10000
     - name: 183-1H
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H183-1"]
       interp_args:
         sigmaval: 10000
     - name: 183-1HNearest
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H183-1"]
     - name: 183-3H
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H183-3"]
       interp_args:
         sigmaval: 10000
     - name: 183-3HNearest
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H183-3"]
     - name: 183-7H
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H183-7"]
       interp_args:
         sigmaval: 10000
     - name: 190V
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H183-7"]
       interp_args:
         sigmaval: 10000
     - name: 190VNearest
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H183-7"]
     - name: 19H
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H19"]
       interp_args:
         sigmaval: 25000
     - name: 19HNearest
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H19"]
     - name: 19V
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["V19"]
       interp_args:
         sigmaval: 25000
     - name: 19VNearest
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["V19"]
     - name: 37H-Legacy
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H37"]
       interp_args:
         sigmaval: 25000
     - name: 37H-LegacyNearest
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H37"]
     - name: 37H-Physical
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H37"]
       interp_args:
         sigmaval: 25000
     - name: 37H-PhysicalNearest
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H37"]
     - name: 37H
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H37"]
       interp_args:
         sigmaval: 25000
     - name: 37HNearest
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["H37"]
     - name: 37V
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["V37"]
       interp_args:
         sigmaval: 25000
     - name: 37VNearest
+      docstring: |
+        The color37 product_defaults configuration for ssmis products.
+      product_defaults: color37
+      spec:
+        source_name: ssmis
       variables: ["V37"]

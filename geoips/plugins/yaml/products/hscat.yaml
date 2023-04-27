@@ -1,17 +1,35 @@
 interface: products
 family: list
-metadata:
-  name: hscat
-  family: standard
-  short-description: "The hscat product_inputs configuration"
-  long-description: "The hscat product_inputs configuration, which produces windspeed, windbarbs, unsectored, and sectored products."
+name: hscat
+docstring: |
+  The hscat product_inputs configuration, which produces windspeed, windbarbs, unsectored, and sectored products.
 spec:
   products:
     - name: windspeed
-      variables: ["wind_speed_kts"]
+      docstring: |
+        The windspeed product_defaults configuration for hscat products.
+      product_defaults: windspeed
+      spec:
+        source_name: hscat
+        variables: ["wind_speed_kts"]
     - name: windbarbs
-      variables: ["wind_speed_kts", "wind_dir_deg_met", "rain_flag"]
+      docstring: |
+        The windbarbs product_defaults configuration for hscat products.
+      product_defaults: windbarbs
+      spec:
+        source_name: hscat
+        variables: ["wind_speed_kts", "wind_dir_deg_met", "rain_flag"]
     - name: unsectored
-      variables: ["wind_speed_kts", "wind_dir_deg_met"]
+      docstring: |
+        The unsectored product_defaults configuration for hscat products.
+      product_defaults: unsectored
+      spec:
+        source_name: hscat
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: sectored
-      variables: ["wind_speed_kts", "wind_dir_deg_met"]
+      docstring: |
+        The sectored product_defaults configuration for hscat products.
+      product_defaults: sectored
+      spec:
+        source_name: hscat
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]
