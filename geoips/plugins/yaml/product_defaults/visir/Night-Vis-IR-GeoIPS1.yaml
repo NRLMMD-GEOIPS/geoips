@@ -1,18 +1,23 @@
-interface: product_templates
-metadata:
-  name: Night-Vis-IR-GeoIPS1
-  family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: Night-Vis-IR-GeoIPS1
+docstring: |
+  The Night-Vis-IR-GeoIPS1 product_defaults configuration.
 spec:
   algorithm:
-    name: visir.Night_Vis_IR_GeoIPS1
-    arguments: {}
+    plugin:
+      name: visir.Night_Vis_IR_GeoIPS1
+      arguments: {}
   mtif_type: rgb
   colormap:
-    name: cmap_rgb
-    arguments: {}
-  interpolation:
-    name: pyresample_wrappers.interp_nearest
-    arguments: {}
-  coverage:
-    name: rgba
-    arguments: {}
+    plugin:
+      name: cmap_rgb
+      arguments: {}
+  interpolator:
+    plugin:
+      name: pyresample_wrappers.interp_nearest
+      arguments: {}
+  coverage_checker:
+    plugin:
+      name: rgba
+      arguments: {}
