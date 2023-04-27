@@ -1,21 +1,21 @@
 interface: sectors
 family: area_definition
-name: ewsg
-docstring: "Full Disk sector for EWS-G"
+name: himawari8
+docstring: "Full disk sector for Himawari-8"
 metadata:
   continent: Global
   country: x
-  area: EWS-G
+  area: Himawari-8
   subarea: x
   state: x
   city: x
 spec:
-  area_id: ewsg
-  description: EWS-G Coverage
+  area_id: himawari8
+  description: Himawari-8 Coverage
   projection:
     a: 6371228.0
     lat_0: 0
-    lon_0: 61.5
+    lon_0: 140.7
     proj: eqc
     units: m
   resolution:
