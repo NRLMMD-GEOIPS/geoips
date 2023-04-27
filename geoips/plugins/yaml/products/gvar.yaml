@@ -1,17 +1,17 @@
-interface: product_inputs
+interface: products
+family: list
 metadata:
   name: gvar
   family: standard
   short-description: "The gvar product_inputs configuration"
-  long-description:
-    "The gvar product_inputs configuration, which produces Infrared, Infrared-Gray, IR-BD, and Visible products."
+  long-description: "The gvar product_inputs configuration, which produces Infrared, Infrared-Gray, IR-BD, and Visible products."
 spec:
   products:
     - name: Infrared
-      variables: ['gvar_ch4']
+      variables: ["gvar_ch4"]
     - name: Infrared-Gray
-      variables: ['gvar_ch4']
+      variables: ["gvar_ch4"]
     - name: IR-BD
-      variables: ['gvar_ch4']
+      variables: ["gvar_ch4"]
     - name: Visible
-      variables: ['gvar_ch1', 'SunZenith']
+      variables: ["gvar_ch1", "SunZenith"]

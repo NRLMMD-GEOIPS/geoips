@@ -1,15 +1,15 @@
-interface: product_inputs
+interface: products
+family: list
 metadata:
   name: smos-spd
   family: standard
   short-description: "The smos-spd product_inputs configuration"
-  long-description:
-    "The smos-spd product_inputs configuration, which produces windspeed, unsectored, and sectored products."
+  long-description: "The smos-spd product_inputs configuration, which produces windspeed, unsectored, and sectored products."
 spec:
   products:
     - name: windspeed
-      variables: ['wind_speed_kts']
+      variables: ["wind_speed_kts"]
     - name: unsectored
-      variables: ['wind_speed_kts']
+      variables: ["wind_speed_kts"]
     - name: sectored
-      variables: ['wind_speed_kts']
+      variables: ["wind_speed_kts"]

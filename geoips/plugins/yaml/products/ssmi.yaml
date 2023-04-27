@@ -1,4 +1,5 @@
-interface: product_inputs
+interface: products
+family: list
 metadata:
   name: ssmi
   family: standard
