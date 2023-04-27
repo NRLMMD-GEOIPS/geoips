@@ -187,7 +187,7 @@ def set_tc_coverage_check_area_def(area_def, width_degrees=8, height_degrees=8):
     height_km = DEG_TO_KM * height_degrees
     LOG.info("  Changing area definition for checking TC coverage")
 
-    from geoips.plugins.modules.sector_loaders.dynamic.clat_clon_resolution_shape import (
+    from geoips.plugins.modules.sector_generators.clat_clon_resolution_shape import (
         clat_clon_resolution_shape,
     )
 

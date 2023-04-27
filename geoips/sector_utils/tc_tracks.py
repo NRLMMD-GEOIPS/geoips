@@ -192,8 +192,8 @@ def set_tc_area_def(
         template_func_name = template_dict["area_def_generator_func"]
         template_args = template_dict["area_def_generator_args"]
     except:
-        template_func_name = template_dict["spec"]["area_def_generator"]["name"]
-        template_args = template_dict["spec"]["area_def_generator"]["arguments"]
+        template_func_name = template_dict["spec"]["sector_generator"]["name"]
+        template_args = template_dict["spec"]["sector_generator"]["arguments"]
 
     if not finalstormname and "final_storm_name" in fields:
         finalstormname = fields["final_storm_name"]
@@ -214,7 +214,7 @@ def set_tc_area_def(
     from geoips.geoips_utils import find_entry_point
 
     # These are things like 'clat_clon_resolution_shape'
-    template_func = find_entry_point("sector_loaders.dynamic", template_func_name)
+    template_func = find_entry_point("sector_generators", template_func_name)
     # Probably generalize this at some point. For now I know those are the
     # ones that are <template>
     template_args["area_id"] = area_id
