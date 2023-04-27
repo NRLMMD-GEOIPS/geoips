@@ -1,6 +1,6 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: pmw_89_89pct
+name: 89pct
 docstring: |
   The 89pct product_defaults configuration.
 spec:

@@ -1,6 +1,6 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: pmw_89_89pctNearest
+name: 89pctNearest
 docstring: |
   The 89pctNearest product_defaults configuration.
 spec:

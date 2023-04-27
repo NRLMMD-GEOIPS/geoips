@@ -1,6 +1,6 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: pmw_89_89H
+name: 89H
 docstring: |
   The 89H product_defaults configuration.
 spec:

@@ -1,8 +1,8 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: pmw_89_89H_PhysicalNearest
+name: 89H-PhysicalNearest
 docstring: |
-  The 89H_PhysicalNearest product_defaults configuration.
+  The 89H-PhysicalNearest product_defaults configuration.
 spec:
   algorithm:
     plugin:

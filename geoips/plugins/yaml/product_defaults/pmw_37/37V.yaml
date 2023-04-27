@@ -1,6 +1,6 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: pmw_37_37V
+name: 37V
 docstring: |
     The 37V product_defaults configuration.
 spec:

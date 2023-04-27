@@ -1,6 +1,6 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: pmw_89_color89Nearest
+name: color89Nearest
 docstring: |
   The color89Nearest product_defaults configuration.
 spec:

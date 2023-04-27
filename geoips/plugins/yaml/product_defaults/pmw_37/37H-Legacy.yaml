@@ -1,8 +1,8 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: pmw_37_37H_Legacy
+name: 37H-Legacy
 docstring: |
-    The 37H_Legacy product_defaults configuration.
+    The 37H-Legacy product_defaults configuration.
 spec:
     interpolator:
         plugin:

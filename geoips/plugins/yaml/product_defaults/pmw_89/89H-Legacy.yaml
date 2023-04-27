@@ -1,8 +1,8 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: pmw_89_89H_Legacy
+name: 89H-Legacy
 docstring: |
-  The 89H_Legacy product_defaults configuration.
+  The 89H-Legacy product_defaults configuration.
 spec:
   algorithm:
     plugin:

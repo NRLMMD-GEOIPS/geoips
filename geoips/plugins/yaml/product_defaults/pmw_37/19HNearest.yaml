@@ -1,6 +1,6 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: pmw_37_19HNearest
+name: 19HNearest
 docstring: |
     The 19HNearest product_defaults configuration.
 spec:

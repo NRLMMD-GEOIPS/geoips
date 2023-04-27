@@ -1,6 +1,6 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: pmw_37_color37
+name: color37
 docstring: |
     The color37 product_defaults configuration.
 spec:

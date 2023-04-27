@@ -1,4 +1,5 @@
 interface: product_templates
+family: interpolator_algorithm_colormap
 metadata:
   name: 150H
   family: interp_alg_cmap

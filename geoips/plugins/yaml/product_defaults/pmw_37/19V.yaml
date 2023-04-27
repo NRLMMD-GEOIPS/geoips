@@ -1,6 +1,6 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: pmw_37_19V
+name: 19V
 docstring: |
     The 19V product_defaults configuration.
 spec:
