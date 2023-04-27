@@ -70,10 +70,15 @@ Remove <interface>_type attribute, and added
 * family
 * name
 
-Also ensure module-level docstring was nominally correct.
+Also ensure module-level docstrings are nominally correct.
+
+Must update all entry points in pyproject.toml to point to the module rather
+than the function name (since all plugins consistently name the callable
+function "call")
 
 ::
 
+  modified: pyproject.toml
   modified: geoips/plugins/modules/algorithms/*
   modified: geoips/plugins/modules/colormaps/*
   modified: geoips/plugins/modules/coverage_checkers/*
