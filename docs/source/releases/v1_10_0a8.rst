@@ -20,6 +20,23 @@ Version 1.10.0a8 (2023-04-27)
   * name
   * module-level docstring
 * Replace "description" attribute with "docstring" in BaseInterface.
+* Allow a list of interfaces to test via command line
+* Remove support for testing deprecated interfaces
+
+Enhancements
+============
+
+Allow a list of interfaces to test_interfaces, remove deprecated support
+------------------------------------------------------------------------
+
+Update test_interfaces to allow a list of interfaces to test,
+passed in via command line.
+
+Remove support for deprecated interfaces in test_interfaces.py.
+
+::
+
+  modified:   geoips/commandline/test_interfaces.py
 
 Breaking Changes
 ================
