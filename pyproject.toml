@@ -40,7 +40,6 @@ classifiers = [
 ]
 dynamic = ["version"]
 dependencies = [
-    "jsonschema",  # Provides validation for YAML plugins
     "pyresample",  # Base requirement - efficiency improvements >= 1.22.3
     "numpy",  # Base requirement
     "xarray",  # Base requirement
@@ -66,6 +65,8 @@ dependencies = [
     "satpy",  # efficiency improvements >= 0.33.1
     "numexpr",  # for efficiency improvements
     "scikit-image",  # Radius based center coverage checks
+    "jsonschema>=4.18.0a5",  # Provides validation for YAML plugins
+    "referencing"
 ]
 
 [project.optional-dependencies]

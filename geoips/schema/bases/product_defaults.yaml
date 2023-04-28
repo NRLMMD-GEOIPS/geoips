@@ -1,0 +1,3 @@
+$id: bases.product_defaults
+description: "The name of the product defaults plugin to use"
+$ref: bases.valid_identifier
