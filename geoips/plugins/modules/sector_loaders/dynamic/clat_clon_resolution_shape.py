@@ -15,6 +15,9 @@
 Uses clat, clon, projection, and area_extent.
 """
 
+family = "standard"
+interface = "sector_loaders"
+name = "clat_clon_resolution_shape"
 
 def set_clat_clon_proj_info(
     clat, clon, pr_proj, num_samples, num_lines, pixel_width, pixel_height
@@ -38,7 +41,7 @@ def set_clat_clon_proj_info(
     return proj4_dict, area_extent
 
 
-def clat_clon_resolution_shape(
+def call(
     area_id,
     long_description,
     clat,

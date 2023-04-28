@@ -20,10 +20,12 @@ from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
-title_type = "standard"
+family = "standard"
+interface = "title_formatters"
+name = "tc_copyright"
 
 
-def tc_copyright(
+def call(
     area_def,
     xarray_obj,
     product_name_title,

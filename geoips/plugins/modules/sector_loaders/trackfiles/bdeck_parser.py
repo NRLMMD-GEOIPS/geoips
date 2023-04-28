@@ -112,8 +112,12 @@ from datetime import datetime
 
 LOG = logging.getLogger(__name__)
 
+family = "standard"
+interface = "sector_loaders"
+name = "bdeck_parser"
 
-def bdeck_parser(deckfile_name):
+
+def call(deckfile_name):
     """TC deckfile parser for B-Deck files.
 
     Each B-Deck file contains the full history of storm BEST tracks, one storm

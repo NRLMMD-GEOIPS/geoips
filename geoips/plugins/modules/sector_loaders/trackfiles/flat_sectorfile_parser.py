@@ -24,8 +24,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+family = "standard"
+interface = "sector_loaders"
+name = "flat_sectorfile_parser"
 
-def flat_sectorfile_parser(sectorfile_name):
+
+def call(sectorfile_name):
     """TC trackfile parser for flat text sectorfiles containing current active storms.
 
     These files contain no storm history, only the currently active storm locations.
