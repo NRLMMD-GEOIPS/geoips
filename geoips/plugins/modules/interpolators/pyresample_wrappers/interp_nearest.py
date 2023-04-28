@@ -24,7 +24,9 @@ from geoips.dev.utils import copy_standard_metadata
 
 LOG = logging.getLogger(__name__)
 
-interp_type = "2d"
+family = "2d"
+interface = "interpolators"
+name = "interp_nearest"
 
 
 def get_final_roi(xarray_obj, area_def):
@@ -46,7 +48,7 @@ def get_final_roi(xarray_obj, area_def):
     return roi
 
 
-def interp_nearest(area_def, input_xarray, output_xarray, varlist, array_num=None):
+def call(area_def, input_xarray, output_xarray, varlist, array_num=None):
     """Pyresample interp_kd_tree nearest neighbor GeoIPS plugin."""
     LOG.info(
         "Interpolating nearest using standard scifile register method: kd_tree nearest"
