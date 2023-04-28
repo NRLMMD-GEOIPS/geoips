@@ -52,6 +52,9 @@ more concise and informative to the relevant information.
 Ie, the relevant information here is that we wish to define a sector based
 on the center lat/lon, vs min/max lat/lon).
 
+Note geoips/yaml_configs will be removed in the very near future, but updated
+now to ensure tests will pass.
+
 ::
 
   modified: pyproject.toml
@@ -59,6 +62,26 @@ on the center lat/lon, vs min/max lat/lon).
   modified: geoips/plugins/modules/sector_spec_generators/center_coordinates.py
   modified: geoips/plugins/modules/procflows/single_source.py
   modified: geoips/sector_utils/utils.py
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1400x1400/tc_2km_1400x1400.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1600x1600/tc_2km_1600x1600.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1600x1600/tc_4km_1600x1600.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_256x256/tc_4km_256x256.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_512x512/tc_2km_512x512.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_512x512/tc_4km_512x512.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_800x800/tc_2km_800x800.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_800x800/tc_4km_800x800.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_huge/tc_0p1km_3200x3200.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_huge/tc_1km_2500x2500.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_huge/tc_1km_3200x3200.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_2km_template.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_ascat_high_barbs_template.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_ascatuhr_barbs_template.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_halfkm_template.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_qkm_template.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
 
 Move sector_loaders.dynamic to sector_spec_generators
 -----------------------------------------------------
