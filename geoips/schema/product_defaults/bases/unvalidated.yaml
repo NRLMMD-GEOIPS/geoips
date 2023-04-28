@@ -1,5 +1,4 @@
 $id: product_defaults.bases.unvalidated
-$ref: bases.base
 type: object
 required:
   - spec
