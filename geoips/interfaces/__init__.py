@@ -12,14 +12,14 @@
 
 """GeoIPS interface module."""
 
-from geoips.interfaces.algorithms import algorithms
-from geoips.interfaces.colormaps import colormaps
-from geoips.interfaces.filename_formatters import filename_formatters
-from geoips.interfaces.interpolators import interpolators
-from geoips.interfaces.output_formatters import output_formatters
-from geoips.interfaces.procflows import procflows
-from geoips.interfaces.readers import readers
-from geoips.interfaces.title_formatters import title_formatters
+from geoips.interfaces.module_based.algorithms import algorithms
+from geoips.interfaces.module_based.colormaps import colormaps
+from geoips.interfaces.module_based.filename_formatters import filename_formatters
+from geoips.interfaces.module_based.interpolators import interpolators
+from geoips.interfaces.module_based.output_formatters import output_formatters
+from geoips.interfaces.module_based.procflows import procflows
+from geoips.interfaces.module_based.readers import readers
+from geoips.interfaces.module_based.title_formatters import title_formatters
 
 __all__ = [
     "algorithms",
