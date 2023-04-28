@@ -15,7 +15,7 @@ spec:
   projection:
     a: 6371228.0
     lat_0: 0
-    lon_0: 137.2
+    lon_0: -137.2
     proj: eqc
     units: m
   resolution:
