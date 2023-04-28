@@ -2,7 +2,7 @@ interface: products
 family: list
 name: amsr-e
 docstring: |
-  The amsr-e products configuration, which produces color89, 89pct, 89H, 89V, 89HW, 
+  The amsr-e products configuration, which produces color89, 89pct, 89H, 89V, 89HW,
   89H-Physical, 89H-Legacy, 19H, and 19V products.
 spec:
   products:
@@ -13,11 +13,11 @@ spec:
       spec:
         source_name: amsr-e
         variables: ["H89", "V89"]
-      interpolator:
-        plugin:
-          name: pyresample_wrappers.interp_gauss
-          arguments:
-            sigmaval: 10000
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: color89Nearest
       docstring: |
         The color89Nearest product_defaults for amsr-e product.
