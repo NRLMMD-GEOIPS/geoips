@@ -19,10 +19,11 @@ from geoips.sector_utils.yaml_utils import write_yamldict
 
 LOG = logging.getLogger(__name__)
 
-output_type = "standard_metadata"
+family = "standard_metadata"
+interface = "output_formatters"
+name = "metadata_default"
 
-
-def metadata_default(
+def call(
     area_def,
     xarray_obj,
     metadata_yaml_filename,
