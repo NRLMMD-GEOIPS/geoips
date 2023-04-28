@@ -65,7 +65,9 @@ except ImportError:
 
 LOG.info("info on imported functions")
 
-reader_type = "standard"
+family = "standard"
+interface = "readers"
+name = "modis_hdf4"
 
 # define functions
 
@@ -185,7 +187,7 @@ def add_to_xarray(varname, nparr, xobj, cumulative_mask, data_type):
         )
 
 
-def modis_hdf4(
+def call(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
     """Read MODIS Aqua and Terra hdf data files.

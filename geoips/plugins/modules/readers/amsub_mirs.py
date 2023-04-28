@@ -29,7 +29,7 @@ and and data structure from previous MSPPS.  Example of MIRIS files:
 
 AMSU-A channel information::
 
-    Chan# / Freq(MHz) / bands / Bandwidth(MHz) / Beamwidth(deg) / NE#T(K) /
+    Chan# / Freq(GHz) / bands / Bandwidth(GHz) / Beamwidth(deg) / NE#T(K) /
                                (Spec.) Polarization at nadir / Instrument Component
     1	23.800	1	270	3.3	0.30	V	A2
     2	31.400	1	180	3.3	0.30	V	A2
@@ -49,7 +49,7 @@ AMSU-A channel information::
 
 AMSU-B/MHS channel information::
 
-    Channel / Centre Frequency (GHz) / Bandwidth (MHz) / NeDT (K) /
+    Channel / Centre Frequency (GHz) / Bandwidth (GHz) / NeDT (K) /
                                      Calibration Accuracy (K) / pol. angle (degree)
     16	89.0	<6000	1.0	1.0	90-q                  (Vertical pol)
     17	150	<4000	1.0	1.0	90-q                  (Vertical)
@@ -229,10 +229,12 @@ VARLIST = [
     "ScanTime_minute",
 ]
 
-reader_type = "standard"
+family = "standard"
+interface = "readers"
+name = "amsub_mirs"
 
 
-def amsub_mirs(
+def call(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
     """Read AMSU/MHS MIRS data products.

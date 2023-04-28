@@ -39,10 +39,12 @@ import matplotlib.pyplot as plt
 
 LOG = logging.getLogger(__name__)
 
-reader_type = "standard"
+family = "standard"
+interface = "readers"
+name = "ssmis_binary"
 
 
-def ssmis_binary(
+def call(
     fnames, metadata_only=False, chans=False, area_def=None, self_register=False
 ):
     """Read SSMIS binary data products.

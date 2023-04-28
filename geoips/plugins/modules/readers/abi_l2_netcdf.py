@@ -23,7 +23,9 @@ import xarray as xr
 
 log = logging.getLogger(__name__)
 
-reader_type = "standard"
+family = "standard"
+interface = "readers"
+name = "abi_l2_netcdf"
 
 
 def get_metadata(fname):
@@ -57,7 +59,7 @@ def calculate_abi_geolocation(metadata, area_def):
     return geo
 
 
-def abi_l2_netcdf(
+def call(
     fnames, area_def=None, metadata_only=False, chans=False, self_register=False
 ):
     """

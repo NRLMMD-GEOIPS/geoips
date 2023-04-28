@@ -18,10 +18,12 @@ from datetime import datetime
 
 LOG = logging.getLogger(__name__)
 
-reader_type = "standard"
+family = "standard"
+interface = "readers"
+name = "mimic_netcdf"
 
 
-def mimic_netcdf(
+def call(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
     """Read TPW MIMIC data from a list of filenames.

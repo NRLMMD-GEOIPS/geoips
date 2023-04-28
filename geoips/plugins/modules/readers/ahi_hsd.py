@@ -149,7 +149,9 @@ ALL_GVARS = {
     ],
 }
 
-reader_type = "standard"
+family = "standard"
+interface = "readers"
+name = "ahi_hsd"
 
 
 class AutoGenError(Exception):
@@ -935,7 +937,7 @@ def sort_by_band_and_seg(metadata):
     return "{0:02d}_{1:02d}".format(band_number, segment_number)
 
 
-def ahi_hsd(
+def call(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
     """

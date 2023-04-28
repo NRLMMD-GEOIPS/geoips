@@ -19,7 +19,9 @@ LOG = logging.getLogger(__name__)
 MS_TO_KTS = 1.94384
 DEG_TO_KM = 111.321
 
-reader_type = "standard"
+family = "standard"
+interface = "readers"
+name = "sar_winds_netcdf"
 
 
 def read_sar_data(wind_xarray):
@@ -107,7 +109,7 @@ def read_sar_data(wind_xarray):
     return [wind_xarray]
 
 
-def sar_winds_netcdf(
+def call(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
     """Read SAR derived winds from netcdf data.

@@ -71,10 +71,12 @@ from pyhdf.SD import SD, SDC
 from pyhdf.HDF import *
 from pyhdf.VS import *
 
-reader_type = "standard"
+family = "standard"
+interface = "readers"
+name = "amsub_hdf"
 
 
-def amsub_hdf(
+def call(
     fnames, metadata_only=False, chans=None, area_def=None, self_register=False
 ):
     """Read AMSU-B hdf data products.
