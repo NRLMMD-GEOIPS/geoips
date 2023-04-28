@@ -1,5 +1,5 @@
 $id: product_defaults.bases.windbarb_plotter
-title: "Windbarb Plotters"
+title: "Windbarb Plotter"
 type: object
 unevaluatedProperties: false
 required:
