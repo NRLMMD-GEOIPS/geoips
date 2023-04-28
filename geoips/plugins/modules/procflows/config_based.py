@@ -57,7 +57,9 @@ PMW_PIXEL_SIZE_Y = 1000
 
 LOG = logging.getLogger(__name__)
 
-procflow_type = "standard"
+family = "standard"
+interface = "procflows"
+name = "config_based"
 
 
 def update_output_dict_from_command_line_args(output_dict, command_line_args=None):
@@ -683,7 +685,7 @@ def get_area_defs_from_available_sectors(
     return area_defs
 
 
-def config_based(fnames, command_line_args=None):
+def call(fnames, command_line_args=None):
     """Workflow for efficiently running all required outputs.
 
     Includes all sectors and products specified in a YAML output config file.

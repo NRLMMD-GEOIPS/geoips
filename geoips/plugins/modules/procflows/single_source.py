@@ -96,7 +96,9 @@ PMW_PIXEL_SIZE_Y = 1000
 
 LOG = logging.getLogger(__name__)
 
-procflow_type = "standard"
+family = "standard"
+interface = "procflows"
+name = "single_source"
 
 
 def output_all_metadata(
@@ -1131,7 +1133,7 @@ def verify_area_def(
     return True
 
 
-def single_source(fnames, command_line_args=None):
+def call(fnames, command_line_args=None):
     """Workflow for running products from a single data source.
 
     Parameters
