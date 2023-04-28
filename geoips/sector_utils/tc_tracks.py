@@ -213,7 +213,7 @@ def set_tc_area_def(
 
     from geoips.geoips_utils import find_entry_point
 
-    # These are things like 'clat_clon_resolution_shape'
+    # These are things like 'center_coordinates'
     template_func = find_entry_point("sector_spec_generators", template_func_name)
     # Probably generalize this at some point. For now I know those are the
     # ones that are <template>
@@ -221,7 +221,7 @@ def set_tc_area_def(
     template_args["long_description"] = long_description
     template_args["clat"] = clat
     template_args["clon"] = clon
-    area_def = template_func(**template_args)
+    area_def = template_func.call(**template_args)
 
     if "interpolated_time" in fields:
         area_def.sector_start_datetime = fields["interpolated_time"]
@@ -290,7 +290,7 @@ def trackfile_to_area_defs(
 
     parser = find_entry_point("sector_metadata_generators", trackfile_parser)
 
-    all_fields, final_storm_name, tc_year = parser(trackfile_name)
+    all_fields, final_storm_name, tc_year = parser.call(trackfile_name)
 
     area_defs = []
     for fields in all_fields:
