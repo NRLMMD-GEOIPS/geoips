@@ -18,8 +18,12 @@ from geoips.plugins.modules.coverage_checkers.center_radius import create_radius
 
 LOG = logging.getLogger(__name__)
 
+family = "standard"
+interface = "coverage_checkers"
+name = "center_radius_rgba"
 
-def center_radius_rgba(
+
+def call(
     xarray_obj,
     variable_name,
     area_def=None,

@@ -15,8 +15,11 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+family = "standard"
+interface = "coverage_checkers"
+name = "windbarbs"
 
-def windbarbs(
+def call(
     xarray_obj,
     variable_name,
     area_def,
