@@ -1,22 +1,26 @@
-interface: product_templates
-metadata:
-  name: Rain
-  family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: Rain
+docstring: |
+  The Rain product_defaults configuration.
 spec:
   algorithm:
-    name: single_channel
-    arguments:
-      output_data_range: [0.05, 50.0]
-      min_outbounds: mask
-      max_outbounds: crop
-      norm: null
-      inverse: null
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [0.05, 50.0]
+        min_outbounds: mask
+        max_outbounds: crop
+        norm: null
+        inverse: null
   mtif_type: rain
   colormap:
-    name: pmw_tb.cmap_Rain
-    arguments:
-      data_range: [0.05, 50.0]
-  interpolation:
-    name: pyresample_wrappers.interp_gauss
-    arguments:
-      sigmaval: 10000
+    plugin:
+      name: pmw_tb.cmap_Rain
+      arguments:
+        data_range: [0.05, 50.0]
+  interpolator:
+    plugin:
+      name: pyresample_wrappers.interp_gauss
+      arguments:
+        sigmaval: 10000

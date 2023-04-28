@@ -10,4 +10,4 @@ properties:
         type: array
         items:
           type: object
-          $ref: products.specs.product
+          $ref: products.bases.product

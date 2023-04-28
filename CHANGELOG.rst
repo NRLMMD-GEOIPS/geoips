@@ -16,14 +16,18 @@ CHANGELOG appropriately with each PR
 Release notes for previous/upcoming versions can be found in docs/source/releases,
 for reference.
 
-Enhancements
-============
+Refactoring Updates
+===================
 
-Correct "parameters" to "properties" in gridlines.yaml.
------------------------------------------------
+Updated all yaml files to match new schema implementations.
+-----------------------------------------------------------
 
-*From issue GEOIPS/geoips#136: 2023-04-04, Correct "parameters" to "properties".*
+*From NRLMMD-GEOIPS/geoips#192: 2023-04-27, Updated all yaml files to match new schema implementations.*
+
+* Refactored products
+* Refactored product_defaults
+* Refactored feature_annotators
+* Refactored gridline_annotators
 
 ::
 
-    modified: geoips/geoips/schema/gridlines.yaml

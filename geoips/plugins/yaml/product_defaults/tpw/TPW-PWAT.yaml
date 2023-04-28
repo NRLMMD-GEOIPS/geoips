@@ -1,20 +1,24 @@
-interface: product_templates
-metadata:
-  name: TPW-PWAT
-  family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: TPW-PWAT
+docstring: |
+  The TPW-PWAT product_defaults configuration.
 spec:
   algorithm:
-    name: single_channel
-    arguments:
-      output_data_range: [1.0, 90.0]
-      min_outbounds: mask
-      max_outbounds: crop
-      norm: null
-      inverse: null
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [1.0, 90.0]
+        min_outbounds: mask
+        max_outbounds: crop
+        norm: null
+        inverse: null
   colormap:
-    name: tpw.tpw_pwat
-    arguments: {}
-  interpolation:
-    name: pyresample_wrappers.interp_gauss
-    arguments:
-      sigmaval: 10000
+    plugin:
+      name: tpw.tpw_pwat
+      arguments: {}
+  interpolator:
+    plugin:
+      name: pyresample_wrappers.interp_gauss
+      arguments:
+        sigmaval: 10000

@@ -1,27 +1,64 @@
-interface: product_inputs
-metadata:
-  name: atms
-  family: standard
-  short-description: "The atms product_inputs configuration"
-  long-description:
-    "The atms product_inputs configuration, which produces 89V products, 165H products, and 183H products"
+interface: products
+family: list
+name: atms
+docstring: |
+  The atms product_inputs configuration, which produces 89V products, 165H products, and 183H products
 spec:
   products:
     - name: 89V
-      variables: ['V89']
-      interp_args:
-        sigmaval: 15000
+      docstring: |
+        The 89V product_defaults for atms product.
+      product_defaults: 89V
+      spec:
+        source_name: atms
+        variables: ["V89"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 15000
     - name: 89VNearest
-      variables: ['V89']
+      docstring: |
+        The 89VNearest product_defaults for atms product.
+      product_defaults: 89VNearest
+      spec:
+        source_name: atms
+        variables: ["V89"]
     - name: 165H
-      variables: ['H165']
-      interp_args:
-        sigmaval: 15000
+      docstring: |
+        The 165H product_defaults for atms product.
+      product_defaults: 165H
+      spec:
+        source_name: atms
+        variables: ["H165"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 15000
     - name: 165HNearest
-      variables: ['H165']
+      docstring: |
+        The 165HNearest product_defaults for atms product.
+      product_defaults: 165HNearest
+      spec:
+        source_name: atms
+        variables: ["H165"]
     - name: 183H
-      variables: ['H183']
-      interp_args:
-        sigmaval: 15000
+      docstring: |
+        The 183H product_defaults for atms product.
+      product_defaults: 183H
+      spec:
+        source_name: atms
+        variables: ["H183"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 15000
     - name: 183HNearest
-      variables: ['H183']
+      docstring: |
+        The 183HNearest product_defaults for atms product.
+      product_defaults: 183HNearest
+      spec:
+        source_name: atms
+        variables: ["H183"]

@@ -1,21 +1,25 @@
-interface: product_templates
-metadata:
-    name: 37H-PhysicalNearest
-    family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: 37H-PhysicalNearest
+docstring: |
+    The 37H-PhysicalNearest product_defaults configuration.
 spec:
+    interpolator:
+        plugin:
+            name: pyresample_wrappers.interp_nearest
+            arguments: {}
     algorithm:
-        name: single_channel
-        arguments: 
-            output_data_range: [125, 300]
-            min_outbounds: crop
-            max_outbounds: crop
-            norm: null
-            inverse: null
+        plugin:
+            name: single_channel
+            arguments:
+                output_data_range: [125, 300]
+                min_outbounds: crop
+                max_outbounds: crop
+                norm: null
+                inverse: null
     mtif_type: pmw
     colormap:
-        name: pmw_tb.cmap_37H_Physical
-        arguments: 
-            data_range: [125, 300]
-    interpolation:
-        name: pyresample_wrappers.interp_nearest
-        arguments: {}
+        plugin:
+            name: pmw_tb.cmap_37H_Physical
+            arguments:
+                data_range: [125, 300]

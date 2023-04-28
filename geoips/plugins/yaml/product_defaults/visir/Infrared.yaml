@@ -1,23 +1,27 @@
-interface: product_templates
-metadata:
-  name: Infrared
-  family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: Infrared
+docstring: |
+  The Infrared product_defaults configuration.
 spec:
   algorithm:
-    name: single_channel
-    arguments:
-      output_data_range: [-90.0, 30.0]
-      input_units: Kelvin
-      output_units: celsius
-      min_outbounds: crop
-      max_outbounds: crop
-      norm: null
-      inverse: null
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [-90.0, 30.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
   mtif_type: ir
   colormap:
-    name: visir.Infrared
-    arguments:
-      data_range: [-90.0, 30.0]
-  interpolation:
-    name: pyresample_wrappers.interp_nearest
-    arguments: {}
+    plugin:
+      name: visir.Infrared
+      arguments:
+        data_range: [-90.0, 30.0]
+  interpolator:
+    plugin:
+      name: pyresample_wrappers.interp_nearest
+      arguments: {}

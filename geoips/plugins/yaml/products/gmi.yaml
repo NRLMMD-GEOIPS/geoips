@@ -1,130 +1,388 @@
-interface: product_inputs
-metadata:
-  name: gmi
-  family: standard
-  short-description: "The gmi product_inputs configuration"
-  long-description:
-    "The gmi product_inputs configuration, which produces color37, 37pct, color89, 89H, 89V, 89HW, 89H-Legacy, 89H-Physical, 166H, 166V, 
-    183-1H, 183-3H, 190V, 19H, 19V, 37H-Legacy, 37H-Physical, 37H, and 37V products."
+interface: products
+family: list
+name: gmi
+docstring: |
+  The gmi product_inputs configuration, which produces color37, 37pct, color89, 89H, 89V, 89HW, 89H-Legacy, 89H-Physical, 166H, 166V,
+  183-1H, 183-3H, 190V, 19H, 19V, 37H-Legacy, 37H-Physical, 37H, and 37V products.
 spec:
   products:
     - name: color37
-      variables: ['H37', 'V37']
-      interp_args:
-        sigmaval: 25000
-    - name: olor37Nearest
-      variables: ['H37', 'V37']
+      docstring: |
+        The color37 product_defaults for gmi product.
+      product_defaults: color37
+      spec:
+        source_name: gmi
+        variables: ["H37", "V37"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 25000
+    - name: color37Nearest
+      docstring: |
+        The color37Nearest product_defaults for gmi product.
+      product_defaults: color37Nearest
+      spec:
+        source_name: gmi
+        variables: ["H37", "V37"]
     - name: 37pct
-      variables: ['H37', 'V37']
-      interp_args:
-        sigmaval: 25000
+      docstring: |
+        The 37pct product_defaults for gmi product.
+      product_defaults: 37pct
+      spec:
+        source_name: gmi
+        variables: ["H37", "V37"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 25000
     - name: 37pctNearest
-      variables: ['H37', 'V37']
+      docstring: |
+        The 37pctNearest product_defaults for gmi product.
+      product_defaults: 37pctNearest
+      spec:
+        source_name: gmi
+        variables: ["H37", "V37"]
     - name: color89
-      variables: ['H89', 'V89']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The color89 product_defaults for gmi product.
+      product_defaults: color89
+      spec:
+        source_name: gmi
+        variables: ["H89", "V89"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: color89Nearest
-      variables: ['H89', 'V89']
+      docstring: |
+        The color89Nearest product_defaults for gmi product.
+      product_defaults: color89Nearest
+      spec:
+        source_name: gmi
+        variables: ["H89", "V89"]
     - name: 89pct
-      variables: ['H89', 'V89']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The 89pct product_defaults for gmi product.
+      product_defaults: 89pct
+      spec:
+        source_name: gmi
+        variables: ["H89", "V89"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: 89pctNearest
-      variables: ['H89', 'V89']
+      docstring: |
+        The 89pctNearest product_defaults for gmi product.
+      product_defaults: 89pctNearest
+      spec:
+        source_name: gmi
+        variables: ["H89", "V89"]
     - name: 89H
-      variables: ['H89']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The 89H product_defaults for gmi product.
+      product_defaults: 89H
+      spec:
+        source_name: gmi
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: 89HNearest
-      variables: ['H89']
+      docstring: |
+        The 89HNearest product_defaults for gmi product.
+      product_defaults: 89HNearest
+      spec:
+        source_name: gmi
+        variables: ["H89"]
     - name: 89V
-      variables: ['V89']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The 89V product_defaults for gmi product.
+      product_defaults: 89V
+      spec:
+        source_name: gmi
+        variables: ["V89"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: 89VNearest
-      variables: ['V89']  
+      docstring: |
+        The 89VNearest product_defaults for gmi product.
+      product_defaults: 89VNearest
+      spec:
+        source_name: gmi
+        variables: ["V89"]
     - name: 89HW
-      variables: ['H89']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The 89HW product_defaults for gmi product.
+      product_defaults: 89HW
+      spec:
+        source_name: gmi
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: 89HWNearest
-      variables: ['H89']
+      docstring: |
+        The 89HWNearest product_defaults for gmi product.
+      product_defaults: 89HWNearest
+      spec:
+        source_name: gmi
+        variables: ["H89"]
     - name: 89H-Legacy
-      variables: ['H89']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The 89H-Legacy product_defaults for gmi product.
+      product_defaults: 89H-Legacy
+      spec:
+        source_name: gmi
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: 89H-LegacyNearest
-      variables: ['H89']
+      docstring: |
+        The 89H-LegacyNearest product_defaults for gmi product.
+      product_defaults: 89H-LegacyNearest
+      spec:
+        source_name: gmi
+        variables: ["H89"]
     - name: 89H-Physical
-      variables: ['H89']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The 89H-Physical product_defaults for gmi product.
+      product_defaults: 89H-Physical
+      spec:
+        source_name: gmi
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: 89H-PhysicalNearest
-      variables: ['H89']
+      docstring: |
+        The 89H-PhysicalNearest product_defaults for gmi product.
+      product_defaults: 89H-PhysicalNearest
+      spec:
+        source_name: gmi
+        variables: ["H89"]
     - name: 166H
-      variables: ['H166']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The 166H product_defaults for gmi product.
+      product_defaults: 166H
+      spec:
+        source_name: gmi
+        variables: ["H166"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: 166HNearest
-      variables: ['H166']
+      docstring: |
+        The 166HNearest product_defaults for gmi product.
+      product_defaults: 166HNearest
+      spec:
+        source_name: gmi
+        variables: ["H166"]
     - name: 166V
-      variables: ['V166']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The 166V product_defaults for gmi product.
+      product_defaults: 166V
+      spec:
+        source_name: gmi
+        variables: ["V166"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: 166VNearest
-      variables: ['V166']
+      docstring: |
+        The 166VNearest product_defaults for gmi product.
+      product_defaults: 166VNearest
+      spec:
+        source_name: gmi
+        variables: ["V166"]
     - name: 183-1H
-      variables: ['V183-3']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The 183-1H product_defaults for gmi product.
+      product_defaults: 183-1H
+      spec:
+        source_name: gmi
+        variables: ["V183-3"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: 183-1HNearest
-      variables: ['V183-3']
+      docstring: |
+        The 183-1HNearest product_defaults for gmi product.
+      product_defaults: 183-1HNearest
+      spec:
+        source_name: gmi
+        variables: ["V183-3"]
     - name: 183-3H
-      variables: ['V183-3']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The 183-3H product_defaults for gmi product.
+      product_defaults: 183-3H
+      spec:
+        source_name: gmi
+        variables: ["V183-3"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: 183-3HNearest
-      variables: ['V183-3']
+      docstring: |
+        The 183-3HNearest product_defaults for gmi product.
+      product_defaults: 183-3HNearest
+      spec:
+        source_name: gmi
+        variables: ["V183-3"]
     - name: 190V
-      variables: ['V183-7']
-      interp_args:
-        sigmaval: 10000
+      docstring: |
+        The 190V product_defaults for gmi product.
+      product_defaults: 190V
+      spec:
+        source_name: gmi
+        variables: ["V183-7"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 10000
     - name: 190VNearest
-      variables: ['V183-7']
+      docstring: |
+        The 190VNearest product_defaults for gmi product.
+      product_defaults: 190VNearest
+      spec:
+        source_name: gmi
+        variables: ["V183-7"]
     - name: 19H
-      variables: ['H19']
-      interp_args:
-        sigmaval: 25000
+      docstring: |
+        The 19H product_defaults for gmi product.
+      product_defaults: 19H
+      spec:
+        source_name: gmi
+        variables: ["H19"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 25000
     - name: 19HNearest
-      variables: ['H19']
+      docstring: |
+        The 19HNearest product_defaults for gmi product.
+      product_defaults: 19HNearest
+      spec:
+        source_name: gmi
+        variables: ["H19"]
     - name: 19V
-      variables: ['V19']
-      interp_args:
-        sigmaval: 25000
+      docstring: |
+        The 19V product_defaults for gmi product.
+      product_defaults: 19V
+      spec:
+        source_name: gmi
+        variables: ["V19"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 25000
     - name: 19VNearest
-      variables: ['V19']
+      docstring: |
+        The 19VNearest product_defaults for gmi product.
+      product_defaults: 19VNearest
+      spec:
+        source_name: gmi
+        variables: ["V19"]
     - name: 37H-Legacy
-      variables: ['H37']
-      interp_args:
-        sigmaval: 25000
+      docstring: |
+        The 37H-Legacy product_defaults for gmi product.
+      product_defaults: 37H-Legacy
+      spec:
+        source_name: gmi
+        variables: ["H37"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 25000
     - name: 37H-LegacyNearest
-      variables: ['H37']
+      docstring: |
+        The 37H-LegacyNearest product_defaults for gmi product.
+      product_defaults: 37H-LegacyNearest
+      spec:
+        source_name: gmi
+        variables: ["H37"]
     - name: 37H-Physical
-      variables: ['H37']
-      interp_args:
-        sigmaval: 25000
+      docstring: |
+        The 37H-Physical product_defaults for gmi product.
+      product_defaults: 37H-Physical
+      spec:
+        source_name: gmi
+        variables: ["H37"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 25000
     - name: 37H-PhysicalNearest
-      variables: ['H37']
+      docstring: |
+        The 37H-PhysicalNearest product_defaults for gmi product.
+      product_defaults: 37H-PhysicalNearest
+      spec:
+        source_name: gmi
+        variables: ["H37"]
     - name: 37H
-      variables: ['H37']
-      interp_args:
-        sigmaval: 25000
+      docstring: |
+        The 37H product_defaults for gmi product.
+      product_defaults: 37H
+      spec:
+        source_name: gmi
+        variables: ["H37"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 25000
     - name: 37HNearest
-      variables: ['H37']
+      docstring: |
+        The 37HNearest product_defaults for gmi product.
+      product_defaults: 37HNearest
+      spec:
+        source_name: gmi
+        variables: ["H37"]
     - name: 37V
-      variables: ['V37']
-      interp_args:
-        sigmaval: 25000
+      docstring: |
+        The 37V product_defaults for gmi product.
+      product_defaults: 37V
+      spec:
+        source_name: gmi
+        variables: ["V37"]
+        interpolator:
+          plugin:
+            name: pyresample_wrappers.interp_gauss
+            arguments:
+              sigmaval: 25000
     - name: 37VNearest
-      variables: ['V37']
+      docstring: |
+        The 37VNearest product_defaults for gmi product.
+      product_defaults: 37VNearest
+      spec:
+        source_name: gmi
+        variables: ["V37"]

@@ -9,6 +9,11 @@ properties:
     $ref: bases.name
   docstring:
     $ref: bases.docstring
+  family:
+    $ref: bases.family
+  product_defaults:
+    $ref: bases.product_defaults
+
   spec:
     type: object
     required:
@@ -26,11 +31,5 @@ oneOf:
   - required:
       - family
       - docstring
-    properties:
-      family:
-        $ref: bases.family
   - required:
       - product_defaults
-    properties:
-      product_defaults:
-        $ref: bases.product_defaults
