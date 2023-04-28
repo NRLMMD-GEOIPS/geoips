@@ -1,0 +1,31 @@
+---
+interface: product_defaults
+family: bad_family
+name: good_test
+docstring: "A product_defaults instance with a bad family"
+spec:
+  interpolator:
+    plugin:
+      name: pyresample.nearest_neighbor
+      arguments: {}
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+
+---
+interface: product_defaults
+family: interpolator_algorithm
+name: good_test
+docstring: "A product_defaults instance missing its spec"
+
+---
+interface: product_defaults
+family: interpolator_algorithm
+name: good_test
+docstring: "A product_defaults instance missing its interpolator property"
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}

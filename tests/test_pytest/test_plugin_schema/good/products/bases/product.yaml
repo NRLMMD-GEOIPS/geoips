@@ -1,0 +1,29 @@
+---
+family: interpolator_algorithm_colormap
+name: infrared
+docstring: "Good product using family"
+spec:
+  source_name: abi
+  variables:
+    - B14BT
+  interpolator:
+    plugin:
+      name: pyresample.nearest_neighbor
+      arguments: {}
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormap:
+    plugin:
+      name: matplotlib
+      arguments: {}
+
+---
+product_defaults: infrared
+name: infrared
+docstring: "Good product using product_defaults"
+spec:
+  source_name: abi
+  variables:
+    - B14BT

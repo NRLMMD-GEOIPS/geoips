@@ -1,0 +1,33 @@
+$id: product_defaults.bases.colormap
+title: "Colormap"
+type: object
+unevaluatedProperties: false
+required:
+  - plugin
+properties:
+  plugin:
+    type: object
+    required:
+      - name
+      - arguments
+    properties:
+      name:
+        type: string
+      arguments:
+        type: object
+        unevaluatedProperties: false
+        properties:
+          colormap_name:
+            type: string
+          data_range:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: number
+          colorbar_label:
+            type: string
+          colorbar_ticks:
+            type: array
+            items:
+              type: number
