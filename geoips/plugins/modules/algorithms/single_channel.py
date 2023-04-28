@@ -21,10 +21,12 @@ LOG = logging.getLogger(__name__)
 
 KtoC_conversion = -273.15
 
-alg_func_type = "list_numpy_to_numpy"
+family = "list_numpy_to_numpy"
+interface = "algorithms"
+name = "single_channel"
 
 
-def single_channel(
+def call(
     arrays,
     output_data_range=None,
     input_units=None,

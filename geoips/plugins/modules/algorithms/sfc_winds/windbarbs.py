@@ -19,10 +19,12 @@ import logging
 LOG = logging.getLogger(__name__)
 
 family = "list_numpy_to_numpy"
+interface = "algorithms"
+name = "windbarbs"
 description = "Surface Winds plotted as Barbs in Knots"
 
 
-def windbarbs(
+def call(
     arrays,
     output_data_range=None,
     input_units=None,

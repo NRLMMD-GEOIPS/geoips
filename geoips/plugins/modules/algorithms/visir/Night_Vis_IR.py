@@ -19,9 +19,11 @@ import logging
 LOG = logging.getLogger(__name__)
 
 family = "list_numpy_to_numpy"
+interface = "algorithms"
+name = "Night_Vis_IR"
 
 
-def Night_Vis_IR(arrays):
+def call(arrays):
     """Night_Vis_IR RGB product algorithm data manipulation steps.
 
     This algorithm expects DNBRad in reflectance and
