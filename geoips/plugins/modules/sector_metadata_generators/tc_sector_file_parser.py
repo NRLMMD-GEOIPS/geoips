@@ -9,7 +9,6 @@
 # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-
 """TC trackfile parser for flat text sectorfiles containing current active storms.
 
 These files contain no storm history, only the currently active storm locations.
@@ -24,8 +23,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+interface = "sector_metadata_parser"
+family = "tc"
+name = "tc_sector_file_parser"
 
-def flat_sectorfile_parser(sectorfile_name):
+
+def call(sectorfile_name):
     """TC trackfile parser for flat text sectorfiles containing current active storms.
 
     These files contain no storm history, only the currently active storm locations.
