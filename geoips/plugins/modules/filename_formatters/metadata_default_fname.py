@@ -28,10 +28,12 @@ from geoips.plugins.modules.filename_formatters.utils.tc_file_naming import (
 
 LOG = logging.getLogger(__name__)
 
-filename_type = "standard_metadata"
+family = "standard_metadata"
+interface = "filename_formatters"
+name = "metadata_default_fname"
 
 
-def metadata_default_fname(
+def call(
     area_def,
     xarray_obj,
     product_filename,

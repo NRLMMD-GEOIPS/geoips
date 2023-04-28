@@ -19,10 +19,11 @@ from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
-filename_type = "xarray_metadata_to_filename"
+family = "xarray_metadata_to_filename"
+interface = "filename_formatters"
+name = "text_winds_full_fname"
 
-
-def text_winds_full_fname(
+def call(
     xarray_obj,
     extension=".txt",
     basedir=pathjoin(gpaths["ANNOTATED_IMAGERY_PATH"], "text_winds"),
