@@ -15,10 +15,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-cmap_type = "linear_segmented"
+family = "linear_segmented"
+interface = "colormaps"
+name = "cmap_37pct"
 
 
-def cmap_37pct(data_range=[230, 280], cbar_label="TB (K)"):
+def call(data_range=[230, 280], cbar_label="TB (K)"):
     """Colormap for displaying 37pct PMW data.
 
     Parameters

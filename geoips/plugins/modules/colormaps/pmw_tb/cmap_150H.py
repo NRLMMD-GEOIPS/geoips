@@ -15,10 +15,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-cmap_type = "linear_segmented"
+family = "linear_segmented"
+interface = "colormaps"
+name = "cmap_150H"
 
 
-def cmap_150H(data_range=[110, 310], cbar_label="TB (K)"):
+def call(data_range=[110, 310], cbar_label="TB (K)"):
     """Colormap for displaying ~150GHz PMW data.
 
     Parameters
