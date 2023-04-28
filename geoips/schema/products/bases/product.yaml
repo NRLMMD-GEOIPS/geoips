@@ -13,6 +13,7 @@ properties:
     $ref: bases.family
   product_defaults:
     $ref: bases.product_defaults
+
   spec:
     type: object
     required:

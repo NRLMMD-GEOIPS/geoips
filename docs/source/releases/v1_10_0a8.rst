@@ -10,11 +10,15 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Please see geoips/CHANGELOG_TEMPLATE.rst for instructions on updating
-CHANGELOG appropriately with each PR
 
-Release notes for previous/upcoming versions can be found in docs/source/releases,
-for reference.
+Version 1.10.0a8 (2023-04-28)
+*****************************
+
+* Finalize YAML plugin schema and unit tests
+
+  * Finalize all interface schema
+  * Add good tests for all interfaces
+  * Add bad tests for all interfaces
 
 Enhancements
 ============
@@ -97,6 +101,7 @@ Finalize YAML plugin schema and unit tests
     added: tests/test_pytest/test_plugin_schema/test_product.yaml
     added: tests/test_pytest/test_plugin_schema/test_yaml_schema.py
     added: tests/test_pytest/test_plugin_schema/test_yaml_validator.py
+
     deleted: geoips/schema/base.yaml
     deleted: geoips/schema/boundaries.yaml
     deleted: geoips/schema/gridlines.yaml
@@ -128,3 +133,4 @@ Finalize YAML plugin schema and unit tests
     modified: geoips/schema/__init__.py
     modified: geoips/schema/plugin_validator.py
     modified: pyproject.toml
+
