@@ -187,9 +187,9 @@ def set_tc_coverage_check_area_def(area_def, width_degrees=8, height_degrees=8):
     height_km = DEG_TO_KM * height_degrees
     LOG.info("  Changing area definition for checking TC coverage")
 
-    from geoips.plugins.modules.sector_spec_generators.center_coordinates import call
+    from geoips.plugins.modules.sector_spec_generators import center_coordinates
 
-    covg_area_def = call(
+    covg_area_def = center_coordinates.call(
         area_id=area_def.area_id,
         long_description=area_def.description,
         clat=area_def.sector_info["clat"],
