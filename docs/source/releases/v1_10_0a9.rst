@@ -1,0 +1,190 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a9 (2023-04-27)
+*****************************
+
+* Move clat_clon_resolution_shape to center_coordinates
+* Move flat_sectorfile_parser to tc_sector_file_parser
+* Move sector_loaders.dynamic back to sector_spec_generators
+
+  * Originally was area_def_generators
+* Move sector_loaders.trackfiles back to sector_metadata_generators
+
+  * Originally was trackfile_parsers
+
+Breaking Changes
+================
+
+Move flat_sectorfile_parser to tc_sector_file_parser
+----------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#195: 2023-04-26, sector_spec/metadata_generators*
+
+With the reorg to include the TC trackfile parsers under
+sector_metadata_generators, update the "flat_sectorfile_parser" plugin
+name to reflect the fact that it is a TC-based metadata parser.
+
+::
+
+  modified: pyproject.toml
+
+
+Move clat_clon_resolution_shape to center_coordinates
+-----------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#195: 2023-04-26, sector_spec/metadata_generators*
+
+Simplify plugin name for specifying dynamic sectors based on center location.
+Since the call signature for "sector_spec_generators" are fully specified
+within the YAML sector specifications, the names and families can be
+more concise and informative to the relevant information.
+
+Ie, the relevant information here is that we wish to define a sector based
+on the center lat/lon, vs min/max lat/lon).
+
+Note geoips/yaml_configs will be removed in the very near future, but updated
+now to ensure tests will pass.
+
+::
+
+  modified: pyproject.toml
+  renamed: geoips/plugins/modules/sector_spec_generators/clat_clon_resolution_shape.py -> geoips/plugins/modules/sector_spec_generators/center_coordinates.py
+  modified: geoips/plugins/modules/sector_spec_generators/center_coordinates.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/sector_utils/utils.py
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1400x1400/tc_2km_1400x1400.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1600x1600/tc_2km_1600x1600.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_1600x1600/tc_4km_1600x1600.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_256x256/tc_4km_256x256.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_512x512/tc_2km_512x512.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_512x512/tc_4km_512x512.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_800x800/tc_2km_800x800.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_800x800/tc_4km_800x800.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_huge/tc_0p1km_3200x3200.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_huge/tc_1km_2500x2500.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_huge/tc_1km_3200x3200.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_2km_template.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_ascat_high_barbs_template.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_ascatuhr_barbs_template.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_halfkm_template.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_qkm_template.yaml
+  modified: geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_2km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_2km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_4km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_256x256/tc_4km_256x256.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_2km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_4km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_2km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_4km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_0p1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_2500x2500.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_2km_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascat_high_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascatuhr_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_halfkm_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_qkm_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_template.yaml
+
+Move sector_loaders.dynamic to sector_spec_generators
+-----------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#195: 2023-04-26, sector_spec/metadata_generators*
+
+This interface is populating the "spec" portion of a geoips sector object -
+a GeoIPS "sector" object requires both "spec" (location information) and
+"metadata" (information about the dynamic event driving processing,
+ie, tc, volcano, etc)
+
+These were originally called "area_def_generators", but we moved to
+sector_loaders.dynamic originally to generalize for multiple use cases.
+We since determined they really are generating area definitions, but
+should be generalized to "sector_spec_generators" in case we ever
+implement a non-area_def based back end.
+
+The YAML TC template plugins ARE currently used, so updated accordingly
+* area_def_generator -> sector_spec_generator
+* clat_clon_resolution_shape -> center_coordinates
+
+::
+
+  modified: sector_utils/tc_tracks.py
+  modified: sector_utils/utils.py
+  renamed: geoips/plugins/modules/sector_loaders/dynamic/__init__.py -> geoips/plugins/modules/sector_spec_generators/__init__.py
+  renamed: geoips/plugins/modules/sector_loaders/dynamic/clat_clon_resolution_shape.py -> geoips/plugins/modules/sector_spec_generators/clat_clon_resolution_shape.py
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_2km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_2km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_4km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_256x256/tc_4km_256x256.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_2km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_4km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_2km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_4km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_0p1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_2500x2500.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_2km_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascat_high_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascatuhr_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_halfkm_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_qkm_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_template.yaml
+
+Move sector_loaders.trackfiles to sector_metadata_generators
+------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#195: 2023-04-26, sector_spec/metadata_generators*
+
+This interface is populating the "metadata" portion of a geoips sector object -
+a GeoIPS "sector" object requires both "spec" (location information) and
+"metadata" (information about the dynamic event driving processing,
+ie, tc, volcano, etc)
+
+These plugins were originally classified under "trackfile_parsers", since
+the existing examples are exclusively parsing TC trackfiles (deck files, and
+TC-specific flat "sectorfiles"). We originally generalized to place under
+sector_loaders/trackfiles, but that was not an entirely accurate classification
+since these plugins are ONLY populating the metadata portion of the GeoIPS
+sector object, so are not actually "loading" a sector.
+
+Landed on sector_metadata_generators, because these plugins are exclusively
+generating the metadata dictionaries for different dynamic sectors.
+
+NOTE: I did NOT change the command line argument for "trackfile_parser",
+because that is specifically being used to identify the
+sector_metadata_generator to use with the "trackfiles" argument that is
+also passed command line.  We will revisit the command line arguments at
+a later date.
+
+Note this PR is only updating the location of the module-based plugins, and
+updating the code accordingly.  YAML plugins and schema will be updated in
+a separate PR.
+
+::
+
+  modified: geoips/commandline/args.py
+  modified: geoips/sector_utils/tc_tracks.py
+  modified: geoips/sector_utils/utils.py
+  renamed: geoips/plugins/modules/sector_loaders/trackfiles/__init__.py -> geoips/plugins/modules/sector_metadata_generators/__init__.py
+  renamed: geoips/plugins/modules/sector_loaders/trackfiles/bdeck_parser.py -> geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+  renamed: geoips/plugins/modules/sector_loaders/trackfiles/flat_sectorfile_parser.py -> geoips/plugins/modules/sector_metadata_generators/flat_sectorfile_parser.py

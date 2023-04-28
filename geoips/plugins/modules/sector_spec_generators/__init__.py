@@ -10,4 +10,4 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Geoips sector_loaders.dynamic init file."""
+"""Geoips sector_spec_generators init file."""

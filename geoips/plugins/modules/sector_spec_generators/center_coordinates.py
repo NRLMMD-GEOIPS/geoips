@@ -10,10 +10,15 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Utility for generating standard pyresample area definitions.
+"""Generate standard pyresample area definitions given center coordinates.
 
-Uses clat, clon, projection, and area_extent.
+Given desired center lat/lon, projection, resolution, and shape, return a
+valid pyresample area definition object.
 """
+
+interface = "sector_spec_generators"
+family = "area_definition"
+name = "center_coordinates"
 
 
 def set_clat_clon_proj_info(
@@ -38,7 +43,7 @@ def set_clat_clon_proj_info(
     return proj4_dict, area_extent
 
 
-def clat_clon_resolution_shape(
+def call(
     area_id,
     long_description,
     clat,
