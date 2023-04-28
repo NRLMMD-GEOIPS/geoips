@@ -121,39 +121,6 @@ def get_validators(schema_dict, validator_class):
     return validators
 
 
-# schemas = get_schemas()
-# validators = get_validators(schemas)
-
-
-# def merge_product_defaults(plugin_yaml):
-#     for product in plugin_yaml["products"]:
-
-
-# def validate(plugin):
-#     """Validate the a YAML-based plugin."""
-#
-#     # Validate against the base schema
-#     # This ensures that "interface" and "family" are set correctly before trying to use
-#     # them
-#     validators["bases.top"].validate(plugin)
-#
-#     # Build the name of the schema to validate against
-#     interface = plugin["interface"]
-#     family = plugin["family"]
-#     print(f"Checking validator {interface}.{family}")
-#     validator_name = f"{interface}.{family}"
-#     if validator_name not in validators:
-#         raise ValidationError(
-#             f"No validator found for the '{family}' family "
-#             f"in the '{interface}' interface."
-#         )
-#     print(f"Using validator {validator_name}")
-#     validator = validators[validator_name]
-#     validator.validate(plugin)
-#
-#     return plugin
-
-
 class PluginValidator:
     _schema_path = SCHEMA_PATH
     _validator = getattr(jsonschema, f"Draft{JSONSCHEMA_DRAFT}Validator")
