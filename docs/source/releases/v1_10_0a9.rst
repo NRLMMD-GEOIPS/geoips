@@ -82,6 +82,26 @@ now to ensure tests will pass.
   modified: geoips/yaml_configs/sectors_dynamic/tc_web_halfkm_template.yaml
   modified: geoips/yaml_configs/sectors_dynamic/tc_web_qkm_template.yaml
   modified: geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_2km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_2km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_4km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_256x256/tc_4km_256x256.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_2km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_4km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_2km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_4km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_0p1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_2500x2500.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_2km_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascat_high_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascatuhr_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_halfkm_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_qkm_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_template.yaml
 
 Move sector_loaders.dynamic to sector_spec_generators
 -----------------------------------------------------
@@ -99,8 +119,9 @@ We since determined they really are generating area definitions, but
 should be generalized to "sector_spec_generators" in case we ever
 implement a non-area_def based back end.
 
-Note I did not update all of the YAML plugins - they will be updated in
-a later PR.
+The YAML TC template plugins ARE currently used, so updated accordingly
+* area_def_generator -> sector_spec_generator
+* clat_clon_resolution_shape -> center_coordinates
 
 ::
 
@@ -108,6 +129,26 @@ a later PR.
   modified: sector_utils/utils.py
   renamed: geoips/plugins/modules/sector_loaders/dynamic/__init__.py -> geoips/plugins/modules/sector_spec_generators/__init__.py
   renamed: geoips/plugins/modules/sector_loaders/dynamic/clat_clon_resolution_shape.py -> geoips/plugins/modules/sector_spec_generators/clat_clon_resolution_shape.py
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_2km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_2km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_4km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_256x256/tc_4km_256x256.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_2km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_4km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_2km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_4km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_0p1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_2500x2500.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_2km_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascat_high_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascatuhr_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_halfkm_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_qkm_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_template.yaml
 
 Move sector_loaders.trackfiles to sector_metadata_generators
 ------------------------------------------------------------
