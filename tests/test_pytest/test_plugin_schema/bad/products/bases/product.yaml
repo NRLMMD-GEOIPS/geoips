@@ -40,7 +40,7 @@ spec:
 
 ---
 error: ValidationError
-error_pattern: ".*Unevaluated properties are not allowed .*family.* was unexpected.*"
+error_pattern: ".*is not valid under any of the given schemas.*"
 name: infrared
 family: interpolator_algorithm_colormap
 spec:
