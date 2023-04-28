@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Passive Microwave 89 MHz Polarization Corrected Temperature.
+"""Passive Microwave 89 GHz Polarization Corrected Temperature.
 
 Data manipulation steps for the "89pct" product.
 This algorithm expects Brightness Temperatures in units of degrees Kelvin
