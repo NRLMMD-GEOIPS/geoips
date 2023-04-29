@@ -43,6 +43,23 @@ Remove support for deprecated interfaces in test_interfaces.py.
 Breaking Changes
 ================
 
+Update entry point names throughout code
+----------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#193: 2023-04-27, module-based plugin updates*
+
+All product_params updated accordingly:
+
+* geoips/yaml_configs/product_params/*
+
+Some hard coded instances:
+
+pyresample_wrappers.interp_ -> interp_
+
+::
+  modified:   geoips/plugins/modules/coverage_checkers/windbarbs.py
+
+
 Update single_source to use func.call vs func
 ---------------------------------------------
 

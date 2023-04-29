@@ -63,7 +63,7 @@ def call(
 
     from geoips.interfaces import interpolators
 
-    interp_plugin = interpolators.get_plugin("pyresample_wrappers.interp_nearest")
+    interp_plugin = interpolators.get_plugin("interp_nearest")
     output_xarray = interp_plugin(
         area_def, xarray_obj, None, [varname_for_covg], array_num=0
     )
