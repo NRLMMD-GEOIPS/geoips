@@ -1,5 +1,5 @@
 interface: sectors
-family: spec_generator
+family: generated
 name: tc_web_2km_template
 docstring: |
   The tc_web_2km_template boundaries configuration.
