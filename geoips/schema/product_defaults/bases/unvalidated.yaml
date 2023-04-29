@@ -1,0 +1,8 @@
+$id: product_defaults.bases.unvalidated
+type: object
+required:
+  - spec
+properties:
+  spec:
+    type: object
+    unevaluatedProperties: true # Family/schema specifies order of ops but not format

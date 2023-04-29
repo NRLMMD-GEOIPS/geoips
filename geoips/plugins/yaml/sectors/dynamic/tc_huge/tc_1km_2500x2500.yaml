@@ -1,15 +1,20 @@
-interface: "sectors_dynamic"
-metadata:
-  name: "tc_1km_2500x2500"
-  family: "standard"
-  short-description: "The tc_1km_2500x2500 boundaries configuration"
-  long-description: "Using pixel_width: 1000, pixel_height: 1000, num_lines: 2500, num_samples: 2500."
+interface: sectors
+family: generated
+name: tc_1km_2500x2500
+docstring: |
+  The tc_1km_2500x2500 boundaries configuration.
+
+  Using pixel_width: 1000, pixel_height: 1000, num_lines: 2500, num_samples: 2500.
 spec:
-  area_def_generator:
-    name: clat_clon_resolution_shape
-    arguments:
-      projection: eqc
-      pixel_width: 1000
-      pixel_height: 1000
-      num_lines: 2500
-      num_samples: 2500
+  generators:
+    metadata:
+      name: tc
+      arguments: {}
+    spec:
+      name: clat_clon_resolution_shape
+      arguments:
+        projection: eqc
+        pixel_width: 1000
+        pixel_height: 1000
+        num_lines: 2500
+        num_samples: 2500

@@ -1,0 +1,4 @@
+$id: bases.valid_identifier
+type: string
+description: "A valid Python identifier"
+# pattern: "^(?!.*(\\b|_)(?:class|def|if|else|elif|while|for|try|except|finally|with|import|from|as|global|nonlocal|lambda|and|or|not|in|is|assert|True|False|None)\\b)[a-zA-Z_][a-zA-Z0-9_]*$"

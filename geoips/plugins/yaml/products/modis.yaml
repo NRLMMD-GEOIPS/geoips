@@ -1,26 +1,60 @@
-interface: product_inputs
-metadata:
-  name: modis
-  family: standard
-  short-description: "The modis product_inputs configuration"
-  long-description:
-    "The modis product_inputs configuration, which produces Infrared, Vertical Velocity, and Visible products."
+interface: products
+family: list
+name: modis
+docstring: |
+  The modis product_inputs configuration, which produces Infrared, Vertical Velocity, and Visible products.
 spec:
   products:
     - name: Infrared
-      variables: ['chan31.0BT']
+      docstring: |
+        The Infrared product_defaults configuration for modis products.
+      product_defaults: Infrared
+      spec:
+        source_name: modis
+        variables: ["chan31.0BT"]
     - name: Infrared-Gray
-      variables: ['chan31.0BT']
+      docstring: |
+        The Infrared-Gray product_defaults configuration for modis products.
+      product_defaults: Infrared-Gray
+      spec:
+        source_name: modis
+        variables: ["chan31.0BT"]
     - name: IR-BD
-      variables: ['chan31.0BT']
+      docstring: |
+        The IR-BD product_defaults configuration for modis products.
+      product_defaults: IR-BD
+      spec:
+        source_name: modis
+        variables: ["chan31.0BT"]
     - name: WV
-      variables: ['chan27.0BT']  # B09 abi, 6.9um Mid-level WV; B09 ahi 6.9410 Mid-level WV; B27 modis 6.535-6.895um
+      docstring: |
+        The WV product_defaults configuration for modis products.
+      product_defaults: WV
+      spec:
+        source_name: modis
+        variables: ["chan27.0BT"] # B09 abi, 6.9um Mid-level WV; B09 ahi 6.9410 Mid-level WV; B27 modis 6.535-6.895um
     - name: WV-Lower
-      variables: ['chan28.0BT']  # B10 abi, 7.3um Lower-level WV; B10 ahi 7.3467um Lower-level WV; B28 modis, B06 seviri IR7.3
+      docstring: |
+        The WV-Lower product_defaults configuration for modis products.
+      product_defaults: WV-Lower
+      spec:
+        source_name: modis
+        variables: ["chan28.0BT"] # B10 abi, 7.3um Lower-level WV; B10 ahi 7.3467um Lower-level WV; B28 modis, B06 seviri IR7.3
     - name: Visible
-      variables: ['chan1.0Ref', 'SunZenith']  # chan-1 is MODIS high res vis at 250m
-      cmap_args: 
-        cbar_label: "Reflectance, MODIS Channel 1 0.645um"
-      alg_args:
-        gamma_list: []      # This replaces the default value found in product_params/Visible.yaml
-        scale_factor: 1.0   # This replaces the default value found in product_params/Visible.yaml
+      docstring: |
+        The Visible product_defaults configuration for modis products.
+      product_defaults: Visible
+      spec:
+        source_name: modis
+        variables: ["chan1.0Ref", "SunZenith"] # chan-1 is MODIS high res vis at 250m
+        colormap:
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              colorbar_label: "Reflectance, MODIS Channel 1 0.645um"
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              gamma_list: [] # This replaces the default value found in product_params/Visible.yaml
+              scale_factor: 1.0 # This replaces the default value found in product_params/Visible.yaml

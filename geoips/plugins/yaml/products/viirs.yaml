@@ -1,26 +1,68 @@
-interface: product_inputs
-metadata:
-  name: viirs
-  family: standard
-  short-description: "The viirs product_inputs configuration"
-  long-description: "The viirs product_inputs configuration, which produces Infrared, Night-vis, and Visible products."
+interface: products
+family: list
+name: viirs
+docstring: |
+  The viirs product_inputs configuration, which produces Infrared, Night-vis, and Visible products.
 spec:
   products:
     - name: Infrared
-      variables: ["I05BT"]
+      docstring: |
+        The Infrared product_defaults configuration for viirs products.
+      product_defaults: Infrared
+      spec:
+        source_name: viirs
+        variables: ["I05BT"]
     - name: Infrared-Gray
-      variables: ["I05BT"]
+      docstring: |
+        The Infrared-Gray product_defaults configuration for viirs products.
+      product_defaults: Infrared-Gray
+      spec:
+        source_name: viirs
+        variables: ["I05BT"]
     - name: IR-BD
-      variables: ["I05BT"]
+      docstring: |
+        The IR-BD product_defaults configuration for viirs products.
+      product_defaults: IR-BD
+      spec:
+        source_name: viirs
+        variables: ["I05BT"]
     - name: Night-Vis
-      variables: ["DNBRad", "DNB:SunZenith"]
+      docstring: |
+        The Night-Vis product_defaults configuration for viirs products.
+      product_defaults: Night-Vis
+      spec:
+        source_name: viirs
+        variables: ["DNBRad", "DNB:SunZenith"]
     - name: Night-Vis-GeoIPS1
-      variables: ["DNBRad", "DNB:SunZenith"]
+      docstring: |
+        The Night-Vis-GeoIPS1 product_defaults configuration for viirs products.
+      product_defaults: Night-Vis-GeoIPS1
+      spec:
+        source_name: viirs
+        variables: ["DNBRad", "DNB:SunZenith"]
     - name: Night-Vis-IR
-      variables: ["DNBRad", "M16BT"]
+      docstring: |
+        The Night-Vis-IR product_defaults configuration for viirs products.
+      product_defaults: Night-Vis-IR
+      spec:
+        source_name: viirs
+        variables: ["DNBRad", "M16BT"]
     - name: Night-Vis-IR-GeoIPS1
-      variables: ["DNBRad", "M16BT", "DNB:SunZenith"]
+      docstring: |
+        The Night-Vis-IR-GeoIPS1 product_defaults configuration for viirs products.
+      product_defaults: Night-Vis-IR-GeoIPS1
+      spec:
+        source_name: viirs
+        variables: ["DNBRad", "M16BT", "DNB:SunZenith"]
     - name: Visible
-      variables: ["M05Ref"] # Ocean Color Aerosol: VIIRS M05 0.673um
-      cmap_args: # This replaces the version found in product_params/visir/Visible.yaml
-        cbar_label: "Reflectance, VIIRS M05 0.673um Band"
+      docstring: |
+        The Visible product_defaults configuration for viirs products.
+      product_defaults: Visible
+      spec:
+        source_name: viirs
+        variables: ["M05Ref"] # Ocean Color Aerosol: VIIRS M05 0.673um
+        colormap: # This replaces the version found in product_params/visir/Visible.yaml
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              colorbar_label: "Reflectance, VIIRS M05 0.673um Band"

@@ -1,28 +1,32 @@
-interface: product_templates
-metadata:
-  name: Night-Vis
-  family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: Night-Vis
+docstring: |
+  The Night-Vis product_defaults configuration.
 spec:
   algorithm:
-    name: visir.Night_Vis
-    arguments:
-      output_data_range: [0, 100]
-      input_units: radiance
-      output_units: radiance
-      min_outbounds: mask
-      max_outbounds: crop
-      scale_factor: 100
-      gamma_list: [1.0]
-      max_night_zen: 90
-      inverse: false
-      norm: false
+    plugin:
+      name: visir.Night_Vis
+      arguments:
+        output_data_range: [0, 100]
+        input_units: radiance
+        output_units: radiance
+        min_outbounds: mask
+        max_outbounds: crop
+        scale_factor: 100
+        gamma_list: [1.0]
+        max_night_zen: 90
+        inverse: false
+        norm: false
   mtif_type: vis
   colormap:
-    name: matplotlib_linear_norm
-    arguments:
-      data_range: [0, 100]
-      cmap_name: Greys_r
-      cbar_label: Normalized Radiance
-  interpolation:
-    name: pyresample_wrappers.interp_nearest
-    arguments: {}
+    plugin:
+      name: matplotlib_linear_norm
+      arguments:
+        data_range: [0, 100]
+        colormap_name: Greys_r
+        colorbar_label: Normalized Radiance
+  interpolator:
+    plugin:
+      name: pyresample_wrappers.interp_nearest
+      arguments: {}

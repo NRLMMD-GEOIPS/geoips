@@ -1,0 +1,18 @@
+$id: product_defaults.bases.algorithm
+title: "Algorithm"
+type: object
+unevaluatedProperties: false
+required:
+  - plugin
+properties:
+  plugin:
+    type: object
+    required:
+      - name
+      - arguments
+    properties:
+      name:
+        type: string
+      arguments:
+        type: object
+        unevaluatedProperties: true

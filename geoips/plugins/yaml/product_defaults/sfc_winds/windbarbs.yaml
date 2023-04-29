@@ -1,23 +1,27 @@
-interface: product_templates
-metadata:
-  name: windbarbs
-  family: alg_cmap
+interface: product_defaults
+family: algorithm_colormap
+name: windbarbs
+docstring: |
+  The windbarbs product_defaults configuration.
 spec:
   algorithm:
-    name: sfc_winds.windbarbs
-    arguments:
-      output_data_range: [0, 200]
-      input_units: kts
-      output_units: kts
-      min_outbounds: crop
-      max_outbounds: crop
-      norm: null
-      inverse: null
+    plugin:
+      name: sfc_winds.windbarbs
+      arguments:
+        output_data_range: [0, 200]
+        input_units: kts
+        output_units: kts
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
   mtif_type: image
   colormap:
-    name: winds.wind_radii_transitions
-    arguments:
-      data_range: [0, 200]
-  coverage:
-    name: windbarbs
-    arguments: {}
+    plugin:
+      name: winds.wind_radii_transitions
+      arguments:
+        data_range: [0, 200]
+  coverage_checker:
+    plugin:
+      name: windbarbs
+      arguments: {}

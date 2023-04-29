@@ -1,0 +1,3 @@
+$id: bases.family
+description: "The family that the plugin belongs to within its interface"
+$ref: bases.valid_identifier

@@ -10,82 +10,118 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.10.0a8 (2023-04-27)
+Version 1.10.0a8 (2023-04-28)
 *****************************
 
-* Finalize attributes on all Python module-based plugins
+* Finalize YAML plugin schema and unit tests
 
-  * interface
-  * family
-  * name
-  * module-level docstring
-* Replace "description" attribute with "docstring" in BaseInterface.
-* Allow a list of interfaces to test via command line
-* Remove support for testing deprecated interfaces
+  * Finalize all interface schema
+  * Add good tests for all interfaces
+  * Add bad tests for all interfaces
 
 Enhancements
 ============
 
-Allow a list of interfaces to test_interfaces, remove deprecated support
-------------------------------------------------------------------------
+Finalize YAML plugin schema and unit tests
+------------------------------------------
 
-Update test_interfaces to allow a list of interfaces to test,
-passed in via command line.
+*From issue GEOIPS/geoips#190: 2023-04-26, Finalize YAML plugin schema and unit tests*
 
-Remove support for deprecated interfaces in test_interfaces.py.
-
-::
-
-  modified:   geoips/commandline/test_interfaces.py
-
-Breaking Changes
-================
-
-Replace "description" attribute with "docstring" in BaseInterface
------------------------------------------------------------------
-
-*From NRLMMD-GEOIPS/geoips#193: 2023-04-27, finalize module plugin attributes*
-
-Update the BaseInterface to require module-level docstring (since
-numpy-docstring formatting is already enforced, all Python plugins
-will already have a module-level docstring defined, so we do not
-have to support deprecated formatting).
-
-Set the explicit "docstring" attribute on the plugin, in addition to __doc__.
-
-Remove the "description" attribute from the module-based plugins.
+* Reorganized plugin schema
+* Finalized schema format
+* Added appropriate tests for all schema
 
 ::
-
-  modified:   geoips/interfaces/base.py
-
-Update all python module-based plugins to use finalized attributes
-------------------------------------------------------------------
-
-*From NRLMMD-GEOIPS/geoips#193: 2023-04-27, finalize module plugin attributes*
-
-Remove <interface>_type attribute, and added
-
-* interface
-* family
-* name
-
-Also ensure module-level docstrings are nominally correct.
-
-Must update all entry points in pyproject.toml to point to the module rather
-than the function name (since all plugins consistently name the callable
-function "call")
-
-::
-
-  modified: pyproject.toml
-  modified: geoips/plugins/modules/algorithms/*
-  modified: geoips/plugins/modules/colormaps/*
-  modified: geoips/plugins/modules/coverage_checkers/*
-  modified: geoips/plugins/modules/filename_formatters/*
-  modified: geoips/plugins/modules/interpolators/*
-  modified: geoips/plugins/modules/output_formatters/*
-  modified: geoips/plugins/modules/procflows/*
-  modified: geoips/plugins/modules/readers/*
-  modified: geoips/plugins/modules/sector_loaders/*
-  modified: geoips/plugins/modules/title_formatters/*
+    added: geoips/schema/bases/docstring.yaml
+    added: geoips/schema/bases/family.yaml
+    added: geoips/schema/bases/interface.yaml
+    added: geoips/schema/bases/name.yaml
+    added: geoips/schema/bases/product_defaults.yaml
+    added: geoips/schema/bases/top.yaml
+    added: geoips/schema/bases/unvalidated.yaml
+    added: geoips/schema/bases/valid_identifier.yaml
+    added: geoips/schema/feature_annotators/cartopy.yaml
+    added: geoips/schema/gridline_annotators/cartopy.yaml
+    added: geoips/schema/product_defaults/algorithm_colormap.yaml
+    added: geoips/schema/product_defaults/algorithm_interpolator_colormap.yaml
+    added: geoips/schema/product_defaults/bases/algorithm.yaml
+    added: geoips/schema/product_defaults/bases/colormap.yaml
+    added: geoips/schema/product_defaults/bases/coverage_checker.yaml
+    added: geoips/schema/product_defaults/bases/interpolator.yaml
+    added: geoips/schema/product_defaults/bases/unvalidated.yaml
+    added: geoips/schema/product_defaults/bases/windbarb_plotters.yaml
+    added: geoips/schema/product_defaults/interpolator_algorithm.yaml
+    added: geoips/schema/product_defaults/interpolator_algorithm_colormap.yaml
+    added: geoips/schema/product_defaults/specs/algorithm_colormap.yaml
+    added: geoips/schema/product_defaults/specs/algorithm_interpolator_colormap.yaml
+    added: geoips/schema/product_defaults/specs/interpolator_algorithm.yaml
+    added: geoips/schema/product_defaults/specs/interpolator_algorithm_colormap.yaml
+    added: geoips/schema/product_defaults/unmodified.yaml
+    added: geoips/schema/product_defaults/unsectored_xarray_dict_area_to_output_format.yaml
+    added: geoips/schema/product_defaults/unsectored_xarray_dict_to_output_format.yaml
+    added: geoips/schema/product_defaults/xarray_dict_to_output_format.yaml
+    added: geoips/schema/products/bases/product.yaml
+    added: geoips/schema/products/list.yaml
+    added: geoips/schema/products/single.yaml
+    added: geoips/schema/sectors/area_definition.yaml
+    added: geoips/schema/sectors/generated.yaml
+    added: tests/test_pytest/test_all_yaml_plugins.py
+    added: tests/test_pytest/test_plugin_schema/bad/bases/docstring.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/bases/valid_identifier.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/feature_annotators/cartopy.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/gridline_annotators/cartopy.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/product_defaults/algorithm_colormap.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/product_defaults/algorithm_interpolator_colormap.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/product_defaults/bases/algorithm.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/product_defaults/bases/colormap.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/product_defaults/bases/coverage_checker.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/product_defaults/bases/interpolator.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/product_defaults/interpolator_algorithm.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/product_defaults/interpolator_algorithm_colormap.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/products/bases/product.yaml
+    added: tests/test_pytest/test_plugin_schema/bad/products/single.yaml
+    added: tests/test_pytest/test_plugin_schema/good/bases/valid_identifier.yaml
+    added: tests/test_pytest/test_plugin_schema/good/feature_annotators/cartopy.yaml
+    added: tests/test_pytest/test_plugin_schema/good/gridline_annotators/cartopy.yaml
+    added: tests/test_pytest/test_plugin_schema/good/product_defaults/algorithm_colormap.yaml
+    added: tests/test_pytest/test_plugin_schema/good/product_defaults/algorithm_interpolator_colormap.yaml
+    added: tests/test_pytest/test_plugin_schema/good/product_defaults/bases/algorithm.yaml
+    added: tests/test_pytest/test_plugin_schema/good/product_defaults/bases/colormap.yaml
+    added: tests/test_pytest/test_plugin_schema/good/product_defaults/bases/coverage_checker.yaml
+    added: tests/test_pytest/test_plugin_schema/good/product_defaults/bases/interpolator.yaml
+    added: tests/test_pytest/test_plugin_schema/good/product_defaults/interpolator_algorithm.yaml
+    added: tests/test_pytest/test_plugin_schema/good/product_defaults/interpolator_algorithm_colormap.yaml
+    added: tests/test_pytest/test_plugin_schema/good/products/bases/product.yaml
+    added: tests/test_pytest/test_plugin_schema/good/products/single.yaml
+    added: tests/test_pytest/test_plugin_schema/test_yaml_schema.py
+    deleted: geoips/schema/base.yaml
+    deleted: geoips/schema/boundaries.yaml
+    deleted: geoips/schema/gridlines.yaml
+    deleted: geoips/schema/product_inputs.yaml
+    deleted: geoips/schema/product_templates/alg.yaml
+    deleted: geoips/schema/product_templates/alg_cmap.yaml
+    deleted: geoips/schema/product_templates/alg_interp_cmap.yaml
+    deleted: geoips/schema/product_templates/interp.yaml
+    deleted: geoips/schema/product_templates/interp_alg.yaml
+    deleted: geoips/schema/product_templates/interp_alg_cmap.yaml
+    deleted: geoips/schema/product_templates/sectored_xarray_dict_to_output_format.yaml
+    deleted: geoips/schema/product_templates/unmodified.yaml
+    deleted: geoips/schema/product_templates/unsectored_xarray_dict_area_to_output_format.yaml
+    deleted: geoips/schema/product_templates/unsectored_xarray_dict_to_output_format.yaml
+    deleted: geoips/schema/product_templates/xarray_dict_to_output_format.yaml
+    deleted: geoips/schema/sectors_dynamic.yaml
+    deleted: tests/test_pytest/bad_plugins/gridlines/bad_tc_windspeed_added_fields.yaml
+    deleted: tests/test_pytest/bad_plugins/gridlines/bad_tc_windspeed_metadata_missing.yaml
+    deleted: tests/test_pytest/bad_plugins/gridlines/bad_tc_windspeed_metadata_types.yaml
+    deleted: tests/test_pytest/bad_plugins/gridlines/bad_tc_windspeed_spec_types.yaml
+    deleted: tests/test_pytest/bad_plugins/gridlines/bad_tc_windspeed_wrong_fields.yaml
+    deleted: tests/test_pytest/bad_plugins/product_templates/bad_150H_added_fields.yaml
+    deleted: tests/test_pytest/bad_plugins/product_templates/bad_150H_metadata_missing.yaml
+    deleted: tests/test_pytest/bad_plugins/product_templates/bad_150H_metadata_types.yaml
+    deleted: tests/test_pytest/bad_plugins/product_templates/bad_150H_spec_types.yaml
+    deleted: tests/test_pytest/bad_plugins/product_templates/bad_150H_wrong_fields.yaml
+    deleted: tests/test_pytest/test_yaml_plugins.py
+    modified: CHANGELOG.rst
+    modified: geoips/schema/__init__.py
+    modified: geoips/schema/plugin_validator.py
+    modified: pyproject.toml

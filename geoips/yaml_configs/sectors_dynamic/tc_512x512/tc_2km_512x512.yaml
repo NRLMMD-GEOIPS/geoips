@@ -1,4 +1,4 @@
-area_def_generator_func: clat_clon_resolution_shape
+area_def_generator_func: center_coordinates
 area_def_generator_args:
   area_id: <template>
   long_description: <template>

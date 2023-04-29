@@ -398,11 +398,11 @@ def pad_area_definition(
             clat = area_def.proj_dict["lat_0"]
             clon = area_def.proj_dict["lon_0"]
 
-        from geoips.plugins.modules.sector_loaders.dynamic.clat_clon_resolution_shape import (
-            clat_clon_resolution_shape,
+        from geoips.plugins.modules.sector_spec_generators.center_coordinates import (
+            call,
         )
 
-        pad_area_def = clat_clon_resolution_shape(
+        pad_area_def = call(
             area_id=area_def.area_id,
             long_description=area_def.description,
             clat=clat,

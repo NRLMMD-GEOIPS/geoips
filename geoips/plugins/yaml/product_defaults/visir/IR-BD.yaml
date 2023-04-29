@@ -1,23 +1,27 @@
-interface: product_templates
-metadata:
-  name: IR-BD
-  family: interp_alg_cmap
+interface: product_defaults
+family: interpolator_algorithm_colormap
+name: IR-BD
+docstring: |
+  The IR-BD product_defaults configuration.
 spec:
   algorithm:
-    name: single_channel
-    arguments:
-      range: [-90.0, 40.0]
-      input_units: Kelvin
-      output_units: celsius
-      min_outbounds: crop
-      max_outbounds: crop
-      norm: null
-      inverse: null
+    plugin:
+      name: single_channel
+      arguments:
+        range: [-90.0, 40.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
   mtif_type: ir
   colormap:
-    name: visir.IR_BD
-    arguments:
-      data_range: [-90.0, 40.0]
-  interpolation:
-    name: pyresample_wrappers.interp_nearest
-    arguments: {}
+    plugin:
+      name: visir.IR_BD
+      arguments:
+        data_range: [-90.0, 40.0]
+  interpolator:
+    plugin:
+      name: pyresample_wrappers.interp_nearest
+      arguments: {}

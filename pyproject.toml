@@ -40,7 +40,6 @@ classifiers = [
 ]
 dynamic = ["version"]
 dependencies = [
-    "jsonschema",  # Provides validation for YAML plugins
     "pyresample",  # Base requirement - efficiency improvements >= 1.22.3
     "numpy",  # Base requirement
     "xarray",  # Base requirement
@@ -66,6 +65,8 @@ dependencies = [
     "satpy",  # efficiency improvements >= 0.33.1
     "numexpr",  # for efficiency improvements
     "scikit-image",  # Radius based center coverage checks
+    "jsonschema>=4.18.0a5",  # Provides validation for YAML plugins
+    "referencing"
 ]
 
 [project.optional-dependencies]
@@ -162,12 +163,14 @@ pmw_color89 = "geoips.plugins.modules.algorithms.pmw_tb.pmw_color89"
 single_source = "geoips.plugins.modules.procflows.single_source:single_source"
 config_based = "geoips.plugins.modules.procflows.config_based:config_based"
 
-[project.entry-points."geoips.sector_loaders.trackfiles"]
-flat_sectorfile_parser = "geoips.plugins.modules.sector_loaders.trackfiles.flat_sectorfile_parser:flat_sectorfile_parser"
-bdeck_parser = "geoips.plugins.modules.sector_loaders.trackfiles.bdeck_parser:bdeck_parser"
+# sed -i "s,flat_sectorfile_parser,tc_sector_file_parser,g" plugins/yaml/product*/*
+[project.entry-points."geoips.sector_metadata_generators"]
+tc_sector_file_parser = "geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser"
+bdeck_parser = "geoips.plugins.modules.sector_metadata_generators.bdeck_parser"
 
-[project.entry-points."geoips.sector_loaders.dynamic"]
-clat_clon_resolution_shape = "geoips.plugins.modules.sector_loaders.dynamic.clat_clon_resolution_shape:clat_clon_resolution_shape"
+# sed -i "s,clat_clon_resolution_shape,center_coordinates,g" plugins/yaml/product*/*
+[project.entry-points."geoips.sector_spec_generators"]
+center_coordinates = "geoips.plugins.modules.sector_spec_generators.center_coordinates"
 
 [project.entry-points."geoips.interpolators"]
 "pyresample_wrappers.interp_nearest" = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_nearest:interp_nearest"

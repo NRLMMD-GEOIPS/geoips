@@ -1,37 +1,78 @@
-interface: product_inputs
-metadata:
-  name: ascatuhr
-  family: standard
-  short-description: "The ascatuhr product_inputs configuration"
-  long-description:
-    "The ascatuhr product_inputs configuration, which produces Windspeed products, Windbarbs products, Wind-ambiguity products, Unsectored/Sectored products, Sigma0 products, and NRCS products"
+interface: products
+family: list
+name: ascatuhr
+docstring: |
+  The ascatuhr product_inputs configuration, which produces Windspeed products, Windbarbs products, 
+  Wind-ambiguity products, Unsectored/Sectored products, Sigma0 products, and NRCS products
 spec:
   products:
     - name: windspeed
-      variables: ['wind_speed_kts']
+      docstring: |
+        The windspeed product_defaults for ascatuhr product.
+      product_defaults: windspeed
+      spec:
+        source_name: ascatuhr
+        variables: ["wind_speed_kts"]
     - name: windbarbs
-      variables: ['wind_speed_kts', 'wind_dir_deg_met']
+      docstring: |
+        The windbarbs product_defaults for ascatuhr product.
+      product_defaults: windbarbs
+      spec:
+        source_name: ascatuhr
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: wind-ambiguities
-      variables: ['wind_speed_ambiguities_kts', 'wind_dir_ambiguities_deg_met']
+      docstring: |
+        The wind-ambiguities product_defaults for ascatuhr product.
+      product_defaults: wind-ambiguities
+      spec:
+        source_name: ascatuhr
+        variables:
+          ["wind_speed_ambiguities_kts", "wind_dir_ambiguities_deg_met"]
     - name: unsectored
-      variables: ['wind_speed_kts', 'wind_dir_deg_met']
+      docstring: |
+        The unsectored product_defaults for ascatuhr product.
+      product_defaults: unsectored
+      spec:
+        source_name: ascatuhr
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: sectored
-      variables: ['wind_speed_kts', 'wind_dir_deg_met']
+      docstring: |
+        The sectored product_defaults for ascatuhr product.
+      product_defaults: sectored
+      spec:
+        source_name: ascatuhr
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: sigma0
-      variables: ['sigma0_mean']
+      docstring: |
+        The sigma0 product_defaults for ascatuhr product.
+      product_defaults: sigma0
+      spec:
+        source_name: ascatuhr
+        variables: ["sigma0_mean"]
     - name: nrcs
-      variables: ['sigma0_mean']
-      # variables: ['sig_fore']
-      # variables: ['sig_mid']
-      # variables: ['sig_aft']
-      alg_args: 
-        output_data_range: [-30, -1]
-        input_units: dB
-        output_units: dB
-        min_outbounds: crop
-        max_outbounds: crop
-        norm: null
-        inverse: null
-      cmap_args: 
-        data_range: [-30, -1]
-        cmap_name: Greys_r
+      docstring: |
+        The nrcs product_defaults for ascatuhr product.
+      product_defaults: nrcs
+      spec:
+        source_name: ascatuhr
+        variables: ["sigma0_mean"]
+        # variables: ['sig_fore']
+        # variables: ['sig_mid']
+        # variables: ['sig_aft']
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [-30, -1]
+              input_units: dB
+              output_units: dB
+              min_outbounds: crop
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        colormap_args:
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              data_range: [-30, -1]
+              colormap_name: Greys_r
