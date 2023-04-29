@@ -5,7 +5,7 @@ color89Nearest:
     mtif_type: rgb 
     cmap_func: cmap_rgb
     cmap_args: {}
-    interp_func: pyresample_wrappers.interp_nearest
+    interp_func: interp_nearest
     interp_args: {}
     covg_func: rgba
     covg_args: {}

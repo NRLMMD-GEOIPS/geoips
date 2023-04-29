@@ -13,5 +13,5 @@ WV-Upper:
     cmap_func: WV
     cmap_args: 
         data_range: [-70.0, 0.0]
-    interp_func: pyresample_wrappers.interp_nearest
+    interp_func: interp_nearest
     interp_args: {}

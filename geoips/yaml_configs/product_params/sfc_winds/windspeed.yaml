@@ -13,5 +13,5 @@ windspeed:
     cmap_func: winds.wind_radii_transitions
     cmap_args: 
         data_range: [0, 200]
-    interp_func: pyresample_wrappers.interp_nearest
+    interp_func: interp_nearest
     interp_args: {}

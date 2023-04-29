@@ -18,5 +18,5 @@ Night-Vis:
         data_range: [0, 100]
         cmap_name: Greys_r
         cbar_label: Normalized Radiance
-    interp_func: pyresample_wrappers.interp_nearest
+    interp_func: interp_nearest
     interp_args: {}

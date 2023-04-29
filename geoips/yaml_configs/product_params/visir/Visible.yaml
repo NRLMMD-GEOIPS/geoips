@@ -22,5 +22,5 @@ Visible:
         data_range: [0.0, 100.0]
         cmap_name: Greys_r
         cbar_label: Reflectance
-    interp_func: pyresample_wrappers.interp_nearest
+    interp_func: interp_nearest
     interp_args: {}

@@ -11,5 +11,5 @@ Night-Vis-GeoIPS1:
         data_range: [0.0, 1.0]  # Normalized algorithm
         cmap_name: Greys_r
         cbar_label: Normalized Radiance
-    interp_func: pyresample_wrappers.interp_nearest
+    interp_func: interp_nearest
     interp_args: {}

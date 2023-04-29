@@ -13,5 +13,5 @@ Infrared:
     cmap_func: Infrared
     cmap_args: 
         data_range: [-90.0, 30.0]
-    interp_func: pyresample_wrappers.interp_nearest
+    interp_func: interp_nearest
     interp_args: {}

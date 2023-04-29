@@ -11,6 +11,6 @@
     cmap_func: pmw_tb.cmap_89pct
     cmap_args: 
         data_range: [105, 280]
-    interp_func: pyresample_wrappers.interp_nearest
+    interp_func: interp_nearest
     interp_args: {}
 

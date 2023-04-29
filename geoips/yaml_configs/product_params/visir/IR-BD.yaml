@@ -13,5 +13,5 @@ IR-BD:
     cmap_func: IR_BD
     cmap_args: 
         data_range: [-90.0, 40.0]
-    interp_func: pyresample_wrappers.interp_nearest
+    interp_func: interp_nearest
     interp_args: {}
