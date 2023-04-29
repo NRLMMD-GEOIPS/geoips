@@ -43,8 +43,8 @@ Remove support for deprecated interfaces in test_interfaces.py.
 Breaking Changes
 ================
 
-Update entry point names throughout code
-----------------------------------------
+Update to shortened entry point names throughout code
+-----------------------------------------------------
 
 *From NRLMMD-GEOIPS/geoips#193: 2023-04-27, module-based plugin updates*
 
