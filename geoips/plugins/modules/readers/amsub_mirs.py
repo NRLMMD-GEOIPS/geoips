@@ -29,7 +29,7 @@ and and data structure from previous MSPPS.  Example of MIRIS files:
 
 AMSU-A channel information::
 
-    Chan# / Freq(GHz) / bands / Bandwidth(GHz) / Beamwidth(deg) / NE#T(K) /
+    Chan# / Freq(GHz) / bands / Bandwidth(MHz) / Beamwidth(deg) / NE#T(K) /
                                (Spec.) Polarization at nadir / Instrument Component
     1	23.800	1	270	3.3	0.30	V	A2
     2	31.400	1	180	3.3	0.30	V	A2
