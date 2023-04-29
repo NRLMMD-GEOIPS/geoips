@@ -52,6 +52,8 @@ New interfaces assume the callable within a plugin is always named "call", thus
 entry points can be simplified to point to the module vs the specific function
 within the module.
 
+Note: "name" within plugins MUST match the entry point names (first part of line).
+
 ::
 
   pyproject.toml
