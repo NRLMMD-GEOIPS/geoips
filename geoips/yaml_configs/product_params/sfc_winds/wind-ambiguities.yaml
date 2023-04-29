@@ -10,7 +10,7 @@ wind-ambiguities:
         norm: null
         inverse: null
     mtif_type: windspeed 
-    cmap_func: winds.wind_radii_transitions
+    cmap_func: wind_radii_transitions
     cmap_args: 
         data_range: [0, 200]
     covg_func: windbarbs
