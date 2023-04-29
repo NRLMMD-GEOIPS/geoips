@@ -13,14 +13,22 @@
 Version 1.10.0a10 (2023-04-29)
 ******************************
 
-* Update all YAML files to match new schema implementation
-* Finalize attributes on all Python module-based plugins
+* Update all new geoips/plugins/yaml files to match new schema implementation
+* Update all old yaml_configs/product_params to use shortened plugin names
+
+  * Old YAML configs still used in tests, so updated to simplified plugin names
+    to support old tests.  New YAML plugins not yet fully updated for
+    shortened plugin names.
+* Finalize attributes on all geoips/plugins/modules files
 
   * interface
   * family
   * name
   * module-level docstring
 * Update pyproject.toml entry points to point to module vs function
+
+  * Additionally shortened some of the entry point / plugin names.
+    ie, pmw_tb.cmap_37pct -> pmw_37pct
 * Replace "description" attribute with "docstring" in BaseInterface
 * Allow a list of interfaces to test via command line
 * Remove support for testing deprecated interfaces
