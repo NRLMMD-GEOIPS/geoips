@@ -17,7 +17,7 @@ LOG = logging.getLogger(__name__)
 
 interface = "colormaps"
 family = "linear_segmented"
-name = "cmap_37H"
+name = "pmw_37H"
 
 
 def call(data_range=[125, 310], cbar_label="TB (K)"):
@@ -78,7 +78,7 @@ def call(data_range=[125, 310], cbar_label="TB (K)"):
 
     LOG.info("Setting cmap")
     mpl_cmap = create_linear_segmented_colormap(
-        "cmap_37ghz", min_tb, max_tb, transition_vals, transition_colors
+        "pmw_37ghz", min_tb, max_tb, transition_vals, transition_colors
     )
 
     LOG.info("Setting norm")

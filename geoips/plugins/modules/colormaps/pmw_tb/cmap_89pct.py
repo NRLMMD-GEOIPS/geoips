@@ -17,7 +17,7 @@ LOG = logging.getLogger(__name__)
 
 interface = "colormaps"
 family = "linear_segmented"
-name = "cmap_89pct"
+name = "pmw_89pct"
 
 
 def call(data_range=[105, 280], cbar_label="TB (K)"):

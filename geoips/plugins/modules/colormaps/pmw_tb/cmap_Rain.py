@@ -17,7 +17,7 @@ LOG = logging.getLogger(__name__)
 
 interface = "colormaps"
 family = "linear_segmented"
-name = "cmap_Rain"
+name = "pmw_Rain"
 
 
 def call(data_range=[0.05, 50.0], cbar_label=r"Rainrate $(mm hr^{-1})$"):
