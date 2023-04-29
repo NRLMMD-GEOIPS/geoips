@@ -48,32 +48,50 @@ Update entry point names throughout code
 
 *From NRLMMD-GEOIPS/geoips#193: 2023-04-27, module-based plugin updates*
 
-All product_params updated accordingly:
+Since "name" attribute within module-based plugins and entry point names
+were updated to simplified shortened versions, all instances of those
+plugin names were updated throughout the code base and all "old" style
+YAML product files.  New YAML plugins will be updated through a future
+PR since they are currently unused.
+
+* interpolators: pyresample_wrappers.interp -> interp
+* algorithms: pmw_tb.pmw -> pmw
+* algorithms: sfc_winds.windbarbs -> windbarbs
+* algorithms: visir.Night -> Night
+* colormaps: pmw_tb.cmap -> pmw
+
+  * NOTE: This will cause some colormaps and algorithms to have the same name.
+    They are under different interfaces, but will it cause confusion?
+* colormaps: visir.Infrared -> Infrared (and IR_BD, WV)
+* colormaps: winds.wind_radii_transitions -> wind_radii_transitions
+
+All "old" product_params YAML files updated accordingly:
 
 * geoips/yaml_configs/product_params/*
 
 Some hard coded instances:
 
-pyresample_wrappers.interp_ -> interp_
+pyresample_wrappers.interp -> interp
 
 ::
   modified:   geoips/plugins/modules/coverage_checkers/windbarbs.py
 
 
-Update single_source to use func.call vs func
----------------------------------------------
+Update code to use func.call vs func
+------------------------------------
 
 *From NRLMMD-GEOIPS/geoips#193: 2023-04-27, module-based plugin updates*
 
 Use fname_covg_func.call and covg_func.call vs just _func.
 
-NOTE: This will likely change slightly once new YAML plugin interfaces are
-fully implemented
+NOTE: These instances will likely change slightly once new YAML plugin
+interfaces are fully implemented.
 
 ::
 
   modified: geoips/plugins/modules/procflows/single_source.py
   modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/output_formatters/metadata_tc.py
 
 Update pyproject.toml entry points to point to module vs function
 -----------------------------------------------------------------
