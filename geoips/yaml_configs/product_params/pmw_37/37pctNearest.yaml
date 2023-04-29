@@ -1,6 +1,6 @@
 37pctNearest:
     product_type: interp_alg_cmap
-    alg_func: pmw_tb.pmw_37pct
+    alg_func: pmw_37pct
     alg_args: 
         output_data_range: [230, 280]
         min_outbounds: crop

@@ -1,6 +1,6 @@
 color89:
     product_type: interp_alg_cmap
-    alg_func: pmw_tb.pmw_color89
+    alg_func: pmw_color89
     alg_args: {}
     mtif_type: rgb 
     cmap_func: cmap_rgb
