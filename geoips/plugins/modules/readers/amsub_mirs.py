@@ -49,7 +49,7 @@ AMSU-A channel information::
 
 AMSU-B/MHS channel information::
 
-    Channel / Centre Frequency (GHz) / Bandwidth (GHz) / NeDT (K) /
+    Channel / Centre Frequency (GHz) / Bandwidth (MHz) / NeDT (K) /
                                      Calibration Accuracy (K) / pol. angle (degree)
     16	89.0	<6000	1.0	1.0	90-q                  (Vertical pol)
     17	150	<4000	1.0	1.0	90-q                  (Vertical)
