@@ -20,6 +20,7 @@ Version 1.10.0a10 (2023-04-29)
   * family
   * name
   * module-level docstring
+* Update pyproject.toml entry points to point to module vs function
 * Replace "description" attribute with "docstring" in BaseInterface
 * Allow a list of interfaces to test via command line
 * Remove support for testing deprecated interfaces
@@ -41,6 +42,19 @@ Remove support for deprecated interfaces in test_interfaces.py.
 
 Breaking Changes
 ================
+
+Update pyproject.toml entry points to point to module vs function
+-----------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#193: 2023-04-27, module-based plugin updates*
+
+New interfaces assume the callable within a plugin is always named "call", thus
+entry points can be simplified to point to the module vs the specific function
+within the module.
+
+::
+
+  pyproject.toml
 
 Updated all yaml files to match new schema implementations.
 -----------------------------------------------------------
