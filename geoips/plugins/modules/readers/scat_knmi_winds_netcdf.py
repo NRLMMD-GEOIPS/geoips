@@ -19,8 +19,8 @@ LOG = logging.getLogger(__name__)
 MS_TO_KTS = 1.94384
 DEG_TO_KM = 111.321
 
-family = "standard"
 interface = "readers"
+family = "standard"
 name = "scat_knmi_winds_netcdf"
 
 
@@ -107,9 +107,7 @@ def read_knmi_data(wind_xarray):
     return {"WINDSPEED": wind_xarray}
 
 
-def call(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read KNMI scatterometer derived winds from netcdf data.
 
     Parameters

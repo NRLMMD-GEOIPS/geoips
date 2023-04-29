@@ -15,8 +15,8 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-family = "linear_segmented"
 interface = "colormaps"
+family = "linear_segmented"
 name = "cmap_37H_Physical"
 
 

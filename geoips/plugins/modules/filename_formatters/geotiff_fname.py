@@ -19,8 +19,8 @@ from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
-family = "standard"
 interface = "filename_formatters"
+family = "standard"
 name = "geotiff_fname"
 
 

@@ -18,14 +18,12 @@ LOG = logging.getLogger(__name__)
 
 DEG_TO_KM = 111.321
 
-family = "standard"
 interface = "readers"
+family = "standard"
 name = "windsat_remss_winds_netcdf"
 
 
-def call(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read Remote Sensing Systems Windsat data.
 
     Parameters

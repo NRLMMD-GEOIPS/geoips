@@ -20,8 +20,8 @@ from geoips.plugins.modules.output_formatters.imagery_windbarbs import (
 
 LOG = logging.getLogger(__name__)
 
-family = "image"
 interface = "output_formatters"
+family = "image"
 name = "imagery_windbarbs_clean"
 
 

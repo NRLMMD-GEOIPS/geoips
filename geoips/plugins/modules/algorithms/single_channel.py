@@ -21,8 +21,8 @@ LOG = logging.getLogger(__name__)
 
 KtoC_conversion = -273.15
 
-family = "list_numpy_to_numpy"
 interface = "algorithms"
+family = "list_numpy_to_numpy"
 name = "single_channel"
 
 

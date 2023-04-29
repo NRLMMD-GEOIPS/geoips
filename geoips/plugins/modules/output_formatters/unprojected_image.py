@@ -22,9 +22,10 @@ matplotlib.use("agg")
 
 LOG = logging.getLogger(__name__)
 
-family = "unprojected"
 interface = "output_formatters"
+family = "unprojected"
 name = "unprojected_image"
+
 
 def call(
     xarray_obj,

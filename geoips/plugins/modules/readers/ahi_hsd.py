@@ -149,8 +149,8 @@ ALL_GVARS = {
     ],
 }
 
-family = "standard"
 interface = "readers"
+family = "standard"
 name = "ahi_hsd"
 
 
@@ -937,9 +937,7 @@ def sort_by_band_and_seg(metadata):
     return "{0:02d}_{1:02d}".format(band_number, segment_number)
 
 
-def call(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """
     Read AHI HSD data data from a list of filenames.
 

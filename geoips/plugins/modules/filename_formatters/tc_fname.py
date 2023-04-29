@@ -28,8 +28,8 @@ from geoips.data_manipulations.merge import minrange
 
 LOG = logging.getLogger(__name__)
 
-family = "standard"
 interface = "filename_formatters"
+family = "standard"
 name = "tc_fname"
 
 

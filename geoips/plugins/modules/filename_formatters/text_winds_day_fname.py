@@ -22,8 +22,8 @@ from geoips.plugins.modules.filename_formatters.text_winds_full_fname import (
 
 LOG = logging.getLogger(__name__)
 
-family = "xarray_metadata_to_filename"
 interface = "filename_formatters"
+family = "xarray_metadata_to_filename"
 name = "text_winds_day_fname"
 
 

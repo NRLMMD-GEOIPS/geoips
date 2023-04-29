@@ -229,14 +229,12 @@ VARLIST = [
     "ScanTime_minute",
 ]
 
-family = "standard"
 interface = "readers"
+family = "standard"
 name = "amsub_mirs"
 
 
-def call(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read AMSU/MHS MIRS data products.
 
     Parameters

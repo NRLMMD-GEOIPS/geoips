@@ -15,8 +15,8 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-family = "image_overlay"
 interface = "output_formatters"
+family = "image_overlay"
 name = "full_disk_image"
 
 

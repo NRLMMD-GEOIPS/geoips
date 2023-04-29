@@ -20,14 +20,12 @@ from geoips.data_manipulations.corrections import apply_data_range, apply_gamma
 
 LOG = logging.getLogger(__name__)
 
-family = "list_numpy_to_numpy"
 interface = "algorithms"
+family = "list_numpy_to_numpy"
 name = "Night_Vis_GeoIPS1"
 
 
-def call(
-    arrays, min_outbounds="crop", max_outbounds="crop", max_night_zen=90
-):
+def call(arrays, min_outbounds="crop", max_outbounds="crop", max_night_zen=90):
     """Night Vis product algorithm data manipulation steps, GeoIPS 1 version.
 
     This algorithm expects DNBRad in reflectance, and returns the adjusted

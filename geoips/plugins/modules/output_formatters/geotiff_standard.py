@@ -17,9 +17,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-family = "image"
 interface = "output_formatters"
+family = "image"
 name = "geotiff_standard"
+
 
 def get_rasterio_cmap_dict(mpl_cmap, scale_data_min=1, scale_data_max=255):
     """Get rasterio cmap dict."""

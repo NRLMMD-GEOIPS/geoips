@@ -28,8 +28,8 @@ from geoips.plugins.modules.filename_formatters.utils.tc_file_naming import (
 
 LOG = logging.getLogger(__name__)
 
-family = "standard_metadata"
 interface = "filename_formatters"
+family = "standard_metadata"
 name = "metadata_default_fname"
 
 

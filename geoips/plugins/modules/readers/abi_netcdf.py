@@ -49,8 +49,8 @@ except ImportError:
         "If you need it, install it."
     )
 
-family = "standard"
 interface = "readers"
+family = "standard"
 name = "abi_netcdf"
 
 log = logging.getLogger(__name__)
@@ -522,9 +522,7 @@ def _get_geolocation_metadata(metadata):
     return geomet
 
 
-def call(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """
     Read ABI NetCDF data from a list of filenames.
 

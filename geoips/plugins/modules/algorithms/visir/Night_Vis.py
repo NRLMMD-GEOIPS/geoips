@@ -18,8 +18,8 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-family = "list_numpy_to_numpy"
 interface = "algorithms"
+family = "list_numpy_to_numpy"
 name = "Night_Vis"
 
 

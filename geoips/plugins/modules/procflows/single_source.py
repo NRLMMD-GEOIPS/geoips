@@ -96,8 +96,8 @@ PMW_PIXEL_SIZE_Y = 1000
 
 LOG = logging.getLogger(__name__)
 
-family = "standard"
 interface = "procflows"
+family = "standard"
 name = "single_source"
 
 

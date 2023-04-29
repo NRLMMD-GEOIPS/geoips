@@ -18,8 +18,8 @@ from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
-family = "xarray_area_product_to_filename"
 interface = "filename_formatters"
+family = "xarray_area_product_to_filename"
 name = "basic_fname"
 
 

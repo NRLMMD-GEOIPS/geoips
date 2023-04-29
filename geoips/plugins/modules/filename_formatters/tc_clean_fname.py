@@ -13,8 +13,8 @@
 """Clean TC filename production (no backgrounds or overlays)."""
 from geoips.filenames.base_paths import PATHS as gpaths
 
-family = "standard"
 interface = "filename_formatters"
+family = "standard"
 name = "tc_clean_fname"
 
 

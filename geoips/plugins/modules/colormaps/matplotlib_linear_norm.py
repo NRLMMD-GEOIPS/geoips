@@ -15,9 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-family = "builtin_matplotlib_cmap"
 interface = "colormaps"
+family = "builtin_matplotlib_cmap"
 name = "matplotlib_linear_norm"
+
 
 def call(
     data_range,

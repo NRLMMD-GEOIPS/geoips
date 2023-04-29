@@ -18,9 +18,10 @@ from skimage.draw import disk
 
 LOG = logging.getLogger(__name__)
 
-family = "standard"
 interface = "coverage_checkers"
+family = "standard"
 name = "center_radius"
+
 
 def plot_coverage(main_ax, area_def, covg_args):
     """Plot the coverage specified by the 'center_radius' function.

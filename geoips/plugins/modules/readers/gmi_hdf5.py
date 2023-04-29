@@ -51,8 +51,8 @@ import matplotlib
 matplotlib.use("agg")
 import matplotlib.pyplot as plt
 
-family = "standard"
 interface = "readers"
+family = "standard"
 name = "gmi_hdf5"
 
 
@@ -203,9 +203,7 @@ def read_gmi_file(fname, xarray_gmi):
     return final_xarray
 
 
-def call(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read GMI hdf5 data products.
 
     Parameters

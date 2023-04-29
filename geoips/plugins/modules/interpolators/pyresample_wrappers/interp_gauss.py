@@ -23,9 +23,10 @@ from geoips.dev.utils import copy_standard_metadata
 
 LOG = logging.getLogger(__name__)
 
-family = "2d"
 interface = "interpolators"
+family = "2d"
 name = "interp_gauss"
+
 
 def call(
     area_def,

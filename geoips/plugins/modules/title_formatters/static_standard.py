@@ -20,8 +20,8 @@ from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
-family = "standard"
 interface = "title_formatters"
+family = "standard"
 name = "static_standard"
 
 

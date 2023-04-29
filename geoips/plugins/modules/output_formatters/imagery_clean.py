@@ -15,8 +15,8 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-family = "image"
 interface = "output_formatters"
+family = "image"
 name = "imagery_clean"
 
 

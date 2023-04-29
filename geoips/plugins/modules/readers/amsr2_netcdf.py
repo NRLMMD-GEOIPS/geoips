@@ -64,8 +64,8 @@ chan_nums = {
     "Brightness_Temperature_89_GHz_BH": 14,
 }
 
-family = "standard"
 interface = "readers"
+family = "standard"
 name = "amsr2_netcdf"
 
 
@@ -286,9 +286,7 @@ def read_amsr_data(full_xarray, chans):
     return xarrays
 
 
-def call(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """
     Read AMSR2 netcdf data products.
 

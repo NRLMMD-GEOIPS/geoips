@@ -15,9 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-family = "linear_segmented"
 interface = "colormaps"
+family = "linear_segmented"
 name = "cmap_37H_Legacy"
+
 
 def call(data_range=[180, 280], cbar_label="TB (K)"):
     """Legacy Colormap for displaying ~37GHz PMW data.

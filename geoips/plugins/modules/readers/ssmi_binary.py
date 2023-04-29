@@ -77,14 +77,12 @@ matplotlib.use("agg")
 import matplotlib.pyplot as plt
 from numpy import datetime64
 
-family = "standard"
 interface = "readers"
+family = "standard"
 name = "ssmi_binary"
 
 
-def call(
-    fnames, metadata_only=False, chans=False, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=False):
     """Read SSMI FNMOC Binary Data.
 
     Parameters

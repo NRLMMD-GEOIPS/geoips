@@ -15,9 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-family = "ascii"
 interface = "colormaps"
+family = "ascii"
 name = "tpw_pwat"
+
 
 def call():
     """Colormap for displaying data using TPW PWAT ascii colormap.

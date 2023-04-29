@@ -10,18 +10,18 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Data manipulation steps for surface winds products.
+"""Surface Winds plotted as Barbs in Knots.
 
+Data manipulation steps for surface winds products.
 This algorithm expects surface wind speeds in units of kts
 """
 import logging
 
 LOG = logging.getLogger(__name__)
 
-family = "list_numpy_to_numpy"
 interface = "algorithms"
+family = "list_numpy_to_numpy"
 name = "windbarbs"
-description = "Surface Winds plotted as Barbs in Knots"
 
 
 def call(

@@ -118,8 +118,8 @@ geolocation_variable_names = [
     "SatAzimuth",
 ]
 
-family = "standard"
 interface = "readers"
+family = "standard"
 name = "seviri_hrit"
 
 
@@ -470,9 +470,7 @@ class ChanList(object):
         return cls(chans)
 
 
-def call(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read SEVIRI hrit data products.
 
     Parameters

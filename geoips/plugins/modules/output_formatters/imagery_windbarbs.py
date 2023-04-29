@@ -26,8 +26,8 @@ from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_titl
 
 LOG = logging.getLogger(__name__)
 
-family = "image_overlay"
 interface = "output_formatters"
+family = "image_overlay"
 name = "imagery_windbarbs"
 
 

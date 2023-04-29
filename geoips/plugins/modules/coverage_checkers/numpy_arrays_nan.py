@@ -15,8 +15,8 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-family = "standard"
 interface = "coverage_checkers"
+family = "standard"
 name = "numpy_arrays_nan"
 
 

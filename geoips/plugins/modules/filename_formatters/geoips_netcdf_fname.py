@@ -20,9 +20,10 @@ from os.path import join as pathjoin
 
 LOG = logging.getLogger(__name__)
 
-family = "data"
 interface = "filename_formatters"
+family = "data"
 name = "geoips_netcdf_fname"
+
 
 def call(
     area_def,

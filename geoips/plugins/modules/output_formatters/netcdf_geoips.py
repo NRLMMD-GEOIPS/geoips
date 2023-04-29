@@ -15,9 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-family = "xarray_data"
 interface = "output_formatters"
+family = "xarray_data"
 name = "netcdf_geoips"
+
 
 def call(xarray_obj, product_names, output_fnames):
     """Write GeoIPS style NetCDF to disk."""

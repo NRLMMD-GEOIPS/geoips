@@ -17,9 +17,10 @@ from geoips.dev.product import get_product
 
 LOG = logging.getLogger(__name__)
 
-family = "image_overlay"
 interface = "output_formatters"
+family = "image_overlay"
 name = "imagery_annotated"
+
 
 def call(
     area_def,
