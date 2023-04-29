@@ -9,6 +9,6 @@ TPW-CIMSS:
         inverse: null
     cmap_func: tpw.tpw_cimss
     cmap_args: {}
-    interp_func: pyresample_wrappers.interp_gauss
+    interp_func: interp_gauss
     interp_args:
         sigmaval: 10000

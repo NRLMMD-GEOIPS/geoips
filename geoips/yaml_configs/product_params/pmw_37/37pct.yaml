@@ -11,6 +11,6 @@
     cmap_func: pmw_tb.cmap_37pct
     cmap_args: 
         data_range: [230, 280]
-    interp_func: pyresample_wrappers.interp_gauss
+    interp_func: interp_gauss
     interp_args:
         sigmaval: 10000
