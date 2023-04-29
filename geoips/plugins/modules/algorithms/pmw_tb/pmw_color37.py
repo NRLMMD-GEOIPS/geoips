@@ -21,7 +21,7 @@ LOG = logging.getLogger(__name__)
 
 interface = "algorithms"
 family = "list_numpy_to_numpy"
-name = "color37"
+name = "pmw_color37"
 
 
 def call(arrays):
