@@ -8,7 +8,7 @@
         norm: null
         inverse: null
     mtif_type: pmw
-    cmap_func: pmw_tb.cmap_37pct
+    cmap_func: pmw_37pct
     cmap_args: 
         data_range: [230, 280]
     interp_func: interp_nearest

@@ -8,7 +8,7 @@
         norm: null
         inverse: null
     mtif_type: pmw
-    cmap_func: pmw_tb.cmap_89HW
+    cmap_func: pmw_89HW
     cmap_args: 
         data_range: [220.0, 280.0]
     interp_func: interp_nearest

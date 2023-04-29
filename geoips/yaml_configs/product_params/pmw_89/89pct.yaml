@@ -8,7 +8,7 @@
         norm: null
         inverse: null
     mtif_type: pmw
-    cmap_func: pmw_tb.cmap_89pct
+    cmap_func: pmw_89pct
     cmap_args: 
         data_range: [105, 280]
     interp_func: interp_gauss
