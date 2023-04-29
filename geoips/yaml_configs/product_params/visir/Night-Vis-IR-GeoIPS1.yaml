@@ -1,6 +1,6 @@
 Night-Vis-IR-GeoIPS1:
     product_type: interp_alg_cmap
-    alg_func: visir.Night_Vis_IR_GeoIPS1
+    alg_func: Night_Vis_IR_GeoIPS1
     alg_args: {}
     mtif_type: rgb
     cmap_func: cmap_rgb
