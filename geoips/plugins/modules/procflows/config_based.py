@@ -1394,7 +1394,9 @@ def call(fnames, command_line_args=None):
                         output_dict=output_dict,
                         covg_args_field_name="image_production_covg_args",
                     )
-                    covg = covg_func(alg_xarray, product_name, area_def, **covg_args)
+                    covg = covg_func.call(
+                        alg_xarray, product_name, area_def, **covg_args
+                    )
 
                     fname_covg_func = get_covg_from_product(
                         product_name,
@@ -1408,7 +1410,7 @@ def call(fnames, command_line_args=None):
                         output_dict=output_dict,
                         covg_args_field_name="fname_covg_args",
                     )
-                    fname_covg = fname_covg_func(
+                    fname_covg = fname_covg_func.call(
                         alg_xarray, product_name, area_def, **fname_covg_args
                     )
 
