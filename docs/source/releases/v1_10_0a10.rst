@@ -43,6 +43,20 @@ Remove support for deprecated interfaces in test_interfaces.py.
 Breaking Changes
 ================
 
+Update single_source to use func.call vs func
+---------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#193: 2023-04-27, module-based plugin updates*
+
+Use fname_covg_func.call and covg_func.call vs just _func.
+
+NOTE: This will likely change slightly once new YAML plugin interfaces are
+fully implemented
+
+::
+
+  modified:   geoips/plugins/modules/procflows/single_source.py
+
 Update pyproject.toml entry points to point to module vs function
 -----------------------------------------------------------------
 
