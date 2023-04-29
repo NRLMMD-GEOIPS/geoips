@@ -1,6 +1,6 @@
 windbarbs:
     product_type: alg_cmap
-    alg_func: sfc_winds.windbarbs
+    alg_func: windbarbs
     alg_args: 
         output_data_range: [0, 200]
         min_outbounds: crop
