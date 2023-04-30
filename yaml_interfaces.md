@@ -10,6 +10,65 @@
     # # # for more details. If you did not receive the license, for more information see:
     # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+# Notes on Utilities Functions
+- dev/utils.py
+  - deprecation
+    - Imported in geoips_utils.py
+    - Unsure if used elsewhere
+  - replace_geoips_paths
+    - metadata_default.py
+    - metadata_tc.py
+    - bdeck_parser.py
+    - tc_tracks.py
+  - copy_standard_metadata
+    - Imported in geoips_utils.py
+    - Unsure if used elsewhere
+  - get_required_geoips_xarray_attrs
+    - Used in compare_outputs.py
+  - output_process_times
+    - Imported in geoips_utils.py
+    - Unsure if used elsewhere
+- geoips_utils.py
+  - find_config
+    - Used only in old interfaces. Probably need something similar for new interfaces, though.
+  - find_entry_point
+    - Used in:
+      - base.py
+      - config_based.py (procflow)
+      - single_source.py (procflow)
+      - tc_tracks.py (unsure what this does)
+  - get_all_entry_points
+    - used in base.py
+  - list_entry_points
+    - Unused
+  - list_product_specs_dict_yamls
+    - Used in old product.py interface
+  - list_product_source_dict_yamls
+    - Used in old product.py interface
+  - list_gridline_params_dict_yamls
+    - Unused
+  - list_boundaries_params_dict_yamls
+    - Used in old boundaries.py interface
+  - copy_standard_metadata
+    - Reimported from utils.py (why?)
+    - Used in:
+      - data_fusion.py procflow
+      - interp_gauss.py
+      - interp_nearest.py
+      - interp_grid.py
+      - netcdf_geoips.py
+      - single_source.py
+  - deprecation
+    - Unused I think but probably worth keeping for later?
+    - This is implemented in a weird way, though.
+  - output_process_times
+    - Implemented in dev/utils.py
+    - Used in procflows:
+      - data_fusion.py
+      - config_base.py
+      - single_source.py
+    - Also in ahi_hsd.py reader
+
 # GeoIPS Yaml-based Plugin Options
 Internally, we would like Plugins to behave the same, regardless of whether they are Module-based or Yaml-based. This
 means that we would like to automatically discover Plugins of both types and automatically create Python objects for

@@ -153,6 +153,7 @@ metadata_tc = "geoips.plugins.modules.output_formatters.metadata_tc"
 # sed -i "s,visir.Night_Vis,Night_Vis" geoips/plugins/yaml/product*/*
 # sed -i "s,visir.Night_Vis_GeoIPS1,Night_Vis_GeoIPS1" geoips/plugins/yaml/product*/*
 [project.entry-points."geoips.algorithms"]
+bad_single_channel = "geoips.plugins.modules.algorithms.bad_single_channel"
 single_channel = "geoips.plugins.modules.algorithms.single_channel"
 pmw_37pct = "geoips.plugins.modules.algorithms.pmw_tb.pmw_37pct"
 pmw_89pct = "geoips.plugins.modules.algorithms.pmw_tb.pmw_89pct"
