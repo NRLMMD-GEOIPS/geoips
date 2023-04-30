@@ -98,7 +98,7 @@ def create_tc_sector_info_dict(
         LOG.info("USING storm_name as final_storm_name %s", storm_name)
         fields["final_storm_name"] = storm_name
     if source_sector_file:
-        from geoips.dev.utils import replace_geoips_paths
+        from geoips.geoips_utils import replace_geoips_paths
 
         fields["source_sector_file"] = replace_geoips_paths(source_sector_file)
     fields["pressure"] = pressure
@@ -238,7 +238,7 @@ def set_tc_area_def(
     if not hasattr(area_def, "name"):
         area_def.name = long_description
 
-    from geoips.dev.utils import replace_geoips_paths
+    from geoips.geoips_utils import replace_geoips_paths
 
     area_def.sector_info["source_sector_file"] = replace_geoips_paths(
         source_sector_file

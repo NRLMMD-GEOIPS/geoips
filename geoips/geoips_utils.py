@@ -14,7 +14,6 @@
 
 import os
 import logging
-from glob import glob
 from importlib import metadata
 
 from geoips.errors import EntryPointError
@@ -49,7 +48,6 @@ def find_config(subpackage_name, config_basename, txt_suffix=".yaml"):
         Full path to text filename
     """
     text_fname = None
-    from geoips.filenames.base_paths import PATHS as gpaths
 
     for package_name in gpaths["GEOIPS_PACKAGES"]:
         fname = os.path.join(
@@ -159,22 +157,162 @@ def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=Tru
     xarray.Dataset
         dest_xarray with standard metadata copied in place from orig_xarray.
     """
-    from geoips.dev.utils import copy_standard_metadata
+    attrs = [
+        "start_datetime",
+        "end_datetime",
+        "platform_name",
+        "source_name",
+        "minimum_coverage",
+        "data_provider",
+        "granule_minutes",
+        "original_source_filenames",
+        "sample_distance_km",
+        "interpolation_radius_of_influence",
+        "area_definition",
+    ]
+    if extra_attrs is not None:
+        attrs += extra_attrs
 
-    return copy_standard_metadata(
-        orig_xarray, dest_xarray, extra_attrs=extra_attrs, force=force
-    )
+    for attr in attrs:
+        if force and attr in orig_xarray.attrs.keys():
+            dest_xarray.attrs[attr] = orig_xarray.attrs[attr]
+        elif (
+            not force
+            and attr in orig_xarray.attrs.keys()
+            and attr not in dest_xarray.attrs.keys()
+        ):
+            dest_xarray.attrs[attr] = orig_xarray.attrs[attr]
 
 
 def deprecation(message):
     """Print a deprecation warning during runtime."""
-    from geoips.dev.utils import deprecation
+    import warnings
 
-    return deprecation(message)
+    warnings.warn(message, DeprecationWarning, stacklevel=2)
+    LOG.warning("DeprecationWarning: %s", message)
 
 
-def output_process_times(process_datetimes, num_jobs=None):
-    """Calculate and print the process times from the process_datetimes dictionary."""
-    from geoips.dev.utils import output_process_times
+def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
+    """Calculate and print the process times from the process_datetimes dictionary.
 
-    return output_process_times(process_datetimes, num_jobs=None)
+    Parameters
+    ----------
+    process_datetimes : dict
+        dictionary formatted as follows:
+
+        * ``process_datetimes['overall_start']`` - overall start datetime of
+          the entire script
+        * ``process_datetimes['overall_end']`` - overall end datetime of the
+          entire script
+        * ``process_datetimes[process_name]['start']`` - start time of an
+          individual process
+        * ``process_datetimes[process_name]['end']`` - end time of an
+          individual process
+    """
+    if "overall_end" in process_datetimes and "overall_start" in process_datetimes:
+        LOG.info(
+            "Total Time %s: %s Num jobs: %s",
+            process_datetimes["overall_end"] - process_datetimes["overall_start"],
+            num_jobs,
+            job_str,
+        )
+    for process_name in process_datetimes.keys():
+        if process_name in ["overall_start", "overall_end"]:
+            continue
+        if "end" in process_datetimes[process_name]:
+            LOG.info(
+                "    SUCCESS Process Time %s: %-20s: %s",
+                job_str,
+                process_name,
+                process_datetimes[process_name]["end"]
+                - process_datetimes[process_name]["start"],
+            )
+        elif "fail" in process_datetimes[process_name]:
+            LOG.info(
+                "    FAILED  Process Time %s: %-20s: %s",
+                job_str,
+                process_name,
+                process_datetimes[process_name]["fail"]
+                - process_datetimes[process_name]["start"],
+            )
+        else:
+            LOG.info("    MISSING Process Time %s: %s", job_str, process_name)
+
+
+def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
+    """Replace standard environment variables with their non-expanded equivalents.
+
+    Ie, replace
+
+        * ``$HOME/geoproc/geoips_packages with $GEOIPS_PACKAGES_DIR``
+        * ``$HOME/geoproc/geoips_outdirs with $GEOIPS_OUTDIRS``
+        * ``$HOME/geoproc with $GEOIPS_BASEDIR``
+
+    This allows generating output YAML fields / NetCDF attributes that can match
+    between different instantiations.
+
+    Parameters
+    ----------
+    fname : str
+        Full path to a filename on disk
+    replace_paths : list, default=None
+        * Explicit list of standard variable names you would like replaced.
+        * If None, replace
+          ``['GEOIPS_OUTDIRS', 'GEOIPS_PACKAGES_DIR', 'GEOIPS_TESTDATA_DIR',
+          'GEOIPS_DEPENDENCIES_DIR', 'GEOIPS_BASEDIR']``
+    base_paths : list, default=None
+        * List of PATHS dictionaries in which to find the "replace_paths" variables
+        * If None, use geoips.filenames.base_paths
+
+    Returns
+    -------
+    fname : str
+        Path to file on disk, with explicit path replaced with environment
+        variable name and/or full URL.
+
+    Notes
+    -----
+    Note it replaces ALL standard variables that have a corresponding
+    ``<key>_URL`` variable.
+
+    Additionally, it replaces variables specified in "replace_paths" list with
+    the unexpanded environment variable name.
+    """
+    # Allow multiple sets of base_path replacements
+    from geoips.filenames.base_paths import PATHS as geoips_gpaths
+
+    if base_paths is None:
+        base_paths = [geoips_gpaths]
+
+    # Replace with specified file system -> URL mapping
+    for paths in base_paths:
+        for key in paths.keys():
+            if f"{key}_URL" in paths:
+                fname = fname.replace(paths[key], paths[f"{key}_URL"])
+
+    # Replace full paths with environment variables
+    if replace_paths is None:
+        replace_paths = [
+            "GEOIPS_OUTDIRS",
+            "GEOIPS_PACKAGES_DIR",
+            "GEOIPS_TESTDATA_DIR",
+            "GEOIPS_DEPENDENCIES_DIR",
+            "GEOIPS_BASEDIR",
+        ]
+    for replace_path in replace_paths:
+        for paths in base_paths:
+            if replace_path in paths:
+                fname = fname.replace(paths[replace_path], f"${replace_path}")
+    return fname
+
+
+def get_required_geoips_xarray_attrs():
+    """Interface deprecated v2.0."""
+    required_xarray_attrs = [
+        "source_name",
+        "platform_name",
+        "data_provider",
+        "start_datetime",
+        "end_datetime",
+    ]
+    return required_xarray_attrs
