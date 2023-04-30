@@ -174,3 +174,15 @@ function "call")
   modified: geoips/plugins/modules/readers/*
   modified: geoips/plugins/modules/sector_loaders/*
   modified: geoips/plugins/modules/title_formatters/*
+
+Update plugin_module_to_obj function to check for finalized attributes
+----------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#193: 2023-04-29, finalize module plugin attributes*
+
+* Added test for interface attribute.
+* Ensure that plugin's interface attribute matches its interface
+* Fixed docstring test to error if __docstring__ is empty.
+
+::
+  modified: geoips/interfaces/base.py
