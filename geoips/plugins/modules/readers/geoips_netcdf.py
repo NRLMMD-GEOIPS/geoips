@@ -16,12 +16,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-reader_type = "standard"
+interface = "readers"
+family = "standard"
+name = "geoips_netcdf"
 
 
-def geoips_netcdf(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read preprocessed geoips netcdf output.
 
     Parameters

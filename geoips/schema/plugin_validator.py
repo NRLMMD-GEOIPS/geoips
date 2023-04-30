@@ -1,4 +1,4 @@
-"""Implements valdation machinery for YAML-based plugins."""
+"""Implements validation machinery for YAML-based plugins."""
 
 import yaml
 
@@ -93,13 +93,13 @@ def get_validators(schema_dict, validator_class):
     Parameters
     ----------
     schema_dict : dict
-        A dictionary whose keys are schema `$id`s and whose values are the full
+        A dictionary whose keys are schema `$id` and whose values are the full
         schema.
 
     Returns
     -------
     dict
-        A dictionary whose keys are schema `$id`s and whose values are `jsonschema`
+        A dictionary whose keys are schema `$id` and whose values are `jsonschema`
         validator instances.
     """
     # This is the jsonschema draft implemention from the referencing package
@@ -122,6 +122,8 @@ def get_validators(schema_dict, validator_class):
 
 
 class PluginValidator:
+    """PluginValidator class."""
+
     _schema_path = SCHEMA_PATH
     _validator = getattr(jsonschema, f"Draft{JSONSCHEMA_DRAFT}Validator")
 
@@ -129,6 +131,7 @@ class PluginValidator:
     validators = get_validators(schemas, _validator)
 
     def validate(self, plugin, validator_id=None):
+        """Validate method."""
         # Pop off unit-test properties
         try:
             plugin.pop("error")
@@ -156,6 +159,7 @@ class PluginValidator:
         return plugin
 
     def validate_products(self, plugin):
+        """Validate all products."""
         if plugin["family"] == "single":
             print("Validating single products")
             products = [plugin["spec"]["product"]]
@@ -166,6 +170,7 @@ class PluginValidator:
             self.validate_product(product)
 
     def validate_product(self, product):
+        """Validate single product."""
         print("In validate product")
         if "family" in product:
             print("Validating family-based product")

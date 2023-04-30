@@ -10,19 +10,21 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Data manipulation steps for "color89" product.
+"""Passive Microwave 89 GHz Colorized Brightness Temperature.
 
+Data manipulation steps for the "color89" product.
 This algorithm expects Brightness Temperatures in units of degrees Kelvin
 """
 import logging
 
 LOG = logging.getLogger(__name__)
 
+interface = "algorithms"
 family = "list_numpy_to_numpy"
-description = "Passive Microwave 89 MHz Colorized Brightness Temperature"
+name = "pmw_color89"
 
 
-def pmw_color89(arrays):
+def call(arrays):
     """color89 product algorithm data manipulation steps.
 
     This algorithm expects Brightness Temperatures in units of degrees Kelvin,

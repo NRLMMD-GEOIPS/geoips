@@ -18,10 +18,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+interface = "algorithms"
 family = "list_numpy_to_numpy"
+name = "Night_Vis"
 
 
-def Night_Vis(
+def call(
     arrays,
     output_data_range=None,
     scale_factor=None,

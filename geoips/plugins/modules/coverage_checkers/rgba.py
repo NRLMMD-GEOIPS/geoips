@@ -15,8 +15,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+interface = "coverage_checkers"
+family = "standard"
+name = "rgba"
 
-def rgba(
+
+def call(
     xarray_obj,
     variable_name,
     area_def=None,

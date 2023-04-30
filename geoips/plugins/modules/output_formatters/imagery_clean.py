@@ -15,10 +15,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-output_type = "image"
+interface = "output_formatters"
+family = "image"
+name = "imagery_clean"
 
 
-def imagery_clean(
+def call(
     area_def,
     xarray_obj,
     product_name,

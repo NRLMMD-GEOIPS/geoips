@@ -22,10 +22,12 @@ from geoips.plugins.modules.filename_formatters.text_winds_full_fname import (
 
 LOG = logging.getLogger(__name__)
 
-filename_type = "xarray_metadata_to_filename"
+interface = "filename_formatters"
+family = "xarray_metadata_to_filename"
+name = "text_winds_day_fname"
 
 
-def text_winds_day_fname(
+def call(
     xarray_obj,
     extension=".txt",
     basedir=pathjoin(gpaths["ANNOTATED_IMAGERY_PATH"], "text_winds"),

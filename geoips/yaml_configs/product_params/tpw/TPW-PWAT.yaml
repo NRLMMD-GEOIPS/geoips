@@ -7,8 +7,8 @@ TPW-PWAT:
         max_outbounds: crop
         norm: null
         inverse: null
-    cmap_func: tpw.tpw_pwat
+    cmap_func: tpw_pwat
     cmap_args: {}
-    interp_func: pyresample_wrappers.interp_gauss
+    interp_func: interp_gauss
     interp_args:
         sigmaval: 10000

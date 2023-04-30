@@ -15,10 +15,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-cmap_type = "rgb"
+interface = "colormaps"
+family = "rgb"
+name = "cmap_rgb"
 
 
-def cmap_rgb():
+def call():
     """For rgb imagery, we require no color information.
 
     Colormap is entirely specified by the RGB(A) arrays, so no specific

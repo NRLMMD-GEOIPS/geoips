@@ -20,10 +20,12 @@ from geoips.plugins.modules.output_formatters.imagery_windbarbs import (
 
 LOG = logging.getLogger(__name__)
 
-output_type = "image"
+interface = "output_formatters"
+family = "image"
+name = "imagery_windbarbs_clean"
 
 
-def imagery_windbarbs_clean(
+def call(
     area_def,
     xarray_obj,
     product_name,

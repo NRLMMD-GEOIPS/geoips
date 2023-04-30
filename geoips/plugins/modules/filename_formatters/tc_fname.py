@@ -28,10 +28,12 @@ from geoips.data_manipulations.merge import minrange
 
 LOG = logging.getLogger(__name__)
 
-filename_type = "standard"
+interface = "filename_formatters"
+family = "standard"
+name = "tc_fname"
 
 
-def tc_fname(
+def call(
     area_def,
     xarray_obj,
     product_name,

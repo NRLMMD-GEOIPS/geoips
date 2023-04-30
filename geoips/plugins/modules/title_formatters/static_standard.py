@@ -20,10 +20,12 @@ from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
-title_type = "standard"
+interface = "title_formatters"
+family = "standard"
+name = "static_standard"
 
 
-def static_standard(
+def call(
     area_def,
     xarray_obj,
     product_name_title,

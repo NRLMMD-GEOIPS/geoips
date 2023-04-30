@@ -15,10 +15,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-cmap_type = "linear_segmented"
+interface = "colormaps"
+family = "linear_segmented"
+name = "pmw_Rain"
 
 
-def cmap_Rain(data_range=[0.05, 50.0], cbar_label=r"Rainrate $(mm hr^{-1})$"):
+def call(data_range=[0.05, 50.0], cbar_label=r"Rainrate $(mm hr^{-1})$"):
     """Colormap for displaying Rain Rate products.
 
     Parameters

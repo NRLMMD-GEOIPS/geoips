@@ -55,12 +55,12 @@ import matplotlib.pyplot as plt
 
 LOG = logging.getLogger(__name__)
 
-reader_type = "standard"
+interface = "readers"
+family = "standard"
+name = "imerg_hdf5"
 
 
-def imerg_hdf5(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read IMERG hdf5 rain rate data products.
 
     Parameters

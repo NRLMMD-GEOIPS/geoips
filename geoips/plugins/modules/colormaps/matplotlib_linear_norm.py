@@ -15,10 +15,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-cmap_type = "builtin_matplotlib_cmap"
+interface = "colormaps"
+family = "builtin_matplotlib_cmap"
+name = "matplotlib_linear_norm"
 
 
-def matplotlib_linear_norm(
+def call(
     data_range,
     cmap_name="Greys",
     cbar_label=None,

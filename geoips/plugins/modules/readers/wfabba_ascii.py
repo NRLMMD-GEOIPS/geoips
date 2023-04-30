@@ -23,7 +23,9 @@ import xarray
 
 LOG = logging.getLogger(__name__)
 
-reader_type = "standard"
+interface = "readers"
+family = "standard"
+name = "wfabba_ascii"
 
 
 def parse_header_line(line):
@@ -120,9 +122,7 @@ def read_wfabba_text(wfabba_file):
     return xobj
 
 
-def wfabba_ascii(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read WFABBA ascii data from a list of filenames.
 
     WFABBA  ascii files contain list of fire detects with their latitude,
