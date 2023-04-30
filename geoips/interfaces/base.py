@@ -91,17 +91,22 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
     An object of type ``<interface>InterfacePlugin`` where ``<interface>`` is the name
     of the interface that the desired plugin belongs to.
     """
-    obj_attrs["interface"] = interface
     obj_attrs["module"] = module
 
     try:
-        obj_attrs["__doc__"] = module.__doc__
+        obj_attrs["interface"] = module.interface
     except AttributeError:
         raise PluginError(
-            f"Required '__doc__' attribute not found in '{module.__name__}'"
+            f"Required 'interface' attribute not found in '{module.__name__}'"
         )
-    # Don't know if we want to add this explicit "docstring" attribute - if we do,
-    # module-based plugins will have EXACTLY the same attributes as yaml-based plugins.
+
+    if module.__doc__:
+        obj_attrs["__doc__"] = module.__doc__
+    else:
+        raise PluginError(
+            f"Plugin modules must have a docstring. "
+            f"No docstring found in '{module.__name__}'."
+        )
     obj_attrs["docstring"] = module.__doc__
 
     try:
