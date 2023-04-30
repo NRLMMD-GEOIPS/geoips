@@ -19,7 +19,6 @@ class AlgorithmsInterface(BaseInterface):
     """Data manipulations to apply to the dataset."""
 
     name = "algorithms"
-    deprecated_family_attr = "alg_func_type"
 
     required_args = {
         "single_channel": ["arrays"],

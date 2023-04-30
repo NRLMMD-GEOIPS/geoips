@@ -23,8 +23,6 @@ class FilenameFormattersInterface(BaseInterface):
     """
 
     name = "filename_formatters"
-    entry_point_group = "filename_formatters"
-    deprecated_family_attr = "filename_type"
 
     required_args = {
         "standard": ["area_def", "xarray_obj", "product_name"],

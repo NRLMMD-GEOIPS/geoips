@@ -19,7 +19,6 @@ class OutputFormattersInterface(BaseInterface):
     """Data format for the resulting output product (e.g. netCDF, png)."""
 
     name = "output_formatters"
-    deprecated_family_attr = "output_type"
     required_args = {
         "image": ["area_def", "xarray_obj", "product_name", "output_fnames"],
         "unprojected": ["xarray_obj", "product_name", "output_fnames"],
