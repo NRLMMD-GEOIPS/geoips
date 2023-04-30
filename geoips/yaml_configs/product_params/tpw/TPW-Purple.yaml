@@ -7,8 +7,8 @@ TPW-Purple:
         max_outbounds: crop
         norm: null
         inverse: null
-    cmap_func: tpw.tpw_purple
+    cmap_func: tpw_purple
     cmap_args: {}
-    interp_func: pyresample_wrappers.interp_gauss
+    interp_func: interp_gauss
     interp_args:
         sigmaval: 10000

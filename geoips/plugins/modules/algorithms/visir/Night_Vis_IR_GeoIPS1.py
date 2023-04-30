@@ -19,10 +19,12 @@ from geoips.data_manipulations.corrections import mask_day
 
 LOG = logging.getLogger(__name__)
 
+interface = "algorithms"
 family = "list_numpy_to_numpy"
+name = "Night_Vis_IR_GeoIPS1"
 
 
-def Night_Vis_IR_GeoIPS1(arrays, max_night_zen=90):
+def call(arrays, max_night_zen=90):
     """Night Vis IR RGB product algorithm data manipulation steps.
 
     This algorithm expects DNBRad in reflectance and M16BT

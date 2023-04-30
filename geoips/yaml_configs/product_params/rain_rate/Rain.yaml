@@ -8,9 +8,9 @@ Rain:
         norm: null
         inverse: null
     mtif_type: rain
-    cmap_func: pmw_tb.cmap_Rain
+    cmap_func: pmw_Rain
     cmap_args: 
         data_range: [0.05, 50.0]
-    interp_func: pyresample_wrappers.interp_gauss
+    interp_func: interp_gauss
     interp_args:
         sigmaval: 10000

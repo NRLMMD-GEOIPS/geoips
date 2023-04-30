@@ -1,6 +1,6 @@
 Night-Vis:
     product_type: interp_alg_cmap
-    alg_func: visir.Night_Vis
+    alg_func: Night_Vis
     alg_args: 
         output_data_range: [0, 100]
         input_units: radiance
@@ -18,5 +18,5 @@ Night-Vis:
         data_range: [0, 100]
         cmap_name: Greys_r
         cbar_label: Normalized Radiance
-    interp_func: pyresample_wrappers.interp_nearest
+    interp_func: interp_nearest
     interp_args: {}

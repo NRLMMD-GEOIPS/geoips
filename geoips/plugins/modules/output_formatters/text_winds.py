@@ -19,10 +19,12 @@ import shutil
 
 LOG = logging.getLogger(__name__)
 
-output_type = "xrdict_varlist_outfnames_to_outlist"
+interface = "output_formatters"
+family = "xrdict_varlist_outfnames_to_outlist"
+name = "text_winds"
 
 
-def text_winds(
+def call(
     xarray_dict, varlist, output_fnames, append=False, overwrite=True, source_names=None
 ):
     """Write text windspeed output file."""

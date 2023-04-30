@@ -15,5 +15,5 @@ Infrared-Gray:
         data_range: [-100.0, 50.0]
         cmap_name: Greys
         cbar_label: 'Brightness Temperatures (degrees Celsius)'
-    interp_func: pyresample_wrappers.interp_nearest
+    interp_func: interp_nearest
     interp_args: {}

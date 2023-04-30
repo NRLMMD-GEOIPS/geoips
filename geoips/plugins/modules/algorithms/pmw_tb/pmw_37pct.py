@@ -10,19 +10,20 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Data manipulation steps for "37pct" product.
+"""Passive Microwave 37 GHz Polarization Corrected Temperature.
 
-This algorithm expects Brightness Temperatures in units of degrees Kelvin
+Data manipulation steps for the "37pct" product.
+This algorithm expects Brightness Temperatures in units of degrees Kelvin.
 """
 import logging
 
 LOG = logging.getLogger(__name__)
 
+interface = "algorithms"
 family = "list_numpy_to_numpy"
-description = "Passive Microwave 37 MHz Polarization Corrected Temperature"
+name = "pmw_37pct"
 
 
-# This is the "new" format for plugins - default to "call" function name for Callable.
 def call(
     arrays,
     output_data_range=None,

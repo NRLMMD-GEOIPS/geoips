@@ -101,7 +101,9 @@ import matplotlib
 matplotlib.use("agg")
 import matplotlib.pyplot as plt
 
-reader_type = "standard"
+interface = "readers"
+family = "standard"
+name = "atms_hdf5"
 
 # from IPython import embed as shell
 
@@ -258,9 +260,7 @@ def read_atms_file(fname, xarray_atms):
     return final_xarray
 
 
-def atms_hdf5(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read ATMS hdf5 data products.
 
     Parameters

@@ -15,8 +15,12 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+interface = "coverage_checkers"
+family = "standard"
+name = "windbarbs"
 
-def windbarbs(
+
+def call(
     xarray_obj,
     variable_name,
     area_def,
@@ -59,7 +63,7 @@ def windbarbs(
 
     from geoips.interfaces import interpolators
 
-    interp_plugin = interpolators.get_plugin("pyresample_wrappers.interp_nearest")
+    interp_plugin = interpolators.get_plugin("interp_nearest")
     output_xarray = interp_plugin(
         area_def, xarray_obj, None, [varname_for_covg], array_num=0
     )

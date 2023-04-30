@@ -26,7 +26,9 @@ from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_titl
 
 LOG = logging.getLogger(__name__)
 
-output_type = "image_overlay"
+interface = "output_formatters"
+family = "image_overlay"
+name = "imagery_windbarbs"
 
 
 def plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict):
@@ -231,7 +233,7 @@ def format_windbarb_data(xarray_obj, product_name):
     return return_dict
 
 
-def imagery_windbarbs(
+def call(
     area_def,
     xarray_obj,
     product_name,

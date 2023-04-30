@@ -20,12 +20,12 @@ from geoips.plugins.modules.interpolators.utils.interp_scipy import interp_gridd
 
 LOG = logging.getLogger(__name__)
 
-interp_type = "grid"
+interface = "interpolators"
+family = "grid"
+name = "interp_grid"
 
 
-def interp_grid(
-    area_def, input_xarray, output_xarray, varlist, array_num=None, method=None
-):
+def call(area_def, input_xarray, output_xarray, varlist, array_num=None, method=None):
     """Scipy griddata interpolation GeoIPS plugin."""
     LOG.info("Interpolating using scipy.interpolate.griddata %s", method)
 
