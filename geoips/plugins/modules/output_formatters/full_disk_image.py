@@ -15,12 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "output_formatters"
-family = "image_overlay"
-name = "full_disk_image"
+output_type = "image_overlay"
 
 
-def call(
+def full_disk_image(
     area_def,
     xarray_obj,
     product_name,

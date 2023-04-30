@@ -15,12 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "colormaps"
-family = "linear_segmented"
-name = "pmw_89H_Legacy"
+cmap_type = "linear_segmented"
 
 
-def call(data_range=[180.0, 280.0], cbar_label="TB (K)"):
+def cmap_89H_Legacy(data_range=[180.0, 280.0], cbar_label="TB (K)"):
     """Legacy Colormap for displaying ~89GHz PMW data.
 
     Parameters
@@ -68,7 +66,7 @@ def call(data_range=[180.0, 280.0], cbar_label="TB (K)"):
 
     LOG.info("Setting cmap")
     mpl_cmap = create_linear_segmented_colormap(
-        "pmw_89h_legacy", min_tb, max_tb, transition_vals, transition_colors
+        "cmap_89h_legacy", min_tb, max_tb, transition_vals, transition_colors
     )
 
     LOG.info("Setting norm")

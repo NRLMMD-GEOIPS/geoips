@@ -25,7 +25,7 @@ from geoips.geoips_utils import find_entry_point, get_all_entry_points
 LOG = logging.getLogger(__name__)
 
 plugin_deprecations = True
-if geoips_version >= "1.10.0":
+if geoips_version >= "2.0.0":
     plugin_deprecations = False
 
 
@@ -65,13 +65,14 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
     For a module to be converted into an object it must meet the following requirements:
 
     - The module must define a docstring. This will be used as the docstring for the
-      plugin class as well as the docstring for the plugin when requested on the
-      command line.  The first line will be used as a "short" description, and the
-      full docstring will be used as a more detailed discussion of the plugin.
+      plugin class as well as the description for the plugin when requested on the
+      command line.
     - The following global attributes must be defined in the module:
 
       - name: The name of the plugin (must be unique for the interface)
       - family: The family of plugins within the interface that the plugin belongs to
+      - description: A short description of the plugin. This will be used frequently on
+        the command line and should be limited to something small.
     - A callable named `call` that will be called when the plugin is used.
 
     Parameters
@@ -91,23 +92,23 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
     An object of type ``<interface>InterfacePlugin`` where ``<interface>`` is the name
     of the interface that the desired plugin belongs to.
     """
+    obj_attrs["interface"] = interface
     obj_attrs["module"] = module
 
     try:
-        obj_attrs["interface"] = module.interface
-    except AttributeError:
-        raise PluginError(
-            f"Required 'interface' attribute not found in '{module.__name__}'"
-        )
-
-    if module.__doc__:
         obj_attrs["__doc__"] = module.__doc__
-    else:
-        raise PluginError(
-            f"Plugin modules must have a docstring. "
-            f"No docstring found in '{module.__name__}'."
-        )
-    obj_attrs["docstring"] = module.__doc__
+    except AttributeError:
+        if plugin_deprecations:
+            warn(
+                f"Plugin module '{module.__name__}' does not have a docstring. "
+                "Please add a module-level docstring",
+                DeprecationWarning,
+                stacklevel=1,
+            )
+        else:
+            raise PluginError(
+                f"Required '__doc__' attribute not found in '{module.__name__}'"
+            )
 
     try:
         obj_attrs["name"] = module.name
@@ -139,6 +140,22 @@ def plugin_module_to_obj(interface, module, module_call_func="call", obj_attrs={
         except AttributeError:
             raise PluginError(
                 f"Required 'family' attribute not found in '{module.__name__}'"
+            )
+
+    try:
+        obj_attrs["description"] = module.description
+    except AttributeError:
+        if plugin_deprecations:
+            warn(
+                f"Plugin module '{module.__name__}' does not implement a 'description' "
+                "attribute. In future releases this will result in a PluginError.",
+                DeprecationWarning,
+                stacklevel=1,
+            )
+            obj_attrs["description"] = None
+        else:
+            raise PluginError(
+                f"Required 'description' attribute not found in '{module.__name__}'"
             )
 
     if module_call_func != "call":
@@ -438,12 +455,12 @@ class BaseInterface:
             "validity_check": {},
             "family": {},
             "func": {},
-            "docstring": {},
+            "description": {},
         }
         for curr_family in plugin_names:
             for curr_name in plugin_names[curr_family]:
                 output["validity_check"][curr_name] = self.plugin_is_valid(curr_name)
                 output["func"][curr_name] = self.get_plugin(curr_name)
                 output["family"][curr_name] = curr_family
-                output["docstring"][curr_name] = output["func"][curr_name].docstring
+                output["description"][curr_name] = output["func"][curr_name].description
         return output

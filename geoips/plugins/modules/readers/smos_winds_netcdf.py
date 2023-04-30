@@ -19,9 +19,7 @@ LOG = logging.getLogger(__name__)
 MS_TO_KTS = 1.94384
 DEG_TO_KM = 111.321
 
-interface = "readers"
-family = "standard"
-name = "smos_winds_netcdf"
+reader_type = "standard"
 
 
 def read_smos_data(wind_xarray, fname):
@@ -107,7 +105,9 @@ def read_smos_data(wind_xarray, fname):
     return {"WINDSPEED": wind_xarray}
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def smos_winds_netcdf(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """Read SMOS derived winds from netcdf data.
 
     Parameters

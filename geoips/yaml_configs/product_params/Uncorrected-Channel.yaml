@@ -19,5 +19,5 @@ Uncorrected-Channel:
         data_range: [0.0, 1.0]      # MUST pass data_range, it will not auto-detect
         cmap_name: Greys_r
         cbar_label: Normalized Channel Data
-    interp_func: interp_nearest
+    interp_func: pyresample_wrappers.interp_nearest
     interp_args: {}

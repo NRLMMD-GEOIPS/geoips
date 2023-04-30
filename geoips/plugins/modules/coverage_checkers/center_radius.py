@@ -18,10 +18,6 @@ from skimage.draw import disk
 
 LOG = logging.getLogger(__name__)
 
-interface = "coverage_checkers"
-family = "standard"
-name = "center_radius"
-
 
 def plot_coverage(main_ax, area_def, covg_args):
     """Plot the coverage specified by the 'center_radius' function.
@@ -84,7 +80,7 @@ def create_radius(temp_arr, radius_pixels=300, x_center=0, y_center=0):
     return dumby_arr
 
 
-def call(
+def center_radius(
     xarray_obj,
     variable_name,
     area_def=None,

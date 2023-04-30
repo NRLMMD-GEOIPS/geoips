@@ -24,9 +24,7 @@ LOG = logging.getLogger(__name__)
 MS_TO_KTS = 1.94384
 DEG_TO_KM = 111.321
 
-interface = "readers"
-family = "standard"
-name = "ascat_uhr_netcdf"
+reader_type = "standard"
 
 
 def read_byu_data(wind_xarray, fname):
@@ -235,7 +233,9 @@ def read_byu_data(wind_xarray, fname):
     return {dsname: wind_xarray}
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def ascat_uhr_netcdf(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """Read ASCAT UHR derived winds or normalized radar cross section data.
 
     Parameters

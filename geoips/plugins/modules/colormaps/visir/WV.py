@@ -15,12 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "colormaps"
-family = "linear_segmented"
-name = "WV"
+cmap_type = "linear_segmented"
 
 
-def call(data_range=[-70.0, 0.0]):
+def WV(data_range=[-70.0, 0.0]):
     """Colormap developed for displaying algorithms/WV.py processed data.
 
     Parameters

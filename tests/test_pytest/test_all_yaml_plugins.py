@@ -1,4 +1,3 @@
-"""Test all YAML plugins."""
 import pytest
 import yaml
 from importlib import resources
@@ -10,7 +9,6 @@ validator = PluginValidator()
 
 
 def yield_plugins():
-    """Yield plugins."""
     fpath = resources.files("geoips") / "plugins/yaml"
     plugin_files = fpath.rglob("*.yaml")
     for pf in plugin_files:
@@ -19,5 +17,4 @@ def yield_plugins():
 
 @pytest.mark.parametrize("plugin", yield_plugins())
 def test_is_plugin_valid(plugin):
-    """Test if plugin is valid."""
     validator.validate(plugin)

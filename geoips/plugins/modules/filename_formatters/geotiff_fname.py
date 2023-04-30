@@ -19,12 +19,10 @@ from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
-interface = "filename_formatters"
-family = "standard"
-name = "geotiff_fname"
+filename_type = "standard"
 
 
-def call(
+def geotiff_fname(
     area_def,
     xarray_obj,
     product_name,

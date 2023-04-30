@@ -10,21 +10,19 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Passive Microwave 37 GHz Colorized Brightness Temperature.
+"""Data manipulation steps for "color37" product.
 
-Data manipulation steps for the "color37" product.
 This algorithm expects Brightness Temperatures in units of degrees Kelvin
 """
 import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "algorithms"
 family = "list_numpy_to_numpy"
-name = "pmw_color37"
+description = "Passive Microwave 37 MHz Colorized Brightness Temperature"
 
 
-def call(arrays):
+def pmw_color37(arrays):
     """color37 product algorithm data manipulation steps.
 
     This algorithm expects Brightness Temperatures in units of degrees Kelvin,

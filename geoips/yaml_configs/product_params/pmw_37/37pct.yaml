@@ -1,6 +1,6 @@
 37pct:
     product_type: interp_alg_cmap
-    alg_func: pmw_37pct
+    alg_func: pmw_tb.pmw_37pct
     alg_args: 
         output_data_range: [230, 280]
         min_outbounds: crop
@@ -8,9 +8,9 @@
         norm: null
         inverse: null
     mtif_type: pmw
-    cmap_func: pmw_37pct
+    cmap_func: pmw_tb.cmap_37pct
     cmap_args: 
         data_range: [230, 280]
-    interp_func: interp_gauss
+    interp_func: pyresample_wrappers.interp_gauss
     interp_args:
         sigmaval: 10000

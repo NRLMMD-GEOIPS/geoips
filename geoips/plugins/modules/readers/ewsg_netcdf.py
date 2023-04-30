@@ -87,12 +87,12 @@ xvarnames = {
     "rel_azimuth": "SatAzimuth",
 }
 
-interface = "readers"
-family = "standard"
-name = "ewsg_netcdf"
+reader_type = "standard"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def ewsg_netcdf(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """Read EWS-G data in netcdf4 format.
 
     Parameters

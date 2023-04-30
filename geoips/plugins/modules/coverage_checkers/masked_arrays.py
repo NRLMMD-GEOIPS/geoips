@@ -15,12 +15,8 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "coverage_checkers"
-family = "standard"
-name = "masked_arrays"
 
-
-def call(
+def masked_arrays(
     xarray_obj,
     variable_name,
     area_def=None,

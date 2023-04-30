@@ -15,12 +15,8 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "coverage_checkers"
-family = "standard"
-name = "numpy_arrays_nan"
 
-
-def call(
+def numpy_arrays_nan(
     xarray_obj,
     variable_name,
     area_def=None,

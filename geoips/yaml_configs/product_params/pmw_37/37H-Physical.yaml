@@ -8,9 +8,9 @@
         norm: null
         inverse: null
     mtif_type: pmw
-    cmap_func: pmw_37H_Physical
+    cmap_func: pmw_tb.cmap_37H_Physical
     cmap_args: 
         data_range: [125, 300]
-    interp_func: interp_gauss
+    interp_func: pyresample_wrappers.interp_gauss
     interp_args:
         sigmaval: 25000

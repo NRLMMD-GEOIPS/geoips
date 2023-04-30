@@ -10,8 +10,8 @@ WV-Upper:
         norm: null
         inverse: null
     mtif_type: ir
-    cmap_func: WV
+    cmap_func: visir.WV
     cmap_args: 
         data_range: [-70.0, 0.0]
-    interp_func: interp_nearest
+    interp_func: pyresample_wrappers.interp_nearest
     interp_args: {}

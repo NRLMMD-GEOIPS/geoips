@@ -19,12 +19,10 @@ from geoips.sector_utils.yaml_utils import write_yamldict
 
 LOG = logging.getLogger(__name__)
 
-interface = "output_formatters"
-family = "standard_metadata"
-name = "metadata_tc"
+output_type = "standard_metadata"
 
 
-def call(
+def metadata_tc(
     area_def,
     xarray_obj,
     metadata_yaml_filename,
@@ -111,7 +109,7 @@ def update_sector_info_with_coverage(
         covg_args_field_name="covg_args",
     )
     try:
-        default_covgs = default_covg_funcs.call(
+        default_covgs = default_covg_funcs(
             xarray_obj, product_name, area_def, **covg_args["default"]
         )
     except KeyError:
@@ -133,7 +131,7 @@ def update_sector_info_with_coverage(
             covg_args_field_name=covg_func_type + "_covg_args",
         )
         try:
-            covgs[covg_func_type] = covg_funcs[covg_func_type].call(
+            covgs[covg_func_type] = covg_funcs[covg_func_type](
                 xarray_obj, product_name, area_def, **covg_args[covg_func_type]
             )
         except KeyError:
@@ -148,14 +146,14 @@ def update_sector_info_with_coverage(
     for covg_func_type in covgs.keys():
         sector_info["covg_info"][covg_func_type + "_covg_func"] = covg_funcs[
             covg_func_type
-        ].name
+        ].__name__
         sector_info["covg_info"][covg_func_type + "_covg_args"] = covg_args[
             covg_func_type
         ]
         sector_info["covg_info"][covg_func_type + "_covg"] = covgs[covg_func_type]
 
     if covgs.keys() and not set(covg_func_types).issubset(set(covgs.keys())):
-        sector_info["covg_info"]["default_covg_func"] = default_covg_funcs.name
+        sector_info["covg_info"]["default_covg_func"] = default_covg_funcs.__name__
         sector_info["covg_info"]["default_covg_args"] = default_covg_args
         sector_info["covg_info"]["default_covg"] = default_covgs
 

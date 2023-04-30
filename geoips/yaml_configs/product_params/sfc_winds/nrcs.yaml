@@ -17,7 +17,7 @@ nrcs:
     cmap_args: 
         data_range: [-35, -20]
         cmap_name: Greys_r
-    interp_func: interp_nearest
+    interp_func: pyresample_wrappers.interp_nearest
     interp_args: {}
     covg_func: center_radius
     covg_args: {'radius_km': 300}

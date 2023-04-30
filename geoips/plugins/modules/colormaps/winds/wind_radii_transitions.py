@@ -15,12 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "colormaps"
-family = "linear_segmented"
-name = "wind_radii_transitions"
+cmap_type = "linear_segmented"
 
 
-def call(data_range=[0, 200]):
+def wind_radii_transitions(data_range=[0, 200]):
     """Generate appropriate matplotlib colors for plotting standard wind speeds.
 
     wind_radii_transitions contains hard coded transition values for different

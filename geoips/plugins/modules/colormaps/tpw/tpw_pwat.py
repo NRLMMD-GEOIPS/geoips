@@ -15,12 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "colormaps"
-family = "ascii"
-name = "tpw_pwat"
+cmap_type = "ascii"
 
 
-def call():
+def tpw_pwat():
     """Colormap for displaying data using TPW PWAT ascii colormap.
 
     Data range of ASCII palette is 1 to 90 mm, with numerous transitions

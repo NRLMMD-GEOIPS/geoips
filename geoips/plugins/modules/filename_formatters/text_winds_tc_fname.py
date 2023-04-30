@@ -17,14 +17,14 @@ from os.path import join as pathjoin
 
 from geoips.filenames.base_paths import PATHS as gpaths
 
-interface = "filename_formatters"
-family = "xarray_metadata_to_filename"
-name = "text_winds_tc_fname"
+filename_type = "xarray_metadata_to_filename"
 
 LOG = logging.getLogger(__name__)
 
 
-def call(xarray_obj, extension=".txt", basedir=gpaths["TCWWW"], output_dict=None):
+def text_winds_tc_fname(
+    xarray_obj, extension=".txt", basedir=gpaths["TCWWW"], output_dict=None
+):
     """Create TC-specific text windspeed filename.
 
     See Also

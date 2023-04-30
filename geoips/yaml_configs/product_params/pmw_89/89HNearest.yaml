@@ -8,9 +8,9 @@
         norm: null
         inverse: null
     mtif_type: pmw
-    cmap_func: pmw_89H
+    cmap_func: pmw_tb.cmap_89H
     cmap_args: 
         data_range: [105, 305]
-    interp_func: interp_nearest
+    interp_func: pyresample_wrappers.interp_nearest
     interp_args: {}
 

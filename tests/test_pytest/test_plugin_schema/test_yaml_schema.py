@@ -1,4 +1,3 @@
-"""Test YAML schema."""
 import pytest
 
 import re
@@ -14,7 +13,6 @@ validator = PluginValidator()
 
 
 def get_error(name):
-    """Get error."""
     try:
         exc = getattr(__builtins__, name)
     except AttributeError:
@@ -28,7 +26,6 @@ def get_error(name):
 
 
 def path_to_id(fname):
-    """Get path to id."""
     fpath = Path(fname).relative_to(test_path)
     parts = list(fpath.parent.parts[1:])
     parts.append(fpath.stem)
@@ -37,7 +34,6 @@ def path_to_id(fname):
 
 
 def yield_bad_plugins():
-    """Yield bad plugins."""
     bad_files = {path_to_id(fname): fname for fname in test_path.rglob("bad/**/*.yaml")}
     for validator_name, bad_file in bad_files.items():
         plugins = yaml.safe_load_all(open(bad_file, "r"))
@@ -46,7 +42,6 @@ def yield_bad_plugins():
 
 
 def yield_good_plugins():
-    """Yield good plugins."""
     good_files = {
         path_to_id(fname): fname for fname in test_path.rglob("good/**/*.yaml")
     }

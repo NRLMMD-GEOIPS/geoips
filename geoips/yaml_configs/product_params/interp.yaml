@@ -2,5 +2,5 @@
 # define products directly within product_inputs/<source>.yaml
 interp:
     product_type: 'interp'
-    interp_func: interp_nearest
+    interp_func: pyresample_wrappers.interp_nearest
     interp_args: {}

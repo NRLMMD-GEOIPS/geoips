@@ -23,9 +23,7 @@ import xarray as xr
 
 log = logging.getLogger(__name__)
 
-interface = "readers"
-family = "standard"
-name = "abi_l2_netcdf"
+reader_type = "standard"
 
 
 def get_metadata(fname):
@@ -59,7 +57,9 @@ def calculate_abi_geolocation(metadata, area_def):
     return geo
 
 
-def call(fnames, area_def=None, metadata_only=False, chans=False, self_register=False):
+def abi_l2_netcdf(
+    fnames, area_def=None, metadata_only=False, chans=False, self_register=False
+):
     """
     Read ABI Level 2 NetCDF data from a list of filenames.
 

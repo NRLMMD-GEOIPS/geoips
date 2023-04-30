@@ -8,9 +8,9 @@
         norm: null
         inverse: null
     mtif_type: pmw
-    cmap_func: pmw_89H_Legacy
+    cmap_func: pmw_tb.cmap_89H_Legacy
     cmap_args: 
         data_range: [180, 280]
-    interp_func: interp_gauss
+    interp_func: pyresample_wrappers.interp_gauss
     interp_args:
         sigmaval: 10000

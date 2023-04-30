@@ -15,12 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "colormaps"
-family = "linear_segmented"
-name = "IR_BD"
+cmap_type = "linear_segmented"
 
 
-def call(data_range=[-90.0, 40.0]):
+def IR_BD(data_range=[-90.0, 40.0]):
     """Colormap for displaying algorithms/visir/IR_BD.py processed data.
 
     Parameters

@@ -196,9 +196,7 @@ xvarnames = {
 
 #    Run plan:  fname has a list of VIIRS files (3 *02* or *03* files)
 
-interface = "readers"
-family = "standard"
-name = "viirs_netcdf"
+reader_type = "standard"
 
 
 def required_chan(chans, varnames):
@@ -262,7 +260,9 @@ def add_to_xarray(varname, nparr, xobj, dataset_masks, data_type, nparr_mask):
         dataset_masks[data_type] = numpy.vstack([dataset_masks[data_type], nparr_mask])
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def viirs_netcdf(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """Read VIIRS netcdf data products.
 
     Parameters

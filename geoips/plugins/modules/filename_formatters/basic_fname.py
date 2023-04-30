@@ -18,12 +18,10 @@ from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
-interface = "filename_formatters"
-family = "xarray_area_product_to_filename"
-name = "basic_fname"
+filename_type = "xarray_area_product_to_filename"
 
 
-def call(
+def basic_fname(
     xarray_obj,
     area_def,
     product_name,

@@ -18,12 +18,12 @@ import logging
 LOG = logging.getLogger(__name__)
 from numpy import datetime64
 
-interface = "readers"
-family = "standard"
-name = "saphir_hdf5"
+reader_type = "standard"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def saphir_hdf5(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """Read SAPHIR hdf data products.
 
     Parameters

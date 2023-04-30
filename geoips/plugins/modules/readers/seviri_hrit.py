@@ -118,9 +118,7 @@ geolocation_variable_names = [
     "SatAzimuth",
 ]
 
-interface = "readers"
-family = "standard"
-name = "seviri_hrit"
+reader_type = "standard"
 
 
 def calculate_chebyshev_polynomial(coefs, start_dt, end_dt, dt):
@@ -470,7 +468,9 @@ class ChanList(object):
         return cls(chans)
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def seviri_hrit(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """Read SEVIRI hrit data products.
 
     Parameters

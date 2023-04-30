@@ -23,7 +23,7 @@ format, such as
  V1.0:  Initial version, NRL-MRY, June 1, 2020
 
 Basic information on AMSU-B product file::
-
+ 
     Input SD Variables
     (nscan, npix):
         npix=90 pixels per scan;
@@ -71,12 +71,12 @@ from pyhdf.SD import SD, SDC
 from pyhdf.HDF import *
 from pyhdf.VS import *
 
-interface = "readers"
-family = "standard"
-name = "amsub_hdf"
+reader_type = "standard"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def amsub_hdf(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """Read AMSU-B hdf data products.
 
     Parameters

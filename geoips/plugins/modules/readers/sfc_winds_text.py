@@ -17,12 +17,12 @@ LOG = logging.getLogger(__name__)
 
 MS_TO_KTS = 1.94384
 
-interface = "readers"
-family = "standard"
-name = "sfc_winds_text"
+reader_type = "standard"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def sfc_winds_text(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """Read one of SAR, SMAP, SMOS, AMSR derived winds from text data.
 
     Parameters

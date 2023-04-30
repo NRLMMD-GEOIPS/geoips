@@ -10,18 +10,16 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Passive Microwave 89 GHz Polarization Corrected Temperature.
+"""Data manipulation steps for "89pct" product.
 
-Data manipulation steps for the "89pct" product.
 This algorithm expects Brightness Temperatures in units of degrees Kelvin
 """
 import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "algorithms"
 family = "list_numpy_to_numpy"
-name = "pmw_89pct"
+description = "Passive Microwave 89 MHz Polarization Corrected Temperature"
 
 
 def call(

@@ -15,12 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "colormaps"
-family = "ascii"
-name = "tpw_cimss"
+cmap_type = "ascii"
 
 
-def call():
+def tpw_cimss():
     """Colormap for displaying data using TPW CIMSS ascii colormap.
 
     Data range of ASCII palette is 5 to 65 mm, with transitions at

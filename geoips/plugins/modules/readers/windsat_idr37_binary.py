@@ -146,12 +146,12 @@ gvar_info = {
     "WINDSAT_SDR_AFT": {"Latitude": "latitude", "Longitude": "longitude"},
 }
 
-interface = "readers"
-family = "standard"
-name = "windsat_idr37_binary"
+reader_type = "standard"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def windsat_idr37_binary(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """Read Windsat binary data products.
 
     Parameters

@@ -15,12 +15,10 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "colormaps"
-family = "linear_segmented"
-name = "pmw_89pct"
+cmap_type = "linear_segmented"
 
 
-def call(data_range=[105, 280], cbar_label="TB (K)"):
+def cmap_89pct(data_range=[105, 280], cbar_label="TB (K)"):
     """Colormap for displaying ~89GHz PMW data for weak TCs.
 
     Parameters
