@@ -35,10 +35,12 @@ Update boundaries_info with feature_annotator in output_formatters
 ------------------------------------------------------------------
 
 These are dictionaries of feature information to use in the final
-output plot.  Replace with "feature_annotator" terminology.
+output plot.  Replace with "feature_annotator" terminology for the
+call signature argument.
 
 ::
 
+  modified: geoips/interfaces/module_based/output_formatters.py
   modified: geoips/plugins/modules/output_formatters/full_disk_image.py
   modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
   modified: geoips/plugins/modules/output_formatters/imagery_windbarbs.py
