@@ -2,7 +2,7 @@ interface: products
 family: list
 name: ascatuhr
 docstring: |
-  The ascatuhr product_inputs configuration, which produces Windspeed products, Windbarbs products, 
+  The ascatuhr product_inputs configuration, which produces Windspeed products, Windbarbs products,
   Wind-ambiguity products, Unsectored/Sectored products, Sigma0 products, and NRCS products
 spec:
   products:
@@ -42,13 +42,6 @@ spec:
       spec:
         source_name: ascatuhr
         variables: ["wind_speed_kts", "wind_dir_deg_met"]
-    - name: sigma0
-      docstring: |
-        The sigma0 product_defaults for ascatuhr product.
-      product_defaults: sigma0
-      spec:
-        source_name: ascatuhr
-        variables: ["sigma0_mean"]
     - name: nrcs
       docstring: |
         The nrcs product_defaults for ascatuhr product.
