@@ -1,0 +1,33 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a11 (2023-05-01)
+******************************
+
+* Remove deprecated yaml_configs directory
+
+Breaking Changes
+================
+
+Remove deprecated yaml_configs directory
+----------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211: 2023-05-01, finalize code to use new interfaces*
+
+::
+
+  deleted: geoips/yaml_configs/plotting_params/boundaries/*
+  deleted: geoips/yaml_configs/plotting_params/boundaries/*
+  deleted: geoips/product_inputs/*
+  deleted: geoips/product_params/*
+  deleted: geoips/sectors_dynamic/*
+  deleted: geoips/sectors_static/*
