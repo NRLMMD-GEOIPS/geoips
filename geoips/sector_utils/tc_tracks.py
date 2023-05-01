@@ -153,7 +153,7 @@ def set_tc_area_def(
     source_sector_file=None,
     clat=None,
     clon=None,
-    template_yaml=gpaths["TC_TEMPLATE"],
+    sector_spec_generator="tc_web",
     aid_type=None,
 ):
     """Set the TC area definition, using specified arguments.
@@ -173,7 +173,7 @@ def set_tc_area_def(
         specify clat/clon separately from that found in 'fields'
     clon : float, default=None
         specify clat/clon separately from that found in 'fields'
-    template_yaml : str, default=gpaths['TC_TEMPLATE']
+    sector_spec_generator : str, default=gpaths['TC_TEMPLATE']
         Path to template YAML file to use when setting up area definition.
     aid_type : str, default=None
         type of TC aid (BEST, MBAM, etc)
@@ -183,20 +183,14 @@ def set_tc_area_def(
     pyresample.AreaDefinition
         pyresample AreaDefinition object with specified parameters.
     """
-    import yaml
+    if sector_spec_generator is None:
+        sector_spec_generator = "tc_web"
 
-    if template_yaml is None:
-        template_yaml = gpaths["TC_TEMPLATE"]
-    with open(template_yaml, "r") as fobj:
-        template_dict = yaml.safe_load(fobj)
+    sectgen_plugin = sector_spec_generators.get_plugin(sector_spec_generator)
 
     # I think this is probably what we will want.
-    template_func_name = template_dict["spec"]["sector_spec_generator"]["name"]
-    template_args = template_dict["spec"]["sector_spec_generator"]["arguments"]
-    # This is probably not the formatting we want for the dynamic templates,
-    # but leave it for now until we finalize.
-    # template_func_name = template_dict["spec"]["generators"]["spec"]["name"]
-    # template_args = template_dict["spec"]["generators"]["spec"]["arguments"]
+    template_func_name = sectgen_plugin["spec"]["sector_spec_generator"]["name"]
+    template_args = sectgen_plugin["spec"]["sector_spec_generator"]["arguments"]
 
     if not finalstormname and "final_storm_name" in fields:
         finalstormname = fields["final_storm_name"]
@@ -266,7 +260,7 @@ def set_tc_area_def(
 
 
 def trackfile_to_area_defs(
-    trackfile_name, trackfile_parser="bdeck_parser", template_yaml=None
+    trackfile_name, trackfile_parser="bdeck_parser", sector_spec_generator=None
 ):
     """Get TC area definitions for the specified text trackfile.
 
@@ -300,7 +294,7 @@ def trackfile_to_area_defs(
                 tc_year,
                 finalstormname=final_storm_name,
                 source_sector_file=trackfile_name,
-                template_yaml=template_yaml,
+                sector_spec_generator=sector_spec_generator,
             )
         ]
 
