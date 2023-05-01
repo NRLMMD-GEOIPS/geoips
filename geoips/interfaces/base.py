@@ -86,7 +86,7 @@ def plugin_yaml_to_obj(yaml, obj_attrs={}):
     plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
     plugin_type = f"{plugin_interface_name}Plugin"
 
-    return type(plugin_type, (BasePlugin,), obj_attrs)(yaml)
+    return type(plugin_type, (BaseYamlPlugin,), obj_attrs)(yaml)
 
 
 def plugin_module_to_obj(module, obj_attrs={}):
@@ -162,10 +162,10 @@ def plugin_module_to_obj(module, obj_attrs={}):
     plugin_type = f"{plugin_interface_name}Plugin"
 
     # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
-    return type(plugin_type, (BasePlugin,), obj_attrs)()
+    return type(plugin_type, (BaseModulePlugin,), obj_attrs)()
 
 
-class BasePlugin(dict):
+class BaseYamlPlugin:
     """Base class for GeoIPS plugins."""
 
     def __init__(self, *args, **kwargs):
@@ -174,6 +174,12 @@ class BasePlugin(dict):
     def __repr__(self):
         val = super().__repr__()
         return f"{self.__class__.__name__}({val})"
+
+
+class BaseModulePlugin:
+    """Base class for GeoIPS plugins."""
+
+    pass
 
 
 class BaseInterface:
