@@ -92,7 +92,7 @@ def is_valid_output_config(output_config_dict):
             "minimum_coverage",
             "compare_path",
             "feature_annotator",
-            "gridlines_params",
+            "gridline_annotator",
         ],
     }
 
@@ -341,10 +341,10 @@ def get_output_formatter_kwargs(
         output_formatter_kwargs = output_dict["output_formatter_kwargs"].copy()
 
     if (
-        "gridlines_params" in output_dict
-        and output_dict["gridlines_params"] is not None
+        "gridline_annotator" in output_dict
+        and output_dict["gridline_annotator"] is not None
     ):
-        gridlines_info = get_gridlines(output_dict["gridlines_params"])
+        gridlines_info = get_gridlines(output_dict["gridline_annotator"])
         gridlines_info = set_lonlat_spacing(gridlines_info, area_def)
         output_formatter_kwargs["gridlines_info"] = gridlines_info
 

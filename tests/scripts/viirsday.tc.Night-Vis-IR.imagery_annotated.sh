@@ -31,7 +31,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ10
              --filename_formatter tc_fname \
              --output_formatter imagery_annotated \
              --feature_annotator tc_visir \
-             --gridlines_params tc_visir \
+             --gridline_annotator tc_visir \
              --metadata_filename_formatter metadata_default_fname \
              --metadata_output_formatter metadata_default \
              --trackfile_parser bdeck_parser \

@@ -23,7 +23,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsub/data/NPR-MIRS-IMG_v11r4_ma2_s2
           --filename_formatter tc_fname \
           --output_formatter imagery_annotated \
           --feature_annotator tc_pmw \
-          --gridlines_params tc_pmw \
+          --gridline_annotator tc_pmw \
           --metadata_filename_formatter metadata_default_fname \
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \

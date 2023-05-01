@@ -59,8 +59,10 @@ call signature argument.
   modified: geoips/plugins/modules/output_formatters/imagery_windbarbs.py
   modified: geoips/image_utils/mpl_utils.py
 
-Update boundaries_params to feature_annotator in command line calls and configs
--------------------------------------------------------------------------------
+Update boundaries/gridlines_params to feature/gridline_annotator
+----------------------------------------------------------------
+
+Update both command line calls and YAML output configs.
 
 ::
 

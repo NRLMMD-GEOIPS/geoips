@@ -1176,7 +1176,7 @@ def call(fnames, command_line_args=None):
         "trackfile_sector_list",  # Flat text trackfile,
         "reader_name",
         "product_name",
-        "gridlines_params",
+        "gridline_annotator",
         "feature_annotator",
         "product_params_override",
         "output_formatter",

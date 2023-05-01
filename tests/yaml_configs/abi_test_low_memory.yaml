@@ -40,5 +40,5 @@ outputs:
         all: 100
         IR-BD: 0
     feature_annotator: tc_pmw
-    gridlines_params: tc_pmw
+    gridline_annotator: tc_pmw
     compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_annotated

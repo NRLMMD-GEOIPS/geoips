@@ -589,14 +589,14 @@ def add_args(parser, arglist=None):
         )
 
     plt_group = parser.add_argument_group(title="Plotting parameter specifications")
-    if arglist is None or "gridlines_params" in arglist:
+    if arglist is None or "gridline_annotator" in arglist:
         plt_group.add_argument(
-            "--gridlines_params",
+            "--gridline_annotator",
             default=None,
-            help="""If --gridlines_params is passed, the specific gridline
+            help="""If --gridline_annotator is passed, the specific gridline
                     params will be located in
-                    geoips*.image_utils.plotting_params.gridlines.gridlines_params,
-                    The gridlines_params string should be the base gridline name
+                    geoips*.image_utils.plotting_params.gridlines.gridline_annotator,
+                    The gridline_annotator string should be the base gridline name
                     (no .yaml)""",
         )
     if arglist is None or "feature_annotator" in arglist:
