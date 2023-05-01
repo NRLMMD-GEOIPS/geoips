@@ -29,7 +29,7 @@ def call(
     product_name_title=None,
     mpl_colors_info=None,
     feature_annotator=None,
-    gridlines_info=None,
+    gridline_annotator=None,
     product_datatype_title=None,
     bg_data=None,
     bg_mpl_colors_info=None,
@@ -108,7 +108,7 @@ def call(
         main_ax,
         area_def,
         feature_annotator=feature_annotator,
-        gridlines_info=gridlines_info,
+        gridline_annotator=gridline_annotator,
     )
 
     if output_fnames is not None:

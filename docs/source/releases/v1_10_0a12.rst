@@ -52,15 +52,19 @@ Update dev/output_config.py to use new YAML interfaces
 ------------------------------------------------------
 
 * from geoips.dev.boundaries import get_boundaries
+* from geoips.dev.gridlines import get_gridlines
 
-  * from geoips.interfaces import feature_annotators
+to:
+
+* from geoips.interfaces import feature_annotators
+* from geoips.interfaces import gridline_annotators
 
 ::
 
   modified: geoips/dev/output_config.py
 
-Update boundaries_info with feature_annotator in output_formatters
-------------------------------------------------------------------
+Update boundaries/gridlines_info with feature/gridline_annotator in output_formatters
+-------------------------------------------------------------------------------------
 
 These are dictionaries of feature information to use in the final
 output plot.  Replace with "feature_annotator" terminology for the

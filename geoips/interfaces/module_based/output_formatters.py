@@ -64,7 +64,7 @@ class OutputFormattersInterface(BaseModuleInterface):
             "mpl_colors_info",
             "clean_fname",
             "feature_annotator",
-            "gridlines_info",
+            "gridline_annotator",
             "clean_fname",
             "product_datatype_title",
             "clean_fname",
