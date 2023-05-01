@@ -321,6 +321,47 @@ def get_metadata_filename_formatter_kwargs(filename_formatter, output_dict):
     return metadata_filename_formatter_kwargs
 
 
+def set_lonlat_spacing(gridline_annotator, area_def):
+    """Interface will be deprecated v2.0."""
+    if (
+        gridline_annotator is None
+        or "grid_lat_spacing" not in gridline_annotator.keys()
+        or "grid_lon_spacing" not in gridline_annotator.keys()
+        or gridline_annotator["grid_lon_spacing"] == "auto"
+        or gridline_annotator["grid_lat_spacing"] == "auto"
+    ):
+        from pyresample import utils
+
+        minlat = area_def.area_extent_ll[1]
+        maxlat = area_def.area_extent_ll[3]
+        minlon = utils.wrap_longitudes(area_def.area_extent_ll[0])
+        maxlon = utils.wrap_longitudes(area_def.area_extent_ll[2])
+        if minlon > maxlon and maxlon < 0:
+            maxlon = maxlon + 360
+        lon_extent = maxlon - minlon
+        lat_extent = maxlat - minlat
+
+        if lon_extent > 5:
+            lon_spacing = int(lon_extent / 5)
+        elif lon_extent > 2.5:
+            lon_spacing = 1
+        else:
+            lon_spacing = lon_extent / 5.0
+
+        if lat_extent > 5:
+            lat_spacing = int(lat_extent / 5)
+        elif lat_extent > 2.5:
+            lat_spacing = 1
+        else:
+            lat_spacing = lat_extent / 5.0
+
+        LOG.info("lon_extent: %s, lon_spacing: %s", lon_extent, lon_spacing)
+        gridline_annotator["grid_lat_spacing"] = lat_spacing
+        gridline_annotator["grid_lon_spacing"] = lon_spacing
+
+    return gridline_annotator
+
+
 def get_output_formatter_kwargs(
     output_dict,
     xarray_obj=None,
@@ -348,7 +389,7 @@ def get_output_formatter_kwargs(
             output_dict["gridline_annotator"]
         )
         gridline_annotator = set_lonlat_spacing(gridline_annotator, area_def)
-        output_formatter_kwargs["gridlines_info"] = gridlines_info
+        output_formatter_kwargs["gridline_annotator"] = gridline_annotator
 
     if (
         "feature_annotator" in output_dict
