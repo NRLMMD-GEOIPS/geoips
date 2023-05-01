@@ -18,6 +18,15 @@ properties:
       - labels
       - lines
     properties:
+      spacing:
+        latitude:
+          type:
+            - number
+            - string
+        longitude:
+          type:
+            - number
+            - string
       labels:
         type: object
         # ONLY allow top, bottom, left, right.
@@ -40,31 +49,19 @@ properties:
       lines:
         type: object
         required:
-          - latitude
-          - longitude
+          - color
+          - linestyle
+          - linewidth
+          - lat_spacing
+          - lon_spacing
         properties:
-          latitude: &lines-args
-            type: object
-            # ONLY allow color, linestyle, linewidth, spacing.
-            # If additional properties required, must update schema accordingly.
-            unevaluatedProperties: false
-            required:
-              - color
-              - linestyle
-              - linewidth
-              - spacing
-            properties:
-              color:
-                type: string
-              linestyle:
-                type: array
-                minItems: 2
-                maxItems: 2
-                items:
-                  type: number
-              linewidth:
-                type: number
-              spacing:
-                type: [number, string]
-                pattern: "auto"
-          longitude: *lines-args
+          color:
+            type: string
+          linestyle:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: integer
+          linewidth:
+            type: number
