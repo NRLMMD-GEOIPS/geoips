@@ -86,7 +86,7 @@ def plugin_yaml_to_obj(yaml, obj_attrs={}):
     plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
     plugin_type = f"{plugin_interface_name}Plugin"
 
-    return type(plugin_type, (BasePlugin,), obj_attrs)(yaml=yaml)
+    return type(plugin_type, (BasePlugin,), obj_attrs)(yaml)
 
 
 def plugin_module_to_obj(module, obj_attrs={}):
