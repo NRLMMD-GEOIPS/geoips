@@ -13,6 +13,7 @@
 """General high level utilities for geoips processing."""
 
 import os
+import sys
 import yaml
 import logging
 from importlib import metadata, resources
@@ -25,6 +26,13 @@ LOG = logging.getLogger(__name__)
 NAMESPACE_PREFIX = "geoips"
 
 
+def get_entry_point_group(group):
+    if sys.version_info[:3] >= (3, 10, 0):
+        return metadata.entry_points(group=group)
+    else:
+        return metadata.entry_points()[group]
+
+
 def load_all_yaml_plugins():
     """Find all YAML plugins in registered plugin packages.
 
@@ -32,7 +40,7 @@ def load_all_yaml_plugins():
     in ``.yaml``. Read each plugin file
     """
     # Load all entry points for plugin packages
-    plugin_packages = metadata.entry_points()["geoips.plugin_packages"]
+    plugin_packages = get_entry_point_group("geoips.plugin_packages")
 
     # Loop over the plugin packages and load all of their yaml plugins
     plugins = {}
@@ -132,9 +140,8 @@ def find_entry_point(namespace, name, default=None):
         Default value if no match is found.  If this is not set (i.e. None),
         then no match will result in an exception
     """
-    entry_points = metadata.entry_points()
     ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    for ep in entry_points[ep_namespace]:
+    for ep in get_entry_point_group(ep_namespace):
         if ep.name == name:
             resolved_ep = ep.load()
             break
@@ -161,9 +168,8 @@ def get_all_entry_points(namespace):
     namespace :str
         Entry point namespace (e.g. 'readers')
     """
-    entry_points = metadata.entry_points()
     ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    return [ep.load() for ep in entry_points[ep_namespace]]
+    return [ep.load() for ep in get_entry_point_group(ep_namespace)]
 
 
 def list_entry_points(namespace):
@@ -176,9 +182,8 @@ def list_entry_points(namespace):
     namespace :str
         Entry point namespace (e.g. 'readers')
     """
-    entry_points = metadata.entry_points()
     ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    return [ep.name for ep in entry_points[ep_namespace]]
+    return [ep.name for ep in get_entry_point_group(ep_namespace)]
 
 
 def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=True):
