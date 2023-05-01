@@ -364,6 +364,43 @@ def get_required_geoips_xarray_attrs():
     return required_xarray_attrs
 
 
+def list_product_specs_dict_yamls():
+    """List all YAML files containing product params in all geoips packages.
+
+    Returns
+    -------
+    list
+        List of all product params dict YAMLs in all geoips packages
+    """
+    all_files = []
+    for package_name in gpaths["GEOIPS_PACKAGES"]:
+        all_files += glob(
+            gpaths["GEOIPS_PACKAGES_DIR"]
+            + "/"
+            + package_name
+            + "/*/yaml_configs/product_params/*/*.yaml"
+        )
+        all_files += glob(
+            gpaths["GEOIPS_PACKAGES_DIR"]
+            + "/"
+            + package_name
+            + "/yaml_configs/product_params/*/*.yaml"
+        )
+        all_files += glob(
+            gpaths["GEOIPS_PACKAGES_DIR"]
+            + "/"
+            + package_name
+            + "/*/yaml_configs/product_params/*.yaml"
+        )
+        all_files += glob(
+            gpaths["GEOIPS_PACKAGES_DIR"]
+            + "/"
+            + package_name
+            + "/yaml_configs/product_params/*.yaml"
+        )
+    return [fname for fname in all_files if "__init__" not in fname]
+
+
 def list_product_source_dict_yamls():
     """List all YAML files containing product source specifications.
 
