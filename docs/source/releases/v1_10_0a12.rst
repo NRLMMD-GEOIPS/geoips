@@ -32,6 +32,17 @@ Remove boundaries and gridlines YAML configs and old interface
   deleted: geoips/yaml_configs/plotting_params/boundaries
   deleted: geoips/yaml_configs/plotting_params/gridlines
 
+Update dev/output_config.py to use new YAML interfaces
+------------------------------------------------------
+
+* from geoips.dev.boundaries import get_boundaries
+
+  * from geoips.interfaces import feature_annotators
+
+::
+
+  modified: geoips/dev/output_config.py
+
 Update boundaries_info with feature_annotator in output_formatters
 ------------------------------------------------------------------
 
@@ -41,6 +52,7 @@ call signature argument.
 
 ::
 
+  modified: geoips/dev/output_config.py
   modified: geoips/interfaces/module_based/output_formatters.py
   modified: geoips/plugins/modules/output_formatters/full_disk_image.py
   modified: geoips/plugins/modules/output_formatters/imagery_annotated.py

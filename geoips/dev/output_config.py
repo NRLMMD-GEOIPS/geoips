@@ -333,8 +333,8 @@ def get_output_formatter_kwargs(
     """Interface will be deprecated v2.0."""
     from geoips.dev.product import get_cmap_name, get_cmap_args
     from geoips.interfaces import colormaps
+    from geoips.interfaces import feature_annotators
     from geoips.dev.gridlines import get_gridlines, set_lonlat_spacing
-    from geoips.dev.boundaries import get_boundaries
 
     output_formatter_kwargs = {}
     if "output_formatter_kwargs" in output_dict:
@@ -352,8 +352,10 @@ def get_output_formatter_kwargs(
         "feature_annotator" in output_dict
         and output_dict["feature_annotator"] is not None
     ):
-        boundaries_info = get_boundaries(output_dict["feature_annotator"])
-        output_formatter_kwargs["boundaries_info"] = boundaries_info
+        feature_annotator = feature_annotators.get_plugin(
+            output_dict["feature_annotator"]
+        )
+        output_formatter_kwargs["feature_annotator"] = feature_annotator
 
     if bg_files and "background_products" in output_dict and sector_type in bg_xarrays:
         output_formatter_kwargs["bg_xarray"] = bg_xarrays[sector_type]
