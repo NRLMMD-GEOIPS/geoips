@@ -599,14 +599,14 @@ def add_args(parser, arglist=None):
                     The gridlines_params string should be the base gridline name
                     (no .yaml)""",
         )
-    if arglist is None or "boundaries_params" in arglist:
+    if arglist is None or "feature_annotator" in arglist:
         plt_group.add_argument(
-            "--boundaries_params",
+            "--feature_annotator",
             default=None,
-            help="""If --boundaries_params is passed, the specific boundary
+            help="""If --feature_annotator is passed, the specific boundary
                     params will be located in
-                    geoips*.image_utils.plotting_params.boundaries.<boundaries_params>,
-                    The boundaries_params string should be the base boundaries name
+                    geoips*.image_utils.plotting_params.boundaries.<feature_annotator>,
+                    The feature_annotator string should be the base boundaries name
                     (no .yaml)""",
         )
 

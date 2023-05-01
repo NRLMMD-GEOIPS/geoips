@@ -91,7 +91,7 @@ def is_valid_output_config(output_config_dict):
             "minimum_coverages",
             "minimum_coverage",
             "compare_path",
-            "boundaries_params",
+            "feature_annotator",
             "gridlines_params",
         ],
     }
@@ -349,10 +349,10 @@ def get_output_formatter_kwargs(
         output_formatter_kwargs["gridlines_info"] = gridlines_info
 
     if (
-        "boundaries_params" in output_dict
-        and output_dict["boundaries_params"] is not None
+        "feature_annotator" in output_dict
+        and output_dict["feature_annotator"] is not None
     ):
-        boundaries_info = get_boundaries(output_dict["boundaries_params"])
+        boundaries_info = get_boundaries(output_dict["feature_annotator"])
         output_formatter_kwargs["boundaries_info"] = boundaries_info
 
     if bg_files and "background_products" in output_dict and sector_type in bg_xarrays:

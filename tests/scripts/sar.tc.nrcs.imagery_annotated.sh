@@ -22,7 +22,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_sar/data/STAR_SAR_20181025203206_WP3
           --product_name nrcs \
           --filename_formatter tc_fname \
           --output_formatter imagery_annotated \
-          --boundaries_params default \
+          --feature_annotator default \
           --gridlines_params default \
           --metadata_filename_formatter metadata_default_fname \
           --metadata_output_formatter metadata_default \

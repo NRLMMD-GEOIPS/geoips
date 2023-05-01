@@ -30,3 +30,20 @@ Remove boundaries and gridlines YAML configs
 
   deleted: geoips/yaml_configs/plotting_params/boundaries
   deleted: geoips/yaml_configs/plotting_params/gridlines
+
+Update boundaries_params to feature_annotator in command line calls and configs
+-------------------------------------------------------------------------------
+
+::
+
+  modified: geoips/commandline/args.py
+  modified: geoips/dev/output_config.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+  modified: tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh
+  modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
+  modified: tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh
+  modified: tests/scripts/sar.tc.nrcs.imagery_annotated.sh
+  modified: tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh
+  modified: tests/yaml_configs/abi_test.yaml
+  modified: tests/yaml_configs/abi_test_low_memory.yaml

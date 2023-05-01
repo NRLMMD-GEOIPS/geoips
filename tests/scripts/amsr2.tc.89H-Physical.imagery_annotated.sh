@@ -22,7 +22,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s20200
           --product_name 89H-Physical \
           --filename_formatter tc_fname \
           --output_formatter imagery_annotated \
-          --boundaries_params tc_pmw \
+          --feature_annotator tc_pmw \
           --gridlines_params tc_pmw \
           --metadata_filename_formatter metadata_default_fname \
           --metadata_output_formatter metadata_default \
