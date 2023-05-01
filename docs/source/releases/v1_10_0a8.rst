@@ -10,7 +10,6 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-
 Version 1.10.0a8 (2023-04-28)
 *****************************
 
@@ -94,14 +93,7 @@ Finalize YAML plugin schema and unit tests
     added: tests/test_pytest/test_plugin_schema/good/product_defaults/interpolator_algorithm_colormap.yaml
     added: tests/test_pytest/test_plugin_schema/good/products/bases/product.yaml
     added: tests/test_pytest/test_plugin_schema/good/products/single.yaml
-    added: tests/test_pytest/test_plugin_schema/good_algorithm.yaml
-    added: tests/test_pytest/test_plugin_schema/good_product_defaults_interpolator_algorithm_colormap.yaml
-    added: tests/test_pytest/test_plugin_schema/good_product_defaults_spec_interpolator_algorithm_colormap.yaml
-    added: tests/test_pytest/test_plugin_schema/list.yaml
-    added: tests/test_pytest/test_plugin_schema/test_product.yaml
     added: tests/test_pytest/test_plugin_schema/test_yaml_schema.py
-    added: tests/test_pytest/test_plugin_schema/test_yaml_validator.py
-
     deleted: geoips/schema/base.yaml
     deleted: geoips/schema/boundaries.yaml
     deleted: geoips/schema/gridlines.yaml
