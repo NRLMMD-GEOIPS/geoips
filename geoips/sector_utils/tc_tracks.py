@@ -192,8 +192,13 @@ def set_tc_area_def(
         template_func_name = template_dict["area_def_generator_func"]
         template_args = template_dict["area_def_generator_args"]
     except:
-        template_func_name = template_dict["spec"]["sector_spec_generator"]["name"]
-        template_args = template_dict["spec"]["sector_spec_generator"]["arguments"]
+        # I think this is probably what we will want.
+        # template_func_name = template_dict["spec"]["sector_spec_generator"]["name"]
+        # template_args = template_dict["spec"]["sector_spec_generator"]["arguments"]
+        # This is probably not the formatting we want for the dynamic templates,
+        # but leave it for now until we finalize.
+        template_func_name = template_dict["spec"]["generators"]["spec"]["name"]
+        template_args = template_dict["spec"]["generators"]["spec"]["arguments"]
 
     if not finalstormname and "final_storm_name" in fields:
         finalstormname = fields["final_storm_name"]
