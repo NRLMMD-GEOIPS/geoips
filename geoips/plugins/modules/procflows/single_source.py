@@ -1355,9 +1355,7 @@ def call(fnames, command_line_args=None):
             from geoips.geoips_utils import find_entry_point
 
             sector_adjuster = find_entry_point("sector_adjusters", adjust_area_def)
-            sector_adjuster_type = getattr(
-                import_module(sector_adjuster.__module__), "adjuster_type"
-            )
+            sector_adjuster_type = sector_adjuster.family
             # Use normal size sectored xarray when running sector_adjuster, not padded
             # Center time (mintime + (maxtime - mintime)/2) is very slightly different for different size
             # sectored arrays, so for consistency if we change padding amounts, use the fully sectored
@@ -1381,7 +1379,7 @@ def call(fnames, command_line_args=None):
                     sector_adjuster_type
                     == "list_xarray_list_variables_to_area_def_out_fnames"
                 ):
-                    area_def, adadj_fnames = sector_adjuster(
+                    area_def, adadj_fnames = sector_adjuster.call(
                         list(sect_xarrays.values()), area_def, variables
                     )
                 else:
