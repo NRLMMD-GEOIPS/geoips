@@ -26,7 +26,7 @@ def call(xarray_obj, product_names, output_fnames):
 
     prod_xarray = xarray.Dataset()
 
-    from geoips.dev.utils import copy_standard_metadata
+    from geoips.geoips_utils import copy_standard_metadata
 
     copy_standard_metadata(xarray_obj, prod_xarray)
     for product_name in product_names:

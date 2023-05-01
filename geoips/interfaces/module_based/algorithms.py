@@ -12,14 +12,13 @@
 
 """Algorithms interface module."""
 
-from geoips.interfaces.base import BaseInterface, BasePlugin
+from geoips.interfaces.base import BaseModuleInterface
 
 
-class AlgorithmsInterface(BaseInterface):
+class AlgorithmsInterface(BaseModuleInterface):
     """Data manipulations to apply to the dataset."""
 
     name = "algorithms"
-    deprecated_family_attr = "alg_func_type"
 
     required_args = {
         "single_channel": ["arrays"],

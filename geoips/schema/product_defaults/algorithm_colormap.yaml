@@ -1,7 +1,6 @@
 $id: product_defaults.algorithm_colormap
 $ref: bases.top
 type: object
-unevaluatedProperties: false
 required:
   - spec
 properties:

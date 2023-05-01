@@ -1,6 +1,8 @@
 """Implements validation machinery for YAML-based plugins."""
 
 import yaml
+import logging
+from copy import deepcopy
 
 from importlib.resources import files
 from pathlib import Path
@@ -8,6 +10,10 @@ import jsonschema
 from jsonschema.exceptions import ValidationError, SchemaError
 import referencing
 from referencing import jsonschema as refjs
+
+# from geoips.interfaces import product_defaults
+
+LOG = logging.getLogger(__name__)
 
 
 JSONSCHEMA_DRAFT = "202012"
@@ -27,7 +33,6 @@ def extend_with_default(validator_class):
     validate_properties = validator_class.VALIDATORS["properties"]
 
     def required_no_defaults(validator, required, instance, schema):
-        print(f"IN REQUIRED: {instance}")
         if not validator.is_type(instance, "object"):
             return
 
@@ -40,7 +45,6 @@ def extend_with_default(validator_class):
                     f"property {property!r} is both required and sets a default value"
                 )
             if property not in instance:
-                print(f"MISSING {property}")
                 yield ValidationError(f"{property!r} is a required property")
 
     def set_defaults(validator, properties, instance, schema):
@@ -68,12 +72,11 @@ def extend_with_default(validator_class):
 
 def get_schemas(path, validator):
     """Collect all of the interface schema."""
-    print(path)
     schema_files = Path(path).rglob("*.yaml")
 
     schemas = {}
     for schema_file in schema_files:
-        print(f"Adding schema file {schema_file}")
+        LOG.debug(f"Adding schema file {schema_file}")
 
         schema = yaml.safe_load(open(schema_file, "r"))
         schema_id = schema["$id"]
@@ -161,19 +164,19 @@ class PluginValidator:
     def validate_products(self, plugin):
         """Validate all products."""
         if plugin["family"] == "single":
-            print("Validating single products")
+            LOG.debug("Validating single products")
             products = [plugin["spec"]["product"]]
         elif plugin["family"] == "list":
-            print("Validating list products")
+            LOG.debug("Validating list products")
             products = plugin["spec"]["products"]
         for product in products:
             self.validate_product(product)
 
     def validate_product(self, product):
         """Validate single product."""
-        print("In validate product")
+        LOG.debug("In validate product")
         if "family" in product:
-            print("Validating family-based product")
+            LOG.debug("Validating family-based product")
             family = product["family"]
             try:
                 spec_validator = self.validators[f"product_defaults.specs.{family}"]
@@ -183,8 +186,17 @@ class PluginValidator:
                 )
             spec_validator.validate(product["spec"])
         elif "product_defaults" in product:
-            print("Validating product_defaults-based product")
-            product_defaults = product["product_defaults"]
+            from geoips.interfaces import product_defaults
+
+            LOG.debug("Validating product_defaults-based product")
+            cur_defaults = product_defaults.get_plugin(product["product_defaults"])
+            # This updates missing values in spec from defaults but leaves existing
+            # values alone. Using update here ensures that we're updating in-place
+            # rather than creating a new dictionary.
+            if "spec" in product and product["spec"]:
+                product["spec"].update(cur_defaults | product["spec"])
+            else:
+                product["spec"] = deepcopy(cur_defaults)
         else:
             raise ValidationError(
                 f"Product {product['name']} did not specify either "

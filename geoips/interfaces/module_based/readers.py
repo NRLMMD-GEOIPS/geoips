@@ -10,23 +10,23 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Interpolators interface module."""
+"""Readers interface module."""
 
-from geoips.interfaces.base import BaseInterface, BasePlugin
+from geoips.interfaces.base import BaseModuleInterface
 
 
-class InterpolatorsInterface(BaseInterface):
-    """Interpolation routine to apply when reprojecting data."""
+class ReadersInterface(BaseModuleInterface):
+    """Interface for ingesting a specific data type.
 
-    name = "interpolators"
-    entry_point_group = "interpolators"
-    deprecated_family_attr = "interp_type"
-    required_args = {
-        "2d": ["area_def", "input_xarray", "output_xarray", "varlist"],
-        "grid": ["area_def", "input_xarray", "output_xarray", "varlist"],
+    Provides specification for ingensting a specific data type, and storing in
+    the GeoIPS xarray-based internal format.
+    """
+
+    name = "readers"
+    required_args = {"standard": ["fnames"]}
+    required_kwargs = {
+        "standard": ["metadata_only", "chans", "area_def", "self_register"]
     }
 
-    required_kwargs = {"2d": ["array_num"], "grid": ["array_num"]}
 
-
-interpolators = InterpolatorsInterface()
+readers = ReadersInterface()

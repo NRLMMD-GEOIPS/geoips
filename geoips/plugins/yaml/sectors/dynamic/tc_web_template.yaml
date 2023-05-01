@@ -12,7 +12,7 @@ spec:
       name: tc
       arguments: {}
     spec:
-      name: clat_clon_resolution_shape
+      name: center_coordinates
       arguments:
         projection: eqc
         pixel_width: 1000

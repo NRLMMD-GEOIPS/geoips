@@ -32,7 +32,7 @@ name: infrared
 docstring: "Good products.single using product_defaults"
 spec:
   product:
-    product_defaults: infrared
+    product_defaults: Infrared
     name: infrared
     spec:
       source_name: abi
@@ -46,7 +46,7 @@ name: infrared
 docstring: "Good products.single using product_defaults with overridden docstring"
 spec:
   product:
-    product_defaults: infrared
+    product_defaults: Infrared
     name: infrared
     docstring: "Good product using product_defaults with overridden docstring"
     spec:
