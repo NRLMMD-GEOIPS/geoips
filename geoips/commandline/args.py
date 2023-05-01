@@ -603,11 +603,11 @@ def add_args(parser, arglist=None):
         plt_group.add_argument(
             "--feature_annotator",
             default=None,
-            help="""If --feature_annotator is passed, the specific boundary
-                    params will be located in
-                    geoips*.image_utils.plotting_params.boundaries.<feature_annotator>,
-                    The feature_annotator string should be the base boundaries name
-                    (no .yaml)""",
+            help="""If --feature_annotator is passed, the specific feature
+                    annotations will be located in
+                    geoips*.plugins.yaml.feature_annotators.<feature_annotator>,
+                    The feature_annotator string should be the base feature annotator
+                    name (no .yaml)""",
         )
 
     if arglist is None or "model_reader_name" in arglist:
