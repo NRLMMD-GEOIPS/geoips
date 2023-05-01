@@ -12,7 +12,7 @@
 
 """Colormaps interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface, BasePlugin
+from geoips.interfaces.base import BaseModuleInterface
 
 
 class ColormapsInterface(BaseModuleInterface):

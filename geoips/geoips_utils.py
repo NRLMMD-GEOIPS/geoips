@@ -44,15 +44,12 @@ def load_all_yaml_plugins():
 
     # Loop over the plugin packages and load all of their yaml plugins
     plugins = {}
-    print(plugin_packages)
     for pkg in plugin_packages:
-        print(f"Loading {pkg} plugins")
         pkg_plugin_path = resources.files(pkg.value) / "plugins"
         yaml_files = pkg_plugin_path.rglob("*.yaml")
 
         # Loop over the yaml files from one package
         for yaml_file in yaml_files:
-            print(f"\tLoading {yaml_file}")
             # Load
             yaml_plugin = yaml.safe_load(open(yaml_file, "r"))
 
