@@ -8,14 +8,18 @@ Consistent call signatures for sector_metadata_generators
   modified:   geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
   modified:   geoips/plugins/modules/sector_metadata_generators/tc_sector_file_parser.py
 
-Add sector generator classes
-----------------------------
+Add sector generator interface classes
+--------------------------------------
+
+Use these new interfaces to access the sector_metadata_generators and
+sector_spec_generators from within tc_tracks.py
 
 ::
 
-            modified:   geoips/interfaces/__init__.py
-        new file:   geoips/interfaces/module_based/sector_metadata_generators.py
-        new file:   geoips/interfaces/module_based/sector_spec_generators.py
+  modified:   geoips/sector_utils/tc_tracks.py
+  modified:   geoips/interfaces/__init__.py
+  new file:   geoips/interfaces/module_based/sector_metadata_generators.py
+  new file:   geoips/interfaces/module_based/sector_spec_generators.py
 
 
 Update TC_TEMPLATE base path to updated location

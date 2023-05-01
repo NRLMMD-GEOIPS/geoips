@@ -16,6 +16,7 @@ from datetime import datetime
 import logging
 
 from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.interfaces import sector_metadata_generators, sector_spec_generators
 
 LOG = logging.getLogger(__name__)
 
@@ -188,17 +189,14 @@ def set_tc_area_def(
         template_yaml = gpaths["TC_TEMPLATE"]
     with open(template_yaml, "r") as fobj:
         template_dict = yaml.safe_load(fobj)
-    try:
-        template_func_name = template_dict["area_def_generator_func"]
-        template_args = template_dict["area_def_generator_args"]
-    except:
-        # I think this is probably what we will want.
-        # template_func_name = template_dict["spec"]["sector_spec_generator"]["name"]
-        # template_args = template_dict["spec"]["sector_spec_generator"]["arguments"]
-        # This is probably not the formatting we want for the dynamic templates,
-        # but leave it for now until we finalize.
-        template_func_name = template_dict["spec"]["generators"]["spec"]["name"]
-        template_args = template_dict["spec"]["generators"]["spec"]["arguments"]
+
+    # I think this is probably what we will want.
+    template_func_name = template_dict["spec"]["sector_spec_generator"]["name"]
+    template_args = template_dict["spec"]["sector_spec_generator"]["arguments"]
+    # This is probably not the formatting we want for the dynamic templates,
+    # but leave it for now until we finalize.
+    # template_func_name = template_dict["spec"]["generators"]["spec"]["name"]
+    # template_args = template_dict["spec"]["generators"]["spec"]["arguments"]
 
     if not finalstormname and "final_storm_name" in fields:
         finalstormname = fields["final_storm_name"]
@@ -216,17 +214,15 @@ def set_tc_area_def(
     area_id = get_tc_area_id(fields, finalstormname, tcyear)
     long_description = get_tc_long_description(area_id, fields)
 
-    from geoips.geoips_utils import find_entry_point
-
     # These are things like 'center_coordinates'
-    template_func = find_entry_point("sector_spec_generators", template_func_name)
+    template_func = sector_spec_generators.get_plugin(template_func_name)
     # Probably generalize this at some point. For now I know those are the
     # ones that are <template>
     template_args["area_id"] = area_id
     template_args["long_description"] = long_description
     template_args["clat"] = clat
     template_args["clon"] = clon
-    area_def = template_func.call(**template_args)
+    area_def = template_func(**template_args)
 
     if "interpolated_time" in fields:
         area_def.sector_start_datetime = fields["interpolated_time"]
@@ -291,11 +287,9 @@ def trackfile_to_area_defs(
     if trackfile_parser is None:
         trackfile_parser = "bdeck_parser"
 
-    from geoips.geoips_utils import find_entry_point
+    parser = sector_metadata_generators.get_plugin(trackfile_parser)
 
-    parser = find_entry_point("sector_metadata_generators", trackfile_parser)
-
-    all_fields, final_storm_name, tc_year = parser.call(trackfile_name)
+    all_fields, final_storm_name, tc_year = parser(trackfile_name)
 
     area_defs = []
     for fields in all_fields:
