@@ -40,8 +40,8 @@ def plugin_yaml_to_obj(yaml, obj_attrs={}):
     """Convert a yaml plugin to an object.
 
     Convert the passed YAML plugin into an object and return it. The returned
-    object will be derrived from a class named ``<interface>Plugin`` where
-    interface is the interface specified by the plugin. This class is derrived
+    object will be derived from a class named ``<interface>Plugin`` where
+    interface is the interface specified by the plugin. This class is derived
     from ``BasePlugin``.
 
     This function is used instead of predefined classes to allow setting ``__doc__``
@@ -177,14 +177,14 @@ class BasePlugin(dict):
 
 
 class BaseInterface:
-    """Base class for GeoIPS yaml-based plugin interfaces.
+    """Base class for GeoIPS interfaces.
 
     This class should not be instantiated directly. Instead, interfaces should be
     accessed by importing them from ``geoips.interfaces``. For example:
     ```
-    from geoips.interfaces import products
+    from geoips.interfaces import algorithms
     ```
-    will retrieve an instance of ``ProductsInterface`` which will provide access to
+    will retrieve an instance of ``AlgorithmsInterface`` which will provide access to
     the GeoIPS algorithm plugins.
     """
 
@@ -211,7 +211,7 @@ class BaseYamlInterface(BaseInterface):
     from geoips.interfaces import products
     ```
     will retrieve an instance of ``ProductsInterface`` which will provide access to
-    the GeoIPS algorithm plugins.
+    the GeoIPS products plugins.
     """
 
     def __new__(cls):
