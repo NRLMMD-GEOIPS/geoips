@@ -15,10 +15,20 @@
 import inspect
 import logging
 
+from jsonschema.exceptions import ValidationError
+
 from geoips.errors import EntryPointError, PluginError
-from geoips.geoips_utils import find_entry_point, get_all_entry_points
+from geoips.geoips_utils import (
+    find_entry_point,
+    get_all_entry_points,
+    load_all_yaml_plugins,
+)
+from geoips.schema import PluginValidator
 
 LOG = logging.getLogger(__name__)
+
+YAML_VALIDATOR = PluginValidator()
+YAML_PLUGINS = load_all_yaml_plugins()
 
 
 def plugin_repr(obj):
@@ -26,13 +36,66 @@ def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
-def plugin_module_to_obj(module, obj_attrs={}):
-    """Convert a plugin module to an object.
+def plugin_yaml_to_obj(yaml, obj_attrs={}):
+    """Convert a yaml plugin to an object.
 
-    Convert the passed plugin module into an object and return it. The returned object
-    will be derrived from a class specific to the passed interface whose name is
-    ``<interface>Plugin``. This class is derrived from the ``BasePlugin``
-    class.
+    Convert the passed YAML plugin into an object and return it. The returned
+    object will be derrived from a class named ``<interface>Plugin`` where
+    interface is the interface specified by the plugin. This class is derrived
+    from ``BasePlugin``.
+
+    This function is used instead of predefined classes to allow setting ``__doc__``
+    on a plugin-by-plugin basis. This allows collecting ``__doc__`` and
+    from the plugin and using them in the objects.
+
+    For a yaml plugin to be converted into an object it must meet the following
+    requirements:
+
+    - Must match the jsonschema spec provided for its interface.
+    - The plugin must have the following top-level attributes and the must not be empty.
+      - interface: The name of the interface that the plugin belongs to.
+      - family: The family of plugins that the plugin belongs to within the interface.
+      - name: The name of the plugin which must be unique within the interface.
+      - docstring: A string to be used as the object's docstring.
+    """
+    obj_attrs["yaml"] = yaml
+
+    missing = []
+    for attr in [
+        "package",
+        "relpath",
+        "abspath",
+        "interface",
+        "family",
+        "name",
+        "docstring",
+    ]:
+        try:
+            obj_attrs[attr] = yaml[attr]
+        except KeyError:
+            missing.append(attr)
+
+    if missing:
+        raise PluginError(
+            f"Plugin '{yaml['name']}' is missing the following required top-level "
+            f"properties: {missing}"
+        )
+
+    obj_attrs["__doc__"] = obj_attrs["docstring"]
+
+    plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
+    plugin_type = f"{plugin_interface_name}Plugin"
+
+    return type(plugin_type, (BasePlugin,), obj_attrs)(yaml=yaml)
+
+
+def plugin_module_to_obj(module, obj_attrs={}):
+    """Convert a module plugin to an object.
+
+    Convert the passed module plugin into an object and return it. The returned
+    object will be derrived from a class named ``<interface>Plugin`` where
+    interface is the interface specified by the plugin. This class is derrived
+    from ``BasePlugin``.
 
     This function is used instead of predefined classes to allow setting ``__doc__`` and
     ``__call__`` on a plugin-by-plugin basis. This allows collecting ``__doc__`` and
@@ -52,8 +115,8 @@ def plugin_module_to_obj(module, obj_attrs={}):
 
     Parameters
     ----------
-    plugin : str
-      Name of the desired plugin.
+    module : module
+      The imported plugin module.
     obj_attrs : dict, optional
       Additional attributes to be assigned to the plugin object.
 
@@ -95,27 +158,33 @@ def plugin_module_to_obj(module, obj_attrs={}):
             f"plugin module '{module.__name__}'"
         ) from err
 
-    plugin_type = f"{obj_attrs['interface'].title()}Plugin"
+    plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
+    plugin_type = f"{plugin_interface_name}Plugin"
 
     # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
     return type(plugin_type, (BasePlugin,), obj_attrs)()
 
 
-class BasePlugin:
+class BasePlugin(dict):
     """Base class for GeoIPS plugins."""
 
-    pass
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def __repr__(self):
+        val = super().__repr__()
+        return f"{self.__class__.__name__}({val})"
 
 
 class BaseInterface:
-    """Base Class for GeoIPS Interfaces.
+    """Base class for GeoIPS yaml-based plugin interfaces.
 
     This class should not be instantiated directly. Instead, interfaces should be
     accessed by importing them from ``geoips.interfaces``. For example:
     ```
-    from geoips.interfaces import algorithms
+    from geoips.interfaces import products
     ```
-    will retrieve an instance of ``AlgorithmsInterface`` which will provide access to
+    will retrieve an instance of ``ProductsInterface`` which will provide access to
     the GeoIPS algorithm plugins.
     """
 
@@ -132,6 +201,75 @@ class BaseInterface:
 
         return super(BaseInterface, cls).__new__(cls)
 
+
+class BaseYamlInterface(BaseInterface):
+    """Base class for GeoIPS yaml-based plugin interfaces.
+
+    This class should not be instantiated directly. Instead, interfaces should be
+    accessed by importing them from ``geoips.interfaces``. For example:
+    ```
+    from geoips.interfaces import products
+    ```
+    will retrieve an instance of ``ProductsInterface`` which will provide access to
+    the GeoIPS algorithm plugins.
+    """
+
+    def __new__(cls):
+        """YAML plugin interface new method."""
+        cls = super(BaseInterface, cls).__new__(cls)
+
+        cls.validator = YAML_VALIDATOR
+        cls._unvalidated_plugins = {plg["name"]: plg for plg in YAML_PLUGINS[cls.name]}
+
+        return cls
+
+    def __repr__(self):
+        """Plugin interface repr method."""
+        return f"{self.__class__.__name__}()"
+
+    def get_plugin(self, name):
+        try:
+            validated = self.validator.validate(self._unvalidated_plugins[name])
+        except KeyError:
+            raise PluginError(f"Plugin '{name}' not found for '{self.name}' interface.")
+        return plugin_yaml_to_obj(validated)
+
+    def get_plugins(self):
+        plugins = []
+        for name in self._unvalidated_plugins.keys():
+            plugins.append(self.get_plugin(name))
+        return plugins
+
+    def plugin_is_valid(self, name):
+        try:
+            self.get_plugin(name)
+            return True
+        except ValidationError:
+            return False
+
+    def plugins_all_valid(self):
+        try:
+            self.get_plugins()
+            return True
+        except ValidationError:
+            return False
+
+    def test_interface(self):
+        pass
+
+
+class BaseModuleInterface(BaseInterface):
+    """Base Class for GeoIPS Interfaces.
+
+    This class should not be instantiated directly. Instead, interfaces should be
+    accessed by importing them from ``geoips.interfaces``. For example:
+    ```
+    from geoips.interfaces import algorithms
+    ```
+    will retrieve an instance of ``AlgorithmsInterface`` which will provide access to
+    the GeoIPS algorithm plugins.
+    """
+
     def __repr__(self):
         """Plugin interface repr method."""
         return f"{self.__class__.__name__}()"
@@ -141,9 +279,15 @@ class BaseInterface:
 
         Convert the passed module into an object of type.
         """
-        return plugin_module_to_obj(
+        obj = plugin_module_to_obj(
             module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
         )
+        if obj.interface != self.name:
+            raise PluginError(
+                f"Plugin 'interface' attribute on {obj.name} plugin does not match the "
+                f"name of its interface as specified by entry_points."
+            )
+        return obj
 
     def get_plugin(self, name):
         """Retrieve a plugin from this interface by name.
