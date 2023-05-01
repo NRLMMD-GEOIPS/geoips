@@ -1,10 +1,24 @@
-Update TC_TEMPLATE base path to point to plugins/yaml/sectors/dynamic/tc_web_template.yaml
+Add sector generator classes
+----------------------------
+
+::
+
+            modified:   geoips/interfaces/__init__.py
+        new file:   geoips/interfaces/module_based/sector_metadata_generators.py
+        new file:   geoips/interfaces/module_based/sector_spec_generators.py
+
+
+Update TC_TEMPLATE base path to updated location
+------------------------------------------------
+
+point to plugins/yaml/sectors/dynamic/tc_web_template.yaml
 
 ::
 
         modified:   geoips/filenames/base_paths.py
 
-Remove dynamic sectors
+Remove old dynamic sectors
+--------------------------
 
 ::
 
