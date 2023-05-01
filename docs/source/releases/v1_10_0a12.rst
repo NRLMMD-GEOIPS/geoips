@@ -21,6 +21,16 @@ Version 1.10.0a12 (2023-05-01)
 Breaking Changes
 ================
 
+Remove old YAML discovery functions in geoips_utils
+---------------------------------------------------
+
+* Remove list_gridlines_params_dict_yamls
+* Remove list_boundaries_params_dict_yamls
+
+::
+
+  geoips/geoips_utils.py
+
 Remove boundaries and gridlines YAML configs and old interface
 --------------------------------------------------------------
 
