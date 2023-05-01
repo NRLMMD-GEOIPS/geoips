@@ -91,6 +91,9 @@ lint = [
     "doc8",  # RST linting
 ]
 
+[project.entry-points."geoips.plugin_packages"]
+geoips = "geoips"
+
 [project.entry-points.console_scripts]
 run_procflow = "geoips.commandline.run_procflow:main"
 convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
