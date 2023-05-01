@@ -376,7 +376,7 @@ def get_trackfile_area_defs(
     return ret_area_defs
 
 
-def get_static_area_defs_for_xarray(xarray_obj, sectorfiles, sectorlist):
+def get_static_area_defs_for_xarray(xarray_obj, sectorlist):
     """Get all STATIC area definitions for the current xarray object.
 
     Filter based on requested sectors.
@@ -385,8 +385,6 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorfiles, sectorlist):
     ----------
     xarray_obj : xarray.Dataset
         xarray Dataset to which we are assigning area_defs
-    sectorfiles : list of str
-        list of paths to sectorfiles
     sectorlist : list of str
         list of sector names
 
@@ -412,8 +410,8 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorfiles, sectorlist):
                 "%s area_id NOT in sectorlist and set on xarray_obj.area_definition, SKIPPING area_def",
                 xarray_obj.area_definition.area_id,
             )
-    elif sectorfiles is not None and sectorlist is not None:
-        area_defs = get_sectors_from_yamls(sectorfiles, sectorlist)
+    elif sectorlist is not None:
+        area_defs = get_sectors_from_yamls(sectorlist)
 
     ret_area_defs = []
     for area_def in area_defs:
@@ -649,15 +647,13 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
 #     return ret_area_def_ids.values()
 
 
-def get_sectors_from_yamls(sectorfnames, sectornames):
+def get_sectors_from_yamls(sectornames):
     """Get AreaDefinition objects with custom "sector_info" dictionary.
 
     Based on YAML area definition contained in "sectorfnames" files.
 
     Parameters
     ----------
-    sectorfnames : list of str
-        list of string full paths to YAML area definition files
     sectornames : list of str
         list of strings of desired sector names to retrieve from YAML files
 
@@ -672,9 +668,7 @@ def get_sectors_from_yamls(sectorfnames, sectornames):
     import yaml
 
     area_defs = []
-    for sectorfname in sectorfnames:
-        area_def = load_area(sectorfname, "spec")
-        # area_def = create_areadefinition_from_yaml(sectorfname, sectorname)
+    for sectorname in sectornames:
         if area_def.area_id in sectornames:
             with open(sectorfname) as sectorfobj:
                 ydict = yaml.safe_load(sectorfobj)
