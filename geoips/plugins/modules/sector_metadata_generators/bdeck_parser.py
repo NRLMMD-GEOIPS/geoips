@@ -306,7 +306,7 @@ def parse_bdeck_line(
         fields["invest_number"] = invest_number
 
     if source_filename:
-        from geoips.geoips_utils import replace_geoips_paths
+        from geoips.dev.utils import replace_geoips_paths
 
         if isinstance(source_filename, str):
             fields["source_filename"] = replace_geoips_paths(source_filename)

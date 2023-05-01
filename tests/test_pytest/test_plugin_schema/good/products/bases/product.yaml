@@ -20,7 +20,7 @@ spec:
       arguments: {}
 
 ---
-product_defaults: Infrared
+product_defaults: infrared
 name: infrared
 docstring: "Good product using product_defaults"
 spec:

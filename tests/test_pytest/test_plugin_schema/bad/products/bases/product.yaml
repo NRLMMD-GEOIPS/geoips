@@ -2,7 +2,7 @@
 error: ValidationError
 error_pattern: ".*is valid under each of.*"
 family: interpolator_algorithm_colormap
-product_defaults: Infrared
+product_defaults: infrared
 name: infrared
 docstring: "Bad product with both family and product_defaults"
 spec:

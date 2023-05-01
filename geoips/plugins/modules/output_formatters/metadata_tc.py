@@ -14,7 +14,7 @@
 import logging
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.geoips_utils import replace_geoips_paths
+from geoips.dev.utils import replace_geoips_paths
 from geoips.sector_utils.yaml_utils import write_yamldict
 
 LOG = logging.getLogger(__name__)

@@ -22,7 +22,7 @@ import xarray
 
 # Internal utilities
 from geoips.utils.memusg import print_mem_usage
-from geoips.geoips_utils import output_process_times
+from geoips.dev.utils import output_process_times
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.geoips_utils import copy_standard_metadata

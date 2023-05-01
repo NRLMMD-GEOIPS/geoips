@@ -32,7 +32,7 @@ As part of developing a CLI, I'm trying to standardize the interfaces. To do thi
   - is_valid: Tests a specific plugin's call signature
   - get: Gets a named plugin's callable
   - get_plugin_attr: Gets a named attribute from a named plugin
-  - get_family: Gets the family attribute
+  - get_family: Gets the family attribute 
   - get_description: Gets a named plugin's description attribute
   - get_list: Gets a list of available plugins for the interface
   - test_interface_plugins: Runs is_valid for all of an interface's plugins
@@ -94,18 +94,18 @@ As part of developing a CLI, I'm trying to standardize the interfaces. To do thi
 /Users/jsolbrig/NRL/geoips_packages/geoips/geoips/dev/alg.py:202: DeprecationWarning: Algorithm attribute "alg_func_type", used in visir.Night_Vis_IR_GeoIPS1, is deprecated and will be removed in a future release. Please replace all occurrences with "func_type".
   warn(msg, DeprecationWarning, stacklevel=1)
 [26, 19, 59]
-name                       | type                | description
+name                       | type                | description                                                
 --------------------------------------------------------------------------------------------------------------
-pmw_tb.pmw_37pct           | list_numpy_to_numpy | Passive Microwave 37 GHz Polarization Corrected Temperature
-pmw_tb.pmw_89pct           | list_numpy_to_numpy |
-pmw_tb.pmw_color37         | list_numpy_to_numpy |
-pmw_tb.pmw_color89         | list_numpy_to_numpy |
-sfc_winds.windbarbs        | list_numpy_to_numpy |
-single_channel             | list_numpy_to_numpy |
-visir.Night_Vis            | list_numpy_to_numpy |
-visir.Night_Vis_GeoIPS1    | list_numpy_to_numpy |
-visir.Night_Vis_IR         | list_numpy_to_numpy |
-visir.Night_Vis_IR_GeoIPS1 | list_numpy_to_numpy |
+pmw_tb.pmw_37pct           | list_numpy_to_numpy | Passive Microwave 37 MHz Polarization Corrected Temperature
+pmw_tb.pmw_89pct           | list_numpy_to_numpy |                                                            
+pmw_tb.pmw_color37         | list_numpy_to_numpy |                                                            
+pmw_tb.pmw_color89         | list_numpy_to_numpy |                                                            
+sfc_winds.windbarbs        | list_numpy_to_numpy |                                                            
+single_channel             | list_numpy_to_numpy |                                                            
+visir.Night_Vis            | list_numpy_to_numpy |                                                            
+visir.Night_Vis_GeoIPS1    | list_numpy_to_numpy |                                                            
+visir.Night_Vis_IR         | list_numpy_to_numpy |                                                            
+visir.Night_Vis_IR_GeoIPS1 | list_numpy_to_numpy |                                                            
 ```
 
 # Important to do for review
@@ -115,7 +115,7 @@ visir.Night_Vis_IR_GeoIPS1 | list_numpy_to_numpy |
 # Questions
 - Need to figure out what we want to call `Boundaries` and `Gridlines` which are both yaml-config based. These likely
   shouldn't be combined into a single class because they are sometimes mixed and matched.
-  - Maybe have a MapInterface module that defines which Boundaries and Gridlines you want to use.
+  - Maybe have a MapInterface module that defines which Boundaries and Gridlines you want to use.  
 - It looks like the `output_config` interface implements `get_output_format` and `get_output_format...`. These need to
   be updated to work better with the new system and have appropriate names.
 - What is the difference between `geoips/dev/utils.py` and `geoips/geoips_utils.py`? It seems like a lot of what is in
@@ -192,7 +192,7 @@ Used to define the majority of the interface functions.
 - *get_remove_duplicates_func(filename_func_name)*
   - Only here
   - This does need to be handled, but I think it needs to be handled differently.
-    - Add `find_duplicates` function
+    - Add `find_duplicates` function 
 - get_filenamer(filename_func_name)
   - ~~geoips/filenames/duplicate_files.py~~
   - ~~geoips/interface_modules/filename_formats/geotiff_fname.py~~

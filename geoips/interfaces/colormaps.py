@@ -12,13 +12,15 @@
 
 """Colormaps interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
-class ColormapsInterface(BaseModuleInterface):
+class ColormapsInterface(BaseInterface):
     """Interface for the colormap to apply to the resulting product."""
 
     name = "colormaps"
+    entry_point_group = "colormaps"
+    deprecated_family_attr = "cmap_type"
     required_args = {
         "rgb": [],
         "ascii": [],

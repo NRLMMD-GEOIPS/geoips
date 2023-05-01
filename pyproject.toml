@@ -10,16 +10,12 @@ find = {namespaces = false}
 
 [tool.setuptools.package-data]
 "*" = [
-    "plugins/*.yaml",
-    "plugins/*/*.yaml",
-    "plugins/*/*/*.yaml",
-    "plugins/*/*/*/*.yaml",
-    "plugins/*/*/*/*/*.yaml",
-    "schema/*.yaml",
-    "schema/*/*.yaml",
-    "schema/*/*/*.yaml",
-    "schema/*/*/*/*.yaml",
-    "schema/*/*/*/*/*.yaml",
+    "*.txt",
+    "*.py",
+    "*.yaml",
+    "yaml_configs/*",
+    "yaml_configs/*/*",
+    "yaml_configs/*/*/*",
     "image_utils/ascii_palettes/*",
 ]
 
@@ -94,9 +90,6 @@ lint = [
     "prettier",  # YAML, JSON, etc linting
     "doc8",  # RST linting
 ]
-
-[project.entry-points."geoips.plugin_packages"]
-geoips = "geoips"
 
 [project.entry-points.console_scripts]
 run_procflow = "geoips.commandline.run_procflow:main"

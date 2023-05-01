@@ -12,10 +12,10 @@
 
 """Procflows interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
-class ProcflowsInterface(BaseModuleInterface):
+class ProcflowsInterface(BaseInterface):
     """Class-based interface for processing workflows (procflows).
 
     Proclows drive a specific collection of steps for a particular type of
@@ -29,6 +29,7 @@ class ProcflowsInterface(BaseModuleInterface):
     """
 
     name = "procflows"
+    deprecated_family_attr = "procflow_type"
     required_args = {"standard": ["fnames"]}
     required_kwargs = {"standard": ["command_line_args"]}
 
