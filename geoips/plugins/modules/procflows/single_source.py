@@ -556,7 +556,7 @@ def plot_data(
             if output_products != list(output_fnames.keys()):
                 raise ValueError("Did not produce expected products")
         elif output_plugin.family == "image_overlay":
-            # This can include background information, gridlines/boundaries plotting
+            # This can include background information, feature/gridline annotations,
             # information, etc
             output_products = output_plugin(
                 area_def,
