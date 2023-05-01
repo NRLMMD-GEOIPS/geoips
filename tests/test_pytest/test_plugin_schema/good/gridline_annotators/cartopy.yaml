@@ -9,13 +9,9 @@ spec:
     left: true
     right: true
   lines:
-    latitude:
-      color: black
-      linestyle: [4, 2]
-      linewidth: 1
-      spacing: auto
-    longitude:
-      color: black
-      linestyle: [4, 2]
-      linewidth: 1
-      spacing: auto
+    color: black
+    linestyle: [4, 2]
+    linewidth: 1
+  spacing:
+    latitude: auto
+    longitude: auto

@@ -1,8 +1,8 @@
 interface: product_defaults
 family: interpolator_algorithm_colormap
-name: TPW-Purple
+name: TPW-PURPLE
 docstring: |
-  The TPW-Purple product_defaults configuration.
+  The TPW-PURPLE product_defaults configuration.
 spec:
   algorithm:
     plugin:

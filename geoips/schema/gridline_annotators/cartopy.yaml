@@ -52,8 +52,6 @@ properties:
           - color
           - linestyle
           - linewidth
-          - lat_spacing
-          - lon_spacing
         properties:
           color:
             type: string
