@@ -73,7 +73,7 @@ def is_geoips_netcdf(fname):
         xobj = xarray.open_dataset(fname)
     except Exception:
         return False
-    from geoips.geoips_utils import get_required_geoips_xarray_attrs
+    from geoips.dev.utils import get_required_geoips_xarray_attrs
 
     return set(get_required_geoips_xarray_attrs()).issubset(set(xobj.attrs.keys()))
 

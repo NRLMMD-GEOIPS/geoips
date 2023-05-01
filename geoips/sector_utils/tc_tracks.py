@@ -98,7 +98,7 @@ def create_tc_sector_info_dict(
         LOG.info("USING storm_name as final_storm_name %s", storm_name)
         fields["final_storm_name"] = storm_name
     if source_sector_file:
-        from geoips.geoips_utils import replace_geoips_paths
+        from geoips.dev.utils import replace_geoips_paths
 
         fields["source_sector_file"] = replace_geoips_paths(source_sector_file)
     fields["pressure"] = pressure
@@ -192,13 +192,8 @@ def set_tc_area_def(
         template_func_name = template_dict["area_def_generator_func"]
         template_args = template_dict["area_def_generator_args"]
     except:
-        # I think this is probably what we will want.
-        # template_func_name = template_dict["spec"]["sector_spec_generator"]["name"]
-        # template_args = template_dict["spec"]["sector_spec_generator"]["arguments"]
-        # This is probably not the formatting we want for the dynamic templates,
-        # but leave it for now until we finalize.
-        template_func_name = template_dict["spec"]["generators"]["spec"]["name"]
-        template_args = template_dict["spec"]["generators"]["spec"]["arguments"]
+        template_func_name = template_dict["spec"]["sector_spec_generator"]["name"]
+        template_args = template_dict["spec"]["sector_spec_generator"]["arguments"]
 
     if not finalstormname and "final_storm_name" in fields:
         finalstormname = fields["final_storm_name"]
@@ -243,7 +238,7 @@ def set_tc_area_def(
     if not hasattr(area_def, "name"):
         area_def.name = long_description
 
-    from geoips.geoips_utils import replace_geoips_paths
+    from geoips.dev.utils import replace_geoips_paths
 
     area_def.sector_info["source_sector_file"] = replace_geoips_paths(
         source_sector_file

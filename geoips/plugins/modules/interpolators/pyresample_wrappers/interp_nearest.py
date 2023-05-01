@@ -20,7 +20,7 @@ from geoips.plugins.modules.interpolators.utils.interp_pyresample import (
     get_data_box_definition,
 )
 from geoips.data_manipulations.info import percent_unmasked
-from geoips.geoips_utils import copy_standard_metadata
+from geoips.dev.utils import copy_standard_metadata
 
 LOG = logging.getLogger(__name__)
 

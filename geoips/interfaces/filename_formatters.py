@@ -12,10 +12,10 @@
 
 """Filename formats interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseInterface, BasePlugin
 
 
-class FilenameFormattersInterface(BaseModuleInterface):
+class FilenameFormattersInterface(BaseInterface):
     """Specification for formatting the full path and file name.
 
     File path and name formatting is determined using attributes within the
@@ -23,6 +23,8 @@ class FilenameFormattersInterface(BaseModuleInterface):
     """
 
     name = "filename_formatters"
+    entry_point_group = "filename_formatters"
+    deprecated_family_attr = "filename_type"
 
     required_args = {
         "standard": ["area_def", "xarray_obj", "product_name"],

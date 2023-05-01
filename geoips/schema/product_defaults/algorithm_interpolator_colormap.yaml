@@ -1,6 +1,7 @@
 $id: product_defaults.algorithm_interpolator_colormap
 $ref: bases.top
 type: object
+unevaluatedProperties: false
 required:
   - spec
 properties:
