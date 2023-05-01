@@ -45,7 +45,7 @@ def call(
 
     if not mpl_colors_info:
         # Create the matplotlib color info dict - the fields in this dictionary
-        # (cmap, norm, boundaries, etc) will be used in plot_image to ensure the image
+        # (cmap, norm, features, etc) will be used in plot_image to ensure the image
         # matches the colorbar.
         mpl_colors_info = set_matplotlib_colors_standard(
             data_range=[plot_data.min(), plot_data.max()],

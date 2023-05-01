@@ -102,7 +102,7 @@ def call(
         # Create the colorbar to match the mpl_colors
         create_colorbar(fig, mpl_colors_info)
 
-    # Plot gridlines and boundaries overlays
+    # Plot gridlines and feature overlays
     plot_overlays(
         mapobj,
         main_ax,
