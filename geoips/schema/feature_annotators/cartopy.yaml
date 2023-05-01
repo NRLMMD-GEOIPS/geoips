@@ -15,12 +15,12 @@ properties:
     unevaluatedProperties: false
     default: {}
     required:
-      - coastlines
-      - countries
+      - coastline
+      - borders
       - rivers
       - states
     properties:
-      coastlines: &line-args
+      coastline: &line-args
         type: object
         # Only allow enabled, color, linewidth for now. Update if others needed.
         unevaluatedProperties: false
@@ -40,6 +40,6 @@ properties:
               type: string
             linewidth:
               type: number
-      countries: *line-args
+      borders: *line-args
       rivers: *line-args
       states: *line-args
