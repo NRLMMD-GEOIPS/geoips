@@ -1,0 +1,32 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a11 (2023-04-30)
+******************************
+
+* Update static sector loads to work with new YAML format
+
+Breaking Changes
+================
+
+Update static sector loads to work with new YAML format
+-------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#202: 2023-04-30, update sector loads*
+
+Load pyresample area def directly by specifying load_area(filename, "spec")
+Then explicitly add in "sector_info" (metadata), and "sector_type" (family)
+fields to the resulting area_def.
+
+::
+
+  modified:   geoips/sector_utils/utils.py

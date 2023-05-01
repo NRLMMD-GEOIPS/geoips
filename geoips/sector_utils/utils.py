@@ -673,21 +673,14 @@ def get_sectors_from_yamls(sectorfnames, sectornames):
 
     area_defs = []
     for sectorfname in sectorfnames:
-        with open(sectorfname) as sectorfobj:
-            ydict = yaml.safe_load(sectorfobj)
-        for sectorname in sectornames:
-            if sectorname in ydict.keys():
-                try:
-                    area_def = load_area(sectorfname, sectorname)
-                except TypeError:
-                    area_def = create_areadefinition_from_yaml(sectorfname, sectorname)
-                for key in ydict[sectorname].keys():
-                    if not hasattr(area_def, key) and key not in [
-                        "description",
-                        "projection",
-                    ]:
-                        area_def.__setattr__(key, ydict[sectorname][key])
-                area_defs += [area_def]
+        area_def = load_area(sectorfname, "spec")
+        # area_def = create_areadefinition_from_yaml(sectorfname, sectorname)
+        if area_def.area_id in sectornames:
+            with open(sectorfname) as sectorfobj:
+                ydict = yaml.safe_load(sectorfobj)
+            area_def.__setattr__("sector_info", ydict["metadata"])
+            area_def.__setattr__("sector_type", ydict["family"])
+            area_defs += [area_def]
     return area_defs
 
 
@@ -714,7 +707,7 @@ def create_areadefinition_from_yaml(yamlfile, sector):
 
     with open(yamlfile, "r") as f:
         sectorfile_yaml = yaml.safe_load(f)
-    sector_info = sectorfile_yaml[sector]
+    sector_info = sectorfile_yaml["spec"]
     area_id = sector
     description = sector_info.pop("description")
     projection = sector_info.pop("projection")
