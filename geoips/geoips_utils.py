@@ -28,6 +28,7 @@ NAMESPACE_PREFIX = "geoips"
 
 
 def get_entry_point_group(group):
+    """Get entry point group."""
     if sys.version_info[:3] >= (3, 10, 0):
         return metadata.entry_points(group=group)
     else:

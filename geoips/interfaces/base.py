@@ -169,9 +169,11 @@ class BaseYamlPlugin(dict):
     """Base class for GeoIPS plugins."""
 
     def __init__(self, *args, **kwargs):
+        """Class BaseYamlPlugin init method."""
         super().__init__(*args, **kwargs)
 
     def __repr__(self):
+        """Class BaseYamlPlugin repr method."""
         val = super().__repr__()
         return f"{self.__class__.__name__}({val})"
 
@@ -234,6 +236,7 @@ class BaseYamlInterface(BaseInterface):
         return f"{self.__class__.__name__}()"
 
     def get_plugin(self, name):
+        """Get plugin method."""
         try:
             validated = self.validator.validate(self._unvalidated_plugins[name])
         except KeyError:
@@ -241,12 +244,14 @@ class BaseYamlInterface(BaseInterface):
         return plugin_yaml_to_obj(validated)
 
     def get_plugins(self):
+        """Get plugins method."""
         plugins = []
         for name in self._unvalidated_plugins.keys():
             plugins.append(self.get_plugin(name))
         return plugins
 
     def plugin_is_valid(self, name):
+        """Plugin is valid method."""
         try:
             self.get_plugin(name)
             return True
@@ -254,6 +259,7 @@ class BaseYamlInterface(BaseInterface):
             return False
 
     def plugins_all_valid(self):
+        """Plugins all valid method."""
         try:
             self.get_plugins()
             return True
@@ -261,6 +267,7 @@ class BaseYamlInterface(BaseInterface):
             return False
 
     def test_interface(self):
+        """Test interface method."""
         plugins = self.get_plugins()
         all_valid = self.plugins_all_valid()
         family_list = []
