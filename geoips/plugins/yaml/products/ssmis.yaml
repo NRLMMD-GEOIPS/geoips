@@ -59,7 +59,7 @@ spec:
     - name: color91Nearest
       docstring: |
         The color91Nearest product_defaults configuration for ssmis products.
-      product_defaults: color91Nearest
+      product_defaults: color89Nearest
       spec:
         source_name: ssmis
         variables: ["H91", "V91"]
@@ -173,7 +173,7 @@ spec:
     - name: 91H-LegacyNearest
       docstring: |
         The 91H-LegacyNearest product_defaults configuration for ssmis products.
-      product_defaults: 91H-LegacyNearest
+      product_defaults: 89H-LegacyNearest
       spec:
         source_name: ssmis
         variables: ["H91"]
@@ -318,7 +318,7 @@ spec:
     - name: 37H-Physical
       docstring: |
         The 37H-Physical product_defaults configuration for ssmis products.
-      product_defaults: 37H-Physicalf
+      product_defaults: 37H-Physical
       spec:
         source_name: ssmis
         variables: ["H37"]

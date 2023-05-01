@@ -21,7 +21,7 @@ spec:
         variables: ["tpw"]
     - name: TPW-PURPLE
       docstring: |
-        The TTPW-PURPLE product_defaults configuration for mimic products.
+        The TPW-PURPLE product_defaults configuration for mimic products.
       product_defaults: TPW-PURPLE
       spec:
         source_name: mimic
