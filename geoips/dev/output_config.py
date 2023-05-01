@@ -334,7 +334,7 @@ def get_output_formatter_kwargs(
     from geoips.dev.product import get_cmap_name, get_cmap_args
     from geoips.interfaces import colormaps
     from geoips.interfaces import feature_annotators
-    from geoips.dev.gridlines import get_gridlines, set_lonlat_spacing
+    from geoips.interfaces import gridline_annotators
 
     output_formatter_kwargs = {}
     if "output_formatter_kwargs" in output_dict:
@@ -344,8 +344,10 @@ def get_output_formatter_kwargs(
         "gridline_annotator" in output_dict
         and output_dict["gridline_annotator"] is not None
     ):
-        gridlines_info = get_gridlines(output_dict["gridline_annotator"])
-        gridlines_info = set_lonlat_spacing(gridlines_info, area_def)
+        gridline_annotator = gridline_annotators.get_plugin(
+            output_dict["gridline_annotator"]
+        )
+        gridline_annotator = set_lonlat_spacing(gridline_annotator, area_def)
         output_formatter_kwargs["gridlines_info"] = gridlines_info
 
     if (
