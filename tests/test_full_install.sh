@@ -63,7 +63,20 @@ for call in \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/smap.unsectored.text_winds.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh"
+    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh" \
+    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/abi.tc.Visible.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/amsr2.tc.color37.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/amsr2.tc.windspeed.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/ascat_uhr.tc.windbarbs.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/metopc_knmi_125.tc.windbarbs.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/oscat.tc.windspeed.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/sar.tc.nrcs.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/smap.tc.windspeed.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/viirs.tc.Infrared-Gray.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh" \
+    "$GEOIPS_PACKAGES_DIR/data_fusion/tests/scripts/layered.sh"
 do
     . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
 done
