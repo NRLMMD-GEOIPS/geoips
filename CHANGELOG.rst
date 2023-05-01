@@ -14,4 +14,4 @@ Please see geoips/CHANGELOG_TEMPLATE.rst for instructions on updating
 CHANGELOG appropriately with each PR
 
 Release notes for previous versions can be found in docs/source/releases,
-for reference
+for reference.
