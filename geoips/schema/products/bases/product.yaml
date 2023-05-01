@@ -16,9 +16,9 @@ properties:
 
   spec:
     type: object
-    required:
-      - source_name
-      - variables
+    # required:
+    #   - source_name
+    #   - variables
     properties:
       source_name:
         type: string
