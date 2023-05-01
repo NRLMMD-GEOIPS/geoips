@@ -6,11 +6,23 @@ docstring: |
 
   Using pixel_width: 2000, pixel_height: 2000, num_lines: 700, num_samples: 700.
 spec:
-  sector_spec_generator:
-    name: center_coordinates
-    arguments:
-      projection: eqc
-      pixel_width: 2000
-      pixel_height: 2000
-      num_lines: 700
-      num_samples: 700
+  # sector_spec_generator:
+  #   name: center_coordinates
+  #   arguments:
+  #     projection: eqc
+  #     pixel_width: 2000
+  #     pixel_height: 2000
+  #     num_lines: 700
+  #     num_samples: 700
+  generators:
+    metadata:
+      name: tc
+      arguments: {}
+    spec:
+      name: clat_clon_resolution_shape
+      arguments:
+        projection: eqc
+        pixel_width: 2000
+        pixel_height: 2000
+        num_lines: 700
+        num_samples: 700
