@@ -39,6 +39,7 @@ Remove boundaries and gridlines YAML configs and old interface
 ::
 
   deleted: geoips/dev/boundaries.py
+  deleted: geoips/dev/gridlines.py
   deleted: geoips/yaml_configs/plotting_params/boundaries
   deleted: geoips/yaml_configs/plotting_params/gridlines
 
