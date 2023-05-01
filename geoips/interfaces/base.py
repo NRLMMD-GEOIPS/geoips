@@ -255,7 +255,31 @@ class BaseYamlInterface(BaseInterface):
             return False
 
     def test_interface(self):
-        pass
+        plugins = self.get_plugins()
+        all_valid = self.plugins_all_valid()
+        family_list = []
+        plugin_names = {}
+        for plugin in plugins:
+            if plugin.family not in family_list:
+                family_list.append(plugin.family)
+                plugin_names[plugin.family] = []
+            plugin_names[plugin.family].append(plugin.name)
+
+        output = {
+            "all_valid": all_valid,
+            "by_family": plugin_names,
+            "validity_check": {},
+            "family": {},
+            "func": {},
+            "docstring": {},
+        }
+        for curr_family in plugin_names:
+            for curr_name in plugin_names[curr_family]:
+                output["validity_check"][curr_name] = self.plugin_is_valid(curr_name)
+                output["func"][curr_name] = self.get_plugin(curr_name)
+                output["family"][curr_name] = curr_family
+                output["docstring"][curr_name] = output["func"][curr_name].docstring
+        return output
 
 
 class BaseModuleInterface(BaseInterface):
