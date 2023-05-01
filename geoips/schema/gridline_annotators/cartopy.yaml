@@ -11,32 +11,37 @@ required:
 properties:
   spec:
     type: object
-    # Allow ONLY labels, latitude-lines, longitude-lines.
-    # If additional properties required, must update schema accordingly.
     unevaluatedProperties: false
     required:
+      - spacing
       - labels
       - lines
     properties:
       spacing:
-        latitude:
-          type:
-            - number
-            - string
-        longitude:
-          type:
-            - number
-            - string
+        type: object
+        required:
+          - latitude
+          - longitude
+        unevaluatedProperties: false
+        properties:
+          latitude:
+            type:
+              - number
+              - string
+          longitude:
+            type:
+              - number
+              - string
       labels:
         type: object
         # ONLY allow top, bottom, left, right.
         # If additional properties required, must update schema accordingly.
-        unevaluatedProperties: false
         required:
           - top
           - bottom
           - left
           - right
+        unevaluatedProperties: false
         properties:
           top:
             type: boolean
@@ -52,6 +57,7 @@ properties:
           - color
           - linestyle
           - linewidth
+        unevaluatedProperties: false
         properties:
           color:
             type: string

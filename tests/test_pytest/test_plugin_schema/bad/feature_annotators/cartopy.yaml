@@ -8,7 +8,7 @@ docstring: "Missing spec"
 
 ---
 error: ValidationError
-error_pattern: ".*'coastlines' is a required property.*"
+error_pattern: ".*'coastline' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
@@ -17,13 +17,13 @@ spec: {}
 
 ---
 error: ValidationError
-error_pattern: ".*'coastlines' is a required property.*"
+error_pattern: ".*'coastline' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
-docstring: "Missing coastlines"
+docstring: "Missing coastline"
 spec:
-  countries:
+  borders:
     enabled: false
   states:
     enabled: false
@@ -32,13 +32,13 @@ spec:
 
 ---
 error: ValidationError
-error_pattern: ".*'countries' is a required property.*"
+error_pattern: ".*'borders' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
-docstring: "Missing countries"
+docstring: "Missing borders"
 spec:
-  coastlines:
+  coastline:
     enabled: false
   states:
     enabled: false
@@ -53,9 +53,9 @@ family: "cartopy"
 name: "default"
 docstring: "Missing states"
 spec:
-  coastlines:
+  coastline:
     enabled: false
-  countries:
+  borders:
     enabled: false
   rivers:
     enabled: false
@@ -68,9 +68,9 @@ family: "cartopy"
 name: "default"
 docstring: "Missing rivers"
 spec:
-  coastlines:
+  coastline:
     enabled: false
-  countries:
+  borders:
     enabled: false
   states:
     enabled: false
@@ -83,9 +83,9 @@ family: "cartopy"
 name: "default"
 docstring: "Unhandled feature type"
 spec:
-  coastlines:
+  coastline:
     enabled: false
-  countries:
+  borders:
     enabled: false
   states:
     enabled: false
@@ -96,16 +96,16 @@ spec:
 
 ---
 error: ValidationError
-error_pattern: ".*'color' is a required property.*"
+error_pattern: ".*'edgecolor' is a required property.*"
 interface: "feature_annotators"
 family: "cartopy"
 name: "default"
-docstring: "Missing color"
+docstring: "Missing edgecolor"
 spec:
-  coastlines:
+  coastline:
     enabled: true
     linewidth: 2
-  countries:
+  borders:
     enabled: false
   states:
     enabled: false
@@ -120,10 +120,10 @@ family: "cartopy"
 name: "default"
 docstring: "Missing line width"
 spec:
-  coastlines:
+  coastline:
     enabled: true
-    color: red
-  countries:
+    edgecolor: red
+  borders:
     enabled: false
   states:
     enabled: false
@@ -138,18 +138,18 @@ family: "cartopy"
 name: "default"
 docstring: "Extra 'idontexist' property"
 spec:
-  coastlines:
+  coastline:
     enabled: true
-    color: red
+    edgecolor: red
     linewidth: 2
     idontexist: none
-  countries:
+  borders:
     enabled: true
-    color: red
+    edgecolor: red
     linewidth: 1
   states:
     enabled: true
-    color: red
+    edgecolor: red
     linewidth: 0.5
   rivers:
     enabled: false
