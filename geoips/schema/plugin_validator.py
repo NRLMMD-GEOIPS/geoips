@@ -193,7 +193,7 @@ class PluginValidator:
             # This updates missing values in spec from defaults but leaves existing
             # values alone. Using update here ensures that we're updating in-place
             # rather than creating a new dictionary.
-            if product["spec"]:
+            if "spec" in product and product["spec"]:
                 product["spec"].update(cur_defaults | product["spec"])
             else:
                 product["spec"] = deepcopy(cur_defaults)
