@@ -14,9 +14,21 @@ Version 1.10.0a11 (2023-04-30)
 ******************************
 
 * Update static sector loads to work with new YAML format
+* Update sector_adjuster to work with new module plugin format
 
 Breaking Changes
 ================
+
+Update sector_adjuster to work with new module plugin format
+------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#202: 2023-04-30, update sector loads*
+
+This is currently only used in recenter_tc calls.
+
+::
+
+  modified:   geoips/plugins/modules/procflows/single_source.py
 
 Update static sector loads to work with new YAML format
 -------------------------------------------------------
