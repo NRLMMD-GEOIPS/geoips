@@ -12,10 +12,10 @@
 
 """Title formatters interface module."""
 
-from geoips.interfaces.base import BaseInterface, BasePlugin
+from geoips.interfaces.base import BaseModuleInterface, BasePlugin
 
 
-class TitleFormattersInterface(BaseInterface):
+class TitleFormattersInterface(BaseModuleInterface):
     """Interface for creating GeoIPS formatted titles."""
 
     name = "title_formatters"

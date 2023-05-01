@@ -12,10 +12,10 @@
 
 """Output formats interface module."""
 
-from geoips.interfaces.base import BaseInterface, BasePlugin
+from geoips.interfaces.base import BaseModuleInterface, BasePlugin
 
 
-class OutputFormattersInterface(BaseInterface):
+class OutputFormattersInterface(BaseModuleInterface):
     """Data format for the resulting output product (e.g. netCDF, png)."""
 
     name = "output_formatters"

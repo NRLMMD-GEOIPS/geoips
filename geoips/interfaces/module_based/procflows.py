@@ -12,10 +12,10 @@
 
 """Procflows interface module."""
 
-from geoips.interfaces.base import BaseInterface, BasePlugin
+from geoips.interfaces.base import BaseModuleInterface, BasePlugin
 
 
-class ProcflowsInterface(BaseInterface):
+class ProcflowsInterface(BaseModuleInterface):
     """Class-based interface for processing workflows (procflows).
 
     Proclows drive a specific collection of steps for a particular type of

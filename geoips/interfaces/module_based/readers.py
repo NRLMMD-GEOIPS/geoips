@@ -12,10 +12,10 @@
 
 """Readers interface module."""
 
-from geoips.interfaces.base import BaseInterface, BasePlugin
+from geoips.interfaces.base import BaseModuleInterface, BasePlugin
 
 
-class ReadersInterface(BaseInterface):
+class ReadersInterface(BaseModuleInterface):
     """Interface for ingesting a specific data type.
 
     Provides specification for ingensting a specific data type, and storing in

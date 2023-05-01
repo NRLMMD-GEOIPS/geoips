@@ -12,10 +12,10 @@
 
 """Colormaps interface module."""
 
-from geoips.interfaces.base import BaseInterface, BasePlugin
+from geoips.interfaces.base import BaseModuleInterface, BasePlugin
 
 
-class ColormapsInterface(BaseInterface):
+class ColormapsInterface(BaseModuleInterface):
     """Interface for the colormap to apply to the resulting product."""
 
     name = "colormaps"

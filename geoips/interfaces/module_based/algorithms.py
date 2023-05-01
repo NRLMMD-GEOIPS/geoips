@@ -12,10 +12,10 @@
 
 """Algorithms interface module."""
 
-from geoips.interfaces.base import BaseInterface, BasePlugin
+from geoips.interfaces.base import BaseModuleInterface, BasePlugin
 
 
-class AlgorithmsInterface(BaseInterface):
+class AlgorithmsInterface(BaseModuleInterface):
     """Data manipulations to apply to the dataset."""
 
     name = "algorithms"
