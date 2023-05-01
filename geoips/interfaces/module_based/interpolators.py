@@ -10,16 +10,21 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Boundaries interface module."""
+"""Interpolators interface module."""
 
-from geoips.interfaces.base import BaseInterface, BasePlugin
-
-
-class MapInterface(BaseInterface):
-    """Interface for overlaying boundaries and gridlines on output images."""
-
-    name = "boundaries"
-    deprecated_family_attr = ""
+from geoips.interfaces.base import BaseModuleInterface
 
 
-boundaries = MapInterface()
+class InterpolatorsInterface(BaseModuleInterface):
+    """Interpolation routine to apply when reprojecting data."""
+
+    name = "interpolators"
+    required_args = {
+        "2d": ["area_def", "input_xarray", "output_xarray", "varlist"],
+        "grid": ["area_def", "input_xarray", "output_xarray", "varlist"],
+    }
+
+    required_kwargs = {"2d": ["array_num"], "grid": ["array_num"]}
+
+
+interpolators = InterpolatorsInterface()

@@ -7,7 +7,7 @@ spec:
   product:
     interface: product
     family: interpolator_algorithm_colormap
-    product_defaults: infrared
+    product_defaults: Infrared
     name: infrared
     docstring: "Good product using family"
     spec:

@@ -125,3 +125,4 @@ Finalize YAML plugin schema and unit tests
     modified: geoips/schema/__init__.py
     modified: geoips/schema/plugin_validator.py
     modified: pyproject.toml
+

@@ -1336,7 +1336,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     print_mem_usage("MEMUSG", verbose=False)
     process_datetimes["overall_end"] = datetime.utcnow()
-    from geoips.dev.utils import output_process_times
+    from geoips.geoips_utils import output_process_times
 
     output_process_times(process_datetimes, job_str="AHI HSD Reader")
     return xarray_objs

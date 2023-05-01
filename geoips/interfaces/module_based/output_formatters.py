@@ -12,14 +12,13 @@
 
 """Output formats interface module."""
 
-from geoips.interfaces.base import BaseInterface, BasePlugin
+from geoips.interfaces.base import BaseModuleInterface
 
 
-class OutputFormattersInterface(BaseInterface):
+class OutputFormattersInterface(BaseModuleInterface):
     """Data format for the resulting output product (e.g. netCDF, png)."""
 
     name = "output_formatters"
-    deprecated_family_attr = "output_type"
     required_args = {
         "image": ["area_def", "xarray_obj", "product_name", "output_fnames"],
         "unprojected": ["xarray_obj", "product_name", "output_fnames"],
