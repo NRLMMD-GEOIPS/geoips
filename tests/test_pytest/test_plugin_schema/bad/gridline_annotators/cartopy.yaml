@@ -15,16 +15,9 @@ name: demo
 docstring: "Bad gridline_annotator missing labels"
 spec:
   lines:
-    latitude:
-      color: black
-      linestyle: [4, 2]
-      linewidth: 1
-      spacing: auto
-    longitude:
-      color: black
-      linestyle: [4, 2]
-      linewidth: 1
-      spacing: auto
+    color: black
+    linestyle: [4, 2]
+    linewidth: 1
 
 ---
 error: ValidationError
@@ -53,36 +46,9 @@ spec:
     left: true
     right: true
   lines:
-    latitude:
-      color: black
-      linestyle: [4, 2]
-      linewidth: 1
-      spacing: auto
-    longitude:
-      color: black
-      linestyle: [4, 2]
-      linewidth: 1
-      spacing: auto
-
----
-error: ValidationError
-error_pattern: ".*'longitude' is a required property.*"
-interface: gridline_annotators
-family: cartopy
-name: demo
-docstring: "Bad gridline_annotator missing lines: longitude"
-spec:
-  labels:
-    top: true
-    bottom: true
-    left: true
-    right: true
-  lines:
-    latitude:
-      color: black
-      linestyle: [4, 2]
-      linewidth: 1
-      spacing: auto
+    color: black
+    linestyle: [4, 2]
+    linewidth: 1
 
 ---
 error: ValidationError
@@ -90,7 +56,7 @@ error_pattern: ".*'color' is a required property.*"
 interface: gridline_annotators
 family: cartopy
 name: demo
-docstring: "Bad gridline_annotator missing lines: longitude: color"
+docstring: "Bad gridline_annotator missing lines: color"
 spec:
   labels:
     top: true
@@ -98,12 +64,6 @@ spec:
     left: true
     right: true
   lines:
-    latitude:
-      color: black
-      linestyle: [4, 2]
-      linewidth: 1
-      spacing: auto
-    longitude:
-      linestyle: [4, 2]
-      linewidth: 1
-      spacing: auto
+    linestyle: [4, 2]
+    linewidth: 1
+    spacing: auto

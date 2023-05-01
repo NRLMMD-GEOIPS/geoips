@@ -12,9 +12,9 @@ spec:
     left: True
     right: True
   lines:
-    latitude: &grid-lines
-      color: "#00B4B4B4"
-      linestyle: [4, 2]
-      linewidth: 1
-      spacing: 0.25
-    longitude: *grid-lines
+    color: "#00B4B4B4"
+    linestyle: [4, 2]
+    linewidth: 1
+  spacing:
+    latitude: 0.25
+    longitude: 0.25
