@@ -13,15 +13,61 @@
 """General high level utilities for geoips processing."""
 
 import os
+import yaml
 import logging
-from importlib import metadata
+from importlib import metadata, resources
 
-from geoips.errors import EntryPointError
+from geoips.errors import EntryPointError, PluginError
 from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
 NAMESPACE_PREFIX = "geoips"
+
+
+def load_all_yaml_plugins():
+    """Find all YAML plugins in registered plugin packages.
+
+    Search the ``plugins`` directory of each registered plugin package for files ending
+    in ``.yaml``. Read each plugin file
+    """
+    # Load all entry points for plugin packages
+    plugin_packages = list(metadata.entry_points(group="geoips.plugin_packages"))
+
+    # Loop over the plugin packages and load all of their yaml plugins
+    plugins = {}
+    for pkg in plugin_packages:
+        pkg_plugin_path = resources.files(pkg.value) / "plugins"
+        yaml_files = pkg_plugin_path.rglob("*.yaml")
+
+        # Loop over the yaml files from one package
+        for yaml_file in yaml_files:
+            # Load
+            yaml_plugin = yaml.safe_load(open(yaml_file, "r"))
+
+            # Set some additional information on the YAML plugin
+            # The name of the package the plugin comes from
+            yaml_plugin["package"] = pkg.value
+            # The relative path to the plugin within the package
+            yaml_plugin["relpath"] = yaml_file.relative_to(pkg_plugin_path)
+            # Absolute path to the plugin
+            yaml_plugin["abspath"] = yaml_file
+
+            if "interface" not in yaml_plugin:
+                raise PluginError(
+                    f"YAML file encountered without 'interface' property: {yaml_file}"
+                )
+            if yaml_plugin["interface"] not in plugins:
+                plugins[yaml_plugin["interface"]] = [yaml_plugin]
+            else:
+                plugins[yaml_plugin["interface"]].append(yaml_plugin)
+                # dup = plugins[plg_interface][plg_name]
+                # raise PluginError(
+                #     f"Unable to load '{plg_name} plugin from the '{pkg.value}' "
+                #     f"package. A plugin already exists with name '{plg_name}' from the "
+                #     f"'{dup['package']}' package."
+                # )
+    return plugins
 
 
 def find_config(subpackage_name, config_basename, txt_suffix=".yaml"):
