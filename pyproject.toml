@@ -8,6 +8,21 @@ find = {namespaces = false}
 [tool.setuptools.package-dir]
 "" = "."
 
+[tool.setuptools.package-data]
+"*" = [
+    "plugins/*.yaml",
+    "plugins/*/*.yaml",
+    "plugins/*/*/*.yaml",
+    "plugins/*/*/*/*.yaml",
+    "plugins/*/*/*/*/*.yaml",
+    "schema/*.yaml",
+    "schema/*/*.yaml",
+    "schema/*/*/*.yaml",
+    "schema/*/*/*/*.yaml",
+    "schema/*/*/*/*/*.yaml",
+    "image_utils/ascii_palettes/*",
+]
+
 [tool.setuptools_scm]
 "version_scheme" = "post-release"  # Use current version .postN vs incrementing
 "local_scheme" = "no-local-version"  # Don't include hash, or date, just postN
