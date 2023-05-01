@@ -7,15 +7,15 @@ docstring: |
 spec:
   coastline:
     enabled: true
-    color: red
+    edgecolor: red
     linewidth: 2
   borders:
     enabled: true
-    color: red
+    edgecolor: red
     linewidth: 1
   states:
     enabled: true
-    color: red
+    edgecolor: red
     linewidth: 0.5
   rivers:
     enabled: false

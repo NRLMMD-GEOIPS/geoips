@@ -33,10 +33,10 @@ properties:
               const: true
         then:
           required:
-            - color
+            - edgecolor
             - linewidth
           properties:
-            color:
+            edgecolor:
               type: string
             linewidth:
               type: number

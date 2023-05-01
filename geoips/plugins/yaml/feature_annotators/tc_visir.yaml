@@ -8,11 +8,11 @@ docstring: |
 spec:
   coastline:
     enabled: true
-    color: "#000000"
+    edgecolor: "#000000"
     linewidth: 0.5
   borders:
     enabled: true
-    color: "#000000"
+    edgecolor: "#000000"
     linewidth: 0.25
   states:
     enabled: false

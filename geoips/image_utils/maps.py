@@ -415,7 +415,7 @@ def check_feature_annotator(feature_annotator):
                 f"named '{ann.name}'"
             )
         if spec[feature_name]["enabled"]:
-            props = ["color", "linewidth"]
+            props = ["edgecolor", "linewidth"]
             for prop in props:
                 if prop not in spec[feature_name]:
                     raise ValueError(
@@ -523,8 +523,8 @@ def draw_features(mapobj, curr_ax, feature_annotator, zorder=None):
 
     for name, feature in feature_annotator["spec"].items():
         feat = deepcopy(feature)
-        feat.pop("enabled")
-        curr_ax.add_feature(getattr(cfeature, name.upper()), **feat, **extra_args)
+        if feat.pop("enabled"):
+            curr_ax.add_feature(getattr(cfeature, name.upper()), **feat, **extra_args)
 
 
 def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):

@@ -41,17 +41,17 @@ docstring: |
 spec:
   coastline:
     enabled: true
-    color: black
+    edgecolor: black
     linewidth: 2
   borders:
     enabled: true
-    color: black
+    edgecolor: black
     linewidth: 2
   states:
     enabled: true
-    color: black
+    edgecolor: black
     linewidth: 2
   rivers:
     enabled: true
-    color: black
+    edgecolor: black
     linewidth: 2

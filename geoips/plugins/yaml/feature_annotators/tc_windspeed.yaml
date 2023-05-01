@@ -8,17 +8,17 @@ docstring: |
 spec:
   coastline:
     enabled: true
-    color: "#00B4B4B4"
+    edgecolor: "#00B4B4B4"
     linewidth: 2
   borders:
     enabled: true
-    color: "#00B4B4B4"
+    edgecolor: "#00B4B4B4"
     linewidth: 1
   states:
     enabled: true
-    color: "#00B4B4B4"
+    edgecolor: "#00B4B4B4"
     linewidth: 0.5
   rivers:
     enabled: true
-    color: "#00B4B4B4"
+    edgecolor: "#00B4B4B4"
     linewidth: 0
