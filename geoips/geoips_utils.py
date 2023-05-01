@@ -16,6 +16,7 @@ import os
 import sys
 import yaml
 import logging
+from glob import glob
 from importlib import metadata, resources
 
 from geoips.errors import EntryPointError, PluginError
@@ -361,3 +362,80 @@ def get_required_geoips_xarray_attrs():
         "end_datetime",
     ]
     return required_xarray_attrs
+
+
+def list_product_source_dict_yamls():
+    """List all YAML files containing product source specifications.
+
+    Search in all geoips packages.
+
+    Returns
+    -------
+    list
+        List of all gridlines params dict YAMLs in all geoips packages
+    """
+    all_files = []
+    for package_name in gpaths["GEOIPS_PACKAGES"]:
+        all_files += glob(
+            gpaths["GEOIPS_PACKAGES_DIR"]
+            + "/"
+            + package_name
+            + "/*/yaml_configs/product_inputs/*.yaml"
+        )
+        all_files += glob(
+            gpaths["GEOIPS_PACKAGES_DIR"]
+            + "/"
+            + package_name
+            + "/yaml_configs/product_inputs/*.yaml"
+        )
+    return [fname for fname in all_files if "__init__" not in fname]
+
+
+def list_gridlines_params_dict_yamls():
+    """List all YAML files containing gridlines params in all geoips packages.
+
+    Returns
+    -------
+    list
+        List of all gridlines params dict YAMLs in all geoips packages
+    """
+    all_files = []
+    for package_name in gpaths["GEOIPS_PACKAGES"]:
+        all_files += glob(
+            gpaths["GEOIPS_PACKAGES_DIR"]
+            + "/"
+            + package_name
+            + "/*/yaml_configs/plotting_params/gridlines/*.yaml"
+        )
+        all_files += glob(
+            gpaths["GEOIPS_PACKAGES_DIR"]
+            + "/"
+            + package_name
+            + "/yaml_configs/plotting_params/gridlines/*.yaml"
+        )
+    return [fname for fname in all_files if "__init__" not in fname]
+
+
+def list_boundaries_params_dict_yamls():
+    """List all YAML files containing coastline params in all geoips packages.
+
+    Returns
+    -------
+    list
+        List of all coastline params dict YAMLs in all geoips packages
+    """
+    all_files = []
+    for package_name in gpaths["GEOIPS_PACKAGES"]:
+        all_files += glob(
+            gpaths["GEOIPS_PACKAGES_DIR"]
+            + "/"
+            + package_name
+            + "/*/yaml_configs/plotting_params/boundaries/*.yaml"
+        )
+        all_files += glob(
+            gpaths["GEOIPS_PACKAGES_DIR"]
+            + "/"
+            + package_name
+            + "/yaml_configs/plotting_params/boundaries/*.yaml"
+        )
+    return [fname for fname in all_files if "__init__" not in fname]
