@@ -13,9 +13,12 @@
 """Utilities for working with dynamic sector specifications."""
 import logging
 
-LOG = logging.getLogger(__name__)
+from pyresample import load_area
 
 from geoips.sector_utils.tc_tracks import set_tc_area_def
+from geoips.interfaces import sectors
+
+LOG = logging.getLogger(__name__)
 
 SECTOR_INFO_ATTRS = {
     "tc": [
@@ -647,14 +650,14 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
 #     return ret_area_def_ids.values()
 
 
-def get_sectors_from_yamls(sectornames):
+def get_sectors_from_yamls(sector_list):
     """Get AreaDefinition objects with custom "sector_info" dictionary.
 
     Based on YAML area definition contained in "sectorfnames" files.
 
     Parameters
     ----------
-    sectornames : list of str
+    sector_list : list of str
         list of strings of desired sector names to retrieve from YAML files
 
     Returns
@@ -664,17 +667,13 @@ def get_sectors_from_yamls(sectornames):
         entries added as attributes to each area def (this is to allow specifying
         "sector_info" metadata dictionary within the YAML file)
     """
-    from pyresample import load_area
-    import yaml
-
     area_defs = []
-    for sectorname in sectornames:
-        if area_def.area_id in sectornames:
-            with open(sectorfname) as sectorfobj:
-                ydict = yaml.safe_load(sectorfobj)
-            area_def.__setattr__("sector_info", ydict["metadata"])
-            area_def.__setattr__("sector_type", ydict["family"])
-            area_defs += [area_def]
+    for sector_name in sector_list:
+        sector_plugin = sectors.get_plugin(sector_name)
+        area_def = load_area(sector_plugin.abspath, "spec")
+        area_def.__setattr__("sector_info", sector_plugin["metadata"])
+        area_def.__setattr__("sector_type", sector_plugin["family"])
+        area_defs += [area_def]
     return area_defs
 
 

@@ -25,6 +25,7 @@ from geoips.interfaces.yaml_based.products import products
 from geoips.interfaces.yaml_based.product_defaults import product_defaults
 from geoips.interfaces.yaml_based.feature_annotators import feature_annotators
 from geoips.interfaces.yaml_based.gridline_annotators import gridline_annotators
+from geoips.interfaces.yaml_based.sectors import sectors
 
 __all__ = [
     "algorithms",
@@ -39,4 +40,5 @@ __all__ = [
     "product_defaults",
     "feature_annotators",
     "gridline_annotators",
+    "sectors",
 ]
