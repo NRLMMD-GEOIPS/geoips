@@ -1,3 +1,9 @@
+Update TC_TEMPLATE base path to point to plugins/yaml/sectors/dynamic/tc_web_template.yaml
+
+::
+
+        modified:   geoips/filenames/base_paths.py
+
 Remove dynamic sectors
 
 ::
