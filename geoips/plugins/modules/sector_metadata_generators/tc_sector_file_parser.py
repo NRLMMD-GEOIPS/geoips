@@ -28,7 +28,7 @@ family = "tc"
 name = "tc_sector_file_parser"
 
 
-def call(sectorfile_name):
+def call(trackfile_name):
     """TC trackfile parser for flat text sectorfiles containing current active storms.
 
     These files contain no storm history, only the currently active storm locations.
@@ -36,7 +36,7 @@ def call(sectorfile_name):
 
     Parameters
     ----------
-    sectorfile_name : str
+    trackfile_name : str
         Flat text sector file name containing all currently active storm locations,
         formatted as follows:
         * 10S JOSHUA 210120 1200 21.8S 78.1E SHEM 20 1007
@@ -60,14 +60,14 @@ def call(sectorfile_name):
     final_storm_name = None
     tc_year = None
 
-    flatsf_lines = open(sectorfile_name).readlines()
+    flatsf_lines = open(trackfile_name).readlines()
     all_fields = []
 
     for line in flatsf_lines:
         if not line.strip():
             continue
         curr_fields = parse_flat_sectorfile_line(
-            line, sectorfile_name, parser_name="flat_sectorfile_parser"
+            line, trackfile_name, parser_name="flat_sectorfile_parser"
         )
         # Was previously RE-SETTING finalstormname here.
         # That is why we were getting incorrect final_storm_name fields

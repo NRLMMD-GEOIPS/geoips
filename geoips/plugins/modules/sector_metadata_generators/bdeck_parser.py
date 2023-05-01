@@ -116,7 +116,7 @@ family = "tc"
 name = "bdeck_parser"
 
 
-def call(deckfile_name):
+def call(trackfile_name):
     """TC deckfile parser for B-Deck files.
 
     Each B-Deck file contains the full history of storm BEST tracks, one storm
@@ -124,7 +124,7 @@ def call(deckfile_name):
 
     Parameters
     ----------
-    deckfile_name : str
+    trackfile_name : str
         Path to bdeck file, with full 6 hourly storm track
         history, formatted as follows:
 
@@ -138,14 +138,14 @@ def call(deckfile_name):
     :ref:`api`
         Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
-    LOG.info("STARTING getting fields from %s", deckfile_name)
+    LOG.info("STARTING getting fields from %s", trackfile_name)
     # Must get tcyear out of the filename in case a storm
     # crosses TC vs calendar years.
-    # tcyear = os.path.basename(deckfile_name)[5:9]
-    tc_year = get_stormyear_from_bdeck_filename(deckfile_name)
+    # tcyear = os.path.basename(trackfile_name)[5:9]
+    tc_year = get_stormyear_from_bdeck_filename(trackfile_name)
     # print tcyear
 
-    flatsf_lines = open(deckfile_name).readlines()
+    flatsf_lines = open(trackfile_name).readlines()
     final_storm_name = get_final_storm_name_bdeck(flatsf_lines, tc_year)
     invest_number = get_invest_number_bdeck(flatsf_lines)
 
@@ -157,7 +157,7 @@ def call(deckfile_name):
     # not match the final storm start time.
     # Keep track of the start datetime referenced in the filename
     filename_storm_start_datetime = get_storm_start_datetime_from_bdeck_filename(
-        deckfile_name
+        trackfile_name
     )
 
     LOG.info("  USING final_storm_name from bdeck %s", final_storm_name)
@@ -174,7 +174,7 @@ def call(deckfile_name):
     for line in flatsf_lines:
         curr_fields = parse_bdeck_line(
             line,
-            source_filename=deckfile_name,
+            source_filename=trackfile_name,
             storm_year=tc_year,
             final_storm_name=final_storm_name,
             invest_number=invest_number,
@@ -186,7 +186,7 @@ def call(deckfile_name):
         # That is why we were getting incorrect final_storm_name fields
         all_fields += [curr_fields]
 
-    LOG.info("FINISHED getting fields from %s", deckfile_name)
+    LOG.info("FINISHED getting fields from %s", trackfile_name)
 
     return all_fields, final_storm_name, tc_year
 

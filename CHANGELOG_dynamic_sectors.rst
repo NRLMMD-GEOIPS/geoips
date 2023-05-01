@@ -1,3 +1,13 @@
+Update call signature for "trackfile" argument
+----------------------------------------------
+
+Consistent call signatures for sector_metadata_generators
+
+::
+
+  modified:   geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+  modified:   geoips/plugins/modules/sector_metadata_generators/tc_sector_file_parser.py
+
 Add sector generator classes
 ----------------------------
 
