@@ -165,7 +165,7 @@ def plugin_module_to_obj(module, obj_attrs={}):
     return type(plugin_type, (BaseModulePlugin,), obj_attrs)()
 
 
-class BaseYamlPlugin:
+class BaseYamlPlugin(dict):
     """Base class for GeoIPS plugins."""
 
     def __init__(self, *args, **kwargs):
