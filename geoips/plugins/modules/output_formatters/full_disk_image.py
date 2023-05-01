@@ -28,7 +28,7 @@ def call(
     clean_fname=None,
     product_name_title=None,
     mpl_colors_info=None,
-    boundaries_info=None,
+    feature_annotator=None,
     gridlines_info=None,
     product_datatype_title=None,
     bg_data=None,
@@ -107,7 +107,7 @@ def call(
         mapobj,
         main_ax,
         area_def,
-        boundaries_info=boundaries_info,
+        feature_annotator=feature_annotator,
         gridlines_info=gridlines_info,
     )
 
