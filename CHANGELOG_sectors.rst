@@ -31,4 +31,7 @@ sector list.
   modified: geoips/plugins/modules/procflows/single_source.py
   modified: geoips/sector_utils/utils.py
   modified: tests/scripts/abi.static.Infrared.imagery_annotated.sh
-
+  modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
+  modified: tests/scripts/documentation_imagery.sh
+  modified: tests/scripts/ewsg.static.Infrared.imagery_clean.sh
+  modified: tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
