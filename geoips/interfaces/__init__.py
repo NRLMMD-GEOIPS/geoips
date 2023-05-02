@@ -19,6 +19,7 @@ from geoips.interfaces.module_based.interpolators import interpolators
 from geoips.interfaces.module_based.output_formatters import output_formatters
 from geoips.interfaces.module_based.procflows import procflows
 from geoips.interfaces.module_based.readers import readers
+from geoips.interfaces.module_based.sector_adjusters import sector_adjusters
 from geoips.interfaces.module_based.sector_metadata_generators import (
     sector_metadata_generators,
 )
@@ -39,6 +40,7 @@ __all__ = [
     "output_formatters",
     "procflows",
     "readers",
+    "sector_adjusters",
     "sector_metadata_generators",
     "sector_spec_generators",
     "title_formatters",
