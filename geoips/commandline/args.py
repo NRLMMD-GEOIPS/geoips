@@ -78,7 +78,7 @@ def check_command_line_args(arglist, argdict):
     if "sector_list" in arglist:
         if argdict["sector_list"] and not isinstance(argdict["sector_list"], list):
             raise TypeError(
-                "Must pass list of strings for static sector specifications"
+                "Must pass list of strings for requested static sector plugins"
             )
         LOG.info("COMMANDLINEARG sector_list: %s", argdict["sector_list"])
     if "tcdb_sector_list" in arglist:
