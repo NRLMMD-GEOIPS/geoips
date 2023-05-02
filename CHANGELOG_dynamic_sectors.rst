@@ -3,6 +3,7 @@ Pre Version 1.10.0a12 (2023-05-02)
 
 * PR specific test scripts
 * Update all TC templates to use updated sectors.generated schema
+* Update command line argument from tc_template_yaml to tc_spec_template
 
 Breaking Changes
 ================
