@@ -26,7 +26,7 @@ run_procflow \
     --output_formatter imagery_windbarbs \
     --metadata_filename_formatter metadata_default_fname \
     --metadata_output_formatter metadata_default \
-    --tc_template_yaml $GEOIPS_PACKAGES_DIR/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml \
+    --sector_spec_generator tc_web \
     --trackfile_parser bdeck_parser \
     --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat \
     --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs" \
