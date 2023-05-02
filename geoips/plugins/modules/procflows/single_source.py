@@ -55,11 +55,13 @@ from geoips.dev.output_config import (
 )
 
 # New class-based interfaces
+from geoips.interfaces import algorithms
 from geoips.interfaces import colormaps
-from geoips.interfaces import output_formatters
 from geoips.interfaces import filename_formatters
 from geoips.interfaces import interpolators
-from geoips.interfaces import algorithms
+from geoips.interfaces import output_formatters
+from geoips.interfaces import readers
+from geoips.interfaces import sector_adjusters
 
 # These output families require an input filename list, AND require the returned list of products to
 # match what was passed in
@@ -1216,8 +1218,6 @@ def call(fnames, command_line_args=None):
         if not getenv("G2DB_USER") or not getenv("G2DB_PASS"):
             raise ValueError("Need to set both $G2DB_USER and $G2DB_PASS")
 
-    from geoips.interfaces import readers
-
     reader = readers.get_plugin(reader_name)
     print_mem_usage("MEMUSG", verbose=False)
 
@@ -1348,7 +1348,7 @@ def call(fnames, command_line_args=None):
         if adjust_area_def:
             from geoips.geoips_utils import find_entry_point
 
-            sector_adjuster = find_entry_point("sector_adjusters", adjust_area_def)
+            sector_adjuster = sector_adjusters.get_plugin(adjust_area_def)
             sector_adjuster_type = sector_adjuster.family
             # Use normal size sectored xarray when running sector_adjuster, not padded
             # Center time (mintime + (maxtime - mintime)/2) is very slightly different for different size
@@ -1373,7 +1373,7 @@ def call(fnames, command_line_args=None):
                     sector_adjuster_type
                     == "list_xarray_list_variables_to_area_def_out_fnames"
                 ):
-                    area_def, adadj_fnames = sector_adjuster.call(
+                    area_def, adadj_fnames = sector_adjuster(
                         list(sect_xarrays.values()), area_def, variables
                     )
                 else:
