@@ -81,7 +81,7 @@ def is_valid_output_config(output_config_dict):
             "sector_list",
             "trackfile_parser",
             "trackfiles",
-            "tc_template_yaml",
+            "sector_spec_generator",
         ],
         "outputs": [
             "remove_duplicates",

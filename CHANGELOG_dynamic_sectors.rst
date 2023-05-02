@@ -18,6 +18,10 @@ on plugin name rather than full path to YAML file.
   modified: scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh
   modified: scripts/atms.tc.165H.netcdf_geoips.sh
   modified: scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh
+  modified: geoips/commandline/args.py
+  modified: geoips/dev/output_config.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/sector_utils/tc_tracks.py
   modified: yaml_configs/abi_test.yaml
   modified: yaml_configs/abi_test_low_memory.yaml
   modified: yaml_configs/amsr2_test.yaml

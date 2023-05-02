@@ -173,7 +173,7 @@ def set_tc_area_def(
         specify clat/clon separately from that found in 'fields'
     clon : float, default=None
         specify clat/clon separately from that found in 'fields'
-    sector_spec_generator : str, default=gpaths['TC_TEMPLATE']
+    sector_spec_generator : str, default="tc_web"
         Path to template YAML file to use when setting up area definition.
     aid_type : str, default=None
         type of TC aid (BEST, MBAM, etc)
