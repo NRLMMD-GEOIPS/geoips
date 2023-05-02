@@ -22,6 +22,48 @@ Version 1.10.0a12 (2023-05-01)
 Breaking Changes
 ================
 
+Refactor gridline_annotator and feature_annotator plugin schema and plugins
+---------------------------------------------------------------------------
+
+* In feature annotators
+
+  * use "coastlines" -> "coastline" and "countries" -> "borders"
+  * use "edgecolor" instead of "color"
+
+* In gridline annotators
+
+  * Move to three spec sections: "spacing", "labels", and "lines"
+  * Use same line style for meridians and parallels
+
+::
+    modified: schema/feature_annotators/cartopy.yaml
+    modified: schema/gridline_annotators/cartopy.yaml
+    modified: plugins/yaml/feature_annotators
+    modified: plugins/yaml/gridline_annotators
+    modified: tests/test_pytest/test_plugin_schema/bad/feature_annotators/cartopy.yaml
+    modified: tests/test_pytest/test_plugin_schema/bad/gridline_annotators/cartopy.yaml
+
+Rework mapping routines to use new interfaces
+---------------------------------------------
+
+* image_utils/maps.py
+
+  * Remove all functionality relating to Basemap
+  * Remove set_boundaries_info_dict and set_gridlines_info_dict
+  * Rename check_gridlines_info_dict to check_gridline_annotator
+  * Rename check_boundaries_info_dict to check_feature_annotator
+  * Add compute_lat_auto_spacing and compute_lon_auto_spacing
+  * Refactor all other functions
+
+* image_utils/mpl_utils.py
+
+  * Replace all uses of boundaries_info with feature_annotator
+  * Replace all uses of gridlines_info with gridline_annotator
+
+::
+    image_utils/maps.py
+    image_utils/mpl_utils.py
+
 Remove old YAML discovery functions in geoips_utils
 ---------------------------------------------------
 
