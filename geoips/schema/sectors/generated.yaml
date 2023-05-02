@@ -6,25 +6,15 @@ properties:
   spec:
     type: object
     required:
-      - generators
+      - sector_spec_generator
     properties:
-      generators:
+      sector_spec_generator:
         type: object
         required:
-          - metadata
-          - spec
+          - name
+          - arguments
         properties:
-          metadata:
+          name:
+            type: string
+          arguments:
             type: object
-            properties:
-              name:
-                type: string
-              arguments:
-                type: object
-          spec:
-            type: object
-            properties:
-              name:
-                type: string
-              arguments:
-                type: object

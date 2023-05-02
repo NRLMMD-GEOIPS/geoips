@@ -2,6 +2,7 @@ Pre Version 1.10.0a12 (2023-05-02)
 **********************************
 
 * PR specific test scripts
+* Update all TC templates to use updated sector_spec_generator formatting
 
 Breaking Changes
 ================
@@ -13,10 +14,11 @@ These only require sector_spec_generator specifications,
 not sector_metadata_generator. Metadata is determined separately
 from the area definition.
 
-Update all TC template YAMLs accordingly.
+Update schema and all TC template YAMLs accordingly.
 
 ::
 
+  modified: geoips/schema/sectors/generated.yaml
   modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
   modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
   modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
@@ -33,6 +35,8 @@ Update all TC template YAMLs accordingly.
   modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_3200x3200.yaml
   modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascat_high_barbs_template.yaml
   modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascatuhr_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_halfkm_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_template.yaml
 
 Replace tc_template_yaml command line argument with sector_spec_generator
 -------------------------------------------------------------------------
