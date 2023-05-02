@@ -637,7 +637,7 @@ def get_area_defs_from_command_line_args(
     trackfile_sector_list = None
     trackfiles = None
     trackfile_parser = None
-    sector_spec_generator = None
+    tc_spec_template = None
     self_register_dataset = None
     self_register_source = None
     area_defs = []
@@ -678,8 +678,8 @@ def get_area_defs_from_command_line_args(
         trackfiles = command_line_args["trackfiles"]
     if "trackfile_parser" in command_line_args:
         trackfile_parser = command_line_args["trackfile_parser"]
-    if "sector_spec_generator" in command_line_args:
-        sector_spec_generator = command_line_args["sector_spec_generator"]
+    if "tc_spec_template" in command_line_args:
+        tc_spec_template = command_line_args["tc_spec_template"]
 
     # This indicates that the "area_definition" will be the definition for one
     # of the native datasets
@@ -766,7 +766,7 @@ def get_area_defs_from_command_line_args(
         area_defs += get_tc_area_defs_for_xarray(
             xobjs["METADATA"],
             tcdb_sector_list,
-            sector_spec_generator,
+            tc_spec_template,
             aid_type="BEST",
         )
     if trackfiles:
@@ -774,7 +774,7 @@ def get_area_defs_from_command_line_args(
             trackfiles,
             trackfile_parser,
             trackfile_sector_list,
-            sector_spec_generator,
+            tc_spec_template,
             aid_type="BEST",
             start_datetime=xobjs["METADATA"].start_datetime - timedelta(hours=8),
             end_datetime=xobjs["METADATA"].end_datetime + timedelta(hours=3),
