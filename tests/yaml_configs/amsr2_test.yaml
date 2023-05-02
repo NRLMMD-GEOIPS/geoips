@@ -6,7 +6,7 @@ available_sectors:
     trackfile_parser: bdeck_parser
     trackfiles:
       - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bio012020.dat
-    sector_spec_generator: tc_web
+    tc_spec_template: tc_web
 
   global:
     sector_list:

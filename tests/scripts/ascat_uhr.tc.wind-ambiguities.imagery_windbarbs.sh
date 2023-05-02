@@ -25,7 +25,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_scat/data/20210421_metopc_byu_uhr_tc
           --output_formatter imagery_windbarbs \
           --metadata_filename_formatter metadata_default_fname \
           --metadata_output_formatter metadata_default \
-          --sector_spec_generator tc_web_ascatuhr_barbs \
+          --tc_spec_template tc_web_ascatuhr_barbs \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs" \
