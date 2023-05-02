@@ -1,6 +1,9 @@
 Version 1.10.0a12 (2023-05-01)
 ******************************
 
+* Remove sectorfiles option from commandline
+* Add new sector interface
+
 Major New Functionality
 =======================
 
