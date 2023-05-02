@@ -352,6 +352,7 @@ def set_gridlines_info_dict(gridlines_info, area_def):
 
 
 def compute_lat_auto_spacing(area_def):
+    """Compute automatic spacing for latitude lines based on area definition."""
     minlat = area_def.area_extent_ll[1]
     maxlat = area_def.area_extent_ll[3]
     lat_extent = maxlat - minlat
@@ -365,6 +366,7 @@ def compute_lat_auto_spacing(area_def):
 
 
 def compute_lon_auto_spacing(area_def):
+    """Compute automatic spacing for longitude lines based on area definition."""
     minlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[0])
     maxlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[2])
     if minlon > maxlon and maxlon < 0:
