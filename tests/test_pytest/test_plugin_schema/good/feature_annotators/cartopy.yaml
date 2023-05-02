@@ -23,7 +23,7 @@ docstring: |
 spec:
   coastline:
     enabled: true
-    color: black
+    edgecolor: black
     linewidth: 2
   borders:
     enabled: false
