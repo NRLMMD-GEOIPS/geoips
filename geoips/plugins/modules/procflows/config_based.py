@@ -1081,20 +1081,20 @@ def call(fnames, command_line_args=None):
 
             # Must adjust the area definition AFTER sectoring xarray (to get valid
             # start/end time
-            adjust_area_def = None
-            if "adjust_area_def" in config_dict["available_sectors"][sector_type]:
-                adjust_area_def = config_dict["available_sectors"][sector_type][
-                    "adjust_area_def"
+            sector_adjuster = None
+            if "sector_adjuster" in config_dict["available_sectors"][sector_type]:
+                sector_adjuster = config_dict["available_sectors"][sector_type][
+                    "sector_adjuster"
                 ]
 
             adadj_fnames = []
-            if adjust_area_def:
-                LOG.info("\n\n\n\nAdjusting Area Definition: %s", adjust_area_def)
+            if sector_adjuster:
+                LOG.info("\n\n\n\nAdjusting Area Definition: %s", sector_adjuster)
                 LOG.info(
                     "\n\n\n\nBEFORE ADJUSTMENT area definition: %s\n\n\n\n", area_def
                 )
                 area_def_adjuster = find_entry_point(
-                    "area_def_adjusters", adjust_area_def
+                    "area_def_adjusters", sector_adjuster
                 )
                 area_def_adjuster_type = getattr(
                     import_module(area_def_adjuster.__module__), "adjuster_type"
@@ -1105,7 +1105,7 @@ def call(fnames, command_line_args=None):
                 # array for adjusting the area_def.
                 if pad_sect_xarrays["METADATA"].source_name not in ["amsu-b", "mhs"]:
                     # The exact sectored arrays, without padding.
-                    # Note this must be sectored both before AND after adjust_area_def -
+                    # Note this must be sectored both before AND after sector_adjuster -
                     # to ensure we both have an accurate center time for adjustments, and so we
                     # get all of the data.
                     if area_def.sector_type not in ["reader_defined", "self_register"]:
@@ -1193,7 +1193,7 @@ def call(fnames, command_line_args=None):
 
             print_mem_usage("MEMUSG", verbose=False)
             # The exact sectored arrays, without padding.
-            # Note this must be sectored AFTER adjust_area_def - to ensure we get all the data.
+            # Note this must be sectored AFTER sector_adjuster - to ensure we get all the data.
             # Do NOT sector if we are using a reader_defined or self_register area_def - that indicates we are going
             # to use all of the data we have, so we will not sector
             if area_def.sector_type not in ["reader_defined", "self_register"]:

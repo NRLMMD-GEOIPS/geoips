@@ -1183,7 +1183,7 @@ def call(fnames, command_line_args=None):
         "metadata_filename_formatter",
         "metadata_output_formatter_kwargs",
         "metadata_filename_formatter_kwargs",
-        "adjust_area_def",
+        "sector_adjuster",
         "reader_defined_area_def",
         "self_register_source",
         "self_register_dataset",
@@ -1202,7 +1202,7 @@ def call(fnames, command_line_args=None):
     compare_path = command_line_args["compare_path"]
     output_file_list_fname = command_line_args["output_file_list_fname"]
     compare_outputs_module = command_line_args["compare_outputs_module"]
-    adjust_area_def = command_line_args["adjust_area_def"]
+    sector_adjuster = command_line_args["sector_adjuster"]
     self_register_source = command_line_args["self_register_source"]
     self_register_dataset = command_line_args["self_register_dataset"]
     reader_defined_area_def = command_line_args["reader_defined_area_def"]
@@ -1345,11 +1345,9 @@ def call(fnames, command_line_args=None):
             final_products += curr_output_products
             continue
 
-        if adjust_area_def:
-            from geoips.geoips_utils import find_entry_point
-
-            sector_adjuster = sector_adjusters.get_plugin(adjust_area_def)
-            sector_adjuster_type = sector_adjuster.family
+        if sector_adjuster:
+            sector_adjuster_plugin = sector_adjusters.get_plugin(sector_adjuster)
+            sector_adjuster_type = sector_adjuster_plugin.family
             # Use normal size sectored xarray when running sector_adjuster, not padded
             # Center time (mintime + (maxtime - mintime)/2) is very slightly different for different size
             # sectored arrays, so for consistency if we change padding amounts, use the fully sectored
@@ -1373,11 +1371,11 @@ def call(fnames, command_line_args=None):
                     sector_adjuster_type
                     == "list_xarray_list_variables_to_area_def_out_fnames"
                 ):
-                    area_def, adadj_fnames = sector_adjuster(
+                    area_def, adadj_fnames = sector_adjuster_plugin(
                         list(sect_xarrays.values()), area_def, variables
                     )
                 else:
-                    area_def = sector_adjuster(
+                    area_def = sector_adjuster_plugin(
                         list(sect_xarrays.values()), area_def, variables
                     )
             else:
@@ -1386,11 +1384,11 @@ def call(fnames, command_line_args=None):
                     sector_adjuster_type
                     == "list_xarray_list_variables_to_area_def_out_fnames"
                 ):
-                    area_def, adadj_fnames = sector_adjuster(
+                    area_def, adadj_fnames = sector_adjuster_plugin(
                         list(pad_sect_xarrays.values()), area_def, variables
                     )
                 else:
-                    area_def = sector_adjuster(
+                    area_def = sector_adjuster_plugin(
                         list(pad_sect_xarrays.values()), area_def, variables
                     )
             # These will be added to the alg_xarray

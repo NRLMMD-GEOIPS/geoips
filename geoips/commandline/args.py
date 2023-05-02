@@ -133,14 +133,14 @@ def check_command_line_args(arglist, argdict):
             "COMMANDLINEARG output_file_list_fname: %s",
             argdict["output_file_list_fname"],
         )
-    if "adjust_area_def" in arglist:
-        if argdict["adjust_area_def"] and not isinstance(
-            argdict["adjust_area_def"], str
+    if "sector_adjuster" in arglist:
+        if argdict["sector_adjuster"] and not isinstance(
+            argdict["sector_adjuster"], str
         ):
             raise TypeError(
-                'Must pass a single string for "adjust_area_def" dictionary entry'
+                'Must pass a single string for "sector_adjuster" dictionary entry'
             )
-        LOG.info("COMMANDLINEARG adjust_area_def: %s", argdict["adjust_area_def"])
+        LOG.info("COMMANDLINEARG sector_adjuster: %s", argdict["sector_adjuster"])
     if "reader_defined_area_def" in arglist:
         if argdict["reader_defined_area_def"] and not isinstance(
             argdict["reader_defined_area_def"], bool
@@ -219,13 +219,13 @@ def add_args(parser, arglist=None):
     sect_group = parser.add_argument_group(
         title="Sector Requests: General arguments for sectors"
     )
-    if arglist is None or "adjust_area_def" in arglist:
+    if arglist is None or "sector_adjuster" in arglist:
         sect_group.add_argument(
-            "--adjust_area_def",
+            "--sector_adjuster",
             nargs="?",
             default=None,
-            help="""Specify area def adjuster to be used within processing, located in:
-                            <package>.plugins.modules.area_def_adjusters.
+            help="""Specify sector adjuster to be used within processing, located in:
+                            <package>.plugins.modules.sector_adjusters.
                                 <myadjuster>.<myadjuster>""",
         )
 

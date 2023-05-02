@@ -24,3 +24,14 @@ Was previously using "find_entry_point" directly.
 ::
 
   modified:   plugins/modules/procflows/single_source.py
+
+Replace adjust_area_def command line arg with sector_adjuster
+-------------------------------------------------------------
+
+Update appropriately in config_based and single_source.
+
+::
+
+  modified: commandline/args.py
+  modified: plugins/modules/procflows/config_based.py
+  modified: plugins/modules/procflows/single_source.py
