@@ -6,6 +6,34 @@ Pre Version 1.10.0a12 (2023-05-02)
 Breaking Changes
 ================
 
+Update all TC templates to use updated sector_spec_generator formatting
+-----------------------------------------------------------------------
+
+These only require sector_spec_generator specifications,
+not sector_metadata_generator. Metadata is determined separately
+from the area definition.
+
+Update all TC template YAMLs accordingly.
+
+::
+
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_2km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_2km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_4km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_256x256/tc_4km_256x256.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_2km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_4km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_2km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_4km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_0p1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_2500x2500.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascat_high_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascatuhr_barbs_template.yaml
+
 Replace tc_template_yaml command line argument with sector_spec_generator
 -------------------------------------------------------------------------
 
