@@ -120,8 +120,8 @@ def plot_overlays(
     mapobj,
     curr_ax,
     area_def,
-    feature_annotator,
-    gridline_annotator,
+    feature_annotator=None,
+    gridline_annotator=None,
     features_zorder=None,
     gridlines_zorder=None,
 ):
