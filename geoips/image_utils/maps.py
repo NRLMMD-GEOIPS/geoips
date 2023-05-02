@@ -14,6 +14,15 @@
 
 # Python Standard Libraries
 import logging
+from copy import deepcopy
+import pyresample
+import cartopy.feature as cfeature
+from math import ceil
+import numpy as np
+import matplotlib.ticker as mticker
+from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
+from geoips.interfaces import feature_annotators, gridline_annotators
+
 
 LOG = logging.getLogger(__name__)
 
@@ -113,106 +122,6 @@ def is_crs(mapobj):
     return crs
 
 
-def area_def2mapobj(area_def):
-    """
-    Convert to map object.
-
-    Convert pyresample AreaDefinition object to a cartopy CRS or Basemap
-    object. Default to basemap.
-
-    Parameters
-    ----------
-    area_def : AreaDefinition
-        pyresample AreaDefinition object
-
-    Returns
-    -------
-    mapobj : CRS map object
-        Either Basemap instance (if Basemap is installed), or cartopy
-        CRS object.
-    """
-    try:
-        # old pyresample.area_def2basemap appears to fail over the dateline.
-        # Created our own for now
-        # boundary resolution must be one of 'c','l','i','h' or 'f'
-        mapobj = area_def2basemap(
-            area_def, fix_aspect=False, suppress_ticks=True, resolution="i"
-        )
-    except ImportError:
-        LOG.info("Basemap not installed, using cartopy")
-        mapobj = area_def.to_cartopy_crs()
-    return mapobj
-
-
-def area_def2basemap(area_def, **kwargs):
-    """
-    Get Basemap object from AreaDefinition.
-
-    Parameters
-    ----------
-    area_def : object
-        geometry.AreaDefinition object
-
-    Returns
-    -------
-    bmap : Basemap object
-    """
-    from mpl_toolkits.basemap import Basemap
-
-    try:
-        avar, bvar = ellps2axis(area_def.proj_dict["ellps"])
-        rsphere = (avar, bvar)
-    except KeyError:
-        try:
-            avar = float(area_def.proj_dict["a"])
-            try:
-                bvar = float(area_def.proj_dict["b"])
-                rsphere = (avar, bvar)
-            except KeyError:
-                rsphere = avar
-        except KeyError:
-            # Default to WGS84 ellipsoid
-            avar, bvar = ellps2axis("wgs84")
-            rsphere = (avar, bvar)
-
-    # Add projection specific basemap args to args passed to function
-    basemap_args = kwargs
-    basemap_args["rsphere"] = rsphere
-
-    if area_def.proj_dict["proj"] in ("ortho", "geos", "nsper"):
-        llcrnrx, llcrnry, urcrnrx, urcrnry = area_def.area_extent
-        basemap_args["llcrnrx"] = llcrnrx
-        basemap_args["llcrnry"] = llcrnry
-        basemap_args["urcrnrx"] = urcrnrx
-        basemap_args["urcrnry"] = urcrnry
-    else:
-        llcrnrlon, llcrnrlat, urcrnrlon, urcrnrlat = area_def.area_extent_ll
-        # If ur < ll, then we need to swap
-        if urcrnrlon < llcrnrlon:
-            if area_def.x_size * area_def.pixel_size_x < 20000000:
-                basemap_args["llcrnrlon"] = llcrnrlon % 360
-                basemap_args["urcrnrlon"] = urcrnrlon % 360
-        else:
-            basemap_args["llcrnrlon"] = llcrnrlon
-            basemap_args["urcrnrlon"] = urcrnrlon
-        basemap_args["llcrnrlat"] = llcrnrlat
-        basemap_args["urcrnrlat"] = urcrnrlat
-
-    if area_def.proj_dict["proj"] == "eqc":
-        basemap_args["projection"] = "cyl"
-    else:
-        basemap_args["projection"] = area_def.proj_dict["proj"]
-
-    # Try adding potentially remaining args
-    for key in ("lon_0", "lat_0", "lon_1", "lat_1", "lon_2", "lat_2", "lat_ts"):
-        try:
-            basemap_args[key] = float(area_def.proj_dict[key])
-        except KeyError:
-            pass
-
-    return Basemap(**basemap_args)
-
-
 def parallels(area_def, grid_size):
     """
     Calculate the parallels (latitude) that fall within the input sector.
@@ -229,15 +138,16 @@ def parallels(area_def, grid_size):
     lat_ticks : list
         latitude locations for gridlines
     """
-    from math import ceil
-    from numpy import arange
-    from numpy.ma import masked_greater
+    if grid_size == "auto":
+        grid_size = compute_lat_auto_spacing(area_def)
+
+    gs = float(grid_size)
 
     lats = area_def.get_lonlats()[1]
-    mlats = masked_greater(lats, 90)
-    min_parallel = ceil(float(mlats.min()) / grid_size) * grid_size
-    max_parallel = ceil(float(mlats.max()) / grid_size) * grid_size
-    lat_ticks = arange(min_parallel, max_parallel, grid_size)
+    mlats = np.ma.masked_greater(lats, 90)
+    min_parallel = ceil(float(mlats.min()) / gs) * gs
+    max_parallel = ceil(float(mlats.max()) / gs) * gs
+    lat_ticks = np.arange(min_parallel, max_parallel, gs)
     LOG.info("List of parallels: min/max %s, %s", lat_ticks[0], lat_ticks[-1])
     lat_ticks = [round(lat_tick, 1) for lat_tick in lat_ticks]
     return lat_ticks
@@ -259,10 +169,13 @@ def meridians(area_def, grid_size):
     meridians_to_draw : list
         longitude locations for gridlines
     """
-    import numpy
+    if grid_size == "auto":
+        grid_size = compute_lon_auto_spacing(area_def)
+
+    gs = float(grid_size)
 
     corners = area_def.corners
-    lons = [numpy.rad2deg(corn.lon) for corn in corners]
+    lons = [np.rad2deg(corn.lon) for corn in corners]
     llcrnrlon = lons[3]
     urcrnrlon = lons[1]
 
@@ -279,12 +192,9 @@ def meridians(area_def, grid_size):
     elif urcrnrlon < llcrnrlon:
         llcrnrlon -= 360
 
-    from math import ceil
-
-    min_meridian = ceil(float(llcrnrlon) / grid_size) * grid_size
-    max_meridian = ceil(float(urcrnrlon) / grid_size) * grid_size
-    meridians_to_draw = numpy.arange(min_meridian, max_meridian, grid_size)
-    import pyresample
+    min_meridian = ceil(float(llcrnrlon) / gs) * gs
+    max_meridian = ceil(float(urcrnrlon) / gs) * gs
+    meridians_to_draw = np.arange(min_meridian, max_meridian, gs)
 
     meridians_to_draw = pyresample.utils.wrap_longitudes(meridians_to_draw)
     LOG.info(
@@ -294,49 +204,45 @@ def meridians(area_def, grid_size):
     return meridians_to_draw
 
 
-def check_gridlines_info_dict(gridlines_info):
+def check_gridline_annotator(gridline_annotator):
     """
     Check gridlines_info dictionary for that all required fields.
 
     Parameters
     ----------
-    gridlines_info : dict
-        dictionary to check for required fields. For complete list of
-        fields, and appropriate defaults, see
-        geoips.image_utils.maps.get_gridlines_info_dict
+    gridline_annotator : YamlPlugin
+        A gridline annotator plugin instance.
 
     Raises
     ------
     ValueError
         If required field is missing
     """
-    required_fields = [
-        "grid_lat_spacing",
-        "grid_lon_spacing",
-        "grid_lat_fontsize",
-        "grid_lon_fontsize",
-        "grid_lat_xoffset",
-        "grid_lon_xoffset",
-        "grid_lat_yoffset",
-        "grid_lon_yoffset",
-        "left_label",
-        "right_label",
-        "top_label",
-        "bottom_label",
-        "grid_lat_linewidth",
-        "grid_lon_linewidth",
-        "grid_lat_color",
-        "grid_lon_color",
-        "grid_lat_dashes",
-        "grid_lon_dashes",
-    ]
-    for key in required_fields:
-        if key not in gridlines_info:
+    required_fields = {
+        "spacing": ["latitude", "longitude"],
+        "labels": ["top", "bottom", "left", "right"],
+        "lines": ["color", "linestyle", "linewidth"],
+    }
+
+    if gridline_annotator is None:
+        gridline_annotator = gridline_annotators.get_plugin("default")
+
+    for key, subkeys in required_fields.items():
+        if key not in gridline_annotator["spec"]:
             raise ValueError(
                 "Missing gridlines_info entry {0}, required_fields {1}".format(
                     key, required_fields
                 )
             )
+        for subkey in subkeys:
+            if subkey not in gridline_annotator["spec"][key]:
+                print(gridline_annotator)
+                raise ValueError(
+                    "Missing gridline_annotator property {0}, required_fields {1}".format(
+                        f"{key}.{subkey}", required_fields
+                    )
+                )
+    return gridline_annotator
 
 
 def set_gridlines_info_dict(gridlines_info, area_def):
@@ -393,12 +299,10 @@ def set_gridlines_info_dict(gridlines_info, area_def):
         or gridlines_info["grid_lon_spacing"] == "auto"
         or gridlines_info["grid_lat_spacing"] == "auto"
     ):
-        from pyresample import utils
-
         minlat = area_def.area_extent_ll[1]
         maxlat = area_def.area_extent_ll[3]
-        minlon = utils.wrap_longitudes(area_def.area_extent_ll[0])
-        maxlon = utils.wrap_longitudes(area_def.area_extent_ll[2])
+        minlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[0])
+        maxlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[2])
         if minlon > maxlon and maxlon < 0:
             maxlon = maxlon + 360
         lon_extent = maxlon - minlon
@@ -447,14 +351,44 @@ def set_gridlines_info_dict(gridlines_info, area_def):
     return use_gridlines_info
 
 
-def check_boundaries_info_dict(boundaries_info):
-    """
-    Check boundaries_info dictionary for required fields.
+def compute_lat_auto_spacing(area_def):
+    """Compute automatic spacing for latitude lines based on area definition."""
+    minlat = area_def.area_extent_ll[1]
+    maxlat = area_def.area_extent_ll[3]
+    lat_extent = maxlat - minlat
+    if lat_extent > 5:
+        lat_spacing = int(lat_extent / 5)
+    elif lat_extent > 2.5:
+        lat_spacing = 1
+    else:
+        lat_spacing = lat_extent / 5.0
+    return lat_spacing
+
+
+def compute_lon_auto_spacing(area_def):
+    """Compute automatic spacing for longitude lines based on area definition."""
+    minlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[0])
+    maxlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[2])
+    if minlon > maxlon and maxlon < 0:
+        maxlon = maxlon + 360
+    lon_extent = maxlon - minlon
+
+    if lon_extent > 5:
+        lon_spacing = int(lon_extent / 5)
+    elif lon_extent > 2.5:
+        lon_spacing = 1
+    else:
+        lon_spacing = lon_extent / 5.0
+    return lon_spacing
+
+
+def check_feature_annotator(feature_annotator):
+    """Check that the provided feature_annotator plugin has all required fields.
 
     Parameters
     ----------
-    boundaries_info : dict
-        dictionary to check for required fields.
+    feature_annotator : YamlPlugin
+        A feature annotator plugin.
 
     Raises
     ------
@@ -463,121 +397,123 @@ def check_boundaries_info_dict(boundaries_info):
 
     See Also
     --------
-    geoips.image_utils.maps.get_boundaries_info_dict
+    geoips.image_utils.maps.get_feature_annotator
         For complete list of fields, and appropriate defaults
     """
-    required_fields = [
-        "request_coastlines",
-        "coastlines_color",
-        "coastlines_linewidth",
-        "request_rivers",
-        "rivers_color",
-        "rivers_linewidth",
-        "request_states",
-        "states_color",
-        "states_linewidth",
-        "request_countries",
-        "countries_color",
-        "countries_linewidth",
-    ]
-    for key in required_fields:
-        if key not in boundaries_info:
+    if feature_annotator is None:
+        feature_annotator = feature_annotators.get_plugin("default")
+    spec = feature_annotator["spec"]
+
+    feature_types = ["coastline", "borders", "rivers", "states"]
+    for feature_name in feature_types:
+        if feature_name not in spec:
             raise ValueError(
-                "Missing boundaries_info entry {0}, required_fields {1}".format(
-                    key, required_fields
-                )
+                f"Missing '{feature_name}' property in feature_annotator "
+                f"named '{feature_annotator['name']}'"
             )
+        if "enabled" not in spec[feature_name]:
+            raise ValueError(
+                f"Missing 'enabled' property of '{feature_name}' in feature_annotator "
+                f"named '{ann.name}'"
+            )
+        if spec[feature_name]["enabled"]:
+            props = ["edgecolor", "linewidth"]
+            for prop in props:
+                if prop not in spec[feature_name]:
+                    raise ValueError(
+                        f"Missing '{prop}' property of '{feature_name}' in feature_annotator "
+                        f"named '{feature_annotator['name']}'"
+                    )
+    return feature_annotator
 
 
-def set_boundaries_info_dict(boundaries_info):
-    """
-    Set the boundary information.
+# def set_boundaries_info_dict(boundaries_info):
+#     """Set the boundary information.
+#
+#     Set the final values for coastlines, states, countries plotting params,
+#     pulling from argument and defaults.
+#
+#     Parameters
+#     ----------
+#     boundaries_info : dict
+#         Dictionary of parameters for plotting gridlines.
+#         The following fields are available.  If a field is not included in the
+#         dictionary, the field is added to the return dictionary and the default
+#         is used (see defaults in Notes below).
+#
+#     Returns
+#     -------
+#     use_boundaries_info : dict
+#         boundaries_info dictionary, with fields as specified above.
+#
+#     Notes
+#     -----
+#     Defaults specified as::
+#
+#         boundaries_info['request_coastlines']       default True
+#         boundaries_info['request_countries']        default True
+#         boundaries_info['request_states']           default True
+#         boundaries_info['request_rivers']           default True
+#
+#         boundaries_info['coastlines_linewidth']     default 2
+#         boundaries_info['countries_linewidth']      default 1
+#         boundaries_info['states_linewidth']         default 0.5
+#         boundaries_info['rivers_linewidth']         default 0
+#
+#         boundaries_info['coastlines_color']         default 'red'
+#         boundaries_info['countries_color']          default 'red'
+#         boundaries_info['states_color']             default 'red'
+#         boundaries_info['rivers_color']             default 'red'
+#     """
+#     use_boundaries_info = {}
+#     use_boundaries_info["request_coastlines"] = True
+#     use_boundaries_info["request_countries"] = True
+#     use_boundaries_info["request_states"] = True
+#     use_boundaries_info["request_rivers"] = True
+#
+#     use_boundaries_info["coastlines_linewidth"] = 2
+#     use_boundaries_info["countries_linewidth"] = 1
+#     use_boundaries_info["states_linewidth"] = 0.5
+#     use_boundaries_info["rivers_linewidth"] = 0
+#
+#     use_boundaries_info["coastlines_color"] = "red"
+#     use_boundaries_info["countries_color"] = "red"
+#     use_boundaries_info["states_color"] = "red"
+#     use_boundaries_info["rivers_color"] = "red"
+#
+#     # Grab any values that were passed
+#     if boundaries_info is not None:
+#         for bkey in boundaries_info.keys():
+#             if boundaries_info[bkey] is not None:
+#                 use_boundaries_info[bkey] = boundaries_info[bkey]
+#
+#     return use_boundaries_info
 
-    Set the final values for coastlines, states, countries plotting params,
-    pulling from argument and defaults.
 
-    Parameters
-    ----------
-    boundaries_info : dict
-        Dictionary of parameters for plotting gridlines.
-        The following fields are available.  If a field is not included in the
-        dictionary, the field is added to the return dictionary and the default
-        is used (see defaults in Notes below).
+def draw_features(mapobj, curr_ax, feature_annotator, zorder=None):
+    """Draw cartopy features.
 
-    Returns
-    -------
-    use_boundaries_info : dict
-        boundaries_info dictionary, with fields as specified above.
-
-    Notes
-    -----
-    Defaults specified as::
-
-        boundaries_info['request_coastlines']       default True
-        boundaries_info['request_countries']        default True
-        boundaries_info['request_states']           default True
-        boundaries_info['request_rivers']           default True
-
-        boundaries_info['coastlines_linewidth']     default 2
-        boundaries_info['countries_linewidth']      default 1
-        boundaries_info['states_linewidth']         default 0.5
-        boundaries_info['rivers_linewidth']         default 0
-
-        boundaries_info['coastlines_color']         default 'red'
-        boundaries_info['countries_color']          default 'red'
-        boundaries_info['states_color']             default 'red'
-        boundaries_info['rivers_color']             default 'red'
-    """
-    use_boundaries_info = {}
-    use_boundaries_info["request_coastlines"] = True
-    use_boundaries_info["request_countries"] = True
-    use_boundaries_info["request_states"] = True
-    use_boundaries_info["request_rivers"] = True
-
-    use_boundaries_info["coastlines_linewidth"] = 2
-    use_boundaries_info["countries_linewidth"] = 1
-    use_boundaries_info["states_linewidth"] = 0.5
-    use_boundaries_info["rivers_linewidth"] = 0
-
-    use_boundaries_info["coastlines_color"] = "red"
-    use_boundaries_info["countries_color"] = "red"
-    use_boundaries_info["states_color"] = "red"
-    use_boundaries_info["rivers_color"] = "red"
-
-    # Grab any values that were passed
-    if boundaries_info is not None:
-        for bkey in boundaries_info.keys():
-            if boundaries_info[bkey] is not None:
-                use_boundaries_info[bkey] = boundaries_info[bkey]
-
-    return use_boundaries_info
-
-
-def draw_boundaries(mapobj, curr_ax, boundaries_info, zorder=None):
-    """
-    Draw basemap or cartopy boundaries.
-
-    Draw boundaries on specified map instance (basemap or cartopy), based
-    on specs found in boundaries_info
+    Draw features on specified cartopy map instance, based
+    on specs found in the feature_annotator plugin.
 
     Parameters
     ----------
     mapobj : map object
-        Basemap or CRS object for plotting boundaries
+        CRS object for plotting map features
     curr_ax : matplotlib.axes._axes.Axes
-        matplotlib Axes object for plotting boundaries
+        matplotlib Axes object for plotting map features
+    feature_annotator : dict
+        Dictionary of parameters for plotting map features
     zorder : int, optional
         The matplotlib zorder
-    boundaries_info : dict
-        Dictionary of parameters for plotting map boundaries.
 
     See Also
     --------
-    geoips.image_utils.maps.check_boundaries_info_dict
+    geoips.image_utils.maps.check_feature_annotator
           for required dictionary entries and defaults.
     """
     LOG.info("Drawing coastlines, countries, states, rivers")
-    check_boundaries_info_dict(boundaries_info)
+    feature_annotator = check_feature_annotator(feature_annotator)
 
     # NOTE passing zorder=None is NOT the same as not passing zorder.
     # Ensure if zorder is passed, it is propagated to cartopy.
@@ -585,83 +521,30 @@ def draw_boundaries(mapobj, curr_ax, boundaries_info, zorder=None):
     if zorder is not None:
         extra_args = {"zorder": zorder}
 
-    if is_crs(mapobj):
-        LOG.info("    Plotting with cartopy")
-        import cartopy.feature as cfeature
+    LOG.info("    Plotting with cartopy")
 
-        if boundaries_info["request_coastlines"]:
-            curr_ax.add_feature(
-                cfeature.COASTLINE,
-                edgecolor=boundaries_info["coastlines_color"],
-                linewidth=boundaries_info["coastlines_linewidth"],
-                **extra_args,
-            )
-        if boundaries_info["request_countries"]:
-            curr_ax.add_feature(
-                cfeature.BORDERS,
-                edgecolor=boundaries_info["countries_color"],
-                linewidth=boundaries_info["countries_linewidth"],
-                **extra_args,
-            )
-        if boundaries_info["request_states"]:
-            curr_ax.add_feature(
-                cfeature.STATES,
-                edgecolor=boundaries_info["states_color"],
-                linewidth=boundaries_info["states_linewidth"],
-                **extra_args,
-            )
-        if boundaries_info["request_rivers"]:
-            curr_ax.add_feature(
-                cfeature.RIVERS,
-                edgecolor=boundaries_info["rivers_color"],
-                linewidth=boundaries_info["rivers_linewidth"],
-                **extra_args,
-            )
-    else:
-        LOG.info("    Plotting with basemap")
-        if boundaries_info["request_coastlines"]:
-            mapobj.drawcoastlines(
-                ax=curr_ax,
-                linewidth=boundaries_info["coastlines_linewidth"],
-                color=boundaries_info["coastlines_color"],
-            )
-        if boundaries_info["request_countries"]:
-            mapobj.drawcountries(
-                ax=curr_ax,
-                linewidth=boundaries_info["countries_linewidth"],
-                color=boundaries_info["countries_color"],
-            )
-        if boundaries_info["request_states"]:
-            mapobj.drawstates(
-                ax=curr_ax,
-                linewidth=boundaries_info["states_linewidth"],
-                color=boundaries_info["states_color"],
-            )
-        if boundaries_info["request_rivers"]:
-            mapobj.drawrivers(
-                ax=curr_ax,
-                linewidth=boundaries_info["rivers_linewidth"],
-                color=boundaries_info["rivers_color"],
-            )
+    for name, feature in feature_annotator["spec"].items():
+        feat = deepcopy(feature)
+        if feat.pop("enabled"):
+            curr_ax.add_feature(getattr(cfeature, name.upper()), **feat, **extra_args)
 
 
-def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
-    """
-    Draw gridlines on map object.
+def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):
+    """Draw gridlines on map object.
 
-    Draw gridlines on either cartopy or Basemap map object, as specified
-    by gridlines_info
+    Draw gridlines on a cartopy map object, as specified by a
+    gridline_annotator plugin instance
 
     Parameters
     ----------
     mapobj : map object
-        Basemap or CRS object for plotting boundaries
+        CRS object for plotting gridlines
     area_def : AreaDefinition
         pyresample AreaDefinition object
     curr_ax : matplotlib.axes._axes.Axes
-        matplotlib Axes object for plotting boundaries
-    gridlines_info : dict
-        dictionary to check for required fields.
+        matplotlib Axes object for plotting gridlines
+    gridline_annotator : YamlPlugin
+        A gridline_annotator plugin instance
     zorder : int, optional
         The matplotlib zorder value
 
@@ -671,7 +554,7 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
         For complete list of fields, and appropriate default
     """
     LOG.info("Drawing gridlines")
-    check_gridlines_info_dict(gridlines_info)
+    gridline_annotator = check_gridline_annotator(gridline_annotator)
 
     # NOTE passing zorder=None is NOT the same as not passing zorder.
     # Ensure if zorder is passed, it is propagated to cartopy.
@@ -679,92 +562,33 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridlines_info, zorder=None):
     if zorder is not None:
         extra_args = {"zorder": zorder}
 
-    if is_crs(mapobj):
-        LOG.info("    Plotting with cartopy")
-        # import cartopy.crs as ccrs
-        # import cartopy.mpl.ticker as cticker
-        import matplotlib.ticker as mticker
-        from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
+    LOG.info("    Plotting with cartopy")
 
-        # Note: linestyle is specified by a tuple: (offset, (pixels_on,
-        # pixels_off, pxon, pxoff)), etc
-        linestyle_lat = (0, tuple(gridlines_info["grid_lat_dashes"]))
-        # linestyle_lon = (0, tuple(grid_lon_dashes))
-        glnr = curr_ax.gridlines(
-            color=gridlines_info["grid_lat_color"],
-            draw_labels=True,
-            linewidth=gridlines_info["grid_lat_linewidth"],
-            linestyle=linestyle_lat,
-            **extra_args,
-        )
+    spec = gridline_annotator["spec"]
 
-        # Default to False, unless set in argument
-        glnr.top_labels = False
-        glnr.bottom_labels = False
-        glnr.left_labels = False
-        glnr.right_labels = False
+    # Note: linestyle is specified by a tuple: (offset, (pixels_on,
+    # pixels_off, pxon, pxoff)), etc
+    lines = deepcopy(spec["lines"])
+    lines["linestyle"] = (0, tuple(lines["linestyle"]))
+    glnr = curr_ax.gridlines(draw_labels=True, **lines, **extra_args)
 
-        if gridlines_info["top_label"]:
-            LOG.debug("Adding top labels")
-            glnr.top_labels = True
-        if gridlines_info["bottom_label"]:
-            LOG.debug("Adding bottom labels")
-            glnr.bottom_labels = True
-        if gridlines_info["left_label"]:
-            LOG.debug("Adding left labels")
-            glnr.left_labels = True
-        if gridlines_info["right_label"]:
-            LOG.debug("Adding right labels")
-            glnr.right_labels = True
+    # Default to False, unless set in argument
+    labels = spec["labels"]
+    glnr.top_labels = labels["top"]
+    glnr.bottom_labels = labels["bottom"]
+    glnr.left_labels = labels["left"]
+    glnr.right_labels = labels["right"]
 
-        lat_ticks = parallels(area_def, gridlines_info["grid_lat_spacing"])
-        lon_ticks = meridians(area_def, gridlines_info["grid_lon_spacing"])
-        LOG.debug(f"Lon Ticks: {lon_ticks}")
-        glnr.xlocator = mticker.FixedLocator(lon_ticks)
-        LOG.debug(f"Lat Ticks: {lat_ticks}")
-        glnr.ylocator = mticker.FixedLocator(lat_ticks)
-        # gl.xformatter = cticker.LongitudeFormatter()
-        # gl.yformatter = cticker.LatitudeFormatter()
-        glnr.xformatter = LONGITUDE_FORMATTER
-        glnr.yformatter = LATITUDE_FORMATTER
-        glnr.xlabel_style = {"rotation": 0}
-        glnr.ylabel_style = {"rotation": 0}
+    spacing = spec["spacing"]
+    lat_ticks = parallels(area_def, spacing["latitude"])
+    lon_ticks = meridians(area_def, spacing["longitude"])
 
-        # ax.set_xticks(lon_ticks, crs=mapobj)
-        # ax.set_xticklabels(lon_ticks)
-        # ax.set_yticks(lat_ticks, crs=mapobj)
-        # ax.set_yticklabels(lat_ticks)
-        # ax.yaxis.tick_right()
+    LOG.debug(f"Lon Ticks: {lon_ticks}")
+    glnr.xlocator = mticker.FixedLocator(lon_ticks)
+    LOG.debug(f"Lat Ticks: {lat_ticks}")
+    glnr.ylocator = mticker.FixedLocator(lat_ticks)
 
-        # lon_formatter = cticker.LongitudeFormatter()
-        # lat_formatter = cticker.LatitudeFormatter()
-        # ax.xaxis.set_major_formatter(lon_formatter)
-        # ax.yaxis.set_major_formatter(lat_formatter)
-        # ax.grid(linewidth=grid_lat_linewidth, color=grid_lat_color,
-        #         linestyle=linestyle_lat,
-        #         crs=mapobj)
-
-    else:
-        LOG.info("    Plotting with basemap")
-        mapobj.drawparallels(
-            parallels(area_def, gridlines_info["grid_lat_spacing"]),
-            ax=curr_ax,
-            linewidth=gridlines_info["grid_lat_linewidth"],
-            dashes=gridlines_info["grid_lat_dashes"],
-            labels=[gridlines_info["left_label"], gridlines_info["right_label"], 0, 0],
-            color=gridlines_info["grid_lat_color"],
-            xoffset=gridlines_info["grid_lat_xoffset"],
-            yoffset=gridlines_info["grid_lat_yoffset"],
-            fontsize=gridlines_info["grid_lat_fontsize"],
-        )
-        mapobj.drawmeridians(
-            meridians(area_def, gridlines_info["grid_lon_spacing"]),
-            ax=curr_ax,
-            linewidth=gridlines_info["grid_lon_linewidth"],
-            dashes=gridlines_info["grid_lon_dashes"],
-            labels=[0, 0, gridlines_info["top_label"], gridlines_info["bottom_label"]],
-            color=gridlines_info["grid_lon_color"],
-            yoffset=gridlines_info["grid_lon_yoffset"],
-            xoffset=gridlines_info["grid_lon_xoffset"],
-            fontsize=gridlines_info["grid_lon_fontsize"],
-        )
+    glnr.xformatter = LONGITUDE_FORMATTER
+    glnr.yformatter = LATITUDE_FORMATTER
+    glnr.xlabel_style = {"rotation": 0}
+    glnr.ylabel_style = {"rotation": 0}

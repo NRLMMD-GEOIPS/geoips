@@ -8,7 +8,7 @@ docstring: "Bad gridline_annotator missing spec"
 
 ---
 error: ValidationError
-error_pattern: ".*'labels' is a required property.*"
+error_pattern: ".*'spacing' is a required property.*"
 interface: gridline_annotators
 family: cartopy
 name: demo
@@ -21,7 +21,7 @@ spec:
 
 ---
 error: ValidationError
-error_pattern: ".*'lines' is a required property.*"
+error_pattern: ".*'spacing' is a required property.*"
 interface: gridline_annotators
 family: cartopy
 name: demo
@@ -41,6 +41,9 @@ family: cartopy
 name: demo
 docstring: "Bad gridline_annotator missing labels: top"
 spec:
+  spacing:
+    latitude: 10
+    longitude: 10
   labels:
     bottom: true
     left: true
@@ -58,6 +61,9 @@ family: cartopy
 name: demo
 docstring: "Bad gridline_annotator missing lines: color"
 spec:
+  spacing:
+    latitude: 10
+    longitude: 10
   labels:
     top: true
     bottom: true

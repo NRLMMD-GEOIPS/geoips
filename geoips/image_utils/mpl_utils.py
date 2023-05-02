@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.interfaces import title_formatters
+from geoips.image_utils.maps import draw_features, draw_gridlines
 
 matplotlib.use("agg")
 rc_params = matplotlib.rcParams
@@ -119,9 +120,9 @@ def plot_overlays(
     mapobj,
     curr_ax,
     area_def,
-    boundaries_info,
-    gridlines_info,
-    boundaries_zorder=None,
+    feature_annotator=None,
+    gridline_annotator=None,
+    features_zorder=None,
     gridlines_zorder=None,
 ):
     """
@@ -136,36 +137,14 @@ def plot_overlays(
     area_def : AreaDefinition
         pyresample AreaDefinition object specifying the area covered by
         the current plot
-    boundaries_info : dict, optional
-        Dictionary of parameters for plotting map boundaries.
-    gridlines_info : dict, optional
-        Dictionary of parameters for plotting gridlines.
-        If a field is not included in the dictionary, the default is used
-        for that field.
-
-    See Also
-    --------
-    geoips.image_utils.maps.set_boundaries_info_dict
-        for required fields and defaults for boundaries_info
-    geoips.image_utils.maps.set_gridlines_info_dict
-        for required fields and defaults for gridlines_info
+    feature_annotator : YamlPlugin
+        A feature annotator plugin instance.
+    gridline_annotator : YamlPlugin
+       A gridlines annotator plugin instance.
     """
-    from geoips.image_utils.maps import (
-        set_boundaries_info_dict,
-        set_gridlines_info_dict,
-    )
-
-    use_boundaries_info = set_boundaries_info_dict(boundaries_info)
-    use_gridlines_info = set_gridlines_info_dict(gridlines_info, area_def)
-
-    from geoips.image_utils.maps import draw_boundaries
-
-    draw_boundaries(mapobj, curr_ax, use_boundaries_info, zorder=boundaries_zorder)
-
-    from geoips.image_utils.maps import draw_gridlines
-
+    draw_features(mapobj, curr_ax, feature_annotator, zorder=features_zorder)
     draw_gridlines(
-        mapobj, area_def, curr_ax, use_gridlines_info, zorder=gridlines_zorder
+        mapobj, area_def, curr_ax, gridline_annotator, zorder=gridlines_zorder
     )
 
 
@@ -475,9 +454,7 @@ def create_figure_and_main_ax_and_mapobj(
 
     if existing_mapobj is None:
         LOG.info("creating mapobj instance")
-        from geoips.image_utils.maps import area_def2mapobj
-
-        mapobj = area_def2mapobj(area_def)
+        mapobj = area_def.to_cartopy_crs()
     else:
         LOG.info("mapobj already exists, not recreating")
         mapobj = existing_mapobj
