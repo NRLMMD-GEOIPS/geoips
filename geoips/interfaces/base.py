@@ -10,12 +10,20 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Base classes for BaseInterface and BasePlugin."""
+"""Base classes for BaseInterface and BasePlugin and validation machinery for YAML-based
+plugins."""
 
+import yaml
 import inspect
 import logging
+from copy import deepcopy
 
-from jsonschema.exceptions import ValidationError
+from importlib.resources import files
+from pathlib import Path
+import jsonschema
+import referencing
+from referencing import jsonschema as refjs
+from jsonschema.exceptions import ValidationError, SchemaError
 
 from geoips.errors import EntryPointError, PluginError
 from geoips.geoips_utils import (
@@ -23,12 +31,182 @@ from geoips.geoips_utils import (
     get_all_entry_points,
     load_all_yaml_plugins,
 )
-from geoips.schema import PluginValidator
+
+# from geoips.interfaces import product_defaults
 
 LOG = logging.getLogger(__name__)
 
-YAML_VALIDATOR = PluginValidator()
-YAML_PLUGINS = load_all_yaml_plugins()
+
+JSONSCHEMA_DRAFT = "202012"
+SCHEMA_PATH = files("geoips") / "schema"
+
+
+# NOTE: Currently unused, but keeping for future functionality
+def extend_with_default(validator_class):
+    """Extend a jsonschema validator to make it respect default values.
+
+    Note: This does not pollute the input validator object. Calling
+    `jsonschema.validators.extend` returns a new object.
+
+    This will cause the validator to fill in fields that have default values. In
+    cases where fields with default values are contained inside a mapping, that
+    mapping must have `default: {}` and may not have `requires`.
+    """
+    validate_properties = validator_class.VALIDATORS["properties"]
+
+    def required_no_defaults(validator, required, instance, schema):
+        if not validator.is_type(instance, "object"):
+            return
+
+        properties = schema["properties"]
+
+        for property in required:
+            properties = schema["properties"]
+            if property in properties and "default" in properties[property]:
+                yield ValidationError(
+                    f"property {property!r} is both required and sets a default value"
+                )
+            if property not in instance:
+                yield ValidationError(f"{property!r} is a required property")
+
+    def set_defaults(validator, properties, instance, schema):
+        """Apply default values when a missing property has a default value."""
+        for property, subschema in properties.items():
+            if "default" in subschema:
+                instance.setdefault(property, subschema["default"])
+
+        for error in validate_properties(
+            validator,
+            properties,
+            instance,
+            schema,
+        ):
+            yield error
+
+    return jsonschema.validators.extend(
+        validator_class,
+        {
+            "required": required_no_defaults,
+            "properties": set_defaults,
+        },
+    )
+
+
+def get_schemas(path, validator):
+    """Collect all of the interface schema."""
+    schema_files = Path(path).rglob("*.yaml")
+
+    schemas = {}
+    for schema_file in schema_files:
+        LOG.debug(f"Adding schema file {schema_file}")
+
+        schema = yaml.safe_load(open(schema_file, "r"))
+        schema_id = schema["$id"]
+
+        try:
+            validator.check_schema(schema)
+        except SchemaError as err:
+            raise SchemaError(f"Invalid schema {schema_file}") from err
+        schemas[schema_id] = schema
+
+    return schemas
+
+
+def get_validators(schema_dict, validator_class):
+    """Create validators for each schema in `schema_dict`.
+
+    Parameters
+    ----------
+    schema_dict : dict
+        A dictionary whose keys are schema `$id` and whose values are the full
+        schema.
+
+    Returns
+    -------
+    dict
+        A dictionary whose keys are schema `$id` and whose values are `jsonschema`
+        validator instances.
+    """
+    # This is the jsonschema draft implemention from the referencing package
+    # It is used for creating the "resources" and "registry" that link together
+    # the references.
+    #
+    # This could likely have a better variable name, but I don't really know what to
+    # call it...
+    ref = getattr(refjs, f"DRAFT{JSONSCHEMA_DRAFT}")
+    resources = [(name, ref.create_resource(sch)) for name, sch in schema_dict.items()]
+    registry = referencing.Registry().with_resources(resources)
+
+    # Loop over the available schema and build a dictionary whose keys are the $ids
+    # of the schema and whose values are their associated validators. These validators
+    # can be used to validate yaml against their schema.
+    validators = {}
+    for name, schema in schema_dict.items():
+        validators[name] = validator_class(schema, registry=registry)
+    return validators
+
+
+class YamlPluginValidator:
+    """PluginValidator class."""
+
+    _schema_path = SCHEMA_PATH
+    _validator = getattr(jsonschema, f"Draft{JSONSCHEMA_DRAFT}Validator")
+
+    schemas = get_schemas(_schema_path, _validator)
+    validators = get_validators(schemas, _validator)
+
+    def validate(self, plugin, validator_id=None):
+        """Validate a YAML plugin against the relevant schema.
+
+        The relevant schema is determined based on the interface and family of the
+        plugin.
+        """
+        # Pop off unit-test properties
+        try:
+            plugin.pop("error")
+        except (KeyError, AttributeError, TypeError):
+            pass
+        try:
+            plugin.pop("error_pattern", None)
+        except (KeyError, AttributeError, TypeError):
+            pass
+
+        if not validator_id:
+            self.validators["bases.top"].validate(plugin)
+            validator_id = f"{plugin['interface']}.{plugin['family']}"
+        try:
+            validator = self.validators[validator_id]
+        except KeyError:
+            raise ValidationError(f"No validator found for {validator_id}")
+        validator.validate(plugin)
+
+        if "family" in plugin and plugin["family"] == "list":
+            plugin = self.validate_list(plugin)
+
+        return plugin
+
+    def validate_list(self, plugin):
+        """Validate a list of YAML plugins.
+
+        Some interfaces allow a 'list' family. These list plugins will contain a
+        property that is the same as the interface's name. Under that is a list of
+        individual plugins.
+
+        This function will add the interface property to each plugin in the list, then
+        validate each plugin.
+        """
+        valid_list_families = ["products"]
+        if plugin["interface"] not in valid_list_families:
+            raise NotImplementedError(
+                "Unable to handle plugins of family 'list' for '{plugin['interface']}' "
+                f"interface. Plugins from family 'list' are currently only handled for "
+                f"the following interfaces: {valid_list_families}."
+            )
+        # Lists should use their interface name to denote the beginning of the list
+        for sub_plugin in plugin["spec"][plugin["interface"]]:
+            sub_plugin["interface"] = plugin["interface"]
+            self.validate(sub_plugin)
+        return plugin
 
 
 def plugin_repr(obj):
@@ -36,7 +214,7 @@ def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
-def plugin_yaml_to_obj(yaml, obj_attrs={}):
+def plugin_yaml_to_obj(yaml_plugin, obj_attrs={}):
     """Convert a yaml plugin to an object.
 
     Convert the passed YAML plugin into an object and return it. The returned
@@ -58,7 +236,7 @@ def plugin_yaml_to_obj(yaml, obj_attrs={}):
       - name: The name of the plugin which must be unique within the interface.
       - docstring: A string to be used as the object's docstring.
     """
-    obj_attrs["yaml"] = yaml
+    obj_attrs["yaml"] = yaml_plugin
 
     missing = []
     for attr in [
@@ -71,14 +249,14 @@ def plugin_yaml_to_obj(yaml, obj_attrs={}):
         "docstring",
     ]:
         try:
-            obj_attrs[attr] = yaml[attr]
+            obj_attrs[attr] = yaml_plugin[attr]
         except KeyError:
             missing.append(attr)
 
     if missing:
         raise PluginError(
-            f"Plugin '{yaml['name']}' is missing the following required top-level "
-            f"properties: {missing}"
+            f"Plugin '{yaml_plugin['name']}' is missing the following required "
+            f"top-level properties: {missing}"
         )
 
     obj_attrs["__doc__"] = obj_attrs["docstring"]
@@ -86,7 +264,7 @@ def plugin_yaml_to_obj(yaml, obj_attrs={}):
     plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
     plugin_type = f"{plugin_interface_name}Plugin"
 
-    return type(plugin_type, (BaseYamlPlugin,), obj_attrs)(yaml)
+    return type(plugin_type, (BaseYamlPlugin,), obj_attrs)(yaml_plugin)
 
 
 def plugin_module_to_obj(module, obj_attrs={}):
@@ -222,14 +400,50 @@ class BaseYamlInterface(BaseInterface):
     the GeoIPS products plugins.
     """
 
+    validator = YamlPluginValidator()
+
     def __new__(cls):
         """YAML plugin interface new method."""
         cls = super(BaseInterface, cls).__new__(cls)
 
-        cls.validator = YAML_VALIDATOR
-        cls._unvalidated_plugins = {plg["name"]: plg for plg in YAML_PLUGINS[cls.name]}
-
         return cls
+
+    def __init__(self):
+        """YAML plugin interface init method."""
+        self._unvalidated_plugins = self._create_unvalidated_plugins_cache(
+            load_all_yaml_plugins()
+        )
+
+    def _create_unvalidated_plugins_cache(self, yaml_plugins):
+        """Create a cache of unvalidated plugin yamls.
+
+        These will be validated when they are actually used.
+        """
+        cache = {}
+        # If this is a list, split out all of the subs and store them all
+        # If this is any other family, just store it
+        for yaml_plg in yaml_plugins[self.name]:
+            if yaml_plg["family"] == "list":
+                yaml_plg = self.validator.validate(yaml_plg)
+                plg_list = plugin_yaml_to_obj(yaml_plg)
+                yaml_subplgs = {}
+                for yaml_subplg in plg_list["spec"][self.name]:
+                    subplg_name = self._create_plugin_cache_name(yaml_subplg)
+                    yaml_subplgs[subplg_name] = deepcopy(yaml_subplg)
+                    yaml_subplgs[subplg_name]["interface"] = self.name
+                cache.update(yaml_subplgs)
+            else:
+                cache[yaml_plg["name"]] = yaml_plg
+        return cache
+
+    @staticmethod
+    def _create_plugin_cache_name(yaml_plugin):
+        """Create a plugin name for cache storage.
+
+        Some interfaces need to override this (e.g. products) because they need a more
+        complex name for retrieval.
+        """
+        return yaml_plugin["name"]
 
     def __repr__(self):
         """Plugin interface repr method."""
@@ -244,7 +458,7 @@ class BaseYamlInterface(BaseInterface):
         return plugin_yaml_to_obj(validated)
 
     def get_plugins(self):
-        """Get plugins method."""
+        """Retrieve a plugin by name."""
         plugins = []
         for name in self._unvalidated_plugins.keys():
             plugins.append(self.get_plugin(name))
