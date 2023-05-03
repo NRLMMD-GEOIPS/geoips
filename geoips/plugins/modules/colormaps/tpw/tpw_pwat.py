@@ -16,7 +16,7 @@ import logging
 LOG = logging.getLogger(__name__)
 
 interface = "colormaps"
-family = "ascii"
+family = "matplotlib"
 name = "tpw_pwat"
 
 
@@ -95,7 +95,9 @@ def call():
 
     bounds = values + [values[-1] + 1]
     mpl_cmap = from_ascii(
-        pathjoin(gpaths["BASE_PATH"], "image_utils", "ascii_palettes", "tpw_pwat.txt")
+        pathjoin(
+            gpaths["BASE_PATH"], "plugins", "txt", "ascii_palettes", "tpw_pwat.txt"
+        )
     )
 
     mpl_colors_info = {
