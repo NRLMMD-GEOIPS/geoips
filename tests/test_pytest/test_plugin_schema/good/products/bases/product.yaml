@@ -1,9 +1,9 @@
 ---
 family: interpolator_algorithm_colormap
 name: infrared
+source_name: abi
 docstring: "Good product using family"
 spec:
-  source_name: abi
   variables:
     - B14BT
   interpolator:
@@ -22,8 +22,8 @@ spec:
 ---
 product_defaults: Infrared
 name: infrared
+source_name: abi
 docstring: "Good product using product_defaults"
 spec:
-  source_name: abi
   variables:
     - B14BT
