@@ -16,7 +16,7 @@ import logging
 LOG = logging.getLogger(__name__)
 
 interface = "colormaps"
-family = "linear_segmented"
+family = "matplotlib"
 name = "pmw_37pct"
 
 

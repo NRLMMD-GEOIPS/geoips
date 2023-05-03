@@ -16,7 +16,7 @@ import logging
 LOG = logging.getLogger(__name__)
 
 interface = "colormaps"
-family = "builtin_matplotlib_cmap"
+family = "matplotlib"
 name = "matplotlib_linear_norm"
 
 
