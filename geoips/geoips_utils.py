@@ -59,9 +59,9 @@ def load_all_yaml_plugins():
             # The name of the package the plugin comes from
             yaml_plugin["package"] = pkg.value
             # The relative path to the plugin within the package
-            yaml_plugin["relpath"] = yaml_file.relative_to(pkg_plugin_path)
+            yaml_plugin["relpath"] = str(yaml_file.relative_to(pkg_plugin_path))
             # Absolute path to the plugin
-            yaml_plugin["abspath"] = yaml_file
+            yaml_plugin["abspath"] = str(yaml_file)
 
             if "interface" not in yaml_plugin:
                 raise PluginError(
