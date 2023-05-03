@@ -1,0 +1,13 @@
+$id: products.xarray_dict_to_output_format
+$ref: bases.top
+type: object
+required:
+  - spec
+properties:
+  family:
+    const: xarray_dict_to_output_format
+  source_name:
+    type: string
+  spec:
+    unevaluatedProperties: false
+    $ref: "product_defaults.specs.xarray_dict_to_output_format"

@@ -1,0 +1,18 @@
+$id: products.interpolator_algorithm_colormap
+$ref: bases.top
+type: object
+required:
+  - spec
+properties:
+  family:
+    const: interpolator_algorithm_colormap
+  source_name:
+    type: string
+  spec:
+    unevaluatedProperties: false
+    $ref: "product_defaults.specs.interpolator_algorithm_colormap"
+    properties:
+      variables:
+        type: array
+        items:
+          type: string
