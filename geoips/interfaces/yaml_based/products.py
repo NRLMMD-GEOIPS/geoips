@@ -1,9 +1,7 @@
 """Products interface module."""
 
-from IPython import embed as shell
-
 import logging
-from copy import deepcopy
+from geoips.geoips_utils import merge_nested_dicts
 from geoips.interfaces.base import YamlPluginValidator, BaseYamlInterface
 from geoips.interfaces.yaml_based.product_defaults import product_defaults
 from jsonschema.exceptions import ValidationError
@@ -11,27 +9,19 @@ from jsonschema.exceptions import ValidationError
 LOG = logging.getLogger(__name__)
 
 
-def merge_nested_dicts(dest, src):
-    """Perform an in-place merge of src into dest.
-
-    Performs an in-place merge of src into dest while preserving any values that already
-    exist in dest.
-    """
-    try:
-        dest.update(src | dest)
-    except (AttributeError, TypeError):
-        return
-    try:
-        for key, val in dest.items():
-            try:
-                merge_nested_dicts(dest[key], src[key])
-            except KeyError:
-                pass
-    except AttributeError:
-        raise
-
-
 class ProductsPluginValidator(YamlPluginValidator):
+    """Validator for Products plugins.
+
+    This differs from other validators for two reasons:
+
+    1. Most plugins are identified solely by 'name'. Products are identified by
+       'source_name' and 'name.
+    2. Most plugins supply their 'family' directly. Products can supply it directly, but
+       can, alternatively, specify a 'product_defaults' plugin from which to pull
+       'family' and most other properties. This validator handles filling in a product
+       plugin based on its specified product defaults plugin.
+    """
+
     def validate(self, plugin, validator_id=None):
         """Validate a Products plugin against the relevant schema.
 

@@ -427,3 +427,23 @@ def list_product_source_dict_yamls():
             + "/yaml_configs/product_inputs/*.yaml"
         )
     return [fname for fname in all_files if "__init__" not in fname]
+
+
+def merge_nested_dicts(dest, src):
+    """Perform an in-place merge of src into dest.
+
+    Performs an in-place merge of src into dest while preserving any values that already
+    exist in dest.
+    """
+    try:
+        dest.update(src | dest)
+    except (AttributeError, TypeError):
+        return
+    try:
+        for key, val in dest.items():
+            try:
+                merge_nested_dicts(dest[key], src[key])
+            except KeyError:
+                pass
+    except AttributeError:
+        raise

@@ -10,8 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Base classes for BaseInterface and BasePlugin and validation machinery for YAML-based
-plugins."""
+"""Base classes for interfaces, plugins, and plugin validation machinery."""
 
 import yaml
 import inspect
