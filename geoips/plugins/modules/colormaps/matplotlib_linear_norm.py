@@ -13,6 +13,8 @@
 """Matplotlib information for standard imagery with an existing system colormap."""
 import logging
 
+from geoips.image_utils.colormap_utils import from_ascii
+
 LOG = logging.getLogger(__name__)
 
 interface = "colormaps"
@@ -23,9 +25,15 @@ name = "matplotlib_linear_norm"
 def call(
     data_range,
     cmap_name="Greys",
-    cbar_label=None,
+    cmap_path=None,
     create_colorbar=True,
+    cbar_label=None,
     cbar_ticks=None,
+    cbar_tick_labels=None,
+    cbar_spacing="proportional",
+    cbar_full_width=True,
+    colorbar_kwargs=None,
+    set_ticks_kwargs=None,
 ):
     """Set the matplotlib colors information for matplotlib linear norm cmaps.
 
@@ -62,8 +70,10 @@ def call(
 
     from matplotlib import cm
 
-    # cmap = cm.ScalarMappable(norm=colors.NoNorm(), cm.get_cmap(cmap_name))
-    mpl_cmap = cm.get_cmap(cmap_name)
+    if cmap_path is not None:
+        mpl_cmap = from_ascii(cmap_path, name=cmap_name)
+    else:
+        mpl_cmap = cm.get_cmap(cmap_name)
 
     LOG.info("Setting norm")
     from matplotlib.colors import Normalize
@@ -74,9 +84,10 @@ def call(
     else:
         mpl_ticks = [int(min_val), int(max_val)]
 
+    if cbar_tick_labels is None:
+        mpl_tick_labels = mpl_ticks
+
     # Must be uniform or proportional, None not valid for Python 3
-    cbar_spacing = "proportional"
-    mpl_tick_labels = None
     mpl_boundaries = None
 
     mpl_colors_info = {
@@ -88,6 +99,9 @@ def call(
         "boundaries": mpl_boundaries,
         "cbar_spacing": cbar_spacing,
         "colorbar": create_colorbar,
+        "cbar_full_width": cbar_full_width,
+        "colorbar_kwargs": colorbar_kwargs,
+        "set_ticks_kwargs": set_ticks_kwargs,
     }
 
     return mpl_colors_info

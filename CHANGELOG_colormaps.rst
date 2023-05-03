@@ -11,21 +11,39 @@ Pre Version 1.10.0a12 (2023-05-03)
 Major New Functionality
 =======================
 
-Add configurable colormap plugin
---------------------------------
+Update matplotlib_linear_norm colormap plugin to support ASCII palettes
+-----------------------------------------------------------------------
 
-This plugin provides
+This plugin provides the ability to fully specify matplotlib color info
+via call signature arguments.  Add options for:
+
+* cmap_path - optional full path to ascii palette
+* cbar_tick_labels - alternative labels to use if not the numeric values of
+  cbar_ticks
+* cbar_spacing - cbar spacing, proportional or uniform
+* cbar_full_width - specify colorbar should be the full width of image
+* colorbar_kwargs - pass through to matplotlib "colorbar" command
+* set_ticks_kwargs - pass through to "set_ticks" command
+
+Additionally, update image_utils.colormap_utils.from_ascii to take optional
+"cmap_name" kwarg, if not specified, just use the basename of fname.
 
 ::
 
-  new: geoips/interfaces/module_based/sector_adjusters.py
-  modified: geoips/interfaces/__init__.py
+  geoips/image_utils/colormap_utils.py
+  geoips/plugins/modules/colormaps/matplotlib_linear_norm.py
 
 Breaking Changes
 ================
 
 Move colormaps to plugins/txt/ascii_palettes
 --------------------------------------------
+
+Consolidating user-defined capabilities within "plugins" directory.
+
+Add support for text ascii_palettes - which are not strictly geoips plugins
+(since they will not have the required attributes, etc), but will be
+accessed in a similar way.
 
 ::
 
