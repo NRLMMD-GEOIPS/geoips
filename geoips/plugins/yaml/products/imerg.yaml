@@ -6,16 +6,16 @@ docstring: |
 spec:
   products:
     - name: Rain
+      source_name: imerg
       docstring: |
         The Rain product_defaults configuration for imerg products.
       product_defaults: Rain
       spec:
-        source_name: imerg
         variables: ["rain"]
     - name: RainNearest
+      source_name: imerg
       docstring: |
         The RainNearest product_defaults configuration for imerg products.
       product_defaults: RainNearest
       spec:
-        source_name: imerg
         variables: ["rain"]

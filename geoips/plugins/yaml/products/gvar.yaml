@@ -6,30 +6,30 @@ docstring: |
 spec:
   products:
     - name: Infrared
+      source_name: gvar
       docstring: |
         The Infrared product_defaults configuration for gvar products.
       product_defaults: Infrared
       spec:
-        source_name: gvar
         variables: ["gvar_ch4"]
     - name: Infrared-Gray
+      source_name: gvar
       docstring: |
         The Infrared-Gray product_defaults configuration for gvar products.
       product_defaults: Infrared-Gray
       spec:
-        source_name: gvar
         variables: ["gvar_ch4"]
     - name: IR-BD
+      source_name: gvar
       docstring: |
         The IR-BD product_defaults configuration for gvar products.
       product_defaults: IR-BD
       spec:
-        source_name: gvar
         variables: ["gvar_ch4"]
     - name: Visible
+      source_name: gvar
       docstring: |
         The Visible product_defaults configuration for gvar products.
       product_defaults: Visible
       spec:
-        source_name: gvar
         variables: ["gvar_ch1", "SunZenith"]

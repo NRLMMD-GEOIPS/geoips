@@ -7,47 +7,47 @@ docstring: |
 spec:
   products:
     - name: windspeed
+      source_name: ascatuhr
       docstring: |
         The windspeed product_defaults for ascatuhr product.
       product_defaults: windspeed
       spec:
-        source_name: ascatuhr
         variables: ["wind_speed_kts"]
     - name: windbarbs
+      source_name: ascatuhr
       docstring: |
         The windbarbs product_defaults for ascatuhr product.
       product_defaults: windbarbs
       spec:
-        source_name: ascatuhr
         variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: wind-ambiguities
+      source_name: ascatuhr
       docstring: |
         The wind-ambiguities product_defaults for ascatuhr product.
       product_defaults: wind-ambiguities
       spec:
-        source_name: ascatuhr
         variables:
           ["wind_speed_ambiguities_kts", "wind_dir_ambiguities_deg_met"]
     - name: unsectored
+      source_name: ascatuhr
       docstring: |
         The unsectored product_defaults for ascatuhr product.
       product_defaults: unsectored
       spec:
-        source_name: ascatuhr
         variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: sectored
+      source_name: ascatuhr
       docstring: |
         The sectored product_defaults for ascatuhr product.
       product_defaults: sectored
       spec:
-        source_name: ascatuhr
         variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: nrcs
+      source_name: ascatuhr
       docstring: |
         The nrcs product_defaults for ascatuhr product.
       product_defaults: nrcs
       spec:
-        source_name: ascatuhr
         variables: ["sigma0_mean"]
         # variables: ['sig_fore']
         # variables: ['sig_mid']
