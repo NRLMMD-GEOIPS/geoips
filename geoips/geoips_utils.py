@@ -36,6 +36,11 @@ def get_entry_point_group(group):
 
 
 def find_ascii_palette(name):
+    """Find ASCII palette named "name".
+
+    Search the plugins/txt/ascii_palettes directory for ASCII palettes to use
+    as colormaps.
+    """
     all_plugins = find_all_txt_plugins("txt/ascii_palettes")
 
     for plugin in all_plugins:
