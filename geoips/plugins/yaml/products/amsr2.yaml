@@ -36,7 +36,7 @@ spec:
         variables: ["tb36h", "tb36v"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: color37Nearest
@@ -55,7 +55,7 @@ spec:
         variables: ["tb36h", "tb36v"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 37pctNearest
@@ -74,7 +74,7 @@ spec:
         variables: ["tb89hA", "tb89vA"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: color89Nearest
@@ -93,7 +93,7 @@ spec:
         variables: ["tb89hA", "tb89vA"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89pctNearest
@@ -112,7 +112,7 @@ spec:
         variables: ["tb89hA"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89HNearest
@@ -131,7 +131,7 @@ spec:
         variables: ["tb89vA"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89VNearest
@@ -150,7 +150,7 @@ spec:
         variables: ["tb89hA"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89HWNearest
@@ -169,7 +169,7 @@ spec:
         variables: ["tb89hA"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89H-PhysicalNearest
@@ -188,7 +188,7 @@ spec:
         variables: ["tb89hA"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89H-LegacyNearest
@@ -207,7 +207,7 @@ spec:
         variables: ["tb36h"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 37H-LegacyNearest
@@ -226,7 +226,7 @@ spec:
         variables: ["tb36h"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 37H-PhysicalNearest
@@ -245,7 +245,7 @@ spec:
         variables: ["tb36h"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 37HNearest
@@ -264,7 +264,7 @@ spec:
         variables: ["tb36v"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 37VNearest

@@ -22,7 +22,7 @@ spec:
         variables: ["ftb37h", "ftb37v"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: color37Nearest
@@ -41,7 +41,7 @@ spec:
         variables: ["ftb37h", "ftb37v"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 37pctNearest
@@ -60,7 +60,7 @@ spec:
         variables: ["ftb37h"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 37H-LegacyNearest
@@ -79,7 +79,7 @@ spec:
         variables: ["ftb37h"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 37H-PhysicalNearest
@@ -98,7 +98,7 @@ spec:
         variables: ["ftb37h"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 37HNearest
@@ -117,7 +117,7 @@ spec:
         variables: ["ftb37v"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 37VNearest

@@ -15,7 +15,7 @@ spec:
         variables: ["H89", "V89"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: color89Nearest
@@ -34,7 +34,7 @@ spec:
         variables: ["H89", "V89"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89pctNearest
@@ -53,7 +53,7 @@ spec:
         variables: ["H89"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89HNearest
@@ -72,7 +72,7 @@ spec:
         variables: ["V89"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89VNearest
@@ -91,7 +91,7 @@ spec:
         variables: ["H89"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89HNearest
@@ -110,7 +110,7 @@ spec:
         variables: ["H89"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89H-PhysicalNearest
@@ -129,7 +129,7 @@ spec:
         variables: ["H89"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89H-LegacyNearest
@@ -148,7 +148,7 @@ spec:
         variables: ["H19"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 25000
     - name: 19HNearest
@@ -167,7 +167,7 @@ spec:
         variables: ["V19"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 25000
     - name: 19VNearest

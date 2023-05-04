@@ -14,7 +14,7 @@ spec:
         variables: ["Chan1_AT"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89VNearest
@@ -33,7 +33,7 @@ spec:
         variables: ["Chan2_AT"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 157VNearest
@@ -52,7 +52,7 @@ spec:
         variables: ["Chan3_AT"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 183-1HNearest
@@ -71,7 +71,7 @@ spec:
         variables: ["Chan4_AT"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 183-3HNearest
@@ -90,7 +90,7 @@ spec:
         variables: ["Chan5_AT"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 190VNearest

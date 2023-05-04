@@ -14,7 +14,7 @@ spec:
         variables: ["ch3_183.31_2.8"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 183-1HNearest
@@ -33,7 +33,7 @@ spec:
         variables: ["ch3_183.31_2.8"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 183-3HNearest
