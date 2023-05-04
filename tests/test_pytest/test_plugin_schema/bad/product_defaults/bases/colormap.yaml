@@ -27,7 +27,7 @@ error_pattern: ".*123 is not of type 'string'.*"
 plugin:
   name: mycm
   arguments:
-    colormap_name: 123
+    cmap_name: 123
 
 ---
 error: ValidationError
@@ -59,7 +59,7 @@ error_pattern: ".*123 is not of type 'string'.*"
 plugin:
   name: mycm
   arguments:
-    colorbar_label: 123
+    cbar_label: 123
 
 ---
 error: ValidationError
@@ -67,7 +67,7 @@ error_pattern: ".*'mystring' is not of type 'array'.*"
 plugin:
   name: mycm
   arguments:
-    colorbar_ticks: "mystring"
+    cbar_ticks: "mystring"
 
 ---
 error: ValidationError
@@ -75,4 +75,4 @@ error_pattern: ".*'a' is not of type 'number'.*"
 plugin:
   name: mycm
   arguments:
-    colorbar_ticks: ["a"]
+    cbar_ticks: ["a"]

@@ -6,7 +6,7 @@ docstring: |
 spec:
   algorithm:
     plugin:
-      name: visir.Night_Vis
+      name: Night_Vis
       arguments:
         output_data_range: [0, 100]
         input_units: radiance
@@ -24,8 +24,8 @@ spec:
       name: matplotlib_linear_norm
       arguments:
         data_range: [0, 100]
-        colormap_name: Greys_r
-        colorbar_label: Normalized Radiance
+        cmap_name: Greys_r
+        cbar_label: Normalized Radiance
   interpolator:
     plugin:
       name: interp_nearest

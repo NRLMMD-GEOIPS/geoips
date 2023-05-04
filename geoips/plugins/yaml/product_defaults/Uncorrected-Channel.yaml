@@ -25,8 +25,8 @@ spec:
       name: matplotlib_linear_norm
       arguments:
         data_range: [0.0, 1.0] # MUST pass data_range, it will not auto-detect
-        colormap_name: Greys_r
-        colorbar_label: Normalized Channel Data
+        cmap_name: Greys_r
+        cbar_label: Normalized Channel Data
   interpolator:
     plugin:
       name: interp_nearest

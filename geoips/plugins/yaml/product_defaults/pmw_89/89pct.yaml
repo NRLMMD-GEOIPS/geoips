@@ -6,7 +6,7 @@ docstring: |
 spec:
   algorithm:
     plugin:
-      name: pmw_tc.pmw89pct
+      name: pmw_89pct
       arguments:
         output_data_range: [105.0, 280.0]
         min_outbounds: crop

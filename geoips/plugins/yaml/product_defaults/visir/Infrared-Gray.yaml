@@ -21,8 +21,8 @@ spec:
       name: matplotlib_linear_norm
       arguments:
         data_range: [-100.0, 50.0]
-        colormap_name: Greys
-        colorbar_label: "Brightness Temperatures (degrees Celsius)"
+        cmap_name: Greys
+        cbar_label: "Brightness Temperatures (degrees Celsius)"
   interpolator:
     plugin:
       name: interp_nearest

@@ -17,7 +17,7 @@ properties:
         type: object
         unevaluatedProperties: false
         properties:
-          colormap_name:
+          cmap_name:
             type: string
           data_range:
             type: array
@@ -25,9 +25,9 @@ properties:
             maxItems: 2
             items:
               type: number
-          colorbar_label:
+          cbar_label:
             type: string
-          colorbar_ticks:
+          cbar_ticks:
             type: array
             items:
               type: number

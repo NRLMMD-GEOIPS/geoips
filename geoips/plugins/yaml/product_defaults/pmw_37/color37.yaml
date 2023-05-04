@@ -11,7 +11,7 @@ spec:
         sigmaval: 10000
   algorithm:
     plugin:
-      name: pmw_tc.pmw_color37
+      name: pmw_color37
       arguments: {}
   mtif_type: rgb
   colormap:

@@ -28,8 +28,8 @@ spec:
       name: matplotlib_linear_norm
       arguments:
         data_range: [0.0, 100.0]
-        colormap_name: Greys_r
-        colorbar_label: Reflectance
+        cmap_name: Greys_r
+        cbar_label: Reflectance
   interpolator:
     plugin:
       name: interp_nearest

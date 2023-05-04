@@ -51,7 +51,7 @@ spec:
           plugin:
             name: matplotlib_linear_norm
             arguments:
-              colorbar_label: "Reflectance, MODIS Channel 1 0.645um"
+              cbar_label: "Reflectance, MODIS Channel 1 0.645um"
         algorithm:
           plugin:
             name: single_channel

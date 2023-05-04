@@ -61,4 +61,4 @@ spec:
           plugin:
             name: matplotlib_linear_norm
             arguments:
-              colorbar_label: "Reflectance, ABI B03 0.86um Veggie Band"
+              cbar_label: "Reflectance, ABI B03 0.86um Veggie Band"

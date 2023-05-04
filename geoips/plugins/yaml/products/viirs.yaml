@@ -65,4 +65,4 @@ spec:
           plugin:
             name: matplotlib_linear_norm
             arguments:
-              colorbar_label: "Reflectance, VIIRS M05 0.673um Band"
+              cbar_label: "Reflectance, VIIRS M05 0.673um Band"

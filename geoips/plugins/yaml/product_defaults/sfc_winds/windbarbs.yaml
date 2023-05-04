@@ -6,7 +6,7 @@ docstring: |
 spec:
   algorithm:
     plugin:
-      name: sfc_winds.windbarbs
+      name: windbarbs
       arguments:
         output_data_range: [0, 200]
         input_units: kts

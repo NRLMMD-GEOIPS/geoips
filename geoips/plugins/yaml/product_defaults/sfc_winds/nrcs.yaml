@@ -24,7 +24,7 @@ spec:
       name: matplotlib_linear_norm
       arguments:
         data_range: [-35, -20]
-        colormap_name: Greys_r
+        cmap_name: Greys_r
   interpolator:
     plugin:
       name: interp_nearest

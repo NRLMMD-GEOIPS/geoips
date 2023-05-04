@@ -6,15 +6,15 @@ plugin:
 plugin:
   name: infrared
   arguments:
-    colormap_name: Greys_r
+    cmap_name: Greys_r
     data_range: [0, 100]
-    colorbar_label: "Infrared BT"
-    colorbar_ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
+    cbar_label: "Infrared BT"
+    cbar_ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
 ---
 plugin:
   name: infrared
   arguments:
-    colormap_name: Greys_r
+    cmap_name: Greys_r
 ---
 plugin:
   name: infrared
@@ -24,9 +24,9 @@ plugin:
 plugin:
   name: infrared
   arguments:
-    colorbar_label: "Infrared BT"
+    cbar_label: "Infrared BT"
 ---
 plugin:
   name: infrared
   arguments:
-    colorbar_ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
+    cbar_ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]

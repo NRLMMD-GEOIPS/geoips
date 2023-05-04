@@ -62,9 +62,9 @@ spec:
           plugin:
             name: matplotlib_linear_norm
             arguments:
-              colorbar_label: "Reflectance, AHI B02 0.51um Green Band"
+              cbar_label: "Reflectance, AHI B02 0.51um Green Band"
               data_range: [0.0, 120.0] # This replaces the default value found in product_params/Visible.yaml
-              colorbar_ticks: [0, 40, 80, 120] # This replaces the default value found in product_params/Visible.yaml
+              cbar_ticks: [0, 40, 80, 120] # This replaces the default value found in product_params/Visible.yaml
         algorithm:
           plugin:
             name: single_channel
@@ -86,4 +86,4 @@ spec:
           plugin:
             name: matplotlib_linear_norm
             arguments:
-              colorbar_label: "Normalized Channel Data, AHI B02 0.51um Green Band"
+              cbar_label: "Normalized Channel Data, AHI B02 0.51um Green Band"

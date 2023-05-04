@@ -25,8 +25,8 @@ spec:
             name: matplotlib_linear_norm
             arguments:
               data_range: [0, 200]
-              colormap_name: "Greys_r"
-              colorbar_label: "Wind speed (kts)"
+              cmap_name: "Greys_r"
+              cbar_label: "Wind speed (kts)"
         windbarb_plotters:
           plugin:
             name: sfc_wind.windbarbs
