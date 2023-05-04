@@ -7,6 +7,7 @@ Pre Version 1.10.0a12 (2023-05-03)
 * Add "configurable" colormap plugin (to allow fully specifying
   via call params)
 * Change colormap families to "matplotlib"
+* Run pytest on all installed geoips plugin packages
 
 Major New Functionality
 =======================
@@ -143,3 +144,4 @@ when running tests/test_pytest.
 ::
 
   modified: tests/test_pytest/test_all_yaml_plugins.py
+
