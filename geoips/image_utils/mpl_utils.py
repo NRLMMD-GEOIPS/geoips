@@ -668,10 +668,15 @@ def create_colorbar(fig, mpl_colors_info):
     # Required, for setting colorbar labels with set_label and ticks with set_ticks
     cbar_label = mpl_colors_info["cbar_label"]
     cbar_ticks = mpl_colors_info["cbar_ticks"]
+    if cbar_ticks is None:
+        cbar_ticks = [cmap_norm.vmin, cmap_norm.vmax]
 
     # Optional - can be specified in colorbar_kwargs
     cbar_spacing = "proportional"
-    if "cbar_spacing" in mpl_colors_info:
+    if (
+        "cbar_spacing" in mpl_colors_info
+        and mpl_colors_info["cbar_spacing"] is not None
+    ):
         cbar_spacing = mpl_colors_info["cbar_spacing"]
 
     # Optional - can be specified in set_ticks_kwargs. None will be mapped to
@@ -685,7 +690,10 @@ def create_colorbar(fig, mpl_colors_info):
     # Allow arbitrary kwargs to colorbar, but ensure our defaults for extend
     # and orientation are set.
     cbar_kwargs = {}
-    if "colorbar_kwargs" in mpl_colors_info:
+    if (
+        "colorbar_kwargs" in mpl_colors_info
+        and mpl_colors_info["colorbar_kwargs"] is not None
+    ):
         cbar_kwargs = mpl_colors_info["colorbar_kwargs"].copy()
     if "extend" not in cbar_kwargs:
         cbar_kwargs["extend"] = "both"
@@ -697,7 +705,10 @@ def create_colorbar(fig, mpl_colors_info):
     # Allow arbitrary kwargs to set_ticks, but ensure our defaults for labels
     # and font sizes are set
     set_ticks_kwargs = {}
-    if "set_ticks_kwargs" in mpl_colors_info:
+    if (
+        "set_ticks_kwargs" in mpl_colors_info
+        and mpl_colors_info["set_ticks_kwargs"] is not None
+    ):
         set_ticks_kwargs = mpl_colors_info["set_ticks_kwargs"].copy()
     if "size" not in set_ticks_kwargs:
         set_ticks_kwargs["size"] = "small"
@@ -706,7 +717,10 @@ def create_colorbar(fig, mpl_colors_info):
 
     # Allow arbitrary kwargs to set_label
     set_label_kwargs = {}
-    if "set_label_kwargs" in mpl_colors_info:
+    if (
+        "set_label_kwargs" in mpl_colors_info
+        and mpl_colors_info["set_label_kwargs"] is not None
+    ):
         set_label_kwargs = mpl_colors_info["set_label_kwargs"].copy()
     if "size" not in set_label_kwargs:
         set_label_kwargs["size"] = rc_params["font.size"]
@@ -720,7 +734,10 @@ def create_colorbar(fig, mpl_colors_info):
 
     # Optional positioning information for the colorbar axis - default
     # location appropriately
-    if "cbar_ax_left_start_pos" in mpl_colors_info:
+    if (
+        "cbar_ax_left_start_pos" in mpl_colors_info
+        and mpl_colors_info["cbar_ax_left_start_pos"] is not None
+    ):
         ax_left_start_pos = mpl_colors_info["cbar_ax_left_start_pos"]
     else:
         ax_left_start_pos = 2 * left_margin
@@ -731,10 +748,16 @@ def create_colorbar(fig, mpl_colors_info):
             ax_left_start_pos = left_margin  # Full width colorbar
 
     ax_bottom_start_pos = 0.05
-    if "cbar_ax_bottom_start_pos" in mpl_colors_info:
+    if (
+        "cbar_ax_bottom_start_pos" in mpl_colors_info
+        and mpl_colors_info["cbar_ax_bottom_start_pos"] is not None
+    ):
         ax_bottom_start_pos = mpl_colors_info["cbar_ax_bottom_start_pos"]
 
-    if "cbar_ax_width" in mpl_colors_info:
+    if (
+        "cbar_ax_width" in mpl_colors_info
+        and mpl_colors_info["cbar_ax_width"] is not None
+    ):
         ax_width = mpl_colors_info["cbar_ax_width"]
     else:
         ax_width = 1 - 4 * left_margin
@@ -745,7 +768,10 @@ def create_colorbar(fig, mpl_colors_info):
             ax_width = right_margin - left_margin  # Full width colorbar
 
     ax_height = 0.020
-    if "cbar_ax_height" in mpl_colors_info:
+    if (
+        "cbar_ax_height" in mpl_colors_info
+        and mpl_colors_info["cbar_ax_height"] is not None
+    ):
         ax_height = mpl_colors_info["cbar_ax_height"]
 
     # Note - if we want to support "automated" pyplot.colorbar placement,
@@ -761,6 +787,7 @@ def create_colorbar(fig, mpl_colors_info):
         boundaries=cmap_boundaries,
         **cbar_kwargs,
     )
+
     if cbar_ticks:
         # matplotlib 3.6.0 sometimes has inconsistent results with including
         # minor ticks or not.

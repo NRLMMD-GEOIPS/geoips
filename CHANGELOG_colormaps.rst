@@ -11,6 +11,18 @@ Pre Version 1.10.0a12 (2023-05-03)
 Major New Functionality
 =======================
 
+Allow cbar_ticks == None to plot min/max of actual data
+-------------------------------------------------------
+
+Update create_colorbar function to set cbar_ticks to cmap_norm.vmin and
+cmap_norm.vmax if cbar_ticks is "None".  Additionally, ensure if the
+"kwargs" options are included in mpl_colors_info, they are only used if
+not None (allows including defaults for all fields in mpl_colors_info)
+
+::
+
+  modified:   geoips/image_utils/mpl_utils.py
+
 Generalize matplotlib_linear_norm to allow builtin, ascii, and geoips colormaps
 -------------------------------------------------------------------------------
 
