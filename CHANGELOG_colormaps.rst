@@ -11,6 +11,17 @@ Pre Version 1.10.0a12 (2023-05-03)
 Major New Functionality
 =======================
 
+Add "find_ascii_palette" routine to geoips_utils.py
+---------------------------------------------------
+
+This searches the plugin directory for plugins/txt/ascii_palettes (for now).
+May tune this additionally, but for now we will hard code txt/ascii_palettes, and
+require ascii colormaps to have extension .txt.
+
+::
+
+  modified: geoips/geoips_utils.py
+
 Update matplotlib_linear_norm colormap plugin to support ASCII palettes
 -----------------------------------------------------------------------
 
