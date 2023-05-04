@@ -20,27 +20,28 @@ class ColormapsInterface(BaseModuleInterface):
 
     name = "colormaps"
     required_args = {
-        "rgb": [],
-        "ascii": [],
-        "linear_segmented": [],
-        "linear_norm": [],
-        "product_based": [],
-        "explicit": [],
-        "builtin_matplotlib_cmap": ["data_range"],
+        "matplotlib": [],
     }
 
     required_kwargs = {
-        "rgb": [],
-        "ascii": [],
-        "linear_segmented": [("data_range",)],
-        "linear_norm": [("data_range",)],
-        "product_based": [("product_name",), ("data_range",)],
-        "explicit": [],
-        "builtin_matplotlib_cmap": [
-            ("cmap_name",),
-            ("cbar_label",),
-            ("create_colorbar",),
-        ],
+        "matplotlib": [],
+    }
+
+    allowable_kwargs = {
+        "matplotlib": [
+            "data_range",
+            "cmap_name",
+            "ascii_path",
+            "create_colorbar",
+            "cbar_label",
+            "cbar_ticks",
+            "cbar_tick_labels",
+            "cbar_spacing",
+            "cbar_full_width",
+            "colorbar_kwargs",
+            "set_ticks_kwargs",
+            "set_label_kwargs",
+        ]
     }
 
 
