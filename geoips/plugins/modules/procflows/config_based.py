@@ -12,12 +12,21 @@
 
 """Processing workflow for config-based processing."""
 import logging
+from glob import glob
 from importlib import import_module
 
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.geoips_utils import find_entry_point
 from geoips.utils.memusg import print_mem_usage
 from geoips.geoips_utils import output_process_times
+from geoips.dev.product import (
+    get_covg_from_product,
+    get_covg_args_from_product,
+    get_required_variables,
+)
+from geoips.xarray_utils.data import sector_xarrays
+from geoips.filenames.duplicate_files import remove_duplicates
+
 
 try:
     from geoips_db.utils.database_writes import (
@@ -40,11 +49,20 @@ from geoips.dev.output_config import (
 from geoips.interfaces import interpolators
 from geoips.interfaces import output_formatters
 from geoips.interfaces import readers
+from geoips.interfaces import products
 
 # Collect functions from single_source (should consolidate these somewhere)
 from geoips.plugins.modules.procflows.single_source import (
     process_sectored_data_output,
     process_xarray_dict_to_output_format,
+    pad_area_definition,
+    get_alg_xarray,
+    add_filename_extra_field,
+    get_area_defs_from_command_line_args,
+    plot_data,
+    combine_filename_extra_fields,
+    get_alg_xarray,
+    verify_area_def,
 )
 
 # Moved to top-level errors module, fixing issue #67
@@ -152,19 +170,14 @@ def get_required_outputs(config_dict, sector_type):
     return return_dict
 
 
-def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
+def get_bg_xarray(sect_xarrays, area_def, prod_plugin, resampled_read=False):
     """Get background xarray."""
-    from geoips.dev.product import get_interp_name, get_interp_args
-
-    interp_plugin_name = get_interp_name(
-        product_name, sect_xarrays["METADATA"].source_name
-    )
     interp_plugin = None
-    if interp_plugin_name is not None:
-        interp_plugin = interpolators.get_plugin(interp_plugin_name)
-        interp_args = get_interp_args(
-            product_name, sect_xarrays["METADATA"].source_name
+    if "interpolator" in prod_plugin["spec"]:
+        interp_plugin = interpolators.get_plugin(
+            prod_plugin["spec"]["interpolator"]["plugin"]["name"]
         )
+        interp_args = prod_plugin["spec"]["interpolator"]["plugin"]["arguments"]
 
     alg_xarray = None
 
@@ -172,7 +185,7 @@ def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
     # Must take out METADATA dataset!
     if (
         len(set(sect_xarrays.keys()).difference({"METADATA"})) == 1
-        and product_name in list(sect_xarrays.values())[0].variables
+        and prod_plugin.name in list(sect_xarrays.values())[0].variables
     ):
         sect_xarray = list(sect_xarrays.values())[0]
 
@@ -183,7 +196,7 @@ def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
         #          sect_xarray[product_name].to_masked_array().max())
 
         alg_xarray = interp_plugin(
-            area_def, sect_xarray, alg_xarray, varlist=[product_name], **interp_args
+            area_def, sect_xarray, alg_xarray, varlist=[prod_plugin.name], **interp_args
         )
 
         # Efficiency hit with to_masked_array
@@ -195,30 +208,23 @@ def get_bg_xarray(sect_xarrays, area_def, product_name, resampled_read=False):
     # If this is a raw datafile, pull the required variables for applying the given algorithm, and generate the
     # product array.
     else:
-        from geoips.plugins.modules.procflows.single_source import pad_area_definition
-
         pad_area_def = pad_area_definition(area_def)
         # Ensure pre-processed and raw look the same - this requires applying algorithm to padded sectored data,
         # since that is what is written out to the pre-processed netcdf file,
         # then interpolating to the desired area definition.
-        from geoips.plugins.modules.procflows.single_source import get_alg_xarray
 
         sect_xarray = get_alg_xarray(
-            sect_xarrays, pad_area_def, product_name, resampled_read=resampled_read
+            sect_xarrays, pad_area_def, prod_plugin, resampled_read=resampled_read
         )
         alg_xarray = interp_plugin(
-            area_def, sect_xarray, alg_xarray, varlist=[product_name]
+            area_def, sect_xarray, alg_xarray, varlist=[prod_plugin.name]
         )
 
     alg_xarray.attrs["registered_dataset"] = True
     alg_xarray.attrs["area_definition"] = area_def
-    if product_name in alg_xarray.variables:
-        from geoips.plugins.modules.procflows.single_source import (
-            add_filename_extra_field,
-        )
-
+    if prod_plugin.name in alg_xarray.variables:
         alg_xarray = add_filename_extra_field(
-            alg_xarray, "background_data", f"bg{product_name}"
+            alg_xarray, "background_data", f"bg{prod_plugin.name}"
         )
 
     return alg_xarray
@@ -244,8 +250,6 @@ def get_sectored_read(
     Xarrays sectored to area_def
     """
     area_def = area_defs[area_def_id][sector_type]["area_def"]
-
-    from geoips.plugins.modules.procflows.single_source import pad_area_definition
 
     if "primary_sector" in config_dict:
         primary_sector_type = area_defs[area_def_id][config_dict["primary_sector"]]
@@ -427,8 +431,11 @@ def process_unsectored_data_outputs(
 
                         # This actually produces all the required output files for the
                         # current product
+                        prod_plugin = products.get_plugin(
+                            xobjs["METADATA"].source_name, product_name
+                        )
                         out = process_xarray_dict_to_output_format(
-                            xobjs, variables, product_name, output_dict
+                            xobjs, variables, prod_plugin, output_dict
                         )
 
                         # Add them to the final_products dictionary - comparisons happen
@@ -571,8 +578,6 @@ def get_variables_from_available_outputs_dict(
         List of all required variables for all output products for the given
         source_name
     """
-    from geoips.dev.product import get_required_variables
-
     variables = []
     # Loop through all possible output types
     for output_type in available_outputs_dict:
@@ -587,7 +592,8 @@ def get_variables_from_available_outputs_dict(
             for product_name in available_outputs_dict[output_type]["product_names"]:
                 # Add all required variables for the current product and source to the
                 # list
-                variables += get_required_variables(product_name, source_name)
+                prod_plugin = products.get_plugin(source_name, product_name)
+                variables += get_required_variables(prod_plugin)
     # Return list of all required variables
     return list(set(variables))
 
@@ -633,9 +639,6 @@ def get_area_defs_from_available_sectors(
         * ``area_defs[area_def.name][sector_type]['area_def']``
     """
     area_defs = {}
-    from geoips.plugins.modules.procflows.single_source import (
-        get_area_defs_from_command_line_args,
-    )
 
     # Loop through all available sector types
     for sector_type in available_sectors_dict:
@@ -733,9 +736,6 @@ def call(fnames, command_line_args=None):
     check_command_line_args(check_args, command_line_args)
     config_dict = get_config_dict(command_line_args["output_config"])
 
-    from glob import glob
-    from geoips.dev.product import get_required_variables
-
     if not fnames and "filenames" in config_dict:
         fnames = glob(config_dict["filenames"])
 
@@ -813,9 +813,10 @@ def call(fnames, command_line_args=None):
 
     if bg_files is not None:
         bg_xobjs = bg_reader(bg_files, metadata_only=True)
-        bg_variables = get_required_variables(
-            bg_product_name, bg_xobjs["METADATA"].source_name
+        prod_plugin = products.get_plugin(
+            bg_xobjs["METADATA"].source_name, bg_product_name
         )
+        bg_variables = get_required_variables(prod_plugin)
 
     if product_db:
         from os import getenv
@@ -870,20 +871,6 @@ def call(fnames, command_line_args=None):
         write_to_product_db=product_db,
     )
     print_mem_usage("MEMUSG", verbose=False)
-
-    from geoips.xarray_utils.data import sector_xarrays
-    from geoips.filenames.duplicate_files import remove_duplicates
-    from geoips.plugins.modules.procflows.single_source import (
-        pad_area_definition,
-        get_filename,
-    )
-    from geoips.plugins.modules.procflows.single_source import (
-        plot_data,
-        combine_filename_extra_fields,
-    )
-    from geoips.plugins.modules.procflows.single_source import get_alg_xarray
-    from geoips.plugins.modules.procflows.single_source import verify_area_def
-    from geoips.dev.product import get_covg_from_product, get_covg_args_from_product
 
     list_area_defs = get_area_def_list_from_dict(area_defs)
 
@@ -1070,11 +1057,14 @@ def call(fnames, command_line_args=None):
                         )
                     # Only attempt to get bg xarrays if they weren't sectored away to
                     # nothing.
+                    bg_prod_plugin = products.get_plugin(
+                        bg_xobjs["METADATA"].source_name, bg_product_name
+                    )
                     if bg_pad_sect_xarrays:
                         bg_alg_xarrays[sector_type] = get_bg_xarray(
                             bg_pad_sect_xarrays,
                             area_def,
-                            bg_product_name,
+                            bg_prod_plugin,
                             resampled_read=bg_resampled_read,
                         )
             print_mem_usage("MEMUSG", verbose=False)
@@ -1259,6 +1249,9 @@ def call(fnames, command_line_args=None):
                 product_num = 0
                 for product_name in output_dict["product_names"]:
                     product_num = product_num + 1
+                    prod_plugin = products.get_plugin(
+                        pad_sect_xarrays["METADATA"].source_name, product_name
+                    )
 
                     LOG.info("\n\n\n\nAll area_def_ids: %s", area_defs.keys())
                     LOG.info(
@@ -1297,9 +1290,7 @@ def call(fnames, command_line_args=None):
                         required_outputs.keys(),
                     )
 
-                    product_variables = get_required_variables(
-                        product_name, pad_sect_xarrays["METADATA"].source_name
-                    )
+                    product_variables = get_required_variables(prod_plugin)
 
                     # Make sure we still have all the required variables after sectoring
                     if not set(product_variables).issubset(all_vars):
@@ -1321,7 +1312,7 @@ def call(fnames, command_line_args=None):
                     curr_output_products = process_sectored_data_output(
                         pad_sect_xarrays,
                         product_variables,
-                        product_name,
+                        prod_plugin,
                         output_dict,
                         area_def=area_def,
                     )
@@ -1355,7 +1346,7 @@ def call(fnames, command_line_args=None):
                             pad_alg_xarrays[product_name] = get_alg_xarray(
                                 pad_sect_xarrays,
                                 pad_area_def,
-                                product_name,
+                                prod_plugin,
                                 resampled_read=resampled_read,
                                 variable_names=product_variables,
                             )
@@ -1364,7 +1355,7 @@ def call(fnames, command_line_args=None):
                         alg_xarray = get_alg_xarray(
                             pad_sect_xarrays,
                             pad_area_def,
-                            product_name,
+                            prod_plugin,
                             resector=False,
                             resampled_read=resampled_read,
                             variable_names=product_variables,
@@ -1376,47 +1367,39 @@ def call(fnames, command_line_args=None):
                             alg_xarrays[product_name] = get_alg_xarray(
                                 sect_xarrays,
                                 area_def,
-                                product_name,
+                                prod_plugin,
                                 resampled_read=resampled_read,
                                 variable_names=product_variables,
                             )
                         alg_xarray = alg_xarrays[product_name]
 
-                    covg_func = get_covg_from_product(
-                        product_name,
-                        alg_xarray.source_name,
-                        output_dict=output_dict,
-                        covg_func_field_name="image_production_covg_func",
+                    covg_plugin = get_covg_from_product(
+                        prod_plugin,
+                        covg_field="image_production_covg_func",
                     )
                     covg_args = get_covg_args_from_product(
-                        product_name,
-                        alg_xarray.source_name,
-                        output_dict=output_dict,
-                        covg_args_field_name="image_production_covg_args",
+                        prod_plugin,
+                        covg_field="image_production_covg_func",
                     )
-                    covg = covg_func.call(
-                        alg_xarray, product_name, area_def, **covg_args
+                    covg = covg_plugin(
+                        alg_xarray, prod_plugin.name, area_def, **covg_args
                     )
 
-                    fname_covg_func = get_covg_from_product(
-                        product_name,
-                        alg_xarray.source_name,
-                        output_dict=output_dict,
-                        covg_func_field_name="fname_covg_func",
+                    fname_covg_plugin = get_covg_from_product(
+                        prod_plugin,
+                        covg_field="fname_covg_func",
                     )
                     fname_covg_args = get_covg_args_from_product(
-                        product_name,
-                        alg_xarray.source_name,
-                        output_dict=output_dict,
-                        covg_args_field_name="fname_covg_args",
+                        prod_plugin,
+                        covg_field="fname_covg_args",
                     )
-                    fname_covg = fname_covg_func.call(
-                        alg_xarray, product_name, area_def, **fname_covg_args
+                    fname_covg = fname_covg_plugin(
+                        alg_xarray, prod_plugin.name, area_def, **fname_covg_args
                     )
 
                     minimum_coverage = 10
                     config_minimum_coverage = get_minimum_coverage(
-                        product_name, output_dict
+                        prod_plugin.name, output_dict
                     )
                     if hasattr(alg_xarray, "minimum_coverage"):
                         minimum_coverage = alg_xarray.minimum_coverage
@@ -1459,7 +1442,7 @@ def call(fnames, command_line_args=None):
                         output_dict,
                         alg_xarray,
                         area_def,
-                        product_name,
+                        prod_plugin,
                         plot_data_kwargs,
                     )
 

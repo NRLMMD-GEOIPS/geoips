@@ -13,7 +13,9 @@
 """Matplot-lib based annotated image output."""
 import logging
 
-from geoips.dev.product import get_product
+from geoips.interfaces import products
+from geoips.errors import PluginError
+from jsonschema.exceptions import ValidationError
 
 LOG = logging.getLogger(__name__)
 
@@ -154,26 +156,22 @@ def call(
         feature_annotator=feature_annotator,
         gridline_annotator=gridline_annotator,
     )
-    product_params = None
+    prod_plugin = None
     try:
-        product_params = get_product(product_name, xarray_obj.source_name, output_dict)
-    except (KeyError, ValueError):
+        prod_plugin = products.get_plugin(xarray_obj.source_name, product_name)
+    except (PluginError, ValidationError):
         LOG.warning(
-            "SKIPPING get_product: Invalid product specification %s / %s",
+            "SKIPPING products.get_plugin: Invalid product specification %s / %s",
             product_name,
             xarray_obj.source_name,
         )
-    if product_params and "plot_coverage" in product_params:
+    if prod_plugin and "coverage_checker" in prod_plugin:
         from geoips.dev.product import get_covg_from_product
         from importlib import import_module
         from geoips.dev.product import get_covg_args_from_product
 
-        covg_func = get_covg_from_product(
-            product_name, xarray_obj.source_name, output_dict
-        )
-        covg_args = get_covg_args_from_product(
-            product_name, xarray_obj.source_name, output_dict=output_dict
-        )
+        covg_func = get_covg_from_product(prod_plugin, output_dict)
+        covg_args = get_covg_args_from_product(prod_plugin, output_dict=output_dict)
         plot_covg_func = getattr(import_module(covg_func.__module__), "plot_coverage")
         plot_covg_func(main_ax, area_def, covg_args)
 

@@ -97,22 +97,20 @@ def update_sector_info_with_coverage(
     covg_args = {}
     covgs = {}
 
-    default_covg_funcs = get_covg_from_product(
-        product_name,
-        xarray_obj.source_name,
-        output_dict=output_dict,
-        covg_func_field_name="covg_func",
+    prod_plugin = products.get_plugin(xarray_obj.source_name, product_name)
+
+    default_covg_plugin = get_covg_from_product(
+        prod_plugin,
+        covg_field="covg_func",
     )
 
     default_covg_args = get_covg_args_from_product(
-        product_name,
-        xarray_obj.source_name,
-        output_dict=output_dict,
-        covg_args_field_name="covg_args",
+        prod_plugin,
+        covg_field="covg_args",
     )
     try:
-        default_covgs = default_covg_funcs.call(
-            xarray_obj, product_name, area_def, **covg_args["default"]
+        default_covgs = default_covg_plugin(
+            xarray_obj, prod_plugin.name, area_def, **covg_args["default"]
         )
     except KeyError:
         LOG.warning(
@@ -121,20 +119,16 @@ def update_sector_info_with_coverage(
 
     for covg_func_type in covg_func_types:
         covg_funcs[covg_func_type] = get_covg_from_product(
-            product_name,
-            xarray_obj.source_name,
-            output_dict=output_dict,
-            covg_func_field_name=covg_func_type + "_covg_func",
+            prod_plugin,
+            covg_field=covg_func_type + "_covg_func",
         )
         covg_args[covg_func_type] = get_covg_args_from_product(
-            product_name,
-            xarray_obj.source_name,
-            output_dict=output_dict,
-            covg_args_field_name=covg_func_type + "_covg_args",
+            prod_plugin,
+            covg_field=covg_func_type + "_covg_args",
         )
         try:
             covgs[covg_func_type] = covg_funcs[covg_func_type].call(
-                xarray_obj, product_name, area_def, **covg_args[covg_func_type]
+                xarray_obj, prod_plugin.name, area_def, **covg_args[covg_func_type]
             )
         except KeyError:
             LOG.warning(
