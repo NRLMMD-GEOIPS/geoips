@@ -4,6 +4,7 @@ import yaml
 from importlib import resources
 
 from geoips.schema import PluginValidator
+from geoips.geoips_utils import get_entry_point_group
 
 
 validator = PluginValidator()
@@ -11,10 +12,12 @@ validator = PluginValidator()
 
 def yield_plugins():
     """Yield plugins."""
-    fpath = resources.files("geoips") / "plugins/yaml"
-    plugin_files = fpath.rglob("*.yaml")
-    for pf in plugin_files:
-        yield yaml.safe_load(open(pf, "r"))
+    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    for pkg in plugin_packages:
+        fpath = resources.files("geoips") / "plugins/yaml"
+        plugin_files = fpath.rglob("*.yaml")
+        for pf in plugin_files:
+            yield yaml.safe_load(open(pf, "r"))
 
 
 @pytest.mark.parametrize("plugin", yield_plugins())

@@ -130,3 +130,16 @@ available_kwargs.
   modified: geoips/plugins/modules/colormaps/visir/Infrared.py
   modified: geoips/plugins/modules/colormaps/visir/WV.py
   modified: geoips/plugins/modules/colormaps/winds/wind_radii_transitions.py
+
+Testing Updates
+===============
+
+Run pytest on all installed geoips plugin packages
+--------------------------------------------------
+
+To ensure all functionality is tested, loop through all geoips  plugin packages
+when running tests/test_pytest.
+
+::
+
+  modified: tests/test_pytest/test_all_yaml_plugins.py
