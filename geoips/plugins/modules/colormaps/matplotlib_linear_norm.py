@@ -36,7 +36,7 @@ def call(
     cbar_ticks=None,
     cbar_tick_labels=None,
     cbar_spacing="proportional",
-    cbar_full_width=True,
+    cbar_full_width=False,
     colorbar_kwargs=None,
     set_ticks_kwargs=None,
     set_label_kwargs=None,
@@ -78,9 +78,9 @@ def call(
         * Extend the colorbar across the full width of the image.
     colorbar_kwargs : dict, default=None
         * keyword arguments to pass through directly to "fig.colorbar"
-    set_ticks_kwargs=None,
+    set_ticks_kwargs : dict, default=None
         * keyword arguments to pass through directly to "cbar.set_ticks"
-    set_label_kwargs=None,
+    set_label_kwargs : dict, default=None
         * keyword arguments to pass through directly to "cbar.set_label"
 
     Returns
