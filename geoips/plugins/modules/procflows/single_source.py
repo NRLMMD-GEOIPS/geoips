@@ -239,7 +239,9 @@ def combine_filename_extra_fields(source_xarray, dest_xarray):
 def process_sectored_data_output(
     xobjs, variables, prod_plugin, output_dict, area_def=None
 ):
-    """If product family is 'sectored_xarray_dict_to_output_format', call
+    """Process sectored data output.
+
+    If product family is 'sectored_xarray_dict_to_output_format', call
     'process_xarray_dict_to_output_format', store the result in a list, and return it.
     """
     output_products = []

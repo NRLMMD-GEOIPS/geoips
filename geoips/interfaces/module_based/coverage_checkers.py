@@ -30,6 +30,7 @@ class CoverageCheckersInterface(BaseModuleInterface):
     }
 
     def get_plugin_for_product(self, product, checker_field="coverage_checker"):
+        """Get plugin for product."""
         if checker_field in product:
             self.get_plugin(product[checker_field]["name"])
         else:
