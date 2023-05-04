@@ -38,3 +38,7 @@ sector list.
   modified: tests/scripts/documentation_imagery.sh
   modified: tests/scripts/ewsg.static.Infrared.imagery_clean.sh
   modified: tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
+  modified: yaml_configs/abi_test.yaml
+  modified: yaml_configs/abi_test_low_memory.yaml
+  modified: yaml_configs/amsr2_test.yaml
+  modified: yaml_configs/amsr2_test_low_memory.yaml

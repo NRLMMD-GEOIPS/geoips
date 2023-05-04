@@ -39,7 +39,7 @@ run_procflow \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bep112021.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/atms.tc.<product>.netcdf_geoips" \
-          --tc_template_yaml $GEOIPS_PACKAGES_DIR/geoips/geoips/yaml_configs/sectors_dynamic/tc_256x256/tc_4km_256x256.yaml \
+          --tc_spec_template tc_4km_256x256 \
           --product_params_override '{}' \
           --output_formatter_kwargs '{}' \
           --filename_formatter_kwargs '{}' \
