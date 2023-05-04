@@ -55,6 +55,8 @@ Update matplotlib_linear_norm colormap plugin to support ASCII palettes
 This plugin provides the ability to fully specify matplotlib color info
 via call signature arguments.  Add options for:
 
+* cmap_name - name of colormap to use
+* cmap_source - one of "matplotlib_builtin", "geoips_module", or "ascii_palette"
 * cmap_path - optional full path to ascii palette
 * cbar_tick_labels - alternative labels to use if not the numeric values of
   cbar_ticks
