@@ -13,7 +13,12 @@
 """Matplotlib information for standard imagery with an existing system colormap."""
 import logging
 
+from matplotlib.colors import Normalize
+from matplotlib import cm
+
 from geoips.image_utils.colormap_utils import from_ascii
+from geoips.geoips_utils import find_ascii_palette
+from geoips.interfaces import colormaps
 
 LOG = logging.getLogger(__name__)
 
@@ -23,9 +28,9 @@ name = "matplotlib_linear_norm"
 
 
 def call(
-    data_range,
+    data_range=None,
     cmap_name="Greys",
-    cmap_path=None,
+    ascii_path=None,
     create_colorbar=True,
     cbar_label=None,
     cbar_ticks=None,
@@ -34,6 +39,7 @@ def call(
     cbar_full_width=True,
     colorbar_kwargs=None,
     set_ticks_kwargs=None,
+    set_label_kwargs=None,
 ):
     """Set the matplotlib colors information for matplotlib linear norm cmaps.
 
@@ -42,17 +48,40 @@ def call(
 
     Parameters
     ----------
-    data_range : list
-        * [min_val, max_val]
+    data_range : list, default=None
+        * [min_val, max_val], matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)
+        * If data_range not specified, vmin and vmax both None.
     cmap_name : str, default="Greys"
-        * Specify the standard matplotlib colormap.
+        * Specify the name of the resulting matplotlib colormap.
+        * If no ascii_path specified, will use builtin matplotlib
+          colormap of name cmap_name.
+    ascii_path : str, default=None
+        * Specify full path to ASCII palette to convert to matplotlib
+          colormap.
+        * If not specified, use internal matplotlib colormap "cmap_name".
     cbar_label : str, default=None
+        * Positional parameter passed to cbar.set_label
         * If specified, use cbar_label string as colorbar label.
     create_colorbar : bool, default=True
         * Specify whether the image should contain a colorbar or not.
     cbar_ticks : list, default=None
+        * Positional parameter passed to cbar.set_ticks
         * Specify explicit list of ticks to include for colorbar.
         * None indicates ticks at int(min) and int(max) values
+    cbar_tick_labels : list, default=None
+        * "labels" argument to pass to cbar.set_ticks.
+        * can also specify directly within "set_ticks_kwargs"
+    cbar_spacing : string, default="proportional"
+        * "spacing" argument to pass to fig.colorbar
+        * can also specify directly within "colorbar_kwargs"
+    cbar_full_width : bool, default=True
+        * Extend the colorbar across the full width of the image.
+    colorbar_kwargs : dict, default=None
+        * keyword arguments to pass through directly to "fig.colorbar"
+    set_ticks_kwargs=None,
+        * keyword arguments to pass through directly to "cbar.set_ticks"
+    set_label_kwargs=None,
+        * keyword arguments to pass through directly to "cbar.set_label"
 
     Returns
     -------
@@ -65,24 +94,35 @@ def call(
     :ref:`api`
         See geoips.image_utils.mpl_utils.create_colorbar for field descriptions.
     """
-    min_val = data_range[0]
-    max_val = data_range[1]
+    min_val = None
+    max_val = None
+    if data_range is not None:
+        min_val = data_range[0]
+        max_val = data_range[1]
 
-    from matplotlib import cm
-
-    if cmap_path is not None:
-        mpl_cmap = from_ascii(cmap_path, name=cmap_name)
+    if ascii_path is not None:
+        mpl_cmap = from_ascii(ascii_path, cmap_name=cmap_name)
     else:
-        mpl_cmap = cm.get_cmap(cmap_name)
+        try:
+            mpl_cmap = cm.get_cmap(cmap_name)
+        except ValueError:
+            try:
+                ascii_path = find_ascii_palette(cmap_name)
+                mpl_cmap = from_ascii(ascii_path, cmap_name=cmap_name)
+            except ValueError:
+                cmap_plugin = colormaps.get_plugin(cmap_name)
+                # Just get the cmap out of mpl_colors_info to use here.
+                mpl_cmap = cmap_plugin()["cmap"]
 
     LOG.info("Setting norm")
-    from matplotlib.colors import Normalize
 
     mpl_norm = Normalize(vmin=min_val, vmax=max_val)
     if cbar_ticks:
         mpl_ticks = cbar_ticks
-    else:
+    elif min_val is not None:
         mpl_ticks = [int(min_val), int(max_val)]
+    else:
+        mpl_ticks = None
 
     if cbar_tick_labels is None:
         mpl_tick_labels = mpl_ticks
@@ -93,15 +133,16 @@ def call(
     mpl_colors_info = {
         "cmap": mpl_cmap,
         "norm": mpl_norm,
+        "boundaries": mpl_boundaries,
+        "colorbar": create_colorbar,
         "cbar_ticks": mpl_ticks,
         "cbar_tick_labels": mpl_tick_labels,
         "cbar_label": cbar_label,
-        "boundaries": mpl_boundaries,
         "cbar_spacing": cbar_spacing,
-        "colorbar": create_colorbar,
         "cbar_full_width": cbar_full_width,
         "colorbar_kwargs": colorbar_kwargs,
         "set_ticks_kwargs": set_ticks_kwargs,
+        "set_label_kwargs": set_label_kwargs,
     }
 
     return mpl_colors_info

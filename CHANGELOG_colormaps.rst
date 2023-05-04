@@ -11,12 +11,26 @@ Pre Version 1.10.0a12 (2023-05-03)
 Major New Functionality
 =======================
 
+Generalize matplotlib_linear_norm to allow builtin, ascii, and geoips colormaps
+-------------------------------------------------------------------------------
+
+Currently just takes the cmap_name, and through a series of try/excepts looks for
+the colormap in:
+
+1. matplotlib builtin
+2. ascii palette
+3. geoips plugin
+
+::
+
+  modified: geoips/plugins/modules/colormaps/matplotlib_linear_norm.py
+
 Add "find_ascii_palette" routine to geoips_utils.py
 ---------------------------------------------------
 
 This searches the plugin directory for plugins/txt/ascii_palettes (for now).
-May tune this additionally, but for now we will hard code txt/ascii_palettes, and
-require ascii colormaps to have extension .txt.
+May tune this additionally, but for now we will hard code txt/ascii_palettes,
+and require ascii colormaps to have extension .txt.
 
 ::
 
@@ -78,8 +92,12 @@ tuning parameters for color specifications, have a general "matplotlib" family
 that all return the "mpl_colors_info" dictionary, but can have a variable set
 of arguments (depending on requirements for a specific colormap).
 
+All matplotlib families now have NO required params or kwargs, and a list of
+available_kwargs.
+
 ::
 
+  modified: geoips/interfaces/module_based/colormaps.py
   modified: geoips/plugins/modules/colormaps/cmap_rgb.py
   modified: geoips/plugins/modules/colormaps/matplotlib_linear_norm.py
   modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_150H.py
