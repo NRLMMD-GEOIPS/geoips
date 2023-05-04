@@ -16,10 +16,10 @@ spec:
   mtif_type: rain
   colormap:
     plugin:
-      name: pmw_tb.cmap_Rain
+      name: pmw_Rain
       arguments:
         data_range: [0.05, 50.0]
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}

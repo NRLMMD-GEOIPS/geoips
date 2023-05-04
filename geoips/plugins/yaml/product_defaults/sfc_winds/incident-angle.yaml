@@ -29,7 +29,7 @@ spec:
         colormap_name: jet
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}
   coverage_checker:
     plugin:

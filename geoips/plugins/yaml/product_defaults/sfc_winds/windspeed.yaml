@@ -18,10 +18,10 @@ spec:
   mtif_type: windspeed
   colormap:
     plugin:
-      name: winds.wind_radii_transitions
+      name: wind_radii_transitions
       arguments:
         data_range: [0, 200]
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}

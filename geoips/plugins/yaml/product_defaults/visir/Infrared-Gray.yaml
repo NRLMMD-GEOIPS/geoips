@@ -25,5 +25,5 @@ spec:
         colorbar_label: "Brightness Temperatures (degrees Celsius)"
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}

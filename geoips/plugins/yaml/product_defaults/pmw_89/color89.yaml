@@ -15,7 +15,7 @@ spec:
       arguments: {}
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_gauss
+      name: interp_gauss
       arguments:
         sigmaval: 10000
   coverage_checker:

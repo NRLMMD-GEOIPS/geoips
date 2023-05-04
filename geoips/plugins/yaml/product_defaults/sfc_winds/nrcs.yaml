@@ -27,7 +27,7 @@ spec:
         colormap_name: Greys_r
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}
   coverage_checker:
     plugin:

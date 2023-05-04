@@ -2,25 +2,25 @@ interface: product_defaults
 family: interpolator_algorithm_colormap
 name: 37pct
 docstring: |
-    The 37pct product_defaults configuration.
+  The 37pct product_defaults configuration.
 spec:
-    interpolator:
-        plugin:
-            name: pyresample_wrappers.interp_gauss
-            arguments:
-                sigmaval: 10000
-    algorithm:
-        plugin:
-            name: pmw_tb.pmw_37pct
-            arguments:
-                output_data_range: [230, 280]
-                min_outbounds: crop
-                max_outbounds: mask
-                norm: null
-                inverse: null
-    mtif_type: pmw
-    colormap:
-        plugin:
-            name: pmw_tb.cmap_37pct
-            arguments:
-                data_range: [230, 280]
+  interpolator:
+    plugin:
+      name: interp_gauss
+      arguments:
+        sigmaval: 10000
+  algorithm:
+    plugin:
+      name: pmw_tb.pmw_37pct
+      arguments:
+        output_data_range: [230, 280]
+        min_outbounds: crop
+        max_outbounds: mask
+        norm: null
+        inverse: null
+  mtif_type: pmw
+  colormap:
+    plugin:
+      name: pmw_37pct
+      arguments:
+        data_range: [230, 280]

@@ -16,10 +16,10 @@ spec:
   mtif_type: pmw
   colormap:
     plugin:
-      name: pmw_tb.cmap_150H
+      name: pmw_150H
       arguments:
         data_range: [110, 310]
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}
