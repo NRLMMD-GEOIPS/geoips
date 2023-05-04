@@ -89,5 +89,12 @@ class ProductsInterface(BaseYamlInterface):
         """Retrieve a Product plugin by source_name and name."""
         return super().get_plugin((source_name, name))
 
+    def get_plugins(self):
+        """Retrieve a plugin by name."""
+        plugins = []
+        for source_name, name in self._unvalidated_plugins.keys():
+            plugins.append(self.get_plugin(source_name, name))
+        return plugins
+
 
 products = ProductsInterface()
