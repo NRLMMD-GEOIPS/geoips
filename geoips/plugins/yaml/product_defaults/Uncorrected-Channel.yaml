@@ -29,5 +29,5 @@ spec:
         colorbar_label: Normalized Channel Data
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}
