@@ -162,8 +162,7 @@ def set_mpl_colors_info_dict(
 
 
 def from_ascii(fname, cmap_name=None, reverse=False):
-    """
-    Create a ListedColormap instance from an ASCII file of RGB values.
+    """Create a ListedColormap instance from an ASCII file of RGB values.
 
     Parameters
     ----------
@@ -182,7 +181,6 @@ def from_ascii(fname, cmap_name=None, reverse=False):
 
     Notes
     -----
-
      * Lines preceded by '#' are ignored.
      * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0
        for matplotlib usage)
