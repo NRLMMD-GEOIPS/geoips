@@ -16,7 +16,7 @@ import logging
 LOG = logging.getLogger(__name__)
 
 interface = "colormaps"
-family = "ascii"
+family = "matplotlib"
 name = "tpw_cimss"
 
 
@@ -48,7 +48,7 @@ def call():
     mpl_colors_info = {
         "cmap": from_ascii(
             pathjoin(
-                gpaths["BASE_PATH"], "image_utils", "ascii_palettes", "tpw_cimss.txt"
+                gpaths["BASE_PATH"], "plugins", "txt", "ascii_palettes", "tpw_cimss.txt"
             )
         ),
         "norm": Normalize(vmin=min_val, vmax=max_val),
