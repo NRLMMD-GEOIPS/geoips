@@ -21,6 +21,12 @@
 
 # Note you must use the variable "call" in the for the loop
 
+git lfs --version
+if [[ $? != 0 ]]; then
+   echo "MUST install git lfs prior to running geoips installation and test (required for test data repos).  Install and try again"
+   exit 1
+fi
+
 . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_pre.sh geoips_base
 
 echo ""

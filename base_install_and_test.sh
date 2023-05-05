@@ -14,6 +14,13 @@
 
 source $GEOIPS_PACKAGES_DIR/geoips/setup/bash_setup/check_continue
 
+
+git lfs --version
+if [[ $? != 0 ]]; then
+   echo "MUST install git lfs prior to running geoips installation and test (required for test data repos).  Install and try again"
+   exit 1
+fi
+
 if [[ "$1" == "" ]]; then
     GEOIPS_ACTIVE_BRANCH=main
 else
