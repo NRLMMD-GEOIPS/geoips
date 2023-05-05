@@ -430,9 +430,11 @@ def process_unsectored_data_outputs(
                         final_products[cpath]["compare_outputs_module"] = cmodule
 
                         # This actually produces all the required output files for the
-                        # current product
+                        # current produsct
                         prod_plugin = products.get_plugin(
-                            xobjs["METADATA"].source_name, product_name
+                            xobjs["METADATA"].source_name,
+                            product_name,
+                            output_dict.get("product_spec_override"),
                         )
                         out = process_xarray_dict_to_output_format(
                             xobjs, variables, prod_plugin, output_dict
@@ -592,7 +594,11 @@ def get_variables_from_available_outputs_dict(
             for product_name in available_outputs_dict[output_type]["product_names"]:
                 # Add all required variables for the current product and source to the
                 # list
-                prod_plugin = products.get_plugin(source_name, product_name)
+                prod_plugin = products.get_plugin(
+                    source_name,
+                    product_name,
+                    available_outputs_dict[output_type].get("product_spec_override"),
+                )
                 variables += get_required_variables(prod_plugin)
     # Return list of all required variables
     return list(set(variables))
@@ -746,55 +752,37 @@ def call(fnames, command_line_args=None):
     bg_self_register_dataset = None
     bg_self_register_source = None
 
-    if (
-        "fuse_files" in command_line_args
-        and command_line_args["fuse_files"] is not None
-    ):
+    if command_line_args.get("fuse_files") is not None:
         bg_files = command_line_args["fuse_files"][0]
     elif "fuse_files" in config_dict:
         bg_files = glob(config_dict["fuse_files"])
 
-    if (
-        "fuse_reader" in command_line_args
-        and command_line_args["fuse_reader"] is not None
-    ):
+    if command_line_args.get("fuse_reader") is not None:
         bg_reader = readers.get_plugin(command_line_args["fuse_reader"][0])
     elif "fuse_reader" in config_dict:
         bg_reader = readers.get_plugin(config_dict["fuse_reader"])
 
-    if (
-        "fuse_product" in command_line_args
-        and command_line_args["fuse_product"] is not None
-    ):
+    if command_line_args.get("fuse_product") is not None:
         bg_product_name = command_line_args["fuse_product"][0]
     elif "fuse_product" in config_dict:
         bg_product_name = config_dict["fuse_product"]
 
-    if (
-        "fuse_resampled_read" in command_line_args
-        and command_line_args["fuse_resampled_read"] is not None
-    ):
+    if command_line_args.get("fuse_resampled_read") is not None:
         bg_resampled_read = command_line_args["fuse_resampled_read"][0]
     elif "fuse_resampled_read" in config_dict:
         bg_resampled_read = config_dict["fuse_resampled_read"]
 
-    if (
-        "fuse_self_register_dataset" in command_line_args
-        and command_line_args["fuse_self_register_dataset"] is not None
-    ):
+    if command_line_args.get("fuse_self_register_dataset") is not None:
         bg_self_register_dataset = command_line_args["fuse_self_register_dataset"][0]
     elif "fuse_self_register_dataset" in config_dict:
         bg_self_register_dataset = config_dict["fuse_self_register_dataset"]
 
-    if (
-        "fuse_self_register_source" in command_line_args
-        and command_line_args["fuse_self_register_source"] is not None
-    ):
+    if command_line_args.get("fuse_self_register_source") is not None:
         bg_self_register_source = command_line_args["fuse_self_register_source"][0]
     elif "fuse_self_register_source" in config_dict:
         bg_self_register_source = config_dict["fuse_self_register_source"]
 
-    if "product_db" in command_line_args and command_line_args["product_db"]:
+    if command_line_args.get("product_db"):
         product_db = command_line_args["product_db"]
     elif "product_db" in config_dict:
         product_db = config_dict["product_db"]
@@ -802,10 +790,7 @@ def call(fnames, command_line_args=None):
     else:
         product_db = False
 
-    if (
-        "product_db_writer_override" in command_line_args
-        and command_line_args["product_db_writer_override"]
-    ):
+    if command_line_args.get("product_db_writer_override"):
         for sector, database_writer in command_line_args[
             "product_db_writer_override"
         ].items():
@@ -814,7 +799,9 @@ def call(fnames, command_line_args=None):
     if bg_files is not None:
         bg_xobjs = bg_reader(bg_files, metadata_only=True)
         prod_plugin = products.get_plugin(
-            bg_xobjs["METADATA"].source_name, bg_product_name
+            bg_xobjs["METADATA"].source_name,
+            bg_product_name,
+            command_line_args.get("product_spec_override"),
         )
         bg_variables = get_required_variables(prod_plugin)
 
@@ -1250,7 +1237,9 @@ def call(fnames, command_line_args=None):
                 for product_name in output_dict["product_names"]:
                     product_num = product_num + 1
                     prod_plugin = products.get_plugin(
-                        pad_sect_xarrays["METADATA"].source_name, product_name
+                        pad_sect_xarrays["METADATA"].source_name,
+                        product_name,
+                        output_dict.get("product_spec_override"),
                     )
 
                     LOG.info("\n\n\n\nAll area_def_ids: %s", area_defs.keys())
@@ -1375,11 +1364,11 @@ def call(fnames, command_line_args=None):
 
                     covg_plugin = get_covg_from_product(
                         prod_plugin,
-                        covg_field="image_production_covg_func",
+                        covg_field="image_production_coverage_checker",
                     )
                     covg_args = get_covg_args_from_product(
                         prod_plugin,
-                        covg_field="image_production_covg_func",
+                        covg_field="image_production_coverage_checker",
                     )
                     covg = covg_plugin(
                         alg_xarray, prod_plugin.name, area_def, **covg_args
@@ -1387,11 +1376,11 @@ def call(fnames, command_line_args=None):
 
                     fname_covg_plugin = get_covg_from_product(
                         prod_plugin,
-                        covg_field="fname_covg_func",
+                        covg_field="filename_coverage_checker",
                     )
                     fname_covg_args = get_covg_args_from_product(
                         prod_plugin,
-                        covg_field="fname_covg_args",
+                        covg_field="filename_coverage_checker",
                     )
                     fname_covg = fname_covg_plugin(
                         alg_xarray, prod_plugin.name, area_def, **fname_covg_args

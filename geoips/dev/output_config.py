@@ -407,7 +407,9 @@ def get_output_formatter_kwargs(
         output_formatter_kwargs["bg_mpl_colors_info"] = None
         if bg_product_name:
             bg_prod_plugin = products.get_plugin(
-                output_formatter_kwargs["bg_xarray"].source_name, bg_product_name
+                output_formatter_kwargs["bg_xarray"].source_name,
+                bg_product_name,
+                output_dict.get("product_spec_override"),
             )
             bg_cmap_plugin = colormaps.get_plugin(
                 bg_prod_plugin["spec"]["colormap"]["plugin"]["name"]

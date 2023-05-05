@@ -45,11 +45,16 @@ Support multiple coverage checkers for a single product
 
 * Add filename_coverage_checker, full_coverage_checker, and
   image_production_coverage_checker to product_defaults schema
-* Add hooks wherever
+* Pass output_dict["product_spec_override"] to all products.get_plugin calls.
 
 ::
 
+  modified: geoips/plugins/modules/procflows/config_based.py
   modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/dev/output_config.py
+  modified: geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py
+  modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+  modified: geoips/plugins/modules/output_formatters/metadata_tc.py
   modified: geoips/schema/product_defaults/specs/algorithm_colormap.yaml
   modified: geoips/schema/product_defaults/specs/algorithm_interpolator_colormap.yaml
   modified: geoips/schema/product_defaults/specs/interpolator_algorithm.yaml

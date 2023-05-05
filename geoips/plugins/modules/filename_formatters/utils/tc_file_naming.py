@@ -163,18 +163,24 @@ def update_extra_field(
     if "source_names" in xarray_obj.attrs:
         for source_name in xarray_obj.source_names:
             try:
-                prod_plugin = products.get_plugin(source_name, product_name)
+                prod_plugin = products.get_plugin(
+                    source_name, product_name, output_dict.get("product_spec_override")
+                )
                 covg_args = get_covg_args_from_product(
                     prod_plugin,
-                    covg_field="fname_covg_args",
+                    covg_field="filename_coverage_checker",
                 )
             except KeyError:
                 continue
     else:
-        prod_plugin = products.get_plugin(xarray_obj.source_name, product_name)
+        prod_plugin = products.get_plugin(
+            xarray_obj.source_name,
+            product_name,
+            output_dict.get("product_spec_override"),
+        )
         covg_args = get_covg_args_from_product(
             prod_plugin,
-            covg_field="fname_covg_args",
+            covg_field="filename_coverage_checker",
         )
 
     extras = []

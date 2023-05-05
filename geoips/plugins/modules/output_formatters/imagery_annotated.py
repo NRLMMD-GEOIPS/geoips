@@ -158,7 +158,11 @@ def call(
     )
     prod_plugin = None
     try:
-        prod_plugin = products.get_plugin(xarray_obj.source_name, product_name)
+        prod_plugin = products.get_plugin(
+            xarray_obj.source_name,
+            product_name,
+            output_dict.get("product_spec_override"),
+        )
     except (PluginError, ValidationError):
         LOG.warning(
             "SKIPPING products.get_plugin: Invalid product specification %s / %s",
@@ -170,8 +174,8 @@ def call(
         from importlib import import_module
         from geoips.dev.product import get_covg_args_from_product
 
-        covg_func = get_covg_from_product(prod_plugin, output_dict)
-        covg_args = get_covg_args_from_product(prod_plugin, output_dict=output_dict)
+        covg_func = get_covg_from_product(prod_plugin)
+        covg_args = get_covg_args_from_product(prod_plugin)
         plot_covg_func = getattr(import_module(covg_func.__module__), "plot_coverage")
         plot_covg_func(main_ax, area_def, covg_args)
 
