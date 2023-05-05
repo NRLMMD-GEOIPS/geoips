@@ -36,6 +36,19 @@ echo ""
 for call in \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/utils/check_code.sh all `dirname $0`/../ flake8_docstring_only" \
     "$GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.sh `dirname $0`/../ html_only" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin recenter_tc" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin data_fusion" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin geoips_clavrx" \
+    "$GEOIPS_PACKAGES_DIR/geoips/tests/uncompress_test_data.sh" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_amsr2 main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_clavrx main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_gpm main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_sar main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_scat main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_smap main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_viirs main" \
     "pytest $GEOIPS_PACKAGES_DIR/geoips/tests/test_pytest" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
     "test_interfaces" \
@@ -75,20 +88,3 @@ do
 done
 
 . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_post.sh
-
-
-'''
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin recenter_tc" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin data_fusion" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin geoips_clavrx" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/uncompress_test_data.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_amsr2 main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_clavrx main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_gpm main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_sar main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_scat main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_smap main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_viirs main" \
-'''
