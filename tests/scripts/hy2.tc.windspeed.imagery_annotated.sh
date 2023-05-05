@@ -29,7 +29,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_080644_hy_2b
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp272021.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/hy2.tc.<product>.imagery_annotated" \
-          --product_params_override '{}' \
+          --product_spec_override '{}' \
           --output_formatter_kwargs '{"title_formatter": "tc_copyright", "title_copyright": "Data copyright 2021 EUMETSAT, Imagery NRL-MRY"}' \
           --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \

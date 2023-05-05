@@ -85,9 +85,32 @@ class ProductsInterface(BaseYamlInterface):
         """
         return (yaml_plugin["source_name"], yaml_plugin["name"])
 
-    def get_plugin(self, source_name, name):
-        """Retrieve a Product plugin by source_name and name."""
-        return super().get_plugin((source_name, name))
+    def get_plugin(self, source_name, name, product_spec_override=None):
+        """Retrieve a Product plugin by source_name, name, and product_spec_override.
+
+        If product_spec_override dict is passed, values contained within
+        product_spec_override will be used in place of those found in products
+        list and product_defaults.
+
+        product_spec_override[product_name] matches the format of the product
+        "spec" field.
+
+        Additionall, if the special key product_spec_override["all"] is included,
+        it will apply to all products not specified by name within the dictionary.
+        """
+        prod_plugin = super().get_plugin((source_name, name))
+        if product_spec_override is not None:
+            # Default to no override arguments
+            override_args = {}
+            # If available, use the current product's override values
+            if name in product_spec_override:
+                override_args = product_spec_override[name]
+            # Otherwise, if "all" specified, use those override values
+            elif "all" in product_spec_override:
+                override_args = product_spec_override["all"]
+            merge_nested_dicts(prod_plugin["spec"], override_args)
+
+        return prod_plugin
 
     def get_plugins(self):
         """Retrieve a plugin by name."""
