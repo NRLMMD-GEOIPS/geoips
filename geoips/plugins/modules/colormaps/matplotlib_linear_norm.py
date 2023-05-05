@@ -30,7 +30,7 @@ name = "matplotlib_linear_norm"
 def call(
     data_range=None,
     cmap_name="Greys",
-    cmap_source="matplotlib_builtin",
+    cmap_source="matplotlib",
     cmap_path=None,
     create_colorbar=True,
     cbar_label=None,
@@ -101,16 +101,16 @@ def call(
         min_val = data_range[0]
         max_val = data_range[1]
 
-    if cmap_source == "matplotlib_builtin":
+    if cmap_source == "matplotlib":
         try:
             mpl_cmap = cm.get_cmap(cmap_name)
         except ValueError:
             raise ValueError("Colormap {cmap_name} not found in source {cmap_source}")
-    elif cmap_source == "geoips_module":
+    elif cmap_source == "geoips":
         cmap_plugin = colormaps.get_plugin(cmap_name)
         # Just get the cmap out of mpl_colors_info to use here.
         mpl_cmap = cmap_plugin()["cmap"]
-    elif cmap_source == "ascii_palette":
+    elif cmap_source == "ascii":
         if cmap_path is not None:
             mpl_cmap = from_ascii(cmap_path, cmap_name=cmap_name)
         else:
@@ -124,7 +124,7 @@ def call(
     else:
         raise ValueError(
             "Uknown colormap source {cmap_source}, must be one of "
-            "'matplotlib_builtin', 'geoips_plugin', or 'ascii_palette'"
+            "'matplotlib', 'geoips', or 'ascii'"
         )
 
     LOG.info("Setting norm")
