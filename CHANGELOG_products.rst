@@ -67,8 +67,11 @@ Fix plugin names in product_defaults
 Fix typo in overlay imagery setup
 ---------------------------------
 
-bg_array -> bg_xarray
+* kwargs["bg_array"] -> kwargs["bg_xarray"].source_name
+* Add "from geoips.interfaces import products" to metadata_tc output
+* Fix coverage_checker plugin call in metadata_tc output
 
 ::
 
   modified:   geoips/dev/output_config.py
+  modified:   geoips/plugins/modules/output_formatters/metadata_tc.py

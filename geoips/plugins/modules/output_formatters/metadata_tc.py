@@ -16,6 +16,7 @@ import logging
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.geoips_utils import replace_geoips_paths
 from geoips.sector_utils.yaml_utils import write_yamldict
+from geoips.interfaces import products
 
 LOG = logging.getLogger(__name__)
 
@@ -127,7 +128,7 @@ def update_sector_info_with_coverage(
             covg_field=covg_func_type + "_covg_args",
         )
         try:
-            covgs[covg_func_type] = covg_funcs[covg_func_type].call(
+            covgs[covg_func_type] = covg_funcs[covg_func_type](
                 xarray_obj, prod_plugin.name, area_def, **covg_args[covg_func_type]
             )
         except KeyError:
