@@ -37,15 +37,23 @@ interface.
   modified: tests/scripts/sar.tc.nrcs.imagery_annotated.sh
   modified: tests/scripts/ssmi.tc.37pct.imagery_clean.sh
   modified: tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh
+  modified: tests/yaml_configs/amsr2_test.yaml
+  modified: tests/yaml_configs/amsr2_test_low_memory.yaml
 
 Support multiple coverage checkers for a single product
 -------------------------------------------------------
 
+* Add filename_coverage_checker, full_coverage_checker, and
+  image_production_coverage_checker to product_defaults schema
+* Add hooks wherever
+
 ::
 
   modified: geoips/plugins/modules/procflows/single_source.py
-  modified: tests/yaml_configs/amsr2_test.yaml
-  modified: tests/yaml_configs/amsr2_test_low_memory.yaml
+  modified: geoips/schema/product_defaults/specs/algorithm_colormap.yaml
+  modified: geoips/schema/product_defaults/specs/algorithm_interpolator_colormap.yaml
+  modified: geoips/schema/product_defaults/specs/interpolator_algorithm.yaml
+  modified: geoips/schema/product_defaults/specs/interpolator_algorithm_colormap.yaml
 
 Bug Fixes
 =========
