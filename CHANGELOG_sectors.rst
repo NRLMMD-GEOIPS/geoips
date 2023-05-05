@@ -31,6 +31,8 @@ sector list.
 ::
 
   modified: geoips/commandline/args.py
+  modified: geoips/commandline/run_procflow.py
+  modified: geoips/dev/output_config.py
   modified: geoips/plugins/modules/procflows/single_source.py
   modified: geoips/sector_utils/utils.py
   modified: tests/scripts/abi.static.Infrared.imagery_annotated.sh
@@ -38,3 +40,7 @@ sector list.
   modified: tests/scripts/documentation_imagery.sh
   modified: tests/scripts/ewsg.static.Infrared.imagery_clean.sh
   modified: tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
+  modified: tests/yaml_configs/abi_test.yaml
+  modified: tests/yaml_configs/abi_test_low_memory.yaml
+  modified: tests/yaml_configs/amsr2_test.yaml
+  modified: tests/yaml_configs/amsr2_test_low_memory.yaml
