@@ -12,6 +12,11 @@
 
 #!/bin/bash
 
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gitlfs
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh wget
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
+
 source $GEOIPS_PACKAGES_DIR/geoips/setup/bash_setup/check_continue
 
 if [[ "$1" == "" ]]; then

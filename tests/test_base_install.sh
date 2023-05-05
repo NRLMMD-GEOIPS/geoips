@@ -20,6 +20,10 @@
    # setting the final return value.
 
 # Note you must use the variable "call" in the for the loop
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gitlfs
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh wget
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
 
 . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_pre.sh geoips_base
 
