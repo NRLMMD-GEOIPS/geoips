@@ -3,6 +3,7 @@ Pre Version 1.10.0a12 (2023-05-05)
 
 * Allow passing dictionary of product_spec_overrides to products.get_plugin
 * Support multiple coverage checkers for a single product
+* Bug fixes
 
 Refactoring
 ===========
@@ -45,3 +46,29 @@ Support multiple coverage checkers for a single product
   modified: geoips/plugins/modules/procflows/single_source.py
   modified: tests/yaml_configs/amsr2_test.yaml
   modified: tests/yaml_configs/amsr2_test_low_memory.yaml
+
+Bug Fixes
+=========
+
+Fix plugin names in product_defaults
+------------------------------------
+
+* Update range->output_data_range in Infared-Gray product_defaults
+* pmw_tc.pmw_->pmw_ algorithm name in PMW product_defaults
+
+::
+
+  modified: plugins/yaml/product_defaults/pmw_37/37pct.yaml
+  modified: plugins/yaml/product_defaults/pmw_37/37pctNearest.yaml
+  modified: plugins/yaml/product_defaults/pmw_89/color89.yaml
+  modified: plugins/yaml/product_defaults/pmw_89/color89Nearest.yaml
+  modified: plugins/yaml/product_defaults/visir/Infrared-Gray.yaml
+
+Fix typo in overlay imagery setup
+---------------------------------
+
+bg_array -> bg_xarray
+
+::
+
+  modified:   geoips/dev/output_config.py
