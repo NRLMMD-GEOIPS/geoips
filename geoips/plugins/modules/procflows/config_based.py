@@ -12,6 +12,7 @@
 
 """Processing workflow for config-based processing."""
 import logging
+from copy import deepcopy
 from glob import glob
 from importlib import import_module
 
@@ -107,13 +108,13 @@ def update_output_dict_from_command_line_args(output_dict, command_line_args=Non
         # the original command line arguments. This should likely be refactored.
         if cmdline_fld_name == "filename_formatter_kwargs":
             output_fld_name = "filename_formatters_kwargs"
-            output_fld_val = {"all": command_line_args[cmdline_fld_name].copy()}
+            output_fld_val = {"all": deepcopy(command_line_args[cmdline_fld_name])}
         elif cmdline_fld_name == "metadata_filename_formatter_kwargs":
             output_fld_name = "metadata_filename_formatters_kwargs"
-            output_fld_val = {"all": command_line_args[cmdline_fld_name].copy()}
+            output_fld_val = {"all": deepcopy(command_line_args[cmdline_fld_name])}
         else:
             output_fld_name = cmdline_fld_name
-            output_fld_val = command_line_args[cmdline_fld_name].copy()
+            output_fld_val = deepcopy(command_line_args[cmdline_fld_name])
 
         # If the current command line field is not in the output dict at all, just
         # add the whole thing.
@@ -1242,7 +1243,6 @@ def call(fnames, command_line_args=None):
                         product_name,
                         output_dict.get("product_spec_override"),
                     )
-
                     LOG.info("\n\n\n\nAll area_def_ids: %s", area_defs.keys())
                     LOG.info(
                         "\n\n\n\nAll sector_types: %s", area_defs[area_def_id].keys()
