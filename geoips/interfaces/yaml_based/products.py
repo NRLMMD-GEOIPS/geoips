@@ -108,7 +108,9 @@ class ProductsInterface(BaseYamlInterface):
             # Otherwise, if "all" specified, use those override values
             elif "all" in product_spec_override:
                 override_args = product_spec_override["all"]
-            merge_nested_dicts(prod_plugin["spec"], override_args)
+            prod_plugin["spec"] = merge_nested_dicts(
+                prod_plugin["spec"], override_args, in_place=False
+            )
 
         return prod_plugin
 
