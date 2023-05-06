@@ -103,15 +103,17 @@ def update_output_dict_from_command_line_args(output_dict, command_line_args=Non
 
         # Convert filename_formatter_kwargs and metadata_filename_formatter_kwargs to
         # their plural counterparts
+        # Ensure we copy the command_line_args so we do not inadvertently modify
+        # the original command line arguments. This should likely be refactored.
         if cmdline_fld_name == "filename_formatter_kwargs":
             output_fld_name = "filename_formatters_kwargs"
-            output_fld_val = {"all": command_line_args[cmdline_fld_name]}
+            output_fld_val = {"all": command_line_args[cmdline_fld_name].copy()}
         elif cmdline_fld_name == "metadata_filename_formatter_kwargs":
             output_fld_name = "metadata_filename_formatters_kwargs"
-            output_fld_val = {"all": command_line_args[cmdline_fld_name]}
+            output_fld_val = {"all": command_line_args[cmdline_fld_name].copy()}
         else:
             output_fld_name = cmdline_fld_name
-            output_fld_val = command_line_args[cmdline_fld_name]
+            output_fld_val = command_line_args[cmdline_fld_name].copy()
 
         # If the current command line field is not in the output dict at all, just
         # add the whole thing.
@@ -801,7 +803,6 @@ def call(fnames, command_line_args=None):
         prod_plugin = products.get_plugin(
             bg_xobjs["METADATA"].source_name,
             bg_product_name,
-            command_line_args.get("product_spec_override"),
         )
         bg_variables = get_required_variables(prod_plugin)
 
