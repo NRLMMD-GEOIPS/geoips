@@ -6,7 +6,7 @@ docstring: |
 spec:
   algorithm:
     plugin:
-      name: pmw_tb.pmw_color89
+      name: pmw_color89
       arguments: {}
   mtif_type: rgb
   colormap:

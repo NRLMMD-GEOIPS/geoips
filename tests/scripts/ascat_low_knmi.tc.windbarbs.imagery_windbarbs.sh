@@ -28,7 +28,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_scat/data/metopc_knmi_250/ascat_2021
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs" \
-          --product_params_override '{}' \
+          --product_spec_override '{}' \
           --output_formatter_kwargs '{}' \
           --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \

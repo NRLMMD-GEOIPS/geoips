@@ -435,11 +435,11 @@ def get_filename(
     if filename_fmt_plugin.family not in FILENAME_FORMATS_WITHOUT_COVG:
         covg_plugin = get_covg_from_product(
             prod_plugin,
-            covg_field="fname_covg_func",
+            covg_field="filename_coverage_checker",
         )
         covg_args = get_covg_args_from_product(
             prod_plugin,
-            covg_field="fname_covg_args",
+            covg_field="filename_coverage_checker",
         )
         covg = covg_plugin(alg_xarray, prod_plugin.name, area_def, **covg_args)
 
@@ -1161,7 +1161,7 @@ def call(fnames, command_line_args=None):
         "product_name",
         "gridline_annotator",
         "feature_annotator",
-        "product_params_override",
+        "product_spec_override",
         "output_formatter",
         "filename_formatter",
         "output_formatter_kwargs",
@@ -1215,7 +1215,9 @@ def call(fnames, command_line_args=None):
     source_name = xobjs["METADATA"].source_name
     print_mem_usage("MEMUSG", verbose=False)
 
-    prod_plugin = products.get_plugin(source_name, product_name)
+    prod_plugin = products.get_plugin(
+        source_name, product_name, command_line_args["product_spec_override"]
+    )
 
     variables = get_required_variables(prod_plugin)
 
@@ -1439,11 +1441,11 @@ def call(fnames, command_line_args=None):
 
             fname_covg_plugin = get_covg_from_product(
                 prod_plugin,
-                covg_field="fname_coverage_checker",
+                covg_field="filename_coverage_checker",
             )
             fname_covg_args = get_covg_args_from_product(
                 prod_plugin,
-                covg_field="fname_coverage_checker",
+                covg_field="filename_coverage_checker",
             )
             fname_covg = fname_covg_plugin(
                 alg_xarray, prod_plugin.name, area_def, **fname_covg_args

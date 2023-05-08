@@ -73,14 +73,14 @@ def main(get_command_line_args_func=None):
             if len(RETVAL) > 2:
                 LOG.info(
                     "GEOIPSTOTALSUCCESS %s %s products generated, total time %s",
-                    str(COMMAND_LINE_ARGS["sectorfiles"]),
+                    str(PROCFLOW.name),
                     len(RETVAL),
                     datetime.utcnow() - DATETIMES["start"],
                 )
             else:
                 LOG.info(
                     "GEOIPSNOSUCCESS %s %s products generated, total time %s",
-                    str(COMMAND_LINE_ARGS["sectorfiles"]),
+                    str(PROCFLOW.name),
                     len(RETVAL),
                     datetime.utcnow() - DATETIMES["start"],
                 )

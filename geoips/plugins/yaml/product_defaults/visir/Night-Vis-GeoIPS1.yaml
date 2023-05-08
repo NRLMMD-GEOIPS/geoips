@@ -6,7 +6,7 @@ docstring: |
 spec:
   algorithm:
     plugin:
-      name: Night-Vis-GeoIPS1
+      name: Night_Vis_GeoIPS1
       arguments:
         min_outbounds: crop # Mask lower bounds will prevent black images
         max_outbounds: crop

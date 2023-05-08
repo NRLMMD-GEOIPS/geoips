@@ -55,6 +55,8 @@ Update matplotlib_linear_norm colormap plugin to support ASCII palettes
 This plugin provides the ability to fully specify matplotlib color info
 via call signature arguments.  Add options for:
 
+* cmap_name - name of colormap to use
+* cmap_source - one of "matplotlib_builtin", "geoips_module", or "ascii_palette"
 * cmap_path - optional full path to ascii palette
 * cbar_tick_labels - alternative labels to use if not the numeric values of
   cbar_ticks
@@ -63,11 +65,14 @@ via call signature arguments.  Add options for:
 * colorbar_kwargs - pass through to matplotlib "colorbar" command
 * set_ticks_kwargs - pass through to "set_ticks" command
 
+Also add these fields to the colormap YAML schema.
+
 Additionally, update image_utils.colormap_utils.from_ascii to take optional
 "cmap_name" kwarg, if not specified, just use the basename of fname.
 
 ::
 
+  modified: geoips/schema/product_defaults/bases/colormap.yaml
   geoips/image_utils/colormap_utils.py
   geoips/plugins/modules/colormaps/matplotlib_linear_norm.py
 
@@ -144,4 +149,3 @@ when running tests/test_pytest.
 ::
 
   modified: tests/test_pytest/test_all_yaml_plugins.py
-
