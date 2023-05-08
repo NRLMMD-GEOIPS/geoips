@@ -121,5 +121,41 @@ class ProductsInterface(BaseYamlInterface):
             plugins.append(self.get_plugin(source_name, name))
         return plugins
 
+    def plugin_is_valid(self, source_name, name):
+        """Test that the named plugin is valid."""
+        try:
+            self.get_plugin(source_name, name)
+            return True
+        except ValidationError:
+            return False
+
+    def test_interface(self):
+        """Test interface method."""
+        plugins = self.get_plugins()
+        all_valid = self.plugins_all_valid()
+        family_list = []
+        plugin_ids = {}
+        for plugin in plugins:
+            if plugin.family not in family_list:
+                family_list.append(plugin.family)
+                plugin_ids[plugin.family] = []
+            plugin_ids[plugin.family].append(plugin.id)
+
+        output = {
+            "all_valid": all_valid,
+            "by_family": plugin_ids,
+            "validity_check": {},
+            "family": {},
+            "func": {},
+            "docstring": {},
+        }
+        for curr_family in plugin_ids:
+            for curr_id in plugin_ids[curr_family]:
+                output["validity_check"][curr_id] = self.plugin_is_valid(*curr_id)
+                output["func"][curr_id] = self.get_plugin(*curr_id)
+                output["family"][curr_id] = curr_family
+                output["docstring"][curr_id] = output["func"][curr_id].docstring
+        return output
+
 
 products = ProductsInterface()
