@@ -22,10 +22,14 @@ class CoverageCheckersInterface(BaseModuleInterface):
     required_args = {"standard": ["xarray_obj", "variable_name"]}
     required_kwargs = {
         "standard": {
-            "area_def",
-            "radius_km",
             "alt_varname_for_covg",
             "force_alt_varname",
+        }
+    }
+    allowable_kwargs = {
+        "standard": {
+            "area_def",
+            "radius_km",
         }
     }
 
