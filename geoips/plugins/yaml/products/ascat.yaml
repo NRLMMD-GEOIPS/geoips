@@ -27,13 +27,13 @@ spec:
               data_range: [0, 200]
               cmap_name: "Greys_r"
               cbar_label: "Wind speed (kts)"
-        windbarb_plotters:
+        windbarb_plotter:
           plugin:
             name: sfc_wind.windbarbs
             arguments:
               thinning: 1
-              barb_length: 5
-              line_width: 1.5
+              length: 5
+              width: 1.5
               sizes_dict: { "height": 0.7, "spacing": 0.3 }
               rain_size: 10
     - name: windbarbs
