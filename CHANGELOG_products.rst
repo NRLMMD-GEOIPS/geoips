@@ -4,6 +4,7 @@ Pre Version 1.10.0a12 (2023-05-05)
 * Allow passing dictionary of product_spec_overrides to products.get_plugin
 * Support multiple coverage checkers for a single product
 * Bug fixes
+* Add data_fusion stitched test to test_full_install.sh
 
 Refactoring
 ===========
@@ -88,3 +89,20 @@ Fix typo in overlay imagery setup
 
   modified:   geoips/dev/output_config.py
   modified:   geoips/plugins/modules/output_formatters/metadata_tc.py
+
+
+Testing Updates
+===============
+
+Add data_fusion stitched test to test_full_install.sh
+-----------------------------------------------------
+
+Add NOAA AWS pull of goes16, goes17, and himawari8 to
+test_data_fusion.
+
+Update data_fusion test call to run test_all.sh vs just layered.sh
+
+::
+
+  modified:   setup.sh
+  modified:   tests/test_full_install.sh

@@ -131,6 +131,33 @@ elif [[ "$1" == "install" ]]; then
 
     pip install -e "$GEOIPS_PACKAGES_DIR/geoips"[doc,test,lint]
 
+elif [[ "$1" == "setup_fusion_test_data" ]]; then
+    # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
+    # rclone lsf publicAWS:noaa-goes17/ABI-L1b-RadF/2020/184/16/
+    # rclone lsf publicAWS:noaa-himawari8/AHI-L1b-FLDK/2022/02/05/0420
+
+    rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
+    goes16dir=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/goes16_20210929.0000
+    goes17dir=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/goes17_20210929.0000
+    ahidir=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/himawari8_20210929.0000
+
+    mkdir -p $goes16dir
+    mkdir -p $goes17dir
+    mkdir -p $ahidir
+    echo "** Setting up fusion test data, from publicAWS to $goes16dir"
+    echo "** Setting up fusion test data, from publicAWS to $goes17dir"
+    echo "** Setting up fusion test data, from publicAWS to $ahidir"
+    echo ""
+    echo "NOAA Geostationary Operational Environmental Satellites (GOES) 16 & 17 was accessed on "
+    echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-goes."
+    echo "Himawari-8 was accessed on "
+    echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-himawari"
+    echo ""
+
+    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh goes16 2021 09 29 00 00 $goes16dir $rcloneconf C14
+    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh goes17 2021 09 29 00 00 $goes17dir $rcloneconf C14
+    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2021 09 29 00 00 $ahidir $rcloneconf B13
+    bunzip2 $ahidir/*.bz2
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
     # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
