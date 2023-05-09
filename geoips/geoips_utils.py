@@ -201,7 +201,10 @@ def get_all_entry_points(namespace):
         Entry point namespace (e.g. 'readers')
     """
     ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    return [ep.load() for ep in get_entry_point_group(ep_namespace)]
+    try:
+        return [ep.load() for ep in get_entry_point_group(ep_namespace)]
+    except KeyError:
+        return []
 
 
 def list_entry_points(namespace):
