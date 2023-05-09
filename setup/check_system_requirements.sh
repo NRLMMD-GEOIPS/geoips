@@ -106,7 +106,9 @@ if [[ "$1" == "rclone" ]]; then
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'rclone --version' failed, please install rclone before proceeding"
+        echo "WARNING: 'rclone --version' failed, going to install install rclone before proceeding"
+        source $GEOIPS_CONFIG_FILE
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh install $bandwidth_option
         exit 1
     else
         echo ""
@@ -145,7 +147,8 @@ if [[ "$1" == "test_data_clavrx" ]]; then
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/*' failed, please install repo test_data_clavrx before proceeding"
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/*' failed, going to install repo test_data_clavrx before proceeding"
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_clavrx main
         exit 1
     else
         echo ""
@@ -158,7 +161,9 @@ if [[ "$1" == "test_data_amsr2" ]]; then
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/*' failed, please install repo test_data_amsr2 before proceeding"
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/*' failed, going to install repo test_data_amsr2 before proceeding"
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_amsr2 main
+        echo "test_data_amsr2 repo installed, please retry the corresponding test script which caused the previous error"
         exit 1
     else
         echo ""
@@ -167,11 +172,13 @@ if [[ "$1" == "test_data_amsr2" ]]; then
 fi
 
 if [[ "$1" == "test_data_abi_day" ]]; then
-    ls $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/*
+    ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/*
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/*' failed, please install repo test_data_abi_day before proceeding"
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/*' failed, going to install repo test_data_abi_day before proceeding"
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory
         exit 1
     else
         echo ""
