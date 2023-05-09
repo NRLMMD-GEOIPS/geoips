@@ -440,7 +440,12 @@ def get_filename(
             prod_plugin,
             covg_field="filename_coverage_checker",
         )
-        covg = covg_plugin(alg_xarray, covg_args.pop("varname"), area_def, **covg_args)
+        covg = covg_plugin(
+            alg_xarray,
+            covg_args.pop("varname", prod_plugin.name),
+            area_def,
+            **covg_args,
+        )
 
     curr_kwargs = remove_unsupported_kwargs(
         filename_fmt_plugin, filename_formatter_kwargs
