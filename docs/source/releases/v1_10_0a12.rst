@@ -22,28 +22,31 @@ Overall YAML interface updates
 
 Feature and gridline annotators interface
 
+* Add new feature and gridline annotators YAML-based interface
 * Refactor gridline_annotator and feature_annotator plugin schema and plugins
 * Update boundaries/gridlines_info to feature/gridline_annotator
 * Update boundaries/gridlines_params to feature/gridline_annotator
 
 Sectors interface
 
+* Add new sector YAML-based interface
 * Remove sectorfiles option from commandline
-* Add new sector interface
 
 Dynamic sectors interface
 
+* Update sector interface to include dynamic sectors
 * Update all TC templates to use updated sectors.generated schema
 * Update command line argument from tc_template_yaml to tc_spec_template
 
 Sector adjusters interface
 
-* Add sector_adjusters interface
+* Add sector_adjusters module-based interface
 * Update single_source procflow to use new sector_adjusters interface
 * Replace adjust_area_def command line arg with sector_adjuster
 
 Colormaps interface
 
+* Add colormap module-based interface
 * Add plugins/\*\*.txt to pyproject.toml
 * Move colormaps from geoips/image_utils/ascii_palettes to
   plugins/txt/ascii_palettes
@@ -57,16 +60,17 @@ Colormaps interface
 
 Products interface
 
+* Add products YAML-based interface
+* Update procflows to use products interface
 * Allow passing dictionary of product_spec_overrides to products.get_plugin
 * Support multiple coverage checkers for a single product
+* Bug fixes
+
+  * Fix plugin names in product_defaults
 * Testing updates
 
   * Add data_fusion stitched test to test_full_install.sh
   * Add template_basic_plugin test to test_full_install.sh
-* Bug fixes
-
-  * Fix plugin names in product_defaults
-  * Fix typo in overlay imagery setup
 
 Bug fixes
 =========
@@ -86,20 +90,6 @@ Fix plugin names in product_defaults
   modified: plugins/yaml/product_defaults/pmw_89/color89.yaml
   modified: plugins/yaml/product_defaults/pmw_89/color89Nearest.yaml
   modified: plugins/yaml/product_defaults/visir/Infrared-Gray.yaml
-
-Fix typo in overlay imagery setup
----------------------------------
-
-*From NRLMMD-GEOIPS/geoips#211f: 2023-05-09, product updates*
-
-* kwargs["bg_array"] -> kwargs["bg_xarray"].source_name
-* Add "from geoips.interfaces import products" to metadata_tc output
-* Fix coverage_checker plugin call in metadata_tc output
-
-::
-
-  modified:   geoips/dev/output_config.py
-  modified:   geoips/plugins/modules/output_formatters/metadata_tc.py
 
 Major New Functionality
 =======================
@@ -229,6 +219,8 @@ differently in the future.
 * gridlines -> gridline_annotator
 * sectors_static -> sectors.static
 * sectors_dynamic -> sectors.dynamic
+* product_inputs -> products
+* product_params -> product_defaults
 
 ::
 
@@ -239,6 +231,8 @@ differently in the future.
   deleted: geoips/yaml_configs/plotting_params/gridlines
   deleted: geoips/yaml_configs/sectors_static
   deleted: geoips/yaml_configs/sectors_dynamic
+  deleted: geoips/yaml_configs/product_inputs
+  deleted: geoips/yaml_configs/product_params
 
 Update dev/output_config.py to use new YAML interfaces
 ------------------------------------------------------
