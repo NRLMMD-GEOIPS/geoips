@@ -22,7 +22,7 @@ class CoverageCheckersInterface(BaseModuleInterface):
     required_args = {"standard": ["xarray_obj", "variable_name"]}
     required_kwargs = {
         "standard": {
-            "alt_varname_for_covg",
+            "alt_varname",
             "force_alt_varname",
         }
     }
