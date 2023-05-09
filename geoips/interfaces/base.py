@@ -442,6 +442,9 @@ class BaseYamlInterface(BaseInterface):
                     subplg_name = self._create_plugin_cache_name(yaml_subplg)
                     yaml_subplgs[subplg_name] = deepcopy(yaml_subplg)
                     yaml_subplgs[subplg_name]["interface"] = self.name
+                    yaml_subplgs[subplg_name]["package"] = yaml_plg["package"]
+                    yaml_subplgs[subplg_name]["relpath"] = yaml_plg["relpath"]
+                    yaml_subplgs[subplg_name]["abspath"] = yaml_plg["abspath"]
                 cache.update(yaml_subplgs)
             else:
                 cache[yaml_plg["name"]] = yaml_plg
