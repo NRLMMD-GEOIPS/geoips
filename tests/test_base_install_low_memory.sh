@@ -29,7 +29,6 @@
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh libgeos
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh python
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh rclone
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_clavrx
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_amsr2
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_abi_day
 
