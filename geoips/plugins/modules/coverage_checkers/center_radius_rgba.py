@@ -28,7 +28,7 @@ def call(
     variable_name,
     area_def=None,
     radius_km=300,
-    alt_varname_for_covg=None,
+    alt_varname=None,
     force_alt_varname=False,
 ):
     """Coverage check routine for xarray objects with masked projected arrays.

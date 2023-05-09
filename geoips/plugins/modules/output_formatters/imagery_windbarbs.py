@@ -149,16 +149,21 @@ def format_windbarb_data(xarray_obj, product_name):
     # ASCAT 25 km data.
     # This would also avoid having the product names hard coded in the output
     # module code.
-    if (
-        "product_definition" in xarray_obj.attrs
-        and "barb_sizes" in xarray_obj.attrs["product_definition"]
-    ):
+
+    prod_plugin = xarray_obj.attrs.get("product_plugin", {})
+
+    try:
+        barb_args = prod_plugin["spec"]["windbarb_plotter"]["plugin"]["arguments"]
+    except KeyError:
+        barb_args = {}
+
+    if barb_args:
         # Thinning the data points to better display the windbards
-        thinning = xarray_obj.attrs["product_definition"]["barb_sizes"]["thinning"]
-        barblength = xarray_obj.attrs["product_definition"]["barb_sizes"]["barb_length"]
-        linewidth = xarray_obj.attrs["product_definition"]["barb_sizes"]["line_width"]
-        sizes_dict = xarray_obj.attrs["product_definition"]["barb_sizes"]["sizes_dict"]
-        rain_size = xarray_obj.attrs["product_definition"]["barb_sizes"]["rain_size"]
+        thinning = barb_args["thinning"]
+        barblength = barb_args["length"]
+        linewidth = barb_args["width"]
+        sizes_dict = barb_args["sizes_dict"]
+        rain_size = barb_args["rain_size"]
     elif product_name == "windbarbs":
         # Thinning the data points to better display the windbards
         thinning = 1  # skip data points
@@ -178,6 +183,8 @@ def format_windbarb_data(xarray_obj, product_name):
             width=0,  # flag width, relative to barblength
             emptybarb=0.5,
         )
+    else:
+        raise ValueError(f"Unknown product {product_name}")
 
     lat = xarray_obj["latitude"].to_masked_array()
     lon2 = xarray_obj["longitude"].to_masked_array()
