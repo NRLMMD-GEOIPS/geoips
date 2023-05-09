@@ -29,7 +29,6 @@ from geoips.xarray_utils.data import sector_xarrays
 from geoips.dev.product import (
     get_required_variables,
     get_requested_datasets_for_variables,
-    get_product_display_name,
     get_covg_from_product,
     get_covg_args_from_product,
 )
@@ -441,7 +440,7 @@ def get_filename(
             prod_plugin,
             covg_field="filename_coverage_checker",
         )
-        covg = covg_plugin(alg_xarray, prod_plugin.name, area_def, **covg_args)
+        covg = covg_plugin(alg_xarray, covg_args.pop("varname"), area_def, **covg_args)
 
     curr_kwargs = remove_unsupported_kwargs(
         filename_fmt_plugin, filename_formatter_kwargs
@@ -514,6 +513,7 @@ def plot_data(
 
         output_plugin = output_formatters.get_plugin(output_formatter)
         output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
+        display_name = prod_plugin["spec"].get("display_name", prod_plugin.name)
         if output_plugin.family == "image":
             # This returns None if not specified
             output_products = output_plugin(
@@ -521,7 +521,7 @@ def plot_data(
                 xarray_obj=alg_xarray,
                 product_name=prod_plugin.name,
                 output_fnames=list(output_fnames.keys()),
-                product_name_title=get_product_display_name(prod_plugin),
+                product_name_title=display_name,
                 mpl_colors_info=mpl_colors_info,
                 **output_kwargs,
             )
@@ -533,7 +533,7 @@ def plot_data(
                 xarray_obj=alg_xarray,
                 product_name=prod_plugin.name,
                 output_fnames=list(output_fnames.keys()),
-                product_name_title=get_product_display_name(prod_plugin),
+                product_name_title=display_name,
                 mpl_colors_info=mpl_colors_info,
                 **output_kwargs,
             )
@@ -547,7 +547,7 @@ def plot_data(
                 xarray_obj=alg_xarray,
                 product_name=prod_plugin.name,
                 output_fnames=list(output_fnames.keys()),
-                product_name_title=get_product_display_name(prod_plugin),
+                product_name_title=display_name,
                 mpl_colors_info=mpl_colors_info,
                 **output_kwargs,
             )
@@ -555,7 +555,7 @@ def plot_data(
                 raise ValueError("Did not produce expected products")
         elif output_plugin.family == "xrdict_area_product_outfnames_to_outlist":
             # For xarray_dict type, pass the full fused_xarray_dict.
-            output_kwargs["product_name_title"] = get_product_display_name(prod_plugin)
+            output_kwargs["product_name_title"] = (display_name,)
             output_kwargs["mpl_colors_info"] = mpl_colors_info
             output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
             output_products = output_plugin(
@@ -569,9 +569,7 @@ def plot_data(
                 raise ValueError("Did not produce expected products")
         elif output_plugin.family == "xrdict_area_product_to_outlist":
             # For xarray_dict type, pass the full fused_xarray_dict.
-            output_kwargs["product_name_title"] = get_product_display_name(
-                prod_plugin.name
-            )
+            output_kwargs["product_name_title"] = (display_name,)
             output_kwargs["mpl_colors_info"] = mpl_colors_info
             output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
             output_products = output_plugin(
