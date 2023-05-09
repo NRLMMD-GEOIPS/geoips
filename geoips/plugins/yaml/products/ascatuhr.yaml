@@ -63,7 +63,7 @@ spec:
               max_outbounds: crop
               norm: null
               inverse: null
-        colormap_args:
+        colormap:
           plugin:
             name: matplotlib_linear_norm
             arguments:

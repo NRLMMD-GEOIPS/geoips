@@ -29,7 +29,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s20200
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.tc.<product>.imagery_annotated" \
-          --product_params_override '{"89H-Physical": {"covg_func": "center_radius", "covg_args": {"radius_km": 300}}}' \
+          --product_spec_override '{"89H-Physical": {"coverage_checker": {"plugin": {"name": "center_radius", "arguments": {"radius_km": 300}}}}}' \
           --output_formatter_kwargs '{}' \
           --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \

@@ -29,7 +29,6 @@ from geoips.xarray_utils.data import sector_xarrays
 from geoips.dev.product import (
     get_required_variables,
     get_requested_datasets_for_variables,
-    get_product_display_name,
     get_covg_from_product,
     get_covg_args_from_product,
 )
@@ -435,13 +434,18 @@ def get_filename(
     if filename_fmt_plugin.family not in FILENAME_FORMATS_WITHOUT_COVG:
         covg_plugin = get_covg_from_product(
             prod_plugin,
-            covg_field="fname_covg_func",
+            covg_field="filename_coverage_checker",
         )
         covg_args = get_covg_args_from_product(
             prod_plugin,
-            covg_field="fname_covg_args",
+            covg_field="filename_coverage_checker",
         )
-        covg = covg_plugin(alg_xarray, prod_plugin.name, area_def, **covg_args)
+        covg = covg_plugin(
+            alg_xarray,
+            covg_args.pop("varname", prod_plugin.name),
+            area_def,
+            **covg_args,
+        )
 
     curr_kwargs = remove_unsupported_kwargs(
         filename_fmt_plugin, filename_formatter_kwargs
@@ -514,6 +518,7 @@ def plot_data(
 
         output_plugin = output_formatters.get_plugin(output_formatter)
         output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
+        display_name = prod_plugin["spec"].get("display_name", prod_plugin.name)
         if output_plugin.family == "image":
             # This returns None if not specified
             output_products = output_plugin(
@@ -521,7 +526,7 @@ def plot_data(
                 xarray_obj=alg_xarray,
                 product_name=prod_plugin.name,
                 output_fnames=list(output_fnames.keys()),
-                product_name_title=get_product_display_name(prod_plugin),
+                product_name_title=display_name,
                 mpl_colors_info=mpl_colors_info,
                 **output_kwargs,
             )
@@ -533,7 +538,7 @@ def plot_data(
                 xarray_obj=alg_xarray,
                 product_name=prod_plugin.name,
                 output_fnames=list(output_fnames.keys()),
-                product_name_title=get_product_display_name(prod_plugin),
+                product_name_title=display_name,
                 mpl_colors_info=mpl_colors_info,
                 **output_kwargs,
             )
@@ -547,7 +552,7 @@ def plot_data(
                 xarray_obj=alg_xarray,
                 product_name=prod_plugin.name,
                 output_fnames=list(output_fnames.keys()),
-                product_name_title=get_product_display_name(prod_plugin),
+                product_name_title=display_name,
                 mpl_colors_info=mpl_colors_info,
                 **output_kwargs,
             )
@@ -555,7 +560,7 @@ def plot_data(
                 raise ValueError("Did not produce expected products")
         elif output_plugin.family == "xrdict_area_product_outfnames_to_outlist":
             # For xarray_dict type, pass the full fused_xarray_dict.
-            output_kwargs["product_name_title"] = get_product_display_name(prod_plugin)
+            output_kwargs["product_name_title"] = (display_name,)
             output_kwargs["mpl_colors_info"] = mpl_colors_info
             output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
             output_products = output_plugin(
@@ -569,9 +574,7 @@ def plot_data(
                 raise ValueError("Did not produce expected products")
         elif output_plugin.family == "xrdict_area_product_to_outlist":
             # For xarray_dict type, pass the full fused_xarray_dict.
-            output_kwargs["product_name_title"] = get_product_display_name(
-                prod_plugin.name
-            )
+            output_kwargs["product_name_title"] = (display_name,)
             output_kwargs["mpl_colors_info"] = mpl_colors_info
             output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
             output_products = output_plugin(
@@ -1161,7 +1164,7 @@ def call(fnames, command_line_args=None):
         "product_name",
         "gridline_annotator",
         "feature_annotator",
-        "product_params_override",
+        "product_spec_override",
         "output_formatter",
         "filename_formatter",
         "output_formatter_kwargs",
@@ -1215,7 +1218,9 @@ def call(fnames, command_line_args=None):
     source_name = xobjs["METADATA"].source_name
     print_mem_usage("MEMUSG", verbose=False)
 
-    prod_plugin = products.get_plugin(source_name, product_name)
+    prod_plugin = products.get_plugin(
+        source_name, product_name, command_line_args["product_spec_override"]
+    )
 
     variables = get_required_variables(prod_plugin)
 
@@ -1439,11 +1444,11 @@ def call(fnames, command_line_args=None):
 
             fname_covg_plugin = get_covg_from_product(
                 prod_plugin,
-                covg_field="fname_coverage_checker",
+                covg_field="filename_coverage_checker",
             )
             fname_covg_args = get_covg_args_from_product(
                 prod_plugin,
-                covg_field="fname_coverage_checker",
+                covg_field="filename_coverage_checker",
             )
             fname_covg = fname_covg_plugin(
                 alg_xarray, prod_plugin.name, area_def, **fname_covg_args

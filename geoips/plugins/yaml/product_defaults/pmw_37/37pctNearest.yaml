@@ -10,7 +10,7 @@ spec:
       arguments: {}
   algorithm:
     plugin:
-      name: pmw_tb.pmw_37pct
+      name: pmw_37pct
       arguments:
         output_data_range: [230, 280]
         min_outbounds: crop

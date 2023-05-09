@@ -40,7 +40,7 @@ run_procflow \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bep112021.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/atms.tc.<product>.netcdf_geoips" \
           --tc_spec_template tc_4km_256x256 \
-          --product_params_override '{}' \
+          --product_spec_override '{}' \
           --output_formatter_kwargs '{}' \
           --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \

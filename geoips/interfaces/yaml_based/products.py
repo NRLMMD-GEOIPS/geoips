@@ -85,9 +85,34 @@ class ProductsInterface(BaseYamlInterface):
         """
         return (yaml_plugin["source_name"], yaml_plugin["name"])
 
-    def get_plugin(self, source_name, name):
-        """Retrieve a Product plugin by source_name and name."""
-        return super().get_plugin((source_name, name))
+    def get_plugin(self, source_name, name, product_spec_override=None):
+        """Retrieve a Product plugin by source_name, name, and product_spec_override.
+
+        If product_spec_override dict is passed, values contained within
+        product_spec_override will be used in place of those found in products
+        list and product_defaults.
+
+        product_spec_override[product_name] matches the format of the product
+        "spec" field.
+
+        Additionall, if the special key product_spec_override["all"] is included,
+        it will apply to all products not specified by name within the dictionary.
+        """
+        prod_plugin = super().get_plugin((source_name, name))
+        if product_spec_override is not None:
+            # Default to no override arguments
+            override_args = {}
+            # If available, use the current product's override values
+            if name in product_spec_override:
+                override_args = product_spec_override[name]
+            # Otherwise, if "all" specified, use those override values
+            elif "all" in product_spec_override:
+                override_args = product_spec_override["all"]
+            prod_plugin["spec"] = merge_nested_dicts(
+                prod_plugin["spec"], override_args, in_place=False
+            )
+
+        return prod_plugin
 
     def get_plugins(self):
         """Retrieve a plugin by name."""
@@ -95,6 +120,42 @@ class ProductsInterface(BaseYamlInterface):
         for source_name, name in self._unvalidated_plugins.keys():
             plugins.append(self.get_plugin(source_name, name))
         return plugins
+
+    def plugin_is_valid(self, source_name, name):
+        """Test that the named plugin is valid."""
+        try:
+            self.get_plugin(source_name, name)
+            return True
+        except ValidationError:
+            return False
+
+    def test_interface(self):
+        """Test interface method."""
+        plugins = self.get_plugins()
+        all_valid = self.plugins_all_valid()
+        family_list = []
+        plugin_ids = {}
+        for plugin in plugins:
+            if plugin.family not in family_list:
+                family_list.append(plugin.family)
+                plugin_ids[plugin.family] = []
+            plugin_ids[plugin.family].append(plugin.id)
+
+        output = {
+            "all_valid": all_valid,
+            "by_family": plugin_ids,
+            "validity_check": {},
+            "family": {},
+            "func": {},
+            "docstring": {},
+        }
+        for curr_family in plugin_ids:
+            for curr_id in plugin_ids[curr_family]:
+                output["validity_check"][curr_id] = self.plugin_is_valid(*curr_id)
+                output["func"][curr_id] = self.get_plugin(*curr_id)
+                output["family"][curr_id] = curr_family
+                output["docstring"][curr_id] = output["func"][curr_id].docstring
+        return output
 
 
 products = ProductsInterface()

@@ -213,7 +213,7 @@ def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
-def plugin_yaml_to_obj(yaml_plugin, obj_attrs={}):
+def plugin_yaml_to_obj(name, yaml_plugin, obj_attrs={}):
     """Convert a yaml plugin to an object.
 
     Convert the passed YAML plugin into an object and return it. The returned
@@ -235,6 +235,7 @@ def plugin_yaml_to_obj(yaml_plugin, obj_attrs={}):
       - name: The name of the plugin which must be unique within the interface.
       - docstring: A string to be used as the object's docstring.
     """
+    obj_attrs["id"] = name
     obj_attrs["yaml"] = yaml_plugin
 
     missing = []
@@ -266,7 +267,7 @@ def plugin_yaml_to_obj(yaml_plugin, obj_attrs={}):
     return type(plugin_type, (BaseYamlPlugin,), obj_attrs)(yaml_plugin)
 
 
-def plugin_module_to_obj(module, obj_attrs={}):
+def plugin_module_to_obj(name, module, obj_attrs={}):
     """Convert a module plugin to an object.
 
     Convert the passed module plugin into an object and return it. The returned
@@ -302,6 +303,7 @@ def plugin_module_to_obj(module, obj_attrs={}):
     An object of type ``<interface>InterfacePlugin`` where ``<interface>`` is the name
     of the interface that the desired plugin belongs to.
     """
+    obj_attrs["id"] = name
     obj_attrs["module"] = module
 
     missing = []
@@ -353,6 +355,16 @@ class BaseYamlPlugin(dict):
         """Class BaseYamlPlugin repr method."""
         val = super().__repr__()
         return f"{self.__class__.__name__}({val})"
+
+
+#     @property
+#     def id(self):
+#         """Return the id of the plugin.
+#
+#         Typically this is just the name of the plugin, but some plugin classes override
+#         this field. For example, the ProductPlugin class overrides this to a tuple
+#         containing 'source_name' and 'name'."""
+#         return self.name
 
 
 class BaseModulePlugin:
@@ -424,12 +436,15 @@ class BaseYamlInterface(BaseInterface):
         for yaml_plg in yaml_plugins[self.name]:
             if yaml_plg["family"] == "list":
                 yaml_plg = self.validator.validate(yaml_plg)
-                plg_list = plugin_yaml_to_obj(yaml_plg)
+                plg_list = plugin_yaml_to_obj(yaml_plg["name"], yaml_plg)
                 yaml_subplgs = {}
                 for yaml_subplg in plg_list["spec"][self.name]:
                     subplg_name = self._create_plugin_cache_name(yaml_subplg)
                     yaml_subplgs[subplg_name] = deepcopy(yaml_subplg)
                     yaml_subplgs[subplg_name]["interface"] = self.name
+                    yaml_subplgs[subplg_name]["package"] = yaml_plg["package"]
+                    yaml_subplgs[subplg_name]["relpath"] = yaml_plg["relpath"]
+                    yaml_subplgs[subplg_name]["abspath"] = yaml_plg["abspath"]
                 cache.update(yaml_subplgs)
             else:
                 cache[yaml_plg["name"]] = yaml_plg
@@ -449,12 +464,21 @@ class BaseYamlInterface(BaseInterface):
         return f"{self.__class__.__name__}()"
 
     def get_plugin(self, name):
-        """Get plugin method."""
+        """Get a plugin by its name.
+
+        This default method can be overridden to provide different search
+        functionality for an interface. An example of this is in the
+        ProductsInterface which uses a tuple containing 'source_name' and
+        'name'.
+        """
         try:
             validated = self.validator.validate(self._unvalidated_plugins[name])
         except KeyError:
             raise PluginError(f"Plugin '{name}' not found for '{self.name}' interface.")
-        return plugin_yaml_to_obj(validated)
+        # Store "name" as the product's "id"
+        # This is helpful when an interfaces uses something other than just "name" to
+        # find its plugins as is the case with ProductsInterface
+        return plugin_yaml_to_obj(name, validated)
 
     def get_plugins(self):
         """Retrieve a plugin by name."""
@@ -484,27 +508,27 @@ class BaseYamlInterface(BaseInterface):
         plugins = self.get_plugins()
         all_valid = self.plugins_all_valid()
         family_list = []
-        plugin_names = {}
+        plugin_ids = {}
         for plugin in plugins:
             if plugin.family not in family_list:
                 family_list.append(plugin.family)
-                plugin_names[plugin.family] = []
-            plugin_names[plugin.family].append(plugin.name)
+                plugin_ids[plugin.family] = []
+            plugin_ids[plugin.family].append(plugin.id)
 
         output = {
             "all_valid": all_valid,
-            "by_family": plugin_names,
+            "by_family": plugin_ids,
             "validity_check": {},
             "family": {},
             "func": {},
             "docstring": {},
         }
-        for curr_family in plugin_names:
-            for curr_name in plugin_names[curr_family]:
-                output["validity_check"][curr_name] = self.plugin_is_valid(curr_name)
-                output["func"][curr_name] = self.get_plugin(curr_name)
-                output["family"][curr_name] = curr_family
-                output["docstring"][curr_name] = output["func"][curr_name].docstring
+        for curr_family in plugin_ids:
+            for curr_id in plugin_ids[curr_family]:
+                output["validity_check"][curr_id] = self.plugin_is_valid(curr_id)
+                output["func"][curr_id] = self.get_plugin(curr_id)
+                output["family"][curr_id] = curr_family
+                output["docstring"][curr_id] = output["func"][curr_id].docstring
         return output
 
 
@@ -563,13 +587,13 @@ class BaseModuleInterface(BaseInterface):
         except EntryPointError:
             raise PluginError(f"Plugin '{name}' not found for '{self.name}' interface.")
         # Convert the module into an object
-        return plugin_module_to_obj(module)
+        return plugin_module_to_obj(name, module)
 
     def get_plugins(self):
         """Get a list of plugins for this interface."""
         plugins = []
         for ep in get_all_entry_points(self.name):
-            plugins.append(plugin_module_to_obj(ep))
+            plugins.append(plugin_module_to_obj(ep.name, ep))
         return plugins
 
     def plugin_is_valid(self, name):
@@ -681,25 +705,25 @@ class BaseModuleInterface(BaseInterface):
         plugins = self.get_plugins()
         all_valid = self.plugins_all_valid()
         family_list = []
-        plugin_names = {}
+        plugin_ids = {}
         for plugin in plugins:
             if plugin.family not in family_list:
                 family_list.append(plugin.family)
-                plugin_names[plugin.family] = []
-            plugin_names[plugin.family].append(plugin.name)
+                plugin_ids[plugin.family] = []
+            plugin_ids[plugin.family].append(plugin.id)
 
         output = {
             "all_valid": all_valid,
-            "by_family": plugin_names,
+            "by_family": plugin_ids,
             "validity_check": {},
             "family": {},
             "func": {},
             "docstring": {},
         }
-        for curr_family in plugin_names:
-            for curr_name in plugin_names[curr_family]:
-                output["validity_check"][curr_name] = self.plugin_is_valid(curr_name)
-                output["func"][curr_name] = self.get_plugin(curr_name)
-                output["family"][curr_name] = curr_family
-                output["docstring"][curr_name] = output["func"][curr_name].docstring
+        for curr_family in plugin_ids:
+            for curr_id in plugin_ids[curr_family]:
+                output["validity_check"][curr_id] = self.plugin_is_valid(curr_id)
+                output["func"][curr_id] = self.get_plugin(curr_id)
+                output["family"][curr_id] = curr_family
+                output["docstring"][curr_id] = output["func"][curr_id].docstring
         return output

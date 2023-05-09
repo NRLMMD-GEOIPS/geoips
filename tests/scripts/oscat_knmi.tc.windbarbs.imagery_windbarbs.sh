@@ -30,7 +30,7 @@ run_procflow \
     --trackfile_parser bdeck_parser \
     --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat \
     --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs" \
-    --product_params_override '{}' \
+    --product_spec_override '{}' \
     --output_formatter_kwargs '{}' \
     --filename_formatter_kwargs '{}' \
     --metadata_output_formatter_kwargs '{}' \

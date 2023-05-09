@@ -33,7 +33,9 @@ for call in \
     "pytest $GEOIPS_PACKAGES_DIR/geoips/tests/test_pytest" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
     "test_interfaces" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh"
+    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
+    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.config_based_output_low_memory.sh" \
+    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.config_based_output.sh"
 do
     . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
 done
