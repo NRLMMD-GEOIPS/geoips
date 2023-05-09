@@ -16,6 +16,7 @@ if [[ "$1" == "gitlfs" ]]; then
     if [[ "$retval" != "0" ]]; then
         echo ""
         echo "WARNING: 'git lfs install' failed, please install git lfs before proceeding"
+        exit 1
     else
         echo ""
         echo "SUCCESS: 'git lfs install' appears to be installed successfully"
@@ -28,9 +29,10 @@ if [[ "$1" == "imagemagick" ]]; then
     if [[ "$retval" != "0" ]]; then
         echo ""
         echo "WARNING: 'compare --version' failed, please install imagemagick before proceeding"
+        exit 1
     else
         echo ""
-        echo "SUCCESS: imagemagick 'compare --version' appears to be installed successfully"
+        echo "SUCCESS: 'imagemagick' appears to be installed successfully"
     fi
 fi
 
@@ -40,16 +42,139 @@ if [[ "$1" == "wget" ]]; then
     if [[ "$retval" != "0" ]]; then
         echo ""
         echo "WARNING: 'wget --version' failed, please install wget before proceeding"
+        exit 1
     else
         echo ""
-        echo "SUCCESS: 'wget --version' appears to be installed successfully"
+        echo "SUCCESS: 'wget' appears to be installed successfully"
     fi
 fi
 
 if [[ "$1" == "git" ]]; then
-    git --help
-    echo ""
     git --version
-    echo ""
-    echo "NOTE: ensure git version is >= 2.0, and git --help includes '-C' option"
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'git --version' failed, please install git before proceeding"
+        exit 1
+    else
+        echo ""
+        echo "SUCCESS: 'git' appears to be installed successfully"
+    fi
+fi
+
+if [[ "$1" == "openblas" ]]; then
+    locate libopenblas.so
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'locate libopenblas.so' failed, please install openblas before proceeding"
+        exit 1
+    else
+        echo ""
+        echo "SUCCESS: 'openblas' appears to be installed successfully"
+    fi
+fi
+
+if [[ "$1" == "libgeos" ]]; then
+    locate libgeos.so
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'locate libgeos.so' failed, please install libgeos before proceeding"
+        exit 1
+    else
+        echo ""
+        echo "SUCCESS: 'libgeos' appears to be installed successfully"
+    fi
+fi
+
+if [[ "$1" == "python" ]]; then
+    python --version
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'python --version' failed, please install python >= 3.9 before proceeding"
+        exit 1
+    else
+        echo ""
+        echo "SUCCESS: 'python' appears to be installed successfully"
+    fi
+fi
+
+if [[ "$1" == "rclone" ]]; then
+    rclone --version
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'rclone --version' failed, please install rclone before proceeding"
+        exit 1
+    else
+        echo ""
+        echo "SUCCESS: 'rclone' appears to be installed successfully"
+    fi
+fi
+
+if [[ "$1" == "cartopy" ]]; then
+    python -c "import cartopy"
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'python -c 'import cartopy'' failed, please install cartopy before proceeding"
+        exit 1
+    else
+        echo ""
+        echo "SUCCESS: 'cartopy' appears to be installed successfully"
+    fi
+fi
+
+if [[ "$1" == "matplotlib" ]]; then
+    python -c "import matplotlib"
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'python -c 'import matplotlib'' failed, please install matplotlib before proceeding"
+        exit 1
+    else
+        echo ""
+        echo "SUCCESS: 'matplotlib' appears to be installed successfully"
+    fi
+fi
+
+if [[ "$1" == "test_data_clavrx" ]]; then
+    ls $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/*
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/*' failed, please install repo test_data_clavrx before proceeding"
+        exit 1
+    else
+        echo ""
+        echo "SUCCESS: repo 'test_data_clavrx' appears to be installed successfully"
+    fi
+fi
+
+if [[ "$1" == "test_data_amsr2" ]]; then
+    ls $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/*
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/*' failed, please install repo test_data_amsr2 before proceeding"
+        exit 1
+    else
+        echo ""
+        echo "SUCCESS: repo 'test_data_amsr2' appears to be installed successfully"
+    fi
+fi
+
+if [[ "$1" == "test_data_abi_day" ]]; then
+    ls $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/*
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/*' failed, please install repo test_data_abi_day before proceeding"
+        exit 1
+    else
+        echo ""
+        echo "SUCCESS: repo 'test_data_abi_day' appears to be installed successfully"
+    fi
 fi

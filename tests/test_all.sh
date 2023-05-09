@@ -21,11 +21,18 @@
 
 # Note you must use the variable "call" in the for the loop
 
-git lfs --version
-if [[ $? != 0 ]]; then
-   echo "MUST install git lfs prior to running geoips installation and test (required for test data repos).  Install and try again"
-   exit 1
-fi
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gitlfs
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh wget
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh libgeos
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh python
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh rclone
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_clavrx
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_amsr2
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_abi_day
+
 # This calls the full "test_base_install.sh" script - so we ensure it is fully tested via test_all.sh
 $GEOIPS_PACKAGES_DIR/geoips/tests/test_base_install.sh
 

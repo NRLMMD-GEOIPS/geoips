@@ -12,14 +12,20 @@
 
 #!/bin/bash
 
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gitlfs
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh wget
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh libgeos
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh python
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh rclone
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_clavrx
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_amsr2
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_abi_day
+
 source $GEOIPS_PACKAGES_DIR/geoips/setup/bash_setup/check_continue
 
-
-git lfs --version
-if [[ $? != 0 ]]; then
-   echo "MUST install git lfs prior to running geoips installation and test (required for test data repos).  Install and try again"
-   exit 1
-fi
 
 if [[ "$1" == "" ]]; then
     GEOIPS_ACTIVE_BRANCH=main
