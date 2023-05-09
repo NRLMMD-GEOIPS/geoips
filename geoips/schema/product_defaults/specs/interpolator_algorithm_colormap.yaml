@@ -5,6 +5,8 @@ required:
   - algorithm
   - colormap
 properties:
+  display_name:
+    type: string
   interpolator:
     $ref: "product_defaults.bases.interpolator"
   algorithm:
