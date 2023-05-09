@@ -88,6 +88,7 @@ for call in \
     "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/sar.tc.nrcs.imagery_clean.sh" \
     "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/smap.tc.windspeed.imagery_clean.sh" \
     "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/viirs.tc.Infrared-Gray.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/template_basic_plugin/tests/test_all.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh" \
     "$GEOIPS_PACKAGES_DIR/data_fusion/tests/test_all.sh"
 do
