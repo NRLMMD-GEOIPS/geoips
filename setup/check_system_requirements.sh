@@ -62,32 +62,6 @@ if [[ "$1" == "git" ]]; then
     fi
 fi
 
-if [[ "$1" == "openblas" ]]; then
-    locate libopenblas.so
-    retval=$?
-    if [[ "$retval" != "0" ]]; then
-        echo ""
-        echo "WARNING: 'locate libopenblas.so' failed, please install openblas before proceeding"
-        exit 1
-    else
-        echo ""
-        echo "SUCCESS: 'openblas' appears to be installed successfully"
-    fi
-fi
-
-if [[ "$1" == "libgeos" ]]; then
-    locate libgeos.so
-    retval=$?
-    if [[ "$retval" != "0" ]]; then
-        echo ""
-        echo "WARNING: 'locate libgeos.so' failed, please install libgeos before proceeding"
-        exit 1
-    else
-        echo ""
-        echo "SUCCESS: 'libgeos' appears to be installed successfully"
-    fi
-fi
-
 if [[ "$1" == "python" ]]; then
     python --version
     retval=$?
