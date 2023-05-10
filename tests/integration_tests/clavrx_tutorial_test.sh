@@ -12,7 +12,7 @@
 
 #!/bin/bash
 
-. $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/clavrx_tutorial_install.sh
+. $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/clavrx_tutorial_install.sh exit_on_error
 
 # This should contain test calls to cover ALL required functionality tests for the @package@ repo.
 
