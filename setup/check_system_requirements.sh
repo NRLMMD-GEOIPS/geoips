@@ -11,7 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 if [[ "$1" == "gitlfs" ]]; then
-    git lfs install
+    git lfs install >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
@@ -24,7 +24,7 @@ if [[ "$1" == "gitlfs" ]]; then
 fi
 
 if [[ "$1" == "imagemagick" ]]; then
-    compare --version
+    compare --version >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
@@ -37,7 +37,7 @@ if [[ "$1" == "imagemagick" ]]; then
 fi
 
 if [[ "$1" == "wget" ]]; then
-    wget --version
+    wget --version >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
@@ -50,7 +50,7 @@ if [[ "$1" == "wget" ]]; then
 fi
 
 if [[ "$1" == "git" ]]; then
-    git --version
+    git --version >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
@@ -63,7 +63,7 @@ if [[ "$1" == "git" ]]; then
 fi
 
 if [[ "$1" == "python" ]]; then
-    python --version
+    python --version >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
@@ -76,7 +76,7 @@ if [[ "$1" == "python" ]]; then
 fi
 
 if [[ "$1" == "rclone" ]]; then
-    rclone --version
+    rclone --version >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
@@ -90,8 +90,8 @@ if [[ "$1" == "rclone" ]]; then
     fi
 fi
 
-if [[ "$1" == "cartopy" ]]; then
-    python -c "import cartopy"
+if [[ "$1" == "cartopy" || "$1" == "libgeos" ]]; then
+    python -c "import cartopy" >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
@@ -99,12 +99,25 @@ if [[ "$1" == "cartopy" ]]; then
         exit 1
     else
         echo ""
-        echo "SUCCESS: 'cartopy' appears to be installed successfully"
+        echo "SUCCESS: 'cartopy/libgeos' appear to be installed successfully"
+    fi
+fi
+
+if [[ "$1" == "scipy" || "$1" == "openblas" ]]; then
+    python -c "import scipy" >& /dev/null
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'python -c 'import scipy'' failed, please install openblas/scipy before proceeding"
+        exit 1
+    else
+        echo ""
+        echo "SUCCESS: 'scipy/openblas' appear to be installed successfully"
     fi
 fi
 
 if [[ "$1" == "matplotlib" ]]; then
-    python -c "import matplotlib"
+    python -c "import matplotlib" >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
@@ -118,7 +131,7 @@ fi
 
 if [[ "$1" == "test_repo" ]]; then
     test_repo=$2
-    ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*
+    ls $GEOIPS_TESTDATA_DIR/$test_repo/data/* >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
@@ -128,13 +141,14 @@ if [[ "$1" == "test_repo" ]]; then
         exit 1
     else
         echo ""
-        echo "SUCCESS: repo 'test_data_clavrx' appears to be installed successfully"
+        echo "SUCCESS: repo '$test_repo' appears to be installed successfully"
+        echo "    "`ls -ld $GEOIPS_TESTDATA_DIR/$test_repo`
     fi
 fi
 
 if [[ "$1" == "source_repo" ]]; then
     source_repo=$2
-    ls $GEOIPS_PACKAGES_DIR/$source_repo/*
+    ls $GEOIPS_PACKAGES_DIR/$source_repo/* >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
@@ -145,7 +159,8 @@ if [[ "$1" == "source_repo" ]]; then
         exit 1
     else
         echo ""
-        echo "SUCCESS: repo 'test_data_clavrx' appears to be installed successfully"
+        echo "SUCCESS: repo '$source_repo' appears to be installed successfully"
+        echo "    "`ls -ld $GEOIPS_PACKAGES_DIR/$source_repo`
     fi
 fi
 
