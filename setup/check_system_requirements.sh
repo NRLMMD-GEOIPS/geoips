@@ -20,6 +20,7 @@ if [[ "$1" == "gitlfs" ]]; then
     else
         echo ""
         echo "SUCCESS: 'git lfs install' appears to be installed successfully"
+        echo "    "`which git`
     fi 
 fi
 
@@ -33,6 +34,7 @@ if [[ "$1" == "imagemagick" ]]; then
     else
         echo ""
         echo "SUCCESS: 'imagemagick' appears to be installed successfully"
+        echo "    "`which compare`
     fi
 fi
 
@@ -46,6 +48,7 @@ if [[ "$1" == "wget" ]]; then
     else
         echo ""
         echo "SUCCESS: 'wget' appears to be installed successfully"
+        echo "    "`which wget`
     fi
 fi
 
@@ -59,6 +62,7 @@ if [[ "$1" == "git" ]]; then
     else
         echo ""
         echo "SUCCESS: 'git' appears to be installed successfully"
+        echo "    "`which git`
     fi
 fi
 
@@ -72,6 +76,7 @@ if [[ "$1" == "python" ]]; then
     else
         echo ""
         echo "SUCCESS: 'python' appears to be installed successfully"
+        echo "    "`which python`
     fi
 fi
 
@@ -87,6 +92,7 @@ if [[ "$1" == "rclone" ]]; then
     else
         echo ""
         echo "SUCCESS: 'rclone' appears to be installed successfully"
+        echo "    "`which rclone`
     fi
 fi
 
@@ -176,5 +182,6 @@ if [[ "$1" == "test_data_abi_day" ]]; then
     else
         echo ""
         echo "SUCCESS: repo 'test_data_abi_day' appears to be installed successfully"
+        echo "    "`ls -ld $GEOIPS_TESTDATA_DIR/test_data_noaa_aws`
     fi
 fi
