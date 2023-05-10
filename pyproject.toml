@@ -10,6 +10,11 @@ find = {namespaces = false}
 
 [tool.setuptools.package-data]
 "*" = [
+    "plugins/*.txt",
+    "plugins/*/*.txt",
+    "plugins/*/*/*.txt",
+    "plugins/*/*/*/*.txt",
+    "plugins/*/*/*/*/*.txt",
     "plugins/*.yaml",
     "plugins/*/*.yaml",
     "plugins/*/*/*.yaml",

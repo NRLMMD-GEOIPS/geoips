@@ -16,7 +16,7 @@ import logging
 LOG = logging.getLogger(__name__)
 
 interface = "colormaps"
-family = "rgb"
+family = "matplotlib"
 name = "cmap_rgb"
 
 
