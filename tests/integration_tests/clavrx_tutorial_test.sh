@@ -12,7 +12,7 @@
 
 #!/bin/bash
 
-. $GEOIPS_PACKAGES_DIR/geoips/integration_tests/clavrx_tutorial_install.sh
+. $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/clavrx_tutorial_install.sh
 
 # This should contain test calls to cover ALL required functionality tests for the @package@ repo.
 
@@ -25,4 +25,17 @@
 
 # Argument to test_all_pre.sh ONLY sets the prefix on the log output / filenames.
 # Used for clarity, and to differentiate potentially multiple "test_all.sh" scripts in the same repo.
-. $GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh
+
+. $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_pre.sh clavrx_tutorial
+
+# Do not include the calls that are in "test_base_install.sh" within this list.  They are tested above.
+echo ""
+# "call" used in test_all_run.sh
+for call in \
+            "$GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh" \
+            "$GEOIPS_PACKAGES_DIR/template_basic_plugin/tests/test_all.sh"
+do
+    . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
+done
+
+. $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_post.sh
