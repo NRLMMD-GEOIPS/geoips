@@ -556,7 +556,7 @@ def plot_data(
             if output_products != list(output_fnames.keys()):
                 raise ValueError("Did not produce expected products")
         elif output_plugin.family == "image_overlay":
-            # This can include background information, gridlines/boundaries plotting
+            # This can include background information, feature/gridline annotations,
             # information, etc
             output_products = output_plugin(
                 area_def,
@@ -1176,8 +1176,8 @@ def call(fnames, command_line_args=None):
         "trackfile_sector_list",  # Flat text trackfile,
         "reader_name",
         "product_name",
-        "gridlines_params",
-        "boundaries_params",
+        "gridline_annotator",
+        "feature_annotator",
         "product_params_override",
         "output_formatter",
         "filename_formatter",

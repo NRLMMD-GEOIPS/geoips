@@ -234,12 +234,12 @@ def main():
 
     # list plugins for each interface
     add_list_interface_parser(list_subparsers, "algorithms", aliases=["alg", "algs"])
-    # add_list_interface_parser(list_subparsers, 'boundaries', aliases=['bound', 'bounds'])
+    # add_list_interface_parser(list_subparsers, 'feature_annotators', aliases=['bound', 'bounds'])
     add_list_interface_parser(list_subparsers, "colormaps", aliases=["cmap", "cmaps"])
     add_list_interface_parser(
         list_subparsers, "filename_formatters", aliases=["ff", "ffs"]
     )
-    # add_list_interface_parser(list_subparsers, 'gridline_formatters', aliases=['gf', 'gfs'])
+    # add_list_interface_parser(list_subparsers, 'gridline_annotators', aliases=['gf', 'gfs'])
     add_list_interface_parser(
         list_subparsers, "interpolators", aliases=["interp", "interps"]
     )

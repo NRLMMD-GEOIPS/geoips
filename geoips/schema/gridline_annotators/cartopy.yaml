@@ -11,23 +11,37 @@ required:
 properties:
   spec:
     type: object
-    # Allow ONLY labels, latitude-lines, longitude-lines.
-    # If additional properties required, must update schema accordingly.
     unevaluatedProperties: false
     required:
+      - spacing
       - labels
       - lines
     properties:
+      spacing:
+        type: object
+        required:
+          - latitude
+          - longitude
+        unevaluatedProperties: false
+        properties:
+          latitude:
+            type:
+              - number
+              - string
+          longitude:
+            type:
+              - number
+              - string
       labels:
         type: object
         # ONLY allow top, bottom, left, right.
         # If additional properties required, must update schema accordingly.
-        unevaluatedProperties: false
         required:
           - top
           - bottom
           - left
           - right
+        unevaluatedProperties: false
         properties:
           top:
             type: boolean
@@ -40,31 +54,18 @@ properties:
       lines:
         type: object
         required:
-          - latitude
-          - longitude
+          - color
+          - linestyle
+          - linewidth
+        unevaluatedProperties: false
         properties:
-          latitude: &lines-args
-            type: object
-            # ONLY allow color, linestyle, linewidth, spacing.
-            # If additional properties required, must update schema accordingly.
-            unevaluatedProperties: false
-            required:
-              - color
-              - linestyle
-              - linewidth
-              - spacing
-            properties:
-              color:
-                type: string
-              linestyle:
-                type: array
-                minItems: 2
-                maxItems: 2
-                items:
-                  type: number
-              linewidth:
-                type: number
-              spacing:
-                type: [number, string]
-                pattern: "auto"
-          longitude: *lines-args
+          color:
+            type: string
+          linestyle:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: integer
+          linewidth:
+            type: number

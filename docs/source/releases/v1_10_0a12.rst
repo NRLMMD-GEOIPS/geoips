@@ -1,0 +1,141 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a12 (2023-05-01)
+******************************
+
+* Remove old style YAML configs
+
+  * plotting_params/boundaries
+  * plotting/params/gridlines
+
+Breaking Changes
+================
+
+Refactor gridline_annotator and feature_annotator plugin schema and plugins
+---------------------------------------------------------------------------
+
+* In feature annotators
+
+  * use "coastlines" -> "coastline" and "countries" -> "borders"
+  * use "edgecolor" instead of "color"
+
+* In gridline annotators
+
+  * Move to three spec sections: "spacing", "labels", and "lines"
+  * Use same line style for meridians and parallels
+
+::
+    modified: schema/feature_annotators/cartopy.yaml
+    modified: schema/gridline_annotators/cartopy.yaml
+    modified: plugins/yaml/feature_annotators
+    modified: plugins/yaml/gridline_annotators
+    modified: tests/test_pytest/test_plugin_schema/bad/feature_annotators/cartopy.yaml
+    modified: tests/test_pytest/test_plugin_schema/bad/gridline_annotators/cartopy.yaml
+
+Rework mapping routines to use new interfaces
+---------------------------------------------
+
+* image_utils/maps.py
+
+  * Remove all functionality relating to Basemap
+  * Remove set_boundaries_info_dict and set_gridlines_info_dict
+  * Rename check_gridlines_info_dict to check_gridline_annotator
+  * Rename check_boundaries_info_dict to check_feature_annotator
+  * Add compute_lat_auto_spacing and compute_lon_auto_spacing
+  * Refactor all other functions
+
+* image_utils/mpl_utils.py
+
+  * Replace all uses of boundaries_info with feature_annotator
+  * Replace all uses of gridlines_info with gridline_annotator
+
+::
+    image_utils/maps.py
+    image_utils/mpl_utils.py
+
+Remove old YAML discovery functions in geoips_utils
+---------------------------------------------------
+
+* Remove list_gridlines_params_dict_yamls
+* Remove list_boundaries_params_dict_yamls
+
+::
+
+  geoips/geoips_utils.py
+
+Remove boundaries and gridlines YAML configs and old interface
+--------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211: 2023-05-01, update code to work with new interfaces*
+
+NOTE: had to pull "set_lonlat_spacing" out of geoips/dev/gridlines.py and put it
+in geoips/dev/output_config.py.  Will likely want to handle this differently in
+the future.
+
+::
+
+  modified: geoips/dev/output_config.py
+  deleted: geoips/dev/boundaries.py
+  deleted: geoips/dev/gridlines.py
+  deleted: geoips/yaml_configs/plotting_params/boundaries
+  deleted: geoips/yaml_configs/plotting_params/gridlines
+
+Update dev/output_config.py to use new YAML interfaces
+------------------------------------------------------
+
+* from geoips.dev.boundaries import get_boundaries
+* from geoips.dev.gridlines import get_gridlines
+
+to:
+
+* from geoips.interfaces import feature_annotators
+* from geoips.interfaces import gridline_annotators
+
+::
+
+  modified: geoips/dev/output_config.py
+
+Update boundaries/gridlines_info with feature/gridline_annotator in output_formatters
+-------------------------------------------------------------------------------------
+
+These are dictionaries of feature information to use in the final
+output plot.  Replace with "feature_annotator" terminology for the
+call signature argument.
+
+::
+
+  modified: geoips/dev/output_config.py
+  modified: geoips/interfaces/module_based/output_formatters.py
+  modified: geoips/plugins/modules/output_formatters/full_disk_image.py
+  modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+  modified: geoips/plugins/modules/output_formatters/imagery_windbarbs.py
+  modified: geoips/image_utils/mpl_utils.py
+
+Update boundaries/gridlines_params to feature/gridline_annotator
+----------------------------------------------------------------
+
+Update both command line calls and YAML output configs.
+
+::
+
+  modified: geoips/commandline/args.py
+  modified: geoips/dev/output_config.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+  modified: tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh
+  modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
+  modified: tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh
+  modified: tests/scripts/sar.tc.nrcs.imagery_annotated.sh
+  modified: tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh
+  modified: tests/yaml_configs/abi_test.yaml
+  modified: tests/yaml_configs/abi_test_low_memory.yaml

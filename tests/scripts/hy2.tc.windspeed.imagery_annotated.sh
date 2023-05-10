@@ -22,8 +22,8 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_080644_hy_2b
           --product_name windspeed \
           --filename_formatter tc_fname \
           --output_formatter imagery_annotated \
-          --boundaries_params default \
-          --gridlines_params default \
+          --feature_annotator default \
+          --gridline_annotator default \
           --metadata_filename_formatter metadata_default_fname \
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \

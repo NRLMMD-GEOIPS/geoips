@@ -91,8 +91,8 @@ def is_valid_output_config(output_config_dict):
             "minimum_coverages",
             "minimum_coverage",
             "compare_path",
-            "boundaries_params",
-            "gridlines_params",
+            "feature_annotator",
+            "gridline_annotator",
         ],
     }
 
@@ -321,6 +321,47 @@ def get_metadata_filename_formatter_kwargs(filename_formatter, output_dict):
     return metadata_filename_formatter_kwargs
 
 
+def set_lonlat_spacing(gridline_annotator, area_def):
+    """Interface will be deprecated v2.0."""
+    if (
+        gridline_annotator is None
+        or "grid_lat_spacing" not in gridline_annotator.keys()
+        or "grid_lon_spacing" not in gridline_annotator.keys()
+        or gridline_annotator["grid_lon_spacing"] == "auto"
+        or gridline_annotator["grid_lat_spacing"] == "auto"
+    ):
+        from pyresample import utils
+
+        minlat = area_def.area_extent_ll[1]
+        maxlat = area_def.area_extent_ll[3]
+        minlon = utils.wrap_longitudes(area_def.area_extent_ll[0])
+        maxlon = utils.wrap_longitudes(area_def.area_extent_ll[2])
+        if minlon > maxlon and maxlon < 0:
+            maxlon = maxlon + 360
+        lon_extent = maxlon - minlon
+        lat_extent = maxlat - minlat
+
+        if lon_extent > 5:
+            lon_spacing = int(lon_extent / 5)
+        elif lon_extent > 2.5:
+            lon_spacing = 1
+        else:
+            lon_spacing = lon_extent / 5.0
+
+        if lat_extent > 5:
+            lat_spacing = int(lat_extent / 5)
+        elif lat_extent > 2.5:
+            lat_spacing = 1
+        else:
+            lat_spacing = lat_extent / 5.0
+
+        LOG.info("lon_extent: %s, lon_spacing: %s", lon_extent, lon_spacing)
+        gridline_annotator["grid_lat_spacing"] = lat_spacing
+        gridline_annotator["grid_lon_spacing"] = lon_spacing
+
+    return gridline_annotator
+
+
 def get_output_formatter_kwargs(
     output_dict,
     xarray_obj=None,
@@ -333,27 +374,31 @@ def get_output_formatter_kwargs(
     """Interface will be deprecated v2.0."""
     from geoips.dev.product import get_cmap_name, get_cmap_args
     from geoips.interfaces import colormaps
-    from geoips.dev.gridlines import get_gridlines, set_lonlat_spacing
-    from geoips.dev.boundaries import get_boundaries
+    from geoips.interfaces import feature_annotators
+    from geoips.interfaces import gridline_annotators
 
     output_formatter_kwargs = {}
     if "output_formatter_kwargs" in output_dict:
         output_formatter_kwargs = output_dict["output_formatter_kwargs"].copy()
 
     if (
-        "gridlines_params" in output_dict
-        and output_dict["gridlines_params"] is not None
+        "gridline_annotator" in output_dict
+        and output_dict["gridline_annotator"] is not None
     ):
-        gridlines_info = get_gridlines(output_dict["gridlines_params"])
-        gridlines_info = set_lonlat_spacing(gridlines_info, area_def)
-        output_formatter_kwargs["gridlines_info"] = gridlines_info
+        gridline_annotator = gridline_annotators.get_plugin(
+            output_dict["gridline_annotator"]
+        )
+        gridline_annotator = set_lonlat_spacing(gridline_annotator, area_def)
+        output_formatter_kwargs["gridline_annotator"] = gridline_annotator
 
     if (
-        "boundaries_params" in output_dict
-        and output_dict["boundaries_params"] is not None
+        "feature_annotator" in output_dict
+        and output_dict["feature_annotator"] is not None
     ):
-        boundaries_info = get_boundaries(output_dict["boundaries_params"])
-        output_formatter_kwargs["boundaries_info"] = boundaries_info
+        feature_annotator = feature_annotators.get_plugin(
+            output_dict["feature_annotator"]
+        )
+        output_formatter_kwargs["feature_annotator"] = feature_annotator
 
     if bg_files and "background_products" in output_dict and sector_type in bg_xarrays:
         output_formatter_kwargs["bg_xarray"] = bg_xarrays[sector_type]

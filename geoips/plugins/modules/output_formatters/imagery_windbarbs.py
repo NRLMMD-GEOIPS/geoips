@@ -241,8 +241,8 @@ def call(
     clean_fname=None,
     product_name_title=None,
     mpl_colors_info=None,
-    boundaries_info=None,
-    gridlines_info=None,
+    feature_annotator=None,
+    gridline_annotator=None,
     product_datatype_title=None,
     bg_data=None,
     bg_mpl_colors_info=None,
@@ -317,13 +317,13 @@ def call(
             # Create the colorbar to match the mpl_colors
             create_colorbar(fig, mpl_colors_info)
 
-        # Plot gridlines and boundaries overlays
+        # Plot gridlines and feature overlays
         plot_overlays(
             mapobj,
             main_ax,
             area_def,
-            boundaries_info=boundaries_info,
-            gridlines_info=gridlines_info,
+            feature_annotator=feature_annotator,
+            gridline_annotator=gridline_annotator,
         )
 
         for annotated_fname in output_fnames:
