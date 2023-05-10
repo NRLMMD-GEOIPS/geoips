@@ -139,11 +139,25 @@ if [[ "$1" == "test_repo" ]]; then
     test_repo=$2
     ls $GEOIPS_TESTDATA_DIR/$test_repo/data/* >& /dev/null
     retval=$?
+    ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.gz >& /dev/null
+    retval_gz=$?
+    ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.tgz >& /dev/null
+    retval_tgz=$?
+    ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.bz2 >& /dev/null
+    retval_bz2=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*' failed"
-        echo "    going to install repo $test_repo before proceeding"
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo $test_repo main
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*' initially failed."
+        echo "    Installed repo $test_repo, please re-run test command. "
+        exit 1
+    elif [[ "$retval_gz" == "0" || "$retval_tgz" == "0" || "$retval_bz2" == "0" ]]; then
+        echo ""
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo $test_repo main
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.gz/bz2/tgz' had data!"
+        echo "    Uncompressed data in $test_repo, please re-run test command."
         exit 1
     else
         echo ""
@@ -158,10 +172,11 @@ if [[ "$1" == "source_repo" ]]; then
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_PACKAGES_DIR/$source_repo/*' failed"
-        echo "going to install repo $source_repo before proceeding"
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh clone_source_repo $source_repo integration
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin $source_repo
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_PACKAGES_DIR/$source_repo/*' initially failed."
+        echo "    Installed repo $source_repo, please re-run test command."
         exit 1
     else
         echo ""
@@ -175,9 +190,11 @@ if [[ "$1" == "test_data_abi_day" ]]; then
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/*' failed, going to install repo test_data_abi_day before proceeding"
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/*' initially failed."
+        echo "    Installed repo test_data_abi_day, please re-run test command."
         exit 1
     else
         echo ""
