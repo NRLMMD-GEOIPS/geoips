@@ -157,7 +157,7 @@ if [[ "$1" == "test_data_clavrx" ]]; then
 fi
 
 if [[ "$1" == "test_data_amsr2" ]]; then
-    ls $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/*
+    ls $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/*
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
