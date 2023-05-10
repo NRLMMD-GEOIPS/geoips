@@ -11,7 +11,7 @@ available_sectors:
     trackfile_parser: bdeck_parser
     trackfiles:
         - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bal202020.dat
-    tc_template_yaml: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
+    tc_spec_template: tc_web
 
 outputs:
   static:

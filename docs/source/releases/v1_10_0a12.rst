@@ -18,6 +18,7 @@ Version 1.10.0a12 (2023-05-01)
   * plotting_params/boundaries
   * plotting/params/gridlines
   * sectors_static
+  * sectors_dynamic
 
 Breaking Changes
 ================
@@ -86,6 +87,7 @@ the future.
 * boundaries -> feature_annotator
 * gridlines -> gridline_annotator
 * sectors_static -> sectors.static
+* sectors_dynamic -> sectors.dynamic
 
 ::
 
@@ -95,6 +97,7 @@ the future.
   deleted: geoips/yaml_configs/plotting_params/boundaries
   deleted: geoips/yaml_configs/plotting_params/gridlines
   deleted: geoips/yaml_configs/sectors_static
+  deleted: geoips/yaml_configs/sectors_dynamic
 
 Update dev/output_config.py to use new YAML interfaces
 ------------------------------------------------------

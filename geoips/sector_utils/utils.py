@@ -318,7 +318,7 @@ def get_trackfile_area_defs(
     trackfiles,
     trackfile_parser,
     trackfile_sectorlist=None,
-    template_yaml=None,
+    sector_spec_generator=None,
     aid_type=None,
     start_datetime=None,
     end_datetime=None,
@@ -349,7 +349,9 @@ def get_trackfile_area_defs(
     from geoips.sector_utils.tc_tracks import trackfile_to_area_defs
 
     for trackfile in trackfiles:
-        area_defs += trackfile_to_area_defs(trackfile, trackfile_parser, template_yaml)
+        area_defs += trackfile_to_area_defs(
+            trackfile, trackfile_parser, sector_spec_generator
+        )
     if trackfile_sectorlist is not None and "all" not in trackfile_sectorlist:
         for area_def in area_defs:
             if area_def.area_id in trackfile_sectorlist:
@@ -430,7 +432,7 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorlist):
 def get_tc_area_defs_for_xarray(
     xarray_obj,
     tcdb_sectorlist=None,
-    template_yaml=None,
+    sector_spec_generator=None,
     hours_before_sector_time=18,
     hours_after_sector_time=6,
     aid_type=None,
@@ -473,7 +475,7 @@ def get_tc_area_defs_for_xarray(
     curr_area_defs = get_all_storms_from_db(
         xarray_obj.start_datetime - timedelta(hours=hours_before_sector_time),
         xarray_obj.end_datetime + timedelta(hours=hours_after_sector_time),
-        template_yaml,
+        sector_spec_generator,
     )
     if tcdb_sectorlist is not None and "all" not in tcdb_sectorlist:
         for area_def in curr_area_defs:

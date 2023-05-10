@@ -232,13 +232,13 @@ def add_args(parser, arglist=None):
     tc_group = parser.add_argument_group(
         title="Sector Requests: General arguments for TC sectors"
     )
-    if arglist is None or "tc_template_yaml" in arglist:
+    if arglist is None or "tc_spec_template" in arglist:
         tc_group.add_argument(
-            "--tc_template_yaml",
+            "--tc_spec_template",
             nargs="?",
             default=None,
-            help="""YAML template for creating appropriate TC sector
-                            shape/resolution from current storm location""",
+            help="""YAML plugin for creating appropriate TC sector using
+                    shape/resolution from current storm location.""",
         )
 
     trackfile_group = parser.add_argument_group(

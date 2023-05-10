@@ -151,7 +151,7 @@ if getenv("GEOIPS_RCFILE"):
     PATHS["GEOIPS_RCFILE"] = getenv("GEOIPS_RCFILE")
 
 PATHS["TC_TEMPLATE"] = pathjoin(
-    PATHS["BASE_PATH"], "yaml_configs", "sectors_dynamic", "tc_web_template.yaml"
+    PATHS["BASE_PATH"], "plugins", "yaml", "sectors", "dynamic", "tc_web_template.yaml"
 )
 if getenv("TC_TEMPLATE"):
     PATHS["TC_TEMPLATE"] = getenv("TC_TEMPLATE")

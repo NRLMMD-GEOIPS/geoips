@@ -6,15 +6,11 @@ docstring: |
 
   Using pixel_width: 1000, pixel_height: 1000, num_lines: 3200, num_samples: 3200.
 spec:
-  generators:
-    metadata:
-      name: tc
-      arguments: {}
-    spec:
-      name: center_coordinates
-      arguments:
-        projection: eqc
-        pixel_width: 1000
-        pixel_height: 1000
-        num_lines: 3200
-        num_samples: 3200
+  sector_spec_generator:
+    name: center_coordinates
+    arguments:
+      projection: eqc
+      pixel_width: 1000
+      pixel_height: 1000
+      num_lines: 3200
+      num_samples: 3200
