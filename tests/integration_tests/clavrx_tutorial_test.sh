@@ -33,7 +33,7 @@ echo ""
 # "call" used in test_all_run.sh
 for call in \
     "test_interfaces" \
-    "$GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/scripts/ahi_cldHeightBase.sh" \
+    "$GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/scripts/ahi_cldHeightBase.sh"
 do
     . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
 done
