@@ -1046,7 +1046,7 @@ def get_alg_xarray(
     copy_standard_metadata(sect_xarray, interp_xarray, force=False)
 
     # Specify the call signature and return value for different algorithm types:
-    if prod_plugin.name in ["interpolator"]:
+    if prod_plugin.family in ["interpolator"]:
         # Note "interp" product type will NOT have a single variable named
         # "product_name", just the individual interpolated variables.
         interp_xarray = interp_xarray
