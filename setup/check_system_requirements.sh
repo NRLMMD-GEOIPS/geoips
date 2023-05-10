@@ -142,13 +142,15 @@ if [[ "$1" == "matplotlib" ]]; then
     fi
 fi
 
-if [[ "$1" == "test_data_clavrx" ]]; then
-    ls $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/*
+if [[ "$1" == "test_repo" ]]; then
+    test_repo=$2
+    ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/*' failed, going to install repo test_data_clavrx before proceeding"
-        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_clavrx main
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*' failed"
+        echo "    going to install repo $test_repo before proceeding"
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo $test_repo main
         exit 1
     else
         echo ""
@@ -156,18 +158,20 @@ if [[ "$1" == "test_data_clavrx" ]]; then
     fi
 fi
 
-if [[ "$1" == "test_data_amsr2" ]]; then
-    ls $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/*
+if [[ "$1" == "source_repo" ]]; then
+    source_repo=$2
+    ls $GEOIPS_PACKAGES_DIR/$source_repo/*
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/*' failed, going to install repo test_data_amsr2 before proceeding"
-        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_amsr2 main
-        echo "test_data_amsr2 repo installed, please retry the corresponding test script which caused the previous error"
+        echo "WARNING: 'ls $GEOIPS_PACKAGES_DIR/$source_repo/*' failed"
+        echo "going to install repo $source_repo before proceeding"
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh clone_source_repo $source_repo integration
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin $source_repo
         exit 1
     else
         echo ""
-        echo "SUCCESS: repo 'test_data_amsr2' appears to be installed successfully"
+        echo "SUCCESS: repo 'test_data_clavrx' appears to be installed successfully"
     fi
 fi
 
