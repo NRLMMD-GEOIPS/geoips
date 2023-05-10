@@ -6,25 +6,25 @@ docstring: |
 spec:
   products:
     - name: windspeed
+      source_name: oscat
       docstring: |
         The windspeed product_defaults configuration for oscat products.
       product_defaults: windspeed
       spec:
-        source_name: oscat
         variables: ["wind_speed_kts"]
     - name: windbarbs
+      source_name: oscat
       docstring: |
         The windbarbs product_defaults configuration for oscat products.
       product_defaults: windbarbs
       spec:
-        source_name: oscat
         variables: ["wind_speed_kts", "wind_dir_deg_met", "rain_flag"]
     - name: wind-ambiguities
+      source_name: oscat
       docstring: |
         The wind-ambiguities product_defaults configuration for oscat products.
       product_defaults: wind-ambiguities
       spec:
-        source_name: oscat
         variables:
           [
             "wind_speed_ambiguity_kts",

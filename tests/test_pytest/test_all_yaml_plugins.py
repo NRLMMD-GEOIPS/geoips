@@ -3,11 +3,12 @@ import pytest
 import yaml
 from importlib import resources
 
-from geoips.schema import PluginValidator
+from geoips.interfaces.base import YamlPluginValidator
+from geoips.interfaces.yaml_based.products import ProductsPluginValidator
 from geoips.geoips_utils import get_entry_point_group
 
-
-validator = PluginValidator()
+validator = YamlPluginValidator()
+product_validator = ProductsPluginValidator()
 
 
 def yield_plugins():
@@ -23,4 +24,7 @@ def yield_plugins():
 @pytest.mark.parametrize("plugin", yield_plugins())
 def test_is_plugin_valid(plugin):
     """Test if plugin is valid."""
-    validator.validate(plugin)
+    if plugin["interface"] == "products":
+        product_validator.validate(plugin)
+    else:
+        validator.validate(plugin)

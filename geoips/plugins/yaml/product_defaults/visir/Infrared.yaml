@@ -18,10 +18,10 @@ spec:
   mtif_type: ir
   colormap:
     plugin:
-      name: visir.Infrared
+      name: Infrared
       arguments:
         data_range: [-90.0, 30.0]
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}

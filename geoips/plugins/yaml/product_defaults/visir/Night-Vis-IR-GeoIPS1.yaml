@@ -6,7 +6,7 @@ docstring: |
 spec:
   algorithm:
     plugin:
-      name: visir.Night_Vis_IR_GeoIPS1
+      name: Night_Vis_IR_GeoIPS1
       arguments: {}
   mtif_type: rgb
   colormap:
@@ -15,7 +15,7 @@ spec:
       arguments: {}
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}
   coverage_checker:
     plugin:

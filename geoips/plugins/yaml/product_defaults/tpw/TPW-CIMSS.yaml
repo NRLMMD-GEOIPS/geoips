@@ -15,10 +15,10 @@ spec:
         inverse: null
   colormap:
     plugin:
-      name: tpw.tpw_cimss
+      name: tpw_cimss
       arguments: {}
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_gauss
+      name: interp_gauss
       arguments:
         sigmaval: 10000

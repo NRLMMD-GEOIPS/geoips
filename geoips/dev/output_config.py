@@ -18,6 +18,10 @@ This functionality will be replaced with a class-based implementation v2.0,
 and deprecated at that time.
 """
 import logging
+from geoips.interfaces import products
+from geoips.interfaces import colormaps
+from geoips.interfaces import feature_annotators
+from geoips.interfaces import gridline_annotators
 
 LOG = logging.getLogger(__name__)
 
@@ -371,11 +375,6 @@ def get_output_formatter_kwargs(
     bg_product_name=None,
 ):
     """Interface will be deprecated v2.0."""
-    from geoips.dev.product import get_cmap_name, get_cmap_args
-    from geoips.interfaces import colormaps
-    from geoips.interfaces import feature_annotators
-    from geoips.interfaces import gridline_annotators
-
     output_formatter_kwargs = {}
     if "output_formatter_kwargs" in output_dict:
         output_formatter_kwargs = output_dict["output_formatter_kwargs"].copy()
@@ -406,18 +405,17 @@ def get_output_formatter_kwargs(
         ].to_masked_array()
         output_formatter_kwargs["bg_product_name_title"] = bg_product_name
         output_formatter_kwargs["bg_mpl_colors_info"] = None
-        bg_cmap_plugin_name = get_cmap_name(
-            bg_product_name,
-            output_formatter_kwargs["bg_xarray"].source_name,
-            output_dict=output_dict,
-        )
-        if bg_cmap_plugin_name is not None:
-            bg_cmap_plugin = colormaps.get_plugin(bg_cmap_plugin_name)
-            bg_cmap_args = get_cmap_args(
-                bg_product_name,
+        if bg_product_name:
+            bg_prod_plugin = products.get_plugin(
                 output_formatter_kwargs["bg_xarray"].source_name,
-                output_dict=output_dict,
+                bg_product_name,
+                output_dict.get("product_spec_override"),
             )
+            bg_cmap_plugin = colormaps.get_plugin(
+                bg_prod_plugin["spec"]["colormap"]["plugin"]["name"]
+            )
+            bg_cmap_args = bg_prod_plugin["spec"]["colormap"]["plugin"]["arguments"]
+
             output_formatter_kwargs["bg_mpl_colors_info"] = bg_cmap_plugin(
                 **bg_cmap_args
             )

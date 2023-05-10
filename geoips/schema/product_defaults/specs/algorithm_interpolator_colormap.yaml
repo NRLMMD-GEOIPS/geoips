@@ -5,6 +5,8 @@ required:
   - algorithm
   - colormap
 properties:
+  display_name:
+    type: string
   interpolator:
     $ref: "product_defaults.bases.interpolator"
   algorithm:
@@ -12,6 +14,12 @@ properties:
   colormap:
     $ref: "product_defaults.bases.colormap"
   coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  full_coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  filename_coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  image_production_coverage_checker:
     $ref: "product_defaults.bases.coverage_checker"
   windbarb_plotter:
     $ref: "product_defaults.bases.windbarb_plotter"

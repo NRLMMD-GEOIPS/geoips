@@ -6,7 +6,7 @@ docstring: |
 spec:
   algorithm:
     plugin:
-      name: visir.Night-Vis-GeoIPS1
+      name: Night_Vis_GeoIPS1
       arguments:
         min_outbounds: crop # Mask lower bounds will prevent black images
         max_outbounds: crop
@@ -17,9 +17,9 @@ spec:
       name: matplotlib_linear_norm
       arguments:
         data_range: [0.0, 1.0] # Normalized algorithm
-        colormap_name: Greys_r
-        colorbar_label: Normalized Radiance
+        cmap_name: Greys_r
+        cbar_label: Normalized Radiance
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}

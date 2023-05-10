@@ -8,7 +8,7 @@ spec:
     plugin:
       name: single_channel
       arguments:
-        range: [-100.0, 50.0]
+        output_data_range: [-100.0, 50.0]
         input_units: Kelvin
         output_units: celsius
         min_outbounds: crop
@@ -21,9 +21,9 @@ spec:
       name: matplotlib_linear_norm
       arguments:
         data_range: [-100.0, 50.0]
-        colormap_name: Greys
-        colorbar_label: "Brightness Temperatures (degrees Celsius)"
+        cmap_name: Greys
+        cbar_label: "Brightness Temperatures (degrees Celsius)"
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}

@@ -6,97 +6,97 @@ docstring: |
 spec:
   products:
     - name: 89V
+      source_name: amsu-b
       docstring: |
         The 89V product_defaults for amsu-b product.
       product_defaults: 89V
       spec:
-        source_name: amsu-b
         variables: ["Chan1_AT"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 89VNearest
+      source_name: amsu-b
       docstring: |
         The 89VNearest product_defaults for amsu-b product.
       product_defaults: 89VNearest
       spec:
-        source_name: amsu-b
         variables: ["Chan1_AT"]
     - name: 157V
+      source_name: amsu-b
       docstring: |
         The 157V product_defaults for amsu-b product.
       product_defaults: 157V
       spec:
-        source_name: amsu-b
         variables: ["Chan2_AT"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 157VNearest
+      source_name: amsu-b
       docstring: |
         The 157VNearest product_defaults for amsu-b product.
       product_defaults: 157VNearest
       spec:
-        source_name: amsu-b
         variables: ["Chan2_AT"]
     - name: 183-1H
+      source_name: amsu-b
       docstring: |
         The 183-1H product_defaults for amsu-b product.
       product_defaults: 183-1H
       spec:
-        source_name: amsu-b
         variables: ["Chan3_AT"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 183-1HNearest
+      source_name: amsu-b
       docstring: |
         The 183-1HNearest product_defaults for amsu-b product.
       product_defaults: 183-1HNearest
       spec:
-        source_name: amsu-b
         variables: ["Chan3_AT"]
     - name: 183-3H
+      source_name: amsu-b
       docstring: |
         The 183-3H product_defaults for amsu-b product.
       product_defaults: 183-3H
       spec:
-        source_name: amsu-b
         variables: ["Chan4_AT"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 183-3HNearest
+      source_name: amsu-b
       docstring: |
         The 183-3HNearest product_defaults for amsu-b product.
       product_defaults: 183-3HNearest
       spec:
-        source_name: amsu-b
         variables: ["Chan4_AT"]
     - name: 190V
+      source_name: amsu-b
       docstring: |
         The 190V product_defaults for amsu-b product.
       product_defaults: 190V
       spec:
-        source_name: amsu-b
         variables: ["Chan5_AT"]
         interpolator:
           plugin:
-            name: pyresample_wrappers.interp_gauss
+            name: interp_gauss
             arguments:
               sigmaval: 10000
     - name: 190VNearest
+      source_name: amsu-b
       docstring: |
         The 190VNearest product_defaults for amsu-b product.
       product_defaults: 190VNearest
       spec:
-        source_name: amsu-b
         variables: ["Chan5_AT"]

@@ -375,13 +375,13 @@ def add_args(parser, arglist=None):
             help="""Specify product specific options (these must be parsed
                             within the individual product scripts)""",
         )
-    if arglist is None or "product_params_override" in arglist:
+    if arglist is None or "product_spec_override" in arglist:
         prod_group.add_argument(
-            "--product_params_override",
+            "--product_spec_override",
             nargs="?",
             default={},
             type=jloads,
-            help="""Specify product parameters to override the default specifications.
+            help="""Specify product spec fields to override the default specifications.
                             Should be formatted as a json dictionary string""",
         )
 

@@ -1,0 +1,10 @@
+$id: products.unmodified
+$ref: bases.top
+type: object
+required:
+  - spec
+properties:
+  family:
+    const: unmodified
+  source_name:
+    type: string

@@ -13,6 +13,7 @@
 """General high level utilities for geoips processing."""
 
 import os
+from copy import deepcopy
 import sys
 import yaml
 import logging
@@ -91,9 +92,9 @@ def load_all_yaml_plugins():
             # The name of the package the plugin comes from
             yaml_plugin["package"] = pkg.value
             # The relative path to the plugin within the package
-            yaml_plugin["relpath"] = yaml_file.relative_to(pkg_plugin_path)
+            yaml_plugin["relpath"] = str(yaml_file.relative_to(pkg_plugin_path))
             # Absolute path to the plugin
-            yaml_plugin["abspath"] = yaml_file
+            yaml_plugin["abspath"] = str(yaml_file)
 
             if "interface" not in yaml_plugin:
                 raise PluginError(
@@ -200,7 +201,10 @@ def get_all_entry_points(namespace):
         Entry point namespace (e.g. 'readers')
     """
     ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    return [ep.load() for ep in get_entry_point_group(ep_namespace)]
+    try:
+        return [ep.load() for ep in get_entry_point_group(ep_namespace)]
+    except KeyError:
+        return []
 
 
 def list_entry_points(namespace):
@@ -459,3 +463,29 @@ def list_product_source_dict_yamls():
             + "/yaml_configs/product_inputs/*.yaml"
         )
     return [fname for fname in all_files if "__init__" not in fname]
+
+
+def merge_nested_dicts(dest, src, in_place=True):
+    """Perform an in-place merge of src into dest.
+
+    Performs an in-place merge of src into dest while preserving any values that already
+    exist in dest.
+    """
+    if not in_place:
+        final_dest = deepcopy(dest)
+    else:
+        final_dest = dest
+    try:
+        final_dest.update(src | final_dest)
+    except (AttributeError, TypeError):
+        return
+    try:
+        for key, val in final_dest.items():
+            try:
+                merge_nested_dicts(final_dest[key], src[key])
+            except KeyError:
+                pass
+    except AttributeError:
+        raise
+    if not in_place:
+        return final_dest

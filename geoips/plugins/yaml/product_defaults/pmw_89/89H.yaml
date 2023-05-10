@@ -16,11 +16,11 @@ spec:
   mtif_type: pmw
   colormap:
     plugin:
-      name: pmw_tb.cmap_89H
+      name: pmw_89H
       arguments:
         data_range: [105, 305]
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_gauss
+      name: interp_gauss
       arguments:
         sigmaval: 10000

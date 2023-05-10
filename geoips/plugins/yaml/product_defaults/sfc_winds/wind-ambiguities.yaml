@@ -6,7 +6,7 @@ docstring: |
 spec:
   algorithm:
     plugin:
-      name: sfc_winds.windbarbs
+      name: windbarbs
       arguments:
         output_data_range: [0, 200]
         input_units: kts
@@ -18,7 +18,7 @@ spec:
   mtif_type: windspeed
   colormap:
     plugin:
-      name: winds.wind_radii_transitions
+      name: wind_radii_transitions
       arguments:
         data_range: [0, 200]
   coverage_checker:

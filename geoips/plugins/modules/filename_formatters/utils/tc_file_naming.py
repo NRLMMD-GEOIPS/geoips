@@ -17,6 +17,7 @@ from datetime import datetime, timedelta
 from glob import glob
 from os.path import basename as pathbasename
 from os.path import join as pathjoin
+from geoips.interfaces import products
 
 LOG = logging.getLogger(__name__)
 
@@ -162,20 +163,24 @@ def update_extra_field(
     if "source_names" in xarray_obj.attrs:
         for source_name in xarray_obj.source_names:
             try:
+                prod_plugin = products.get_plugin(
+                    source_name, product_name, output_dict.get("product_spec_override")
+                )
                 covg_args = get_covg_args_from_product(
-                    product_name,
-                    source_name,
-                    output_dict=output_dict,
-                    covg_args_field_name="fname_covg_args",
+                    prod_plugin,
+                    covg_field="filename_coverage_checker",
                 )
             except KeyError:
                 continue
     else:
-        covg_args = get_covg_args_from_product(
-            product_name,
+        prod_plugin = products.get_plugin(
             xarray_obj.source_name,
-            output_dict=output_dict,
-            covg_args_field_name="fname_covg_args",
+            product_name,
+            output_dict.get("product_spec_override"),
+        )
+        covg_args = get_covg_args_from_product(
+            prod_plugin,
+            covg_field="filename_coverage_checker",
         )
 
     extras = []

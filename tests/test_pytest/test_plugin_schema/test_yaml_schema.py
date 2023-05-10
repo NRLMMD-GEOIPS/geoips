@@ -6,11 +6,11 @@ import yaml
 from jsonschema.exceptions import ValidationError  # noqa
 from pathlib import Path
 
-from geoips.schema.plugin_validator import PluginValidator
+from geoips.interfaces.base import YamlPluginValidator
 
 
 test_path = Path(__file__).parent
-validator = PluginValidator()
+validator = YamlPluginValidator()
 
 
 def get_error(name):

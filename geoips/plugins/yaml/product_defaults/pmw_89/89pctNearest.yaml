@@ -6,7 +6,7 @@ docstring: |
 spec:
   algorithm:
     plugin:
-      name: pmw_tc.pmw89pct
+      name: pmw_89pct
       arguments:
         output_data_range: [105.0, 280.0]
         min_outbounds: crop
@@ -16,10 +16,10 @@ spec:
   mtif_type: pmw
   colormap:
     plugin:
-      name: pmw_tb.cmap_89pct
+      name: pmw_89pct
       arguments:
         data_range: [105, 280]
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_nearest
+      name: interp_nearest
       arguments: {}

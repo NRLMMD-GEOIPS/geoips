@@ -24,14 +24,20 @@ outputs:
     metadata_filename_formatters:
         tc_fname: metadata_default_fname
     metadata_output_formatter: metadata_tc
-    product_params_override:
+    product_spec_override:
       all:
-        fname_covg_func: center_radius
-        fname_covg_args: {'radius_km': 100}
-        full_covg_func: masked_arrays
-        full_covg_args: {}
-        image_production_covg_func: masked_arrays
-        image_production_covg_args: {}
+        filename_coverage_checker:
+          plugin:
+            name: center_radius
+            arguments: {'radius_km': 100}
+        full_coverage_checker:
+          plugin:
+            name: masked_arrays
+            arguments: {}
+        image_production_coverage_checker:
+          plugin:
+            name: masked_arrays
+            arguments: {}
     background_products:
       config_names: ['abi', 'ahi', 'seviri']
       product_names: ['Visible', 'Infrared-Gray']

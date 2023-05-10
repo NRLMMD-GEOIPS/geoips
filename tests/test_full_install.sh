@@ -36,6 +36,7 @@ for call in \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/uncompress_test_data.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory" \
+    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_fusion_test_data" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_amsr2 main" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_clavrx main" \
     "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_gpm main" \
@@ -75,8 +76,9 @@ for call in \
     "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/sar.tc.nrcs.imagery_clean.sh" \
     "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/smap.tc.windspeed.imagery_clean.sh" \
     "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/viirs.tc.Infrared-Gray.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/template_basic_plugin/tests/test_all.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh" \
-    "$GEOIPS_PACKAGES_DIR/data_fusion/tests/scripts/layered.sh"
+    "$GEOIPS_PACKAGES_DIR/data_fusion/tests/test_all.sh"
 do
     . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
 done

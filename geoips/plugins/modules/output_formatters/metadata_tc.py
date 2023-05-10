@@ -16,6 +16,7 @@ import logging
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.geoips_utils import replace_geoips_paths
 from geoips.sector_utils.yaml_utils import write_yamldict
+from geoips.interfaces import products
 
 LOG = logging.getLogger(__name__)
 
@@ -91,50 +92,50 @@ def update_sector_info_with_coverage(
     """Update sector info with coverage, for YAML metadata output."""
     from geoips.dev.product import get_covg_from_product, get_covg_args_from_product
 
-    covg_func_types = ["image_production", "fname", "full"]
+    covg_func_types = {
+        "image_production": "image_production_coverage_checker",
+        "fname": "filename_coverage_checker",
+        "full": "full_coverage_checker",
+    }
 
     covg_funcs = {}
     covg_args = {}
     covgs = {}
 
-    default_covg_funcs = get_covg_from_product(
-        product_name,
-        xarray_obj.source_name,
-        output_dict=output_dict,
-        covg_func_field_name="covg_func",
+    prod_plugin = products.get_plugin(
+        xarray_obj.source_name, product_name, output_dict.get("product_spec_override")
+    )
+
+    default_covg_plugin = get_covg_from_product(
+        prod_plugin,
+        covg_field="coverage_checker",
     )
 
     default_covg_args = get_covg_args_from_product(
-        product_name,
-        xarray_obj.source_name,
-        output_dict=output_dict,
-        covg_args_field_name="covg_args",
+        prod_plugin,
+        covg_field="coverage_checker",
     )
     try:
-        default_covgs = default_covg_funcs.call(
-            xarray_obj, product_name, area_def, **covg_args["default"]
+        default_covgs = default_covg_plugin(
+            xarray_obj, prod_plugin.name, area_def, **covg_args["default"]
         )
     except KeyError:
         LOG.warning(
             '"%s" covg_func not defined, not including in metadata_tc output', "default"
         )
 
-    for covg_func_type in covg_func_types:
+    for covg_func_type, coverage_checker_plugin_name in covg_func_types.items():
         covg_funcs[covg_func_type] = get_covg_from_product(
-            product_name,
-            xarray_obj.source_name,
-            output_dict=output_dict,
-            covg_func_field_name=covg_func_type + "_covg_func",
+            prod_plugin,
+            covg_field=coverage_checker_plugin_name,
         )
         covg_args[covg_func_type] = get_covg_args_from_product(
-            product_name,
-            xarray_obj.source_name,
-            output_dict=output_dict,
-            covg_args_field_name=covg_func_type + "_covg_args",
+            prod_plugin,
+            covg_field=coverage_checker_plugin_name,
         )
         try:
-            covgs[covg_func_type] = covg_funcs[covg_func_type].call(
-                xarray_obj, product_name, area_def, **covg_args[covg_func_type]
+            covgs[covg_func_type] = covg_funcs[covg_func_type](
+                xarray_obj, prod_plugin.name, area_def, **covg_args[covg_func_type]
             )
         except KeyError:
             LOG.warning(

@@ -6,7 +6,7 @@ docstring: |
 spec:
   interpolator:
     plugin:
-      name: pyresample_wrappers.interp_gauss
+      name: interp_gauss
       arguments:
         sigmaval: 25000
   algorithm:
@@ -21,6 +21,6 @@ spec:
   mtif_type: pmw
   colormap:
     plugin:
-      name: pmw_tb.cmap_37H
+      name: pmw_37H
       arguments:
         data_range: [125, 300]

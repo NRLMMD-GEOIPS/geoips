@@ -14,3 +14,9 @@ properties:
     $ref: bases.name
   docstring:
     $ref: bases.docstring
+  package:
+    type: string
+  relpath:
+    type: string
+  abspath:
+    type: string
