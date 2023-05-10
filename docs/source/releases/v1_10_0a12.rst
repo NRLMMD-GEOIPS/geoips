@@ -17,6 +17,7 @@ Version 1.10.0a12 (2023-05-01)
 
   * plotting_params/boundaries
   * plotting/params/gridlines
+  * sectors_static
 
 Breaking Changes
 ================
@@ -73,14 +74,18 @@ Remove old YAML discovery functions in geoips_utils
 
   geoips/geoips_utils.py
 
-Remove boundaries and gridlines YAML configs and old interface
---------------------------------------------------------------
+Remove old YAML configs and old interfaces
+------------------------------------------
 
 *From NRLMMD-GEOIPS/geoips#211: 2023-05-01, update code to work with new interfaces*
 
 NOTE: had to pull "set_lonlat_spacing" out of geoips/dev/gridlines.py and put it
 in geoips/dev/output_config.py.  Will likely want to handle this differently in
 the future.
+
+* boundaries -> feature_annotator
+* gridlines -> gridline_annotator
+* sectors_static -> sectors.static
 
 ::
 
@@ -89,6 +94,7 @@ the future.
   deleted: geoips/dev/gridlines.py
   deleted: geoips/yaml_configs/plotting_params/boundaries
   deleted: geoips/yaml_configs/plotting_params/gridlines
+  deleted: geoips/yaml_configs/sectors_static
 
 Update dev/output_config.py to use new YAML interfaces
 ------------------------------------------------------

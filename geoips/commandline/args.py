@@ -75,16 +75,10 @@ def check_command_line_args(arglist, argdict):
         ):
             raise TypeError('Must pass bool for "resampled_read" dictionary entry')
         LOG.info("COMMANDLINEARG resampled_read: %s", argdict["resampled_read"])
-    if "sectorfiles" in arglist:
-        if argdict["sectorfiles"] and not isinstance(argdict["sectorfiles"], list):
-            raise TypeError(
-                'Must pass list of strings for "sectorfiles" dictionary entry'
-            )
-        LOG.info("COMMANDLINEARG sectorfiles: %s", argdict["sectorfiles"])
     if "sector_list" in arglist:
         if argdict["sector_list"] and not isinstance(argdict["sector_list"], list):
             raise TypeError(
-                'Must pass list of strings for "sectorfiles" dictionary entry'
+                "Must pass list of strings for requested static sector plugins"
             )
         LOG.info("COMMANDLINEARG sector_list: %s", argdict["sector_list"])
     if "tcdb_sector_list" in arglist:
@@ -346,21 +340,14 @@ def add_args(parser, arglist=None):
                             area_definition defined within the reader. This option
                             supercedes all other sector-specifying options.""",
         )
-    if arglist is None or "sectorfiles" in arglist:
-        static_group.add_argument(
-            "--sectorfiles",
-            nargs="*",
-            default=None,
-            help="""Specify YAML sectorfiles""",
-        )
     if arglist is None or "sector_list" in arglist:
         static_group.add_argument(
             "-s",
             "--sector_list",
             nargs="*",
             default=None,
-            help="""A list of short sector names found within YAML sectorfiles
-                            over which the data file should be processed.""",
+            help="""A list of short sector plugin names found within YAML sectorfiles
+                    over which the data file should be processed.""",
         )
 
     prod_group = parser.add_argument_group(title="Product specification options")

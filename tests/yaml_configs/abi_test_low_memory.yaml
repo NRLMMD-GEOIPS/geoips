@@ -5,8 +5,6 @@ resampled_read: True
 
 available_sectors:
   static:
-    sectorfiles:
-        - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/geoips/plugins/yaml/sectors/static/goes16.yaml
     sector_list:
         - goes16
   tc:

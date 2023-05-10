@@ -631,7 +631,6 @@ def get_area_defs_from_command_line_args(
     from geoips.sector_utils.utils import get_trackfile_area_defs
     from geoips.sector_utils.utils import filter_area_defs_actual_time
 
-    sectorfiles = None
     sector_list = None
     tcdb_sector_list = None
     tcdb = None
@@ -667,8 +666,6 @@ def get_area_defs_from_command_line_args(
             setattr(area_def, "description", area_def.name)
 
         area_defs += [area_def]
-    if "sectorfiles" in command_line_args:
-        sectorfiles = command_line_args["sectorfiles"]
     if "sector_list" in command_line_args:
         sector_list = command_line_args["sector_list"]
     if "tcdb_sector_list" in command_line_args:
@@ -758,13 +755,11 @@ def get_area_defs_from_command_line_args(
         # Add it to the list
         area_defs += [area_def]
 
-    if sectorfiles:
+    if sector_list:
         if xobjs is None:
-            area_defs += get_static_area_defs_for_xarray(None, sectorfiles, sector_list)
+            area_defs += get_static_area_defs_for_xarray(None, sector_list)
         else:
-            area_defs += get_static_area_defs_for_xarray(
-                xobjs["METADATA"], sectorfiles, sector_list
-            )
+            area_defs += get_static_area_defs_for_xarray(xobjs["METADATA"], sector_list)
     if tcdb:
         if xobjs is None:
             raise (TypeError, "Must have xobjs defined for tcdb sectors")
@@ -1168,7 +1163,6 @@ def call(fnames, command_line_args=None):
     # These args should always be checked
     check_args = [
         "sector_list",
-        "sectorfiles",  # Static sectors,
         "tcdb",
         "tcdb_sector_list",  # TC Database sectors,
         "trackfiles",

@@ -9,8 +9,6 @@ available_sectors:
     tc_template_yaml: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
 
   global:
-    sectorfiles:
-      - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/geoips/plugins/yaml/sectors/static/global.yaml
     sector_list:
       - global
 

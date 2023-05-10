@@ -77,7 +77,6 @@ def is_valid_output_config(output_config_dict):
 
     optional_keys["single_source"] = {
         "available_sectors": [
-            "sectorfiles",
             "sector_list",
             "trackfile_parser",
             "trackfiles",
