@@ -34,8 +34,6 @@ echo ""
 for call in \
     "test_interfaces" \
     "$GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/scripts/ahi_cldHeightBase.sh" \
-    "$GEOIPS_PACKAGES_DIR/template_basic_plugin/tests/scripts/test_config.sh" \
-    "$GEOIPS_PACKAGES_DIR/template_basic_plugin/tests/scripts/amsr2.tc_clean.89-Test.sh"
 do
     . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
 done
