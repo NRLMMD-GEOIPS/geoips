@@ -12,9 +12,12 @@
 
 #!/bin/bash
 
-exit_on_missing=$1
+exit_on_missing="false"
+if [[ "$1" == "exit_on_missing" ]]; then
+    exit_on_missing="true"
+fi
 
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_clavrx $exit_on_missing
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_amsr2 $exit_on_missing
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geoips_clavrx $exit_on_missing
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_clavrx
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_amsr2
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geoips_clavrx
