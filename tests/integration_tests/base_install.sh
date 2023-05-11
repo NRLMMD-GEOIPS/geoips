@@ -18,5 +18,5 @@ if [[ "$1" == "exit_on_missing" ]]; then
 fi
 
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_amsr2 $exit_on_missing
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_abi_day $exit_on_missing
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_amsr2
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_abi_day
