@@ -23,7 +23,18 @@ if [[ "$1" == "gitlfs" ]]; then
         echo ""
         echo "SUCCESS: 'git lfs install' appears to be installed successfully"
         echo "    "`which git`
-    fi 
+    fi
+fi
+
+if [[ "$1" == "geoips_base" ]]; then
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gitlfs
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh wget
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh python
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh libgeos
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh rclone
 fi
 
 if [[ "$1" == "imagemagick" ]]; then

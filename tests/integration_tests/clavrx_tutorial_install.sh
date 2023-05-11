@@ -14,14 +14,7 @@
 
 exit_on_error=$1
 
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gitlfs
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh wget
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh libgeos
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh python
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh rclone
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_clavrx $exit_on_error
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_amsr2 $exit_on_error
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geoips_clavrx $exit_on_error
