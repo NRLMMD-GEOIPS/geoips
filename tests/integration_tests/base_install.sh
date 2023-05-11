@@ -12,11 +12,11 @@
 
 #!/bin/bash
 
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gitlfs
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh wget
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh python
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh rclone
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_amsr2
+exit_on_missing="false"
+if [[ "$1" == "exit_on_missing" ]]; then
+    exit_on_missing="true"
+fi
+
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_amsr2
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_abi_day

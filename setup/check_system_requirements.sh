@@ -21,7 +21,18 @@ if [[ "$1" == "gitlfs" ]]; then
         echo ""
         echo "SUCCESS: 'git lfs install' appears to be installed successfully"
         echo "    "`which git`
-    fi 
+    fi
+fi
+
+if [[ "$1" == "geoips_base" ]]; then
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gitlfs
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh wget
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh python
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh libgeos
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh rclone
 fi
 
 if [[ "$1" == "imagemagick" ]]; then
@@ -139,12 +150,30 @@ if [[ "$1" == "test_repo" ]]; then
     test_repo=$2
     ls $GEOIPS_TESTDATA_DIR/$test_repo/data/* >& /dev/null
     retval=$?
+    ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.gz >& /dev/null
+    retval_gz=$?
+    ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.bz2 >& /dev/null
+    retval_bz2=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*' failed"
-        echo "    going to install repo $test_repo before proceeding"
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo $test_repo main
-        exit 1
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*' initially failed."
+        echo "    Installed repo $test_repo, please re-run test command. "
+        if [[ "$exit_on_missing" == "true" ]]; then
+            exit 1
+        fi
+    elif [[ "$retval_gz" == "0" || "$retval_bz2" == "0" ]]; then
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.gz/bz2/tgz' had data!"
+        echo "    Uncompressing data in $test_repo."
+        echo ""
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo $test_repo main
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED check on $test_repo."
+            echo "    Uncompressed data in $test_repo, now please re-run test command."
+            exit 1
+        fi
     else
         echo ""
         echo "SUCCESS: repo '$test_repo' appears to be installed successfully"
@@ -158,11 +187,16 @@ if [[ "$1" == "source_repo" ]]; then
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_PACKAGES_DIR/$source_repo/*' failed"
-        echo "going to install repo $source_repo before proceeding"
+        echo "WARNING: 'ls $GEOIPS_PACKAGES_DIR/$source_repo/*' failed."
+        echo "    Installing repo $source_repo."
+        echo ""
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh clone_source_repo $source_repo integration
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin $source_repo
-        exit 1
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED check on $source_repo."
+            echo "    Installed repo $source_repo, now please re-run test command."
+            exit 1
+        fi
     else
         echo ""
         echo "SUCCESS: repo '$source_repo' appears to be installed successfully"
@@ -171,17 +205,57 @@ if [[ "$1" == "source_repo" ]]; then
 fi
 
 if [[ "$1" == "test_data_abi_day" ]]; then
-    ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/*
+    ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/* >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/*' failed, going to install repo test_data_abi_day before proceeding"
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/*' failed."
+        echo "    Installing repo test_data_abi_day."
+        echo ""
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory
-        exit 1
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED check on test_data_abi_day."
+            echo "    Installed test_data_abi_day, now please re-run test command."
+            exit 1
+        fi
     else
         echo ""
         echo "SUCCESS: repo 'test_data_abi_day' appears to be installed successfully"
         echo "    "`ls -ld $GEOIPS_TESTDATA_DIR/test_data_noaa_aws`
+    fi
+fi
+
+if [[ "$1" == "fusion_test_data" ]]; then
+    ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/* >& /dev/null
+    retval=$?
+    ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*/*.bz2 >& /dev/null
+    retval_bz2=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*' failed."
+        echo "    Installing repo test_data_fusion."
+        echo ""
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_fusion_test_data
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED check on test_data_fusion."
+            echo "    Installed repo $test_repo, now please re-run test command."
+            exit 1
+        fi
+    elif [[ "$retval_bz2" == "0" ]]; then
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*/*.bz2' had data!"
+        echo "    Uncompressing data in test_data_fusion."
+        echo ""
+        bunzip2 -f $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*/*.bz2
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED check on fusion_test_data."
+            echo "    Uncompressed data in fusion_test_data, now please re-run test command."
+            exit 1
+        fi
+    else
+        echo ""
+        echo "SUCCESS: repo 'test_data_fusion' appears to be installed successfully"
+        echo "    "`ls -ld $GEOIPS_TESTDATA_DIR/test_data_fusion`
     fi
 fi
