@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-exit_on_error="false"
+exit_on_missing="false"
 
 if [[ "$1" == "gitlfs" ]]; then
     git lfs install >& /dev/null
@@ -150,8 +150,8 @@ fi
 
 if [[ "$1" == "test_repo" ]]; then
     test_repo=$2
-    if [[ "$3" == "exit_on_error" ]]; then
-        exit_on_error="true"
+    if [[ "$3" == "exit_on_missing" ]]; then
+        exit_on_missing="true"
     fi
     ls $GEOIPS_TESTDATA_DIR/$test_repo/data/* >& /dev/null
     retval=$?
@@ -167,7 +167,7 @@ if [[ "$1" == "test_repo" ]]; then
         echo ""
         echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*' initially failed."
         echo "    Installed repo $test_repo, please re-run test command. "
-        if [[ "$exit_on_error" == "true" ]]; then
+        if [[ "$exit_on_missing" == "true" ]]; then
             exit 1
         fi
     elif [[ "$retval_gz" == "0" || "$retval_tgz" == "0" || "$retval_bz2" == "0" ]]; then
@@ -176,7 +176,7 @@ if [[ "$1" == "test_repo" ]]; then
         echo "    Uncompressing data in $test_repo."
         echo ""
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo $test_repo main
-        if [[ "$exit_on_error" == "true" ]]; then
+        if [[ "$exit_on_missing" == "true" ]]; then
             echo "FAILED check on $test_repo."
             echo "    Uncompressed data in $test_repo, now please re-run test command."
             exit 1
@@ -190,8 +190,8 @@ fi
 
 if [[ "$1" == "source_repo" ]]; then
     source_repo=$2
-    if [[ "$3" == "exit_on_error" ]]; then
-        exit_on_error="true"
+    if [[ "$3" == "exit_on_missing" ]]; then
+        exit_on_missing="true"
     fi
     ls $GEOIPS_PACKAGES_DIR/$source_repo/* >& /dev/null
     retval=$?
@@ -202,7 +202,7 @@ if [[ "$1" == "source_repo" ]]; then
         echo ""
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh clone_source_repo $source_repo integration
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin $source_repo
-        if [[ "$exit_on_error" == "true" ]]; then
+        if [[ "$exit_on_missing" == "true" ]]; then
             echo "FAILED check on $source_repo."
             echo "    Installed repo $source_repo, now please re-run test command."
             exit 1
@@ -217,8 +217,8 @@ fi
 if [[ "$1" == "test_data_abi_day" ]]; then
     ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/*
     retval=$?
-    if [[ "$2" == "exit_on_error" ]]; then
-        exit_on_error="true"
+    if [[ "$2" == "exit_on_missing" ]]; then
+        exit_on_missing="true"
     fi
     if [[ "$retval" != "0" ]]; then
         echo ""
@@ -227,7 +227,7 @@ if [[ "$1" == "test_data_abi_day" ]]; then
         echo ""
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory
-        if [[ "$exit_on_error" == "true" ]]; then
+        if [[ "$exit_on_missing" == "true" ]]; then
             echo "FAILED check on test_data_abi_day."
             echo "    Installed repo $source_repo, now please re-run test command."
             exit 1

@@ -69,10 +69,11 @@ Testing Updates
 Add tests/integration_tests/<package>_test.sh scripts
 -----------------------------------------------------
 
-These scripts first call "<package>_install.sh error_on_missing", which will
+These scripts first call "<package>_install.sh exit_on_missing", which will
 exit with error on any missing packages (rather than just installing and
 continuing).  Since we should assume everything has been installed prior
-to attempting the tests, we want to error immediately if anything was missing.
+to attempting the tests, we want to exit immediately with an error if
+anything was missing.
 
 Once all system requirements have been checked, these scripts continue on
 through the list of complete integration tests required to sufficiently
