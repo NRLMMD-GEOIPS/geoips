@@ -1,0 +1,84 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a13 (2023-05-11)
+******************************
+
+Clean up installation and integration testing process.
+
+* Add "tests/integration_tests" directory for installation and testing
+
+  * Include install scripts that ensure system requirements available,
+    and clone/install all required test repos and plugin packages for
+    given set of test scripts
+  * Additionally check system requirements prior to commencing tests
+
+Installation Updates
+====================
+
+Add tests/integration_tests/<package>_install.sh scripts
+--------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211f: 2023-05-09, product updates*
+
+These scripts first check basic system requirements exist:
+
+* git lfs
+* wget
+* imagemagick
+* python
+* openblas/scipy
+* libgeos/cartopy
+* rclone
+
+Then check for specific test repos / plugin packages required for
+the set of tests, and install them if they do not exist:
+
+* test_data_amsr2 for base install
+* test_data_clavrx and geoips_clavrx for clavrx_tutorial_install
+
+::
+
+  modified: tests/integration_tests/base_install.sh
+  modified: tests/integration_tests/clavrx_install.sh
+
+Update check_system_requirements to return non-zero on failure
+--------------------------------------------------------------
+
+Ensure when we call check_system_requirements, that it actually exits with
+error if a system requirement did not exist.  This will be used during the
+installation process as well as the testing process to better identify issues
+with the installation.
+
+::
+
+  modified: setup/check_system_requirements.sh
+
+Testing Updates
+===============
+
+Add tests/integration_tests/<package>_test.sh scripts
+-----------------------------------------------------
+
+These scripts first call "<package>_install.sh error_on_missing", which will
+exit with error on any missing packages (rather than just installing and
+continuing).  Since we should assume everything has been installed prior
+to attempting the tests, we want to error immediately if anything was missing.
+
+Once all system requirements have been checked, these scripts continue on
+through the list of complete integration tests required to sufficiently
+test the given package.
+
+::
+
+  modified: tests/integration_tests/clavrx_test.sh
+  modified: tests/integration_tests/base_test.sh
