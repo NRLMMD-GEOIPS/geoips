@@ -10,8 +10,6 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-exit_on_missing="false"
-
 if [[ "$1" == "gitlfs" ]]; then
     git lfs install >& /dev/null
     retval=$?
@@ -150,15 +148,10 @@ fi
 
 if [[ "$1" == "test_repo" ]]; then
     test_repo=$2
-    if [[ "$3" == "exit_on_missing" ]]; then
-        exit_on_missing="true"
-    fi
     ls $GEOIPS_TESTDATA_DIR/$test_repo/data/* >& /dev/null
     retval=$?
     ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.gz >& /dev/null
     retval_gz=$?
-    ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.tgz >& /dev/null
-    retval_tgz=$?
     ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.bz2 >& /dev/null
     retval_bz2=$?
     if [[ "$retval" != "0" ]]; then
@@ -170,7 +163,7 @@ if [[ "$1" == "test_repo" ]]; then
         if [[ "$exit_on_missing" == "true" ]]; then
             exit 1
         fi
-    elif [[ "$retval_gz" == "0" || "$retval_tgz" == "0" || "$retval_bz2" == "0" ]]; then
+    elif [[ "$retval_gz" == "0" || "$retval_bz2" == "0" ]]; then
         echo ""
         echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.gz/bz2/tgz' had data!"
         echo "    Uncompressing data in $test_repo."
@@ -190,9 +183,6 @@ fi
 
 if [[ "$1" == "source_repo" ]]; then
     source_repo=$2
-    if [[ "$3" == "exit_on_missing" ]]; then
-        exit_on_missing="true"
-    fi
     ls $GEOIPS_PACKAGES_DIR/$source_repo/* >& /dev/null
     retval=$?
     if [[ "$retval" != "0" ]]; then
@@ -215,11 +205,8 @@ if [[ "$1" == "source_repo" ]]; then
 fi
 
 if [[ "$1" == "test_data_abi_day" ]]; then
-    ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/*
+    ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/* >& /dev/null
     retval=$?
-    if [[ "$2" == "exit_on_missing" ]]; then
-        exit_on_missing="true"
-    fi
     if [[ "$retval" != "0" ]]; then
         echo ""
         echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/*' failed."
@@ -229,12 +216,46 @@ if [[ "$1" == "test_data_abi_day" ]]; then
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory
         if [[ "$exit_on_missing" == "true" ]]; then
             echo "FAILED check on test_data_abi_day."
-            echo "    Installed repo $source_repo, now please re-run test command."
+            echo "    Installed test_data_abi_day, now please re-run test command."
             exit 1
         fi
     else
         echo ""
         echo "SUCCESS: repo 'test_data_abi_day' appears to be installed successfully"
         echo "    "`ls -ld $GEOIPS_TESTDATA_DIR/test_data_noaa_aws`
+    fi
+fi
+
+if [[ "$1" == "fusion_test_data" ]]; then
+    ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/* >& /dev/null
+    retval=$?
+    ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*/*.bz2 >& /dev/null
+    retval_bz2=$?
+    if [[ "$retval" != "0" ]]; then
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*' failed."
+        echo "    Installing repo test_data_fusion."
+        echo ""
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_fusion_test_data
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED check on test_data_fusion."
+            echo "    Installed repo $test_repo, now please re-run test command."
+            exit 1
+        fi
+    elif [[ "$retval_bz2" == "0" ]]; then
+        echo ""
+        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*/*.bz2' had data!"
+        echo "    Uncompressing data in test_data_fusion."
+        echo ""
+        bunzip2 -f $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*/*.bz2
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED check on fusion_test_data."
+            echo "    Uncompressed data in fusion_test_data, now please re-run test command."
+            exit 1
+        fi
+    else
+        echo ""
+        echo "SUCCESS: repo 'test_data_fusion' appears to be installed successfully"
+        echo "    "`ls -ld $GEOIPS_TESTDATA_DIR/test_data_fusion`
     fi
 fi
