@@ -44,12 +44,15 @@ Then check for specific test repos / plugin packages required for
 the set of tests, and install them if they do not exist:
 
 * test_data_amsr2 for base install
-* test_data_clavrx and geoips_clavrx for clavrx_tutorial_install
+* test_data_clavrx and geoips_clavrx for clavrx_install
+* All available plugin repos and test data repos for "full" install
+  (will update appropriately as new repos become available)
 
 ::
 
   modified: tests/integration_tests/base_install.sh
   modified: tests/integration_tests/clavrx_install.sh
+  modified: tests/integration_tests/full_install.sh
 
 Update check_system_requirements to return non-zero on failure
 --------------------------------------------------------------
@@ -83,3 +86,4 @@ test the given package.
 
   modified: tests/integration_tests/clavrx_test.sh
   modified: tests/integration_tests/base_test.sh
+  modified: tests/integration_tests/full_test.sh
