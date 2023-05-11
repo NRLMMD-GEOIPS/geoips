@@ -34,16 +34,19 @@ into a Conda environment.
   <https://docs.conda.io/en/latest/miniconda.html>`_.
 
   For example, for Linux with Intel chips:
+
   .. code:: bash
 
       wget https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh
 
 - Make the install script executable:
+
   .. code:: bash
 
       chmod u+x Anaconda3-2023.03-1-Linux-x86_64.sh
 
 - Run the installer and follow the prompts:
+
   .. code:: bash
 
       ./Anaconda3-2023.03-1-Linux-x86_64.sh
