@@ -110,15 +110,11 @@ that conda environment.
 2. Set GeoIPS Environment Variables
 -----------------------------------
 
-These environment variables must be set any time you
-would like to run GeoIPS, to support the testing infrastructure.
+In order to support GeoIPS' testing infrastructure, there are a few required environment 
+variables. 
 
-If you would like to have these environment variables set
-automatically with every new shell, you can add them to your
-.bashrc file.
-
-Ie, for desired installation location
-$HOME/geoips:
+In the commands below, you can change your installation location by changing the value of
+``$GEOIPS_PACKAGES_DIR``. If you would like to install GeoIPS in `$HOME/geoips`:
 
 .. code:: bash
 
@@ -127,6 +123,11 @@ $HOME/geoips:
     export GEOIPS_PACKAGES_DIR=$HOME/geoips
     export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
     export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
+
+If you would like to have these environment variables set automatically
+when you start a new shell, you can add them to your ``$HOME/.bashrc`` file.
+
+.. code:: bash
 
     echo "export GEOIPS_REPO_URL=$GEOIPS_REPO_URL" >> ~/.bashrc
     echo "export GEOIPS_PACKAGES_DIR=$GEOIPS_PACKAGES_DIR" >> ~/.bashrc
@@ -150,8 +151,8 @@ command will ensure that for everyone.
 run or work on GeoIPS.
 
 
-4. Clone the GeoIPS git repository and its test data repositories
------------------------------------------------------------------
+4. Clone the GeoIPS git repository
+----------------------------------
 
 .. code:: bash
 
@@ -164,8 +165,11 @@ run or work on GeoIPS.
 5. Test your installation
 -------------------------
 
-To test your installation you will call two scripts: one to clone some
-repositories containing test data and one to run a few integration tests.
+To test your installation you will call two scripts: 
+
+- ``base_install.sh`` will clone repositories containing test data.
+- ``base_test.sh`` will run a few integration tests to ensure that your 
+  installation is working correctly.
 
 .. code:: bash
 
