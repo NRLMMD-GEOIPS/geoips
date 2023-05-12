@@ -17,10 +17,13 @@ Installation
 Using a fresh Mini/Anaconda Python 3.9+ Environment is the easiest way to
 get geoips up and running.
 
-GeoIPS does not support Python 2 development.
+The `Complete Local conda-based GeoIPS Installation`_ below is our
+suggested and supported installation method, though we do provide an
+explicit list of `System Dependencies`_ and a minimal
+`Expert User GeoIPS Installation`_ as well.
 
-Software Requirements
-=====================
+System Dependencies
+===================
 
 NOTE: all *Required* dependencies are included in the fully supported
 `Complete Local conda-based GeoIPS Installation`_ below.
@@ -40,7 +43,8 @@ Required
 
 Optional
 
-* gfortran (only required for plugins including fortran builds, build-essential)
+* gfortran (only required for plugins including fortran builds,
+  build-essential)
 * gcc (required for plugins including fortran or C builds, build-essential)
 * screen (convenience package)
 * ncurses (only required if building vim, ncurses and libncurses5-dev)
