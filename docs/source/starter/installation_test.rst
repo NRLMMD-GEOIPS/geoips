@@ -17,18 +17,16 @@ Installation
 Using a fresh Mini/Anaconda Python 3.9+ Environment is the easiest way to
 get geoips up and running.
 
-The `Complete Local conda-based GeoIPS Installation`_ below is our
-suggested and supported installation method, though we do provide an
-explicit list of `System Dependencies`_ and a minimal
-`Expert User GeoIPS Installation`_ as well.
+Below we detail two installation methods for geoips:
+
+* A minimal `Expert User GeoIPS Installation`_
+  (may require administrative privileges)
+* A `Complete Local conda-based GeoIPS Installation`_ (recommended)
 
 System Dependencies
 ===================
 
-NOTE: all *Required* dependencies are included in the fully supported
-`Complete Local conda-based GeoIPS Installation`_ below.
-
-Required
+Required (included in `Complete Local conda-based GeoIPS Installation`_)
 
 * wget (Miniconda and rclone setup)
 * git >= 2.19.1 (git -C commands in complete installation)
