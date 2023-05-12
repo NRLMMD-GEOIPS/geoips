@@ -16,7 +16,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/* \
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20200405/0000/* \
           --procflow single_source \
           --reader_name ahi_hsd \
           --product_name WV \
