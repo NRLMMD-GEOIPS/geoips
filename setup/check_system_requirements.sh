@@ -204,58 +204,67 @@ if [[ "$1" == "source_repo" ]]; then
     fi
 fi
 
-if [[ "$1" == "test_data_abi_day" ]]; then
-    ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/* >& /dev/null
-    retval=$?
-    if [[ "$retval" != "0" ]]; then
-        echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/*' failed."
-        echo "    Installing repo test_data_abi_day."
-        echo ""
-        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data
-        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory
-        if [[ "$exit_on_missing" == "true" ]]; then
-            echo "FAILED check on test_data_abi_day."
-            echo "    Installed test_data_abi_day, now please re-run test command."
-            exit 1
-        fi
-    else
-        echo ""
-        echo "SUCCESS: repo 'test_data_abi_day' appears to be installed successfully"
-        echo "    "`ls -ld $GEOIPS_TESTDATA_DIR/test_data_noaa_aws`
-    fi
-fi
+if [[ "$1" == "aws_data" ]]; then
+    data_type=$2
 
-if [[ "$1" == "fusion_test_data" ]]; then
-    ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/* >& /dev/null
+    if [[ "$data_type" == "ahi_day" ]]; then
+        setup_command=setup_ahi_test_data
+        # ie, test_data_noaa_aws/data/himawari8/20200405/0000
+        test_data_path=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20200405/0000
+        test_data_files=$test_data_path/*
+    elif [[ "$data_type" == "abi_day" ]]; then
+        setup_command=setup_abi_test_data
+        # ie test_data_noaa_aws/data/goes16/20200918/1950/OR_ABI*.nc
+        test_data_path=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950
+        test_data_files=$test_data_path/*C02*.nc
+    elif [[ "$data_type" == "abi_day_low_memory" ]]; then
+        setup_command="setup_abi_test_data low_memory"
+        test_data_path=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950
+        test_data_files=$test_data_path/*.nc
+    elif [[ "$data_type" == "fusion_data" ]]; then
+        setup_command="setup_fusion_test_data"
+        test_data_path=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/himawari8_20210929.0000
+        test_data_files=$test_data_path/*
+    elif [[ "$data_type" == "ahi_terminator" ]]; then
+        # ie, test_data_noaa_aws/data/himawari8/20220109/2000
+        test_data_path=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20220109/2000
+        test_data_files=$test_data_path/*
+    fi
+
+    # There *should* be files here
+    ls $test_data_files >& /dev/null
     retval=$?
-    ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*/*.bz2 >& /dev/null
+    # There should *not* be any bz2s
+    ls $test_data_path/*.bz2 >& /dev/null
     retval_bz2=$?
+
+    # If there weren't any files, may be a git lfs problem (or just not downloaded yet)
     if [[ "$retval" != "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*' failed."
-        echo "    Installing repo test_data_fusion."
+        echo "WARNING: 'ls $test_data_files' failed."
+        echo "    Installing repo $data_type."
         echo ""
-        $GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_fusion_test_data
+        $GEOIPS_PACKAGES_DIR/geoips/setup.sh $setup_command
         if [[ "$exit_on_missing" == "true" ]]; then
-            echo "FAILED check on test_data_fusion."
-            echo "    Installed repo $test_repo, now please re-run test command."
+            echo "FAILED check on $data_type."
+            echo "    Installed $data_type, now please re-run test command."
             exit 1
         fi
+    # If there were bz2s, decompress them.
     elif [[ "$retval_bz2" == "0" ]]; then
         echo ""
-        echo "WARNING: 'ls $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*/*.bz2' had data!"
-        echo "    Uncompressing data in test_data_fusion."
+        echo "WARNING: 'ls $test_data_bz2_path' had data!"
+        echo "    Uncompressing data in $data_type."
         echo ""
-        bunzip2 -f $GEOIPS_TESTDATA_DIR/test_data_fusion/data/*/*.bz2
+        bunzip2 -f $test_data_bz2_path
         if [[ "$exit_on_missing" == "true" ]]; then
-            echo "FAILED check on fusion_test_data."
-            echo "    Uncompressed data in fusion_test_data, now please re-run test command."
+            echo "FAILED check on $data_type."
+            echo "    Uncompressed data in $data_type, now please re-run test command."
             exit 1
         fi
     else
         echo ""
-        echo "SUCCESS: repo 'test_data_fusion' appears to be installed successfully"
-        echo "    "`ls -ld $GEOIPS_TESTDATA_DIR/test_data_fusion`
+        echo "SUCCESS: repo '$data_type' appears to be installed successfully"
+        ls -d $test_data_path
     fi
 fi

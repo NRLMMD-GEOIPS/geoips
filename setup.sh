@@ -180,6 +180,27 @@ elif [[ "$1" == "setup_abi_test_data" ]]; then
         $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh goes16 2020 09 18 19 50 $abidir $rcloneconf
     fi
 
+elif [[ "$1" == "setup_ahi_test_data" ]]; then
+    # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
+    # rclone lsf publicAWS:noaa-goes17/ABI-L1b-RadF/2020/184/16/
+    # rclone lsf publicAWS:noaa-himawari8/AHI-L1b-FLDK/2022/02/05/0420
+
+    rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
+    ahidir1=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20200405/0000/
+    ahidir2=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20220109/2000/
+
+    mkdir -p $abidir
+    echo "** Setting up ahi test data, from publicAWS:noaa-himawari8/AHI-L1b-FLDK to $ahidir1"
+    echo ""
+    echo "Himawari-8 and Himawari-9 data was accessed on "
+    echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-himawari"
+    echo ""
+
+    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2020 04 05 00 00 $ahidir1 $rcloneconf
+    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2022 01 09 20 00 $ahidir2 $rcloneconf
+    bunzip2 -v $ahidir1/*.bz2
+    bunzip2 -v $ahidir2/*.bz2
+
 elif [[ "$1" == "setup_seviri" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet
     cwd=`pwd`
