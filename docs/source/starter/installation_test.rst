@@ -142,9 +142,6 @@ command will ensure that for everyone.
 
 .. code:: bash
 
-    # If you want to use mamba, just replace conda with mamba
-    # mamba create -y -n geoips -c conda-forge python=3.10 gcc gxx geos openblas imagemagick git git-lfs rclone
-    # mamba activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
     conda create -y -n geoips -c conda-forge python=3.10 gcc gxx geos openblas imagemagick git git-lfs rclone
     conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
     git lfs install
