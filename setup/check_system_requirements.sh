@@ -204,7 +204,7 @@ if [[ "$1" == "source_repo" ]]; then
     fi
 fi
 
-if [[ "$1" == "aws_data" ]]; then
+if [[ "$1" == "aws_test_data" ]]; then
     data_type=$2
 
     if [[ "$data_type" == "ahi_day" ]]; then

@@ -18,9 +18,9 @@ if [[ "$1" == "exit_on_missing" ]]; then
 fi
 
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh aws_data abi_day
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh aws_data ahi_day
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh aws_data fusion_data
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh aws_test_data abi_day
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh aws_test_data ahi_day
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh aws_test_data fusion_data
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo data_fusion
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo recenter_tc
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geoips_clavrx
