@@ -54,9 +54,9 @@ For the fully supported installation, please use the
 `Complete Local conda-based GeoIPS Installation`_.
 
 If you are confident you have all system requirements installed
-(Python+cartopy), and do not wish to go through the full interactive
+(Python+cartopy), and do not wish to go through the full
 installation process (which includes conda, rclone, test data, etc),
-you can clone the geoips repo and pip install from the your local copy.
+you can clone the geoips repo and pip install from your local copy.
 
 .. code:: bash
 
@@ -107,8 +107,8 @@ that conda environment.
       ./Mambaforge-Linux-x86_64.sh
       # Follow instructions regarding conda init / restarting your terminal !
 
-Set GeoIPS Environment Variables
---------------------------------
+2. Set GeoIPS Environment Variables
+-----------------------------------
 
 These environment variables must be set any time you
 would like to run GeoIPS, to support the testing infrastructure.
@@ -133,8 +133,8 @@ $HOME/geoips:
     echo "export GEOIPS_TESTDATA_DIR=$GEOIPS_TESTDATA_DIR" >> ~/.bashrc
     echo "export GEOIPS_OUTDIRS=$GEOIPS_OUTDIRS" >> ~/.bashrc
 
-Create and activate a conda environment with some dependencies
---------------------------------------------------------------
+3. Create and activate a conda environment with some dependencies
+-----------------------------------------------------------------
 
 Next we'll create a conda environment named ``geoips`` that contains all system
 requirements for GeoIPS. Many of these may already be installed on your system, but this
@@ -150,8 +150,8 @@ command will ensure that for everyone.
 run or work on GeoIPS.
 
 
-Clone the GeoIPS git repository and its test data repositories
---------------------------------------------------------------
+4. Clone the GeoIPS git repository and its test data repositories
+-----------------------------------------------------------------
 
 .. code:: bash
 
@@ -161,7 +161,7 @@ Clone the GeoIPS git repository and its test data repositories
     cd $GEOIPS_PACKAGES_DIR/geoips
     pip install .[doc,lint,test]
 
-Test your installation
+5. Test your installation
 -------------------------
 
 To test your installation you will call two scripts: one to clone some
@@ -176,8 +176,8 @@ repositories containing test data and one to run a few integration tests.
     # Run integration tests
     ./tests/integration_tests/base_test.sh
 
-Installation output logs reference
-----------------------------------
+6. Installation output logs reference
+-------------------------------------
 
 For reference, the output from the base_install.sh and base_test.sh commands
 should look something like this:
