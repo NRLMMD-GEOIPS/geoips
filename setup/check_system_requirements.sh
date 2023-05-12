@@ -226,6 +226,7 @@ if [[ "$1" == "aws_test_data" ]]; then
         test_data_path=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/himawari8_20210929.0000
         test_data_files=$test_data_path/*
     elif [[ "$data_type" == "ahi_terminator" ]]; then
+        setup_command="setup_ahi_test_data terminator"
         # ie, test_data_noaa_aws/data/himawari8/20220109/2000
         test_data_path=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20220109/2000
         test_data_files=$test_data_path/*

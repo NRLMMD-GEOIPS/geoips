@@ -186,20 +186,25 @@ elif [[ "$1" == "setup_ahi_test_data" ]]; then
     # rclone lsf publicAWS:noaa-himawari8/AHI-L1b-FLDK/2022/02/05/0420
 
     rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
-    ahidir1=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20200405/0000/
-    ahidir2=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20220109/2000/
+    ahi_basedir=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/
 
-    mkdir -p $abidir
-    echo "** Setting up ahi test data, from publicAWS:noaa-himawari8/AHI-L1b-FLDK to $ahidir1"
+    mkdir -p $ahi_basedir
+    echo "** Setting up ahi test data, from publicAWS:noaa-himawari8/AHI-L1b-FLDK to $ahi_basedir"
     echo ""
     echo "Himawari-8 and Himawari-9 data was accessed on "
     echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-himawari"
     echo ""
 
-    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2020 04 05 00 00 $ahidir1 $rcloneconf
-    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2022 01 09 20 00 $ahidir2 $rcloneconf
-    bunzip2 -v $ahidir1/*.bz2
-    bunzip2 -v $ahidir2/*.bz2
+    # This is terminator, not needed right now
+    if [[ "$2" == "terminator" ]]; then
+      ahidir=$ahi_basedir/20220109/2000/
+      $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2022 01 09 20 00 $ahidir $rcloneconf "B09 B13"
+      bunzip2 -v $ahidir/*.bz2
+    else
+      ahidir=$ahi_basedir/20200405/0000/
+      $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2020 04 05 00 00 $ahidir $rcloneconf "B09 B13"
+      bunzip2 -v $ahidir/*.bz2
+    fi
 
 elif [[ "$1" == "setup_seviri" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet
