@@ -21,6 +21,7 @@ Clean up installation and integration testing process.
     and clone/install all required test repos and plugin packages for
     given set of test scripts
   * Additionally check system requirements prior to commencing tests
+* Remove old base install and test scripts
 
 Installation Updates
 ====================
@@ -46,13 +47,25 @@ the set of tests, and install them if they do not exist:
 * test_data_amsr2 for base install
 * test_data_clavrx and geoips_clavrx for clavrx_install
 * All available plugin repos and test data repos for "full" install
-  (will update appropriately as new repos become available)
+  (will update appropriately as new repos/datasets become available)
 
 ::
 
   modified: tests/integration_tests/base_install.sh
   modified: tests/integration_tests/clavrx_install.sh
   modified: tests/integration_tests/full_install.sh
+
+Remove base_install_and_test.sh setup script
+--------------------------------------------
+
+These scripts have been replaced with the updated installation instructions,
+and the new integration_tests scripts.
+
+::
+
+  deleted: base_install_and_test.sh
+  deleted: tests/test_base_install.sh
+  deleted: tests/test_base_install_low_memory.sh
 
 Update check_system_requirements to return non-zero on failure
 --------------------------------------------------------------
@@ -87,3 +100,26 @@ test the given package.
   modified: tests/integration_tests/clavrx_test.sh
   modified: tests/integration_tests/base_test.sh
   modified: tests/integration_tests/full_test.sh
+
+Documentation Updates
+=====================
+
+Add updated installation instructions
+-------------------------------------
+
+Replace script based installation with explicit commands included directly
+in the documentation.
+
+Effectively the base_install_and_test.sh and test_base_install.sh scripts
+have been replaced with explicit instructions to:
+
+* wget and run Anaconda installer
+* Execute a conda create command that includes all required system dependencies
+* Run `pip install geoips`
+* Run `tests/integration_tests/base_install.sh`
+* Run `tests/integration_tests/base_test.sh`
+
+::
+
+  docs/source/starter/installation.rst
+
