@@ -82,11 +82,11 @@ that conda environment.
 --------------------------------
 
 - Download the appropriate version of `Conda
-  <https://www.anaconda.com/download#downloads>`_ or `Miniconda
-  <https://docs.conda.io/en/latest/miniconda.html>`_ or
+  <https://www.anaconda.com/download#downloads>`_,  `Miniconda
+  <https://docs.conda.io/en/latest/miniconda.html>`_, or
   `Miniforge/Mambaforge <https://github.com/conda-forge/miniforge#download>`_.
 
-  For example, for Linux with Intel chips:
+  For example, for Linux with Intel chips, one of the following:
 
   .. code:: bash
 
@@ -96,7 +96,8 @@ that conda environment.
       wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
 
 - Make the install script executable and run the installer,
-  following the prompts:
+  following the prompts (particularly the bit about
+  conda init / restarting terminal!):
 
   .. code:: bash
 
@@ -115,13 +116,13 @@ automatically with every new shell, you can add them to your
 .bashrc file.
 
 Ie, for desired installation location
-$HOME/geoips_packages:
+$HOME/geoips:
 
 .. code:: bash
 
     # GeoIPS Default Locations
     export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS  # Point to base URL for git clone commands
-    export GEOIPS_PACKAGES_DIR=$HOME/geoproc
+    export GEOIPS_PACKAGES_DIR=$HOME/geoips
     export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
     export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
 
@@ -139,6 +140,9 @@ command will ensure that for everyone.
 
 .. code:: bash
 
+    # If you want to use mamba, just replace conda with mamba
+    # mamba create -y -n geoips -c conda-forge python=3.10 gcc gxx geos openblas imagemagick git git-lfs rclone
+    # mamba activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
     conda create -y -n geoips -c conda-forge python=3.10 gcc gxx geos openblas imagemagick git git-lfs rclone
     conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
     git lfs install
@@ -153,6 +157,7 @@ Clone the GeoIPS git repository and its test data repositories
 .. code:: bash
 
     mkdir -p $GEOIPS_PACKAGES_DIR
+    git lfs install
     git clone ${GEOIPS_REPO_URL}/geoips.git $GEOIPS_PACKAGES_DIR/geoips
     cd $GEOIPS_PACKAGES_DIR/geoips
     pip install .[doc,lint,test]
@@ -168,14 +173,14 @@ repositories containing test data and one to run a few integration tests.
     git lfs install
     cd $GEOIPS_PACKAGES_DIR/geoips
     # Download the test data
-    .tests/integration_tests/base_install.sh
+    ./tests/integration_tests/base_install.sh
     # Run integration tests
     ./tests/integration_tests/base_test.sh
 
 Installation output logs reference
 ----------------------------------
 
-The output from the base_install.sh and base_test.sh commands
+For reference, the output from the base_install.sh and base_test.sh commands
 should look something like this:
 
 .. code:: bash
