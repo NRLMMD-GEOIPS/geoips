@@ -469,7 +469,12 @@ elif [[ "$1" == "recompress_test_data" ]]; then
 
 elif [[ "$1" =~ "install_geoips_plugin" ]]; then
     $0 clone_source_repo $2
+    clone_retval=$?
     pip install -e $GEOIPS_PACKAGES_DIR/$2
+    pip_retval=$?
+    if [[ "$pip_retval" != "0" || "$clone_retval" != "0" ]]; then
+        exit 1
+    fi
 
 elif [[ "$1" =~ "clone_source_repo" ]]; then
     echo ""
