@@ -14,7 +14,23 @@ exit_on_missing="false"
 if [[ "$3" == "exit_on_missing" ]]; then
     exit_on_missing="true"
 fi
-install_log=$GEOIPS_OUTDIRS/logs/`date -u +%Y%m%d.%H%M%S`_base_install.log
+if [[ "$4" != "" ]]; then
+    install_script="$4"
+fi
+
+if [[ -z "$GEOIPS_OUTDIRS" || \
+      -z "$GEOIPS_PACKAGES_DIR" || \
+      -z "$GEOIPS_REPO_URL" || \
+      -z "$GEOIPS_TESTDATA_DIR" ]]; then
+    echo "Must define appropriate GEOIPS environment variables prior to using geoips:"
+    echo "    GEOIPS_OUTDIRS       # Required for ALL geoips processing"
+    echo "    GEOIPS_PACKAGES_DIR  # Required for integration testing"
+    echo "    GEOIPS_REPO_URL      # Required for installation"
+    echo "    GEOIPS_TESTDATA_DIR  # Required for integration testsing"
+    exit 1
+fi
+
+install_log=$GEOIPS_OUTDIRS/logs/`date -u +%Y%m%d.%H%M%S`_install.log
 mkdir -p `dirname $install_log`
 echo ""
 echo "Install log: $install_log"
@@ -146,6 +162,12 @@ if [[ "$1" == "test_repo" ]]; then
     ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.bz2 >> $install_log 2>&1
     retval_bz2=$?
     if [[ "$retval" != "0" ]]; then
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED: Missing test data repo $test_repo"
+            echo "        Please run install script, then rerun test script. "
+            echo "        $install_script"
+            exit 1
+        fi
         echo "Installing test data repo $test_repo.... "
         echo "  $GEOIPS_TESTDATA_DIR/$test_repo/"
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh clone_test_repo $test_repo >> $install_log 2>&1
@@ -159,11 +181,13 @@ if [[ "$1" == "test_repo" ]]; then
             echo "        try deleting directory and re-running"
             exit 1
         fi
+    elif [[ "$retval_gz" == "0" || "$retval_bz2" == "0" ]]; then
         if [[ "$exit_on_missing" == "true" ]]; then
-            echo "Please re-run test command. "
+            echo "FAILED: Compressed data still in test data repo $test_repo"
+            echo "        Please run install script, then rerun test script. "
+            echo "        $install_script"
             exit 1
         fi
-    elif [[ "$retval_gz" == "0" || "$retval_bz2" == "0" ]]; then
         echo "Uncompressing data in test data repo $test_repo."
         echo "  ls $GEOIPS_TESTDATA_DIR/$test_repo/data/*.gz/bz2/tgz"
         $GEOIPS_PACKAGES_DIR/geoips/setup.sh uncompress_test_data $test_repo >> $install_log 2>&1
@@ -173,10 +197,6 @@ if [[ "$1" == "test_repo" ]]; then
         else
             echo "FAILED: test data repo $data_type setup returned non-zero"
             echo "        try deleting directory and re-running"
-            exit 1
-        fi
-        if [[ "$exit_on_missing" == "true" ]]; then
-            echo "Please re-run test command."
             exit 1
         fi
     else
@@ -190,6 +210,12 @@ if [[ "$1" == "source_repo" ]]; then
     ls $GEOIPS_PACKAGES_DIR/$source_repo/tests/* >> $install_log 2>&1
     retval=$?
     if [[ "$retval" != "0" ]]; then
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED: Missing source repo $source_repo"
+            echo "        Please run install script, then rerun test script. "
+            echo "        $install_script"
+            exit 1
+        fi
         echo "Installing source repo $source_repo...."
         echo "  $GEOIPS_PACKAGES_DIR/$source_repo/"
         echo "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin $source_repo" >> $install_log 2>&1
@@ -199,10 +225,6 @@ if [[ "$1" == "source_repo" ]]; then
         else
             echo "FAILED: source repo $source_repo clone or install returned non-zero"
             echo "        try deleting directory and re-running"
-            exit 1
-        fi
-        if [[ "$exit_on_missing" == "true" ]]; then
-            echo "Please re-run test command."
             exit 1
         fi
     else
@@ -248,6 +270,12 @@ if [[ "$1" == "aws_test_data" ]]; then
 
     # If there weren't any files, may be a git lfs problem (or just not downloaded yet)
     if [[ "$retval" != "0" ]]; then
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED: Missing aws test data $data_type"
+            echo "        Please run install script, then rerun test script. "
+            echo "        $install_script"
+            exit 1
+        fi
         echo "Installing aws test data $data_type...."
         echo "  $test_data_files"
         echo "$GEOIPS_PACKAGES_DIR/geoips/setup.sh $setup_command" >> $install_log 2>&1
@@ -259,12 +287,14 @@ if [[ "$1" == "aws_test_data" ]]; then
             echo "        try deleting directory and re-running"
             exit 1
         fi
-        if [[ "$exit_on_missing" == "true" ]]; then
-            echo "Now please re-run test command."
-            exit 1
-        fi
     # If there were bz2s, decompress them.
     elif [[ "$retval_bz2" == "0" ]]; then
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED: Compressed aws test data $data_type still exists."
+            echo "        Please run install script, then rerun test script. "
+            echo "        $install_script"
+            exit 1
+        fi
         echo "Uncompressing data in aws test data $data_type...."
         echo "    $test_data_bz2_path"
         echo "bunzip2 -f $test_data_bz2_path" >> $install_log 2>&1
@@ -274,10 +304,6 @@ if [[ "$1" == "aws_test_data" ]]; then
         else
             echo "FAILED: Uncompress on aws test data $data_type returned non-zero"
             echo "        try deleting directory and re-running"
-            exit 1
-        fi
-        if [[ "$exit_on_missing" == "true" ]]; then
-            echo "Please re-run test command."
             exit 1
         fi
     else
