@@ -12,7 +12,11 @@
 
 #!/bin/sh
 
-. $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh exit_on_missing
+$GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh exit_on_missing
+if [[ "$?" != "0" ]]; then
+    exit 1
+fi
+echo ""
 
 # This should contain test calls to cover ALL required functionality tests for
 # all available geoips plugin repositories on github.com
