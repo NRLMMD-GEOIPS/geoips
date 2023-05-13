@@ -12,7 +12,11 @@
 
 #!/bin/bash
 
-. $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/clavrx_install.sh exit_on_missing
+$GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/clavrx_install.sh exit_on_missing
+if [[ "$?" != "0" ]]; then
+    exit 1
+fi
+echo ""
 
 # This should contain test calls to cover ALL required functionality tests for
 # clavrx-based processing.
@@ -33,7 +37,7 @@
 # "call" used in test_all_run.sh
 for call in \
     "test_interfaces" \
-    "$GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/scripts/ahi_cldHeightBase.sh"
+    "$GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/scripts/ahi.Cloud-Base-Height.imagery_clean.sh"
 do
     . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
 done
