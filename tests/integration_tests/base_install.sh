@@ -12,11 +12,11 @@
 
 #!/bin/bash
 
-exit_on_missing="false"
+test_exit=""
 if [[ "$1" == "exit_on_missing" ]]; then
-    exit_on_missing="true"
+    test_exit="exit_on_missing"
 fi
 
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_amsr2
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh aws_test_data abi_day_low_memory
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_amsr2 $test_exit
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh aws_test_data abi_day_low_memory $test_exit

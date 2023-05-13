@@ -13,6 +13,7 @@
 #!/bin/bash
 
 . $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh exit_on_missing
+echo ""
 
 # This should contain test calls to cover ALL required functionality tests for the @package@ repo.
 
