@@ -20,6 +20,7 @@ if [[ "$1" == "exit_on_missing" ]]; then
 fi
 
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh ancillary_data cartopy_shapefiles $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh aws_test_data abi_day $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh aws_test_data ahi_day $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh aws_test_data fusion_data $test_exit $install_script
