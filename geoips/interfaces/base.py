@@ -593,7 +593,12 @@ class BaseModuleInterface(BaseInterface):
         """Get a list of plugins for this interface."""
         plugins = []
         for ep in get_all_entry_points(self.name):
-            plugins.append(plugin_module_to_obj(ep.name, ep))
+            try:
+                plugins.append(plugin_module_to_obj(ep.name, ep))
+            except AttributeError:
+                raise PluginError(
+                    f"Plugin {ep.__name__} is missing the 'name' attribute"
+                )
         return plugins
 
     def plugin_is_valid(self, name):
@@ -647,16 +652,16 @@ class BaseModuleInterface(BaseInterface):
 
         for expected_arg in expected_args:
             if expected_arg not in arg_list:
-                LOG.error("MISSING expected arg %s", expected_arg)
+                LOG.error("MISSING expected arg %s in %s", expected_arg, plugin.name)
                 return False
         for expected_kwarg in expected_kwargs:
             # If expected_kwarg is a tuple, first item is kwarg, second default value
             if isinstance(expected_kwarg, tuple):
                 if expected_kwarg[0] not in kwarg_list:
-                    LOG.error("MISSING expected kwarg %s", expected_kwarg)
+                    LOG.error("MISSING expected kwarg %s in %s", expected_kwarg, plugin.name)
                     return False
             elif expected_kwarg not in kwarg_list:
-                LOG.error("MISSING expected kwarg %s", expected_kwarg)
+                LOG.error("MISSING expected kwarg %s in %s", expected_kwarg, plugin.name)
                 return False
 
         return True
