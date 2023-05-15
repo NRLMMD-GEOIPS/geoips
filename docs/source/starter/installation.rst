@@ -110,11 +110,12 @@ that conda environment.
 2. Set GeoIPS Environment Variables
 -----------------------------------
 
-In order to support GeoIPS' testing infrastructure, there are a few required environment
-variables.
+In order to support GeoIPS' testing infrastructure, there are a few required
+environment variables. The following should be added to your ``$HOME/.bashrc``
+file. You can change your installation location by changing the value of
+``$GEOIPS_PACKAGES_DIR``.
 
-In the commands below, you can change your installation location by changing the value of
-``$GEOIPS_PACKAGES_DIR``. If you would like to install GeoIPS in `$HOME/geoips`:
+If you would like to install GeoIPS in `$HOME/geoips`:
 
 .. code:: bash
 
@@ -123,9 +124,6 @@ In the commands below, you can change your installation location by changing the
     export GEOIPS_PACKAGES_DIR=$HOME/geoips
     export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
     export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
-
-If you would like to have these environment variables set automatically
-when you start a new shell, you can add them to your ``$HOME/.bashrc`` file.
 
 .. code:: bash
 
