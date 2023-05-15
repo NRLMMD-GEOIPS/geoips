@@ -22,6 +22,10 @@ Clean up installation and integration testing process.
     given set of test scripts
   * Additionally check system requirements prior to commencing tests
 * Remove old base install and test scripts
+* Update installation documentation to reflect explicit Anaconda installation,
+  and simplified install/test scripts.
+* Provide more useful error messages from base interface class for invalid
+  plugins.
 
 Installation Updates
 ====================
@@ -44,15 +48,13 @@ These scripts first check basic system requirements exist:
 Then check for specific test repos / plugin packages required for
 the set of tests, and install them if they do not exist:
 
-* test_data_amsr2 for base install
-* test_data_clavrx and geoips_clavrx for clavrx_install
+* test_data_amsr2 and AWS ABI test data for base install
 * All available plugin repos and test data repos for "full" install
   (will update appropriately as new repos/datasets become available)
 
 ::
 
   modified: tests/integration_tests/base_install.sh
-  modified: tests/integration_tests/clavrx_install.sh
   modified: tests/integration_tests/full_install.sh
 
 Remove base_install_and_test.sh setup script
@@ -97,7 +99,6 @@ test the given package.
 
 ::
 
-  modified: tests/integration_tests/clavrx_test.sh
   modified: tests/integration_tests/base_test.sh
   modified: tests/integration_tests/full_test.sh
 
@@ -123,3 +124,12 @@ have been replaced with explicit instructions to:
 
   docs/source/starter/installation.rst
 
+Add useful error messages in base interface class for invalid plugins
+---------------------------------------------------------------------
+
+Ensure all instances of missing attributes throughout geoips/interfaces/base.py
+are appropriately caught and raised, with appropriate error messages.
+
+::
+
+  modified: geoips/interfaces/base.py
