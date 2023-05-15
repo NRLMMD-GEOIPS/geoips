@@ -36,8 +36,8 @@ echo ""
 echo ""
 # "call" used in test_all_run.sh
 for call in \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.config_based_output_low_memory.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
+    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.config_based_no_compare.sh" \
+    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh" \
     "test_interfaces"
 do
     . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
