@@ -61,6 +61,72 @@ if [[ "$1" == "geoips_base" ]]; then
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh rclone
 fi
 
+# Partly implemented
+# if [[ "$1" == "cartopy_data_dir" ]]; then
+#     if [[ -z "$CARTOPY_DATA_DIR" ]]; then
+#         echo "FAILED: cartopy_data_dir requested and \$CARTOPY_DATA_DIR not set"
+#         echo "please set \$CARTOPY_DATA_DIR to your desired location and retry"
+#         echo "  shapefiles will be downloaded from:"
+#         echo "      git clone https://github.com/nvkelso/natural-earth-vector"
+#         echo "  shapefiles will be downloaded to:"
+#         echo "      \$CARTOPY_DATA_DIR/shapefiles_clone"
+#         echo "  cloned shapefiles will be linked into location cartopy expects:"
+#         echo "      \$CARTOPY_DATA_DIR/shapefiles/natural_earth"
+#         exit 1
+#     fi
+#     ls $CARTOPY_DATA_DIR/shapefiles/natural_earth/* >> $install_log 2>&1
+#     retval=$?
+#     if [[ "$retval" == "0" ]]; then
+#         echo "SUCCESS: cartopy_data_dir appears to be successfully installed"
+#         echo "         if you are having comparison errors, you can try"
+#         echo "         deleting the contents of \$CARTOPY_DATA_DIR, and"
+#         echo "         rerunning check_system_requirements.sh cartopy_data_dir"
+#         ls -ld $CARTOPY_DATA_DIR/shapefiles/natural_earth
+#     else
+#         echo ""
+#         echo "**Installing github.com/nvkelso/natural-earth-vector map data, "
+#         echo "  latest version, (last tested v5.2.0) this will take a while"
+#         echo "    destination: $CARTOPY_DATA_DIR/shapefiles_clone"
+#         mkdir -p $cartopy_data
+#         cwd=`pwd`
+#         cd $cartopy_data
+#         git clone https://github.com/nvkelso/natural-earth-vector
+#         cd natural-earth-vector
+#         git fetch --all --tags --prune
+#         # Previously 5.0.0, 20220607 5.2.0
+#         # echo "    **Checking out tag v5.2.0, to ensure tests pass"
+#         # git checkout tags/v5.2.0
+#         git tag | tail -n 5
+#         cd $cwd
+#         echo ""
+#         echo "**Linking natural-earth-data to ~/.local/share/cartopy/shapefiles/natural_earth/cultural and physical"
+#         source_cartopy_data=$GEOIPS_DEPENDENCIES_DIR/cartopy_map_data
+#         if [[ -z "$CARTOPY_DATA_DIR" ]]; then
+#             CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
+#         fi
+#         linkdir=$CARTOPY_DATA_DIR/shapefiles/natural_earth
+#         mkdir -p $linkdir/cultural
+#         mkdir -p $linkdir/physical
+#         ln -sfv $source_cartopy_data/natural-earth-vector/*_cultural/*/* $linkdir/cultural
+#         ln1_retval=$?
+#         ln -sfv $source_cartopy_data/natural-earth-vector/*_physical/*/* $linkdir/physical
+#         ln2_retval=$?
+#         ln -sfv $source_cartopy_data/natural-earth-vector/*_cultural/* $linkdir/cultural
+#         ln3_retval=$?
+#         ln -sfv $source_cartopy_data/natural-earth-vector/*_physical/* $linkdir/physical
+#         ln4_retval=$?
+#         if [[ $ln1_retval != 0 || $ln2_retval != 0 || $ln3_retval != 0 || $ln4_retval != 0 ]]; then
+#             echo "**You MUST be able to replace ALL user cartopy data with natural_earth_vector downloads!"
+#             echo "Please remove cartopy shapefiles and replace with downloaded cartopy_map_data"
+#             echo "rm -fv ~/.local/share/cartopy/shapefiles/natural_earth/cultural/*"
+#             echo "rm -fv ~/.local/share/cartopy/shapefiles/natural_earth/physical/*"
+#             echo "ln -sfv $source_cartopy_data/natural-earth-vector/*_cultural/* $linkdir/cultural"
+#             echo "ln -sfv $source_cartopy_data/natural-earth-vector/*_physical/* $linkdir/physical"
+#             exit 1
+#         fi
+#     fi
+# fi
+
 if [[ "$1" == "imagemagick" ]]; then
     compare --version >> $install_log 2>&1
     retval=$?
