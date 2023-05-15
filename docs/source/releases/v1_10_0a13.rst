@@ -26,6 +26,7 @@ Clean up installation and integration testing process.
   and simplified install/test scripts.
 * Provide more useful error messages from base interface class for invalid
   plugins.
+* Simplify base_test.sh script to only compare clean imagery test outputs.
 
 Installation Updates
 ====================
@@ -101,6 +102,17 @@ test the given package.
 
   modified: tests/integration_tests/base_test.sh
   modified: tests/integration_tests/full_test.sh
+
+Simplify base_test.sh script to only compare clean imagery test outputs
+-----------------------------------------------------------------------
+
+To avoid unnecessary comparison failures due to cartopy / matplotlib
+configurations, only test config based annotated imagery for completion,
+and single source clean imagery output for comparison.
+
+::
+
+    modified: tests/integration_tests/base_test.sh
 
 Documentation Updates
 =====================
