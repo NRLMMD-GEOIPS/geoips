@@ -12,7 +12,14 @@
 
 #!/bin/sh
 
-# This should contain test calls to cover ALL required functionality tests for the geoips repo.
+$GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh exit_on_missing
+if [[ "$?" != "0" ]]; then
+    exit 1
+fi
+echo ""
+
+# This should contain test calls to cover ALL required functionality tests for
+# all available geoips plugin repositories on github.com
 
 # The $GEOIPS_PACKAGES_DIR/geoips tests modules sourced within this script handle:
    # setting up the appropriate associative arrays for tracking the overall return value,
@@ -21,37 +28,26 @@
 
 # Note you must use the variable "call" in the for the loop
 
-. $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_pre.sh geoips_full
+# Argument to test_all_pre.sh ONLY sets the prefix on the log output / filenames.
+# Used for clarity, and to differentiate potentially multiple "test_all.sh" scripts in the same repo.
 
-echo "Updated versions of gfortran and git required for tests to pass"
+. $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_pre.sh full
 
 echo ""
 # "call" used in test_all_run.sh
 for call in \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/utils/check_code.sh all `dirname $0`/../ flake8_docstring_only" \
-    "$GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.sh `dirname $0`/../ html_only" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin recenter_tc" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin data_fusion" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh install_geoips_plugin geoips_clavrx" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/uncompress_test_data.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_abi_test_data low_memory" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_fusion_test_data" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_amsr2 main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_clavrx main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_gpm main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_sar main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_scat main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_smap main" \
-    "$GEOIPS_PACKAGES_DIR/geoips/setup.sh setup_test_repo test_data_viirs main" \
+    "$GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.sh `dirname $0`/../../ html_only" \
     "pytest $GEOIPS_PACKAGES_DIR/geoips/tests/test_pytest" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
     "test_interfaces" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.config_based_output_low_memory.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.config_based_output.sh" \
+    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ahi.tc.WV.geotiff.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh" \
+    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_no_compare.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh" \
     "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh" \

@@ -35,6 +35,7 @@ def call(
     product_subdir=None,
     source_dir=None,
     basedir=gpaths["ANNOTATED_IMAGERY_PATH"],
+    output_dict=None,
 ):
     """GEOTIFF filename formatter.
 
@@ -60,6 +61,7 @@ def call(
         product_subdir=product_subdir,
         source_dir=source_dir,
         basedir=basedir,
+        output_dict=output_dict,
     )
 
     return geotiff_fname
