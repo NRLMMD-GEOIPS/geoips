@@ -1,6 +1,9 @@
 $id: product_defaults.interpolator_algorithm_colormap
 $ref: bases.top
 type: object
+description: |
+  The default product_defaults interpolator_algorithm_colormap configuration. Requires spec, which specifies
+  the interpolator_algorithm_colormap structure. This includes the algorithm type, colormap, interpolator, display_name, and more.
 required:
   - spec
 properties:

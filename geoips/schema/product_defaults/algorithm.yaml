@@ -1,6 +1,9 @@
 $id: product_defaults.algorithm
 $ref: bases.top
 type: object
+description: |
+  The default product_defaults algorithm configuration. Requires spec, which specifies
+  the algorithm structure. This includes the algorithm type, display_name, and more.
 required:
   - spec
 properties:

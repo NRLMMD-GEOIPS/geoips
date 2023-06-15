@@ -1,5 +1,10 @@
 $id: product_defaults.specs.interpolator_algorithm_colormap
 type: object
+description: |
+  The default product_defaults interpolator_algorithm_colormap configuration. Requires plugins interpolator, 
+  algorithm, and colormap. It's properties are sub-plugins which define the interpolator_algorithm_colormap 
+  to be applied to the data. For more information, view each sub-plugin's description. Defined in 
+  geoips/schema/product_defaults/bases.
 required:
   - interpolator
   - algorithm

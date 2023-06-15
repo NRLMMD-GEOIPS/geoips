@@ -1,5 +1,9 @@
 $id: product_defaults.specs.algorithm_colormap
 type: object
+description: |
+  The default product_defaults algorithm_colormap configuration. Requires plugins algorithm
+  and colormap. It's properties are sub-plugins which define the algorithm_colormap to be applied to the
+  data. For more information, view each sub-plugin's description. Defined in geoips/schema/product_defaults/bases.
 required:
   - algorithm
   - colormap
