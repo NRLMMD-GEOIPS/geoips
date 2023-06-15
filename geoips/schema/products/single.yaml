@@ -1,5 +1,8 @@
 $id: products.single
 $ref: bases.top
+description: |
+  The default products single configuration. Requires spec, which defines the structure of 
+  single. This is the structure for a single product.
 required:
   - spec
 properties:

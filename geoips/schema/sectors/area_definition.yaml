@@ -1,5 +1,9 @@
 $id: sectors.area_definition
 $ref: bases.top
+description: |
+  The default sectors area_definition configuration. Requires spec, which defines the structure
+  of area_definition. This includes the area of the sector, the description of the sector, resolution,
+  extent, and more. Has property metadata, which includes data related to the origin of the area_definition.
 required:
   - spec
 properties:

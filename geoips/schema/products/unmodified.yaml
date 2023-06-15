@@ -1,6 +1,10 @@
 $id: products.unmodified
 $ref: bases.top
 type: object
+description: |
+  The default products unmodified configuration. Requires spec, which defines the structure
+  of unmodified. Has additional properties family and source_name, which define the 
+  family in which unmodified resides, and the source_name of where unmodified is derived from.
 required:
   - spec
 properties:
