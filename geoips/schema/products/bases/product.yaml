@@ -7,12 +7,21 @@ required:
 unevaluatedProperties: false
 properties:
   source_name:
+    description: |
+      A string representing where the data is sourced from. This refers
+      to the atmospheric product which created the data to be used.
     type: string
   name:
+    description: A string representing name of the product
     $ref: bases.name
   docstring:
+    description: |
+      A single or multiline string which documents the functionality of the
+      product at hand.
     $ref: bases.docstring
   family:
+    description: |
+      A string representing the interface family in which this product falls under.
     $ref: bases.family
   product_defaults:
     $ref: bases.product_defaults
@@ -24,6 +33,10 @@ properties:
     #   - variables
     properties:
       variables:
+        description: |
+          A nonempty array of strings which represent the names of the variables contained
+          in an associated data file. Order is maintained in this array, and the variable data
+          used in the corresponding algorithm will respect the order of variables listed in this array.
         type: array
         minItems: 1
         items:
