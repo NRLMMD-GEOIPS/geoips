@@ -1,6 +1,0 @@
-# This YAML product config is useful only as a "product_template" to
-# define products directly within product_inputs/<source>.yaml
-interp:
-    product_type: 'interp'
-    interp_func: pyresample_wrappers.interp_nearest
-    interp_args: {}

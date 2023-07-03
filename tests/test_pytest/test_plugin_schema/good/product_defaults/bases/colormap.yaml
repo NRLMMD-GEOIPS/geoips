@@ -1,0 +1,32 @@
+---
+plugin:
+  name: infrared
+  arguments: {}
+---
+plugin:
+  name: infrared
+  arguments:
+    cmap_name: Greys_r
+    data_range: [0, 100]
+    cbar_label: "Infrared BT"
+    cbar_ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
+---
+plugin:
+  name: infrared
+  arguments:
+    cmap_name: Greys_r
+---
+plugin:
+  name: infrared
+  arguments:
+    data_range: [0, 100]
+---
+plugin:
+  name: infrared
+  arguments:
+    cbar_label: "Infrared BT"
+---
+plugin:
+  name: infrared
+  arguments:
+    cbar_ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]

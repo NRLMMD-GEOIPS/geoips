@@ -1,0 +1,16 @@
+interface: sectors
+family: generated
+name: tc_0p1km_3200x3200
+docstring: |
+  The tc_0p1km_3200x3200 boundaries configuration.
+
+  Using pixel_width: 100, pixel_height: 100, num_lines: 3200, num_samples: 3200.
+spec:
+  sector_spec_generator:
+    name: center_coordinates
+    arguments:
+      projection: eqc
+      pixel_width: 100
+      pixel_height: 100
+      num_lines: 3200
+      num_samples: 3200

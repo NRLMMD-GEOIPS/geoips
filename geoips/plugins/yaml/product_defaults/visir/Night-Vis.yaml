@@ -1,0 +1,32 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: Night-Vis
+docstring: |
+  The Night-Vis product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: Night_Vis
+      arguments:
+        output_data_range: [0, 100]
+        input_units: radiance
+        output_units: radiance
+        min_outbounds: mask
+        max_outbounds: crop
+        scale_factor: 100
+        gamma_list: [1.0]
+        max_night_zen: 90
+        inverse: false
+        norm: false
+  mtif_type: vis
+  colormapper:
+    plugin:
+      name: matplotlib_linear_norm
+      arguments:
+        data_range: [0, 100]
+        cmap_name: Greys_r
+        cbar_label: Normalized Radiance
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

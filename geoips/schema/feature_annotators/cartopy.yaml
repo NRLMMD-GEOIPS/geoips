@@ -1,0 +1,45 @@
+$id: feature_annotators.cartopy
+$ref: "bases.top"
+title: "Feature Annotators"
+description: |
+  Defines which geographical boundaries should be drawn over the output products and
+  how they should be drawn. Can enable coastlines, countries, states, and rivers and
+  control their line width and color.
+required:
+  - spec
+properties:
+  spec:
+    type: object
+    # Only allow coastlines, countries, rivers, states for now
+    # Each is optional - can leave any out as appropriate.
+    unevaluatedProperties: false
+    default: {}
+    required:
+      - coastline
+      - borders
+      - rivers
+      - states
+    properties:
+      coastline: &line-args
+        type: object
+        # Only allow enabled, color, linewidth for now. Update if others needed.
+        unevaluatedProperties: false
+        properties:
+          enabled:
+            type: boolean
+        if:
+          properties:
+            enabled:
+              const: true
+        then:
+          required:
+            - edgecolor
+            - linewidth
+          properties:
+            edgecolor:
+              type: string
+            linewidth:
+              type: number
+      borders: *line-args
+      rivers: *line-args
+      states: *line-args

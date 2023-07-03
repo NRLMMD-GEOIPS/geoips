@@ -75,16 +75,10 @@ def check_command_line_args(arglist, argdict):
         ):
             raise TypeError('Must pass bool for "resampled_read" dictionary entry')
         LOG.info("COMMANDLINEARG resampled_read: %s", argdict["resampled_read"])
-    if "sectorfiles" in arglist:
-        if argdict["sectorfiles"] and not isinstance(argdict["sectorfiles"], list):
-            raise TypeError(
-                'Must pass list of strings for "sectorfiles" dictionary entry'
-            )
-        LOG.info("COMMANDLINEARG sectorfiles: %s", argdict["sectorfiles"])
     if "sector_list" in arglist:
         if argdict["sector_list"] and not isinstance(argdict["sector_list"], list):
             raise TypeError(
-                'Must pass list of strings for "sectorfiles" dictionary entry'
+                "Must pass list of strings for requested static sector plugins"
             )
         LOG.info("COMMANDLINEARG sector_list: %s", argdict["sector_list"])
     if "tcdb_sector_list" in arglist:
@@ -139,14 +133,14 @@ def check_command_line_args(arglist, argdict):
             "COMMANDLINEARG output_file_list_fname: %s",
             argdict["output_file_list_fname"],
         )
-    if "adjust_area_def" in arglist:
-        if argdict["adjust_area_def"] and not isinstance(
-            argdict["adjust_area_def"], str
+    if "sector_adjuster" in arglist:
+        if argdict["sector_adjuster"] and not isinstance(
+            argdict["sector_adjuster"], str
         ):
             raise TypeError(
-                'Must pass a single string for "adjust_area_def" dictionary entry'
+                'Must pass a single string for "sector_adjuster" dictionary entry'
             )
-        LOG.info("COMMANDLINEARG adjust_area_def: %s", argdict["adjust_area_def"])
+        LOG.info("COMMANDLINEARG sector_adjuster: %s", argdict["sector_adjuster"])
     if "reader_defined_area_def" in arglist:
         if argdict["reader_defined_area_def"] and not isinstance(
             argdict["reader_defined_area_def"], bool
@@ -225,26 +219,36 @@ def add_args(parser, arglist=None):
     sect_group = parser.add_argument_group(
         title="Sector Requests: General arguments for sectors"
     )
-    if arglist is None or "adjust_area_def" in arglist:
+    if arglist is None or "sector_adjuster" in arglist:
         sect_group.add_argument(
-            "--adjust_area_def",
+            "--sector_adjuster",
             nargs="?",
             default=None,
-            help="""Specify area def adjuster to be used within processing, located in:
-                            <package>.interface_modules.area_def_adjusters.
+            help="""Specify sector adjuster to be used within processing, located in:
+                            <package>.plugins.modules.sector_adjusters.
                                 <myadjuster>.<myadjuster>""",
+        )
+    if arglist is None or "sector_adjuster_kwargs" in arglist:
+        sect_group.add_argument(
+            "--sector_adjuster_kwargs",
+            nargs="?",
+            default={},
+            type=jloads,
+            help="""Specify sector_adjuster kwargs that should be used for
+                            this sector_adjuster. Should be formatted as a json
+                            dictionary string""",
         )
 
     tc_group = parser.add_argument_group(
         title="Sector Requests: General arguments for TC sectors"
     )
-    if arglist is None or "tc_template_yaml" in arglist:
+    if arglist is None or "tc_spec_template" in arglist:
         tc_group.add_argument(
-            "--tc_template_yaml",
+            "--tc_spec_template",
             nargs="?",
             default=None,
-            help="""YAML template for creating appropriate TC sector
-                            shape/resolution from current storm location""",
+            help="""YAML plugin for creating appropriate TC sector using
+                    shape/resolution from current storm location.""",
         )
 
     trackfile_group = parser.add_argument_group(
@@ -267,7 +271,7 @@ def add_args(parser, arglist=None):
             nargs="?",
             default=None,
             help="""Specify TC trackfile parser to use with trackfiles, located in:
-                            geoips*.interface_modules.trackfile_parsers.
+                            geoips*.plugins.modules.sector_metadata_generators .
                                 myparsername.myparsername,
                             The trackfile_parser string should be the parser module
                             name (no .py)""",
@@ -346,21 +350,14 @@ def add_args(parser, arglist=None):
                             area_definition defined within the reader. This option
                             supercedes all other sector-specifying options.""",
         )
-    if arglist is None or "sectorfiles" in arglist:
-        static_group.add_argument(
-            "--sectorfiles",
-            nargs="*",
-            default=None,
-            help="""Specify YAML sectorfiles""",
-        )
     if arglist is None or "sector_list" in arglist:
         static_group.add_argument(
             "-s",
             "--sector_list",
             nargs="*",
             default=None,
-            help="""A list of short sector names found within YAML sectorfiles
-                            over which the data file should be processed.""",
+            help="""A list of short sector plugin names found within YAML sectorfiles
+                    over which the data file should be processed.""",
         )
 
     prod_group = parser.add_argument_group(title="Product specification options")
@@ -388,13 +385,13 @@ def add_args(parser, arglist=None):
             help="""Specify product specific options (these must be parsed
                             within the individual product scripts)""",
         )
-    if arglist is None or "product_params_override" in arglist:
+    if arglist is None or "product_spec_override" in arglist:
         prod_group.add_argument(
-            "--product_params_override",
+            "--product_spec_override",
             nargs="?",
             default={},
             type=jloads,
-            help="""Specify product parameters to override the default specifications.
+            help="""Specify product spec fields to override the default specifications.
                             Should be formatted as a json dictionary string""",
         )
 
@@ -453,15 +450,15 @@ def add_args(parser, arglist=None):
             "--procflow",
             default=None,
             help="""Specify procflow that should be followed for this file, located in:
-                            geoips*.interface_modules.procflows.
+                            geoips*.plugins.modules.procflows.
                                 myprocflowname.myprocflowname,
                             The procflow string should be the procflow module
                             name (no .py)""",
         )
 
-    if arglist is None or "filename_format" in arglist:
+    if arglist is None or "filename_formatter" in arglist:
         procflow_group.add_argument(
-            "--filename_format",
+            "--filename_formatter",
             nargs="?",
             default="geoips_fname",
             help="""Specify filename format module_name that should be used for
@@ -470,73 +467,73 @@ def add_args(parser, arglist=None):
                                 from geoips*.filenames.myfilemodule import myfilemodule
                             would be the appropriate import statement""",
         )
-    if arglist is None or "filename_format_kwargs" in arglist:
+    if arglist is None or "filename_formatter_kwargs" in arglist:
         procflow_group.add_argument(
-            "--filename_format_kwargs",
+            "--filename_formatter_kwargs",
             nargs="?",
             default={},
             type=jloads,
             help="""Specify filename format kwargs that should be used for
-                            this filename_format. Should be formatted as a json
+                            this filename_formatter. Should be formatted as a json
                             dictionary string""",
         )
 
-    if arglist is None or "metadata_filename_format" in arglist:
+    if arglist is None or "metadata_filename_formatter" in arglist:
         procflow_group.add_argument(
-            "--metadata_filename_format",
+            "--metadata_filename_formatter",
             nargs="?",
             default=None,
             help="""Specify filename format module_name that should be used for
                             metadata output, where filename_module_name is
                             'myfilemodule' where:
-                                geoips.filename_formats.myfilemodule
+                                geoips.filename_formatters.myfilemodule
                             would be the appropriate entry point""",
         )
-    if arglist is None or "metadata_filename_format_kwargs" in arglist:
+    if arglist is None or "metadata_filename_formatter_kwargs" in arglist:
         procflow_group.add_argument(
-            "--metadata_filename_format_kwargs",
+            "--metadata_filename_formatter_kwargs",
             nargs="?",
             default={},
             type=jloads,
             help="""Specify filename format kwargs that should be used for
-                            this metadata_filename_format.
+                            this metadata_filename_formatter.
                             Should be formatted as a json dictionary string""",
         )
 
-    if arglist is None or "output_format" in arglist:
+    if arglist is None or "output_formatter" in arglist:
         procflow_group.add_argument(
-            "--output_format",
+            "--output_formatter",
             nargs="?",
             default=None,
             help="""Specify output format module_name that should be used for this file,
-                    each output_format is 'output_formats.imagery_annotated' where
-                    from geoips*.output_formats.imagery_annotated import
+                    each output_formatter is 'output_formatters.imagery_annotated' where
+                    from geoips*.output_formatters.imagery_annotated import
                     imagery_annotated would be the appropriate import statement""",
         )
-    if arglist is None or "output_format_kwargs" in arglist:
+    if arglist is None or "output_formatter_kwargs" in arglist:
         procflow_group.add_argument(
-            "--output_format_kwargs",
+            "--output_formatter_kwargs",
             nargs="?",
             default={},
             type=jloads,
             help="""Specify output format kwargs that should be used for this
-                    output_format. should be formatted as a json dictionary string, ie:
-                    '{"title_format": "tc_copyright", "title_copyright": "NRL"}' """,
+                    output_formatter. should be formatted as a json dictionary string, ie:
+                    '{"title_formatter": "tc_copyright", "title_copyright": "NRL"}' """,
         )
 
-    if arglist is None or "metadata_output_format" in arglist:
+    if arglist is None or "metadata_output_formatter" in arglist:
         procflow_group.add_argument(
-            "--metadata_output_format",
+            "--metadata_output_formatter",
             nargs="?",
             default=None,
             help="""Specify output format module_name that should be used for
-                    metadata output, each output_format is 'myoutputmodule' where
-                        from geoips.output_formats.myoutputmodule.myoutputmodule
+                    metadata output, each output_formatter is 'myoutputmodule' where
+                        from geoips.output_formatters.myoutputmodule.myoutputmodule
                     would be the appropriate entry point""",
         )
-    if arglist is None or "metadata_output_format_kwargs" in arglist:
+    if arglist is None or "metadata_output_formatter_kwargs" in arglist:
         procflow_group.add_argument(
-            "--metadata_output_format_kwargs",
+            "--metadata_output_formatter_kwargs",
             nargs="?",
             default={},
             type=jloads,
@@ -589,25 +586,25 @@ def add_args(parser, arglist=None):
         )
 
     plt_group = parser.add_argument_group(title="Plotting parameter specifications")
-    if arglist is None or "gridlines_params" in arglist:
+    if arglist is None or "gridline_annotator" in arglist:
         plt_group.add_argument(
-            "--gridlines_params",
+            "--gridline_annotator",
             default=None,
-            help="""If --gridlines_params is passed, the specific gridline
+            help="""If --gridline_annotator is passed, the specific gridline
                     params will be located in
-                    geoips*.image_utils.plotting_params.gridlines.gridlines_params,
-                    The gridlines_params string should be the base gridline name
+                    geoips*.image_utils.plotting_params.gridlines.gridline_annotator,
+                    The gridline_annotator string should be the base gridline name
                     (no .yaml)""",
         )
-    if arglist is None or "boundaries_params" in arglist:
+    if arglist is None or "feature_annotator" in arglist:
         plt_group.add_argument(
-            "--boundaries_params",
+            "--feature_annotator",
             default=None,
-            help="""If --boundaries_params is passed, the specific boundary
-                    params will be located in
-                    geoips*.image_utils.plotting_params.boundaries.<boundaries_params>,
-                    The boundaries_params string should be the base boundaries name
-                    (no .yaml)""",
+            help="""If --feature_annotator is passed, the specific feature
+                    annotations will be located in
+                    geoips*.plugins.yaml.feature_annotators.<feature_annotator>,
+                    The feature_annotator string should be the base feature annotator
+                    name (no .yaml)""",
         )
 
     if arglist is None or "model_reader_name" in arglist:
@@ -769,7 +766,7 @@ def add_args(parser, arglist=None):
             default=None,
             help="""If --product_db_writer is passed, the specific product
                     database writer will be located in
-                    geoips*.interface_modules.postgres_database.
+                    geoips*.plugins.modules.postgres_database.
                         mywriter_name.mywriter_name,
                     The writer_name string should be the reader module name
                     (no .py)""",

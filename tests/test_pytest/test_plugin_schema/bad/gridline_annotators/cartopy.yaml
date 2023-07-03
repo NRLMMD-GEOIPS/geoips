@@ -1,0 +1,75 @@
+---
+error: ValidationError
+error_pattern: ".*'spec' is a required property.*"
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing spec"
+
+---
+error: ValidationError
+error_pattern: ".*'spacing' is a required property.*"
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing labels"
+spec:
+  lines:
+    color: black
+    linestyle: [4, 2]
+    linewidth: 1
+
+---
+error: ValidationError
+error_pattern: ".*'spacing' is a required property.*"
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing lines"
+spec:
+  labels:
+    top: true
+    bottom: true
+    left: true
+    right: true
+
+---
+error: ValidationError
+error_pattern: ".*'top' is a required property.*"
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing labels: top"
+spec:
+  spacing:
+    latitude: 10
+    longitude: 10
+  labels:
+    bottom: true
+    left: true
+    right: true
+  lines:
+    color: black
+    linestyle: [4, 2]
+    linewidth: 1
+
+---
+error: ValidationError
+error_pattern: ".*'color' is a required property.*"
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Bad gridline_annotator missing lines: color"
+spec:
+  spacing:
+    latitude: 10
+    longitude: 10
+  labels:
+    top: true
+    bottom: true
+    left: true
+    right: true
+  lines:
+    linestyle: [4, 2]
+    linewidth: 1
+    spacing: auto

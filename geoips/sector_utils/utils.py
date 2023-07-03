@@ -11,11 +11,16 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Utilities for working with dynamic sector specifications."""
+
 import logging
 
-LOG = logging.getLogger(__name__)
+from pyresample import load_area
 
 from geoips.sector_utils.tc_tracks import set_tc_area_def
+from geoips.interfaces import sectors
+from geoips.errors import PluginError
+
+LOG = logging.getLogger(__name__)
 
 SECTOR_INFO_ATTRS = {
     "tc": [
@@ -187,11 +192,9 @@ def set_tc_coverage_check_area_def(area_def, width_degrees=8, height_degrees=8):
     height_km = DEG_TO_KM * height_degrees
     LOG.info("  Changing area definition for checking TC coverage")
 
-    from geoips.interface_modules.area_def_generators.clat_clon_resolution_shape import (
-        clat_clon_resolution_shape,
-    )
+    from geoips.plugins.modules.sector_spec_generators import center_coordinates
 
-    covg_area_def = clat_clon_resolution_shape(
+    covg_area_def = center_coordinates.call(
         area_id=area_def.area_id,
         long_description=area_def.description,
         clat=area_def.sector_info["clat"],
@@ -317,7 +320,7 @@ def get_trackfile_area_defs(
     trackfiles,
     trackfile_parser,
     trackfile_sectorlist=None,
-    template_yaml=None,
+    tc_spec_template=None,
     aid_type=None,
     start_datetime=None,
     end_datetime=None,
@@ -329,7 +332,7 @@ def get_trackfile_area_defs(
     trackfiles : list
         List of trackfiles to convert into area_defs
     trackfile_parser : str
-        Parser to use from interface_modules/trackfile_parsers on trackfiles
+        Parser to use from plugins.modules.sector_metadata_generators on trackfiles
     trackfile_sectorlist list of str, default=None
         * list of sector names to process, of format: tc2020io01amphan.
         * If None, or 'all' contained in list, process all matching TC sectors.
@@ -348,7 +351,11 @@ def get_trackfile_area_defs(
     from geoips.sector_utils.tc_tracks import trackfile_to_area_defs
 
     for trackfile in trackfiles:
-        area_defs += trackfile_to_area_defs(trackfile, trackfile_parser, template_yaml)
+        area_defs += trackfile_to_area_defs(
+            trackfile,
+            trackfile_parser=trackfile_parser,
+            tc_spec_template=tc_spec_template,
+        )
     if trackfile_sectorlist is not None and "all" not in trackfile_sectorlist:
         for area_def in area_defs:
             if area_def.area_id in trackfile_sectorlist:
@@ -378,7 +385,7 @@ def get_trackfile_area_defs(
     return ret_area_defs
 
 
-def get_static_area_defs_for_xarray(xarray_obj, sectorfiles, sectorlist):
+def get_static_area_defs_for_xarray(xarray_obj, sectorlist):
     """Get all STATIC area definitions for the current xarray object.
 
     Filter based on requested sectors.
@@ -387,8 +394,6 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorfiles, sectorlist):
     ----------
     xarray_obj : xarray.Dataset
         xarray Dataset to which we are assigning area_defs
-    sectorfiles : list of str
-        list of paths to sectorfiles
     sectorlist : list of str
         list of sector names
 
@@ -414,8 +419,8 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorfiles, sectorlist):
                 "%s area_id NOT in sectorlist and set on xarray_obj.area_definition, SKIPPING area_def",
                 xarray_obj.area_definition.area_id,
             )
-    elif sectorfiles is not None and sectorlist is not None:
-        area_defs = get_sectors_from_yamls(sectorfiles, sectorlist)
+    elif sectorlist is not None:
+        area_defs = get_sectors_from_yamls(sectorlist)
 
     ret_area_defs = []
     for area_def in area_defs:
@@ -430,8 +435,9 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorfiles, sectorlist):
 
 def get_tc_area_defs_for_xarray(
     xarray_obj,
-    tcdb_sectorlist=None,
-    template_yaml=None,
+    tcdb_sector_list=None,
+    tc_spec_template=None,
+    trackfile_parser=None,
     hours_before_sector_time=18,
     hours_after_sector_time=6,
     aid_type=None,
@@ -442,7 +448,7 @@ def get_tc_area_defs_for_xarray(
     ----------
     xarray_obj : xarray.Dataset
         xarray Dataset to which we are assigning area_defs
-    tcdb_sectorlist : list of str, default=None
+    tcdb_sector_list : list of str, default=None
         * list of sector names to process, of format: tc2020io01amphan.
         * If None, or 'all' contained in list, process all matching TC sectors.
     actual_datetime : datetime.datetime, default=None
@@ -474,17 +480,18 @@ def get_tc_area_defs_for_xarray(
     curr_area_defs = get_all_storms_from_db(
         xarray_obj.start_datetime - timedelta(hours=hours_before_sector_time),
         xarray_obj.end_datetime + timedelta(hours=hours_after_sector_time),
-        template_yaml,
+        tc_spec_template=tc_spec_template,
+        trackfile_parser=trackfile_parser,
     )
-    if tcdb_sectorlist is not None and "all" not in tcdb_sectorlist:
+    if tcdb_sector_list is not None and "all" not in tcdb_sector_list:
         for area_def in curr_area_defs:
-            if area_def.area_id in tcdb_sectorlist:
+            if area_def.area_id in tcdb_sector_list:
                 area_defs += [area_def]
             else:
                 LOG.info(
-                    "area_def %s not in tcdb_sectorlist %s, not including",
+                    "area_def %s not in tcdb_sector_list %s, not including",
                     area_def.area_id,
-                    str(tcdb_sectorlist),
+                    str(tcdb_sector_list),
                 )
     else:
         area_defs = curr_area_defs
@@ -651,16 +658,14 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
 #     return ret_area_def_ids.values()
 
 
-def get_sectors_from_yamls(sectorfnames, sectornames):
+def get_sectors_from_yamls(sector_list):
     """Get AreaDefinition objects with custom "sector_info" dictionary.
 
     Based on YAML area definition contained in "sectorfnames" files.
 
     Parameters
     ----------
-    sectorfnames : list of str
-        list of string full paths to YAML area definition files
-    sectornames : list of str
+    sector_list : list of str
         list of strings of desired sector names to retrieve from YAML files
 
     Returns
@@ -670,26 +675,21 @@ def get_sectors_from_yamls(sectorfnames, sectornames):
         entries added as attributes to each area def (this is to allow specifying
         "sector_info" metadata dictionary within the YAML file)
     """
-    from pyresample import load_area
-    import yaml
-
     area_defs = []
-    for sectorfname in sectorfnames:
-        with open(sectorfname) as sectorfobj:
-            ydict = yaml.safe_load(sectorfobj)
-        for sectorname in sectornames:
-            if sectorname in ydict.keys():
-                try:
-                    area_def = load_area(sectorfname, sectorname)
-                except TypeError:
-                    area_def = create_areadefinition_from_yaml(sectorfname, sectorname)
-                for key in ydict[sectorname].keys():
-                    if not hasattr(area_def, key) and key not in [
-                        "description",
-                        "projection",
-                    ]:
-                        area_def.__setattr__(key, ydict[sectorname][key])
-                area_defs += [area_def]
+    for sector_name in sector_list:
+        try:
+            sector_plugin = sectors.get_plugin(sector_name)
+        except PluginError as resp:
+            raise PluginError(
+                f"{resp}:\nError getting sector {sector_name} from "
+                f"\nsector_list {sector_list}. "
+                f"\nCheck plugin directories for sector plugin named "
+                f"{sector_name}"
+            )
+        area_def = load_area(sector_plugin.abspath, "spec")
+        area_def.__setattr__("sector_info", sector_plugin["metadata"])
+        area_def.__setattr__("sector_type", sector_plugin["family"])
+        area_defs += [area_def]
     return area_defs
 
 
@@ -716,7 +716,7 @@ def create_areadefinition_from_yaml(yamlfile, sector):
 
     with open(yamlfile, "r") as f:
         sectorfile_yaml = yaml.safe_load(f)
-    sector_info = sectorfile_yaml[sector]
+    sector_info = sectorfile_yaml["spec"]
     area_id = sector
     description = sector_info.pop("description")
     projection = sector_info.pop("projection")

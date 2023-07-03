@@ -1,0 +1,287 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.2 (2023-06-01)
+***************************
+
+* Bug fix: Do not use undefined variable in verify_area_def
+* Bug fix: ensure trackfile_parser is passed through to all commands
+* Bug fix: Update readers to support multiple files as appropriate
+* Bug fix: Update readers to fail if multiple files not supported
+* Bug fix: Update ATMS reader to ingest scan time data for both SDR and SDR-GEO files
+* Bug fix: Update config-based procflow to support "sector_adjuster"
+* Bug fix: raise PluginError when plugin_is_valid fails.
+* Bug fix: Fix ATMS timestamp inaccuracies with astropy, correct flake8 formatting
+* Bug fix: Use correct colormap for 37VNearest product.
+* Bug fix: Allow calling tc_file_naming update_extra_field with output_dict=None
+* Enhancement: Add diff product paths to log output on bad comparison, for reference
+* Enhancement: Allow either original_source_filenames or source_file_names in readers.
+* Enhancement: Add sector_adjuster_kwargs command line option.
+* Testing: Add test_interfaces call to check_code.sh
+* Testing: Allow calling check_code.sh with "no_flake8"
+* Testing: Add support for "GEOIPS_DISABLE_SHARED_CODE_CHECKS" to check_code.sh
+* Testing: Ignore flake8 E712 (== False)
+* Documentation: Move expert installation to a separate page, fix bugs so it builds.
+
+*From issue GEOIPS#251: 2023-05-17, version update*
+
+Enhancements
+============
+
+Allow either original_source_filenames or source_file_names in readers
+----------------------------------------------------------------------
+
+New standard attribute will be "source_file_names" in readers.
+
+"Default" metadata outputs "original_source_filenames", for now so all test outputs
+do not change, map both source_file_names and original_source_filenames to
+original_source_filenames in default metadata.
+
+Eventually we may change the YAML metadata output, but that will be an isolated
+set of PRs with no other changes (we want NO output to change with the interface
+updates).
+
+::
+
+  geoips/geoips_utils.py
+  geoips/plugins/modules/output_formatters/metadata_default.py
+  geoips/plugins/readers/scat_knmi_winds_netcdf.py
+
+Add diff product paths to log output on bad comparison, for reference
+---------------------------------------------------------------------
+
+For easy viewing, include full paths to current output, comparison output, and
+diff output in the log when there is a bad comparison
+
+::
+
+  geoips/compare_outputs.py
+
+Add sector_adjuster_kwargs command line option
+----------------------------------------------
+
+Allow passing optional arguments to sector_adjusters.  ONLY updated single_source
+procflow for now - will need to add support to config_based.py as well.
+
+::
+
+  modified: geoips/commandline/args.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+
+Bug Fixes
+=========
+
+Allow calling tc_file_naming update_extra_field with output_dict=None
+---------------------------------------------------------------------
+
+Previously assumed output_dict was set, and attempted to pull fields from it.
+Allow defaulting to no output_dict.
+
+::
+
+  geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py
+
+Update colormapper name for 37VNearest product
+----------------------------------------------
+
+Was incorrectly listed as cmap_37H_Physical - should be cmap_37H.
+
+::
+
+  modified: geoips/plugins/yaml/product_defaults/pmw_37/37VNearest.yaml
+
+
+Update base module interface class to raise PluginError when plugin_is_valid fails
+----------------------------------------------------------------------------------
+
+Was not catching errors when an invalid plugin was encountered - just logging it as
+"False". Ensure error is raised for invalid plugin.
+
+::
+
+  geoips/interfaces/base.py
+
+Update config-based procflow to support "sector_adjuster"
+---------------------------------------------------------
+
+Only implemented sector adjuster functionality in single_source procflow initially.
+Update config_based procflow to use the new interface naming.
+
+::
+
+  geoips/plugins/modules/procflows/config_based.py
+
+Update ATMS reader to include scan time data for SDR-GEO files
+------------------------------------------------------------------------
+
+*From GEOIPS#260: 2023-5-26, update ATMS reader*
+
+Update ATMS HDF5 reader to always ingest scan time data arrays
+
+::
+
+    modified: geoips/plugins/modules/readers/atms_hdf5.py
+
+Update readers to support multiple files, or fail if only one file supported
+----------------------------------------------------------------------------
+
+Previously would only run the FIRST passed datafile for these readers, without
+failing.
+
+Update to append multiple data files to the same dataset.
+
+NOTE: scat_knmi_winds_netcdf was updated to include only the standard geoips
+attributes at the top level, plus a new "source_file_attributes"
+attribute that contains the FULL set of attributes from each individual data
+file (same length and same order as "source_file_names" attribute).
+We will eventually update ALL readers to include those new attributes.
+
+* source_file_names (was original_source_filenames)
+* source_file_attributes
+
+::
+
+  geoips/plugins/modules/readers/smos_winds_netcdf.py
+  geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
+  geoips/plugins/modules/readers/ssmis_binary.py
+  geoips/plugins/modules/readers/amsub_mirs.py
+  geoips/plugins/modules/readers/amsr2_netcdf.py
+
+Update readers to fail if multiple files not supported
+------------------------------------------------------
+
+Do not yet update sfc_winds_text and saphir_hdf5 readers to support multiple
+files - expliticly raise "ValueError" if a user attempts to read more than
+one file until/unless we update those readers.
+
+::
+
+  modified: geoips/plugins/modules/readers/saphir_hdf5.py
+  modified: geoips/plugins/modules/readers/sfc_winds_text.py
+
+Do not use undefined variable in verify_area_def
+------------------------------------------------
+
+Default to True return value in verify_area_def so we do not attempt to
+use an un-defined variable. Also, explicitly set "True" return for
+non-dynamic sectors because they do not have a sector time to check
+against the data time.
+
+::
+
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/plugins/modules/procflows/config_based.py
+
+Update TC processing to ensure trackfile_parser is used appropriately
+---------------------------------------------------------------------
+
+There was a combination of
+
+* tc_spec_template,
+* tc_metadata_generator,
+* tc_spec_generator,
+* trackfile_parser
+
+being passed through to various utilities for identifying appropriate
+storms and deck files.  Updated to use appropriate new terminology/functionality.
+
+This included single_source procflow call to
+
+* get_tc_area_defs_for_xarray in sector_utils/utils.py to
+* get_all_storms_from_db in sector_utils/tc_tracks_database.py to
+* trackfile_to_area_defs in sector_utils/tc_tracks.py (unchanged)
+
+Also updated argument names in get_trackfile_area_defs (which is called
+from single_source procflow for trackfile-based processing), correct
+values were being passed previously, but they were named inconsistently.
+(sector_spec_generator should have actually be tc_spec_template)
+
+::
+
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/sector_utils/tc_tracks_database.py
+  modified: geoips/sector_utils/utils.py
+
+Fix ATMS timestamps
+-------------------
+
+ATMS timestamps output by reader did not match timestamps in source file name.
+This was due to:
+
+* Not accounting for leap seconds when converting epoch timestamp to datetime
+* Encouraged by ATMS userguide to use astropy library to account for leap seconds in timestamp conversion
+
+::
+
+  modified: geoips/plugins/modules/readers/atms_hdf5.py
+  modified: pyproject.toml
+
+Testing Updates
+===============
+
+Add test_interfaces call to check_code.sh
+-----------------------------------------
+
+Have all required tests in check_code.sh.
+
+::
+
+  tests/utils/check_code.sh
+
+Allow calling check_code.sh with "no_flake8"
+--------------------------------------------
+
+So we can at least enable partial code checks on large repositories that have
+not been updated for flake8 requirements, allow calling check_code.sh with
+"no_flake8"
+
+::
+
+  tests/utils/check_code.sh
+
+Add support for "GEOIPS_DISABLE_SHARED_CODE_CHECKS" to check_code.sh
+--------------------------------------------------------------------
+
+If GEOIPS_DISABLE_SHARED_CODE_CHECKS is set, do not run test_interfaces (which
+operates on every installed repo). Avoid rerunning if you are testing many repos.
+
+::
+
+  tests/utils/check_code.sh
+
+Ignore flake8 E712 (== False)
+-----------------------------
+
+This error will cause problems when "== False" is used within np.ma.where commands.
+If you attempt to switch "== False" for "is False" in np.ma.where, it will fail.
+Ignore this error to avoid improper update to "is False" in np.ma.where.
+
+::
+
+  tests/utils/check_code.sh
+
+Documentation Updates
+=====================
+
+Move expert installation to a separate page, fix bugs so it builds
+------------------------------------------------------------------
+
+To avoid confusion, keep the expert and standard installation instructions
+completely separate - default link points to the conda-based, with no reference
+to the expert installation.
+
+::
+
+  modified: docs/source/releases/index.rst
+  modified: docs/source/starter/expert_installation.rst
+  modified: docs/source/starter/index.rst
+  modified: docs/source/starter/installation.rst

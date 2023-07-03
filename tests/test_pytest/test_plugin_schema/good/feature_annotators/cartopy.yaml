@@ -1,0 +1,57 @@
+---
+interface: feature_annotators
+family: cartopy
+name: all_disabled
+docstring: |
+  A valid feature annotator plugin with all features disabled.
+spec:
+  coastline:
+    enabled: false
+  borders:
+    enabled: false
+  states:
+    enabled: false
+  rivers:
+    enabled: false
+
+---
+interface: feature_annotators
+family: cartopy
+name: coastline
+docstring: |
+  A valid feature annotator plugin with only coastline enabled.
+spec:
+  coastline:
+    enabled: true
+    edgecolor: black
+    linewidth: 2
+  borders:
+    enabled: false
+  states:
+    enabled: false
+  rivers:
+    enabled: false
+
+---
+interface: feature_annotators
+family: cartopy
+name: all_enabled
+docstring: |
+  A valid feature annotator plugin with all features enabled.
+spec:
+  coastline:
+    enabled: true
+    edgecolor: black
+    linewidth: 2
+  borders:
+    enabled: true
+    edgecolor: black
+    linewidth: 2
+  states:
+    enabled: true
+    edgecolor: black
+    linewidth: 2
+  rivers:
+    enabled: true
+    edgecolor: black
+    linewidth: 2

@@ -1,0 +1,24 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: color37
+docstring: |
+  The color37 product_defaults configuration.
+spec:
+  interpolator:
+    plugin:
+      name: interp_gauss
+      arguments:
+        sigmaval: 10000
+  algorithm:
+    plugin:
+      name: pmw_color37
+      arguments: {}
+  mtif_type: rgb
+  colormapper:
+    plugin:
+      name: cmap_rgb
+      arguments: {}
+  coverage_checker:
+    plugin:
+      name: rgba
+      arguments: {}

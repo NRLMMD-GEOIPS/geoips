@@ -1,0 +1,123 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.1 (2023-05-23)
+***************************
+
+* Rename colormaps interface to colormappers
+* Add more informative exception messages to interface PluginErrors
+* Update setuptools_scm to write to _version.py
+* Add interpolator products and product_defaults family schema
+* Update variable names for alt_varname in coverage checkers
+
+*From issue GEOIPS#251: 2023-05-17, version update*
+
+Breaking Changes
+================
+
+Replace colormaps with colormappers
+-----------------------------------
+
+Use a more consistent and accurate name for the color map interface.
+
+::
+
+    modified:   pyproject.toml
+    modified:   geoips/cli.py
+    modified:   dev/output_config.py
+    modified:   dev/product.py
+    modified:   interfaces/__init__.py
+    modified:   interfaces/module_based/colormappers.py
+    modified:   schema/product_defaults/*colormapper*.yaml
+    modified:   schema/products/*colormapper*.yaml
+    modified:   schema/product_defaults/base/*colormapper*.yaml
+    modified:   schema/product_defaults/specs/*colormapper*.yaml
+    modified:   plugins/modules/procflows/single_source.py
+    modified:   plugins/modules/colormappers/*/*.py
+    modified:   plugins/modules/colormappers/*.py
+    modified:   plugins/yaml/product_defaults/*/*.yaml
+    modified:   plugins/yaml/product_defaults/Uncorrected-Channel.yaml
+    modified:   plugins/yaml/products/*.yaml
+
+Bug fixes
+=========
+
+Update variable names for alt_varname in coverage checkers
+----------------------------------------------------------
+
+The keyword argument name was changed from alt_varname_for_covg to alt_varname,
+but the actual variable names within the functions were not changed.
+
+Updating to match.  I would like to update this to something more reasonable,
+but I haven't decided what that is yet.
+
+::
+
+  modified: geoips/plugins/modules/coverage_checkers/center_radius.py
+  modified: geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
+  modified: geoips/plugins/modules/coverage_checkers/masked_arrays.py
+  modified: geoips/plugins/modules/coverage_checkers/numpy_arrays_nan.py
+  modified: geoips/plugins/modules/coverage_checkers/rgba.py
+  modified: geoips/plugins/modules/coverage_checkers/windbarbs.py
+
+Enhancements
+============
+
+Add more informative exception messages to interface PluginErrors
+-----------------------------------------------------------------
+
+Ensure developer can immediately identify the plugin, package, and module
+related to a PluginError or ValidationError message.
+
+::
+
+  modified:   geoips/interfaces/base.py
+  modified:   geoips/geoips_utils.py
+
+Add interpolator product family schema
+--------------------------------------
+
+Was not initially created
+
+::
+
+  new: schema/products/interpolator.yaml
+  new: schema/product_defaults/interpolator.yaml
+  new: schema/product_defaults/specs/interpolator.yaml
+
+Refactoring Updates
+===================
+
+Update setuptools_scm to write to _version.py vs version.py
+-----------------------------------------------------------
+
+This is a more accepted and standard usage. Ensure we ignore the _version.py
+file, import from __init__.py, as well as adding to pyproject.toml.
+
+::
+
+  .gitignore
+  geoips/__init__.py
+  pyproject.toml
+
+Testing Updates
+===============
+
+Add full image paths to log output on bad compare
+-------------------------------------------------
+
+Add diff image, current image, and "correct" image paths to log output on bad compare.
+Makes for easy viewing of outputs.
+
+::
+
+  compare_outputs.py

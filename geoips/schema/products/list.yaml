@@ -1,0 +1,13 @@
+$id: products.list
+$ref: bases.top
+required:
+  - spec
+properties:
+  spec:
+    type: object
+    properties:
+      products:
+        type: array
+        items:
+          type: object
+          $ref: products.bases.product

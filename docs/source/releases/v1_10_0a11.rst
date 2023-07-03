@@ -1,0 +1,131 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a11 (2023-04-30)
+******************************
+
+* Update static sector loads to work with new YAML format
+* Update sector_adjuster to work with new module plugin format
+* Added classes to handle YAML-based plugins
+* Added ability to discover YAML-based plugins from plugin packages
+
+Major New Functionality
+=======================
+
+YAML-based plugin discovery without environment variables
+---------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#74: 2023-04-30, Add classes for yaml-based plugins*
+
+* Added new load_all_yaml_plugins function in geoips_utils.py that is able to find
+  yaml-based plugins
+* Designed new entry point for registering entire plugin packages
+* Added new BaseYamlInterface class
+* Added new FeatureAnnotatorsInterface, GridlineAnnotatorsInterface,
+  ProductDefualtsInterface, and ProductsInterface classes
+* Completed functionality to merge Products with ProductDefaults plugins
+
+::
+    added: geoips/interfaces/module_based/__init__.py
+    added: geoips/interfaces/yaml_based/__init__.py
+    added: geoips/interfaces/yaml_based/feature_annotators.py
+    added: geoips/interfaces/yaml_based/gridline_annotators.py
+    added: geoips/interfaces/yaml_based/product_defaults.py
+    added: geoips/interfaces/yaml_based/products.py
+    added: geoips/plugins/__init__.py
+    added: notes/cleanup.md
+    added: tests/outputs/smap.unsectored.text_winds/smap-spd_rss_smap_surface_winds_20210926.0000.txt
+    added: yaml-interface-notes.md
+    deleted: geoips/dev/utils.py
+    deleted: geoips/interfaces/boundaries.py
+    deleted: tests/outputs/smap.unsectored.text_winds/smap-spd_rss_smap_surface_winds_20210926.0000.txt.gz
+    modified: docs/source/releases/v1_10_0a8.rst
+    modified: geoips/compare_outputs.py
+    modified: geoips/geoips_utils.py
+    modified: geoips/interfaces/__init__.py
+    modified: geoips/interfaces/base.py
+    modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
+    modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
+    modified: geoips/plugins/modules/interpolators/scipy_wrappers/interp_grid.py
+    modified: geoips/plugins/modules/output_formatters/metadata_default.py
+    modified: geoips/plugins/modules/output_formatters/metadata_tc.py
+    modified: geoips/plugins/modules/output_formatters/netcdf_geoips.py
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: geoips/plugins/modules/procflows/single_source.py
+    modified: geoips/plugins/modules/readers/ahi_hsd.py
+    modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+    modified: geoips/plugins/yaml/product_defaults/pmw_37/19H.yaml
+    modified: geoips/plugins/yaml/product_defaults/pmw_89/89H-Physical.yaml
+    modified: geoips/plugins/yaml/products/ascatuhr.yaml
+    modified: geoips/plugins/yaml/products/mimic.yaml
+    modified: geoips/plugins/yaml/products/ssmis.yaml
+    modified: geoips/plugins/yaml/sectors/static/goes17.yaml
+    modified: geoips/schema/plugin_validator.py
+    modified: geoips/schema/product_defaults/algorithm_colormap.yaml
+    modified: geoips/schema/product_defaults/algorithm_interpolator_colormap.yaml
+    modified: geoips/schema/product_defaults/interpolator_algorithm.yaml
+    modified: geoips/schema/product_defaults/interpolator_algorithm_colormap.yaml
+    modified: geoips/schema/products/bases/product.yaml
+    modified: geoips/sector_utils/tc_tracks.py
+    modified: interface_notes.md
+    modified: pyproject.toml
+    modified: tests/test_full_install.sh
+    modified: yaml_interfaces.md
+    renamed: geoips/interfaces/title_formatters.py	geoips/interfaces/module_based/title_formatters.py
+    renamed: geoips/interfaces/interpolators.py	geoips/interfaces/module_based/interpolators.py
+    renamed: geoips/interfaces/colormaps.py	geoips/interfaces/module_based/colormaps.py
+    renamed: geoips/interfaces/readers.py	geoips/interfaces/module_based/readers.py
+    renamed: geoips/interfaces/procflows.py	geoips/interfaces/module_based/procflows.py
+    renamed: geoips/interfaces/algorithms.py	geoips/interfaces/module_based/algorithms.py
+    renamed: geoips/interfaces/filename_formatters.py	geoips/interfaces/module_based/filename_formatters.py
+    renamed: geoips/interfaces/output_formatters.py	geoips/interfaces/module_based/output_formatters.py
+
+Breaking Changes
+================
+
+Allow both old and current style dynamic templates
+--------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#202: 2023-04-30, update sector loads*
+
+Previously dynamic sectors specified "area_def_adjuster_func" and
+"area_def_adjuster_args", now specifies spec -> generators -> spec -> name/args.
+Will likely finalize formatting in future, but make the current setup work
+for now.
+
+::
+
+  modified: geoips/sector_utils/tc_tracks.py
+
+Update sector_adjuster to work with new module plugin format
+------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#202: 2023-04-30, update sector loads*
+
+This is currently only used in recenter_tc calls.
+
+::
+
+  modified:   geoips/plugins/modules/procflows/single_source.py
+
+Update static sector loads to work with new YAML format
+-------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#202: 2023-04-30, update sector loads*
+
+Load pyresample area def directly by specifying load_area(filename, "spec")
+Then explicitly add in "sector_info" (metadata), and "sector_type" (family)
+fields to the resulting area_def.
+
+::
+
+  modified:   geoips/sector_utils/utils.py

@@ -1,0 +1,93 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a4 (2023-04-25)
+*****************************
+
+* Update to finalized interface names throughout code base.
+
+  * user_colormaps -> colormaps
+  * title_formats -> title_formatters
+  * interpolation -> interpolators
+  * coverage_checks -> coverage_checkers
+
+Breaking Changes
+================
+
+Update all instances of user_colormaps with colormaps
+-----------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
+
+::
+
+  moved: geoips/plugins/modules/user_colormaps -> geoips/plugins/modules/colormaps
+  modified: pyproject.toml
+  modified: geoips/interfaces/colormaps.py
+
+Update all instances of title_formats with title_formatters
+-----------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
+
+::
+
+  moved: geoips/plugins/modules/title_formats -> geoips/plugins/modules/title_formatters
+  moved: geoips/interfaces/title_formats.py -> geoips/interfaces/title_formatters.py
+  modified: pyproject.toml
+  modified: geoips/cli.py
+  modified: geoips/image_utils/mpl_utils.py
+  modified: geoips/interfaces/title_formatters.py
+  modified: geoips/interfaces/__init__.py
+
+Update all instances of title_format with title_formatter
+---------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
+
+These are command line singular usage.
+
+::
+
+  modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
+  modified: geoips/commandline/args.py
+  modified: geoips/image_utils/mpl_utils.py
+  modified: modules/output_formatters/imagery_annotated.py
+  modified: modules/output_formatters/imagery_windbarbs.py
+
+Update all instances of interpolation with interpolators
+--------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
+
+::
+
+  moved: geoips/plugins/modules/interpolation -> geoips/plugins/modules/interpolators
+  modified: pyproject.toml
+  modified: geoips/interfaces/interpolators.py
+  modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
+  modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
+  modified: geoips/plugins/modules/interpolators/scipy_wrappers/interp_grid.py
+  modified: geoips/plugins/modules/interpolators/utils/interp_pyresample.py
+
+Update all instances of coverage_checks with coverage_checkers
+--------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#181: 2023-04-25, update interface names*
+
+::
+
+  moved: geoips/plugins/modules/coverage_checks -> geoips/plugins/modules/coverage_checkers
+  modified: pyproject.toml
+  modified: geoips/dev/product.py
+  modified: geoips/plugins/modules/coverage_checkers/__init__.py
+  modified: geoips/plugins/modules/coverage_checkers/center_radius_rgba.py

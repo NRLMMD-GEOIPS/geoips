@@ -11,11 +11,17 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Modules to access TC tracks, based on locations found in the deck files."""
+
 import os
 from datetime import datetime
 import logging
 
 from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.interfaces import (
+    sector_metadata_generators,
+    sector_spec_generators,
+    sectors,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -98,7 +104,7 @@ def create_tc_sector_info_dict(
         LOG.info("USING storm_name as final_storm_name %s", storm_name)
         fields["final_storm_name"] = storm_name
     if source_sector_file:
-        from geoips.dev.utils import replace_geoips_paths
+        from geoips.geoips_utils import replace_geoips_paths
 
         fields["source_sector_file"] = replace_geoips_paths(source_sector_file)
     fields["pressure"] = pressure
@@ -152,7 +158,7 @@ def set_tc_area_def(
     source_sector_file=None,
     clat=None,
     clon=None,
-    template_yaml=gpaths["TC_TEMPLATE"],
+    tc_spec_template="tc_web",
     aid_type=None,
 ):
     """Set the TC area definition, using specified arguments.
@@ -172,7 +178,7 @@ def set_tc_area_def(
         specify clat/clon separately from that found in 'fields'
     clon : float, default=None
         specify clat/clon separately from that found in 'fields'
-    template_yaml : str, default=gpaths['TC_TEMPLATE']
+    tc_spec_template: str, default="tc_web"
         Path to template YAML file to use when setting up area definition.
     aid_type : str, default=None
         type of TC aid (BEST, MBAM, etc)
@@ -182,14 +188,14 @@ def set_tc_area_def(
     pyresample.AreaDefinition
         pyresample AreaDefinition object with specified parameters.
     """
-    import yaml
+    if tc_spec_template is None:
+        tc_spec_template = "tc_web"
 
-    if template_yaml is None:
-        template_yaml = gpaths["TC_TEMPLATE"]
-    with open(template_yaml, "r") as fobj:
-        template_dict = yaml.safe_load(fobj)
-    template_func_name = template_dict["area_def_generator_func"]
-    template_args = template_dict["area_def_generator_args"]
+    tc_template_plugin = sectors.get_plugin(tc_spec_template)
+
+    # I think this is probably what we will want.
+    template_func_name = tc_template_plugin["spec"]["sector_spec_generator"]["name"]
+    template_args = tc_template_plugin["spec"]["sector_spec_generator"]["arguments"]
 
     if not finalstormname and "final_storm_name" in fields:
         finalstormname = fields["final_storm_name"]
@@ -207,10 +213,8 @@ def set_tc_area_def(
     area_id = get_tc_area_id(fields, finalstormname, tcyear)
     long_description = get_tc_long_description(area_id, fields)
 
-    from geoips.geoips_utils import find_entry_point
-
-    # These are things like 'clat_clon_resolution_shape'
-    template_func = find_entry_point("area_def_generators", template_func_name)
+    # These are things like 'center_coordinates'
+    template_func = sector_spec_generators.get_plugin(template_func_name)
     # Probably generalize this at some point. For now I know those are the
     # ones that are <template>
     template_args["area_id"] = area_id
@@ -234,7 +238,7 @@ def set_tc_area_def(
     if not hasattr(area_def, "name"):
         area_def.name = long_description
 
-    from geoips.dev.utils import replace_geoips_paths
+    from geoips.geoips_utils import replace_geoips_paths
 
     area_def.sector_info["source_sector_file"] = replace_geoips_paths(
         source_sector_file
@@ -261,7 +265,7 @@ def set_tc_area_def(
 
 
 def trackfile_to_area_defs(
-    trackfile_name, trackfile_parser="gdeck_parser", template_yaml=None
+    trackfile_name, trackfile_parser="bdeck_parser", tc_spec_template=None
 ):
     """Get TC area definitions for the specified text trackfile.
 
@@ -272,7 +276,7 @@ def trackfile_to_area_defs(
     trackfile : str
         Full path to trackfile, convert each line into a separate area_def
     trackfile_parser : str
-        Parser to use from interface_modules/trackfile_parsers on trackfiles
+        Parser to use from plugins.modules.sector_metadata_generators on trackfiles
 
     Returns
     -------
@@ -280,15 +284,14 @@ def trackfile_to_area_defs(
         List of pyresample AreaDefinition objects
     """
     if trackfile_parser is None:
-        trackfile_parser = "gdeck_parser"
+        trackfile_parser = "bdeck_parser"
 
-    from geoips.geoips_utils import find_entry_point
-
-    parser = find_entry_point("trackfile_parsers", trackfile_parser)
+    parser = sector_metadata_generators.get_plugin(trackfile_parser)
 
     all_fields, final_storm_name, tc_year = parser(trackfile_name)
 
     area_defs = []
+    LOG.info("STARTING setting TC area_defs")
     for fields in all_fields:
         # area_defs += [set_tc_sector(fields, dynamic_templatefname, finalstormname, tcyear, sfname, dynamic_xmlpath)]
         area_defs += [
@@ -297,9 +300,10 @@ def trackfile_to_area_defs(
                 tc_year,
                 finalstormname=final_storm_name,
                 source_sector_file=trackfile_name,
-                template_yaml=template_yaml,
+                tc_spec_template=tc_spec_template,
             )
         ]
+    LOG.info("FINISHED setting TC area_defs")
 
     return area_defs
 

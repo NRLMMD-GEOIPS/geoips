@@ -1,0 +1,40 @@
+$id: product_defaults.bases.windbarb_plotter
+title: "Windbarb Plotter"
+type: object
+unevaluatedProperties: false
+required:
+  - plugin
+properties:
+  plugin:
+    type: object
+    required:
+      - name
+      - arguments
+    properties:
+      name:
+        type: string
+      arguments:
+        type: object
+        unevaluatedProperties: false
+        required:
+          - thinning
+          - length
+          - width
+          - sizes_dict
+          - rain_size
+        properties:
+          thinning:
+            type: number
+          length:
+            type: number
+          width:
+            type: number
+          sizes_dict:
+            type: object
+            properties:
+              height:
+                type: number
+              spacing:
+                type: number
+          rain_size:
+            type: number

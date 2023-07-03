@@ -1,0 +1,25 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: 89HWNearest
+docstring: |
+  The 89HWNearest product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [220.0, 280.0]
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  mtif_type: pmw
+  colormapper:
+    plugin:
+      name: pmw_89HW
+      arguments:
+        data_range: [220.0, 280.0]
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}
