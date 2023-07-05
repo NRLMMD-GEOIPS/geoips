@@ -49,13 +49,13 @@ plugin_paths = {"plugins.yaml.feature_annotators": glob(".plugins/yaml/feature_a
 for interface_key in plugin_paths:
     interface_name = interface_key.split(".")[-1]
     for filepath in plugin_paths[interface_key]:
-        if interface_key.split(".")[0] == "plugins" and filepath[-4] == "yaml":
+        if interface_key.split(".")[0] == "plugins" and filepath[-4:] == "yaml":
             plugin = yaml.safe_load(open(filepath, mode="r"))
             name = plugin["name"]
             family = plugin["family"]
             docstring = plugin["docstring"]
             plugins[interface_name][name] = {"family": family, "docstring": docstring}
-        elif filepath[-4] == "yaml": #schema yaml files
+        elif filepath[-4:] == "yaml": #schema yaml files
             plugin = yaml.safe_load(open(filepath, mode="r"))
             id = plugin["$id"]
             yaml_type = None
