@@ -5,16 +5,6 @@ import importlib
 
 plugins = {}
 
-# plugin_paths = {"plugins.yamls": glob("./plugins/yaml/**/*.yaml", recursive=True),
-#                 "plugins.modules": glob("./plugins/modules/**/*.py", recursive=True),
-#                 "schema.bases": glob("./schema/bases/*.yaml"),
-#                 "schema.feature_annotators": glob("./schema/feature_annotators/*.yaml"),
-#                 "schema.gridline_annotators": glob("./schema/gridline_annotators/*.yaml"),
-#                 "schema.product_defaults": glob("./schema/product_defaults/**/*.yaml", recursive=True),
-#                 "schema.products": glob("./schema/products/**/*.yaml", recursive=True),
-#                 "schema.sectors": glob("./schema/sectors/*.yaml"),
-#                 }
-
 plugin_paths = {"plugins.yamls": glob("./plugins/yaml/**/*.yaml", recursive=True),
                 "plugins.modules": glob("./plugins/modules/**/*.py", recursive=True),
                 "schema.yamls": glob("./schema/**/*.yaml", recursive=True),
