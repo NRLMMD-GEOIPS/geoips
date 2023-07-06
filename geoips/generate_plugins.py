@@ -21,7 +21,7 @@ def main():
                 name = plugin["name"]
                 family = plugin["family"]
                 docstring = plugin["docstring"]
-                plugins[interface_name][name] = {"family": family, "docstring": docstring}
+                plugins[interface_name][name] = {"interface": interface_name, "family": family, "name": name, "docstring": docstring}
             else:
                 if interface_key.split(".")[0] == "schema": #schema yaml files
                     split_path = np.array(filepath.split("/"))
@@ -48,20 +48,19 @@ def main():
                         import_str += "." + folder
                     filename = split_path[-1][0:-3]
                     import_str += "." + filename
-                    module = importlib.import_module(import_str)
                     try:
+                        module = importlib.import_module(import_str)
                         interface_name = module.interface
                         if interface_name not in plugins.keys():
                             plugins[interface_name] = {}
                         family = module.family
                         name = module.name
-                        plugins[interface_name][filename] = {"family": family, "name": name}
+                        plugins[interface_name][filename] = {"interface": interface_name, "family": family, "name": name}
                     except Exception as e:
                         continue
     print("Avalable plugin keys:\n" + str(plugins.keys()))
     with open("registered_plugins.py", "w") as plugin_registry:
         plugin_registry.write("registered_plugins = {}".format(plugins))
-    # return plugins
 
 if __name__ == "__main__":
     main()
