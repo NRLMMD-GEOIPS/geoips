@@ -5,14 +5,19 @@ import importlib
 
 plugins = {}
 
+# plugin_paths = {"plugins.yamls": glob("./plugins/yaml/**/*.yaml", recursive=True),
+#                 "plugins.modules": glob("./plugins/modules/**/*.py", recursive=True),
+#                 "schema.bases": glob("./schema/bases/*.yaml"),
+#                 "schema.feature_annotators": glob("./schema/feature_annotators/*.yaml"),
+#                 "schema.gridline_annotators": glob("./schema/gridline_annotators/*.yaml"),
+#                 "schema.product_defaults": glob("./schema/product_defaults/**/*.yaml", recursive=True),
+#                 "schema.products": glob("./schema/products/**/*.yaml", recursive=True),
+#                 "schema.sectors": glob("./schema/sectors/*.yaml"),
+#                 }
+
 plugin_paths = {"plugins.yamls": glob("./plugins/yaml/**/*.yaml", recursive=True),
                 "plugins.modules": glob("./plugins/modules/**/*.py", recursive=True),
-                "schema.bases": glob("./schema/bases/*.yaml"),
-                "schema.feature_annotators": glob("./schema/feature_annotators/*.yaml"),
-                "schema.gridline_annotators": glob("./schema/gridline_annotators/*.yaml"),
-                "schema.product_defaults": glob("./schema/product_defaults/**/*.yaml", recursive=True),
-                "schema.products": glob("./schema/products/**/*.yaml", recursive=True),
-                "schema.sectors": glob("./schema/sectors/*.yaml"),
+                "schema.yamls": glob("./schema/**/*.yaml", recursive=True),
                 }
 
 def main():
@@ -29,7 +34,9 @@ def main():
                 plugins[interface_name][name] = {"family": family, "docstring": docstring}
             else:
                 if interface_key.split(".")[0] == "schema": #schema yaml files
-                    interface_name = interface_key.split(".")[-1]
+                    split_path = np.array(filepath.split("/"))
+                    interface_idx = np.argmax(split_path == "schema") + 1
+                    interface_name = split_path[interface_idx]
                     if interface_name not in plugins.keys():
                         plugins[interface_name] = {}
                     plugin = yaml.safe_load(open(filepath, mode="r"))
@@ -62,7 +69,9 @@ def main():
                     except Exception as e:
                         continue
     print("Avalable plugin keys:\n" + str(plugins.keys()))
-    return plugins
+    with open("registered_plugins.py", "w") as plugin_registry:
+        plugin_registry.write("registered_plugins = {}".format(plugins))
+    # return plugins
 
 if __name__ == "__main__":
     main()
