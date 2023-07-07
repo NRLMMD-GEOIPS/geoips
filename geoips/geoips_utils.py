@@ -79,36 +79,6 @@ def load_all_yaml_plugins():
         from . import generate_plugins
         generate_plugins.main()
     from .registered_plugins import registered_plugins as plugins
-    # plugin_packages = get_entry_point_group("geoips.plugin_packages")
-
-    # # Loop over the plugin packages and load all of their yaml plugins
-    # plugins = {}
-    # for pkg in plugin_packages:
-    #     pkg_plugin_path = resources.files(pkg.value) / "plugins"
-    #     yaml_files = pkg_plugin_path.rglob("*.yaml")
-
-    #     # Loop over the yaml files from one package
-    #     for yaml_file in yaml_files:
-    #         # Load
-    #         yaml_plugin = yaml.safe_load(open(yaml_file, "r"))
-
-    #         # Set some additional information on the YAML plugin
-    #         # The name of the package the plugin comes from
-    #         yaml_plugin["package"] = pkg.value
-    #         # The relative path to the plugin within the package
-    #         yaml_plugin["relpath"] = str(yaml_file.relative_to(pkg_plugin_path))
-    #         # Absolute path to the plugin
-    #         yaml_plugin["abspath"] = str(yaml_file)
-
-    #         if "interface" not in yaml_plugin:
-    #             raise PluginError(
-    #                 f"YAML file encountered without 'interface' property: {yaml_file}"
-    #             )
-    #         if yaml_plugin["interface"] not in plugins:
-    #             plugins[yaml_plugin["interface"]] = [yaml_plugin]
-    #         else:
-    #             plugins[yaml_plugin["interface"]].append(yaml_plugin)
-    # print(plugins["interpolators"])
     return plugins
 
 

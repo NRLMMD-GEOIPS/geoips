@@ -30,15 +30,19 @@ def main():
                     if interface_name not in plugins.keys():
                         plugins[interface_name] = {}
                     plugin = yaml.safe_load(open(filepath, mode="r"))
-                    id = plugin["$id"]
-                    yaml_type = None
-                    description = None
-                    try:
-                        description = plugin["description"]
-                        yaml_type = plugin["type"]
-                        plugins[interface_name][id] = {"type": yaml_type, "description": description}
-                    except Exception:
-                        plugins[interface_name][id] = {"type": yaml_type, "description": description}
+                    id = None
+                    yaml_type = None; description = None; ref = None; title = None
+                    for arg in range(5):
+                        try:
+                            if arg == 0: id = plugin["$id"]
+                            elif arg == 1: yaml_type = plugin["type"]
+                            elif arg == 2: ref = plugin["$ref"]
+                            elif arg == 3: title = plugin["title"]
+                            elif arg == 4: description = plugin["description"]
+                        except Exception:
+                            continue 
+                    plugins[interface_name][id] = {"name": id, "type": yaml_type, 
+                                                   "ref": ref, "title": title, "description": description}
                 else:
                     if "__init__.py" in filepath: continue
                     split_path = np.array(filepath.split("/"))
