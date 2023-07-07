@@ -21,7 +21,8 @@ def main():
                 name = plugin["name"]
                 family = plugin["family"]
                 docstring = plugin["docstring"]
-                plugins[interface_name][name] = {"interface": interface_name, "family": family, "name": name, "docstring": docstring}
+                plugins[interface_name][name] = {"interface": interface_name, "family": family, 
+                                                 "name": name, "docstring": docstring, "filepath": filepath}
             else:
                 if interface_key.split(".")[0] == "schema": #schema yaml files
                     split_path = np.array(filepath.split("/"))
@@ -42,7 +43,7 @@ def main():
                         except Exception:
                             continue 
                     plugins[interface_name][id] = {"name": id, "type": yaml_type, 
-                                                   "ref": ref, "title": title, "description": description}
+                                                   "ref": ref, "title": title, "description": description, "filepath": filepath}
                 else:
                     if "__init__.py" in filepath: continue
                     split_path = np.array(filepath.split("/"))
@@ -59,7 +60,7 @@ def main():
                             plugins[interface_name] = {}
                         family = module.family
                         name = module.name
-                        plugins[interface_name][filename] = {"interface": interface_name, "family": family, "name": name}
+                        plugins[interface_name][filename] = {"interface": interface_name, "family": family, "name": name, "filepath": filepath}
                     except Exception as e:
                         continue
     print("Avalable plugin keys:\n" + str(plugins.keys()))
