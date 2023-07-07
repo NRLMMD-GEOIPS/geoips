@@ -18,35 +18,21 @@ def main():
                 plugin = yaml.safe_load(open(filepath, mode="r"))
                 interface_name = plugin["interface"]
                 if interface_name not in plugins.keys():
-                    plugins[interface_name] = {}
-                name = plugin["name"]
-                family = plugin["family"]
-                docstring = plugin["docstring"]
-                plugins[interface_name][name] = {"interface": interface_name, "family": family, 
-                                                 "name": name, "docstring": docstring, 
-                                                 "abspath": os.path.abspath(filepath), "relpath": filepath, "package": "geoips"}
+                    plugins[interface_name] = []
+                plugin["abspath"] = os.path.abspath(filepath)
+                plugin["relpath"] = filepath; plugin["package"] = "geoips"
+                plugins[interface_name].append(plugin)
             else:
                 if interface_key.split(".")[0] == "schema": #schema yaml files
                     split_path = np.array(filepath.split("/"))
                     interface_idx = np.argmax(split_path == "schema") + 1
                     interface_name = split_path[interface_idx]
                     if interface_name not in plugins.keys():
-                        plugins[interface_name] = {}
+                        plugins[interface_name] = []
                     plugin = yaml.safe_load(open(filepath, mode="r"))
-                    id = None
-                    yaml_type = None; description = None; ref = None; title = None
-                    for arg in range(5):
-                        try:
-                            if arg == 0: id = plugin["$id"]
-                            elif arg == 1: yaml_type = plugin["type"]
-                            elif arg == 2: ref = plugin["$ref"]
-                            elif arg == 3: title = plugin["title"]
-                            elif arg == 4: description = plugin["description"]
-                        except Exception:
-                            continue 
-                    plugins[interface_name][id] = {"name": id, "type": yaml_type, 
-                                                   "ref": ref, "title": title, "description": description, 
-                                                   "abspath": os.path.abspath(filepath), "relpath": filepath, "package": "geoips"}
+                    plugin["abspath"] = os.path.abspath(filepath)
+                    plugin["relpath"] = filepath; plugin["package"] = "geoips"
+                    plugins[interface_name].append(plugin)
                 else:
                     if "__init__.py" in filepath: continue
                     split_path = np.array(filepath.split("/"))
@@ -60,7 +46,7 @@ def main():
                     try:
                         interface_name = module.interface
                         if interface_name not in plugins.keys():
-                            plugins[interface_name] = {}
+                            plugins[interface_name] = []
                         family = module.family
                         name = module.name
                         plugins[interface_name][filename] = {"interface": interface_name, "family": family, "name": name, 

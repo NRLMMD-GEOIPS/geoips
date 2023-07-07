@@ -16,6 +16,7 @@ import yaml
 import inspect
 import logging
 from copy import deepcopy
+import os
 
 from importlib.resources import files
 from pathlib import Path
@@ -169,7 +170,7 @@ class YamlPluginValidator:
             plugin.pop("error_pattern", None)
         except (KeyError, AttributeError, TypeError):
             pass
-
+        # print(plugin)
         if not validator_id:
             self.validators["bases.top"].validate(plugin)
             validator_id = f"{plugin['interface']}.{plugin['family']}"
@@ -210,6 +211,7 @@ class YamlPluginValidator:
         for sub_plugin in plugin["spec"][plugin["interface"]]:
             sub_plugin["interface"] = plugin["interface"]
             try:
+                # print(sub_plugin)
                 self.validate(sub_plugin)
             except PluginError as resp:
                 raise PluginError(
@@ -447,7 +449,7 @@ class BaseYamlInterface(BaseInterface):
         # If this is a list, split out all of the subs and store them all
         # If this is any other family, just store it
         for yaml_plg in yaml_plugins[self.name]:
-            if yaml_plg["family"] == "list":
+            if "family" in yaml_plg.keys() and yaml_plg["family"] == "list":
                 try:
                     yaml_plg = self.validator.validate(yaml_plg)
                 except ValidationError as resp:
@@ -481,7 +483,12 @@ class BaseYamlInterface(BaseInterface):
                         )   
                 cache.update(yaml_subplgs)
             else:
-                cache[yaml_plg["name"]] = yaml_plg
+                if "name" not in yaml_plg.keys():
+                    cache[yaml_plg["$id"]] = yaml_plg
+                else:
+                    cache[yaml_plg["name"]] = yaml_plg
+            # else:
+            #     cache[yaml_plugins[self.name][yaml_plg]["name"]] = yaml_plg
         return cache
 
     @staticmethod
