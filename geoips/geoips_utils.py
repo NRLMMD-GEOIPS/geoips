@@ -76,8 +76,8 @@ def load_all_yaml_plugins():
     """
     # Load all entry points for plugin packages
     if not os.path.exists(os.getcwd() + "/registered_plugins.py"):
-        from . import generate_plugins
-        generate_plugins.main()
+        from . import create_plugin_registry
+        create_plugin_registry.main()
     from .registered_plugins import registered_plugins as plugins
 
     # plugin_packages = get_entry_point_group("geoips.plugin_packages")
