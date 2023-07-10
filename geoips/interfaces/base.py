@@ -170,7 +170,7 @@ class YamlPluginValidator:
             plugin.pop("error_pattern", None)
         except (KeyError, AttributeError, TypeError):
             pass
-        # print(plugin)
+
         if not validator_id:
             self.validators["bases.top"].validate(plugin)
             validator_id = f"{plugin['interface']}.{plugin['family']}"
@@ -211,7 +211,6 @@ class YamlPluginValidator:
         for sub_plugin in plugin["spec"][plugin["interface"]]:
             sub_plugin["interface"] = plugin["interface"]
             try:
-                # print(sub_plugin)
                 self.validate(sub_plugin)
             except PluginError as resp:
                 raise PluginError(
@@ -487,8 +486,6 @@ class BaseYamlInterface(BaseInterface):
                     cache[yaml_plg["$id"]] = yaml_plg
                 else:
                     cache[yaml_plg["name"]] = yaml_plg
-            # else:
-            #     cache[yaml_plugins[self.name][yaml_plg]["name"]] = yaml_plg
         return cache
 
     @staticmethod
