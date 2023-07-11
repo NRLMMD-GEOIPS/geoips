@@ -38,24 +38,15 @@ def call():
     :ref:`api`
         ASCII palette is found in image_utils/ascii_palettes/tpw_purple.txt
     """
-    from os.path import join as pathjoin
-    from geoips.filenames.base_paths import PATHS as gpaths
     from geoips.image_utils.colormap_utils import from_ascii
     from matplotlib.colors import Normalize
+    from geoips.geoips_utils import find_ascii_palette
 
     min_val = 5
     max_val = 65
 
     mpl_colors_info = {
-        "cmap": from_ascii(
-            pathjoin(
-                gpaths["BASE_PATH"],
-                "plugins",
-                "txt",
-                "ascii_palettes",
-                "tpw_purple.txt",
-            )
-        ),
+        "cmap": from_ascii(find_ascii_palette(name)),
         "norm": Normalize(vmin=min_val, vmax=max_val),
         "cbar_ticks": [min_val, 15, 25, 35, 45, 55, max_val],
         "cbar_tick_labels": None,
