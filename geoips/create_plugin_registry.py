@@ -7,7 +7,7 @@ import sys
 
 plugins = {}
 
-schema_yamls = glob(os.getcwd() + "/schema/**/*.yaml", recursive=True)
+# schema_yamls = glob(os.getcwd() + "/schema/**/*.yaml", recursive=True)
 
 def get_entry_point_group(group):
     """Get entry point group."""
@@ -25,8 +25,11 @@ def main():
         pkg_plugin_path = resources.files(package) / "plugins"
         yaml_files = pkg_plugin_path.rglob("*.yaml")
         python_files = pkg_plugin_path.rglob("*.py")
-        schemas = [] if package != "geoips" else schema_yamls
-        plugin_paths = {"yamls": yaml_files, "schemas": schemas, "pyfiles": python_files}
+        if package != "geoips":
+            schema_yaml_path = resources.files(package) / "schema"
+            schema_yamls = schema_yaml_path.rglob("*.yaml")
+        else: schema_yamls = []
+        plugin_paths = {"yamls": yaml_files, "schemas": schema_yamls, "pyfiles": python_files}
         for interface_key in plugin_paths:
             for filepath in plugin_paths[interface_key]:
                 filepath = str(filepath)
