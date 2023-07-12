@@ -7,8 +7,6 @@ import sys
 
 plugins = {}
 
-# schema_yamls = glob(os.getcwd() + "/schema/**/*.yaml", recursive=True)
-
 def get_entry_point_group(group):
     """Get entry point group."""
     if sys.version_info[:3] >= (3, 10, 0):
