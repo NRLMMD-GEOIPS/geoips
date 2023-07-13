@@ -41,35 +41,34 @@ def main():
                     plugin["abspath"] = abspath
                     plugin["relpath"] = relpath; plugin["package"] = package
                     plugins[interface_name].append(plugin)
-                else:
-                    if interface_key == "schemas": #schema based yamls
-                        split_path = np.array(filepath.split("/"))
-                        interface_idx = np.argmax(split_path == "schema") + 1
-                        interface_name = split_path[interface_idx]
+                elif interface_key == "schemas": #schema based yamls
+                    split_path = np.array(filepath.split("/"))
+                    interface_idx = np.argmax(split_path == "schema") + 1
+                    interface_name = split_path[interface_idx]
+                    if interface_name not in plugins.keys():
+                        plugins[interface_name] = []
+                    plugin = yaml.safe_load(open(filepath, mode="r"))
+                    plugin["abspath"] = abspath
+                    plugin["relpath"] = relpath; plugin["package"] = package
+                    plugins[interface_name].append(plugin)
+                else: # module based plugins
+                    if "__init__.py" in abspath: continue
+                    module_name = str(abspath).split("/")[-1][:-3]
+                    spec = util.spec_from_file_location(module_name, abspath)
+                    try:
+                        module = util.module_from_spec(spec)
+                        spec.loader.exec_module(module)
+                        interface_name = module.interface
                         if interface_name not in plugins.keys():
                             plugins[interface_name] = []
-                        plugin = yaml.safe_load(open(filepath, mode="r"))
-                        plugin["abspath"] = abspath
-                        plugin["relpath"] = relpath; plugin["package"] = package
-                        plugins[interface_name].append(plugin)
-                    else: # module based plugins
-                        if "__init__.py" in abspath: continue
-                        module_name = str(abspath).split("/")[-1][:-3]
-                        spec = util.spec_from_file_location(module_name, abspath)
-                        try:
-                            module = util.module_from_spec(spec)
-                            spec.loader.exec_module(module)
-                            interface_name = module.interface
-                            if interface_name not in plugins.keys():
-                                plugins[interface_name] = []
-                            family = module.family
-                            name = module.name
-                            del module
-                            module_plugin = {name: {"interface": interface_name, "family": family, "name": name, 
-                                                                "abspath": abspath, "relpath": relpath, "package": package}}
-                            plugins[interface_name].append(module_plugin)
-                        except:
-                            continue
+                        family = module.family
+                        name = module.name
+                        del module
+                        module_plugin = {name: {"interface": interface_name, "family": family, "name": name, 
+                                                "abspath": abspath, "relpath": relpath, "package": package}}
+                        plugins[interface_name].append(module_plugin)
+                    except:
+                        continue
     print("Available Plugin Interfaces:\n" + str(plugins.keys()))
     with open("registered_plugins.py", "w") as plugin_registry:
         plugin_registry.write("registered_plugins = {}".format(plugins))
