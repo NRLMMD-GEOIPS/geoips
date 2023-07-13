@@ -1,4 +1,3 @@
-from glob import glob
 import yaml
 import numpy as np
 from importlib import metadata, resources, util
