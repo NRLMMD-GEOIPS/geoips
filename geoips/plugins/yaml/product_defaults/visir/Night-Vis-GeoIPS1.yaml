@@ -1,0 +1,25 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: Night-Vis-GeoIPS1
+docstring: |
+  The Night-Vis-GeoIPS1 product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: Night_Vis_GeoIPS1
+      arguments:
+        min_outbounds: crop # Mask lower bounds will prevent black images
+        max_outbounds: crop
+        max_night_zen: 90
+  mtif_type: vis
+  colormapper:
+    plugin:
+      name: matplotlib_linear_norm
+      arguments:
+        data_range: [0.0, 1.0] # Normalized algorithm
+        cmap_name: Greys_r
+        cbar_label: Normalized Radiance
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

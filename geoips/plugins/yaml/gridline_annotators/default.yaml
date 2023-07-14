@@ -1,0 +1,19 @@
+interface: gridline_annotators
+family: cartopy
+name: default
+docstring: |
+  The default gridline_annotators plugin. Top and left gridline labels, latitude and longitude lines colored
+  black, auto spacing, 1px linewidth, and [4, 2] linestyle
+spec:
+  labels:
+    top: true
+    bottom: false
+    left: true
+    right: false
+  lines:
+    color: black
+    linestyle: [4, 2]
+    linewidth: 1
+  spacing:
+    latitude: auto
+    longitude: auto

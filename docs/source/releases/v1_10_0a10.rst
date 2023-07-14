@@ -1,0 +1,188 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a10 (2023-04-29)
+******************************
+
+* Update all new geoips/plugins/yaml files to match new schema implementation
+* Update all old yaml_configs/product_params to use shortened plugin names
+
+  * Old YAML configs still used in tests, so updated to simplified plugin names
+    to support old tests.  New YAML plugins not yet fully updated for
+    shortened plugin names.
+* Finalize attributes on all geoips/plugins/modules files
+
+  * interface
+  * family
+  * name
+  * module-level docstring
+* Update pyproject.toml entry points to point to module vs function
+
+  * Additionally shortened some of the entry point / plugin names.
+    ie, pmw_tb.cmap_37pct -> pmw_37pct
+* Replace "description" attribute with "docstring" in BaseInterface
+* Allow a list of interfaces to test via command line
+* Remove support for testing deprecated interfaces
+
+Enhancements
+============
+
+Allow a list of interfaces to test_interfaces, remove deprecated support
+------------------------------------------------------------------------
+
+Update test_interfaces to allow a list of interfaces to test,
+passed in via command line.
+
+Remove support for deprecated interfaces in test_interfaces.py.
+
+::
+
+  modified:   geoips/commandline/test_interfaces.py
+
+Breaking Changes
+================
+
+Update to shortened entry point names throughout code
+-----------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#193: 2023-04-27, module-based plugin updates*
+
+Since "name" attribute within module-based plugins and entry point names
+were updated to simplified shortened versions, all instances of those
+plugin names were updated throughout the code base and all "old" style
+YAML product files.  New YAML plugins will be updated through a future
+PR since they are currently unused.
+
+* interpolators: pyresample_wrappers.interp -> interp
+* algorithms: pmw_tb.pmw -> pmw
+* algorithms: sfc_winds.windbarbs -> windbarbs
+* algorithms: visir.Night -> Night
+* colormaps: pmw_tb.cmap -> pmw
+
+  * NOTE: This will cause some colormaps and algorithms to have the same name.
+    They are under different interfaces, but will it cause confusion?
+* colormaps: visir.Infrared -> Infrared (and IR_BD, WV)
+* colormaps: winds.wind_radii_transitions -> wind_radii_transitions
+
+All "old" product_params YAML files updated accordingly:
+
+* geoips/yaml_configs/product_params/*
+
+Some hard coded instances:
+
+pyresample_wrappers.interp -> interp
+
+::
+  modified:   geoips/plugins/modules/coverage_checkers/windbarbs.py
+
+
+Update code to use func.call vs func
+------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#193: 2023-04-27, module-based plugin updates*
+
+Use fname_covg_func.call and covg_func.call vs just _func.
+
+NOTE: These instances will likely change slightly once new YAML plugin
+interfaces are fully implemented.
+
+::
+
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/output_formatters/metadata_tc.py
+
+Update pyproject.toml entry points to point to module vs function
+-----------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#193: 2023-04-27, module-based plugin updates*
+
+New interfaces assume the callable within a plugin is always named "call", thus
+entry points can be simplified to point to the module vs the specific function
+within the module.
+
+Note: "name" within plugins MUST match the entry point names (first part of line).
+
+::
+
+  pyproject.toml
+
+Updated all yaml files to match new schema implementations.
+-----------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#192: 2023-04-27, YAML plugin updates*
+
+* Refactored products
+* Refactored product_defaults
+* Refactored feature_annotators
+* Refactored gridline_annotators
+
+Replace "description" attribute with "docstring" in BaseInterface
+-----------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#193: 2023-04-27, finalize module plugin attributes*
+
+Update the BaseInterface to require module-level docstring (since
+numpy-docstring formatting is already enforced, all Python plugins
+will already have a module-level docstring defined, so we do not
+have to support deprecated formatting).
+
+Set the explicit "docstring" attribute on the plugin, in addition to __doc__.
+
+Remove the "description" attribute from the module-based plugins.
+
+::
+
+  modified:   geoips/interfaces/base.py
+
+Update all python module-based plugins to use finalized attributes
+------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#193: 2023-04-27, finalize module plugin attributes*
+
+Remove <interface>_type attribute, and added
+
+* interface
+* family
+* name
+
+Also ensure module-level docstrings are nominally correct.
+
+Must update all entry points in pyproject.toml to point to the module rather
+than the function name (since all plugins consistently name the callable
+function "call")
+
+::
+
+  modified: pyproject.toml
+  modified: geoips/plugins/modules/algorithms/*
+  modified: geoips/plugins/modules/colormaps/*
+  modified: geoips/plugins/modules/coverage_checkers/*
+  modified: geoips/plugins/modules/filename_formatters/*
+  modified: geoips/plugins/modules/interpolators/*
+  modified: geoips/plugins/modules/output_formatters/*
+  modified: geoips/plugins/modules/procflows/*
+  modified: geoips/plugins/modules/readers/*
+  modified: geoips/plugins/modules/sector_loaders/*
+  modified: geoips/plugins/modules/title_formatters/*
+
+Update plugin_module_to_obj function to check for finalized attributes
+----------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#193: 2023-04-29, finalize module plugin attributes*
+
+* Added test for interface attribute.
+* Ensure that plugin's interface attribute matches its interface
+* Fixed docstring test to error if __docstring__ is empty.
+
+::
+  modified: geoips/interfaces/base.py

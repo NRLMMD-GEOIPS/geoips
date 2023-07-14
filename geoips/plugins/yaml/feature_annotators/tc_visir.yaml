@@ -1,0 +1,20 @@
+interface: feature_annotators
+name: tc_visir
+family: cartopy
+docstring: |
+  The TC Visible Infrared feature_annotators configuration.
+  Coastlines and Countries Enabled. All colored #000000. 0.5px coastlines, 0.25px countries,
+  0px states borders, and 0px rivers.
+spec:
+  coastline:
+    enabled: true
+    edgecolor: "#000000"
+    linewidth: 0.5
+  borders:
+    enabled: true
+    edgecolor: "#000000"
+    linewidth: 0.25
+  states:
+    enabled: false
+  rivers:
+    enabled: false

@@ -1,0 +1,71 @@
+$id: gridline_annotators.cartopy
+$ref: bases.top
+title: "Gridline Annotator"
+description: |
+  Defines latitude and longitude gridlines and associated labels. Both latitude and
+  longitude lines will always be drawn. Their color, style, width, and spacing in
+  degrees can be controlled. Labels can be turned on and off for the top, bottom, left,
+  and right sides of the imagery.
+required:
+  - spec
+properties:
+  spec:
+    type: object
+    unevaluatedProperties: false
+    required:
+      - spacing
+      - labels
+      - lines
+    properties:
+      spacing:
+        type: object
+        required:
+          - latitude
+          - longitude
+        unevaluatedProperties: false
+        properties:
+          latitude:
+            type:
+              - number
+              - string
+          longitude:
+            type:
+              - number
+              - string
+      labels:
+        type: object
+        # ONLY allow top, bottom, left, right.
+        # If additional properties required, must update schema accordingly.
+        required:
+          - top
+          - bottom
+          - left
+          - right
+        unevaluatedProperties: false
+        properties:
+          top:
+            type: boolean
+          bottom:
+            type: boolean
+          left:
+            type: boolean
+          right:
+            type: boolean
+      lines:
+        type: object
+        required:
+          - color
+          - linestyle
+          - linewidth
+        unevaluatedProperties: false
+        properties:
+          color:
+            type: string
+          linestyle:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: integer
+          linewidth:
+            type: number

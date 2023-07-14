@@ -94,5 +94,5 @@
         overall_procflow_retvals[$overall_num]=42
     fi
 
-    echo "        Return: ${overall_procflow_retvals[-1]}"
+    echo "        Return: ${overall_procflow_retvals[*]: -1}"
     echo ""

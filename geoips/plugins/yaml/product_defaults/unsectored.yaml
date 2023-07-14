@@ -1,0 +1,8 @@
+# This YAML product config is useful only as a "product_template" to
+# define products directly within product_inputs/<source>.yaml
+interface: product_defaults
+family: unsectored_xarray_dict_to_output_format
+name: unsectored
+docstring: |
+  The unsectored product_defaults configuration.
+spec: {}

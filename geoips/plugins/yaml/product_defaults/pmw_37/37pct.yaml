@@ -1,0 +1,26 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: 37pct
+docstring: |
+  The 37pct product_defaults configuration.
+spec:
+  interpolator:
+    plugin:
+      name: interp_gauss
+      arguments:
+        sigmaval: 10000
+  algorithm:
+    plugin:
+      name: pmw_37pct
+      arguments:
+        output_data_range: [230, 280]
+        min_outbounds: crop
+        max_outbounds: mask
+        norm: null
+        inverse: null
+  mtif_type: pmw
+  colormapper:
+    plugin:
+      name: pmw_37pct
+      arguments:
+        data_range: [230, 280]

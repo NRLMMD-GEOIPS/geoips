@@ -1,0 +1,25 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: RainNearest
+docstring: |
+  The RainNearest product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [0.05, 50.0]
+        min_outbounds: mask
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  mtif_type: rain
+  colormapper:
+    plugin:
+      name: pmw_Rain
+      arguments:
+        data_range: [0.05, 50.0]
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

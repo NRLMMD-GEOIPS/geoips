@@ -32,9 +32,9 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP02
              --procflow single_source \
              --reader_name viirs_netcdf \
              --product_name Night-Vis-IR-GeoIPS1 \
-             --output_format unprojected_image \
-             --output_format_kwargs '{"x_size": "500"}' \
-             --filename_format geoips_fname \
+             --output_formatter unprojected_image \
+             --output_formatter_kwargs '{"x_size": "500"}' \
+             --filename_formatter geoips_fname \
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsclearnight.<product>.unprojected_image" \
              --self_register_dataset 'DNB' \
              --self_register_source viirs

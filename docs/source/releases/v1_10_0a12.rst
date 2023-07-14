@@ -1,0 +1,603 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a12 (2023-05-09)
+******************************
+
+Overall YAML interface updates
+
+* Remove old YAML discovery functions in geoips_utils
+* Remove old style YAML configs
+* Update dev/output_config.py to use new YAML interfaces
+* Rework mapping routines to use new interfaces
+
+Feature and gridline annotators interface
+
+* Add new feature and gridline annotators YAML-based interface
+* Refactor gridline_annotator and feature_annotator plugin schema and plugins
+* Update boundaries/gridlines_info to feature/gridline_annotator
+* Update boundaries/gridlines_params to feature/gridline_annotator
+
+Sectors interface
+
+* Add new sector YAML-based interface
+* Remove sectorfiles option from commandline
+
+Dynamic sectors interface
+
+* Update sector interface to include dynamic sectors
+* Update all TC templates to use updated sectors.generated schema
+* Update command line argument from tc_template_yaml to tc_spec_template
+
+Sector adjusters interface
+
+* Add sector_adjusters module-based interface
+* Update single_source procflow to use new sector_adjusters interface
+* Replace adjust_area_def command line arg with sector_adjuster
+
+Colormaps interface
+
+* Add colormap module-based interface
+* Add plugins/\*\*.txt to pyproject.toml
+* Move colormaps from geoips/image_utils/ascii_palettes to
+  plugins/txt/ascii_palettes
+* Update matplotlib_linear_norm to be a "configurable" colormap
+
+  * Add "find_ascii_palette" routine to geoips_utils.py
+  * Allow cbar_ticks == None to plot min/max of actual data
+  * Allow matplotlib, ascii, and geoips colormap sources
+* Change colormap families to "matplotlib"
+* Run pytest on all installed geoips plugin packages
+
+Products interface
+
+* Add products YAML-based interface
+* Update procflows to use products interface
+* Allow passing dictionary of product_spec_overrides to products.get_plugin
+* Support multiple coverage checkers for a single product
+* Bug fixes
+
+  * Fix plugin names in product_defaults
+* Testing updates
+
+  * Add data_fusion stitched test to test_full_install.sh
+  * Add template_basic_plugin test to test_full_install.sh
+
+Bug fixes
+=========
+
+Fix plugin names in product_defaults
+------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211f: 2023-05-09, product updates*
+
+* Update `range` -> `output_data_range` in Infared-Gray product_defaults
+* `pmw_tc.pmw_` -> `pmw_` algorithm name in PMW product_defaults
+
+::
+
+  modified: plugins/yaml/product_defaults/pmw_37/37pct.yaml
+  modified: plugins/yaml/product_defaults/pmw_37/37pctNearest.yaml
+  modified: plugins/yaml/product_defaults/pmw_89/color89.yaml
+  modified: plugins/yaml/product_defaults/pmw_89/color89Nearest.yaml
+  modified: plugins/yaml/product_defaults/visir/Infrared-Gray.yaml
+
+Major New Functionality
+=======================
+
+Add new sector interface
+------------------------
+
+*From NRLMMD-GEOIPS/geoips#211b: 2023-05-01, sector updates*
+
+This interface can be used for both dynamic templates and fully specified
+static yaml-based sectors.
+
+::
+
+  new file: interfaces/yaml_based/sectors.py
+
+Add sector_adjusters interface
+------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211d: 2023-05-02, sector adjuster updates*
+
+This is only used within the recenter_tc repository, but interface added here.
+
+::
+
+  new: geoips/interfaces/module_based/sector_adjusters.py
+  modified: geoips/interfaces/__init__.py
+
+Allow cbar_ticks == None to plot min/max of actual data
+-------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates*
+
+Update create_colorbar function to set cbar_ticks to cmap_norm.vmin and
+cmap_norm.vmax if cbar_ticks is "None".  Additionally, ensure if the
+"kwargs" options are included in mpl_colors_info, they are only used if
+not None (allows including defaults for all fields in mpl_colors_info)
+
+::
+
+  modified:   geoips/image_utils/mpl_utils.py
+
+Update matplotlib_linear_norm to allow matplotlib, ascii, and geoips colormaps
+------------------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates*
+
+Pass "cmap_source" option to determine where to find the colormap.
+Default to "matplotlib" (so backwards compatible)
+
+1. matplotlib builtin
+2. ascii palette
+3. geoips plugin
+
+::
+
+  modified: geoips/plugins/modules/colormaps/matplotlib_linear_norm.py
+
+Add "find_ascii_palette" routine to geoips_utils.py
+---------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates*
+
+This searches the plugin directory for plugins/txt/ascii_palettes (for now).
+May tune this additionally, but for now we will hard code txt/ascii_palettes,
+and require ascii colormaps to have extension .txt.
+
+::
+
+  modified: geoips/geoips_utils.py
+
+Update matplotlib_linear_norm colormap plugin to support ASCII palettes
+-----------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates*
+
+This plugin provides the ability to fully specify matplotlib color info
+via call signature arguments.  Add options for:
+
+* cmap_name - name of colormap to use
+* cmap_source - one of "matplotlib", "geoips", or "ascii"
+* cmap_path - optional full path to ascii palette
+* cbar_tick_labels - alternative labels to use if not the numeric values of
+  cbar_ticks
+* cbar_spacing - cbar spacing, proportional or uniform
+* cbar_full_width - specify colorbar should be the full width of image
+* colorbar_kwargs - pass through to matplotlib "colorbar" command
+* set_ticks_kwargs - pass through to "set_ticks" command
+
+Also add these fields to the colormap YAML schema.
+
+Additionally, update image_utils.colormap_utils.from_ascii to take optional
+"cmap_name" kwarg, if not specified, just use the basename of fname.
+
+::
+
+  modified: geoips/schema/product_defaults/bases/colormap.yaml
+  geoips/image_utils/colormap_utils.py
+  geoips/plugins/modules/colormaps/matplotlib_linear_norm.py
+
+Breaking Changes
+================
+
+Remove old YAML discovery functions in geoips_utils
+---------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211a: 2023-05-01, gridline/feature updates*
+
+* Remove list_gridlines_params_dict_yamls
+* Remove list_boundaries_params_dict_yamls
+
+::
+
+  geoips/geoips_utils.py
+
+
+Remove old YAML configs and old interfaces
+------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211: 2023-05-01, update code for new interfaces*
+
+NOTE: had to pull "set_lonlat_spacing" out of geoips/dev/gridlines.py and
+put it in geoips/dev/output_config.py.  Will likely want to handle this
+differently in the future.
+
+* boundaries -> feature_annotator
+* gridlines -> gridline_annotator
+* sectors_static -> sectors.static
+* sectors_dynamic -> sectors.dynamic
+* product_inputs -> products
+* product_params -> product_defaults
+
+::
+
+  modified: geoips/dev/output_config.py
+  deleted: geoips/dev/boundaries.py
+  deleted: geoips/dev/gridlines.py
+  deleted: geoips/yaml_configs/plotting_params/boundaries
+  deleted: geoips/yaml_configs/plotting_params/gridlines
+  deleted: geoips/yaml_configs/sectors_static
+  deleted: geoips/yaml_configs/sectors_dynamic
+  deleted: geoips/yaml_configs/product_inputs
+  deleted: geoips/yaml_configs/product_params
+
+Update dev/output_config.py to use new YAML interfaces
+------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211: 2023-05-01, update code for new interfaces*
+
+* from geoips.dev.boundaries import get_boundaries
+* from geoips.dev.gridlines import get_gridlines
+
+to:
+
+* from geoips.interfaces import feature_annotators
+* from geoips.interfaces import gridline_annotators
+
+::
+
+  modified: geoips/dev/output_config.py
+
+Refactor gridline_annotator and feature_annotator plugin schema and plugins
+---------------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211a: 2023-05-01, gridline/feature updates*
+
+* In feature annotators
+
+  * use "coastlines" -> "coastline" and "countries" -> "borders"
+  * use "edgecolor" instead of "color"
+
+* In gridline annotators
+
+  * Move to three spec sections: "spacing", "labels", and "lines"
+  * Use same line style for meridians and parallels
+
+::
+    modified: schema/feature_annotators/cartopy.yaml
+    modified: schema/gridline_annotators/cartopy.yaml
+    modified: plugins/yaml/feature_annotators
+    modified: plugins/yaml/gridline_annotators
+    modified: tests/test_pytest/test_plugin_schema/bad/feature_annotators/cartopy.yaml
+    modified: tests/test_pytest/test_plugin_schema/bad/gridline_annotators/cartopy.yaml
+
+Rework mapping routines to use new interfaces
+---------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211a: 2023-05-01, gridline/feature updates*
+
+* image_utils/maps.py
+
+  * Remove all functionality relating to Basemap
+  * Remove set_boundaries_info_dict and set_gridlines_info_dict
+  * Rename check_gridlines_info_dict to check_gridline_annotator
+  * Rename check_boundaries_info_dict to check_feature_annotator
+  * Add compute_lat_auto_spacing and compute_lon_auto_spacing
+  * Refactor all other functions
+
+* image_utils/mpl_utils.py
+
+  * Replace all uses of boundaries_info with feature_annotator
+  * Replace all uses of gridlines_info with gridline_annotator
+
+::
+    image_utils/maps.py
+    image_utils/mpl_utils.py
+
+Update boundaries/gridlines_info to feature/gridline_annotator
+--------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211a: 2023-05-01, gridline/feature updates*
+
+These are dictionaries of feature information to use in the final
+output plot.  Replace with "feature_annotator" terminology for the
+call signature argument.
+
+::
+
+  modified: geoips/dev/output_config.py
+  modified: geoips/interfaces/module_based/output_formatters.py
+  modified: geoips/plugins/modules/output_formatters/full_disk_image.py
+  modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+  modified: geoips/plugins/modules/output_formatters/imagery_windbarbs.py
+  modified: geoips/image_utils/mpl_utils.py
+
+Update boundaries/gridlines_params to feature/gridline_annotator
+----------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211a: 2023-05-01, gridline/feature updates*
+
+Update both command line calls and YAML output configs.
+
+::
+
+  modified: geoips/commandline/args.py
+  modified: geoips/dev/output_config.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+  modified: tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh
+  modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
+  modified: tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh
+  modified: tests/scripts/sar.tc.nrcs.imagery_annotated.sh
+  modified: tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh
+  modified: tests/yaml_configs/abi_test.yaml
+  modified: tests/yaml_configs/abi_test_low_memory.yaml
+
+Remove sectorfiles option from commandline
+------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211b: 2023-05-01, sector updates*
+
+Sectors are now fully fledged plugins, so we can just pass the list of
+sectors command line, we do not have to pass the full path to the associated
+file.  Remove all references to "sectorfiles" arguments, and rely on the
+sector list.
+
+::
+
+  modified: geoips/commandline/args.py
+  modified: geoips/commandline/run_procflow.py
+  modified: geoips/dev/output_config.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/sector_utils/utils.py
+  modified: tests/scripts/abi.static.Infrared.imagery_annotated.sh
+  modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
+  modified: tests/scripts/documentation_imagery.sh
+  modified: tests/scripts/ewsg.static.Infrared.imagery_clean.sh
+  modified: tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
+  modified: tests/yaml_configs/abi_test.yaml
+  modified: tests/yaml_configs/abi_test_low_memory.yaml
+  modified: tests/yaml_configs/amsr2_test.yaml
+  modified: tests/yaml_configs/amsr2_test_low_memory.yaml
+
+Update all TC templates to use updated sectors.generated formatting
+-------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211c: 2023-05-02, dynamic sector updates*
+
+These only require sector_spec_generator specifications,
+not sector_metadata_generator. Metadata is determined separately
+from the area definition.
+
+Update schema and all TC template YAMLs accordingly.
+
+::
+
+  modified: geoips/schema/sectors/generated.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_2km_1400x1400.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_2km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_4km_1600x1600.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_256x256/tc_4km_256x256.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_2km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_4km_512x512.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_2km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_4km_800x800.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_0p1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_2500x2500.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_3200x3200.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascat_high_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_ascatuhr_barbs_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_halfkm_template.yaml
+  modified: geoips/plugins/yaml/sectors/dynamic/tc_web_template.yaml
+
+Replace tc_template_yaml command line argument with tc_spec_template
+--------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211c: 2023-05-02, dynamic sector updates*
+
+Now that TC templates are fully fledged plugins, reference them just based
+on plugin name rather than full path to YAML file.
+
+::
+
+  modified: geoips/commandline/args.py
+  modified: geoips/dev/output_config.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/sector_utils/tc_tracks.py
+  modified: scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh
+  modified: scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh
+  modified: scripts/atms.tc.165H.netcdf_geoips.sh
+  modified: scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh
+  modified: yaml_configs/abi_test.yaml
+  modified: yaml_configs/abi_test_low_memory.yaml
+  modified: yaml_configs/amsr2_test.yaml
+  modified: yaml_configs/amsr2_test_low_memory.yaml
+
+Update single_source procflow to use new sector_adjusters interface
+-------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211d: 2023-05-02, sector adjuster updates*
+
+Was previously using "find_entry_point" directly.
+
+::
+
+  modified:   plugins/modules/procflows/single_source.py
+
+Replace adjust_area_def command line arg with sector_adjuster
+-------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211d: 2023-05-02, sector adjuster updates*
+
+Update appropriately in config_based and single_source.
+
+::
+
+  modified: commandline/args.py
+  modified: plugins/modules/procflows/config_based.py
+  modified: plugins/modules/procflows/single_source.py
+
+Move colormaps to plugins/txt/ascii_palettes
+--------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates*
+
+Consolidating user-defined capabilities within "plugins" directory.
+
+Add support for text ascii_palettes - which are not strictly geoips plugins
+(since they will not have the required attributes, etc), but will be
+accessed in a similar way.
+
+::
+
+  modified: pyproject.toml
+  modified: geoips/plugins/modules/colormaps/tpw/tpw_cimss.py
+  modified: geoips/plugins/modules/colormaps/tpw/tpw_purple.py
+  modified: geoips/plugins/modules/colormaps/tpw/tpw_pwat.py
+  renamed: geoips/image_utils/ascii_palettes/tpw_cimss.txt -> geoips/plugins/txt/ascii_palettes/tpw_cimss.txt
+  renamed: geoips/image_utils/ascii_palettes/tpw_purple.txt -> geoips/plugins/txt/ascii_palettes/tpw_purple.txt
+  renamed: geoips/image_utils/ascii_palettes/tpw_pwat.txt -> geoips/plugins/txt/ascii_palettes/tpw_pwat.txt
+
+Change all colormap families to "matplotlib"
+--------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates*
+
+Redefining plugin familes as a collection of required_parameters,
+required_kwargs, and allowable_kwargs.  This allows us to have a
+collections of keyword arguments that *can* be specified for
+matplotlib-based colormaps, but do not *have* to be specified.
+So rather than having a different family for every combination of
+tuning parameters for color specifications, have a general "matplotlib" family
+that all return the "mpl_colors_info" dictionary, but can have a variable set
+of arguments (depending on requirements for a specific colormap).
+
+All matplotlib families now have NO required params or kwargs, and a list of
+available_kwargs.
+
+::
+
+  modified: geoips/interfaces/module_based/colormaps.py
+  modified: geoips/plugins/modules/colormaps/cmap_rgb.py
+  modified: geoips/plugins/modules/colormaps/matplotlib_linear_norm.py
+  modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_150H.py
+  modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_37H.py
+  modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_37H_Legacy.py
+  modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_37H_Physical.py
+  modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_37pct.py
+  modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_89H.py
+  modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_89HW.py
+  modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_89H_Legacy.py
+  modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_89H_Physical.py
+  modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_89pct.py
+  modified: geoips/plugins/modules/colormaps/pmw_tb/cmap_Rain.py
+  modified: geoips/plugins/modules/colormaps/tpw/tpw_cimss.py
+  modified: geoips/plugins/modules/colormaps/tpw/tpw_purple.py
+  modified: geoips/plugins/modules/colormaps/tpw/tpw_pwat.py
+  modified: geoips/plugins/modules/colormaps/visir/IR_BD.py
+  modified: geoips/plugins/modules/colormaps/visir/Infrared.py
+  modified: geoips/plugins/modules/colormaps/visir/WV.py
+  modified: geoips/plugins/modules/colormaps/winds/wind_radii_transitions.py
+
+Allow passing dictionary of product_spec_overrides to products.get_plugin
+-------------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211f: 2023-05-09, product updates*
+
+When opening a product plugin, if optional "product_spec_override" is passed
+to the get_plugin method, use the values contained within product_spec_override
+in place of those found in products and product_defaults.
+
+This replaces the "product_params_override" used with the deprecated product
+interface.
+
+::
+
+  modified: geoips/commandline/args.py
+  modified: geoips/interfaces/yaml_based/products.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+  modified: tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh
+  modified: tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh
+  modified: tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh
+  modified: tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh
+  modified: tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh
+  modified: tests/scripts/atms.tc.165H.netcdf_geoips.sh
+  modified: tests/scripts/gmi.tc.89pct.imagery_clean.sh
+  modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
+  modified: tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh
+  modified: tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh
+  modified: tests/scripts/sar.tc.nrcs.imagery_annotated.sh
+  modified: tests/scripts/ssmi.tc.37pct.imagery_clean.sh
+  modified: tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh
+  modified: tests/yaml_configs/amsr2_test.yaml
+  modified: tests/yaml_configs/amsr2_test_low_memory.yaml
+
+Support multiple coverage checkers for a single product
+-------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211f: 2023-05-09, product updates*
+
+* Add filename_coverage_checker, full_coverage_checker, and
+  image_production_coverage_checker to product_defaults schema
+* Pass output_dict["product_spec_override"] to all products.get_plugin calls.
+
+::
+
+  modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/dev/output_config.py
+  modified: geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py
+  modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+  modified: geoips/plugins/modules/output_formatters/metadata_tc.py
+  modified: geoips/schema/product_defaults/specs/algorithm_colormap.yaml
+  modified: geoips/schema/product_defaults/specs/algorithm_interpolator_colormap.yaml
+  modified: geoips/schema/product_defaults/specs/interpolator_algorithm.yaml
+  modified: geoips/schema/product_defaults/specs/interpolator_algorithm_colormap.yaml
+
+Testing Updates
+===============
+
+Run pytest on all installed geoips plugin packages
+--------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211: 2023-05-09, interface updates*
+
+To ensure all functionality is tested, loop through all geoips  plugin packages
+when running tests/test_pytest.
+
+::
+
+  modified: tests/test_pytest/test_all_yaml_plugins.py
+
+Add data_fusion stitched test to test_full_install.sh
+-----------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211: 2023-05-09, interface updates*
+
+Add NOAA AWS pull of goes16, goes17, and himawari8 to
+test_data_fusion.
+
+Update data_fusion test call to run test_all.sh vs just layered.sh
+
+::
+
+  modified:   setup.sh
+  modified:   tests/test_full_install.sh
+
+Add template_basic_plugin test to test_full_install.sh
+------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211: 2023-05-09, interface updates*
+
+Ensure template_basic_plugin is installed properly.
+
+::
+
+  modified; tests/test_full_install.sh

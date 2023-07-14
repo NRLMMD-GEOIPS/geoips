@@ -1,0 +1,22 @@
+$id: bases.top
+type: object
+required:
+  - interface
+  - family
+  - name
+  - docstring
+properties:
+  interface:
+    $ref: bases.interface
+  family:
+    $ref: bases.family
+  name:
+    $ref: bases.name
+  docstring:
+    $ref: bases.docstring
+  package:
+    type: string
+  relpath:
+    type: string
+  abspath:
+    type: string

@@ -1,0 +1,24 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: TPW-CIMSS
+docstring: |
+  The TPW-CIMSS product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [5, 65.0]
+        min_outbounds: mask
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  colormapper:
+    plugin:
+      name: tpw_cimss
+      arguments: {}
+  interpolator:
+    plugin:
+      name: interp_gauss
+      arguments:
+        sigmaval: 10000

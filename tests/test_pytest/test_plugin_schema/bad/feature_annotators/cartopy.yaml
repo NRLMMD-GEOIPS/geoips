@@ -1,0 +1,155 @@
+---
+error: ValidationError
+error_pattern: ".*'spec' is a required property.*"
+interface: "feature_annotators"
+family: "cartopy"
+name: "default"
+docstring: "Missing spec"
+
+---
+error: ValidationError
+error_pattern: ".*'coastline' is a required property.*"
+interface: "feature_annotators"
+family: "cartopy"
+name: "default"
+docstring: "Missing all features"
+spec: {}
+
+---
+error: ValidationError
+error_pattern: ".*'coastline' is a required property.*"
+interface: "feature_annotators"
+family: "cartopy"
+name: "default"
+docstring: "Missing coastline"
+spec:
+  borders:
+    enabled: false
+  states:
+    enabled: false
+  rivers:
+    enabled: false
+
+---
+error: ValidationError
+error_pattern: ".*'borders' is a required property.*"
+interface: "feature_annotators"
+family: "cartopy"
+name: "default"
+docstring: "Missing borders"
+spec:
+  coastline:
+    enabled: false
+  states:
+    enabled: false
+  rivers:
+    enabled: false
+
+---
+error: ValidationError
+error_pattern: ".*'states' is a required property.*"
+interface: "feature_annotators"
+family: "cartopy"
+name: "default"
+docstring: "Missing states"
+spec:
+  coastline:
+    enabled: false
+  borders:
+    enabled: false
+  rivers:
+    enabled: false
+
+---
+error: ValidationError
+error_pattern: ".*'rivers' is a required property.*"
+interface: "feature_annotators"
+family: "cartopy"
+name: "default"
+docstring: "Missing rivers"
+spec:
+  coastline:
+    enabled: false
+  borders:
+    enabled: false
+  states:
+    enabled: false
+
+---
+error: ValidationError
+error_pattern: ".*Unevaluated properties are not allowed \\('unhandled' was unexpected\\)"
+interface: "feature_annotators"
+family: "cartopy"
+name: "default"
+docstring: "Unhandled feature type"
+spec:
+  coastline:
+    enabled: false
+  borders:
+    enabled: false
+  states:
+    enabled: false
+  rivers:
+    enabled: false
+  unhandled:
+    enabled: false
+
+---
+error: ValidationError
+error_pattern: ".*'edgecolor' is a required property.*"
+interface: "feature_annotators"
+family: "cartopy"
+name: "default"
+docstring: "Missing edgecolor"
+spec:
+  coastline:
+    enabled: true
+    linewidth: 2
+  borders:
+    enabled: false
+  states:
+    enabled: false
+  rivers:
+    enabled: false
+
+---
+error: ValidationError
+error_pattern: ".*'linewidth' is a required property.*"
+interface: "feature_annotators"
+family: "cartopy"
+name: "default"
+docstring: "Missing line width"
+spec:
+  coastline:
+    enabled: true
+    edgecolor: red
+  borders:
+    enabled: false
+  states:
+    enabled: false
+  rivers:
+    enabled: false
+
+---
+error: ValidationError
+error_pattern: ".*Unevaluated properties are not allowed \\('idontexist' was unexpected\\).*"
+interface: "feature_annotators"
+family: "cartopy"
+name: "default"
+docstring: "Extra 'idontexist' property"
+spec:
+  coastline:
+    enabled: true
+    edgecolor: red
+    linewidth: 2
+    idontexist: none
+  borders:
+    enabled: true
+    edgecolor: red
+    linewidth: 1
+  states:
+    enabled: true
+    edgecolor: red
+    linewidth: 0.5
+  rivers:
+    enabled: false

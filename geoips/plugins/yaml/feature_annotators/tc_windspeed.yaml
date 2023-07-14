@@ -1,0 +1,24 @@
+interface: feature_annotators
+name: tc_windspeed
+family: cartopy
+docstring: |
+  The TC Windspeed feature_annotators configuration.
+  All line types enabled. All colored #00B4B4B4. 2px coastlines, 1px countries,
+  0.5px states borders, and 0px rivers.
+spec:
+  coastline:
+    enabled: true
+    edgecolor: "#00B4B4B4"
+    linewidth: 2
+  borders:
+    enabled: true
+    edgecolor: "#00B4B4B4"
+    linewidth: 1
+  states:
+    enabled: true
+    edgecolor: "#00B4B4B4"
+    linewidth: 0.5
+  rivers:
+    enabled: true
+    edgecolor: "#00B4B4B4"
+    linewidth: 0

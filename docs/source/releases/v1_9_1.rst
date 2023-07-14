@@ -13,7 +13,7 @@
 Version 1.9.1 (2023-04-03)
 **************************
 
-* Remove GEOIPS_BASEDIR references
+* Remove GEOIPS BASEDIR references
 
   * Add GEOIPS_TESTDATA_DIR and GEOIPS_DEPEDNENCIES_DIR to filenames/base_paths.py
 * Sphinx Documentation Updates
@@ -38,7 +38,7 @@ Breaking Changes
 Include GEOIPS_TESTDATA_DIR and GEOIPS_DEPENDENCIES_DIR in geoips/filenames/base_paths.py
 -----------------------------------------------------------------------------------------
 
-*From GEOIPS#223: 2023-03-30, remove GEOIPS_BASEDIR from YAML metadata*
+*From GEOIPS#223: 2023-03-30, remove GEOIPS BASEDIR from YAML metadata*
 
 Note geoips/filenames/base_paths.py must include GEOIPS_TESTDATA_DIR
 and GEOIPS_DEPENDENCIES_DIR included in gpaths,
@@ -49,10 +49,10 @@ in geoips/filenames/base_paths.py.
 
     geoips/filenames/base_paths.py
 
-Update replace_geoips_paths to replace GEOIPS_BASEDIR last
+Update replace_geoips_paths to replace GEOIPS BASEDIR last
 ----------------------------------------------------------
 
-*From GEOIPS#223: 2023-03-30, remove GEOIPS_BASEDIR from YAML metadata*
+*From GEOIPS#223: 2023-03-30, remove GEOIPS BASEDIR from YAML metadata*
 
 To avoid reliance on GEOIPS BASEDIR, replace GEOIPS_OUTDIRS, GEOIPS_PACKAGES_DIR
 GEOIPS_TESTDATA_DIR, and GEOIPS_DEPENDENCIES_DIR before falling back on

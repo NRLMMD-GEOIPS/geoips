@@ -1,0 +1,4 @@
+$id: bases.name
+description: "The name of the plugin"
+type: string
+$ref: bases.valid_identifier

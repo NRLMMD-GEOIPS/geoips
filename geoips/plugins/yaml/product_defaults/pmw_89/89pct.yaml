@@ -1,0 +1,26 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: 89pct
+docstring: |
+  The 89pct product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: pmw_89pct
+      arguments:
+        output_data_range: [105.0, 280.0]
+        min_outbounds: crop
+        max_outbounds: mask
+        norm: null
+        inverse: null
+  mtif_type: pmw
+  colormapper:
+    plugin:
+      name: pmw_89pct
+      arguments:
+        data_range: [105, 280]
+  interpolator:
+    plugin:
+      name: interp_gauss
+      arguments:
+        sigmaval: 10000

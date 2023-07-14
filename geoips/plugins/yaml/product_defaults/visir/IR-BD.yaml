@@ -1,0 +1,27 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: IR-BD
+docstring: |
+  The IR-BD product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [-90.0, 40.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  mtif_type: ir
+  colormapper:
+    plugin:
+      name: IR_BD
+      arguments:
+        data_range: [-90.0, 40.0]
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

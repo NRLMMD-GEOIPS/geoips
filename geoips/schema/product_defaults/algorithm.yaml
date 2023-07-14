@@ -1,0 +1,11 @@
+$id: product_defaults.algorithm
+$ref: bases.top
+type: object
+required:
+  - spec
+properties:
+  family:
+    const: algorithm
+  spec:
+    unevaluatedProperties: false
+    $ref: "product_defaults.specs.algorithm"

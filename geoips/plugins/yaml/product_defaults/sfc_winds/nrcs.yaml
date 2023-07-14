@@ -1,0 +1,36 @@
+# This is what it should look like:
+# https://www.star.nesdis.noaa.gov/socd/mecb/sar/AKDEMO_products/APL_winds/tropical/2018/WP312018_YUTU/
+# S1A_ESA_2018_10_25_20_32_29_0593814749_140.47E_16.41N_VH_C-_MERGED02_nrcs.png
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: nrcs
+docstring: |
+  The nrcs product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [-35, -20]
+        input_units: dB
+        output_units: dB
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  mtif_type: nrcs
+  colormapper:
+    plugin:
+      name: matplotlib_linear_norm
+      arguments:
+        data_range: [-35, -20]
+        cmap_name: Greys_r
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}
+  coverage_checker:
+    plugin:
+      name: center_radius
+      arguments:
+        radius_km: 300

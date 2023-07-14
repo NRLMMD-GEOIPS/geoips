@@ -161,26 +161,29 @@ def set_mpl_colors_info_dict(
     return mpl_colors_info
 
 
-def from_ascii(fname, reverse=False):
-    """
-    Create a ListedColormap instance from an ASCII file of RGB values.
+def from_ascii(fname, cmap_name=None, reverse=False):
+    """Create a ListedColormap instance from an ASCII file of RGB values.
 
     Parameters
     ----------
     fname : str
         Full path to ascii RGB colortable file
+    cmap_name : str, default=None (basename(fname))
+        Identifying name of colormap - if None, default to basename(fname)
     reverse : bool, default=False
         If True, reverse the colormap
 
     Returns
     -------
     cmap : ListedColormap object
-        The colormap name will be the os.path.basename of the file.
+        If cmap_name not specified, the colormap name will be the os.path.basename
+        of the file.
 
     Notes
     -----
      * Lines preceded by '#' are ignored.
-     * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0 for matplotlib usage)
+     * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0
+       for matplotlib usage)
      * One white space delimited RGB value per line
     """
     # Read data from ascii file into an NLines by 3 float array, skipping
@@ -211,7 +214,9 @@ def from_ascii(fname, reverse=False):
     from matplotlib import colors
     from os.path import basename as pathbasename
 
-    cmap = colors.ListedColormap(carray, name=pathbasename(fname))
+    if cmap_name is not None:
+        cmap_name = pathbasename(fname)
+    cmap = colors.ListedColormap(carray, name=cmap_name)
     return cmap
 
 

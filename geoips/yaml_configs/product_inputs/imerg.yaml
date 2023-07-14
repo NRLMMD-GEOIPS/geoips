@@ -1,5 +1,0 @@
-imerg:
-  Rain:
-    variables: ['rain']
-  RainNearest:
-    variables: ['rain']

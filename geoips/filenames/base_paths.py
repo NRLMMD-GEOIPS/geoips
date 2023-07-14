@@ -18,6 +18,7 @@ REQUIRED environment variable GEOIPS_OUTDIRS.
 Individual GEOIPS_OUTDIRS relative paths can be overridden
 by setting appropriate environment variables.
 """
+
 # Python Standard Libraries
 import logging
 from os import getenv, listdir
@@ -151,7 +152,7 @@ if getenv("GEOIPS_RCFILE"):
     PATHS["GEOIPS_RCFILE"] = getenv("GEOIPS_RCFILE")
 
 PATHS["TC_TEMPLATE"] = pathjoin(
-    PATHS["BASE_PATH"], "yaml_configs", "sectors_dynamic", "tc_web_template.yaml"
+    PATHS["BASE_PATH"], "plugins", "yaml", "sectors", "dynamic", "tc_web_template.yaml"
 )
 if getenv("TC_TEMPLATE"):
     PATHS["TC_TEMPLATE"] = getenv("TC_TEMPLATE")

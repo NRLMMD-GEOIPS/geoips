@@ -1,0 +1,226 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a13 (2023-05-11)
+******************************
+
+Clean up installation and integration testing process.
+
+* Add "tests/integration_tests" directory for installation and testing
+
+  * Include install scripts that ensure system requirements available,
+    and clone/install all required test repos and plugin packages for
+    given set of test scripts
+  * Additionally check system requirements prior to commencing tests
+* Remove old base install and test scripts
+* Update installation documentation to reflect explicit Anaconda installation,
+  and simplified install/test scripts.
+* Provide more useful error messages from base interface class for invalid
+  plugins.
+* Simplify base_test.sh script to only compare clean imagery test outputs.
+
+Installation Updates
+====================
+
+Add tests/integration_tests/<package>_install.sh scripts
+--------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#211f: 2023-05-09, product updates*
+
+These scripts first check basic system requirements exist:
+
+* git lfs
+* wget
+* imagemagick
+* python
+* openblas/scipy
+* libgeos/cartopy
+* rclone
+
+Then check for specific test repos / plugin packages required for
+the set of tests, and install them if they do not exist:
+
+* test_data_amsr2 and AWS ABI test data for base install
+* All available plugin repos and test data repos for "full" install
+  (will update appropriately as new repos/datasets become available)
+
+::
+
+  modified: tests/integration_tests/base_install.sh
+  modified: tests/integration_tests/full_install.sh
+
+Remove base_install_and_test.sh setup script
+--------------------------------------------
+
+These scripts have been replaced with the updated installation instructions,
+and the new integration_tests scripts.
+
+::
+
+  deleted: base_install_and_test.sh
+  deleted: tests/test_base_install.sh
+  deleted: tests/test_base_install_low_memory.sh
+
+Update check_system_requirements to return non-zero on failure
+--------------------------------------------------------------
+
+Ensure when we call check_system_requirements, that it actually exits with
+error if a system requirement did not exist.  This will be used during the
+installation process as well as the testing process to better identify issues
+with the installation.
+
+::
+
+  modified: setup/check_system_requirements.sh
+
+Add install option for setup_ahi_test_data in setup.sh
+------------------------------------------------------
+
+Added one new option to setup.sh to allow installation of AHI test data.
+The option is called using ``setup.sh setup_ahi_test_data``.
+
+::
+
+    modified: setup.sh
+
+Testing Updates
+===============
+
+Add tests/integration_tests/<package>_test.sh scripts
+-----------------------------------------------------
+
+These scripts first call "<package>_install.sh exit_on_missing", which will
+exit with error on any missing packages (rather than just installing and
+continuing).  Since we should assume everything has been installed prior
+to attempting the tests, we want to exit immediately with an error if
+anything was missing.
+
+Once all system requirements have been checked, these scripts continue on
+through the list of complete integration tests required to sufficiently
+test the given package.
+
+::
+
+  modified: tests/integration_tests/base_test.sh
+  modified: tests/integration_tests/full_test.sh
+
+Simplify base_test.sh script to only compare clean imagery test outputs
+-----------------------------------------------------------------------
+
+To avoid unnecessary comparison failures due to cartopy / matplotlib
+configurations, only test config based annotated imagery for completion,
+and single source clean imagery output for comparison.
+
+::
+
+    modified: tests/integration_tests/base_test.sh
+
+Update to use new AHI test_data installation method
+---------------------------------------------------
+
+Update scripts that use AHI data to use the ``test_data_noaa_aws`` directory
+rather than the old ``test_data_ahi_day`` directory.
+
+::
+
+    modified: tests/scripts/ahi.tc.WV.geotiff.sh
+    
+Add new tests for annotated imagery that do not perform comparison
+------------------------------------------------------------------
+
+Sometimes, when cartopy shape files become out of date, annotated imagery tests
+will fail due to misaligned borders, shifted labels, etc. Two new tests were
+added which assert that we can produce annotated imagery but do not attempt to
+perform a comparison against reference imagery.
+
+::
+
+    added: tests/scripts/amsr2.config_based_no_compare.sh
+    added: tests/yaml_configs/amsr2_test_no_compare.yaml
+
+Update ``test_all.sh`` to use ``check_system_requirements.sh``
+--------------------------------------------------------------
+
+Update ``test_all.sh`` to check for system requirements including:
+
+- git lfs
+- imagemagick
+- wget
+- git
+- python
+- rclone
+- test_data_clavrx
+- test_data_amsr2
+- test_data_abi_day
+
+::
+
+    modified: tests/test_all.sh
+
+Documentation Updates
+=====================
+
+Add updated installation instructions
+-------------------------------------
+
+Replace script based installation with explicit commands included directly
+in the documentation.
+
+Effectively the base_install_and_test.sh and test_base_install.sh scripts
+have been replaced with explicit instructions to:
+
+* wget and run Anaconda installer
+* Execute a conda create command that includes all required system dependencies
+* Run `pip install geoips`
+* Run `tests/integration_tests/base_install.sh`
+* Run `tests/integration_tests/base_test.sh`
+
+::
+
+  docs/source/starter/installation.rst
+
+Add useful error messages in base interface class for invalid plugins
+---------------------------------------------------------------------
+
+Ensure all instances of missing attributes throughout geoips/interfaces/base.py
+are appropriately caught and raised, with appropriate error messages.
+
+::
+
+  modified: geoips/interfaces/base.py
+
+Bug Fixes
+=========
+
+Add output_dict as kwd to geotiff_fname filename_formatter plugin
+-----------------------------------------------------------------
+
+The geotiff_fname filename_formatter was missing the output_dict keyword which 
+caused errors to occur when it was called.
+
+::
+
+    modified: geoips/plugins/modules/filename_formatters/geotiff_fname.py
+
+Enhancements
+============
+
+Add new sectors for Japan and CONUS
+-----------------------------------
+
+There are currently very few sectors in GeoIPS. This adds two new sectors to
+better demonstrate the static sector functionality.
+
+::
+
+    added: geoips/plugins/yaml/sectors/static/conus.yaml
+    added: geoips/plugins/yaml/sectors/static/japan.yaml

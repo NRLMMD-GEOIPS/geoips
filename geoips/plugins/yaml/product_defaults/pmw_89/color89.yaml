@@ -1,0 +1,24 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: color89
+docstring: |
+  The color89 product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: pmw_color89
+      arguments: {}
+  mtif_type: rgb
+  colormapper:
+    plugin:
+      name: cmap_rgb
+      arguments: {}
+  interpolator:
+    plugin:
+      name: interp_gauss
+      arguments:
+        sigmaval: 10000
+  coverage_checker:
+    plugin:
+      name: rgba
+      arguments: {}

@@ -1,0 +1,33 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: Uncorrected-Channel
+docstring: |
+  The Uncorrected-Channel product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: null # Not specifying output_data_range will use actual min and max
+        input_units: null
+        output_units: null
+        min_outbounds: crop
+        max_outbounds: crop
+        sun_zen_correction: False
+        # min_day_zen: 90
+        gamma_list: []
+        scale_factor: 1.0 # This scale_factor is applied BEFORE output_data_range...
+        norm: True # Normalize so we know what the data range is for cmap.
+        inverse: null
+  mtif_type: vis
+  colormapper:
+    plugin:
+      name: matplotlib_linear_norm
+      arguments:
+        data_range: [0.0, 1.0] # MUST pass data_range, it will not auto-detect
+        cmap_name: Greys_r
+        cbar_label: Normalized Channel Data
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

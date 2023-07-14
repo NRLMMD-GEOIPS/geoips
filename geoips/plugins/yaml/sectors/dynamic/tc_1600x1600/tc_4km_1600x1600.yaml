@@ -1,0 +1,16 @@
+interface: sectors
+family: generated
+name: tc_4km_1600x1600
+docstring: |
+  The tc_4km_1600x1600 boundaries configuration.
+
+  Using pixel_width: 4000, pixel_height: 4000, num_lines: 1600, num_samples: 1600.
+spec:
+  sector_spec_generator:
+    name: center_coordinates
+    arguments:
+      projection: eqc
+      pixel_width: 4000
+      pixel_height: 4000
+      num_lines: 1600
+      num_samples: 1600
