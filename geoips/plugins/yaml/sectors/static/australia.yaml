@@ -1,0 +1,37 @@
+interface: sectors
+family: area_definition
+name: australia
+docstring: "Australian Continent"
+metadata:
+  continent: Australia
+  country: x
+  area: Continental
+  subarea: x
+  state: x
+  city: x
+spec:
+  area_id: australia
+  description: Australian Continent
+  projection:
+    a: 6371228.0
+    lat_0: -16.814999999999998
+    lon_0: 131.755
+    proj: eqc
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  sector_info:
+    continent: x
+    country: x
+    area: x
+    subarea: x
+    state: x
+    city: x
+  sector_family: static
+  shape:
+    height: 2013
+    width: 1639
+  area_extent:
+    lower_left_xy: [-2458754, -3020718]
+    upper_right_xy: [2458754, 3020718]
