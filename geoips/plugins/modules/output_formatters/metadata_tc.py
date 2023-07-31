@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """TC product YAML metadata output format."""
+
 import logging
 
 from geoips.filenames.base_paths import PATHS as gpaths

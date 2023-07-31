@@ -105,7 +105,7 @@ def get_schemas(path, validator):
         try:
             validator.check_schema(schema)
         except SchemaError as err:
-            raise SchemaError(f"Invalid schema {schema_file}") from err
+            raise SchemaError(f"Invalid schema '{schema_file}'") from err
         schemas[schema_id] = schema
 
     return schemas
@@ -176,7 +176,11 @@ class YamlPluginValidator:
         try:
             validator = self.validators[validator_id]
         except KeyError:
-            raise ValidationError(f"No validator found for {validator_id}")
+            raise ValidationError(
+                f"No validator found for '{validator_id}'"
+                f"\nfrom plugin '{plugin['name']}'"
+                f"\nin interface '{plugin['interface']}'"
+            )
         validator.validate(plugin)
 
         if "family" in plugin and plugin["family"] == "list":
@@ -197,14 +201,23 @@ class YamlPluginValidator:
         valid_list_families = ["products"]
         if plugin["interface"] not in valid_list_families:
             raise NotImplementedError(
-                "Unable to handle plugins of family 'list' for '{plugin['interface']}' "
-                f"interface. Plugins from family 'list' are currently only handled for "
-                f"the following interfaces: {valid_list_families}."
+                "Unable to handle plugins of family 'list' for"
+                f"'{plugin['interface']} interface."
+                f"\nPlugins from family 'list' are currently only handled for "
+                f"the following interfaces: '{valid_list_families}'."
             )
         # Lists should use their interface name to denote the beginning of the list
         for sub_plugin in plugin["spec"][plugin["interface"]]:
             sub_plugin["interface"] = plugin["interface"]
-            self.validate(sub_plugin)
+            try:
+                self.validate(sub_plugin)
+            except PluginError as resp:
+                raise PluginError(
+                    f"{resp}: Trouble validating sub_plugin '{sub_plugin.get('name')}' "
+                    f"\non plugin '{plugin.get('name')}'"
+                    f"\nfrom package '{plugin.get('package')}' "
+                    f"\nat '{plugin.get('abspath')}'"
+                ) from resp
         return plugin
 
 
@@ -256,7 +269,7 @@ def plugin_yaml_to_obj(name, yaml_plugin, obj_attrs={}):
     if missing:
         raise PluginError(
             f"Plugin '{yaml_plugin['name']}' is missing the following required "
-            f"top-level properties: {missing}"
+            f"top-level properties: '{missing}'"
         )
 
     obj_attrs["__doc__"] = obj_attrs["docstring"]
@@ -315,8 +328,8 @@ def plugin_module_to_obj(name, module, obj_attrs={}):
 
     if missing:
         raise PluginError(
-            f"Plugin {module.__name__} is missing the following required global "
-            f"attributes: {missing}."
+            f"Plugin '{module.__name__}' is missing the following required global "
+            f"attributes: '{missing}'."
         )
 
     if module.__doc__:
@@ -435,7 +448,14 @@ class BaseYamlInterface(BaseInterface):
         # If this is any other family, just store it
         for yaml_plg in yaml_plugins[self.name]:
             if yaml_plg["family"] == "list":
-                yaml_plg = self.validator.validate(yaml_plg)
+                try:
+                    yaml_plg = self.validator.validate(yaml_plg)
+                except ValidationError as resp:
+                    raise ValidationError(
+                        f"{resp}: from plugin '{yaml_plg.get('name')}',"
+                        f"\nin package '{yaml_plg.get('package')}',"
+                        f"\nlocated at '{yaml_plg.get('abspath')}' "
+                    ) from resp
                 plg_list = plugin_yaml_to_obj(yaml_plg["name"], yaml_plg)
                 yaml_subplgs = {}
                 for yaml_subplg in plg_list["spec"][self.name]:
@@ -558,8 +578,8 @@ class BaseModuleInterface(BaseInterface):
         )
         if obj.interface != self.name:
             raise PluginError(
-                f"Plugin 'interface' attribute on {obj.name} plugin does not match the "
-                f"name of its interface as specified by entry_points."
+                f"Plugin 'interface' attribute on '{obj.name}' plugin does not "
+                f"match the name of its interface as specified by entry_points."
             )
         return obj
 
@@ -584,8 +604,17 @@ class BaseModuleInterface(BaseInterface):
         # Find the plugin module
         try:
             module = find_entry_point(self.name, name)
-        except EntryPointError:
-            raise PluginError(f"Plugin '{name}' not found for '{self.name}' interface.")
+        except EntryPointError as resp:
+            raise PluginError(
+                f"{resp}:\nPlugin '{name}' not found for '{self.name}' interface. "
+                f"\nCheck 'pyproject.toml' for typos, "
+                f"\nthat path in pyproject.toml matches path to '{name}' module, "
+                f"\ncheck top level attributes on module '{name}' "
+                f"(interface, family, name), "
+                f"\n and check that you are attempting to use the correct plugin name "
+                f"\n(ie, check in product YAMLs or command line that you are"
+                f" attempting to access the correct plugin name)"
+            ) from resp
         # Convert the module into an object
         return plugin_module_to_obj(name, module)
 
@@ -595,10 +624,11 @@ class BaseModuleInterface(BaseInterface):
         for ep in get_all_entry_points(self.name):
             try:
                 plugins.append(plugin_module_to_obj(ep.name, ep))
-            except AttributeError:
+            except AttributeError as resp:
                 raise PluginError(
-                    f"Plugin {ep.__name__} is missing the 'name' attribute"
-                )
+                    f"Plugin '{ep.__name__}' is missing the 'name' attribute, "
+                    f"\nfrom '{ep.__module__}' module,"
+                ) from resp
         return plugins
 
     def plugin_is_valid(self, name):
@@ -622,16 +652,16 @@ class BaseModuleInterface(BaseInterface):
         if plugin.family not in self.required_args:
             raise PluginError(
                 f"'{plugin.family}' must be added to required args list"
-                f" for '{self.name}' interface,"
-                f" found in '{plugin.name}' plugin,"
-                f" in '{plugin.module.__name__}' module"
+                f"\nfor '{self.name}' interface,"
+                f"\nfound in '{plugin.name}' plugin,"
+                f"\nin '{plugin.module.__name__}' module"
             )
         if plugin.family not in self.required_kwargs:
             raise PluginError(
                 f"'{plugin.family}' must be added to required kwargs list"
-                f" for '{self.name}' interface,"
-                f" found in '{plugin.name}' plugin,"
-                f" in '{plugin.module.__name__}' module"
+                f"\nfor '{self.name}' interface,"
+                f"\nfound in '{plugin.name}' plugin,"
+                f"\nin '{plugin.module.__name__}' module"
             )
         expected_args = self.required_args[plugin.family]
         expected_kwargs = self.required_kwargs[plugin.family]
@@ -652,17 +682,29 @@ class BaseModuleInterface(BaseInterface):
 
         for expected_arg in expected_args:
             if expected_arg not in arg_list:
-                LOG.error("MISSING expected arg %s in %s", expected_arg, plugin.name)
-                return False
+                raise PluginError(
+                    f"MISSING expected arg '{expected_arg}' in '{plugin.name}'"
+                    f"\nfor '{self.name}' interface,"
+                    f"\nfound in '{plugin.name}' plugin,"
+                    f"\nin '{plugin.module.__name__}' module"
+                )
         for expected_kwarg in expected_kwargs:
             # If expected_kwarg is a tuple, first item is kwarg, second default value
             if isinstance(expected_kwarg, tuple):
                 if expected_kwarg[0] not in kwarg_list:
-                    LOG.error("MISSING expected kwarg %s in %s", expected_kwarg, plugin.name)
-                    return False
+                    raise PluginError(
+                        f"MISSING expected kwarg '{expected_kwarg}' in '{plugin.name}'"
+                        f"\nfor '{self.name}' interface,"
+                        f"\nfound in '{plugin.name}' plugin,"
+                        f"\nin '{plugin.module.__name__}' module"
+                    )
             elif expected_kwarg not in kwarg_list:
-                LOG.error("MISSING expected kwarg %s in %s", expected_kwarg, plugin.name)
-                return False
+                raise PluginError(
+                    f"MISSING expected kwarg '{expected_kwarg}' in '{plugin.name}'"
+                    f"\nfor '{self.name}' interface,"
+                    f"\nfound in '{plugin.name}' plugin,"
+                    f"\nin '{plugin.module.__name__}' module"
+                )
 
         return True
 

@@ -13,7 +13,7 @@
 """GeoIPS interface module."""
 
 from geoips.interfaces.module_based.algorithms import algorithms
-from geoips.interfaces.module_based.colormaps import colormaps
+from geoips.interfaces.module_based.colormappers import colormappers
 from geoips.interfaces.module_based.coverage_checkers import coverage_checkers
 from geoips.interfaces.module_based.filename_formatters import filename_formatters
 from geoips.interfaces.module_based.interpolators import interpolators
@@ -35,7 +35,7 @@ from geoips.interfaces.yaml_based.sectors import sectors
 
 __all__ = [
     "algorithms",
-    "colormaps",
+    "colormappers",
     "coverage_checkers",
     "feature_annotators",
     "filename_formatters",

@@ -14,6 +14,7 @@
 
 WFABBA is a geostationary fire product produced by SSEC
 """
+
 # Python Standard Libraries
 import logging
 from os.path import basename

@@ -1,5 +1,5 @@
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: Night-Vis
 docstring: |
   The Night-Vis product_defaults configuration.
@@ -19,7 +19,7 @@ spec:
         inverse: false
         norm: false
   mtif_type: vis
-  colormap:
+  colormapper:
     plugin:
       name: matplotlib_linear_norm
       arguments:

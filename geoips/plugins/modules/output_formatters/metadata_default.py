@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Default YAML metadata output format."""
+
 import logging
 
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -116,6 +117,9 @@ def update_sector_info_with_default_metadata(
 
     if "original_source_filenames" in xarray_obj.attrs.keys():
         sector_info["original_source_filenames"] = xarray_obj.original_source_filenames
+    # Backwards compatibility, so the default metadata doesn't change.
+    if "source_file_names" in xarray_obj.attrs.keys():
+        sector_info["original_source_filenames"] = xarray_obj.source_file_names
 
     return sector_info
 

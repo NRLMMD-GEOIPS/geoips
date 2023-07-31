@@ -11,12 +11,14 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Utilities for working with dynamic sector specifications."""
+
 import logging
 
 from pyresample import load_area
 
 from geoips.sector_utils.tc_tracks import set_tc_area_def
 from geoips.interfaces import sectors
+from geoips.errors import PluginError
 
 LOG = logging.getLogger(__name__)
 
@@ -318,7 +320,7 @@ def get_trackfile_area_defs(
     trackfiles,
     trackfile_parser,
     trackfile_sectorlist=None,
-    sector_spec_generator=None,
+    tc_spec_template=None,
     aid_type=None,
     start_datetime=None,
     end_datetime=None,
@@ -350,7 +352,9 @@ def get_trackfile_area_defs(
 
     for trackfile in trackfiles:
         area_defs += trackfile_to_area_defs(
-            trackfile, trackfile_parser, sector_spec_generator
+            trackfile,
+            trackfile_parser=trackfile_parser,
+            tc_spec_template=tc_spec_template,
         )
     if trackfile_sectorlist is not None and "all" not in trackfile_sectorlist:
         for area_def in area_defs:
@@ -431,8 +435,9 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorlist):
 
 def get_tc_area_defs_for_xarray(
     xarray_obj,
-    tcdb_sectorlist=None,
-    sector_spec_generator=None,
+    tcdb_sector_list=None,
+    tc_spec_template=None,
+    trackfile_parser=None,
     hours_before_sector_time=18,
     hours_after_sector_time=6,
     aid_type=None,
@@ -443,7 +448,7 @@ def get_tc_area_defs_for_xarray(
     ----------
     xarray_obj : xarray.Dataset
         xarray Dataset to which we are assigning area_defs
-    tcdb_sectorlist : list of str, default=None
+    tcdb_sector_list : list of str, default=None
         * list of sector names to process, of format: tc2020io01amphan.
         * If None, or 'all' contained in list, process all matching TC sectors.
     actual_datetime : datetime.datetime, default=None
@@ -475,17 +480,18 @@ def get_tc_area_defs_for_xarray(
     curr_area_defs = get_all_storms_from_db(
         xarray_obj.start_datetime - timedelta(hours=hours_before_sector_time),
         xarray_obj.end_datetime + timedelta(hours=hours_after_sector_time),
-        sector_spec_generator,
+        tc_spec_template=tc_spec_template,
+        trackfile_parser=trackfile_parser,
     )
-    if tcdb_sectorlist is not None and "all" not in tcdb_sectorlist:
+    if tcdb_sector_list is not None and "all" not in tcdb_sector_list:
         for area_def in curr_area_defs:
-            if area_def.area_id in tcdb_sectorlist:
+            if area_def.area_id in tcdb_sector_list:
                 area_defs += [area_def]
             else:
                 LOG.info(
-                    "area_def %s not in tcdb_sectorlist %s, not including",
+                    "area_def %s not in tcdb_sector_list %s, not including",
                     area_def.area_id,
-                    str(tcdb_sectorlist),
+                    str(tcdb_sector_list),
                 )
     else:
         area_defs = curr_area_defs
@@ -671,7 +677,15 @@ def get_sectors_from_yamls(sector_list):
     """
     area_defs = []
     for sector_name in sector_list:
-        sector_plugin = sectors.get_plugin(sector_name)
+        try:
+            sector_plugin = sectors.get_plugin(sector_name)
+        except PluginError as resp:
+            raise PluginError(
+                f"{resp}:\nError getting sector {sector_name} from "
+                f"\nsector_list {sector_list}. "
+                f"\nCheck plugin directories for sector plugin named "
+                f"{sector_name}"
+            )
         area_def = load_area(sector_plugin.abspath, "spec")
         area_def.__setattr__("sector_info", sector_plugin["metadata"])
         area_def.__setattr__("sector_type", sector_plugin["family"])

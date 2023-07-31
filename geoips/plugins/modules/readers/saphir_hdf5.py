@@ -14,9 +14,15 @@
 
 # Python Standard Libraries
 import logging
+from datetime import datetime
+import numpy as np
+import xarray as xr
+import h5py
+
+# from numpy import datetime64
+# import pandas as pd
 
 LOG = logging.getLogger(__name__)
-from numpy import datetime64
 
 interface = "readers"
 family = "standard"
@@ -60,13 +66,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
-    import pandas as pd
-    import xarray as xr
-    import h5py
-
+    if len(fnames) > 1:
+        raise ValueError(
+            "Multiple files not supported with this reader. "
+            "Please call with a single file."
+        )
     fname = fnames[0]
     fileobj = h5py.File(str(fname), mode="r")
 

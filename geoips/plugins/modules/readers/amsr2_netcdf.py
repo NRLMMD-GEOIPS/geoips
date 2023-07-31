@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Read AMSR2 data products."""
+
 import logging
 from os.path import basename
 
@@ -324,39 +325,49 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     """
     import xarray
 
-    fname = fnames[0]
-    full_xarray = xarray.open_dataset(str(fname))
-    full_xarray.attrs["data_provider"] = "unknown"
-    full_xarray.attrs["original_source_filenames"] = [basename(fname)]
-    full_xarray.attrs["source_name"] = "amsr2"
-    full_xarray.attrs["platform_name"] = "gcom-w1"
-    full_xarray.attrs["interpolation_radius_of_influence"] = 10000
-    if "creator_name" in full_xarray.attrs and "NOAA" in full_xarray.creator_name:
-        full_xarray.attrs["data_provider"] = "star"
-    full_xarray.attrs["minimum_coverage"] = 20
-    LOG.info("Read data from %s", fname)
-    if metadata_only is True:
-        from datetime import datetime
+    ingested = []
+    for fname in fnames:
+        # full_xarray = xarray.open_dataset(str(fname))
+        full_xarrays = [xarray.open_dataset(str(x)) for x in fnames]
+        full_xarray = xarray.merge(full_xarrays)
+        full_xarray.attrs["data_provider"] = "unknown"
+        full_xarray.attrs["original_source_filenames"] = [basename(fname)]
+        full_xarray.attrs["source_name"] = "amsr2"
+        full_xarray.attrs["platform_name"] = "gcom-w1"
+        full_xarray.attrs["interpolation_radius_of_influence"] = 10000
+        if "creator_name" in full_xarray.attrs and "NOAA" in full_xarray.creator_name:
+            full_xarray.attrs["data_provider"] = "star"
+        full_xarray.attrs["minimum_coverage"] = 20
+        LOG.info("Read data from %s", fname)
+        if metadata_only is True:
+            from datetime import datetime
 
-        full_xarray.attrs["start_datetime"] = datetime.strptime(
-            full_xarray.attrs["time_coverage_start"][0:19], "%Y-%m-%dT%H:%M:%S"
-        )
-        full_xarray.attrs["end_datetime"] = datetime.strptime(
-            full_xarray.attrs["time_coverage_end"][0:19], "%Y-%m-%dT%H:%M:%S"
-        )
-        LOG.info("metadata_only requested, returning without readind data")
-        return {"METADATA": full_xarray}
+            full_xarray.attrs["start_datetime"] = datetime.strptime(
+                full_xarray.attrs["time_coverage_start"][0:19], "%Y-%m-%dT%H:%M:%S"
+            )
+            full_xarray.attrs["end_datetime"] = datetime.strptime(
+                full_xarray.attrs["time_coverage_end"][0:19], "%Y-%m-%dT%H:%M:%S"
+            )
+            LOG.info("metadata_only requested, returning without readind data")
+            return {"METADATA": full_xarray}
 
-    if hasattr(full_xarray, "title") and "AMSR2_OCEAN" in full_xarray.title:
-        xarrays = read_amsr_winds(full_xarray)
+        if hasattr(full_xarray, "title") and "AMSR2_OCEAN" in full_xarray.title:
+            xarrays = read_amsr_winds(full_xarray)
 
-    elif hasattr(full_xarray, "title") and "MBT" in full_xarray.title:
-        xarrays = read_amsr_data(full_xarray, chans)
+        elif hasattr(full_xarray, "title") and "MBT" in full_xarray.title:
+            xarrays = read_amsr_data(full_xarray, chans)
 
-    elif hasattr(full_xarray, "title") and "PRECIP" in full_xarray.title:
-        xarrays = read_amsr_data(full_xarray, chans)
+        elif hasattr(full_xarray, "title") and "PRECIP" in full_xarray.title:
+            xarrays = read_amsr_data(full_xarray, chans)
+        ingested.append(xarrays)
 
-    for dsname, curr_xarray in xarrays.items():
+    # Merge all datasets together:
+    final_xarrays = {}
+    for xr_key in xarrays.keys():
+        xars = [xar[xr_key] for xar in ingested]
+        final_xarrays[xr_key] = xarray.concat(xars, dim="Number_of_Scans")
+
+    for dsname, curr_xarray in final_xarrays.items():
         LOG.info("Setting standard metadata")
         from geoips.xarray_utils.timestamp import (
             get_min_from_xarray_timestamp,
@@ -369,5 +380,5 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         curr_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
             curr_xarray, "timestamp"
         )
-    xarrays["METADATA"] = list(xarrays.values())[0][[]]
-    return xarrays
+    final_xarrays["METADATA"] = list(final_xarrays.values())[0][[]]
+    return final_xarrays

@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Matplotlib-based windbarb annotated image output."""
+
 import logging
 
 import numpy
@@ -227,11 +228,17 @@ def format_windbarb_data(xarray_obj, product_name):
         return_dict["lat"] = lat2[good_inds[0:2]]
     else:
         return_dict["lat"] = lat2[good_inds]
+    if flip_barb is not True and flip_barb is not False:
+        if len(flip_barb.shape) != len(speed2.shape):
+            return_dict["flip_barb"] = flip_barb[good_inds[0:2]]
+        else:
+            return_dict["flip_barb"] = flip_barb[good_inds]
+    else:
+        return_dict["flip_barb"] = flip_barb
     return_dict["u"] = u2[good_inds]
     return_dict["v"] = v2[good_inds]
     return_dict["speed"] = speed2[good_inds]
     return_dict["rain_inds"] = numpy.ma.where(rain_flag2[good_inds])
-    return_dict["flip_barb"] = flip_barb
     return_dict["barb_length"] = barblength
     return_dict["line_width"] = linewidth
     return_dict["sizes_dict"] = sizes_dict

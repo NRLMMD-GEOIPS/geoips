@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Matplot-lib based annotated image output."""
+
 import logging
 
 from geoips.interfaces import products

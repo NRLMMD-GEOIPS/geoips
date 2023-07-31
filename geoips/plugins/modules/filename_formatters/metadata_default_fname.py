@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Default TC metadata filename formatter."""
+
 # metadata_yaml_filename = tc_fname_metadata(area_def, xarray_obj,
 #                                            product_filename, metadata_dir,
 #                                            metadata_type='sector_information',

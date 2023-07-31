@@ -58,10 +58,10 @@ def main():
             print(traceback.format_exc())
             failed_plugins += [curr_interface.name]
             failed_plugins_tracebacks += [
-                f"Failed: {curr_interface.name}\n\n" f"{traceback.format_exc()}"
+                f"\n\n\nFailed: {curr_interface.name}\n\n" f"{traceback.format_exc()}"
             ]
             failed_plugins_errors += [
-                f"Failed: {curr_interface.name}\n\n" f"{str(resp)}"
+                f"\n\n\nFailed: {curr_interface.name}\n\n" f"{str(resp)}"
             ]
 
     ppprinter = pprint.PrettyPrinter(indent=2)
@@ -90,17 +90,17 @@ def main():
         print(f"SUCCESSFUL INTERFACE {curr_successful}")
 
     for curr_failed in failed_plugins:
-        print(f"FAILED PLUGIN {curr_failed}")
+        print(f"FAILED PLUGIN IN {curr_failed}")
 
     for curr_failed in failed_interfaces:
-        print(f"FAILED INTERFACE {curr_failed}")
+        print(f"FAILED INTERFACE VALIDITY CHECK DICT {curr_failed}")
 
     for failed_plugins_error in failed_plugins_errors:
         print(failed_plugins_error)
         print("")
 
     if len(failed_interfaces) > 0 or len(failed_plugins) > 0:
-        raise TypeError(f"Failed validity check on plugins {failed_plugins}")
+        raise TypeError(f"Failed validity check on interfaces {failed_plugins}")
 
 
 if __name__ == "__main__":

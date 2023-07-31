@@ -11,8 +11,10 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Read derived surface winds from KNMI scatterometer netcdf data."""
+
 import logging
 from os.path import basename
+from copy import deepcopy
 
 LOG = logging.getLogger(__name__)
 
@@ -32,37 +34,38 @@ def read_knmi_data(wind_xarray):
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
-    wind_xarray.attrs["data_provider"] = "knmi"
+    geoips_metadata = {}
+    geoips_metadata["data_provider"] = "knmi"
     # Setting standard geoips attributes
     LOG.info("Reading %s data", wind_xarray.source)
     if wind_xarray.source == "MetOp-C ASCAT":
-        wind_xarray.attrs["source_name"] = "ascat"
-        wind_xarray.attrs["platform_name"] = "metop-c"
+        geoips_metadata["source_name"] = "ascat"
+        geoips_metadata["platform_name"] = "metop-c"
     elif wind_xarray.source == "MetOp-B ASCAT":
-        wind_xarray.attrs["source_name"] = "ascat"
-        wind_xarray.attrs["platform_name"] = "metop-b"
+        geoips_metadata["source_name"] = "ascat"
+        geoips_metadata["platform_name"] = "metop-b"
     elif wind_xarray.source == "MetOp-A ASCAT":
-        wind_xarray.attrs["source_name"] = "ascat"
-        wind_xarray.attrs["platform_name"] = "metop-a"
+        geoips_metadata["source_name"] = "ascat"
+        geoips_metadata["platform_name"] = "metop-a"
     elif wind_xarray.source == "ScatSat-1 OSCAT":
-        wind_xarray.attrs["source_name"] = "oscat"
-        wind_xarray.attrs["platform_name"] = "scatsat-1"
+        geoips_metadata["source_name"] = "oscat"
+        geoips_metadata["platform_name"] = "scatsat-1"
     elif wind_xarray.source == "HY-2C HSCAT":
-        wind_xarray.attrs["source_name"] = "hscat"
-        wind_xarray.attrs["platform_name"] = "hy-2c"
-        # wind_xarray.attrs['data_provider'] = 'Copyright-2021-EUMETSAT'
+        geoips_metadata["source_name"] = "hscat"
+        geoips_metadata["platform_name"] = "hy-2c"
+        # geoips_metadata['data_provider'] = 'Copyright-2021-EUMETSAT'
     elif wind_xarray.source == "HY-2B HSCAT":
-        wind_xarray.attrs["source_name"] = "hscat"
-        wind_xarray.attrs["platform_name"] = "hy-2b"
-        # wind_xarray.attrs['data_provider'] = 'Copyright-2021-EUMETSAT'
+        geoips_metadata["source_name"] = "hscat"
+        geoips_metadata["platform_name"] = "hy-2b"
+        # geoips_metadata['data_provider'] = 'Copyright-2021-EUMETSAT'
 
     # Pixel size stored as "25.0 km"
     pixel_size = float(wind_xarray.pixel_size_on_horizontal.replace(" km", ""))
 
     # Interpolation Radius of Influence
-    wind_xarray.attrs["interpolation_radius_of_influence"] = pixel_size * 1000.0
+    geoips_metadata["interpolation_radius_of_influence"] = pixel_size * 1000.0
 
-    wind_xarray.attrs["sample_distance_km"] = pixel_size
+    geoips_metadata["sample_distance_km"] = pixel_size
 
     # setting wind_speed_kts appropriately
     wind_xarray["wind_speed_kts"] = wind_xarray["wind_speed"] * MS_TO_KTS
@@ -92,10 +95,12 @@ def read_knmi_data(wind_xarray):
             wind_xarray["wvc_quality_flag"], (1 << RAIN_FLAG_BIT)
         )
     else:
-        # Can not figure out how to do the logical and in xarray now - so do it in numpy.
-        # This may not be the most efficient, especially if we are trying to use dask / lazy processing
-        # Dropping the ".to_masked_array()" appears to lose the nan values - but could perhaps do that
-        # then re-mask?
+        # Can not figure out how to do the logical and in xarray now -
+        # so do it in numpy.
+        # This may not be the most efficient, especially if we are trying to use
+        # dask / lazy processing.
+        # Dropping the ".to_masked_array()" appears to lose the nan values -
+        # but could perhaps do that then re-mask?
         rf = numpy.logical_and(
             wind_xarray["wvc_quality_flag"].to_masked_array(), (1 << RAIN_FLAG_BIT)
         )
@@ -104,7 +109,7 @@ def read_knmi_data(wind_xarray):
         )
 
     wind_xarray = wind_xarray.set_coords(["timestamp"])
-    return {"WINDSPEED": wind_xarray}
+    return wind_xarray, geoips_metadata
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -150,39 +155,66 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     )
     import xarray
 
-    # Only SAR reads multiple files
-    fname = fnames[0]
-    wind_xarray = xarray.open_dataset(str(fname))
+    final_wind_xarrays = {}
+    ingested = []
+    for fname in fnames:
+        wind_xarray = xarray.open_dataset(str(fname))
 
-    wind_xarray.attrs["source_name"] = "unknown"
-    wind_xarray.attrs["platform_name"] = "unknown"
-    wind_xarray.attrs["interpolation_radius_of_influence"] = "unknown"
-    wind_xarray.attrs["sample_distance_km"] = "unknown"
+        LOG.info("Read data from %s", fname)
 
-    wind_xarray.attrs["original_source_filenames"] = [basename(fname)]
-    wind_xarray.attrs["minimum_coverage"] = 20
+        if (
+            hasattr(wind_xarray, "title_short_name")
+            and "ASCAT" in wind_xarray.title_short_name
+        ):
+            wind_xarray, geoips_metadata = read_knmi_data(wind_xarray)
 
-    LOG.info("Read data from %s", fname)
+        if (
+            hasattr(wind_xarray, "title_short_name")
+            and "OSCAT" in wind_xarray.title_short_name
+        ):
+            wind_xarray, geoips_metadata = read_knmi_data(wind_xarray)
 
-    if (
-        hasattr(wind_xarray, "title_short_name")
-        and "ASCAT" in wind_xarray.title_short_name
-    ):
-        wind_xarrays = read_knmi_data(wind_xarray)
+        if (
+            hasattr(wind_xarray, "title_short_name")
+            and "HSCAT" in wind_xarray.title_short_name
+        ):
+            wind_xarray, geoips_metadata = read_knmi_data(wind_xarray)
 
-    if (
-        hasattr(wind_xarray, "title_short_name")
-        and "OSCAT" in wind_xarray.title_short_name
-    ):
-        wind_xarrays = read_knmi_data(wind_xarray)
+        geoips_metadata["source_file_names"] = [basename(fname)]
+        geoips_metadata["minimum_coverage"] = 20
+        ingested += [(wind_xarray, geoips_metadata)]
 
-    if (
-        hasattr(wind_xarray, "title_short_name")
-        and "HSCAT" in wind_xarray.title_short_name
-    ):
-        wind_xarrays = read_knmi_data(wind_xarray)
+    for curr_xobj, curr_geoips_metadata in ingested:
+        curr_file_metadata = deepcopy(curr_xobj.attrs)
+        curr_xobj.attrs = {**curr_file_metadata, **curr_geoips_metadata}
 
-    for wind_xarray in wind_xarrays.values():
+        if "WINDSPEED" not in final_wind_xarrays:
+            final_xobj = curr_xobj.copy()
+            final_xobj.attrs = curr_geoips_metadata
+            final_xobj.attrs["source_file_attributes"] = [curr_file_metadata]
+            final_xobj.attrs["source_file_names"] = curr_geoips_metadata[
+                "source_file_names"
+            ].copy()
+            final_wind_xarrays["WINDSPEED"] = final_xobj
+            continue
+
+        final_xobj = final_wind_xarrays["WINDSPEED"]
+
+        for attr_name in ["source_name", "platform_name"]:
+            if final_xobj.attrs[attr_name] != curr_xobj.attrs[attr_name]:
+                raise ValueError(
+                    f"Attribute '{attr_name}' must match on all data files"
+                    f"Expected '{final_xobj.attrs[attr_name]}',"
+                    f"Current value '{curr_xobj.attrs[attr_name]}'"
+                )
+        final_xobj = xarray.concat([final_xobj, curr_xobj], dim="NUMROWS")
+        final_xobj.attrs["source_file_names"] += curr_geoips_metadata[
+            "source_file_names"
+        ]
+        final_xobj.attrs["source_file_attributes"] += [curr_file_metadata]
+        final_wind_xarrays["WINDSPEED"] = final_xobj
+
+    for wind_xarray in final_wind_xarrays.values():
         LOG.info("Setting standard metadata")
         wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
             wind_xarray, "timestamp"
@@ -205,6 +237,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             wind_xarray.attrs["sample_distance_km"],
         )
 
-    wind_xarrays["METADATA"] = wind_xarray[[]]
+    final_wind_xarrays["METADATA"] = wind_xarray[[]]
 
-    return wind_xarrays
+    return final_wind_xarrays

@@ -1,5 +1,5 @@
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: 37V
 docstring: |
   The 37V product_defaults configuration.
@@ -19,7 +19,7 @@ spec:
         norm: null
         inverse: null
   mtif_type: pmw
-  colormap:
+  colormapper:
     plugin:
       name: pmw_37H
       arguments:
