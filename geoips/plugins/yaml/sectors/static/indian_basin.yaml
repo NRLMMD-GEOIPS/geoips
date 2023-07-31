@@ -1,0 +1,37 @@
+interface: sectors
+family: area_definition
+name: indian_basin
+docstring: "Indian Basin Area"
+metadata:
+  continent: Asia
+  country: India
+  area: x
+  subarea: x
+  state: x
+  city: x
+spec:
+  area_id: indian_basin
+  description: Indian Basin Area
+  projection:
+    a: 6371228.0
+    lat_0: 12.76
+    lon_0: 78.445
+    proj: eqc
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  sector_info:
+    continent: x
+    country: x
+    area: x
+    subarea: x
+    state: x
+    city: x
+  sector_family: static
+  shape:
+    height: 1103
+    width: 1953
+  area_extent:
+    lower_left_xy: [-2930535, -1654639]
+    upper_right_xy: [2930535, 1654639]

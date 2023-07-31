@@ -1,0 +1,37 @@
+interface: sectors
+family: area_definition
+name: ne_asia
+docstring: "Northeastern Asia"
+metadata:
+  continent: Asia
+  country: x
+  area: Continental
+  subarea: NorthEast
+  state: x
+  city: x
+spec:
+  area_id: ne_asia
+  description: Northeastern Asia
+  projection:
+    a: 6371228.0
+    lat_0: 35.205
+    lon_0: 110.96000000000001
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  sector_info:
+    continent: x
+    country: x
+    area: x
+    subarea: x
+    state: x
+    city: x
+  sector_family: static
+  shape:
+    height: 411
+    width: 468
+  area_extent:
+    lower_left_xy: [-2342712, -2056623]
+    upper_right_xy: [2342712, 2056623]
