@@ -38,6 +38,7 @@ def call():
     :ref:`api`
         ASCII palette is found in image_utils/ascii_palettes/tpw_purple.txt
     """
+
     from geoips.image_utils.colormap_utils import from_ascii
     from matplotlib.colors import Normalize
     from geoips.geoips_utils import find_ascii_palette
