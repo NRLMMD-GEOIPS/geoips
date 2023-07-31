@@ -228,6 +228,16 @@ def add_args(parser, arglist=None):
                             <package>.plugins.modules.sector_adjusters.
                                 <myadjuster>.<myadjuster>""",
         )
+    if arglist is None or "sector_adjuster_kwargs" in arglist:
+        sect_group.add_argument(
+            "--sector_adjuster_kwargs",
+            nargs="?",
+            default={},
+            type=jloads,
+            help="""Specify sector_adjuster kwargs that should be used for
+                            this sector_adjuster. Should be formatted as a json
+                            dictionary string""",
+        )
 
     tc_group = parser.add_argument_group(
         title="Sector Requests: General arguments for TC sectors"

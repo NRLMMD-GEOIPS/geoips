@@ -160,11 +160,15 @@ def update_extra_field(
 
     from geoips.dev.product import get_covg_args_from_product
 
+    prod_spec_override = None
+    if output_dict is not None:
+        prod_spec_override = output_dict.get("product_spec_override")
+
     if "source_names" in xarray_obj.attrs:
         for source_name in xarray_obj.source_names:
             try:
                 prod_plugin = products.get_plugin(
-                    source_name, product_name, output_dict.get("product_spec_override")
+                    source_name, product_name, prod_spec_override
                 )
                 covg_args = get_covg_args_from_product(
                     prod_plugin,
@@ -176,7 +180,7 @@ def update_extra_field(
         prod_plugin = products.get_plugin(
             xarray_obj.source_name,
             product_name,
-            output_dict.get("product_spec_override"),
+            prod_spec_override,
         )
         covg_args = get_covg_args_from_product(
             prod_plugin,

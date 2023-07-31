@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Read derived surface winds from SAR, SMAP, SMOS, and AMSR text data."""
+
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -59,6 +60,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+    if len(fnames) > 1:
+        raise ValueError(
+            "Multiple files not supported with this reader. "
+            "Please call with a single file."
+        )
     fname = fnames[0]
     import numpy
     import pandas

@@ -61,7 +61,7 @@ spec:
       product_defaults: Visible
       spec:
         variables: ["M05Ref"] # Ocean Color Aerosol: VIIRS M05 0.673um
-        colormap: # This replaces the version found in product_params/visir/Visible.yaml
+        colormapper: # This replaces the version found in product_params/visir/Visible.yaml
           plugin:
             name: matplotlib_linear_norm
             arguments:

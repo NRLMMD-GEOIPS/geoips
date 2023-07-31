@@ -20,7 +20,7 @@ spec:
       product_defaults: windbarbs
       spec:
         variables: ["wind_speed_kts", "wind_dir_deg_met", "rain_flag"]
-        colormap:
+        colormapper:
           plugin:
             name: matplotlib_linear_norm
             arguments:

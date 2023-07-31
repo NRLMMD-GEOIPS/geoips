@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Matplotlib-based clean image output."""
+
 import logging
 
 LOG = logging.getLogger(__name__)

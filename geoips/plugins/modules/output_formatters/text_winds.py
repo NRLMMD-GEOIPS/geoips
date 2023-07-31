@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Routines for outputting formatted text wind speed and vector data files."""
+
 import logging
 import os
 from datetime import datetime

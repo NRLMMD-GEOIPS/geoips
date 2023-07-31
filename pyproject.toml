@@ -31,7 +31,7 @@ find = {namespaces = false}
 [tool.setuptools_scm]
 "version_scheme" = "post-release"  # Use current version .postN vs incrementing
 "local_scheme" = "no-local-version"  # Don't include hash, or date, just postN
-"write_to" = "geoips/version.py"  # Write an actual file
+"write_to" = "geoips/_version.py"  # Write an actual file
 
 [tool.setuptools.dynamic]
 entry-points = {file = ["entry-points.ini"]}
@@ -75,7 +75,8 @@ dependencies = [
     "numexpr",  # for efficiency improvements
     "scikit-image",  # Radius based center coverage checks
     "jsonschema>=4.18.0a5",  # Provides validation for YAML plugins
-    "referencing"
+    "referencing",
+    "astropy", # Used for accounting leap seconds when converting epoch timestamps
 ]
 
 [project.optional-dependencies]
@@ -207,27 +208,27 @@ interp_grid = "geoips.plugins.modules.interpolators.scipy_wrappers.interp_grid"
 # sed -i "s,visir.IR_BD,IR_BD,g" plugins/yaml/product*/*
 # sed -i "s,visir.WV,WV,g" plugins/yaml/product*/*
 # sed -i "s,winds.wind_radii_transitions,wind_radii_transitions,g" plugins/yaml/product*/*
-[project.entry-points."geoips.colormaps"]
-cmap_rgb = "geoips.plugins.modules.colormaps.cmap_rgb"
-matplotlib_linear_norm = "geoips.plugins.modules.colormaps.matplotlib_linear_norm"
-pmw_150H = "geoips.plugins.modules.colormaps.pmw_tb.cmap_150H"
-pmw_37H_Legacy = "geoips.plugins.modules.colormaps.pmw_tb.cmap_37H_Legacy"
-pmw_37H_Physical = "geoips.plugins.modules.colormaps.pmw_tb.cmap_37H_Physical"
-pmw_37H = "geoips.plugins.modules.colormaps.pmw_tb.cmap_37H"
-pmw_37pct = "geoips.plugins.modules.colormaps.pmw_tb.cmap_37pct"
-pmw_89H_Legacy = "geoips.plugins.modules.colormaps.pmw_tb.cmap_89H_Legacy"
-pmw_89H_Physical = "geoips.plugins.modules.colormaps.pmw_tb.cmap_89H_Physical"
-pmw_89H = "geoips.plugins.modules.colormaps.pmw_tb.cmap_89H"
-pmw_89pct = "geoips.plugins.modules.colormaps.pmw_tb.cmap_89pct"
-pmw_89HW = "geoips.plugins.modules.colormaps.pmw_tb.cmap_89HW"
-pmw_Rain = "geoips.plugins.modules.colormaps.pmw_tb.cmap_Rain"
-tpw_cimss = "geoips.plugins.modules.colormaps.tpw.tpw_cimss"
-tpw_purple = "geoips.plugins.modules.colormaps.tpw.tpw_purple"
-tpw_pwat = "geoips.plugins.modules.colormaps.tpw.tpw_pwat"
-Infrared = "geoips.plugins.modules.colormaps.visir.Infrared"
-IR_BD = "geoips.plugins.modules.colormaps.visir.IR_BD"
-WV = "geoips.plugins.modules.colormaps.visir.WV"
-wind_radii_transitions = "geoips.plugins.modules.colormaps.winds.wind_radii_transitions"
+[project.entry-points."geoips.colormappers"]
+cmap_rgb = "geoips.plugins.modules.colormappers.cmap_rgb"
+matplotlib_linear_norm = "geoips.plugins.modules.colormappers.matplotlib_linear_norm"
+pmw_150H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_150H"
+pmw_37H_Legacy = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37H_Legacy"
+pmw_37H_Physical = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37H_Physical"
+pmw_37H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37H"
+pmw_37pct = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37pct"
+pmw_89H_Legacy = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89H_Legacy"
+pmw_89H_Physical = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89H_Physical"
+pmw_89H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89H"
+pmw_89pct = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89pct"
+pmw_89HW = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89HW"
+pmw_Rain = "geoips.plugins.modules.colormappers.pmw_tb.cmap_Rain"
+tpw_cimss = "geoips.plugins.modules.colormappers.tpw.tpw_cimss"
+tpw_purple = "geoips.plugins.modules.colormappers.tpw.tpw_purple"
+tpw_pwat = "geoips.plugins.modules.colormappers.tpw.tpw_pwat"
+Infrared = "geoips.plugins.modules.colormappers.visir.Infrared"
+IR_BD = "geoips.plugins.modules.colormappers.visir.IR_BD"
+WV = "geoips.plugins.modules.colormappers.visir.WV"
+wind_radii_transitions = "geoips.plugins.modules.colormappers.winds.wind_radii_transitions"
 
 [project.entry-points."geoips.filename_formatters"]
 geoips_fname = "geoips.plugins.modules.filename_formatters.geoips_fname"

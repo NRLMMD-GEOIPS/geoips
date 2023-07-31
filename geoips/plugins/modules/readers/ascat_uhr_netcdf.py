@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Read derived surface winds from BYU ASCAT UHR NetCDF data."""
+
 import logging
 from datetime import datetime
 import os
@@ -18,6 +19,11 @@ from os.path import basename
 
 import numpy
 import xarray
+
+from geoips.xarray_utils.timestamp import (
+    get_min_from_xarray_timestamp,
+    get_max_from_xarray_timestamp,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -144,11 +150,12 @@ def read_byu_data(wind_xarray, fname):
         # Set wind_speed_kts appropriately
         wind_xarray["wind_speed_kts"].attrs = wind_xarray["wspeeds"].attrs.copy()
         wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
-        wind_xarray["wind_speed_kts"].attrs["long_name"] = (
-            wind_xarray["wspeeds"]
-            .attrs["long_name"]
-            .replace("ambiguities", "ambiguity selection")
-        )
+        if wind_xarray["wspeeds"].attrs.get("long_name"):
+            wind_xarray["wind_speed_kts"].attrs["long_name"] = (
+                wind_xarray["wspeeds"]
+                .attrs["long_name"]
+                .replace("ambiguities", "ambiguity selection")
+            )
 
         wind_xarray["wind_dir_deg_met"].attrs = wind_xarray["wdirs"].attrs.copy()
 
@@ -202,7 +209,8 @@ def read_byu_data(wind_xarray, fname):
         ) / 3
 
     if "time" in wind_xarray.variables:
-        # These files are not correct yet.  Pull YYYYMMDD from filename for now, set hour to 1200.
+        # These files are not correct yet.  Pull YYYYMMDD from filename for now,
+        # set hour to 1200.
         # Just to get something to plot.
         expected_yyyymmdd = os.path.basename(
             wind_xarray.original_source_filenames[0]
@@ -272,10 +280,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.timestamp import (
-        get_min_from_xarray_timestamp,
-        get_max_from_xarray_timestamp,
-    )
     import xarray
 
     # Only SAR reads multiple files

@@ -1,5 +1,5 @@
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: 37VNearest
 docstring: |
   The 37VNearest product_defaults configuration.
@@ -18,8 +18,8 @@ spec:
         norm: null
         inverse: null
   mtif_type: pmw
-  colormap:
+  colormapper:
     plugin:
-      name: pmw_37H_Physical
+      name: pmw_37H
       arguments:
         data_range: [125, 300]

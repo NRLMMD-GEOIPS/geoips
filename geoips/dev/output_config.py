@@ -19,7 +19,7 @@ and deprecated at that time.
 """
 import logging
 from geoips.interfaces import products
-from geoips.interfaces import colormaps
+from geoips.interfaces import colormappers
 from geoips.interfaces import feature_annotators
 from geoips.interfaces import gridline_annotators
 
@@ -411,10 +411,10 @@ def get_output_formatter_kwargs(
                 bg_product_name,
                 output_dict.get("product_spec_override"),
             )
-            bg_cmap_plugin = colormaps.get_plugin(
-                bg_prod_plugin["spec"]["colormap"]["plugin"]["name"]
+            bg_cmap_plugin = colormappers.get_plugin(
+                bg_prod_plugin["spec"]["colormapper"]["plugin"]["name"]
             )
-            bg_cmap_args = bg_prod_plugin["spec"]["colormap"]["plugin"]["arguments"]
+            bg_cmap_args = bg_prod_plugin["spec"]["colormapper"]["plugin"]["arguments"]
 
             output_formatter_kwargs["bg_mpl_colors_info"] = bg_cmap_plugin(
                 **bg_cmap_args

@@ -1,5 +1,5 @@
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: Uncorrected-Channel
 docstring: |
   The Uncorrected-Channel product_defaults configuration.
@@ -20,7 +20,7 @@ spec:
         norm: True # Normalize so we know what the data range is for cmap.
         inverse: null
   mtif_type: vis
-  colormap:
+  colormapper:
     plugin:
       name: matplotlib_linear_norm
       arguments:

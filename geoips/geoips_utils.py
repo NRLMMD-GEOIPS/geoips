@@ -186,7 +186,7 @@ def find_entry_point(namespace, name, default=None):
             return default
         else:
             raise EntryPointError(
-                f"Failed to find object matching {name} " "in namespace {ep_namespace}"
+                f"Failed to find object matching {name} in namespace {ep_namespace}"
             )
 
 
@@ -201,10 +201,24 @@ def get_all_entry_points(namespace):
         Entry point namespace (e.g. 'readers')
     """
     ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
+    retlist = []
+    # Do not use a list comprehension here so we can raise exceptions
+    # containing the actual package that errored.
     try:
-        return [ep.load() for ep in get_entry_point_group(ep_namespace)]
+        for ep in get_entry_point_group(ep_namespace):
+            try:
+                retlist += [ep.load()]
+            except Exception as resp:
+                raise EntryPointError(
+                    f"{resp}:"
+                    f"\nAn error occurred while loading entry point "
+                    f"'{ep.name}={ep.value}' entry point."
+                    f"\nTry checking to ensure init file exists in package subdir "
+                    f"\n(ALL directories containing python files MUST have init file)"
+                ) from resp
     except KeyError:
-        return []
+        retlist = []
+    return retlist
 
 
 def list_entry_points(namespace):
@@ -249,6 +263,7 @@ def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=Tru
         "data_provider",
         "granule_minutes",
         "original_source_filenames",
+        "source_file_names",
         "sample_distance_km",
         "interpolation_radius_of_influence",
         "area_definition",
