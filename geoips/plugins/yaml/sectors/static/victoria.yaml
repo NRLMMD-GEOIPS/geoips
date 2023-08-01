@@ -1,0 +1,29 @@
+interface: sectors
+family: area_definition
+name: victoria
+docstring: "Victorian State"
+metadata:
+  continent: Australia
+  country: x
+  area: x
+  subarea: x
+  state: Victoria
+  city: x
+spec:
+  area_id: victoria
+  description: Victorian State
+  projection:
+    a: 6371228.0
+    lat_0: -36.65
+    lon_0: 145.65
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 58
+    width: 82
+  area_extent:
+    lower_left_xy: [-414685, -294677]
+    upper_right_xy: [414685, 294677]

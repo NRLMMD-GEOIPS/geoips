@@ -1,0 +1,29 @@
+interface: sectors
+family: area_definition
+name: asia
+docstring: "Asian Continent"
+metadata:
+  continent: Asia
+  country: x
+  area: Continental
+  subarea: x
+  state: x
+  city: x
+spec:
+  area_id: asia
+  description: Asian Continent
+  projection:
+    a: 6371228.0
+    lat_0: 31.305
+    lon_0: 103.505
+    proj: eqc
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 3408
+    width: 4164
+  area_extent:
+    lower_left_xy: [-6247135, -5112369]
+    upper_right_xy: [6247135, 5112369]

@@ -21,14 +21,6 @@ spec:
   resolution:
     - 3000
     - 3000
-  sector_info:
-    continent: x
-    country: x
-    area: x
-    subarea: x
-    state: x
-    city: x
-  sector_family: static
   shape:
     height: 2013
     width: 1639
