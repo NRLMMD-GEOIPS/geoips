@@ -175,14 +175,6 @@ AREA_DEF_TEMPLATE = """
   resolution:
   - $resolution
   - $resolution
-  sector_info:
-      continent: x
-      country: x
-      area: x
-      subarea: x
-      state: x
-      city: x
-  sector_family: static
   shape:
       height: $height
       width: $width
