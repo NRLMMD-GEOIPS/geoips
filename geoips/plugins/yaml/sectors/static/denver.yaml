@@ -1,21 +1,21 @@
 interface: sectors
 family: area_definition
-name: fort_collins
-docstring: "Fort Collins City"
+name: denver
+docstring: "City of Denver"
 metadata:
   continent: NorthAmerica
   country: UnitedStates
   area: x
   subarea: x
   state: Colorado
-  city: Fort Collins
+  city: Denver
 spec:
-  area_id: fort_collins
-  description: Fort Collins City
+  area_id: denver
+  description: City of Denver
   projection:
     a: 6371228.0
-    lat_0: 40.579
-    lon_0: -105.08500000000001
+    lat_0: 39.7405
+    lon_0: -104.98700000000002
     proj: eqc
     units: m
   resolution:
@@ -30,8 +30,8 @@ spec:
     city: x
   sector_family: static
   shape:
-    height: 0
-    width: 0
+    height: 1
+    width: 1
   area_extent:
-    lower_left_xy: [-8867, -8784]
-    upper_right_xy: [8867, 8784]
+    lower_left_xy: [-15220, -12176]
+    upper_right_xy: [15220, 12176]
