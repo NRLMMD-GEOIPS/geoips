@@ -1,0 +1,29 @@
+interface: sectors
+family: area_definition
+name: vancouver
+docstring: "City of Vancouver"
+metadata:
+  continent: NorthAmerica
+  country: Canada
+  area: x
+  subarea: x
+  state: BritishColumbia
+  city: Vancouver
+spec:
+  area_id: vancouver
+  description: City of Vancouver
+  projection:
+    a: 6371228.0
+    lat_0: 49.205
+    lon_0: -122.95000000000002
+    proj: eqc
+    units: m
+  resolution:
+    - 20000
+    - 20000
+  shape:
+    height: 2
+    width: 3
+  area_extent:
+    lower_left_xy: [-34146, -22795]
+    upper_right_xy: [34146, 22795]

@@ -1,0 +1,29 @@
+interface: sectors
+family: area_definition
+name: caribbean
+docstring: "Caribbean Region"
+metadata:
+  continent: x
+  country: x
+  area: Caribbean
+  subarea: x
+  state: x
+  city: x
+spec:
+  area_id: caribbean
+  description: Caribbean Region
+  projection:
+    a: 6371228.0
+    lat_0: 19.87
+    lon_0: -72.80999999999995
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 117
+    width: 274
+  area_extent:
+    lower_left_xy: [-1373790, -588242]
+    upper_right_xy: [1373790, 588242]

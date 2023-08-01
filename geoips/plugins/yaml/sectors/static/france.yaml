@@ -1,0 +1,29 @@
+interface: sectors
+family: area_definition
+name: france
+docstring: "Country of France"
+metadata:
+  continent: Europe
+  country: France
+  area: x
+  subarea: x
+  state: x
+  city: x
+spec:
+  area_id: france
+  description: Country of France
+  projection:
+    a: 6371228.0
+    lat_0: 46.69495
+    lon_0: -6.4735
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 97
+    width: 26
+  area_extent:
+    lower_left_xy: [-134261, -487167]
+    upper_right_xy: [134261, 487167]

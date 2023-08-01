@@ -19,16 +19,8 @@ spec:
     proj: eqc
     units: m
   resolution:
-    - 3000
-    - 3000
-  sector_info:
-    continent: x
-    country: x
-    area: x
-    subarea: x
-    state: x
-    city: x
-  sector_family: static
+    - 10000
+    - 10000
   shape:
     height: 862
     width: 1596

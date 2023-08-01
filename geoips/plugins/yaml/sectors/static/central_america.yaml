@@ -1,0 +1,29 @@
+interface: sectors
+family: area_definition
+name: central_america
+docstring: "Central America"
+metadata:
+  continent: NorthAmerica
+  country: x
+  area: CentralAmerica
+  subarea: x
+  state: x
+  city: x
+spec:
+  area_id: central_america
+  description: Central America
+  projection:
+    a: 6371228.0
+    lat_0: 19.965
+    lon_0: -97.29999999999995
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 282
+    width: 422
+  area_extent:
+    lower_left_xy: [-2114190, -1412782]
+    upper_right_xy: [2114190, 1412782]
