@@ -47,7 +47,7 @@ spec:
       product_defaults: Visible
       spec:
         variables: ["chan1.0Ref", "SunZenith"] # chan-1 is MODIS high res vis at 250m
-        colormap:
+        colormapper:
           plugin:
             name: matplotlib_linear_norm
             arguments:

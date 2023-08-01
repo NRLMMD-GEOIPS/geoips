@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Utilities for creating a database of tropical cyclone tracks."""
+
 from geoips.filenames.base_paths import PATHS as gpaths
 import logging
 
@@ -335,7 +336,13 @@ def reprocess_storm(tc_trackfilename):
     # shell()
 
 
-def get_all_storms_from_db(start_datetime, end_datetime, template_yaml=None):
+def get_all_storms_from_db(
+    start_datetime,
+    end_datetime,
+    tc_spec_template=None,
+    trackfile_parser=None,
+    include_track_files=False,
+):
     """Get all entries from all storms within a specific range of time from the TC DB.
 
     Parameters
@@ -383,12 +390,19 @@ def get_all_storms_from_db(start_datetime, end_datetime, template_yaml=None):
         if not path_exists(deck_filename):
             LOG.info("Deck file does not exist! %s", deck_filename)
             continue
-        area_defs = trackfile_to_area_defs(deck_filename, template_yaml=template_yaml)
+        area_defs = trackfile_to_area_defs(
+            deck_filename,
+            trackfile_parser=trackfile_parser,
+            tc_spec_template=tc_spec_template,
+        )
         for area_def in area_defs:
             if (
                 area_def.sector_start_datetime > start_datetime
                 and area_def.sector_start_datetime < end_datetime
             ):
-                return_area_defs += [area_def]
+                if include_track_files:
+                    return_area_defs += [(area_def, deck_filename)]
+                else:
+                    return_area_defs += [area_def]
     # return None if no storm matched
     return return_area_defs

@@ -1,0 +1,11 @@
+$id: product_defaults.interpolator_algorithm_colormapper
+$ref: bases.top
+type: object
+required:
+  - spec
+properties:
+  family:
+    const: interpolator_algorithm_colormapper
+  spec:
+    unevaluatedProperties: false
+    $ref: "product_defaults.specs.interpolator_algorithm_colormapper"

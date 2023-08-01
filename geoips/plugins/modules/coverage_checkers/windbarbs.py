@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Coverage check routine for windbarb xarrays."""
+
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -42,24 +43,21 @@ def call(
         Percent coverage of variable_name over area_def
     """
     varname_for_covg = variable_name
-    if (
-        variable_name not in xarray_obj.variables.keys()
-        and alt_varname_for_covg is not None
-    ):
+    if variable_name not in xarray_obj.variables.keys() and alt_varname is not None:
         LOG.info(
             '    UPDATING variable "%s" does not exist, using alternate "%s"',
             variable_name,
-            alt_varname_for_covg,
+            alt_varname,
         )
-        varname_for_covg = alt_varname_for_covg
-    if force_alt_varname and alt_varname_for_covg is not None:
+        varname_for_covg = alt_varname
+    if force_alt_varname and alt_varname is not None:
         LOG.info(
             "    UPDATING force_alt_varname set, "
             'using alternate "%s" rather than variable "%s"',
-            alt_varname_for_covg,
+            alt_varname,
             variable_name,
         )
-        varname_for_covg = alt_varname_for_covg
+        varname_for_covg = alt_varname
 
     from geoips.interfaces import interpolators
 

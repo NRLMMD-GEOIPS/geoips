@@ -32,10 +32,10 @@ from os.path import basename
 
 # import os
 from datetime import datetime, timedelta
-import matplotlib
-
-matplotlib.use("agg")
-import matplotlib.pyplot as plt
+import os
+import numpy as np
+import pandas as pd
+import xarray as xr
 
 LOG = logging.getLogger(__name__)
 
@@ -80,90 +80,49 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
-    import pandas as pd
-    import xarray as xr
-
-    # from IPython import embed as shell
-    fname = fnames[0]
-
-    LOG.info("Reading file %s", fname)
-
-    """
-    dataset_info = { 'IMAGER': {'ch08':'ch08',
-                              'ch09':'ch09',
-                              'ch10':'ch10',
-                              'ch11':'ch11',
-                              'ch17':'ch17',
-                              'ch18':'ch18',
-                              'surface':'surface',
-                              'rain':'rain',
-                            },
-                     'ENVIRO': {'ch12':'ch12',
-                              'ch13':'ch13',
-                              'ch14':'ch14',
-                              'ch15':'ch15',
-                              'ch16':'ch16',
-                              'ch15_5x5':'ch15_5x5',
-                              'ch16_5x5':'ch16_5x5',
-                              'ch17_5x5':'ch17_5x5',
-                              'ch18_5x5':'ch18_5x5',
-                              'ch17_5x4':'ch17_5x4',
-                              'ch18_5x4':'ch18_5x4',
-                              #'sea_ice':'sea_ice',
-                              #'surface':'surface',
-                              #'rain1':'rain1',
-                              #'rain2':'rain2',
-                            },
-                     'LAS': {'ch01_3x3':'ch01_3x3',
-                              'ch02_3x3':'ch02_3x3',
-                              'ch03_3x3':'ch03_3x3',
-                              'ch04_3x3':'ch04_3x3',
-                              'ch05_3x3':'ch05_3x3',
-                              'ch06_3x3':'ch06_3x3',
-                              'ch07_3x3':'ch07_3x3',
-                              'ch08_5x5':'ch08_5x5',
-                              'ch09_5x5':'ch09_5x5',
-                              'ch10_5x5':'ch10_5x5',
-                              'ch11_5x5':'ch11_5x5',
-                              'ch18_5x5':'ch18_5x5',
-                              'ch24_3x3':'ch24_3x3',
-                              'height_1000mb':'height_1000mb',
-                              'surf':'surf',
-                            },
-                     'UAS': {'ch19_6x6':'ch19_6x6',
-                              'ch20_6x6':'ch20_6x6',
-                              'ch21_6x6':'ch21_6x6',
-                              'ch22_6x6':'ch22_6x6',
-                              'ch23_6x6':'ch23_6x6',
-                              'ch24_6x6':'ch24_6x6',
-                              'scene':'scene',
-                              'uas_tqflag':'uas_tqflag',
-                            },
-                   }
-    gvar_info = { 'IMAGER': {
-                         'Latitude': 'latitude',
-                         'Longitude': 'longitude',
-                        },
-                  'ENVIRO': {
-                         'Latitude': 'latitude',
-                         'Longitude': 'longitude',
-                        },
-                  'LAS': {
-                         'Latitude': 'latitude',
-                         'Longitude': 'longitude',
-                        },
-                  'UAS': {
-                         'Latitude': 'latitude',
-                         'Longitude': 'longitude',
-                        },
-                }
-    """
+    LOG.info("Reading files %s", fnames)
 
     # checking for right input SSMIS SDR file
 
+    xobjs_list = []
+    # NOTE chans, area_def, and self_register NOT implemented.
+    for fname in fnames:
+        xobjs_list += [read_ssmis_data_file(fname, metadata_only=metadata_only)]
+
+    final_xobjs = append_xarray_dicts(xobjs_list)
+
+    return final_xobjs
+
+
+def append_xarray_dicts(xobjs_list):
+    """Append two dictionaries of xarray objects."""
+    final_xobjs = {}
+    # Loop through all the datasets in the first
+    # xarray object - these should be the same in all
+    min_start_dt = xobjs_list[0]["METADATA"].attrs["start_datetime"]
+    max_end_dt = xobjs_list[0]["METADATA"].attrs["end_datetime"]
+    final_xobjs["METADATA"] = xobjs_list[0]["METADATA"][[]]
+    for dsname in xobjs_list[0]:
+        xobjs_ds_list = []
+        for xobjs in xobjs_list:
+            xobjs_ds_list += [xobjs[dsname]]
+            curr_start_dt = xobjs[dsname].attrs["start_datetime"]
+            curr_end_dt = xobjs[dsname].attrs["end_datetime"]
+            if curr_start_dt < min_start_dt:
+                min_start_dt = curr_start_dt
+            if curr_end_dt > max_end_dt:
+                max_end_dt = curr_end_dt
+        if dsname != "METADATA":
+            final_xobjs[dsname] = xr.concat(xobjs_ds_list, dim="dim_0")
+        final_xobjs[dsname].attrs["start_datetime"] = min_start_dt
+        final_xobjs[dsname].attrs["end_datetime"] = max_end_dt
+    final_xobjs["METADATA"].attrs["start_datetime"] = min_start_dt
+    final_xobjs["METADATA"].attrs["end_datetime"] = max_end_dt
+    return final_xobjs
+
+
+def read_ssmis_data_file(fname, metadata_only=False):
+    """Read a single SSMIS data file."""
     data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
     if data_name != "raw":

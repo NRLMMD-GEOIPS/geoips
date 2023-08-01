@@ -1,5 +1,5 @@
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: TPW-PURPLE
 docstring: |
   The TPW-PURPLE product_defaults configuration.
@@ -13,7 +13,7 @@ spec:
         max_outbounds: crop
         norm: null
         inverse: null
-  colormap:
+  colormapper:
     plugin:
       name: tpw_purple
       arguments: {}

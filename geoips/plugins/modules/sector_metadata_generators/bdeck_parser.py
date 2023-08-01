@@ -9,6 +9,7 @@
 # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
 """TC trackfile parser for B-Deck formatted TC deck files.
 
 Each B-Deck file contains the full history of storm BEST tracks, on storm per

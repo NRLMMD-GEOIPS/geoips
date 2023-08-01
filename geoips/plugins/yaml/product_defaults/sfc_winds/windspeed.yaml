@@ -1,5 +1,5 @@
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: windspeed
 docstring: |
   The windspeed product_defaults configuration.
@@ -16,7 +16,7 @@ spec:
         norm: null
         inverse: null
   mtif_type: windspeed
-  colormap:
+  colormapper:
     plugin:
       name: wind_radii_transitions
       arguments:

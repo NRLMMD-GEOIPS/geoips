@@ -1,5 +1,5 @@
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: Night-Vis-IR
 docstring: |
   The Night-Vis-IR product_defaults configuration.
@@ -9,7 +9,7 @@ spec:
       name: Night_Vis_IR
       arguments: {}
   mtif_type: rgb
-  colormap:
+  colormapper:
     plugin:
       name: cmap_rgb
       arguments: {}

@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Matplotlib-based unprojected image output."""
+
 import logging
 
 import matplotlib.pyplot as plt

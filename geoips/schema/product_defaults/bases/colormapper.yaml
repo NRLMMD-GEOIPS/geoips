@@ -1,0 +1,56 @@
+$id: product_defaults.bases.colormapper
+title: "Colormap"
+type: object
+unevaluatedProperties: false
+required:
+  - plugin
+properties:
+  plugin:
+    type: object
+    required:
+      - name
+      - arguments
+    properties:
+      name:
+        type: string
+      arguments:
+        type: object
+        unevaluatedProperties: false
+        properties:  # These are all optional arguments, matches "matplotlib" family
+          data_range:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: number
+          cmap_name:
+            type: string
+          cmap_source:
+            type: string
+          cmap_path:
+            type: string
+          create_colorbar:
+            type: boolean
+          cbar_label:
+            type: string
+          cbar_ticks:
+            type: array
+            items:
+              type: number
+          cbar_tick_labels:
+            type: array
+            items:
+              type: number
+          cbar_spacing:
+            type: string
+          cbar_full_width:
+            type: boolean
+          colorbar_kwargs:
+            type: object
+            unevaluatedProperties: true
+          set_ticks_kwargs:
+            type: object
+            unevaluatedProperties: true
+          set_label_kwargs:
+            type: object
+            unevaluatedProperties: true

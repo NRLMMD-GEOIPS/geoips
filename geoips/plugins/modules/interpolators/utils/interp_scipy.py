@@ -19,10 +19,6 @@ import logging
 import scipy
 import numpy
 
-# GeoIPS Libraries
-# from geoips.utils.normalize import normalize
-# from geoips.utils.gencolormap import get_cmap
-
 LOG = logging.getLogger(__name__)
 
 

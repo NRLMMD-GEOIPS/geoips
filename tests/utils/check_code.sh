@@ -29,6 +29,7 @@ if [[ "$1" == "" || "$2" == "" ]]; then
     echo ""
     echo "Supported extra arguments:"
     echo "    flake8_docstring_only"
+    echo "    no_flake8"
     echo ""
     exit 1
 fi
@@ -39,6 +40,8 @@ elif [[ "$1" == "flake8" ]]; then
     test="flake8"
 elif [[ "$1" == "bandit" ]]; then
     test="bandit"
+elif [[ "$1" == "interfaces" ]]; then
+    test="interfaces"
 elif [[ "$1" == "all" ]]; then
     test="all"
 else
@@ -69,6 +72,7 @@ if [[ "$test" == "black" || "$test" == "all" ]]; then
     # This will probably be fine, but if we determine in the future that we
     # really want to be able to name a file "version.py" and want it checked
     # for compliance, we will need to rethink.
+    echo ""
     echo "black --check --extend-exclude /version.py $path"
     black --check --extend-exclude /version.py $path
     black_retval=$?
@@ -93,32 +97,54 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
     # W503 and E203 conflict with black, so ignore.
     # W503 is line break before binary operator
     # E203 is white space before :
-    echo flake8 --max-line-length=88 \
-           $select_string \
-           --ignore=E203,W503 \
-           --extend-exclude="version.py" \
-           --docstring-convention=numpy \
-           --rst-roles=class,func,ref \
-           --rst-directives=envvar,exception \
-           --rst-substitutions=version \
-           $path
-    flake8 --max-line-length=88 \
-           $select_string \
-           --ignore=E203,W503 \
-           --extend-exclude="version.py" \
-           --docstring-convention=numpy \
-           --rst-roles=class,func,ref \
-           --rst-directives=envvar,exception \
-           --rst-substitutions=version \
-           $path
-    flake8_retval=$?
-    retval=$((flake8_retval+retval))
+    # E712 is "== False" usage - causes problems with np.ma.where commands, if you
+    #      change "== False" to "is False" it will NOT work.
+    if [[ "$extra_args" == *"no_flake8"* ]]; then
+        echo ""
+        echo "no_flake8 requested, skipping flake8"
+        flake8_retval="Not tested"
+    else
+        echo flake8 --max-line-length=88 \
+               $select_string \
+               --ignore=E203,W503,E712 \
+               --extend-exclude _version.py,lib \
+               --docstring-convention=numpy \
+               --rst-roles=class,func,ref \
+               --rst-directives=envvar,exception \
+               --rst-substitutions=version \
+               $path
+        flake8 --max-line-length=88 \
+               $select_string \
+               --ignore=E203,W503,E712 \
+               --extend-exclude _version.py,lib \
+               --docstring-convention=numpy \
+               --rst-roles=class,func,ref \
+               --rst-directives=envvar,exception \
+               --rst-substitutions=version \
+               $path
+        flake8_retval=$?
+        retval=$((flake8_retval+retval))
+    fi
 fi
 if [[ "$test" == "bandit" || "$test" == "all" ]]; then
+    echo ""
     echo "bandit -ll -r path"
     bandit -ll -r $path
     bandit_retval=$?
     retval=$((bandit_retval+retval))
+fi
+if [[ "$test" == "interfaces" || "$test" == "all" ]]; then
+    if [[ "$GEOIPS_DISABLE_SHARED_CODE_CHECKS" == "True" ]]; then
+        echo ""
+        echo "GEOIPS_DISABLE_SHARED_CODE_CHECKS=True, skipping test_interfaces"
+        interfaces_retval="Not tested"
+    else
+        echo ""
+        echo "test_interfaces"
+        test_interfaces
+        interfaces_retval=$?
+        retval=$((interfaces_retval+retval))
+    fi
 fi
 echo ""
 echo "$0 $@"
@@ -126,6 +152,7 @@ echo ""
 echo "  black return: $black_retval"
 echo "  flake8 return: $flake8_retval"
 echo "  bandit return: $bandit_retval"
+echo "  interfaces return: $interfaces_retval"
 echo ""
 echo "Overall `basename $0` return: $retval"
 exit $retval

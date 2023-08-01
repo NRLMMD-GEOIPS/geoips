@@ -807,6 +807,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         LOG.info("Adding xarrays[%s]", dtype)
         xarray_returns[dtype] = xarrays[dtype]
 
+    if len(list(xarray_returns.values())) == 0:
+        raise IOError("No data found for requested channels %s", chans)
+
     xarray_returns["METADATA"] = list(xarray_returns.values())[0][[]]
 
     return xarray_returns
