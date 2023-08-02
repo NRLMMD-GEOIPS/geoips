@@ -169,7 +169,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_saphir["ch4_183.31_4.2"] = xr.DataArray(np.ma.masked_where(ch4qf > 64, ch4))
     xarray_saphir["ch5_183.31_6.8"] = xr.DataArray(np.ma.masked_where(ch5qf > 64, ch5))
     xarray_saphir["ch6_183.31_11.0"] = xr.DataArray(np.ma.masked_where(ch6qf > 64, ch6))
-    # xarray_saphir['timestamp']=xr.DataArray(pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime,format='%Y%j%H%M'))
+    # xarray_saphir['time']=xr.DataArray(pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime,format='%Y%j%H%M'))
 
     # add attributes to xarray
     xarray_saphir.attrs["start_datetime"] = datetime.strptime(

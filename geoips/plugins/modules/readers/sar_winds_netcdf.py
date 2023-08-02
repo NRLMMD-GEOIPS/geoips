@@ -28,7 +28,7 @@ name = "sar_winds_netcdf"
 def read_sar_data(wind_xarray):
     """Reformat SAR xarray object appropriately.
 
-    * variables: latitude, longitude, timestamp, wind_speed_kts
+    * variables: latitude, longitude, time, wind_speed_kts
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
@@ -81,25 +81,25 @@ def read_sar_data(wind_xarray):
     # Set lat/lons appropriately
     wind_xarray = wind_xarray.rename({"latitude": "latitude", "longitude": "longitude"})
 
-    # Set timestamp appropriately
-    # Get the full array of timestamps.  pandas is much better with time series.
+    # Set time appropriately
+    # Get the full array of times.  pandas is much better with time series.
     wind_pandas = wind_xarray.to_dataframe()
 
     # This worked with xarray version 0.16.1
-    # wind_xarray['timestamp'] = wind_pandas['acquisition_time'][:, 5, :].to_xarray().transpose()
+    # wind_xarray['time'] = wind_pandas['acquisition_time'][:, 5, :].to_xarray().transpose()
 
     # Make sure it grabs the right ones, no matter which order x, y, and xfit are in.
     # Later versions (0.18.0) of xarray can have different orders -
     # ensure we use labels, not explicit locations
-    timestamp_array = (
+    time_array = (
         wind_pandas["acquisition_time"]
         .to_xarray()[dict(x=slice(None), y=slice(None), xfit=5)]
         .transpose("y", "x")
     )
     # Remove the xfit coordinate - no longer needed
-    wind_xarray["timestamp"] = timestamp_array.reset_coords("xfit", drop=True)
+    wind_xarray["time"] = time_array.reset_coords("xfit", drop=True)
 
-    wind_xarray = wind_xarray.set_coords(["timestamp"])
+    wind_xarray = wind_xarray.set_coords(["time"])
     wind_xarray["sigma"] = xarray.where(
         wind_xarray.sigma == 0, numpy.nan, wind_xarray.sigma
     )
@@ -147,9 +147,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.timestamp import (
-        get_min_from_xarray_timestamp,
-        get_max_from_xarray_timestamp,
+    from geoips.xarray_utils.time import (
+        get_min_from_xarray_time,
+        get_max_from_xarray_time,
     )
     import xarray
 
@@ -160,7 +160,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     wind_xarray.attrs["source_name"] = "unknown"
     wind_xarray.attrs["platform_name"] = "unknown"
     wind_xarray.attrs["interpolation_radius_of_influence"] = "unknown"
-    wind_xarray.attrs["original_source_filenames"] = [basename(fname)]
+    wind_xarray.attrs["source_file_names"] = [basename(fname)]
     wind_xarray.attrs["sample_distance_km"] = "unknown"
 
     LOG.info("Read data from %s", fname)
@@ -207,10 +207,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     ]
                 )
             )
-            timestamp_array = xarray.DataArray(
+            time_array = xarray.DataArray(
                 numpy.vstack(
                     [
-                        curr_xarray.timestamp.to_masked_array()
+                        curr_xarray.time.to_masked_array()
                         for curr_xarray in wind_xarrays
                     ]
                 )
@@ -233,7 +233,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             )
             final_xarray["latitude"] = lat_array
             final_xarray["longitude"] = lon_array
-            final_xarray["timestamp"] = timestamp_array
+            final_xarray["time"] = time_array
             final_xarray["wind_speed_kts"] = wspd_array
             final_xarray["sigma"] = sigma_array
             final_xarray.attrs = wind_xarrays[0].attrs
@@ -245,11 +245,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             wind_xarray.attrs["minimum_coverage"] = 20
 
         LOG.info("Setting standard metadata")
-        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+            wind_xarray, "time"
         )
-        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+            wind_xarray, "time"
         )
 
         if "wind_speed_kts" in wind_xarray.variables:

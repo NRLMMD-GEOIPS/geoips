@@ -1,6 +1,6 @@
 ---
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: algorithm_interpolator_colormapper
 name: good_test
 docstring: "This is a good product_defaults"
 spec:
@@ -12,7 +12,7 @@ spec:
     plugin:
       name: single_channel
       arguments: {}
-  colormap:
+  colormapper:
     plugin:
-      name: matplotlib.colormap
+      name: matplotlib.colormapper
       arguments: {}

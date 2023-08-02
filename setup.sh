@@ -348,15 +348,18 @@ elif [[ "$1" == "download_cartopy_natural_earth" ]]; then
     # echo "    **Checking out tag v5.2.0, to ensure tests pass"
     # git checkout tags/v5.2.0
     git tag | tail -n 5
+    cat VERSION
+    echo "Last tested version: v5.2.0"
+    echo "If latest version is greater than v5.2.0, watch out for failed tests"
     cd $cwd
 elif [[ "$1" == "link_cartopy_natural_earth" ]]; then
     echo ""
-    echo "**Linking natural-earth-data to ~/.local/share/cartopy/shapefiles/natural_earth/cultural and physical"
     source_cartopy_data=$GEOIPS_DEPENDENCIES_DIR/cartopy_map_data
     if [[ -z "$CARTOPY_DATA_DIR" ]]; then
         CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
     fi
     linkdir=$CARTOPY_DATA_DIR/shapefiles/natural_earth
+    echo "**Linking natural-earth-data from $source_cartopy_data to $CARTOPY_DATA_DIR/shapefiles/natural_earth/cultural and physical"
     mkdir -p $linkdir/cultural
     mkdir -p $linkdir/physical
     ln -sfv $source_cartopy_data/natural-earth-vector/*_cultural/*/* $linkdir/cultural

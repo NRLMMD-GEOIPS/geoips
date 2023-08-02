@@ -199,7 +199,7 @@ class HritFile(object):
                 ("block_num", dtype.uint8, 1),
                 ("block_length", dtype.uint16, 1),
                 (
-                    "timestamp",
+                    "time",
                     getattr(dtype, "char{}".format(self.__block_len_minus_two(5))),
                     1,
                 ),
@@ -520,7 +520,7 @@ class HritFile(object):
                 if dtype.char == "S":
                     newlist = []
                     for valnum, val in enumerate(block_md[field_name]):
-                        if field_name == "timestamp":
+                        if field_name == "time":
                             newlist += [val.strip()]
                         else:
                             newlist += [val.decode("ascii").strip().replace("\x05", "")]

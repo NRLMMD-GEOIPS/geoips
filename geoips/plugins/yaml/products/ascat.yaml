@@ -7,14 +7,14 @@ docstring: |
 spec:
   products:
     - name: windspeed
-      source_name: ascat
+      source_names: [ascat]
       docstring: |
         The windspeed product_defaults for ascat product.
       product_defaults: windspeed
       spec:
         variables: ["wind_speed_kts"]
     - name: Windbarbs-Gray
-      source_name: ascat
+      source_names: [ascat]
       docstring: |
         The Windbarbs-Gray product_defaults for ascat product.
       product_defaults: windbarbs
@@ -37,14 +37,14 @@ spec:
               sizes_dict: { "height": 0.7, "spacing": 0.3 }
               rain_size: 10
     - name: windbarbs
-      source_name: ascat
+      source_names: [ascat]
       docstring: |
         The windbarbs product_defaults for ascat product.
       product_defaults: windbarbs
       spec:
         variables: ["wind_speed_kts", "wind_dir_deg_met", "rain_flag"]
     - name: wind-ambiguities
-      source_name: ascat
+      source_names: [ascat]
       docstring: |
         The wind-ambiguities product_defaults for ascat product.
       product_defaults: wind-ambiguities
@@ -56,14 +56,14 @@ spec:
             "rain_flag_ambiguity",
           ]
     - name: unsectored
-      source_name: ascat
+      source_names: [ascat]
       docstring: |
         The unsectored product_defaults for ascat product.
       product_defaults: unsectored
       spec:
         variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: sectored
-      source_name: ascat
+      source_names: [ascat]
       docstring: |
         The sectored product_defaults for ascat product.
       product_defaults: sectored

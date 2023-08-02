@@ -127,26 +127,26 @@ ALL_GVARS = {
     "LOW": [
         "latitude",
         "longitude",
-        "SunZenith",
-        "SunAzimuth",
-        "SatZenith",
-        "SatAzimuth",
+        "solar_zenith_angle",
+        "solar_azimuth_angle",
+        "satellite_zenith_angle",
+        "satellite_azimuth_angle",
     ],
     "MED": [
         "latitude",
         "longitude",
-        "SunZenith",
-        "SunAzimuth",
-        "SatZenith",
-        "SatAzimuth",
+        "solar_zenith_angle",
+        "solar_azimuth_angle",
+        "satellite_zenith_angle",
+        "satellite_azimuth_angle",
     ],
     "HIGH": [
         "latitude",
         "longitude",
-        "SunZenith",
-        "SunAzimuth",
-        "SatZenith",
-        "SatAzimuth",
+        "solar_zenith_angle",
+        "solar_azimuth_angle",
+        "satellite_zenith_angle",
+        "satellite_azimuth_angle",
     ],
 }
 
@@ -1302,9 +1302,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             for varname in datavars[ds].keys():
                 set_variable_metadata(xarray_obj.attrs, band_metadata, ds, varname)
                 datavars[ds][varname] = np.ma.masked_less(datavars[ds][varname], -999.1)
-                if "SatZenith" in gvars[ds].keys():
+                if "satellite_zenith_angle" in gvars[ds].keys():
                     datavars[ds][varname] = np.ma.masked_where(
-                        gvars[ds]["SatZenith"] > 85, datavars[ds][varname]
+                        gvars[ds]["satellite_zenith_angle"] > 85, datavars[ds][varname]
                     )
 
     print_mem_usage("MEMUSG", verbose=False)

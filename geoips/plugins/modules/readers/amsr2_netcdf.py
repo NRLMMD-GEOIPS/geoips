@@ -73,7 +73,7 @@ name = "amsr2_netcdf"
 def read_amsr_winds(wind_xarray):
     """Reformat AMSR xarray object appropriately.
 
-    * variables: latitude, longitude, timestamp, wind_speed_kts
+    * variables: latitude, longitude, time, wind_speed_kts
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
@@ -121,7 +121,7 @@ def read_amsr_winds(wind_xarray):
         latitude=wind_xarray.latitude, longitude=wind_xarray.longitude
     )
 
-    # Set timestamp appropriately
+    # Set time array appropriately
     import pandas
 
     dtstrs = []
@@ -134,26 +134,26 @@ def read_amsr_winds(wind_xarray):
         ]
     # Have to set it on the actual xarray so it becomes a xarray format time series (otherwise if you set it
     # directly to ts, it is a pandas format time series, and expand_dims doesn't exist).
-    timestamps = pandas.to_datetime(
+    time_array = pandas.to_datetime(
         dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
     ).tolist()
     LOG.info("Setting list of times")
-    tss = [timestamps for ii in range(0, wind_xarray["wind_speed_kts"].shape[1])]
-    LOG.info("Setting timestamp DataArray")
-    wind_xarray["timestamp"] = xarray.DataArray(
+    tss = [time_array for ii in range(0, wind_xarray["wind_speed_kts"].shape[1])]
+    LOG.info("Setting time DataArray")
+    wind_xarray["time"] = xarray.DataArray(
         data=numpy.array(tss).transpose(),
         coords=wind_xarray.wind_speed_kts.coords,
-        name="timestamp",
+        name="time",
     )
-    wind_xarray = wind_xarray.set_coords(["timestamp"])
+    wind_xarray = wind_xarray.set_coords(["time"])
     return {"WINDS": wind_xarray}
 
 
-def read_amsr_mbt(full_xarray, varname, timestamp=None):
+def read_amsr_mbt(full_xarray, varname, time_array=None):
     """
     Reformat AMSR xarray object appropriately.
 
-    * variables: latitude, longitude, timestamp,
+    * variables: latitude, longitude, time,
       brightness temperature variables
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
@@ -201,10 +201,10 @@ def read_amsr_mbt(full_xarray, varname, timestamp=None):
         coords=full_xarray[varname].coords,
     )
 
-    if timestamp is None:
+    if time_array is None:
         import numpy
 
-        # Set timestamp appropriately
+        # Set time appropriately
         import pandas
 
         dtstrs = []
@@ -218,33 +218,33 @@ def read_amsr_mbt(full_xarray, varname, timestamp=None):
         # Have to set it on the actual xarray so it becomes a xarray format time series (otherwise if you set it
         # directly to ts, it is a pandas format time series, and expand_dims
         # doesn't exist).
-        timestamps = pandas.to_datetime(
+        curr_time_array = pandas.to_datetime(
             dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
         ).tolist()
         LOG.info("    Setting list of times")
-        tss = [timestamps for ii in range(0, sub_xarray[varnames[varname]].shape[1])]
-        LOG.info("    Setting timestamp DataArray")
-        sub_xarray["timestamp"] = xarray.DataArray(
+        tss = [curr_time_array for ii in range(0, sub_xarray[varnames[varname]].shape[1])]
+        LOG.info("    Setting time DataArray")
+        sub_xarray["time"] = xarray.DataArray(
             data=numpy.array(tss).transpose(),
             coords=full_xarray[varname].coords,
-            name="timestamp",
+            name="time",
         )
-        sub_xarray = sub_xarray.set_coords(["timestamp"])
+        sub_xarray = sub_xarray.set_coords(["time"])
     else:
         LOG.info(
             "Using existing scan_times, for dims %s", sub_xarray[varnames[varname]].dims
         )
-        sub_xarray["timestamp"] = timestamp
-    from geoips.xarray_utils.timestamp import (
-        get_min_from_xarray_timestamp,
-        get_max_from_xarray_timestamp,
+        sub_xarray["time"] = time_array
+    from geoips.xarray_utils.time import (
+        get_min_from_xarray_time,
+        get_max_from_xarray_time,
     )
 
-    sub_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-        sub_xarray, "timestamp"
+    sub_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+        sub_xarray, "time"
     )
-    sub_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-        sub_xarray, "timestamp"
+    sub_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+        sub_xarray, "time"
     )
     return sub_xarray
 
@@ -266,15 +266,15 @@ def read_amsr_data(full_xarray, chans):
         if chans is not None and varname not in chans:
             LOG.info("SKIPPING: Variable %s not requested in %s", varname, chans)
         if "Brightness" in varname:
-            usetimestamp = None
+            usetime = None
             for xra in list(xarrays.values()):
-                if xra.timestamp.dims == full_xarray[varname].dims:
-                    usetimestamp = xra.timestamp
-            new_xarray = read_amsr_mbt(full_xarray, varname, usetimestamp)
+                if xra.time.dims == full_xarray[varname].dims:
+                    usetime = xra.time
+            new_xarray = read_amsr_mbt(full_xarray, varname, usetime)
             if sunzen.dims == tuple(new_xarray.dims):
-                new_xarray["SatAzimuth"] = satazm
-                new_xarray["SatZenith"] = satzen
-                new_xarray["SunZenith"] = sunzen
+                new_xarray["satellite_azimuth_angle"] = satazm
+                new_xarray["satellite_zenith_angle"] = satzen
+                new_xarray["solar_zenith_angle"] = sunzen
                 new_xarray["QualityFlag"] = loqf
                 new_xarray["SunGlintFlag"] = sunglint_flag
                 new_xarray["sensor_scan_angle"] = sensor_scan_angle
@@ -331,7 +331,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         full_xarrays = [xarray.open_dataset(str(x)) for x in fnames]
         full_xarray = xarray.merge(full_xarrays)
         full_xarray.attrs["data_provider"] = "unknown"
-        full_xarray.attrs["original_source_filenames"] = [basename(fname)]
+        full_xarray.attrs["source_file_names"] = [basename(fname)]
         full_xarray.attrs["source_name"] = "amsr2"
         full_xarray.attrs["platform_name"] = "gcom-w1"
         full_xarray.attrs["interpolation_radius_of_influence"] = 10000
@@ -369,16 +369,16 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     for dsname, curr_xarray in final_xarrays.items():
         LOG.info("Setting standard metadata")
-        from geoips.xarray_utils.timestamp import (
-            get_min_from_xarray_timestamp,
-            get_max_from_xarray_timestamp,
+        from geoips.xarray_utils.time import (
+            get_min_from_xarray_time,
+            get_max_from_xarray_time,
         )
 
-        curr_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-            curr_xarray, "timestamp"
+        curr_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+            curr_xarray, "time"
         )
-        curr_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-            curr_xarray, "timestamp"
+        curr_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+            curr_xarray, "time"
         )
     final_xarrays["METADATA"] = list(final_xarrays.values())[0][[]]
     return final_xarrays

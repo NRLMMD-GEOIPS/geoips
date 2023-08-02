@@ -56,7 +56,7 @@ def get_datetime_from_datetime64(dt64):
     return datetime.utcfromtimestamp(dt64.astype(int) * scale)
 
 
-def get_min_from_xarray_timestamp(xarray_obj, varname):
+def get_min_from_xarray_time(xarray_obj, varname):
     """Get the minimum time as a datetime object from xarray object.
 
     Parameters
@@ -84,7 +84,7 @@ def get_min_from_xarray_timestamp(xarray_obj, varname):
     return minval
 
 
-def get_max_from_xarray_timestamp(xarray_obj, varname):
+def get_max_from_xarray_time(xarray_obj, varname):
     """Get the maximum time as a datetime object from xarray object.
 
     Parameters

@@ -10,16 +10,16 @@ spec:
     plugin:
       name: single_channel
       arguments: {}
-  colormap:
+  colormapper:
     plugin:
-      name: matplotlib.colormap
+      name: matplotlib.colormapper
       arguments: {}
 
 ---
 error: ValidationError
 error_pattern: ".*'spec' is a required property.*"
 interface: product_defaults
-family: algorithm_interpolator_colormap
+family: algorithm_interpolator_colormapper
 name: good_test
 docstring: "A product_defaults instance missing its spec"
 
@@ -27,7 +27,7 @@ docstring: "A product_defaults instance missing its spec"
 error: ValidationError
 error_pattern: ".*'interpolator' is a required property.*"
 interface: product_defaults
-family: algorithm_interpolator_colormap
+family: algorithm_interpolator_colormapper
 name: good_test
 docstring: "A product_defaults instance missing its interpolator property"
 spec:
@@ -35,16 +35,16 @@ spec:
     plugin:
       name: single_channel
       arguments: {}
-  colormap:
+  colormapper:
     plugin:
-      name: matplotlib.colormap
+      name: matplotlib.colormapper
       arguments: {}
 
 ---
 error: ValidationError
 error_pattern: ".*'algorithm' is a required property.*"
 interface: product_defaults
-family: algorithm_interpolator_colormap
+family: algorithm_interpolator_colormapper
 name: good_test
 docstring: "A product_defaults instance missing its algorithm property"
 spec:
@@ -52,18 +52,18 @@ spec:
     plugin:
       name: pyresample.nearest_neighbor
       arguments: {}
-  colormap:
+  colormapper:
     plugin:
-      name: matplotlib.colormap
+      name: matplotlib.colormapper
       arguments: {}
 
 ---
 error: ValidationError
-error_pattern: ".*'colormap' is a required property.*"
+error_pattern: ".*'colormapper' is a required property.*"
 interface: product_defaults
-family: algorithm_interpolator_colormap
+family: algorithm_interpolator_colormapper
 name: good_test
-docstring: "A product_defaults instance missing its colormap property"
+docstring: "A product_defaults instance missing its colormapper property"
 spec:
   interpolator:
     plugin:
@@ -78,7 +78,7 @@ spec:
 error: ValidationError
 error_pattern: "Unevaluated properties are not allowed \\('extra' was unexpected\\)"
 interface: product_defaults
-family: algorithm_interpolator_colormap
+family: algorithm_interpolator_colormapper
 name: good_test
 docstring: "Extra plugin"
 spec:
@@ -90,22 +90,22 @@ spec:
     plugin:
       name: single_channel
       arguments: {}
-  colormap:
+  colormapper:
     plugin:
-      name: matplotlib.colormap
+      name: matplotlib.colormapper
       arguments: {}
   extra:
     plugin:
-      name: matplotlib.colormap
+      name: matplotlib.colormapper
       arguments: {}
 
 ---
 error: ValidationError
 error_pattern: ".*'arguments' is a required property.*"
 interface: product_defaults
-family: algorithm_interpolator_colormap
+family: algorithm_interpolator_colormapper
 name: good_test
-docstring: "A product_defaults instance missing its colormap.arguments"
+docstring: "A product_defaults instance missing its colormapper.arguments"
 spec:
   interpolator:
     plugin:
@@ -115,6 +115,6 @@ spec:
     plugin:
       name: single_channel
       arguments: {}
-  colormap:
+  colormapper:
     plugin:
-      name: matplotlib.colormap
+      name: matplotlib.colormapper

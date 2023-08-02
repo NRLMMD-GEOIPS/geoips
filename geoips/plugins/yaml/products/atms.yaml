@@ -6,7 +6,7 @@ docstring: |
 spec:
   products:
     - name: 89V
-      source_name: atms
+      source_names: [atms]
       docstring: |
         The 89V product_defaults for atms product.
       product_defaults: 89V
@@ -18,14 +18,14 @@ spec:
             arguments:
               sigmaval: 15000
     - name: 89VNearest
-      source_name: atms
+      source_names: [atms]
       docstring: |
         The 89VNearest product_defaults for atms product.
       product_defaults: 89VNearest
       spec:
         variables: ["V89"]
     - name: 165H
-      source_name: atms
+      source_names: [atms]
       docstring: |
         The 165H product_defaults for atms product.
       product_defaults: 165H
@@ -37,14 +37,14 @@ spec:
             arguments:
               sigmaval: 15000
     - name: 165HNearest
-      source_name: atms
+      source_names: [atms]
       docstring: |
         The 165HNearest product_defaults for atms product.
       product_defaults: 165HNearest
       spec:
         variables: ["H165"]
     - name: 183H
-      source_name: atms
+      source_names: [atms]
       docstring: |
         The 183H product_defaults for atms product.
       product_defaults: 183H
@@ -56,7 +56,7 @@ spec:
             arguments:
               sigmaval: 15000
     - name: 183HNearest
-      source_name: atms
+      source_names: [atms]
       docstring: |
         The 183HNearest product_defaults for atms product.
       product_defaults: 183HNearest

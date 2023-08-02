@@ -73,8 +73,12 @@ if [[ "$test" == "black" || "$test" == "all" ]]; then
     # really want to be able to name a file "version.py" and want it checked
     # for compliance, we will need to rethink.
     echo ""
-    echo "black --check --extend-exclude /version.py $path"
-    black --check --extend-exclude /version.py $path
+    # NOTE: black just checks for substrings in the string of the full path -
+    #       so include / around dirs to make sure we only match the dirs.
+    #       Also, do NOT include "*" in the path (since it is just looking for
+    #       substrings directly)
+    echo "black --check --extend-exclude _version.py --extend-exclude /lib/ --extend-exclude _docs/ $path"
+    black --check --extend-exclude _version.py --extend-exclude /lib/ --extend-exclude _docs/ $path
     black_retval=$?
     retval=$((black_retval+retval))
 fi
@@ -104,10 +108,14 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
         echo "no_flake8 requested, skipping flake8"
         flake8_retval="Not tested"
     else
+        # NOTE: flake8 matches subdirectories or filenames exactly.
+        #       So, do not include "/" in the extend-exclude, since it is
+        #       not attempting to match the full string path, but each individual
+        #       subdirectory or file.
         echo flake8 --max-line-length=88 \
                $select_string \
                --ignore=E203,W503,E712 \
-               --extend-exclude _version.py,lib \
+               --extend-exclude _version.py,lib,*_docs \
                --docstring-convention=numpy \
                --rst-roles=class,func,ref \
                --rst-directives=envvar,exception \
@@ -116,7 +124,7 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
         flake8 --max-line-length=88 \
                $select_string \
                --ignore=E203,W503,E712 \
-               --extend-exclude _version.py,lib \
+               --extend-exclude _version.py,lib,*_docs \
                --docstring-convention=numpy \
                --rst-roles=class,func,ref \
                --rst-directives=envvar,exception \

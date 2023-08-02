@@ -6,21 +6,21 @@ docstring: |
 spec:
   products:
     - name: TPW-CIMSS
-      source_name: mimic
+      source_names: [mimic]
       docstring: |
         The TPW-CIMSS product_defaults configuration for mimic products.
       product_defaults: TPW-CIMSS
       spec:
         variables: ["tpw"]
     - name: TPW-PWAT
-      source_name: mimic
+      source_names: [mimic]
       docstring: |
         The TPW-PWAT product_defaults configuration for mimic products.
       product_defaults: TPW-PWAT
       spec:
         variables: ["tpw"]
     - name: TPW-PURPLE
-      source_name: mimic
+      source_names: [mimic]
       docstring: |
         The TPW-PURPLE product_defaults configuration for mimic products.
       product_defaults: TPW-PURPLE

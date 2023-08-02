@@ -126,14 +126,14 @@ def sector_xarray_temporal(
     maxdt : datetime.datetime
         maximum datetime of desired data
     varnames : list of str
-        list of variable names that should be sectored based on 'timestamp',
+        list of variable names that should be sectored based on 'time',
         mindt, maxdt
 
     Returns
     -------
     xarray Dataset, or None
         * if full_xarray is None, return None
-        * return full original xarray object if 'timestamp' is not included in
+        * return full original xarray object if 'time' is not included in
           varnames list
         * else, return sectored xarray object with only the desired times,
           specified by mindt and maxdt
@@ -151,9 +151,9 @@ def sector_xarray_temporal(
     time_xarray = xarray.Dataset()
     time_xarray.attrs = full_xarray.attrs.copy()
 
-    if "timestamp" not in varnames:
+    if "time" not in varnames:
         LOG.info(
-            "    timestamp variable not included in list - not temporally sectoring, returning all data"
+            "    time variable not included in list - not temporally sectoring, returning all data"
         )
         return full_xarray
 
@@ -169,8 +169,8 @@ def sector_xarray_temporal(
     mindt64 = numpy.datetime64(mindt)
     maxdt64 = numpy.datetime64(maxdt)
 
-    xarray_time_mask = (full_xarray["timestamp"] > mindt64) & (
-        full_xarray["timestamp"] < maxdt64
+    xarray_time_mask = (full_xarray["time"] > mindt64) & (
+        full_xarray["time"] < maxdt64
     )
 
     time_inds = numpy.where(xarray_time_mask)
@@ -214,7 +214,7 @@ def sector_xarray_temporal(
         #     covg = True
 
     # if not covg:
-    if time_xarray["timestamp"].size == 0:
+    if time_xarray["time"].size == 0:
         LOG.warning(
             "    INSUFFICIENT TIME DATA between %s and %s for any vars, skipping",
             mindt,
@@ -225,7 +225,7 @@ def sector_xarray_temporal(
         "    SUFFICIENT TIME DATA between %s and %s for any var %s points",
         mindt,
         maxdt,
-        time_xarray["timestamp"].size,
+        time_xarray["time"].size,
     )
     return time_xarray
 
@@ -248,7 +248,7 @@ def sector_xarray_spatial(
     extent_lonlat : list of float
         Area to sector: [MINLON, MINLAT, MAXLON, MAXLAT]
     varnames : list of str
-        list of variable names that should be sectored based on 'timestamp'
+        list of variable names that should be sectored based on 'time'
     drop : bool
         Specify whether to remove points with no coverage (rather than masking)
 
@@ -453,21 +453,21 @@ def sector_xarray_dataset(
         )
         if (
             sector_xarray is not None
-            and "timestamp" in varnames
+            and "time" in varnames
             and hasattr(area_def, "sector_start_datetime")
             and area_def.sector_start_datetime
         ):
-            from geoips.xarray_utils.timestamp import (
-                get_min_from_xarray_timestamp,
-                get_max_from_xarray_timestamp,
+            from geoips.xarray_utils.time import (
+                get_min_from_xarray_time,
+                get_max_from_xarray_time,
             )
 
             sector_xarray.attrs["area_definition"] = area_def
-            sector_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-                sector_xarray, "timestamp"
+            sector_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+                sector_xarray, "time"
             )
-            sector_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-                sector_xarray, "timestamp"
+            sector_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+                sector_xarray, "time"
             )
         elif sector_xarray is not None:
             sector_xarray.attrs["area_definition"] = area_def
@@ -563,7 +563,7 @@ def sector_xarrays(
         LOG.info(" dataset data_vars %s", set(xobj.data_vars))
         # Compile a list of variables that will be used to sector - the current data variable, and we will add in
         # the appropriate latitude and longitude variables (of the same shape as data), and if it exists the
-        # appropriately shaped timestamp array
+        # appropriately shaped time array
         # Use data_vars here - since coordinates (lat/lon/time) get added below
         vars_to_interp = list(set(varlist) & set(xobj.data_vars))
         if not vars_to_interp:
@@ -590,15 +590,15 @@ def sector_xarrays(
 
         vars_to_sect = []
         vars_to_sect += vars_to_interp
-        # we have to have 'latitude','longitude" in the full_xarray, and 'timestamp' if we want temporal sectoring
+        # we have to have 'latitude','longitude" in the full_xarray, and 'time' if we want temporal sectoring
         # Note if lat/lon/time are included as coordinates, they will NOT show up
         # in data_vars, so must use variables
         if "latitude" in list(xobj.variables.keys()):
             vars_to_sect += ["latitude"]
         if "longitude" in list(xobj.variables.keys()):
             vars_to_sect += ["longitude"]
-        if "timestamp" in list(xobj.variables.keys()):
-            vars_to_sect += ["timestamp"]
+        if "time" in list(xobj.variables.keys()):
+            vars_to_sect += ["time"]
 
         from geoips.xarray_utils.data import sector_xarray_dataset
 
@@ -656,15 +656,15 @@ def sector_xarrays(
         sect_xarray.attrs[
             "area_definition"
         ] = area_def  # add name of this sector to sector attribute
-        if hasattr(sect_xarray, "timestamp"):
-            from geoips.xarray_utils.timestamp import get_min_from_xarray_timestamp
-            from geoips.xarray_utils.timestamp import get_max_from_xarray_timestamp
+        if hasattr(sect_xarray, "time"):
+            from geoips.xarray_utils.time import get_min_from_xarray_time
+            from geoips.xarray_utils.time import get_max_from_xarray_time
 
-            sect_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-                sect_xarray, "timestamp"
+            sect_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+                sect_xarray, "time"
             )
-            sect_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-                sect_xarray, "timestamp"
+            sect_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+                sect_xarray, "time"
             )
             # Note:  need to test whether above two lines can reselect min and max
             # time_info for this sector
