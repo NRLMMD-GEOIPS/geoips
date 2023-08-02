@@ -3,12 +3,13 @@ family: area_definition
 name: abu_dhabi
 docstring: "City of Abu Dhabi"
 metadata:
-  continent: Asia
-  country: UnitedArabEmirates
-  area: x
-  subarea: x
-  state: x
-  city: AbuDhabi
+  region:
+    continent: Asia
+    country: UnitedArabEmirates
+    area: x
+    subarea: x
+    state: x
+    city: AbuDhabi
 spec:
   area_id: abu_dhabit
   description: City of Abu Dhabi

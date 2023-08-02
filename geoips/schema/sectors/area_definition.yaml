@@ -6,18 +6,31 @@ properties:
   metadata:
     type: object
     properties:
-      continent:
-        type: string
-      country:
-        type: string
-      area:
-        type: string
-      subarea:
-        type: string
-      state:
-        type: string
-      city:
-        type: string
+      region:
+        type: object
+        properties:
+          continent:
+            type: string
+          country:
+            type: string
+          area:
+            type: string
+          subarea:
+            type: string
+          state:
+            type: string
+          city:
+            type: string
+      padding:
+        type: object
+        required:
+          - pad_x
+          - pad_y
+        properties:
+          pad_x:
+            type: integer
+          pad_y:
+            type: integer
   spec:
     type: object
     required:
