@@ -1,5 +1,5 @@
 interface: sectors
-family: area_definition
+family: area_definition_static
 name: south_pole
 docstring: "South Pole Region"
 metadata:

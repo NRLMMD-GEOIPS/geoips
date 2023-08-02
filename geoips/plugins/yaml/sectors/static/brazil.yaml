@@ -1,5 +1,5 @@
 interface: sectors
-family: area_definition
+family: area_definition_static
 name: brazil
 docstring: "Brazilian Country"
 metadata:

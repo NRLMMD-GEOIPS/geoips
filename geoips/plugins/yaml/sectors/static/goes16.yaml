@@ -1,5 +1,5 @@
 interface: sectors
-family: area_definition
+family: area_definition_static
 name: goes16
 docstring: "Full disk sector for GOES-16"
 metadata:

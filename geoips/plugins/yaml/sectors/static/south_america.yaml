@@ -1,5 +1,5 @@
 interface: sectors
-family: area_definition
+family: area_definition_static
 name: south_america
 docstring: "South American Continent"
 metadata:
@@ -15,16 +15,16 @@ spec:
   description: South American Continent
   projection:
     a: 6371228.0
-    lat_0: -21.18
-    lon_0: -58.55500000000001
+    lat_0: -21.762500000000003
+    lon_0: -58.57499999999999
     proj: eqc
     units: m
   resolution:
     - 3000
     - 3000
   shape:
-    height: 2533
-    width: 1646
+    height: 2551
+    width: 1640
   area_extent:
-    lower_left_xy: [-2469693, -3799666]
-    upper_right_xy: [2469693, 3799666]
+    lower_left_xy: [-2460334, -3827410]
+    upper_right_xy: [2460334, 3827410]
