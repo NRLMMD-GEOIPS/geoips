@@ -6,21 +6,21 @@ docstring: |
 spec:
   products:
     - name: windspeed
-      source_name: smos-spd
+      source_names: [smos-spd]
       docstring: |
         The windspeed product_defaults configuration for smos-spd products.
       product_defaults: windspeed
       spec:
         variables: ["wind_speed_kts"]
     - name: unsectored
-      source_name: smos-spd
+      source_names: [smos-spd]
       docstring: |
         The unsectored product_defaults configuration for smos-spd products.
       product_defaults: unsectored
       spec:
         variables: ["wind_speed_kts"]
     - name: sectored
-      source_name: smos-spd
+      source_names: [smos-spd]
       docstring: |
         The sectored product_defaults configuration for smos-spd products.
       product_defaults: sectored

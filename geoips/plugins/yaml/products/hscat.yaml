@@ -6,28 +6,28 @@ docstring: |
 spec:
   products:
     - name: windspeed
-      source_name: hscat
+      source_names: [hscat]
       docstring: |
         The windspeed product_defaults configuration for hscat products.
       product_defaults: windspeed
       spec:
         variables: ["wind_speed_kts"]
     - name: windbarbs
-      source_name: hscat
+      source_names: [hscat]
       docstring: |
         The windbarbs product_defaults configuration for hscat products.
       product_defaults: windbarbs
       spec:
         variables: ["wind_speed_kts", "wind_dir_deg_met", "rain_flag"]
     - name: unsectored
-      source_name: hscat
+      source_names: [hscat]
       docstring: |
         The unsectored product_defaults configuration for hscat products.
       product_defaults: unsectored
       spec:
         variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: sectored
-      source_name: hscat
+      source_names: [hscat]
       docstring: |
         The sectored product_defaults configuration for hscat products.
       product_defaults: sectored

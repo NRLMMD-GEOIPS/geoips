@@ -12,20 +12,20 @@ spec:
     plugin:
       name: single_channel
       arguments: {}
-  colormap:
+  colormapper:
     plugin:
-      name: matplotlib.colormap
+      name: matplotlib.colormapper
       arguments: {}
 
 ---
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: good_test
 docstring: "A product_defaults instance missing its spec"
 
 ---
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: good_test
 docstring: "A product_defaults instance missing its interpolator property"
 spec:
@@ -33,14 +33,14 @@ spec:
     plugin:
       name: single_channel
       arguments: {}
-  colormap:
+  colormapper:
     plugin:
-      name: matplotlib.colormap
+      name: matplotlib.colormapper
       arguments: {}
 
 ---
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: good_test
 docstring: "A product_defaults instance missing its algorithm property"
 spec:
@@ -48,13 +48,13 @@ spec:
     plugin:
       name: pyresample.nearest_neighbor
       arguments: {}
-  colormap:
+  colormapper:
     plugin:
-      name: matplotlib.colormap
+      name: matplotlib.colormapper
 
 ---
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: good_test
 docstring: "A product_defaults instance missing its algorithm property"
 spec:

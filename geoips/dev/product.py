@@ -44,7 +44,9 @@ def get_required_variables(prod_plugin):
             * {'<variable_type>': ['var1', 'var2', ... , 'varn']}
     """
     # This can either be a list or dictionary, dependent on YAML config specification
-    variables = prod_plugin["spec"]["variables"]
+    variables = prod_plugin["spec"].get("variables")
+    if variables is None:
+        return []
 
     # Support categorizing variables in a dictionary
     if isinstance(variables, dict):

@@ -897,6 +897,10 @@ def call(fnames, command_line_args=None):
                 config_dict["outputs"], source_name, sector_types=[sector_type]
             )
 
+            if not curr_variables:
+                LOG.info("No input variables for sector type: %s", sector_type)
+                continue
+
             # If we read separately for each sector (geostationary), then must set
             # xobjs within area_def loop
             if sectored_read:

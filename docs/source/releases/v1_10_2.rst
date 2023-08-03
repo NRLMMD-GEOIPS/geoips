@@ -23,6 +23,7 @@ Version 1.10.2 (2023-06-01)
 * Bug fix: Fix ATMS timestamp inaccuracies with astropy, correct flake8 formatting
 * Bug fix: Use correct colormap for 37VNearest product.
 * Bug fix: Allow calling tc_file_naming update_extra_field with output_dict=None
+* Bug fix: Allow get_required_variables to return empty list
 * Enhancement: Add diff product paths to log output on bad comparison, for reference
 * Enhancement: Allow either original_source_filenames or source_file_names in readers.
 * Enhancement: Add sector_adjuster_kwargs command line option.
@@ -31,6 +32,7 @@ Version 1.10.2 (2023-06-01)
 * Testing: Add support for "GEOIPS_DISABLE_SHARED_CODE_CHECKS" to check_code.sh
 * Testing: Ignore flake8 E712 (== False)
 * Documentation: Move expert installation to a separate page, fix bugs so it builds.
+* Regression: Add pad_area_definition to allowed schema properties
 
 *From issue GEOIPS#251: 2023-05-17, version update*
 
@@ -77,6 +79,23 @@ procflow for now - will need to add support to config_based.py as well.
   modified: geoips/commandline/args.py
   modified: geoips/plugins/modules/procflows/single_source.py
 
+Regression
+==========
+
+Add pad_area_definition to allowed schema properties
+----------------------------------------------------
+
+*From issue GEOIPS#283: 2023-06-26, Add pad_area_definition to schema*
+
+::
+
+  geoips/schema/product_defaults/specs/algorithm.yaml
+  geoips/schema/product_defaults/specs/algorithm_colormapper.yaml
+  geoips/schema/product_defaults/specs/algorithm_interpolator_colormapper.yaml
+  geoips/schema/product_defaults/specs/interpolator.yaml
+  geoips/schema/product_defaults/specs/interpolator_algorithm.yaml
+  geoips/schema/product_defaults/specs/interpolator_algorithm_colormapper.yaml
+  
 Bug Fixes
 =========
 
@@ -285,3 +304,18 @@ to the expert installation.
   modified: docs/source/starter/expert_installation.rst
   modified: docs/source/starter/index.rst
   modified: docs/source/starter/installation.rst
+
+Bug Fixes
+=========
+
+Allow get_required_variables to return empty list
+-------------------------------------------------
+
+*From issue GEOIPS#285: 2023-06-26, Support having no required variables*
+
+Modify get_required_variables function to return an empty list if no
+variables are needed.
+
+::
+
+  geoips/dev/product.py

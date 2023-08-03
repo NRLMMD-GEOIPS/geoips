@@ -79,12 +79,12 @@ VARLIST = [
     "rel_azimuth",
 ]
 
-# setup needed to convert var_name used in geoips: i.e., SunZenith (not
+# setup needed to convert var_name used in geoips: i.e., solar_zenith_angle (not
 # sun_zenith) is used.
 xvarnames = {
-    "sun_zenith": "SunZenith",
-    "sat_zenith": "SatZenith",
-    "rel_azimuth": "SatAzimuth",
+    "sun_zenith": "solar_zenith_angle",
+    "sat_zenith": "satellite_zenith_angle",
+    "rel_azimuth": "satellite_azimuth_angle",
 }
 
 interface = "readers"
@@ -135,7 +135,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     # --------------- loop input files ---------------
     xarray_ewsg = xr.Dataset()
-    xarray_ewsg.attrs["original_source_filenames"] = []
+    xarray_ewsg.attrs["source_file_names"] = []
     # LOG.info('Requested Channels: %s', chans)
 
     for fname in fnames:
@@ -263,7 +263,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         if ncdf_file.satellite == "goes-13":
             xarray_ewsg.attrs["platform_name"] = "ews-g"
         xarray_ewsg.attrs["data_provider"] = "noaa"
-        xarray_ewsg.attrs["original_source_filenames"] += [os.path.basename(fname)]
+        xarray_ewsg.attrs["source_file_names"] += [os.path.basename(fname)]
 
         # MTIFs need to be "prettier" for PMW products, so 2km resolution for
         # final image

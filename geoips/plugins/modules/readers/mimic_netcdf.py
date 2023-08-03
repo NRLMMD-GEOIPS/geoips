@@ -91,7 +91,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xobj.attrs["start_datetime"] = dt
     xobj.attrs["end_datetime"] = dt
     xobj.attrs["platform_name"] = "tpw"
-    xobj.attrs["filename_datetimes"] = [dt]
+    xobj.attrs["source_file_datetimes"] = [dt]
     xobj.attrs["source_name"] = "mimic"
     # ~2km for data_fine
     xobj.attrs["sample_distance_km"] = 110.0 * abs(

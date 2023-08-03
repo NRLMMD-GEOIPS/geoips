@@ -179,7 +179,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     elif satid == 4:
         satid = "F19"
 
-    SatZenith = 53.1
+    satellite_zenith_angle = 53.1
     sensor_scan_angle = 45.0
     satellite_altitude = 859
 
@@ -247,8 +247,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
             xarray_imager.attrs["source_name"] = "ssmis"
             xarray_imager.attrs["platform_name"] = satid
             xarray_imager.attrs["data_provider"] = "DMSP"
-            xarray_imager.attrs["original_source_filenames"] = [basename(fname)]
-            xarray_imager.attrs["SatZenith"] = SatZenith
+            xarray_imager.attrs["source_file_names"] = [basename(fname)]
+            xarray_imager.attrs["satellite_zenith_angle"] = satellite_zenith_angle
             xarray_imager.attrs["sensor_scan_angle"] = sensor_scan_angle
             xarray_imager.attrs["satellite_altitude"] = satellite_altitude
             LOG.info(
@@ -811,7 +811,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         "H91",
         "sfcType",
         "rain",
-        "timestamp",
+        "time",
     ]
     namelist_enviro = [
         "latitude",
@@ -827,7 +827,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         "ch18_5x5",
         "ch17_5x4",
         "ch18_5x4",
-        "timestamp",
+        "time",
     ]
     namelist_las = [
         "latitude",
@@ -847,7 +847,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         "ch24_3x3",
         "height_1000mb",
         "surf_las",
-        "timestamp",
+        "time",
     ]
     namelist_uas = [
         "latitude",
@@ -860,7 +860,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         "ch24_6x6",
         "scene",
         "tqflag",
-        "timestamp",
+        "time",
     ]
 
     # set xarray object for imager variables
@@ -885,7 +885,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_imager["H91"].attrs["channel_number"] = 18
     xarray_imager["sfcType"] = xr.DataArray(surf)
     xarray_imager["rain"] = xr.DataArray(rain)
-    xarray_imager["timestamp"] = xr.DataArray(
+    xarray_imager["time"] = xr.DataArray(
         pd.DataFrame(time_imager).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
@@ -915,7 +915,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_enviro["Ch17_5x4"].attrs["channel_number"] = 17
     xarray_enviro["Ch18_5x4"] = xr.DataArray(ch18_5x4 / 100 + 273.15)
     xarray_enviro["Ch18_5x4"].attrs["channel_number"] = 18
-    xarray_enviro["timestamp"] = xr.DataArray(
+    xarray_enviro["time"] = xr.DataArray(
         pd.DataFrame(time_enviro).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
@@ -951,7 +951,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_las["Ch24_3x3"].attrs["channel_number"] = 24
     xarray_las["Height_1000mb"] = xr.DataArray(height_1000mb)
     xarray_las["Surf_las"] = xr.DataArray(surf_las)
-    xarray_las["timestamp"] = xr.DataArray(
+    xarray_las["time"] = xr.DataArray(
         pd.DataFrame(time_las).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
@@ -973,7 +973,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_uas["Ch24_6x6"].attrs["channel_number"] = 24
     xarray_uas["Scene"] = xr.DataArray(scene)
     xarray_uas["tqFlag"] = xr.DataArray(tqflag)
-    xarray_uas["timestamp"] = xr.DataArray(
+    xarray_uas["time"] = xr.DataArray(
         pd.DataFrame(time_uas).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
@@ -985,8 +985,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_imager.attrs["source_name"] = "ssmis"
     xarray_imager.attrs["platform_name"] = satid
     xarray_imager.attrs["data_provider"] = "DMSP"
-    xarray_imager.attrs["original_source_filenames"] = [basename(fname)]
-    xarray_imager.attrs["SatZenith"] = SatZenith
+    xarray_imager.attrs["source_file_names"] = [basename(fname)]
+    xarray_imager.attrs["satellite_zenith_angle"] = satellite_zenith_angle
     xarray_imager.attrs["sensor_scan_angle"] = sensor_scan_angle
     xarray_imager.attrs["satellite_altitude"] = satellite_altitude
 
@@ -1000,8 +1000,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_enviro.attrs["source_name"] = "ssmis"
     xarray_enviro.attrs["platform_name"] = satid
     xarray_enviro.attrs["data_provider"] = "DMSP"
-    xarray_enviro.attrs["original_source_filenames"] = [basename(fname)]
-    xarray_enviro.attrs["SatZenith"] = SatZenith
+    xarray_enviro.attrs["source_file_names"] = [basename(fname)]
+    xarray_enviro.attrs["satellite_zenith_angle"] = satellite_zenith_angle
     xarray_enviro.attrs["sensor_scan_angle"] = sensor_scan_angle
     xarray_enviro.attrs["satellite_altitude"] = satellite_altitude
 
@@ -1015,8 +1015,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_las.attrs["source_name"] = "ssmis"
     xarray_las.attrs["platform_name"] = satid
     xarray_las.attrs["data_provider"] = "DMSP"
-    xarray_las.attrs["original_source_filenames"] = [basename(fname)]
-    xarray_las.attrs["SatZenith"] = SatZenith
+    xarray_las.attrs["source_file_names"] = [basename(fname)]
+    xarray_las.attrs["satellite_zenith_angle"] = satellite_zenith_angle
     xarray_las.attrs["sensor_scan_angle"] = sensor_scan_angle
     xarray_las.attrs["satellite_altitude"] = satellite_altitude
 
@@ -1030,8 +1030,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_uas.attrs["source_name"] = "ssmis"
     xarray_uas.attrs["platform_name"] = satid
     xarray_uas.attrs["data_provider"] = "DMSP"
-    xarray_uas.attrs["original_source_filenames"] = [basename(fname)]
-    xarray_uas.attrs["SatZenith"] = SatZenith
+    xarray_uas.attrs["source_file_names"] = [basename(fname)]
+    xarray_uas.attrs["satellite_zenith_angle"] = satellite_zenith_angle
     xarray_uas.attrs["sensor_scan_angle"] = sensor_scan_angle
     xarray_uas.attrs["satellite_altitude"] = satellite_altitude
 

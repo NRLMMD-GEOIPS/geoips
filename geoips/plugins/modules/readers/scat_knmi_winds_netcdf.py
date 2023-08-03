@@ -29,7 +29,7 @@ name = "scat_knmi_winds_netcdf"
 def read_knmi_data(wind_xarray):
     """Reformat ascat xarray object appropriately.
 
-    * variables: latitude, longitude, timestamp,
+    * variables: latitude, longitude, time,
       wind_speed_kts, wind_dir_deg_met
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
@@ -81,9 +81,9 @@ def read_knmi_data(wind_xarray):
     wind_xarray.wind_dir_deg_met.attrs["standard_name"] = "wind_from_direction"
     wind_xarray.wind_dir_deg_met.attrs["valid_max"] = 360
 
-    # Set lat/lons/timestamp appropriately
+    # Set lat/lons/time appropriately
     wind_xarray = wind_xarray.rename(
-        {"lat": "latitude", "lon": "longitude", "time": "timestamp"}
+        {"lat": "latitude", "lon": "longitude", "time": "time"}
     )
     import xarray
     import numpy
@@ -108,7 +108,7 @@ def read_knmi_data(wind_xarray):
             rf.astype(int), coords=wind_xarray.coords, dims=wind_xarray.dims
         )
 
-    wind_xarray = wind_xarray.set_coords(["timestamp"])
+    wind_xarray = wind_xarray.set_coords(["time"])
     return wind_xarray, geoips_metadata
 
 
@@ -149,9 +149,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.timestamp import (
-        get_min_from_xarray_timestamp,
-        get_max_from_xarray_timestamp,
+    from geoips.xarray_utils.time import (
+        get_min_from_xarray_time,
+        get_max_from_xarray_time,
     )
     import xarray
 
@@ -216,11 +216,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     for wind_xarray in final_wind_xarrays.values():
         LOG.info("Setting standard metadata")
-        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+            wind_xarray, "time"
         )
-        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+            wind_xarray, "time"
         )
 
         if "wind_speed_kts" in wind_xarray.variables:

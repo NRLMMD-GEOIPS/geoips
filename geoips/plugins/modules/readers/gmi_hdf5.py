@@ -116,7 +116,7 @@ def read_gmi_file(fname, xarray_gmi):
     #          ------  setup xarray variables   ------
 
     # namelist_gmi  = ['latitude', 'longitude', 'V10', 'H10', 'V19','H19','V23', 'V37', 'H37', 'V89' ,'H89',
-    #                   'V166', 'H166', 'V183-3','V183-7', 'timestamp']
+    #                   'V166', 'H166', 'V183-3','V183-7', 'time']
 
     final_xarray = xr.Dataset()
     if "latitude" not in xarray_gmi.variables.keys():
@@ -136,7 +136,7 @@ def read_gmi_file(fname, xarray_gmi):
         final_xarray["H166"] = xr.DataArray(H166)
         final_xarray["V183-3"] = xr.DataArray(V183_3)
         final_xarray["V183-7"] = xr.DataArray(V183_7)
-        final_xarray["timestamp"] = xr.DataArray(
+        final_xarray["time"] = xr.DataArray(
             pd.DataFrame(time_scan)
             .astype(int)
             .apply(pd.to_datetime, format="%Y%m%d%H%M%S")
@@ -187,16 +187,16 @@ def read_gmi_file(fname, xarray_gmi):
         final_xarray["V183-7"] = xr.DataArray(
             numpy.vstack([xarray_gmi["V183-7"].to_masked_array(), V183_7])
         )
-        new_timestamp = xr.DataArray(
+        new_time = xr.DataArray(
             pd.DataFrame(time_scan)
             .astype(int)
             .apply(pd.to_datetime, format="%Y%m%d%H%M%S")
         )
-        final_xarray["timestamp"] = xr.DataArray(
+        final_xarray["time"] = xr.DataArray(
             numpy.vstack(
                 [
-                    xarray_gmi["timestamp"].to_masked_array(),
-                    new_timestamp.to_masked_array(),
+                    xarray_gmi["time"].to_masked_array(),
+                    new_time.to_masked_array(),
                 ]
             )
         )
@@ -252,24 +252,24 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     LOG.info("Reading files %s", fnames)
 
     xarray_gmi = xr.Dataset()
-    original_source_filenames = []
+    source_file_names = []
     for fname in fnames:
-        original_source_filenames += [basename(fname)]
+        source_file_names += [basename(fname)]
         xarray_gmi = read_gmi_file(fname, xarray_gmi)
 
     # setup attributors
-    from geoips.xarray_utils.timestamp import get_datetime_from_datetime64
-    from geoips.xarray_utils.timestamp import (
-        get_max_from_xarray_timestamp,
-        get_min_from_xarray_timestamp,
+    from geoips.xarray_utils.time import get_datetime_from_datetime64
+    from geoips.xarray_utils.time import (
+        get_max_from_xarray_time,
+        get_min_from_xarray_time,
     )
 
-    xarray_gmi.attrs["original_source_filenames"] = sorted(original_source_filenames)
-    xarray_gmi.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-        xarray_gmi, "timestamp"
+    xarray_gmi.attrs["source_file_names"] = sorted(source_file_names)
+    xarray_gmi.attrs["start_datetime"] = get_min_from_xarray_time(
+        xarray_gmi, "time"
     )
-    xarray_gmi.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-        xarray_gmi, "timestamp"
+    xarray_gmi.attrs["end_datetime"] = get_max_from_xarray_time(
+        xarray_gmi, "time"
     )
     xarray_gmi.attrs["source_name"] = "gmi"
     xarray_gmi.attrs["platform_name"] = "GPM"

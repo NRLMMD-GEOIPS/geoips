@@ -85,8 +85,8 @@ def read_wfabba_header(wfabba_file):
             else:
                 is_header = False
     header_meta["header length"] = header_length - 2
-    full_timestamp = f"{header_meta.pop('Date')} {header_meta.pop('Time')}"
-    header_meta["datetime"] = datetime.strptime(full_timestamp, "%Y%j %H:%M:%S UTC")
+    full_time = f"{header_meta.pop('Date')} {header_meta.pop('Time')}"
+    header_meta["datetime"] = datetime.strptime(full_time, "%Y%j %H:%M:%S UTC")
     return header_meta
 
 
@@ -116,7 +116,7 @@ def read_wfabba_text(wfabba_file):
         )
     xobj.attrs["start_datetime"] = header_meta["datetime"]
     xobj.attrs["end_datetime"] = header_meta["datetime"]
-    xobj.attrs["filename_datetimes"] = [header_meta["datetime"]]
+    xobj.attrs["source_file_datetimes"] = [header_meta["datetime"]]
     xobj.attrs["platform_name"] = header_meta["Satellite"]
     xobj.attrs["source_name"] = header_meta["Instrument"]
     xobj.attrs["data_provider"] = header_meta["Data source"]
@@ -186,7 +186,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     for i, fname in enumerate(fnames):
         LOG.info("Reading %s" % fname)
         wfabba_xobj = read_wfabba_text(fname)
-        wfabba_xobj.attrs["original_source_filenames"] = [basename(fname)]
+        wfabba_xobj.attrs["source_file_names"] = [basename(fname)]
         wfabba_xobj.attrs["sample_distance_km"] = 2
         wfabba_xobj.attrs = dict(wfabba_xobj.attrs, **geoips_attrs)
         xarray_objs.append(wfabba_xobj)
