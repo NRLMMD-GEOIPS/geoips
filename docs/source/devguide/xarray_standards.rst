@@ -32,11 +32,11 @@ automated temporal and spatial sectoring.
 
 * 'latitude' - REQUIRED 2d array the same shape as data variables
 * 'longitude' - REQUIRED 2d array the same shape as data variables
-* 'timestamp' - OPTIONAL 2d array the same shape as data variables
+* 'time' - OPTIONAL 2d array the same shape as data variables
 
 *NOTE: Additional methods of storing spatial and temporal information
 will be implemented in the future for efficiency, but currently latitude
-and longitude arrays are strictly required, and timestamp array is required
+and longitude arrays are strictly required, and time array is required
 for automated temporal sectoring*
 
 Xarray Standard Attributes
@@ -55,7 +55,7 @@ generation of titles, legends, regridding, etc
 
 The following optional attributes can be used within processing if available.
 
-* 'original_source_filenames' - OPTIONAL
+* 'source_file_names' - OPTIONAL
 
   * list of strings containing names of all files that went into
     the current dataset. To ensure consistent output between users,
@@ -66,11 +66,16 @@ The following optional attributes can be used within processing if available.
     * full paths with GeoIPS environment variables replacing specific paths
       (ie, $GEOIPS_OUTDIRS, $GEOIPS_TESTDATA_DIR, etc)
 
-* 'filename_datetimes' - OPTIONAL
+* 'source_file_attributes' - OPTIONAL
+
+  * attribute associated with the list of source files.
+  * dictionary with name of each source file as keys, and attributes specific
+    to that source file as values.
+* 'source_file_datetimes' - OPTIONAL
 
   * list of datetime objects corresponding to the datetime listed in
-    each of the 'original_source_filenames'. List must be same
-    length as 'original_source_filenames'
+    each of the 'source_file_names'. List must be same
+    length as 'source_file_names'
 * 'area_definition' - OPTIONAL
 
   * specify area_definition current dataset is registered to, if applicable

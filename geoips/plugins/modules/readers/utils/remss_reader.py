@@ -24,7 +24,7 @@ def read_remss_data(wind_xarray, data_type):
     """
     Reformat SMAP or WindSat xarray object appropriately.
 
-    variables: latitude, longitude, timestamp, wind_speed_kts
+    variables: latitude, longitude, time, wind_speed_kts
     attributes: source_name, platform_name, data_provider,
     interpolation_radius_of_influence
     """
@@ -91,7 +91,7 @@ def read_remss_data(wind_xarray, data_type):
 
     from numpy import datetime64
 
-    # Set timestamp appropriately
+    # Set time appropriately
     year = wind_xarray.year_of_observation
     month = wind_xarray.month_of_observation
     day = wind_xarray.attrs[day_of_month_varname]
@@ -107,8 +107,8 @@ def read_remss_data(wind_xarray, data_type):
         minarr = numpy.ma.where(minarr < 0, numpy.nan, minarr)
         minarr = minarr.astype("timedelta64[us]")
     timearr = datetime64(basedt) + minarr
-    wind_xarray_1["timestamp"] = xarray.DataArray(timearr[:, :, 0])
-    wind_xarray_2["timestamp"] = xarray.DataArray(timearr[:, :, 1])
-    wind_xarray_1 = wind_xarray_1.set_coords(["timestamp"])
-    wind_xarray_2 = wind_xarray_2.set_coords(["timestamp"])
+    wind_xarray_1["time"] = xarray.DataArray(timearr[:, :, 0])
+    wind_xarray_2["time"] = xarray.DataArray(timearr[:, :, 1])
+    wind_xarray_1 = wind_xarray_1.set_coords(["time"])
+    wind_xarray_2 = wind_xarray_2.set_coords(["time"])
     return {"WINDSPEED_1": wind_xarray_1, "WINDSPEED_2": wind_xarray_2}

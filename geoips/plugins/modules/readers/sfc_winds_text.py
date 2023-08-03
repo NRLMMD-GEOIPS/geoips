@@ -95,7 +95,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     LOG.info("Making full dataframe")
     # make a data frame
-    columns = ["dataType", "latitude", "longitude", "wind_speed_kts", "timestamp"]
+    columns = ["dataType", "latitude", "longitude", "wind_speed_kts", "time"]
     wind_xarray = pandas.DataFrame(data=data, columns=columns)
 
     LOG.info("Converting lat to numeric")
@@ -111,15 +111,15 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     wind_xarray["wind_speed_kts"] = pandas.to_numeric(
         wind_xarray["wind_speed_kts"], errors="coerce"
     )
-    LOG.info("Converting to timestamp to datetime")
+    LOG.info("Converting to time to datetime")
 
     # This is ORDERS OF MAGNITUDE slower than giving the format directly.
     # Seconds vs minutes
-    # wind_xarray['timestamp'] = pandas.to_datetime(wind_xarray['timestamp'],
+    # wind_xarray['time'] = pandas.to_datetime(wind_xarray['time'],
     #                                               infer_datetime_format=True,
     #                                               errors='coerce')
-    wind_xarray["timestamp"] = pandas.to_datetime(
-        wind_xarray["timestamp"], format="%Y%m%d%H%M", errors="coerce"
+    wind_xarray["time"] = pandas.to_datetime(
+        wind_xarray["time"], format="%Y%m%d%H%M", errors="coerce"
     )
 
     wind_xarray = wind_xarray.to_xarray()
@@ -127,10 +127,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     wind_xarray.attrs["source_name"] = source_name
     wind_xarray.attrs["platform_name"] = platform_name
     wind_xarray.attrs["start_datetime"] = (
-        wind_xarray.to_dataframe()["timestamp"].min().to_pydatetime()
+        wind_xarray.to_dataframe()["time"].min().to_pydatetime()
     )
     wind_xarray.attrs["end_datetime"] = (
-        wind_xarray.to_dataframe()["timestamp"].max().to_pydatetime()
+        wind_xarray.to_dataframe()["time"].max().to_pydatetime()
     )
     wind_xarray.attrs["data_provider"] = data_provider
     # 20000 leaves gaps

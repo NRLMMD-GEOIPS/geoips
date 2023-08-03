@@ -6,7 +6,7 @@ docstring: |
 spec:
   products:
     - name: 89V
-      source_name: mhs
+      source_names: [mhs]
       docstring: |
         The 89V product_defaults configuration for mhs products.
       product_defaults: 89V
@@ -18,14 +18,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 89VNearest
-      source_name: mhs
+      source_names: [mhs]
       docstring: |
         The 89VNearest product_defaults configuration for mhs products.
       product_defaults: 89VNearest
       spec:
         variables: ["Chan1_AT"]
     - name: 157V
-      source_name: mhs
+      source_names: [mhs]
       docstring: |
         The 157V product_defaults configuration for mhs products.
       product_defaults: 157V
@@ -37,14 +37,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 157VNearest
-      source_name: mhs
+      source_names: [mhs]
       docstring: |
         The 157VNearest product_defaults configuration for mhs products.
       product_defaults: 157VNearest
       spec:
         variables: ["Chan2_AT"]
     - name: 183-1H
-      source_name: mhs
+      source_names: [mhs]
       docstring: |
         The 183-1H product_defaults configuration for mhs products.
       product_defaults: 183-1H
@@ -56,14 +56,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 183-1HNearest
-      source_name: mhs
+      source_names: [mhs]
       docstring: |
         The 183-1HNearest product_defaults configuration for mhs products.
       product_defaults: 183-1HNearest
       spec:
         variables: ["Chan3_AT"]
     - name: 183-3H
-      source_name: mhs
+      source_names: [mhs]
       docstring: |
         The 183-3H product_defaults configuration for mhs products.
       product_defaults: 183-3H
@@ -75,14 +75,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 183-3HNearest
-      source_name: mhs
+      source_names: [mhs]
       docstring: |
         The 183-3HNearest product_defaults configuration for mhs products.
       product_defaults: 183-3HNearest
       spec:
         variables: ["Chan4_AT"]
     - name: 190V
-      source_name: mhs
+      source_names: [mhs]
       docstring: |
         The 190V product_defaults configuration for mhs products.
       product_defaults: 190V
@@ -94,7 +94,7 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 190VNearest
-      source_name: mhs
+      source_names: [mhs]
       docstring: |
         The 190VNearest product_defaults configuration for mhs products.
       product_defaults: 190VNearest

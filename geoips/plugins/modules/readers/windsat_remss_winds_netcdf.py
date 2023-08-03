@@ -61,9 +61,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.timestamp import (
-        get_min_from_xarray_timestamp,
-        get_max_from_xarray_timestamp,
+    from geoips.xarray_utils.time import (
+        get_min_from_xarray_time,
+        get_max_from_xarray_time,
     )
     import xarray
 
@@ -73,7 +73,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     wind_xarray.attrs["source_name"] = "wsat"
     wind_xarray.attrs["platform_name"] = "coriolis"
     wind_xarray.attrs["data_provider"] = "rss"
-    wind_xarray.attrs["original_source_filenames"] = [basename(fname)]
+    wind_xarray.attrs["source_file_names"] = [basename(fname)]
     wind_xarray.attrs["interpolation_radius_of_influence"] = 20000
     wind_xarray.attrs["sample_distance_km"] = DEG_TO_KM / 4
     wind_xarray.attrs["minimum_coverage"] = 10
@@ -91,11 +91,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     for wind_xarray in wind_xarrays.values():
         LOG.info("Setting standard metadata")
-        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+            wind_xarray, "time"
         )
-        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+            wind_xarray, "time"
         )
 
         if "wind_speed_kts" in wind_xarray.variables:

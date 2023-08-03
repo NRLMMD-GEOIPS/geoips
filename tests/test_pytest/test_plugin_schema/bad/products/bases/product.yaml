@@ -4,7 +4,7 @@ error_pattern: ".*is valid under each of.*"
 family: interpolator_algorithm_colormap
 product_defaults: Infrared
 name: infrared
-source_name: abi
+source_names: [abi]
 docstring: "Bad product with both family and product_defaults"
 spec:
   variables:
@@ -14,7 +14,7 @@ spec:
 error: ValidationError
 error_pattern: ".*is not valid under any of the given schemas.*"
 name: infrared
-source_name: abi
+source_names: [abi]
 docstring: "Bad product without either family or product_defaults"
 spec:
   variables:
@@ -24,7 +24,7 @@ spec:
 error: ValidationError
 error_pattern: ".*is not valid under any of the given schemas.*"
 name: infrared
-source_name: abi
+source_names: [abi]
 docstring: "Bad product without either family or product_defaults"
 spec:
   variables:
@@ -42,7 +42,7 @@ spec:
 error: ValidationError
 error_pattern: ".*is not valid under any of the given schemas.*"
 name: infrared
-source_name: abi
+source_names: [abi]
 family: interpolator_algorithm_colormap
 spec:
   variables:
@@ -64,7 +64,7 @@ spec:
 error: ValidationError
 error_pattern: ".*Unevaluated properties are not allowed.*extra.*was unexpected"
 name: infrared
-source_name: abi
+source_names: [abi]
 family: interpolator_algorithm_colormap
 docstring: "Extra top-level property"
 extra: extra

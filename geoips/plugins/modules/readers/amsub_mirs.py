@@ -351,7 +351,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         LOG.info("Making full dataframe")
 
-        # setup the timestamp in datetime64 format
+        # setup the time in datetime64 format
         npix = var_all["RR"].shape[1]  # pixels per scan
         nscan = var_all["RR"].shape[0]  # total scans of this file
 
@@ -372,7 +372,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         #          ------  setup xarray variables   ------
 
         # namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT', 'Chan3_AT','Chan4_AT','Chan5_AT',
-        #                  'RR','Snow','IWP','SWE','SFR','Sfc_type','timestamp']
+        #                  'RR','Snow','IWP','SWE','SFR','Sfc_type','time']
 
         xarray_amsub = xr.Dataset()
 
@@ -431,7 +431,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         xarray_amsub["SWE"] = xr.DataArray(var_all["SWE"][()])
         xarray_amsub["SFR"] = xr.DataArray(var_all["SFR"][()])
         xarray_amsub["sfcType"] = xr.DataArray(var_all["Sfc_type"][()])
-        xarray_amsub["timestamp"] = xr.DataArray(
+        xarray_amsub["time"] = xr.DataArray(
             pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
         )
 
@@ -452,7 +452,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         xarray_amsub["WindDir"] = xr.DataArray(var_all["WindDir"][()])
         xarray_amsub["WindU"] = xr.DataArray(var_all["WindU"][()])
         xarray_amsub["WindV"] = xr.DataArray(var_all["WindV"][()])
-        xarray_amsub["SatZenith"] = xr.DataArray(var_all["LZ_angle"][()])
+        xarray_amsub["satellite_zenith_angle"] = xr.DataArray(var_all["LZ_angle"][()])
         xarray_amsub["SZ_angle"] = xr.DataArray(var_all["SZ_angle"][()])
         xarray_amsub["RAzi_angle"] = xr.DataArray(var_all["RAzi_angle"][()])
         # from amsub_mhs_prep/oned_innov.f90:

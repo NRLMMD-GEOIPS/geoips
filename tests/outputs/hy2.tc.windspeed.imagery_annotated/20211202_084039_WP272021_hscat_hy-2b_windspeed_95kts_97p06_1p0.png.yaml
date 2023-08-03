@@ -16,7 +16,7 @@ deck_line: WP, 27, 2021120206,   , BEST,   0, 172N, 1358E,  95,  960, TY,  34, N
   1005,  230,  22, 110,  35,   W,   0,    ,   0,   0,     NYATOH, D,
 final_storm_name: NYATOH
 invest_number: 93
-original_source_filenames:
+source_file_names:
 - hscat_20211202_080644_hy_2b__15571_o_250_2204_ovw_l2.nc
 parser_name: bdeck_parser
 pressure: 960.0

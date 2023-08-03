@@ -28,7 +28,7 @@ name = "smos_winds_netcdf"
 def read_smos_data(wind_xarray, fname):
     """Reformat SMOS xarray object appropriately.
 
-    * variables: latitude, longitude, timestamp, wind_speed_kts
+    * variables: latitude, longitude, time, wind_speed_kts
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
@@ -102,8 +102,8 @@ def read_smos_data(wind_xarray, fname):
     # Otherwise set timearray as unmasked values
     else:
         timearray = timearray.data
-    wind_xarray["timestamp"] = xarray.DataArray(
-        data=timearray, name="timestamp", coords=wind_xarray["wind_speed_kts"].coords
+    wind_xarray["time"] = xarray.DataArray(
+        data=timearray, name="time", coords=wind_xarray["wind_speed_kts"].coords
     )
     return {"WINDSPEED": wind_xarray}
 
@@ -145,9 +145,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.timestamp import (
-        get_min_from_xarray_timestamp,
-        get_max_from_xarray_timestamp,
+    from geoips.xarray_utils.time import (
+        get_min_from_xarray_time,
+        get_max_from_xarray_time,
     )
     import numpy
     import xarray
@@ -156,7 +156,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     for fname in fnames:
         wind_xarray = xarray.open_dataset(str(fname))
         # Set attributes appropriately
-        wind_xarray.attrs["original_source_filenames"] = [basename(fname)]
+        wind_xarray.attrs["source_file_names"] = [basename(fname)]
         wind_xarray.attrs["minimum_coverage"] = 20
         wind_xarray.attrs["source_name"] = "smos-spd"
         wind_xarray.attrs["platform_name"] = "smos"
@@ -187,7 +187,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         LOG.info("Read data from %s", fname)
 
-        # SMOS timestamp is not read in correctly natively with xarray - must pass fname so we can get time
+        # SMOS time is not read in correctly natively with xarray - must pass fname so we can get time
         # information directly from netCDF4.Dataset open
         ingested += [read_smos_data(wind_xarray, fname)]
 
@@ -206,8 +206,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             )
             timestmp = xarray.where(
                 curr_xobj["wind_speed_kts"] >= 0,
-                curr_xobj["timestamp"],
-                final_xobj["timestamp"],
+                curr_xobj["time"],
+                final_xobj["time"],
             )
             # for varname in curr_xobj.variables:
             #     if curr_xobj["wind_speed_kts"].shape == curr_xobj[varname].shape:
@@ -217,16 +217,16 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             )
             # This is lame.  Interpolation did not immediately handle
             # 6x721x1442 array
-            final_wind_xarrays["WINDSPEED"]["timestamp"] = timestmp
+            final_wind_xarrays["WINDSPEED"]["time"] = timestmp
             final_wind_xarrays["WINDSPEED"]["wind_speed_kts"] = windspd
 
     for wind_xarray in final_wind_xarrays.values():
         LOG.info("Setting standard metadata")
-        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+            wind_xarray, "time"
         )
-        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+            wind_xarray, "time"
         )
 
         if "wind_speed_kts" in wind_xarray.variables:

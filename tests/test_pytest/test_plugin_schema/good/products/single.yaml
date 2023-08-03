@@ -5,9 +5,9 @@ name: abi_infrared
 docstring: "Good products.single instance using family"
 spec:
   product:
-    family: interpolator_algorithm_colormap
+    family: interpolator_algorithm_colormapper
     name: infrared
-    source_name: abi
+    source_names: [abi]
     docstring: "Good product using family"
     spec:
       variables:
@@ -20,7 +20,7 @@ spec:
         plugin:
           name: single_channel
           arguments: {}
-      colormap:
+      colormapper:
         plugin:
           name: matplotlib
           arguments: {}
@@ -34,7 +34,7 @@ spec:
   product:
     product_defaults: Infrared
     name: infrared
-    source_name: abi
+    source_names: [abi]
     spec:
       variables:
         - B14BT
@@ -48,7 +48,7 @@ spec:
   product:
     product_defaults: Infrared
     name: infrared
-    source_name: abi
+    source_names: [abi]
     docstring: "Good product using product_defaults with overridden docstring"
     spec:
       variables:

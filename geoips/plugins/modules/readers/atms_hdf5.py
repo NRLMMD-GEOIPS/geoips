@@ -122,17 +122,17 @@ atms_vars = [
 
 # unify common names for sat/sun-zenith and azimuth angles
 xvarnames = {
-    "SolarZenithAngle": "SunZenith",
-    "SolarAzimuthAngle": "SunAzimuth",
-    "SatelliteZenithAngle": "SatZenith",
-    "SatelliteAzimuthAngle": "SatAzimuth",
+    "SolarZenithAngle": "solar_zenith_angle",
+    "SolarAzimuthAngle": "solar_azimuth_angle",
+    "SatelliteZenithAngle": "satellite_zenith_angle",
+    "SatelliteAzimuthAngle": "satellite_azimuth_angle",
 }
 
 final_xarray = xr.Dataset()  # define a xarray to hold all selected variables
 
 
 def convert_epoch_to_datetime64(time_array, use_shape=None):
-    """Convert timestamp to datetime object.
+    """Convert time to datetime object.
 
     Parameters
     ----------
@@ -198,7 +198,7 @@ def read_atms_file(fname, xarray_atms):
             "V89": V89,
             "H165": H165,
             "H183": H183,
-            "sdr_timestamp": time_scan,
+            "sdr_time": time_scan,
         }
 
     if "ATMS-SDR-GEO_All" in fileobj["All_Data"].keys():  # for geo-data
@@ -206,10 +206,10 @@ def read_atms_file(fname, xarray_atms):
 
         lat = data_select["Latitude"][()]
         lon = data_select["Longitude"][()]
-        SunZenith = data_select["SolarZenithAngle"][()]
-        SunAzimuth = data_select["SolarAzimuthAngle"][()]
-        SatZenith = data_select["SatelliteZenithAngle"][()]
-        SatAzimuth = data_select["SatelliteAzimuthAngle"][()]
+        solar_zenith_angle = data_select["SolarZenithAngle"][()]
+        solar_azimuth_angle = data_select["SolarAzimuthAngle"][()]
+        satellite_zenith_angle = data_select["SatelliteZenithAngle"][()]
+        satellite_azimuth_angle = data_select["SatelliteAzimuthAngle"][()]
         StartTime = data_select["StartTime"][()]
 
         #  get UTC time in datetime64 format required by geoips for each pixel
@@ -219,11 +219,11 @@ def read_atms_file(fname, xarray_atms):
         ingested = {
             "latitude": lat,
             "longitude": lon,
-            "SunZenith": SunZenith,
-            "SunAzimuth": SunAzimuth,
-            "SatZenith": SatZenith,
-            "SatAzimuth": SatAzimuth,
-            "geo_timestamp": time_scan,
+            "solar_zenith_angle": solar_zenith_angle,
+            "solar_azimuth_angle": solar_azimuth_angle,
+            "satellite_zenith_angle": satellite_zenith_angle,
+            "satellite_azimuth_angle": satellite_azimuth_angle,
+            "geo_time": time_scan,
         }
 
     # close the h5 object
@@ -238,12 +238,12 @@ def read_atms_file(fname, xarray_atms):
             final_xarray[key] = xr.DataArray(
                 merged_array, dims=["dim_" + str(merged_array.shape[0]), "dim_1"]
             )
-    # Set official timestamp to either sdr_timestamp or geo_timestamp
+    # Set official time to either sdr_time or geo_time
     final_keys = final_xarray.variables.keys()
-    if "sdr_timestamp" in final_keys:
-        final_xarray["timestamp"] = final_xarray["sdr_timestamp"]
+    if "sdr_time" in final_keys:
+        final_xarray["time"] = final_xarray["sdr_time"]
     else:
-        final_xarray["timestamp"] = final_xarray["geo_timestamp"]
+        final_xarray["time"] = final_xarray["geo_time"]
     return final_xarray
 
 
@@ -288,26 +288,26 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     if metadata_only is True:  # read-in datafiles first time if 'metadata_only= True'
         xarray_atms = xr.Dataset()
-        original_source_filenames = []
+        source_file_names = []
         for fname in fnames:
             xarray_atms = read_atms_file(fname, xarray_atms)
-            original_source_filenames += [
+            source_file_names += [
                 basename(fname)
             ]  # name of last file from input files
-        xarray_atms.attrs["original_source_filenames"] = original_source_filenames
+        xarray_atms.attrs["source_file_names"] = source_file_names
 
         # setup attributors
         fileobj = h5py.File(fname, mode="r")
-        from geoips.xarray_utils.timestamp import (
-            get_max_from_xarray_timestamp,
-            get_min_from_xarray_timestamp,
+        from geoips.xarray_utils.time import (
+            get_max_from_xarray_time,
+            get_min_from_xarray_time,
         )
 
-        xarray_atms.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-            xarray_atms, "timestamp"
+        xarray_atms.attrs["start_datetime"] = get_min_from_xarray_time(
+            xarray_atms, "time"
         )
-        xarray_atms.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-            xarray_atms, "timestamp"
+        xarray_atms.attrs["end_datetime"] = get_max_from_xarray_time(
+            xarray_atms, "time"
         )
         xarray_atms.attrs["source_name"] = "atms"
         xarray_atms.attrs["platform_name"] = fileobj.attrs["Platform_Short_Name"][

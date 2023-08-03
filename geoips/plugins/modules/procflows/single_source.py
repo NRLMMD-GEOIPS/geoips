@@ -1325,7 +1325,7 @@ def call(fnames, command_line_args=None):
 
         process_datetimes[area_def.area_id] = {}
         process_datetimes[area_def.area_id]["start"] = datetime.utcnow()
-        # add SatAzimuth and SunAzimuth into list of the variables for ABI only
+        # add satellite_azimuth_angle and solar_azimuth_angle into list of the variables for ABI only
         # (come from ABI reader)
         if area_def.sector_type in ["reader_defined", "self_register"]:
             LOG.info("CONTINUE Not sectoring sector_type %s", area_def.sector_type)
