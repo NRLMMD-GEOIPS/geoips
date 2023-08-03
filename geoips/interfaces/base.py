@@ -466,19 +466,19 @@ class BaseYamlInterface(BaseInterface):
                 for yaml_subplg in plg_list["spec"][self.name]:
                     try:
                         subplg_names = self._create_plugin_cache_names(yaml_subplg)
+                        for subplg_name in subplg_names:
+                            yaml_subplgs[subplg_name] = deepcopy(yaml_subplg)
+                            yaml_subplgs[subplg_name]["interface"] = self.name
+                            yaml_subplgs[subplg_name]["package"] = yaml_plg["package"]
+                            yaml_subplgs[subplg_name]["relpath"] = yaml_plg["relpath"]
+                            yaml_subplgs[subplg_name]["abspath"] = yaml_plg["abspath"]
                     except KeyError as resp:
                         LOG.warning(
                             f"{resp}: from plugin '{yaml_plg.get('name')}',"
                             f"\nin package '{yaml_plg.get('package')}',"
                             f"\nlocated at '{yaml_plg.get('abspath')}' "
                             f"\nMismatched schema and YAML?"
-                        )
-                    for subplg_name in subplg_names:
-                        yaml_subplgs[subplg_name] = deepcopy(yaml_subplg)
-                        yaml_subplgs[subplg_name]["interface"] = self.name
-                        yaml_subplgs[subplg_name]["package"] = yaml_plg["package"]
-                        yaml_subplgs[subplg_name]["relpath"] = yaml_plg["relpath"]
-                        yaml_subplgs[subplg_name]["abspath"] = yaml_plg["abspath"]
+                        )   
                 cache.update(yaml_subplgs)
             else:
                 cache[yaml_plg["name"]] = yaml_plg
