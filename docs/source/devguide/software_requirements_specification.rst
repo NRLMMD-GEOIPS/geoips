@@ -312,7 +312,7 @@ Requirements:
     * ‘vertical_position’ – OPTIONAL 2d array the same shape as data variables
 
       * Required for feature height, volumetric, models, curtain – ie, if heights change
-    * 'timestamp' - OPTIONAL 2d array the same shape as data variables
+    * 'time' - OPTIONAL 2d array the same shape as data variables
 
 * **Each individual xarray dataset must contain the following metadata attributes**
 

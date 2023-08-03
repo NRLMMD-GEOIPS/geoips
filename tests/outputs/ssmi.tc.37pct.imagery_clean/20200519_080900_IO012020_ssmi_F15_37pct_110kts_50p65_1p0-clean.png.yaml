@@ -16,7 +16,7 @@ deck_line: IO, 01, 2020051906,   , BEST,   0, 165N,  869E, 110,  941, TY,  34, N
   1000,  210,   5,   0,  10,   B,   0,    ,   0,   0,     AMPHAN, D,
 final_storm_name: AMPHAN
 invest_number: 91
-original_source_filenames:
+source_file_names:
 - US058SORB-DEFspp.sdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def
 parser_name: bdeck_parser
 pressure: 941.0

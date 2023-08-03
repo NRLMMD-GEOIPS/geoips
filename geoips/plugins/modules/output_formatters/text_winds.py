@@ -77,8 +77,8 @@ def write_text_winds(
     """
     # NOTE long does not exist in Python 3, so changed this to int.  This will
     # limit us to 32 bit integers within Python 2
-    # time_array = wind_xarray['timestamp'].to_masked_array().astype(long).flatten()
-    time_array = xarray_obj["timestamp"].to_masked_array().astype(int).flatten()
+    # time_array = wind_xarray['time'].to_masked_array().astype(long).flatten()
+    time_array = xarray_obj["time"].to_masked_array().astype(int).flatten()
     # This results in an array of POSIX timestamps - seconds since epoch.
     time_array = time_array / 10**9
 

@@ -220,10 +220,10 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
     geolocation = {
         "latitude": np.ma.masked_less_equal(lats, -999.1),
         "longitude": np.ma.masked_less_equal(lons, -999.1),
-        "SatZenith": np.ma.masked_less_equal(sat_zen, -999.1),
-        "SatAzimuth": np.ma.masked_less_equal(sat_azm, -999.1),
-        "SunZenith": np.ma.masked_less_equal(sun_zen, -999.1),
-        "SunAzimuth": np.ma.masked_less_equal(sun_azm, -999.1),
+        "satellite_zenith_angle": np.ma.masked_less_equal(sat_zen, -999.1),
+        "satellite_azimuth_angle": np.ma.masked_less_equal(sat_azm, -999.1),
+        "solar_zenith_angle": np.ma.masked_less_equal(sun_zen, -999.1),
+        "solar_azimuth_angle": np.ma.masked_less_equal(sun_azm, -999.1),
     }
 
     try:

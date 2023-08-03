@@ -172,7 +172,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     fileobj.close()
 
     #          ------  setup xarray variables   ------
-    # since IMERG time is fixed for 30 minutes, timestamp is not needed. only
+    # since IMERG time is fixed for 30 minutes, time is not needed. only
     # start_time and end_time needed.
 
     # namelist_gmi  = ['latitude', 'longitude', 'rain', 'rrProb', 'rrErr','IRrr']
@@ -195,7 +195,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_imerg.attrs["source_name"] = "imerg"
     xarray_imerg.attrs["platform_name"] = "GPM"
     xarray_imerg.attrs["data_provider"] = "NASA"
-    xarray_imerg.attrs["original_source_filenames"] = [basename(fname)]
+    xarray_imerg.attrs["source_file_names"] = [basename(fname)]
 
     # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
     xarray_imerg.attrs["sample_distance_km"] = 2

@@ -258,7 +258,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # Enter metadata
     xarray_obj.attrs["start_datetime"] = datetime.strptime(time_start, "%Y%m%d %H%M")
     xarray_obj.attrs["end_datetime"] = datetime.strptime(time_end, "%Y%m%d %H%M")
-    xarray_obj.attrs["filename_datetimes"] = [xarray_obj.attrs["start_datetime"]]
+    xarray_obj.attrs["source_file_datetimes"] = [xarray_obj.attrs["start_datetime"]]
 
     xarray_obj.attrs["platform_name"] = "coriolis"
     xarray_obj.attrs["source_name"] = "windsat"
@@ -460,8 +460,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     from numpy import datetime64
 
     timediff = datetime64("2000-01-01T12:00:00") - datetime64("1970-01-01T00:00:00")
-    timestamp = ftime_jd2000.astype("datetime64[s]") + timediff
-    xarray_sdr_aft["timestamp"] = xarray.DataArray(timestamp)
+    timestamps = ftime_jd2000.astype("datetime64[s]") + timediff
+    xarray_sdr_aft["time"] = xarray.DataArray(timestamps)
     xarray_sdr_aft["latitude"] = xarray.DataArray(alat)
     xarray_sdr_aft["longitude"] = xarray.DataArray(alon)
     xarray_sdr_aft["atb37v"] = xarray.DataArray(atb37v)
@@ -469,7 +469,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_sdr_aft["arainFlag"] = xarray.DataArray(arainFlag)
     xarray_sdr_aft["aasc_des_pass"] = xarray.DataArray(aasc_des_pass)
 
-    xarray_sdr_fwd["timestamp"] = xarray.DataArray(timestamp)
+    xarray_sdr_fwd["time"] = xarray.DataArray(timestamps)
     xarray_sdr_fwd["latitude"] = xarray.DataArray(flat)
     xarray_sdr_fwd["longitude"] = xarray.DataArray(flon)
     xarray_sdr_fwd["ftb37v"] = xarray.DataArray(ftb37v)

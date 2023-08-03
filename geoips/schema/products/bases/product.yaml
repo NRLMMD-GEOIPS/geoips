@@ -2,12 +2,14 @@ $id: products.bases.product
 type: object
 required:
   - name
-  - source_name
+  - source_names
   # - spec
 unevaluatedProperties: false
 properties:
-  source_name:
-    type: string
+  source_names:
+    type: array
+    items:
+      type: string
   name:
     $ref: bases.name
   docstring:
@@ -20,7 +22,7 @@ properties:
   spec:
     type: object
     # required:
-    #   - source_name
+    #   - source_names
     #   - variables
     properties:
       variables:

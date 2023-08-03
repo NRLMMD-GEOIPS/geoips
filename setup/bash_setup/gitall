@@ -1,7 +1,7 @@
 ##############################################################################
-### Convenience function that runs git in all available test data repos 
+### Convenience function that runs git in all available test data repos
 ##############################################################################
-function gitalltestdata { 
+function gitalltestdata {
   if [[ ! -z $PS1 ]]; then
 
     # Save current directory so they don't end up someplace new.
@@ -15,7 +15,7 @@ function gitalltestdata {
             echo -e "\033[1;35m$GEOIPS_TESTDATA_DIR/$mod:\n\t$@:\033[0m"
             # Run the git command on passed arguments
             mkdir -p $GEOIPS_OUTDIRS/gitlog
-            logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log 
+            logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log
             git -C $GEOIPS_TESTDATA_DIR/$mod $@ | tee -a $logf
         done
     fi
@@ -26,9 +26,9 @@ function gitalltestdata {
 }
 
 ##############################################################################
-### Convenience function that runs git in all available repos 
+### Convenience function that runs git in all available repos
 ##############################################################################
-function gitall { 
+function gitall {
   if [[ ! -z $PS1 ]]; then
 
     # Save current directory so they don't end up someplace new.
@@ -42,7 +42,7 @@ function gitall {
             echo -e "\033[1;35m$GEOIPS_PACKAGES_DIR/$mod:\n\t$@:\033[0m"
             # Run the git command on passed arguments
             mkdir -p $GEOIPS_OUTDIRS/gitlog
-            logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log 
+            logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log
             git -C $GEOIPS_PACKAGES_DIR/$mod $@ | tee -a $logf
             cd ..
         done
@@ -54,9 +54,9 @@ function gitall {
 }
 
 ##############################################################################
-### Convenience function that runs ls in all available repos 
+### Convenience function that runs ls in all available repos
 ##############################################################################
-function lsall { 
+function lsall {
   if [[ ! -z $PS1 ]]; then
 
     # Save current directory so they don't end up someplace new.
@@ -75,15 +75,42 @@ function lsall {
         done
     fi
 
-    # Go back to where they started! This will work whether they started in OS or nrl
+    # Go back to where they started!
     cd $cwd
   fi
 }
 
 ##############################################################################
-### Convenience function that runs grep in all available repos 
+### Convenience function that runs pip in all available repos
 ##############################################################################
-function grepall { 
+function pipall {
+  if [[ ! -z $PS1 ]]; then
+
+    # Save current directory so they don't end up someplace new.
+    cwd=$PWD
+
+    if [[ -e $GEOIPS_PACKAGES_DIR ]]; then
+        cd $GEOIPS_PACKAGES_DIR
+        mods=`ls`
+        for mod in $mods; do
+            cd $mod
+            # Print directory
+            echo -e "\033[1;35m$GEOIPS_PACKAGES_DIR/$mod:\n\t$@:\033[0m"
+            # Run the ls command on passed arguments
+            pip $@
+            cd ..
+        done
+    fi
+
+    # Go back to where they started!
+    cd $cwd
+  fi
+}
+
+##############################################################################
+### Convenience function that runs grep in all available repos
+##############################################################################
+function grepall {
   if [[ ! -z $PS1 ]]; then
 
     # Save current directory so they don't end up someplace new.
@@ -102,7 +129,7 @@ function grepall {
         done
     fi
 
-    # Go back to where they started! This will work whether they started in OS or nrl
+    # Go back to where they started!
     cd $cwd
   fi
 }

@@ -16,12 +16,12 @@ deck_line: SH, 19, 2021020900,   , BEST,   0, 141S,  830E, 135,  923, ST,  34, N
   1005,  200,  12,   0,  15,   S,   0,    ,   0,   0,     FARAJI, D,
 final_storm_name: FARAJI
 invest_number: 90
-original_source_filenames:
-- oscat_20210209_022459_scasa1_23155_o_250_2202_ovw_l2.nc
 parser_name: bdeck_parser
 pressure: 923.0
 product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2021/SH/SH192021/png/windbarbs/scatsat-1/20210209_025351_SH192021_oscat_scatsat-1_windbarbs_135kts_75p10_1p0.png
 sector_type: tc
+source_file_names:
+- oscat_20210209_022459_scasa1_23155_o_250_2202_ovw_l2.nc
 source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat
 source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat
 storm_basin: SH

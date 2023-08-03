@@ -112,10 +112,10 @@ IR_CALIB = {
 geolocation_variable_names = [
     "latitude",
     "longitude",
-    "SunZenith",
-    "SatZenith",
-    "SunAzimuth",
-    "SatAzimuth",
+    "solar_zenith_angle",
+    "satellite_zenith_angle",
+    "solar_azimuth_angle",
+    "satellite_azimuth_angle",
 ]
 
 interface = "readers"
@@ -730,7 +730,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             )
             datavars[adname][chan.name] = radToRef(
                 radiances[chan.band],
-                gvars[adname]["SunZenith"],
+                gvars[adname]["solar_zenith_angle"],
                 xarray_obj.attrs["satellite_name"],
                 chan.band,
             )
@@ -779,9 +779,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         else:
             gvars[adname][var] = np.ma.masked_less_equal(gvars[adname][var], -999)
 
-        if "SatZenith" in gvars[adname].keys():
+        if "satellite_zenith_angle" in gvars[adname].keys():
             gvars[adname][var] = np.ma.masked_where(
-                gvars[adname]["SatZenith"] > 75, gvars[adname][var]
+                gvars[adname]["satellite_zenith_angle"] > 75, gvars[adname][var]
             )
 
     for var in datavars[adname].keys():
@@ -792,9 +792,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         else:
             datavars[adname][var] = np.ma.masked_less_equal(datavars[adname][var], -999)
 
-        if "SatZenith" in gvars[adname].keys():
+        if "satellite_zenith_angle" in gvars[adname].keys():
             datavars[adname][var] = np.ma.masked_where(
-                gvars[adname]["SatZenith"] > 75, datavars[adname][var]
+                gvars[adname]["satellite_zenith_angle"] > 75, datavars[adname][var]
             )
 
     xarray_objs = {}
