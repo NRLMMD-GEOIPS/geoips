@@ -1,0 +1,220 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.11.1a0 (2023-08-07)
+*****************************
+
+Improve overall GeoIPS functionality, generate plugin registry, and added new GeoIPS sectors.
+
+* Add "geoips/geoips/create_plugin_registry.py" to avoid loading all YAML plugins during run_procflow.
+  * Generates a "geoips/geoips/registered_plugins.py" which can be used to select the appropriate plugin.
+  * Greatly improves the run_proclow calls
+* Added new GeoIPS sectors to improve plotting specific regions along the globe.
+  * Provides simplified user interaction with GeoIPS without having to manually define sectors.
+* Update GeoIPS sector metadata implementation to allow more data to be contained.
+  * Created metadata family yamls that apply to specific sector implementations, such as tc or static
+  * Allows more data to be appended to sector metadata, such as padding info
+* Updated coverage checkers to use either varname or product name.
+  * Removes alt_varname and force_alt_varname
+* Added slack channel to README.md.
+* Made TPW colormappers use find_ascii_palette() instead of searching through filesystem.
+
+Installation Updates
+====================
+
+No Installation updates this release.
+
+Testing Updates
+===============
+
+No Testing updates this release.
+
+Documentation Updates
+=====================
+
+Added slack channel to README.md.
+---------------------------------
+
+Appended a slack channel section to README.md for users who are interested or applicable
+to join the GeoIPS slack channel. It seems as if people from CIMSS and others want access
+to this channel.
+
+
+Bug Fixes
+=========
+
+No bug fixes this release.
+
+Enhancements
+============
+
+Added new sectors to geiops/geoips/plugins/yaml/sectors/static/
+---------------------------------------------------------------
+
+There are currently very few sectors in GeoIPS. This adds many new sectors to GeoIPS
+for users to use easily.
+
+::
+
+    added: geoips/geoips/plugins/yaml/sectors/static/abu_dhabi.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/africa.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/african_horn.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/alaska.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/asia.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/australia.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/beijing.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/brazil.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/cairo.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/canada.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/caribbean.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/central_america.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/delhi.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/denver.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/e_pacific.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/europe.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/france.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/indian_basin.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/mediterranean.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/melbourne.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/mexico_city.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/middle_east.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/ne_asia.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/north_pole
+    added: geoips/geoips/plugins/yaml/sectors/static/paris.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/rio_de_janeiro.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/russia.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/saskatchewan.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/se_asia.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/south_america.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/south_pole.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/vancouver.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/victoria.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/w_atlantic.yaml
+    added: geoips/geoips/plugins/yaml/sectors/static/w_pacific.yaml
+
+Refactoring Updates
+===================
+
+Changed GeoIPS sector Metadata Implementation
+---------------------------------------------
+
+Currently, sector metadata is very constricting. It only allows you to specify the 
+region in which the sector lies. This new change not only allows for more data to 
+be contained in sector metadata, but also allows for different families of metadata.
+
+The families of metadata adhere to the different families of static sectors. This includes:
+
+::
+    atmos_river
+    pyrocb
+    static
+    stitched
+    tc
+    volcano
+
+For the sector metadata to adhere to there corresponding sector family, these schema YAMLs were added.
+
+::
+    added: geoips/geoips/schema/sectors/area_definition_atmosriver.yaml
+    added: geoips/geoips/schema/sectors/area_definition_pyrocb.yaml
+    added: geoips/geoips/schema/sectors/area_definition_static.yaml
+    added: geoips/geoips/schema/sectors/area_definition_stitched.yaml
+    added: geoips/geoips/schema/sectors/area_definition_tc.yaml
+    added: geoips/geoips/schema/sectors/area_definition_volcano.yaml
+    added: geoips/geoips/schema/sectors/specs/static_sector_spec.yaml
+    added: geoips/geoips/schema/sectors/metadata_familes/atmosriver.yaml
+    added: geoips/geoips/schema/sectors/metadata_familes/pyrocb.yaml
+    added: geoips/geoips/schema/sectors/metadata_familes/static.yaml
+    added: geoips/geoips/schema/sectors/metadata_familes/stitched.yaml
+    added: geoips/geoips/schema/sectors/metadata_familes/tc.yaml
+    added: geoips/geoips/schema/sectors/metadata_familes/volcano.yaml
+
+These new files remove the need to have only one area_definition.yaml, so these files were removed.
+
+::
+    deleted: geoips/geoips/schema/sectors/area_definition.yaml
+
+With these new updates and changes, modification of some files was required to get this all to work.
+This includes:
+
+::
+    modified: geoips/geoips/plugins/modules/filename_formatters/geoips_fname.py
+    modified: geoips/geoips/plugins/yaml/sectors/static/conus.yaml
+    modified: geoips/geoips/plugins/yaml/sectors/static/ewsg.yaml
+    modified: geoips/geoips/plugins/yaml/sectors/static/global.yaml
+    modified: geoips/geoips/plugins/yaml/sectors/static/goes16.yaml
+    modified: geoips/geoips/plugins/yaml/sectors/static/goes17.yaml
+    modified: geoips/geoips/plugins/yaml/sectors/static/himawari8.yaml
+    modified: geoips/geoips/plugins/yaml/sectors/static/japan.yaml
+    modified: geoips/geoips/sector_utils/esimate_area_extent.py
+
+Changed how run_procflow accesses plugins, by creating a plugin registry
+------------------------------------------------------------------------
+
+Currently, when run_procflow is called, GeoIPS actually has to load in every
+existing GeoIPS plugin to find the appropriate plugin. This is very inefficient
+and was resulting in 15+ seconds of lag time before run_procflow would actually
+run. To fix this, we have created a plugin registry, which is essentially a python
+dictionary of all the available plugins. This is now used to select the appropriate 
+plugin when run_procflow is called. 
+
+To do this, these files were added:
+
+::
+    added: geoips/geoips/create_plugin_registry.py
+
+When the file above is called, it generates a file in the same directory called 
+"registered_plugins.py". This is the plugin dictionary which run_procflow selects from.
+With this new plugin registry implementation, certain changes were required to get
+this functionality to work. This includes:
+
+::
+    modified: geoips/geoips/geoips_utils.py (load_all_yaml_plugins())
+    modified: geoips/geoips/interfaces/base.py (_create_unvalidated_plugins_cache())
+
+Update Coverage Checkers to use either varname or product name
+--------------------------------------------------------------
+
+Currently coverage_checkers determine which variable to check for coverage by:
+
+::
+    If present, alt_varname from the yaml
+    If present, varname from the yaml
+    Looking for a variable with the same name as the product
+
+This should be cleaned up to just be varname or the product name. We should ditch alt_varname.
+To untangle the ambiguous naming from coverage_checkers, we removed the variables alt_varname
+and force_alt_varname. This required changes to these files:
+
+::
+    modified: geoips/geoips/interfaces/module_based/coverage_checkers.py
+    modified: geoips/geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
+    modified: geoips/geoips/plugins/modules/coverage_checkers/center_radius.py
+    modified: geoips/geoips/plugins/modules/coverage_checkers/masked_arrays.py
+    modified: geoips/geoips/plugins/modules/coverage_checkers/numpy_arrays_nan.py
+    modified: geoips/geoips/plugins/modules/coverage_checkers/rgba.py
+    modified: geoips/geoips/plugins/modules/coverage_checkers/windbarbs.py
+
+Implement find_ascii_palette for TPW colormappers
+-------------------------------------------------
+
+Previously, TPW colormappers selected the correct ascii palette by searching through
+the GeoIPS directory. This is inefficient and has the possibility to cause problems if
+the directory structure changes eventually. 
+
+It was implemented using gpaths["BASE_PATH"] to find the TPW ascii palettes, but now 
+uses the new "find_ascii_palettes" utility. Therefore changes to these files were required:
+
+::
+    modified: geoips/geoips/plugins/modules/colormappers/tpw/tpw_cimss.py
+    modified: geoips/geoips/plugins/modules/colormappers/tpw/tpw_purple.py
+    modified: geoips/geoips/plugins/modules/colormappers/tpw/tpw_pwat.py
