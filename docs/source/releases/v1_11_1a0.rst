@@ -28,6 +28,8 @@ Documentation Updates
 Added slack channel to README.md.
 ---------------------------------
 
+From NRLMMD-GEOIPS/geoips#241: 2023-07-18
+
 Appended a slack channel section to README.md for users who are interested or applicable
 to join the GeoIPS slack channel. It seems as if people from CIMSS and others want access
 to this channel.
@@ -37,6 +39,8 @@ Enhancements
 
 Added new sectors to geiops/geoips/plugins/yaml/sectors/static/
 ---------------------------------------------------------------
+
+From NRLMMD-GEOIPS/geoips#111: 2023-04-02
 
 There are currently very few sectors in GeoIPS. This adds many new sectors to GeoIPS
 for users to use easily.
@@ -78,11 +82,42 @@ for users to use easily.
     added: geoips/geoips/plugins/yaml/sectors/static/w_atlantic.yaml
     added: geoips/geoips/plugins/yaml/sectors/static/w_pacific.yaml
 
+Efficiency Improvements
+=======================
+
+Changed how run_procflow accesses plugins, by creating a plugin registry
+------------------------------------------------------------------------
+
+From NRLMMD-GEOIPS/geoips#238: 2023-07-06
+
+Currently, when run_procflow is called, GeoIPS actually has to load in every
+existing GeoIPS plugin to find the appropriate plugin. This is very inefficient
+and was resulting in 15+ seconds of lag time before run_procflow would actually
+run. To fix this, we have created a plugin registry, which is essentially a python
+dictionary of all the available plugins. This is now used to select the appropriate 
+plugin when run_procflow is called. 
+
+To do this, these files were added:
+
+::
+    added: geoips/geoips/create_plugin_registry.py
+
+When the file above is called, it generates a file in the same directory called 
+"registered_plugins.py". This is the plugin dictionary which run_procflow selects from.
+With this new plugin registry implementation, certain changes were required to get
+this functionality to work. This includes:
+
+::
+    modified: geoips/geoips/geoips_utils.py (load_all_yaml_plugins())
+    modified: geoips/geoips/interfaces/base.py (_create_unvalidated_plugins_cache())
+
 Refactoring Updates
 ===================
 
 Changed GeoIPS sector Metadata Implementation
 ---------------------------------------------
+
+From NRLMMD-GEOIPS/geoips#248: 2023-08-02
 
 Currently, sector metadata is very constricting. It only allows you to specify the 
 region in which the sector lies. This new change not only allows for more data to 
@@ -134,32 +169,10 @@ This includes:
     modified: geoips/geoips/plugins/yaml/sectors/static/japan.yaml
     modified: geoips/geoips/sector_utils/esimate_area_extent.py
 
-Changed how run_procflow accesses plugins, by creating a plugin registry
-------------------------------------------------------------------------
-
-Currently, when run_procflow is called, GeoIPS actually has to load in every
-existing GeoIPS plugin to find the appropriate plugin. This is very inefficient
-and was resulting in 15+ seconds of lag time before run_procflow would actually
-run. To fix this, we have created a plugin registry, which is essentially a python
-dictionary of all the available plugins. This is now used to select the appropriate 
-plugin when run_procflow is called. 
-
-To do this, these files were added:
-
-::
-    added: geoips/geoips/create_plugin_registry.py
-
-When the file above is called, it generates a file in the same directory called 
-"registered_plugins.py". This is the plugin dictionary which run_procflow selects from.
-With this new plugin registry implementation, certain changes were required to get
-this functionality to work. This includes:
-
-::
-    modified: geoips/geoips/geoips_utils.py (load_all_yaml_plugins())
-    modified: geoips/geoips/interfaces/base.py (_create_unvalidated_plugins_cache())
-
 Update Coverage Checkers to use either varname or product name
 --------------------------------------------------------------
+
+From NRLMMD-GEOIPS/geoips#227: 2023-05-09
 
 Currently coverage_checkers determine which variable to check for coverage by:
 
@@ -183,6 +196,8 @@ and force_alt_varname. This required changes to these files:
 
 Implement find_ascii_palette for TPW colormappers
 -------------------------------------------------
+
+From NRLMMD-GEOIPS/geoips#226: 2023-05-09
 
 Previously, TPW colormappers selected the correct ascii palette by searching through
 the GeoIPS directory. This is inefficient and has the possibility to cause problems if
