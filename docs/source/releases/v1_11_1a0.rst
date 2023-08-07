@@ -16,27 +16,11 @@ Version 1.11.1a0 (2023-08-07)
 Improve overall GeoIPS functionality, generate plugin registry, and added new GeoIPS sectors.
 
 * Add "geoips/geoips/create_plugin_registry.py" to avoid loading all YAML plugins during run_procflow.
-  * Generates a "geoips/geoips/registered_plugins.py" which can be used to select the appropriate plugin.
-  * Greatly improves the run_proclow calls
 * Added new GeoIPS sectors to improve plotting specific regions along the globe.
-  * Provides simplified user interaction with GeoIPS without having to manually define sectors.
 * Update GeoIPS sector metadata implementation to allow more data to be contained.
-  * Created metadata family yamls that apply to specific sector implementations, such as tc or static
-  * Allows more data to be appended to sector metadata, such as padding info
 * Updated coverage checkers to use either varname or product name.
-  * Removes alt_varname and force_alt_varname
 * Added slack channel to README.md.
 * Made TPW colormappers use find_ascii_palette() instead of searching through filesystem.
-
-Installation Updates
-====================
-
-No Installation updates this release.
-
-Testing Updates
-===============
-
-No Testing updates this release.
 
 Documentation Updates
 =====================
@@ -48,12 +32,6 @@ Appended a slack channel section to README.md for users who are interested or ap
 to join the GeoIPS slack channel. It seems as if people from CIMSS and others want access
 to this channel.
 
-
-Bug Fixes
-=========
-
-No bug fixes this release.
-
 Enhancements
 ============
 
@@ -64,7 +42,6 @@ There are currently very few sectors in GeoIPS. This adds many new sectors to Ge
 for users to use easily.
 
 ::
-
     added: geoips/geoips/plugins/yaml/sectors/static/abu_dhabi.yaml
     added: geoips/geoips/plugins/yaml/sectors/static/africa.yaml
     added: geoips/geoips/plugins/yaml/sectors/static/african_horn.yaml
