@@ -8,23 +8,23 @@ metadata:
     country: China
     area: x
     subarea: x
-    state: x
+    state: Beijing
     city: Beijing
 spec:
   area_id: beijing
   description: City of Beijing
   projection:
     a: 6371228.0
-    lat_0: 39.86
-    lon_0: 116.425
+    lat_0: 39.91347
+    lon_0: 116.3897
     proj: eqc
     units: m
   resolution:
-    - 20000
-    - 20000
+    - 100
+    - 100
   shape:
-    height: 4
-    width: 4
+    height: 2000
+    width: 2000
   area_extent:
-    lower_left_xy: [-49080, -45591]
-    upper_right_xy: [49080, 45591]
+    lower_left_xy: [-199999, -199999]
+    upper_right_xy: [199999, 199999]

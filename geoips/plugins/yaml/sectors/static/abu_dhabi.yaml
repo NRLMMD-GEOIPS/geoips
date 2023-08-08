@@ -8,23 +8,23 @@ metadata:
     country: UnitedArabEmirates
     area: x
     subarea: x
-    state: x
+    state: AbuDhabi
     city: AbuDhabi
 spec:
   area_id: abu_dhabit
   description: City of Abu Dhabi
   projection:
     a: 6371228.0
-    lat_0: 24.39
-    lon_0: 54.489999999999995
+    lat_0: 24.42714
+    lon_0: 54.41388
     proj: eqc
     units: m
   resolution:
-    - 20000
-    - 20000
+    - 100
+    - 100
   shape:
-    height: 4
-    width: 4
+    height: 2000
+    width: 2000
   area_extent:
-    lower_left_xy: [-45573, -40031]
-    upper_right_xy: [45573, 40031]
+    lower_left_xy: [-200000, -199999]
+    upper_right_xy: [200000, 199999]

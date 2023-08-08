@@ -15,16 +15,16 @@ spec:
   description: Mexico City
   projection:
     a: 6371228.0
-    lat_0: 19.481499999999997
-    lon_0: -99.14250000000004
+    lat_0: 19.42189
+    lon_0: -99.13314
     proj: eqc
     units: m
   resolution:
-    - 20000
-    - 20000
+    - 100
+    - 100
   shape:
-    height: 2
-    width: 2
+    height: 2000
+    width: 2000
   area_extent:
-    lower_left_xy: [-29091, -29745]
-    upper_right_xy: [29091, 29745]
+    lower_left_xy: [-200000, -199999]
+    upper_right_xy: [200000, 199999]

@@ -8,23 +8,23 @@ metadata:
     country: Egypt
     area: x
     subarea: x
-    state: x
+    state: Cairo
     city: Cairo
 spec:
   area_id: cairo
   description: City of Cairo
   projection:
     a: 6371228.0
-    lat_0: 30.127
-    lon_0: 31.2605
+    lat_0: 30.0248
+    lon_0: 31.2357
     proj: eqc
     units: m
   resolution:
-    - 20000
-    - 20000
+    - 100
+    - 100
   shape:
-    height: 2
-    width: 5
+    height: 2000
+    width: 2000
   area_extent:
-    lower_left_xy: [-55446, -26798]
-    upper_right_xy: [55446, 26798]
+    lower_left_xy: [-200000, -199999]
+    upper_right_xy: [200000, 199999]

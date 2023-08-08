@@ -15,16 +15,16 @@ spec:
   description: City of Paris
   projection:
     a: 6371228.0
-    lat_0: 48.85
-    lon_0: 0.5149999999999999
+    lat_0: 48.84432
+    lon_0: 2.35268
     proj: eqc
     units: m
   resolution:
-    - 20000
-    - 20000
+    - 100
+    - 100
   shape:
-    height: 2
-    width: 16
+    height: 2000
+    width: 2000
   area_extent:
-    lower_left_xy: [-167174, -26687]
-    upper_right_xy: [167174, 26687]
+    lower_left_xy: [-200000, -199999]
+    upper_right_xy: [200000, 199999]

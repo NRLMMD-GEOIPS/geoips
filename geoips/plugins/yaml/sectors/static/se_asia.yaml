@@ -15,16 +15,16 @@ spec:
   description: Southeastern Asia
   projection:
     a: 6371228.0
-    lat_0: 8.239999999999998
-    lon_0: 125.38
+    lat_0: 12.13395
+    lon_0: 120.29573
     proj: eqc
     units: m
   resolution:
-    - 10000
-    - 10000
+    - 1000
+    - 1000
   shape:
-    height: 453
-    width: 834
+    height: 2000
+    width: 2500
   area_extent:
-    lower_left_xy: [-4171049, -2269569]
-    upper_right_xy: [4171049, 2269569]
+    lower_left_xy: [-2499999, -2000000]
+    upper_right_xy: [2499999, 2000000]

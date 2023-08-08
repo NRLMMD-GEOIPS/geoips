@@ -20,11 +20,11 @@ spec:
     proj: eqc
     units: m
   resolution:
-    - 10000
-    - 10000
+    - 1000
+    - 1000
   shape:
-    height: 117
-    width: 274
+    height: 1117
+    width: 1274
   area_extent:
     lower_left_xy: [-1373790, -588242]
     upper_right_xy: [1373790, 588242]

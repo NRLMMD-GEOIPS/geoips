@@ -15,16 +15,16 @@ spec:
   description: Victorian State
   projection:
     a: 6371228.0
-    lat_0: -36.65
-    lon_0: 145.65
+    lat_0: -37.12507
+    lon_0: 144.90022
     proj: eqc
     units: m
   resolution:
-    - 10000
-    - 10000
+    - 500
+    - 500
   shape:
-    height: 58
-    width: 82
+    height: 400
+    width: 600
   area_extent:
-    lower_left_xy: [-414685, -294677]
-    upper_right_xy: [414685, 294677]
+    lower_left_xy: [-300000, -199999]
+    upper_right_xy: [300000, 199999]

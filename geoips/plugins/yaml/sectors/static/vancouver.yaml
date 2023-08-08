@@ -15,16 +15,16 @@ spec:
   description: City of Vancouver
   projection:
     a: 6371228.0
-    lat_0: 49.205
-    lon_0: -122.95000000000002
+    lat_0: 49.26609
+    lon_0: -123.08799
     proj: eqc
     units: m
   resolution:
-    - 20000
-    - 20000
+    - 100
+    - 100
   shape:
-    height: 2
-    width: 3
+    height: 2000
+    width: 2000
   area_extent:
-    lower_left_xy: [-34146, -22795]
-    upper_right_xy: [34146, 22795]
+    lower_left_xy: [-199999, -199999]
+    upper_right_xy: [199999, 199999]

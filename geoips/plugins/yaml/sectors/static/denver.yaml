@@ -15,16 +15,16 @@ spec:
   description: City of Denver
   projection:
     a: 6371228.0
-    lat_0: 39.7405
-    lon_0: -104.98700000000002
+    lat_0: 39.73264
+    lon_0: -104.99318
     proj: eqc
     units: m
   resolution:
-    - 20000
-    - 20000
+    - 100
+    - 100
   shape:
-    height: 1
-    width: 1
+    height: 2000
+    width: 2000
   area_extent:
-    lower_left_xy: [-15220, -12176]
-    upper_right_xy: [15220, 12176]
+    lower_left_xy: [-199999, -199999]
+    upper_right_xy: [199999, 199999]

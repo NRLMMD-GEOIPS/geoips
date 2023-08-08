@@ -15,16 +15,16 @@ spec:
   description: Indian Basin Area
   projection:
     a: 6371228.0
-    lat_0: 12.76
-    lon_0: 78.445
+    lat_0: 22.57
+    lon_0: 79.2379
     proj: eqc
     units: m
   resolution:
-    - 10000
-    - 10000
+    - 1000
+    - 1000
   shape:
-    height: 1103
-    width: 1953
+    height: 3000
+    width: 2000
   area_extent:
-    lower_left_xy: [-2930535, -1654639]
-    upper_right_xy: [2930535, 1654639]
+    lower_left_xy: [-2000000, -3000000]
+    upper_right_xy: [2000000, 3000000]

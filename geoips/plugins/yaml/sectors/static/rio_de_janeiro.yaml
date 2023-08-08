@@ -15,16 +15,16 @@ spec:
   description: Rio De Janeiro City
   projection:
     a: 6371228.0
-    lat_0: -22.89
-    lon_0: -43.164999999999964
+    lat_0: -22.9354
+    lon_0: -43.159
     proj: eqc
     units: m
   resolution:
-    - 20000
-    - 20000
+    - 100
+    - 100
   shape:
-    height: 1
-    width: 3
+    height: 1500
+    width: 2500
   area_extent:
-    lower_left_xy: [-30220, -13343]
-    upper_right_xy: [30220, 13343]
+    lower_left_xy: [-250000, -149999]
+    upper_right_xy: [250000, 149999]
