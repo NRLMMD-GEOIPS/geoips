@@ -58,7 +58,7 @@ Slack Channel
 For those interested in contributing to GeoIPS, have informal feature requests, or 
 have lingering questions not answered by the documentation, feel free to join our
 [Slack Channel](https://geoips.slack.com/). If you are not permitted to join, email
-the address listed above to see if they will add you to our channel.
+geoips@nrlmry.navy.mil to request access.
 
 Acknowledgments and Citations
 ------------------------------
