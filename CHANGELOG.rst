@@ -10,8 +10,19 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Please see geoips/CHANGELOG_TEMPLATE.rst for instructions on updating
-CHANGELOG appropriately with each PR
+Bug Fixes
+=========
 
-Release notes for previous/upcoming versions can be found in
-docs/source/releases, for reference
+Update error messages in "bad" product_defaults tests
+-----------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#255: 2023-08-09, Fix error matching regex*
+
+* jsonschema changed their error messages to add additional quotes. This just modifies
+  our test regex to ignore more of the error.
+
+::
+
+    modified: tests/test_plugin_schema/bad/product_defaults/algorithm_colormapper.yaml
+    modified: tests/test_plugin_schema/bad/product_defaults/algorithm_interpolator_colormapper.yaml
+
