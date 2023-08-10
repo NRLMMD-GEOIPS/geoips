@@ -11,11 +11,11 @@ spec:
         The Cloud-Type product_defaults configuration for georing_3d product.
       product_defaults: Cloud-Type
       spec:
-        variables: ["cloud3d"]
+        variables: ["cloud3d", "latitude", "longitude"]
     - name: Binary-Cloud-Mask
       source_names: [georing_3d]
       docstring: |
         The Binary-Cloud-Mask product_defaults configuration for georing_3d product.
       product_defaults: Binary-Cloud-Mask
       spec:
-        variables: ["cloud3d"]
+        variables: ["cloud3d", "latitude", "longitude"]
