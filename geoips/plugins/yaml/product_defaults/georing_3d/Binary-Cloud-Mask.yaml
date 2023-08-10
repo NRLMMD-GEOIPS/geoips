@@ -1,0 +1,30 @@
+interface: product_defaults
+family: algorithm_interpolator_colormapper
+name: Binary-Cloud-Mask
+docstring: |
+  The Binary-Cloud-Mask product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: georing_3d
+      # This works as-is with defaults for VIIRS and ABI and SEVIRI.
+      # AHI does NOT use gamma! Replacement values in product_inputs/ahi.yaml
+      # MODIS does NOT use gamma, and has scale_factor of 1.0! Replacement values in product_inputs/modis.yaml
+      arguments:
+        output_data_range: [0.0, 1]
+        min_outbounds: crop
+        max_outbounds: crop
+        inverse: null
+        norm: null
+  mtif_type: vis
+  colormapper:
+    plugin:
+      name: matplotlib_linear_norm
+      arguments:
+        data_range: [0.0, 1.0]
+        cmap_name: Greys_r
+        cbar_label: Binary-Cloud-Mask
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}
