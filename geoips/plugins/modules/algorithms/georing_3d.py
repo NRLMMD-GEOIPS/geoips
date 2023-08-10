@@ -146,7 +146,7 @@ def call(
     # xarray_dict["GEORING"].variables["cloud3d"].data = data
     # xarray_dict["GEORING"].variables["latitude"].data = lat_final
     # xarray_dict["GEORING"].variables["longitude"].data = lon_final
-    final_xarray = xarray.Dataset(data_vars=dict(Cloud_Type=(["x", "y"], data)), 
+    final_xarray = xarray.Dataset(data_vars=dict(cloud3d=(["x", "y"], data)), 
                                   coords=dict(latitude=(["x","y"], lat_final),
                                               longitude=(["x","y"], lon_final))
                                  )
