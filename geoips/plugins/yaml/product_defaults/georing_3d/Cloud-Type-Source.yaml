@@ -1,8 +1,8 @@
 interface: product_defaults
-family: interpolator_colormapper
-name: Cloud-Type
+family: algorithm
+name: Cloud-Type-Source
 docstring: |
-  The Cloud-Type product_defaults configuration.
+  The Cloud-Type-Source product_defaults configuration.
 spec:
   algorithm:
     plugin:
@@ -17,15 +17,5 @@ spec:
         inverse: null
         norm: null
         cloud_type: True
+        level: 36
   mtif_type: vis
-  colormapper:
-    plugin:
-      name: matplotlib_linear_norm
-      arguments:
-        data_range: [1.0, 4.0]
-        cmap_name: ocean
-        cbar_label: Cloud-Type
-  interpolator:
-    plugin:
-      name: interp_nearest
-      arguments: {}

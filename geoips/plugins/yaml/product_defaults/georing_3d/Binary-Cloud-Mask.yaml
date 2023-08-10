@@ -1,5 +1,5 @@
 interface: product_defaults
-family: algorithm_interpolator_colormapper
+family: interpolator_colormapper
 name: Binary-Cloud-Mask
 docstring: |
   The Binary-Cloud-Mask product_defaults configuration.
@@ -16,6 +16,7 @@ spec:
         max_outbounds: crop
         inverse: null
         norm: null
+        cloud_type: False
   mtif_type: vis
   colormapper:
     plugin:
