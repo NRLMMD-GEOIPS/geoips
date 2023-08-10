@@ -1,5 +1,7 @@
 #  Experimenting with poetry as the build backend
 
+
+# remains same in setuptools and poetry
 [build-system]
 requires = ["setuptools>=61.2", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
@@ -29,6 +31,7 @@ find = {namespaces = false}
 [tool.setuptools.dynamic]
 entry-points = {file = ["entry-points.ini"]}
 
+#[tool.poetry]
 [project]
 name = "geoips"
 authors = []
@@ -41,6 +44,8 @@ classifiers = [
     "Programming Language :: Python :: 3",
 ]
 dynamic = ["version"]
+
+#[tool.poetry.dependencies]     // must download to run
 dependencies = [
     "pyresample",  # Base requirement - efficiency improvements >= 1.22.3
     "numpy",  # Base requirement
@@ -69,6 +74,17 @@ dependencies = [
     "scikit-image",  # Radius based center coverage checks
 ]
 
+# Dependency groups are supported for organizing your dependencies
+##[tool.poetry.group.dev.dependencies]
+#[tool.poetry.group.docs]
+#optional = true
+#[tool.poetry.group.docs.dependencies]
+#Sphinx = "^5.1.1"
+#
+## Python-style entrypoints and scripts are easily expressed
+#[tool.poetry.scripts]
+#my-script = "my_package:main"
+
 [project.optional-dependencies]
 doc = [
     "sphinx",  # Required for building documentation
@@ -94,7 +110,9 @@ update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
 test_interfaces = "geoips.commandline.test_interfaces:main"
 list_available_modules = "geoips.commandline.list_available_modules:main"
-
+# do we need to distribute lock files along with the package
+# package a need c.2 and package b need c.3 how does lock file takes care of it
+# how to get custom entry points without making them available as command line scripts
 [project.entry-points."geoips.readers"]
 abi_netcdf = "geoips.interface_modules.readers.abi_netcdf:abi_netcdf"
 abi_l2_netcdf = "geoips.interface_modules.readers.abi_l2_netcdf:abi_l2_netcdf"
