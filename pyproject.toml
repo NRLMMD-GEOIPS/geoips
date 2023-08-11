@@ -211,6 +211,7 @@ interp_grid = "geoips.plugins.modules.interpolators.scipy_wrappers.interp_grid"
 # sed -i "s,visir.WV,WV,g" plugins/yaml/product*/*
 # sed -i "s,winds.wind_radii_transitions,wind_radii_transitions,g" plugins/yaml/product*/*
 [project.entry-points."geoips.colormappers"]
+cloud_type = "geoips.plugins.modules.colormappers.cloud_type"
 cmap_rgb = "geoips.plugins.modules.colormappers.cmap_rgb"
 matplotlib_linear_norm = "geoips.plugins.modules.colormappers.matplotlib_linear_norm"
 pmw_150H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_150H"
@@ -244,6 +245,7 @@ text_winds_tc_fname = "geoips.plugins.modules.filename_formatters.text_winds_tc_
 metadata_default_fname = "geoips.plugins.modules.filename_formatters.metadata_default_fname"
 
 [project.entry-points."geoips.title_formatters"]
+georing_3d_cloud_type = "geoips.plugins.modules.title_formatters.georing_3d_cloud_type"
 tc_standard = "geoips.plugins.modules.title_formatters.tc_standard"
 tc_copyright = "geoips.plugins.modules.title_formatters.tc_copyright"
 static_standard = "geoips.plugins.modules.title_formatters.static_standard"

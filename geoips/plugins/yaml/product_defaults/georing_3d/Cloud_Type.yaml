@@ -1,8 +1,8 @@
 interface: product_defaults
-family: algorithm
-name: Cloud-Type-Source
+family: algorithm_interpolator_colormapper
+name: Cloud_Type
 docstring: |
-  The Cloud-Type-Source product_defaults configuration.
+  The Cloud_Type product_defaults configuration.
 spec:
   algorithm:
     plugin:
@@ -12,10 +12,20 @@ spec:
       # MODIS does NOT use gamma, and has scale_factor of 1.0! Replacement values in product_inputs/modis.yaml
       arguments:
         output_data_range: [1.0, 4.0]
-        min_outbounds: crop
-        max_outbounds: crop
+        min_outbounds: mask
+        max_outbounds: mask
         inverse: null
         norm: null
         cloud_type: True
-        level: 36
+        level: 11
   mtif_type: vis
+  colormapper:
+    plugin:
+      name: cloud_type
+      arguments:
+        data_range: [1.0, 4.0]
+        cbar_label: Cloud_Type
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

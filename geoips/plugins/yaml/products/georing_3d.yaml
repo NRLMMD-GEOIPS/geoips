@@ -5,17 +5,17 @@ docstring: |
   The georing_3d products configuration, which produces cloud-type and cloud mask products
 spec:
   products:
-    - name: Cloud-Type
+    - name: Cloud_Type
       source_names: [georing_3d]
       docstring: |
-        The Cloud-Type product_defaults configuration for georing_3d product.
-      product_defaults: Cloud-Type
+        The Cloud_Type product_defaults configuration for georing_3d product.
+      product_defaults: Cloud_Type
       spec:
         variables: ["cloud3d", "latitude", "longitude"]
-    - name: Binary-Cloud-Mask
+    - name: Binary_Cloud_Mask
       source_names: [georing_3d]
       docstring: |
-        The Binary-Cloud-Mask product_defaults configuration for georing_3d product.
-      product_defaults: Binary-Cloud-Mask
+        The Binary_Cloud_Mask product_defaults configuration for georing_3d product.
+      product_defaults: Binary_Cloud_Mask
       spec:
         variables: ["cloud3d", "latitude", "longitude"]

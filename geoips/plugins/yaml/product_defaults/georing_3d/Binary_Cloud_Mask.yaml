@@ -1,8 +1,8 @@
 interface: product_defaults
-family: interpolator_colormapper
-name: Cloud-Type
+family: algorithm_interpolator_colormapper
+name: Binary_Cloud_Mask
 docstring: |
-  The Cloud-Type product_defaults configuration.
+  The Binary_Cloud-Mask product_defaults configuration.
 spec:
   algorithm:
     plugin:
@@ -11,20 +11,20 @@ spec:
       # AHI does NOT use gamma! Replacement values in product_inputs/ahi.yaml
       # MODIS does NOT use gamma, and has scale_factor of 1.0! Replacement values in product_inputs/modis.yaml
       arguments:
-        output_data_range: [1.0, 4.0]
-        min_outbounds: crop
-        max_outbounds: crop
+        output_data_range: [0.0, 1]
+        min_outbounds: mask
+        max_outbounds: mask
         inverse: null
         norm: null
-        cloud_type: True
+        cloud_type: False
   mtif_type: vis
   colormapper:
     plugin:
       name: matplotlib_linear_norm
       arguments:
-        data_range: [1.0, 4.0]
-        cmap_name: ocean
-        cbar_label: Cloud-Type
+        data_range: [0.0, 1.0]
+        cmap_name: Greys_r
+        cbar_label: Binary_Cloud_Mask
   interpolator:
     plugin:
       name: interp_nearest

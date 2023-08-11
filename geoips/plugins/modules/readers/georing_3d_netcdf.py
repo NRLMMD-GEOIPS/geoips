@@ -87,7 +87,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xobj.attrs["end_datetime"] = dt
     xobj.attrs["platform_name"] = "GEOring_3D"
     xobj.attrs["source_file_datetimes"] = [dt]
-    xobj.attrs["source_name"] = "georing_3d_source"
+    xobj.attrs["source_name"] = "georing_3d"
     if metadata_only is True:
         return {"METADATA": xobj}
     return {"GEORING": xobj, "METADATA": xobj[[]]}

@@ -18,6 +18,7 @@ to apply corrections to a single channel output product.
 import logging
 import numpy as np
 import xarray
+from datetime import datetime
 
 LOG = logging.getLogger(__name__)
 
@@ -131,8 +132,7 @@ def call(
     data = xarray_dict["GEORING"].variables["cloud3d"].data
     lat = xarray_dict["GEORING"].variables["latitude"].data
     lon = xarray_dict["GEORING"].variables["longitude"].data
-    # from IPython import embed as shell
-    # shell()
+ 
     if output_data_range is None:
         output_data_range = [data.min(), data.max()]
 
@@ -143,13 +143,33 @@ def call(
         data = collapse(data)
         data = np.where(data > 0, 1, 0)
     lon_final, lat_final = np.meshgrid(lon, lat)
-    # xarray_dict["GEORING"].variables["cloud3d"].data = data
-    # xarray_dict["GEORING"].variables["latitude"].data = lat_final
-    # xarray_dict["GEORING"].variables["longitude"].data = lon_final
-    final_xarray = xarray.Dataset(data_vars=dict(cloud3d=(["x", "y"], data)), 
+    from geoips.data_manipulations.corrections import apply_data_range
+
+    data = apply_data_range(
+        data,
+        min_val=output_data_range[0],
+        max_val=output_data_range[1],
+        min_outbounds=min_outbounds,
+        max_outbounds=max_outbounds,
+        norm=norm,
+        inverse=inverse,
+    )
+
+    start_dt = xarray_dict["GEORING"].attrs["start_datetime"]
+    end_dt = xarray_dict["GEORING"].attrs["end_datetime"]
+    platform_name = xarray_dict["GEORING"].attrs["platform_name"]
+    source_file_datetimes = xarray_dict["GEORING"].attrs["source_file_datetimes"]
+    source_name = xarray_dict["GEORING"].attrs["source_name"]
+    data_provider = xarray_dict["GEORING"].attrs["data_provider"]
+    data_dict = dict(Cloud_Type=(["x", "y"], data)) if cloud_type else dict(Binary_Cloud_Mask=(["x", "y"], data))
+    final_xarray = xarray.Dataset(data_vars=data_dict, 
                                   coords=dict(latitude=(["x","y"], lat_final),
-                                              longitude=(["x","y"], lon_final))
+                                              longitude=(["x","y"], lon_final)),
+                                  attrs=dict(source_name=source_name,
+                                                  platform_name=platform_name,
+                                                  start_datetime=start_dt,
+                                                  end_datetime=end_dt,
+                                                  source_file_datetimes=source_file_datetimes,
+                                                  data_provider=data_provider)
                                  )
-    # from IPython import embed as shell
-    # shell()
     return final_xarray
