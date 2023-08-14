@@ -92,14 +92,13 @@ from os.path import basename
 
 import h5py
 import numpy as np
-
+import datetime
+import xarray as xr
+from astropy.time import Time
+from dateutil.relativedelta import relativedelta
 import logging
 
 LOG = logging.getLogger(__name__)
-import matplotlib
-
-matplotlib.use("agg")
-import matplotlib.pyplot as plt
 
 interface = "readers"
 family = "standard"
@@ -123,24 +122,51 @@ atms_vars = [
 
 # unify common names for sat/sun-zenith and azimuth angles
 xvarnames = {
-    "SolarZenithAngle": "SunZenith",
-    "SolarAzimuthAngle": "SunAzimuth",
-    "SatelliteZenithAngle": "SatZenith",
-    "SatelliteAzimuthAngle": "SatAzimuth",
+    "SolarZenithAngle": "solar_zenith_angle",
+    "SolarAzimuthAngle": "solar_azimuth_angle",
+    "SatelliteZenithAngle": "satellite_zenith_angle",
+    "SatelliteAzimuthAngle": "satellite_azimuth_angle",
 }
 
-import xarray as xr
-
 final_xarray = xr.Dataset()  # define a xarray to hold all selected variables
+
+
+def convert_epoch_to_datetime64(time_array, use_shape=None):
+    """Convert time to datetime object.
+
+    Parameters
+    ----------
+    time_array : array
+        Array of start time integers (multiplied by 1e-6 in function)
+    use_shape : tuple, optional
+        desired output shape of time array, by default None
+
+    Returns
+    -------
+    array
+        array of converted datetime objects
+    """
+    # Convert TAI to UTC using astropy
+    utc_time = Time(time_array / 1e6, format="unix_tai").utc.datetime
+
+    # ATMS Epoch starts at 1958-01-01, not 1970-01-01
+    utc_time -= relativedelta(years=12)
+
+    # Either convert 1D array to 2D, or return original shape
+    if time_array.ndim == 1 and use_shape:
+        nscan, npix = use_shape
+        converted_time = np.zeros((nscan, npix)).astype(datetime.datetime)
+        for i in range(nscan):
+            converted_time[i, :] = utc_time[i]
+    else:
+        converted_time = utc_time
+
+    return converted_time.astype(np.datetime64)
 
 
 def read_atms_file(fname, xarray_atms):
     """Read ATCF data from file fname."""
     fileobj = h5py.File(fname, mode="r")
-    import pandas as pd
-    import xarray as xr
-    import numpy
-    import datetime
 
     # check for available variables from nput file
     if "ATMS-SDR_All" in fileobj["All_Data"].keys():  # for TB-data
@@ -162,101 +188,62 @@ def read_atms_file(fname, xarray_atms):
         H183 = tbs[:, :, 18]  # to match the 183+-4.5 GHz channel used by FNMOC
 
         #  get UTC time in datetime64 format required by geoips for each pixel
-        nscan = tb_time.shape[0]  # 12
-        npix = tb_time.shape[1]  # 96 pixels per scan
-        time_scan = np.zeros((nscan, npix)).astype(
-            "int"
-        )  # 0 initilization of an integer array
+        time_scan = convert_epoch_to_datetime64(tb_time)
 
-        for i in range(nscan):
-            for j in range(npix):
-                pix_date = datetime.datetime.utcfromtimestamp(
-                    tb_time[i, j] / 1e6
-                ).replace(tzinfo=datetime.timezone.utc)
-
-                yy = pix_date.year
-                mo = pix_date.month
-                dd = pix_date.day
-                hh = pix_date.hour
-                mm = pix_date.minute
-                ss = pix_date.second
-
-                # setup time in datetime64 format required by geoips
-                yy = (
-                    yy - 12
-                )  # adjust difference of Unix epoch (1970) and JPSS IDPS epoch (19598)=378,691,200 seconds
-                time_scan[i, j] = "%04d%02d%02d%02d%02d%02d" % (yy, mo, dd, hh, mm, ss)
-
-        # make list of numpy arrays
-        var_names = [V23, V31, H50, V89, H165, H183, time_scan]
-        list_vars = ["V23", "V31", "H50", "V89", "H165", "H183", "time_scan"]
+        # make dict of numpy arrays
+        ingested = {
+            "V23": V23,
+            "V31": V31,
+            "H50": H50,
+            "V89": V89,
+            "H165": H165,
+            "H183": H183,
+            "sdr_time": time_scan,
+        }
 
     if "ATMS-SDR-GEO_All" in fileobj["All_Data"].keys():  # for geo-data
         data_select = fileobj["All_Data"]["ATMS-SDR-GEO_All"]
 
         lat = data_select["Latitude"][()]
         lon = data_select["Longitude"][()]
-        SunZenith = data_select["SolarZenithAngle"][()]
-        SunAzimuth = data_select["SolarAzimuthAngle"][()]
-        SatZenith = data_select["SatelliteZenithAngle"][()]
-        SatAzimuth = data_select["SatelliteAzimuthAngle"][()]
+        solar_zenith_angle = data_select["SolarZenithAngle"][()]
+        solar_azimuth_angle = data_select["SolarAzimuthAngle"][()]
+        satellite_zenith_angle = data_select["SatelliteZenithAngle"][()]
+        satellite_azimuth_angle = data_select["SatelliteAzimuthAngle"][()]
+        StartTime = data_select["StartTime"][()]
 
-        # make list of numpy arrays
-        var_names = [lat, lon, SunZenith, SunAzimuth, SatZenith, SatAzimuth]
-        list_vars = [
-            "latitude",
-            "longitude",
-            "SunZenith",
-            "SunAzimuth",
-            "SatZenith",
-            "SatAzimuth",
-        ]
+        #  get UTC time in datetime64 format required by geoips for each pixel
+        time_scan = convert_epoch_to_datetime64(StartTime, use_shape=lon.shape)
+
+        # make dict of numpy arrays
+        ingested = {
+            "latitude": lat,
+            "longitude": lon,
+            "solar_zenith_angle": solar_zenith_angle,
+            "solar_azimuth_angle": solar_azimuth_angle,
+            "satellite_zenith_angle": satellite_zenith_angle,
+            "satellite_azimuth_angle": satellite_azimuth_angle,
+            "geo_time": time_scan,
+        }
 
     # close the h5 object
     fileobj.close()
 
     #          ------  setup xarray variables   ------
-
-    # namelist_atms  = ['latitude', 'longitude', 'V23', 'V31', 'H50','V89','H165','H183','timestamp'
-    #                   'SunZenith', 'SunAzimuth', 'SatZenith','SatAzimuth']
-
-    if list_vars[0] not in xarray_atms.variables.keys():
-        # new variables, add these vars to the ATMS xarray
-        for i in range(len(list_vars)):
-            if list_vars[i] == "time_scan":
-                final_xarray["timestamp"] = xr.DataArray(
-                    pd.DataFrame(var_names[i]).apply(
-                        pd.to_datetime, format="%Y%m%d%H%M%S"
-                    )
-                )
-            else:
-                final_xarray[list_vars[i]] = xr.DataArray(var_names[i])
+    for key, data in ingested.items():
+        if key not in xarray_atms.variables.keys():
+            final_xarray[key] = xr.DataArray(data)
+        else:
+            merged_array = np.vstack([xarray_atms[key], data])
+            final_xarray[key] = xr.DataArray(
+                merged_array, dims=["dim_" + str(merged_array.shape[0]), "dim_1"]
+            )
+    # Set official time to either sdr_time or geo_time
+    final_keys = final_xarray.variables.keys()
+    if "sdr_time" in final_keys:
+        final_xarray["time"] = final_xarray["sdr_time"]
     else:
-        # accumulation of mutliple files
-        for i in range(len(list_vars)):
-            if list_vars[i] == "time_scan":
-                new_timestamp = xr.DataArray(
-                    pd.DataFrame(var_names[i]).apply(
-                        pd.to_datetime, format="%Y%m%d%H%M%S"
-                    )
-                )
-                merged_array = numpy.vstack(
-                    [
-                        xarray_atms["timestamp"].to_masked_array(),
-                        new_timestamp.to_masked_array(),
-                    ]
-                )
-                final_xarray["timestamp"] = xr.DataArray(
-                    merged_array, dims=["dim_" + str(merged_array.shape[0]), "dim_1"]
-                )
-            else:
-                merged_array = numpy.vstack(
-                    [xarray_atms[list_vars[i]].to_masked_array(), var_names[i]]
-                )
-                final_xarray[list_vars[i]] = xr.DataArray(
-                    merged_array, dims=["dim_" + str(merged_array.shape[0]), "dim_1"]
-                )
-
+        final_xarray["time"] = final_xarray["geo_time"]
     return final_xarray
 
 
@@ -297,37 +284,30 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
-    import xarray as xr
-    from IPython import embed as shell
-
     LOG.info("Reading files %s", fnames)
 
-    if metadata_only == True:  # read-in datafiles first time if 'metadata_only= True'
+    if metadata_only is True:  # read-in datafiles first time if 'metadata_only= True'
         xarray_atms = xr.Dataset()
-        original_source_filenames = []
+        source_file_names = []
         for fname in fnames:
             xarray_atms = read_atms_file(fname, xarray_atms)
-            original_source_filenames += [
+            source_file_names += [
                 basename(fname)
             ]  # name of last file from input files
-        xarray_atms.attrs["original_source_filenames"] = original_source_filenames
+        xarray_atms.attrs["source_file_names"] = source_file_names
 
         # setup attributors
         fileobj = h5py.File(fname, mode="r")
-        from geoips.xarray_utils.timestamp import get_datetime_from_datetime64
-        from geoips.xarray_utils.timestamp import (
-            get_max_from_xarray_timestamp,
-            get_min_from_xarray_timestamp,
+        from geoips.xarray_utils.time import (
+            get_max_from_xarray_time,
+            get_min_from_xarray_time,
         )
 
-        xarray_atms.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-            xarray_atms, "timestamp"
+        xarray_atms.attrs["start_datetime"] = get_min_from_xarray_time(
+            xarray_atms, "time"
         )
-        xarray_atms.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-            xarray_atms, "timestamp"
+        xarray_atms.attrs["end_datetime"] = get_max_from_xarray_time(
+            xarray_atms, "time"
         )
         xarray_atms.attrs["source_name"] = "atms"
         xarray_atms.attrs["platform_name"] = fileobj.attrs["Platform_Short_Name"][

@@ -1,0 +1,25 @@
+$id: products.interpolator
+$ref: bases.top
+type: object
+description: |
+  The default products algorithm_colormap configuration. Requires spec, which defines the structure
+  of the algorithm_colormap. Has additional properties family and source_name, which define the 
+  family in which the algorithm_colormap resides, and the source_name of where the algorithm_colormap
+  is derived from.
+required:
+  - spec
+properties:
+  family:
+    const: interpolator
+  source_names:
+    type: array
+    items:
+      type: string
+  spec:
+    unevaluatedProperties: false
+    $ref: "product_defaults.specs.interpolator"
+    properties:
+      variables:
+        type: array
+        items:
+          type: string

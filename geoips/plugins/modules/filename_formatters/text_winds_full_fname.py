@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Filename formatter for text windspeed products."""
+
 import logging
 
 from os.path import join as pathjoin

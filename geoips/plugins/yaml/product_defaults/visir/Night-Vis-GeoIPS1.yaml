@@ -1,5 +1,5 @@
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: Night-Vis-GeoIPS1
 docstring: |
   The Night-Vis-GeoIPS1 product_defaults configuration.
@@ -12,7 +12,7 @@ spec:
         max_outbounds: crop
         max_night_zen: 90
   mtif_type: vis
-  colormap:
+  colormapper:
     plugin:
       name: matplotlib_linear_norm
       arguments:

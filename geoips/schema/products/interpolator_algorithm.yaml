@@ -11,8 +11,10 @@ required:
 properties:
   family:
     const: interpolator_algorithm
-  source_name:
-    type: string
+  source_names:
+    type: array
+    items:
+      type: string
   spec:
     unevaluatedProperties: false
     $ref: "product_defaults.specs.interpolator_algorithm"

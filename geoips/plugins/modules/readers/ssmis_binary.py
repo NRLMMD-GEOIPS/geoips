@@ -32,10 +32,10 @@ from os.path import basename
 
 # import os
 from datetime import datetime, timedelta
-import matplotlib
-
-matplotlib.use("agg")
-import matplotlib.pyplot as plt
+import os
+import numpy as np
+import pandas as pd
+import xarray as xr
 
 LOG = logging.getLogger(__name__)
 
@@ -80,90 +80,49 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
-    import pandas as pd
-    import xarray as xr
-
-    # from IPython import embed as shell
-    fname = fnames[0]
-
-    LOG.info("Reading file %s", fname)
-
-    """
-    dataset_info = { 'IMAGER': {'ch08':'ch08',
-                              'ch09':'ch09',
-                              'ch10':'ch10',
-                              'ch11':'ch11',
-                              'ch17':'ch17',
-                              'ch18':'ch18',
-                              'surface':'surface',
-                              'rain':'rain',
-                            },
-                     'ENVIRO': {'ch12':'ch12',
-                              'ch13':'ch13',
-                              'ch14':'ch14',
-                              'ch15':'ch15',
-                              'ch16':'ch16',
-                              'ch15_5x5':'ch15_5x5',
-                              'ch16_5x5':'ch16_5x5',
-                              'ch17_5x5':'ch17_5x5',
-                              'ch18_5x5':'ch18_5x5',
-                              'ch17_5x4':'ch17_5x4',
-                              'ch18_5x4':'ch18_5x4',
-                              #'sea_ice':'sea_ice',
-                              #'surface':'surface',
-                              #'rain1':'rain1',
-                              #'rain2':'rain2',
-                            },
-                     'LAS': {'ch01_3x3':'ch01_3x3',
-                              'ch02_3x3':'ch02_3x3',
-                              'ch03_3x3':'ch03_3x3',
-                              'ch04_3x3':'ch04_3x3',
-                              'ch05_3x3':'ch05_3x3',
-                              'ch06_3x3':'ch06_3x3',
-                              'ch07_3x3':'ch07_3x3',
-                              'ch08_5x5':'ch08_5x5',
-                              'ch09_5x5':'ch09_5x5',
-                              'ch10_5x5':'ch10_5x5',
-                              'ch11_5x5':'ch11_5x5',
-                              'ch18_5x5':'ch18_5x5',
-                              'ch24_3x3':'ch24_3x3',
-                              'height_1000mb':'height_1000mb',
-                              'surf':'surf',
-                            },
-                     'UAS': {'ch19_6x6':'ch19_6x6',
-                              'ch20_6x6':'ch20_6x6',
-                              'ch21_6x6':'ch21_6x6',
-                              'ch22_6x6':'ch22_6x6',
-                              'ch23_6x6':'ch23_6x6',
-                              'ch24_6x6':'ch24_6x6',
-                              'scene':'scene',
-                              'uas_tqflag':'uas_tqflag',
-                            },
-                   }
-    gvar_info = { 'IMAGER': {
-                         'Latitude': 'latitude',
-                         'Longitude': 'longitude',
-                        },
-                  'ENVIRO': {
-                         'Latitude': 'latitude',
-                         'Longitude': 'longitude',
-                        },
-                  'LAS': {
-                         'Latitude': 'latitude',
-                         'Longitude': 'longitude',
-                        },
-                  'UAS': {
-                         'Latitude': 'latitude',
-                         'Longitude': 'longitude',
-                        },
-                }
-    """
+    LOG.info("Reading files %s", fnames)
 
     # checking for right input SSMIS SDR file
 
+    xobjs_list = []
+    # NOTE chans, area_def, and self_register NOT implemented.
+    for fname in fnames:
+        xobjs_list += [read_ssmis_data_file(fname, metadata_only=metadata_only)]
+
+    final_xobjs = append_xarray_dicts(xobjs_list)
+
+    return final_xobjs
+
+
+def append_xarray_dicts(xobjs_list):
+    """Append two dictionaries of xarray objects."""
+    final_xobjs = {}
+    # Loop through all the datasets in the first
+    # xarray object - these should be the same in all
+    min_start_dt = xobjs_list[0]["METADATA"].attrs["start_datetime"]
+    max_end_dt = xobjs_list[0]["METADATA"].attrs["end_datetime"]
+    final_xobjs["METADATA"] = xobjs_list[0]["METADATA"][[]]
+    for dsname in xobjs_list[0]:
+        xobjs_ds_list = []
+        for xobjs in xobjs_list:
+            xobjs_ds_list += [xobjs[dsname]]
+            curr_start_dt = xobjs[dsname].attrs["start_datetime"]
+            curr_end_dt = xobjs[dsname].attrs["end_datetime"]
+            if curr_start_dt < min_start_dt:
+                min_start_dt = curr_start_dt
+            if curr_end_dt > max_end_dt:
+                max_end_dt = curr_end_dt
+        if dsname != "METADATA":
+            final_xobjs[dsname] = xr.concat(xobjs_ds_list, dim="dim_0")
+        final_xobjs[dsname].attrs["start_datetime"] = min_start_dt
+        final_xobjs[dsname].attrs["end_datetime"] = max_end_dt
+    final_xobjs["METADATA"].attrs["start_datetime"] = min_start_dt
+    final_xobjs["METADATA"].attrs["end_datetime"] = max_end_dt
+    return final_xobjs
+
+
+def read_ssmis_data_file(fname, metadata_only=False):
+    """Read a single SSMIS data file."""
     data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
     if data_name != "raw":
@@ -220,7 +179,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     elif satid == 4:
         satid = "F19"
 
-    SatZenith = 53.1
+    satellite_zenith_angle = 53.1
     sensor_scan_angle = 45.0
     satellite_altitude = 859
 
@@ -288,8 +247,8 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
             xarray_imager.attrs["source_name"] = "ssmis"
             xarray_imager.attrs["platform_name"] = satid
             xarray_imager.attrs["data_provider"] = "DMSP"
-            xarray_imager.attrs["original_source_filenames"] = [basename(fname)]
-            xarray_imager.attrs["SatZenith"] = SatZenith
+            xarray_imager.attrs["source_file_names"] = [basename(fname)]
+            xarray_imager.attrs["satellite_zenith_angle"] = satellite_zenith_angle
             xarray_imager.attrs["sensor_scan_angle"] = sensor_scan_angle
             xarray_imager.attrs["satellite_altitude"] = satellite_altitude
             LOG.info(
@@ -852,7 +811,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         "H91",
         "sfcType",
         "rain",
-        "timestamp",
+        "time",
     ]
     namelist_enviro = [
         "latitude",
@@ -868,7 +827,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         "ch18_5x5",
         "ch17_5x4",
         "ch18_5x4",
-        "timestamp",
+        "time",
     ]
     namelist_las = [
         "latitude",
@@ -888,7 +847,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         "ch24_3x3",
         "height_1000mb",
         "surf_las",
-        "timestamp",
+        "time",
     ]
     namelist_uas = [
         "latitude",
@@ -901,7 +860,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         "ch24_6x6",
         "scene",
         "tqflag",
-        "timestamp",
+        "time",
     ]
 
     # set xarray object for imager variables
@@ -926,7 +885,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_imager["H91"].attrs["channel_number"] = 18
     xarray_imager["sfcType"] = xr.DataArray(surf)
     xarray_imager["rain"] = xr.DataArray(rain)
-    xarray_imager["timestamp"] = xr.DataArray(
+    xarray_imager["time"] = xr.DataArray(
         pd.DataFrame(time_imager).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
@@ -956,7 +915,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_enviro["Ch17_5x4"].attrs["channel_number"] = 17
     xarray_enviro["Ch18_5x4"] = xr.DataArray(ch18_5x4 / 100 + 273.15)
     xarray_enviro["Ch18_5x4"].attrs["channel_number"] = 18
-    xarray_enviro["timestamp"] = xr.DataArray(
+    xarray_enviro["time"] = xr.DataArray(
         pd.DataFrame(time_enviro).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
@@ -992,7 +951,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_las["Ch24_3x3"].attrs["channel_number"] = 24
     xarray_las["Height_1000mb"] = xr.DataArray(height_1000mb)
     xarray_las["Surf_las"] = xr.DataArray(surf_las)
-    xarray_las["timestamp"] = xr.DataArray(
+    xarray_las["time"] = xr.DataArray(
         pd.DataFrame(time_las).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
@@ -1014,7 +973,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_uas["Ch24_6x6"].attrs["channel_number"] = 24
     xarray_uas["Scene"] = xr.DataArray(scene)
     xarray_uas["tqFlag"] = xr.DataArray(tqflag)
-    xarray_uas["timestamp"] = xr.DataArray(
+    xarray_uas["time"] = xr.DataArray(
         pd.DataFrame(time_uas).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
@@ -1026,8 +985,8 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_imager.attrs["source_name"] = "ssmis"
     xarray_imager.attrs["platform_name"] = satid
     xarray_imager.attrs["data_provider"] = "DMSP"
-    xarray_imager.attrs["original_source_filenames"] = [basename(fname)]
-    xarray_imager.attrs["SatZenith"] = SatZenith
+    xarray_imager.attrs["source_file_names"] = [basename(fname)]
+    xarray_imager.attrs["satellite_zenith_angle"] = satellite_zenith_angle
     xarray_imager.attrs["sensor_scan_angle"] = sensor_scan_angle
     xarray_imager.attrs["satellite_altitude"] = satellite_altitude
 
@@ -1041,8 +1000,8 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_enviro.attrs["source_name"] = "ssmis"
     xarray_enviro.attrs["platform_name"] = satid
     xarray_enviro.attrs["data_provider"] = "DMSP"
-    xarray_enviro.attrs["original_source_filenames"] = [basename(fname)]
-    xarray_enviro.attrs["SatZenith"] = SatZenith
+    xarray_enviro.attrs["source_file_names"] = [basename(fname)]
+    xarray_enviro.attrs["satellite_zenith_angle"] = satellite_zenith_angle
     xarray_enviro.attrs["sensor_scan_angle"] = sensor_scan_angle
     xarray_enviro.attrs["satellite_altitude"] = satellite_altitude
 
@@ -1056,8 +1015,8 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_las.attrs["source_name"] = "ssmis"
     xarray_las.attrs["platform_name"] = satid
     xarray_las.attrs["data_provider"] = "DMSP"
-    xarray_las.attrs["original_source_filenames"] = [basename(fname)]
-    xarray_las.attrs["SatZenith"] = SatZenith
+    xarray_las.attrs["source_file_names"] = [basename(fname)]
+    xarray_las.attrs["satellite_zenith_angle"] = satellite_zenith_angle
     xarray_las.attrs["sensor_scan_angle"] = sensor_scan_angle
     xarray_las.attrs["satellite_altitude"] = satellite_altitude
 
@@ -1071,8 +1030,8 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_uas.attrs["source_name"] = "ssmis"
     xarray_uas.attrs["platform_name"] = satid
     xarray_uas.attrs["data_provider"] = "DMSP"
-    xarray_uas.attrs["original_source_filenames"] = [basename(fname)]
-    xarray_uas.attrs["SatZenith"] = SatZenith
+    xarray_uas.attrs["source_file_names"] = [basename(fname)]
+    xarray_uas.attrs["satellite_zenith_angle"] = satellite_zenith_angle
     xarray_uas.attrs["sensor_scan_angle"] = sensor_scan_angle
     xarray_uas.attrs["satellite_altitude"] = satellite_altitude
 

@@ -151,11 +151,11 @@ GVARLIST = {
     ],
 }
 xvarnames = {
-    "solar_zenith": "SunZenith",
-    "solar_azimuth": "SunAzimuth",
-    "sensor_zenith": "SatZenith",
-    "sensor_azimuth": "SatAzimuth",
-    "lunar_zenith": "LunarZenith",
+    "solar_zenith": "solar_zenith_angle",
+    "solar_azimuth": "solar_azimuth_angle",
+    "sensor_zenith": "satellite_zenith_angle",
+    "sensor_azimuth": "satellite_azimuth_angle",
+    "lunar_zenith": "lunar_zenith_angle",
     "DNB_observations": "DNB",
 }
 
@@ -350,7 +350,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         if data_type not in dataset_masks:
             dataset_masks[data_type] = False
             xarrays[data_type] = xr.Dataset()
-            xarrays[data_type].attrs["original_source_filenames"] = []
+            xarrays[data_type].attrs["source_file_names"] = []
 
         #  ------  Time info for each pixel ------
         #  Start (end) time of VIIRS scan in seconds since 1/1/1993
@@ -397,9 +397,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         xarrays[data_type].attrs["data_provider"] = "NASA"
         if (
             os.path.basename(fname)
-            not in xarrays[data_type].attrs["original_source_filenames"]
+            not in xarrays[data_type].attrs["source_file_names"]
         ):
-            xarrays[data_type].attrs["original_source_filenames"] += [
+            xarrays[data_type].attrs["source_file_names"] += [
                 os.path.basename(fname)
             ]
 
@@ -436,7 +436,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if vis_data_type not in dataset_masks:
                 dataset_masks[vis_data_type] = False
                 xarrays[vis_data_type] = xr.Dataset()
-                xarrays[vis_data_type].attrs["original_source_filenames"] = []
+                xarrays[vis_data_type].attrs["source_file_names"] = []
             xarrays[vis_data_type].attrs = xarrays[data_type].attrs
             geo_target_data_types = [default_data_type, vis_data_type]
             vis_vars = VARLIST[vis_data_type]
@@ -636,8 +636,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
                 lunarref_data = lunarref(
                     xarrays["DNB"]["DNBRad"].to_masked_array(),
-                    xarrays["DNB"]["SunZenith"].to_masked_array(),
-                    xarrays["DNB"]["LunarZenith"].to_masked_array(),
+                    xarrays["DNB"]["solar_zenith_angle"].to_masked_array(),
+                    xarrays["DNB"]["lunar_zenith_angle"].to_masked_array(),
                     xarrays["DNB"].start_datetime.strftime("%Y%m%d%H"),
                     xarrays["DNB"].start_datetime.strftime("%M"),
                     xarrays["DNB"]["moon_phase_angle"].mean(),

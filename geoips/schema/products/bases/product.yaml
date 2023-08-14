@@ -2,7 +2,7 @@ $id: products.bases.product
 type: object
 required:
   - name
-  - source_name
+  - source_names
   # - spec
 unevaluatedProperties: false
 properties:
@@ -10,7 +10,9 @@ properties:
     description: |
       A string representing where the data is sourced from. This refers
       to the atmospheric product which created the data to be used.
-    type: string
+    type: array
+    items:
+      type: string
   name:
     description: A string representing name of the product
     $ref: bases.name
@@ -29,7 +31,7 @@ properties:
   spec:
     type: object
     # required:
-    #   - source_name
+    #   - source_names
     #   - variables
     properties:
       variables:

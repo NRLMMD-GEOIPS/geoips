@@ -1,5 +1,5 @@
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: Rain
 docstring: |
   The Rain product_defaults configuration.
@@ -14,7 +14,7 @@ spec:
         norm: null
         inverse: null
   mtif_type: rain
-  colormap:
+  colormapper:
     plugin:
       name: pmw_Rain
       arguments:

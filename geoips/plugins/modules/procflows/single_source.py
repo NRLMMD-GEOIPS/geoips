@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Processing workflow for single data source processing."""
+
 from os import getenv
 from os.path import basename
 import logging
@@ -24,6 +25,7 @@ from geoips.filenames.duplicate_files import remove_duplicates
 from geoips.geoips_utils import copy_standard_metadata, output_process_times
 from geoips.utils.memusg import print_mem_usage
 from geoips.xarray_utils.data import sector_xarrays
+from geoips.sector_utils.utils import filter_area_defs_actual_time, is_dynamic_sector
 
 # Old interfaces (YAML, not updated to classes yet!)
 from geoips.dev.product import (
@@ -47,7 +49,7 @@ from geoips.dev.output_config import (
 # New class-based interfaces
 from geoips.interfaces import (
     algorithms,
-    colormaps,
+    colormappers,
     filename_formatters,
     interpolators,
     output_formatters,
@@ -509,11 +511,11 @@ def plot_data(
             raise ValueError("Did not produce expected products")
     else:
         mpl_colors_info = None
-        if "colormap" in prod_plugin["spec"]:
-            cmap_plugin = colormaps.get_plugin(
-                prod_plugin["spec"]["colormap"]["plugin"]["name"]
+        if "colormapper" in prod_plugin["spec"]:
+            cmap_plugin = colormappers.get_plugin(
+                prod_plugin["spec"]["colormapper"]["plugin"]["name"]
             )
-            cmap_args = prod_plugin["spec"]["colormap"]["plugin"]["arguments"]
+            cmap_args = prod_plugin["spec"]["colormapper"]["plugin"]["arguments"]
             mpl_colors_info = cmap_plugin(**cmap_args)
 
         output_plugin = output_formatters.get_plugin(output_formatter)
@@ -748,8 +750,9 @@ def get_area_defs_from_command_line_args(
             raise (TypeError, "Must have xobjs defined for tcdb sectors")
         area_defs += get_tc_area_defs_for_xarray(
             xobjs["METADATA"],
-            tcdb_sector_list,
-            tc_spec_template,
+            tcdb_sector_list=tcdb_sector_list,
+            tc_spec_template=tc_spec_template,
+            trackfile_parser=trackfile_parser,
             aid_type="BEST",
         )
     if trackfiles:
@@ -841,8 +844,8 @@ def get_alg_xarray(
     # If we want to run the algorithm prior to interpolation, apply the algorithm here,
     # and return either the unprojected result or interpolated result appropriately.
     if prod_plugin.family in [
-        "algorithm_colormap",
-        "algorithm_interpolator_colormap",
+        "algorithm_colormapper",
+        "algorithm_interpolator_colormapper",
         "algorithm",
     ]:
         alg_xarray = xarray.Dataset()
@@ -911,10 +914,10 @@ def get_alg_xarray(
             )
 
         # No interpolation required
-        if prod_plugin.family == "algorithm_colormap":
+        if prod_plugin.family == "algorithm_colormapper":
             final_xarray = alg_xarray
         # If required, interpolate the result prior to returning
-        elif prod_plugin.family == "algorithm_interpolator_colormap":
+        elif prod_plugin.family == "algorithm_interpolator_colormapper":
             interp_args["varlist"] = [prod_plugin.name]
             final_xarray = interp_plugin(
                 area_def, alg_xarray, alg_xarray, **interp_args
@@ -1109,15 +1112,44 @@ def verify_area_def(
     data_end_datetime,
     time_range_hours=3,
 ):
-    """Verify area def."""
-    from geoips.sector_utils.utils import filter_area_defs_actual_time
+    """Verify current area definition is the closest to the actual data time.
 
-    if data_end_datetime - data_start_datetime < timedelta(hours=time_range_hours):
+    When looping through multiple dynamic area definitions for a full data file that
+    temporally covers more than one dynamic area_def, there is no way of knowing
+    which dynamic area_def has the best coverage until AFTER we have actually
+    sectored the data to the specific area_def.
+
+    Call this utility on the current area_def (check_area_def) for the sectored
+    data file, plus the full list of area definitions (area_defs) that cover the
+    FULL data file.
+
+    Returns
+    -------
+    bool
+
+        * True if the current area definition is NOT dynamic
+        * True if the current area definition IS dynamic and
+          is the closest temporally to the sectored data.
+        * False if the current area definition is removed when
+          filtering the list of area definitions based on the
+          actual sectored data time.
+
+    """
+    retval = True
+    # If this is not a dynamic sector, then there is no need to check the
+    # temporal matching between the data time and the sector time, because
+    # there is no sector time to check.
+    if not is_dynamic_sector(check_area_def):
+        retval = True
+    # If the data coverage is more than time_range_hours, do not check
+    # because it may be ambiguous which area definition is actually the "closest".
+    elif data_end_datetime - data_start_datetime < timedelta(hours=time_range_hours):
         new_area_defs = filter_area_defs_actual_time(area_defs, data_start_datetime)
-    LOG.info("Allowed area_defs: %s", [ad.name for ad in new_area_defs])
-    if check_area_def.name not in [ad.name for ad in new_area_defs]:
-        return False
-    return True
+        LOG.info("Allowed area_defs: %s", [ad.name for ad in new_area_defs])
+        if check_area_def.name not in [ad.name for ad in new_area_defs]:
+            retval = False
+
+    return retval
 
 
 def call(fnames, command_line_args=None):
@@ -1174,6 +1206,7 @@ def call(fnames, command_line_args=None):
         "metadata_output_formatter_kwargs",
         "metadata_filename_formatter_kwargs",
         "sector_adjuster",
+        "sector_adjuster_kwargs",
         "reader_defined_area_def",
         "self_register_source",
         "self_register_dataset",
@@ -1193,6 +1226,7 @@ def call(fnames, command_line_args=None):
     output_file_list_fname = command_line_args["output_file_list_fname"]
     compare_outputs_module = command_line_args["compare_outputs_module"]
     sector_adjuster = command_line_args["sector_adjuster"]
+    sector_adjuster_kwargs = command_line_args["sector_adjuster_kwargs"]
     self_register_source = command_line_args["self_register_source"]
     self_register_dataset = command_line_args["self_register_dataset"]
     reader_defined_area_def = command_line_args["reader_defined_area_def"]
@@ -1291,7 +1325,7 @@ def call(fnames, command_line_args=None):
 
         process_datetimes[area_def.area_id] = {}
         process_datetimes[area_def.area_id]["start"] = datetime.utcnow()
-        # add SatAzimuth and SunAzimuth into list of the variables for ABI only
+        # add satellite_azimuth_angle and solar_azimuth_angle into list of the variables for ABI only
         # (come from ABI reader)
         if area_def.sector_type in ["reader_defined", "self_register"]:
             LOG.info("CONTINUE Not sectoring sector_type %s", area_def.sector_type)
@@ -1311,6 +1345,12 @@ def call(fnames, command_line_args=None):
             LOG.info("SKIPPING no sectored xarrays returned for %s", area_def.name)
             continue
 
+        # Now we check to see if the current area_def is the closest one to
+        # the dynamic time, if appropriate. We could end up with multiple
+        # area_defs for a single dynamic sector, and we can't truly test to see
+        # how close each one is to the actual data until we sector it...
+        # So, check now to see if any of the area_defs in list_area_defs is
+        # closer than pad_area_def
         if not verify_area_def(
             area_defs,
             pad_area_def,
@@ -1363,11 +1403,17 @@ def call(fnames, command_line_args=None):
                     == "list_xarray_list_variables_to_area_def_out_fnames"
                 ):
                     area_def, adadj_fnames = sect_adj_plugin(
-                        list(sect_xarrays.values()), area_def, variables
+                        list(sect_xarrays.values()),
+                        area_def,
+                        variables,
+                        **sector_adjuster_kwargs,
                     )
                 else:
                     area_def = sect_adj_plugin(
-                        list(sect_xarrays.values()), area_def, variables
+                        list(sect_xarrays.values()),
+                        area_def,
+                        variables,
+                        **sector_adjuster_kwargs,
                     )
             else:
                 # AMSU-b specifically needs full swath width...
@@ -1376,11 +1422,17 @@ def call(fnames, command_line_args=None):
                     == "list_xarray_list_variables_to_area_def_out_fnames"
                 ):
                     area_def, adadj_fnames = sect_adj_plugin(
-                        list(pad_sect_xarrays.values()), area_def, variables
+                        list(pad_sect_xarrays.values()),
+                        area_def,
+                        variables,
+                        **sector_adjuster_kwargs,
                     )
                 else:
                     area_def = sect_adj_plugin(
-                        list(pad_sect_xarrays.values()), area_def, variables
+                        list(pad_sect_xarrays.values()),
+                        area_def,
+                        variables,
+                        **sector_adjuster_kwargs,
                     )
             # These will be added to the alg_xarray
             # new_attrs['area_definition'] = area_def

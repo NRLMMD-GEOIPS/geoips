@@ -1,0 +1,23 @@
+$id: product_defaults.specs.interpolator
+type: object
+required:
+  - interpolator
+properties:
+  display_name:
+    type: string
+  interpolator:
+    $ref: "product_defaults.bases.interpolator"
+  coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  full_coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  filename_coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  image_production_coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  windbarb_plotter:
+    $ref: "product_defaults.bases.windbarb_plotter"
+  mtif_type:
+    type: string
+  pad_area_definition:
+    type: boolean

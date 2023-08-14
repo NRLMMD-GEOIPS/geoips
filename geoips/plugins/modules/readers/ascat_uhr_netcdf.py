@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Read derived surface winds from BYU ASCAT UHR NetCDF data."""
+
 import logging
 from datetime import datetime
 import os
@@ -18,6 +19,11 @@ from os.path import basename
 
 import numpy
 import xarray
+
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -32,7 +38,7 @@ name = "ascat_uhr_netcdf"
 def read_byu_data(wind_xarray, fname):
     """Reformat ascat xarray object appropriately.
 
-    * variables: latitude, longitude, timestamp,
+    * variables: latitude, longitude, time,
       wind_speed_kts, wind_dir_deg_met
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
@@ -56,14 +62,14 @@ def read_byu_data(wind_xarray, fname):
         wind_xarray.attrs["source_name"] = "ascatuhr"
         wind_xarray.attrs["platform_name"] = "metop-c"
     elif (
-        "original_source_filenames" in wind_xarray.attrs
-        and "_C_" in wind_xarray.attrs["original_source_filenames"][0]
+        "source_file_names" in wind_xarray.attrs
+        and "_C_" in wind_xarray.attrs["source_file_names"][0]
     ):
         wind_xarray.attrs["source_name"] = "ascatuhr"
         wind_xarray.attrs["platform_name"] = "metop-c"
     elif (
-        "original_source_filenames" in wind_xarray.attrs
-        and "_B_" in wind_xarray.attrs["original_source_filenames"][0]
+        "source_file_names" in wind_xarray.attrs
+        and "_B_" in wind_xarray.attrs["source_file_names"][0]
     ):
         wind_xarray.attrs["source_name"] = "ascatuhr"
         wind_xarray.attrs["platform_name"] = "metop-b"
@@ -72,15 +78,15 @@ def read_byu_data(wind_xarray, fname):
     try:
         # Store the storm names lower case - only reference to it is in the filename..
         storm_name = (
-            os.path.basename(wind_xarray.original_source_filenames[0])
+            os.path.basename(wind_xarray.source_file_names[0])
             .split("_")[3]
             .lower()
         )
         expected_yymmdd = os.path.basename(
-            wind_xarray.original_source_filenames[0]
+            wind_xarray.source_file_names[0]
         ).split("_")[4]
         expected_hhmn = os.path.basename(
-            wind_xarray.original_source_filenames[0]
+            wind_xarray.source_file_names[0]
             .replace(".WRave3.nc", "")
             .replace(".avewr.nc", "")
         ).split("_")[5]
@@ -94,7 +100,7 @@ def read_byu_data(wind_xarray, fname):
         # MUIFA_20220911_19947_C_D-product.nc
         # Store the storm names lower case - only reference to it is in the filename..
         storm_name = (
-            os.path.basename(wind_xarray.original_source_filenames[0])
+            os.path.basename(wind_xarray.source_file_names[0])
             .split("_")[0]
             .lower()
         )
@@ -144,15 +150,16 @@ def read_byu_data(wind_xarray, fname):
         # Set wind_speed_kts appropriately
         wind_xarray["wind_speed_kts"].attrs = wind_xarray["wspeeds"].attrs.copy()
         wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
-        wind_xarray["wind_speed_kts"].attrs["long_name"] = (
-            wind_xarray["wspeeds"]
-            .attrs["long_name"]
-            .replace("ambiguities", "ambiguity selection")
-        )
+        if wind_xarray["wspeeds"].attrs.get("long_name"):
+            wind_xarray["wind_speed_kts"].attrs["long_name"] = (
+                wind_xarray["wspeeds"]
+                .attrs["long_name"]
+                .replace("ambiguities", "ambiguity selection")
+            )
 
         wind_xarray["wind_dir_deg_met"].attrs = wind_xarray["wdirs"].attrs.copy()
 
-        # Set lat/lons/timestamp appropriately
+        # Set lat/lons/time appropriately
         wind_xarray = wind_xarray.rename(
             {
                 "wspeeds": "wind_speed_ambiguities_kts",
@@ -202,20 +209,21 @@ def read_byu_data(wind_xarray, fname):
         ) / 3
 
     if "time" in wind_xarray.variables:
-        # These files are not correct yet.  Pull YYYYMMDD from filename for now, set hour to 1200.
+        # These files are not correct yet.  Pull YYYYMMDD from filename for now,
+        # set hour to 1200.
         # Just to get something to plot.
         expected_yyyymmdd = os.path.basename(
-            wind_xarray.original_source_filenames[0]
+            wind_xarray.source_file_names[0]
         ).split("_")[1]
         dt = datetime.strptime(expected_yyyymmdd + "0000", "%Y%m%d%H%M")
         timediff = numpy.datetime64(dt) - numpy.datetime64("2000-01-01T00:00:00")
-        wind_xarray["timestamp"] = wind_xarray["time"] + timediff
+        wind_xarray["time"] = wind_xarray["time"] + timediff
 
         # This is all it will be in the end
-        # wind_xarray = wind_xarray.rename({'time', 'timestamp'})
-        wind_xarray["timestamp"] = xarray.where(
+        # wind_xarray = wind_xarray.rename({'time', 'time'})
+        wind_xarray["time"] = xarray.where(
             wind_xarray["wind_speed_kts"] >= 0,
-            wind_xarray["timestamp"],
+            wind_xarray["time"],
             numpy.datetime64("NaT"),
         )
 
@@ -227,10 +235,10 @@ def read_byu_data(wind_xarray, fname):
             numpy.zeros(shape=wind_xarray.latitude.shape).astype(int)
             + numpy.datetime64(middt)
         )
-        wind_xarray["timestamp"] = xarray.DataArray(
-            timearray, name="timestamp", coords=wind_xarray["latitude"].coords
+        wind_xarray["time"] = xarray.DataArray(
+            timearray, name="time", coords=wind_xarray["latitude"].coords
         )
-        wind_xarray = wind_xarray.set_coords(["timestamp"])
+        wind_xarray = wind_xarray.set_coords(["time"])
 
     return {dsname: wind_xarray}
 
@@ -272,10 +280,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.timestamp import (
-        get_min_from_xarray_timestamp,
-        get_max_from_xarray_timestamp,
-    )
     import xarray
 
     # Only SAR reads multiple files
@@ -284,7 +288,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     wind_xarray.attrs["source_name"] = "unknown"
     wind_xarray.attrs["platform_name"] = "unknown"
 
-    wind_xarray.attrs["original_source_filenames"] = [basename(fname)]
+    wind_xarray.attrs["source_file_names"] = [basename(fname)]
     wind_xarray.attrs["interpolation_radius_of_influence"] = 20000
     # 1.25km grid, 4km accuracy
     wind_xarray.attrs["sample_distance_km"] = 4
@@ -301,11 +305,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     for wind_xarray in wind_xarrays.values():
         LOG.info("Setting standard metadata")
-        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+            wind_xarray, "time"
         )
-        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+            wind_xarray, "time"
         )
 
         if "wind_speed_kts" in wind_xarray.variables:

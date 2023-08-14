@@ -6,48 +6,48 @@ docstring: |
 spec:
   products:
     - name: Infrared
-      source_name: modis
+      source_names: [modis]
       docstring: |
         The Infrared product_defaults configuration for modis products.
       product_defaults: Infrared
       spec:
         variables: ["chan31.0BT"]
     - name: Infrared-Gray
-      source_name: modis
+      source_names: [modis]
       docstring: |
         The Infrared-Gray product_defaults configuration for modis products.
       product_defaults: Infrared-Gray
       spec:
         variables: ["chan31.0BT"]
     - name: IR-BD
-      source_name: modis
+      source_names: [modis]
       docstring: |
         The IR-BD product_defaults configuration for modis products.
       product_defaults: IR-BD
       spec:
         variables: ["chan31.0BT"]
     - name: WV
-      source_name: modis
+      source_names: [modis]
       docstring: |
         The WV product_defaults configuration for modis products.
       product_defaults: WV
       spec:
         variables: ["chan27.0BT"] # B09 abi, 6.9um Mid-level WV; B09 ahi 6.9410 Mid-level WV; B27 modis 6.535-6.895um
     - name: WV-Lower
-      source_name: modis
+      source_names: [modis]
       docstring: |
         The WV-Lower product_defaults configuration for modis products.
       product_defaults: WV-Lower
       spec:
         variables: ["chan28.0BT"] # B10 abi, 7.3um Lower-level WV; B10 ahi 7.3467um Lower-level WV; B28 modis, B06 seviri IR7.3
     - name: Visible
-      source_name: modis
+      source_names: [modis]
       docstring: |
         The Visible product_defaults configuration for modis products.
       product_defaults: Visible
       spec:
-        variables: ["chan1.0Ref", "SunZenith"] # chan-1 is MODIS high res vis at 250m
-        colormap:
+        variables: ["chan1.0Ref", "solar_zenith_angle"] # chan-1 is MODIS high res vis at 250m
+        colormapper:
           plugin:
             name: matplotlib_linear_norm
             arguments:

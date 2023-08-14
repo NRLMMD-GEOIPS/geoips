@@ -1,3 +1,15 @@
+# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # #
+# # # Author:
+# # # Naval Research Laboratory, Marine Meteorology Division
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
+# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
 """Products interface module."""
 
 import logging
@@ -35,7 +47,15 @@ class ProductsPluginValidator(YamlPluginValidator):
                 )
             self.validate_product(plugin)
         else:
-            plugin = super().validate(plugin, validator_id=validator_id)
+            try:
+                plugin = super().validate(plugin, validator_id=validator_id)
+            except ValidationError as resp:
+                raise ValidationError(
+                    f"{resp}: Trouble validating plugin '{plugin.get('name')}'\n"
+                    f"in interface '{plugin.get('interface')}'\n"
+                    f"located at '{plugin.get('abspath')}'\n"
+                    f"from package '{plugin.get('package')}' "
+                ) from resp
 
         return plugin
 
@@ -49,7 +69,7 @@ class ProductsPluginValidator(YamlPluginValidator):
                 spec_validator = self.validators[f"product_defaults.specs.{family}"]
             except KeyError:
                 raise ValidationError(
-                    f"No product_defaults spec for family {family}", instance=product
+                    f"No product_defaults spec for family '{family}'", instance=product
                 )
             spec_validator.validate(product["spec"])
         elif "product_defaults" in product:
@@ -63,7 +83,7 @@ class ProductsPluginValidator(YamlPluginValidator):
             merge_nested_dicts(product, defaults)
         else:
             raise ValidationError(
-                f"Product {product['name']} did not specify either "
+                f"Product '{product['name']}' did not specify either "
                 f"'family' or 'product_defaults'."
             )
         return product
@@ -76,14 +96,17 @@ class ProductsInterface(BaseYamlInterface):
     validator = ProductsPluginValidator()
 
     @staticmethod
-    def _create_plugin_cache_name(yaml_plugin):
+    def _create_plugin_cache_names(yaml_plugin):
         """Create a plugin name for cache storage.
 
         This name is a tuple containing source_name and name.
 
         Overrides the same method from YamlPluginValidator.
         """
-        return (yaml_plugin["source_name"], yaml_plugin["name"])
+        names = []
+        for source_name in yaml_plugin["source_names"]:
+            names += [(source_name, yaml_plugin["name"])]
+        return names
 
     def get_plugin(self, source_name, name, product_spec_override=None):
         """Retrieve a Product plugin by source_name, name, and product_spec_override.

@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Test script for representative product comparisons."""
+
 import subprocess
 import logging
 from os.path import basename, join, splitext, dirname, isdir, isfile, exists
@@ -272,6 +273,10 @@ def images_match(output_product, compare_product, fuzz="5%"):
     if fullimg_retval != 0:
         LOG.info("    ***************************************")
         LOG.info("    *** BAD Images do NOT match exactly ***")
+        LOG.info("    ***   output_product: %s ***", output_product)
+        LOG.info("    ***   compare_product: %s ***", compare_product)
+        LOG.info("    ***   out_diffimg: %s ***", out_diffimg)
+        LOG.info("    ***   exact_out_diffimg: %s ***", exact_out_diffimg)
         LOG.info("    ***************************************")
         return False
 
@@ -319,6 +324,8 @@ def geotiffs_match(output_product, compare_product):
     if retval != 0:
         LOG.info("    *****************************************")
         LOG.info("    *** BAD geotiffs do NOT match exactly ***")
+        LOG.info("    ***   output_product: %s ***", output_product)
+        LOG.info("    ***   compare_product: %s ***", compare_product)
         LOG.info("    *****************************************")
         return False
 
@@ -354,6 +361,8 @@ def geoips_netcdf_match(output_product, compare_product):
     if out_xobj.attrs != compare_xobj.attrs:
         LOG.info("    **************************************************************")
         LOG.info("    *** BAD GeoIPS NetCDF file attributes do NOT match exactly ***")
+        LOG.info("    ***   output_product: %s ***", output_product)
+        LOG.info("    ***   compare_product: %s ***", compare_product)
         LOG.info("    **************************************************************")
         for attr in out_xobj.attrs.keys():
             if attr not in compare_xobj.attrs:
@@ -402,6 +411,8 @@ def geoips_netcdf_match(output_product, compare_product):
     except AssertionError as resp:
         LOG.info("    ****************************************************************")
         LOG.info("    *** BAD GeoIPS NetCDF files do not match within tolerance *****")
+        LOG.info("    ***   output_product: %s ***", output_product)
+        LOG.info("    ***   compare_product: %s ***", compare_product)
         for line in str(resp).split("\n"):
             LOG.info(f"    *** {line} ***")
         diffout += [
@@ -476,6 +487,8 @@ def text_match(output_product, compare_product):
         return True
     LOG.info("    *******************************************")
     LOG.info("    *** BAD Text files do NOT match exactly ***")
+    LOG.info("    ***   output_product: %s ***", output_product)
+    LOG.info("    ***   compare_product: %s ***", compare_product)
     LOG.info("    *******************************************")
     out_difftxt = get_out_diff_fname(compare_product, output_product)
     with open(out_difftxt, "w") as fobj:

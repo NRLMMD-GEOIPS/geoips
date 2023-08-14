@@ -7,21 +7,21 @@ docstring: |
 spec:
   products:
     - name: windspeed
-      source_name: ascatuhr
+      source_names: [ascatuhr]
       docstring: |
         The windspeed product_defaults for ascatuhr product.
       product_defaults: windspeed
       spec:
         variables: ["wind_speed_kts"]
     - name: windbarbs
-      source_name: ascatuhr
+      source_names: [ascatuhr]
       docstring: |
         The windbarbs product_defaults for ascatuhr product.
       product_defaults: windbarbs
       spec:
         variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: wind-ambiguities
-      source_name: ascatuhr
+      source_names: [ascatuhr]
       docstring: |
         The wind-ambiguities product_defaults for ascatuhr product.
       product_defaults: wind-ambiguities
@@ -29,21 +29,21 @@ spec:
         variables:
           ["wind_speed_ambiguities_kts", "wind_dir_ambiguities_deg_met"]
     - name: unsectored
-      source_name: ascatuhr
+      source_names: [ascatuhr]
       docstring: |
         The unsectored product_defaults for ascatuhr product.
       product_defaults: unsectored
       spec:
         variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: sectored
-      source_name: ascatuhr
+      source_names: [ascatuhr]
       docstring: |
         The sectored product_defaults for ascatuhr product.
       product_defaults: sectored
       spec:
         variables: ["wind_speed_kts", "wind_dir_deg_met"]
     - name: nrcs
-      source_name: ascatuhr
+      source_names: [ascatuhr]
       docstring: |
         The nrcs product_defaults for ascatuhr product.
       product_defaults: nrcs
@@ -63,7 +63,7 @@ spec:
               max_outbounds: crop
               norm: null
               inverse: null
-        colormap:
+        colormapper:
           plugin:
             name: matplotlib_linear_norm
             arguments:

@@ -11,5 +11,7 @@ required:
 properties:
   family:
     const: unsectored_xarray_dict_area_to_output_format
-  source_name:
-    type: string
+  source_names:
+    type: array
+    items:
+      type: string

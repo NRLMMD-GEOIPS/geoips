@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Processing workflow for config-based processing."""
+
 import logging
 from copy import deepcopy
 from glob import glob
@@ -38,6 +39,15 @@ try:
 except ImportError:
     print("Please install geoips_db package if required")
 
+try:
+    from geoips_db.utils.database_writes import (
+        write_to_database,
+        flag_product_as_deleted,
+        write_stats_to_database,
+    )
+except ImportError:
+    print("Please install geoips_db package if required")
+
 # Old interfaces (YAML, will migrate to new soon)
 from geoips.dev.output_config import (
     get_output_formatter_kwargs,
@@ -51,6 +61,7 @@ from geoips.interfaces import interpolators
 from geoips.interfaces import output_formatters
 from geoips.interfaces import readers
 from geoips.interfaces import products
+from geoips.interfaces import sector_adjusters
 
 # Collect functions from single_source (should consolidate these somewhere)
 from geoips.plugins.modules.procflows.single_source import (
@@ -886,6 +897,10 @@ def call(fnames, command_line_args=None):
                 config_dict["outputs"], source_name, sector_types=[sector_type]
             )
 
+            if not curr_variables:
+                LOG.info("No input variables for sector type: %s", sector_type)
+                continue
+
             # If we read separately for each sector (geostationary), then must set
             # xobjs within area_def loop
             if sectored_read:
@@ -1001,10 +1016,12 @@ def call(fnames, command_line_args=None):
                 )
                 continue
 
-            # Now we check to see if the current area_def is the closest one to the dynamic time, if appropriate.
-            # We could end up with multiple area_defs for a single dynamic sector, and we can't truly test to see
-            # how close each one is to the actual data until we sector it... So, check now to see if any of the
-            # area_defs in list_area_defs is closer than pad_area_def
+            # Now we check to see if the current area_def is the closest one to
+            # the dynamic time, if appropriate. We could end up with multiple
+            # area_defs for a single dynamic sector, and we can't truly test to see
+            # how close each one is to the actual data until we sector it...
+            # So, check now to see if any of the area_defs in list_area_defs is
+            # closer than pad_area_def
             if not verify_area_def(
                 list_area_defs,
                 pad_area_def,
@@ -1072,13 +1089,8 @@ def call(fnames, command_line_args=None):
                 LOG.info(
                     "\n\n\n\nBEFORE ADJUSTMENT area definition: %s\n\n\n\n", area_def
                 )
-                area_def_adjuster = find_entry_point(
-                    "area_def_adjusters", sector_adjuster
-                )
-                area_def_adjuster_type = getattr(
-                    import_module(area_def_adjuster.__module__), "adjuster_type"
-                )
-                # Use normal size sectored xarray when running area_def_adjuster, not padded
+                sect_adj_plugin = sector_adjusters.get_plugin(sector_adjuster)
+                # Use normal size sectored xarray when running sector_adjuster, not padded
                 # Center time (mintime + (maxtime - mintime)/2) is very slightly different for different size
                 # sectored arrays, so for consistency if we change padding amounts, use the fully sectored
                 # array for adjusting the area_def.
@@ -1109,10 +1121,10 @@ def call(fnames, command_line_args=None):
                         )
                         continue
                     if (
-                        area_def_adjuster_type
+                        sect_adj_plugin.family
                         == "list_xarray_list_variables_to_area_def_out_fnames"
                     ):
-                        area_def, adadj_fnames = area_def_adjuster(
+                        area_def, adadj_fnames = sect_adj_plugin(
                             list(sect_xarrays.values()),
                             area_def,
                             curr_variables,
@@ -1121,7 +1133,7 @@ def call(fnames, command_line_args=None):
                             ],
                         )
                     else:
-                        area_def = area_def_adjuster(
+                        area_def = sect_adj_plugin(
                             list(sect_xarrays.values()),
                             area_def,
                             curr_variables,
@@ -1133,10 +1145,10 @@ def call(fnames, command_line_args=None):
                     # AMSU-b specifically needs full swath width... Need a way to
                     # generalize this.
                     if (
-                        area_def_adjuster_type
+                        sect_adj_plugin.family
                         == "list_xarray_list_variables_to_area_def_out_fnames"
                     ):
-                        area_def, adadj_fnames = area_def_adjuster(
+                        area_def, adadj_fnames = sect_adj_plugin(
                             list(pad_sect_xarrays.values()),
                             area_def,
                             curr_variables,
@@ -1145,7 +1157,7 @@ def call(fnames, command_line_args=None):
                             ],
                         )
                     else:
-                        area_def = area_def_adjuster(
+                        area_def = sect_adj_plugin(
                             list(pad_sect_xarrays.values()),
                             area_def,
                             curr_variables,

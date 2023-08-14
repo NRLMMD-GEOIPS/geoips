@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Standard TC filename formatter."""
+
 # Python Standard Libraries
 import logging
 
@@ -72,8 +73,8 @@ def call(
     # rather than geoimgbase determined defaults.
     # Return reused parameters (min/max vals for normalization, colormaps,
     # matplotlib Normalization)
-    # from geoips.xarray_utils.timestamp import get_min_from_xarray_timestamp
-    # start_dt = get_min_from_xarray_timestamp(xarray_obj, 'timestamp')
+    # from geoips.xarray_utils.time import get_min_from_xarray_time
+    # start_dt = get_min_from_xarray_time(xarray_obj, 'time')
     start_dt = xarray_obj.start_datetime
 
     if area_def.sector_info["vmax"]:

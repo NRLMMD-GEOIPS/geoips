@@ -6,7 +6,7 @@ docstring: |
 spec:
   products:
     - name: 183-1H
-      source_name: saphir
+      source_names: [saphir]
       docstring: |
         The 183-1H product_defaults configuration for saphir products.
       product_defaults: 183-1H
@@ -18,14 +18,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 183-1HNearest
-      source_name: saphir
+      source_names: [saphir]
       docstring: |
         The 183-1HNearest product_defaults configuration for saphir products.
       product_defaults: 183-1HNearest
       spec:
         variables: ["ch3_183.31_2.8"]
     - name: 183-3H
-      source_name: saphir
+      source_names: [saphir]
       docstring: |
         The 183-3H product_defaults configuration for saphir products.
       product_defaults: 183-3H
@@ -37,7 +37,7 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 183-3HNearest
-      source_name: saphir
+      source_names: [saphir]
       docstring: |
         The 183-3HNearest product_defaults configuration for saphir products.
       product_defaults: 183-3HNearest

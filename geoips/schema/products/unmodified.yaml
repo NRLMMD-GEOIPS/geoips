@@ -10,5 +10,7 @@ required:
 properties:
   family:
     const: unmodified
-  source_name:
-    type: string
+  source_names:
+    type: array
+    items:
+      type: string

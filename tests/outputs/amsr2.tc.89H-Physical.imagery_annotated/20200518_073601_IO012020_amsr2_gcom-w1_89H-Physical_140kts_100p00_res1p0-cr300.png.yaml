@@ -16,12 +16,12 @@ deck_line: IO, 01, 2020051806,   , BEST,   0, 134N,  862E, 140,  911, ST,  34, N
   D,
 final_storm_name: AMPHAN
 invest_number: 91
-original_source_filenames:
-- AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc
 parser_name: bdeck_parser
 pressure: 911.0
 product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2020/IO/IO012020/png/89H-Physical/gcom-w1/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png
 sector_type: tc
+source_file_names:
+- AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc
 source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat
 source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat
 storm_basin: IO

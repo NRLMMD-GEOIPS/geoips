@@ -18,7 +18,7 @@ This functionality will be replaced with a class-based implementation v2.0,
 and deprecated at that time.
 """
 import logging
-from geoips.interfaces import colormaps, coverage_checkers
+from geoips.interfaces import colormappers, coverage_checkers
 
 LOG = logging.getLogger(__name__)
 
@@ -44,7 +44,9 @@ def get_required_variables(prod_plugin):
             * {'<variable_type>': ['var1', 'var2', ... , 'varn']}
     """
     # This can either be a list or dictionary, dependent on YAML config specification
-    variables = prod_plugin["spec"]["variables"]
+    variables = prod_plugin["spec"].get("variables")
+    if variables is None:
+        return []
 
     # Support categorizing variables in a dictionary
     if isinstance(variables, dict):
@@ -166,7 +168,7 @@ def get_product_display_name(prod_plugin, output_dict=None):
     See Also
     --------
     ``geoips.dev.check_cmap_func``
-        additional information on colormap types, arguments, and return values
+        additional information on colormapper types, arguments, and return values
     """
     try:
         return prod_plugin["spec"]["display_name"]
@@ -177,7 +179,7 @@ def get_product_display_name(prod_plugin, output_dict=None):
 def get_cmap_from_product(prod_plugin, output_dict=None):
     r"""Interface will be deprecated v2.0.
 
-    Retrieve colormap information, based on requested product and source
+    Retrieve colormapper information, based on requested product and source
 
     Parameters
     ----------
@@ -189,15 +191,17 @@ def get_cmap_from_product(prod_plugin, output_dict=None):
     Returns
     -------
     cmap_func(\*\*cmap_args) : function
-        Return actual colormap information
+        Return actual colormapper information
 
     See Also
     --------
     ``geoips.dev.check_cmap_func``
-        additional information on colormap types, arguments, and return values
+        additional information on colormapper types, arguments, and return values
     """
-    cmap_func = colormaps.get_plugin(prod_plugin["spec"]["colormap"]["plugin"]["name"])
-    cmap_args = prod_plugin["spec"]["colormap"]["plugin"]["arguments"]
+    cmap_func = colormappers.get_plugin(
+        prod_plugin["spec"]["colormapper"]["plugin"]["name"]
+    )
+    cmap_args = prod_plugin["spec"]["colormapper"]["plugin"]["arguments"]
 
     return cmap_func(**cmap_args)
 
@@ -222,7 +226,7 @@ def get_covg_from_product(prod_plugin, output_dict=None, covg_field=None):
     See Also
     --------
     ``geoips.dev.check_cmap_func``
-        additional information on colormap types, arguments, and return values
+        additional information on colormapper types, arguments, and return values
     """
     prod_spec = prod_plugin["spec"]
     if covg_field in prod_spec:
@@ -255,7 +259,7 @@ def get_covg_args_from_product(prod_plugin, output_dict=None, covg_field=None):
     See Also
     --------
     ``geoips.dev.check_cmap_func``
-        additional information on colormap types, arguments, and return values
+        additional information on colormapper types, arguments, and return values
     """
     prod_spec = prod_plugin["spec"]
     if covg_field in prod_spec:

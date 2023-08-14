@@ -25,7 +25,7 @@ Enhancements
 Finalize YAML plugin schema and unit tests
 ------------------------------------------
 
-*From issue GEOIPS/geoips#190: 2023-04-26, Finalize YAML plugin schema and unit tests*
+*From issue GEOIPS#190: 2023-04-26, Finalize YAML plugin schema and unit tests*
 
 * Reorganized plugin schema
 * Finalized schema format

@@ -335,7 +335,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             "ASSOCIATEDPLATFORMSHORTNAME"
         ].lower()
         xarrays["METADATA"].attrs["data_provider"] = "nasa"
-        xarrays["METADATA"].attrs["original_source_filenames"] = [basename(fname)]
+        xarrays["METADATA"].attrs["source_file_names"] = [basename(fname)]
         xarrays["METADATA"].attrs["sample_distance_km"] = 2  # ????
         xarrays["METADATA"].attrs["interpolation_radius_of_influence"] = 3000  # ???
         if metadata_only:
@@ -348,7 +348,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if datasettag not in cumulative_mask:
                 cumulative_mask[datasettag] = xr.Dataset()
                 xarrays[datasettag] = xr.Dataset()
-                xarrays[datasettag].attrs["original_source_filenames"] = []
+                xarrays[datasettag].attrs["source_file_names"] = []
             # corrections_ref[0] = scale
             # corrections_ref[1] = offset
             corrections_ref["aqua"] = {
@@ -366,7 +366,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if datasettag not in cumulative_mask:
                 cumulative_mask[datasettag] = xr.Dataset()
                 xarrays[datasettag] = xr.Dataset()
-                xarrays[datasettag].attrs["original_source_filenames"] = []
+                xarrays[datasettag].attrs["source_file_names"] = []
             # corrections_ref[0] = scale
             # corrections_ref[1] = offset
             corrections_ref["aqua"] = {
@@ -388,7 +388,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if datasettag not in cumulative_mask:
                 cumulative_mask[datasettag] = xr.Dataset()
                 xarrays[datasettag] = xr.Dataset()
-                xarrays[datasettag].attrs["original_source_filenames"] = []
+                xarrays[datasettag].attrs["source_file_names"] = []
         if "MOD021KM" == cname or "MYD021KM" == cname:
             datapaths = ["EV_1KM_RefSB", "EV_1KM_Emissive"]
             datasettag = "1KM"
@@ -396,7 +396,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if datasettag not in cumulative_mask:
                 cumulative_mask[datasettag] = xr.Dataset()
                 xarrays[datasettag] = xr.Dataset()
-                xarrays[datasettag].attrs["original_source_filenames"] = []
+                xarrays[datasettag].attrs["source_file_names"] = []
             # corrections_ref[0] = scale
             # corrections_ref[1] = offset
             corrections_ref["aqua"] = {
@@ -464,10 +464,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             scifile_names = {
                 "Latitude": "latitude",
                 "Longitude": "longitude",
-                "SolarZenith": "SunZenith",
-                "SensorZenith": "SatZenith",
-                "SolarAzimuth": "SunAzimuth",
-                "SensorAzimuth": "SatAzimuth",
+                "SolarZenith": "solar_zenith_angle",
+                "SensorZenith": "satellite_zenith_angle",
+                "SolarAzimuth": "solar_azimuth_angle",
+                "SensorAzimuth": "satellite_azimuth_angle",
             }
 
             for datasettag in dataset_info.keys():  # loop the data_type
@@ -475,7 +475,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 if datasettag not in cumulative_mask:
                     cumulative_mask[datasettag] = xr.Dataset()
                     xarrays[datasettag] = xr.Dataset()
-                    xarrays[datasettag].attrs["original_source_filenames"] = []
+                    xarrays[datasettag].attrs["source_file_names"] = []
 
                 for (
                     currvar
@@ -553,9 +553,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 xarrays[datasettag].attrs["data_provider"] = "nasa"
                 if (
                     basename(fname)
-                    not in xarrays[datasettag].attrs["original_source_filenames"]
+                    not in xarrays[datasettag].attrs["source_file_names"]
                 ):
-                    xarrays[datasettag].attrs["original_source_filenames"] += [
+                    xarrays[datasettag].attrs["source_file_names"] += [
                         basename(fname)
                     ]
                 xarrays[datasettag].attrs["sample_distance_km"] = 2  # ????
@@ -612,9 +612,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             xarrays[datasettag].attrs["data_provider"] = "nasa"
             if (
                 basename(fname)
-                not in xarrays[datasettag].attrs["original_source_filenames"]
+                not in xarrays[datasettag].attrs["source_file_names"]
             ):
-                xarrays[datasettag].attrs["original_source_filenames"] += [
+                xarrays[datasettag].attrs["source_file_names"] += [
                     basename(fname)
                 ]
             xarrays[datasettag].attrs["sample_distance_km"] = 2  # ????
@@ -781,9 +781,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             xarrays[datasettag].attrs["data_provider"] = "nasa"
             if (
                 basename(fname)
-                not in xarrays[datasettag].attrs["original_source_filenames"]
+                not in xarrays[datasettag].attrs["source_file_names"]
             ):
-                xarrays[datasettag].attrs["original_source_filenames"] += [
+                xarrays[datasettag].attrs["source_file_names"] += [
                     basename(fname)
                 ]
             xarrays[datasettag].attrs["sample_distance_km"] = 2  # ????
@@ -806,6 +806,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         LOG.info("Adding xarrays[%s]", dtype)
         xarray_returns[dtype] = xarrays[dtype]
+
+    if len(list(xarray_returns.values())) == 0:
+        raise IOError("No data found for requested channels %s", chans)
 
     xarray_returns["METADATA"] = list(xarray_returns.values())[0][[]]
 

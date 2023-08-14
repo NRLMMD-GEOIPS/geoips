@@ -274,190 +274,195 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     import pandas as pd
     import xarray as xr
 
-    fname = fnames[0]
-    LOG.info("Reading file %s", fname)
+    xarrays = []
+    for fname in fnames:
+        LOG.info("Reading file %s", fname)
 
-    #     check for right input AMSU-B/MHS data file
-    data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
+        #     check for right input AMSU-B/MHS data file
+        data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
-    if data_name != "nc":
-        print("Warning: wrong AMSU-B/MHS data type:  data_type=", data_name)
-        raise
+        if data_name != "nc":
+            print("Warning: wrong AMSU-B/MHS data type:  data_type=", data_name)
+            raise
 
-    if "NPR-MIRS-IMG" in os.path.basename(fname):
-        print("found a NOAA MIRS AMSU-B/MHS file")
-    else:
-        print("not a NOAA MIRS AMSU-B/MHS file: skip it")
-        raise
+        if "NPR-MIRS-IMG" in os.path.basename(fname):
+            print("found a NOAA MIRS AMSU-B/MHS file")
+        else:
+            print("not a NOAA MIRS AMSU-B/MHS file: skip it")
+            raise
 
-    """    ------  Notes  ------
-       Read AMSU-B hdf files for 5 chan antenna temperature (AT) and asscoaited EDRs
-         Then, transform these ATs and fields into xarray framework for GEOIPS
-         ( AT will be corrected into brightness temperature (TB) later)
+        """    ------  Notes  ------
+        Read AMSU-B hdf files for 5 chan antenna temperature (AT) and asscoaited EDRs
+            Then, transform these ATs and fields into xarray framework for GEOIPS
+            ( AT will be corrected into brightness temperature (TB) later)
 
-       Input Parameters:
-           fname (str): input file name.  require a full path
-       Returns:
-           xarray.Dataset with required Variables and Attributes:
-               Variables:
-                        AMSUB vars:
-                          'latitude', 'longitude', 'Ch1', 'Ch2', 'Ch3', 'Ch4','Ch4',
-                          'RR', 'Snow','SWE','IWP','SFR' 'sfcType', 'time_scan'
-               Attibutes:
-                        'source_name', 'platform_name', 'data_provider',
-                        'interpolation_radius_of_influence', 'start_datetime',
-                        'end_datetime'
-    """
+        Input Parameters:
+            fname (str): input file name.  require a full path
+        Returns:
+            xarray.Dataset with required Variables and Attributes:
+                Variables:
+                            AMSUB vars:
+                            'latitude', 'longitude', 'Ch1', 'Ch2', 'Ch3', 'Ch4','Ch4',
+                            'RR', 'Snow','SWE','IWP','SFR' 'sfcType', 'time_scan'
+                Attibutes:
+                            'source_name', 'platform_name', 'data_provider',
+                            'interpolation_radius_of_influence', 'start_datetime',
+                            'end_datetime'
+        """
 
-    # import all data contents
-    fileobj = h5py.File(fname, mode="r")
+        # import all data contents
+        fileobj = h5py.File(fname, mode="r")
 
-    var_all = {}
+        var_all = {}
 
-    # read-in selected variables
-    for var in VARLIST:
-        var_all[var] = fileobj[var]
+        # read-in selected variables
+        for var in VARLIST:
+            var_all[var] = fileobj[var]
 
-    # values adjustment with scale_factor if there is a "scale_factor'
+        # values adjustment with scale_factor if there is a "scale_factor'
 
-    for var in VARLIST:
-        var_attrs = var_all[var].attrs.items()  # get attribute info
-        for attrs in var_attrs:  # loop attribute tuples
-            if "scale_factor" in attrs[0]:
-                factor = attrs[1][0]
-                var_all[var] = var_all[var] * factor
+        for var in VARLIST:
+            var_attrs = var_all[var].attrs.items()  # get attribute info
+            for attrs in var_attrs:  # loop attribute tuples
+                if "scale_factor" in attrs[0]:
+                    factor = attrs[1][0]
+                    var_all[var] = var_all[var] * factor
 
-    # Select 5 AMSU-B/MHS Channels
+        # Select 5 AMSU-B/MHS Channels
 
-    Chan1_AT = var_all["BT"][:, :, 15]
-    Chan2_AT = var_all["BT"][:, :, 16]
-    Chan3_AT = var_all["BT"][:, :, 17]
-    Chan4_AT = var_all["BT"][:, :, 18]
-    Chan5_AT = var_all["BT"][:, :, 19]
+        Chan1_AT = var_all["BT"][:, :, 15]
+        Chan2_AT = var_all["BT"][:, :, 16]
+        Chan3_AT = var_all["BT"][:, :, 17]
+        Chan4_AT = var_all["BT"][:, :, 18]
+        Chan5_AT = var_all["BT"][:, :, 19]
 
-    # start_time=os.path.basename(fname).split('_')[3][1:13]
-    # end_time=os.path.basename(fname).split('_')[4][1:13]
-    # Collect start_time and end_time of input file (one orbit) from
-    # attributes - filename wrong!
-    start_datetime = datetime.strptime(
-        fileobj.attrs["time_coverage_start"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
-    )
-    end_datetime = datetime.strptime(
-        fileobj.attrs["time_coverage_end"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
-    )
+        # start_time=os.path.basename(fname).split('_')[3][1:13]
+        # end_time=os.path.basename(fname).split('_')[4][1:13]
+        # Collect start_time and end_time of input file (one orbit) from
+        # attributes - filename wrong!
+        start_datetime = datetime.strptime(
+            fileobj.attrs["time_coverage_start"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
+        )
+        end_datetime = datetime.strptime(
+            fileobj.attrs["time_coverage_end"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
+        )
 
-    #  -------- Apply the GEOIPS framework in XARRAY data frame ----------
+        #  -------- Apply the GEOIPS framework in XARRAY data frame ----------
 
-    LOG.info("Making full dataframe")
+        LOG.info("Making full dataframe")
 
-    # setup the timestamp in datetime64 format
-    npix = var_all["RR"].shape[1]  # pixels per scan
-    nscan = var_all["RR"].shape[0]  # total scans of this file
+        # setup the time in datetime64 format
+        npix = var_all["RR"].shape[1]  # pixels per scan
+        nscan = var_all["RR"].shape[0]  # total scans of this file
 
-    time_scan = np.zeros((nscan, npix))
-    # take time of each scan
-    for i in range(nscan):
-        yr = var_all["ScanTime_year"][i]
-        dy = var_all["ScanTime_doy"][i]
-        hr = var_all["ScanTime_hour"][i]
-        mn = var_all["ScanTime_minute"][i]
-        try:
-            time_scan[i:] = "%04d%03d%02d%02d" % (yr, dy, hr, mn)
-        except ValueError:
-            LOG.info(
-                f"Could not parse time for scan line {i}: YEAR={yr}, DOY={dy}, HOUR={hr}, MINUTE={mn}"
-            )
-            continue
-    #          ------  setup xarray variables   ------
+        time_scan = np.zeros((nscan, npix))
+        # take time of each scan
+        for i in range(nscan):
+            yr = var_all["ScanTime_year"][i]
+            dy = var_all["ScanTime_doy"][i]
+            hr = var_all["ScanTime_hour"][i]
+            mn = var_all["ScanTime_minute"][i]
+            try:
+                time_scan[i:] = "%04d%03d%02d%02d" % (yr, dy, hr, mn)
+            except ValueError:
+                LOG.info(
+                    f"Could not parse time for scan line {i}: YEAR={yr}, DOY={dy}, HOUR={hr}, MINUTE={mn}"
+                )
+                continue
+        #          ------  setup xarray variables   ------
 
-    # namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT', 'Chan3_AT','Chan4_AT','Chan5_AT',
-    #                  'RR','Snow','IWP','SWE','SFR','Sfc_type','timestamp']
+        # namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT', 'Chan3_AT','Chan4_AT','Chan5_AT',
+        #                  'RR','Snow','IWP','SWE','SFR','Sfc_type','time']
 
-    xarray_amsub = xr.Dataset()
+        xarray_amsub = xr.Dataset()
 
-    # setup attributes
+        # setup attributes
 
-    # satID and start_end time from input filename (ma3 --> METOP-c?) - TBD:
-    # depending on data file )
-    sat_id = os.path.basename(fname).split("_")[2]
-    if sat_id == "n19":
-        satid = "noaa-19"
-        crtm_name = "mhs_n19"
-    elif sat_id == "n18":
-        satid = "noaa-18"
-        crtm_name = "mhs_n18"
-    elif sat_id == "n20":
-        satid = "noaa-20"
-        crtm_name = "mhs_n20"
-    elif sat_id == "ma1":
-        satid = "metop-b"
-        crtm_name = "mhs_metob-b"
-    elif sat_id == "ma2":
-        satid = "metop-a"
-        crtm_name = "mhs_metop-a"
-    elif sat_id == "ma3":
-        satid = "metop-c"
-        crtm_name = "mhs_metop-c"
+        # satID and start_end time from input filename (ma3 --> METOP-c?) - TBD:
+        # depending on data file )
+        sat_id = os.path.basename(fname).split("_")[2]
+        if sat_id == "n19":
+            satid = "noaa-19"
+            crtm_name = "mhs_n19"
+        elif sat_id == "n18":
+            satid = "noaa-18"
+            crtm_name = "mhs_n18"
+        elif sat_id == "n20":
+            satid = "noaa-20"
+            crtm_name = "mhs_n20"
+        elif sat_id == "ma1":
+            satid = "metop-b"
+            crtm_name = "mhs_metob-b"
+        elif sat_id == "ma2":
+            satid = "metop-a"
+            crtm_name = "mhs_metop-a"
+        elif sat_id == "ma3":
+            satid = "metop-c"
+            crtm_name = "mhs_metop-c"
 
-    # add attributes to xarray
-    xarray_amsub.attrs["start_datetime"] = start_datetime
-    xarray_amsub.attrs["end_datetime"] = end_datetime
-    xarray_amsub.attrs["source_name"] = "amsu-b"
-    xarray_amsub.attrs["platform_name"] = satid
-    xarray_amsub.attrs["crtm_name"] = crtm_name
-    xarray_amsub.attrs["data_provider"] = "NOAA-nesdis"
+        # add attributes to xarray
+        xarray_amsub.attrs["start_datetime"] = start_datetime
+        xarray_amsub.attrs["end_datetime"] = end_datetime
+        xarray_amsub.attrs["source_name"] = "amsu-b"
+        xarray_amsub.attrs["platform_name"] = satid
+        xarray_amsub.attrs["crtm_name"] = crtm_name
+        xarray_amsub.attrs["data_provider"] = "NOAA-nesdis"
 
-    # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
-    # xarray_amsub.attrs['sample_distance_km'] = 15
-    xarray_amsub.attrs["sample_distance_km"] = 2
-    xarray_amsub.attrs["interpolation_radius_of_influence"] = 30000
+        # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
+        # xarray_amsub.attrs['sample_distance_km'] = 15
+        xarray_amsub.attrs["sample_distance_km"] = 2
+        xarray_amsub.attrs["interpolation_radius_of_influence"] = 30000
 
-    if metadata_only:
-        LOG.info("metadata_only requested, returning without reading data")
-        return {"METADATA": xarray_amsub}
+        if metadata_only:
+            LOG.info("metadata_only requested, returning without reading data")
+            return {"METADATA": xarray_amsub}
 
-    # keep same variables from previous version of amsub reader for files from MSPPS
-    xarray_amsub["latitude"] = xr.DataArray(var_all["Latitude"][()])
-    xarray_amsub["longitude"] = xr.DataArray(var_all["Longitude"][()])
-    xarray_amsub["Chan1_AT"] = xr.DataArray(Chan1_AT, attrs={"channel_number": 1})
-    xarray_amsub["Chan2_AT"] = xr.DataArray(Chan2_AT, attrs={"channel_number": 2})
-    xarray_amsub["Chan3_AT"] = xr.DataArray(Chan3_AT, attrs={"channel_number": 3})
-    xarray_amsub["Chan4_AT"] = xr.DataArray(Chan4_AT, attrs={"channel_number": 4})
-    xarray_amsub["Chan5_AT"] = xr.DataArray(Chan5_AT, attrs={"channel_number": 5})
-    xarray_amsub["RR"] = xr.DataArray(var_all["RR"][()])
-    xarray_amsub["Snow"] = xr.DataArray(var_all["Snow"][()])
-    xarray_amsub["IWP"] = xr.DataArray(var_all["IWP"][()])
-    xarray_amsub["SWE"] = xr.DataArray(var_all["SWE"][()])
-    xarray_amsub["SFR"] = xr.DataArray(var_all["SFR"][()])
-    xarray_amsub["sfcType"] = xr.DataArray(var_all["Sfc_type"][()])
-    xarray_amsub["timestamp"] = xr.DataArray(
-        pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
-    )
+        # keep same variables from previous version of amsub reader for files from MSPPS
+        xarray_amsub["latitude"] = xr.DataArray(var_all["Latitude"][()])
+        xarray_amsub["longitude"] = xr.DataArray(var_all["Longitude"][()])
+        xarray_amsub["Chan1_AT"] = xr.DataArray(Chan1_AT, attrs={"channel_number": 1})
+        xarray_amsub["Chan2_AT"] = xr.DataArray(Chan2_AT, attrs={"channel_number": 2})
+        xarray_amsub["Chan3_AT"] = xr.DataArray(Chan3_AT, attrs={"channel_number": 3})
+        xarray_amsub["Chan4_AT"] = xr.DataArray(Chan4_AT, attrs={"channel_number": 4})
+        xarray_amsub["Chan5_AT"] = xr.DataArray(Chan5_AT, attrs={"channel_number": 5})
+        xarray_amsub["RR"] = xr.DataArray(var_all["RR"][()])
+        xarray_amsub["Snow"] = xr.DataArray(var_all["Snow"][()])
+        xarray_amsub["IWP"] = xr.DataArray(var_all["IWP"][()])
+        xarray_amsub["SWE"] = xr.DataArray(var_all["SWE"][()])
+        xarray_amsub["SFR"] = xr.DataArray(var_all["SFR"][()])
+        xarray_amsub["sfcType"] = xr.DataArray(var_all["Sfc_type"][()])
+        xarray_amsub["time"] = xr.DataArray(
+            pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
+        )
 
-    # add variables from MIRS file
-    xarray_amsub["TPW"] = xr.DataArray(var_all["TPW"][()])
-    xarray_amsub["CLW"] = xr.DataArray(var_all["CLW"][()])
-    xarray_amsub["RWP"] = xr.DataArray(var_all["RWP"][()])
-    xarray_amsub["GWP"] = xr.DataArray(var_all["GWP"][()])
-    xarray_amsub["SIce"] = xr.DataArray(var_all["SIce"][()])
-    xarray_amsub["SIce_MY"] = xr.DataArray(var_all["SIce_MY"][()])
-    xarray_amsub["SIce_FY"] = xr.DataArray(var_all["SIce_FY"][()])
-    xarray_amsub["TSkin"] = xr.DataArray(var_all["TSkin"][()])
-    xarray_amsub["SurfP"] = xr.DataArray(var_all["SurfP"][()])
-    xarray_amsub["CldTop"] = xr.DataArray(var_all["CldTop"][()])
-    xarray_amsub["CldBase"] = xr.DataArray(var_all["CldBase"][()])
-    xarray_amsub["CldThick"] = xr.DataArray(var_all["CldThick"][()])
-    xarray_amsub["WindSp"] = xr.DataArray(var_all["WindSp"][()])
-    xarray_amsub["WindDir"] = xr.DataArray(var_all["WindDir"][()])
-    xarray_amsub["WindU"] = xr.DataArray(var_all["WindU"][()])
-    xarray_amsub["WindV"] = xr.DataArray(var_all["WindV"][()])
-    xarray_amsub["SatZenith"] = xr.DataArray(var_all["LZ_angle"][()])
-    xarray_amsub["SZ_angle"] = xr.DataArray(var_all["SZ_angle"][()])
-    xarray_amsub["RAzi_angle"] = xr.DataArray(var_all["RAzi_angle"][()])
-    # from amsub_mhs_prep/oned_innov.f90:
-    beam_pos = np.broadcast_to(
-        np.arange(fileobj["Field_of_view"].size) + 1, var_all["LZ_angle"][()].shape
-    )
-    xarray_amsub["sensor_scan_angle"] = xr.DataArray((beam_pos - 45.5) * 10.0 / 9.0)
+        # add variables from MIRS file
+        xarray_amsub["TPW"] = xr.DataArray(var_all["TPW"][()])
+        xarray_amsub["CLW"] = xr.DataArray(var_all["CLW"][()])
+        xarray_amsub["RWP"] = xr.DataArray(var_all["RWP"][()])
+        xarray_amsub["GWP"] = xr.DataArray(var_all["GWP"][()])
+        xarray_amsub["SIce"] = xr.DataArray(var_all["SIce"][()])
+        xarray_amsub["SIce_MY"] = xr.DataArray(var_all["SIce_MY"][()])
+        xarray_amsub["SIce_FY"] = xr.DataArray(var_all["SIce_FY"][()])
+        xarray_amsub["TSkin"] = xr.DataArray(var_all["TSkin"][()])
+        xarray_amsub["SurfP"] = xr.DataArray(var_all["SurfP"][()])
+        xarray_amsub["CldTop"] = xr.DataArray(var_all["CldTop"][()])
+        xarray_amsub["CldBase"] = xr.DataArray(var_all["CldBase"][()])
+        xarray_amsub["CldThick"] = xr.DataArray(var_all["CldThick"][()])
+        xarray_amsub["WindSp"] = xr.DataArray(var_all["WindSp"][()])
+        xarray_amsub["WindDir"] = xr.DataArray(var_all["WindDir"][()])
+        xarray_amsub["WindU"] = xr.DataArray(var_all["WindU"][()])
+        xarray_amsub["WindV"] = xr.DataArray(var_all["WindV"][()])
+        xarray_amsub["satellite_zenith_angle"] = xr.DataArray(var_all["LZ_angle"][()])
+        xarray_amsub["SZ_angle"] = xr.DataArray(var_all["SZ_angle"][()])
+        xarray_amsub["RAzi_angle"] = xr.DataArray(var_all["RAzi_angle"][()])
+        # from amsub_mhs_prep/oned_innov.f90:
+        beam_pos = np.broadcast_to(
+            np.arange(fileobj["Field_of_view"].size) + 1, var_all["LZ_angle"][()].shape
+        )
+        xarray_amsub["sensor_scan_angle"] = xr.DataArray((beam_pos - 45.5) * 10.0 / 9.0)
 
-    return {"AMSUB": xarray_amsub, "METADATA": xarray_amsub[[]]}
+        xarrays.append(xarray_amsub)
+
+    final_xarray = xr.concat(xarrays, dim="dim_0")
+
+    return {"AMSUB": final_xarray, "METADATA": final_xarray[[]]}

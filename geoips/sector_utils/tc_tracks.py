@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Modules to access TC tracks, based on locations found in the deck files."""
+
 import os
 from datetime import datetime
 import logging
@@ -290,6 +291,7 @@ def trackfile_to_area_defs(
     all_fields, final_storm_name, tc_year = parser(trackfile_name)
 
     area_defs = []
+    LOG.info("STARTING setting TC area_defs")
     for fields in all_fields:
         # area_defs += [set_tc_sector(fields, dynamic_templatefname, finalstormname, tcyear, sfname, dynamic_xmlpath)]
         area_defs += [
@@ -301,6 +303,7 @@ def trackfile_to_area_defs(
                 tc_spec_template=tc_spec_template,
             )
         ]
+    LOG.info("FINISHED setting TC area_defs")
 
     return area_defs
 

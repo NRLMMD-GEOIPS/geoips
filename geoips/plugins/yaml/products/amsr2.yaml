@@ -7,28 +7,28 @@ docstring: |
 spec:
   products:
     - name: windspeed
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The windspeed product_defaults for amsr2 product.
       product_defaults: windspeed
       spec:
         variables: ["wind_speed_kts"]
     - name: unsectored
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The unsectored product_defaults for amsr2 product.
       product_defaults: unsectored
       spec:
         variables: ["wind_speed_kts"]
     - name: sectored
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The sectored product_defaults for amsr2 product.
       product_defaults: sectored
       spec:
         variables: ["wind_speed_kts"]
     - name: color37
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The color37 product_defaults for amsr2 product.
       product_defaults: color37
@@ -40,14 +40,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: color37Nearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The color37Nearest product_defaults for amsr2 product.
       product_defaults: color37Nearest
       spec:
         variables: ["tb36h", "tb36v"]
     - name: 37pct
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 37pct product_defaults for amsr2 product.
       product_defaults: 37pct
@@ -59,14 +59,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 37pctNearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 37pctNearest product_defaults for amsr2 product.
       product_defaults: 37pctNearest
       spec:
         variables: ["tb36h", "tb36v"]
     - name: color89
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The color89 product_defaults for amsr2 product.
       product_defaults: color89
@@ -78,14 +78,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: color89Nearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The color89Nearest product_defaults for amsr2 product.
       product_defaults: color89Nearest
       spec:
         variables: ["tb89hA", "tb89vA"]
     - name: 89pct
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89pct product_defaults for amsr2 product.
       product_defaults: 89pct
@@ -97,14 +97,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 89pctNearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89pctNearest product_defaults for amsr2 product.
       product_defaults: 89pctNearest
       spec:
         variables: ["tb89hA", "tb89vA"]
     - name: 89H
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89H product_defaults for amsr2 product.
       product_defaults: 89H
@@ -116,14 +116,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 89HNearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89HNearest product_defaults for amsr2 product.
       product_defaults: 89HNearest
       spec:
         variables: ["tb89hA"]
     - name: 89V
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89V product_defaults for amsr2 product.
       product_defaults: 89V
@@ -135,14 +135,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 89VNearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89VNearest product_defaults for amsr2 product.
       product_defaults: 89VNearest
       spec:
         variables: ["tb89vA"]
     - name: 89HW
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89HW product_defaults for amsr2 product.
       product_defaults: 89HW
@@ -154,14 +154,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 89HWNearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89HWNearest product_defaults for amsr2 product.
       product_defaults: 89HWNearest
       spec:
         variables: ["tb89hA"]
     - name: 89H-Physical
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89H-Physical product_defaults for amsr2 product.
       product_defaults: 89H-Physical
@@ -173,14 +173,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 89H-PhysicalNearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89H-PhysicalNearest product_defaults for amsr2 product.
       product_defaults: 89H-PhysicalNearest
       spec:
         variables: ["tb89hA"]
     - name: 89H-Legacy
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89H-Legacy product_defaults for amsr2 product.
       product_defaults: 89H-Legacy
@@ -192,14 +192,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 89H-LegacyNearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 89H-LegacyNearest product_defaults for amsr2 product.
       product_defaults: 89H-LegacyNearest
       spec:
         variables: ["tb89hA"]
     - name: 37H-Legacy
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 37H-Legacy product_defaults for amsr2 product.
       product_defaults: 37H-Legacy
@@ -211,14 +211,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 37H-LegacyNearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 37H-LegacyNearest product_defaults for amsr2 product.
       product_defaults: 37H-LegacyNearest
       spec:
         variables: ["tb36h"]
     - name: 37H-Physical
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 37H-Physical product_defaults for amsr2 product.
       product_defaults: 37H-Physical
@@ -230,14 +230,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 37H-PhysicalNearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 37H-PhysicalNearest product_defaults for amsr2 product.
       product_defaults: 37H-PhysicalNearest
       spec:
         variables: ["tb36h"]
     - name: 37H
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 37H product_defaults for amsr2 product.
       product_defaults: 37H
@@ -249,14 +249,14 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 37HNearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 37HNearest product_defaults for amsr2 product.
       product_defaults: 37HNearest
       spec:
         variables: ["tb36h"]
     - name: 37V
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 37V product_defaults for amsr2 product.
       product_defaults: 37V
@@ -268,7 +268,7 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 37VNearest
-      source_name: amsr2
+      source_names: [amsr2]
       docstring: |
         The 37VNearest product_defaults for amsr2 product.
       product_defaults: 37VNearest

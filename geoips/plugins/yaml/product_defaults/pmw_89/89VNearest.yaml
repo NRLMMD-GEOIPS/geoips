@@ -1,5 +1,5 @@
 interface: product_defaults
-family: interpolator_algorithm_colormap
+family: interpolator_algorithm_colormapper
 name: 89VNearest
 docstring: |
   The 89VNearest product_defaults configuration.
@@ -14,7 +14,7 @@ spec:
         norm: null
         inverse: null
   mtif_type: pmw
-  colormap:
+  colormapper:
     plugin:
       name: pmw_89H
       arguments:

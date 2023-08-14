@@ -161,7 +161,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
                         'source_name', 'platform_name', 'data_provider',
                         'interpolation_radius_of_influence','start_datetime', 'end_datetime'
                Optional Attrs:
-                        'original_source_filenames', 'filename_datetimes'
+                        'source_file_names', 'source_file_datetimes'
     """
 
     #    *********  Decode Formula for SSMI SDR Data  *************
@@ -565,7 +565,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         "H37",
         "time_scan_lo",
     ]
-    namelist_85ab = ["latitude", "longitude", "V85", "H85", "sfcType", "timestamp"]
+    namelist_85ab = ["latitude", "longitude", "V85", "H85", "sfcType", "time"]
 
     # for LORES channels
     xarray_lores = xr.Dataset()
@@ -576,7 +576,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_lores["V22"] = xr.DataArray(V22)
     xarray_lores["V37"] = xr.DataArray(V37)
     xarray_lores["H37"] = xr.DataArray(H37)
-    xarray_lores["timestamps"] = xr.DataArray(
+    xarray_lores["time"] = xr.DataArray(
         pd.DataFrame(time_scan_lo).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
@@ -587,7 +587,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_85ab["V85"] = xr.DataArray(V85)
     xarray_85ab["H85"] = xr.DataArray(H85)
     xarray_85ab["sfcType"] = xr.DataArray(sfcType)
-    xarray_85ab["timestamp"] = xr.DataArray(
+    xarray_85ab["time"] = xr.DataArray(
         pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
@@ -608,7 +608,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_lores.attrs["source_name"] = "ssmi"
     xarray_lores.attrs["platform_name"] = satid
     xarray_lores.attrs["data_provider"] = "DMSP"
-    xarray_lores.attrs["original_source_filenames"] = [basename(fname)]
+    xarray_lores.attrs["source_file_names"] = [basename(fname)]
 
     # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
     # xarray_lores.attrs['sample_distance_km'] = 25
@@ -618,11 +618,11 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     # for 85GHz A-B combined
     xarray_85ab.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
     xarray_85ab.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
-    xarray_85ab.attrs["filename_datetimes"] = [xarray_85ab.start_datetime]
+    xarray_85ab.attrs["source_file_datetimes"] = [xarray_85ab.start_datetime]
     xarray_85ab.attrs["source_name"] = "ssmi"
     xarray_85ab.attrs["platform_name"] = satid
     xarray_85ab.attrs["data_provider"] = "DMSP"
-    xarray_85ab.attrs["original_source_filenames"] = [basename(fname)]
+    xarray_85ab.attrs["source_file_names"] = [basename(fname)]
 
     # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
     # xarray_85ab.attrs['sample_distance_km'] = 13

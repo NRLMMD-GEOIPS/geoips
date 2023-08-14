@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Read derived surface winds from SAR, SMAP, SMOS, and AMSR netcdf data."""
+
 import logging
 from os.path import basename
 
@@ -27,7 +28,7 @@ name = "smos_winds_netcdf"
 def read_smos_data(wind_xarray, fname):
     """Reformat SMOS xarray object appropriately.
 
-    * variables: latitude, longitude, timestamp, wind_speed_kts
+    * variables: latitude, longitude, time, wind_speed_kts
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
@@ -101,8 +102,8 @@ def read_smos_data(wind_xarray, fname):
     # Otherwise set timearray as unmasked values
     else:
         timearray = timearray.data
-    wind_xarray["timestamp"] = xarray.DataArray(
-        data=timearray, name="timestamp", coords=wind_xarray["wind_speed_kts"].coords
+    wind_xarray["time"] = xarray.DataArray(
+        data=timearray, name="time", coords=wind_xarray["wind_speed_kts"].coords
     )
     return {"WINDSPEED": wind_xarray}
 
@@ -144,57 +145,88 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.timestamp import (
-        get_min_from_xarray_timestamp,
-        get_max_from_xarray_timestamp,
+    from geoips.xarray_utils.time import (
+        get_min_from_xarray_time,
+        get_max_from_xarray_time,
     )
     import numpy
     import xarray
 
-    # Only SAR reads multiple files
-    fname = fnames[0]
-    wind_xarray = xarray.open_dataset(str(fname))
-    # Set attributes appropriately
-    wind_xarray.attrs["original_source_filenames"] = [basename(fname)]
-    wind_xarray.attrs["minimum_coverage"] = 20
-    wind_xarray.attrs["source_name"] = "smos-spd"
-    wind_xarray.attrs["platform_name"] = "smos"
-    wind_xarray.attrs["data_provider"] = "esa"
-    wind_xarray.attrs["interpolation_radius_of_influence"] = 25000
-    # wind_xarray.attrs['sample_distance_km'] = DEG_TO_KM / 4
-    wind_xarray.attrs["sample_distance_km"] = 25.0
+    ingested = []
+    for fname in fnames:
+        wind_xarray = xarray.open_dataset(str(fname))
+        # Set attributes appropriately
+        wind_xarray.attrs["source_file_names"] = [basename(fname)]
+        wind_xarray.attrs["minimum_coverage"] = 20
+        wind_xarray.attrs["source_name"] = "smos-spd"
+        wind_xarray.attrs["platform_name"] = "smos"
+        wind_xarray.attrs["data_provider"] = "esa"
+        wind_xarray.attrs["interpolation_radius_of_influence"] = 25000
+        # wind_xarray.attrs['sample_distance_km'] = DEG_TO_KM / 4
+        wind_xarray.attrs["sample_distance_km"] = 25.0
 
-    # Checking if the wind_xarray.time is valid
-    if (
-        not isinstance(wind_xarray.time.values[0], numpy.datetime64)
-        and wind_xarray.time.values[0].year > 3000
-    ):
-        from datetime import datetime, timedelta
+        # Checking if the wind_xarray.time is valid
+        if (
+            not isinstance(wind_xarray.time.values[0], numpy.datetime64)
+            and wind_xarray.time.values[0].year > 3000
+        ):
+            from datetime import datetime, timedelta
 
-        cov_start = datetime.strptime(
-            wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%S Z"
-        )
-        cov_end = datetime.strptime(
-            wind_xarray.time_coverage_end, "%Y-%m-%dT%H:%M:%S Z"
-        )
-        time = cov_start + timedelta(seconds=(cov_end - cov_start).total_seconds() / 2)
-        time_attrs = wind_xarray.time.attrs
-        wind_xarray["time"] = numpy.array([time], dtype=numpy.datetime64)
-        wind_xarray["time"].attrs = time_attrs
+            cov_start = datetime.strptime(
+                wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%S Z"
+            )
+            cov_end = datetime.strptime(
+                wind_xarray.time_coverage_end, "%Y-%m-%dT%H:%M:%S Z"
+            )
+            time = cov_start + timedelta(
+                seconds=(cov_end - cov_start).total_seconds() / 2
+            )
+            time_attrs = wind_xarray.time.attrs
+            wind_xarray["time"] = numpy.array([time], dtype=numpy.datetime64)
+            wind_xarray["time"].attrs = time_attrs
 
-    LOG.info("Read data from %s", fname)
+        LOG.info("Read data from %s", fname)
 
-    # SMOS timestamp is not read in correctly natively with xarray - must pass fname so we can get time
-    # information directly from netCDF4.Dataset open
-    wind_xarrays = read_smos_data(wind_xarray, fname)
+        # SMOS time is not read in correctly natively with xarray - must pass fname so we can get time
+        # information directly from netCDF4.Dataset open
+        ingested += [read_smos_data(wind_xarray, fname)]
 
-    for wind_xarray in wind_xarrays.values():
+    final_wind_xarrays = {}
+    # SMOS is a global
+    for wind_xarrays in ingested:
+        if "WINDSPEED" not in final_wind_xarrays:
+            final_wind_xarrays["WINDSPEED"] = wind_xarrays["WINDSPEED"]
+        else:
+            curr_xobj = wind_xarrays["WINDSPEED"]
+            final_xobj = final_wind_xarrays["WINDSPEED"]
+            windspd = xarray.where(
+                curr_xobj["wind_speed_kts"] >= 0,
+                curr_xobj["wind_speed_kts"],
+                final_xobj["wind_speed_kts"],
+            )
+            timestmp = xarray.where(
+                curr_xobj["wind_speed_kts"] >= 0,
+                curr_xobj["time"],
+                final_xobj["time"],
+            )
+            # for varname in curr_xobj.variables:
+            #     if curr_xobj["wind_speed_kts"].shape == curr_xobj[varname].shape:
+            #         final_xobj[varname] = xarray.where(
+            final_wind_xarrays["WINDSPEED"] = xarray.concat(
+                [final_wind_xarrays["WINDSPEED"], wind_xarrays["WINDSPEED"]], dim="time"
+            )
+            # This is lame.  Interpolation did not immediately handle
+            # 6x721x1442 array
+            final_wind_xarrays["WINDSPEED"]["time"] = timestmp
+            final_wind_xarrays["WINDSPEED"]["wind_speed_kts"] = windspd
+
+    for wind_xarray in final_wind_xarrays.values():
         LOG.info("Setting standard metadata")
-        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+            wind_xarray, "time"
         )
-        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_timestamp(
-            wind_xarray, "timestamp"
+        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+            wind_xarray, "time"
         )
 
         if "wind_speed_kts" in wind_xarray.variables:
@@ -211,16 +243,18 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             wind_xarray.attrs["sample_distance_km"],
         )
 
-    wind_xarrays["METADATA"] = wind_xarray[[]]
-    if wind_xarrays["METADATA"].start_datetime == wind_xarrays["METADATA"].end_datetime:
+    final_wind_xarrays["METADATA"] = wind_xarray[[]]
+    if (
+        final_wind_xarrays["METADATA"].start_datetime
+        == final_wind_xarrays["METADATA"].end_datetime
+    ):
         # Use alternate attributes to set start and end datetime
         from datetime import datetime
 
-        wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
+        final_wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
             wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%S Z"
         )
-        wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
+        final_wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
             wind_xarray.time_coverage_end, "%Y-%m-%dT%H:%M:%S Z"
         )
-
-    return wind_xarrays
+    return final_wind_xarrays

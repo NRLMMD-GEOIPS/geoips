@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Standard geoips filename production."""
+
 # Python Standard Libraries
 import logging
 
@@ -44,8 +45,8 @@ def call(
     to generate a full unique path, as well as additional attributes to
     create a fully unique file name.
     """
-    # from geoips.xarray_utils.timestamp import get_min_from_xarray_timestamp
-    # start_dt = get_min_from_xarray_timestamp(xarray_obj, 'timestamp')
+    # from geoips.xarray_utils.time import get_min_from_xarray_time
+    # start_dt = get_min_from_xarray_time(xarray_obj, 'time')
     start_dt = xarray_obj.start_datetime
 
     resolution = max(area_def.pixel_size_x, area_def.pixel_size_y) / 1000.0

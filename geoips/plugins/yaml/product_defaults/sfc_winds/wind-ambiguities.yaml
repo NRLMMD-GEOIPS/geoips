@@ -1,5 +1,5 @@
 interface: product_defaults
-family: algorithm_colormap
+family: algorithm_colormapper
 name: wind-ambiguities
 docstring: |
   The wind-ambiguities product_defaults configuration.
@@ -16,7 +16,7 @@ spec:
         norm: null
         inverse: null
   mtif_type: windspeed
-  colormap:
+  colormapper:
     plugin:
       name: wind_radii_transitions
       arguments:

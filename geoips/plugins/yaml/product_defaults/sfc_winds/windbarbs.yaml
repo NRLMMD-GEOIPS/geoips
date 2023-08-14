@@ -1,5 +1,5 @@
 interface: product_defaults
-family: algorithm_colormap
+family: algorithm_colormapper
 name: windbarbs
 docstring: |
   The windbarbs product_defaults configuration.
@@ -16,7 +16,7 @@ spec:
         norm: null
         inverse: null
   mtif_type: image
-  colormap:
+  colormapper:
     plugin:
       name: wind_radii_transitions
       arguments:

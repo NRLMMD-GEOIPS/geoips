@@ -14,9 +14,15 @@
 
 # Python Standard Libraries
 import logging
+from datetime import datetime
+import numpy as np
+import xarray as xr
+import h5py
+
+# from numpy import datetime64
+# import pandas as pd
 
 LOG = logging.getLogger(__name__)
-from numpy import datetime64
 
 interface = "readers"
 family = "standard"
@@ -60,13 +66,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
-    import pandas as pd
-    import xarray as xr
-    import h5py
-
+    if len(fnames) > 1:
+        raise ValueError(
+            "Multiple files not supported with this reader. "
+            "Please call with a single file."
+        )
     fname = fnames[0]
     fileobj = h5py.File(str(fname), mode="r")
 
@@ -165,7 +169,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_saphir["ch4_183.31_4.2"] = xr.DataArray(np.ma.masked_where(ch4qf > 64, ch4))
     xarray_saphir["ch5_183.31_6.8"] = xr.DataArray(np.ma.masked_where(ch5qf > 64, ch5))
     xarray_saphir["ch6_183.31_11.0"] = xr.DataArray(np.ma.masked_where(ch6qf > 64, ch6))
-    # xarray_saphir['timestamp']=xr.DataArray(pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime,format='%Y%j%H%M'))
+    # xarray_saphir['time']=xr.DataArray(pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime,format='%Y%j%H%M'))
 
     # add attributes to xarray
     xarray_saphir.attrs["start_datetime"] = datetime.strptime(

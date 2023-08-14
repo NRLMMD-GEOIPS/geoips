@@ -1,0 +1,14 @@
+---
+interface: product_defaults
+family: algorithm_colormapper
+name: good_test
+docstring: "This is a good product_defaults"
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormapper:
+    plugin:
+      name: matplotlib.colormapper
+      arguments: {}

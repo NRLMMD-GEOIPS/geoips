@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Standard GeoIPS xarray dictionary based ABI NetCDF data reader."""
+
 # Python Standard Libraries
 import logging
 import os
@@ -97,10 +98,10 @@ DATASET_INFO = {
     ],
 }
 ALL_GEO_VARS = [
-    "SunZenith",
-    "SatZenith",
-    "SunAzimuth",
-    "SatAzimuth",
+    "solar_zenith_angle",
+    "satellite_zenith_angle",
+    "solar_azimuth_angle",
+    "satellite_azimuth_angle",
     "latitude",
     "longitude",
 ]
@@ -881,10 +882,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             gvars[res].pop("Samples")
             for varname, var in gvars[res].items():
                 gvars[res][varname] = np.ma.array(
-                    var, mask=gvars[res]["SatZenith"].mask
+                    var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
                 gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["SatZenith"] > 75, gvars[res][varname]
+                    gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
                 )
         except KeyError:
             pass
@@ -966,7 +967,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
         # Here we need to determine which indexes to read based on the size of the
         # input geolocation data.  We assume that the geolocation data and the variable
         # data cover the same domain, just at a different resolution.
-        geoloc_shape = np.array(gvars["SunZenith"].shape, dtype=np.float64)
+        geoloc_shape = np.array(gvars["solar_zenith_angle"].shape, dtype=np.float64)
         data_shape = np.array(df.variables["Rad"].shape, dtype=np.float64)
         # If the geolocation shape matches the data shape, just read the data
         if np.all(geoloc_shape == data_shape):
@@ -1067,7 +1068,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
             data["Ref"] = np.empty_like(data["Rad"])
 
         k0 = md["var_info"]["kappa0"]  # NOQA
-        sun_zenith = gvars["SunZenith"][~bad_data_mask]  # NOQA
+        sun_zenith = gvars["solar_zenith_angle"][~bad_data_mask]  # NOQA
         # zoom_info = (
         #     np.array(rad_data.shape, dtype=np.float) /
         #     np.array(sun_zenith.shape, dtype=np.float

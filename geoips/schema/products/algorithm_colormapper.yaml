@@ -1,0 +1,20 @@
+$id: products.algorithm_colormapper
+$ref: bases.top
+type: object
+required:
+  - spec
+properties:
+  family:
+    const: algorithm_colormapper
+  source_names:
+    type: array
+    items:
+      type: string
+  spec:
+    unevaluatedProperties: false
+    $ref: "product_defaults.specs.algorithm_colormapper"
+    properties:
+      variables:
+        type: array
+        items:
+          type: string
