@@ -53,6 +53,13 @@ Please contact geoips@nrlmry.navy.mil with any questions comments or concerns, a
 for additional information about our regular user/developer meetings, Slack channel,
 and other forms of communication.
 
+Slack Channel
+----------
+For those interested in contributing to GeoIPS, have informal feature requests, or 
+have lingering questions not answered by the documentation, feel free to join our
+[Slack Channel](https://geoips.slack.com/). If you are not permitted to join, email
+geoips@nrlmry.navy.mil to request access.
+
 Acknowledgments and Citations
 ------------------------------
 Please display the following acknowledgment within all published research using this software:
