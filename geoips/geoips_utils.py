@@ -79,7 +79,9 @@ def load_all_yaml_plugins():
     if not os.path.exists(str(registered_plugins_path)):
         from . import create_plugin_registry
         create_plugin_registry.main()
-    from .registered_plugins import registered_plugins as plugins
+    reg_plug_path = str(os.path.abspath(__file__)).replace(
+        "geoips/geoips_utils.py", "registered_plugins.yaml")
+    plugins = yaml.safe_load(open(reg_plug_path, "r"))
     return plugins
 
 
