@@ -1,12 +1,57 @@
 #  Experimenting with poetry as the build backend
 
-
 # remains same in setuptools and poetry
 [build-system]
 #requires = ["setuptools>=61.2", "setuptools-scm"]
 #build-backend = "setuptools.build_meta"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+#[project]
+[tool.poetry]
+name = "geoips"
+dynamic = ["version"]
+description = "Geolocated Information Processing System"
+authors = ["Tom <tom.jerry@colostate.edu>"]
+license = {file = "LICENSE"}
+readme = "README.md"
+keywords = ["GeoIPS", "Poetry"]
+
+
+[tool.poetry.dependencies]     # must download to run
+#dependencies = [
+    python = ">=3.9"
+    "pyresample",  # Base requirement - efficiency improvements >= 1.22.3
+    "numpy",  # Base requirement
+    "xarray",  # Base requirement
+    "matplotlib>=3.7.0",  # Base requirement
+    # 20230321, allow >=3.7.0, changes annotated imagery outputs
+    # 20230214, force to 3.6.3 until outputs updated
+    # 20220922, force to 0.20.3/3.5.3 until outputs updated
+    #           also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
+    "scipy",  # Base requirement, requires openblas
+    "netcdf4",  # Base requirement
+    "pyyaml",  # Base requirement
+    "pyshp>=2.2.0",
+    "shapely>=1.8.2",  # requires libgeos
+    "cartopy>=0.21.0",  # requires libgeos
+    "pyaml_env",  # Reading YAML output config files, with paths
+    "h5py",  # hdf5 readers (GMI)
+    "pyhdf",  # hdf4 readers (MODIS)
+    "rasterio",  # GEOTIFF output
+    "psutil",  # Required for memory checks
+    "pyorbital",  # required by satpy
+    "ephem",  # Required for overpass predictor
+    "isodate",  # Required for overpass predictor
+    "satpy",  # efficiency improvements >= 0.33.1
+    "numexpr",  # for efficiency improvements
+    "scikit-image",  # Radius based center coverage checks
+#]
+
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
 
 [tool.setuptools.packages]
 find = {namespaces = false}
@@ -33,48 +78,7 @@ find = {namespaces = false}
 [tool.setuptools.dynamic]
 entry-points = {file = ["entry-points.ini"]}
 
-#[tool.poetry]
-[project]
-name = "geoips"
-authors = []
-description = "Geolocated Information Processing System"
-readme = "README.md"
-requires-python = ">=3.9"
-keywords = []
-license = {file = "LICENSE"}
-classifiers = [
-    "Programming Language :: Python :: 3",
-]
-dynamic = ["version"]
 
-#[tool.poetry.dependencies]     // must download to run
-dependencies = [
-    "pyresample",  # Base requirement - efficiency improvements >= 1.22.3
-    "numpy",  # Base requirement
-    "xarray",  # Base requirement
-    "matplotlib>=3.7.0",  # Base requirement
-    # 20230321, allow >=3.7.0, changes annotated imagery outputs
-    # 20230214, force to 3.6.3 until outputs updated
-    # 20220922, force to 0.20.3/3.5.3 until outputs updated
-    #           also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
-    "scipy",  # Base requirement, requires openblas
-    "netcdf4",  # Base requirement
-    "pyyaml",  # Base requirement
-    "pyshp>=2.2.0",
-    "shapely>=1.8.2",  # requires libgeos
-    "cartopy>=0.21.0",  # requires libgeos
-    "pyaml_env",  # Reading YAML output config files, with paths
-    "h5py",  # hdf5 readers (GMI)
-    "pyhdf",  # hdf4 readers (MODIS)
-    "rasterio",  # GEOTIFF output
-    "psutil",  # Required for memory checks
-    "pyorbital",  # required by satpy
-    "ephem",  # Required for overpass predictor
-    "isodate",  # Required for overpass predictor
-    "satpy",  # efficiency improvements >= 0.33.1
-    "numexpr",  # for efficiency improvements
-    "scikit-image",  # Radius based center coverage checks
-]
 
 # Dependency groups are supported for organizing your dependencies
 ##[tool.poetry.group.dev.dependencies]
