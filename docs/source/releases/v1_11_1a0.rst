@@ -13,9 +13,8 @@
 Version 1.11.1a0 (2023-08-07)
 *****************************
 
-Improve overall GeoIPS functionality, generate plugin registry, and added new GeoIPS sectors.
+Improve overall GeoIPS functionality, and added new GeoIPS sectors.
 
-* Add "geoips/geoips/create_plugin_registry.py" to avoid loading all YAML plugins during run_procflow.
 * Added new GeoIPS sectors to improve plotting specific regions along the globe.
 * Update GeoIPS sector metadata implementation to allow more data to be contained.
 * Updated coverage checkers to use either varname or product name.
@@ -81,35 +80,6 @@ for users to use easily.
     added: geoips/geoips/plugins/yaml/sectors/static/victoria.yaml
     added: geoips/geoips/plugins/yaml/sectors/static/w_atlantic.yaml
     added: geoips/geoips/plugins/yaml/sectors/static/w_pacific.yaml
-
-Efficiency Improvements
-=======================
-
-Changed how run_procflow accesses plugins, by creating a plugin registry
-------------------------------------------------------------------------
-
-From NRLMMD-GEOIPS/geoips#238: 2023-07-06
-
-Currently, when run_procflow is called, GeoIPS actually has to load in every
-existing GeoIPS plugin to find the appropriate plugin. This is very inefficient
-and was resulting in 15+ seconds of lag time before run_procflow would actually
-run. To fix this, we have created a plugin registry, which is essentially a python
-dictionary of all the available plugins. This is now used to select the appropriate 
-plugin when run_procflow is called. 
-
-To do this, these files were added:
-
-::
-    added: geoips/geoips/create_plugin_registry.py
-
-When the file above is called, it generates a file in the same directory called 
-"registered_plugins.py". This is the plugin dictionary which run_procflow selects from.
-With this new plugin registry implementation, certain changes were required to get
-this functionality to work. This includes:
-
-::
-    modified: geoips/geoips/geoips_utils.py (load_all_yaml_plugins())
-    modified: geoips/geoips/interfaces/base.py (_create_unvalidated_plugins_cache())
 
 Refactoring Updates
 ===================
