@@ -10,7 +10,7 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.11.1a0 (2023-08-07)
+Version 1.11.1a0 (2023-08-15)
 *****************************
 
 Improve overall GeoIPS functionality, and added new GeoIPS sectors.
