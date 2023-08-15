@@ -826,14 +826,15 @@ def get_alg_xarray(
     # area_def here.
     # Allow specifying whether it needs to be resectored or not via kwargs.
     if resector:
-        curr_sect_xarrays = sector_xarrays(
-            sect_xarrays,
-            area_def,
-            varlist=variables,
-            hours_before_sector_time=6,
-            hours_after_sector_time=9,
-            drop=True,
-        )
+        # curr_sect_xarrays = sector_xarrays(
+        #     sect_xarrays,
+        #     area_def,
+        #     varlist=variables,
+        #     hours_before_sector_time=6,
+        #     hours_after_sector_time=9,
+        #     drop=True,
+        # )
+        curr_sect_xarrays = sect_xarrays
         # hours_before_sector_time=6, hours_after_sector_time=6, drop=True)
     else:
         curr_sect_xarrays = sect_xarrays
@@ -1331,14 +1332,15 @@ def call(fnames, command_line_args=None):
             LOG.info("CONTINUE Not sectoring sector_type %s", area_def.sector_type)
             pad_sect_xarrays = xobjs
         else:
-            pad_sect_xarrays = sector_xarrays(
-                xobjs,
-                pad_area_def,
-                varlist=variables,
-                hours_before_sector_time=6,
-                hours_after_sector_time=9,
-                drop=True,
-            )
+            # pad_sect_xarrays = sector_xarrays(
+            #     xobjs,
+            #     pad_area_def,
+            #     varlist=variables,
+            #     hours_before_sector_time=6,
+            #     hours_after_sector_time=9,
+            #     drop=True,
+            # )
+            pad_sect_xarrays = xobjs
 
         print_mem_usage("MEMUSG", verbose=False)
         if len(pad_sect_xarrays.keys()) == 0:
@@ -1390,14 +1392,15 @@ def call(fnames, command_line_args=None):
                     )
                     sect_xarrays = pad_sect_xarrays
                 else:
-                    sect_xarrays = sector_xarrays(
-                        pad_sect_xarrays,
-                        area_def,
-                        varlist=variables,
-                        hours_before_sector_time=6,
-                        hours_after_sector_time=9,
-                        drop=True,
-                    )
+                    # sect_xarrays = sector_xarrays(
+                    #     pad_sect_xarrays,
+                    #     area_def,
+                    #     varlist=variables,
+                    #     hours_before_sector_time=6,
+                    #     hours_after_sector_time=9,
+                    #     drop=True,
+                    # )
+                    sect_xarrays = pad_sect_xarrays
                 if (
                     sect_adj_plugin.family
                     == "list_xarray_list_variables_to_area_def_out_fnames"
