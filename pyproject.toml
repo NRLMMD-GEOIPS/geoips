@@ -3,8 +3,10 @@
 
 # remains same in setuptools and poetry
 [build-system]
-requires = ["setuptools>=61.2", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
+#requires = ["setuptools>=61.2", "setuptools-scm"]
+#build-backend = "setuptools.build_meta"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.setuptools.packages]
 find = {namespaces = false}
