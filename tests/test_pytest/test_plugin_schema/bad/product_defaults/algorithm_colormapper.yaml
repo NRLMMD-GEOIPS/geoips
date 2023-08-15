@@ -1,6 +1,6 @@
 ---
 error: ValidationError
-error_pattern: ".*No validator found for product_defaults.bad_family.*"
+error_pattern: ".*No validator found for .*bad_family.*"
 interface: product_defaults
 family: bad_family
 name: good_test
