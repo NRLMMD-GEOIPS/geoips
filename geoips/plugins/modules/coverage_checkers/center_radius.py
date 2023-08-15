@@ -90,8 +90,6 @@ def call(
     variable_name,
     area_def=None,
     radius_km=300,
-    alt_varname=None,
-    force_alt_varname=False,
 ):
     """Coverage check routine for xarray objects with masked projected arrays.
 
@@ -110,21 +108,13 @@ def call(
         Percent coverage of variable_name
     """
     varname_for_covg = variable_name
-    if variable_name not in xarray_obj.variables.keys() and alt_varname is not None:
+    if variable_name not in xarray_obj.variables.keys():
         LOG.info(
-            '    UPDATING variable "%s" does not exist, using alternate "%s"',
+            '    UPDATING variable "%s" does not exist, using product name "%s"',
             variable_name,
-            alt_varname,
+            name,
         )
-        varname_for_covg = alt_varname
-    if force_alt_varname and alt_varname is not None:
-        LOG.info(
-            "    UPDATING force_alt_varname set, "
-            'using alternate "%s" rather than variable "%s"',
-            alt_varname,
-            variable_name,
-        )
-        varname_for_covg = alt_varname
+        varname_for_covg = name
 
     temp_arr = xarray_obj[varname_for_covg].to_masked_array()
 
