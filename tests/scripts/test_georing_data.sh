@@ -24,8 +24,8 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_georing_3d/source/* \
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --minimum_coverage 0
-            #  --output_formatter_kwargs '{"title_formatter": "georing_3d_cloud_type", "level": "11"}' \
+             --minimum_coverage 0 \
+             --output_formatter_kwargs '{"title_formatter": "georing_3d_cloud_type", "level": "0"}'
 retval=$?
 
 exit $retval
