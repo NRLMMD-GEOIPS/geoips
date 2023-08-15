@@ -1,0 +1,30 @@
+interface: sectors
+family: area_definition_static
+name: w_pacific
+docstring: "Western Pacific"
+metadata:
+  region:
+    continent: x
+    country: x
+    area: Western Pacific
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: w_pacific
+  description: Western Pacific
+  projection:
+    a: 6371228.0
+    lat_0: 9.694999999999999
+    lon_0: 138.695
+    proj: eqc
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 2393
+    width: 2818
+  area_extent:
+    lower_left_xy: [-4227026, -3590056]
+    upper_right_xy: [4227026, 3590056]

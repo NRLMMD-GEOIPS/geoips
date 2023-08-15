@@ -1,0 +1,30 @@
+interface: sectors
+family: area_definition_static
+name: brazil
+docstring: "Brazilian Country"
+metadata:
+  region:
+    continent: SouthAmerica
+    country: Brazil
+    area: x
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: brazil
+  description: Brazilian Country
+  projection:
+    a: 6371228.0
+    lat_0: -17.125
+    lon_0: -47.389999999999986
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1379
+    width: 1314
+  area_extent:
+    lower_left_xy: [-1571225, -1897609]
+    upper_right_xy: [1571225, 1897609]

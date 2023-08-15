@@ -1,0 +1,30 @@
+interface: sectors
+family: area_definition_static
+name: w_atlantic
+docstring: "Western Atlantic"
+metadata:
+  region:
+    continent: x
+    country: x
+    area: Western Atlantic
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: w_atlantic
+  description: Western Atlantic
+  projection:
+    a: 6371228.0
+    lat_0: 21.52
+    lon_0: -69.66000000000003
+    proj: eqc
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 1086
+    width: 1975
+  area_extent:
+    lower_left_xy: [-2962850, -1630175]
+    upper_right_xy: [2962850, 1630175]

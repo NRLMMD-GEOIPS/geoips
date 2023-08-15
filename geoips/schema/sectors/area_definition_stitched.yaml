@@ -1,0 +1,10 @@
+$id: sectors.area_definition_stitched
+$ref: bases.top
+required:
+  - spec
+  - metadata
+properties:
+  metadata:
+    $ref: "sectors.metadata_families.stitched"
+  spec:
+    $ref: "sectors.specs.static_sector_spec"

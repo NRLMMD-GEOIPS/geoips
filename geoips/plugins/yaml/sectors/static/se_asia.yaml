@@ -1,0 +1,30 @@
+interface: sectors
+family: area_definition_static
+name: se_asia
+docstring: "Southeastern Asia"
+metadata:
+  region:
+    continent: Asia
+    country: x
+    area: Continental
+    subarea: SouthEast
+    state: x
+    city: x
+spec:
+  area_id: se_asia
+  description: Southeastern Asia
+  projection:
+    a: 6371228.0
+    lat_0: 12.13395
+    lon_0: 120.29573
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 2000
+    width: 2500
+  area_extent:
+    lower_left_xy: [-2499999, -2000000]
+    upper_right_xy: [2499999, 2000000]
