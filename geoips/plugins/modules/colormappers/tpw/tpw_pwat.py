@@ -89,17 +89,12 @@ def call():
         90,
     ]
 
-    from os.path import join as pathjoin
-    from geoips.filenames.base_paths import PATHS as gpaths
     from geoips.image_utils.colormap_utils import from_ascii
     from matplotlib.colors import BoundaryNorm
+    from geoips.geoips_utils import find_ascii_palette
 
     bounds = values + [values[-1] + 1]
-    mpl_cmap = from_ascii(
-        pathjoin(
-            gpaths["BASE_PATH"], "plugins", "txt", "ascii_palettes", "tpw_pwat.txt"
-        )
-    )
+    mpl_cmap = from_ascii(find_ascii_palette(name))
 
     mpl_colors_info = {
         "cmap": mpl_cmap,

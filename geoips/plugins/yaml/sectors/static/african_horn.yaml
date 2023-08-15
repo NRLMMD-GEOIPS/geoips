@@ -1,0 +1,30 @@
+interface: sectors
+family: area_definition_static
+name: african_horn
+docstring: "Horn of Africa"
+metadata:
+  region:
+    continent: Africa
+    country: x
+    area: Continental
+    subarea: East
+    state: x
+    city: x
+spec:
+  area_id: african_horn
+  description: Horn of Africa
+  projection:
+    a: 6371228.0
+    lat_0: 4.695
+    lon_0: 44.53
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1232
+    width: 1269
+  area_extent:
+    lower_left_xy: [-1346464, -1164808]
+    upper_right_xy: [1346464, 1164808]

@@ -1,14 +1,15 @@
 interface: sectors
-family: area_definition
+family: area_definition_static
 name: goes17
 docstring: "Full disk sector for GOES-17"
 metadata:
-  continent: Global
-  country: x
-  area: GOES-17
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: Global
+    country: x
+    area: GOES-17
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: goes17
   description: GOES-17 Coverage

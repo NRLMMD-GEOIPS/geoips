@@ -1,0 +1,30 @@
+interface: sectors
+family: area_definition_static
+name: alaska
+docstring: "Alaskan State"
+metadata:
+  region:
+    continent: NorthAmerica
+    country: UnitedStates
+    area: x
+    subarea: x
+    state: Alaska
+    city: x
+spec:
+  area_id: alaska
+  description: Alaskan State
+  projection:
+    a: 6371228.0
+    lat_0: 61.6
+    lon_0: -155.75
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1186
+    width: 1159
+  area_extent:
+    lower_left_xy: [-799160, -934070]
+    upper_right_xy: [799160, 934070]
