@@ -1,0 +1,29 @@
+$id: sectors.metadata_families.tc
+type: object
+properties:
+  pressure:
+    type: number
+  vmax:
+    type: number
+  clat:
+    type: number
+  clon:
+    type: number
+  synoptic_time:
+    type: object
+  aid_type:
+    type: string
+  storm_num:
+    type: integer
+  storm_name:
+    type: string
+  storm_basin:
+    type: string
+  storm_year:
+    type: integer
+  deck_line:
+    type: object
+  source_file:
+    type: string
+  final_storm_name:
+    type: string

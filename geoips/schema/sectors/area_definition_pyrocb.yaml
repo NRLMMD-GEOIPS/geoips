@@ -1,0 +1,10 @@
+$id: sectors.area_definition_pyrocb
+$ref: bases.top
+required:
+  - spec
+  - metadata
+properties:
+  metadata:
+    $ref: "sectors.metadata_families.pyrocb"
+  spec:
+    $ref: "sectors.specs.static_sector_spec"
