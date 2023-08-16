@@ -268,16 +268,6 @@ elif [[ "$1" == "setup_ahi_test_data" ]]; then
       bunzip2 -v $ahidir/*.bz2
     fi
 
-elif [[ "$1" == "setup_seviri" ]]; then
-    mkdir -p $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet
-    cwd=`pwd`
-    cd $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet
-    git clone https://gitlab.eumetsat.int/open-source/PublicDecompWT.git
-    cd $cwd
-    make all -C $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet/PublicDecompWT/xRITDecompress
-    mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
-    ln -sfv $GEOIPS_DEPENDENCIES_DIR/seviri_wavelet/PublicDecompWT/xRITDecompress/xRITDecompress $GEOIPS_DEPENDENCIES_DIR/bin/xRITDecompress
-
 elif [[ "$1" == "setup_rclone" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/rclone
     opsys=linux
