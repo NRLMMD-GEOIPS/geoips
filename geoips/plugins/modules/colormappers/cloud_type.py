@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Module containing Legacy colormap for ~37GHz PMW products."""
+"""Module containing colormap for cloud_type products."""
 
 import logging
 
@@ -22,7 +22,7 @@ name = "cloud_type"
 
 
 def call(data_range=[1, 4], cbar_label="Cloud-Type"):
-    """Legacy Colormap for displaying ~37GHz PMW data.
+    """Colormap for displaying georing_3d cloud_type data..
 
     Parameters
     ----------
@@ -60,15 +60,16 @@ def call(data_range=[1, 4], cbar_label="Cloud-Type"):
     color_dict = get_named_colors_mapping()
 
     LOG.info("Setting cmap")
-    mpl_cmap = ListedColormap([to_rgba(color_dict["blue"]), to_rgba(color_dict["lightseagreen"]), 
-              to_rgba(color_dict["paleturquoise"]), to_rgba(color_dict["ghostwhite"])])
+    mpl_cmap = ListedColormap([to_rgba(color_dict["blue"]),
+                               to_rgba(color_dict["lightseagreen"]),
+                               to_rgba(color_dict["paleturquoise"]),
+                               to_rgba(color_dict["ghostwhite"])])
 
     # special selection of label
     ticks = [1, 2, 3, 4]
 
     # selection of min and max values for colormap if needed
     # ticks = ticks + [transition_vals[-1][1]]
-
 
     LOG.info("Setting norm")
     from matplotlib.colors import Normalize

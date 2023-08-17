@@ -198,6 +198,7 @@ def save_image(
             dpi=rc_params["figure.dpi"],
             pad_inches=0.1,
             bbox_inches="tight",
+            facecolor="white",
             transparent=False,
         )
         if remove_duplicate_minrange is not None:
@@ -220,7 +221,7 @@ def save_image(
             dpi=rc_params["figure.dpi"],
             pad_inches=0.0,
             transparent=True,
-            facecolor="none",
+            facecolor="white",
             **savefig_kwargs,
         )
         if remove_duplicate_minrange is not None:
@@ -476,7 +477,7 @@ def create_figure_and_main_ax_and_mapobj(
         # frameon=False creates transparent titles with cartopy
         fig = plt.figure()
     else:
-        fig = plt.figure(frameon=False)
+        fig = plt.figure(frameon=False, facecolor="white",)
     fig.set_size_inches(xsize, ysize)
     set_fonts(y_size, font_size=font_size)
 
@@ -521,6 +522,7 @@ def create_figure_and_main_ax_and_mapobj(
         )
     main_ax.set_axis_off()
     fig.add_axes(main_ax)
+    # main_ax.set_facecolor("darkgray")
 
     return fig, main_ax, mapobj
 

@@ -16,7 +16,7 @@ spec:
         max_outbounds: mask
         inverse: null
         norm: null
-        cloud_type: False
+        alg_type: binary_cloud_mask
   mtif_type: vis
   colormapper:
     plugin:

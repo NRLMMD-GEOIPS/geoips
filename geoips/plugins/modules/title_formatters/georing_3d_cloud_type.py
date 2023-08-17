@@ -10,14 +10,11 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Standard GeoIPS static title production."""
+"""GEOring_3d static title production."""
 
 # Python Standard Libraries
 import logging
 
-from os.path import join as pathjoin
-
-from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
@@ -30,14 +27,14 @@ def call(
     area_def,
     xarray_obj,
     product_name_title,
-    level=35,
+    level=23,
     product_datatype_title=None,
     bg_xarray=None,
     bg_product_name_title=None,
     bg_datatype_title=None,
     title_copyright=None,
 ):
-    """Generate standard GeoIPS formatted title."""
+    """Generate standard GEOring_3d formatted title."""
     LOG.info("\n\n\n\n LEVEL == " + str(level) + "\n\n\n\n")
     altitude = (int(level) * 0.25) + 0.25
     title_line1 = "{0} @ {1}km".format(product_name_title, altitude)

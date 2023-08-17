@@ -18,7 +18,6 @@ to apply corrections to a single channel output product.
 import logging
 import numpy as np
 import xarray
-from datetime import datetime
 
 LOG = logging.getLogger(__name__)
 
@@ -28,19 +27,101 @@ interface = "algorithms"
 family = "xarray_dict_to_xarray"
 name = "georing_3d"
 
-def between(data, min, max):
-    le_max = np.where(data <= max, 1, 0)
-    ge_min = np.where(data >= min, 1, 0)
-    return np.where(ge_min + le_max == 2, data, 0)
 
-def collapse(data):
+def between(data, min, max, lvl=None, type=None):
+    """Return masked data where data is between (inclusive) min/max, otherwise zero.
+
+    Parameters
+    ----------
+    data: 2D numpy ndarray
+        Contains integers relating to cloud type, where cloud is between (1,4)
+    min: int
+        Minimum value (inclusive)
+    max: int
+        Maximum value (inclusive)
+    lvl: int
+        If not None, return the level where data is between else -1
+    type: string
+        If not None, depict the type of level being measued (cld_top or cld_base)
+    """
+    if lvl is None and type is None:
+        between_mask = np.where((data <= max) & (data >= min), data, 0)
+    elif lvl is None:
+        between_mask = np.where((data <= max) & (data >= min), 1, 0)
+    else:
+        fill_val = -999 if "top" in type else 999
+        lvl_km = (lvl * 0.25) + 0.25
+        between_mask = np.where((data <= max) & (data >= min), lvl_km, fill_val)
+    return between_mask
+
+
+def diff_layer(prev_layer, curr_layer):
+    """Return binary mask representing whether cloud layers continue or break."""
+    new_layer = np.where((prev_layer == 0) & (curr_layer == 1), 1, 0)
+    return new_layer
+
+
+def collapse(data, cld_height=None):
+    """Collapse a 3D matrix into a 2D matrix, based on cloud type.
+
+    Parameters
+    ----------
+    data: 3D numpy ndarray
+        Contains integers relating to cloud_type, where cloud is between (1,4)
+    cld_height: string
+        If not None, return collapsed matrix with cloud top, cloud base,
+        cloud depth, or layered.
+    """
     rows = np.shape(data)[1]
     cols = np.shape(data)[2]
-    collapsed_data = np.zeros((rows, cols), dtype="int")
+    if cld_height is None or "layered" in cld_height:
+        collapsed_data = np.zeros((rows, cols), dtype="int")
+    else:
+        if "depth" in cld_height:
+            collapsed_data_top = np.empty((rows, cols), dtype="int")
+            collapsed_data_base = np.empty((rows, cols), dtype="int")
+            collapsed_data_top.fill(-999)
+            collapsed_data_base.fill(999)
+        else:
+            collapsed_data = np.empty((rows, cols), dtype="int")
+            if "top" in cld_height:
+                collapsed_data.fill(-999)
+            elif "base" in cld_height:
+                collapsed_data.fill(999)
     for lvl in range(np.shape(data)[0]):
-        lvl_data = between(data[lvl], 1, 4)
-        collapsed_data += lvl_data
-    return collapsed_data
+        if cld_height is None:
+            lvl_data = between(data[lvl], 1, 4)
+            collapsed_data += lvl_data
+        elif "layered" in cld_height:
+            if lvl == 0:
+                prev_layer = collapsed_data
+            else:
+                prev_layer = lvl_data
+            lvl_data = between(data[lvl], 1, 4, type=cld_height)
+            layer_mask = diff_layer(prev_layer, lvl_data)
+            collapsed_data[layer_mask == 1] += 1
+        else:
+            if "top" in cld_height:
+                lvl_data = between(data[lvl], 1, 4, lvl, cld_height)
+                collapsed_data = np.where(lvl_data > collapsed_data,
+                                          lvl_data, collapsed_data)
+            elif "base" in cld_height:
+                lvl_data = between(data[lvl], 1, 4, lvl, cld_height)
+                collapsed_data = np.where(lvl_data < collapsed_data,
+                                          lvl_data, collapsed_data)
+            elif "depth" in cld_height:
+                lvl_data_top = between(data[lvl], 1, 4, lvl, "cloud_top_height")
+                lvl_data_base = np.copy(lvl_data_top)
+                lvl_data_base[lvl_data_base == -999] = 999
+                collapsed_data_top = np.where(lvl_data_top > collapsed_data_top,
+                                              lvl_data_top, collapsed_data_top)
+                collapsed_data_base = np.where(lvl_data_base < collapsed_data_base,
+                                               lvl_data_base, collapsed_data_base)
+    if "depth" in cld_height:
+        return collapsed_data_top - collapsed_data_base
+    else:
+        return collapsed_data
+
 
 def call(
     xarray_dict,
@@ -51,7 +132,7 @@ def call(
     max_outbounds="crop",
     norm=False,
     inverse=False,
-    cloud_type=True,
+    alg_type="cloud_type",
     level=35
 ):
     """Apply data range and requested corrections to a single channel product.
@@ -132,17 +213,21 @@ def call(
     data = xarray_dict["GEORING"].variables["cloud3d"].data
     lat = xarray_dict["GEORING"].variables["latitude"].data
     lon = xarray_dict["GEORING"].variables["longitude"].data
- 
+
     if output_data_range is None:
         output_data_range = [data.min(), data.max()]
 
-    if cloud_type:
+    if "cloud_type" in alg_type:
         data = data[level]
-        data = between(data, 1, 4) # masks the slice to only include clouds, otherwise the value is -999
-    else: # implement binary masking on the entire dataset
+        data = between(data, 1, 4)
+        # masks the slice to only include clouds, otherwise the value is -999
+    elif "binary" in alg_type:  # implement binary masking on the entire dataset
         data = collapse(data)
         data = np.where(data > 0, 1, 0)
+    else:
+        data = collapse(data, cld_height=alg_type)
     lon_final, lat_final = np.meshgrid(lon, lat)
+
     from geoips.data_manipulations.corrections import apply_data_range
 
     data = apply_data_range(
@@ -158,18 +243,28 @@ def call(
     start_dt = xarray_dict["GEORING"].attrs["start_datetime"]
     end_dt = xarray_dict["GEORING"].attrs["end_datetime"]
     platform_name = xarray_dict["GEORING"].attrs["platform_name"]
-    source_file_datetimes = xarray_dict["GEORING"].attrs["source_file_datetimes"]
+    sf_datetimes = xarray_dict["GEORING"].attrs["source_file_datetimes"]
     source_name = xarray_dict["GEORING"].attrs["source_name"]
     data_provider = xarray_dict["GEORING"].attrs["data_provider"]
-    data_dict = dict(Cloud_Type=(["x", "y"], data)) if cloud_type else dict(Binary_Cloud_Mask=(["x", "y"], data))
-    final_xarray = xarray.Dataset(data_vars=data_dict, 
-                                  coords=dict(latitude=(["x","y"], lat_final),
-                                              longitude=(["x","y"], lon_final)),
+    if "cloud_type" in alg_type:
+        data_dict = dict(Cloud_Type=(["x", "y"], data))
+    elif "binary" in alg_type:
+        data_dict = dict(Binary_Cloud_Mask=(["x", "y"], data))
+    elif "base_height" in alg_type:
+        data_dict = dict(Cloud_Base_Height=(["x", "y"], data))
+    elif "top_height" in alg_type:
+        data_dict = dict(Cloud_Top_Height=(["x", "y"], data))
+    elif "depth" in alg_type:
+        data_dict = dict(Cloud_Depth=(["x", "y"], data))
+    elif "layered" in alg_type:
+        data_dict = dict(Cloud_Layers=(["x", "y"], data))
+    final_xarray = xarray.Dataset(data_vars=data_dict,
+                                  coords=dict(latitude=(["x", "y"], lat_final),
+                                              longitude=(["x", "y"], lon_final)),
                                   attrs=dict(source_name=source_name,
-                                                  platform_name=platform_name,
-                                                  start_datetime=start_dt,
-                                                  end_datetime=end_dt,
-                                                  source_file_datetimes=source_file_datetimes,
-                                                  data_provider=data_provider)
-                                 )
+                                             platform_name=platform_name,
+                                             start_datetime=start_dt,
+                                             end_datetime=end_dt,
+                                             source_file_datetimes=sf_datetimes,
+                                             data_provider=data_provider))
     return final_xarray

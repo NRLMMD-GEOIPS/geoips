@@ -7,17 +7,14 @@ spec:
   algorithm:
     plugin:
       name: georing_3d
-      # This works as-is with defaults for VIIRS and ABI and SEVIRI.
-      # AHI does NOT use gamma! Replacement values in product_inputs/ahi.yaml
-      # MODIS does NOT use gamma, and has scale_factor of 1.0! Replacement values in product_inputs/modis.yaml
       arguments:
         output_data_range: [1.0, 4.0]
         min_outbounds: mask
         max_outbounds: mask
         inverse: null
         norm: null
-        cloud_type: True
-        level: 11
+        alg_type: cloud_type
+        level: 23
   mtif_type: vis
   colormapper:
     plugin:

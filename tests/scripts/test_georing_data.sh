@@ -19,13 +19,15 @@
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_georing_3d/source/* \
              --procflow single_source \
              --reader_name georing_3d_netcdf \
-             --product_name Binary_Cloud_Mask \
+             --product_name Cloud_Depth \
              --output_formatter imagery_annotated \
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
-             --minimum_coverage 0 \
-             --output_formatter_kwargs '{"title_formatter": "georing_3d_cloud_type", "level": "0"}'
+             --minimum_coverage 0
 retval=$?
 
 exit $retval
+
+
+# --output_formatter_kwargs '{"title_formatter": "georing_3d_cloud_type"}'

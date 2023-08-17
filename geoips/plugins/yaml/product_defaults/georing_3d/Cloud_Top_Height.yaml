@@ -1,0 +1,25 @@
+interface: product_defaults
+family: algorithm_interpolator_colormapper
+name: Cloud_Top_Height
+docstring: |
+  The Cloud_Top_Height product_defaults GEOring_3d configuration.
+spec:
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}
+  algorithm:
+    plugin:
+      name: georing_3d
+      arguments:
+        output_data_range: [0, 20]
+        min_outbounds: "crop"
+        max_outbounds: "crop"
+        norm: False
+        inverse: False
+        alg_type: cloud_top_height
+  colormapper:
+    plugin:
+      name: cmap_cldHeight
+      arguments:
+        data_range: [0, 20]

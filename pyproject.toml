@@ -212,6 +212,7 @@ interp_grid = "geoips.plugins.modules.interpolators.scipy_wrappers.interp_grid"
 # sed -i "s,winds.wind_radii_transitions,wind_radii_transitions,g" plugins/yaml/product*/*
 [project.entry-points."geoips.colormappers"]
 cloud_type = "geoips.plugins.modules.colormappers.cloud_type"
+cmap_cldHeight = "geoips.plugins.modules.colormappers.cmap_cldHeight"
 cmap_rgb = "geoips.plugins.modules.colormappers.cmap_rgb"
 matplotlib_linear_norm = "geoips.plugins.modules.colormappers.matplotlib_linear_norm"
 pmw_150H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_150H"
