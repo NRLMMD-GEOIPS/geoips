@@ -26,7 +26,7 @@ overall_start=`date +%s`
 
 dtstr=`date -u +%Y%m%d.%H%M%S`
 
-LOGFILE=$testdatadir/logs/`date -u +%Y%m%d`/${dtstr}_${package_name}/test_all_${package_name}.log
+LOGFILE=$GEOIPS_OUTDIRS/logs/`date -u +%Y%m%d`/${dtstr}_${package_name}/test_all_${package_name}.log
 mkdir -p `dirname $LOGFILE`
 
 echo `date` Running pre, log: $LOGFILE

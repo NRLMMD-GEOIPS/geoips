@@ -52,7 +52,11 @@ def call(
     resolution = max(area_def.pixel_size_x, area_def.pixel_size_y) / 1000.0
 
     kwargs = {}
-    sector_info = area_def.sector_info if "region" not in area_def.sector_info.keys() else area_def.sector_info["region"]
+    sector_info = (
+        area_def.sector_info
+        if "region" not in area_def.sector_info.keys()
+        else area_def.sector_info["region"]
+    )
     if "continent" in sector_info:
         kwargs["continent"] = sector_info["continent"]
     if "country" in sector_info:

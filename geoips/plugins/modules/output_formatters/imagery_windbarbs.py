@@ -172,7 +172,7 @@ def format_windbarb_data(xarray_obj, product_name):
         linewidth = 1.5
         sizes_dict = dict(height=0.7, spacing=0.3)
         rain_size = 10
-    elif product_name == "wind-ambiguities":
+    elif product_name == "wind-ambiguities" or "wind-ambiguities" in product_name:
         # Thinning the data points to better display the windbards
         thinning = 1  # skip data points
         barblength = 5  # Length of individual barbs

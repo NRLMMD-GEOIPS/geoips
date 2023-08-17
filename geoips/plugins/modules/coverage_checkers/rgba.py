@@ -42,13 +42,9 @@ def call(
     """
     from geoips.image_utils.mpl_utils import percent_unmasked_rgba
 
-    varname_for_covg = variable_name
-    if variable_name not in xarray_obj.variables.keys():
-        LOG.info(
-            '    UPDATING variable "%s" does not exist, using product name "%s"',
-            variable_name,
-            name,
+    if variable_name not in xarray_obj:
+        raise KeyError(
+            f"Variable {variable_name} did not exist. Can not calculate coverage."
         )
-        varname_for_covg = name
 
-    return percent_unmasked_rgba(xarray_obj[varname_for_covg].to_masked_array())
+    return percent_unmasked_rgba(xarray_obj[variable_name].to_masked_array())

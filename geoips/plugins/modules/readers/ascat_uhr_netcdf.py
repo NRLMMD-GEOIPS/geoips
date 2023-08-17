@@ -78,13 +78,11 @@ def read_byu_data(wind_xarray, fname):
     try:
         # Store the storm names lower case - only reference to it is in the filename..
         storm_name = (
-            os.path.basename(wind_xarray.source_file_names[0])
-            .split("_")[3]
-            .lower()
+            os.path.basename(wind_xarray.source_file_names[0]).split("_")[3].lower()
         )
-        expected_yymmdd = os.path.basename(
-            wind_xarray.source_file_names[0]
-        ).split("_")[4]
+        expected_yymmdd = os.path.basename(wind_xarray.source_file_names[0]).split("_")[
+            4
+        ]
         expected_hhmn = os.path.basename(
             wind_xarray.source_file_names[0]
             .replace(".WRave3.nc", "")
@@ -100,9 +98,7 @@ def read_byu_data(wind_xarray, fname):
         # MUIFA_20220911_19947_C_D-product.nc
         # Store the storm names lower case - only reference to it is in the filename..
         storm_name = (
-            os.path.basename(wind_xarray.source_file_names[0])
-            .split("_")[0]
-            .lower()
+            os.path.basename(wind_xarray.source_file_names[0]).split("_")[0].lower()
         )
         wind_xarray.attrs["storms_with_coverage"] = [storm_name]
         new_file = True
@@ -212,9 +208,9 @@ def read_byu_data(wind_xarray, fname):
         # These files are not correct yet.  Pull YYYYMMDD from filename for now,
         # set hour to 1200.
         # Just to get something to plot.
-        expected_yyyymmdd = os.path.basename(
-            wind_xarray.source_file_names[0]
-        ).split("_")[1]
+        expected_yyyymmdd = os.path.basename(wind_xarray.source_file_names[0]).split(
+            "_"
+        )[1]
         dt = datetime.strptime(expected_yyyymmdd + "0000", "%Y%m%d%H%M")
         timediff = numpy.datetime64(dt) - numpy.datetime64("2000-01-01T00:00:00")
         wind_xarray["time"] = wind_xarray["time"] + timediff

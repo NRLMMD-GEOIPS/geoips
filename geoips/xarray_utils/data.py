@@ -169,9 +169,7 @@ def sector_xarray_temporal(
     mindt64 = numpy.datetime64(mindt)
     maxdt64 = numpy.datetime64(maxdt)
 
-    xarray_time_mask = (full_xarray["time"] > mindt64) & (
-        full_xarray["time"] < maxdt64
-    )
+    xarray_time_mask = (full_xarray["time"] > mindt64) & (full_xarray["time"] < maxdt64)
 
     time_inds = numpy.where(xarray_time_mask)
 

@@ -209,10 +209,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             )
             time_array = xarray.DataArray(
                 numpy.vstack(
-                    [
-                        curr_xarray.time.to_masked_array()
-                        for curr_xarray in wind_xarrays
-                    ]
+                    [curr_xarray.time.to_masked_array() for curr_xarray in wind_xarrays]
                 )
             )
             wspd_array = xarray.DataArray(
