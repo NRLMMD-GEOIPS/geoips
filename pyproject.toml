@@ -33,37 +33,55 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
 #
 ##dependencies = [
 [tool.poetry.dependencies]     # must download to run
-    python = ">=3.9"           # mandatory to declare the required python version
-#    pyresample = ">= 1.22.3"  # Base requirement - efficiency improvements >= 1.22.3
-#    "numpy",  # Base requirement
-#    "xarray",  # Base requirement
-#    "matplotlib>=3.7.0",  # Base requirement
-#    # 20230321, allow >=3.7.0, changes annotated imagery outputs
-#    # 20230214, force to 3.6.3 until outputs updated
-#    # 20220922, force to 0.20.3/3.5.3 until outputs updated
-#    #           also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
-#    "scipy",  # Base requirement, requires openblas
-#    "netcdf4",  # Base requirement
-#    "pyyaml",  # Base requirement
-#    "pyshp>=2.2.0",
-#    "shapely>=1.8.2",  # requires libgeos
-#    "cartopy>=0.22.0",  # requires libgeos
-#    "pyaml_env",  # Reading YAML output config files, with paths
-#    "h5py",  # hdf5 readers (GMI)
-#    "pyhdf",  # hdf4 readers (MODIS)
-#    "rasterio",  # GEOTIFF output
-#    "psutil",  # Required for memory checks
-#    "pyorbital",  # required by satpy
-#    "ephem",  # Required for overpass predictor
-#    "isodate",  # Required for overpass predictor
-#    "satpy",  # efficiency improvements >= 0.33.1
-#    "numexpr",  # for efficiency improvements
-#    "scikit-image",  # Radius based center coverage checks
+    python = ">=3.9, <3.10"           # mandatory to declare the required python version
+    requests = "^2.31.0"
+    #    pyresample = ">= 1.22.3"  # Base requirement - efficiency improvements >= 1.22.3
+    pyresample = "^1.27.1"
+    #    "numpy",  # Base requirement
+    numpy = "^1.25.2"
+    #    "xarray",  # Base requirement
+    xarray = "^2023.7.0"
+    #    "matplotlib>=3.7.0",  # Base requirement
+    #    # 20230321, allow >=3.7.0, changes annotated imagery outputs
+    # 20230214, force to 3.6.3 until outputs updated
+    # 20220922, force to 0.20.3/3.5.3 until outputs updated
+    #           also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
+    matplotlib = "^3.7.2"
+    #    "scipy",  # Base requirement, requires openblas
+    scipy = "^1.11.2"   # did not require openblas; investigate
+    #    "netcdf4",  # Base requirement
+    netcdf4 = "^1.6.4"
+    #    "pyyaml",  # Base requirement
+    pyyaml = "^6.0.1"
+    #    "pyshp>=2.2.0",
+    pyshp = "^2.3.1"
+    #    "shapely>=1.8.2",  # requires libgeos
+    shapely = "^2.0.1"
+    #    "cartopy>=0.22.0",  # requires libgeos
+    cartopy = "^0.22.0"
+    #    "pyaml_env",  # Reading YAML output config files, with paths
+    pyaml-env = "^1.2.1"
+    #    "h5py",  # hdf5 readers (GMI)
+    h5py = "^3.9.0"
+    #    "pyhdf",  # hdf4 readers (MODIS)
+    pyhdf = "^0.11.3"
+    #    "rasterio",  # GEOTIFF output
+    rasterio = "^1.3.8"
+    #    "psutil",  # Required for memory checks
+    psutil = "^5.9.5"
+    #    "pyorbital",  # required by satpy
+    pyorbital = "^1.8.0"
+    #    "ephem",  # Required for overpass predictor
+    ephem = "^4.1.4"
+    #    "isodate",  # Required for overpass predictor
+    isodate = "^0.6.1"
+    #    "satpy",  # efficiency improvements >= 0.33.1
+    satpy = "^0.43.0"
+    #    "numexpr",  # for efficiency improvements
+    numexpr = "^2.8.5"
+    #    "scikit-image",  # Radius based center coverage checks
+    scikit-image = "^0.21.0"
 ##]
-requests = "^2.31.0"
-
-
-
 
 
 
