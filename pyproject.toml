@@ -2,20 +2,23 @@
 
 #[project]
 [tool.poetry]
-name = "geoips"
+name = "geoips"         # geoips package available at the root of the project
 #dynamic = ["version"]
 version = "0.1.0"   # this has to be fixed; it's dynamic in setuptools
 description = "Geolocated Information Processing System"
 authors = ["Tom <tom.jerry@colostate.edu>"]
 maintainers = ["Tom <tom.jerry@colostate.edu>"]
 #homepage = "set the url"   // optional
-#repository = "set the repo url"    //optional
+repository = "https://github.com/NRLMMD-GEOIPS/geoips"    #optional
 #documentation = "set the url"      // optional
 #license = {file = "LICENSE"}   // required
 readme = "README.md"
 keywords = ["GeoIPS", "Poetry"]
-#packages = [{include = "  "}]
-#classifiers =                  // list of PyPI trove classifiers to describe the project
+packages = [{include = "geoips"}]  # not needed as tool.poetry.name is properly set already
+classifiers = [                # // list of PyPI trove classifiers to describe the project
+    "Programming Language :: Python :: 3",
+]
+
 
 # remains same in setuptools and poetry
 [build-system]
@@ -24,14 +27,13 @@ keywords = ["GeoIPS", "Poetry"]
 #requires = ["poetry-core"]
 #build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
-build-backend = "poetry_dynamic_versioning.backend"
-
+build-backend = "poetry_dynamic_versioning.backend"     # object used to perform the build process
 
 
 #
-#[tool.poetry.dependencies]     # must download to run
 ##dependencies = [
-#    python = ">=3.9"
+[tool.poetry.dependencies]     # must download to run
+    python = ">=3.9"           # mandatory to declare the required python version
 #    pyresample = ">= 1.22.3"  # Base requirement - efficiency improvements >= 1.22.3
 #    "numpy",  # Base requirement
 #    "xarray",  # Base requirement
@@ -58,11 +60,13 @@ build-backend = "poetry_dynamic_versioning.backend"
 #    "numexpr",  # for efficiency improvements
 #    "scikit-image",  # Radius based center coverage checks
 ##]
+requests = "^2.31.0"
 
 
-classifiers = [
-    "Programming Language :: Python :: 3",
-]
+
+
+
+
 
 [tool.setuptools.packages]
 find = {namespaces = false}
