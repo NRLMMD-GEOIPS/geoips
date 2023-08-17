@@ -1,5 +1,22 @@
 #  Experimenting with poetry as the build backend
 
+#[project]
+[tool.poetry]
+name = "geoips"
+#dynamic = ["version"]
+version = "0.1.0"   # this has to be fixed; it's dynamic in setuptools
+description = "Geolocated Information Processing System"
+authors = ["Tom <tom.jerry@colostate.edu>"]
+maintainers = ["Tom <tom.jerry@colostate.edu>"]
+#homepage = "set the url"   // optional
+#repository = "set the repo url"    //optional
+#documentation = "set the url"      // optional
+#license = {file = "LICENSE"}   // required
+readme = "README.md"
+keywords = ["GeoIPS", "Poetry"]
+#packages = [{include = "  "}]
+#classifiers =                  // list of PyPI trove classifiers to describe the project
+
 # remains same in setuptools and poetry
 [build-system]
 #requires = ["setuptools>=61.2", "setuptools-scm"]
@@ -10,16 +27,6 @@ requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
 build-backend = "poetry_dynamic_versioning.backend"
 
 
-#[project]
-[tool.poetry]
-name = "geoips"
-#dynamic = ["version"]
-version = "0.1.0"   # this has to be fixed; it's dynamic in setuptools
-description = "Geolocated Information Processing System"
-authors = ["Tom <tom.jerry@colostate.edu>"]
-#license = {file = "LICENSE"}
-readme = "README.md"
-keywords = ["GeoIPS", "Poetry"]
 
 #
 #[tool.poetry.dependencies]     # must download to run
