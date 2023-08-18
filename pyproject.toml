@@ -81,7 +81,7 @@ test = [
     "pytest-cov"  # Reports on test coverage
 ]
 doc = [
-    "sphinx",  # Required for building documentation
+    "sphinx<7.2",  # Required for building documentation, v7.2 errors
     "sphinx-design",  # Required for building documentation
     "pydata-sphinx-theme",  # Required for building documentation
 ]
