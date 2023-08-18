@@ -19,7 +19,7 @@
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_georing_3d/source/* \
              --procflow single_source \
              --reader_name georing_3d_netcdf \
-             --product_name Cloud_Depth \
+             --product_name Cloud_Top_Height \
              --output_formatter imagery_annotated \
              --filename_formatter geoips_fname \
              --resampled_read \

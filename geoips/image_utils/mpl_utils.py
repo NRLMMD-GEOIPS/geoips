@@ -522,7 +522,7 @@ def create_figure_and_main_ax_and_mapobj(
         )
     main_ax.set_axis_off()
     fig.add_axes(main_ax)
-    # main_ax.set_facecolor("darkgray")
+    # main_ax.set_facecolor("black")
 
     return fig, main_ax, mapobj
 

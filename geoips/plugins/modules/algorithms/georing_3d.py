@@ -21,8 +21,6 @@ import xarray
 
 LOG = logging.getLogger(__name__)
 
-KtoC_conversion = -273.15
-
 interface = "algorithms"
 family = "xarray_dict_to_xarray"
 name = "georing_3d"
@@ -40,9 +38,10 @@ def between(data, min, max, lvl=None, type=None):
     max: int
         Maximum value (inclusive)
     lvl: int
-        If not None, return the level where data is between else -1
+        If not None, return the level in km where data is between (1,4) else a fill val
     type: string
-        If not None, depict the type of level being measued (cld_top or cld_base)
+        If not None, depict the type of algorithm being computed.
+        Options: ["cloud_top_height", "cloud_base_height", "cloud_depth", "layered"]
     """
     if lvl is None and type is None:
         between_mask = np.where((data <= max) & (data >= min), data, 0)
@@ -55,8 +54,15 @@ def between(data, min, max, lvl=None, type=None):
     return between_mask
 
 
+def binary_cloud_mask(data):
+    """Create a binary mask on data where clouds exist (1) else (0)."""
+    bin_mask = np.zeros_like(data)
+    bin_mask[(data >= 1) & (data <= 4)] = 1
+    return bin_mask
+
+
 def diff_layer(prev_layer, curr_layer):
-    """Return binary mask representing whether cloud layers continue or break."""
+    """Return binary mask representing whether there is a new cloud layer."""
     new_layer = np.where((prev_layer == 0) & (curr_layer == 1), 1, 0)
     return new_layer
 
@@ -74,49 +80,52 @@ def collapse(data, cld_height=None):
     """
     rows = np.shape(data)[1]
     cols = np.shape(data)[2]
-    if cld_height is None or "layered" in cld_height:
+    bin_mask = binary_cloud_mask(data)
+    if "cloud_layers" == cld_height:
         collapsed_data = np.zeros((rows, cols), dtype="int")
+    elif "cloud_depth" == cld_height:
+        collapsed_data_top = np.empty((rows, cols), dtype="int")
+        collapsed_data_base = np.empty((rows, cols), dtype="int")
+        collapsed_data_top.fill(-999)
+        collapsed_data_base.fill(999)
     else:
-        if "depth" in cld_height:
-            collapsed_data_top = np.empty((rows, cols), dtype="int")
-            collapsed_data_base = np.empty((rows, cols), dtype="int")
-            collapsed_data_top.fill(-999)
-            collapsed_data_base.fill(999)
-        else:
-            collapsed_data = np.empty((rows, cols), dtype="int")
-            if "top" in cld_height:
-                collapsed_data.fill(-999)
-            elif "base" in cld_height:
-                collapsed_data.fill(999)
+        collapsed_data = np.empty((rows, cols), dtype="int")
+        if "top" in cld_height:
+            collapsed_data.fill(-999)
+        elif "base" in cld_height:
+            collapsed_data.fill(999)
     for lvl in range(np.shape(data)[0]):
-        if cld_height is None:
-            lvl_data = between(data[lvl], 1, 4)
-            collapsed_data += lvl_data
-        elif "layered" in cld_height:
+        if "cloud_layers" == cld_height:
             if lvl == 0:
                 prev_layer = collapsed_data
+                lvl_data = None
             else:
                 prev_layer = lvl_data
-            lvl_data = between(data[lvl], 1, 4, type=cld_height)
+            lvl_data = bin_mask[lvl]
             layer_mask = diff_layer(prev_layer, lvl_data)
             collapsed_data[layer_mask == 1] += 1
         else:
-            if "top" in cld_height:
-                lvl_data = between(data[lvl], 1, 4, lvl, cld_height)
-                collapsed_data = np.where(lvl_data > collapsed_data,
-                                          lvl_data, collapsed_data)
-            elif "base" in cld_height:
-                lvl_data = between(data[lvl], 1, 4, lvl, cld_height)
-                collapsed_data = np.where(lvl_data < collapsed_data,
-                                          lvl_data, collapsed_data)
-            elif "depth" in cld_height:
-                lvl_data_top = between(data[lvl], 1, 4, lvl, "cloud_top_height")
-                lvl_data_base = np.copy(lvl_data_top)
-                lvl_data_base[lvl_data_base == -999] = 999
-                collapsed_data_top = np.where(lvl_data_top > collapsed_data_top,
-                                              lvl_data_top, collapsed_data_top)
-                collapsed_data_base = np.where(lvl_data_base < collapsed_data_base,
-                                               lvl_data_base, collapsed_data_base)
+            lvl_km = (lvl * 0.25) + 0.25
+            poss_idxs = np.where(bin_mask[lvl] == 1)
+            if "cloud_top_height" == cld_height:
+                # lvl_data = between(data[lvl], 1, 4, lvl, cld_height)
+                # lvl_data[bin_mask[lvl] == 1] = (lvl * 0.25) + 0.25
+                collapsed_data[(poss_idxs) & (lvl_km > collapsed_data[poss_idxs])] = lvl_km
+                # collapsed_data[poss_idxs] = np.where(lvl_km > collapsed_data[poss_idxs],
+                #                                      lvl_km, collapsed_data[poss_idxs])
+                # collapsed_data[(lvl_km > collapsed_data[poss_idxs])] = lvl_km
+            # elif "base" in cld_height:
+            #     lvl_data = between(data[lvl], 1, 4, lvl, cld_height)
+            #     collapsed_data = np.where(lvl_data < collapsed_data,
+            #                             lvl_data, collapsed_data)
+            # elif "depth" in cld_height:
+            #     lvl_data_top = between(data[lvl], 1, 4, lvl, "cloud_top_height")
+            #     lvl_data_base = np.copy(lvl_data_top)
+            #     lvl_data_base[lvl_data_base == -999] = 999
+            #     collapsed_data_top = np.where(lvl_data_top > collapsed_data_top,
+            #                                 lvl_data_top, collapsed_data_top)
+            #     collapsed_data_base = np.where(lvl_data_base < collapsed_data_base,
+            #                                 lvl_data_base, collapsed_data_base)
     if "depth" in cld_height:
         return collapsed_data_top - collapsed_data_base
     else:
@@ -217,14 +226,16 @@ def call(
     if output_data_range is None:
         output_data_range = [data.min(), data.max()]
 
-    if "cloud_type" in alg_type:
+    if "cloud_type" == alg_type:
         data = data[level]
-        data = between(data, 1, 4)
+        data[data > 4] = 0
+        # data = between(data, 1, 4)
         # masks the slice to only include clouds, otherwise the value is -999
-    elif "binary" in alg_type:  # implement binary masking on the entire dataset
-        data = collapse(data)
-        data = np.where(data > 0, 1, 0)
+    elif "binary_cloud_mask" == alg_type:  # implement binary masking on the dataset
+        data = np.sum(binary_cloud_mask(data), axis=0)
+        data[data > 0] = 1
     else:
+        # bin_mask = binary_cloud_mask(data)
         data = collapse(data, cld_height=alg_type)
     lon_final, lat_final = np.meshgrid(lon, lat)
 
