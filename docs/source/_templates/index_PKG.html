@@ -1,27 +1,27 @@
 :notoc:
 
-.. GEOIPS documentation master file, created by
+.. GEOIPS PKGNAME documentation master file, created by
 
-.. module:: geoips
+.. module:: PKGNAME
    :noindex:
 
-***************************
-GeoIPS |reg|  Documentation
-***************************
+****************************************************************
+GeoIPS |reg| PKGNAME Documentation
+****************************************************************
 
 **Date**: |today| **Version**: |release|
 
-**Download PDF documentation**: :download:`GeoIPS.pdf`
+**Download PDF documentation**: :download:`GeoIPS_PKGNAME.pdf`
 
-**Previous versions**: Documentation of previous geoips versions are available at
+**Previous versions**: Documentation of previous PKGNAME versions are available at
 `github.com/NRLMMD-GEOIPS <https://github.com/NRLMMD-GEOIPS/>`__.
 
 **Useful links**:
-`Source Repository <https://github.com/NRLMMD-GeoIPS/geoips>`__ |
+`Source Repository <https://github.com/NRLMMD-GEOIPS/PKGNAME>`__ |
 `GeoIPS License <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE>`__ |
 `NRLMMD <https://www.nrlmry.navy.mil>`__ |
 
-:mod:`geoips` is a free software program, United States Governmnet NRLMMD licensed.
+:mod:`PKGNAME` is a free software program, United States Governmnet NRLMMD licensed.
 
 ::
 
@@ -37,13 +37,8 @@ GeoIPS |reg|  Documentation
     for more details. If you did not receive the license, for more information see:
     https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-GeoIPS |reg| Base Package
--------------------------
-
-The GeoIPS Base Package provides a Python 3 based architecture supporting a wide
-variety of satellite and weather data processing. The modular nature of the GeoIPS
-base infrastructure also allows plug-and-play capability for user-specified custom
-functionality.
+.. automodule:: PKGNAME
+   :noindex:
 
 {% if not single_doc -%}
 .. grid:: 1 2 2 2
@@ -57,7 +52,7 @@ functionality.
            :align: center
 
         The user guide provides in-depth information on the key concepts of
-        geoips with useful background information and explanation.
+        PKGNAME with useful background information and explanation.
 
         .. button-link:: userguide/index.html
             :ref-type: ref
@@ -74,11 +69,11 @@ functionality.
            :scale: 25%
            :align: center
 
-        The reference guide contains a detailed description of geoips API.
+        The reference guide contains a detailed description of PKGNAME API.
         The reference describes how the methods work and which parameters can
         be used. It assumes that you have an understanding of the key concepts.
 
-        .. button-link:: geoips_api/index.html
+        .. button-link:: PKGNAME_api/index.html
             :ref-type: ref
             :color: secondary
             :expand:
@@ -112,12 +107,12 @@ functionality.
     {{ single_doc[:-4] }}
 {% elif single_doc and single_doc.count('.') <= 1 %}
 .. autosummary::
-    :toctree: geoips_api/
+    :toctree: PKGNAME_api/
 
     {{ single_doc }}
 {% elif single_doc %}
 .. autosummary::
-    :toctree: geoips_api/
+    :toctree: PKGNAME_api/
 
     {{ single_doc }}
 {% else -%}
@@ -128,11 +123,11 @@ functionality.
 {% endif %}
 {% if not single_doc %}
     introduction/index
-    starter/index
+    STARTERIDX
     userguide/index
-    devguide/index
-    geoips_api/index
-    releases/index
+    DEVIDX
+    PKGNAME_api/index
+    RELEASEIDX
     contact/index
 {% endif %}
 

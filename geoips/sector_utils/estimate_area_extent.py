@@ -20,14 +20,15 @@ EARTH_RADIUS_METERS = 6371228.0
 
 
 def generateMinMaxLatLong(lat_0, lon_0, height, width, resolution):
-    """Generate minimum and maximum latitude longitude pairs based off the resolution 
-        and height/width provided
+    """Generate minimum and maximum latitude longitude pairs.
+
+    Min/max lat/lon based off the resolution and height/width provided.
 
     Parameters
     ----------
     lat_0, lon_0 : float
         Pair of latitude and longitude coordinates in degrees
-    
+
     height, width, resolution : int
         Represents pixel dimensions and resolution of image in meters
 
@@ -48,6 +49,7 @@ def generateMinMaxLatLong(lat_0, lon_0, height, width, resolution):
     min_lon = np.rad2deg(phi_2 - delta_lon)
     max_lon = np.rad2deg(phi_2 + delta_lon)
     return [min_lat, max_lat, min_lon, max_lon]
+
 
 def haversine_distance(lat1, lon1, lat2, lon2):
     """Calculate the distance between two latitude and longitude points.
@@ -188,6 +190,7 @@ def estimate_area_extent(min_lat, min_lon, max_lat, max_lon, resolution):
         "lon_0": center_lon,
     }
 
+
 def esitmate_area_from_center(lat_0, lon_0, height, width, resolution):
     """Estimate the area extent for use in the YAML area definition.
 
@@ -220,14 +223,18 @@ def esitmate_area_from_center(lat_0, lon_0, height, width, resolution):
     lats_lons = generateMinMaxLatLong(lat_0, lon_0, height, width, resolution)
     max_lonE = convert_west2east(lats_lons[3])
     min_lonE = convert_west2east(lats_lons[2])
-    lat_distance = haversine_distance(lats_lons[0], center_lon, lats_lons[1], center_lon)
+    lat_distance = haversine_distance(
+        lats_lons[0], center_lon, lats_lons[1], center_lon
+    )
     # distance = inverse_haversine_distance(lat_0, center_lon, height, width, resolution)
     if (max_lonE - min_lonE) > 180:
         dist1 = haversine_distance(center_lat, min_lonE, center_lat, min_lonE + 180)
         dist2 = haversine_distance(center_lat, min_lonE + 180, center_lat, max_lonE)
         lon_distance = dist1 + dist2
     else:
-        lon_distance = haversine_distance(center_lat, lats_lons[2], center_lat, lats_lons[3])
+        lon_distance = haversine_distance(
+            center_lat, lats_lons[2], center_lat, lats_lons[3]
+        )
     # The haversine formula will find the shortest distance between two points
     # If we want the sector larger than 180 degrees in longitude, we need
     # some special handling for the distance calculation

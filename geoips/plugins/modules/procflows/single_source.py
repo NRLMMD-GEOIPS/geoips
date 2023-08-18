@@ -442,9 +442,18 @@ def get_filename(
             prod_plugin,
             covg_field="filename_coverage_checker",
         )
+        # Set variable_name to prod_plugin.name if not defined.
+        # Always use variable_name if it is defined.
+        covg_varname = covg_args.pop("variable_name", prod_plugin.name)
+        # Note variables can be specified as DATASET:VARIABLE, since this is a
+        # preprocessed alg_xarray, and not a dictionary of datasets, just use the
+        # variable name (we expect the correct variable will exist in this final
+        # processed array)
+        if ":" in covg_varname:
+            covg_varname = covg_varname.split(":")[1]
         covg = covg_plugin(
             alg_xarray,
-            covg_args.pop("varname", prod_plugin.name),
+            covg_varname,
             area_def,
             **covg_args,
         )
@@ -914,7 +923,7 @@ def get_alg_xarray(
             )
 
         # No interpolation required
-        if prod_plugin.family == "algorithm_colormapper":
+        if prod_plugin.family in ["algorithm", "algorithm_colormapper"]:
             final_xarray = alg_xarray
         # If required, interpolate the result prior to returning
         elif prod_plugin.family == "algorithm_interpolator_colormapper":
@@ -1492,7 +1501,21 @@ def call(fnames, command_line_args=None):
                 prod_plugin,
                 covg_field="image_production_coverage_checker",
             )
-            covg = covg_plugin(alg_xarray, prod_plugin.name, area_def, **covg_args)
+            # Set variable_name to prod_plugin.name if not defined.
+            # Always use variable_name if it is defined.
+            covg_varname = covg_args.pop("variable_name", prod_plugin.name)
+            # Note variables can be specified as DATASET:VARIABLE, since this is a
+            # preprocessed alg_xarray, and not a dictionary of datasets, just use the
+            # variable name (we expect the correct variable will exist in this final
+            # processed array)
+            if ":" in covg_varname:
+                covg_varname = covg_varname.split(":")[1]
+            covg = covg_plugin(
+                alg_xarray,
+                covg_varname,
+                area_def,
+                **covg_args,
+            )
 
             fname_covg_plugin = get_covg_from_product(
                 prod_plugin,
@@ -1502,8 +1525,20 @@ def call(fnames, command_line_args=None):
                 prod_plugin,
                 covg_field="filename_coverage_checker",
             )
+            # Set variable_name to prod_plugin.name if not defined.
+            # Always use variable_name if it is defined.
+            fname_covg_varname = fname_covg_args.pop("variable_name", prod_plugin.name)
+            # Note variables can be specified as DATASET:VARIABLE, since this is a
+            # preprocessed alg_xarray, and not a dictionary of datasets, just use the
+            # variable name (we expect the correct variable will exist in this final
+            # processed array)
+            if ":" in fname_covg_varname:
+                fname_covg_varname = fname_covg_varname.split(":")[1]
             fname_covg = fname_covg_plugin(
-                alg_xarray, prod_plugin.name, area_def, **fname_covg_args
+                alg_xarray,
+                fname_covg_varname,
+                area_def,
+                **fname_covg_args,
             )
 
             for attrname in new_attrs:

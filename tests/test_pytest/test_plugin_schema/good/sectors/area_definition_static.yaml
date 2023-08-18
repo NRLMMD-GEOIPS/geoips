@@ -1,6 +1,6 @@
 ---
 interface: sectors
-family: area_definition
+family: area_definition_static
 name: CONUS
 docstring: |
   CONUS sector AreaDefinition.

@@ -40,15 +40,11 @@ def call(
     float
         Percent coverage of variable_name
     """
+    if variable_name not in xarray_obj:
+        raise KeyError(
+            f"Variable {variable_name} did not exist. Can not calculate coverage."
+        )
+
     from geoips.data_manipulations.info import percent_not_nan
 
-    varname_for_covg = variable_name
-    if variable_name not in xarray_obj.variables.keys():
-        LOG.info(
-            '    UPDATING variable "%s" does not exist, using product name "%s"',
-            variable_name,
-            name,
-        )
-        varname_for_covg = name
-
-    return percent_not_nan(xarray_obj[varname_for_covg])
+    return percent_not_nan(xarray_obj[variable_name])
