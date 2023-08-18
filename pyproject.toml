@@ -53,12 +53,19 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
     netcdf4 = "^1.6.4"
     #    "pyyaml",  # Base requirement
     pyyaml = "^6.0.1"
+
     #    "pyshp>=2.2.0",
+    #   pyshp = "^2.3.1"    #with poetry add
+    #pyshp = ">=2.2.0, *"
     pyshp = "^2.3.1"
+
     #    "shapely>=1.8.2",  # requires libgeos
     shapely = "^2.0.1"
+
     #    "cartopy>=0.22.0",  # requires libgeos
-    cartopy = "^0.22.0"
+    #   cartopy = "^0.22.0"     // with poetry add
+    cartopy = ">=0.22.0, *"
+
     #    "pyaml_env",  # Reading YAML output config files, with paths
     pyaml-env = "^1.2.1"
     #    "h5py",  # hdf5 readers (GMI)
@@ -82,6 +89,44 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
     #    "scikit-image",  # Radius based center coverage checks
     scikit-image = "^0.21.0"
 ##]
+
+#
+#[project.optional-dependencies]
+#doc = [
+#    "sphinx",  # Required for building documentation
+#    "sphinx-design",  # Required for building documentation
+#    "pydata-sphinx-theme",  # Required for building documentation
+#]
+
+#lint = [
+#    "bandit",  # Syntax/security checking
+#    "black",   # Syntax checking and reformatting
+#    "pylint",  # Syntax checking
+#    "flake8",  # Syntax checking
+#    "flake8-rst-docstrings",  # numpy docstring checking
+#    "flake8-docstrings",  # docstring checking
+#    "flake8-rst",  # RST checking
+#    "prettier",  # YAML, JSON, etc linting
+#    "doc8",  # RST linting
+#]
+
+
+[tool.poetry.group.doc.dependencies]
+sphinx = "^7.2.2"
+sphinx-design = "^0.5.0"
+pydata-sphinx-theme = "^0.13.3"
+
+[tool.poetry.group.lint.dependencies]
+bandit = "^1.7.5"
+black = "^23.7.0"
+pylint = "^2.17.5"
+flake8 = "^6.1.0"
+flake8-rst-docstrings = "^0.3.0"
+flake8-docstrings = "^1.7.0"
+flake8-rst = "^0.8.0"
+prettier = "^0.0.7"
+doc8 = "^1.1.1"
+
 
 
 
@@ -124,23 +169,6 @@ entry-points = {file = ["entry-points.ini"]}
 #[tool.poetry.scripts]
 #my-script = "my_package:main"
 
-[project.optional-dependencies]
-doc = [
-    "sphinx",  # Required for building documentation
-    "sphinx-design",  # Required for building documentation
-    "pydata-sphinx-theme",  # Required for building documentation
-]
-lint = [
-    "bandit",  # Syntax/security checking
-    "black",   # Syntax checking and reformatting
-    "pylint",  # Syntax checking
-    "flake8",  # Syntax checking
-    "flake8-rst-docstrings",  # numpy docstring checking
-    "flake8-docstrings",  # docstring checking
-    "flake8-rst",  # RST checking
-    "prettier",  # YAML, JSON, etc linting
-    "doc8",  # RST linting
-]
 
 [project.entry-points.console_scripts]
 run_procflow = "geoips.commandline.run_procflow:main"
