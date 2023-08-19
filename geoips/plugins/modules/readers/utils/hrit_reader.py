@@ -22,16 +22,11 @@ from functools import reduce
 from copy import copy
 from struct import unpack
 from datetime import datetime, timedelta
-from subprocess import Popen, PIPE
+from pyPublicDecompWT import xRITDecompress
 import numpy as np
 
 
 log = logging.getLogger(__name__)
-
-# Variables for xRIT decompression
-XRIT_ENV = "XRIT_DECOMPRESS_PATH"
-XRIT_PATH = os.getenv(XRIT_ENV)
-XRIT_URL = "http://www.eumetsat.int/website/home/Data/DataDeliver/SupportSoftwareandTools/index.html"
 
 
 class HritDtype(object):
@@ -106,23 +101,6 @@ class HritError(Exception):
             return "{}: {}".format(self.code, self.value)
         else:
             return self.value
-
-
-def check_for_hrit():
-    """Check for HRIT file."""
-    if XRIT_PATH is None:
-        raise HritError(
-            "No path to xRIT decompression software "
-            "Please set XRIT_DECOMPRESS_PATH environment variable."
-        )
-    elif not os.path.isfile(XRIT_PATH):
-        raise HritError(
-            "xRITDecompress software not found. "
-            "Must install and set XRIT_DECOMPRESS_PATH to the absolute path to the executable. See "
-            "http://www.eumetsat.int/website/home/Data/DataDelivery/SupportSoftwareandTools/index.html"
-            " for Public Wavelet Transform Decompression Library Software (license required)"
-        )
-    return True
 
 
 class HritFile(object):
@@ -420,14 +398,13 @@ class HritFile(object):
 
     def decompress(self, outdir):
         """
-        Decompress an xRIT file to the specified output directory.
+        Decompress an xRIT file and return a file handle.
+
+        The file will be decompressed to `outdir` and read from there.
 
         Returns an HritFile instance for the decompressed file.
         If already decompressed, raises an HritError.
         """
-        # Check for xRIT decompression software
-        check_for_hrit()
-
         # If compressed, then decompress
         if self.compressed:
             parts = copy(self._parts)
@@ -436,14 +413,10 @@ class HritFile(object):
             log.debug("Copying file to {}".format(new_fname))
             shutil.copy(self.name, new_fname)
 
-            cmd_args = [XRIT_PATH, self.name]
-            log.debug("Decompressing {}".format(new_fname))
-            proc = Popen(cmd_args, stdout=PIPE, stderr=PIPE, cwd=outdir)
-            stdout, stderr = proc.communicate()
-
-            if proc.returncode:
-                log.error("Failed Decompressing {}".format(new_fname))
-                raise HritError(stderr, proc.returncode)
+            prevdir = os.getcwd()
+            os.chdir(outdir)
+            xRITDecompress(self.name)
+            os.chdir(prevdir)
 
             return HritFile(new_fname)
 
@@ -469,11 +442,20 @@ class HritFile(object):
         # First block is always 0th block and starts at first byte
         block_info = {0: (0, 0)}
         # Loop over blocks until we hit the end of the header
+        first_loop = True
         while buff.tell() < header_length:
             # Read the block number and block length
             block_start = buff.tell()
             block_num = unpack("B", buff.read(1))[0]
             block_length = unpack(">H", buff.read(2))[0]
+
+            if first_loop:
+                if block_num != 0:
+                    raise HritError(
+                        "This does not appear to be an HRIT file. "
+                        f"The first block number should be 0 but we got {block_num}."
+                    )
+                first_loop = False
 
             # Add block_length for the current block
             block_info[block_num] = (block_start, block_length)
