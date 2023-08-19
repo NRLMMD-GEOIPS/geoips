@@ -31,6 +31,7 @@ fi
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geoips_plugin_example $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo template_basic_plugin $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo template_fusion_plugin $test_exit $install_script
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh settings_repo .vscode $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_amsr2 $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_clavrx $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_repo test_data_gpm $test_exit $install_script

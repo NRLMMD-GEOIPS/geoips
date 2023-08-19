@@ -1,0 +1,15 @@
+interface: sectors
+family: generated
+name: tc_web_ascat_50km_barbs
+docstring: |
+  The tc_web_ascat_50km_barbs_template boundaries configuration.
+
+spec:
+  sector_spec_generator:
+    name: center_coordinates
+    arguments:
+      projection: eqc
+      pixel_width: 1100
+      pixel_height: 1100
+      num_lines: 1400
+      num_samples: 1400

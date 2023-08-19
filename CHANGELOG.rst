@@ -10,36 +10,9 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Enhancements
-============
+Please see geoips/CHANGELOG_TEMPLATE.rst for instructions on updating
+CHANGELOG appropriately with each PR
 
-Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
--------------------------------------------------------------------
+Release notes for previous/upcoming versions can be found in
+docs/source/releases, for reference.
 
-*From NRLMMD-GEOIPS/geoips#264: 2023-08-16, Update seviri reader to use pyPublicDecompWT*
-
-* We had previously been using xRITDecompress which needed to be complied and installed
-  separately. This replaces xRITDecompress with pyPublicDecompWT which provides the same
-  functionality but can be pip installed.
-
-::
-
-    modified: geoips/plugins/modules/readers/utils/hrit_reader.py
-
-Installation Updates
-====================
-
-Add pyPublicDecompWT to dependencies and remove setup_seviri from setup script
-------------------------------------------------------------------------------
-
-*From NRLMMD-GEOIPS/geoips#264: 2023-08-16, Update seviri reader to use pyPublicDecompWT*
-
-* Add pypublicdecompwt to install requirements
-* Remove setup_seviri from setup.py
-* Remove xRITDecompress environment variables from config_geoips
-
-::
-
-    modified: pyproject.toml
-    modified: setup_seviri
-    modified: config/config_geoips

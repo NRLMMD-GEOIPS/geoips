@@ -1,0 +1,68 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.11.3a0 (2023-08-19)
+*****************************
+
+* Require sphinx<7.2 due to bugs introduced 2023-08-17 7.2.x release
+* Add .vscode settings repository to "full_install.sh"
+* Add script to enable geoips environment
+* Bug fixes
+
+Bug Fixes
+=========
+
+Add v1_11_3a0 to release note index
+-----------------------------------
+
+Documentation build fails when RST files are missing from the index.
+
+::
+
+  modified: docs/source/releases/index.rst
+
+Require sphinx<7.2 in pyproject.toml
+------------------------------------
+
+Sphinx version 7.2 introduced a bug in the autodoc function, causing an import
+error in the interp_gauss module.  Force sphinx version < 7.2 until that error
+has been resolved.
+
+::
+
+  modified: pyproject.toml
+
+Installation Updates
+====================
+
+Add .vscode repository to full Installation
+-------------------------------------------
+
+When running full_install.sh/full_test.sh, ensure the .vscode repository is
+cloned along with other source repos.
+
+Also added "settings_repo" option to check_system_requirements (only clones,
+does not attempt to pip install or uncompress test data)
+
+::
+
+  modified: tests/integration_tests/full_install.sh
+  modified: setup/check_system_requirements.sh
+
+Add script to enable geoips environment
+---------------------------------------
+
+Include script that sets explicit paths for geoips environment setup.
+
+::
+
+  new: setup/USER_MODIFY_config

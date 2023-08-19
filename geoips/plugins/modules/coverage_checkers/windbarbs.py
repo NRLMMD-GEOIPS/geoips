@@ -24,7 +24,7 @@ name = "windbarbs"
 def call(
     xarray_obj,
     variable_name,
-    area_def,
+    area_def=None,
 ):
     """Coverage check routine for wind barb xarray object.
 
@@ -40,22 +40,18 @@ def call(
     float
         Percent coverage of variable_name over area_def
     """
-    varname_for_covg = variable_name
-    if variable_name not in xarray_obj.variables.keys():
-        LOG.info(
-            '    UPDATING variable "%s" does not exist, using product name "%s"',
-            variable_name,
-            name,
+    if variable_name not in xarray_obj:
+        raise KeyError(
+            f"Variable {variable_name} did not exist. Can not calculate coverage."
         )
-        varname_for_covg = name
 
     from geoips.interfaces import interpolators
 
     interp_plugin = interpolators.get_plugin("interp_nearest")
     output_xarray = interp_plugin(
-        area_def, xarray_obj, None, [varname_for_covg], array_num=0
+        area_def, xarray_obj, None, [variable_name], array_num=0
     )
 
     from geoips.data_manipulations.info import percent_unmasked
 
-    return percent_unmasked(output_xarray[varname_for_covg].to_masked_array())
+    return percent_unmasked(output_xarray[variable_name].to_masked_array())

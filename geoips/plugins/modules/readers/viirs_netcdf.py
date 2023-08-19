@@ -395,13 +395,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             # Attribute still lists JPSS-1, but operational satellite name is NOAA-20.
             xarrays[data_type].attrs["platform_name"] = "noaa-20"
         xarrays[data_type].attrs["data_provider"] = "NASA"
-        if (
-            os.path.basename(fname)
-            not in xarrays[data_type].attrs["source_file_names"]
-        ):
-            xarrays[data_type].attrs["source_file_names"] += [
-                os.path.basename(fname)
-            ]
+        if os.path.basename(fname) not in xarrays[data_type].attrs["source_file_names"]:
+            xarrays[data_type].attrs["source_file_names"] += [os.path.basename(fname)]
 
         # MTIFs need to be "prettier" for PMW products, so 2km resolution for
         # final image

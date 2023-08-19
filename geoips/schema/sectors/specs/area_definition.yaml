@@ -1,4 +1,4 @@
-$id: sectors.specs.static_sector_spec
+$id: sectors.specs.area_definition
 type: object
 required:
   - area_id

@@ -156,6 +156,39 @@ if [[ "$1" == "matplotlib" ]]; then
     fi
 fi
 
+if [[ "$1" == "settings_repo" ]]; then
+    repo_name=$2
+    repo_name_string="settings repo $repo_name"
+    repo_dir=$GEOIPS_PACKAGES_DIR/$repo_name
+    repo_url=$GEOIPS_REPO_URL/${repo_name}.git
+    ls $repo_dir/* >> $install_log 2>&1
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED: Missing $repo_name_string"
+            echo "        Please run install script, then rerun test script. "
+            echo "        $install_script"
+            echo "        $test_script"
+            exit 1
+        fi
+        echo "Installing $repo_name_string .... "
+        echo "  $repo_dir/"
+        echo "git clone $repo_url $repo_dir" >> $install_log 2>&1
+        git clone $repo_url $repo_dir >> $install_log 2>&1
+        clone_retval=$?
+        if [[ "$clone_retval" == "0" ]]; then
+            echo "SUCCESS: Cloned $repo_name_string"
+        else
+            echo "FAILED: $repo_name_string clone returned non-zero"
+            echo "        try deleting directory and re-running"
+            exit 1
+        fi
+    else
+        echo "SUCCESS: $repo_name_string appears to be installed successfully"
+        echo "    "`ls -ld $repo_dir`
+    fi
+fi
+
 if [[ "$1" == "test_repo" || "$1" == "source_repo" ]]; then
     repo_name=$2
 

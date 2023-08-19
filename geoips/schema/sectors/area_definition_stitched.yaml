@@ -7,4 +7,4 @@ properties:
   metadata:
     $ref: "sectors.metadata_families.stitched"
   spec:
-    $ref: "sectors.specs.static_sector_spec"
+    $ref: "sectors.specs.area_definition"
