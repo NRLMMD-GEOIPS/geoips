@@ -102,7 +102,7 @@ but this command will ensure that for everyone.
     # imagemagick required for image comparisons
     # git required for -C commands
     # rclone required for NOAA AWS ABI/AHI downloads
-    conda create -y -n geoips -c conda-forge python=3.10 gcc<10 gxx<10 openblas imagemagick git git-lfs rclone
+    conda create -y -n geoips -c conda-forge python=3.10 "gcc<10" "gxx<10" openblas imagemagick git git-lfs rclone
     conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
     git lfs install
 
