@@ -14,6 +14,7 @@ Version 1.11.3a0 (2023-08-19)
 *****************************
 
 * Require sphinx<7.2 due to bugs introduced 2023-08-17 7.2.x release
+* Add .vscode settings repository to "full_install.sh"
 * Bug fixes
 
 Bug Fixes
@@ -39,3 +40,19 @@ has been resolved.
 
   modified: pyproject.toml
 
+Installation Updates
+====================
+
+Add .vscode repository to full Installation
+-------------------------------------------
+
+When running full_install.sh/full_test.sh, ensure the .vscode repository is
+cloned along with other source repos.
+
+Also added "settings_repo" option to check_system_requirements (only clones,
+does not attempt to pip install or uncompress test data)
+
+::
+
+  modified: tests/integration_tests/full_install.sh
+  modified: setup/check_system_requirements.sh
