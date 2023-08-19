@@ -17,6 +17,7 @@ Version 1.11.3a0 (2023-08-19)
 * Add .vscode settings repository to "full_install.sh"
 * Add script to enable geoips environment
 * Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
+
 * Bug fixes
 
 Bug Fixes
@@ -76,6 +77,9 @@ Add pyPublicDecompWT to dependencies and remove setup_seviri from setup script
     modified: setup_seviri
     modified: config/config_geoips
 
+Installation Updates
+====================
+
 Add .vscode repository to full Installation
 -------------------------------------------
 
@@ -98,4 +102,3 @@ Include script that sets explicit paths for geoips environment setup.
 ::
 
   new: setup/USER_MODIFY_config
-
