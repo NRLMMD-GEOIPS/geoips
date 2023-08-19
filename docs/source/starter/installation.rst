@@ -94,33 +94,15 @@ Next we'll create a conda environment named ``geoips`` that contains all system
 requirements for GeoIPS. Many of these may already be installed on your system,
 but this command will ensure that for everyone.
 
-
-    .. code:: bash
-
-        # Note geos no longer required for cartopy >= 0.22
-        # gcc < 10 required for seviri wavelet transform build
-        # openblas / gcc required for recenter_tc / akima build.
-        # imagemagick required for image comparisons
-        # git required for -C commands
-        # rclone required for NOAA AWS ABI/AHI downloads
-        conda create -y -n geoips -c conda-forge python=3.10 gcc<10 gxx<10 openblas imagemagick git git-lfs rclone
-        conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
-        git lfs install
-
-    **Note:** You will need to run ``conda activate geoips`` every time you want to
-    run or work on GeoIPS.
-
-Next run the GeoIPS command to create and activate a new
-``geoips_conda`` environment.  This command ensures all requirements
-are available (wget, imagemagick, openblas, rclone, etc).
-
-This GeoIPS setup command will run
-"conda create --name geoips_conda" and "conda activate geoips_conda"
-with the appropriate required system packages included.
-
 .. code:: bash
 
-    conda create -y -n geoips -c conda-forge python=3.10 gcc gxx geos openblas imagemagick git git-lfs rclone
+    # Note geos no longer required for cartopy >= 0.22
+    # gcc < 10 required for seviri wavelet transform build
+    # openblas / gcc required for recenter_tc / akima build.
+    # imagemagick required for image comparisons
+    # git required for -C commands
+    # rclone required for NOAA AWS ABI/AHI downloads
+    conda create -y -n geoips -c conda-forge python=3.10 gcc<10 gxx<10 openblas imagemagick git git-lfs rclone
     conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
     git lfs install
 
