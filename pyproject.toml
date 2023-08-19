@@ -73,7 +73,7 @@ dependencies = [
     "jsonschema>=4.18.0a5",  # Provides validation for YAML plugins
     "referencing",
     "astropy", # Used for accounting leap seconds when converting epoch timestamps
-    "pyPublicDecompWt"
+    "pyPublicDecompWt"  # Required to read SEVIRI data
 ]
 
 [project.optional-dependencies]
