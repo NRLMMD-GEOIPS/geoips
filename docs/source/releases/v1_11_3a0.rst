@@ -10,13 +10,23 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.11.3a0 (2023-08-18)
+Version 1.11.3a0 (2023-08-19)
 *****************************
 
 * Require sphinx<7.2 due to bugs introduced 2023-08-17 7.2.x release
+* Bug fixes
 
 Bug Fixes
 =========
+
+Add v1_11_3a0 to release note index
+-----------------------------------
+
+Documentation build fails when RST files are missing from the index.
+
+::
+
+  modified: docs/source/releases/index.rst
 
 Require sphinx<7.2 in pyproject.toml
 ------------------------------------
