@@ -1,0 +1,25 @@
+# Set this path to the parent directory where you cloned the geoips repo.
+# ie, $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh
+export GEOIPS_PACKAGES_DIR=$HOME/geoips
+
+# Set this path to where conda is installed - if you activated conda in your .bashrc,
+# this is not required.
+eval "$($GEOIPS_PACKAGES_DIR/mambaforge/bin/conda shell.bash hook)"
+
+# Once the correct conda is initialized, activate geoips
+conda activate geoips
+
+# Point to where cartopy shapefiles exist,
+# ie $CARTOPY_DATA_DIR/shapefiles/natural_earth/cultural.
+export CARTOPY_DATA_DIR=$GEOIPS_PACKAGES_DIR/CARTOPY_DATA_DIR
+
+# Test data location,
+# ie $GEOIPS_TESTDATA_DIR/test_data_amsr2
+export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
+
+# Location for output products and logs from geoips
+export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
+
+# URL for geoips packages, probably will not change.
+export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS  # Point to base URL for git clone commands
+
