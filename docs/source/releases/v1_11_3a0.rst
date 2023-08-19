@@ -1,0 +1,31 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.11.3a0 (2023-08-18)
+*****************************
+
+* Require sphinx<7.2 due to bugs introduced 2023-08-17 7.2.x release
+
+Bug Fixes
+=========
+
+Require sphinx<7.2 in pyproject.toml
+------------------------------------
+
+Sphinx version 7.2 introduced a bug in the autodoc function, causing an import
+error in the interp_gauss module.  Force sphinx version < 7.2 until that error
+has been resolved.
+
+::
+
+  modified: pyproject.toml
+
