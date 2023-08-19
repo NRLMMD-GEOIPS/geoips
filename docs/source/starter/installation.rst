@@ -117,7 +117,7 @@ This command installs all GeoIPS Python dependencies, and GeoIPS itself.
 .. code:: bash
 
     # Ensure geoips python environment enabled before installing geoips
-    pip install -e "$GEOIPS_PACKAGES_DIR/geoips"[doc,lint,test]
+    pip install -e "$GEOIPS_PACKAGES_DIR/geoips"[doc,lint,test,debug]
 
 6. Test your installation
 -------------------------
