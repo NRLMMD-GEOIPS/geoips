@@ -405,7 +405,6 @@ class HritFile(object):
         Returns an HritFile instance for the decompressed file.
         If already decompressed, raises an HritError.
         """
-
         # If compressed, then decompress
         if self.compressed:
             parts = copy(self._parts)
