@@ -62,6 +62,27 @@ Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
 Installation Updates
 ====================
 
+Collect test data from CIRA's NextCloud instance
+------------------------------------------------
+
+* Remove old functions for setting up test data repos
+* Change gcc and gxx requirements to be unrestricted, not less than v10
+* Add new script to download from nextcloud without wget/curl
+* Add static URLs for downloading test datasets
+* Add "test_data" function to check_system_requirements.sh to download test datasets
+* Remove tests for gitlfs, wget, libgeos, and rclone
+* Add tests for gcc and g++
+* Split system package tests into "geoips_base" and "geoips_full"
+
+::
+
+    modified: setup.sh
+    modified: setup/check_system_requirements.sh
+    modified: tests/integration_tests/base_install.sh
+    modified: tests/integration_tests/full_install.sh
+    created: setup/download_test_data.py
+
+
 Add pyPublicDecompWT to dependencies and remove setup_seviri from setup script
 ------------------------------------------------------------------------------
 
