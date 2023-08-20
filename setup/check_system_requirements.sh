@@ -189,6 +189,10 @@ if [[ "$1" == "test_data" ]]; then
     # Download test data from a known URL into $GEOIPS_TESTDATA_DIR
     test_data_name=$2
 
+    if [[ ! -d $GEOIPS_TESTDATA_DIR ]]; then
+        mkdir -p $GEOIPS_TESTDATA_DIR
+    fi
+
     test_data_name_string="tests data repo $test_data_name"
     test_data_dir=$GEOIPS_TESTDATA_DIR/$test_data_name
     for url in ${test_data_urls[@]}; do
@@ -211,7 +215,7 @@ if [[ "$1" == "test_data" ]]; then
             exit 1
         fi
         echo "Installing $test_data_name_string .... "
-        echo "  $test_data_dir/"
+        echo "  $test_data_dir/ from $test_data_url"
         python $SCRIPT_DIR/download_test_data.py $test_data_url | tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1
         dl_retval=$?
         if  [[ "$dl_retval" == "0" ]]; then
