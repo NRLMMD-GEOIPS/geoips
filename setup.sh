@@ -158,12 +158,12 @@ elif [[ "$1" == "create_geoips_conda_env" ]]; then
     # git required for -C commands
     # rclone required for NOAA AWS ABI/AHI downloads
     if [[ "$2" == "conda_defaults_channel" ]]; then
-        echo "conda create --yes --name geoips_conda -c defaults python=3.9 gcc<10 gxx<10 openblas imagemagick git git-lfs rclone --yes"
-        conda create --yes --name geoips_conda -c defaults python=3.9 gcc<10 gxx<10 openblas imagemagick git git-lfs rclone --yes
+        echo "conda create --yes --name geoips_conda -c defaults python=3.9 gcc gxx openblas imagemagick git --yes"
+        conda create --yes --name geoips_conda -c defaults python=3.9 gcc gxx openblas imagemagick git --yes
         conda_retval=$?
     else
-        echo "mamba create --yes --name geoips_conda -c conda-forge python<10 gcc<10 gxx<10 openblas imagemagick git git-lfs rclone --yes"
-        mamba create --yes --name geoips_conda -c conda-forge python=3.9 "gcc<10" "gxx<10" openblas imagemagick git git-lfs rclone --yes
+        echo "mamba create --yes --name geoips_conda -c conda-forge python=3.9 gcc gxx openblas imagemagick git --yes"
+        mamba create --yes --name geoips_conda -c conda-forge python=3.9 gcc gxx openblas imagemagick git --yes
         conda_retval=$?
     fi
     if [[ "$conda_retval" != "0" ]]; then
@@ -192,7 +192,7 @@ elif [[ "$1" == "create_geoips_conda_env" ]]; then
 elif [[ "$1" == "install" ]]; then
     echo ""
     echo "**Installing geoips and all dependencies"
-    echo "pip install -e "$GEOIPS_PACKAGES_DIR/geoips"[doc,test,lint,debug]"
+    echo "pip install -e \"$GEOIPS_PACKAGES_DIR/geoips\"[doc,test,lint,debug]"
     pip install -e "$GEOIPS_PACKAGES_DIR/geoips"[doc,test,lint,debug]
     pip_retval=$?
     if [[ "$pip_retval" != "0" ]]; then
@@ -201,99 +201,6 @@ elif [[ "$1" == "install" ]]; then
     else
         echo "SUCCESS: pip installed geoips and dependencies successfully."
     fi
-
-elif [[ "$1" == "setup_fusion_test_data" ]]; then
-    # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
-    # rclone lsf publicAWS:noaa-goes17/ABI-L1b-RadF/2020/184/16/
-    # rclone lsf publicAWS:noaa-himawari8/AHI-L1b-FLDK/2022/02/05/0420
-
-    rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
-    goes16dir=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/goes16_20210929.0000
-    goes17dir=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/goes17_20210929.0000
-    ahidir=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/himawari8_20210929.0000
-
-    mkdir -p $goes16dir
-    mkdir -p $goes17dir
-    mkdir -p $ahidir
-    echo "** Setting up fusion test data, from publicAWS to $goes16dir"
-    echo "** Setting up fusion test data, from publicAWS to $goes17dir"
-    echo "** Setting up fusion test data, from publicAWS to $ahidir"
-    echo ""
-    echo "NOAA Geostationary Operational Environmental Satellites (GOES) 16 & 17 was accessed on "
-    echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-goes."
-    echo "Himawari-8 was accessed on "
-    echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-himawari"
-    echo ""
-
-    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh goes16 2021 09 29 00 00 $goes16dir $rcloneconf C14
-    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh goes17 2021 09 29 00 00 $goes17dir $rcloneconf C14
-    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2021 09 29 00 00 $ahidir $rcloneconf B13
-    bunzip2 $ahidir/*.bz2
-
-elif [[ "$1" == "setup_abi_test_data" ]]; then
-    # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
-    # rclone lsf publicAWS:noaa-goes17/ABI-L1b-RadF/2020/184/16/
-    # rclone lsf publicAWS:noaa-himawari8/AHI-L1b-FLDK/2022/02/05/0420
-
-    rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
-    abidir=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/
-
-    mkdir -p $abidir
-    echo "** Setting up abi test data, from publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/ to $abidir"
-    echo ""
-    echo "NOAA Geostationary Operational Environmental Satellites (GOES) 16 & 17 was accessed on "
-    echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-goes."
-    echo ""
-
-    if [[ "$2" == "low_bandwidth" ]]; then
-        rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
-    else
-        $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh goes16 2020 09 18 19 50 $abidir $rcloneconf
-    fi
-
-elif [[ "$1" == "setup_ahi_test_data" ]]; then
-    # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
-    # rclone lsf publicAWS:noaa-goes17/ABI-L1b-RadF/2020/184/16/
-    # rclone lsf publicAWS:noaa-himawari8/AHI-L1b-FLDK/2022/02/05/0420
-
-    rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
-    ahi_basedir=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/
-
-    mkdir -p $ahi_basedir
-    echo "** Setting up ahi test data, from publicAWS:noaa-himawari8/AHI-L1b-FLDK to $ahi_basedir"
-    echo ""
-    echo "Himawari-8 and Himawari-9 data was accessed on "
-    echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-himawari"
-    echo ""
-
-    # This is terminator, not needed right now
-    if [[ "$2" == "terminator" ]]; then
-      ahidir=$ahi_basedir/20220109/2000/
-      $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2022 01 09 20 00 $ahidir $rcloneconf "B09 B13"
-      bunzip2 -v $ahidir/*.bz2
-    else
-      ahidir=$ahi_basedir/20200405/0000/
-      $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2020 04 05 00 00 $ahidir $rcloneconf "B09 B13"
-      bunzip2 -v $ahidir/*.bz2
-    fi
-
-elif [[ "$1" == "setup_rclone" ]]; then
-    mkdir -p $GEOIPS_DEPENDENCIES_DIR/rclone
-    opsys=linux
-    arch=$(uname -m)
-    if [[ "$(uname -s)" == "Darwin" ]]; then
-        opsys=osx
-    fi
-    # Annoying
-    if [[ "$(uname -m)" == "x86_64" ]]; then
-        arch=amd64
-    fi
-    wget https://downloads.rclone.org/rclone-current-${opsys}-${arch}.zip -P $GEOIPS_DEPENDENCIES_DIR/rclone
-    cd $GEOIPS_DEPENDENCIES_DIR/rclone
-    # This puts it in the current directory
-    unzip $GEOIPS_DEPENDENCIES_DIR/rclone/rclone-current-${opsys}-${arch}.zip
-    # rclone-current expands into rclone-<vers>, not rclone-current, so link arbitrary rclone* subdirectory
-    ln -sfv ${GEOIPS_DEPENDENCIES_DIR}/rclone*/rclone*/rclone ${GEOIPS_DEPENDENCIES_DIR}/bin/rclone
 
 elif [[ "$1" == "setup_vim8" ]]; then
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/vim8_build
@@ -378,159 +285,8 @@ elif [[ "$1" == "link_cartopy_natural_earth" ]]; then
         echo "ln -sfv $source_cartopy_data/natural-earth-vector/*_physical/* $linkdir/physical"
         exit 1
     fi
-elif [[ "$1" =~ "setup_test_repo" ]]; then
-    if [[ "$3" == "" && "$GEOIPS_ACTIVE_BRANCH" == "" ]]; then
-        branch=main
-    elif [[ "$GEOIPS_ACTIVE_BRANCH" == "" ]]; then
-        branch=$3
-    else
-        branch=$GEOIPS_ACTIVE_BRANCH
-    fi
-    git lfs install
-    git_retval=$?
-    if [[ $git_retval != 0 ]]; then
-        echo "**Failed running git lfs, install git >= 2.19.1 for large file storage."
-        exit 1
-    fi
-    echo ""
-    echo "**Cloning, updating, and uncompressing $2.git"
 
-    $GEOIPS_PACKAGES_DIR/geoips/setup.sh clone_test_repo $2
-    clone_retval=$?
-    if [[ $clone_retval != 0 ]]; then
-        echo "**Failed cloning $2, quitting"
-        exit 1
-    fi
-    $GEOIPS_PACKAGES_DIR/geoips/setup.sh update_test_repo $2 $branch do_not_fail
-    update_retval=$?
-    if [[ $update_retval != 0 ]]; then
-        echo "**Failed updating $2, quitting"
-        exit 1
-    fi
-    $GEOIPS_PACKAGES_DIR/geoips/setup.sh uncompress_test_data $2
-    uncompress_retval=$?
-    if [[ $uncompress_retval != 0 ]]; then
-        echo "**Failed uncompressing $2, quitting"
-        exit 1
-    fi
-
-    echo "**Done cloning, updating and uncompressing $2.git"
-
-elif [[ "$1" =~ "clone_test_repo" ]]; then
-    echo ""
-    echo "**Cloning $2.git"
-
-    repo_name=$2
-    repo_url=$GEOIPS_REPO_URL/$repo_name
-
-    # If reponame of format "GEOIPS/geoips" then pull out org and reponame separately
-    # "/geoips" would indicate top level (no sub-org)
-    if [[ `echo "$2" | grep '/'` != "" ]]; then
-        repo_org=`echo "$2" | cut -f 1 -d '/'`
-        repo_name=`echo "$2" | cut -f 2 -d '/'`
-        if [[ "$GEOIPS_BASE_URL" != "" ]]; then
-            repo_url=$GEOIPS_BASE_URL/$repo_org/$repo_name
-        else
-            repo_url=`dirname $GEOIPS_REPO_URL`/$repo_org/$repo_name
-        fi
-    fi
-
-    if [[ ! -d $GEOIPS_TESTDATA_DIR/$repo_name ]]; then
-        git clone $repo_url.git $GEOIPS_TESTDATA_DIR/$repo_name
-        retval=$?
-        echo "git clone return: $retval"
-        if [[ $retval != 0 ]]; then
-            echo "**Failed cloning repo $GEOIPS_TESTDATA_DIR/$repo_name"
-            exit
-        fi
-    else
-        echo "Repo $GEOIPS_TESTDATA_DIR/$repo_name already exists, not cloning"
-    fi
-elif [[ "$1" =~ "update_test_repo" ]]; then
-    if [[ "$3" == "" ]]; then
-        branch=main
-    else
-        branch=$3
-    fi
-    if [[ "$4" == "do_not_fail" ]]; then
-        do_not_fail="do_not_fail"
-    else
-        do_not_fail=""
-    fi
-    currdir=$GEOIPS_TESTDATA_DIR/$2
-    echo ""
-    echo "**Updating test repo $2 branch $branch"
-    cwd=`pwd`
-    cd $GEOIPS_TESTDATA_DIR/$2
-    git pull
-    git checkout -t origin/$branch
-    retval_t=$?
-    git checkout $branch
-    retval=$?
-    git pull
-    git pull
-    retval_pull=$?
-    cd $cwd
-    echo "git checkout -t return: $retval_t"
-    echo "git checkout return: $retval"
-    echo "git pull return: $retval_pull"
-    if [[ $retval != 0 || $retval_t != 0 ]]; then
-        echo "**You can ignore 'fatal: A branch named <branch> already exists' - just means you already have the branch"
-    fi
-    if [[ $retval != 0 && $retval_t != 0 && "$do_not_fail" != "do_not_fail" ]]; then
-        echo "*****GIT CHECKOUT FAILED ON $currdir $branch PLEASE APPROPRIATELY commit (if you want to save your changes), checkout (if you do not want to save changes of a git-tracked file), or delete (if you do not want to save changes of an untracked file) ANY LOCALLY MODIFIED FILES AND RERUN repo_update COMMAND. This will ensure you have the latest version of all repos!!!!!!!!"
-        exit 1
-    fi
-    if [[ $retval_pull != 0 && "$do_not_fail" != "do_not_fail" ]]; then
-        echo "*****GIT PULL FAILED ON $currdir $branch PLEASE APPROPRIATELY commit (if you want to save your changes), checkout (if you do not want to save changes of a git-tracked file), or delete (if you do not want to save changes of an untracked file) ANY LOCALLY MODIFIED FILES AND RERUN repo_update COMMAND. This will ensure you have the latest version of all repos!!!!!!!!"
-        exit 1
-    fi
-elif [[ "$1" == "uncompress_test_data" ]]; then
-    echo ""
-    echo "Attempting uncompress $2..."
-    testdata_path=$GEOIPS_TESTDATA_DIR/$2/uncompress_test_data.sh
-    packages_path=$GEOIPS_PACKAGES_DIR/$2/tests/uncompress_test_data.sh
-
-    uncompress_script=""
-    if [[ -e $testdata_path ]]; then
-        uncompress_script=$testdata_path
-    elif [[ -e $packages_path ]]; then
-        uncompress_script=$packages_path
-    fi
-
-    if [[ $uncompress_script != "" ]]; then
-        echo "     $uncompress_script..."
-        $uncompress_script
-        retval=$?
-        if [[ $retval != 0 ]]; then
-            echo "******FAILED uncompress_test_data - please resolve and rerun uncompress_test_data command"
-            exit 1
-        fi
-    fi
-
-elif [[ "$1" == "recompress_test_data" ]]; then
-    echo ""
-    echo "Attempting recompress $2..."
-
-    testdata_path=$GEOIPS_TESTDATA_DIR/$2/recompress_test_data.sh
-    packages_path=$GEOIPS_PACKAGES_DIR/$2/tests/recompress_test_data.sh
-
-    recompress_script=""
-    if [[ -e $testdata_path ]]; then
-        recompress_script=$testdata_path
-    elif [[ -e $packages_path ]]; then
-        recompress_script=$packages_path
-    fi
-    if [[ -e $recompress_script ]]; then
-        echo "     $recompress_script..."
-        $recompress_script
-        retval=$?
-        if [[ $retval != 0 ]]; then
-            echo "******FAILED uncompress_test_data - please resolve and rerun uncompress_test_data command"
-            exit 1
-        fi
-    fi
-
+# This appears to be unused
 elif [[ "$1" =~ "install_geoips_plugin" ]]; then
     $0 clone_source_repo $2
     clone_retval=$?
@@ -540,6 +296,7 @@ elif [[ "$1" =~ "install_geoips_plugin" ]]; then
         exit 1
     fi
 
+# This is only used by repo_clone_update_install.sh which itself appears to be unused
 elif [[ "$1" =~ "clone_source_repo" ]]; then
     echo ""
     echo "**Cloning $2.git"
@@ -565,6 +322,7 @@ elif [[ "$1" =~ "clone_source_repo" ]]; then
     if [[ $retval != 0 ]]; then
         echo "**You can ignore 'fatal: destination path already exists' - just means you already have the repo"
     fi
+# This is only used by repo_clone_update_install.sh which itself appears to be unused
 elif [[ "$1" =~ "update_source_repo" ]]; then
     if [[ "$3" == "" ]]; then
         branch=main
@@ -604,6 +362,8 @@ elif [[ "$1" =~ "update_source_repo" ]]; then
         echo "*****GIT PULL FAILED ON $currdir $branch PLEASE APPROPRIATELY commit (if you want to save your changes), checkout (if you do not want to save changes of a git-tracked file), or delete (if you do not want to save changes of an untracked file) ANY LOCALLY MODIFIED FILES AND RERUN repo_update COMMAND. This will ensure you have the latest version of all repos!!!!!!!!"
         exit 1
     fi
+
+# This is only used by repo_clone_update_install.sh which itself appears to be unused
 elif [[ "$1" =~ "clone_external_repo" ]]; then
     echo ""
     echo "**Cloning external repo $2"
@@ -617,6 +377,8 @@ elif [[ "$1" =~ "clone_external_repo" ]]; then
     if [[ $retval != 0 ]]; then
         echo "**You can ignore 'fatal: destination path already exists' - just means you already have the repo"
     fi
+
+# This appears to be unused
 elif [[ "$1" =~ "run_git_cmd" ]]; then
     gitbasedir=$GEOIPS_PACKAGES_DIR
     if [[ "$4" != "" ]]; then
@@ -630,6 +392,8 @@ elif [[ "$1" =~ "run_git_cmd" ]]; then
     cd $cwd
     retval=$?
     echo "git $3 return: $retval"
+
+# This is only used by repo_clone_update_install.sh which itself appears to be unused
 elif [[ "$1" =~ "update_external_repo" ]]; then
     currdir=$GEOIPS_PACKAGES_DIR/$2
     if [[ "$3" == "do_not_fail" ]]; then

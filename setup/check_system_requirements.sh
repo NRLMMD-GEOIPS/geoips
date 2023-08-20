@@ -10,6 +10,8 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 exit_on_missing="false"
 if [[ "$3" == "exit_on_missing" ]]; then
     exit_on_missing="true"
@@ -38,29 +40,35 @@ mkdir -p `dirname $install_log`
 echo ""
 echo "Install log: $install_log"
 
-if [[ "$1" == "gitlfs" ]]; then
-    git lfs install >> $install_log 2>&1
-    retval=$?
-    if [[ "$retval" != "0" ]]; then
-        echo "WARNING: 'git lfs install' failed, please install git lfs before proceeding"
-        exit 1
-    else
-        echo "SUCCESS: 'git lfs install' appears to be installed successfully"
-        echo "    "`which git`
-    fi
-fi
+# These are the download locations used by the test_data function
+test_data_urls=(
+    "https://io.cira.colostate.edu/s/mQ2HbE2Js4E9rba/download/test_data_viirs.tgz"
+    "https://io.cira.colostate.edu/s/CezXWwXg4qR2b94/download/test_data_smap.tgz"
+    "https://io.cira.colostate.edu/s/HyHLZ9F8bnfcTcd/download/test_data_scat.tgz"
+    "https://io.cira.colostate.edu/s/snxx8S5sQL3AL7f/download/test_data_sar.tgz"
+    "https://io.cira.colostate.edu/s/fkiPS3jyrQGqgPN/download/test_data_noaa_aws.tgz"
+    "https://io.cira.colostate.edu/s/LT92NiFSA8ZSNDP/download/test_data_gpm.tgz"
+    "https://io.cira.colostate.edu/s/DSz2nZsiPMDeLEP/download/test_data_fusion.tgz"
+    "https://io.cira.colostate.edu/s/ACLKdS2Cpgd2qkc/download/test_data_clarvx.tgz"
+    "https://io.cira.colostate.edu/s/FmWwX2ft7KDQ8N9/download/test_data_amsr2.tgz"
+)
 
+# Requirements to run base geoips tests
 if [[ "$1" == "geoips_base" ]]; then
-    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gitlfs
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
-    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh wget
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh python
-    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
-    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh libgeos
-    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh rclone
 fi
 
+# Requirements to run the full suite of open source geoips tests
+if [[ "$1" == "geoips_full" ]]; then
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gcc
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh g++
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
+fi
+
+# Required for image comparisons
 if [[ "$1" == "imagemagick" ]]; then
     compare --version >> $install_log 2>&1
     retval=$?
@@ -73,18 +81,11 @@ if [[ "$1" == "imagemagick" ]]; then
     fi
 fi
 
-if [[ "$1" == "wget" ]]; then
-    wget --version >> $install_log 2>&1
-    retval=$?
-    if [[ "$retval" != "0" ]]; then
-        echo "WARNING: 'wget --version' failed, please install wget before proceeding"
-        exit 1
-    else
-        echo "SUCCESS: 'wget' appears to be installed successfully"
-        echo "    "`which wget`
-    fi
-fi
-
+# Required for using the -C option since some people apparently have git older than
+# 1.8.5 which was released in November 2013.
+#
+# Consider adding a version test here rather than requiring git to be installed in every
+# conda environment.
 if [[ "$1" == "git" ]]; then
     git --version >> $install_log 2>&1
     retval=$?
@@ -97,6 +98,7 @@ if [[ "$1" == "git" ]]; then
     fi
 fi
 
+# Consider adding a version test here rather than just allowing any python version.
 if [[ "$1" == "python" ]]; then
     python --version >> $install_log 2>&1
     retval=$?
@@ -109,31 +111,36 @@ if [[ "$1" == "python" ]]; then
     fi
 fi
 
-if [[ "$1" == "rclone" ]]; then
-    rclone --version >> $install_log 2>&1
+# Needed for building akima. If we can build a distributable wheel for akima, then maybe
+# we won't need this.
+if [[ "$1" == "gcc" ]]; then
+    gcc --version >> $install_log 2>&1
     retval=$?
     if [[ "$retval" != "0" ]]; then
-        echo "WARNING: 'rclone --version' failed, going to install install rclone before proceeding"
-        source $GEOIPS_CONFIG_FILE
-        $GEOIPS_PACKAGES_DIR/geoips/setup.sh install $bandwidth_option
+        echo "WARNING: 'gcc --version' failed, please install gcc before proceeding"
         exit 1
     else
-        echo "SUCCESS: 'rclone' appears to be installed successfully"
-        echo "    "`which rclone`
+        echo "SUCCESS: 'gcc' appears to be installed successfully"
+        echo "    "`which gcc`
     fi
 fi
 
-if [[ "$1" == "cartopy" || "$1" == "libgeos" ]]; then
-    python -c "import cartopy" >> $install_log 2>&1
+# Needed for building akima. If we can build a distributable wheel for akima, then maybe
+# we won't need this.
+if [[ "$1" == "g++" ]]; then
+    g++ --version >> $install_log 2>&1
     retval=$?
     if [[ "$retval" != "0" ]]; then
-        echo "WARNING: 'python -c 'import cartopy'' failed, please install cartopy before proceeding"
+        echo "WARNING: 'g++ --version' failed, pleas install g++ before proceeding"
         exit 1
     else
-        echo "SUCCESS: 'cartopy/libgeos' appear to be installed successfully"
+        echo "SUCCESS: 'g++' appears to be installed successfully"
+        echo "    "`which g++`
     fi
 fi
 
+# Needed for building akima. If we can build a distributable wheel for akima, then maybe
+# we won't need this.
 if [[ "$1" == "scipy" || "$1" == "openblas" ]]; then
     python -c "import scipy" >> $install_log 2>&1
     retval=$?
@@ -142,17 +149,6 @@ if [[ "$1" == "scipy" || "$1" == "openblas" ]]; then
         exit 1
     else
         echo "SUCCESS: 'scipy/openblas' appear to be installed successfully"
-    fi
-fi
-
-if [[ "$1" == "matplotlib" ]]; then
-    python -c "import matplotlib" >> $install_log 2>&1
-    retval=$?
-    if [[ "$retval" != "0" ]]; then
-        echo "WARNING: 'python -c 'import matplotlib'' failed, please install matplotlib before proceeding"
-        exit 1
-    else
-        echo "SUCCESS: 'matplotlib' appears to be installed successfully"
     fi
 fi
 
@@ -189,26 +185,58 @@ if [[ "$1" == "settings_repo" ]]; then
     fi
 fi
 
-if [[ "$1" == "test_repo" || "$1" == "source_repo" ]]; then
+if [[ "$1" == "test_data" ]]; then
+    # Download test data from a known URL into $GEOIPS_TESTDATA_DIR
+    test_data_name=$2
+
+    test_data_name_string="tests data repo $test_data_name"
+    test_data_dir=$GEOIPS_TESTDATA_DIR/$test_data_name
+    for url in ${test_data_urls[@]}; do
+        if [[ "${url}" == *"${test_data_name}.tgz" ]]; then
+            test_data_url="${url}"
+            break
+        fi
+    done
+    data_path="$test_data_dir/data/*"
+
+    ls $data_path >> $install_log 2>&1
+    retval=$?
+
+    if [[ "$retval" != "0" ]]; then
+        if [[ "$exit_on_missing" == "true" ]]; then
+            echo "FAILED: Missing $test_data_name_string"
+            echo "        Please run install script, then rerun test script. "
+            echo "        $install_script"
+            echo "        $test_script"
+            exit 1
+        fi
+        echo "Installing $test_data_name_string .... "
+        echo "  $test_data_dir/"
+        python $SCRIPT_DIR/download_test_data.py $test_data_url | tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1
+        dl_retval=$?
+        if  [[ "$dl_retval" == "0" ]]; then
+            echo "SUCCESS: Pulled and decompressed ${test_data_name} from ${test_data_url}"
+        else
+            echo "FAILED: Failed to pull and decompress ${test_data_name} from ${test_data_url}"
+            echo "        try deleting and re-running"
+            exit 1
+        fi
+    else
+        echo "SUCCESS: $test_data_name_string appears to be installed successfully"
+        echo "    "`ls -ld $test_data_dir`
+    fi
+fi
+
+if [[ "$1" == "source_repo" ]]; then
     repo_name=$2
 
-    if [[ "$1" == "test_repo" ]]; then
-        repo_name_string="tests data repo $repo_name"
-        repo_dir=$GEOIPS_TESTDATA_DIR/$repo_name
-        repo_url=$GEOIPS_REPO_URL/${repo_name}.git
-        data_path="$repo_dir/data/*"
-        gz_data_path="$repo_dir/data/*.gz"
-        bz2_data_path="$repo_dir/data/*.bz2"
-        uncompress_script=$GEOIPS_TESTDATA_DIR/$repo_name/uncompress_test_data.sh
-    elif [[ "$1" == "source_repo" ]]; then
-        repo_name_string="source repo $repo_name"
-        repo_dir=$GEOIPS_PACKAGES_DIR/$repo_name
-        repo_url=$GEOIPS_REPO_URL/${repo_name}.git
-        data_path="$repo_dir/tests/*"
-        gz_data_path="$repo_dir/tests/outputs/*/*.gz"
-        bz2_data_path="$repo_dir/tests/outputs/*/*/*.gz"
-        uncompress_script=$GEOIPS_PACKAGES_DIR/$repo_name/tests/uncompress_test_data.sh
-    fi
+    repo_name_string="source repo $repo_name"
+    repo_dir=$GEOIPS_PACKAGES_DIR/$repo_name
+    repo_url=$GEOIPS_REPO_URL/${repo_name}.git
+    data_path="$repo_dir/tests/*"
+    gz_data_path="$repo_dir/tests/outputs/*/*.gz"
+    bz2_data_path="$repo_dir/tests/outputs/*/*/*.gz"
+    uncompress_script=$GEOIPS_PACKAGES_DIR/$repo_name/tests/uncompress_test_data.sh
 
     ls $data_path >> $install_log 2>&1
     retval=$?
@@ -236,11 +264,9 @@ if [[ "$1" == "test_repo" || "$1" == "source_repo" ]]; then
             uncompress_retval=$?
         fi
         pip_retval=0
-        if [[ "$1" == "source_repo" ]]; then
-            echo "pip install -e $repo_dir" >> $install_log 2>&1
-            pip install -e $repo_dir >> $install_log 2>&1
-            pip_retval=$?
-        fi
+        echo "pip install -e $repo_dir" >> $install_log 2>&1
+        pip install -e $repo_dir >> $install_log 2>&1
+        pip_retval=$?
         if [[ "$clone_retval" == "0" && "$uncompress_retval" == "0" && "$pip_retval" == "0" ]]; then
             echo "SUCCESS: Cloned, installed, and uncompressed $repo_name_string"
         else
@@ -274,87 +300,6 @@ if [[ "$1" == "test_repo" || "$1" == "source_repo" ]]; then
     else
         echo "SUCCESS: $repo_name_string appears to be installed successfully"
         echo "    "`ls -ld $repo_dir`
-    fi
-fi
-
-if [[ "$1" == "aws_test_data" ]]; then
-    data_type=$2
-
-    if [[ "$data_type" == "ahi_day" ]]; then
-        setup_command=setup_ahi_test_data
-        # ie, test_data_noaa_aws/data/himawari8/20200405/0000
-        test_data_path=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20200405/0000
-        test_data_files=$test_data_path/*
-    elif [[ "$data_type" == "abi_day" ]]; then
-        setup_command=setup_abi_test_data
-        # ie test_data_noaa_aws/data/goes16/20200918/1950/OR_ABI*.nc
-        test_data_path=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950
-        test_data_files=$test_data_path/*C02*.nc
-    elif [[ "$data_type" == "abi_day_low_memory" ]]; then
-        setup_command="setup_abi_test_data low_bandwidth"
-        test_data_path=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950
-        test_data_files=$test_data_path/*C14*.nc
-    elif [[ "$data_type" == "fusion_data" ]]; then
-        setup_command="setup_fusion_test_data"
-        test_data_path=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/himawari8_20210929.0000
-        test_data_files=$test_data_path/*
-    elif [[ "$data_type" == "ahi_terminator" ]]; then
-        setup_command="setup_ahi_test_data terminator"
-        # ie, test_data_noaa_aws/data/himawari8/20220109/2000
-        test_data_path=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20220109/2000
-        test_data_files=$test_data_path/*
-    fi
-
-    # There *should* be files here
-    ls $test_data_files >> $install_log 2>&1
-    retval=$?
-    # There should *not* be any bz2s
-    ls $test_data_path/*.bz2 >> $install_log 2>&1
-    retval_bz2=$?
-
-    # If there weren't any files, may be a git lfs problem (or just not downloaded yet)
-    if [[ "$retval" != "0" ]]; then
-        if [[ "$exit_on_missing" == "true" ]]; then
-            echo "FAILED: Missing aws test data $data_type"
-            echo "        Please run install script, then rerun test script. "
-            echo "        $install_script"
-            echo "        $test_script"
-            exit 1
-        fi
-        echo "Installing aws test data $data_type...."
-        echo "  $test_data_files"
-        echo "$GEOIPS_PACKAGES_DIR/geoips/setup.sh $setup_command" >> $install_log 2>&1
-        $GEOIPS_PACKAGES_DIR/geoips/setup.sh $setup_command >> $install_log 2>&1
-        if [[ "$?" == "0" ]]; then
-            echo "SUCCESS: Installed aws test data $data_type."
-        else
-            echo "FAILED: aws test data $data_type setup returned non-zero"
-            echo "        try deleting directory and re-running"
-            exit 1
-        fi
-    # If there were bz2s, decompress them.
-    elif [[ "$retval_bz2" == "0" ]]; then
-        if [[ "$exit_on_missing" == "true" ]]; then
-            echo "FAILED: Compressed aws test data $data_type still exists."
-            echo "        Please run install script, then rerun test script. "
-            echo "        $install_script"
-            echo "        $test_script"
-            exit 1
-        fi
-        echo "Uncompressing data in aws test data $data_type...."
-        echo "    $test_data_bz2_path"
-        echo "bunzip2 -f $test_data_bz2_path" >> $install_log 2>&1
-        bunzip2 -f $test_data_bz2_path >& install_log
-        if [[ "$?" == "0" ]]; then
-            echo "SUCCESS: Uncompressed data in aws test data $data_type."
-        else
-            echo "FAILED: Uncompress on aws test data $data_type returned non-zero"
-            echo "        try deleting directory and re-running"
-            exit 1
-        fi
-    else
-        echo "SUCCESS: aws test data '$data_type' appears to be installed successfully"
-        echo "    "`ls -ld $test_data_path`
     fi
 fi
 
