@@ -73,6 +73,7 @@ Collect test data from CIRA's NextCloud instance
 * Remove tests for gitlfs, wget, libgeos, and rclone
 * Add tests for gcc and g++
 * Split system package tests into "geoips_base" and "geoips_full"
+* Update install instructions to remove unneeded prerequisites
 
 ::
 
@@ -80,6 +81,8 @@ Collect test data from CIRA's NextCloud instance
     modified: setup/check_system_requirements.sh
     modified: tests/integration_tests/base_install.sh
     modified: tests/integration_tests/full_install.sh
+    modified: docs/source/starter/installation.rst
+    modified: docs/source/starter/expert_installation.rst
     created: setup/download_test_data.py
 
 
