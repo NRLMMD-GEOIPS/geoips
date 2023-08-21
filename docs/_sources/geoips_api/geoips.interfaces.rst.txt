@@ -1,0 +1,30 @@
+geoips.interfaces package
+=========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   geoips.interfaces.module_based
+   geoips.interfaces.yaml_based
+
+Submodules
+----------
+
+geoips.interfaces.base module
+-----------------------------
+
+.. automodule:: geoips.interfaces.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.interfaces
+   :members:
+   :undoc-members:
+   :show-inheritance:

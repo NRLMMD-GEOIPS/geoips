@@ -1,0 +1,45 @@
+geoips.plugins.modules.algorithms.pmw\_tb package
+=================================================
+
+Submodules
+----------
+
+geoips.plugins.modules.algorithms.pmw\_tb.pmw\_37pct module
+-----------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.pmw_tb.pmw_37pct
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.pmw\_tb.pmw\_89pct module
+-----------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.pmw_tb.pmw_89pct
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.pmw\_tb.pmw\_color37 module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.pmw_tb.pmw_color37
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.pmw\_tb.pmw\_color89 module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.pmw_tb.pmw_color89
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.algorithms.pmw_tb
+   :members:
+   :undoc-members:
+   :show-inheritance:

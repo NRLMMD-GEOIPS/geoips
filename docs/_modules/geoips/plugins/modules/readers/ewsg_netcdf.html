@@ -1,0 +1,765 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.plugins.modules.readers.ewsg_netcdf &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/readers/ewsg_netcdf';</script>
+    <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.plugins.modules.readers.ewsg_netcdf</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for geoips.plugins.modules.readers.ewsg_netcdf</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # Author:</span>
+<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
+<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
+<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
+<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+
+<span class="sd">&quot;&quot;&quot;Read EWS-G data.</span>
+
+<span class="sd">This EWS-G(Electro-Optical Infrared Weather System - Geostationary) reader is</span>
+<span class="sd">designed for reading theEWS-G data files (EWS-G is renamed from GOES-13).</span>
+<span class="sd">The reader is only using the python functions and xarray variables.</span>
+<span class="sd">The reader is based on EWS-G data in netcdf4 format.</span>
+
+<span class="sd"> V1.0:  NRL-Monterey, 02/25/2021</span>
+
+<span class="sd">EWS-G file information::</span>
+
+<span class="sd">    Example of the gvar filename:   2020.1212.0012.goes-13.gvar.nc</span>
+
+<span class="sd">    Note that channel-3 is not available for EWS-G.</span>
+<span class="sd">      gvar_Ch3(TIR=5.8-7.3um, ctr=6.48um,4km): unit=temp-deg(C), scale_factor=0.01</span>
+
+<span class="sd">    variables:</span>
+<span class="sd">      gvar_Ch1(VIS=0.55-0.75um, ctr=0.65um,1km): unit=albedo*100,  scale_factor=0.01</span>
+<span class="sd">      gvar_Ch2(MWIR=3.8-4.0um,  ctr=3.9um, 4km): unit=temp-deg(C), scale_factor=0.01</span>
+<span class="sd">      gvar_Ch4(TIR=10.2-11.2um, ctr=10.7um,4km): unit=temp-deg(C), scale_factor=0.01</span>
+<span class="sd">      gvar_Ch6(TIR=12.9-13.7um, ctr=13.3um 4km): unit=temp-deg(C), scale_factor=0.01</span>
+<span class="sd">      latitude: unit=degree</span>
+<span class="sd">      longitude:unit=degree</span>
+<span class="sd">      sat_zenith: unit=degree</span>
+<span class="sd">      sun_zenith: unit=degree</span>
+<span class="sd">      rel_azimuth:unit=degree</span>
+
+<span class="sd">      variable array definition:  var(scan,pix); scan--&gt;lines, pix--&gt;samples</span>
+
+<span class="sd">    attributes: many</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Python Standard Libraries</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Installed Libraries</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">calendar</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="c1"># If this reader is not installed on the system, don&#39;t fail altogether, just skip this import. This reader will</span>
+<span class="c1"># not work if the import fails, and the package will have to be installed</span>
+<span class="c1"># to process data of this type.</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">netCDF4</span> <span class="k">as</span> <span class="nn">ncdf</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed import netCDF4. If you need it, install it.&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># @staticmethod                                     # not sure where it is uwas used?</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># gvar_ch6 has only half scanlines of other channels (1,2,4),we temporally do not read the ch6 in.</span>
+<span class="c1">#   we will modify this reader if gvar_ch6 is needed in the future.</span>
+<span class="n">VARLIST</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;gvar_ch1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gvar_ch2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gvar_ch4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sun_zenith&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sat_zenith&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rel_azimuth&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1"># setup needed to convert var_name used in geoips: i.e., solar_zenith_angle (not</span>
+<span class="c1"># sun_zenith) is used.</span>
+<span class="n">xvarnames</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;sun_zenith&quot;</span><span class="p">:</span> <span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sat_zenith&quot;</span><span class="p">:</span> <span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rel_azimuth&quot;</span><span class="p">:</span> <span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
+<span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ewsg_netcdf&quot;</span>
+
+
+<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ewsg_netcdf.call">[docs]</a><span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read EWS-G data in netcdf4 format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : list</span>
+<span class="sd">        * List of strings, full paths to files</span>
+<span class="sd">    metadata_only : bool, default=False</span>
+<span class="sd">        * NOT YET IMPLEMENTED</span>
+<span class="sd">        * Return before actually reading data if True</span>
+<span class="sd">    chans : list of str, default=None</span>
+<span class="sd">        * NOT YET IMPLEMENTED</span>
+<span class="sd">        * List of desired channels (skip unneeded variables as needed).</span>
+<span class="sd">        * Include all channels if None.</span>
+<span class="sd">    area_def : pyresample.AreaDefinition, default=None</span>
+<span class="sd">        * NOT YET IMPLEMENTED</span>
+<span class="sd">        * Specify region to read</span>
+<span class="sd">        * Read all data if None.</span>
+<span class="sd">    self_register : str or bool, default=False</span>
+<span class="sd">        * NOT YET IMPLEMENTED</span>
+<span class="sd">        * register all data to the specified dataset id (as specified in the</span>
+<span class="sd">          return dictionary keys).</span>
+<span class="sd">        * Read multiple resolutions of data if False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict of xarray.Datasets</span>
+<span class="sd">        * dictionary of xarray.Dataset objects with required Variables and</span>
+<span class="sd">          Attributes.</span>
+<span class="sd">        * Dictionary keys can be any descriptive dataset ids.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :ref:`xarray_standards`</span>
+<span class="sd">        Additional information regarding required attributes and variables</span>
+<span class="sd">        for GeoIPS-formatted xarray Datasets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># from IPython import embed as shell</span>
+    <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+    <span class="c1"># --------------- loop input files ---------------</span>
+    <span class="n">xarray_ewsg</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="n">xarray_ewsg</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># LOG.info(&#39;Requested Channels: %s&#39;, chans)</span>
+
+    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+        <span class="c1"># check for a correct goes-13 data file</span>
+
+        <span class="n">data_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">data_name</span> <span class="o">!=</span> <span class="s2">&quot;nc&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: EWS-G data type:  data_type=&quot;</span><span class="p">,</span> <span class="n">data_name</span><span class="p">)</span>
+            <span class="k">raise</span>
+
+        <span class="c1"># open the paired input files</span>
+        <span class="n">ncdf_file</span> <span class="o">=</span> <span class="n">ncdf</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fname</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Trying file </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">satellite</span> <span class="o">==</span> <span class="s2">&quot;goes-13&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;found a NOAA EWS-G data file&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;not a NOAA EWS-G data file: skip it&quot;</span><span class="p">)</span>
+            <span class="k">raise</span>
+
+        <span class="c1"># *************** input VIRRS variables  and output xarray required by geo</span>
+
+        <span class="c1"># for varname in ncdf_file.variables.keys():</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">VARLIST</span><span class="p">:</span>
+            <span class="n">varname</span> <span class="o">=</span> <span class="n">var</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">ncdf_file</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span>
+            <span class="c1"># masked_data=np.ma.masked_equal(ncdf_file[varname],ncdf_file[varname].missing_value)</span>
+            <span class="n">masked_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_equal</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">missing_value</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">xvarnames</span><span class="p">:</span>
+                <span class="n">varname</span> <span class="o">=</span> <span class="n">xvarnames</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>  <span class="c1"># rename zenith/azimuth-related variables</span>
+
+            <span class="n">xarray_ewsg</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">masked_data</span><span class="p">)</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            # scale_factor should not be applied</span>
+<span class="sd">            if &#39;scale_factor&#39; in data.ncattrs():</span>
+<span class="sd">                # apply scale_factor correction</span>
+<span class="sd">                #xarray_ewsg[varname]=xarray_ewsg[varname]*ncdf_file[varname].scale_factor</span>
+<span class="sd">                xarray_ewsg[varname]=xarray_ewsg[varname]*data.scale_factor</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># convert unit from degree to Kelvin for ch2, ch4, and ch6 (ch1 is in unit</span>
+            <span class="c1"># of albedo)</span>
+            <span class="k">if</span> <span class="n">varname</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;gvar_ch2&quot;</span><span class="p">,</span> <span class="s2">&quot;gvar_ch4&quot;</span><span class="p">,</span> <span class="s2">&quot;gvar_ch6&quot;</span><span class="p">]:</span>
+                <span class="n">xarray_ewsg</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray_ewsg</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">+</span> <span class="mf">273.15</span>
+                <span class="n">xarray_ewsg</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Kelvin&quot;</span>
+
+        <span class="c1"># setup attributes</span>
+        <span class="c1"># use fname to get an initial info of  year, month, day</span>
+        <span class="c1"># test hour/minute/second of &quot;start_datetime&quot; info from start_time (second of the day)</span>
+        <span class="c1"># add scan_time info to determine the &quot;end_datetime&quot;. scan_time has time of scans for</span>
+        <span class="c1">#     this input data file(one obs).  If end_time of this data &gt;24 hr, modify value of &quot;day&quot;</span>
+        <span class="c1"># from fname.  Note: scan_time units are seconds from (start_time +</span>
+        <span class="c1"># time_adjust)</span>
+
+        <span class="c1"># date info from fname</span>
+        <span class="c1">#        1  2  3  4  5  6  7  8  9  10 11 12</span>
+        <span class="n">days_mo</span> <span class="o">=</span> <span class="p">[</span><span class="mi">31</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">]</span>
+        <span class="n">days_mo_lp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">31</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">]</span>  <span class="c1"># Leap year</span>
+
+        <span class="c1"># date information is not contained in the data so we have to get it from</span>
+        <span class="c1"># filename</span>
+        <span class="n">data_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="n">yr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">mo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">hr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">mm</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+
+        <span class="c1"># determine a Leap Year?</span>
+        <span class="k">if</span> <span class="n">calendar</span><span class="o">.</span><span class="n">isleap</span><span class="p">(</span><span class="n">yr</span><span class="p">):</span>
+            <span class="n">days</span> <span class="o">=</span> <span class="n">days_mo_lp</span><span class="p">[</span><span class="n">mo</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">days</span> <span class="o">=</span> <span class="n">days_mo</span><span class="p">[</span><span class="n">mo</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># second of the date for this file</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">ncdf_file</span><span class="o">.</span><span class="n">start_time</span> <span class="o">+</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">time_adjust</span> <span class="o">+</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">scan_time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">end_time</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">ncdf_file</span><span class="o">.</span><span class="n">start_time</span> <span class="o">+</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">time_adjust</span> <span class="o">+</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">scan_time</span><span class="p">[</span><span class="mi">29</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">yr_s</span> <span class="o">=</span> <span class="n">yr</span>
+        <span class="n">yr_e</span> <span class="o">=</span> <span class="n">yr</span>
+        <span class="n">mo_s</span> <span class="o">=</span> <span class="n">mo</span>
+        <span class="n">mo_e</span> <span class="o">=</span> <span class="n">mo</span>
+        <span class="n">dy_s</span> <span class="o">=</span> <span class="n">dy</span>
+        <span class="n">dy_e</span> <span class="o">=</span> <span class="n">dy</span>
+        <span class="n">hr_s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start_time</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">)</span>
+        <span class="n">mm_s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">start_time</span> <span class="o">-</span> <span class="n">hr_s</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="n">ss_s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start_time</span> <span class="o">-</span> <span class="p">(</span><span class="n">hr_s</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">+</span> <span class="n">mm_s</span> <span class="o">*</span> <span class="mi">60</span><span class="p">))</span>
+        <span class="n">hr_e</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_time</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">)</span>
+        <span class="n">mm_e</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">hr_e</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="n">ss_e</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="p">(</span><span class="n">hr_e</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">+</span> <span class="n">mm_e</span> <span class="o">*</span> <span class="mi">60</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">hr_s</span> <span class="o">&gt;=</span> <span class="mi">24</span><span class="p">:</span>
+            <span class="n">dy_s_</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># forward to the next date</span>
+            <span class="n">hr_s</span> <span class="o">=</span> <span class="n">hr_s</span> <span class="o">-</span> <span class="mi">24</span>
+            <span class="k">if</span> <span class="n">dy_s</span> <span class="o">&gt;</span> <span class="n">days</span><span class="p">:</span>  <span class="c1"># move to next mon</span>
+                <span class="n">mo_s</span> <span class="o">=</span> <span class="n">mo</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">mo_s</span> <span class="o">&gt;</span> <span class="mi">12</span><span class="p">:</span>  <span class="c1"># move to near year</span>
+                    <span class="n">yr_s</span> <span class="o">=</span> <span class="n">yr</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">hr_e</span> <span class="o">&gt;=</span> <span class="mi">24</span><span class="p">:</span>
+            <span class="n">dy_e_</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># forward to the next date</span>
+            <span class="n">hr_e</span> <span class="o">=</span> <span class="n">hr_e</span> <span class="o">-</span> <span class="mi">24</span>
+            <span class="k">if</span> <span class="n">dy_e</span> <span class="o">&gt;</span> <span class="n">days</span><span class="p">:</span>  <span class="c1"># move to next mon</span>
+                <span class="n">mo_e</span> <span class="o">=</span> <span class="n">mo</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">mo_e</span> <span class="o">&gt;</span> <span class="mi">12</span><span class="p">:</span>  <span class="c1"># move to near year</span>
+                    <span class="n">yr_e</span> <span class="o">=</span> <span class="n">yr</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">start_scan</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04d%02d%02d%02d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">yr_s</span><span class="p">,</span> <span class="n">mo_s</span><span class="p">,</span> <span class="n">dy_s</span><span class="p">,</span> <span class="n">hr_s</span><span class="p">,</span> <span class="n">mm_s</span><span class="p">,</span> <span class="n">ss_s</span><span class="p">)</span>
+        <span class="n">end_scan</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04d%02d%02d%02d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">yr_e</span><span class="p">,</span> <span class="n">mo_e</span><span class="p">,</span> <span class="n">dy_e</span><span class="p">,</span> <span class="n">hr_e</span><span class="p">,</span> <span class="n">mm_e</span><span class="p">,</span> <span class="n">ss_e</span><span class="p">)</span>
+
+        <span class="c1"># convert date in required format</span>
+        <span class="n">Start_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_scan</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+        <span class="n">End_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end_scan</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+
+        <span class="n">xarray_ewsg</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Start_date</span>
+        <span class="n">xarray_ewsg</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">End_date</span>
+        <span class="c1"># Goes VARiable (gvar) data is on GOES-12/13 - older GOES satellites were gvissr</span>
+        <span class="c1"># ncdf_file.sensor_name is gvissr - I think that is a mistake on</span>
+        <span class="c1"># Terascan&#39;s part - hold out from years ago</span>
+        <span class="n">xarray_ewsg</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;gvar&quot;</span>
+        <span class="k">if</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">satellite</span> <span class="o">==</span> <span class="s2">&quot;goes-13&quot;</span><span class="p">:</span>
+            <span class="n">xarray_ewsg</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ews-g&quot;</span>
+        <span class="n">xarray_ewsg</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;noaa&quot;</span>
+        <span class="n">xarray_ewsg</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
+
+        <span class="c1"># MTIFs need to be &quot;prettier&quot; for PMW products, so 2km resolution for</span>
+        <span class="c1"># final image</span>
+        <span class="n">xarray_ewsg</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">xarray_ewsg</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3000</span>
+
+        <span class="c1"># close the files</span>
+        <span class="n">ncdf_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;LOW&quot;</span><span class="p">:</span> <span class="n">xarray_ewsg</span><span class="p">,</span> <span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xarray_ewsg</span><span class="p">[[]]}</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

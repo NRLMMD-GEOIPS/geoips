@@ -1,0 +1,641 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Overview: module code &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/index';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Overview: module code</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>All modules for which code is available</h1>
+<ul><li><a href="geoips/cli.html">geoips.cli</a></li>
+<li><a href="geoips/commandline/args.html">geoips.commandline.args</a></li>
+<li><a href="geoips/commandline/list_available_modules.html">geoips.commandline.list_available_modules</a></li>
+<li><a href="geoips/commandline/log_setup.html">geoips.commandline.log_setup</a></li>
+<li><a href="geoips/commandline/run_procflow.html">geoips.commandline.run_procflow</a></li>
+<li><a href="geoips/commandline/test_interfaces.html">geoips.commandline.test_interfaces</a></li>
+<li><a href="geoips/commandline/update_tc_tracks_database.html">geoips.commandline.update_tc_tracks_database</a></li>
+<li><a href="geoips/compare_outputs.html">geoips.compare_outputs</a></li>
+<li><a href="geoips/data_manipulations/conversions.html">geoips.data_manipulations.conversions</a></li>
+<li><a href="geoips/data_manipulations/corrections.html">geoips.data_manipulations.corrections</a></li>
+<li><a href="geoips/data_manipulations/info.html">geoips.data_manipulations.info</a></li>
+<li><a href="geoips/data_manipulations/merge.html">geoips.data_manipulations.merge</a></li>
+<li><a href="geoips/dev/output_config.html">geoips.dev.output_config</a></li>
+<li><a href="geoips/dev/product.html">geoips.dev.product</a></li>
+<li><a href="geoips/errors.html">geoips.errors</a></li>
+<li><a href="geoips/filenames/base_paths.html">geoips.filenames.base_paths</a></li>
+<li><a href="geoips/filenames/duplicate_files.html">geoips.filenames.duplicate_files</a></li>
+<li><a href="geoips/geoips_utils.html">geoips.geoips_utils</a></li>
+<li><a href="geoips/image_utils/colormap_utils.html">geoips.image_utils.colormap_utils</a></li>
+<li><a href="geoips/image_utils/maps.html">geoips.image_utils.maps</a></li>
+<li><a href="geoips/image_utils/mpl_utils.html">geoips.image_utils.mpl_utils</a></li>
+<li><a href="geoips/interfaces/base.html">geoips.interfaces.base</a></li>
+<li><a href="geoips/interfaces/module_based/algorithms.html">geoips.interfaces.module_based.algorithms</a></li>
+<li><a href="geoips/interfaces/module_based/colormappers.html">geoips.interfaces.module_based.colormappers</a></li>
+<li><a href="geoips/interfaces/module_based/coverage_checkers.html">geoips.interfaces.module_based.coverage_checkers</a></li>
+<li><a href="geoips/interfaces/module_based/filename_formatters.html">geoips.interfaces.module_based.filename_formatters</a></li>
+<li><a href="geoips/interfaces/module_based/interpolators.html">geoips.interfaces.module_based.interpolators</a></li>
+<li><a href="geoips/interfaces/module_based/output_formatters.html">geoips.interfaces.module_based.output_formatters</a></li>
+<li><a href="geoips/interfaces/module_based/procflows.html">geoips.interfaces.module_based.procflows</a></li>
+<li><a href="geoips/interfaces/module_based/readers.html">geoips.interfaces.module_based.readers</a></li>
+<li><a href="geoips/interfaces/module_based/sector_adjusters.html">geoips.interfaces.module_based.sector_adjusters</a></li>
+<li><a href="geoips/interfaces/module_based/sector_metadata_generators.html">geoips.interfaces.module_based.sector_metadata_generators</a></li>
+<li><a href="geoips/interfaces/module_based/sector_spec_generators.html">geoips.interfaces.module_based.sector_spec_generators</a></li>
+<li><a href="geoips/interfaces/module_based/title_formatters.html">geoips.interfaces.module_based.title_formatters</a></li>
+<li><a href="geoips/interfaces/yaml_based/feature_annotators.html">geoips.interfaces.yaml_based.feature_annotators</a></li>
+<li><a href="geoips/interfaces/yaml_based/gridline_annotators.html">geoips.interfaces.yaml_based.gridline_annotators</a></li>
+<li><a href="geoips/interfaces/yaml_based/product_defaults.html">geoips.interfaces.yaml_based.product_defaults</a></li>
+<li><a href="geoips/interfaces/yaml_based/products.html">geoips.interfaces.yaml_based.products</a></li>
+<li><a href="geoips/interfaces/yaml_based/sectors.html">geoips.interfaces.yaml_based.sectors</a></li>
+<li><a href="geoips/plugins/modules/algorithms/pmw_tb/pmw_37pct.html">geoips.plugins.modules.algorithms.pmw_tb.pmw_37pct</a></li>
+<li><a href="geoips/plugins/modules/algorithms/pmw_tb/pmw_89pct.html">geoips.plugins.modules.algorithms.pmw_tb.pmw_89pct</a></li>
+<li><a href="geoips/plugins/modules/algorithms/pmw_tb/pmw_color37.html">geoips.plugins.modules.algorithms.pmw_tb.pmw_color37</a></li>
+<li><a href="geoips/plugins/modules/algorithms/pmw_tb/pmw_color89.html">geoips.plugins.modules.algorithms.pmw_tb.pmw_color89</a></li>
+<li><a href="geoips/plugins/modules/algorithms/sfc_winds/windbarbs.html">geoips.plugins.modules.algorithms.sfc_winds.windbarbs</a></li>
+<li><a href="geoips/plugins/modules/algorithms/single_channel.html">geoips.plugins.modules.algorithms.single_channel</a></li>
+<li><a href="geoips/plugins/modules/algorithms/visir/Night_Vis.html">geoips.plugins.modules.algorithms.visir.Night_Vis</a></li>
+<li><a href="geoips/plugins/modules/algorithms/visir/Night_Vis_GeoIPS1.html">geoips.plugins.modules.algorithms.visir.Night_Vis_GeoIPS1</a></li>
+<li><a href="geoips/plugins/modules/algorithms/visir/Night_Vis_IR.html">geoips.plugins.modules.algorithms.visir.Night_Vis_IR</a></li>
+<li><a href="geoips/plugins/modules/algorithms/visir/Night_Vis_IR_GeoIPS1.html">geoips.plugins.modules.algorithms.visir.Night_Vis_IR_GeoIPS1</a></li>
+<li><a href="geoips/plugins/modules/colormappers/cmap_rgb.html">geoips.plugins.modules.colormappers.cmap_rgb</a></li>
+<li><a href="geoips/plugins/modules/colormappers/matplotlib_linear_norm.html">geoips.plugins.modules.colormappers.matplotlib_linear_norm</a></li>
+<li><a href="geoips/plugins/modules/colormappers/pmw_tb/cmap_150H.html">geoips.plugins.modules.colormappers.pmw_tb.cmap_150H</a></li>
+<li><a href="geoips/plugins/modules/colormappers/pmw_tb/cmap_37H.html">geoips.plugins.modules.colormappers.pmw_tb.cmap_37H</a></li>
+<li><a href="geoips/plugins/modules/colormappers/pmw_tb/cmap_37H_Legacy.html">geoips.plugins.modules.colormappers.pmw_tb.cmap_37H_Legacy</a></li>
+<li><a href="geoips/plugins/modules/colormappers/pmw_tb/cmap_37H_Physical.html">geoips.plugins.modules.colormappers.pmw_tb.cmap_37H_Physical</a></li>
+<li><a href="geoips/plugins/modules/colormappers/pmw_tb/cmap_37pct.html">geoips.plugins.modules.colormappers.pmw_tb.cmap_37pct</a></li>
+<li><a href="geoips/plugins/modules/colormappers/pmw_tb/cmap_89H.html">geoips.plugins.modules.colormappers.pmw_tb.cmap_89H</a></li>
+<li><a href="geoips/plugins/modules/colormappers/pmw_tb/cmap_89HW.html">geoips.plugins.modules.colormappers.pmw_tb.cmap_89HW</a></li>
+<li><a href="geoips/plugins/modules/colormappers/pmw_tb/cmap_89H_Legacy.html">geoips.plugins.modules.colormappers.pmw_tb.cmap_89H_Legacy</a></li>
+<li><a href="geoips/plugins/modules/colormappers/pmw_tb/cmap_89H_Physical.html">geoips.plugins.modules.colormappers.pmw_tb.cmap_89H_Physical</a></li>
+<li><a href="geoips/plugins/modules/colormappers/pmw_tb/cmap_89pct.html">geoips.plugins.modules.colormappers.pmw_tb.cmap_89pct</a></li>
+<li><a href="geoips/plugins/modules/colormappers/pmw_tb/cmap_Rain.html">geoips.plugins.modules.colormappers.pmw_tb.cmap_Rain</a></li>
+<li><a href="geoips/plugins/modules/colormappers/tpw/tpw_cimss.html">geoips.plugins.modules.colormappers.tpw.tpw_cimss</a></li>
+<li><a href="geoips/plugins/modules/colormappers/tpw/tpw_purple.html">geoips.plugins.modules.colormappers.tpw.tpw_purple</a></li>
+<li><a href="geoips/plugins/modules/colormappers/tpw/tpw_pwat.html">geoips.plugins.modules.colormappers.tpw.tpw_pwat</a></li>
+<li><a href="geoips/plugins/modules/colormappers/visir/IR_BD.html">geoips.plugins.modules.colormappers.visir.IR_BD</a></li>
+<li><a href="geoips/plugins/modules/colormappers/visir/Infrared.html">geoips.plugins.modules.colormappers.visir.Infrared</a></li>
+<li><a href="geoips/plugins/modules/colormappers/visir/WV.html">geoips.plugins.modules.colormappers.visir.WV</a></li>
+<li><a href="geoips/plugins/modules/colormappers/winds/wind_radii_transitions.html">geoips.plugins.modules.colormappers.winds.wind_radii_transitions</a></li>
+<li><a href="geoips/plugins/modules/coverage_checkers/center_radius.html">geoips.plugins.modules.coverage_checkers.center_radius</a></li>
+<li><a href="geoips/plugins/modules/coverage_checkers/center_radius_rgba.html">geoips.plugins.modules.coverage_checkers.center_radius_rgba</a></li>
+<li><a href="geoips/plugins/modules/coverage_checkers/masked_arrays.html">geoips.plugins.modules.coverage_checkers.masked_arrays</a></li>
+<li><a href="geoips/plugins/modules/coverage_checkers/numpy_arrays_nan.html">geoips.plugins.modules.coverage_checkers.numpy_arrays_nan</a></li>
+<li><a href="geoips/plugins/modules/coverage_checkers/rgba.html">geoips.plugins.modules.coverage_checkers.rgba</a></li>
+<li><a href="geoips/plugins/modules/coverage_checkers/windbarbs.html">geoips.plugins.modules.coverage_checkers.windbarbs</a></li>
+<li><a href="geoips/plugins/modules/filename_formatters/basic_fname.html">geoips.plugins.modules.filename_formatters.basic_fname</a></li>
+<li><a href="geoips/plugins/modules/filename_formatters/geoips_fname.html">geoips.plugins.modules.filename_formatters.geoips_fname</a></li>
+<li><a href="geoips/plugins/modules/filename_formatters/geoips_netcdf_fname.html">geoips.plugins.modules.filename_formatters.geoips_netcdf_fname</a></li>
+<li><a href="geoips/plugins/modules/filename_formatters/geotiff_fname.html">geoips.plugins.modules.filename_formatters.geotiff_fname</a></li>
+<li><a href="geoips/plugins/modules/filename_formatters/metadata_default_fname.html">geoips.plugins.modules.filename_formatters.metadata_default_fname</a></li>
+<li><a href="geoips/plugins/modules/filename_formatters/tc_clean_fname.html">geoips.plugins.modules.filename_formatters.tc_clean_fname</a></li>
+<li><a href="geoips/plugins/modules/filename_formatters/tc_fname.html">geoips.plugins.modules.filename_formatters.tc_fname</a></li>
+<li><a href="geoips/plugins/modules/filename_formatters/text_winds_day_fname.html">geoips.plugins.modules.filename_formatters.text_winds_day_fname</a></li>
+<li><a href="geoips/plugins/modules/filename_formatters/text_winds_full_fname.html">geoips.plugins.modules.filename_formatters.text_winds_full_fname</a></li>
+<li><a href="geoips/plugins/modules/filename_formatters/text_winds_tc_fname.html">geoips.plugins.modules.filename_formatters.text_winds_tc_fname</a></li>
+<li><a href="geoips/plugins/modules/filename_formatters/utils/tc_file_naming.html">geoips.plugins.modules.filename_formatters.utils.tc_file_naming</a></li>
+<li><a href="geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.html">geoips.plugins.modules.interpolators.pyresample_wrappers.interp_gauss</a></li>
+<li><a href="geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.html">geoips.plugins.modules.interpolators.pyresample_wrappers.interp_nearest</a></li>
+<li><a href="geoips/plugins/modules/interpolators/scipy_wrappers/interp_grid.html">geoips.plugins.modules.interpolators.scipy_wrappers.interp_grid</a></li>
+<li><a href="geoips/plugins/modules/interpolators/utils/boxdefinitions.html">geoips.plugins.modules.interpolators.utils.boxdefinitions</a></li>
+<li><a href="geoips/plugins/modules/interpolators/utils/interp_pyresample.html">geoips.plugins.modules.interpolators.utils.interp_pyresample</a></li>
+<li><a href="geoips/plugins/modules/interpolators/utils/interp_scipy.html">geoips.plugins.modules.interpolators.utils.interp_scipy</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/full_disk_image.html">geoips.plugins.modules.output_formatters.full_disk_image</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/geotiff_standard.html">geoips.plugins.modules.output_formatters.geotiff_standard</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/imagery_annotated.html">geoips.plugins.modules.output_formatters.imagery_annotated</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/imagery_clean.html">geoips.plugins.modules.output_formatters.imagery_clean</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/imagery_windbarbs.html">geoips.plugins.modules.output_formatters.imagery_windbarbs</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/imagery_windbarbs_clean.html">geoips.plugins.modules.output_formatters.imagery_windbarbs_clean</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/metadata_default.html">geoips.plugins.modules.output_formatters.metadata_default</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/metadata_tc.html">geoips.plugins.modules.output_formatters.metadata_tc</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/netcdf_geoips.html">geoips.plugins.modules.output_formatters.netcdf_geoips</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/netcdf_xarray.html">geoips.plugins.modules.output_formatters.netcdf_xarray</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/text_winds.html">geoips.plugins.modules.output_formatters.text_winds</a></li>
+<li><a href="geoips/plugins/modules/output_formatters/unprojected_image.html">geoips.plugins.modules.output_formatters.unprojected_image</a></li>
+<li><a href="geoips/plugins/modules/procflows/config_based.html">geoips.plugins.modules.procflows.config_based</a></li>
+<li><a href="geoips/plugins/modules/procflows/single_source.html">geoips.plugins.modules.procflows.single_source</a></li>
+<li><a href="geoips/plugins/modules/readers/abi_l2_netcdf.html">geoips.plugins.modules.readers.abi_l2_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/abi_netcdf.html">geoips.plugins.modules.readers.abi_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/ahi_hsd.html">geoips.plugins.modules.readers.ahi_hsd</a></li>
+<li><a href="geoips/plugins/modules/readers/amsr2_netcdf.html">geoips.plugins.modules.readers.amsr2_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.html">geoips.plugins.modules.readers.amsr2_remss_winds_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/amsub_hdf.html">geoips.plugins.modules.readers.amsub_hdf</a></li>
+<li><a href="geoips/plugins/modules/readers/amsub_mirs.html">geoips.plugins.modules.readers.amsub_mirs</a></li>
+<li><a href="geoips/plugins/modules/readers/ascat_uhr_netcdf.html">geoips.plugins.modules.readers.ascat_uhr_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/atms_hdf5.html">geoips.plugins.modules.readers.atms_hdf5</a></li>
+<li><a href="geoips/plugins/modules/readers/ewsg_netcdf.html">geoips.plugins.modules.readers.ewsg_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/geoips_netcdf.html">geoips.plugins.modules.readers.geoips_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/gmi_hdf5.html">geoips.plugins.modules.readers.gmi_hdf5</a></li>
+<li><a href="geoips/plugins/modules/readers/imerg_hdf5.html">geoips.plugins.modules.readers.imerg_hdf5</a></li>
+<li><a href="geoips/plugins/modules/readers/mimic_netcdf.html">geoips.plugins.modules.readers.mimic_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/modis_hdf4.html">geoips.plugins.modules.readers.modis_hdf4</a></li>
+<li><a href="geoips/plugins/modules/readers/saphir_hdf5.html">geoips.plugins.modules.readers.saphir_hdf5</a></li>
+<li><a href="geoips/plugins/modules/readers/sar_winds_netcdf.html">geoips.plugins.modules.readers.sar_winds_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/scat_knmi_winds_netcdf.html">geoips.plugins.modules.readers.scat_knmi_winds_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/scat_noaa_winds_netcdf.html">geoips.plugins.modules.readers.scat_noaa_winds_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/seviri_hrit.html">geoips.plugins.modules.readers.seviri_hrit</a></li>
+<li><a href="geoips/plugins/modules/readers/sfc_winds_text.html">geoips.plugins.modules.readers.sfc_winds_text</a></li>
+<li><a href="geoips/plugins/modules/readers/smap_remss_winds_netcdf.html">geoips.plugins.modules.readers.smap_remss_winds_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/smos_winds_netcdf.html">geoips.plugins.modules.readers.smos_winds_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/ssmi_binary.html">geoips.plugins.modules.readers.ssmi_binary</a></li>
+<li><a href="geoips/plugins/modules/readers/ssmis_binary.html">geoips.plugins.modules.readers.ssmis_binary</a></li>
+<li><a href="geoips/plugins/modules/readers/utils/geostationary_geolocation.html">geoips.plugins.modules.readers.utils.geostationary_geolocation</a></li>
+<li><a href="geoips/plugins/modules/readers/utils/hrit_reader.html">geoips.plugins.modules.readers.utils.hrit_reader</a></li>
+<li><a href="geoips/plugins/modules/readers/utils/remss_reader.html">geoips.plugins.modules.readers.utils.remss_reader</a></li>
+<li><a href="geoips/plugins/modules/readers/viirs_netcdf.html">geoips.plugins.modules.readers.viirs_netcdf</a></li>
+<li><a href="geoips/plugins/modules/readers/wfabba_ascii.html">geoips.plugins.modules.readers.wfabba_ascii</a></li>
+<li><a href="geoips/plugins/modules/readers/windsat_idr37_binary.html">geoips.plugins.modules.readers.windsat_idr37_binary</a></li>
+<li><a href="geoips/plugins/modules/readers/windsat_remss_winds_netcdf.html">geoips.plugins.modules.readers.windsat_remss_winds_netcdf</a></li>
+<li><a href="geoips/plugins/modules/sector_metadata_generators/bdeck_parser.html">geoips.plugins.modules.sector_metadata_generators.bdeck_parser</a></li>
+<li><a href="geoips/plugins/modules/sector_metadata_generators/tc_sector_file_parser.html">geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser</a></li>
+<li><a href="geoips/plugins/modules/sector_spec_generators/center_coordinates.html">geoips.plugins.modules.sector_spec_generators.center_coordinates</a></li>
+<li><a href="geoips/plugins/modules/title_formatters/static_standard.html">geoips.plugins.modules.title_formatters.static_standard</a></li>
+<li><a href="geoips/plugins/modules/title_formatters/tc_copyright.html">geoips.plugins.modules.title_formatters.tc_copyright</a></li>
+<li><a href="geoips/plugins/modules/title_formatters/tc_standard.html">geoips.plugins.modules.title_formatters.tc_standard</a></li>
+<li><a href="geoips/sector_utils/estimate_area_extent.html">geoips.sector_utils.estimate_area_extent</a></li>
+<li><a href="geoips/sector_utils/overpass_predictor.html">geoips.sector_utils.overpass_predictor</a></li>
+<li><a href="geoips/sector_utils/projections.html">geoips.sector_utils.projections</a></li>
+<li><a href="geoips/sector_utils/tc_tracks.html">geoips.sector_utils.tc_tracks</a></li>
+<li><a href="geoips/sector_utils/tc_tracks_database.html">geoips.sector_utils.tc_tracks_database</a></li>
+<li><a href="geoips/sector_utils/utils.html">geoips.sector_utils.utils</a></li>
+<li><a href="geoips/sector_utils/yaml_utils.html">geoips.sector_utils.yaml_utils</a></li>
+<li><a href="geoips/utils/decorators.html">geoips.utils.decorators</a></li>
+<li><a href="geoips/utils/memusg.html">geoips.utils.memusg</a></li>
+<li><a href="geoips/xarray_utils/data.html">geoips.xarray_utils.data</a></li>
+<li><a href="geoips/xarray_utils/time.html">geoips.xarray_utils.time</a></li>
+</ul>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+geoips.sector\_utils package
+============================
+
+Submodules
+----------
+
+geoips.sector\_utils.estimate\_area\_extent module
+--------------------------------------------------
+
+.. automodule:: geoips.sector_utils.estimate_area_extent
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.sector\_utils.overpass\_predictor module
+-----------------------------------------------
+
+.. automodule:: geoips.sector_utils.overpass_predictor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.sector\_utils.projections module
+---------------------------------------
+
+.. automodule:: geoips.sector_utils.projections
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.sector\_utils.tc\_tracks module
+--------------------------------------
+
+.. automodule:: geoips.sector_utils.tc_tracks
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.sector\_utils.tc\_tracks\_database module
+------------------------------------------------
+
+.. automodule:: geoips.sector_utils.tc_tracks_database
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.sector\_utils.utils module
+---------------------------------
+
+.. automodule:: geoips.sector_utils.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.sector\_utils.yaml\_utils module
+---------------------------------------
+
+.. automodule:: geoips.sector_utils.yaml_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.sector_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

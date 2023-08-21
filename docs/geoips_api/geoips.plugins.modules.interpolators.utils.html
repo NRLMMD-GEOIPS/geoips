@@ -1,0 +1,1074 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>geoips.plugins.modules.interpolators.utils package &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.plugins.modules.interpolators.utils';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geoips.plugins.modules.output_formatters package" href="geoips.plugins.modules.output_formatters.html" />
+    <link rel="prev" title="geoips.plugins.modules.interpolators.scipy_wrappers package" href="geoips.plugins.modules.interpolators.scipy_wrappers.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="geoips.html">geoips package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="geoips.plugins.modules.interpolators.html" class="nav-link">geoips.plugins.modules.interpolators package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.plugins.modules.interpolators.utils package</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="geoips-plugins-modules-interpolators-utils-package">
+<h1>geoips.plugins.modules.interpolators.utils package<a class="headerlink" href="#geoips-plugins-modules-interpolators-utils-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-geoips.plugins.modules.interpolators.utils.boxdefinitions">
+<span id="geoips-plugins-modules-interpolators-utils-boxdefinitions-module"></span><h2>geoips.plugins.modules.interpolators.utils.boxdefinitions module<a class="headerlink" href="#module-geoips.plugins.modules.interpolators.utils.boxdefinitions" title="Permalink to this heading">#</a></h2>
+<p>Classes for geometry operations allowing masked data in swath corners.</p>
+<p>This package uses the pyresample geometry package as base classes:</p>
+<p># pyresample, Resampling of remote sensing image data in python
+#
+# Copyright (C) 2010-2015
+#
+# Authors:
+#    Esben S. Nielsen
+#    Thomas Lavergne</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.Line">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.interpolators.utils.boxdefinitions.</span></span><span class="sig-name descname"><span class="pre">Line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#Line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.Line" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A Line between two lat/lon points.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.end">
+<span class="sig-name descname"><span class="pre">end</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.end" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.intersection">
+<span class="sig-name descname"><span class="pre">intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#Line.intersection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.intersection" title="Permalink to this definition">#</a></dt>
+<dd><p>Identify intersection between two lines.</p>
+<p>Says where, if two lines defined by the current line and the
+<em>other_line</em> intersect.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.intersects">
+<span class="sig-name descname"><span class="pre">intersects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#Line.intersects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.intersects" title="Permalink to this definition">#</a></dt>
+<dd><p>Test two lines intersect.</p>
+<p>Says if two lines defined by the current line and the <em>other_line</em>
+intersect. A line is defined as the shortest tracks between two points.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.start">
+<span class="sig-name descname"><span class="pre">start</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.start" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.interpolators.utils.boxdefinitions.</span></span><span class="sig-name descname"><span class="pre">MaskedCornersSwathDefinition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nprocs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#MaskedCornersSwathDefinition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SwathDefinition</span></code></p>
+<p>Swath defined by lons and lats.</p>
+<p>Allows datasets with potentially masked data in the corners.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lons</strong> (<em>numpy array</em>) – Longitude values</p></li>
+<li><p><strong>lats</strong> (<em>numpy array</em>) – Latitude values</p></li>
+<li><p><strong>nprocs</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of processor cores to be used for calculations.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.shape">
+<span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.shape" title="Permalink to this definition">#</a></dt>
+<dd><p>Swath shape</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.size">
+<span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.size" title="Permalink to this definition">#</a></dt>
+<dd><p>Number of elements in swath</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.ndims">
+<span class="sig-name descname"><span class="pre">ndims</span></span><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.ndims" title="Permalink to this definition">#</a></dt>
+<dd><p>Swath dimensions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.Properties">
+<span class="sig-name descname"><span class="pre">Properties</span></span><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.Properties" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">----------</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.lons">
+<span class="sig-name descname"><span class="pre">lons</span></span><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.lons" title="Permalink to this definition">#</a></dt>
+<dd><p>Swath lons</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.lats">
+<span class="sig-name descname"><span class="pre">lats</span></span><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.lats" title="Permalink to this definition">#</a></dt>
+<dd><p>Swath lats</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.cartesian_coords">
+<span class="sig-name descname"><span class="pre">cartesian_coords</span></span><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.cartesian_coords" title="Permalink to this definition">#</a></dt>
+<dd><p>Swath cartesian coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.corners">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">corners</span></span><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.corners" title="Permalink to this definition">#</a></dt>
+<dd><p>Return current area corners.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.get_bounding_box_lonlats">
+<span class="sig-name descname"><span class="pre">get_bounding_box_lonlats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#MaskedCornersSwathDefinition.get_bounding_box_lonlats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.get_bounding_box_lonlats" title="Permalink to this definition">#</a></dt>
+<dd><p>Return lon/lats along bounding Arcs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>npts</strong> (<em>int</em>) – Number of points to return along each line</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>(top, right, bottom, left)</strong> (<em>4 tuples containing lists</em>) – of len npts of lons/lats</p></li>
+<li><p><em>retval = (list(tplons),list(tplats)),</em> – (list(rtlons),list(rtlats)),
+(list(btlons),list(btlats)),
+(list(ltlons),list(ltlats))</p></li>
+<li><p><em>eg for n=3</em> – ([tplon0,tplon1,tplon2],[tplat0,tplat1,tplat2]),
+([rtlon0,rtlon1,rtlon2],[rtlat0,rtlat1,rtlat2]),
+([btlon0,btlon1,btlon2],[btlat0,btlat1,btlat2]),
+([ltlon0,ltlon1,ltlon2],[ltlat0,ltlat1,ltlat2]),</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.intersection">
+<span class="sig-name descname"><span class="pre">intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#MaskedCornersSwathDefinition.intersection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.intersection" title="Permalink to this definition">#</a></dt>
+<dd><p>Return current area intersection polygon corners.</p>
+<p><em>other</em> allows for potentially masked data in the corners.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>object</em>) – Instance of subclass of BaseDefinition</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>(corner1, corner2, corner3, corner4)</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple of points</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.overlaps_minmaxlatlon">
+<span class="sig-name descname"><span class="pre">overlaps_minmaxlatlon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#MaskedCornersSwathDefinition.overlaps_minmaxlatlon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.overlaps_minmaxlatlon" title="Permalink to this definition">#</a></dt>
+<dd><p>Test current area overlaps <em>other</em> area.</p>
+<dl class="simple">
+<dt>This is based solely on the min/max lat/lon of areas, assuming the</dt><dd><p>boundaries to be along lat/lon lines.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>object</em>) – Instance of subclass of BaseDefinition</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>overlaps</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.interpolators.utils.boxdefinitions.</span></span><span class="sig-name descname"><span class="pre">PlanarPolygonDefinition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nprocs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#PlanarPolygonDefinition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CoordinateDefinition</span></code></p>
+<p>Planar polygon definition.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.corners">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">corners</span></span><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.corners" title="Permalink to this definition">#</a></dt>
+<dd><p>Return corners.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.get_bounding_box_lonlats">
+<span class="sig-name descname"><span class="pre">get_bounding_box_lonlats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">npts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#PlanarPolygonDefinition.get_bounding_box_lonlats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.get_bounding_box_lonlats" title="Permalink to this definition">#</a></dt>
+<dd><p>Return array of lon/lats along the bounding lat/lon lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>npts</strong> (<em>int</em>) – Number of points to return along each line</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>(top, right, bottom, left)</strong> (<em>4 tuples containing lists</em>) – of len npts of lons/lats</p></li>
+<li><p><em>retval = (list(tplons),list(tplats)),</em> – (list(rtlons),list(rtlats)),
+(list(btlons),list(btlats)),
+(list(ltlons),list(ltlats))</p></li>
+<li><p><em>eg for n=3</em> – ([tplon0,tplon1,tplon2],[tplat0,tplat1,tplat2]),
+([rtlon0,rtlon1,rtlon2],[rtlat0,rtlat1,rtlat2]),
+([btlon0,btlon1,btlon2],[btlat0,btlat1,btlat2]),
+([ltlon0,ltlon1,ltlon2],[ltlat0,ltlat1,ltlat2]),</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.intersection">
+<span class="sig-name descname"><span class="pre">intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#PlanarPolygonDefinition.intersection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.intersection" title="Permalink to this definition">#</a></dt>
+<dd><p>Return current area intersection polygon corners against other.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>object</em>) – Instance of subclass of BaseDefinition</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>(corner1, corner2, corner3, corner4)</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple of points</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.overlaps">
+<span class="sig-name descname"><span class="pre">overlaps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#PlanarPolygonDefinition.overlaps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.overlaps" title="Permalink to this definition">#</a></dt>
+<dd><p>Test if the current area overlaps the <em>other</em> area.</p>
+<p>This is based
+solely on the corners of areas, assuming the boundaries to be straight
+lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>object</em>) – Instance of subclass of BaseDefinition</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>overlaps</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.overlaps_minmaxlatlon">
+<span class="sig-name descname"><span class="pre">overlaps_minmaxlatlon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#PlanarPolygonDefinition.overlaps_minmaxlatlon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.overlaps_minmaxlatlon" title="Permalink to this definition">#</a></dt>
+<dd><p>Determine if overlaps.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.get_2d_false_corners">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.interpolators.utils.boxdefinitions.</span></span><span class="sig-name descname"><span class="pre">get_2d_false_corners</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#get_2d_false_corners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.get_2d_false_corners" title="Permalink to this definition">#</a></dt>
+<dd><p>Identify false corners.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.planar_intersection_polygon">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.interpolators.utils.boxdefinitions.</span></span><span class="sig-name descname"><span class="pre">planar_intersection_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_corners</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment_corners</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#planar_intersection_polygon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.planar_intersection_polygon" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the intersection polygon between two areas.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.boxdefinitions.planar_point_inside">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.interpolators.utils.boxdefinitions.</span></span><span class="sig-name descname"><span class="pre">planar_point_inside</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corners</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/boxdefinitions.html#planar_point_inside"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.planar_point_inside" title="Permalink to this definition">#</a></dt>
+<dd><p>Identify point inside 4 corners.</p>
+<p>This DOES NOT USE great circle arcs as area
+boundaries.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.interpolators.utils.interp_pyresample">
+<span id="geoips-plugins-modules-interpolators-utils-interp-pyresample-module"></span><h2>geoips.plugins.modules.interpolators.utils.interp_pyresample module<a class="headerlink" href="#module-geoips.plugins.modules.interpolators.utils.interp_pyresample" title="Permalink to this heading">#</a></h2>
+<p>Interpolation methods using pyresample routines.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.interp_pyresample.get_data_box_definition">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.interpolators.utils.interp_pyresample.</span></span><span class="sig-name descname"><span class="pre">get_data_box_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/interp_pyresample.html#get_data_box_definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.interp_pyresample.get_data_box_definition" title="Permalink to this definition">#</a></dt>
+<dd><p>Obtain pyresample geometry definitions.</p>
+<p>For use with pyresample based reprojections</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_name</strong> (<em>str</em>) – geoips source_name for data type</p></li>
+<li><p><strong>lons</strong> (<em>ndarray</em>) – Numpy array of longitudes, 0 to 360</p></li>
+<li><p><strong>lats</strong> (<em>ndarray</em>) – Numpy array of latitudes, -90 to 90</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.interp_pyresample.interp_kd_tree">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.interpolators.utils.interp_pyresample.</span></span><span class="sig-name descname"><span class="pre">interp_kd_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_of_arrays</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_definition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_box_definition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius_of_influence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigmas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nprocs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/interp_pyresample.html#interp_kd_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.interp_pyresample.interp_kd_tree" title="Permalink to this definition">#</a></dt>
+<dd><p>Interpolate using pyresample’s kd_tree.resample_nearest method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>list_of_array</strong> (<em>list</em><em> of </em><em>numpy.ndarray</em>) – list of arrays to be interpolated</p></li>
+<li><p><strong>area_definition</strong> (<em>areadef</em>) – pyresample area_definition object of current region of interest.</p></li>
+<li><p><strong>data_box_definition</strong> (<em>datadef</em>) – pyresample/geoips data_box_definition specifying region covered
+by source data.</p></li>
+<li><p><strong>radius_of_influence</strong> (<em>float</em>) – radius of influence for interpolation</p></li>
+<li><p><strong>interp_type</strong> (<em>str</em><em>, </em><em>default='nearest'</em>) – One of ‘nearest’ or ‘gauss’ - kd_tree resampling methods.</p></li>
+<li><p><strong>sigmas</strong> (<em>int</em><em>, </em><em>default=None</em>) – <dl class="simple">
+<dt>Used for interp_type ‘gauss’ - multiplication factor for sigmas option:</dt><dd><ul>
+<li><p>sigmas = [sigmas]*len(list_of_arrays)</p></li>
+</ul>
+</dd>
+</dl>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.interpolators.utils.interp_scipy">
+<span id="geoips-plugins-modules-interpolators-utils-interp-scipy-module"></span><h2>geoips.plugins.modules.interpolators.utils.interp_scipy module<a class="headerlink" href="#module-geoips.plugins.modules.interpolators.utils.interp_scipy" title="Permalink to this heading">#</a></h2>
+<p>Interpolation routines from the scipy package.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.interp_scipy.interp_gaussian_kde">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.interpolators.utils.interp_scipy.</span></span><span class="sig-name descname"><span class="pre">interp_gaussian_kde</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vw_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/interp_scipy.html#interp_gaussian_kde"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.interp_scipy.interp_gaussian_kde" title="Permalink to this definition">#</a></dt>
+<dd><p>Interpolate a given array of non-uniform data using scipy.stats.gaussian_kde.</p>
+<p>This is not finalized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>numpy.ma.core.MaskedArray</em>) – numpy array of data to interpolate</p></li>
+<li><p><strong>data_lons</strong> (<em>numpy.ma.core.MaskedArray</em>) – numpy array of longitudes corresponding to original data,
+same shape as data_array</p></li>
+<li><p><strong>data_lats</strong> (<em>numpy.ma.core.MaskedArray</em>) – numpy array of latitudes corresponding to original data,
+same shape as data_array</p></li>
+<li><p><strong>target_lons</strong> (<em>numpy.ma.core.MaskedArray</em>) – 2d numpy array of desired longitudes</p></li>
+<li><p><strong>target_lats</strong> (<em>numpy.ma.core.MaskedArray</em>) – 2d numpy array of desired latitudes</p></li>
+<li><p><strong>bw_method</strong> (<em>str</em>) – Bandwidth selection method (see scipy.stats.gaussian_kde)|</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.stats.gaussian_kde</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.interpolators.utils.interp_scipy.interp_griddata">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.interpolators.utils.interp_scipy.</span></span><span class="sig-name descname"><span class="pre">interp_griddata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_gridlon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_gridlon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_gridlat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_gridlat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numx_grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numy_grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/interpolators/utils/interp_scipy.html#interp_griddata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.interpolators.utils.interp_scipy.interp_griddata" title="Permalink to this definition">#</a></dt>
+<dd><p>Interpolate a given array of non-uniform data to a specified grid.</p>
+<p>Uses scipy.interpolate.griddata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>numpy.ma.core.MaskedArray</em>) – numpy array of original data to be interpolated</p></li>
+<li><p><strong>data_lons</strong> (<em>numpy.ma.core.MaskedArray</em>) – numpy array of longitudes corresponding to original data,
+same shape as data_array</p></li>
+<li><p><strong>data_lats</strong> (<em>numpy.ma.core.MaskedArray</em>) – numpy array of latitudes corresponding to original data,
+same shape as data_array</p></li>
+<li><p><strong>min_gridlon</strong> (<em>float</em>) – <dl class="simple">
+<dt>minimum desired lon for the output grid</dt><dd><ul>
+<li><p>-180.0 &lt; min_gridlon &lt; 180.0</p></li>
+</ul>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>max_gridlon</strong> (<em>float</em>) – <dl class="simple">
+<dt>maximum desired lon for the output grid</dt><dd><ul>
+<li><p>-180.0 &lt; max_gridlon &lt; 180.0</p></li>
+</ul>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>min_gridlat</strong> (<em>float</em>) – <dl class="simple">
+<dt>minimum desired lat for the output grid</dt><dd><ul>
+<li><p>-90.0 &lt; min_gridlat &lt; 90.0</p></li>
+</ul>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>max_gridlat</strong> (<em>float</em>) – <dl class="simple">
+<dt>maximum desired lat for the output grid</dt><dd><ul>
+<li><p>-90.0 &lt; max_gridlat &lt; 90.0</p></li>
+</ul>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>numx_grid</strong> (<em>int</em>) – number desired longitude points in the output grid</p></li>
+<li><p><strong>numy_grid</strong> (<em>int</em>) – number desired latitude points in the output grid</p></li>
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>default='linear'</em>) – A string specifying the interpolation method to use
+for scipy.interpolate.griddata.
+One of ‘nearest’, ‘linear’ or ‘cubic’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.interpolators.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-geoips.plugins.modules.interpolators.utils" title="Permalink to this heading">#</a></h2>
+<p>Geoips interpolators utils init file.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geoips.plugins.modules.interpolators.scipy_wrappers.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">geoips.plugins.modules.interpolators.scipy_wrappers package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geoips.plugins.modules.output_formatters.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">geoips.plugins.modules.output_formatters package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.interpolators.utils.boxdefinitions">geoips.plugins.modules.interpolators.utils.boxdefinitions module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.Line"><code class="docutils literal notranslate"><span class="pre">Line</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.end"><code class="docutils literal notranslate"><span class="pre">Line.end</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.intersection"><code class="docutils literal notranslate"><span class="pre">Line.intersection()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.intersects"><code class="docutils literal notranslate"><span class="pre">Line.intersects()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.Line.start"><code class="docutils literal notranslate"><span class="pre">Line.start</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.shape"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition.shape</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.size"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition.size</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.ndims"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition.ndims</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.Properties"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition.Properties</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.lons"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition.lons</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.lats"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition.lats</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.cartesian_coords"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition.cartesian_coords</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.corners"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition.corners</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.get_bounding_box_lonlats"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition.get_bounding_box_lonlats()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.intersection"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition.intersection()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.MaskedCornersSwathDefinition.overlaps_minmaxlatlon"><code class="docutils literal notranslate"><span class="pre">MaskedCornersSwathDefinition.overlaps_minmaxlatlon()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition"><code class="docutils literal notranslate"><span class="pre">PlanarPolygonDefinition</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.corners"><code class="docutils literal notranslate"><span class="pre">PlanarPolygonDefinition.corners</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.get_bounding_box_lonlats"><code class="docutils literal notranslate"><span class="pre">PlanarPolygonDefinition.get_bounding_box_lonlats()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.intersection"><code class="docutils literal notranslate"><span class="pre">PlanarPolygonDefinition.intersection()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.overlaps"><code class="docutils literal notranslate"><span class="pre">PlanarPolygonDefinition.overlaps()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.PlanarPolygonDefinition.overlaps_minmaxlatlon"><code class="docutils literal notranslate"><span class="pre">PlanarPolygonDefinition.overlaps_minmaxlatlon()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.get_2d_false_corners"><code class="docutils literal notranslate"><span class="pre">get_2d_false_corners()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.planar_intersection_polygon"><code class="docutils literal notranslate"><span class="pre">planar_intersection_polygon()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.boxdefinitions.planar_point_inside"><code class="docutils literal notranslate"><span class="pre">planar_point_inside()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.interpolators.utils.interp_pyresample">geoips.plugins.modules.interpolators.utils.interp_pyresample module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.interp_pyresample.get_data_box_definition"><code class="docutils literal notranslate"><span class="pre">get_data_box_definition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.interp_pyresample.interp_kd_tree"><code class="docutils literal notranslate"><span class="pre">interp_kd_tree()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.interpolators.utils.interp_scipy">geoips.plugins.modules.interpolators.utils.interp_scipy module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.interp_scipy.interp_gaussian_kde"><code class="docutils literal notranslate"><span class="pre">interp_gaussian_kde()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.interpolators.utils.interp_scipy.interp_griddata"><code class="docutils literal notranslate"><span class="pre">interp_griddata()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.interpolators.utils">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.plugins.modules.interpolators.utils.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

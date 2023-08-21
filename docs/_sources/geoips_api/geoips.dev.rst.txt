@@ -1,0 +1,29 @@
+geoips.dev package
+==================
+
+Submodules
+----------
+
+geoips.dev.output\_config module
+--------------------------------
+
+.. automodule:: geoips.dev.output_config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.dev.product module
+-------------------------
+
+.. automodule:: geoips.dev.product
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.dev
+   :members:
+   :undoc-members:
+   :show-inheritance:

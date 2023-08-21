@@ -1,0 +1,101 @@
+geoips.plugins.modules.colormappers.pmw\_tb package
+===================================================
+
+Submodules
+----------
+
+geoips.plugins.modules.colormappers.pmw\_tb.cmap\_150H module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb.cmap_150H
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.pmw\_tb.cmap\_37H module
+------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb.cmap_37H
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.pmw\_tb.cmap\_37H\_Legacy module
+--------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb.cmap_37H_Legacy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.pmw\_tb.cmap\_37H\_Physical module
+----------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb.cmap_37H_Physical
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.pmw\_tb.cmap\_37pct module
+--------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb.cmap_37pct
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.pmw\_tb.cmap\_89H module
+------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb.cmap_89H
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.pmw\_tb.cmap\_89HW module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb.cmap_89HW
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.pmw\_tb.cmap\_89H\_Legacy module
+--------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb.cmap_89H_Legacy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.pmw\_tb.cmap\_89H\_Physical module
+----------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb.cmap_89H_Physical
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.pmw\_tb.cmap\_89pct module
+--------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb.cmap_89pct
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.pmw\_tb.cmap\_Rain module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb.cmap_Rain
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.colormappers.pmw_tb
+   :members:
+   :undoc-members:
+   :show-inheritance:

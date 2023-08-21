@@ -1,0 +1,101 @@
+geoips.plugins.modules.filename\_formatters package
+===================================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   geoips.plugins.modules.filename_formatters.utils
+
+Submodules
+----------
+
+geoips.plugins.modules.filename\_formatters.basic\_fname module
+---------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.basic_fname
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.filename\_formatters.geoips\_fname module
+----------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.geoips_fname
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.filename\_formatters.geoips\_netcdf\_fname module
+------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.geoips_netcdf_fname
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.filename\_formatters.geotiff\_fname module
+-----------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.geotiff_fname
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.filename\_formatters.metadata\_default\_fname module
+---------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.metadata_default_fname
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.filename\_formatters.tc\_clean\_fname module
+-------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.tc_clean_fname
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.filename\_formatters.tc\_fname module
+------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.tc_fname
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.filename\_formatters.text\_winds\_day\_fname module
+--------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.text_winds_day_fname
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.filename\_formatters.text\_winds\_full\_fname module
+---------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.text_winds_full_fname
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.filename\_formatters.text\_winds\_tc\_fname module
+-------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.text_winds_tc_fname
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters
+   :members:
+   :undoc-members:
+   :show-inheritance:

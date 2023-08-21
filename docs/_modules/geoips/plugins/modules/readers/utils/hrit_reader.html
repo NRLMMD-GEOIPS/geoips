@@ -1,0 +1,1490 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.plugins.modules.readers.utils.hrit_reader &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/readers/utils/hrit_reader';</script>
+    <link rel="icon" href="../../../../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.plugins.modules.readers.utils.hrit_reader</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for geoips.plugins.modules.readers.utils.hrit_reader</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # Author:</span>
+<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
+<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
+<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
+<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+
+<span class="sd">&quot;&quot;&quot;Utility for reading HRIT datasets.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">codecs</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">unpack</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">pyPublicDecompWT</span> <span class="kn">import</span> <span class="n">xRITDecompress</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="HritDtype"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.hrit_reader.HritDtype">[docs]</a><span class="k">class</span> <span class="nc">HritDtype</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;HRIT data type.&quot;&quot;&quot;</span>
+
+    <span class="n">types</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;uint8&quot;</span><span class="p">:</span> <span class="s2">&quot;u1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;uint16&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;uint32&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;u4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;uint64&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;u8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;int8&quot;</span><span class="p">:</span> <span class="s2">&quot;i1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;int16&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;i2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;int32&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;i4&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;int64&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;i8&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;byte&quot;</span><span class="p">:</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;unicode&quot;</span><span class="p">:</span> <span class="s2">&quot;U&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get hritdtype attr.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">types</span><span class="p">[</span><span class="n">type_name</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">type_name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;char&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">type_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;&gt;S</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">type_name</span><span class="p">[</span><span class="mi">4</span><span class="p">:]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;&gt;S&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">HritError</span><span class="p">(</span><span class="s2">&quot;Unknown data type: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">type_name</span><span class="p">))</span></div>
+
+
+<span class="n">dtype</span> <span class="o">=</span> <span class="n">HritDtype</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="read10bit"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.hrit_reader.read10bit">[docs]</a><span class="k">def</span> <span class="nf">read10bit</span><span class="p">(</span><span class="n">buff</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read 10 bit little endian data from a buffer.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        16 bit unsigned int.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">buff</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+            <span class="k">break</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">codecs</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">&quot;hex&quot;</span><span class="p">),</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="n">p3</span> <span class="o">=</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="mh">0x3FF</span>
+        <span class="n">n</span> <span class="o">&gt;&gt;=</span> <span class="mi">10</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="mh">0x3FF</span>
+        <span class="n">n</span> <span class="o">&gt;&gt;=</span> <span class="mi">10</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="mh">0x3FF</span>
+        <span class="n">n</span> <span class="o">&gt;&gt;=</span> <span class="mi">10</span>
+        <span class="n">p0</span> <span class="o">=</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="mh">0x3FF</span>
+        <span class="k">yield</span> <span class="n">p0</span>
+        <span class="k">yield</span> <span class="n">p1</span>
+        <span class="k">yield</span> <span class="n">p2</span>
+        <span class="k">yield</span> <span class="n">p3</span></div>
+
+
+<div class="viewcode-block" id="HritError"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.hrit_reader.HritError">[docs]</a><span class="k">class</span> <span class="nc">HritError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise exception when errors occur in reading xRIT data files.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize HritError.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">msg</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Hriterror str method.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="HritFile"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.hrit_reader.HritFile">[docs]</a><span class="k">class</span> <span class="nc">HritFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hrit File class.&quot;&quot;&quot;</span>
+
+    <span class="n">_file_type_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;gts&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;encryptionKey&quot;</span><span class="p">,</span>
+        <span class="mi">128</span><span class="p">:</span> <span class="s2">&quot;prologue&quot;</span><span class="p">,</span>
+        <span class="mi">129</span><span class="p">:</span> <span class="s2">&quot;epilogue&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize HRIT File object.&quot;&quot;&quot;</span>
+        <span class="c1"># Test for file</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;No such file or directory: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="c1"># 20201207 &#39;rb&#39; required for binary read in Python 3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fobj</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Construct the metadata block map</span>
+        <span class="c1"># Some of these are static, others change from file to file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_block_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">0</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;block_num&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;block_length&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;type_code&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;header_length&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint32</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;data_length&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint64</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">],</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;block_num&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;block_length&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;bits_per_pixel&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;num_samples&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;num_lines&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">],</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;block_num&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;block_length&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;projection&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">char32</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;sample_scale&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;line_scale&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;sample_offset&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;line_offset&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">],</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;block_num&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;block_length&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;data_definition&quot;</span><span class="p">,</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="s2">&quot;char</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__block_len_minus_two</span><span class="p">(</span><span class="mi">3</span><span class="p">))),</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+            <span class="mi">4</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;block_num&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;block_length&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;annotation&quot;</span><span class="p">,</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="s2">&quot;char</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__block_len_minus_two</span><span class="p">(</span><span class="mi">4</span><span class="p">))),</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+            <span class="mi">5</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;block_num&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;block_length&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="s2">&quot;char</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__block_len_minus_two</span><span class="p">(</span><span class="mi">5</span><span class="p">))),</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">],</span>  <span class="c1"># Unsure how to convert</span>
+            <span class="mi">6</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;block_num&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;block_length&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;ancillary_text&quot;</span><span class="p">,</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="s2">&quot;char</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__block_len_minus_two</span><span class="p">(</span><span class="mi">6</span><span class="p">))),</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+            <span class="mi">7</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;block_num&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;block_length&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;key_header_info&quot;</span><span class="p">,</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="s2">&quot;char</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__block_len_minus_two</span><span class="p">(</span><span class="mi">7</span><span class="p">))),</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+            <span class="mi">128</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;block_num&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;block_length&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;sc_id&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;chan_id&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;segment&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;start_segment&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;end_segment&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;data_field_repr&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">],</span>
+            <span class="mi">129</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Read the metadata itself</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_metadata</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">block_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Block info.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_block_info&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_block_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_metadata_block_info</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_block_info</span>
+
+    <span class="k">def</span> <span class="nf">__block_len_minus_two</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_num</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the length of a header block minus 2.</span>
+
+<span class="sd">        This is for reading to the end of the block. This may seem silly,</span>
+<span class="sd">        but is mainly used to make the code above readable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_info</span><span class="p">[</span><span class="n">block_num</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">block_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return block map.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_block_map</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return metadata.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_metadata&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_metadata</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span>
+
+    <span class="c1"># @property</span>
+    <span class="c1"># def full_disk_geolocation_metadata(self):</span>
+    <span class="c1">#     if not hasattr(self, &#39;_full_disk_geolocation_metadata&#39;):</span>
+    <span class="c1">#         geomet = {}</span>
+    <span class="c1">#         geomet[&#39;ob_area&#39;] = re.sub(r&#39;\W+&#39;, &#39;&#39;, self.metadata[&#39;block_2&#39;][&#39;projection&#39;])</span>
+    <span class="c1">#         geomet[&#39;num_lines&#39;] = self.metadata[&#39;block_1&#39;][&#39;num_lines&#39;]</span>
+    <span class="c1">#         geomet[&#39;num_samples&#39;] = self.metadata[&#39;block_1&#39;][&#39;num_samples&#39;]</span>
+    <span class="c1">#         geomet[&#39;line_scale&#39;] = self.metadata[&#39;block_2&#39;][&#39;line_scale&#39;]</span>
+    <span class="c1">#         geomet[&#39;sample_scale&#39;] = self.metadata[&#39;block_2&#39;][&#39;sample_scale&#39;]</span>
+    <span class="c1">#         geomet[&#39;line_offset&#39;] = geomet[&#39;num_lines&#39;] / 2</span>
+    <span class="c1">#         geomet[&#39;sample_offset&#39;] = geomet[&#39;num_samples&#39;] / 2</span>
+    <span class="c1">#         geomet[&#39;projection&#39;] = self.metadata[&#39;block_2&#39;][&#39;projection&#39;]</span>
+    <span class="c1">#         geomet[&#39;start_datetime&#39;] = self.start_datetime</span>
+    <span class="c1">#         # Grabs the sub point longitude from the projection in the form</span>
+    <span class="c1">#         #   proj(sublon)</span>
+    <span class="c1">#         geomet[&#39;sublon&#39;] = float(re.search(r&quot;\((.+)\)&quot;, self.metadata[&#39;block_2&#39;][&#39;projection&#39;]).group(1))</span>
+    <span class="c1">#         self._full_disk_geolocation_metadata = geomet</span>
+    <span class="c1">#     return self._full_disk_geolocation_metadata</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geolocation_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return geolocation metadata.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_geolocation_metadata&quot;</span><span class="p">):</span>
+            <span class="n">geomet</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;ob_area&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
+                <span class="sa">r</span><span class="s2">&quot;\W+&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_2&quot;</span><span class="p">][</span><span class="s2">&quot;projection&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_1&quot;</span><span class="p">][</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
+            <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_1&quot;</span><span class="p">][</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span>
+            <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;line_scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_2&quot;</span><span class="p">][</span><span class="s2">&quot;line_scale&quot;</span><span class="p">]</span>
+            <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;sample_scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_2&quot;</span><span class="p">][</span><span class="s2">&quot;sample_scale&quot;</span><span class="p">]</span>
+            <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;line_offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_2&quot;</span><span class="p">][</span><span class="s2">&quot;line_offset&quot;</span><span class="p">]</span>
+            <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;sample_offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_2&quot;</span><span class="p">][</span><span class="s2">&quot;sample_offset&quot;</span><span class="p">]</span>
+            <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_2&quot;</span><span class="p">][</span><span class="s2">&quot;projection&quot;</span><span class="p">])</span>
+            <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_datetime</span>
+            <span class="c1"># Grabs the sub point longitude from the projection in the form</span>
+            <span class="c1">#   proj(sublon)</span>
+            <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;sublon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\((.+)\)&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_2&quot;</span><span class="p">][</span><span class="s2">&quot;projection&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_geolocation_metadata</span> <span class="o">=</span> <span class="n">geomet</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_geolocation_metadata</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">prologue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return prologue.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_prologue&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prologue</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_type</span> <span class="o">==</span> <span class="s2">&quot;prologue&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_prologue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_prologue</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prologue</span>
+
+    <span class="c1"># @property</span>
+    <span class="c1"># def data(self):</span>
+    <span class="c1">#     if not hasattr(self, &#39;_data&#39;):</span>
+    <span class="c1">#         self._data = None</span>
+    <span class="c1">#         if self.file_type == &#39;image&#39;:</span>
+    <span class="c1">#             self._data = self._read_image_data()</span>
+    <span class="c1">#     return self._data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">epilogue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return epilogue.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_epilogue&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_epilogue</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_type</span> <span class="o">==</span> <span class="s2">&quot;epilogue&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_epilogue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_epilogue</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epilogue</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return name.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dirname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return file dirname.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dirname</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">basename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return file basename.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_basename</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">file_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return file_type.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_type_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_0&quot;</span><span class="p">][</span><span class="s2">&quot;type_code&quot;</span><span class="p">]]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">start_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return start_datetime.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotation_metadata</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">band</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return band specified in block_128, if it exists.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;block_128&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;B</span><span class="si">{:02d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_128&quot;</span><span class="p">][</span><span class="s2">&quot;chan_id&quot;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">segment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return segment specified in block_128, if it exists.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;block_128&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_128&quot;</span><span class="p">][</span><span class="s2">&quot;segment&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">annotation_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return annotation metadata (ie, platform, start time, etc).&quot;&quot;&quot;</span>
+        <span class="n">field_names</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;disseminationID&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;_&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;platform&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;band&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;segment&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;start_datetime&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;compression&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">name</span><span class="p">:</span> <span class="n">part</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                <span class="n">field_names</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_4&quot;</span><span class="p">][</span><span class="s2">&quot;annotation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;_&quot;</span>
+        <span class="p">}</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;platform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;platform&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">fields</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_parts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return parts of filename, split on &#39;-&#39;.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">basename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">compressed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if compressed, False if not.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;C&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="HritFile.decompress"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.hrit_reader.HritFile.decompress">[docs]</a>    <span class="k">def</span> <span class="nf">decompress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outdir</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decompress an xRIT file and return a file handle.</span>
+
+<span class="sd">        The file will be decompressed to `outdir` and read from there.</span>
+
+<span class="sd">        Returns an HritFile instance for the decompressed file.</span>
+<span class="sd">        If already decompressed, raises an HritError.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># If compressed, then decompress</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compressed</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parts</span><span class="p">)</span>
+            <span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;__&quot;</span>
+            <span class="n">new_fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">))</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Copying file to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_fname</span><span class="p">))</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">new_fname</span><span class="p">)</span>
+
+            <span class="n">prevdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
+            <span class="n">xRITDecompress</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">prevdir</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">HritFile</span><span class="p">(</span><span class="n">new_fname</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HritError</span><span class="p">(</span><span class="s2">&quot;File already decompressed.  Unable to decompress.&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__read_metadata_block_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read information about metadata blocks.</span>
+
+<span class="sd">        This includes info about metadata blocks including which blocks are present</span>
+<span class="sd">        and their lengths.  Return a dictionary whose keys are metadata block numbers</span>
+<span class="sd">        and whose values are tuple containing the block&#39;s starting byte number and its</span>
+<span class="sd">        length in bytes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get the full header length (4 bytes starting at 4th byte)</span>
+        <span class="n">buff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fobj</span>
+        <span class="n">buff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">header_length</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&gt;I&quot;</span><span class="p">,</span> <span class="n">buff</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Start from beginning of file</span>
+        <span class="n">buff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># First block is always 0th block and starts at first byte</span>
+        <span class="n">block_info</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)}</span>
+        <span class="c1"># Loop over blocks until we hit the end of the header</span>
+        <span class="n">first_loop</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="n">buff</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">header_length</span><span class="p">:</span>
+            <span class="c1"># Read the block number and block length</span>
+            <span class="n">block_start</span> <span class="o">=</span> <span class="n">buff</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+            <span class="n">block_num</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">buff</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">block_length</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;&gt;H&quot;</span><span class="p">,</span> <span class="n">buff</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">first_loop</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">block_num</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">HritError</span><span class="p">(</span>
+                        <span class="s2">&quot;This does not appear to be an HRIT file. &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;The first block number should be 0 but we got </span><span class="si">{</span><span class="n">block_num</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">first_loop</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># Add block_length for the current block</span>
+            <span class="n">block_info</span><span class="p">[</span><span class="n">block_num</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">block_start</span><span class="p">,</span> <span class="n">block_length</span><span class="p">)</span>
+
+            <span class="c1"># Seek to the end of the block</span>
+            <span class="n">buff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">block_start</span> <span class="o">+</span> <span class="n">block_length</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">block_info</span>
+
+    <span class="k">def</span> <span class="nf">__read_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read the metadata from the file and return as a dictionary.&quot;&quot;&quot;</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">block_num</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_info</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="c1"># Get the block map for the current block number</span>
+            <span class="c1"># If it is not found, warn</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">block_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_map</span><span class="p">[</span><span class="n">block_num</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">block_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                        <span class="s2">&quot;Skipping known, but undefined metadata block: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">block_num</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="k">continue</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Unrecognized metadata block number encountered: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">block_num</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Create metadata dictionary for block</span>
+            <span class="n">block_md</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1"># Seek to the correct starting position in the buffer</span>
+            <span class="n">block_start</span><span class="p">,</span> <span class="n">block_len</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_info</span><span class="p">[</span><span class="n">block_num</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fobj</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">block_start</span><span class="p">)</span>
+
+            <span class="c1"># Populate metadata dictionary based on map</span>
+            <span class="k">for</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">block_map</span><span class="p">:</span>
+                <span class="n">block_md</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fobj</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">count</span><span class="p">)</span>
+                <span class="c1"># Strip padding from strings</span>
+                <span class="k">if</span> <span class="n">dtype</span><span class="o">.</span><span class="n">char</span> <span class="o">==</span> <span class="s2">&quot;S&quot;</span><span class="p">:</span>
+                    <span class="n">newlist</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">valnum</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">block_md</span><span class="p">[</span><span class="n">field_name</span><span class="p">]):</span>
+                        <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span>
+                            <span class="n">newlist</span> <span class="o">+=</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">newlist</span> <span class="o">+=</span> <span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\x05</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)]</span>
+                    <span class="n">block_md</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">newlist</span>
+                <span class="c1"># If there is only one value, then return a scalar rather than an array</span>
+                <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">block_md</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">block_md</span><span class="p">[</span><span class="n">field_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># Add to metadata dictionary</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">block_num</span><span class="p">)]</span> <span class="o">=</span> <span class="n">block_md</span>
+
+        <span class="k">return</span> <span class="n">metadata</span>
+
+    <span class="k">def</span> <span class="nf">_read_image_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sector</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read image data.&quot;&quot;&quot;</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Reading image file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_type</span> <span class="o">!=</span> <span class="s2">&quot;image&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HritError</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to read image data from file of type </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_type</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Get to the start of the line record</span>
+        <span class="n">header_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_0&quot;</span><span class="p">][</span><span class="s2">&quot;header_length&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fobj</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">header_length</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">read10bit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fobj</span><span class="p">)))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">464</span><span class="p">,</span> <span class="mi">3712</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+
+    <span class="k">def</span> <span class="nf">_read_prologue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sector</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read prologue file.&quot;&quot;&quot;</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Reading prologue file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_type</span> <span class="o">!=</span> <span class="s2">&quot;prologue&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HritError</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to read prologue data from file of type </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">file_type</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Get to the start of the header record</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fobj</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_0&quot;</span><span class="p">][</span><span class="s2">&quot;header_length&quot;</span><span class="p">])</span>
+
+        <span class="n">prologue</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># SatelliteStatus block</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;satelliteDefinition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">satdef</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;satelliteDefinition&quot;</span><span class="p">]</span>
+        <span class="n">satdef</span><span class="p">[</span><span class="s2">&quot;satelliteID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">satdef</span><span class="p">[</span><span class="s2">&quot;nominalLongitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+        <span class="n">satdef</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;satelliteOperations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">satops</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;satelliteOperations&quot;</span><span class="p">]</span>
+        <span class="n">satops</span><span class="p">[</span><span class="s2">&quot;lastManeuverFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">satops</span><span class="p">[</span><span class="s2">&quot;lastManeuverStartTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">satops</span><span class="p">[</span><span class="s2">&quot;lastManeuverEndTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">satops</span><span class="p">[</span><span class="s2">&quot;lastManeuverType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">satops</span><span class="p">[</span><span class="s2">&quot;nextManeuverFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">satops</span><span class="p">[</span><span class="s2">&quot;nextManeuverStartTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">satops</span><span class="p">[</span><span class="s2">&quot;nextManeuverEndTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">satops</span><span class="p">[</span><span class="s2">&quot;nextManeuverType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;orbit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">orbit</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;orbit&quot;</span><span class="p">]</span>
+        <span class="n">orbit</span><span class="p">[</span><span class="s2">&quot;periodStartTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">orbit</span><span class="p">[</span><span class="s2">&quot;periodEndTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">orbit</span><span class="p">[</span><span class="s2">&quot;orbitPolynomial&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_orbit_polynomial</span><span class="p">()</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;attitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">attitude</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;attitude&quot;</span><span class="p">]</span>
+        <span class="n">attitude</span><span class="p">[</span><span class="s2">&quot;periodStartTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">attitude</span><span class="p">[</span><span class="s2">&quot;periodEndTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">attitude</span><span class="p">[</span><span class="s2">&quot;principleAxisOffsetAngle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+        <span class="n">attitude</span><span class="p">[</span><span class="s2">&quot;attitudePolynomial&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_attitude_polynomial</span><span class="p">()</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;spinRateatRCStart&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;utcCorrelation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">utcCorr</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;utcCorrelation&quot;</span><span class="p">]</span>
+        <span class="n">utcCorr</span><span class="p">[</span><span class="s2">&quot;periodStartTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">utcCorr</span><span class="p">[</span><span class="s2">&quot;periodEndTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">utcCorr</span><span class="p">[</span><span class="s2">&quot;onBoardTimeStart&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,))</span>
+        <span class="n">utcCorr</span><span class="p">[</span><span class="s2">&quot;varOnBoardTimeStart&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+        <span class="n">utcCorr</span><span class="p">[</span><span class="s2">&quot;a1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+        <span class="n">utcCorr</span><span class="p">[</span><span class="s2">&quot;varA1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+        <span class="n">utcCorr</span><span class="p">[</span><span class="s2">&quot;a2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+        <span class="n">utcCorr</span><span class="p">[</span><span class="s2">&quot;varA2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+
+        <span class="c1"># ImageAcquisition block</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageAcquisition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageAcquisition&quot;</span><span class="p">][</span><span class="s2">&quot;plannedAcquisitionTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">acqTime</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageAcquisition&quot;</span><span class="p">][</span><span class="s2">&quot;plannedAcquisitionTime&quot;</span><span class="p">]</span>
+        <span class="n">acqTime</span><span class="p">[</span><span class="s2">&quot;trueRepeatCycleStart&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">acqTime</span><span class="p">[</span><span class="s2">&quot;plannedForwardScanEnd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">acqTime</span><span class="p">[</span><span class="s2">&quot;plannedRepeatCycleEnd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageAcquisition&quot;</span><span class="p">][</span><span class="s2">&quot;radiometerStatus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">radioStat</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageAcquisition&quot;</span><span class="p">][</span><span class="s2">&quot;radiometerStatus&quot;</span><span class="p">]</span>
+        <span class="n">radioStat</span><span class="p">[</span><span class="s2">&quot;channelStatus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,))</span>
+        <span class="n">radioStat</span><span class="p">[</span><span class="s2">&quot;detectorStatus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageAcquisition&quot;</span><span class="p">][</span><span class="s2">&quot;radiometerSettings&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">radioSett</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageAcquisition&quot;</span><span class="p">][</span><span class="s2">&quot;radiometerSettings&quot;</span><span class="p">]</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;MDUSamplingDelays&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;hrvFrameOffsets&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">frameOff</span> <span class="o">=</span> <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;hrvFrameOffsets&quot;</span><span class="p">]</span>
+        <span class="n">frameOff</span><span class="p">[</span><span class="s2">&quot;MDUNomHRVDelay1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">frameOff</span><span class="p">[</span><span class="s2">&quot;MDUNomHRVDelay2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">frameOff</span><span class="p">[</span><span class="s2">&quot;spare&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;|S2&quot;</span><span class="p">)</span>
+        <span class="n">frameOff</span><span class="p">[</span><span class="s2">&quot;MDUNomHRVBreakline&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;DHSSSyncSelection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;MDUOutGain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;MDUCourseGain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;MDUFinegain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;MDUNumericalOffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;PUGain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;PUOffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">27</span><span class="p">,))</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;PUBias&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,))</span>
+
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;operationParameters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">operParam</span> <span class="o">=</span> <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;operationParameters&quot;</span><span class="p">]</span>
+        <span class="n">operParam</span><span class="p">[</span><span class="s2">&quot;L0_LineCounter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">operParam</span><span class="p">[</span><span class="s2">&quot;K1_RetraceLines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">operParam</span><span class="p">[</span><span class="s2">&quot;K2_PauseDeciseconds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">operParam</span><span class="p">[</span><span class="s2">&quot;K3_RetraceLines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">operParam</span><span class="p">[</span><span class="s2">&quot;K4_PauseDeciseconds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">operParam</span><span class="p">[</span><span class="s2">&quot;K5_RetraceLines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">operParam</span><span class="p">[</span><span class="s2">&quot;X_DeepSpaceWindowPosition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;refocusingLines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;refocusingDirection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;refocusingPosition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;scanRefPosFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;scanRefPosNumber&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;scanRefPotVal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;scanFirstLine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;scanLastLine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">radioSett</span><span class="p">[</span><span class="s2">&quot;retraceStartLine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageAcquisition&quot;</span><span class="p">][</span><span class="s2">&quot;radiometerOperations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">radioOper</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageAcquisition&quot;</span><span class="p">][</span><span class="s2">&quot;radiometerOperations&quot;</span><span class="p">]</span>
+        <span class="n">radioOper</span><span class="p">[</span><span class="s2">&quot;lastGainChangeFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">radioOper</span><span class="p">[</span><span class="s2">&quot;lastGainChangeTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+
+        <span class="n">radioOper</span><span class="p">[</span><span class="s2">&quot;decontamination&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">dcon</span> <span class="o">=</span> <span class="n">radioOper</span><span class="p">[</span><span class="s2">&quot;decontamination&quot;</span><span class="p">]</span>
+        <span class="n">dcon</span><span class="p">[</span><span class="s2">&quot;decontaminationNow&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">dcon</span><span class="p">[</span><span class="s2">&quot;decontaminationStart&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">dcon</span><span class="p">[</span><span class="s2">&quot;decontaminationEnd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+
+        <span class="n">radioOper</span><span class="p">[</span><span class="s2">&quot;bbCalScheduled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">radioOper</span><span class="p">[</span><span class="s2">&quot;bbCalibrationType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">radioOper</span><span class="p">[</span><span class="s2">&quot;bbFirstLine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">radioOper</span><span class="p">[</span><span class="s2">&quot;bbLastLine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">radioOper</span><span class="p">[</span><span class="s2">&quot;coldFocalPlaneOpTemp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">radioOper</span><span class="p">[</span><span class="s2">&quot;warmFocalPlaneOpTemp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+
+        <span class="c1"># CelestialEvents block</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;celestialEvents&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;celestialEvents&quot;</span><span class="p">][</span><span class="s2">&quot;celestialBodiesPosition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">celestBod</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;celestialEvents&quot;</span><span class="p">][</span><span class="s2">&quot;celestialBodiesPosition&quot;</span><span class="p">]</span>
+        <span class="n">celestBod</span><span class="p">[</span><span class="s2">&quot;periodStartTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">celestBod</span><span class="p">[</span><span class="s2">&quot;periodEndTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">celestBod</span><span class="p">[</span><span class="s2">&quot;relatedOrbitFileTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;|S15&quot;</span><span class="p">)</span>
+        <span class="n">celestBod</span><span class="p">[</span><span class="s2">&quot;relatedAttitudeFileTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;|S15&quot;</span><span class="p">)</span>
+        <span class="n">celestBod</span><span class="p">[</span><span class="s2">&quot;earthEphemeris&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_ephemeris</span><span class="p">()</span>
+        <span class="n">celestBod</span><span class="p">[</span><span class="s2">&quot;moonEphemeris&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_ephemeris</span><span class="p">()</span>
+        <span class="n">celestBod</span><span class="p">[</span><span class="s2">&quot;sunEphemeris&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_ephemeris</span><span class="p">()</span>
+        <span class="n">celestBod</span><span class="p">[</span><span class="s2">&quot;starEphemeris&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_starcoeff</span><span class="p">()</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;celestialEvents&quot;</span><span class="p">][</span><span class="s2">&quot;relationToImage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">relToImg</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;celestialEvents&quot;</span><span class="p">][</span><span class="s2">&quot;relationToImage&quot;</span><span class="p">]</span>
+        <span class="n">relToImg</span><span class="p">[</span><span class="s2">&quot;typeOfEclipse&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">relToImg</span><span class="p">[</span><span class="s2">&quot;eclipseStartTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">relToImg</span><span class="p">[</span><span class="s2">&quot;eclipseEndTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">()</span>
+        <span class="n">relToImg</span><span class="p">[</span><span class="s2">&quot;visibleBodiesInImage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">relToImg</span><span class="p">[</span><span class="s2">&quot;bodiesCloseToFOV&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">relToImg</span><span class="p">[</span><span class="s2">&quot;impactOnImageQuality&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+
+        <span class="c1"># ImageDescription block</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;projectionDescription&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">projDesc</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;projectionDescription&quot;</span><span class="p">]</span>
+        <span class="n">projDesc</span><span class="p">[</span><span class="s2">&quot;typeOfProjection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">projDesc</span><span class="p">[</span><span class="s2">&quot;longitudeOfSSP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;referenceGridVIS_IR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">refGrdVI</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;referenceGridVIS_IR&quot;</span><span class="p">]</span>
+        <span class="n">refGrdVI</span><span class="p">[</span><span class="s2">&quot;numberOfLines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">refGrdVI</span><span class="p">[</span><span class="s2">&quot;numberOfColumns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">refGrdVI</span><span class="p">[</span><span class="s2">&quot;lineDirGridStep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+        <span class="n">refGrdVI</span><span class="p">[</span><span class="s2">&quot;columnDirGridStep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+        <span class="n">refGrdVI</span><span class="p">[</span><span class="s2">&quot;gridOrigin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;referenceGridHRV&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">refGrdHR</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;referenceGridHRV&quot;</span><span class="p">]</span>
+        <span class="n">refGrdHR</span><span class="p">[</span><span class="s2">&quot;numberOfLines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">refGrdHR</span><span class="p">[</span><span class="s2">&quot;numberOfColumns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">refGrdHR</span><span class="p">[</span><span class="s2">&quot;lineDirGridStep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+        <span class="n">refGrdHR</span><span class="p">[</span><span class="s2">&quot;columnDirGridStep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+        <span class="n">refGrdHR</span><span class="p">[</span><span class="s2">&quot;gridOrigin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;plannedCoverageVIS_IR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">pldCovVI</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;plannedCoverageVIS_IR&quot;</span><span class="p">]</span>
+        <span class="n">pldCovVI</span><span class="p">[</span><span class="s2">&quot;southernLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">pldCovVI</span><span class="p">[</span><span class="s2">&quot;northernLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">pldCovVI</span><span class="p">[</span><span class="s2">&quot;easternLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">pldCovVI</span><span class="p">[</span><span class="s2">&quot;westernLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;plannedCoverageHRV&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">pldCovHR</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;plannedCoverageHRV&quot;</span><span class="p">]</span>
+        <span class="n">pldCovHR</span><span class="p">[</span><span class="s2">&quot;lowerSouthLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">pldCovHR</span><span class="p">[</span><span class="s2">&quot;lowerNorthLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">pldCovHR</span><span class="p">[</span><span class="s2">&quot;lowerEastLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">pldCovHR</span><span class="p">[</span><span class="s2">&quot;lowerWestLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">pldCovHR</span><span class="p">[</span><span class="s2">&quot;upperSouthLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">pldCovHR</span><span class="p">[</span><span class="s2">&quot;upperNorthLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">pldCovHR</span><span class="p">[</span><span class="s2">&quot;upperEastLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+        <span class="n">pldCovHR</span><span class="p">[</span><span class="s2">&quot;upperWestLinePlanned&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;i4&quot;</span><span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;level15ImageProduction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">l15Proj</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;level15ImageProduction&quot;</span><span class="p">]</span>
+        <span class="n">l15Proj</span><span class="p">[</span><span class="s2">&quot;imageProcDirection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">l15Proj</span><span class="p">[</span><span class="s2">&quot;plannedGenDirection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">l15Proj</span><span class="p">[</span><span class="s2">&quot;plannedChanProcessing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,))</span>
+
+        <span class="c1"># RadiometricProcessing block</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;radiometricProcessing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;radiometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;rpSummary&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">rpSumm</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;radiometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;rpSummary&quot;</span><span class="p">]</span>
+        <span class="n">rpSumm</span><span class="p">[</span><span class="s2">&quot;radianceLinearization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,))</span>
+        <span class="n">rpSumm</span><span class="p">[</span><span class="s2">&quot;detectorEqualization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,))</span>
+        <span class="n">rpSumm</span><span class="p">[</span><span class="s2">&quot;onboardCalibrationResult&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,))</span>
+        <span class="n">rpSumm</span><span class="p">[</span><span class="s2">&quot;mpefCalFeedback&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,))</span>
+        <span class="n">rpSumm</span><span class="p">[</span><span class="s2">&quot;mtfAdatption&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,))</span>
+        <span class="n">rpSumm</span><span class="p">[</span><span class="s2">&quot;straylightCorrectionFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,))</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;radiometricProcessing&quot;</span><span class="p">][</span>
+            <span class="s2">&quot;level15ImageCalibration&quot;</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_image_calibration</span><span class="p">()</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;radiometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;blackBodyDataUsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">bbUsed</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;radiometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;blackBodyDataUsed&quot;</span><span class="p">]</span>
+        <span class="n">bbUsed</span><span class="p">[</span><span class="s2">&quot;bbObservationUTC&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">bbUsed</span><span class="p">[</span><span class="s2">&quot;bbRelatedData&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">bbRelDat</span> <span class="o">=</span> <span class="n">bbUsed</span><span class="p">[</span><span class="s2">&quot;bbRelatedData&quot;</span><span class="p">]</span>
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;onBoardBBTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,))</span>
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;mduOutGain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;mduCoarseGain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;mduFineGain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;mduNumericalOffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;PUGain&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;PUOffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">27</span><span class="p">,))</span>
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;PUBias&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,))</span>
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;dcrValues&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;|S63&quot;</span><span class="p">)</span>
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;xDeepSpaceWindowPosition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;coldFPTempterature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">coldFPT</span> <span class="o">=</span> <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;coldFPTempterature&quot;</span><span class="p">]</span>
+        <span class="n">coldFPT</span><span class="p">[</span><span class="s2">&quot;fcuNominalColdFocalPlaneTemp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">coldFPT</span><span class="p">[</span><span class="s2">&quot;fcuRedundantColdFocalPlaneTemp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;warmFPTempterature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">warmFPT</span> <span class="o">=</span> <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;warmFPTempterature&quot;</span><span class="p">]</span>
+        <span class="n">warmFPT</span><span class="p">[</span><span class="s2">&quot;fcuNominalWarmFocalPlaneVHROTemp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">warmFPT</span><span class="p">[</span><span class="s2">&quot;fcuRedundantWarmFocalPlaneVHROTemp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;scanMirrorTemperature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">scanMT</span> <span class="o">=</span> <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;scanMirrorTemperature&quot;</span><span class="p">]</span>
+        <span class="n">scanMT</span><span class="p">[</span><span class="s2">&quot;fcuNominalScanMirrorSensor1Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">scanMT</span><span class="p">[</span><span class="s2">&quot;fcuRedundantScanMirrorSensor1Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">scanMT</span><span class="p">[</span><span class="s2">&quot;fcuNominalScanMirrorSensor2Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">scanMT</span><span class="p">[</span><span class="s2">&quot;fcuRedundantScanMirrorSensor2Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;m1m2m3Temperature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">m1m2m3</span> <span class="o">=</span> <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;m1m2m3Temperature&quot;</span><span class="p">]</span>
+        <span class="n">m1m2m3</span><span class="p">[</span><span class="s2">&quot;fcuNominalM1MirrorSensor1Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">m1m2m3</span><span class="p">[</span><span class="s2">&quot;fcuRedundantM1MirrorSensor1Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">m1m2m3</span><span class="p">[</span><span class="s2">&quot;fcuNominalM1MirrorSensor2Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">m1m2m3</span><span class="p">[</span><span class="s2">&quot;fcuRedundantM1MirrorSensor2Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">m1m2m3</span><span class="p">[</span><span class="s2">&quot;fcuNominalM23AssemblySensor1Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">m1m2m3</span><span class="p">[</span><span class="s2">&quot;fcuRedundantM23AssemblySensor1Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">m1m2m3</span><span class="p">[</span><span class="s2">&quot;fcuNominalM23AssemblySensor2Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">m1m2m3</span><span class="p">[</span><span class="s2">&quot;fcuRedundantM23AssemblySensor2Temp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;baffleTemperature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">baffTemp</span> <span class="o">=</span> <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;baffleTemperature&quot;</span><span class="p">]</span>
+        <span class="n">baffTemp</span><span class="p">[</span><span class="s2">&quot;fcuNominalM1BaffleTemp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">baffTemp</span><span class="p">[</span><span class="s2">&quot;fcuRedundantM1BaffleTemp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;blackBodyTemperature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">bbTemp</span> <span class="o">=</span> <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;blackBodyTemperature&quot;</span><span class="p">]</span>
+        <span class="n">bbTemp</span><span class="p">[</span><span class="s2">&quot;fcuNominalBlackBodySensorTemp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">bbTemp</span><span class="p">[</span><span class="s2">&quot;fcuRedundantBlackBodySensorTemp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;fcuMode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">fcuMode</span> <span class="o">=</span> <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;fcuMode&quot;</span><span class="p">]</span>
+        <span class="n">fcuMode</span><span class="p">[</span><span class="s2">&quot;fcuNominalSMMStatus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;|S2&quot;</span><span class="p">)</span>
+        <span class="n">fcuMode</span><span class="p">[</span><span class="s2">&quot;fcuRedundantSMMStatus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;|S2&quot;</span><span class="p">)</span>
+
+        <span class="n">bbRelDat</span><span class="p">[</span><span class="s2">&quot;extractedBBData&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_extracted_bb_data</span><span class="p">()</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;radiometricProcessing&quot;</span><span class="p">][</span>
+            <span class="s2">&quot;mpefCalFeedback&quot;</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_impf_cal_data</span><span class="p">()</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;radiometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;radTransform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span>
+            <span class="s2">&quot;&gt;f4&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;radiometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;radProcMTFAdaption&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">radAdapt</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;radiometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;radProcMTFAdaption&quot;</span><span class="p">]</span>
+        <span class="n">radAdapt</span><span class="p">[</span><span class="s2">&quot;vis_irMTFCorrectionE_W&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+        <span class="n">radAdapt</span><span class="p">[</span><span class="s2">&quot;vis_irMTFCorrectionN_S&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+        <span class="n">radAdapt</span><span class="p">[</span><span class="s2">&quot;hrfMTFCorrectionE_W&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+        <span class="n">radAdapt</span><span class="p">[</span><span class="s2">&quot;hrvMTFCorrectionN_S&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
+        <span class="n">radAdapt</span><span class="p">[</span><span class="s2">&quot;straylightCorrection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+        <span class="c1"># GeometricProcessing block</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;geometricProcessing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;geometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;optAxisDistances&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">optAxDist</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;geometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;optAxisDistances&quot;</span><span class="p">]</span>
+        <span class="n">optAxDist</span><span class="p">[</span><span class="s2">&quot;e-wFocalPlane&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+        <span class="n">optAxDist</span><span class="p">[</span><span class="s2">&quot;n-sFocalPlane&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">42</span><span class="p">,))</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;geometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;earthModel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">earthMod</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;geometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;earthModel&quot;</span><span class="p">]</span>
+        <span class="n">earthMod</span><span class="p">[</span><span class="s2">&quot;typeOfEarthModel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+        <span class="n">earthMod</span><span class="p">[</span><span class="s2">&quot;equatorialRadius&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+        <span class="n">earthMod</span><span class="p">[</span><span class="s2">&quot;northPolarRadius&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+        <span class="n">earthMod</span><span class="p">[</span><span class="s2">&quot;southPolarRadius&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;geometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;atmosphericModel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span>
+            <span class="s2">&quot;&gt;f4&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">360</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;geometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;resamplingFunctions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span>
+            <span class="s2">&quot;&gt;u1&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prologue</span> <span class="o">=</span> <span class="n">prologue</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prologue</span>
+
+    <span class="k">def</span> <span class="nf">_read_epilogue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sector</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read epilogue file.&quot;&quot;&quot;</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Reading epilogue file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_type</span> <span class="o">!=</span> <span class="s2">&quot;epilogue&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HritError</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to read epilogue data from file of type </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">file_type</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Routine for reading specific things</span>
+    <span class="k">def</span> <span class="nf">__read_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read field.&quot;&quot;&quot;</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">bytes_per_elem</span> <span class="o">=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span>
+        <span class="n">nbytes</span> <span class="o">=</span> <span class="n">bytes_per_elem</span> <span class="o">*</span> <span class="n">reduce</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">mul</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fobj</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">nbytes</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dat</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">dat</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">dat</span>
+
+    <span class="n">__rf</span> <span class="o">=</span> <span class="n">__read_field</span>
+
+    <span class="k">def</span> <span class="nf">__read_time_cds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expanded</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read time CDS.</span>
+
+<span class="sd">        Each self.__rf must remain, even if unused, since the reads increment</span>
+<span class="sd">        the pointer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">epoch</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">1958</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">days</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="n">millisec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u4&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">expanded</span><span class="p">:</span>
+            <span class="n">microsec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+            <span class="n">nanosec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">microsec</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">nanosec</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">epoch</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span>
+            <span class="n">days</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">days</span><span class="p">),</span> <span class="n">milliseconds</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">millisec</span><span class="p">),</span> <span class="n">microseconds</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">microsec</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">time</span>
+
+    <span class="k">def</span> <span class="nf">__read_orbit_polynomial</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read orbit polynomial.&quot;&quot;&quot;</span>
+        <span class="n">poly</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">elemind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="n">elem</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;startTime&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(),</span>
+                <span class="s2">&quot;endTime&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(),</span>
+                <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+                <span class="s2">&quot;Y&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+                <span class="s2">&quot;Z&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+                <span class="s2">&quot;VX&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+                <span class="s2">&quot;VY&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+                <span class="s2">&quot;VZ&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+            <span class="p">}</span>
+            <span class="n">poly</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">poly</span>
+
+    <span class="k">def</span> <span class="nf">__read_attitude_polynomial</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read attitude polynomial.&quot;&quot;&quot;</span>
+        <span class="n">poly</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">elemind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="n">elem</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;startTime&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(),</span>
+                <span class="s2">&quot;endTime&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(),</span>
+                <span class="s2">&quot;XofSpinAxis&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+                <span class="s2">&quot;YofSpinAxis&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+                <span class="s2">&quot;ZofSpinAxis&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+            <span class="p">}</span>
+            <span class="n">poly</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">poly</span>
+
+    <span class="k">def</span> <span class="nf">__read_ephemeris</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read ephemeris.&quot;&quot;&quot;</span>
+        <span class="n">ephem</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">elemind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="n">elem</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;startTime&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(),</span>
+                <span class="s2">&quot;endTime&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(),</span>
+                <span class="s2">&quot;alphaCoef&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+                <span class="s2">&quot;betaCoef&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+            <span class="p">}</span>
+            <span class="n">ephem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ephem</span>
+
+    <span class="k">def</span> <span class="nf">__read_starcoeff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read star coefficient.&quot;&quot;&quot;</span>
+        <span class="n">coeff</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">coeffind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="n">stars</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">starind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">):</span>
+                <span class="n">elem</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;starID&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">),</span>
+                    <span class="s2">&quot;startTime&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(),</span>
+                    <span class="s2">&quot;endTime&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__read_time_cds</span><span class="p">(),</span>
+                    <span class="s2">&quot;alphaCoef&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+                    <span class="s2">&quot;betaCoef&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,)),</span>
+                <span class="p">}</span>
+                <span class="n">stars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+            <span class="n">coeff</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stars</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">coeff</span>
+
+    <span class="k">def</span> <span class="nf">__read_image_calibration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read image calibration.&quot;&quot;&quot;</span>
+        <span class="n">cal</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">chind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">):</span>
+            <span class="n">chcal</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">chcal</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+            <span class="n">chcal</span><span class="p">[</span><span class="s2">&quot;offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+            <span class="n">cal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chcal</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cal</span>
+
+    <span class="k">def</span> <span class="nf">__read_extracted_bb_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read extracted BB data.&quot;&quot;&quot;</span>
+        <span class="n">bb_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">chind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">):</span>
+            <span class="n">dat</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;numberOfPixelsUsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u4&quot;</span><span class="p">)</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;meanCount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;rms&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;maxCount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;minCount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u2&quot;</span><span class="p">)</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;bbProcessingSlope&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+            <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;bbProcessingOffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f8&quot;</span><span class="p">)</span>
+            <span class="n">bb_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bb_data</span>
+
+    <span class="k">def</span> <span class="nf">__read_impf_cal_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read IMPF Calibration data.&quot;&quot;&quot;</span>
+        <span class="n">cal_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">chind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">):</span>
+            <span class="n">cal</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;imageQualityFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+            <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;referenceDataFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+            <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;absCalMethod&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;u1&quot;</span><span class="p">)</span>
+            <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;pad1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;|S1&quot;</span><span class="p">)</span>
+            <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;absCalWeightVic&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+            <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;absCalWeightXsat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+            <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;absCalCoeff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+            <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;absCalError&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+            <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;gscisCalCoeff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+            <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;gscisCalError&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+            <span class="n">cal</span><span class="p">[</span><span class="s2">&quot;gscisOffsetCount&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rf</span><span class="p">(</span><span class="s2">&quot;&gt;f4&quot;</span><span class="p">)</span>
+            <span class="n">cal_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cal</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cal_data</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

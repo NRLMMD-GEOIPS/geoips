@@ -1,0 +1,1569 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>geoips.sector_utils package &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.sector_utils';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geoips.utils package" href="geoips.utils.html" />
+    <link rel="prev" title="geoips.plugins.modules.title_formatters package" href="geoips.plugins.modules.title_formatters.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="geoips.html">geoips package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">geoips.sector_utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="geoips.html" class="nav-link">geoips package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.sector_utils package</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="geoips-sector-utils-package">
+<h1>geoips.sector_utils package<a class="headerlink" href="#geoips-sector-utils-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-geoips.sector_utils.estimate_area_extent">
+<span id="geoips-sector-utils-estimate-area-extent-module"></span><h2>geoips.sector_utils.estimate_area_extent module<a class="headerlink" href="#module-geoips.sector_utils.estimate_area_extent" title="Permalink to this heading">#</a></h2>
+<p>Utility for estimating the area extent, used in pyresample area definitions.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.estimate_area_extent.center_longitude">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.estimate_area_extent.</span></span><span class="sig-name descname"><span class="pre">center_longitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_longitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_longitude</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/estimate_area_extent.html#center_longitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.estimate_area_extent.center_longitude" title="Permalink to this definition">#</a></dt>
+<dd><p>Determine the center longitude based off longitude in either degW or degE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_longitude</strong> (<em>float</em>) – Min and Max Longitude (degrees West or East)</p></li>
+<li><p><strong>max_longitude</strong> (<em>float</em>) – Min and Max Longitude (degrees West or East)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Center longitude in degrees West or East</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.estimate_area_extent.convert_west2east">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.estimate_area_extent.</span></span><span class="sig-name descname"><span class="pre">convert_west2east</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">longitude</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/estimate_area_extent.html#convert_west2east"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.estimate_area_extent.convert_west2east" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert Longitude from degrees West to degrees East, if applicable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>longitude</strong> (<em>float</em>) – Longitude (degrees West or East)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Longitude in degrees East</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.estimate_area_extent.esitmate_area_from_center">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.estimate_area_extent.</span></span><span class="sig-name descname"><span class="pre">esitmate_area_from_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/estimate_area_extent.html#esitmate_area_from_center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.estimate_area_extent.esitmate_area_from_center" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimate the area extent for use in the YAML area definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat_0</strong> (<em>float</em>) – Center lat/lon values in degrees</p></li>
+<li><p><strong>lon_0</strong> (<em>float</em>) – Center lat/lon values in degrees</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Pixel dimensions</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – Pixel dimensions</p></li>
+<li><p><strong>resolution</strong> (<em>int</em>) – Resolution in meters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Dictionary holding:</p>
+<ul class="simple">
+<li><p>lower_left_xy - list of projection x/y coordinates of
+lower left corner of lower left pixel</p></li>
+<li><p>upper_right_xy - list of projection x/y coordinates of
+upper right corner of upper right pixel</p></li>
+<li><p>height - number of grid rows</p></li>
+<li><p>width - number of grid columns</p></li>
+<li><p>lat_0 - Center latitude in degrees</p></li>
+<li><p>lon_0 - Center longitude in degrees</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.estimate_area_extent.estimate_area_extent">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.estimate_area_extent.</span></span><span class="sig-name descname"><span class="pre">estimate_area_extent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/estimate_area_extent.html#estimate_area_extent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.estimate_area_extent.estimate_area_extent" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimate the area extent for use in the YAML area definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_lat</strong> (<em>float</em>) – Min/Max lat/lon values in degrees</p></li>
+<li><p><strong>min_lon</strong> (<em>float</em>) – Min/Max lat/lon values in degrees</p></li>
+<li><p><strong>max_lat</strong> (<em>float</em>) – Min/Max lat/lon values in degrees</p></li>
+<li><p><strong>max_lon</strong> (<em>float</em>) – Min/Max lat/lon values in degrees</p></li>
+<li><p><strong>resolution</strong> (<em>float</em>) – Resolution in meters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Dictionary holding:</p>
+<ul class="simple">
+<li><p>lower_left_xy - list of projection x/y coordinates of
+lower left corner of lower left pixel</p></li>
+<li><p>upper_right_xy - list of projection x/y coordinates of
+upper right corner of upper right pixel</p></li>
+<li><p>height - number of grid rows</p></li>
+<li><p>width - number of grid columns</p></li>
+<li><p>lat_0 - Center latitude in degrees</p></li>
+<li><p>lon_0 - Center longitude in degrees</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.estimate_area_extent.generateMinMaxLatLong">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.estimate_area_extent.</span></span><span class="sig-name descname"><span class="pre">generateMinMaxLatLong</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/estimate_area_extent.html#generateMinMaxLatLong"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.estimate_area_extent.generateMinMaxLatLong" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate minimum and maximum latitude longitude pairs.</p>
+<p>Min/max lat/lon based off the resolution and height/width provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat_0</strong> (<em>float</em>) – Pair of latitude and longitude coordinates in degrees</p></li>
+<li><p><strong>lon_0</strong> (<em>float</em>) – Pair of latitude and longitude coordinates in degrees</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Represents pixel dimensions and resolution of image in meters</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – Represents pixel dimensions and resolution of image in meters</p></li>
+<li><p><strong>resolution</strong> (<em>int</em>) – Represents pixel dimensions and resolution of image in meters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>min_lat, max_lat, min_lon, max_lon</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.estimate_area_extent.haversine_distance">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.estimate_area_extent.</span></span><span class="sig-name descname"><span class="pre">haversine_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/estimate_area_extent.html#haversine_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.estimate_area_extent.haversine_distance" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the distance between two latitude and longitude points.</p>
+<p>Uses the haversine formula.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat1</strong> (<em>float</em>) – Pair of latitude and longitude coordinates in degrees</p></li>
+<li><p><strong>lon1</strong> (<em>float</em>) – Pair of latitude and longitude coordinates in degrees</p></li>
+<li><p><strong>lat2</strong> (<em>float</em>) – Pair of latitude and longitude coordinates in degrees</p></li>
+<li><p><strong>lon2</strong> (<em>float</em>) – Pair of latitude and longitude coordinates in degrees</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Distance in meters between two coordinates</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.sector_utils.overpass_predictor">
+<span id="geoips-sector-utils-overpass-predictor-module"></span><h2>geoips.sector_utils.overpass_predictor module<a class="headerlink" href="#module-geoips.sector_utils.overpass_predictor" title="Permalink to this heading">#</a></h2>
+<p>Overpass predictor, based on Two Line Element files.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.overpass_predictor.calculate_overpass">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.overpass_predictor.</span></span><span class="sig-name descname"><span class="pre">calculate_overpass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observer_lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observer_lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellite_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/overpass_predictor.html#calculate_overpass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.overpass_predictor.calculate_overpass" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate next overpass for a satellite at an observer location and time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tle</strong> (<em>ephem.EarthSatellite</em>) – tle for satellite</p></li>
+<li><p><strong>observer_lat</strong> (<em>float</em>) – observer latitude</p></li>
+<li><p><strong>observer_lon</strong> (<em>float</em>) – observer longitude</p></li>
+<li><p><strong>date</strong> (<em>datetime.datetime</em>) – start time for next overpass</p></li>
+<li><p><strong>satellite_name</strong> (<em>str</em>) – name of satellite</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>next overpass information</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.overpass_predictor.check_tle_name_to_passed_names">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.overpass_predictor.</span></span><span class="sig-name descname"><span class="pre">check_tle_name_to_passed_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tle_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellite_names_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/overpass_predictor.html#check_tle_name_to_passed_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.overpass_predictor.check_tle_name_to_passed_names" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the satellite name in the TLE files is in the satellite names list.</p>
+<p>Satellite names in the TLE files may be longer than the names passed to the
+overpass predictor For example, a user might request ‘GCOM-W1’, and the name
+in the TLE file is ‘GCOM-W1 (SHIZUKU)’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tle_name</strong> (<em>str</em>) – satellite name read from the TLE file</p></li>
+<li><p><strong>satellite_names_list</strong> (<em>list</em><em> of </em><em>str</em>) – list of user specified satellites to read from TLE file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if tle_name is in the passed satellite names list</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.overpass_predictor.floor_minute">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.overpass_predictor.</span></span><span class="sig-name descname"><span class="pre">floor_minute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datetime_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/overpass_predictor.html#floor_minute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.overpass_predictor.floor_minute" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove seconds and microseconds from datetime object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>datetime_obj</strong> (<em>datetime.datetime</em>) – datetime</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>datetime with no seconds/microseconds</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime.datetime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.overpass_predictor.predict_overpass_area_def">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.overpass_predictor.</span></span><span class="sig-name descname"><span class="pre">predict_overpass_area_def</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tlefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_definition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellite_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_midpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/overpass_predictor.html#predict_overpass_area_def"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.overpass_predictor.predict_overpass_area_def" title="Permalink to this definition">#</a></dt>
+<dd><p>Predict satellite overpass for an area_definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tlefile</strong> (<em>str</em>) – file path of TLE</p></li>
+<li><p><strong>area_definition</strong> (<em>pyresample AreaDefinition</em>) – pyresample area definition</p></li>
+<li><p><strong>satellite_list</strong> (<em>list</em>) – list of satellites to predict the overpass times</p></li>
+<li><p><strong>start_datetime</strong> (<em>datetime.datetime</em>) – start time to find the next available overpass</p></li>
+<li><p><strong>check_midpoints</strong> (<em>bool</em>) – check mid points of area definition for additional overpassses</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary holding next satellite overpass estimates
+(sorted by satellite -&gt; overpass info)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.overpass_predictor.predict_overpass_yaml">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.overpass_predictor.</span></span><span class="sig-name descname"><span class="pre">predict_overpass_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tlefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectorfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellite_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_midpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/overpass_predictor.html#predict_overpass_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.overpass_predictor.predict_overpass_yaml" title="Permalink to this definition">#</a></dt>
+<dd><p>Predict satellite overpass for sectors from a given yaml sector file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tlefile</strong> (<em>str</em>) – file path of TLE</p></li>
+<li><p><strong>sectorfile</strong> (<em>str</em>) – file path of sectorfile</p></li>
+<li><p><strong>sector_list</strong> (<em>list</em>) – list of sectors held within the sectorfile</p></li>
+<li><p><strong>satellite_list</strong> (<em>list</em>) – list of satellites to predict the overpass times</p></li>
+<li><p><strong>start_datetime</strong> (<em>datetime.datetime</em>) – start time to find the next available overpass</p></li>
+<li><p><strong>check_midpoints</strong> (<em>bool</em>) – check mid points of area definition for additional overpassses</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary holding next satellite overpass estimates for sectors
+(sorted by sector -&gt; satellite -&gt; overpass info)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.overpass_predictor.predict_satellite_overpass">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.overpass_predictor.</span></span><span class="sig-name descname"><span class="pre">predict_satellite_overpass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tlefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellite_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellite_tle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_midpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/overpass_predictor.html#predict_satellite_overpass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.overpass_predictor.predict_satellite_overpass" title="Permalink to this definition">#</a></dt>
+<dd><p>Estimate next satellite overpass information with ephem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tlefile</strong> (<em>str</em>) – file path of TLE</p></li>
+<li><p><strong>satellite_name</strong> (<em>str</em>) – name of satellite</p></li>
+<li><p><strong>satellite_tle</strong> (<em>dict</em>) – dictionary holding satellite tle line1 and line2 data</p></li>
+<li><p><strong>area_def</strong> (<em>pyresample AreaDefinition</em>) – area definition</p></li>
+<li><p><strong>start_datetime</strong> (<em>datetime.datetime</em>) – start time to find the next available overpass</p></li>
+<li><p><strong>check_midpoints</strong> (<em>bool</em>) – check mid points of area definition for additional overpassses</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary holding next overpass information</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.overpass_predictor.read_satellite_tle">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.overpass_predictor.</span></span><span class="sig-name descname"><span class="pre">read_satellite_tle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tlefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satellite_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/overpass_predictor.html#read_satellite_tle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.overpass_predictor.read_satellite_tle" title="Permalink to this definition">#</a></dt>
+<dd><p>Open and extract satellite infromation from TLE file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tlefile</strong> (<em>str</em>) – file path of TLE</p></li>
+<li><p><strong>satellite_list</strong> (<em>list</em><em> of </em><em>str</em>) – list of satellites to read from TLE</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>satellite TLE data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.sector_utils.projections">
+<span id="geoips-sector-utils-projections-module"></span><h2>geoips.sector_utils.projections module<a class="headerlink" href="#module-geoips.sector_utils.projections" title="Permalink to this heading">#</a></h2>
+<p>Projection information for setting up pyresample area definitions.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.projections.get_projection">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.projections.</span></span><span class="sig-name descname"><span class="pre">get_projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/projections.html#get_projection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.projections.get_projection" title="Permalink to this definition">#</a></dt>
+<dd><p>Get a dictionary of projection names containing the specified keys.</p>
+<dl class="simple">
+<dt>Dictionary keys:</dt><dd><ul class="simple">
+<li><p>name:       the basemap projection short name</p></li>
+<li><p>p4name:     the Proj4 projection name</p></li>
+<li><p>longname:   a long name describing the projection</p></li>
+<li><p>type:       an integer indicating how the projection must be set up</p></li>
+</ul>
+</dd>
+</dl>
+<p>The type field tells the program which arguments will be useful to a given
+projection</p>
+<ul class="simple">
+<li><p>Can use corner lats and lons or center lats and lons with width and height</p></li>
+<li><p>Ignores corner lats and lons and width/height arguments.  Uses center lat/lon</p></li>
+<li><p>Can use corner lats and lons or corner coordinates in the local projection
+space, but ignores all other location parameters.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="module-geoips.sector_utils.tc_tracks">
+<span id="geoips-sector-utils-tc-tracks-module"></span><h2>geoips.sector_utils.tc_tracks module<a class="headerlink" href="#module-geoips.sector_utils.tc_tracks" title="Permalink to this heading">#</a></h2>
+<p>Modules to access TC tracks, based on locations found in the deck files.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.tc_tracks.create_tc_sector_info_dict">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.tc_tracks.</span></span><span class="sig-name descname"><span class="pre">create_tc_sector_info_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synoptic_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storm_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storm_basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storm_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aid_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storm_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_storm_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deck_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_sector_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/tc_tracks.html#create_tc_sector_info_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.tc_tracks.create_tc_sector_info_dict" title="Permalink to this definition">#</a></dt>
+<dd><p>Create storm info dictionary from items.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>clat</strong> (<em>float</em>) – center latitude of storm</p></li>
+<li><p><strong>clon</strong> (<em>float</em>) – center longitude of storm</p></li>
+<li><p><strong>synoptic_time</strong> (<em>datetime.datetime</em>) – time of storm location</p></li>
+<li><p><strong>storm_year</strong> (<em>int</em>) – 4 digit year of storm</p></li>
+<li><p><strong>storm_basin</strong> (<em>str</em>) – 2 digit basin identifier</p></li>
+<li><p><strong>storm_num</strong> (<em>int</em>) – 2 digit storm number</p></li>
+<li><p><strong>aid_type</strong> (<em>str</em><em>, </em><em>default=None</em>) – type of TC aid (BEST, MBAM, etc)</p></li>
+<li><p><strong>storm_name</strong> (<em>str</em><em>, </em><em>default=None</em>) – Common name of storm</p></li>
+<li><p><strong>final_storm_name</strong> (<em>str</em><em>, </em><em>default=None</em>) – Final name found throughout entire track file (ie, if reprocessing,
+will ensure early storm locations are identified with final storm name)</p></li>
+<li><p><strong>deck_line</strong> (<em>str</em><em>, </em><em>default=None</em>) – source deck line for storm information</p></li>
+<li><p><strong>pressure</strong> (<em>float</em><em>, </em><em>default=None</em>) – minimum pressure</p></li>
+<li><p><strong>vmax</strong> (<em>float</em><em>, </em><em>default=None</em>) – maximum wind speed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>fields</strong> – Dictionary of sector information, as passed into function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.tc_tracks.get_tc_area_id">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.tc_tracks.</span></span><span class="sig-name descname"><span class="pre">get_tc_area_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finalstormname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tcyear</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/tc_tracks.html#get_tc_area_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.tc_tracks.get_tc_area_id" title="Permalink to this definition">#</a></dt>
+<dd><p>Get TC area_id from fields, to be used as pyresample AreaDefinition area_id.</p>
+<p>Will be of form:
+* tcYYYYBBNNname (ie, tc2016io01one)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.tc_tracks.get_tc_long_description">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.tc_tracks.</span></span><span class="sig-name descname"><span class="pre">get_tc_long_description</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/tc_tracks.html#get_tc_long_description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.tc_tracks.get_tc_long_description" title="Permalink to this definition">#</a></dt>
+<dd><p>Return long_description of TC sector.</p>
+<p>This is commonly used as the long name/description on the
+pyresample AreaDefinition.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.tc_tracks.interpolate_storm_location">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.tc_tracks.</span></span><span class="sig-name descname"><span class="pre">interpolate_storm_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interp_dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitudes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latitudes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synoptic_times</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/tc_tracks.html#interpolate_storm_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.tc_tracks.interpolate_storm_location" title="Permalink to this definition">#</a></dt>
+<dd><p>Interpolate the storm location at a specific time.</p>
+<p>Based on a list of known locations and times</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.tc_tracks.set_tc_area_def">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.tc_tracks.</span></span><span class="sig-name descname"><span class="pre">set_tc_area_def</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tcyear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finalstormname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_sector_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_spec_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tc_web'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aid_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/tc_tracks.html#set_tc_area_def"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.tc_tracks.set_tc_area_def" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the TC area definition, using specified arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fields</strong> (<em>dict</em>) – Dictionary of TC sector_info fields (clat, clon, storm name, etc)
+Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS</p></li>
+<li><p><strong>tcyear</strong> (<em>int</em><em>, </em><em>default=None</em>) – Passed tcyear - since current year may not match tcyear for SHEM storms</p></li>
+<li><p><strong>finalstormname</strong> (<em>str</em><em>, </em><em>default=None</em>) – finalstormname allows reprocessed storms to go in final storm directory</p></li>
+<li><p><strong>source_sector_file</strong> (<em>str</em><em>, </em><em>default=None</em>) – attach source_sector_file to area_definition if known</p></li>
+<li><p><strong>clat</strong> (<em>float</em><em>, </em><em>default=None</em>) – specify clat/clon separately from that found in ‘fields’</p></li>
+<li><p><strong>clon</strong> (<em>float</em><em>, </em><em>default=None</em>) – specify clat/clon separately from that found in ‘fields’</p></li>
+<li><p><strong>tc_spec_template</strong> (<em>str</em><em>, </em><em>default=&quot;tc_web&quot;</em>) – Path to template YAML file to use when setting up area definition.</p></li>
+<li><p><strong>aid_type</strong> (<em>str</em><em>, </em><em>default=None</em>) – type of TC aid (BEST, MBAM, etc)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyresample AreaDefinition object with specified parameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pyresample.AreaDefinition</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.tc_tracks.trackfile_to_area_defs">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.tc_tracks.</span></span><span class="sig-name descname"><span class="pre">trackfile_to_area_defs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trackfile_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trackfile_parser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bdeck_parser'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_spec_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/tc_tracks.html#trackfile_to_area_defs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.tc_tracks.trackfile_to_area_defs" title="Permalink to this definition">#</a></dt>
+<dd><p>Get TC area definitions for the specified text trackfile.</p>
+<p>Limit to optionally specified trackfile_sectorlist</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trackfile</strong> (<em>str</em>) – Full path to trackfile, convert each line into a separate area_def</p></li>
+<li><p><strong>trackfile_parser</strong> (<em>str</em>) – Parser to use from plugins.modules.sector_metadata_generators on trackfiles</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of pyresample AreaDefinition objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.sector_utils.tc_tracks_database">
+<span id="geoips-sector-utils-tc-tracks-database-module"></span><h2>geoips.sector_utils.tc_tracks_database module<a class="headerlink" href="#module-geoips.sector_utils.tc_tracks_database" title="Permalink to this heading">#</a></h2>
+<p>Utilities for creating a database of tropical cyclone tracks.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.tc_tracks_database.check_db">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.tc_tracks_database.</span></span><span class="sig-name descname"><span class="pre">check_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filenames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/tc_tracks_database.html#check_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.tc_tracks_database.check_db" title="Permalink to this definition">#</a></dt>
+<dd><p>Check TC database for passed filenames.</p>
+<p>filenames is a list of filenames and directories. if a list element is a
+string directory name, it expands to list of files in dir.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.tc_tracks_database.get_all_storms_from_db">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.tc_tracks_database.</span></span><span class="sig-name descname"><span class="pre">get_all_storms_from_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_spec_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trackfile_parser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_track_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/tc_tracks_database.html#get_all_storms_from_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.tc_tracks_database.get_all_storms_from_db" title="Permalink to this definition">#</a></dt>
+<dd><p>Get all entries from all storms within a specific range of time from the TC DB.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_datetime</strong> (<em>datetime.datetime</em>) – Start time of desired range</p></li>
+<li><p><strong>end_datetime</strong> (<em>datetime.datetime</em>) – End time of desired range</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of pyresample Area Definitions, each storm location that falls
+within the desired time range.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of pyresample Area Definitions</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">startdt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;20200216&#39;</span><span class="p">,</span> <span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enddt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;20200217&#39;</span><span class="p">,</span> <span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_storm_from_db</span><span class="p">(</span><span class="n">startdt</span><span class="p">,</span> <span class="n">enddt</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.tc_tracks_database.open_tc_db">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.tc_tracks_database.</span></span><span class="sig-name descname"><span class="pre">open_tc_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/longterm_files/tc/tc_decks.db'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/tc_tracks_database.html#open_tc_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.tc_tracks_database.open_tc_db" title="Permalink to this definition">#</a></dt>
+<dd><p>Open the TC Decks Database, create it if it doesn’t exist.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.tc_tracks_database.reprocess_storm">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.tc_tracks_database.</span></span><span class="sig-name descname"><span class="pre">reprocess_storm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tc_trackfilename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/tc_tracks_database.html#reprocess_storm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.tc_tracks_database.reprocess_storm" title="Permalink to this definition">#</a></dt>
+<dd><p>Reprocess storm tc_trackfilename, using info in TC tracks database.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.tc_tracks_database.update_fields">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.tc_tracks_database.</span></span><span class="sig-name descname"><span class="pre">update_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tc_trackfilename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/tc_tracks_database.html#update_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.tc_tracks_database.update_fields" title="Permalink to this definition">#</a></dt>
+<dd><p>Update fields in TC track database with passed tc_trackfilename.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.sector_utils.utils">
+<span id="geoips-sector-utils-utils-module"></span><h2>geoips.sector_utils.utils module<a class="headerlink" href="#module-geoips.sector_utils.utils" title="Permalink to this heading">#</a></h2>
+<p>Utilities for working with dynamic sector specifications.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.check_center_coverage">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">check_center_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covg_varname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covg_varlist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height_degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hours_before_sector_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">18</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hours_after_sector_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#check_center_coverage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.check_center_coverage" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if there is any data covering the center of the sector.</p>
+<p>Do not provide any longitude padding for coverage check sectoring -
+we want to see if there is any data within the exact center box,
+not within +- 3 degrees of the center box.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.copy_sector_info">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">copy_sector_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_area_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#copy_sector_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.copy_sector_info" title="Permalink to this definition">#</a></dt>
+<dd><p>Copy sector info from src_area_def to dest_area_def.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.create_areadefinition_from_yaml">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">create_areadefinition_from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yamlfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#create_areadefinition_from_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.create_areadefinition_from_yaml" title="Permalink to this definition">#</a></dt>
+<dd><p>Take a YAML with misc metadata and create a pyresample areadefinition.</p>
+<p>Misc. metadata will be parsed from the YAML file and manually added to the
+areadefinition</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>yamlfile</strong> (<em>str</em>) – full path to YAML area definition file</p></li>
+<li><p><strong>sector</strong> (<em>str</em>) – name of sector</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyresample AreaDefinition based on YAML specification.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pyresample.AreaDefinition</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.filter_area_defs_actual_time">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">filter_area_defs_actual_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_defs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_datetime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#filter_area_defs_actual_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.filter_area_defs_actual_time" title="Permalink to this definition">#</a></dt>
+<dd><p>Filter list of area_defs to only include the passed actual_datetime.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.get_lat_center">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_lat_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lats</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#get_lat_center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.get_lat_center" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the center longitude point from lats array.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.get_lon_center">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_lon_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lons</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#get_lon_center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.get_lon_center" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the center longitude point from lons array.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.get_max_lat">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_max_lat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lats</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#get_max_lat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.get_max_lat" title="Permalink to this definition">#</a></dt>
+<dd><p>Get maximum latitude from array of latitudes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lats</strong> (<em>numpy.ndarray</em>) – numpy MaskedArray of latitudes</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Maximum latitude, between -90 and 90</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.get_max_lon">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_max_lon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lons</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#get_max_lon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.get_max_lon" title="Permalink to this definition">#</a></dt>
+<dd><p>Get maximum longitude from array of longitudes, handling date line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lons</strong> (<em>numpy.ndarray</em>) – numpy MaskedArray of longitudes</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Maximum longitude, between -180 and 180</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.get_min_lat">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_min_lat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lats</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#get_min_lat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.get_min_lat" title="Permalink to this definition">#</a></dt>
+<dd><p>Get minimum latitude from array of latitudes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lats</strong> (<em>numpy.ndarray</em>) – numpy MaskedArray of latitudes</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Minimum latitude, between -90 and 90</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.get_min_lon">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_min_lon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lons</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#get_min_lon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.get_min_lon" title="Permalink to this definition">#</a></dt>
+<dd><p>Get minimum longitude from array of longitudes, handling date line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lons</strong> (<em>numpy.ndarray</em>) – numpy MaskedArray of longitudes</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Minimum longitude, between -180 and 180</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.get_sectors_from_yamls">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_sectors_from_yamls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sector_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#get_sectors_from_yamls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.get_sectors_from_yamls" title="Permalink to this definition">#</a></dt>
+<dd><p>Get AreaDefinition objects with custom “sector_info” dictionary.</p>
+<p>Based on YAML area definition contained in “sectorfnames” files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sector_list</strong> (<em>list</em><em> of </em><em>str</em>) – list of strings of desired sector names to retrieve from YAML files</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of pyresample AreaDefinition objects, with arbitrary additional YAML
+entries added as attributes to each area def (this is to allow specifying
+“sector_info” metadata dictionary within the YAML file)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.get_static_area_defs_for_xarray">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_static_area_defs_for_xarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectorlist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#get_static_area_defs_for_xarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.get_static_area_defs_for_xarray" title="Permalink to this definition">#</a></dt>
+<dd><p>Get all STATIC area definitions for the current xarray object.</p>
+<p>Filter based on requested sectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarray_obj</strong> (<em>xarray.Dataset</em>) – xarray Dataset to which we are assigning area_defs</p></li>
+<li><p><strong>sectorlist</strong> (<em>list</em><em> of </em><em>str</em>) – list of sector names</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of pyresample AreaDefinition objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of pyresample.AreaDefinition</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.get_tc_area_defs_for_xarray">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_tc_area_defs_for_xarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tcdb_sector_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_spec_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trackfile_parser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hours_before_sector_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">18</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hours_after_sector_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aid_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#get_tc_area_defs_for_xarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.get_tc_area_defs_for_xarray" title="Permalink to this definition">#</a></dt>
+<dd><p>Get all TC area definitions for the current xarray object, and requested sectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarray_obj</strong> (<em>xarray.Dataset</em>) – xarray Dataset to which we are assigning area_defs</p></li>
+<li><p><strong>tcdb_sector_list</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>default=None</em>) – <ul>
+<li><p>list of sector names to process, of format: tc2020io01amphan.</p></li>
+<li><p>If None, or ‘all’ contained in list, process all matching TC sectors.</p></li>
+</ul>
+</p></li>
+<li><p><strong>actual_datetime</strong> (<em>datetime.datetime</em><em>, </em><em>default=None</em>) – Optional datetime to match for dynamic sectors</p></li>
+<li><p><strong>var_for_coverage</strong> (<em>str</em>) – Default None, optional variable to sector to check exact time</p></li>
+<li><p><strong>hours_before_sector_time</strong> (<em>float</em><em>, </em><em>default=18</em>) – hours to look before sector time</p></li>
+<li><p><strong>hours_after_sector_time</strong> (<em>float</em><em>, </em><em>default=6</em>) – hours to look after sector time</p></li>
+<li><p><strong>aid_type</strong> (<em>str</em><em>, </em><em>default=None</em>) – string to look for in “aid_type” TC deck file field for inclusion</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of pyresample AreaDefinition objects required for passed xarray</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of pyresample AreaDefinition</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.get_trackfile_area_defs">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">get_trackfile_area_defs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trackfiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trackfile_parser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trackfile_sectorlist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_spec_template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aid_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#get_trackfile_area_defs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.get_trackfile_area_defs" title="Permalink to this definition">#</a></dt>
+<dd><p>Get all TC area definitions for the current xarray object, and requested sectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trackfiles</strong> (<em>list</em>) – List of trackfiles to convert into area_defs</p></li>
+<li><p><strong>trackfile_parser</strong> (<em>str</em>) – Parser to use from plugins.modules.sector_metadata_generators on trackfiles</p></li>
+<li><p><strong>str</strong> (<em>trackfile_sectorlist list of</em>) – <ul>
+<li><p>list of sector names to process, of format: tc2020io01amphan.</p></li>
+<li><p>If None, or ‘all’ contained in list, process all matching TC sectors.</p></li>
+</ul>
+</p></li>
+<li><p><strong>default=None</strong> – <ul>
+<li><p>list of sector names to process, of format: tc2020io01amphan.</p></li>
+<li><p>If None, or ‘all’ contained in list, process all matching TC sectors.</p></li>
+</ul>
+</p></li>
+<li><p><strong>aid_type</strong> (<em>str</em><em>, </em><em>default=None</em>) – If specified, string to look for in “aid_type” TC deck file field for
+inclusion</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of pyresample AreaDefinition objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of pyresample.AreaDefinition</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.is_dynamic_sector">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">is_dynamic_sector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#is_dynamic_sector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.is_dynamic_sector" title="Permalink to this definition">#</a></dt>
+<dd><p>Determine if the AreaDefinition object is a dynamic region of interest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>area_def</strong> (<em>pyresample.AreaDefinition</em>) – pyresample AreaDefinition object specifying region of interest</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>True if area_def.sector_start_datetime exists and is not None,</p></li>
+<li><p>False otherwise</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.is_requested_aid_type">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">is_requested_aid_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aid_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#is_requested_aid_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.is_requested_aid_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if passed area_def is of requested aid_type.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.is_sector_type">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">is_sector_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_type_str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#is_sector_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.is_sector_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Determine if the type of area_def sector is as specified in passed sector_type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area_def</strong> (<em>pyresample.AreaDefinition</em>) – pyresample AreaDefinition object specifying region of interest</p></li>
+<li><p><strong>sector_type_str</strong> (<em>str</em>) – <ul>
+<li><p>String specifying the type of sector, must match ‘sector_type’
+attribute on AreaDefinition object</p></li>
+<li><p>currently one of ‘tc’, ‘pyrocb’, ‘volcano’, ‘atmosriver’ ‘static’</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if area_def.sector_type == ‘sector_type’, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.remove_duplicate_storm_positions">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">remove_duplicate_storm_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_defs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aid_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#remove_duplicate_storm_positions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.remove_duplicate_storm_positions" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove duplicate storm positions from passed list of area_defs.</p>
+<p>Uses “is_requested_aid_type” and “storm_locations_match” utilities.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.set_tc_coverage_check_area_def">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">set_tc_coverage_check_area_def</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width_degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height_degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#set_tc_coverage_check_area_def"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.set_tc_coverage_check_area_def" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the area definition for checking coverage for TC overpasses.</p>
+<p>Take a small box around the center of the storm to evaluate coverage,
+rather than the entire image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>area_def</strong> (<em>pyresample.AreaDefinition</em>) – original area definition</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyresample AreaDefinition pertaining to the region for plotting</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pyresample.AreaDefinition</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.set_text_area_def">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">set_text_area_def</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#set_text_area_def"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.set_text_area_def" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the area definition for text files.</p>
+<p>This uses raw sectored data, not interpolated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarray_obj</strong> (<em>xarray.Dataset</em>) – xarray dataset</p></li>
+<li><p><strong>area_def</strong> (<em>pyresample.AreaDefinition</em>) – original area definition</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>pyresample AreaDefinition pertaining to the region for generating text file</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pyresample.AreaDefinition</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.utils.storm_locations_match">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.utils.</span></span><span class="sig-name descname"><span class="pre">storm_locations_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_area_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/utils.html#storm_locations_match"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.utils.storm_locations_match" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if passed pyresample AreaDefinitions are the same location.</p>
+<p>Match if center lat, center lon, storm year, storm basin, and synoptic time
+all match.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.sector_utils.yaml_utils">
+<span id="geoips-sector-utils-yaml-utils-module"></span><h2>geoips.sector_utils.yaml_utils module<a class="headerlink" href="#module-geoips.sector_utils.yaml_utils" title="Permalink to this heading">#</a></h2>
+<p>Utilities for working with YAML sector specifications.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.yaml_utils.add_description_to_yamldict">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">add_description_to_yamldict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectorname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_start_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/yaml_utils.html#add_description_to_yamldict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.yaml_utils.add_description_to_yamldict" title="Permalink to this definition">#</a></dt>
+<dd><p>Add passed sector description information to passed YAML dictionary.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.yaml_utils.add_dynamic_datetime_to_yamldict">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">add_dynamic_datetime_to_yamldict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectorname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_start_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_end_datetime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/yaml_utils.html#add_dynamic_datetime_to_yamldict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.yaml_utils.add_dynamic_datetime_to_yamldict" title="Permalink to this definition">#</a></dt>
+<dd><p>Add passed dynamic datetime info to passed YAML dictionary.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.yaml_utils.add_projection_to_yamldict">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">add_projection_to_yamldict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectorname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_yaml</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/yaml_utils.html#add_projection_to_yamldict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.yaml_utils.add_projection_to_yamldict" title="Permalink to this definition">#</a></dt>
+<dd><p>Add projection information to YAML dictionary.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.yaml_utils.add_sectorinfo_to_yamldict">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">add_sectorinfo_to_yamldict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectorname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_info_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/yaml_utils.html#add_sectorinfo_to_yamldict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.yaml_utils.add_sectorinfo_to_yamldict" title="Permalink to this definition">#</a></dt>
+<dd><p>Add sector_info dictionary to YAML dictionary.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.yaml_utils.area_def_to_yamldict">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">area_def_to_yamldict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/yaml_utils.html#area_def_to_yamldict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.yaml_utils.area_def_to_yamldict" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert passed pyresample AreaDefinition to a valid YAML dictionary.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.yaml_utils.area_def_to_yamlfile">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">area_def_to_yamlfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/yaml_utils.html#area_def_to_yamlfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.yaml_utils.area_def_to_yamlfile" title="Permalink to this definition">#</a></dt>
+<dd><p>Write pyresample AreaDefinition out as a valid YAML dictionary.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.sector_utils.yaml_utils.write_yamldict">
+<span class="sig-prename descclassname"><span class="pre">geoips.sector_utils.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">write_yamldict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yamldict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/sector_utils/yaml_utils.html#write_yamldict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.sector_utils.yaml_utils.write_yamldict" title="Permalink to this definition">#</a></dt>
+<dd><p>Write yamldict to out_fname.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>yamldict</strong> (<em>dict</em>) – Dictionary to write out to YAML file</p></li>
+<li><p><strong>out_fname</strong> (<em>str</em>) – Output filename to write YAML dict to</p></li>
+<li><p><strong>force</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, overwrite existing file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to output file if successfully produced</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.sector_utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-geoips.sector_utils" title="Permalink to this heading">#</a></h2>
+<p>Geoips sector utils init file.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geoips.plugins.modules.title_formatters.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">geoips.plugins.modules.title_formatters package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geoips.utils.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">geoips.utils package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.sector_utils.estimate_area_extent">geoips.sector_utils.estimate_area_extent module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.estimate_area_extent.center_longitude"><code class="docutils literal notranslate"><span class="pre">center_longitude()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.estimate_area_extent.convert_west2east"><code class="docutils literal notranslate"><span class="pre">convert_west2east()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.estimate_area_extent.esitmate_area_from_center"><code class="docutils literal notranslate"><span class="pre">esitmate_area_from_center()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.estimate_area_extent.estimate_area_extent"><code class="docutils literal notranslate"><span class="pre">estimate_area_extent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.estimate_area_extent.generateMinMaxLatLong"><code class="docutils literal notranslate"><span class="pre">generateMinMaxLatLong()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.estimate_area_extent.haversine_distance"><code class="docutils literal notranslate"><span class="pre">haversine_distance()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.sector_utils.overpass_predictor">geoips.sector_utils.overpass_predictor module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.overpass_predictor.calculate_overpass"><code class="docutils literal notranslate"><span class="pre">calculate_overpass()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.overpass_predictor.check_tle_name_to_passed_names"><code class="docutils literal notranslate"><span class="pre">check_tle_name_to_passed_names()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.overpass_predictor.floor_minute"><code class="docutils literal notranslate"><span class="pre">floor_minute()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.overpass_predictor.predict_overpass_area_def"><code class="docutils literal notranslate"><span class="pre">predict_overpass_area_def()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.overpass_predictor.predict_overpass_yaml"><code class="docutils literal notranslate"><span class="pre">predict_overpass_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.overpass_predictor.predict_satellite_overpass"><code class="docutils literal notranslate"><span class="pre">predict_satellite_overpass()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.overpass_predictor.read_satellite_tle"><code class="docutils literal notranslate"><span class="pre">read_satellite_tle()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.sector_utils.projections">geoips.sector_utils.projections module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.projections.get_projection"><code class="docutils literal notranslate"><span class="pre">get_projection()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.sector_utils.tc_tracks">geoips.sector_utils.tc_tracks module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.tc_tracks.create_tc_sector_info_dict"><code class="docutils literal notranslate"><span class="pre">create_tc_sector_info_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.tc_tracks.get_tc_area_id"><code class="docutils literal notranslate"><span class="pre">get_tc_area_id()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.tc_tracks.get_tc_long_description"><code class="docutils literal notranslate"><span class="pre">get_tc_long_description()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.tc_tracks.interpolate_storm_location"><code class="docutils literal notranslate"><span class="pre">interpolate_storm_location()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.tc_tracks.set_tc_area_def"><code class="docutils literal notranslate"><span class="pre">set_tc_area_def()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.tc_tracks.trackfile_to_area_defs"><code class="docutils literal notranslate"><span class="pre">trackfile_to_area_defs()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.sector_utils.tc_tracks_database">geoips.sector_utils.tc_tracks_database module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.tc_tracks_database.check_db"><code class="docutils literal notranslate"><span class="pre">check_db()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.tc_tracks_database.get_all_storms_from_db"><code class="docutils literal notranslate"><span class="pre">get_all_storms_from_db()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.tc_tracks_database.open_tc_db"><code class="docutils literal notranslate"><span class="pre">open_tc_db()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.tc_tracks_database.reprocess_storm"><code class="docutils literal notranslate"><span class="pre">reprocess_storm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.tc_tracks_database.update_fields"><code class="docutils literal notranslate"><span class="pre">update_fields()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.sector_utils.utils">geoips.sector_utils.utils module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.check_center_coverage"><code class="docutils literal notranslate"><span class="pre">check_center_coverage()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.copy_sector_info"><code class="docutils literal notranslate"><span class="pre">copy_sector_info()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.create_areadefinition_from_yaml"><code class="docutils literal notranslate"><span class="pre">create_areadefinition_from_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.filter_area_defs_actual_time"><code class="docutils literal notranslate"><span class="pre">filter_area_defs_actual_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.get_lat_center"><code class="docutils literal notranslate"><span class="pre">get_lat_center()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.get_lon_center"><code class="docutils literal notranslate"><span class="pre">get_lon_center()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.get_max_lat"><code class="docutils literal notranslate"><span class="pre">get_max_lat()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.get_max_lon"><code class="docutils literal notranslate"><span class="pre">get_max_lon()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.get_min_lat"><code class="docutils literal notranslate"><span class="pre">get_min_lat()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.get_min_lon"><code class="docutils literal notranslate"><span class="pre">get_min_lon()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.get_sectors_from_yamls"><code class="docutils literal notranslate"><span class="pre">get_sectors_from_yamls()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.get_static_area_defs_for_xarray"><code class="docutils literal notranslate"><span class="pre">get_static_area_defs_for_xarray()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.get_tc_area_defs_for_xarray"><code class="docutils literal notranslate"><span class="pre">get_tc_area_defs_for_xarray()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.get_trackfile_area_defs"><code class="docutils literal notranslate"><span class="pre">get_trackfile_area_defs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.is_dynamic_sector"><code class="docutils literal notranslate"><span class="pre">is_dynamic_sector()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.is_requested_aid_type"><code class="docutils literal notranslate"><span class="pre">is_requested_aid_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.is_sector_type"><code class="docutils literal notranslate"><span class="pre">is_sector_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.remove_duplicate_storm_positions"><code class="docutils literal notranslate"><span class="pre">remove_duplicate_storm_positions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.set_tc_coverage_check_area_def"><code class="docutils literal notranslate"><span class="pre">set_tc_coverage_check_area_def()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.set_text_area_def"><code class="docutils literal notranslate"><span class="pre">set_text_area_def()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.utils.storm_locations_match"><code class="docutils literal notranslate"><span class="pre">storm_locations_match()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.sector_utils.yaml_utils">geoips.sector_utils.yaml_utils module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.yaml_utils.add_description_to_yamldict"><code class="docutils literal notranslate"><span class="pre">add_description_to_yamldict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.yaml_utils.add_dynamic_datetime_to_yamldict"><code class="docutils literal notranslate"><span class="pre">add_dynamic_datetime_to_yamldict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.yaml_utils.add_projection_to_yamldict"><code class="docutils literal notranslate"><span class="pre">add_projection_to_yamldict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.yaml_utils.add_sectorinfo_to_yamldict"><code class="docutils literal notranslate"><span class="pre">add_sectorinfo_to_yamldict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.yaml_utils.area_def_to_yamldict"><code class="docutils literal notranslate"><span class="pre">area_def_to_yamldict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.yaml_utils.area_def_to_yamlfile"><code class="docutils literal notranslate"><span class="pre">area_def_to_yamlfile()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.sector_utils.yaml_utils.write_yamldict"><code class="docutils literal notranslate"><span class="pre">write_yamldict()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.sector_utils">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.sector_utils.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

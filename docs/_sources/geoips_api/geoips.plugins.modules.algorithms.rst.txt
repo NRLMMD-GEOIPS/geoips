@@ -1,0 +1,31 @@
+geoips.plugins.modules.algorithms package
+=========================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   geoips.plugins.modules.algorithms.pmw_tb
+   geoips.plugins.modules.algorithms.sfc_winds
+   geoips.plugins.modules.algorithms.visir
+
+Submodules
+----------
+
+geoips.plugins.modules.algorithms.single\_channel module
+--------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.single_channel
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.algorithms
+   :members:
+   :undoc-members:
+   :show-inheritance:

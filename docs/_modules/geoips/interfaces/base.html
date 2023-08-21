@@ -1,0 +1,1279 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.interfaces.base &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/interfaces/base';</script>
+    <link rel="icon" href="../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.interfaces.base</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for geoips.interfaces.base</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # Author:</span>
+<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
+<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
+<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
+<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+
+<span class="sd">&quot;&quot;&quot;Base classes for interfaces, plugins, and plugin validation machinery.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="kn">from</span> <span class="nn">importlib.resources</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">jsonschema</span>
+<span class="kn">import</span> <span class="nn">referencing</span>
+<span class="kn">from</span> <span class="nn">referencing</span> <span class="kn">import</span> <span class="n">jsonschema</span> <span class="k">as</span> <span class="n">refjs</span>
+<span class="kn">from</span> <span class="nn">jsonschema.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">SchemaError</span>
+
+<span class="kn">from</span> <span class="nn">geoips.errors</span> <span class="kn">import</span> <span class="n">EntryPointError</span><span class="p">,</span> <span class="n">PluginError</span>
+<span class="kn">from</span> <span class="nn">geoips.geoips_utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">find_entry_point</span><span class="p">,</span>
+    <span class="n">get_all_entry_points</span><span class="p">,</span>
+    <span class="n">load_all_yaml_plugins</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># from geoips.interfaces import product_defaults</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="n">JSONSCHEMA_DRAFT</span> <span class="o">=</span> <span class="s2">&quot;202012&quot;</span>
+<span class="n">SCHEMA_PATH</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s2">&quot;geoips&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;schema&quot;</span>
+
+
+<span class="c1"># NOTE: Currently unused, but keeping for future functionality</span>
+<div class="viewcode-block" id="extend_with_default"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.extend_with_default">[docs]</a><span class="k">def</span> <span class="nf">extend_with_default</span><span class="p">(</span><span class="n">validator_class</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extend a jsonschema validator to make it respect default values.</span>
+
+<span class="sd">    Note: This does not pollute the input validator object. Calling</span>
+<span class="sd">    `jsonschema.validators.extend` returns a new object.</span>
+
+<span class="sd">    This will cause the validator to fill in fields that have default values. In</span>
+<span class="sd">    cases where fields with default values are contained inside a mapping, that</span>
+<span class="sd">    mapping must have `default: {}` and may not have `requires`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">validate_properties</span> <span class="o">=</span> <span class="n">validator_class</span><span class="o">.</span><span class="n">VALIDATORS</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">required_no_defaults</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="n">required</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">validator</span><span class="o">.</span><span class="n">is_type</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="n">properties</span> <span class="o">=</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">required</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">property</span> <span class="ow">in</span> <span class="n">properties</span> <span class="ow">and</span> <span class="s2">&quot;default&quot;</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">[</span><span class="nb">property</span><span class="p">]:</span>
+                <span class="k">yield</span> <span class="n">ValidationError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;property </span><span class="si">{</span><span class="nb">property</span><span class="si">!r}</span><span class="s2"> is both required and sets a default value&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">property</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">instance</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">ValidationError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">property</span><span class="si">!r}</span><span class="s2"> is a required property&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_defaults</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">schema</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply default values when a missing property has a default value.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="nb">property</span><span class="p">,</span> <span class="n">subschema</span> <span class="ow">in</span> <span class="n">properties</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s2">&quot;default&quot;</span> <span class="ow">in</span> <span class="n">subschema</span><span class="p">:</span>
+                <span class="n">instance</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="nb">property</span><span class="p">,</span> <span class="n">subschema</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">validate_properties</span><span class="p">(</span>
+            <span class="n">validator</span><span class="p">,</span>
+            <span class="n">properties</span><span class="p">,</span>
+            <span class="n">instance</span><span class="p">,</span>
+            <span class="n">schema</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="k">yield</span> <span class="n">error</span>
+
+    <span class="k">return</span> <span class="n">jsonschema</span><span class="o">.</span><span class="n">validators</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="n">validator_class</span><span class="p">,</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="n">required_no_defaults</span><span class="p">,</span>
+            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="n">set_defaults</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_schemas"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.get_schemas">[docs]</a><span class="k">def</span> <span class="nf">get_schemas</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">validator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Collect all of the interface schema.&quot;&quot;&quot;</span>
+    <span class="n">schema_files</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.yaml&quot;</span><span class="p">)</span>
+
+    <span class="n">schemas</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">schema_file</span> <span class="ow">in</span> <span class="n">schema_files</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding schema file </span><span class="si">{</span><span class="n">schema_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">schema</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">schema_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">))</span>
+        <span class="n">schema_id</span> <span class="o">=</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;$id&quot;</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">validator</span><span class="o">.</span><span class="n">check_schema</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">SchemaError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SchemaError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid schema &#39;</span><span class="si">{</span><span class="n">schema_file</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+        <span class="n">schemas</span><span class="p">[</span><span class="n">schema_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">schema</span>
+
+    <span class="k">return</span> <span class="n">schemas</span></div>
+
+
+<div class="viewcode-block" id="get_validators"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.get_validators">[docs]</a><span class="k">def</span> <span class="nf">get_validators</span><span class="p">(</span><span class="n">schema_dict</span><span class="p">,</span> <span class="n">validator_class</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create validators for each schema in `schema_dict`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    schema_dict : dict</span>
+<span class="sd">        A dictionary whose keys are schema `$id` and whose values are the full</span>
+<span class="sd">        schema.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        A dictionary whose keys are schema `$id` and whose values are `jsonschema`</span>
+<span class="sd">        validator instances.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This is the jsonschema draft implemention from the referencing package</span>
+    <span class="c1"># It is used for creating the &quot;resources&quot; and &quot;registry&quot; that link together</span>
+    <span class="c1"># the references.</span>
+    <span class="c1">#</span>
+    <span class="c1"># This could likely have a better variable name, but I don&#39;t really know what to</span>
+    <span class="c1"># call it...</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">refjs</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;DRAFT</span><span class="si">{</span><span class="n">JSONSCHEMA_DRAFT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">resources</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">create_resource</span><span class="p">(</span><span class="n">sch</span><span class="p">))</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">sch</span> <span class="ow">in</span> <span class="n">schema_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+    <span class="n">registry</span> <span class="o">=</span> <span class="n">referencing</span><span class="o">.</span><span class="n">Registry</span><span class="p">()</span><span class="o">.</span><span class="n">with_resources</span><span class="p">(</span><span class="n">resources</span><span class="p">)</span>
+
+    <span class="c1"># Loop over the available schema and build a dictionary whose keys are the $ids</span>
+    <span class="c1"># of the schema and whose values are their associated validators. These validators</span>
+    <span class="c1"># can be used to validate yaml against their schema.</span>
+    <span class="n">validators</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">schema</span> <span class="ow">in</span> <span class="n">schema_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">validators</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">validator_class</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">registry</span><span class="o">=</span><span class="n">registry</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">validators</span></div>
+
+
+<div class="viewcode-block" id="YamlPluginValidator"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.YamlPluginValidator">[docs]</a><span class="k">class</span> <span class="nc">YamlPluginValidator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;PluginValidator class.&quot;&quot;&quot;</span>
+
+    <span class="n">_schema_path</span> <span class="o">=</span> <span class="n">SCHEMA_PATH</span>
+    <span class="n">_validator</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">jsonschema</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Draft</span><span class="si">{</span><span class="n">JSONSCHEMA_DRAFT</span><span class="si">}</span><span class="s2">Validator&quot;</span><span class="p">)</span>
+
+    <span class="n">schemas</span> <span class="o">=</span> <span class="n">get_schemas</span><span class="p">(</span><span class="n">_schema_path</span><span class="p">,</span> <span class="n">_validator</span><span class="p">)</span>
+    <span class="n">validators</span> <span class="o">=</span> <span class="n">get_validators</span><span class="p">(</span><span class="n">schemas</span><span class="p">,</span> <span class="n">_validator</span><span class="p">)</span>
+
+<div class="viewcode-block" id="YamlPluginValidator.validate"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.YamlPluginValidator.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">,</span> <span class="n">validator_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate a YAML plugin against the relevant schema.</span>
+
+<span class="sd">        The relevant schema is determined based on the interface and family of the</span>
+<span class="sd">        plugin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Pop off unit-test properties</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">plugin</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">plugin</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;error_pattern&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">validator_id</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validators</span><span class="p">[</span><span class="s2">&quot;bases.top&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+            <span class="n">validator_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;interface&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;family&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">validator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validators</span><span class="p">[</span><span class="n">validator_id</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No validator found for &#39;</span><span class="si">{</span><span class="n">validator_id</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">from plugin &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">in interface &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;interface&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="p">)</span>
+        <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;family&quot;</span> <span class="ow">in</span> <span class="n">plugin</span> <span class="ow">and</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+            <span class="n">plugin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_list</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">plugin</span></div>
+
+<div class="viewcode-block" id="YamlPluginValidator.validate_list"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.YamlPluginValidator.validate_list">[docs]</a>    <span class="k">def</span> <span class="nf">validate_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate a list of YAML plugins.</span>
+
+<span class="sd">        Some interfaces allow a &#39;list&#39; family. These list plugins will contain a</span>
+<span class="sd">        property that is the same as the interface&#39;s name. Under that is a list of</span>
+<span class="sd">        individual plugins.</span>
+
+<span class="sd">        This function will add the interface property to each plugin in the list, then</span>
+<span class="sd">        validate each plugin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">valid_list_families</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;products&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_list_families</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to handle plugins of family &#39;list&#39; for&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;interface&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> interface.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Plugins from family &#39;list&#39; are currently only handled for &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;the following interfaces: &#39;</span><span class="si">{</span><span class="n">valid_list_families</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># Lists should use their interface name to denote the beginning of the list</span>
+        <span class="k">for</span> <span class="n">sub_plugin</span> <span class="ow">in</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]]:</span>
+            <span class="n">sub_plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">sub_plugin</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">PluginError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">: Trouble validating sub_plugin &#39;</span><span class="si">{</span><span class="n">sub_plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">on plugin &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">from package &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;package&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">at &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;abspath&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">resp</span>
+        <span class="k">return</span> <span class="n">plugin</span></div></div>
+
+
+<div class="viewcode-block" id="plugin_repr"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.plugin_repr">[docs]</a><span class="k">def</span> <span class="nf">plugin_repr</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Repr plugin string.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="si">}</span><span class="s1">(name=&quot;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;, module=&quot;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">module</span><span class="si">}</span><span class="s1">&quot;)&#39;</span></div>
+
+
+<div class="viewcode-block" id="plugin_yaml_to_obj"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.plugin_yaml_to_obj">[docs]</a><span class="k">def</span> <span class="nf">plugin_yaml_to_obj</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">yaml_plugin</span><span class="p">,</span> <span class="n">obj_attrs</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a yaml plugin to an object.</span>
+
+<span class="sd">    Convert the passed YAML plugin into an object and return it. The returned</span>
+<span class="sd">    object will be derived from a class named ``&lt;interface&gt;Plugin`` where</span>
+<span class="sd">    interface is the interface specified by the plugin. This class is derived</span>
+<span class="sd">    from ``BasePlugin``.</span>
+
+<span class="sd">    This function is used instead of predefined classes to allow setting ``__doc__``</span>
+<span class="sd">    on a plugin-by-plugin basis. This allows collecting ``__doc__`` and</span>
+<span class="sd">    from the plugin and using them in the objects.</span>
+
+<span class="sd">    For a yaml plugin to be converted into an object it must meet the following</span>
+<span class="sd">    requirements:</span>
+
+<span class="sd">    - Must match the jsonschema spec provided for its interface.</span>
+<span class="sd">    - The plugin must have the following top-level attributes and the must not be empty.</span>
+<span class="sd">      - interface: The name of the interface that the plugin belongs to.</span>
+<span class="sd">      - family: The family of plugins that the plugin belongs to within the interface.</span>
+<span class="sd">      - name: The name of the plugin which must be unique within the interface.</span>
+<span class="sd">      - docstring: A string to be used as the object&#39;s docstring.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">obj_attrs</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="n">obj_attrs</span><span class="p">[</span><span class="s2">&quot;yaml&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yaml_plugin</span>
+
+    <span class="n">missing</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="s2">&quot;package&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;relpath&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;abspath&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;interface&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;family&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;docstring&quot;</span><span class="p">,</span>
+    <span class="p">]:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">obj_attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">yaml_plugin</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Plugin &#39;</span><span class="si">{</span><span class="n">yaml_plugin</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; is missing the following required &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;top-level properties: &#39;</span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">obj_attrs</span><span class="p">[</span><span class="s2">&quot;__doc__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj_attrs</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">]</span>
+
+    <span class="n">plugin_interface_name</span> <span class="o">=</span> <span class="n">obj_attrs</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">plugin_type</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_interface_name</span><span class="si">}</span><span class="s2">Plugin&quot;</span>
+
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">plugin_type</span><span class="p">,</span> <span class="p">(</span><span class="n">BaseYamlPlugin</span><span class="p">,),</span> <span class="n">obj_attrs</span><span class="p">)(</span><span class="n">yaml_plugin</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plugin_module_to_obj"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.plugin_module_to_obj">[docs]</a><span class="k">def</span> <span class="nf">plugin_module_to_obj</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">obj_attrs</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a module plugin to an object.</span>
+
+<span class="sd">    Convert the passed module plugin into an object and return it. The returned</span>
+<span class="sd">    object will be derrived from a class named ``&lt;interface&gt;Plugin`` where</span>
+<span class="sd">    interface is the interface specified by the plugin. This class is derrived</span>
+<span class="sd">    from ``BasePlugin``.</span>
+
+<span class="sd">    This function is used instead of predefined classes to allow setting ``__doc__`` and</span>
+<span class="sd">    ``__call__`` on a plugin-by-plugin basis. This allows collecting ``__doc__`` and</span>
+<span class="sd">    ``__call__`` from the plugin modules and using them in the objects.</span>
+
+<span class="sd">    For a module to be converted into an object it must meet the following requirements:</span>
+
+<span class="sd">    - The module must define a docstring. This will be used as the docstring for the</span>
+<span class="sd">      plugin class as well as the docstring for the plugin when requested on the</span>
+<span class="sd">      command line.  The first line will be used as a &quot;short&quot; description, and the</span>
+<span class="sd">      full docstring will be used as a more detailed discussion of the plugin.</span>
+<span class="sd">    - The following global attributes must be defined in the module:</span>
+<span class="sd">      - interface: The name of the interface that the plugin belongs to.</span>
+<span class="sd">      - family: The family of plugins that the plugin belongs to within the interface.</span>
+<span class="sd">      - name: The name of the plugin which must be unique within the interface.</span>
+<span class="sd">    - A callable named `call` that will be called when the plugin is used.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    module : module</span>
+<span class="sd">      The imported plugin module.</span>
+<span class="sd">    obj_attrs : dict, optional</span>
+<span class="sd">      Additional attributes to be assigned to the plugin object.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    An object of type ``&lt;interface&gt;InterfacePlugin`` where ``&lt;interface&gt;`` is the name</span>
+<span class="sd">    of the interface that the desired plugin belongs to.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">obj_attrs</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="n">obj_attrs</span><span class="p">[</span><span class="s2">&quot;module&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">module</span>
+
+    <span class="n">missing</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">,</span> <span class="s2">&quot;family&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">]:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">obj_attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Plugin &#39;</span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; is missing the following required global &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;attributes: &#39;</span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">module</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">:</span>
+        <span class="n">obj_attrs</span><span class="p">[</span><span class="s2">&quot;__doc__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__doc__</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Plugin modules must have a docstring. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;No docstring found in &#39;</span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">obj_attrs</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="c1"># Collect the callable and assign to __call__</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">obj_attrs</span><span class="p">[</span><span class="s2">&quot;__call__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s2">&quot;call&quot;</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Plugin modules must contain a callable name &#39;call&#39;. This is missing in &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;plugin module &#39;</span><span class="si">{</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+
+    <span class="n">plugin_interface_name</span> <span class="o">=</span> <span class="n">obj_attrs</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">plugin_type</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_interface_name</span><span class="si">}</span><span class="s2">Plugin&quot;</span>
+
+    <span class="c1"># Create an object of type ``plugin_type`` with attributes from ``obj_attrs``</span>
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">plugin_type</span><span class="p">,</span> <span class="p">(</span><span class="n">BaseModulePlugin</span><span class="p">,),</span> <span class="n">obj_attrs</span><span class="p">)()</span></div>
+
+
+<div class="viewcode-block" id="BaseYamlPlugin"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseYamlPlugin">[docs]</a><span class="k">class</span> <span class="nc">BaseYamlPlugin</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS plugins.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Class BaseYamlPlugin init method.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Class BaseYamlPlugin repr method.&quot;&quot;&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
+
+<span class="c1">#     @property</span>
+<span class="c1">#     def id(self):</span>
+<span class="c1">#         &quot;&quot;&quot;Return the id of the plugin.</span>
+<span class="c1">#</span>
+<span class="c1">#         Typically this is just the name of the plugin, but some plugin classes</span>
+<span class="c1">#         override this field. For example, the ProductPlugin class overrides</span>
+<span class="c1">#         this to a tuple containing &#39;source_name&#39; and &#39;name&#39;.&quot;&quot;&quot;</span>
+<span class="c1">#         return self.name</span>
+
+
+<div class="viewcode-block" id="BaseModulePlugin"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseModulePlugin">[docs]</a><span class="k">class</span> <span class="nc">BaseModulePlugin</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS plugins.&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="BaseInterface"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseInterface">[docs]</a><span class="k">class</span> <span class="nc">BaseInterface</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS interfaces.</span>
+
+<span class="sd">    This class should not be instantiated directly. Instead, interfaces should be</span>
+<span class="sd">    accessed by importing them from ``geoips.interfaces``. For example:</span>
+<span class="sd">    ```</span>
+<span class="sd">    from geoips.interfaces import algorithms</span>
+<span class="sd">    ```</span>
+<span class="sd">    will retrieve an instance of ``AlgorithmsInterface`` which will provide access to</span>
+<span class="sd">    the GeoIPS algorithm plugins.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plugin interface new method.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Error creating </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> class. SubClasses of ``BaseInterface`` &quot;</span>
+                <span class="s2">&quot;must have the class attribute &#39;name&#39;.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;GeoIPS interface for </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> plugins.&quot;</span>
+        <span class="c1"># cls.__doc__ += interface_attrs_doc causes duplication warnings</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseYamlInterface"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface">[docs]</a><span class="k">class</span> <span class="nc">BaseYamlInterface</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS yaml-based plugin interfaces.</span>
+
+<span class="sd">    This class should not be instantiated directly. Instead, interfaces should be</span>
+<span class="sd">    accessed by importing them from ``geoips.interfaces``. For example:</span>
+<span class="sd">    ```</span>
+<span class="sd">    from geoips.interfaces import products</span>
+<span class="sd">    ```</span>
+<span class="sd">    will retrieve an instance of ``ProductsInterface`` which will provide access to</span>
+<span class="sd">    the GeoIPS products plugins.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">validator</span> <span class="o">=</span> <span class="n">YamlPluginValidator</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;YAML plugin interface new method.&quot;&quot;&quot;</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;YAML plugin interface init method.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unvalidated_plugins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_unvalidated_plugins_cache</span><span class="p">(</span>
+            <span class="n">load_all_yaml_plugins</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_create_unvalidated_plugins_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yaml_plugins</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a cache of unvalidated plugin yamls.</span>
+
+<span class="sd">        These will be validated when they are actually used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># If this is a list, split out all of the subs and store them all</span>
+        <span class="c1"># If this is any other family, just store it</span>
+        <span class="k">for</span> <span class="n">yaml_plg</span> <span class="ow">in</span> <span class="n">yaml_plugins</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">yaml_plg</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">yaml_plg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">yaml_plg</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">: from plugin &#39;</span><span class="si">{</span><span class="n">yaml_plg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;,&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">in package &#39;</span><span class="si">{</span><span class="n">yaml_plg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;package&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;,&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">located at &#39;</span><span class="si">{</span><span class="n">yaml_plg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;abspath&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                    <span class="p">)</span>
+                    <span class="c1"># raise ValidationError(</span>
+                    <span class="c1">#     f&quot;{resp}: from plugin &#39;{yaml_plg.get(&#39;name&#39;)}&#39;,&quot;</span>
+                    <span class="c1">#     f&quot;\nin package &#39;{yaml_plg.get(&#39;package&#39;)}&#39;,&quot;</span>
+                    <span class="c1">#     f&quot;\nlocated at &#39;{yaml_plg.get(&#39;abspath&#39;)}&#39; &quot;</span>
+                    <span class="c1"># ) from resp</span>
+                <span class="n">plg_list</span> <span class="o">=</span> <span class="n">plugin_yaml_to_obj</span><span class="p">(</span><span class="n">yaml_plg</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">yaml_plg</span><span class="p">)</span>
+                <span class="n">yaml_subplgs</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">yaml_subplg</span> <span class="ow">in</span> <span class="n">plg_list</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">subplg_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_plugin_cache_names</span><span class="p">(</span><span class="n">yaml_subplg</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">subplg_name</span> <span class="ow">in</span> <span class="n">subplg_names</span><span class="p">:</span>
+                            <span class="n">yaml_subplgs</span><span class="p">[</span><span class="n">subplg_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">yaml_subplg</span><span class="p">)</span>
+                            <span class="n">yaml_subplgs</span><span class="p">[</span><span class="n">subplg_name</span><span class="p">][</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+                            <span class="n">yaml_subplgs</span><span class="p">[</span><span class="n">subplg_name</span><span class="p">][</span><span class="s2">&quot;package&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yaml_plg</span><span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">]</span>
+                            <span class="n">yaml_subplgs</span><span class="p">[</span><span class="n">subplg_name</span><span class="p">][</span><span class="s2">&quot;relpath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yaml_plg</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">]</span>
+                            <span class="n">yaml_subplgs</span><span class="p">[</span><span class="n">subplg_name</span><span class="p">][</span><span class="s2">&quot;abspath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yaml_plg</span><span class="p">[</span><span class="s2">&quot;abspath&quot;</span><span class="p">]</span>
+                    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+                        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">: from plugin &#39;</span><span class="si">{</span><span class="n">yaml_plg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;,&quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">in package &#39;</span><span class="si">{</span><span class="n">yaml_plg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;package&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;,&quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">located at &#39;</span><span class="si">{</span><span class="n">yaml_plg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;abspath&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mismatched schema and YAML?&quot;</span>
+                        <span class="p">)</span>
+                <span class="n">cache</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">yaml_subplgs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cache</span><span class="p">[</span><span class="n">yaml_plg</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">yaml_plg</span>
+        <span class="k">return</span> <span class="n">cache</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_create_plugin_cache_name</span><span class="p">(</span><span class="n">yaml_plugin</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a plugin name for cache storage.</span>
+
+<span class="sd">        Some interfaces need to override this (e.g. products) because they need a more</span>
+<span class="sd">        complex name for retrieval.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">yaml_plugin</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plugin interface repr method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">()&quot;</span>
+
+<div class="viewcode-block" id="BaseYamlInterface.get_plugin"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.get_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a plugin by its name.</span>
+
+<span class="sd">        This default method can be overridden to provide different search</span>
+<span class="sd">        functionality for an interface. An example of this is in the</span>
+<span class="sd">        ProductsInterface which uses a tuple containing &#39;source_name&#39; and</span>
+<span class="sd">        &#39;name&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">validated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unvalidated_plugins</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plugin &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; not found for &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; interface.&quot;</span><span class="p">)</span>
+        <span class="c1"># Store &quot;name&quot; as the product&#39;s &quot;id&quot;</span>
+        <span class="c1"># This is helpful when an interfaces uses something other than just &quot;name&quot; to</span>
+        <span class="c1"># find its plugins as is the case with ProductsInterface</span>
+        <span class="k">return</span> <span class="n">plugin_yaml_to_obj</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">validated</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseYamlInterface.get_plugins"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.get_plugins">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve a plugin by name.&quot;&quot;&quot;</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unvalidated_plugins</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">plugins</span></div>
+
+<div class="viewcode-block" id="BaseYamlInterface.plugin_is_valid"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.plugin_is_valid">[docs]</a>    <span class="k">def</span> <span class="nf">plugin_is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plugin is valid method.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="n">ValidationError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="BaseYamlInterface.plugins_all_valid"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.plugins_all_valid">[docs]</a>    <span class="k">def</span> <span class="nf">plugins_all_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plugins all valid method.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_plugins</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="n">ValidationError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="BaseYamlInterface.test_interface"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.test_interface">[docs]</a>    <span class="k">def</span> <span class="nf">test_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test interface method.&quot;&quot;&quot;</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugins</span><span class="p">()</span>
+        <span class="n">all_valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins_all_valid</span><span class="p">()</span>
+        <span class="n">family_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">plugin_ids</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">family</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">family_list</span><span class="p">:</span>
+                <span class="n">family_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">)</span>
+                <span class="n">plugin_ids</span><span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">plugin_ids</span><span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;all_valid&quot;</span><span class="p">:</span> <span class="n">all_valid</span><span class="p">,</span>
+            <span class="s2">&quot;by_family&quot;</span><span class="p">:</span> <span class="n">plugin_ids</span><span class="p">,</span>
+            <span class="s2">&quot;validity_check&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;func&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">curr_family</span> <span class="ow">in</span> <span class="n">plugin_ids</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">curr_id</span> <span class="ow">in</span> <span class="n">plugin_ids</span><span class="p">[</span><span class="n">curr_family</span><span class="p">]:</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;validity_check&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_is_valid</span><span class="p">(</span><span class="n">curr_id</span><span class="p">)</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;func&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">curr_id</span><span class="p">)</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_family</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;func&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span><span class="o">.</span><span class="n">docstring</span>
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+
+<div class="viewcode-block" id="BaseModuleInterface"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface">[docs]</a><span class="k">class</span> <span class="nc">BaseModuleInterface</span><span class="p">(</span><span class="n">BaseInterface</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base Class for GeoIPS Interfaces.</span>
+
+<span class="sd">    This class should not be instantiated directly. Instead, interfaces should be</span>
+<span class="sd">    accessed by importing them from ``geoips.interfaces``. For example:</span>
+<span class="sd">    ```</span>
+<span class="sd">    from geoips.interfaces import algorithms</span>
+<span class="sd">    ```</span>
+<span class="sd">    will retrieve an instance of ``AlgorithmsInterface`` which will provide access to</span>
+<span class="sd">    the GeoIPS algorithm plugins.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plugin interface repr method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">()&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_plugin_module_to_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">module_call_func</span><span class="o">=</span><span class="s2">&quot;call&quot;</span><span class="p">,</span> <span class="n">obj_attrs</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a plugin module into an object.</span>
+
+<span class="sd">        Convert the passed module into an object of type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">plugin_module_to_obj</span><span class="p">(</span>
+            <span class="n">module</span><span class="o">=</span><span class="n">module</span><span class="p">,</span> <span class="n">module_call_func</span><span class="o">=</span><span class="n">module_call_func</span><span class="p">,</span> <span class="n">obj_attrs</span><span class="o">=</span><span class="n">obj_attrs</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">interface</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Plugin &#39;interface&#39; attribute on &#39;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; plugin does not &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;match the name of its interface as specified by entry_points.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+<div class="viewcode-block" id="BaseModuleInterface.get_plugin"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface.get_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve a plugin from this interface by name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">          The name the desired plugin.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        An object of type ``&lt;interface&gt;Plugin`` where ``&lt;interface&gt;`` is the name of</span>
+<span class="sd">        this interface.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        PluginError</span>
+<span class="sd">          If the specified plugin isn&#39;t found within the interface.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Find the plugin module</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">find_entry_point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">EntryPointError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">Plugin &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; not found for &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; interface. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Check &#39;pyproject.toml&#39; for typos, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">that path in pyproject.toml matches path to &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; module, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">check top level attributes on module &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(interface, family, name), &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> and check that you are attempting to use the correct plugin name &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(ie, check in product YAMLs or command line that you are&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; attempting to access the correct plugin name)&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">resp</span>
+        <span class="c1"># Convert the module into an object</span>
+        <span class="k">return</span> <span class="n">plugin_module_to_obj</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseModuleInterface.get_plugins"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface.get_plugins">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of plugins for this interface.&quot;&quot;&quot;</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">get_all_entry_points</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_module_to_obj</span><span class="p">(</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ep</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Plugin &#39;</span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; is missing the &#39;name&#39; attribute, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">from &#39;</span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">&#39; module,&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">resp</span>
+        <span class="k">return</span> <span class="n">plugins</span></div>
+
+<div class="viewcode-block" id="BaseModuleInterface.plugin_is_valid"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface.plugin_is_valid">[docs]</a>    <span class="k">def</span> <span class="nf">plugin_is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that an interface is valid.</span>
+
+<span class="sd">        Check that the requested interface function has the correct call signature.</span>
+<span class="sd">        Return values should be as specified below, but are not programmatically</span>
+<span class="sd">        verified.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">          Name of the interface to be validated</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">          True if valid, False if invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plugin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">family</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">required_args</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="si">}</span><span class="s2">&#39; must be added to required args list&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">for &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; interface,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">found in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; plugin,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; module&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">family</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">required_kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="si">}</span><span class="s2">&#39; must be added to required kwargs list&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">for &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; interface,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">found in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; plugin,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; module&quot;</span>
+            <span class="p">)</span>
+        <span class="n">expected_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">required_args</span><span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">]</span>
+        <span class="n">expected_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">required_kwargs</span><span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">]</span>
+
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="fm">__call__</span><span class="p">)</span>
+        <span class="n">arg_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">kwarg_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">kwarg_defaults_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="c1"># kwargs are identified by a default value - parameter will include &quot;=&quot;</span>
+            <span class="k">if</span> <span class="s2">&quot;=&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
+                <span class="n">kwarg</span><span class="p">,</span> <span class="n">default_value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">param</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                <span class="n">kwarg_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">kwarg</span><span class="p">]</span>
+                <span class="n">kwarg_defaults_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">default_value</span><span class="p">]</span>
+            <span class="c1"># If there is no &quot;=&quot;, then it is a positional parameter</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">arg_list</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">param</span><span class="p">)]</span>
+
+        <span class="k">for</span> <span class="n">expected_arg</span> <span class="ow">in</span> <span class="n">expected_args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">expected_arg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">arg_list</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;MISSING expected arg &#39;</span><span class="si">{</span><span class="n">expected_arg</span><span class="si">}</span><span class="s2">&#39; in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">for &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; interface,&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">found in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; plugin,&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; module&quot;</span>
+                <span class="p">)</span>
+        <span class="k">for</span> <span class="n">expected_kwarg</span> <span class="ow">in</span> <span class="n">expected_kwargs</span><span class="p">:</span>
+            <span class="c1"># If expected_kwarg is a tuple, first item is kwarg, second default value</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected_kwarg</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">expected_kwarg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwarg_list</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;MISSING expected kwarg &#39;</span><span class="si">{</span><span class="n">expected_kwarg</span><span class="si">}</span><span class="s2">&#39; in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">for &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; interface,&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">found in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; plugin,&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; module&quot;</span>
+                    <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">expected_kwarg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwarg_list</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;MISSING expected kwarg &#39;</span><span class="si">{</span><span class="n">expected_kwarg</span><span class="si">}</span><span class="s2">&#39; in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">for &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; interface,&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">found in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; plugin,&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">in &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; module&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="BaseModuleInterface.plugins_all_valid"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface.plugins_all_valid">[docs]</a>    <span class="k">def</span> <span class="nf">plugins_all_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test the current interface by validating every Plugin.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            True if all plugins are valid, False if any plugin is invalid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugins</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_is_valid</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="BaseModuleInterface.test_interface"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface.test_interface">[docs]</a>    <span class="k">def</span> <span class="nf">test_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test the current interface by validating each Plugin and testing each method.</span>
+
+<span class="sd">        Test this interface by opening every Plugin available to the interface,</span>
+<span class="sd">        and validating each plugin by calling `plugin_is_valid` for each.</span>
+<span class="sd">        Additionally, ensure all methods of this interface work as expected:</span>
+
+<span class="sd">        * get_plugins</span>
+<span class="sd">        * get_plugin</span>
+<span class="sd">        * plugin_is_valid</span>
+<span class="sd">        * plugins_all_valid</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            A dictionary containing three keys:</span>
+<span class="sd">            &#39;by_family&#39;, &#39;validity_check&#39;, &#39;func&#39;, and &#39;family&#39;. The value for each</span>
+<span class="sd">            of these keys is a dictionary whose keys are the names of the Plugins.</span>
+
+<span class="sd">            - &#39;by_family&#39; contains a dictionary of plugin names sorted by family.</span>
+<span class="sd">            - &#39;validity_check&#39; contains a dict whose keys are plugin names and whose</span>
+<span class="sd">              values are bools where `True` indicates that the Plugin&#39;s function is</span>
+<span class="sd">              valid according to `plugin_is_valid`.</span>
+<span class="sd">            - &#39;func&#39; contains a dict whose keys are plugin names and whose values are</span>
+<span class="sd">              the function for each Plugin.</span>
+<span class="sd">            - &#39;family&#39; contains a dict whose keys are plugin names and whose vlaues</span>
+<span class="sd">              are the contents of the &#39;family&#39; attribute for each Plugin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># plugin_names = self.get_plugins(sort_by=&quot;family&quot;)</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugins</span><span class="p">()</span>
+        <span class="n">all_valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins_all_valid</span><span class="p">()</span>
+        <span class="n">family_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">plugin_ids</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">family</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">family_list</span><span class="p">:</span>
+                <span class="n">family_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">)</span>
+                <span class="n">plugin_ids</span><span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">plugin_ids</span><span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;all_valid&quot;</span><span class="p">:</span> <span class="n">all_valid</span><span class="p">,</span>
+            <span class="s2">&quot;by_family&quot;</span><span class="p">:</span> <span class="n">plugin_ids</span><span class="p">,</span>
+            <span class="s2">&quot;validity_check&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;func&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">curr_family</span> <span class="ow">in</span> <span class="n">plugin_ids</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">curr_id</span> <span class="ow">in</span> <span class="n">plugin_ids</span><span class="p">[</span><span class="n">curr_family</span><span class="p">]:</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;validity_check&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_is_valid</span><span class="p">(</span><span class="n">curr_id</span><span class="p">)</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;func&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">curr_id</span><span class="p">)</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_family</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;func&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span><span class="o">.</span><span class="n">docstring</span>
+        <span class="k">return</span> <span class="n">output</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

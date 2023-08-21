@@ -1,0 +1,798 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.10.0a5 (2023-04-25) &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/v1_10_0a5';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.10.0a4 (2023-04-25)" href="v1_10_0a4.html" />
+    <link rel="prev" title="Version 1.10.0a6 (2023-04-26)" href="v1_10_0a6.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-08-19)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a12.html">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_1.html">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_5_3.html">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_0.html">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Version 1.10.0a5 (2023-04-25)</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <blockquote>
+<div><div class="line-block">
+<div class="line"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</div>
+<div class="line"># # #</div>
+<div class="line"># # # Author:</div>
+<div class="line"># # # Naval Research Laboratory, Marine Meteorology Division</div>
+<div class="line"># # #</div>
+<div class="line"># # # This program is free software: you can redistribute it and/or modify it under</div>
+<div class="line"># # # the terms of the NRLMMD License included with this program. This program is</div>
+<div class="line"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</div>
+<div class="line"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</div>
+<div class="line"># # # for more details. If you did not receive the license, for more information see:</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/U-S-NRL-Marine-Meteorology-Division/">U-S-NRL-Marine-Meteorology-Division/</a></div>
+</div>
+</div></blockquote>
+<section id="version-1-10-0a5-2023-04-25">
+<h1>Version 1.10.0a5 (2023-04-25)<a class="headerlink" href="#version-1-10-0a5-2023-04-25" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Update to finalized interface names throughout code base.</p>
+<ul>
+<li><p>area_def_generators -&gt; sector_loaders/dynamic</p></li>
+<li><p>trackfile_parsers -&gt; sector_loaders/trackfiles</p></li>
+<li><p>area_def_adjusters -&gt; sector_adjusters</p></li>
+</ul>
+</li>
+<li><p>Move YAML sector files to geoips/plugins/yaml/sectors</p>
+<ul>
+<li><p>tests/sectors/static to geoips/plugins/yaml/sectors/static</p></li>
+<li><p>geoips/plugins/yaml/dynamic_sectors to geoips/plugins/yaml/sectors/dynamic</p></li>
+</ul>
+</li>
+<li><p>Add support for updated dynamic sector YAML formatting (not finalized).</p></li>
+</ul>
+<section id="breaking-changes">
+<h2>Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permalink to this heading">#</a></h2>
+<section id="support-both-old-and-new-dynamic-sector-yaml-formatting">
+<h3>Support both old and new dynamic sector YAML formatting<a class="headerlink" href="#support-both-old-and-new-dynamic-sector-yaml-formatting" title="Permalink to this heading">#</a></h3>
+<p>Note this is not finalized, and updates to the schema / format for the
+dynamic sectors will be made in a future PR, requiring
+a final update to this piece of code.</p>
+<p>For now, add a try/except within sector_utils/tc_tracks.py to support
+both the old and new YAML format - this will be consolidated
+and the new format finalized with a future PR.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="move-area-def-generators-to-geoips-plugins-modules-sector-loaders-dynamic">
+<h3>Move area_def_generators to geoips/plugins/modules/sector_loaders/dynamic<a class="headerlink" href="#move-area-def-generators-to-geoips-plugins-modules-sector-loaders-dynamic" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names</em></p>
+<p>Classifying “area_def_generators” as “sector_loaders/dynamic”.</p>
+<p>Presumably at some point, we would additionally have a “static” sector
+loader which would just read in a pyresample area definition.
+For now, that is done explicitly in the code (and a plugin is only
+used for dynamic sectors)</p>
+<p>Note there is currently no interface defined for sector_loaders.dynamic -
+this will need to be implemented in the future to make
+this a fully fledged interface.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">renamed</span><span class="p">:</span> <span class="n">area_def_generators</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span> <span class="o">-&gt;</span> <span class="n">sector_loaders</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">area_def_generators</span><span class="o">/</span><span class="n">clat_clon_resolution_shape</span><span class="o">.</span><span class="n">py</span> <span class="o">-&gt;</span> <span class="n">sector_loaders</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">clat_clon_resolution_shape</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="move-trackfile-parsers-to-geoips-plugins-modules-sector-loaders-trackfiles">
+<h3>Move trackfile_parsers to geoips/plugins/modules/sector_loaders/trackfiles<a class="headerlink" href="#move-trackfile-parsers-to-geoips-plugins-modules-sector-loaders-trackfiles" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names</em></p>
+<p>Classifying “trackfile_parsers” as “sector_loaders/trackfiles” - since it is
+really loading multiple sectors from the “trackfile”.</p>
+<p>These are currently still accessed via the command line through the
+“–trackfile_parser” option - this will be re-evaluated with the
+upcoming CLI updates.</p>
+<p>Note there is currently no interface defined for sector_loaders.trackfiles -
+this will need to be implemented in the future to make
+this a fully fledged interface.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">renamed</span><span class="p">:</span> <span class="n">trackfile_parsers</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span> <span class="o">-&gt;</span> <span class="n">sector_loaders</span><span class="o">/</span><span class="n">trackfiles</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">trackfile_parsers</span><span class="o">/</span><span class="n">bdeck_parser</span><span class="o">.</span><span class="n">py</span> <span class="o">-&gt;</span> <span class="n">sector_loaders</span><span class="o">/</span><span class="n">trackfiles</span><span class="o">/</span><span class="n">bdeck_parser</span><span class="o">.</span><span class="n">py</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">trackfile_parsers</span><span class="o">/</span><span class="n">flat_sectorfile_parser</span><span class="o">.</span><span class="n">py</span> <span class="o">-&gt;</span> <span class="n">sector_loaders</span><span class="o">/</span><span class="n">trackfiles</span><span class="o">/</span><span class="n">flat_sectorfile_parser</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-all-instances-of-trackfile-parsers-with-sector-loaders-trackfiles">
+<h3>Update all instances of trackfile_parsers with sector_loaders.trackfiles<a class="headerlink" href="#update-all-instances-of-trackfile-parsers-with-sector-loaders-trackfiles" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names</em></p>
+<p>Note these are still accessed via command line by the “–trackfile_parser”
+option.  This will be re-evaluated with the CLI updates.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">commandline</span><span class="o">/</span><span class="n">args</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">sector_utils</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-all-instances-of-area-def-generators-with-sector-loaders-dynamic">
+<h3>Update all instances of area_def_generators with sector_loaders.dynamic<a class="headerlink" href="#update-all-instances-of-area-def-generators-with-sector-loaders-dynamic" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">sector_loaders</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">sector_loaders</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-all-instances-of-area-def-adjusters-with-sector-adjusters">
+<h3>Update all instances of area_def_adjusters with sector_adjusters<a class="headerlink" href="#update-all-instances-of-area-def-adjusters-with-sector-adjusters" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names</em></p>
+<p>Note these plugins are actually currently only contained in recenter_tc repo.</p>
+<p>Also note there is currently no interface defined for “sector_adjusters” -
+this will need to be implemented in the future to make
+this a fully fledged interface.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">args</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="move-plugins-yaml-sectors-dynamic-to-plugins-yaml-sectors-dynamic">
+<h3>Move plugins/yaml/sectors_dynamic to plugins/yaml/sectors/dynamic<a class="headerlink" href="#move-plugins-yaml-sectors-dynamic-to-plugins-yaml-sectors-dynamic" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names</em></p>
+<p>Consolidate both dynamic and static sectors under geoips/plugins/yaml/sectors.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_1024x1024</span><span class="o">/</span><span class="n">tc_1km_1024x1024</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1024x1024</span><span class="o">/</span><span class="n">tc_1km_1024x1024</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_1024x1024</span><span class="o">/</span><span class="n">tc_2km_1024x1024</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1024x1024</span><span class="o">/</span><span class="n">tc_2km_1024x1024</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_1400x1400</span><span class="o">/</span><span class="n">tc_1km_1400x1400</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1400x1400</span><span class="o">/</span><span class="n">tc_1km_1400x1400</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_1400x1400</span><span class="o">/</span><span class="n">tc_2km_1400x1400</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1400x1400</span><span class="o">/</span><span class="n">tc_2km_1400x1400</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_1600x1600</span><span class="o">/</span><span class="n">tc_2km_1600x1600</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1600x1600</span><span class="o">/</span><span class="n">tc_2km_1600x1600</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_1600x1600</span><span class="o">/</span><span class="n">tc_4km_1600x1600</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1600x1600</span><span class="o">/</span><span class="n">tc_4km_1600x1600</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_256x256</span><span class="o">/</span><span class="n">tc_4km_256x256</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_256x256</span><span class="o">/</span><span class="n">tc_4km_256x256</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_512x512</span><span class="o">/</span><span class="n">tc_2km_512x512</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_512x512</span><span class="o">/</span><span class="n">tc_2km_512x512</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_512x512</span><span class="o">/</span><span class="n">tc_4km_512x512</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_512x512</span><span class="o">/</span><span class="n">tc_4km_512x512</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_800x800</span><span class="o">/</span><span class="n">tc_2km_800x800</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_800x800</span><span class="o">/</span><span class="n">tc_2km_800x800</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_800x800</span><span class="o">/</span><span class="n">tc_4km_800x800</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_800x800</span><span class="o">/</span><span class="n">tc_4km_800x800</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_huge</span><span class="o">/</span><span class="n">tc_0p1km_3200x3200</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_huge</span><span class="o">/</span><span class="n">tc_0p1km_3200x3200</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_huge</span><span class="o">/</span><span class="n">tc_1km_2500x2500</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_huge</span><span class="o">/</span><span class="n">tc_1km_2500x2500</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_huge</span><span class="o">/</span><span class="n">tc_1km_3200x3200</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_huge</span><span class="o">/</span><span class="n">tc_1km_3200x3200</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_web_2km_template</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_web_2km_template</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_web_ascat_high_barbs_template</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_web_ascat_high_barbs_template</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_web_ascatuhr_barbs_template</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_web_ascatuhr_barbs_template</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_web_halfkm_template</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_web_halfkm_template</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_web_qkm_template</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_web_qkm_template</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors_dynamic</span><span class="o">/</span><span class="n">tc_web_template</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_web_template</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="move-tests-sectors-static-to-plugins-yaml-sectors-static">
+<h3>Move tests/sectors/static to plugins/yaml/sectors/static<a class="headerlink" href="#move-tests-sectors-static-to-plugins-yaml-sectors-static" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names</em></p>
+<p>Consolidate both dynamic and static sectors under geoips/plugins/yaml/sectors.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">abi_test</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">abi_test_low_memory</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">amsr2_test</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">amsr2_test_low_memory</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">documentation_imagery</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">ewsg</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">mimic_coarse</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">TPW</span><span class="o">-</span><span class="n">CIMSS</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">ewsg</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">ewsg</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="k">global</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="k">global</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">goes16</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">goes16</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">goes17</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">goes17</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">himawari8</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">himawari8</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="v1_10_0a6.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.10.0a6 (2023-04-26)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="v1_10_0a4.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.10.0a4 (2023-04-25)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes">Breaking Changes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#support-both-old-and-new-dynamic-sector-yaml-formatting">Support both old and new dynamic sector YAML formatting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-area-def-generators-to-geoips-plugins-modules-sector-loaders-dynamic">Move area_def_generators to geoips/plugins/modules/sector_loaders/dynamic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-trackfile-parsers-to-geoips-plugins-modules-sector-loaders-trackfiles">Move trackfile_parsers to geoips/plugins/modules/sector_loaders/trackfiles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-all-instances-of-trackfile-parsers-with-sector-loaders-trackfiles">Update all instances of trackfile_parsers with sector_loaders.trackfiles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-all-instances-of-area-def-generators-with-sector-loaders-dynamic">Update all instances of area_def_generators with sector_loaders.dynamic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-all-instances-of-area-def-adjusters-with-sector-adjusters">Update all instances of area_def_adjusters with sector_adjusters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-plugins-yaml-sectors-dynamic-to-plugins-yaml-sectors-dynamic">Move plugins/yaml/sectors_dynamic to plugins/yaml/sectors/dynamic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-tests-sectors-static-to-plugins-yaml-sectors-static">Move tests/sectors/static to plugins/yaml/sectors/static</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/releases/v1_10_0a5.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

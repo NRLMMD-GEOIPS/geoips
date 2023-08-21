@@ -1,0 +1,21 @@
+geoips.plugins.modules.colormappers.winds package
+=================================================
+
+Submodules
+----------
+
+geoips.plugins.modules.colormappers.winds.wind\_radii\_transitions module
+-------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.winds.wind_radii_transitions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.colormappers.winds
+   :members:
+   :undoc-members:
+   :show-inheritance:

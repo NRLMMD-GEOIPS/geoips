@@ -1,0 +1,734 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>API Reference &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/index';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geoips package" href="geoips.html" />
+    <link rel="prev" title="Xarray and NetCDF Metadata Standards" href="../devguide/xarray_standards.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="geoips.html">geoips package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">API Reference</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <blockquote>
+<div><div class="line-block">
+<div class="line"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</div>
+<div class="line"># # #</div>
+<div class="line"># # # Author:</div>
+<div class="line"># # # Naval Research Laboratory, Marine Meteorology Division</div>
+<div class="line"># # #</div>
+<div class="line"># # # This program is free software: you can redistribute it and/or modify it under</div>
+<div class="line"># # # the terms of the NRLMMD License included with this program. This program is</div>
+<div class="line"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</div>
+<div class="line"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</div>
+<div class="line"># # # for more details. If you did not receive the license, for more information see:</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/U-S-NRL-Marine-Meteorology-Division/">U-S-NRL-Marine-Meteorology-Division/</a></div>
+</div>
+</div></blockquote>
+<section id="api-reference">
+<span id="api"></span><h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="geoips.html">geoips package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.commandline.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.args">geoips.commandline.args module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.list_available_modules">geoips.commandline.list_available_modules module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.log_setup">geoips.commandline.log_setup module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.run_procflow">geoips.commandline.run_procflow module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.test_interfaces">geoips.commandline.test_interfaces module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.update_tc_tracks_database">geoips.commandline.update_tc_tracks_database module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.data_manipulations.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.data_manipulations.html#module-geoips.data_manipulations.conversions">geoips.data_manipulations.conversions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.data_manipulations.html#module-geoips.data_manipulations.corrections">geoips.data_manipulations.corrections module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.data_manipulations.html#module-geoips.data_manipulations.info">geoips.data_manipulations.info module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.data_manipulations.html#module-geoips.data_manipulations.merge">geoips.data_manipulations.merge module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.data_manipulations.html#module-geoips.data_manipulations">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.dev.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.dev.html#module-geoips.dev.output_config">geoips.dev.output_config module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.dev.html#module-geoips.dev.product">geoips.dev.product module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.dev.html#module-geoips.dev">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.filenames.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.filenames.html#module-geoips.filenames.base_paths">geoips.filenames.base_paths module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.filenames.html#module-geoips.filenames.duplicate_files">geoips.filenames.duplicate_files module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.filenames.html#module-geoips.filenames">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.image_utils.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.image_utils.html#module-geoips.image_utils.colormap_utils">geoips.image_utils.colormap_utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.image_utils.html#module-geoips.image_utils.maps">geoips.image_utils.maps module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.image_utils.html#module-geoips.image_utils.mpl_utils">geoips.image_utils.mpl_utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.image_utils.html#module-geoips.image_utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#module-geoips.interfaces.base">geoips.interfaces.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#module-geoips.interfaces">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.html#module-geoips.plugins">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.sector_utils.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.estimate_area_extent">geoips.sector_utils.estimate_area_extent module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.overpass_predictor">geoips.sector_utils.overpass_predictor module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.projections">geoips.sector_utils.projections module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.tc_tracks">geoips.sector_utils.tc_tracks module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.tc_tracks_database">geoips.sector_utils.tc_tracks_database module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.utils">geoips.sector_utils.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.yaml_utils">geoips.sector_utils.yaml_utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.utils.html#module-geoips.utils.decorators">geoips.utils.decorators module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.utils.html#module-geoips.utils.memusg">geoips.utils.memusg module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.utils.html#module-geoips.utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.xarray_utils.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.xarray_utils.html#module-geoips.xarray_utils.data">geoips.xarray_utils.data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.xarray_utils.html#module-geoips.xarray_utils.time">geoips.xarray_utils.time module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.xarray_utils.html#module-geoips.xarray_utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.html#module-geoips.cli">geoips.cli module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.cli.RawDescriptionArgumentDefaultsHelpFormatter"><code class="docutils literal notranslate"><span class="pre">RawDescriptionArgumentDefaultsHelpFormatter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.cli.add_list_interface_parser"><code class="docutils literal notranslate"><span class="pre">add_list_interface_parser()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.cli.formclass"><code class="docutils literal notranslate"><span class="pre">formclass</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.cli.get_interface"><code class="docutils literal notranslate"><span class="pre">get_interface()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.cli.list_dev_interfaces"><code class="docutils literal notranslate"><span class="pre">list_dev_interfaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.cli.list_interface_plugins"><code class="docutils literal notranslate"><span class="pre">list_interface_plugins()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.cli.list_interfaces"><code class="docutils literal notranslate"><span class="pre">list_interfaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.cli.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.cli.print_table"><code class="docutils literal notranslate"><span class="pre">print_table()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.html#module-geoips.compare_outputs">geoips.compare_outputs module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.compare_outputs"><code class="docutils literal notranslate"><span class="pre">compare_outputs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.geoips_netcdf_match"><code class="docutils literal notranslate"><span class="pre">geoips_netcdf_match()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.geotiffs_match"><code class="docutils literal notranslate"><span class="pre">geotiffs_match()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.get_out_diff_fname"><code class="docutils literal notranslate"><span class="pre">get_out_diff_fname()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.gunzip_product"><code class="docutils literal notranslate"><span class="pre">gunzip_product()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.gzip_product"><code class="docutils literal notranslate"><span class="pre">gzip_product()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.images_match"><code class="docutils literal notranslate"><span class="pre">images_match()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.is_geoips_netcdf"><code class="docutils literal notranslate"><span class="pre">is_geoips_netcdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.is_geotiff"><code class="docutils literal notranslate"><span class="pre">is_geotiff()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.is_gz"><code class="docutils literal notranslate"><span class="pre">is_gz()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.is_image"><code class="docutils literal notranslate"><span class="pre">is_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.is_text"><code class="docutils literal notranslate"><span class="pre">is_text()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.print_gunzip_to_file"><code class="docutils literal notranslate"><span class="pre">print_gunzip_to_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.print_gzip_to_file"><code class="docutils literal notranslate"><span class="pre">print_gzip_to_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.test_product"><code class="docutils literal notranslate"><span class="pre">test_product()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.compare_outputs.text_match"><code class="docutils literal notranslate"><span class="pre">text_match()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.html#module-geoips.errors">geoips.errors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.errors.CoverageError"><code class="docutils literal notranslate"><span class="pre">CoverageError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.errors.EntryPointError"><code class="docutils literal notranslate"><span class="pre">EntryPointError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.errors.PluginError"><code class="docutils literal notranslate"><span class="pre">PluginError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.html#module-geoips.geoips_utils">geoips.geoips_utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.copy_standard_metadata"><code class="docutils literal notranslate"><span class="pre">copy_standard_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.deprecation"><code class="docutils literal notranslate"><span class="pre">deprecation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.find_all_txt_plugins"><code class="docutils literal notranslate"><span class="pre">find_all_txt_plugins()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.find_ascii_palette"><code class="docutils literal notranslate"><span class="pre">find_ascii_palette()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.find_config"><code class="docutils literal notranslate"><span class="pre">find_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.find_entry_point"><code class="docutils literal notranslate"><span class="pre">find_entry_point()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.get_all_entry_points"><code class="docutils literal notranslate"><span class="pre">get_all_entry_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.get_entry_point_group"><code class="docutils literal notranslate"><span class="pre">get_entry_point_group()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.get_required_geoips_xarray_attrs"><code class="docutils literal notranslate"><span class="pre">get_required_geoips_xarray_attrs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.list_entry_points"><code class="docutils literal notranslate"><span class="pre">list_entry_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.list_product_source_dict_yamls"><code class="docutils literal notranslate"><span class="pre">list_product_source_dict_yamls()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.list_product_specs_dict_yamls"><code class="docutils literal notranslate"><span class="pre">list_product_specs_dict_yamls()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.load_all_yaml_plugins"><code class="docutils literal notranslate"><span class="pre">load_all_yaml_plugins()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.merge_nested_dicts"><code class="docutils literal notranslate"><span class="pre">merge_nested_dicts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.output_process_times"><code class="docutils literal notranslate"><span class="pre">output_process_times()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.replace_geoips_paths"><code class="docutils literal notranslate"><span class="pre">replace_geoips_paths()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.html#module-geoips">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips-unireg-base-package">GeoIPS ® Base Package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../devguide/xarray_standards.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Xarray and NetCDF Metadata Standards</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geoips.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">geoips package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

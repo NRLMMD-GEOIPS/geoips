@@ -1,0 +1,952 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.9.1 (2023-04-03) &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/v1_9_1';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.9.0 (2023-03-23)" href="v1_9_0.html" />
+    <link rel="prev" title="Version 1.9.2 (2023-05-10)" href="v1_9_2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-08-19)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a12.html">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a5.html">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_5_3.html">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_0.html">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Version 1.9.1 (2023-04-03)</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <blockquote>
+<div><div class="line-block">
+<div class="line"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</div>
+<div class="line"># # #</div>
+<div class="line"># # # Author:</div>
+<div class="line"># # # Naval Research Laboratory, Marine Meteorology Division</div>
+<div class="line"># # #</div>
+<div class="line"># # # This program is free software: you can redistribute it and/or modify it under</div>
+<div class="line"># # # the terms of the NRLMMD License included with this program. This program is</div>
+<div class="line"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</div>
+<div class="line"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</div>
+<div class="line"># # # for more details. If you did not receive the license, for more information see:</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/U-S-NRL-Marine-Meteorology-Division/">U-S-NRL-Marine-Meteorology-Division/</a></div>
+</div>
+</div></blockquote>
+<section id="version-1-9-1-2023-04-03">
+<h1>Version 1.9.1 (2023-04-03)<a class="headerlink" href="#version-1-9-1-2023-04-03" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Remove GEOIPS BASEDIR references</p>
+<ul>
+<li><p>Add GEOIPS_TESTDATA_DIR and GEOIPS_DEPEDNENCIES_DIR to filenames/base_paths.py</p></li>
+</ul>
+</li>
+<li><p>Sphinx Documentation Updates</p>
+<ul>
+<li><p>Implement sphinx-apidoc for documentation build</p></li>
+<li><p>Finalize RST documentation outline to match sharepoint doc</p></li>
+<li><p>Update some documentation links</p></li>
+<li><p>Implement sphinx-apidoc for documentation build</p></li>
+</ul>
+</li>
+<li><p>Replace setup.py with pyproject.toml</p></li>
+<li><p>Add missing fields in Rain colormap mpl_color_info</p></li>
+<li><p>Allow processing if no TCs in database</p></li>
+<li><p>Install geoips[doc,test,lint] in setup.sh</p></li>
+<li><p>Only add product to database if returned product is not None</p></li>
+<li><p>Replace &lt;output&gt; in single_source procflow in addition to &lt;product&gt;</p>
+<ul>
+<li><p>This matches functionality in config_based.py</p></li>
+</ul>
+</li>
+<li><p>Ignore flake8 W503 (conflicts with black)</p></li>
+</ul>
+<section id="breaking-changes">
+<h2>Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permalink to this heading">#</a></h2>
+<section id="include-geoips-testdata-dir-and-geoips-dependencies-dir-in-geoips-filenames-base-paths-py">
+<h3>Include GEOIPS_TESTDATA_DIR and GEOIPS_DEPENDENCIES_DIR in geoips/filenames/base_paths.py<a class="headerlink" href="#include-geoips-testdata-dir-and-geoips-dependencies-dir-in-geoips-filenames-base-paths-py" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#223: 2023-03-30, remove GEOIPS BASEDIR from YAML metadata</em></p>
+<p>Note geoips/filenames/base_paths.py must include GEOIPS_TESTDATA_DIR
+and GEOIPS_DEPENDENCIES_DIR included in gpaths,
+since replace_geoips_paths in geoips/dev/utils.py only replaces paths contained
+in geoips/filenames/base_paths.py.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-replace-geoips-paths-to-replace-geoips-basedir-last">
+<h3>Update replace_geoips_paths to replace GEOIPS BASEDIR last<a class="headerlink" href="#update-replace-geoips-paths-to-replace-geoips-basedir-last" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#223: 2023-03-30, remove GEOIPS BASEDIR from YAML metadata</em></p>
+<p>To avoid reliance on GEOIPS BASEDIR, replace GEOIPS_OUTDIRS, GEOIPS_PACKAGES_DIR
+GEOIPS_TESTDATA_DIR, and GEOIPS_DEPENDENCIES_DIR before falling back on
+GEOIPS BASEDIR</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Dockerfile</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Dockerfile</span>
+<span class="n">base_install_and_test</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="mf">20200918.195020</span><span class="o">.</span><span class="n">goes</span><span class="o">-</span><span class="mf">16.</span><span class="n">Visible_latitude_longitude</span><span class="o">.</span><span class="n">tc2020al20teddy</span><span class="o">.</span><span class="n">nc</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="mi">20200918_195020</span><span class="n">_AL202020_abi_goes</span><span class="o">-</span><span class="mi">16</span><span class="n">_IR</span><span class="o">-</span><span class="n">BD_110kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+<span class="n">setup</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">setup</span><span class="o">/</span><span class="n">geoips_conda_init_setup</span>
+<span class="n">setup</span><span class="o">/</span><span class="n">repo_clone_update_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="enhancements">
+<h2>Enhancements<a class="headerlink" href="#enhancements" title="Permalink to this heading">#</a></h2>
+<section id="replace-output-in-compare-paths-from-single-source-procflow">
+<h3>Replace &lt;output&gt; in compare_paths from single_source procflow<a class="headerlink" href="#replace-output-in-compare-paths-from-single-source-procflow" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Replace &lt;output&gt; in single_source procflow in addition to &lt;product&gt;</p>
+<ul>
+<li><p>This matches functionality in config_based.py</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interface_modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bug-fixes">
+<h2>Bug Fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h2>
+<section id="only-add-product-to-database-if-returned-product-is-not-none">
+<h3>Only add product to database if returned product is not None<a class="headerlink" href="#only-add-product-to-database-if-returned-product-is-not-none" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#95, 2023-04-11, add EWS-G suite</em></p>
+<p>Ensure we do not attempt to add product to list if “None”.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">geoips</span><span class="o">/</span><span class="n">interface_modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="return-empty-list-if-no-storms-in-trackfile-database">
+<h3>Return empty list if no storms in trackfile database<a class="headerlink" href="#return-empty-list-if-no-storms-in-trackfile-database" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#95: 2023-04-07, add EWS-G processing</em></p>
+<p>Previously would raise error if attempting to get all storms from database if
+there are no active storms available.  Update to catch error, print warning,
+and return empty list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks_database</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="add-geoips-dev-init-py">
+<h3>Add geoips/dev/__init__.py<a class="headerlink" href="#add-geoips-dev-init-py" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#223: 2023-04-03, remove GEOIPS BASEDIR from YAML</em></p>
+<p>Installation fails without __init__.py in each sub-package</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">new</span> <span class="n">file</span><span class="p">:</span>   <span class="n">geoips</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-rain-colormap-mpl-colors-info">
+<h3>Update Rain colormap mpl_colors_info<a class="headerlink" href="#update-rain-colormap-mpl-colors-info" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#9: 2023-04-05, IMERG TC processing suite</em></p>
+<ul class="simple">
+<li><p>Add “cbar_tick_labels” and “cbar_spacing” as keys under mpl_colors_info</p>
+<ul>
+<li><p>These are required when producing annotated imagery</p></li>
+</ul>
+</li>
+</ul>
+<dl class="simple">
+<dt>::</dt><dd><p>modified: geoips/interface_modules/user_colormaps/pmw_tb/cmap_Rain.py</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="code-formatting-and-style-updates">
+<h2>Code Formatting and Style Updates<a class="headerlink" href="#code-formatting-and-style-updates" title="Permalink to this heading">#</a></h2>
+<section id="ignore-flake8-w503-in-check-code-sh">
+<h3>Ignore flake8 W503 in check_code.sh<a class="headerlink" href="#ignore-flake8-w503-in-check-code-sh" title="Permalink to this heading">#</a></h3>
+<p>W503 and E203 both conflict with black, so ignore in flake8 tests.
+W503 is line break before binary operator, E203 is white space before :.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">check_code</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="minor-black-updates">
+<h3>Minor black updates<a class="headerlink" href="#minor-black-updates" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#223: 2023-03-30, remove GEOIPS BASEDIR from YAML metadata</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">image_utils</span><span class="o">/</span><span class="n">mpl_utils</span><span class="o">.</span><span class="n">py</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">interface_modules</span><span class="o">/</span><span class="n">filename_formats</span><span class="o">/</span><span class="n">geoips_fname</span><span class="o">.</span><span class="n">py</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">interface_modules</span><span class="o">/</span><span class="n">output_formats</span><span class="o">/</span><span class="n">geotiff_standard</span><span class="o">.</span><span class="n">py</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">base</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="installation-updates">
+<h2>Installation Updates<a class="headerlink" href="#installation-updates" title="Permalink to this heading">#</a></h2>
+<section id="install-geoips-doc-test-lint-from-setup-sh">
+<h3>Install geoips[doc,test,lint] from setup.sh<a class="headerlink" href="#install-geoips-doc-test-lint-from-setup-sh" title="Permalink to this heading">#</a></h3>
+<p>Ensure full installation from setup.sh</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="update-setuptools-scm-versioning-settings">
+<h3>Update setuptools_scm versioning settings<a class="headerlink" href="#update-setuptools-scm-versioning-settings" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#158: 2023-04-03, update to pyproject.toml install</em></p>
+<ul class="simple">
+<li><p>Ensure geoips/version.py is used (we import from there in geoips/__init__.py)</p></li>
+<li><p>Use current_vers.postN vs incrementing version with .devN</p></li>
+<li><p>Do not include hash and date in version</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+</pre></div>
+</div>
+</section>
+<section id="switch-from-setup-py-to-pyproject-toml">
+<h3>Switch from setup.py to pyproject.toml<a class="headerlink" href="#switch-from-setup-py-to-pyproject-toml" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#158: 2023-04-03, update to pyproject.toml install</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+<span class="n">new</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+</pre></div>
+</div>
+</section>
+<section id="remove-unused-requirements-files">
+<h3>Remove unused requirements files<a class="headerlink" href="#remove-unused-requirements-files" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#158: 2023-04-03, update to pyproject.toml install</em></p>
+<p>Rely entirely on pyproject.toml for requirements - no longer include
+requirements.txt for pip or environment.yml for conda.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span>    <span class="n">docs</span><span class="o">/</span><span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">deleted</span><span class="p">:</span>    <span class="n">environment</span><span class="o">.</span><span class="n">yml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="test-repo-updates">
+<h2>Test Repo Updates<a class="headerlink" href="#test-repo-updates" title="Permalink to this heading">#</a></h2>
+<section id="remove-geoips-basedir-from-yaml-metadata-test-outputs">
+<h3>Remove GEOIPS BASEDIR from YAML metadata test outputs<a class="headerlink" href="#remove-geoips-basedir-from-yaml-metadata-test-outputs" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#223: 2023-03-30, remove GEOIPS BASEDIR from YAML metadata</em></p>
+<p>Replace GEOIPS BASEDIR/geoips_packages_dir with GEOIPS_PACKAGES_DIR</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">IR</span><span class="o">-</span><span class="n">BD</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20200918_195020</span><span class="n">_AL202020_abi_goes</span><span class="o">-</span><span class="mi">16</span><span class="n">_IR</span><span class="o">-</span><span class="n">BD_110kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20200918_195020</span><span class="n">_AL202020_abi_goes</span><span class="o">-</span><span class="mi">16</span><span class="n">_Infrared_110kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20200918_195020</span><span class="n">_AL202020_abi_goes</span><span class="o">-</span><span class="mi">16</span><span class="n">_Visible_110kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc</span><span class="mf">.89</span><span class="n">H</span><span class="o">-</span><span class="n">Physical</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_89H</span><span class="o">-</span><span class="n">Physical_140kts_100p00_res1p0</span><span class="o">-</span><span class="n">cr300</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc_overlay</span><span class="mf">.37</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_37pct_140kts_95p89_res1p0</span><span class="o">-</span><span class="n">cr100</span><span class="o">-</span><span class="n">bgInfrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc_overlay</span><span class="mf">.37</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Visible</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_37pct_140kts_95p89_res1p0</span><span class="o">-</span><span class="n">cr100</span><span class="o">-</span><span class="n">bgVisible</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc_overlay</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_89pct_140kts_98p32_res1p0</span><span class="o">-</span><span class="n">cr100</span><span class="o">-</span><span class="n">bgInfrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc_overlay</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Visible</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_89pct_140kts_98p32_res1p0</span><span class="o">-</span><span class="n">cr100</span><span class="o">-</span><span class="n">bgVisible</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2_ocean</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windspeed</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_windspeed_140kts_85p45_1p0</span><span class="o">-</span><span class="n">clean</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsub_mirs</span><span class="o">.</span><span class="n">tc</span><span class="mf">.183</span><span class="o">-</span><span class="mi">3</span><span class="n">H</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20210419_235400</span><span class="n">_WP022021_amsu</span><span class="o">-</span><span class="n">b_metop</span><span class="o">-</span><span class="n">a_183</span><span class="o">-</span><span class="mi">3</span><span class="n">H_115kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ascat_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery_windbarbs_clean</span><span class="o">/</span><span class="mi">20210421_014248</span><span class="n">_WP022021_ascat_metop</span><span class="o">-</span><span class="n">c_windbarbs_120kts_78p20_0p5</span><span class="o">-</span><span class="n">clean</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ascat_low_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">/</span><span class="mi">20210421_014156</span><span class="n">_WP022021_ascat_metop</span><span class="o">-</span><span class="n">c_windbarbs_120kts_35p17_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ascat_uhr</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">wind</span><span class="o">-</span><span class="n">ambiguities</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">/</span><span class="mi">20210421_014200</span><span class="n">_WP022021_ascatuhr_metop</span><span class="o">-</span><span class="n">c_wind</span><span class="o">-</span><span class="n">ambiguities_120kts_100p00_0p1</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">gmi</span><span class="o">.</span><span class="n">tc</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mi">20200917_172045</span><span class="n">_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0</span><span class="o">-</span><span class="n">cr300</span><span class="o">-</span><span class="n">clean</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">hy2</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windspeed</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20211202_084039</span><span class="n">_WP272021_hscat_hy</span><span class="o">-</span><span class="mi">2</span><span class="n">b_windspeed_95kts_97p06_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">mimic_fine</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">TPW</span><span class="o">-</span><span class="n">PWAT</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20210419_230000</span><span class="n">_WP022021_mimic_tpw_TPW</span><span class="o">-</span><span class="n">PWAT_115kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">oscat_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">/</span><span class="mi">20210209_025351</span><span class="n">_SH192021_oscat_scatsat</span><span class="o">-</span><span class="mi">1</span><span class="n">_windbarbs_135kts_75p10_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">saphir</span><span class="o">.</span><span class="n">tc</span><span class="mf">.183</span><span class="o">-</span><span class="mi">3</span><span class="n">HNearest</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20210209_003103</span><span class="n">_SH192021_saphir_meghatropiques_183</span><span class="o">-</span><span class="mi">3</span><span class="n">HNearest_135kts_88p76_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">sar</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">nrcs</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20181025_203206</span><span class="n">_WP312018_sar</span><span class="o">-</span><span class="n">spd_sentinel</span><span class="o">-</span><span class="mi">1</span><span class="n">_nrcs_130kts_58p51_res1p0</span><span class="o">-</span><span class="n">cr300</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ssmi</span><span class="o">.</span><span class="n">tc</span><span class="mf">.37</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mi">20200519_080900</span><span class="n">_IO012020_ssmi_F15_37pct_110kts_50p65_1p0</span><span class="o">-</span><span class="n">clean</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">viirsday</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20210209_074210</span><span class="n">_SH192021_viirs_noaa</span><span class="o">-</span><span class="mi">20</span><span class="n">_Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR_130kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="documentation-updates">
+<h2>Documentation Updates<a class="headerlink" href="#documentation-updates" title="Permalink to this heading">#</a></h2>
+<section id="finalize-rst-documentation-outline">
+<h3>Finalize RST documentation outline<a class="headerlink" href="#finalize-rst-documentation-outline" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#156: 2023-04-11, finalize doc outline</em></p>
+<p>Match the sharepoint outline exactly.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">contributors</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">dev_setup</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">git_workflow</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">geoips_api</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">introduction</span><span class="o">/</span><span class="n">description_geoips</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">introduction</span><span class="o">/</span><span class="n">conduct</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">introduction</span><span class="o">/</span><span class="n">examples_output</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">introduction</span><span class="o">/</span><span class="n">function_summary</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">extending</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">installation</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">starter_examples</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">command_line</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">function_list</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">geoips_structure</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">M</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_extend</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+<section id="finalize-sphinx-apidoc-build">
+<h3>Finalize sphinx-apidoc build<a class="headerlink" href="#finalize-sphinx-apidoc-build" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#197: 2023-04-03, update to sphinx-apidoc</em></p>
+<p>Update to use sphinx-apidoc vs</p>
+<dl class="simple">
+<dt>::</dt><dd><p>docs/source/conf.py
+docs/build_docs.sh</p>
+</dd>
+</dl>
+<p>Bug fixes to get sphinx-apidoc to work</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">conf</span><span class="o">.</span><span class="n">py</span>  <span class="c1"># Paths, and footer_end update</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">base</span><span class="o">.</span><span class="n">py</span> <span class="c1"># Comment out duplicate docstring references</span>
+<span class="c1"># Change API link references:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">interface_modules</span><span class="o">/</span><span class="n">trackfile_parsers</span><span class="o">/</span><span class="n">bdeck_parser</span><span class="o">.</span><span class="n">py</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">interface_modules</span><span class="o">/</span><span class="n">trackfile_parsers</span><span class="o">/</span><span class="n">flat_sectorfile_parser</span><span class="o">.</span><span class="n">py</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">interface_modules</span><span class="o">/</span><span class="n">user_colormaps</span><span class="o">/</span><span class="n">matplotlib_linear_norm</span><span class="o">.</span><span class="n">py</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">interface_modules</span><span class="o">/</span><span class="n">user_colormaps</span><span class="o">/</span><span class="n">tpw</span><span class="o">/</span><span class="n">tpw_cimss</span><span class="o">.</span><span class="n">py</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">interface_modules</span><span class="o">/</span><span class="n">user_colormaps</span><span class="o">/</span><span class="n">tpw</span><span class="o">/</span><span class="n">tpw_purple</span><span class="o">.</span><span class="n">py</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">interface_modules</span><span class="o">/</span><span class="n">user_colormaps</span><span class="o">/</span><span class="n">tpw</span><span class="o">/</span><span class="n">tpw_pwat</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-broken-documentation-links">
+<h3>Update broken documentation links<a class="headerlink" href="#update-broken-documentation-links" title="Permalink to this heading">#</a></h3>
+<p>Fixing broken links in documentation</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">setup_new_plugin</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">setup</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">plugin</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">contributors</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">contributors</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="v1_9_2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.9.2 (2023-05-10)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="v1_9_0.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.9.0 (2023-03-23)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes">Breaking Changes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#include-geoips-testdata-dir-and-geoips-dependencies-dir-in-geoips-filenames-base-paths-py">Include GEOIPS_TESTDATA_DIR and GEOIPS_DEPENDENCIES_DIR in geoips/filenames/base_paths.py</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-replace-geoips-paths-to-replace-geoips-basedir-last">Update replace_geoips_paths to replace GEOIPS BASEDIR last</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancements">Enhancements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-output-in-compare-paths-from-single-source-procflow">Replace &lt;output&gt; in compare_paths from single_source procflow</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug Fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#only-add-product-to-database-if-returned-product-is-not-none">Only add product to database if returned product is not None</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#return-empty-list-if-no-storms-in-trackfile-database">Return empty list if no storms in trackfile database</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-geoips-dev-init-py">Add geoips/dev/__init__.py</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-rain-colormap-mpl-colors-info">Update Rain colormap mpl_colors_info</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-formatting-and-style-updates">Code Formatting and Style Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ignore-flake8-w503-in-check-code-sh">Ignore flake8 W503 in check_code.sh</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minor-black-updates">Minor black updates</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-updates">Installation Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-geoips-doc-test-lint-from-setup-sh">Install geoips[doc,test,lint] from setup.sh</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-setuptools-scm-versioning-settings">Update setuptools_scm versioning settings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#switch-from-setup-py-to-pyproject-toml">Switch from setup.py to pyproject.toml</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-unused-requirements-files">Remove unused requirements files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-repo-updates">Test Repo Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-geoips-basedir-from-yaml-metadata-test-outputs">Remove GEOIPS BASEDIR from YAML metadata test outputs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-updates">Documentation Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finalize-rst-documentation-outline">Finalize RST documentation outline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finalize-sphinx-apidoc-build">Finalize sphinx-apidoc build</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-broken-documentation-links">Update broken documentation links</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/releases/v1_9_1.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

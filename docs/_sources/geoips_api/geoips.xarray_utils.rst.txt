@@ -1,0 +1,29 @@
+geoips.xarray\_utils package
+============================
+
+Submodules
+----------
+
+geoips.xarray\_utils.data module
+--------------------------------
+
+.. automodule:: geoips.xarray_utils.data
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.xarray\_utils.time module
+--------------------------------
+
+.. automodule:: geoips.xarray_utils.time
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.xarray_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,45 @@
+geoips.data\_manipulations package
+==================================
+
+Submodules
+----------
+
+geoips.data\_manipulations.conversions module
+---------------------------------------------
+
+.. automodule:: geoips.data_manipulations.conversions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.data\_manipulations.corrections module
+---------------------------------------------
+
+.. automodule:: geoips.data_manipulations.corrections
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.data\_manipulations.info module
+--------------------------------------
+
+.. automodule:: geoips.data_manipulations.info
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.data\_manipulations.merge module
+---------------------------------------
+
+.. automodule:: geoips.data_manipulations.merge
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.data_manipulations
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,1212 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.10.0a12 (2023-05-09) &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/v1_10_0a12';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.10.0a11 (2023-04-30)" href="v1_10_0a11.html" />
+    <link rel="prev" title="Version 1.10.0a13 (2023-05-11)" href="v1_10_0a13.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-08-19)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a5.html">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_1.html">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_5_3.html">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_0.html">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Version 1.10.0a12 (2023-05-09)</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <blockquote>
+<div><div class="line-block">
+<div class="line"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</div>
+<div class="line"># # #</div>
+<div class="line"># # # Author:</div>
+<div class="line"># # # Naval Research Laboratory, Marine Meteorology Division</div>
+<div class="line"># # #</div>
+<div class="line"># # # This program is free software: you can redistribute it and/or modify it under</div>
+<div class="line"># # # the terms of the NRLMMD License included with this program. This program is</div>
+<div class="line"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</div>
+<div class="line"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</div>
+<div class="line"># # # for more details. If you did not receive the license, for more information see:</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/U-S-NRL-Marine-Meteorology-Division/">U-S-NRL-Marine-Meteorology-Division/</a></div>
+</div>
+</div></blockquote>
+<section id="version-1-10-0a12-2023-05-09">
+<h1>Version 1.10.0a12 (2023-05-09)<a class="headerlink" href="#version-1-10-0a12-2023-05-09" title="Permalink to this heading">#</a></h1>
+<p>Overall YAML interface updates</p>
+<ul class="simple">
+<li><p>Remove old YAML discovery functions in geoips_utils</p></li>
+<li><p>Remove old style YAML configs</p></li>
+<li><p>Update dev/output_config.py to use new YAML interfaces</p></li>
+<li><p>Rework mapping routines to use new interfaces</p></li>
+</ul>
+<p>Feature and gridline annotators interface</p>
+<ul class="simple">
+<li><p>Add new feature and gridline annotators YAML-based interface</p></li>
+<li><p>Refactor gridline_annotator and feature_annotator plugin schema and plugins</p></li>
+<li><p>Update boundaries/gridlines_info to feature/gridline_annotator</p></li>
+<li><p>Update boundaries/gridlines_params to feature/gridline_annotator</p></li>
+</ul>
+<p>Sectors interface</p>
+<ul class="simple">
+<li><p>Add new sector YAML-based interface</p></li>
+<li><p>Remove sectorfiles option from commandline</p></li>
+</ul>
+<p>Dynamic sectors interface</p>
+<ul class="simple">
+<li><p>Update sector interface to include dynamic sectors</p></li>
+<li><p>Update all TC templates to use updated sectors.generated schema</p></li>
+<li><p>Update command line argument from tc_template_yaml to tc_spec_template</p></li>
+</ul>
+<p>Sector adjusters interface</p>
+<ul class="simple">
+<li><p>Add sector_adjusters module-based interface</p></li>
+<li><p>Update single_source procflow to use new sector_adjusters interface</p></li>
+<li><p>Replace adjust_area_def command line arg with sector_adjuster</p></li>
+</ul>
+<p>Colormaps interface</p>
+<ul class="simple">
+<li><p>Add colormap module-based interface</p></li>
+<li><p>Add plugins/**.txt to pyproject.toml</p></li>
+<li><p>Move colormaps from geoips/image_utils/ascii_palettes to
+plugins/txt/ascii_palettes</p></li>
+<li><p>Update matplotlib_linear_norm to be a “configurable” colormap</p>
+<ul>
+<li><p>Add “find_ascii_palette” routine to geoips_utils.py</p></li>
+<li><p>Allow cbar_ticks == None to plot min/max of actual data</p></li>
+<li><p>Allow matplotlib, ascii, and geoips colormap sources</p></li>
+</ul>
+</li>
+<li><p>Change colormap families to “matplotlib”</p></li>
+<li><p>Run pytest on all installed geoips plugin packages</p></li>
+</ul>
+<p>Products interface</p>
+<ul class="simple">
+<li><p>Add products YAML-based interface</p></li>
+<li><p>Update procflows to use products interface</p></li>
+<li><p>Allow passing dictionary of product_spec_overrides to products.get_plugin</p></li>
+<li><p>Support multiple coverage checkers for a single product</p></li>
+<li><p>Bug fixes</p>
+<ul>
+<li><p>Fix plugin names in product_defaults</p></li>
+</ul>
+</li>
+<li><p>Testing updates</p>
+<ul>
+<li><p>Add data_fusion stitched test to test_full_install.sh</p></li>
+<li><p>Add template_basic_plugin test to test_full_install.sh</p></li>
+</ul>
+</li>
+</ul>
+<section id="bug-fixes">
+<h2>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h2>
+<section id="fix-plugin-names-in-product-defaults">
+<h3>Fix plugin names in product_defaults<a class="headerlink" href="#fix-plugin-names-in-product-defaults" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211f: 2023-05-09, product updates</em></p>
+<ul class="simple">
+<li><p>Update <cite>range</cite> -&gt; <cite>output_data_range</cite> in Infared-Gray product_defaults</p></li>
+<li><p><cite>pmw_tc.pmw_</cite> -&gt; <cite>pmw_</cite> algorithm name in PMW product_defaults</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">pmw_37</span><span class="o">/</span><span class="mi">37</span><span class="n">pct</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">pmw_37</span><span class="o">/</span><span class="mi">37</span><span class="n">pctNearest</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">pmw_89</span><span class="o">/</span><span class="n">color89</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">pmw_89</span><span class="o">/</span><span class="n">color89Nearest</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">visir</span><span class="o">/</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="major-new-functionality">
+<h2>Major New Functionality<a class="headerlink" href="#major-new-functionality" title="Permalink to this heading">#</a></h2>
+<section id="add-new-sector-interface">
+<h3>Add new sector interface<a class="headerlink" href="#add-new-sector-interface" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211b: 2023-05-01, sector updates</em></p>
+<p>This interface can be used for both dynamic templates and fully specified
+static yaml-based sectors.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">new</span> <span class="n">file</span><span class="p">:</span> <span class="n">interfaces</span><span class="o">/</span><span class="n">yaml_based</span><span class="o">/</span><span class="n">sectors</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="add-sector-adjusters-interface">
+<h3>Add sector_adjusters interface<a class="headerlink" href="#add-sector-adjusters-interface" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211d: 2023-05-02, sector adjuster updates</em></p>
+<p>This is only used within the recenter_tc repository, but interface added here.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">new</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">sector_adjusters</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="allow-cbar-ticks-none-to-plot-min-max-of-actual-data">
+<h3>Allow cbar_ticks == None to plot min/max of actual data<a class="headerlink" href="#allow-cbar-ticks-none-to-plot-min-max-of-actual-data" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates</em></p>
+<p>Update create_colorbar function to set cbar_ticks to cmap_norm.vmin and
+cmap_norm.vmax if cbar_ticks is “None”.  Additionally, ensure if the
+“kwargs” options are included in mpl_colors_info, they are only used if
+not None (allows including defaults for all fields in mpl_colors_info)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">geoips</span><span class="o">/</span><span class="n">image_utils</span><span class="o">/</span><span class="n">mpl_utils</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-matplotlib-linear-norm-to-allow-matplotlib-ascii-and-geoips-colormaps">
+<h3>Update matplotlib_linear_norm to allow matplotlib, ascii, and geoips colormaps<a class="headerlink" href="#update-matplotlib-linear-norm-to-allow-matplotlib-ascii-and-geoips-colormaps" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates</em></p>
+<p>Pass “cmap_source” option to determine where to find the colormap.
+Default to “matplotlib” (so backwards compatible)</p>
+<ol class="arabic simple">
+<li><p>matplotlib builtin</p></li>
+<li><p>ascii palette</p></li>
+<li><p>geoips plugin</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">matplotlib_linear_norm</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="add-find-ascii-palette-routine-to-geoips-utils-py">
+<h3>Add “find_ascii_palette” routine to geoips_utils.py<a class="headerlink" href="#add-find-ascii-palette-routine-to-geoips-utils-py" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates</em></p>
+<p>This searches the plugin directory for plugins/txt/ascii_palettes (for now).
+May tune this additionally, but for now we will hard code txt/ascii_palettes,
+and require ascii colormaps to have extension .txt.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">geoips_utils</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-matplotlib-linear-norm-colormap-plugin-to-support-ascii-palettes">
+<h3>Update matplotlib_linear_norm colormap plugin to support ASCII palettes<a class="headerlink" href="#update-matplotlib-linear-norm-colormap-plugin-to-support-ascii-palettes" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates</em></p>
+<p>This plugin provides the ability to fully specify matplotlib color info
+via call signature arguments.  Add options for:</p>
+<ul class="simple">
+<li><p>cmap_name - name of colormap to use</p></li>
+<li><p>cmap_source - one of “matplotlib”, “geoips”, or “ascii”</p></li>
+<li><p>cmap_path - optional full path to ascii palette</p></li>
+<li><p>cbar_tick_labels - alternative labels to use if not the numeric values of
+cbar_ticks</p></li>
+<li><p>cbar_spacing - cbar spacing, proportional or uniform</p></li>
+<li><p>cbar_full_width - specify colorbar should be the full width of image</p></li>
+<li><p>colorbar_kwargs - pass through to matplotlib “colorbar” command</p></li>
+<li><p>set_ticks_kwargs - pass through to “set_ticks” command</p></li>
+</ul>
+<p>Also add these fields to the colormap YAML schema.</p>
+<p>Additionally, update image_utils.colormap_utils.from_ascii to take optional
+“cmap_name” kwarg, if not specified, just use the basename of fname.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">bases</span><span class="o">/</span><span class="n">colormap</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">image_utils</span><span class="o">/</span><span class="n">colormap_utils</span><span class="o">.</span><span class="n">py</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">matplotlib_linear_norm</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="breaking-changes">
+<h2>Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permalink to this heading">#</a></h2>
+<section id="remove-old-yaml-discovery-functions-in-geoips-utils">
+<h3>Remove old YAML discovery functions in geoips_utils<a class="headerlink" href="#remove-old-yaml-discovery-functions-in-geoips-utils" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211a: 2023-05-01, gridline/feature updates</em></p>
+<ul class="simple">
+<li><p>Remove list_gridlines_params_dict_yamls</p></li>
+<li><p>Remove list_boundaries_params_dict_yamls</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">geoips</span><span class="o">/</span><span class="n">geoips_utils</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="remove-old-yaml-configs-and-old-interfaces">
+<h3>Remove old YAML configs and old interfaces<a class="headerlink" href="#remove-old-yaml-configs-and-old-interfaces" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211: 2023-05-01, update code for new interfaces</em></p>
+<p>NOTE: had to pull “set_lonlat_spacing” out of geoips/dev/gridlines.py and
+put it in geoips/dev/output_config.py.  Will likely want to handle this
+differently in the future.</p>
+<ul class="simple">
+<li><p>boundaries -&gt; feature_annotator</p></li>
+<li><p>gridlines -&gt; gridline_annotator</p></li>
+<li><p>sectors_static -&gt; sectors.static</p></li>
+<li><p>sectors_dynamic -&gt; sectors.dynamic</p></li>
+<li><p>product_inputs -&gt; products</p></li>
+<li><p>product_params -&gt; product_defaults</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">output_config</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">boundaries</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">gridlines</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">plotting_params</span><span class="o">/</span><span class="n">boundaries</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">plotting_params</span><span class="o">/</span><span class="n">gridlines</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">sectors_static</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">sectors_dynamic</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">product_inputs</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">product_params</span>
+</pre></div>
+</div>
+</section>
+<section id="update-dev-output-config-py-to-use-new-yaml-interfaces">
+<h3>Update dev/output_config.py to use new YAML interfaces<a class="headerlink" href="#update-dev-output-config-py-to-use-new-yaml-interfaces" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211: 2023-05-01, update code for new interfaces</em></p>
+<ul class="simple">
+<li><p>from geoips.dev.boundaries import get_boundaries</p></li>
+<li><p>from geoips.dev.gridlines import get_gridlines</p></li>
+</ul>
+<p>to:</p>
+<ul class="simple">
+<li><p>from geoips.interfaces import feature_annotators</p></li>
+<li><p>from geoips.interfaces import gridline_annotators</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">output_config</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="refactor-gridline-annotator-and-feature-annotator-plugin-schema-and-plugins">
+<h3>Refactor gridline_annotator and feature_annotator plugin schema and plugins<a class="headerlink" href="#refactor-gridline-annotator-and-feature-annotator-plugin-schema-and-plugins" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211a: 2023-05-01, gridline/feature updates</em></p>
+<ul class="simple">
+<li><p>In feature annotators</p>
+<ul>
+<li><p>use “coastlines” -&gt; “coastline” and “countries” -&gt; “borders”</p></li>
+<li><p>use “edgecolor” instead of “color”</p></li>
+</ul>
+</li>
+<li><p>In gridline annotators</p>
+<ul>
+<li><p>Move to three spec sections: “spacing”, “labels”, and “lines”</p></li>
+<li><p>Use same line style for meridians and parallels</p></li>
+</ul>
+</li>
+</ul>
+<dl class="simple">
+<dt>::</dt><dd><p>modified: schema/feature_annotators/cartopy.yaml
+modified: schema/gridline_annotators/cartopy.yaml
+modified: plugins/yaml/feature_annotators
+modified: plugins/yaml/gridline_annotators
+modified: tests/test_pytest/test_plugin_schema/bad/feature_annotators/cartopy.yaml
+modified: tests/test_pytest/test_plugin_schema/bad/gridline_annotators/cartopy.yaml</p>
+</dd>
+</dl>
+</section>
+<section id="rework-mapping-routines-to-use-new-interfaces">
+<h3>Rework mapping routines to use new interfaces<a class="headerlink" href="#rework-mapping-routines-to-use-new-interfaces" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211a: 2023-05-01, gridline/feature updates</em></p>
+<ul class="simple">
+<li><p>image_utils/maps.py</p>
+<ul>
+<li><p>Remove all functionality relating to Basemap</p></li>
+<li><p>Remove set_boundaries_info_dict and set_gridlines_info_dict</p></li>
+<li><p>Rename check_gridlines_info_dict to check_gridline_annotator</p></li>
+<li><p>Rename check_boundaries_info_dict to check_feature_annotator</p></li>
+<li><p>Add compute_lat_auto_spacing and compute_lon_auto_spacing</p></li>
+<li><p>Refactor all other functions</p></li>
+</ul>
+</li>
+<li><p>image_utils/mpl_utils.py</p>
+<ul>
+<li><p>Replace all uses of boundaries_info with feature_annotator</p></li>
+<li><p>Replace all uses of gridlines_info with gridline_annotator</p></li>
+</ul>
+</li>
+</ul>
+<dl class="simple">
+<dt>::</dt><dd><p>image_utils/maps.py
+image_utils/mpl_utils.py</p>
+</dd>
+</dl>
+</section>
+<section id="update-boundaries-gridlines-info-to-feature-gridline-annotator">
+<h3>Update boundaries/gridlines_info to feature/gridline_annotator<a class="headerlink" href="#update-boundaries-gridlines-info-to-feature-gridline-annotator" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211a: 2023-05-01, gridline/feature updates</em></p>
+<p>These are dictionaries of feature information to use in the final
+output plot.  Replace with “feature_annotator” terminology for the
+call signature argument.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">output_config</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">full_disk_image</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">imagery_windbarbs</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">image_utils</span><span class="o">/</span><span class="n">mpl_utils</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-boundaries-gridlines-params-to-feature-gridline-annotator">
+<h3>Update boundaries/gridlines_params to feature/gridline_annotator<a class="headerlink" href="#update-boundaries-gridlines-params-to-feature-gridline-annotator" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211a: 2023-05-01, gridline/feature updates</em></p>
+<p>Update both command line calls and YAML output configs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">args</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">output_config</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc</span><span class="mf">.89</span><span class="n">H</span><span class="o">-</span><span class="n">Physical</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">amsub_mirs</span><span class="o">.</span><span class="n">tc</span><span class="mf">.183</span><span class="o">-</span><span class="mi">3</span><span class="n">H</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">hy2</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windspeed</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">saphir</span><span class="o">.</span><span class="n">tc</span><span class="mf">.183</span><span class="o">-</span><span class="mi">3</span><span class="n">HNearest</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">sar</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">nrcs</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">viirsday</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">abi_test</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">abi_test_low_memory</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="remove-sectorfiles-option-from-commandline">
+<h3>Remove sectorfiles option from commandline<a class="headerlink" href="#remove-sectorfiles-option-from-commandline" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211b: 2023-05-01, sector updates</em></p>
+<p>Sectors are now fully fledged plugins, so we can just pass the list of
+sectors command line, we do not have to pass the full path to the associated
+file.  Remove all references to “sectorfiles” arguments, and rely on the
+sector list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">args</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">run_procflow</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">output_config</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">documentation_imagery</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">ewsg</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">mimic_coarse</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">TPW</span><span class="o">-</span><span class="n">CIMSS</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">abi_test</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">abi_test_low_memory</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">amsr2_test</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">amsr2_test_low_memory</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="update-all-tc-templates-to-use-updated-sectors-generated-formatting">
+<h3>Update all TC templates to use updated sectors.generated formatting<a class="headerlink" href="#update-all-tc-templates-to-use-updated-sectors-generated-formatting" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211c: 2023-05-02, dynamic sector updates</em></p>
+<p>These only require sector_spec_generator specifications,
+not sector_metadata_generator. Metadata is determined separately
+from the area definition.</p>
+<p>Update schema and all TC template YAMLs accordingly.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">generated</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1024x1024</span><span class="o">/</span><span class="n">tc_1km_1024x1024</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1024x1024</span><span class="o">/</span><span class="n">tc_2km_1024x1024</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1400x1400</span><span class="o">/</span><span class="n">tc_1km_1400x1400</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1400x1400</span><span class="o">/</span><span class="n">tc_2km_1400x1400</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1600x1600</span><span class="o">/</span><span class="n">tc_2km_1600x1600</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_1600x1600</span><span class="o">/</span><span class="n">tc_4km_1600x1600</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_256x256</span><span class="o">/</span><span class="n">tc_4km_256x256</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_512x512</span><span class="o">/</span><span class="n">tc_2km_512x512</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_512x512</span><span class="o">/</span><span class="n">tc_4km_512x512</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_800x800</span><span class="o">/</span><span class="n">tc_2km_800x800</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_800x800</span><span class="o">/</span><span class="n">tc_4km_800x800</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_huge</span><span class="o">/</span><span class="n">tc_0p1km_3200x3200</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_huge</span><span class="o">/</span><span class="n">tc_1km_2500x2500</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_huge</span><span class="o">/</span><span class="n">tc_1km_3200x3200</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_web_ascat_high_barbs_template</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_web_ascatuhr_barbs_template</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_web_halfkm_template</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">dynamic</span><span class="o">/</span><span class="n">tc_web_template</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="replace-tc-template-yaml-command-line-argument-with-tc-spec-template">
+<h3>Replace tc_template_yaml command line argument with tc_spec_template<a class="headerlink" href="#replace-tc-template-yaml-command-line-argument-with-tc-spec-template" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211c: 2023-05-02, dynamic sector updates</em></p>
+<p>Now that TC templates are fully fledged plugins, reference them just based
+on plugin name rather than full path to YAML file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">args</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">output_config</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">scripts</span><span class="o">/</span><span class="n">ascat_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery_windbarbs_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">scripts</span><span class="o">/</span><span class="n">ascat_uhr</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">wind</span><span class="o">-</span><span class="n">ambiguities</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">scripts</span><span class="o">/</span><span class="n">atms</span><span class="o">.</span><span class="n">tc</span><span class="mf">.165</span><span class="n">H</span><span class="o">.</span><span class="n">netcdf_geoips</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">scripts</span><span class="o">/</span><span class="n">oscat_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">yaml_configs</span><span class="o">/</span><span class="n">abi_test</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">yaml_configs</span><span class="o">/</span><span class="n">abi_test_low_memory</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">yaml_configs</span><span class="o">/</span><span class="n">amsr2_test</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">yaml_configs</span><span class="o">/</span><span class="n">amsr2_test_low_memory</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="update-single-source-procflow-to-use-new-sector-adjusters-interface">
+<h3>Update single_source procflow to use new sector_adjusters interface<a class="headerlink" href="#update-single-source-procflow-to-use-new-sector-adjusters-interface" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211d: 2023-05-02, sector adjuster updates</em></p>
+<p>Was previously using “find_entry_point” directly.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="replace-adjust-area-def-command-line-arg-with-sector-adjuster">
+<h3>Replace adjust_area_def command line arg with sector_adjuster<a class="headerlink" href="#replace-adjust-area-def-command-line-arg-with-sector-adjuster" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211d: 2023-05-02, sector adjuster updates</em></p>
+<p>Update appropriately in config_based and single_source.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">commandline</span><span class="o">/</span><span class="n">args</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="move-colormaps-to-plugins-txt-ascii-palettes">
+<h3>Move colormaps to plugins/txt/ascii_palettes<a class="headerlink" href="#move-colormaps-to-plugins-txt-ascii-palettes" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates</em></p>
+<p>Consolidating user-defined capabilities within “plugins” directory.</p>
+<p>Add support for text ascii_palettes - which are not strictly geoips plugins
+(since they will not have the required attributes, etc), but will be
+accessed in a similar way.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">tpw</span><span class="o">/</span><span class="n">tpw_cimss</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">tpw</span><span class="o">/</span><span class="n">tpw_purple</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">tpw</span><span class="o">/</span><span class="n">tpw_pwat</span><span class="o">.</span><span class="n">py</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">image_utils</span><span class="o">/</span><span class="n">ascii_palettes</span><span class="o">/</span><span class="n">tpw_cimss</span><span class="o">.</span><span class="n">txt</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">txt</span><span class="o">/</span><span class="n">ascii_palettes</span><span class="o">/</span><span class="n">tpw_cimss</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">image_utils</span><span class="o">/</span><span class="n">ascii_palettes</span><span class="o">/</span><span class="n">tpw_purple</span><span class="o">.</span><span class="n">txt</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">txt</span><span class="o">/</span><span class="n">ascii_palettes</span><span class="o">/</span><span class="n">tpw_purple</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">image_utils</span><span class="o">/</span><span class="n">ascii_palettes</span><span class="o">/</span><span class="n">tpw_pwat</span><span class="o">.</span><span class="n">txt</span> <span class="o">-&gt;</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">txt</span><span class="o">/</span><span class="n">ascii_palettes</span><span class="o">/</span><span class="n">tpw_pwat</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="change-all-colormap-families-to-matplotlib">
+<h3>Change all colormap families to “matplotlib”<a class="headerlink" href="#change-all-colormap-families-to-matplotlib" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211e: 2023-05-03, colormap updates</em></p>
+<p>Redefining plugin familes as a collection of required_parameters,
+required_kwargs, and allowable_kwargs.  This allows us to have a
+collections of keyword arguments that <em>can</em> be specified for
+matplotlib-based colormaps, but do not <em>have</em> to be specified.
+So rather than having a different family for every combination of
+tuning parameters for color specifications, have a general “matplotlib” family
+that all return the “mpl_colors_info” dictionary, but can have a variable set
+of arguments (depending on requirements for a specific colormap).</p>
+<p>All matplotlib families now have NO required params or kwargs, and a list of
+available_kwargs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">colormaps</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">cmap_rgb</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">matplotlib_linear_norm</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">pmw_tb</span><span class="o">/</span><span class="n">cmap_150H</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">pmw_tb</span><span class="o">/</span><span class="n">cmap_37H</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">pmw_tb</span><span class="o">/</span><span class="n">cmap_37H_Legacy</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">pmw_tb</span><span class="o">/</span><span class="n">cmap_37H_Physical</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">pmw_tb</span><span class="o">/</span><span class="n">cmap_37pct</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">pmw_tb</span><span class="o">/</span><span class="n">cmap_89H</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">pmw_tb</span><span class="o">/</span><span class="n">cmap_89HW</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">pmw_tb</span><span class="o">/</span><span class="n">cmap_89H_Legacy</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">pmw_tb</span><span class="o">/</span><span class="n">cmap_89H_Physical</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">pmw_tb</span><span class="o">/</span><span class="n">cmap_89pct</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">pmw_tb</span><span class="o">/</span><span class="n">cmap_Rain</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">tpw</span><span class="o">/</span><span class="n">tpw_cimss</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">tpw</span><span class="o">/</span><span class="n">tpw_purple</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">tpw</span><span class="o">/</span><span class="n">tpw_pwat</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">visir</span><span class="o">/</span><span class="n">IR_BD</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">visir</span><span class="o">/</span><span class="n">Infrared</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">visir</span><span class="o">/</span><span class="n">WV</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">colormaps</span><span class="o">/</span><span class="n">winds</span><span class="o">/</span><span class="n">wind_radii_transitions</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="allow-passing-dictionary-of-product-spec-overrides-to-products-get-plugin">
+<h3>Allow passing dictionary of product_spec_overrides to products.get_plugin<a class="headerlink" href="#allow-passing-dictionary-of-product-spec-overrides-to-products-get-plugin" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211f: 2023-05-09, product updates</em></p>
+<p>When opening a product plugin, if optional “product_spec_override” is passed
+to the get_plugin method, use the values contained within product_spec_override
+in place of those found in products and product_defaults.</p>
+<p>This replaces the “product_params_override” used with the deprecated product
+interface.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">args</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">yaml_based</span><span class="o">/</span><span class="n">products</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc</span><span class="mf">.89</span><span class="n">H</span><span class="o">-</span><span class="n">Physical</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">amsr2_ocean</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windspeed</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">amsub_mirs</span><span class="o">.</span><span class="n">tc</span><span class="mf">.183</span><span class="o">-</span><span class="mi">3</span><span class="n">H</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">ascat_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery_windbarbs_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">ascat_low_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">ascat_uhr</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">wind</span><span class="o">-</span><span class="n">ambiguities</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">atms</span><span class="o">.</span><span class="n">tc</span><span class="mf">.165</span><span class="n">H</span><span class="o">.</span><span class="n">netcdf_geoips</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">gmi</span><span class="o">.</span><span class="n">tc</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">hy2</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windspeed</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">oscat_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">saphir</span><span class="o">.</span><span class="n">tc</span><span class="mf">.183</span><span class="o">-</span><span class="mi">3</span><span class="n">HNearest</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">sar</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">nrcs</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">ssmi</span><span class="o">.</span><span class="n">tc</span><span class="mf">.37</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">viirsday</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">amsr2_test</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">amsr2_test_low_memory</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="support-multiple-coverage-checkers-for-a-single-product">
+<h3>Support multiple coverage checkers for a single product<a class="headerlink" href="#support-multiple-coverage-checkers-for-a-single-product" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211f: 2023-05-09, product updates</em></p>
+<ul class="simple">
+<li><p>Add filename_coverage_checker, full_coverage_checker, and
+image_production_coverage_checker to product_defaults schema</p></li>
+<li><p>Pass output_dict[“product_spec_override”] to all products.get_plugin calls.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">output_config</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">tc_file_naming</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">metadata_tc</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">algorithm_colormap</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">algorithm_interpolator_colormap</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">interpolator_algorithm</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">interpolator_algorithm_colormap</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing-updates">
+<h2>Testing Updates<a class="headerlink" href="#testing-updates" title="Permalink to this heading">#</a></h2>
+<section id="run-pytest-on-all-installed-geoips-plugin-packages">
+<h3>Run pytest on all installed geoips plugin packages<a class="headerlink" href="#run-pytest-on-all-installed-geoips-plugin-packages" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211: 2023-05-09, interface updates</em></p>
+<p>To ensure all functionality is tested, loop through all geoips  plugin packages
+when running tests/test_pytest.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_pytest</span><span class="o">/</span><span class="n">test_all_yaml_plugins</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="add-data-fusion-stitched-test-to-test-full-install-sh">
+<h3>Add data_fusion stitched test to test_full_install.sh<a class="headerlink" href="#add-data-fusion-stitched-test-to-test-full-install-sh" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211: 2023-05-09, interface updates</em></p>
+<p>Add NOAA AWS pull of goes16, goes17, and himawari8 to
+test_data_fusion.</p>
+<p>Update data_fusion test call to run test_all.sh vs just layered.sh</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">setup</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">test_full_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="add-template-basic-plugin-test-to-test-full-install-sh">
+<h3>Add template_basic_plugin test to test_full_install.sh<a class="headerlink" href="#add-template-basic-plugin-test-to-test-full-install-sh" title="Permalink to this heading">#</a></h3>
+<p><em>From NRLMMD-GEOIPS/geoips#211: 2023-05-09, interface updates</em></p>
+<p>Ensure template_basic_plugin is installed properly.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">;</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_full_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="v1_10_0a13.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.10.0a13 (2023-05-11)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="v1_10_0a11.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.10.0a11 (2023-04-30)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-plugin-names-in-product-defaults">Fix plugin names in product_defaults</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#major-new-functionality">Major New Functionality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-new-sector-interface">Add new sector interface</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-sector-adjusters-interface">Add sector_adjusters interface</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-cbar-ticks-none-to-plot-min-max-of-actual-data">Allow cbar_ticks == None to plot min/max of actual data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-matplotlib-linear-norm-to-allow-matplotlib-ascii-and-geoips-colormaps">Update matplotlib_linear_norm to allow matplotlib, ascii, and geoips colormaps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-find-ascii-palette-routine-to-geoips-utils-py">Add “find_ascii_palette” routine to geoips_utils.py</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-matplotlib-linear-norm-colormap-plugin-to-support-ascii-palettes">Update matplotlib_linear_norm colormap plugin to support ASCII palettes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes">Breaking Changes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-old-yaml-discovery-functions-in-geoips-utils">Remove old YAML discovery functions in geoips_utils</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-old-yaml-configs-and-old-interfaces">Remove old YAML configs and old interfaces</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-dev-output-config-py-to-use-new-yaml-interfaces">Update dev/output_config.py to use new YAML interfaces</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refactor-gridline-annotator-and-feature-annotator-plugin-schema-and-plugins">Refactor gridline_annotator and feature_annotator plugin schema and plugins</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rework-mapping-routines-to-use-new-interfaces">Rework mapping routines to use new interfaces</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-boundaries-gridlines-info-to-feature-gridline-annotator">Update boundaries/gridlines_info to feature/gridline_annotator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-boundaries-gridlines-params-to-feature-gridline-annotator">Update boundaries/gridlines_params to feature/gridline_annotator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-sectorfiles-option-from-commandline">Remove sectorfiles option from commandline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-all-tc-templates-to-use-updated-sectors-generated-formatting">Update all TC templates to use updated sectors.generated formatting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-tc-template-yaml-command-line-argument-with-tc-spec-template">Replace tc_template_yaml command line argument with tc_spec_template</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-single-source-procflow-to-use-new-sector-adjusters-interface">Update single_source procflow to use new sector_adjusters interface</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-adjust-area-def-command-line-arg-with-sector-adjuster">Replace adjust_area_def command line arg with sector_adjuster</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-colormaps-to-plugins-txt-ascii-palettes">Move colormaps to plugins/txt/ascii_palettes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-all-colormap-families-to-matplotlib">Change all colormap families to “matplotlib”</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-passing-dictionary-of-product-spec-overrides-to-products-get-plugin">Allow passing dictionary of product_spec_overrides to products.get_plugin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#support-multiple-coverage-checkers-for-a-single-product">Support multiple coverage checkers for a single product</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-updates">Testing Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-pytest-on-all-installed-geoips-plugin-packages">Run pytest on all installed geoips plugin packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-data-fusion-stitched-test-to-test-full-install-sh">Add data_fusion stitched test to test_full_install.sh</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-template-basic-plugin-test-to-test-full-install-sh">Add template_basic_plugin test to test_full_install.sh</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/releases/v1_10_0a12.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

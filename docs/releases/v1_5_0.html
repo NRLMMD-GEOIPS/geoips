@@ -1,0 +1,1115 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.5.0 (2022-06-09) &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/v1_5_0';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.4.8 (2022-05-15)" href="v1_4_8.html" />
+    <link rel="prev" title="Version 1.5.1 (2022-07-13)" href="v1_5_1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-08-19)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a12.html">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a5.html">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_1.html">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_5_3.html">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Version 1.5.0 (2022-06-09)</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <blockquote>
+<div><div class="line-block">
+<div class="line"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</div>
+<div class="line"># # #</div>
+<div class="line"># # # Author:</div>
+<div class="line"># # # Naval Research Laboratory, Marine Meteorology Division</div>
+<div class="line"># # #</div>
+<div class="line"># # # This program is free software: you can redistribute it and/or modify it under</div>
+<div class="line"># # # the terms of the NRLMMD License included with this program. This program is</div>
+<div class="line"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</div>
+<div class="line"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</div>
+<div class="line"># # # for more details. If you did not receive the license, for more information see:</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/U-S-NRL-Marine-Meteorology-Division/">U-S-NRL-Marine-Meteorology-Division/</a></div>
+</div>
+</div></blockquote>
+<section id="version-1-5-0-2022-06-09">
+<h1>Version 1.5.0 (2022-06-09)<a class="headerlink" href="#version-1-5-0-2022-06-09" title="Permalink to this heading">#</a></h1>
+<p>v1.5.0: 2022-06-09, consolidate/update test outputs to latest dependencies, geoips2-&gt;geoips, update GEOIPS_REPO_URL</p>
+<p>v1.5.0post2: 2022-06-16, update to github.com/NRLMMD-GeoIPS</p>
+<section id="installation-and-test">
+<h2>Installation and test<a class="headerlink" href="#installation-and-test" title="Permalink to this heading">#</a></h2>
+<ul>
+<li><p>Replace github.com/U-S-NRL-Marine-Meteorology-Division with github.com/NRLMMD-GeoIPS</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git-workflow.rst</p></li>
+<li><p>installation.rst</p></li>
+<li><p>README.md</p></li>
+<li><p>config_geoips</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>v1.5.0post1: 2022-06-11, support &lt;ORG&gt;/&lt;REPO&gt; specifications</p>
+</section>
+<section id="improvements">
+<h2>Improvements<a class="headerlink" href="#improvements" title="Permalink to this heading">#</a></h2>
+<ul>
+<li><p><strong>setup.sh repository name specifications</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p>“&lt;repo_name&gt;” - $GEOIPS_BASE_URL/GEOIPS/&lt;repo_name&gt;.git == $GEOIPS_REPO_URL/&lt;repo_name&gt;.git</p></li>
+<li><p>“&lt;repo_org&gt;/&lt;repo_name&gt;” - $GEOIPS_BASE_URL/&lt;repo_org&gt;/&lt;repo_name&gt;.git</p></li>
+<li><p>“/&lt;repo_name&gt;” - $GEOIPS_BASE_URL/&lt;repo_name&gt;.git</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><strong>Remove .github/hooks/update.ry - unused</strong></p></li>
+</ul>
+</section>
+<section id="test-repo-updates">
+<h2>Test Repo Updates<a class="headerlink" href="#test-repo-updates" title="Permalink to this heading">#</a></h2>
+<section id="test-sectors">
+<h3>Test Sectors<a class="headerlink" href="#test-sectors" title="Permalink to this heading">#</a></h3>
+<ul>
+<li><p>Add bdeck files</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>bwp012020.dat</p></li>
+<li><p>bep112021.dat</p></li>
+<li><p>bsh082021.dat</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="additional-direct-test-calls-and-outputs">
+<h3>Additional direct test calls and outputs<a class="headerlink" href="#additional-direct-test-calls-and-outputs" title="Permalink to this heading">#</a></h3>
+<ul>
+<li><p>ATMS 165H reprojected netcdf output, bep112021</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Test script: $GEOIPS/tests/scripts/atms.tc.165H.netcdf_geoips.sh</p></li>
+<li><p>Output dir: $GEOIPS/tests/outputs/atms.tc.165H.netcdf_geoips</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>EWS-G Infrared reprojected clean imagery, ewsg.yaml</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Test script: $GEOIPS/tests/scripts/ewsg.static.Infrared.imagery_clean.sh</p></li>
+<li><p>Output dir: $GEOIPS/tests/outputs/ewsg.static.Infrared.imagery_clean</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>SAPHIR 183-3HNearest reprojected annotated imagery, bsh192021</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Test script: $GEOIPS/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh</p></li>
+<li><p>Output dir: $GEOIPS/tests/outputs/saphir.tc.183-3HNearest.imagery_annotated</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>AMSR2 OCEAN windspeed clean imagery output</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Test script: $GEOIPS/tests/scripts/amsr2_winds.tc.windspeed.imagery_clean.sh</p></li>
+<li><p>Output dir: $GEOIPS/tests/outputs/amsr2_winds.tc.windspeed.imagery_clean</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>ASCAT METOP-C Low resolution (25km) windbarb annotated imagery output</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Test script: $GEOIPS/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh</p></li>
+<li><p>Output dir: $GEOIPS/tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>SSMI 37pct clean imagery output</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Test script: $GEOIPS/tests/scripts/ssmi.tc.37pct.imagery_clean.sh</p></li>
+<li><p>Output dir: $GEOIPS/tests/outputs/ssmi.tc.37pct.imagery_clean</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>TPW MIMIC fine, TPW-PWAT product annotated imagery output</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Test script: $GEOIPS/tests/scripts/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh</p></li>
+<li><p>Output dir: $GEOIPS/tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="updated-test-scripts">
+<h3>Updated test scripts<a class="headerlink" href="#updated-test-scripts" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>ahi.IR-BD.imagery_clean.sh -&gt; ahi.WV.geotiff.sh</p></li>
+</ul>
+</section>
+<section id="update-test-script-names-to-include-sector-type">
+<h3>Update test script names to include sector type<a class="headerlink" href="#update-test-script-names-to-include-sector-type" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">abi</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>                  <span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span>
+<span class="n">ahi</span><span class="o">.</span><span class="n">WV</span><span class="o">.</span><span class="n">geotiff</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>                                  <span class="n">ahi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">WV</span><span class="o">.</span><span class="n">geotiff</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">amsr2</span><span class="mf">.89</span><span class="n">H</span><span class="o">-</span><span class="n">Physical</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>           <span class="n">amsr2</span><span class="o">.</span><span class="n">tc</span><span class="mf">.89</span><span class="n">H</span><span class="o">-</span><span class="n">Physical</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">amsub</span>\<span class="n">_mirs</span><span class="o">.</span><span class="n">tc</span><span class="mf">.183</span><span class="o">-</span><span class="mi">3</span><span class="n">H</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span> <span class="o">-&gt;</span>           <span class="n">amsub</span>\<span class="n">_mirs</span><span class="o">.</span><span class="n">tc</span><span class="mf">.183</span><span class="o">-</span><span class="mi">3</span><span class="n">H</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">ascat</span>\<span class="n">_uhr</span><span class="o">.</span><span class="n">wind</span><span class="o">-</span><span class="n">ambiguities</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_windbarbs</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>  <span class="n">ascat</span>\<span class="n">_uhr</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">wind</span><span class="o">-</span><span class="n">ambiguities</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_windbarbs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">ascat</span>\<span class="n">_knmi</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_windbarbs</span>\<span class="n">_clean</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span> <span class="n">ascat</span>\<span class="n">_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_windbarbs</span>\<span class="n">_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">atms</span><span class="mf">.165</span><span class="n">H</span><span class="o">.</span><span class="n">netcdf</span>\<span class="n">_geoips</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>                        <span class="n">atms</span><span class="o">.</span><span class="n">tc</span><span class="mf">.165</span><span class="n">H</span><span class="o">.</span><span class="n">netcdf</span>\<span class="n">_geoips</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">ewsg</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_clean</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>                    <span class="n">ewsg</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">gmi</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_clean</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>                        <span class="n">gmi</span><span class="o">.</span><span class="n">tc</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">imerg</span><span class="o">.</span><span class="n">Rain</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_clean</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>                       <span class="n">imerg</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Rain</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">oscat</span>\<span class="n">_knmi</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_windbarbs</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>        <span class="n">oscat</span>\<span class="n">_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_windbarbs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">hy2</span><span class="o">.</span><span class="n">windspeed</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>                <span class="n">hy2</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windspeed</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">mimic</span><span class="o">.</span><span class="n">TPW</span>\<span class="n">_CIMSS</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span> <span class="o">-&gt;</span>                <span class="n">mimic</span>\<span class="n">_coarse</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">TPW</span><span class="o">-</span><span class="n">CIMSS</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">sar</span><span class="o">.</span><span class="n">nrcs</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>                     <span class="n">sar</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">nrcs</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">smos</span><span class="o">.</span><span class="n">sectored</span><span class="o">.</span><span class="n">text</span>\<span class="n">_winds</span> <span class="o">-&gt;</span>                          <span class="n">smos</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">sectored</span><span class="o">.</span><span class="n">text</span>\<span class="n">_winds</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">viirsday</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span><span class="o">.</span><span class="n">sh</span><span class="o">-&gt;</span>         <span class="n">viirsday</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">viirsmoon</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">GeoIPS1</span><span class="o">.</span><span class="n">clean</span><span class="o">.</span><span class="n">sh</span> <span class="o">-&gt;</span>               <span class="n">viirsmoon</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">GeoIPS1</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_clean</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="update-test-output-directories-to-include-sector-type-and-output-type">
+<h3>Update test output directories to include sector type and output type<a class="headerlink" href="#update-test-output-directories-to-include-sector-type-and-output-type" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">abi</span>\<span class="n">_Visible</span>\<span class="n">_image</span> <span class="o">-&gt;</span>                   <span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">annotated</span>
+<span class="n">ahi</span>\<span class="n">_IR</span><span class="o">-</span><span class="n">BD</span> <span class="o">-&gt;</span>                            <span class="n">ahi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">WV</span><span class="o">.</span><span class="n">geotiff</span>
+<span class="n">amsr2</span>\<span class="n">_89H</span><span class="o">-</span><span class="n">Physical</span> <span class="o">-&gt;</span>                   <span class="n">amsr2</span><span class="o">.</span><span class="n">tc</span><span class="mf">.89</span><span class="n">H</span><span class="o">-</span><span class="n">Physical</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span>
+<span class="n">amsub</span>\<span class="n">_183</span><span class="o">-</span><span class="mi">3</span><span class="n">H</span> <span class="o">-&gt;</span>                         <span class="n">amsub</span>\<span class="n">_mirs</span><span class="o">.</span><span class="n">tc</span><span class="mf">.183</span><span class="o">-</span><span class="mi">3</span><span class="n">H</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span>
+<span class="n">ascat</span>\<span class="n">_uhr</span>\<span class="n">_wind</span><span class="o">-</span><span class="n">ambiguities</span> <span class="o">-&gt;</span>          <span class="n">ascat</span>\<span class="n">_uhr</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">wind</span><span class="o">-</span><span class="n">ambiguities</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_windbarbs</span>
+<span class="n">ascat</span>\<span class="n">_knmi</span>\<span class="n">_windbarbs</span> <span class="o">-&gt;</span>                <span class="n">ascat</span>\<span class="n">_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_windbarbs</span>\<span class="n">_clean</span>
+<span class="n">atms</span>\<span class="n">_165H</span> <span class="o">-&gt;</span>                            <span class="n">atms</span><span class="o">.</span><span class="n">tc</span><span class="mf">.165</span><span class="n">H</span><span class="o">.</span><span class="n">netcdf</span>\<span class="n">_geoips</span>
+<span class="n">ewsg</span>\<span class="n">_Infrared</span> <span class="o">-&gt;</span>                        <span class="n">ewsg</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_clean</span>
+<span class="n">gmi</span>\<span class="n">_89pct</span> <span class="o">-&gt;</span>                            <span class="n">gmi</span><span class="o">.</span><span class="n">tc</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_clean</span>
+<span class="n">hy2</span>\<span class="n">_windspeed</span> <span class="o">-&gt;</span>                        <span class="n">hy2</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windspeed</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span>
+<span class="n">imerg</span>\<span class="n">_Rain</span> <span class="o">-&gt;</span>                           <span class="n">imerg</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Rain</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_clean</span>
+<span class="n">mimic</span>\<span class="n">_TPW</span>\<span class="n">_CIMSS</span> <span class="o">-&gt;</span>                     <span class="n">mimic</span>\<span class="n">_coarse</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">TPW</span><span class="o">-</span><span class="n">CIMSS</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span>
+<span class="n">modis</span>\<span class="n">_Infrared</span> <span class="o">-&gt;</span>                       <span class="n">modis</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">unprojected</span>\<span class="n">_image</span>
+<span class="n">oscat</span>\<span class="n">_knmi</span>\<span class="n">_windbarbs</span> <span class="o">-&gt;</span>                <span class="n">oscat</span>\<span class="n">_knmi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_windbarbs</span>
+<span class="n">sar</span>\<span class="n">_nrcs</span> <span class="o">-&gt;</span>                             <span class="n">sar</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">nrcs</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span>
+<span class="n">smap</span>\<span class="n">_text</span>\<span class="n">_winds</span> <span class="o">-&gt;</span>                     <span class="n">smap</span><span class="o">.</span><span class="n">unsectored</span><span class="o">.</span><span class="n">text</span>\<span class="n">_winds</span>
+<span class="n">smos</span>\<span class="n">_sectored</span> <span class="o">-&gt;</span>                        <span class="n">smos</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">sectored</span><span class="o">.</span><span class="n">text</span>\<span class="n">_winds</span>
+<span class="n">seviri</span>\<span class="n">_WV</span><span class="o">-</span><span class="n">Upper</span> <span class="o">-&gt;</span>                      <span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">unprojected</span>\<span class="n">_image</span>
+<span class="n">ssmis</span>\<span class="n">_color89</span> <span class="o">-&gt;</span>                        <span class="n">ssmis</span><span class="o">.</span><span class="n">color89</span><span class="o">.</span><span class="n">unprojected</span>\<span class="n">_image</span>
+<span class="n">viirsclearnight</span>\<span class="n">_Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR</span><span class="o">-</span><span class="n">GeoIPS1</span> <span class="o">-&gt;</span> <span class="n">viirsclearnight</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR</span><span class="o">-</span><span class="n">GeoIPS1</span><span class="o">.</span><span class="n">unprojected</span>\<span class="n">_image</span>
+<span class="n">viirsday</span>\<span class="n">_Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR</span> <span class="o">-&gt;</span>                <span class="n">viirsday</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_annotated</span>
+<span class="n">viirsmoon</span>\<span class="n">_Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">GeoIPS1</span> <span class="o">-&gt;</span>          <span class="n">viirsmoon</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">GeoIPS1</span><span class="o">.</span><span class="n">imagery</span>\<span class="n">_clean</span>
+</pre></div>
+</div>
+</section>
+<section id="added-tc-bdeck-files">
+<h3>Added TC bdeck files<a class="headerlink" href="#added-tc-bdeck-files" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bal052021</span><span class="o">.</span><span class="n">dat</span> <span class="p">(</span><span class="n">SAPHIR</span> <span class="n">test</span> <span class="n">case</span><span class="p">,</span> <span class="n">unused</span><span class="p">)</span>
+<span class="n">bal032020</span><span class="o">.</span><span class="n">dat</span> <span class="p">(</span><span class="n">SAR</span> <span class="n">test</span> <span class="n">cases</span><span class="p">,</span> <span class="n">unused</span><span class="p">)</span>
+<span class="n">bwp252021</span><span class="o">.</span><span class="n">dat</span> <span class="p">(</span><span class="n">SAR</span> <span class="n">test</span> <span class="n">cases</span><span class="p">,</span> <span class="n">unused</span><span class="p">)</span>
+<span class="n">bsh242020</span><span class="o">.</span><span class="n">dat</span> <span class="p">(</span><span class="n">SEVIRI</span> <span class="n">test</span> <span class="n">case</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="abi-config-based-test-script">
+<h3>ABI config-based test script<a class="headerlink" href="#abi-config-based-test-script" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Update to standard &lt;sensor&gt;.&lt;sector_type&gt;.&lt;product&gt;.&lt;output_type&gt; directory format</p></li>
+<li><p>Update YAML metadata to use sectors/tc_bdecks sector path</p></li>
+</ul>
+</section>
+</section>
+<section id="dependency-version-update">
+<h2>Dependency Version Update<a class="headerlink" href="#dependency-version-update" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>matplotlib 3.4.3-&gt;3.5.2</p></li>
+<li><p>cartopy 0.20.0 -&gt; 0.20.2</p></li>
+<li><p>pyshp 2.1.3 -&gt; 2.2.0</p></li>
+<li><p>natural-earth-vector 5.0.0 -&gt; 5.2.0</p></li>
+</ul>
+<section id="impacted-test-outputs">
+<h3>Impacted test outputs<a class="headerlink" href="#impacted-test-outputs" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>amsub_mirs.tc.183-3H.imagery_annotated</p></li>
+<li><p>ascat_low_knmi.tc.windbarbs.imagery_windbarbs</p></li>
+<li><p>hy2.tc.windspeed.imagery_annotated</p></li>
+<li><p>mimic_coarse.static.TPW-CIMSS.imagery_annotated</p></li>
+<li><p>mimic_fine.tc.TPW-PWAT.imagery_annotated</p></li>
+<li><p>oscat_knmi.tc.windbarbs.imagery_windbarbs</p></li>
+<li><p>saphir.tc.183-3HNearest.imagery_annotated</p></li>
+<li><p>sar.tc.nrcs.imagery_annotated</p></li>
+<li><p>AFTER TEST DATA UNCOMPRESS BUG FIX: amsr2.tc.89H-Physical.imagery_annotated</p></li>
+<li><p>AFTER TEST DATA UNCOMPRESS BUG FIX: ascat_uhr.tc.wind-ambiguities.imagery_windbarbs</p></li>
+</ul>
+</section>
+</section>
+<section id="refactor">
+<h2>Refactor<a class="headerlink" href="#refactor" title="Permalink to this heading">#</a></h2>
+<section id="file-modifications">
+<h3>File modifications<a class="headerlink" href="#file-modifications" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Update all instances of ‘geoips2’ with ‘geoips’</p></li>
+<li><p>Update all instances of ‘GEOIPS2’ with ‘GEOIPS’</p></li>
+<li><p>Update GEOIPS_REPO_URL to github.com/NRLMMD-GeoIPS</p></li>
+</ul>
+</section>
+<section id="file-renaming">
+<h3>File renaming<a class="headerlink" href="#file-renaming" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Rename all files and directories containing ‘geoips2’ with *geoips*</p></li>
+</ul>
+</section>
+<section id="setup-standardization">
+<h3>Setup standardization<a class="headerlink" href="#setup-standardization" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Replace ‘setup_geoips2.sh install_geoips2’ with ‘setup.sh install’</p></li>
+<li><p>Replace all instances of ‘setup_geoips2.sh’ with ‘setup.sh’</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3>Test sectors<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul>
+<li><dl class="simple">
+<dt>Organize test sectors for easier identification of available sectors,</dt><dd><p>and easier expansion to additional sector types in the future.</p>
+<ul class="simple">
+<li><p>static (currently large global and geostationary coverage sectors)</p></li>
+<li><p>tc_bdecks (bdeck files only)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Update all test scripts and YAML configs for new test sector locations</p></li>
+<li><p>Add tc_bdeck files</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>bep062021.dat - used with ABI daytime test dataset</p></li>
+<li><p>bwp192021.dat - Large WPAC storm 2021, Chantu (not currently used with any test datasets)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Update bep112021.dat - used with ATMS test script</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>File reprocessed April 2022 was of incorrect format for bdeck_parser - replace with last “realtime”</dt><dd><p>bdeck file.</p>
+</dd>
+</dl>
+</li>
+<li><p>Probably need to eventually create new parser for reprocessed deck files.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+</section>
+<section id="major-new-functionality">
+<h2>Major New Functionality<a class="headerlink" href="#major-new-functionality" title="Permalink to this heading">#</a></h2>
+<section id="product-types">
+<h3>Product types<a class="headerlink" href="#product-types" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Add ‘alg_interp_cmap’ product type to geoips/dev/product.py</p></li>
+<li><p>Add ‘interp’ product type to geoips/dev/product.py</p></li>
+</ul>
+</section>
+<section id="algorithm-interpolation-order-in-procflows">
+<h3>Algorithm / interpolation order in procflows<a class="headerlink" href="#algorithm-interpolation-order-in-procflows" title="Permalink to this heading">#</a></h3>
+<ul>
+<li><p>Check explicit list of product types when attempting to pull “alg” from product</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>[‘alg’, ‘alg_cmap’, ‘interp_alg’, ‘interp_alg_cmap’, ‘alg_interp_cmap’]</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Check explicit list of product types when attempting to apply algorithm prior to interpolation</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>[‘alg_cmap’, ‘alg_interp_cmap’, ‘alg’]</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><dl>
+<dt>Check explicit lists of product types / algorithm types when attempting to apply the results of interpolation/</dt><dd><p>algorithm application to the final xarray object</p>
+<ul>
+<li><p>[‘interp’]:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Use interp_xarray unchanged as final xarray object</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>[‘xarray_to_numpy’]:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Pass entire “interp_xarray” to algorithm,</p></li>
+<li><p>set returned numpy array as “product_name” variable</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>[‘xarray_to_xarray’]:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Pass entire “interp_xarray” to algorithm,</p></li>
+<li><p>set entire returned xarray object as “interp_xarray”</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>[‘single_channel’, ‘channel_combination’, ‘list_numpy_to_numpy’, ‘rgb’]</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Pass list of numpy arrays to algorithm.</p></li>
+<li><p>Set returned numpy array to “product_name” variable in xarray object.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Anything else</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Raise ValueError - must explicitly implement new types to work within procflow.</p></li>
+<li><p>Previously we defaulted to list_numpy_to_numpy</p></li>
+<li><p>If we do want a default, it should probably be “xarray_to_xarray”, but for now we will leave it explicit.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="coverage-checks">
+<h3>Coverage checks<a class="headerlink" href="#coverage-checks" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Add kwarg to existing coverage checks allowing passing an alternative variable name to the coverage check,</dt><dd><p>to be used in the event the primary variable name does not exist (useful when no “product_name” variable
+exists in the xarray object)</p>
+</dd>
+</dl>
+</li>
+<li><p>Allows passing explicitly variable name to use for coverage checks from “covg_args” in product YAML specs.</p></li>
+</ul>
+</section>
+</section>
+<section id="id2">
+<h2>Improvements<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<section id="pre-receive-hook">
+<h3>Pre-receive Hook<a class="headerlink" href="#pre-receive-hook" title="Permalink to this heading">#</a></h3>
+<ul>
+<li><p>Added “update” pre-receive hook to allow git commit message format hooks before push to GitHub</p></li>
+<li><p>Requires only one commit message in the current push to pass</p>
+<blockquote>
+<div><ul>
+<li><p>Must include valid Issue ID (GEOIPS/&lt;issue_repo_name&gt;#&lt;issue_num&gt;)</p></li>
+<li><p>Must follow format specification:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>one summary line</p></li>
+<li><p>one blank line (if more than one line in commit message)</p></li>
+<li><p>OPTIONAL: additional lines with detailed information</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="ssmi-binary">
+<h3>ssmi_binary<a class="headerlink" href="#ssmi-binary" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Raise sensible exception when incorrect data file passed into ssmi_binary reader</p></li>
+</ul>
+</section>
+<section id="tpw-products">
+<h3>TPW Products<a class="headerlink" href="#tpw-products" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Update TPW product names to use ‘-’ rather than ‘_’, to follow standard practice</p></li>
+</ul>
+</section>
+</section>
+<section id="documentation-updates">
+<h2>Documentation Updates<a class="headerlink" href="#documentation-updates" title="Permalink to this heading">#</a></h2>
+<section id="github-workflow">
+<h3>GitHub Workflow<a class="headerlink" href="#github-workflow" title="Permalink to this heading">#</a></h3>
+<ul>
+<li><p>Add rst documentation for full GitHub workflow</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Creating Issue</p></li>
+<li><p>Making changes to repositories</p></li>
+<li><p>Pushing changes to GitHub</p></li>
+<li><p>Creating a Pull Request</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="changelog-template-md">
+<h3>CHANGELOG_TEMPLATE.md<a class="headerlink" href="#changelog-template-md" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Add note at beginning that CHANGELOG_TEMPLATE.md itself should <em>not</em> be modified.</p></li>
+</ul>
+</section>
+</section>
+<section id="bug-fixes">
+<h2>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h2>
+<section id="atms-reader">
+<h3>ATMS Reader<a class="headerlink" href="#atms-reader" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Add atms reader to setup.py</p></li>
+<li><p>Update original_source_filenames to support multiple files in atms reader</p></li>
+</ul>
+</section>
+<section id="saphir-reader">
+<h3>SAPHIR Reader<a class="headerlink" href="#saphir-reader" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Replace h5_dataset.value construct with h5_dataset[…]</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="v1_5_1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.5.1 (2022-07-13)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="v1_4_8.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.4.8 (2022-05-15)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-test">Installation and test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improvements">Improvements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-repo-updates">Test Repo Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-sectors">Test Sectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-direct-test-calls-and-outputs">Additional direct test calls and outputs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#updated-test-scripts">Updated test scripts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-test-script-names-to-include-sector-type">Update test script names to include sector type</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-test-output-directories-to-include-sector-type-and-output-type">Update test output directories to include sector type and output type</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#added-tc-bdeck-files">Added TC bdeck files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abi-config-based-test-script">ABI config-based test script</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependency-version-update">Dependency Version Update</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#impacted-test-outputs">Impacted test outputs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refactor">Refactor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#file-modifications">File modifications</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#file-renaming">File renaming</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-standardization">Setup standardization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Test sectors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#major-new-functionality">Major New Functionality</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#product-types">Product types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-interpolation-order-in-procflows">Algorithm / interpolation order in procflows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coverage-checks">Coverage checks</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Improvements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-receive-hook">Pre-receive Hook</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssmi-binary">ssmi_binary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tpw-products">TPW Products</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-updates">Documentation Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#github-workflow">GitHub Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changelog-template-md">CHANGELOG_TEMPLATE.md</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atms-reader">ATMS Reader</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saphir-reader">SAPHIR Reader</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/releases/v1_5_0.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

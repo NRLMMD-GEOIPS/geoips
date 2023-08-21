@@ -1,0 +1,29 @@
+geoips.plugins.modules.procflows package
+========================================
+
+Submodules
+----------
+
+geoips.plugins.modules.procflows.config\_based module
+-----------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.procflows.config_based
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.procflows.single\_source module
+------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.procflows.single_source
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.procflows
+   :members:
+   :undoc-members:
+   :show-inheritance:

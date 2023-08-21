@@ -1,0 +1,1263 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.image_utils.mpl_utils &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/image_utils/mpl_utils';</script>
+    <link rel="icon" href="../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.image_utils.mpl_utils</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for geoips.image_utils.mpl_utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # Author:</span>
+<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
+<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
+<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
+<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+
+<span class="sd">&quot;&quot;&quot;matplotlib utilities.&quot;&quot;&quot;</span>
+
+<span class="c1"># Python Standard Libraries</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">geoips.filenames.base_paths</span> <span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
+<span class="kn">from</span> <span class="nn">geoips.interfaces</span> <span class="kn">import</span> <span class="n">title_formatters</span>
+<span class="kn">from</span> <span class="nn">geoips.image_utils.maps</span> <span class="kn">import</span> <span class="n">draw_features</span><span class="p">,</span> <span class="n">draw_gridlines</span>
+
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;agg&quot;</span><span class="p">)</span>
+<span class="n">rc_params</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span>
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="percent_unmasked_rgba"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.percent_unmasked_rgba">[docs]</a><span class="k">def</span> <span class="nf">percent_unmasked_rgba</span><span class="p">(</span><span class="n">rgba</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert to percent.</span>
+
+<span class="sd">    Return percentage of array that is NOT fully transparent / masked</span>
+<span class="sd">    (ie, non-zero values in the 4th dimension)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rgba : numpy.ndarray</span>
+<span class="sd">        4 dimensional array where the 4th dimension is the alpha transparency array:</span>
+<span class="sd">        1 is fully opaque, 0 is fully transparent</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    coverage : float</span>
+<span class="sd">        Coverage in percentage, between 0 and 100.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span>
+
+    <span class="n">coverage</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">rgba</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">])</span> <span class="o">/</span> <span class="n">rgba</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+    <span class="k">return</span> <span class="n">coverage</span></div>
+
+
+<div class="viewcode-block" id="rgba_from_arrays"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.rgba_from_arrays">[docs]</a><span class="k">def</span> <span class="nf">rgba_from_arrays</span><span class="p">(</span><span class="n">red</span><span class="p">,</span> <span class="n">grn</span><span class="p">,</span> <span class="n">blu</span><span class="p">,</span> <span class="n">alp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return rgba from red, green, blue, and alpha arrays.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    red : numpy.ndarray</span>
+<span class="sd">        red gun values</span>
+<span class="sd">    grn : numpy.ndarray</span>
+<span class="sd">        green gun values</span>
+<span class="sd">    blu : numpy.ndarray</span>
+<span class="sd">        blue gun values</span>
+<span class="sd">    alp : numpy.ndarray, optional</span>
+<span class="sd">        alpha values 1 is fully opaque, 0 is fully transparent</span>
+<span class="sd">        If none, calculate alpha from red, grn, blu guns</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rgba : numpy.ndarray</span>
+<span class="sd">        4 layer dimensional numpy.ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span>
+
+    <span class="k">if</span> <span class="n">alp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">alp</span> <span class="o">=</span> <span class="n">alpha_from_masked_arrays</span><span class="p">([</span><span class="n">red</span><span class="p">,</span> <span class="n">grn</span><span class="p">,</span> <span class="n">blu</span><span class="p">])</span>
+    <span class="n">red</span><span class="o">.</span><span class="n">fill_value</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">grn</span><span class="o">.</span><span class="n">fill_value</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">blu</span><span class="o">.</span><span class="n">fill_value</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">rgba</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">red</span><span class="o">.</span><span class="n">filled</span><span class="p">(),</span> <span class="n">grn</span><span class="o">.</span><span class="n">filled</span><span class="p">(),</span> <span class="n">blu</span><span class="o">.</span><span class="n">filled</span><span class="p">(),</span> <span class="n">alp</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">rgba</span></div>
+
+
+<div class="viewcode-block" id="alpha_from_masked_arrays"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.alpha_from_masked_arrays">[docs]</a><span class="k">def</span> <span class="nf">alpha_from_masked_arrays</span><span class="p">(</span><span class="n">arrays</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert from arrays to alpha.</span>
+
+<span class="sd">    Return an alpha transparency array based on the masks from a list of</span>
+<span class="sd">    masked arrays. 0=transparent, 1=opaque</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    arrays : numpy.ndarray</span>
+<span class="sd">        list of numpy masked arrays, must all be the same shape</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    alp : numpy.ndarray</span>
+<span class="sd">        the alpha transparency layer in matplotlib, values between</span>
+<span class="sd">        0 and 1, where 0 is fully transparent and 1 is fully opaque</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span>
+
+    <span class="n">alp</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">arrays</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">arrays</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">numpy</span><span class="o">.</span><span class="n">False_</span><span class="p">:</span>
+                <span class="n">alp</span> <span class="o">+=</span> <span class="n">img</span><span class="o">.</span><span class="n">mask</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="c1"># You will get yelled at by numpy if you removed the &quot;alp.dtype&quot; portion of this.</span>
+    <span class="c1">#   It thinks you are trying to cast alp to be an integer.</span>
+    <span class="n">alp</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">alp</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">alp</span> <span class="o">-=</span> <span class="nb">float</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">alp</span> <span class="o">*=</span> <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">alp</span></div>
+
+
+<div class="viewcode-block" id="plot_overlays"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.plot_overlays">[docs]</a><span class="k">def</span> <span class="nf">plot_overlays</span><span class="p">(</span>
+    <span class="n">mapobj</span><span class="p">,</span>
+    <span class="n">curr_ax</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="p">,</span>
+    <span class="n">feature_annotator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">gridline_annotator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">features_zorder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">gridlines_zorder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot specified coastlines and gridlines on the matplotlib axes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mapobj : map object</span>
+<span class="sd">        Basemap or CRS object for boundary and gridline plotting.</span>
+<span class="sd">    ax : matplotlib.axes._axes.Axes</span>
+<span class="sd">        matplotlib Axes object for boundary and gridline plotting.</span>
+<span class="sd">    area_def : AreaDefinition</span>
+<span class="sd">        pyresample AreaDefinition object specifying the area covered by</span>
+<span class="sd">        the current plot</span>
+<span class="sd">    feature_annotator : YamlPlugin</span>
+<span class="sd">        A feature annotator plugin instance.</span>
+<span class="sd">    gridline_annotator : YamlPlugin</span>
+<span class="sd">       A gridlines annotator plugin instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">draw_features</span><span class="p">(</span><span class="n">mapobj</span><span class="p">,</span> <span class="n">curr_ax</span><span class="p">,</span> <span class="n">feature_annotator</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="n">features_zorder</span><span class="p">)</span>
+    <span class="n">draw_gridlines</span><span class="p">(</span>
+        <span class="n">mapobj</span><span class="p">,</span> <span class="n">area_def</span><span class="p">,</span> <span class="n">curr_ax</span><span class="p">,</span> <span class="n">gridline_annotator</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="n">gridlines_zorder</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="save_image"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.save_image">[docs]</a><span class="k">def</span> <span class="nf">save_image</span><span class="p">(</span>
+    <span class="n">fig</span><span class="p">,</span>
+    <span class="n">out_fname</span><span class="p">,</span>
+    <span class="n">is_final</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">image_datetime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">remove_duplicate_minrange</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">savefig_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save the image specified by the matplotlib figure &quot;fig&quot; to the filename out_fname.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fig : matplotlib.figure.Figure</span>
+<span class="sd">        Figure object that needs to be written to a file.</span>
+<span class="sd">    out_fname : str</span>
+<span class="sd">        full path to the output filename</span>
+<span class="sd">    is_final : bool, default=True</span>
+<span class="sd">        Final imagery must set_axis_on for all axes. Non-final imagery</span>
+<span class="sd">        must be transparent with set_axis_off for all axes, and no pad</span>
+<span class="sd">        inches.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    No return values (image is written to disk and IMAGESUCCESS is</span>
+<span class="sd">    written to log file)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rc_params</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span>
+    <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">exists</span> <span class="k">as</span> <span class="n">pathexists</span>
+    <span class="kn">from</span> <span class="nn">geoips.filenames.base_paths</span> <span class="kn">import</span> <span class="n">make_dirs</span>
+
+    <span class="k">if</span> <span class="n">savefig_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">savefig_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">if</span> <span class="n">is_final</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pathexists</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">out_fname</span><span class="p">)):</span>
+            <span class="n">make_dirs</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">out_fname</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Adding ax to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_on</span><span class="p">()</span>
+        <span class="c1"># final with titles, labels, etc.</span>
+        <span class="c1"># Note bbox_inches=&#39;tight&#39; removes white space, pad_inches=0.1 puts back in</span>
+        <span class="c1"># a bit of white space.</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">out_fname</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+            <span class="n">out_fname</span><span class="p">,</span>
+            <span class="n">dpi</span><span class="o">=</span><span class="n">rc_params</span><span class="p">[</span><span class="s2">&quot;figure.dpi&quot;</span><span class="p">],</span>
+            <span class="n">pad_inches</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">,</span>
+            <span class="n">transparent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">remove_duplicate_minrange</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">remove_duplicates</span><span class="p">(</span><span class="n">out_fname</span><span class="p">,</span> <span class="n">remove_duplicate_minrange</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Get rid of the colorbar axis for non-final imagery</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pathexists</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">out_fname</span><span class="p">)):</span>
+            <span class="n">make_dirs</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">out_fname</span><span class="p">))</span>
+        <span class="c1"># no annotations</span>
+        <span class="c1"># frameon=False makes it have no titles / lat/lons. does not avoid</span>
+        <span class="c1"># colorbar, since that is its own ax</span>
+        <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fig</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Removing ax from </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Writing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">out_fname</span><span class="p">)</span>
+
+        <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+            <span class="n">out_fname</span><span class="p">,</span>
+            <span class="n">dpi</span><span class="o">=</span><span class="n">rc_params</span><span class="p">[</span><span class="s2">&quot;figure.dpi&quot;</span><span class="p">],</span>
+            <span class="n">pad_inches</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">savefig_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">remove_duplicate_minrange</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">remove_duplicates</span><span class="p">(</span><span class="n">out_fname</span><span class="p">,</span> <span class="n">remove_duplicate_minrange</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;IMAGESUCCESS wrote </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">out_fname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">image_datetime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;LATENCY </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span> <span class="o">-</span> <span class="n">image_datetime</span><span class="p">,</span> <span class="n">out_fname</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">out_fname</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="remove_duplicates"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.remove_duplicates">[docs]</a><span class="k">def</span> <span class="nf">remove_duplicates</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">min_range</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Not implemented.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="get_title_string_from_objects"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.get_title_string_from_objects">[docs]</a><span class="k">def</span> <span class="nf">get_title_string_from_objects</span><span class="p">(</span>
+    <span class="n">area_def</span><span class="p">,</span>
+    <span class="n">xarray_obj</span><span class="p">,</span>
+    <span class="n">product_name_title</span><span class="p">,</span>
+    <span class="n">product_datatype_title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">bg_xarray</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">bg_product_name_title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">bg_datatype_title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">title_copyright</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">title_formatter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the title from object information.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    area_def : AreaDefinition</span>
+<span class="sd">        pyresample AreaDefinition object specifying the area covered by</span>
+<span class="sd">        the current plot</span>
+<span class="sd">    xarray_obj : xarray.Dataset</span>
+<span class="sd">        data used to produce product</span>
+<span class="sd">    product_name_title : str</span>
+<span class="sd">        name to display for the title</span>
+<span class="sd">    product_datatype_title : str, optional</span>
+<span class="sd">        the data type</span>
+<span class="sd">    bg_xarray : xarray, optional</span>
+<span class="sd">        data used for background</span>
+<span class="sd">    bg_product_name_title : str, optional</span>
+<span class="sd">        background product title</span>
+<span class="sd">    bg_datatype_title : str, optional</span>
+<span class="sd">        background data type</span>
+<span class="sd">    title_copyright : str, optional</span>
+<span class="sd">        string for copyright</span>
+<span class="sd">    title_formatter : str, optional</span>
+<span class="sd">        format for title</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    title_string : str</span>
+<span class="sd">        the title to use for matplotlib</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">title_copyright</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">title_copyright</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_COPYRIGHT&quot;</span><span class="p">]</span>
+
+    <span class="kn">from</span> <span class="nn">geoips.sector_utils.utils</span> <span class="kn">import</span> <span class="n">is_sector_type</span>
+
+    <span class="k">if</span> <span class="n">product_datatype_title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">product_source_name</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">source_name</span>
+        <span class="n">product_platform_name</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">platform_name</span>
+        <span class="k">if</span> <span class="s2">&quot;model&quot;</span> <span class="ow">in</span> <span class="n">product_name_title</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">product_source_name</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">model_source</span>
+                <span class="n">product_platform_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No model source in xarray&quot;</span><span class="p">)</span>
+        <span class="n">product_datatype_title</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">product_platform_name</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">product_source_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">bg_xarray</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">bg_datatype_title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bg_datatype_title</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">bg_xarray</span><span class="o">.</span><span class="n">platform_name</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">bg_xarray</span><span class="o">.</span><span class="n">source_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">title_formatter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">title_formatter_plugin</span> <span class="o">=</span> <span class="n">title_formatters</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">title_formatter</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;tc&quot;</span><span class="p">):</span>
+        <span class="n">title_formatter_plugin</span> <span class="o">=</span> <span class="n">title_formatters</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;tc_standard&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">title_formatter_plugin</span> <span class="o">=</span> <span class="n">title_formatters</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;static_standard&quot;</span><span class="p">)</span>
+
+    <span class="n">title_string</span> <span class="o">=</span> <span class="n">title_formatter_plugin</span><span class="p">(</span>
+        <span class="n">area_def</span><span class="p">,</span>
+        <span class="n">xarray_obj</span><span class="p">,</span>
+        <span class="n">product_name_title</span><span class="p">,</span>
+        <span class="n">product_datatype_title</span><span class="o">=</span><span class="n">product_datatype_title</span><span class="p">,</span>
+        <span class="n">bg_xarray</span><span class="o">=</span><span class="n">bg_xarray</span><span class="p">,</span>
+        <span class="n">bg_product_name_title</span><span class="o">=</span><span class="n">bg_product_name_title</span><span class="p">,</span>
+        <span class="n">bg_datatype_title</span><span class="o">=</span><span class="n">bg_datatype_title</span><span class="p">,</span>
+        <span class="n">title_copyright</span><span class="o">=</span><span class="n">title_copyright</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">title_string</span></div>
+
+
+<div class="viewcode-block" id="plot_image"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.plot_image">[docs]</a><span class="k">def</span> <span class="nf">plot_image</span><span class="p">(</span><span class="n">main_ax</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mapobj</span><span class="p">,</span> <span class="n">mpl_colors_info</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the &quot;data&quot; array and map in the matplotlib &quot;main_ax&quot;.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    main_ax : Axes</span>
+<span class="sd">        matplotlib Axes object for plotting data and overlays</span>
+<span class="sd">    data : numpy.ndarray)</span>
+<span class="sd">        Numpy array of data to plot</span>
+<span class="sd">    mapobj : Map Object</span>
+<span class="sd">        Basemap or Cartopy CRS instance</span>
+<span class="sd">    mpl_colors_info : dict</span>
+<span class="sd">        Specifies matplotlib Colors parameters for use in both plotting and colorbar</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    geoips.image_utils.mpl_utils.create_colorbar</span>
+<span class="sd">        for field descriptions for mpl_colors_info</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># main_ax.set_aspect(&#39;auto&#39;)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;imshow&quot;</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">numpy</span>
+    <span class="kn">from</span> <span class="nn">geoips.image_utils.maps</span> <span class="kn">import</span> <span class="n">is_crs</span>
+
+    <span class="k">if</span> <span class="n">is_crs</span><span class="p">(</span><span class="n">mapobj</span><span class="p">):</span>
+        <span class="c1"># Apparently cartopy handles the flipud</span>
+
+        <span class="c1"># NOTE passing zorder=None is NOT the same as not passing zorder.</span>
+        <span class="c1"># Ensure if zorder is passed, it is propagated to imshow.</span>
+        <span class="n">extra_args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">zorder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">extra_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;zorder&quot;</span><span class="p">:</span> <span class="n">zorder</span><span class="p">}</span>
+        <span class="n">main_ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">mapobj</span><span class="p">,</span>
+            <span class="n">extent</span><span class="o">=</span><span class="n">mapobj</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">],</span>
+            <span class="n">norm</span><span class="o">=</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;norm&quot;</span><span class="p">],</span>
+            <span class="o">**</span><span class="n">extra_args</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mapobj</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">main_ax</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">],</span>
+            <span class="n">norm</span><span class="o">=</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;norm&quot;</span><span class="p">],</span>
+            <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mapobj</span></div>
+
+
+<div class="viewcode-block" id="create_figure_and_main_ax_and_mapobj"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.create_figure_and_main_ax_and_mapobj">[docs]</a><span class="k">def</span> <span class="nf">create_figure_and_main_ax_and_mapobj</span><span class="p">(</span>
+    <span class="n">x_size</span><span class="p">,</span> <span class="n">y_size</span><span class="p">,</span> <span class="n">area_def</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">existing_mapobj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">noborder</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a figure of x pixels horizontally and y pixels vertically.</span>
+
+<span class="sd">    Use information from matplotlib.rcParams.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x_size : int</span>
+<span class="sd">        number pixels horizontally</span>
+<span class="sd">        xsize = (float(x_size)/dpi)/(right_margin - left_margin)</span>
+<span class="sd">    y_size : int</span>
+<span class="sd">        number pixels vertically</span>
+<span class="sd">        ysize = (float(y_size)/dpi)/(top_margin - bottom_margin)</span>
+<span class="sd">    font_size : int</span>
+<span class="sd">        matplotlib font size</span>
+<span class="sd">    area_def : AreaDefinition</span>
+<span class="sd">        pyresample AreaDefinition object - used for</span>
+<span class="sd">        initializing map object (basemap or cartopy)</span>
+<span class="sd">    existing_mapobj : CRS or basemap, optional</span>
+<span class="sd">        If specified, do not regenerate mapobj. If None, create</span>
+<span class="sd">        CRS or basemap object from specified area_def.</span>
+<span class="sd">    noborder : bool, default=False</span>
+<span class="sd">        If true, use [0, 0, 1, 1] for axes (allowing for image exact</span>
+<span class="sd">        shape of sector).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fig : matplotlib.figure.Figure</span>
+<span class="sd">        matplotlib Figure object to subsequently use for plotting</span>
+<span class="sd">        imagery / colorbars / etc</span>
+<span class="sd">    main_ax : matplotlib.axes._axes.Axes</span>
+<span class="sd">        matplotlib Axes object corresponding to the single main plotting area.</span>
+<span class="sd">    mapobj : mapobject</span>
+<span class="sd">        cartopy crs or Basemap object for plotting</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">matplotlib</span>
+
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;agg&quot;</span><span class="p">)</span>
+    <span class="n">rc_params</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span>
+
+    <span class="n">set_fonts</span><span class="p">(</span><span class="n">y_size</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">)</span>
+
+    <span class="c1"># Gather needed rcParam constants</span>
+    <span class="n">dpi</span> <span class="o">=</span> <span class="n">rc_params</span><span class="p">[</span><span class="s2">&quot;figure.dpi&quot;</span><span class="p">]</span>
+
+    <span class="c1"># I can&#39;t seem to get a clean image with no border unless the ax fills the</span>
+    <span class="c1"># whole figure.</span>
+    <span class="c1"># Titles / labels don&#39;t show up unless we use figure.subplot rc_params</span>
+    <span class="c1"># It does not appear to be possible to plot the image only once for both</span>
+    <span class="c1"># the clean and annotated image.</span>
+    <span class="k">if</span> <span class="n">noborder</span><span class="p">:</span>
+        <span class="n">left_margin</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">right_margin</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">bottom_margin</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">top_margin</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">left_margin</span> <span class="o">=</span> <span class="n">rc_params</span><span class="p">[</span>
+            <span class="s2">&quot;figure.subplot.left&quot;</span>
+        <span class="p">]</span>  <span class="c1"># Fractional distance from left edge of figure for subplot</span>
+        <span class="n">right_margin</span> <span class="o">=</span> <span class="n">rc_params</span><span class="p">[</span>
+            <span class="s2">&quot;figure.subplot.right&quot;</span>
+        <span class="p">]</span>  <span class="c1"># Fractional distance from right edge of figure for subplot</span>
+        <span class="n">bottom_margin</span> <span class="o">=</span> <span class="n">rc_params</span><span class="p">[</span>
+            <span class="s2">&quot;figure.subplot.bottom&quot;</span>
+        <span class="p">]</span>  <span class="c1"># Fractional distance from bottom edge of figure for subplot</span>
+        <span class="n">top_margin</span> <span class="o">=</span> <span class="n">rc_params</span><span class="p">[</span>
+            <span class="s2">&quot;figure.subplot.top&quot;</span>
+        <span class="p">]</span>  <span class="c1"># Fractional distance from top edge of figure for subplot</span>
+
+    <span class="n">xsize</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x_size</span><span class="p">)</span> <span class="o">/</span> <span class="n">dpi</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">right_margin</span> <span class="o">-</span> <span class="n">left_margin</span><span class="p">)</span>
+    <span class="n">ysize</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">y_size</span><span class="p">)</span> <span class="o">/</span> <span class="n">dpi</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">top_margin</span> <span class="o">-</span> <span class="n">bottom_margin</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">existing_mapobj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;creating mapobj instance&quot;</span><span class="p">)</span>
+        <span class="n">mapobj</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">to_cartopy_crs</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;mapobj already exists, not recreating&quot;</span><span class="p">)</span>
+        <span class="n">mapobj</span> <span class="o">=</span> <span class="n">existing_mapobj</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;Creating figure: left, right, bottom, top, xsize, ysize </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">left_margin</span><span class="p">,</span>
+        <span class="n">right_margin</span><span class="p">,</span>
+        <span class="n">bottom_margin</span><span class="p">,</span>
+        <span class="n">top_margin</span><span class="p">,</span>
+        <span class="n">xsize</span><span class="p">,</span>
+        <span class="n">ysize</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">geoips.image_utils.maps</span> <span class="kn">import</span> <span class="n">is_crs</span>
+
+    <span class="k">if</span> <span class="n">is_crs</span><span class="p">(</span><span class="n">mapobj</span><span class="p">):</span>
+        <span class="c1"># frameon=False creates transparent titles with cartopy</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="n">xsize</span><span class="p">,</span> <span class="n">ysize</span><span class="p">)</span>
+    <span class="n">set_fonts</span><span class="p">(</span><span class="n">y_size</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;Creating main ax: left, bottom, width, height </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">left_margin</span><span class="p">,</span>
+        <span class="n">bottom_margin</span><span class="p">,</span>
+        <span class="n">right_margin</span> <span class="o">-</span> <span class="n">left_margin</span><span class="p">,</span>
+        <span class="n">top_margin</span> <span class="o">-</span> <span class="n">bottom_margin</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># cartopy figure with non-transparent titles</span>
+    <span class="c1"># In [71]: fig = plt.figure()</span>
+    <span class="c1"># In [72]: main_ax = fig.add_axes([0, 0, 1, 1], projection=mapobj, frame_on=True)</span>
+    <span class="c1"># In [73]: plt.imshow(plot_data, transform=mapobj, extent=mapobj.bounds)</span>
+    <span class="c1"># Out[73]: &lt;matplotlib.image.AxesImage at 0x7fcfe5f75eb0&gt;</span>
+    <span class="c1"># In [74]: main_ax.set_title(&#39;Hello&#39;, y=1.2, fontsize=20)</span>
+    <span class="c1"># Out[74]: Text(0.5, 1.2, &#39;Hello&#39;)</span>
+    <span class="c1"># In [75]: fig.savefig(&#39;test.png&#39;, transparent=False)</span>
+
+    <span class="k">if</span> <span class="n">is_crs</span><span class="p">(</span><span class="n">mapobj</span><span class="p">):</span>
+        <span class="c1"># Transparent behind titles without frame_on True</span>
+        <span class="n">main_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">left_margin</span><span class="p">,</span>
+                <span class="n">bottom_margin</span><span class="p">,</span>
+                <span class="n">right_margin</span> <span class="o">-</span> <span class="n">left_margin</span><span class="p">,</span>
+                <span class="n">top_margin</span> <span class="o">-</span> <span class="n">bottom_margin</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="n">projection</span><span class="o">=</span><span class="n">mapobj</span><span class="p">,</span>
+            <span class="n">frame_on</span><span class="o">=</span><span class="ow">not</span> <span class="n">noborder</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">main_ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">(</span>
+            <span class="n">fig</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="n">left_margin</span><span class="p">,</span>
+                <span class="n">bottom_margin</span><span class="p">,</span>
+                <span class="n">right_margin</span> <span class="o">-</span> <span class="n">left_margin</span><span class="p">,</span>
+                <span class="n">top_margin</span> <span class="o">-</span> <span class="n">bottom_margin</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+    <span class="n">main_ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">main_ax</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">main_ax</span><span class="p">,</span> <span class="n">mapobj</span></div>
+
+
+<div class="viewcode-block" id="set_fonts"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.set_fonts">[docs]</a><span class="k">def</span> <span class="nf">set_fonts</span><span class="p">(</span><span class="n">figure_y_size</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the fonts in the matplotlib.rcParams dictionary, using matplotlib.rc.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    figure_y_size : int</span>
+<span class="sd">        Font size set relative to number of pixels in the y direction</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">matplotlib</span>
+
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;agg&quot;</span><span class="p">)</span>
+    <span class="n">mplrc</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">rc</span>
+
+    <span class="c1"># Update font size based on number of lines</span>
+    <span class="k">if</span> <span class="n">font_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">title_fsize</span> <span class="o">=</span> <span class="n">font_size</span>
+    <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">figure_y_size</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">title_fsize</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">figure_y_size</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">title_fsize</span> <span class="o">=</span> <span class="mi">20</span>
+
+    <span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="s2">&quot;sans-serif&quot;</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">title_fsize</span><span class="p">}</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting font size to </span><span class="si">%s</span><span class="s2"> for figure_y_size </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">title_fsize</span><span class="p">,</span> <span class="n">figure_y_size</span><span class="p">)</span>
+    <span class="n">mplrc</span><span class="p">(</span><span class="s2">&quot;font&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">font</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_title"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.set_title">[docs]</a><span class="k">def</span> <span class="nf">set_title</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">title_string</span><span class="p">,</span> <span class="n">figure_y_size</span><span class="p">,</span> <span class="n">xpos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ypos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the title on figure axis &quot;ax&quot; to string &quot;title_string&quot;.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : Axes</span>
+<span class="sd">        matplotlib.axes._axes.Axes object to add the title</span>
+<span class="sd">    title_string : str</span>
+<span class="sd">        string specifying title to attach to axis &quot;ax&quot;</span>
+<span class="sd">    figure_y_size : int</span>
+<span class="sd">        vertical size of the image, used to proportionally set the title size</span>
+<span class="sd">    xpos : float, optional</span>
+<span class="sd">        x position of the title</span>
+<span class="sd">    ypos : float, optional</span>
+<span class="sd">        y position of the title</span>
+<span class="sd">    fontsize : int, optional</span>
+<span class="sd">        matplotlib font size</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">matplotlib</span>
+
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;agg&quot;</span><span class="p">)</span>
+    <span class="n">rc_params</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span>
+
+    <span class="c1"># Provide pad room between characters</span>
+    <span class="n">fontspace</span> <span class="o">=</span> <span class="n">rc_params</span><span class="p">[</span><span class="s2">&quot;font.size&quot;</span><span class="p">]</span>
+    <span class="n">title_line_space</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fontspace</span><span class="p">)</span> <span class="o">/</span> <span class="n">figure_y_size</span>
+    <span class="c1"># num_title_lines = len(title_string.split(&#39;\n&#39;))</span>
+
+    <span class="k">if</span> <span class="n">xpos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xpos</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># This centers the title</span>
+    <span class="k">if</span> <span class="n">ypos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># ypos = 1 + title_line_space*2</span>
+        <span class="n">ypos</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mi">1</span> <span class="o">+</span> <span class="n">title_line_space</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="p">)</span>  <span class="c1"># This is relative to main_ax, so greater than 1.</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;Setting title: font size </span><span class="si">%s</span><span class="s2">, xpos </span><span class="si">%s</span><span class="s2"> ypos </span><span class="si">%s</span><span class="s2">, title_line_space </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">fontspace</span><span class="p">,</span>
+        <span class="n">xpos</span><span class="p">,</span>
+        <span class="n">ypos</span><span class="p">,</span>
+        <span class="n">title_line_space</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Title string: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">title_string</span><span class="p">)</span>
+
+    <span class="c1"># from cartopy.mpl.geoaxes import GeoAxes # isinstance(ax, GeoAxes)</span>
+    <span class="c1"># Slightly more space between title and lon labels</span>
+    <span class="c1"># ax.set_title(title_string, y=ypos, fontsize=fontsize)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title_string</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="n">xpos</span><span class="p">,</span> <span class="n">ypos</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_colorbar"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.mpl_utils.create_colorbar">[docs]</a><span class="k">def</span> <span class="nf">create_colorbar</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">mpl_colors_info</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Routine to create a single colorbar.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fig : matplotlib.figure.Figure</span>
+<span class="sd">        Figure object to attach the colorbar - the colorbar will create its own ax</span>
+<span class="sd">    mpl_colors_info : dict</span>
+<span class="sd">        Dictionary of matplotlib Color information, required fields in Notes below.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cbar : matplotlib.colorbar.Colorbar</span>
+<span class="sd">        This will have all the pertinent information for ensuring plot and</span>
+<span class="sd">        colorbar use the same parameters</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Required mpl_colors_info fields::</span>
+
+<span class="sd">        mpl_colors_info[&#39;cmap&#39;] (Colormap):</span>
+<span class="sd">            matplotlib.colors.Colormap object (LinearSegmentedColormap, etc)</span>
+<span class="sd">            this is used to plot the image and to generated the colorbar</span>
+<span class="sd">        mpl_colors_info[&#39;norm&#39;] (Normalize):</span>
+<span class="sd">            matplotlib.colors.Normalize object (BoundaryNorm, Normalize, etc)</span>
+<span class="sd">            again, this should be used to plot the data also</span>
+<span class="sd">        mpl_colors_info[&#39;cbar_ticks&#39;] (list):</span>
+<span class="sd">            list of floats - values requiring tick marks on the colorbar</span>
+<span class="sd">        mpl_colors_info[&#39;cbar_tick_labels&#39;] (list)</span>
+<span class="sd">            list of values to use to label tick marks, if other than</span>
+<span class="sd">            found in cbar_ticks</span>
+<span class="sd">        mpl_colors_info[&#39;boundaries&#39;] (list):</span>
+<span class="sd">            if cmap_norm is BoundaryNorm, list of boundaries for discrete colors</span>
+<span class="sd">        mpl_colors_info[&#39;cbar_spacing&#39;] (string):</span>
+<span class="sd">            DEFAULT &#39;proportional&#39;, &#39;uniform&#39; or &#39;proportional&#39;</span>
+<span class="sd">        mpl_colors_info[&#39;cbar_label&#39;] (string):</span>
+<span class="sd">            string label for colorbar</span>
+<span class="sd">        mpl_colors_info[&#39;colorbar&#39;]: (bool)</span>
+<span class="sd">            True if a colorbar should be included in the image, False if no cbar</span>
+
+
+<span class="sd">    Colorbar set as::</span>
+
+<span class="sd">        cbar_ax = fig.add_axes([&lt;cbar_start_pos&gt;, &lt;cbar_bottom_pos&gt;,</span>
+<span class="sd">                                &lt;cbar_width&gt;, &lt;cbar_height&gt;])</span>
+<span class="sd">        cbar = fig.colorbar(mappable=matplotlib.cm.ScalarMappable(norm=cmap_norm,</span>
+<span class="sd">                                                                  cmap=mpl_cmap),</span>
+<span class="sd">                            cax=cbar_ax,</span>
+<span class="sd">                            norm=cmap_norm,</span>
+<span class="sd">                            boundaries=cmap_boundaries,</span>
+<span class="sd">                            spacing=cbar_spacing,</span>
+<span class="sd">                            **cbar_kwargs)</span>
+<span class="sd">        cbar.set_ticks(cbar_ticks, labels=cbar_tick_labels, **set_ticks_kwargs)</span>
+<span class="sd">        if cbar_label:</span>
+<span class="sd">            cbar.set_label(cbar_label, **set_label_kwargs)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Required - needed for both colormaps and colorbars.</span>
+    <span class="n">cmap_norm</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;norm&quot;</span><span class="p">]</span>
+    <span class="n">mpl_cmap</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">]</span>
+    <span class="n">cmap_boundaries</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;boundaries&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Required, for setting colorbar labels with set_label and ticks with set_ticks</span>
+    <span class="n">cbar_label</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cbar_label&quot;</span><span class="p">]</span>
+    <span class="n">cbar_ticks</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cbar_ticks&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">cbar_ticks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cbar_ticks</span> <span class="o">=</span> <span class="p">[</span><span class="n">cmap_norm</span><span class="o">.</span><span class="n">vmin</span><span class="p">,</span> <span class="n">cmap_norm</span><span class="o">.</span><span class="n">vmax</span><span class="p">]</span>
+
+    <span class="c1"># Optional - can be specified in colorbar_kwargs</span>
+    <span class="n">cbar_spacing</span> <span class="o">=</span> <span class="s2">&quot;proportional&quot;</span>
+    <span class="k">if</span> <span class="n">mpl_colors_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cbar_spacing&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cbar_spacing</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cbar_spacing&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Optional - can be specified in set_ticks_kwargs. None will be mapped to</span>
+    <span class="c1"># cbar_ticks.</span>
+    <span class="n">cbar_tick_labels</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="s2">&quot;cbar_tick_labels&quot;</span> <span class="ow">in</span> <span class="n">mpl_colors_info</span><span class="p">:</span>
+        <span class="n">cbar_tick_labels</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cbar_tick_labels&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cbar_tick_labels&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cbar_tick_labels</span> <span class="o">=</span> <span class="n">cbar_ticks</span>
+
+    <span class="c1"># Allow arbitrary kwargs to colorbar, but ensure our defaults for extend</span>
+    <span class="c1"># and orientation are set.</span>
+    <span class="n">cbar_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">mpl_colors_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;colorbar_kwargs&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cbar_kwargs</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;colorbar_kwargs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;extend&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cbar_kwargs</span><span class="p">:</span>
+        <span class="n">cbar_kwargs</span><span class="p">[</span><span class="s2">&quot;extend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;both&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;spacing&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cbar_kwargs</span><span class="p">:</span>
+        <span class="n">cbar_kwargs</span><span class="p">[</span><span class="s2">&quot;spacing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cbar_spacing</span>
+    <span class="k">if</span> <span class="s2">&quot;orientation&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cbar_kwargs</span><span class="p">:</span>
+        <span class="n">cbar_kwargs</span><span class="p">[</span><span class="s2">&quot;orientation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;horizontal&quot;</span>
+
+    <span class="c1"># Allow arbitrary kwargs to set_ticks, but ensure our defaults for labels</span>
+    <span class="c1"># and font sizes are set</span>
+    <span class="n">set_ticks_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">mpl_colors_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;set_ticks_kwargs&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">set_ticks_kwargs</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;set_ticks_kwargs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;size&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_ticks_kwargs</span><span class="p">:</span>
+        <span class="n">set_ticks_kwargs</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;small&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;labels&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_ticks_kwargs</span> <span class="ow">or</span> <span class="n">set_ticks_kwargs</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">set_ticks_kwargs</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cbar_tick_labels</span>
+
+    <span class="c1"># Allow arbitrary kwargs to set_label</span>
+    <span class="n">set_label_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">mpl_colors_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;set_label_kwargs&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">set_label_kwargs</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;set_label_kwargs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;size&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">set_label_kwargs</span><span class="p">:</span>
+        <span class="n">set_label_kwargs</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rc_params</span><span class="p">[</span><span class="s2">&quot;font.size&quot;</span><span class="p">]</span>
+
+    <span class="n">left_margin</span> <span class="o">=</span> <span class="n">rc_params</span><span class="p">[</span>
+        <span class="s2">&quot;figure.subplot.left&quot;</span>
+    <span class="p">]</span>  <span class="c1"># Fractional distance from left edge of figure for subplot</span>
+    <span class="n">right_margin</span> <span class="o">=</span> <span class="n">rc_params</span><span class="p">[</span>
+        <span class="s2">&quot;figure.subplot.right&quot;</span>
+    <span class="p">]</span>  <span class="c1"># Fractional distance from left edge of figure for subplot</span>
+
+    <span class="c1"># Optional positioning information for the colorbar axis - default</span>
+    <span class="c1"># location appropriately</span>
+    <span class="k">if</span> <span class="n">mpl_colors_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cbar_ax_left_start_pos&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax_left_start_pos</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cbar_ax_left_start_pos&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax_left_start_pos</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">left_margin</span>
+        <span class="k">if</span> <span class="n">mpl_colors_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cbar_full_width&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">ax_left_start_pos</span> <span class="o">=</span> <span class="n">left_margin</span>  <span class="c1"># Full width colorbar</span>
+
+    <span class="n">ax_bottom_start_pos</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="k">if</span> <span class="n">mpl_colors_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cbar_ax_bottom_start_pos&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax_bottom_start_pos</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cbar_ax_bottom_start_pos&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">mpl_colors_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cbar_ax_width&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax_width</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cbar_ax_width&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax_width</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">left_margin</span>
+        <span class="k">if</span> <span class="n">mpl_colors_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cbar_full_width&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">ax_width</span> <span class="o">=</span> <span class="n">right_margin</span> <span class="o">-</span> <span class="n">left_margin</span>  <span class="c1"># Full width colorbar</span>
+
+    <span class="n">ax_height</span> <span class="o">=</span> <span class="mf">0.020</span>
+    <span class="k">if</span> <span class="n">mpl_colors_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cbar_ax_height&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax_height</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cbar_ax_height&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Note - if we want to support &quot;automated&quot; pyplot.colorbar placement,</span>
+    <span class="c1"># may need a method to &quot;turn off&quot; cbar_ax</span>
+    <span class="c1"># [left, bottom, width, height]</span>
+    <span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">ax_left_start_pos</span><span class="p">,</span> <span class="n">ax_bottom_start_pos</span><span class="p">,</span> <span class="n">ax_width</span><span class="p">,</span> <span class="n">ax_height</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+        <span class="n">mappable</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">norm</span><span class="o">=</span><span class="n">cmap_norm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">mpl_cmap</span><span class="p">),</span>
+        <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">,</span>
+        <span class="n">norm</span><span class="o">=</span><span class="n">cmap_norm</span><span class="p">,</span>
+        <span class="n">boundaries</span><span class="o">=</span><span class="n">cmap_boundaries</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">cbar_kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">cbar_ticks</span><span class="p">:</span>
+        <span class="c1"># matplotlib 3.6.0 sometimes has inconsistent results with including</span>
+        <span class="c1"># minor ticks or not.</span>
+        <span class="c1"># Unclear why it impacts some colorbars and not others.</span>
+        <span class="c1"># We may eventually add support for including minor ticks within</span>
+        <span class="c1"># mpl_colors_info, but for now explicitly turn off minor ticks so</span>
+        <span class="c1"># outputs will continue to match (use the old default).</span>
+        <span class="n">cbar</span><span class="o">.</span><span class="n">minorticks_off</span><span class="p">()</span>
+        <span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="n">cbar_ticks</span><span class="p">,</span> <span class="o">**</span><span class="n">set_ticks_kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cbar_label</span><span class="p">:</span>
+        <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">cbar_label</span><span class="p">,</span> <span class="o">**</span><span class="n">set_label_kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cbar</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

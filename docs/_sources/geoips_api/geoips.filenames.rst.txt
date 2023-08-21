@@ -1,0 +1,29 @@
+geoips.filenames package
+========================
+
+Submodules
+----------
+
+geoips.filenames.base\_paths module
+-----------------------------------
+
+.. automodule:: geoips.filenames.base_paths
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.filenames.duplicate\_files module
+----------------------------------------
+
+.. automodule:: geoips.filenames.duplicate_files
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.filenames
+   :members:
+   :undoc-members:
+   :show-inheritance:

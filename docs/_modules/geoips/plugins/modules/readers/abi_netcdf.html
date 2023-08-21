@@ -1,0 +1,1635 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.plugins.modules.readers.abi_netcdf &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/readers/abi_netcdf';</script>
+    <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.plugins.modules.readers.abi_netcdf</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for geoips.plugins.modules.readers.abi_netcdf</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # Author:</span>
+<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
+<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
+<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
+<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+
+<span class="sd">&quot;&quot;&quot;Standard GeoIPS xarray dictionary based ABI NetCDF data reader.&quot;&quot;&quot;</span>
+
+<span class="c1"># Python Standard Libraries</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">scipy.ndimage.interpolation</span> <span class="kn">import</span> <span class="n">zoom</span>
+
+<span class="kn">from</span> <span class="nn">geoips.plugins.modules.readers.utils.geostationary_geolocation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_geolocation_cache_filename</span><span class="p">,</span>
+    <span class="n">get_geolocation</span><span class="p">,</span>
+    <span class="n">AutoGenError</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1"># np.seterr(all=&#39;raise&#39;)</span>
+
+<span class="c1"># Installed Libraries</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># If this reader is not installed on the system, don&#39;t fail alltogether, just skip this import.  This reader</span>
+    <span class="c1"># will not work if the import fails and the package will have to be</span>
+    <span class="c1"># installed to process data of this type.</span>
+    <span class="kn">import</span> <span class="nn">netCDF4</span> <span class="k">as</span> <span class="nn">ncdf</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. If you need it, install it.&quot;</span>
+    <span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numexpr</span> <span class="k">as</span> <span class="nn">ne</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. &quot;</span>
+        <span class="s2">&quot;If you need it, install it.&quot;</span>
+    <span class="p">)</span>
+
+<span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
+<span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;abi_netcdf&quot;</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">nprocs</span> <span class="o">=</span> <span class="mi">6</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ne</span><span class="o">.</span><span class="n">set_num_threads</span><span class="p">(</span><span class="n">nprocs</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Failed numexpr.set_num_threads in </span><span class="si">{</span><span class="vm">__file__</span><span class="si">}</span><span class="s2">. &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;If numexpr is not installed and you need it, install it.&quot;</span>
+    <span class="p">)</span>
+
+<span class="n">DONT_AUTOGEN_GEOLOCATION</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DONT_AUTOGEN_GEOLOCATION&quot;</span><span class="p">):</span>
+    <span class="n">DONT_AUTOGEN_GEOLOCATION</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># These should be added to the data file object</span>
+<span class="n">BADVALS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.9</span><span class="p">,</span>
+    <span class="s2">&quot;Conditional&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.8</span><span class="p">,</span>
+    <span class="s2">&quot;Out_Of_Valid_Range&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.7</span><span class="p">,</span>
+    <span class="s2">&quot;No_Value&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.6</span><span class="p">,</span>
+    <span class="s2">&quot;Unitialized&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">9999.9</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">DATASET_INFO</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;MED&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;B01&quot;</span><span class="p">,</span> <span class="s2">&quot;B03&quot;</span><span class="p">,</span> <span class="s2">&quot;B05&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;HIGH&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;B02&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;LOW&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;B04&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B06&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B07&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B08&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B09&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B10&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B11&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B12&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B13&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B14&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B15&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B16&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+<span class="n">ALL_GEO_VARS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">ALL_CHANS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;LOW&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;B04Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B04Ref&quot;</span><span class="p">,</span>  <span class="c1"># 1.37um Near-IR Cirrus</span>
+        <span class="s2">&quot;B06Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B06Ref&quot;</span><span class="p">,</span>  <span class="c1"># 2.2um  Near-IR Cloud Particle Size</span>
+        <span class="s2">&quot;B07Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B07BT&quot;</span><span class="p">,</span>  <span class="c1"># 3.9um  IR      Shortwave Window</span>
+        <span class="s2">&quot;B08Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B08BT&quot;</span><span class="p">,</span>  <span class="c1"># 6.2um  IR      Upper-level tropospheric water vapor</span>
+        <span class="s2">&quot;B09Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B09BT&quot;</span><span class="p">,</span>  <span class="c1"># 6.9um  IR      Mid-level water vapor</span>
+        <span class="s2">&quot;B10Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B10BT&quot;</span><span class="p">,</span>  <span class="c1"># 7.3um  IR      Lower-level Water Vapor</span>
+        <span class="s2">&quot;B11Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B11BT&quot;</span><span class="p">,</span>  <span class="c1"># 8.4um  IR      Cloud-top phase</span>
+        <span class="s2">&quot;B12Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B12BT&quot;</span><span class="p">,</span>  <span class="c1"># 9.6um  IR      Ozone</span>
+        <span class="s2">&quot;B13Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B13BT&quot;</span><span class="p">,</span>  <span class="c1"># 10.3um IR      Clean IR Longwave Window</span>
+        <span class="s2">&quot;B14Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B14BT&quot;</span><span class="p">,</span>  <span class="c1"># 11.2um IR      IR Longwave window</span>
+        <span class="s2">&quot;B15Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B15BT&quot;</span><span class="p">,</span>  <span class="c1"># 12.3um IR      Dirty Longwave Window</span>
+        <span class="s2">&quot;B16Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B16BT&quot;</span><span class="p">,</span>
+    <span class="p">],</span>  <span class="c1"># 13.3um IR      CO2 Longwave infrared</span>
+    <span class="s2">&quot;MED&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;B01Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B01Ref&quot;</span><span class="p">,</span>  <span class="c1"># 0.47um Vis     Blue</span>
+        <span class="s2">&quot;B02Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B02Ref&quot;</span><span class="p">,</span>  <span class="c1"># 0.64um Vis     Red</span>
+        <span class="s2">&quot;B05Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B05Ref&quot;</span><span class="p">,</span>
+    <span class="p">],</span>  <span class="c1"># 1.6um  Near-IR Snow/Ice</span>
+    <span class="s2">&quot;HIGH&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;B03Rad&quot;</span><span class="p">,</span> <span class="s2">&quot;B03Ref&quot;</span><span class="p">],</span>  <span class="c1"># 0.86um Near-IR Veggie</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="metadata_to_datetime"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.metadata_to_datetime">[docs]</a><span class="k">def</span> <span class="nf">metadata_to_datetime</span><span class="p">(</span><span class="n">metadata</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use information from the metadata to get the image datetime.&quot;&quot;&quot;</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;time_bounds&quot;</span><span class="p">]</span>
+    <span class="n">epoch</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">epoch</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">epoch</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_files</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a list of file names from the input path.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">fnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">fnames</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;OR_ABI*.nc&quot;</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">fnames</span> <span class="o">=</span> <span class="n">path</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;No such file or directory: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">fnames</span>
+
+
+<span class="k">def</span> <span class="nf">_check_file_consistency</span><span class="p">(</span><span class="n">metadata</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that all input metadata are from the same image time.</span>
+
+<span class="sd">    Performs cheks on platform_ID, instrument_type, processing_level, and times.</span>
+<span class="sd">    If these are all equal, returns True.</span>
+<span class="sd">    If any differ, returns False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Checking file-level metadata for exact equality in the following fields</span>
+    <span class="c1"># Was failing on processing_level due to extra NASA text sometimes</span>
+    <span class="c1"># Also fails on time_coverage_end due to deviations on the order of 0.5 seconds</span>
+    <span class="c1">#   Probably should fashion better checks for these two.</span>
+    <span class="c1"># checks = [&#39;platform_ID&#39;, &#39;instrument_type&#39;, &#39;processing_level&#39;, &#39;timeline_id&#39;,</span>
+    <span class="c1">#           &#39;scene_id&#39;, &#39;time_coverage_start&#39;, &#39;time_coverage_end&#39;]</span>
+    <span class="n">checks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;platform_ID&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;instrument_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;timeline_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;scene_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;time_coverage_start&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">checks</span><span class="p">:</span>
+        <span class="n">check_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">metadata</span><span class="p">[</span><span class="n">fname</span><span class="p">][</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">check_set</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Failed on </span><span class="si">{0}</span><span class="s2">. Found: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">check_set</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">_get_file_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gather all of the file-level metadata.&quot;&quot;&quot;</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">md_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;dataset_name&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;naming_authority&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;institution&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;project&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;iso_series_metadata_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Conventions&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Metadata_Conventions&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;keywords_vocabulary&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;standard_name_vocabulary&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;summary&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;license&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;keywords&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cdm_data_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;orbital_slot&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;platform_ID&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;instrument_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;processing_level&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;date_created&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;production_site&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;production_environment&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;production_data_source&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;timeline_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;scene_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;spatial_resolution&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;time_coverage_start&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;time_coverage_end&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">metadata_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;instrument_ID&quot;</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">md_names</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+                <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">metadata_dict</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Warning! File-level metadata field missing: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">metadata</span>
+
+
+<span class="k">def</span> <span class="nf">_get_variable_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gather all required variable level metadata.</span>
+
+<span class="sd">    Some are skipped or gathered later as needed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Note: We have skipped DQF, Rad, band_wavelength_star_look, num_star_looks,</span>
+    <span class="c1">#       star_id, t, t_star_look, x_image, x_image_bounds, y_image, y_image_bounds,</span>
+    <span class="c1">#       geospatial_lat_lon_extent, goes_imager_projection</span>
+    <span class="n">md_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;band_id&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;band_wavelength&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;earth_sun_distance_anomaly_in_AU&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;esun&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;kappa0&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;max_radiance_value_of_valid_pixels&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;min_radiance_value_of_valid_pixels&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;missing_pixel_count&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nominal_satellite_height&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nominal_satellite_subpoint_lat&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nominal_satellite_subpoint_lon&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;percent_uncorrectable_L0_errors&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;planck_bc1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;planck_bc2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;planck_fk1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;planck_fk2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;processing_parm_version_container&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;saturated_pixel_count&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;std_dev_radiance_value_of_valid_pixels&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;time_bounds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;undersaturated_pixel_count&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;valid_pixel_count&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;yaw_flip_flag&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">md_names</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">][()]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Warning! Variable-level metadata field missing: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+    <span class="k">return</span> <span class="n">metadata</span>
+
+
+<span class="k">def</span> <span class="nf">_get_lat_lon_extent_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get lat lon extent metadata.&quot;&quot;&quot;</span>
+    <span class="n">glle</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;geospatial_lat_lon_extent&quot;</span><span class="p">]</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">md_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;geospatial_eastbound_longitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;geospatial_lat_center&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;geospatial_lat_nadir&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;geospatial_lon_center&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;geospatial_lon_nadir&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;geospatial_northbound_latitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;geospatial_southbound_latitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;geospatial_westbound_longitude&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">md_names</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">glle</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">][()]</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Warning! Lat lon extent metadata field missing: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">metadata</span>
+
+
+<span class="k">def</span> <span class="nf">_get_imager_projection</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get imager projection.&quot;&quot;&quot;</span>
+    <span class="n">gip</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;goes_imager_projection&quot;</span><span class="p">]</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">md_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;inverse_flattening&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;latitude_of_projection_origin&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;longitude_of_projection_origin&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;perspective_point_height&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;semi_major_axis&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;semi_minor_axis&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">md_names</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">gip</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">][()]</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Warning! Lat lon extent metadata field missing: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">gip</span><span class="p">,</span> <span class="s2">&quot;grid_mapping_name&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">metadata</span>
+
+
+<span class="k">def</span> <span class="nf">_get_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gather metadata for the data file and return as a dictionary.</span>
+
+<span class="sd">    Note: We are gathering all of the available metadata in case it is needed at</span>
+<span class="sd">    some point.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Gather all file-level metadata</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_file_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="c1"># Gather all variable-level metadata</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_variable_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="c1"># Gather lat lon extent info</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;ll_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_lat_lon_extent_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="c1"># Gather projection info</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_imager_projection</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="c1"># Gather some useful info to the top level</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filepath</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="c1"># Without cython installed, df.filepath() does not work</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fname</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;satellite&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;platform_ID&quot;</span><span class="p">]</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;sensor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ABI&quot;</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+    <span class="k">return</span> <span class="n">metadata</span>
+
+
+<div class="viewcode-block" id="get_latitude_longitude"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.get_latitude_longitude">[docs]</a><span class="k">def</span> <span class="nf">get_latitude_longitude</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">sect</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get latitudes and longitudes.</span>
+
+<span class="sd">    This routine accepts a dictionary containing metadata as read from a NCDF4</span>
+<span class="sd">    format file, and returns latitudes and longitudes for a full disk.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># If the filename format needs to change for the pre-generated geolocation</span>
+    <span class="c1"># files, please discuss prior to changing.  It will force recreation of all</span>
+    <span class="c1"># files, which can be problematic for large numbers of sectors</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">get_geolocation_cache_filename</span><span class="p">(</span><span class="s2">&quot;GEOLL&quot;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sect</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">DONT_AUTOGEN_GEOLOCATION</span> <span class="ow">and</span> <span class="s2">&quot;tc2019&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sect</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;GETGEO Requested NO AUTOGEN GEOLOCATION. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Could not create latlonfile for ad </span><span class="si">{</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;scene&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">AutoGenError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating latitudes and longitudes.&quot;</span><span class="p">)</span>
+
+        <span class="n">r2d</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>  <span class="c1"># NOQA</span>
+
+        <span class="n">lambda0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;lon0&quot;</span><span class="p">])</span>  <span class="c1"># NOQA</span>
+        <span class="n">Re</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;Re&quot;</span><span class="p">]</span>
+        <span class="c1"># invf = metadata[&#39;invf&#39;]</span>
+        <span class="n">Rp</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;Rp&quot;</span><span class="p">]</span>
+        <span class="c1"># e = np.sqrt((1 / invf) * (2 - 1 / invf))</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;H_m&quot;</span><span class="p">]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">H</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">Re</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># NOQA</span>
+
+        <span class="c1"># Python 3 netcdf reads create a masked array, while Python 2 netcdf reads</span>
+        <span class="c1"># create ndarray. These should NOT be masked, so if we have a masked array,</span>
+        <span class="c1"># fill it.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">filled</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">):</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">filled</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;      Making </span><span class="si">{0}</span><span class="s2"> by </span><span class="si">{1}</span><span class="s2"> grid.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+        <span class="c1"># Need to transpose the latline, then repeat lonsize times</span>
+        <span class="n">yT</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">yT</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">)])</span>
+        <span class="c1"># Repeat lonline latsize times</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">yT</span><span class="o">.</span><span class="n">size</span><span class="p">)])</span>
+
+        <span class="c1"># Note: In this next section, we will be reusing memory space as much as</span>
+        <span class="c1">#       possible. To make this as transparent as possible, we will do all</span>
+        <span class="c1">#       variable assignment first, then fill them</span>
+        <span class="c1"># This method requires that all lines remain in the SAME ORDER or things</span>
+        <span class="c1"># will go very badly</span>
+        <span class="n">cosx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">cosy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">sinx</span> <span class="o">=</span> <span class="n">x</span>  <span class="c1"># X is not needed after the line that defines sinx</span>
+        <span class="n">siny</span> <span class="o">=</span> <span class="n">y</span>  <span class="c1"># Y is not needed after the line that defines siny</span>
+        <span class="n">rs</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="n">sx</span> <span class="o">=</span> <span class="n">b</span>
+        <span class="n">sy</span> <span class="o">=</span> <span class="n">cosy</span>  <span class="c1"># sinx is not needed after the line that defines sy</span>
+        <span class="n">sz</span> <span class="o">=</span> <span class="n">cosx</span>  <span class="c1"># cosx is not needed after the line that defines sz</span>
+        <span class="n">lats</span> <span class="o">=</span> <span class="n">rs</span>
+        <span class="n">lons</span> <span class="o">=</span> <span class="n">sz</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;      Calculating intermediate steps&quot;</span><span class="p">)</span>
+        <span class="n">Rrat</span> <span class="o">=</span> <span class="n">Re</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">Rp</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># NOQA</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;cos(x)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">cosx</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;cos(y)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">cosy</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;sin(x)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sinx</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;sin(y)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">siny</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;sinx**2 + cosx**2 * (cosy**2 + siny**2 * Rrat)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;-2 * H * cosx * cosy&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;(-b - sqrt(b**2 - (4 * a * c))) / (2 * a)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">rs</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">good_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
+
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;rs * cosx * cosy&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sx</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;rs * cosx * siny&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sz</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;rs * sinx&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sy</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Calculating Latitudes&quot;</span><span class="p">)</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;r2d * arctan(Rrat * sz / sqrt((H - sx)**2 + sy**2))&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">lats</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Calculating Longitudes&quot;</span><span class="p">)</span>
+        <span class="n">lons</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;r2d * (lambda0 + arctan(sy / (H - sx)))&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">lons</span><span class="p">)</span>
+        <span class="n">lats</span><span class="p">[</span><span class="o">~</span><span class="n">good_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">]</span>
+        <span class="n">lons</span><span class="p">[</span><span class="o">~</span><span class="n">good_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">]</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done calculating latitudes and longitudes&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
+            <span class="n">lats</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">lons</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="c1"># # Possible switch to xarray based geolocation files, but we lose memmapping.</span>
+        <span class="c1"># ds = xarray.Dataset(</span>
+        <span class="c1">#     {</span>
+        <span class="c1">#         &#39;latitude&#39;:([&#39;x&#39;,&#39;y&#39;],lats),</span>
+        <span class="c1">#         &#39;longitude&#39;:([&#39;x&#39;,&#39;y&#39;],lons)</span>
+        <span class="c1">#         }</span>
+        <span class="c1">#     )</span>
+        <span class="c1"># ds.to_netcdf(fname)</span>
+
+    <span class="c1"># Create memmap to the lat/lon file</span>
+    <span class="c1"># Nothing will be read until explicitly requested</span>
+    <span class="c1"># We are mapping this here so that the lats and lons are available when</span>
+    <span class="c1"># calculating satlelite angles</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;GETGEO memmap to </span><span class="si">{}</span><span class="s2"> : lat/lon file for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">])</span>
+    <span class="p">)</span>
+
+    <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">])</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
+    <span class="n">lats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">lons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c1"># Possible switch to xarray based geolocation files, but we lose memmapping</span>
+    <span class="c1"># saved_xarray = xarray.load_dataset(fname)</span>
+    <span class="c1"># lons = saved_xarray[&#39;longitude&#39;].to_masked_array()</span>
+    <span class="c1"># lats = saved_xarray[&#39;latitude&#39;].to_masked_array()</span>
+
+    <span class="k">return</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_geolocation_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gather all of the metadata used in creating geolocation data for input file.</span>
+
+<span class="sd">    This is split out so we can easily create a chash of the data for creation</span>
+<span class="sd">    of a unique filename. This allows us to avoid recalculation of angles that</span>
+<span class="sd">    have already been calculated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">geomet</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># G16 -&gt; goes-16</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;platform_ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;goes-&quot;</span><span class="p">)</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;Re&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;semi_major_axis&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;Rp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;semi_minor_axis&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;invf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;inverse_flattening&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;e&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0818191910435</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;pphgt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;perspective_point_height&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;H_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;Re&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;pphgt&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;lat0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;latitude_of_projection_origin&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;lon0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;longitude_of_projection_origin&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;scene_id&quot;</span><span class="p">]</span>
+    <span class="c1"># Just getting the nadir resolution in kilometers.  Must extract from a string.</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;res_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;spatial_resolution&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;roi_factor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># roi = res * roi_factor, was 10</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">geomet</span>
+
+
+<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.call">[docs]</a><span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read ABI NetCDF data from a list of filenames.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : list</span>
+<span class="sd">        * List of strings, full paths to files</span>
+<span class="sd">    metadata_only : bool, default=False</span>
+<span class="sd">        * Return before actually reading data if True</span>
+<span class="sd">    chans : list of str, default=None</span>
+<span class="sd">        * List of desired channels (skip unneeded variables as needed).</span>
+<span class="sd">        * Include all channels if None.</span>
+<span class="sd">    area_def : pyresample.AreaDefinition, default=None</span>
+<span class="sd">        * Specify region to read</span>
+<span class="sd">        * Read all data if None.</span>
+<span class="sd">    self_register : str or bool, default=False</span>
+<span class="sd">        * register all data to the specified dataset id (as specified in the</span>
+<span class="sd">          return dictionary keys).</span>
+<span class="sd">        * Read multiple resolutions of data if False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict of xarray.Datasets</span>
+<span class="sd">        * dictionary of xarray.Dataset objects with required Variables and</span>
+<span class="sd">          Attributes.</span>
+<span class="sd">        * Dictionary keys can be any descriptive dataset ids.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :ref:`xarray_standards`</span>
+<span class="sd">        Additional information regarding required attributes and variables</span>
+<span class="sd">        for GeoIPS-formatted xarray Datasets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gvars</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">datavars</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">standard_metadata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">adname</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span>
+    <span class="k">if</span> <span class="n">area_def</span> <span class="ow">and</span> <span class="n">self_register</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;area_def and self_register are mutually exclusive keywords&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">area_def</span><span class="p">:</span>
+        <span class="n">adname</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
+
+    <span class="c1"># Test inputs</span>
+    <span class="k">if</span> <span class="n">area_def</span> <span class="ow">and</span> <span class="n">self_register</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;sector_definition and self_register are mutually exclusive keywords&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Get metadata for all input data files</span>
+    <span class="c1"># Check to be sure that all input files are form the same image time</span>
+    <span class="n">all_metadata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">chans</span><span class="p">:</span>
+            <span class="n">gotone</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">:</span>
+                <span class="n">currchan</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">chan</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;BT&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Ref&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Rad&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">currchan</span> <span class="ow">in</span> <span class="n">fname</span><span class="p">:</span>
+                    <span class="n">gotone</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">gotone</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;SKIPPING file </span><span class="si">%s</span><span class="s2">, not needed from channel list </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">chans</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">all_metadata</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_metadata</span><span class="p">(</span><span class="n">ncdf</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fname</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">),</span> <span class="n">fname</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;BAD FILE </span><span class="si">%s</span><span class="s2"> skipping&quot;</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Only need metadata from first file, returning&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_check_file_consistency</span><span class="p">(</span><span class="n">all_metadata</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input files inconsistent.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Now put together a dict that shows what we actually got</span>
+    <span class="c1"># This is largely to help us read in order and only create arrays of the minimum</span>
+    <span class="c1"># required size.</span>
+    <span class="c1"># Dict structure is channel{metadata}</span>
+    <span class="n">file_info</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="kn">import</span> <span class="nn">xarray</span>
+
+    <span class="n">xarray_obj</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">md</span> <span class="ow">in</span> <span class="n">all_metadata</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">ch</span> <span class="o">=</span> <span class="s2">&quot;B</span><span class="si">{0:02d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">md</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;band_id&quot;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">ch</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">file_info</span><span class="p">:</span>
+            <span class="n">file_info</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span> <span class="o">=</span> <span class="n">md</span>
+
+    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;file_metadata&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file_info</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># Most of the metadata are the same between files.</span>
+    <span class="c1"># From here on we will just rely on the metadata from a single data file</span>
+    <span class="c1"># for each resolution</span>
+    <span class="n">res_md</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;LOW&quot;</span><span class="p">,</span> <span class="s2">&quot;MED&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH&quot;</span><span class="p">]:</span>
+        <span class="c1"># Find a file for this resolution: Any one will do</span>
+        <span class="n">res_chans</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">DATASET_INFO</span><span class="p">[</span><span class="n">res</span><span class="p">])</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">file_info</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="n">res_chans</span><span class="p">:</span>
+            <span class="n">res_md</span><span class="p">[</span><span class="n">res</span><span class="p">]</span> <span class="o">=</span> <span class="n">file_info</span><span class="p">[</span><span class="n">res_chans</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+    <span class="c1"># If we plan to self register, make sure we requested a resolution that we actually</span>
+    <span class="c1"># plan to read.</span>
+    <span class="c1">#</span>
+    <span class="c1"># This could be problematic if we try to self-register to LOW when only</span>
+    <span class="c1"># reading MED or something</span>
+    <span class="k">if</span> <span class="n">self_register</span> <span class="ow">and</span> <span class="n">self_register</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">res_md</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Resolution requested for self registration has not been read.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Gather metadata</span>
+    <span class="c1"># Assume the same for all resolutions.  Not true, but close enough.</span>
+    <span class="n">highest_md</span> <span class="o">=</span> <span class="n">res_md</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">res_md</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">sdt</span><span class="p">,</span> <span class="n">edt</span> <span class="o">=</span> <span class="n">metadata_to_datetime</span><span class="p">(</span><span class="n">highest_md</span><span class="p">)</span>
+    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
+    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
+    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;abi&quot;</span>
+    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;noaa&quot;</span>
+
+    <span class="c1"># G16 -&gt; goes-16</span>
+    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">highest_md</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;platform_ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+        <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;goes-&quot;</span>
+    <span class="p">)</span>
+    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_definition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span>
+
+    <span class="c1"># Get appropriate sector name</span>
+    <span class="k">if</span> <span class="n">area_def</span><span class="p">:</span>
+        <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
+        <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_definition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">self_register</span> <span class="ow">and</span> <span class="n">self_register</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">DATASET_INFO</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unrecognized resolution name requested for self &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;registration: </span><span class="si">{</span><span class="n">self_register</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="n">scene_id</span> <span class="o">=</span> <span class="n">highest_md</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;dataset_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">scene_id</span> <span class="o">==</span> <span class="s2">&quot;RadF&quot;</span><span class="p">:</span>
+            <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Full-Disk&quot;</span>
+        <span class="k">elif</span> <span class="n">scene_id</span> <span class="o">==</span> <span class="s2">&quot;RadM1&quot;</span><span class="p">:</span>
+            <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Mesoscale-1&quot;</span>
+        <span class="k">elif</span> <span class="n">scene_id</span> <span class="o">==</span> <span class="s2">&quot;RadM2&quot;</span><span class="p">:</span>
+            <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Mesoscale-2&quot;</span>
+        <span class="k">elif</span> <span class="n">scene_id</span> <span class="o">==</span> <span class="s2">&quot;RadC&quot;</span><span class="p">:</span>
+            <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CONUS&quot;</span>
+        <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_definition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">adname</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Only need metadata from first file, returning&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xarray_obj</span><span class="p">}</span>
+
+    <span class="c1"># Create list of all possible channels for the case where no channels were requested</span>
+    <span class="n">all_chans_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">chl</span> <span class="ow">in</span> <span class="n">ALL_CHANS</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">all_chans_list</span> <span class="o">+=</span> <span class="n">chl</span>
+
+    <span class="c1"># If specific channels were requested, check them against the input data</span>
+    <span class="c1"># If specific channels were requested, but no files exist for one of the</span>
+    <span class="c1"># channels, then error</span>
+    <span class="k">if</span> <span class="n">chans</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">ALL_GEO_VARS</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">chan</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_chans_list</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Requested channel </span><span class="si">{0}</span><span class="s2"> not recognized.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">chan</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">file_info</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">continue</span>
+                <span class="c1"># raise ValueError(</span>
+                <span class="c1">#     &#39;Requested channel {0} not found in input data.&#39;.format(chan)</span>
+                <span class="c1"># )</span>
+
+    <span class="c1"># If no specific channels were requested, get everything</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">chans</span><span class="p">:</span>
+        <span class="n">chans</span> <span class="o">=</span> <span class="n">all_chans_list</span>
+
+    <span class="c1"># Creates dict whose keys are band numbers in the form B## and whose values are</span>
+    <span class="c1"># lists containing the data types(s) requested for the band (e.g. Rad, Ref, BT).</span>
+    <span class="n">chan_info</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">ALL_GEO_VARS</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">chn</span> <span class="o">=</span> <span class="n">ch</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">typ</span> <span class="o">=</span> <span class="n">ch</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="n">chn</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">chan_info</span><span class="p">:</span>
+            <span class="n">chan_info</span><span class="p">[</span><span class="n">chn</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">chan_info</span><span class="p">[</span><span class="n">chn</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>
+
+    <span class="c1"># Gather geolocation data</span>
+    <span class="c1"># Assume datetime the same for all resolutions.  Not true, but close enough.</span>
+    <span class="c1"># This save us from having very slightly different solar angles for each channel.</span>
+    <span class="c1"># Loop over resolutions and get metadata as needed</span>
+    <span class="k">if</span> <span class="n">self_register</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Getting geolocation information for resolution </span><span class="si">{}</span><span class="s2"> for </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">self_register</span><span class="p">,</span> <span class="n">adname</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># Get just the metadata we need</span>
+        <span class="n">standard_metadata</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_geolocation_metadata</span><span class="p">(</span><span class="n">res_md</span><span class="p">[</span><span class="n">self_register</span><span class="p">])</span>
+        <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span> <span class="o">=</span> <span class="n">get_latitude_longitude</span><span class="p">(</span>
+            <span class="n">standard_metadata</span><span class="p">[</span><span class="n">adname</span><span class="p">],</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span>
+        <span class="p">)</span>
+        <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_geolocation</span><span class="p">(</span>
+            <span class="n">sdt</span><span class="p">,</span> <span class="n">standard_metadata</span><span class="p">[</span><span class="n">adname</span><span class="p">],</span> <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">,</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">]:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;GEOLOCATION FAILED for adname </span><span class="si">{</span><span class="n">adname</span><span class="si">}</span><span class="s2"> DONT_AUTOGEN_GEOLOCATION &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;is: </span><span class="si">{</span><span class="n">DONT_AUTOGEN_GEOLOCATION</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;LOW&quot;</span><span class="p">,</span> <span class="s2">&quot;MED&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH&quot;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">res_md</span><span class="p">[</span><span class="n">res</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Get just the metadata we need</span>
+                <span class="n">standard_metadata</span><span class="p">[</span><span class="n">res</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_geolocation_metadata</span><span class="p">(</span><span class="n">res_md</span><span class="p">[</span><span class="n">res</span><span class="p">])</span>
+                <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span> <span class="o">=</span> <span class="n">get_latitude_longitude</span><span class="p">(</span>
+                    <span class="n">standard_metadata</span><span class="p">[</span><span class="n">res</span><span class="p">],</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span>
+                <span class="p">)</span>
+                <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_geolocation</span><span class="p">(</span>
+                    <span class="n">sdt</span><span class="p">,</span> <span class="n">standard_metadata</span><span class="p">[</span><span class="n">res</span><span class="p">],</span> <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">,</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> GEOLOCATION FAILED FOR </span><span class="si">{}</span><span class="s2"> resolution </span><span class="si">{}</span><span class="s2">. Skipping.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">resp</span><span class="p">,</span> <span class="n">adname</span><span class="p">,</span> <span class="n">res</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="c1"># Not sure what this does, but it fails if we only pass one resolution</span>
+            <span class="c1"># worth of data...</span>
+            <span class="c1">#</span>
+            <span class="c1"># MLS I think this may be necessary to avoid catastrophic failure if</span>
+            <span class="c1"># geolocation has not been autogenerated.  I&#39;ll see.</span>
+            <span class="c1"># if not gvars[res]:</span>
+            <span class="c1">#     log.error(</span>
+            <span class="c1">#         f&quot;GEOLOCATION FAILED for {adname} resolution {res} &quot;</span>
+            <span class="c1">#         f&quot;DONT_AUTOGEN_GEOLOCATION is: {DONT_AUTOGEN_GEOLOCATION}&quot;</span>
+            <span class="c1">#     )</span>
+            <span class="c1">#     gvars[res] = {}</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done with geolocation for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adname</span><span class="p">))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Read the data</span>
+    <span class="c1"># Will read all data if sector_definition is None</span>
+    <span class="c1"># Will only read required data if an sector_definition is provided</span>
+    <span class="k">for</span> <span class="n">chan</span><span class="p">,</span> <span class="n">types</span> <span class="ow">in</span> <span class="n">chan_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># If we didn&#39;t pass all the channel data, skip non-existent data types</span>
+        <span class="k">if</span> <span class="n">chan</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">file_info</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="p">))</span>
+        <span class="n">chan_md</span> <span class="o">=</span> <span class="n">file_info</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">res</span><span class="p">,</span> <span class="n">res_chans</span> <span class="ow">in</span> <span class="n">DATASET_INFO</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">res_chans</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">self_register</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="n">res</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gvars</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;We don&#39;t have geolocation information for </span><span class="si">{</span><span class="n">res</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">adname</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;skipping </span><span class="si">{</span><span class="n">chan</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">area_def</span><span class="p">:</span>
+            <span class="n">dsname</span> <span class="o">=</span> <span class="n">res</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dsname</span> <span class="o">=</span> <span class="n">adname</span>
+
+        <span class="n">rad</span> <span class="o">=</span> <span class="n">ref</span> <span class="o">=</span> <span class="n">bt</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="s2">&quot;Rad&quot;</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+            <span class="n">rad</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="s2">&quot;Ref&quot;</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="s2">&quot;BT&quot;</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+            <span class="n">bt</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">self_register</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">chan_md</span><span class="p">,</span> <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">],</span> <span class="n">rad</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">bt</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">chan_md</span><span class="p">,</span> <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">],</span> <span class="n">rad</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">bt</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">typ</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">dsname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">datavars</span><span class="p">:</span>
+                <span class="n">datavars</span><span class="p">[</span><span class="n">dsname</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">datavars</span><span class="p">[</span><span class="n">dsname</span><span class="p">][</span><span class="n">chan</span> <span class="o">+</span> <span class="n">typ</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="c1"># This needs to be fixed:</span>
+    <span class="c1">#   remove any unneeded datasets from datavars and gvars</span>
+    <span class="c1">#   also mask any values below -999.0</span>
+    <span class="k">if</span> <span class="n">area_def</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;LOW&quot;</span><span class="p">,</span> <span class="s2">&quot;MED&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">adname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gvars</span> <span class="ow">and</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">gvars</span> <span class="ow">and</span> <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">]:</span>
+                <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span> <span class="o">=</span> <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">gvars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+    <span class="c1"># NOTE: Moved zoom and subsample to get_data, but still need to move data</span>
+    <span class="c1">#       to correct dataset and drop extra datasets</span>
+    <span class="k">if</span> <span class="n">self_register</span><span class="p">:</span>
+        <span class="c1"># Determine which resolution has geolocation</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Registering to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">self_register</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">self_register</span> <span class="o">==</span> <span class="s2">&quot;HIGH&quot;</span><span class="p">:</span>
+            <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span> <span class="o">=</span> <span class="n">datavars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;HIGH&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">varname</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">datavars</span><span class="p">[</span><span class="s2">&quot;LOW&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span>
+                <span class="c1"># datavars[adname][varname] = zoom(var, 4, order=0)</span>
+            <span class="n">datavars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;LOW&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">varname</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">datavars</span><span class="p">[</span><span class="s2">&quot;MED&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span>
+                <span class="c1"># datavars[adname][varname] = zoom(var, 2, order=0)</span>
+            <span class="n">datavars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;MED&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">self_register</span> <span class="o">==</span> <span class="s2">&quot;MED&quot;</span><span class="p">:</span>
+            <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span> <span class="o">=</span> <span class="n">datavars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;MED&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">varname</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">datavars</span><span class="p">[</span><span class="s2">&quot;LOW&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span>
+                <span class="c1"># datavars[adname][varname] = zoom(var, 2, order=0)</span>
+            <span class="n">datavars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;LOW&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">varname</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">datavars</span><span class="p">[</span><span class="s2">&quot;HIGH&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span>
+                <span class="c1"># datavars[adname][varname] = var[::2, ::2]</span>
+            <span class="n">datavars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;HIGH&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">self_register</span> <span class="o">==</span> <span class="s2">&quot;LOW&quot;</span><span class="p">:</span>
+            <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span> <span class="o">=</span> <span class="n">datavars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;LOW&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">varname</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">datavars</span><span class="p">[</span><span class="s2">&quot;MED&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span>
+                <span class="c1"># datavars[adname][varname] = var[::2, ::2]</span>
+            <span class="n">datavars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;MED&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">varname</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">datavars</span><span class="p">[</span><span class="s2">&quot;HIGH&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span>
+                <span class="c1"># datavars[adname][varname] = var[::4, ::4]</span>
+            <span class="n">datavars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;HIGH&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No geolocation data found.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># basically just reformat the all_metadata dictionary to</span>
+    <span class="c1"># reference channel names as opposed to file names..</span>
+    <span class="c1"># band_metadata = get_band_metadata(all_metadata)</span>
+
+    <span class="c1"># Remove lines and samples arrays.  Not needed.</span>
+    <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">gvars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;Lines&quot;</span><span class="p">)</span>
+            <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;Samples&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">varname</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                    <span class="n">var</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">][</span><span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span>
+                <span class="p">)</span>
+                <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span>
+                    <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">][</span><span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">75</span><span class="p">,</span> <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">datavars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">datavars</span><span class="p">[</span><span class="n">ds</span><span class="p">]:</span>
+            <span class="n">datavars</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+
+    <span class="n">xarray_objs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">dsname</span> <span class="ow">in</span> <span class="n">datavars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">xobj</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+        <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">datavars</span><span class="p">[</span><span class="n">dsname</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">datavars</span><span class="p">[</span><span class="n">dsname</span><span class="p">][</span><span class="n">varname</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">gvars</span><span class="p">[</span><span class="n">dsname</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">gvars</span><span class="p">[</span><span class="n">dsname</span><span class="p">][</span><span class="n">varname</span><span class="p">])</span>
+
+        <span class="n">roi</span> <span class="o">=</span> <span class="mi">500</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">xobj</span><span class="p">,</span> <span class="s2">&quot;area_definition&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">roi</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">pixel_size_x</span><span class="p">,</span> <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">pixel_size_y</span>
+            <span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying area_def roi </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">curr_res</span> <span class="ow">in</span> <span class="n">standard_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">standard_metadata</span><span class="p">[</span><span class="n">curr_res</span><span class="p">][</span><span class="s2">&quot;res_km&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1000.0</span> <span class="o">&gt;</span> <span class="n">roi</span><span class="p">:</span>
+                <span class="n">roi</span> <span class="o">=</span> <span class="n">standard_metadata</span><span class="p">[</span><span class="n">curr_res</span><span class="p">][</span><span class="s2">&quot;res_km&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1000.0</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying standard_metadata[</span><span class="si">%s</span><span class="s2">] </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">curr_res</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
+        <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">roi</span>
+        <span class="n">xarray_objs</span><span class="p">[</span><span class="n">dsname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj</span>
+        <span class="c1"># At some point we may need to deconflict, but for now just use any of the</span>
+        <span class="c1"># dataset attributes as the METADATA dataset</span>
+        <span class="n">xarray_objs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[[]]</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done reading ABI data for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">adname</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">xarray_objs</span></div>
+
+
+<div class="viewcode-block" id="get_band_metadata"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.get_band_metadata">[docs]</a><span class="k">def</span> <span class="nf">get_band_metadata</span><span class="p">(</span><span class="n">all_metadata</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get band metadata.</span>
+
+<span class="sd">    This method basically just reformats the all_metadata</span>
+<span class="sd">    dictionary that is set based on the metadata found</span>
+<span class="sd">    in the netcdf object itself to reference channel</span>
+<span class="sd">    names as opposed to filenames as the dictionary keys.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bandmetadata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">all_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">bandnum</span> <span class="o">=</span> <span class="n">all_metadata</span><span class="p">[</span><span class="n">fname</span><span class="p">][</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;band_id&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">bandmetadata</span><span class="p">[</span><span class="s2">&quot;B</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bandnum</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">bandmetadata</span><span class="p">[</span><span class="s2">&quot;B</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">bandnum</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_metadata</span><span class="p">[</span><span class="n">fname</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">bandmetadata</span></div>
+
+
+<div class="viewcode-block" id="get_data"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.get_data">[docs]</a><span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">md</span><span class="p">,</span> <span class="n">gvars</span><span class="p">,</span> <span class="n">rad</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bt</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read data for a full channel&#39;s worth of files.&quot;&quot;&quot;</span>
+    <span class="c1"># Coordinate arrays for reading</span>
+    <span class="k">if</span> <span class="s2">&quot;Lines&quot;</span> <span class="ow">in</span> <span class="n">gvars</span> <span class="ow">and</span> <span class="s2">&quot;Samples&quot;</span> <span class="ow">in</span> <span class="n">gvars</span><span class="p">:</span>
+        <span class="n">full_disk</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">line_inds</span> <span class="o">=</span> <span class="n">gvars</span><span class="p">[</span><span class="s2">&quot;Lines&quot;</span><span class="p">]</span>
+        <span class="n">sample_inds</span> <span class="o">=</span> <span class="n">gvars</span><span class="p">[</span><span class="s2">&quot;Samples&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">full_disk</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Open the data file for reading</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">ncdf</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">md</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">],</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+
+    <span class="n">band_num</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;band_id&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Read radiance data for channel</span>
+    <span class="c1"># For some reason, netcdf4 does not like it if you pass a bunch of indexes.</span>
+    <span class="c1"># It is very slow and creates memory errors if there are too many.</span>
+    <span class="c1"># Have to read ALL of the data, then subset.</span>
+    <span class="c1"># Need to find a solution for this.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">full_disk</span><span class="p">:</span>
+        <span class="n">rad_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">][</span><span class="n">line_inds</span><span class="p">,</span> <span class="n">sample_inds</span><span class="p">])</span>
+        <span class="n">qf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;DQF&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">][</span><span class="n">line_inds</span><span class="p">,</span> <span class="n">sample_inds</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Here we need to determine which indexes to read based on the size of the</span>
+        <span class="c1"># input geolocation data.  We assume that the geolocation data and the variable</span>
+        <span class="c1"># data cover the same domain, just at a different resolution.</span>
+        <span class="n">geoloc_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gvars</span><span class="p">[</span><span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">data_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="c1"># If the geolocation shape matches the data shape, just read the data</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">geoloc_shape</span> <span class="o">==</span> <span class="n">data_shape</span><span class="p">):</span>
+            <span class="n">rad_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">])</span>
+            <span class="n">qf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;DQF&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
+        <span class="c1"># Upscaling data to match geolocation shape</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">geoloc_shape</span><span class="p">,</span> <span class="n">data_shape</span><span class="p">)</span> <span class="o">==</span> <span class="n">geoloc_shape</span><span class="p">):</span>
+            <span class="c1"># Data shape is smaller, so it is the denominator</span>
+            <span class="n">zoom_factor</span><span class="p">,</span> <span class="n">remainder</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divmod</span><span class="p">(</span><span class="n">geoloc_shape</span><span class="p">,</span> <span class="n">data_shape</span><span class="p">)</span>
+            <span class="c1"># Ensure that all elements of the zoom factor are whole numbers</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">remainder</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Zoom factor is not a whole number.  &quot;</span>
+                    <span class="s2">&quot;This section of code needs to be reexamined.&quot;</span>
+                <span class="p">)</span>
+            <span class="c1"># Ensure that all elements of the zoom factor are equal</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">zoom_factor</span> <span class="o">==</span> <span class="n">zoom_factor</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Zoom factor must be equal for both dimensions.  &quot;</span>
+                    <span class="s2">&quot;This section of code needs to be reexamined.&quot;</span>
+                <span class="p">)</span>
+            <span class="c1"># Perform the actual zoom</span>
+            <span class="n">zoom_factor</span> <span class="o">=</span> <span class="n">zoom_factor</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+            <span class="n">rad_data</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]),</span> <span class="n">zoom_factor</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">order</span><span class="o">=</span><span class="mi">0</span>
+            <span class="p">)</span>
+            <span class="n">qf</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;DQF&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">],</span> <span class="n">zoom_factor</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">order</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Downscaling data to match geolocation shape</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">geoloc_shape</span><span class="p">,</span> <span class="n">data_shape</span><span class="p">)</span> <span class="o">==</span> <span class="n">data_shape</span><span class="p">):</span>
+            <span class="c1"># Geoloc shape is smaller, so it is the denominator</span>
+            <span class="n">zoom_factor</span><span class="p">,</span> <span class="n">remainder</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divmod</span><span class="p">(</span><span class="n">data_shape</span><span class="p">,</span> <span class="n">geoloc_shape</span><span class="p">)</span>
+            <span class="c1"># Ensure that all elements of the zoom factor are whole numbers</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">remainder</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Zoom factor is not a whole number.  &quot;</span>
+                    <span class="s2">&quot;This section of code needs to be reexamined.&quot;</span>
+                <span class="p">)</span>
+            <span class="c1"># Ensure that all elements of the zoom factor are equal</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">zoom_factor</span> <span class="o">==</span> <span class="n">zoom_factor</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Zoom factor must be equal for both dimensions.  &quot;</span>
+                    <span class="s2">&quot;This section of code needs to be reexamined.&quot;</span>
+                <span class="p">)</span>
+            <span class="c1"># Perform the actual subsampling</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Before zoom&quot;</span><span class="p">)</span>
+            <span class="n">zoom_factor</span> <span class="o">=</span> <span class="n">zoom_factor</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+            <span class="c1"># NOTE: Strides are broken for netCDF4 library version &lt; 4.6.2.</span>
+            <span class="c1">#       At present, the most recent stable release is 4.6.1.</span>
+            <span class="c1">#       Once 4.6.2 is released, this should be retested.</span>
+            <span class="c1">#       See https://github.com/Unidata/netcdf4-python/issues/680</span>
+
+            <span class="n">rad_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">][::</span> <span class="n">zoom_factor</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">::</span> <span class="n">zoom_factor</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="p">)</span>
+            <span class="n">qf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;DQF&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">][::</span> <span class="n">zoom_factor</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">::</span> <span class="n">zoom_factor</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="c1"># rad_data = np.float64(</span>
+            <span class="c1">#     df.variables[&#39;Rad&#39;][::zoom_factor[0], ::zoom_factor[0]]</span>
+            <span class="c1"># )</span>
+            <span class="c1"># qf = df.variables[&#39;DQF&#39;][::zoom_factor[0], ::zoom_factor[0]]</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;After zoom&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Zoom factor cannot be computed.  &quot;</span>
+                <span class="s2">&quot;All either both dimensions of geolocation data must be &quot;</span>
+                <span class="s2">&quot;larger than the data dimensions or vice versa.&quot;</span>
+            <span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Rad&quot;</span><span class="p">:</span> <span class="n">rad_data</span><span class="p">}</span>
+    <span class="c1"># Originally was using -1, but this is a uint8 and set to 255 for off of disk</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">qf</span> <span class="o">==</span> <span class="mi">255</span><span class="p">)]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">]</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">qf</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;Conditional&quot;</span><span class="p">]</span>
+    <span class="c1"># This flag is ignored for now.  It masks good data that is useful for imagery.</span>
+    <span class="c1"># I am unsure if this should be used in digital products.</span>
+    <span class="c1"># data[&#39;Rad&#39;][np.where(qf == 2)] = BADVALS[&#39;Out_Of_Valid_Range&#39;]</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">qf</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;No_Value&quot;</span><span class="p">]</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">],</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">)</span>
+
+    <span class="c1"># Get the bad data mask from radiances to reuse</span>
+    <span class="n">bad_data_mask</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span>
+
+    <span class="c1"># If reflectance is requested</span>
+    <span class="c1"># Note, weird memory manipulations to save memory when radiances are not requested</span>
+    <span class="k">if</span> <span class="n">ref</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">band_num</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to calculate reflectances for band #</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">band_num</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Get the radiance data</span>
+        <span class="c1"># Have to do this when using numexpr</span>
+        <span class="n">rad_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">][</span><span class="o">~</span><span class="n">bad_data_mask</span><span class="p">]</span>  <span class="c1"># NOQA</span>
+
+        <span class="c1"># If we don&#39;t need radiances, then reuse the memory</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">rad</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Ref&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;Rad&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Ref&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">])</span>
+
+        <span class="n">k0</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;kappa0&quot;</span><span class="p">]</span>  <span class="c1"># NOQA</span>
+        <span class="n">sun_zenith</span> <span class="o">=</span> <span class="n">gvars</span><span class="p">[</span><span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">][</span><span class="o">~</span><span class="n">bad_data_mask</span><span class="p">]</span>  <span class="c1"># NOQA</span>
+        <span class="c1"># zoom_info = (</span>
+        <span class="c1">#     np.array(rad_data.shape, dtype=np.float) /</span>
+        <span class="c1">#     np.array(sun_zenith.shape, dtype=np.float</span>
+        <span class="c1"># )</span>
+        <span class="c1"># if zoom_info[0] == zoom_info[1] and int(zoom_info[0]) == zoom_info[0]:</span>
+        <span class="c1">#     if zoom_info[0] &gt; 1 and int(zoom_info[0]) == zoom_info[0]:</span>
+        <span class="c1">#         sun_zenith = zoom(sun_zenith, zoom_info[0])</span>
+        <span class="c1">#     elif zoom_info[0] &lt; 1 and int(zoom_info[0]**-1) == zoom_info[0]**-1:</span>
+        <span class="c1">#         sun_zenith = sun_zenith[::zoom_info[0]**-1, :: zoom_info[0]**-1]</span>
+        <span class="c1">#     elif zoom_info[0] == 1:</span>
+        <span class="c1">#         pass</span>
+        <span class="c1">#     else:</span>
+        <span class="c1">#         ValueError(&#39;Inappropriate zoom level calculated.&#39;)</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     ValueError(&#39;Inappropriate zoom level calculated.&#39;)</span>
+
+        <span class="n">deg2rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span>  <span class="c1"># NOQA</span>
+        <span class="c1"># NOTE:: ABI docs suggest doing solar zenith angle correction here, but</span>
+        <span class="c1">#        since some algorithms (e.g. Fire-Temperature RGB) required uncorrected</span>
+        <span class="c1">#        data, we will not do this here, instead leaving it to the algorithm</span>
+        <span class="c1">#        developer to handle.</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Ref&quot;</span><span class="p">][</span><span class="o">~</span><span class="n">bad_data_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;k0 * rad_data&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">bt</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">band_num</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">17</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to calculate brightness temperatures for band #</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">band_num</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Get the radiance data</span>
+        <span class="c1"># Have to do this when using numexpr</span>
+        <span class="n">rad_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">][</span><span class="o">~</span><span class="n">bad_data_mask</span><span class="p">]</span>
+
+        <span class="c1"># Sometimes negative values occur due to oddities in calibration</span>
+        <span class="c1"># These break the conversion to BT</span>
+        <span class="c1"># Since these values are likely caused by very dark (cold) scenes</span>
+        <span class="c1">#   that are below the sensor&#39;s sensitivity and we are not interested in</span>
+        <span class="c1">#   having bad data scattered throughout the imager, we will set this</span>
+        <span class="c1">#   to a very small value</span>
+        <span class="n">rad_data</span><span class="p">[</span><span class="n">rad_data</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.001</span>
+
+        <span class="c1"># If we don&#39;t need radiances, then reuse the memory</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">rad</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;BT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;Rad&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;BT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Rad&quot;</span><span class="p">])</span>
+
+        <span class="n">fk1</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;planck_fk1&quot;</span><span class="p">]</span>  <span class="c1"># NOQA</span>
+        <span class="n">fk2</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;planck_fk2&quot;</span><span class="p">]</span>  <span class="c1"># NOQA</span>
+        <span class="n">bc1</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;planck_bc1&quot;</span><span class="p">]</span>  <span class="c1"># NOQA</span>
+        <span class="n">bc2</span> <span class="o">=</span> <span class="n">md</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;planck_bc2&quot;</span><span class="p">]</span>  <span class="c1"># NOQA</span>
+
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;BT&quot;</span><span class="p">][</span><span class="o">~</span><span class="n">bad_data_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="s2">&quot;(fk2 / log(fk1 / rad_data + 1) - bc1) / bc2&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># latitude is sometimes fully specified from area_def... So does not</span>
+    <span class="c1"># relate to actual masked data..</span>
+    <span class="c1"># This should only occur when area_def was provided and breaks when it wasn&#39;t.</span>
+    <span class="k">if</span> <span class="s2">&quot;Lines&quot;</span> <span class="ow">in</span> <span class="n">gvars</span><span class="p">:</span>
+        <span class="n">usemask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less</span><span class="p">(</span><span class="n">gvars</span><span class="p">[</span><span class="s2">&quot;Lines&quot;</span><span class="p">],</span> <span class="o">-</span><span class="mi">990</span><span class="p">)</span><span class="o">.</span><span class="n">mask</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">usemask</span> <span class="o">=</span> <span class="n">gvars</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span>
+
+    <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">gvars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">varname</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">]:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">gvars</span><span class="p">[</span><span class="n">varname</span><span class="p">],</span> <span class="s2">&quot;mask&quot;</span><span class="p">):</span>
+            <span class="n">gvars</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">usemask</span>
+    <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">varname</span><span class="p">],</span> <span class="s2">&quot;mask&quot;</span><span class="p">):</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">usemask</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

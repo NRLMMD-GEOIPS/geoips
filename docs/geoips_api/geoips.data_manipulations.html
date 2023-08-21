@@ -1,0 +1,1127 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>geoips.data_manipulations package &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.data_manipulations';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geoips.dev package" href="geoips.dev.html" />
+    <link rel="prev" title="geoips.commandline package" href="geoips.commandline.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="geoips.html">geoips package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">geoips.data_manipulations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="geoips.html" class="nav-link">geoips package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.data_manipulations package</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="geoips-data-manipulations-package">
+<h1>geoips.data_manipulations package<a class="headerlink" href="#geoips-data-manipulations-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-geoips.data_manipulations.conversions">
+<span id="geoips-data-manipulations-conversions-module"></span><h2>geoips.data_manipulations.conversions module<a class="headerlink" href="#module-geoips.data_manipulations.conversions" title="Permalink to this heading">#</a></h2>
+<p>Routines for converting between units.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.conversions.unit_conversion">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.conversions.</span></span><span class="sig-name descname"><span class="pre">unit_conversion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/conversions.html#unit_conversion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.conversions.unit_conversion" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert array in units ‘input_units’ to units ‘output_units’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>ndarray</em>) – numpy.ndarray or numpy.MaskedArray of data values to be converted</p></li>
+<li><p><strong>input_units</strong> (<em>str</em><em>, </em><em>optional</em>) – Units of input data array, defaults to None</p></li>
+<li><p><strong>output_units</strong> (<em>str</em><em>, </em><em>optional</em>) – Units of output data array, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return numpy.ma.MaskedArray, with units converted
+from ‘input_units’ to ‘output_units’</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>MaskedArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.data_manipulations.corrections">
+<span id="geoips-data-manipulations-corrections-module"></span><h2>geoips.data_manipulations.corrections module<a class="headerlink" href="#module-geoips.data_manipulations.corrections" title="Permalink to this heading">#</a></h2>
+<p>Apply min/max values, normalize, and invert data arrays.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.corrections.apply_data_range">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.corrections.</span></span><span class="sig-name descname"><span class="pre">apply_data_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_outbounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'crop'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_outbounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'crop'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/corrections.html#apply_data_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.corrections.apply_data_range" title="Permalink to this definition">#</a></dt>
+<dd><p>Apply minimum and maximum values to an array of data.</p>
+<p>Normalize, invert, and handle out of bounds data as requested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – data values to which the data range will be applied.</p></li>
+<li><p><strong>min_val</strong> (<em>float</em><em>, </em><em>default None</em>) – <ul>
+<li><p>The minimum bound to be applied to the input data as a scalar,</p></li>
+<li><p>If None, use data.min().</p></li>
+</ul>
+</p></li>
+<li><p><strong>max_val</strong> (<em>float</em><em>, </em><em>default=None</em>) – <ul>
+<li><p>The maximum bound to be applied to the input data as a scalar.</p></li>
+<li><p>If None, use data.max().</p></li>
+</ul>
+</p></li>
+<li><p><strong>min_outbounds</strong> (<em>str</em><em>, </em><em>default='crop'</em>) – <p>Method to use when applying bounds as a string. Valid values are:</p>
+<ul>
+<li><p>retain: keep all pixels as is</p></li>
+<li><p>mask: mask all pixels that are out of range.</p></li>
+<li><p>crop: set all out of range values to min_val</p></li>
+</ul>
+</p></li>
+<li><p><strong>max_outbounds</strong> (<em>str</em><em>, </em><em>default='crop'</em>) – <p>Method to use when applying bounds as a string. Valid values are:</p>
+<ul>
+<li><p>retain: keep all pixels as is</p></li>
+<li><p>mask: mask all pixels that are out of range.</p></li>
+<li><p>crop: set all out of range values to max_val</p></li>
+</ul>
+</p></li>
+<li><p><strong>norm</strong> (<em>bool</em><em>, </em><em>default=True</em>) – <p>Boolean flag indicating whether to normalize (True) or not (False).</p>
+<ul>
+<li><p>If True, returned data will be in the range from 0 to 1.</p></li>
+<li><p>If False, returned data will be in the range min_val to max_val.</p></li>
+</ul>
+</p></li>
+<li><p><strong>inverse</strong> (<em>bool</em><em>, </em><em>default=False</em>) – <p>Boolean flag indicating whether to invert data (True) or not (False).</p>
+<ul>
+<li><p>If True, returned data will be inverted</p></li>
+<li><p>If False, returned data will not be inverted</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return numpy.ndarray or numpy.ma.MaskedArray
+Input data array with values above ‘max_val’ or below ‘min_val’
+retained, cropped, or masked.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.corrections.apply_gamma">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.corrections.</span></span><span class="sig-name descname"><span class="pre">apply_gamma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/corrections.html#apply_gamma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.corrections.apply_gamma" title="Permalink to this definition">#</a></dt>
+<dd><p>Apply gamma correction to all values in the data array.</p>
+<p>Gamma correction applied as: data_array ** (1.0 / float(gamma))</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – data array to which gamma will be applied</p></li>
+<li><p><strong>gamma</strong> (<em>float</em>) – gamma correction value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return numpy.ndarray or numpy.ma.MaskedArray
+if data_array was MaskedArray with gamma correction applied
+data_array ** (1.0 / float(gamma))</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.corrections.apply_maximum_value">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.corrections.</span></span><span class="sig-name descname"><span class="pre">apply_maximum_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outbounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/corrections.html#apply_maximum_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.corrections.apply_maximum_value" title="Permalink to this definition">#</a></dt>
+<dd><p>Apply maximum value to an array of data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – data values to which the maximum value will be applied.</p></li>
+<li><p><strong>max_val</strong> (<em>float</em>) – The maximum bound to be applied to the input data as a scalar.</p></li>
+<li><p><strong>outbounds</strong> (<em>str</em>) – <dl class="simple">
+<dt>Method to use when applying bounds as a string. Valid values are:</dt><dd><p>retain: keep all pixels as is
+mask: mask all pixels that are out of range.
+crop: set all out of range values to max_val.</p>
+</dd>
+</dl>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return numpy.ndarray or numpy.ma.MaskedArray
+Input data array with values above ‘max_val’
+retained, cropped, or masked appropriately.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.corrections.apply_minimum_value">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.corrections.</span></span><span class="sig-name descname"><span class="pre">apply_minimum_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outbounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/corrections.html#apply_minimum_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.corrections.apply_minimum_value" title="Permalink to this definition">#</a></dt>
+<dd><p>Apply minimum values to an array of data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – data values to which the minimum value will be applied.</p></li>
+<li><p><strong>min_val</strong> (<em>float</em>) – The minimum bound to be applied to the input data as a scalar.</p></li>
+<li><p><strong>outbounds</strong> (<em>str</em>) – <dl class="simple">
+<dt>Method to use when applying bounds as a string. Valid values are:</dt><dd><p>retain: keep all pixels as is
+mask: mask all pixels that are out of range.
+crop: set all out of range values to min_val.</p>
+</dd>
+</dl>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return numpy.ndarray or numpy.ma.MaskedArray
+Input data array with values below ‘min_val’
+retained, cropped, or masked appropriately.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.corrections.apply_offset">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.corrections.</span></span><span class="sig-name descname"><span class="pre">apply_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/corrections.html#apply_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.corrections.apply_offset" title="Permalink to this definition">#</a></dt>
+<dd><p>Apply offset to all values in data_array.</p>
+<p>Offset applied as: data_array + offset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – data values to which offset will be applied.</p></li>
+<li><p><strong>scale_factor</strong> (<em>float</em>) – requested offset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return numpy.ndarray or numpy.ma.MaskedArray
+Input data array with offset applied
+data_array + offset</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.corrections.apply_scale_factor">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.corrections.</span></span><span class="sig-name descname"><span class="pre">apply_scale_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_factor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/corrections.html#apply_scale_factor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.corrections.apply_scale_factor" title="Permalink to this definition">#</a></dt>
+<dd><p>Apply scale factor to all values in data_array.</p>
+<p>Scale factor applied as: data_array * scale_factor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – data values to be scaled</p></li>
+<li><p><strong>scale_factor</strong> (<em>float</em>) – requested scale factor</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return numpy.ndarray or numpy.ma.MaskedArray
+Input data array with scale factor applied
+data_array * scale_factor</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.corrections.apply_solar_zenith_correction">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.corrections.</span></span><span class="sig-name descname"><span class="pre">apply_solar_zenith_correction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sunzen_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/corrections.html#apply_solar_zenith_correction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.corrections.apply_solar_zenith_correction" title="Permalink to this definition">#</a></dt>
+<dd><p>Apply solar zenith angle correction to all values in data_array.</p>
+<p>Solar zenith correction applied as: data / cos(sunzen)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – data values to be masked</p></li>
+<li><p><strong>sunzen_array</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – solar zenith angles of the same shape as the data array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return numpy.ndarray or numpy.ma.MaskedArray if original
+data_array was MaskedArray with each value in the
+data_array divided by cos(sunzen).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.corrections.invert_data_range">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.corrections.</span></span><span class="sig-name descname"><span class="pre">invert_data_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/corrections.html#invert_data_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.corrections.invert_data_range" title="Permalink to this definition">#</a></dt>
+<dd><p>Invert data range to an array of data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – data values to which the data range will be applied.</p></li>
+<li><p><strong>min_val</strong> (<em>float</em><em>, </em><em>optional</em>) – The minimum bound to be applied to the input data as a scalar,
+by default None, which results in data.min().</p></li>
+<li><p><strong>max_val</strong> (<em>float</em><em>, </em><em>optional</em>) – The maximum bound to be applied to the input data as a scalar.
+by default None, which results in data.max().</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return numpy.ndarray or numpy.ma.MaskedArray
+Input data array with values inverted.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.corrections.mask_day">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.corrections.</span></span><span class="sig-name descname"><span class="pre">mask_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sunzen_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_zenith</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/corrections.html#mask_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.corrections.mask_day" title="Permalink to this definition">#</a></dt>
+<dd><p>Mask where solar zenith angle less than the maxinum specified value.</p>
+<p>Mask all pixels within the data array where the solar zenith angle is less
+than the maxinum specified value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – data values to be masked</p></li>
+<li><p><strong>sunzen_array</strong> (<em>numpy.ndarray</em>) – numpy.ndarray or numpy.ma.MaskedArray of solar zenith angles,
+of the same shape as the data array</p></li>
+<li><p><strong>max_zenith</strong> (<em>float</em><em>, </em><em>optional</em>) – Mask all locations in data_array where sunzen_array is less
+than max_zenith, by default 90</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Data array with all locations corresponding to a
+solar zenith angle less than max_zenith masked.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ma.MaskedArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.corrections.mask_night">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.corrections.</span></span><span class="sig-name descname"><span class="pre">mask_night</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sunzen_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_zenith</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/corrections.html#mask_night"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.corrections.mask_night" title="Permalink to this definition">#</a></dt>
+<dd><p>Mask where solar zenith angle greater than the minimum specified value.</p>
+<p>Mask all pixels within the data array where the solar zenith angle is
+greater than the mininum specified value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_array</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – data values to be masked.</p></li>
+<li><p><strong>sunzen_array</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – array of solar zenith angles, same shape as the data array.</p></li>
+<li><p><strong>min_zenith</strong> (<em>float</em><em>, </em><em>optional</em>) – Mask all locations in data_array where sunzen_array is greater than
+min_zenith, by default 90.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Data array with all locations corresponding to a
+solar zenith angle greater than min_zenith masked.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ma.MaskedArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.corrections.normalize">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.corrections.</span></span><span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_val</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_bounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'crop'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_bounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'crop'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/corrections.html#normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.corrections.normalize" title="Permalink to this definition">#</a></dt>
+<dd><p>Normalize data array with min_val and max_val to range 0 to 1.</p>
+<p>Default to cropping outside requested data range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>numpy.ndarray</em><em> or </em><em>numpy.ma.MaskedArray</em>) – data values to which the data range will be applied.</p></li>
+<li><p><strong>min_val</strong> (<em>float</em><em>, </em><em>default=None</em>) – <ul>
+<li><p>The minimum bound to be applied to the input data as a scalar,</p></li>
+<li><p>If None, use data.min().</p></li>
+</ul>
+</p></li>
+<li><p><strong>max_val</strong> (<em>float</em><em>, </em><em>default=None</em>) – <ul>
+<li><p>The maximum bound to be applied to the input data as a scalar.</p></li>
+<li><p>If None, use data.max().</p></li>
+</ul>
+</p></li>
+<li><p><strong>min_outbounds</strong> (<em>str</em><em>, </em><em>default='crop'</em>) – <p>Method to use when applying bounds as a string. Valid values are:</p>
+<ul>
+<li><p>retain: keep all pixels as is</p></li>
+<li><p>mask: mask all pixels that are out of range.</p></li>
+<li><p>crop: set all out of range values to min_val</p></li>
+</ul>
+</p></li>
+<li><p><strong>max_outbounds</strong> (<em>str</em><em>, </em><em>default='crop'</em>) – <p>Method to use when applying bounds as a string. Valid values are:</p>
+<ul>
+<li><p>retain: keep all pixels as is</p></li>
+<li><p>mask: mask all pixels that are out of range.</p></li>
+<li><p>crop: set all out of range values to max_val</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return numpy.ndarray or numpy.ma.MaskedArray
+Input data array normalized between 0 and 1, with values above
+‘max_val’ or below ‘min_val’ retained, cropped, or masked.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.data_manipulations.info">
+<span id="geoips-data-manipulations-info-module"></span><h2>geoips.data_manipulations.info module<a class="headerlink" href="#module-geoips.data_manipulations.info" title="Permalink to this heading">#</a></h2>
+<p>Introspection functions on data arrays.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.info.percent_not_nan">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.info.</span></span><span class="sig-name descname"><span class="pre">percent_not_nan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/info.html#percent_not_nan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.info.percent_not_nan" title="Permalink to this definition">#</a></dt>
+<dd><p>Determine percent of a numpy.ndarray that is not NaN values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_array</strong> (<em>numpy.ndarray</em>) – Final processed array from which to determine coverage, invalid values
+specified by “numpy.nan”.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>percent of input data array that is not numpy.nan.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.info.percent_unmasked">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.info.</span></span><span class="sig-name descname"><span class="pre">percent_unmasked</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/info.html#percent_unmasked"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.info.percent_unmasked" title="Permalink to this definition">#</a></dt>
+<dd><p>Determine percent of a numpy.ma.Masked array that is not masked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_array</strong> (<em>numpy.ma.MaskedArray</em>) – Final processed array from which to determine coverage</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>percent of input data array that is not masked.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.data_manipulations.merge">
+<span id="geoips-data-manipulations-merge-module"></span><h2>geoips.data_manipulations.merge module<a class="headerlink" href="#module-geoips.data_manipulations.merge" title="Permalink to this heading">#</a></h2>
+<p>Utilities for merging granules into a single data array.</p>
+<p>These utilities can apply to potentially different data sources -
+spanning a variety of sensors and platforms into a single final
+dataset.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.merge.daterange">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.merge.</span></span><span class="sig-name descname"><span class="pre">daterange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/merge.html#daterange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.merge.daterange" title="Permalink to this definition">#</a></dt>
+<dd><p>Check one day at a time.</p>
+<p>If end_date - start_date is between 1 and 2, days will be 1,
+and range(1) is 0. So add 2 to days to set range.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.merge.find_datafiles_in_range">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.merge.</span></span><span class="sig-name descname"><span class="pre">find_datafiles_in_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sector_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">every_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%H%M'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">single_match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/merge.html#find_datafiles_in_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.merge.find_datafiles_in_range" title="Permalink to this definition">#</a></dt>
+<dd><p>Find datafiles from a specified set of parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sector_name</strong> (<em>str</em>) – Sector of interest</p></li>
+<li><p><strong>platform_name</strong> (<em>str</em>) – platform of interest</p></li>
+<li><p><strong>source_name</strong> (<em>str</em>) – Source of interest</p></li>
+<li><p><strong>min_time</strong> (<em>datetime.datetime</em>) – Minimum time to search</p></li>
+<li><p><strong>max_time</strong> (<em>datetime.datetime</em>) – Maximum time to search</p></li>
+<li><p><strong>basedir</strong> (<em>str</em>) – Base directory to search</p></li>
+<li><p><strong>product_name</strong> (<em>str</em>) – Product of interest</p></li>
+<li><p><strong>every_min</strong> (<em>bool</em><em>, </em><em>optional</em>) – Check every minute, by default True</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print a lot of log output during the search, by default False</p></li>
+<li><p><strong>time_format</strong> (<em>str</em><em>, </em><em>optional</em>) – Format of time information in filenames, by default “%H%M”</p></li>
+<li><p><strong>actual_datetime</strong> (<em>datetime.datetime</em><em>, </em><em>optional</em>) – Actual datetime of the requested data, required if single_match is
+True, by default None</p></li>
+<li><p><strong>single_match</strong> (<em>bool</em><em>, </em><em>optional</em>) – Only return the closest matching file if True, else return all
+matching files, by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of all filenames matching the given parameters
+(list of length 1 if single_match is True, all matching files
+if single_match is false)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.merge.get_matching_files">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.merge.</span></span><span class="sig-name descname"><span class="pre">get_matching_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">primary_sector_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsector_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platforms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_time_diffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%H%M'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_mins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">single_match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/merge.html#get_matching_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.merge.get_matching_files" title="Permalink to this definition">#</a></dt>
+<dd><p>Given the current set of parameters, find all matching files.</p>
+<p>Given the current primary sector, and associated subsectors, platforms,
+and sources, find all matching files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>primary_sector_name</strong> (<em>str</em>) – The final sector that all data will be stitched into.
+ie ‘GlobalGlobal’</p></li>
+<li><p><strong>subsector_names</strong> (<em>list</em><em> of </em><em>str</em>) – List of all subsectors that will be merged into the final sector.
+(potentially including the full primary_sector_name.)
+ie [‘GlobalGlobal’, ‘GlobalAntarctic’, ‘GlobalArctic’]</p></li>
+<li><p><strong>platforms</strong> (<em>list</em><em> of </em><em>str</em>) – List of all desired platforms.
+platforms, sources, and max_time_diffs correspond to one another
+and should be the same length and in the same order.</p></li>
+<li><p><strong>sources</strong> (<em>list</em><em> of </em><em>str</em>) – List of all desired sources.
+platforms, sources, and max_time_diffs correspond to one another
+and should be the same length and in the same order.</p></li>
+<li><p><strong>max_time_diffs</strong> (<em>list</em><em> of </em><em>int</em>) – Minutes. List of allowed time diffs for given platform/source. Matches
+max_time_diff before the requested merge_datetime argument.
+platforms, sources, and max_time_diffs correspond to one another
+and should be the same length and in the same order.</p></li>
+<li><p><strong>basedir</strong> (<em>str</em>) – Base directory in which to look for the matching files.</p></li>
+<li><p><strong>merge_datetime</strong> (<em>datetime</em>) – Attempt matching max_time_diff prior to merge_datetime</p></li>
+<li><p><strong>product_name</strong> (<em>str</em>) – product_name string found in matching files</p></li>
+<li><p><strong>time_format</strong> (<em>str</em><em>, </em><em>optional</em>) – Requested time format for filenames (strptime format string),
+by default ‘%H%M’</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print a lot of log output during the search, by default False</p></li>
+<li><p><strong>single_match</strong> (<em>bool</em><em>, </em><em>optional</em>) – Only return the closest matching file if True, else return all
+matching files, by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of all filenames matching the given parameters
+(list of length 1 if single_match is True, all matching files
+if single_match is false)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.merge.hourrange">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.merge.</span></span><span class="sig-name descname"><span class="pre">hourrange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/merge.html#hourrange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.merge.hourrange" title="Permalink to this definition">#</a></dt>
+<dd><p>Check one hour at a time.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.data_manipulations.merge.minrange">
+<span class="sig-prename descclassname"><span class="pre">geoips.data_manipulations.merge.</span></span><span class="sig-name descname"><span class="pre">minrange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/data_manipulations/merge.html#minrange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.data_manipulations.merge.minrange" title="Permalink to this definition">#</a></dt>
+<dd><p>Check one minute at a time.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.data_manipulations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-geoips.data_manipulations" title="Permalink to this heading">#</a></h2>
+<p>geoips.data_manipulations init file.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geoips.commandline.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">geoips.commandline package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geoips.dev.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">geoips.dev package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.data_manipulations.conversions">geoips.data_manipulations.conversions module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.conversions.unit_conversion"><code class="docutils literal notranslate"><span class="pre">unit_conversion()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.data_manipulations.corrections">geoips.data_manipulations.corrections module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.corrections.apply_data_range"><code class="docutils literal notranslate"><span class="pre">apply_data_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.corrections.apply_gamma"><code class="docutils literal notranslate"><span class="pre">apply_gamma()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.corrections.apply_maximum_value"><code class="docutils literal notranslate"><span class="pre">apply_maximum_value()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.corrections.apply_minimum_value"><code class="docutils literal notranslate"><span class="pre">apply_minimum_value()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.corrections.apply_offset"><code class="docutils literal notranslate"><span class="pre">apply_offset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.corrections.apply_scale_factor"><code class="docutils literal notranslate"><span class="pre">apply_scale_factor()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.corrections.apply_solar_zenith_correction"><code class="docutils literal notranslate"><span class="pre">apply_solar_zenith_correction()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.corrections.invert_data_range"><code class="docutils literal notranslate"><span class="pre">invert_data_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.corrections.mask_day"><code class="docutils literal notranslate"><span class="pre">mask_day()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.corrections.mask_night"><code class="docutils literal notranslate"><span class="pre">mask_night()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.corrections.normalize"><code class="docutils literal notranslate"><span class="pre">normalize()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.data_manipulations.info">geoips.data_manipulations.info module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.info.percent_not_nan"><code class="docutils literal notranslate"><span class="pre">percent_not_nan()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.info.percent_unmasked"><code class="docutils literal notranslate"><span class="pre">percent_unmasked()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.data_manipulations.merge">geoips.data_manipulations.merge module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.merge.daterange"><code class="docutils literal notranslate"><span class="pre">daterange()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.merge.find_datafiles_in_range"><code class="docutils literal notranslate"><span class="pre">find_datafiles_in_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.merge.get_matching_files"><code class="docutils literal notranslate"><span class="pre">get_matching_files()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.merge.hourrange"><code class="docutils literal notranslate"><span class="pre">hourrange()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.data_manipulations.merge.minrange"><code class="docutils literal notranslate"><span class="pre">minrange()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.data_manipulations">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.data_manipulations.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+geoips.plugins.modules.interpolators.scipy\_wrappers package
+============================================================
+
+Submodules
+----------
+
+geoips.plugins.modules.interpolators.scipy\_wrappers.interp\_grid module
+------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.interpolators.scipy_wrappers.interp_grid
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.interpolators.scipy_wrappers
+   :members:
+   :undoc-members:
+   :show-inheritance:

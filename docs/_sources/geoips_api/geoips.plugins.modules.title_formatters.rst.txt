@@ -1,0 +1,37 @@
+geoips.plugins.modules.title\_formatters package
+================================================
+
+Submodules
+----------
+
+geoips.plugins.modules.title\_formatters.static\_standard module
+----------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.title_formatters.static_standard
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.title\_formatters.tc\_copyright module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.title_formatters.tc_copyright
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.title\_formatters.tc\_standard module
+------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.title_formatters.tc_standard
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.title_formatters
+   :members:
+   :undoc-members:
+   :show-inheritance:

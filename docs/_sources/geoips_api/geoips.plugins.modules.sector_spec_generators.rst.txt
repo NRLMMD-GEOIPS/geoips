@@ -1,0 +1,21 @@
+geoips.plugins.modules.sector\_spec\_generators package
+=======================================================
+
+Submodules
+----------
+
+geoips.plugins.modules.sector\_spec\_generators.center\_coordinates module
+--------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.sector_spec_generators.center_coordinates
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.sector_spec_generators
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,62 @@
+geoips package
+==============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   geoips.commandline
+   geoips.data_manipulations
+   geoips.dev
+   geoips.filenames
+   geoips.image_utils
+   geoips.interfaces
+   geoips.plugins
+   geoips.sector_utils
+   geoips.utils
+   geoips.xarray_utils
+
+Submodules
+----------
+
+geoips.cli module
+-----------------
+
+.. automodule:: geoips.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.compare\_outputs module
+------------------------------
+
+.. automodule:: geoips.compare_outputs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.errors module
+--------------------
+
+.. automodule:: geoips.errors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.geoips\_utils module
+---------------------------
+
+.. automodule:: geoips.geoips_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips
+   :members:
+   :undoc-members:
+   :show-inheritance:

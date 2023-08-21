@@ -1,0 +1,253 @@
+geoips.plugins.modules.readers package
+======================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   geoips.plugins.modules.readers.utils
+
+Submodules
+----------
+
+geoips.plugins.modules.readers.abi\_l2\_netcdf module
+-----------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.abi_l2_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.abi\_netcdf module
+-------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.abi_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.ahi\_hsd module
+----------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.ahi_hsd
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.amsr2\_netcdf module
+---------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.amsr2_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.amsr2\_remss\_winds\_netcdf module
+-----------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.amsr2_remss_winds_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.amsub\_hdf module
+------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.amsub_hdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.amsub\_mirs module
+-------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.amsub_mirs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.ascat\_uhr\_netcdf module
+--------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.ascat_uhr_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.atms\_hdf5 module
+------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.atms_hdf5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.ewsg\_netcdf module
+--------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.ewsg_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.geoips\_netcdf module
+----------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.geoips_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.gmi\_hdf5 module
+-----------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.gmi_hdf5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.imerg\_hdf5 module
+-------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.imerg_hdf5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.mimic\_netcdf module
+---------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.mimic_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.modis\_hdf4 module
+-------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.modis_hdf4
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.saphir\_hdf5 module
+--------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.saphir_hdf5
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.sar\_winds\_netcdf module
+--------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.sar_winds_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.scat\_knmi\_winds\_netcdf module
+---------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.scat_knmi_winds_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.scat\_noaa\_winds\_netcdf module
+---------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.scat_noaa_winds_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.seviri\_hrit module
+--------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.seviri_hrit
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.sfc\_winds\_text module
+------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.sfc_winds_text
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.smap\_remss\_winds\_netcdf module
+----------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.smap_remss_winds_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.smos\_winds\_netcdf module
+---------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.smos_winds_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.ssmi\_binary module
+--------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.ssmi_binary
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.ssmis\_binary module
+---------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.ssmis_binary
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.viirs\_netcdf module
+---------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.viirs_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.wfabba\_ascii module
+---------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.wfabba_ascii
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.windsat\_idr37\_binary module
+------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.windsat_idr37_binary
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.windsat\_remss\_winds\_netcdf module
+-------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.windsat_remss_winds_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.readers
+   :members:
+   :undoc-members:
+   :show-inheritance:

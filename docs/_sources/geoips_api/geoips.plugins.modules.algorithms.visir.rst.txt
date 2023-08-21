@@ -1,0 +1,45 @@
+geoips.plugins.modules.algorithms.visir package
+===============================================
+
+Submodules
+----------
+
+geoips.plugins.modules.algorithms.visir.Night\_Vis module
+---------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Night_Vis
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.Night\_Vis\_GeoIPS1 module
+------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Night_Vis_GeoIPS1
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.Night\_Vis\_IR module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Night_Vis_IR
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.Night\_Vis\_IR\_GeoIPS1 module
+----------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Night_Vis_IR_GeoIPS1
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir
+   :members:
+   :undoc-members:
+   :show-inheritance:

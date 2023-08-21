@@ -1,0 +1,771 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.cli &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/cli';</script>
+    <link rel="icon" href="../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.cli</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for geoips.cli</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # Author:</span>
+<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
+<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
+<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
+<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+
+<span class="sd">&quot;&quot;&quot;GeoIPS command line interface.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pkgutil</span>
+<span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ArgumentParser</span><span class="p">,</span>
+    <span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">,</span>
+    <span class="n">RawDescriptionHelpFormatter</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">geoips</span> <span class="kn">import</span> <span class="n">dev</span><span class="p">,</span> <span class="n">interfaces</span>
+<span class="kn">from</span> <span class="nn">geoips.interfaces.base</span> <span class="kn">import</span> <span class="n">BaseInterface</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="c1"># Always actually raise DeprecationWarnings</span>
+<span class="c1"># Note this SO answer https://stackoverflow.com/a/20960427</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;always&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+
+<span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">GeoIPS</span>
+
+<span class="s2">The Geolocated Information Processing System (GeoIPS) is a generalized</span>
+<span class="s2">processing system, providing a collection of algorithm and product</span>
+<span class="s2">implementations facilitating consistent and reliable application of specific</span>
+<span class="s2">products across a variety of sensors and data types.</span>
+
+<span class="s2">GeoIPS acts as a toolbox for internal GeoIPS-based product development - all</span>
+<span class="s2">modules are expected to have simple inputs and outputs (Python numpy or dask</span>
+<span class="s2">arrays or xarrays, dictionaries, strings, lists), to enable portability and</span>
+<span class="s2">simplified interfacing between modules.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="RawDescriptionArgumentDefaultsHelpFormatter"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.cli.RawDescriptionArgumentDefaultsHelpFormatter">[docs]</a><span class="k">class</span> <span class="nc">RawDescriptionArgumentDefaultsHelpFormatter</span><span class="p">(</span>
+    <span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">,</span> <span class="n">RawDescriptionHelpFormatter</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compound formatter class for user-readable help.</span>
+
+<span class="sd">    * preserves the raw description formatting</span>
+<span class="sd">    * adds defaults to helps.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<span class="n">formclass</span> <span class="o">=</span> <span class="n">RawDescriptionArgumentDefaultsHelpFormatter</span>
+
+
+<div class="viewcode-block" id="print_table"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.cli.print_table">[docs]</a><span class="k">def</span> <span class="nf">print_table</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">headings</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print a column formatted table.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    title : str</span>
+<span class="sd">        A title for the table</span>
+<span class="sd">    headings : list of str</span>
+<span class="sd">        A list of strings to use as column headings</span>
+<span class="sd">    rows : list of tupl of str</span>
+<span class="sd">        A list of equal-length tuples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ncol</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">headings</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row_ind</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ncol</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of elements per row must be equal for all rows&quot;</span><span class="p">)</span>
+        <span class="n">rows</span><span class="p">[</span><span class="n">row_ind</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
+
+    <span class="n">col_widths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">col_ind</span><span class="p">,</span> <span class="n">heading</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">headings</span><span class="p">):</span>
+        <span class="n">col_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">heading</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="n">col_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">col_width</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">col_ind</span><span class="p">]))</span>
+        <span class="n">col_widths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col_width</span><span class="p">)</span>
+
+    <span class="n">title_case_title</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">title_width</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">col_widths</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col_widths</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">title_width</span> <span class="o">*</span> <span class="s2">&quot;=&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title_case_title</span><span class="si">:</span><span class="s2">^</span><span class="si">{</span><span class="n">title_width</span><span class="si">}}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">title_width</span> <span class="o">*</span> <span class="s2">&quot;=&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create and print the header</span>
+    <span class="n">head_str</span> <span class="o">=</span> <span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">head</span><span class="si">:{</span><span class="n">width</span><span class="si">}}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">head</span><span class="p">,</span> <span class="n">width</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">headings</span><span class="p">,</span> <span class="n">col_widths</span><span class="p">)]</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">head_str</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">head_str</span><span class="p">)</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create and print the rows</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="c1"># print(list(zip(row, col_widths)))</span>
+        <span class="n">row_str</span> <span class="o">=</span> <span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span><span class="si">:{</span><span class="n">width</span><span class="si">}}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">width</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col_widths</span><span class="p">)])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">row_str</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_interface"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.cli.get_interface">[docs]</a><span class="k">def</span> <span class="nf">get_interface</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get interface.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">interfaces</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">stable</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;Interface &quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; not found in &#39;</span>
+                    <span class="s2">&quot;either stable or developmental interface sets&quot;</span>
+                <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="add_list_interface_parser"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.cli.add_list_interface_parser">[docs]</a><span class="k">def</span> <span class="nf">add_list_interface_parser</span><span class="p">(</span><span class="n">subparsers</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add list interface parser.&quot;&quot;&quot;</span>
+    <span class="c1"># list interpolators</span>
+    <span class="n">interface_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">aliases</span><span class="o">=</span><span class="n">aliases</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;List available </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;List available </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">formatter_class</span><span class="o">=</span><span class="n">formclass</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">interface_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">interface_parser</span></div>
+
+
+<div class="viewcode-block" id="list_dev_interfaces"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.cli.list_dev_interfaces">[docs]</a><span class="k">def</span> <span class="nf">list_dev_interfaces</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a list of all developmental interfaces.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">iter_modules</span><span class="p">(</span><span class="n">dev</span><span class="o">.</span><span class="n">__path__</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="list_interfaces"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.cli.list_interfaces">[docs]</a><span class="k">def</span> <span class="nf">list_interfaces</span><span class="p">(</span><span class="n">dev</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List interfaces.&quot;&quot;&quot;</span>
+    <span class="n">inter_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">inter_descs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">interfaces</span><span class="p">):</span>
+        <span class="n">attr_val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">interfaces</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">attr_val</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">BaseInterface</span><span class="p">):</span>
+            <span class="n">inter_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr_val</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">inter_descs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">attr_val</span><span class="p">,</span> <span class="s2">&quot;__doc__&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="n">inter_descs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">]</span>
+    <span class="n">inter_rows</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">inter_names</span><span class="p">,</span> <span class="n">inter_descs</span><span class="p">)</span>
+
+    <span class="n">print_table</span><span class="p">(</span><span class="s2">&quot;New-Style Interfaces&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">inter_rows</span><span class="p">)</span>
+
+    <span class="n">print_table</span><span class="p">(</span><span class="s2">&quot;Old-Style Interfaces&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Name&quot;</span><span class="p">],</span> <span class="nb">zip</span><span class="p">(</span><span class="n">list_dev_interfaces</span><span class="p">()))</span></div>
+
+
+<div class="viewcode-block" id="list_interface_plugins"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.cli.list_interface_plugins">[docs]</a><span class="k">def</span> <span class="nf">list_interface_plugins</span><span class="p">(</span><span class="n">interface_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List interface plugins.&quot;&quot;&quot;</span>
+    <span class="n">inter</span> <span class="o">=</span> <span class="n">get_interface</span><span class="p">(</span><span class="n">interface_name</span><span class="p">)</span>
+    <span class="n">plugins</span> <span class="o">=</span> <span class="n">inter</span><span class="o">.</span><span class="n">get_plugins</span><span class="p">()</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pl</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">family</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">description</span><span class="p">)</span> <span class="k">for</span> <span class="n">pl</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">]</span>
+    <span class="n">print_table</span><span class="p">(</span><span class="n">interface_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Family&quot;</span><span class="p">,</span> <span class="s2">&quot;Description&quot;</span><span class="p">],</span> <span class="n">rows</span><span class="p">)</span></div>
+
+
+<span class="c1"># def print_interface_list(inter):</span>
+<span class="c1">#     mod_list = inter.get_plugins()</span>
+<span class="c1">#</span>
+<span class="c1">#     # Determine column widths for output</span>
+<span class="c1">#     ncol = len(mod_list[0])</span>
+<span class="c1">#     headings = [&#39;name&#39;, &#39;type&#39;, &#39;description&#39;]</span>
+<span class="c1">#     if ncol != len(headings):</span>
+<span class="c1">#         raise ValueError(&#39;Number of columns does not match the number of headings&#39;)</span>
+<span class="c1">#     col_widths = [len(head) for head in headings]</span>
+<span class="c1">#     for mod in mod_list:</span>
+<span class="c1">#         for col in range(len(mod)):</span>
+<span class="c1">#             col_widths[col] = max(col_widths[col], len(mod[col]))</span>
+<span class="c1">#     # col_widths = [wid + 1 for wid in col_widths]</span>
+<span class="c1">#     print(col_widths)</span>
+<span class="c1">#</span>
+<span class="c1">#     # Create and print the header</span>
+<span class="c1">#     head_vals = []</span>
+<span class="c1">#     for head_val, width in zip(headings, col_widths):</span>
+<span class="c1">#         head_vals.append(f&#39;{head_val:{width}}&#39;)</span>
+<span class="c1">#     head_str = &#39; | &#39;.join(head_vals)</span>
+<span class="c1">#     print(head_str)</span>
+<span class="c1">#     print(len(head_str) * &#39;-&#39;)</span>
+<span class="c1">#</span>
+<span class="c1">#     # Create and print the rows</span>
+<span class="c1">#     for mod in mod_list:</span>
+<span class="c1">#         mod_vals = []</span>
+<span class="c1">#         for mod_val, width in zip(mod, col_widths):</span>
+<span class="c1">#             mod_vals.append(f&#39;{mod_val:{width}}&#39;)</span>
+<span class="c1">#         mod_str = &#39; | &#39;.join(mod_vals)</span>
+<span class="c1">#         print(mod_str)</span>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.cli.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Command line interface main function.&quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="vm">__doc__</span><span class="p">,</span> <span class="n">formatter_class</span><span class="o">=</span><span class="n">formclass</span><span class="p">)</span>
+    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Commands&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;GeoIPS commands&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;cmd&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># run command</span>
+    <span class="n">run_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
+        <span class="s2">&quot;run&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run a GeoIPS procflow&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Run a GeoIPS procflow&quot;</span><span class="p">,</span>
+        <span class="n">formatter_class</span><span class="o">=</span><span class="n">formclass</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">run_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
+
+    <span class="c1"># list command</span>
+    <span class="n">list_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
+        <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;List available interfaces&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;List available interfaces&quot;</span><span class="p">,</span>
+        <span class="n">formatter_class</span><span class="o">=</span><span class="n">formclass</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Don&#39;t use `dest` here. It doesn&#39;t work well with aliases</span>
+    <span class="c1"># Instead use `set_defaults` on each parser like below</span>
+    <span class="c1"># See here for more info:</span>
+    <span class="c1">#    https://bugs.python.org/issue36664</span>
+    <span class="n">list_subparsers</span> <span class="o">=</span> <span class="n">list_parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">()</span>
+
+    <span class="c1"># list interfaces</span>
+    <span class="n">add_list_interface_parser</span><span class="p">(</span><span class="n">list_subparsers</span><span class="p">,</span> <span class="s2">&quot;interfaces&quot;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;ints&quot;</span><span class="p">])</span>
+
+    <span class="c1"># list plugins for each interface</span>
+    <span class="n">add_list_interface_parser</span><span class="p">(</span><span class="n">list_subparsers</span><span class="p">,</span> <span class="s2">&quot;algorithms&quot;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;alg&quot;</span><span class="p">,</span> <span class="s2">&quot;algs&quot;</span><span class="p">])</span>
+    <span class="c1"># add_list_interface_parser(</span>
+    <span class="c1">#     list_subparsers, &quot;feature_annotators&quot;, aliases=[&quot;bound&quot;, &quot;bounds&quot;]</span>
+    <span class="c1"># )</span>
+    <span class="n">add_list_interface_parser</span><span class="p">(</span>
+        <span class="n">list_subparsers</span><span class="p">,</span> <span class="s2">&quot;colormappers&quot;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="s2">&quot;cmaps&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">add_list_interface_parser</span><span class="p">(</span>
+        <span class="n">list_subparsers</span><span class="p">,</span> <span class="s2">&quot;filename_formatters&quot;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ff&quot;</span><span class="p">,</span> <span class="s2">&quot;ffs&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="c1"># add_list_interface_parser(</span>
+    <span class="c1">#     list_subparsers, &quot;gridline_annotators&quot;, aliases=[&quot;gf&quot;, &quot;gfs&quot;]</span>
+    <span class="c1"># )</span>
+    <span class="n">add_list_interface_parser</span><span class="p">(</span>
+        <span class="n">list_subparsers</span><span class="p">,</span> <span class="s2">&quot;interpolators&quot;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;interp&quot;</span><span class="p">,</span> <span class="s2">&quot;interps&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="c1"># add_list_interface_parser(</span>
+    <span class="c1">#     list_subparsers, &quot;outputter_configs&quot;, aliases=[&quot;oc&quot;, &quot;ocs&quot;]</span>
+    <span class="c1"># )</span>
+    <span class="n">add_list_interface_parser</span><span class="p">(</span>
+        <span class="n">list_subparsers</span><span class="p">,</span> <span class="s2">&quot;output_formatters&quot;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;out&quot;</span><span class="p">,</span> <span class="s2">&quot;outs&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">add_list_interface_parser</span><span class="p">(</span><span class="n">list_subparsers</span><span class="p">,</span> <span class="s2">&quot;procflows&quot;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;pf&quot;</span><span class="p">,</span> <span class="s2">&quot;pfs&quot;</span><span class="p">])</span>
+    <span class="c1"># add_list_interface_parser(list_subparsers, &#39;products&#39;, aliases=[&#39;prod&#39;, &#39;prods&#39;])</span>
+    <span class="n">add_list_interface_parser</span><span class="p">(</span><span class="n">list_subparsers</span><span class="p">,</span> <span class="s2">&quot;readers&quot;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;reader&quot;</span><span class="p">])</span>
+    <span class="n">add_list_interface_parser</span><span class="p">(</span>
+        <span class="n">list_subparsers</span><span class="p">,</span> <span class="s2">&quot;title_formatters&quot;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tf&quot;</span><span class="p">,</span> <span class="s2">&quot;tfs&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">interface</span> <span class="o">==</span> <span class="s2">&quot;interfaces&quot;</span><span class="p">:</span>
+            <span class="n">list_interfaces</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">list_interface_plugins</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">interface</span><span class="p">)</span></div>
+            <span class="c1"># print(get_interface(args.interface))</span>
+            <span class="c1"># print(get_interface(args.interface).get_plugins())</span>
+            <span class="c1"># getattr(interfaces, args.interface).get_plugins(</span>
+            <span class="c1">#     pretty=True, with_family=True, with_description=True</span>
+            <span class="c1"># )</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

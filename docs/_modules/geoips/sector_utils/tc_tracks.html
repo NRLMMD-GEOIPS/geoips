@@ -1,0 +1,811 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.sector_utils.tc_tracks &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/sector_utils/tc_tracks';</script>
+    <link rel="icon" href="../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.sector_utils.tc_tracks</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for geoips.sector_utils.tc_tracks</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # Author:</span>
+<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
+<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
+<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
+<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+
+<span class="sd">&quot;&quot;&quot;Modules to access TC tracks, based on locations found in the deck files.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">geoips.filenames.base_paths</span> <span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
+<span class="kn">from</span> <span class="nn">geoips.interfaces</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">sector_metadata_generators</span><span class="p">,</span>
+    <span class="n">sector_spec_generators</span><span class="p">,</span>
+    <span class="n">sectors</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># If we ever revert back to numbered storm from named storm, we may need to include this list in &quot;get_final_storm_name&quot;</span>
+<span class="c1"># rather than just INVEST</span>
+<span class="c1"># UNNAMED_STORM_NAMES = [&#39;invest&#39;, &#39;one&#39;, &#39;two&#39;, &#39;three&#39;, &#39;four&#39;, &#39;five&#39;, &#39;six&#39;, &#39;seven&#39;, &#39;eight&#39;, &#39;nine&#39;, &#39;ten&#39;,</span>
+<span class="c1">#                        &#39;eleven&#39;, &#39;twelve&#39;, &#39;thirteen&#39;, &#39;fourteen&#39;, &#39;fifteen&#39;, &#39;sixteen&#39;, &#39;seventeen&#39;, &#39;eighteen&#39;,</span>
+<span class="c1">#                        &#39;nineteen&#39;, &#39;twenty&#39;, &#39;twenty-one&#39;]</span>
+
+
+<div class="viewcode-block" id="create_tc_sector_info_dict"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.create_tc_sector_info_dict">[docs]</a><span class="k">def</span> <span class="nf">create_tc_sector_info_dict</span><span class="p">(</span>
+    <span class="n">clat</span><span class="p">,</span>
+    <span class="n">clon</span><span class="p">,</span>
+    <span class="n">synoptic_time</span><span class="p">,</span>
+    <span class="n">storm_year</span><span class="p">,</span>
+    <span class="n">storm_basin</span><span class="p">,</span>
+    <span class="n">storm_num</span><span class="p">,</span>
+    <span class="n">aid_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">storm_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">final_storm_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">deck_line</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">source_sector_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pressure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create storm info dictionary from items.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    clat : float</span>
+<span class="sd">        center latitude of storm</span>
+<span class="sd">    clon : float</span>
+<span class="sd">        center longitude of storm</span>
+<span class="sd">    synoptic_time : datetime.datetime</span>
+<span class="sd">        time of storm location</span>
+<span class="sd">    storm_year : int</span>
+<span class="sd">        4 digit year of storm</span>
+<span class="sd">    storm_basin : str</span>
+<span class="sd">        2 digit basin identifier</span>
+<span class="sd">    storm_num : int</span>
+<span class="sd">        2 digit storm number</span>
+<span class="sd">    aid_type : str, default=None</span>
+<span class="sd">        type of TC aid (BEST, MBAM, etc)</span>
+<span class="sd">    storm_name : str, default=None</span>
+<span class="sd">        Common name of storm</span>
+<span class="sd">    final_storm_name : str, default=None</span>
+<span class="sd">        Final name found throughout entire track file (ie, if reprocessing,</span>
+<span class="sd">        will ensure early storm locations are identified with final storm name)</span>
+<span class="sd">    deck_line : str, default=None</span>
+<span class="sd">        source deck line for storm information</span>
+<span class="sd">    pressure : float, default=None</span>
+<span class="sd">        minimum pressure</span>
+<span class="sd">    vmax : float, default=None</span>
+<span class="sd">        maximum wind speed</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fields : dict</span>
+<span class="sd">        Dictionary of sector information, as passed into function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clat</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clon</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;synoptic_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">synoptic_time</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_year</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_basin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_basin</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_num&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">storm_num</span><span class="p">)</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;aid_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_sector_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="k">if</span> <span class="n">aid_type</span><span class="p">:</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;aid_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">aid_type</span>
+    <span class="k">if</span> <span class="n">storm_name</span><span class="p">:</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_name</span>
+    <span class="k">if</span> <span class="n">final_storm_name</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;USING passed final_storm_name </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">final_storm_name</span><span class="p">)</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_storm_name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;USING storm_name as final_storm_name </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">storm_name</span><span class="p">)</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_name</span>
+    <span class="k">if</span> <span class="n">source_sector_file</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">geoips.geoips_utils</span> <span class="kn">import</span> <span class="n">replace_geoips_paths</span>
+
+        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_sector_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">source_sector_file</span><span class="p">)</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pressure</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;deck_line&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">deck_line</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;vmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vmax</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_sector_file&quot;</span><span class="p">]</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;parser_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">fields</span></div>
+
+
+<div class="viewcode-block" id="get_tc_area_id"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.get_tc_area_id">[docs]</a><span class="k">def</span> <span class="nf">get_tc_area_id</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">finalstormname</span><span class="p">,</span> <span class="n">tcyear</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get TC area_id from fields, to be used as pyresample AreaDefinition area_id.</span>
+
+<span class="sd">    Will be of form:</span>
+<span class="sd">    * tcYYYYBBNNname (ie, tc2016io01one)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">finalstormname</span><span class="p">:</span>
+        <span class="n">finalstormname</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">]</span>
+    <span class="n">newname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}{1:02d}{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_basin&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="nb">int</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_num&quot;</span><span class="p">]),</span> <span class="n">finalstormname</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="n">newname</span> <span class="o">=</span> <span class="n">newname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># This ends up being tc2016io01one</span>
+    <span class="n">area_id</span> <span class="o">=</span> <span class="s2">&quot;tc&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tcyear</span><span class="p">)</span> <span class="o">+</span> <span class="n">newname</span>
+    <span class="k">return</span> <span class="n">area_id</span></div>
+
+
+<div class="viewcode-block" id="get_tc_long_description"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.get_tc_long_description">[docs]</a><span class="k">def</span> <span class="nf">get_tc_long_description</span><span class="p">(</span><span class="n">area_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return long_description of TC sector.</span>
+
+<span class="sd">    This is commonly used as the long name/description on the</span>
+<span class="sd">    pyresample AreaDefinition.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;interpolated_time&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="n">long_description</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> interpolated_time </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">area_id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;interpolated_time&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">long_description</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> synoptic_time </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">area_id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;synoptic_time&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">long_description</span></div>
+
+
+<div class="viewcode-block" id="set_tc_area_def"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.set_tc_area_def">[docs]</a><span class="k">def</span> <span class="nf">set_tc_area_def</span><span class="p">(</span>
+    <span class="n">fields</span><span class="p">,</span>
+    <span class="n">tcyear</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">finalstormname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">source_sector_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">clat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">clon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tc_spec_template</span><span class="o">=</span><span class="s2">&quot;tc_web&quot;</span><span class="p">,</span>
+    <span class="n">aid_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the TC area definition, using specified arguments.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fields : dict</span>
+<span class="sd">        Dictionary of TC sector_info fields (clat, clon, storm name, etc)</span>
+<span class="sd">        Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS</span>
+<span class="sd">    tcyear : int, default=None</span>
+<span class="sd">        Passed tcyear - since current year may not match tcyear for SHEM storms</span>
+<span class="sd">    finalstormname : str, default=None</span>
+<span class="sd">        finalstormname allows reprocessed storms to go in final storm directory</span>
+<span class="sd">    source_sector_file : str, default=None</span>
+<span class="sd">        attach source_sector_file to area_definition if known</span>
+<span class="sd">    clat : float, default=None</span>
+<span class="sd">        specify clat/clon separately from that found in &#39;fields&#39;</span>
+<span class="sd">    clon : float, default=None</span>
+<span class="sd">        specify clat/clon separately from that found in &#39;fields&#39;</span>
+<span class="sd">    tc_spec_template: str, default=&quot;tc_web&quot;</span>
+<span class="sd">        Path to template YAML file to use when setting up area definition.</span>
+<span class="sd">    aid_type : str, default=None</span>
+<span class="sd">        type of TC aid (BEST, MBAM, etc)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pyresample.AreaDefinition</span>
+<span class="sd">        pyresample AreaDefinition object with specified parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">tc_spec_template</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tc_spec_template</span> <span class="o">=</span> <span class="s2">&quot;tc_web&quot;</span>
+
+    <span class="n">tc_template_plugin</span> <span class="o">=</span> <span class="n">sectors</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">tc_spec_template</span><span class="p">)</span>
+
+    <span class="c1"># I think this is probably what we will want.</span>
+    <span class="n">template_func_name</span> <span class="o">=</span> <span class="n">tc_template_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;sector_spec_generator&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+    <span class="n">template_args</span> <span class="o">=</span> <span class="n">tc_template_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;sector_spec_generator&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">finalstormname</span> <span class="ow">and</span> <span class="s2">&quot;final_storm_name&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="n">finalstormname</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">source_sector_file</span> <span class="ow">and</span> <span class="s2">&quot;source_sector_file&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="n">source_sector_file</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_sector_file&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">source_sector_file</span> <span class="ow">and</span> <span class="s2">&quot;source_filename&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="n">source_sector_file</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;source_filename&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tcyear</span><span class="p">:</span>
+        <span class="n">tcyear</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;storm_year&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">clat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">clat</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clat&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">clon</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">clon</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clon&quot;</span><span class="p">]</span>
+
+    <span class="n">area_id</span> <span class="o">=</span> <span class="n">get_tc_area_id</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">finalstormname</span><span class="p">,</span> <span class="n">tcyear</span><span class="p">)</span>
+    <span class="n">long_description</span> <span class="o">=</span> <span class="n">get_tc_long_description</span><span class="p">(</span><span class="n">area_id</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+
+    <span class="c1"># These are things like &#39;center_coordinates&#39;</span>
+    <span class="n">template_func</span> <span class="o">=</span> <span class="n">sector_spec_generators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">template_func_name</span><span class="p">)</span>
+    <span class="c1"># Probably generalize this at some point. For now I know those are the</span>
+    <span class="c1"># ones that are &lt;template&gt;</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_id</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;long_description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">long_description</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;clat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clat</span>
+    <span class="n">template_args</span><span class="p">[</span><span class="s2">&quot;clon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clon</span>
+    <span class="n">area_def</span> <span class="o">=</span> <span class="n">template_func</span><span class="p">(</span><span class="o">**</span><span class="n">template_args</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;interpolated_time&quot;</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;interpolated_time&quot;</span><span class="p">]</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_end_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;interpolated_time&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;synoptic_time&quot;</span><span class="p">]</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_end_datetime</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;synoptic_time&quot;</span><span class="p">]</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span> <span class="o">=</span> <span class="s2">&quot;tc&quot;</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># area_def.description is Python3 compatible,</span>
+    <span class="c1"># and area_def.name is Python2 compatible</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">long_description</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">):</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">long_description</span>
+
+    <span class="kn">from</span> <span class="nn">geoips.geoips_utils</span> <span class="kn">import</span> <span class="n">replace_geoips_paths</span>
+
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;source_sector_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span>
+        <span class="n">source_sector_file</span>
+    <span class="p">)</span>
+    <span class="c1"># area_def.sector_info[&#39;sourcetemplate&#39;] = dynamic_templatefname</span>
+    <span class="c1"># area_def.sector_info[&#39;sourcedynamicxmlpath&#39;] = dynamic_xmlpath</span>
+    <span class="c1"># FNMOC sectorfile doesn&#39;t have pressure</span>
+    <span class="k">for</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="n">fields</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span>
+    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tcyear</span>
+
+    <span class="c1"># If storm_name is undefined in the current deck line, set it to finalstormname</span>
+    <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="n">finalstormname</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s1">&#39;USING finalstormname &quot;</span><span class="si">%s</span><span class="s1">&quot; rather than deck storm name &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+            <span class="n">finalstormname</span><span class="p">,</span>
+            <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">finalstormname</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;final_storm_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">finalstormname</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;      Current TC sector: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;deck_line&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">area_def</span></div>
+
+
+<div class="viewcode-block" id="trackfile_to_area_defs"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.trackfile_to_area_defs">[docs]</a><span class="k">def</span> <span class="nf">trackfile_to_area_defs</span><span class="p">(</span>
+    <span class="n">trackfile_name</span><span class="p">,</span> <span class="n">trackfile_parser</span><span class="o">=</span><span class="s2">&quot;bdeck_parser&quot;</span><span class="p">,</span> <span class="n">tc_spec_template</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get TC area definitions for the specified text trackfile.</span>
+
+<span class="sd">    Limit to optionally specified trackfile_sectorlist</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    trackfile : str</span>
+<span class="sd">        Full path to trackfile, convert each line into a separate area_def</span>
+<span class="sd">    trackfile_parser : str</span>
+<span class="sd">        Parser to use from plugins.modules.sector_metadata_generators on trackfiles</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        List of pyresample AreaDefinition objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">trackfile_parser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">trackfile_parser</span> <span class="o">=</span> <span class="s2">&quot;bdeck_parser&quot;</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">sector_metadata_generators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">trackfile_parser</span><span class="p">)</span>
+
+    <span class="n">all_fields</span><span class="p">,</span> <span class="n">final_storm_name</span><span class="p">,</span> <span class="n">tc_year</span> <span class="o">=</span> <span class="n">parser</span><span class="p">(</span><span class="n">trackfile_name</span><span class="p">)</span>
+
+    <span class="n">area_defs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;STARTING setting TC area_defs&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">all_fields</span><span class="p">:</span>
+        <span class="c1"># area_defs += [set_tc_sector(fields, dynamic_templatefname, finalstormname, tcyear, sfname, dynamic_xmlpath)]</span>
+        <span class="n">area_defs</span> <span class="o">+=</span> <span class="p">[</span>
+            <span class="n">set_tc_area_def</span><span class="p">(</span>
+                <span class="n">fields</span><span class="p">,</span>
+                <span class="n">tc_year</span><span class="p">,</span>
+                <span class="n">finalstormname</span><span class="o">=</span><span class="n">final_storm_name</span><span class="p">,</span>
+                <span class="n">source_sector_file</span><span class="o">=</span><span class="n">trackfile_name</span><span class="p">,</span>
+                <span class="n">tc_spec_template</span><span class="o">=</span><span class="n">tc_spec_template</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;FINISHED setting TC area_defs&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">area_defs</span></div>
+
+
+<div class="viewcode-block" id="interpolate_storm_location"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks.interpolate_storm_location">[docs]</a><span class="k">def</span> <span class="nf">interpolate_storm_location</span><span class="p">(</span><span class="n">interp_dt</span><span class="p">,</span> <span class="n">longitudes</span><span class="p">,</span> <span class="n">latitudes</span><span class="p">,</span> <span class="n">synoptic_times</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interpolate the storm location at a specific time.</span>
+
+<span class="sd">    Based on a list of known locations and times</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;interp_dt: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">latitudes:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s2">longitudes:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s2">synoptic_times:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">interp_dt</span><span class="p">,</span>
+        <span class="n">latitudes</span><span class="p">,</span>
+        <span class="n">longitudes</span><span class="p">,</span>
+        <span class="n">synoptic_times</span><span class="p">,</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

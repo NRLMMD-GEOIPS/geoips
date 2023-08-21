@@ -1,0 +1,1098 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>geoips.plugins.modules.filename_formatters package &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.plugins.modules.filename_formatters';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geoips.plugins.modules.filename_formatters.utils package" href="geoips.plugins.modules.filename_formatters.utils.html" />
+    <link rel="prev" title="geoips.plugins.modules.coverage_checkers package" href="geoips.plugins.modules.coverage_checkers.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="geoips.html">geoips package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">geoips.plugins.modules.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="geoips.plugins.modules.html" class="nav-link">geoips.plugins.modules package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.plugins.modules.filename_formatters package</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="geoips-plugins-modules-filename-formatters-package">
+<h1>geoips.plugins.modules.filename_formatters package<a class="headerlink" href="#geoips-plugins-modules-filename-formatters-package" title="Permalink to this heading">#</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.utils.html">geoips.plugins.modules.filename_formatters.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.utils.html#module-geoips.plugins.modules.filename_formatters.utils.tc_file_naming">geoips.plugins.modules.filename_formatters.utils.tc_file_naming module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.utils.html#geoips.plugins.modules.filename_formatters.utils.tc_file_naming.get_storm_subdir"><code class="docutils literal notranslate"><span class="pre">get_storm_subdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.utils.html#geoips.plugins.modules.filename_formatters.utils.tc_file_naming.tc_storm_basedir"><code class="docutils literal notranslate"><span class="pre">tc_storm_basedir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.utils.html#geoips.plugins.modules.filename_formatters.utils.tc_file_naming.update_extra_field"><code class="docutils literal notranslate"><span class="pre">update_extra_field()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.utils.html#module-geoips.plugins.modules.filename_formatters.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-geoips.plugins.modules.filename_formatters.basic_fname">
+<span id="geoips-plugins-modules-filename-formatters-basic-fname-module"></span><h2>geoips.plugins.modules.filename_formatters.basic_fname module<a class="headerlink" href="#module-geoips.plugins.modules.filename_formatters.basic_fname" title="Permalink to this heading">#</a></h2>
+<p>Filename specification using minimal basic attributes, and no subdirs.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.basic_fname.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.basic_fname.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/preprocessed/annotated_imagery'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/basic_fname.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.basic_fname.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Create basic filename, in a specific directory (with no subdirectories).</p>
+<p>This filename format includes only the start time, platform name, source
+name, product name, sector name, and data provider, and a full path
+to basedir with no additional subdirectories.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.filename_formatters.geoips_fname">
+<span id="geoips-plugins-modules-filename-formatters-geoips-fname-module"></span><h2>geoips.plugins.modules.filename_formatters.geoips_fname module<a class="headerlink" href="#module-geoips.plugins.modules.filename_formatters.geoips_fname" title="Permalink to this heading">#</a></h2>
+<p>Standard geoips filename production.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.geoips_fname.assemble_geoips_fname">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.geoips_fname.</span></span><span class="sig-name descname"><span class="pre">assemble_geoips_fname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basedir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_provider</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">country</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subarea</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/geoips_fname.html#assemble_geoips_fname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.geoips_fname.assemble_geoips_fname" title="Permalink to this definition">#</a></dt>
+<dd><p>Produce full output product path from product / sensor specifications.</p>
+<dl class="simple">
+<dt>standard web paths are of the format:</dt><dd><p>&lt;basedir&gt;/&lt;continent&gt;-&lt;country&gt;-&lt;area&gt;/&lt;subarea&gt;-&lt;state&gt;-&lt;city&gt;/
+&lt;productname&gt;/&lt;sensorname&gt;``</p>
+</dd>
+<dt>standard filenames are of the format:</dt><dd><p>&lt;date{%Y%m%d}&gt;.&lt;time{%H%M%S}&gt;.&lt;satname&gt;.&lt;sensorname&gt;.&lt;productname&gt;.
+&lt;sectorname&gt;.&lt;coverage&gt;.&lt;dataprovider&gt;.&lt;extra&gt;</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basedir</strong> (<em>str</em>) – Full path to base directory of final product.</p></li>
+<li><p><strong>product_name</strong> (<em>str</em>) – Name of product</p></li>
+<li><p><strong>source_name</strong> (<em>str</em>) – Name of data source (sensor)</p></li>
+<li><p><strong>platform_name</strong> (<em>str</em>) – Name of platform (satellite)</p></li>
+<li><p><strong>coverage</strong> (<em>float</em>) – Image coverage, float between 0.0 and 100.0</p></li>
+<li><p><strong>resolution</strong> (<em>float</em>) – Image resolution, float greater than 0.0</p></li>
+<li><p><strong>product_datetime</strong> (<em>datetime.datetime</em>) – Datetime object - start time of data used to generate product.</p></li>
+<li><p><strong>output_type</strong> (<em>str</em><em>, </em><em>optional</em>) – file extension type, default is png</p></li>
+<li><p><strong>data_provider</strong> (<em>str</em><em>, </em><em>optional</em>) – String to include in filename “data_provider” field</p></li>
+<li><p><strong>extra</strong> (<em>str</em><em>, </em><em>optional</em>) – String to include in filename “extra” field, default is None
+If None, use fillval of ‘x’</p></li>
+<li><p><strong>continent</strong> (<em>str</em><em>, </em><em>optional</em>) – String to include in filename “continent” field, default is None
+If None, use fillval of ‘x’</p></li>
+<li><p><strong>country</strong> (<em>str</em><em>, </em><em>optional</em>) – String to include in filename “country” field, default is None
+If None, use fillval of ‘x’</p></li>
+<li><p><strong>area</strong> (<em>str</em><em>, </em><em>optional</em>) – String to include in filename “area” field, default is None
+If None, use fillval of ‘x’</p></li>
+<li><p><strong>subarea</strong> (<em>str</em><em>, </em><em>optional</em>) – String to include in filename “subarea” field, default is None
+If None, use fillval of ‘x’</p></li>
+<li><p><strong>state</strong> (<em>str</em><em>, </em><em>optional</em>) – String to include in filename “state” field, default is None
+If None, use fillval of ‘x’</p></li>
+<li><p><strong>city</strong> (<em>str</em><em>, </em><em>optional</em>) – String to include in filename “city” field, default is None
+If None, use fillval of ‘x’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.geoips_fname.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.geoips_fname.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_subdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/preprocessed/annotated_imagery'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/geoips_fname.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.geoips_fname.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Create GeoIPS standard filenames, sector-based subdirs.</p>
+<p>This uses the sector specification (continent, country, area, subarea,
+state, city), product name, source name, and platform name
+to generate a full unique path, as well as additional attributes to
+create a fully unique file name.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.geoips_fname.geoips_fname_remove_duplicates">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.geoips_fname.</span></span><span class="sig-name descname"><span class="pre">geoips_fname_remove_duplicates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mins_to_remove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/geoips_fname.html#geoips_fname_remove_duplicates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.geoips_fname.geoips_fname_remove_duplicates" title="Permalink to this definition">#</a></dt>
+<dd><p>remove_duplicates function currently not defined.</p>
+<p>If defined, this function will identify duplicate files, and remove
+appropriately.  It should identify duplicates specifically based
+on the format/location of the geoips_fname formatted files.</p>
+<p>Currently returns empty lists.  When defined, will return a list of
+deleted files and a list of saved files.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.filename_formatters.geoips_netcdf_fname">
+<span id="geoips-plugins-modules-filename-formatters-geoips-netcdf-fname-module"></span><h2>geoips.plugins.modules.filename_formatters.geoips_netcdf_fname module<a class="headerlink" href="#module-geoips.plugins.modules.filename_formatters.geoips_netcdf_fname" title="Permalink to this heading">#</a></h2>
+<p>Standard GeoIPS NetCDF filename production.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.geoips_netcdf_fname.assemble_geoips_netcdf_fname">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.geoips_netcdf_fname.</span></span><span class="sig-name descname"><span class="pre">assemble_geoips_netcdf_fname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basedir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_subpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%H%M%S'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/geoips_netcdf_fname.html#assemble_geoips_netcdf_fname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.geoips_netcdf_fname.assemble_geoips_netcdf_fname" title="Permalink to this definition">#</a></dt>
+<dd><p>Produce full output product path from product / sensor specifications.</p>
+<dl class="simple">
+<dt>netcdf paths are of the format:</dt><dd><dl class="simple">
+<dt>&lt;basedir&gt;/&lt;product_name&gt;/&lt;source_name&gt;/&lt;platform_name&gt;/</dt><dd><p>&lt;sector_name&gt;/date{%Y%m%d}</p>
+</dd>
+</dl>
+</dd>
+<dt>netcdf filenames are of the format:</dt><dd><dl class="simple">
+<dt>&lt;date{%Y%m%d&gt;.&lt;time{%H%M%S}&gt;.&lt;platform_name&gt;.&lt;product_name&gt;.</dt><dd><p>&lt;sector_name&gt;.nc</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basedir</strong> (<em>str</em>) – Base directory (additional subdirectories assembled below basedir)</p></li>
+<li><p><strong>product_name</strong> (<em>str</em>) – Name of product, used in path and filename</p></li>
+<li><p><strong>source_name</strong> (<em>str</em>) – Name of data source (sensor), used in path and filename</p></li>
+<li><p><strong>platform_name</strong> (<em>str</em>) – Name of platform (satellite), used in path and filename</p></li>
+<li><p><strong>coverage</strong> (<em>float</em>) – Image coverage, float between 0.0 and 100.0, used in filename</p></li>
+<li><p><strong>product_datetime</strong> (<em>datetime</em>) – Datetime object - start time of data used to generate product, used
+in filename</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.geoips_netcdf_fname.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.geoips_netcdf_fname.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_subdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/geoips_netcdf_fname.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.geoips_netcdf_fname.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Filename formatting for standard GeoIPS-style NetCDF outputs.</p>
+<p>This uses the “assemble_geoips_netcdf_fname” function to appropriately
+assemble the filename from a base directory, product name, source
+name, platform nae, sector name, and product time, to allow reuse
+of this basic filename format from multiple filename formatter
+plugins.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.filename_formatters.geotiff_fname">
+<span id="geoips-plugins-modules-filename-formatters-geotiff-fname-module"></span><h2>geoips.plugins.modules.filename_formatters.geotiff_fname module<a class="headerlink" href="#module-geoips.plugins.modules.filename_formatters.geotiff_fname" title="Permalink to this heading">#</a></h2>
+<p>Standard GeoIPS GEOTIFF filename formatter.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.geotiff_fname.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.geotiff_fname.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tif'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_subdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/preprocessed/annotated_imagery'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/geotiff_fname.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.geotiff_fname.call" title="Permalink to this definition">#</a></dt>
+<dd><p>GEOTIFF filename formatter.</p>
+<p>This uses the standard “geoips_fname” formatter, but with a default
+output type of “tif”.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.filename_formatters.metadata_default_fname">
+<span id="geoips-plugins-modules-filename-formatters-metadata-default-fname-module"></span><h2>geoips.plugins.modules.filename_formatters.metadata_default_fname module<a class="headerlink" href="#module-geoips.plugins.modules.filename_formatters.metadata_default_fname" title="Permalink to this heading">#</a></h2>
+<p>Default TC metadata filename formatter.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.metadata_default_fname.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.metadata_default_fname.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'metadata'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sector_information'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/preprocessed/tcwww'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/metadata_default_fname.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.metadata_default_fname.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate TC metadata filenames.</p>
+<p>This uses attributes on both the xarray and area_def in order to produce
+the YAML metadata output specifically for TC sectors.  Not valid for
+other sector types.</p>
+<p>This uses the “tc_storm_basedir” utility to ensure a consistent path
+to the storm directory (so products and metadata end up in the same
+location)</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.filename_formatters.tc_clean_fname">
+<span id="geoips-plugins-modules-filename-formatters-tc-clean-fname-module"></span><h2>geoips.plugins.modules.filename_formatters.tc_clean_fname module<a class="headerlink" href="#module-geoips.plugins.modules.filename_formatters.tc_clean_fname" title="Permalink to this heading">#</a></h2>
+<p>Clean TC filename production (no backgrounds or overlays).</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.tc_clean_fname.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.tc_clean_fname.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_subdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/preprocessed/tcwww'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/tc_clean_fname.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.tc_clean_fname.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Clean TC product filename formatter (no gridlines, titles, etc).</p>
+<p>This ensures output ends up in “png_clean” directory, with “-clean”
+appended to the extra field, to avoid conflict with tc_fname based
+annotated imagery.  Uses “tc_fname” module as a base.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area_def</strong> (<em>pyresample AreaDefinition</em>) – Contains metadata regarding sector</p></li>
+<li><p><strong>xarray_obj</strong> (<em>xarray Dataset</em>) – Contains metadata regarding dataset</p></li>
+<li><p><strong>product_name</strong> (<em>str</em>) – String product_name specification for use in filename</p></li>
+<li><p><strong>coverage</strong> (<em>float</em>) – Percent coverage, for use in filename</p></li>
+<li><p><strong>output_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Requested output format, ie png, jpg, tif, etc, defaults to None.</p></li>
+<li><p><strong>output_type_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory name for given output type (ie png_clean, png, etc), defaults
+to None.</p></li>
+<li><p><strong>product_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory name for given product, defaults to None.</p></li>
+<li><p><strong>product_subdir</strong> (<em>str</em><em>, </em><em>optional</em>) – Subdir name for given product, if any, defaults to None.</p></li>
+<li><p><strong>source_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory name for given source, defaults to None.</p></li>
+<li><p><strong>basedir</strong> (<em>str</em><em>, </em><em>optional</em>) – Base directory, defaults to $TCWWW.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Full path to output “clean” filename - with “-clean” appended to
+extra field, and “_clean” appended to output_type_dir.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.filename_formatters.tc_fname">
+<span id="geoips-plugins-modules-filename-formatters-tc-fname-module"></span><h2>geoips.plugins.modules.filename_formatters.tc_fname module<a class="headerlink" href="#module-geoips.plugins.modules.filename_formatters.tc_fname" title="Permalink to this heading">#</a></h2>
+<p>Standard TC filename formatter.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.tc_fname.assemble_tc_fname">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.tc_fname.</span></span><span class="sig-name descname"><span class="pre">assemble_tc_fname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basedir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_stormnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_subdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/tc_fname.html#assemble_tc_fname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.tc_fname.assemble_tc_fname" title="Permalink to this definition">#</a></dt>
+<dd><p>Produce full output product path from product / sensor specifications.</p>
+<dl class="simple">
+<dt>tc web paths are of the format:</dt><dd><dl class="simple">
+<dt>&lt;basedir&gt;/tc&lt;tc_year&gt;/&lt;tc_basin&gt;/&lt;tc_basin&gt;&lt;tc_stormnum&gt;&lt;tc_year&gt;/</dt><dd><p>&lt;output_type&gt;/&lt;product_name&gt;/&lt;platform_name&gt;/</p>
+</dd>
+</dl>
+</dd>
+<dt>tc web filenames are of the format:</dt><dd><dl class="simple">
+<dt>&lt;date{%Y%m%d%H%M&gt;_&lt;tc_basin&gt;&lt;tc_stormnum&gt;&lt;tc_year&gt;_&lt;source_name&gt;_</dt><dd><p>&lt;platform_name&gt;_&lt;product_name&gt;_&lt;intensity&gt;_&lt;coverage&gt;_
+&lt;extra&gt;.&lt;output_type&gt;</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basedir</strong> (<em>str</em>) – Base directory for output file.</p></li>
+<li><p><strong>tc_year</strong> (<em>int</em>) – Full 4 digit storm year</p></li>
+<li><p><strong>tc_basin</strong> (<em>str</em>) – <dl class="simple">
+<dt>2 character basin designation</dt><dd><p>SH Southern Hemisphere
+WP West Pacific
+EP East Pacific
+CP Central Pacific
+IO Indian Ocean
+AL Atlantic</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>tc_stormnum</strong> (<em>int</em>) – <dl class="simple">
+<dt>2 digit storm number</dt><dd><p>90 through 99 for invests
+01 through 69 for named storms</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>output_type</strong> (<em>str</em>) – file extension type</p></li>
+<li><p><strong>product_name</strong> (<em>str</em>) – Name of product</p></li>
+<li><p><strong>source_name</strong> (<em>str</em>) – Name of data source (sensor)</p></li>
+<li><p><strong>platform_name</strong> (<em>str</em>) – Name of platform (satellite)</p></li>
+<li><p><strong>coverage</strong> (<em>float</em>) – Image coverage, float between 0.0 and 100.0</p></li>
+<li><p><strong>product_datetime</strong> (<em>datetime.datetime</em>) – Datetime object - start time of data used to generate product</p></li>
+<li><p><strong>output_type_dir</strong> (<em>str</em>) – Default output_type, dir name</p></li>
+<li><p><strong>product_dir</strong> (<em>str</em>) – Default product_name, dir name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>full path to output file</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.tc_fname.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.tc_fname.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_subdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/preprocessed/tcwww'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/tc_fname.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.tc_fname.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Create standard TC filenames.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#geoips.plugins.modules.filename_formatters.tc_fname.assemble_tc_fname" title="geoips.plugins.modules.filename_formatters.tc_fname.assemble_tc_fname"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geoips.plugins.modules.filename_formatters.tc_fname.assemble_tc_fname</span></code></a></dt><dd><p>This uses the shared utility “assemble_tc_fname”, such that a common filename can be used by related filename formatters.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.tc_fname.tc_fname_remove_duplicates">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.tc_fname.</span></span><span class="sig-name descname"><span class="pre">tc_fname_remove_duplicates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mins_to_remove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/tc_fname.html#tc_fname_remove_duplicates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.tc_fname.tc_fname_remove_duplicates" title="Permalink to this definition">#</a></dt>
+<dd><p>Remove tc_fname duplicate files.</p>
+<p>Matches storm name, sensor name, platform name, product name, and
+resolution for all files within “mins_to_remove” minutes of the
+current file.  All other fields are wild carded during the matching
+process.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.filename_formatters.text_winds_day_fname">
+<span id="geoips-plugins-modules-filename-formatters-text-winds-day-fname-module"></span><h2>geoips.plugins.modules.filename_formatters.text_winds_day_fname module<a class="headerlink" href="#module-geoips.plugins.modules.filename_formatters.text_winds_day_fname" title="Permalink to this heading">#</a></h2>
+<p>Filename formatter for full-day text windspeed products.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.text_winds_day_fname.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.text_winds_day_fname.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/preprocessed/annotated_imagery/text_winds'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/text_winds_day_fname.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.text_winds_day_fname.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Create full-day text windspeed filenames.</p>
+<p>text_winds_day_fname includes only YYYYMMDD in the filename, so all data for
+a full day is appended into a single file.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">geoips.plugins.modules.filename_formatters.text_winds_full_fname.</span></code></dt><dd><p>assemble_text_windspeeds_text_full_fname Shared utility for generating similarly formatted windspeed filenames.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.filename_formatters.text_winds_full_fname">
+<span id="geoips-plugins-modules-filename-formatters-text-winds-full-fname-module"></span><h2>geoips.plugins.modules.filename_formatters.text_winds_full_fname module<a class="headerlink" href="#module-geoips.plugins.modules.filename_formatters.text_winds_full_fname" title="Permalink to this heading">#</a></h2>
+<p>Filename formatter for text windspeed products.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.text_winds_full_fname.assemble_windspeeds_text_full_fname">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.text_winds_full_fname.</span></span><span class="sig-name descname"><span class="pre">assemble_windspeeds_text_full_fname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basedir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_provider</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%Y%m%d.%H%M'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">creation_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/text_winds_full_fname.html#assemble_windspeeds_text_full_fname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.text_winds_full_fname.assemble_windspeeds_text_full_fname" title="Permalink to this definition">#</a></dt>
+<dd><p>Produce full output product path using product / sensor specifications.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basedir</strong> (<em>str</em>) – base directory</p></li>
+<li><p><strong>source_name</strong> (<em>str</em>) – Name of source (sensor)</p></li>
+<li><p><strong>platform_name</strong> (<em>str</em>) – Name of platform (satellite)</p></li>
+<li><p><strong>data_provider</strong> (<em>str</em>) – Name of data provider</p></li>
+<li><p><strong>product_datetime</strong> (<em>datetime.datetime</em>) – Start time of data used to generate product</p></li>
+<li><p><strong>dt_format</strong> (<em>str</em><em>, </em><em>default=&quot;%Y%m%d.%H%M&quot;</em>) – Format used to display product_datetime within filename</p></li>
+<li><p><strong>extension</strong> (<em>str</em><em>, </em><em>default=&quot;.txt&quot;</em>) – File extension, specifying type.</p></li>
+<li><p><strong>creation_time</strong> (<em>datetime.datetime</em><em>, </em><em>default=None</em>) – Include given creation_time of file in filename
+If None, do not include creation time.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>full path of output filename of the format:</dt><dd><p>&lt;basedir&gt;/&lt;source_name&gt;_&lt;data_provider&gt;_&lt;platform_name&gt;_
+surface_winds_&lt;YYYYMMDDHHMN&gt;</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">startdt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;20200216T001412&#39;</span><span class="p">,</span> <span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">T%H%M%S&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">assemble_windspeeds_text_full_fname</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;/outdir&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;smap-spd&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;smap&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;remss&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">startdt</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="go">&#39;/outdir/smap-spd_remss_smap_surface_winds_20200216&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.text_winds_full_fname.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.text_winds_full_fname.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/preprocessed/annotated_imagery/text_winds'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/text_winds_full_fname.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.text_winds_full_fname.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Create a single text winds file for all data in the current xarray.</p>
+<p>This text windspeed filename includes YYYYMMDD.HHMN in the filename
+in order to include only the current datafile in the file.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">geoips.plugins.modules.filename_formatters.text_winds_full_fname.</span></code></dt><dd><p>assemble_windspeeds_text_full_fname Shared utility to create filenames with similar formatting requirements.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.filename_formatters.text_winds_tc_fname">
+<span id="geoips-plugins-modules-filename-formatters-text-winds-tc-fname-module"></span><h2>geoips.plugins.modules.filename_formatters.text_winds_tc_fname module<a class="headerlink" href="#module-geoips.plugins.modules.filename_formatters.text_winds_tc_fname" title="Permalink to this heading">#</a></h2>
+<p>Filename formatter for TC-specific text windspeed outputs.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.text_winds_tc_fname.assemble_windspeeds_text_tc_fname">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.text_winds_tc_fname.</span></span><span class="sig-name descname"><span class="pre">assemble_windspeeds_text_tc_fname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basedir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_area_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_stormnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_provider</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/text_winds_tc_fname.html#assemble_windspeeds_text_tc_fname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.text_winds_tc_fname.assemble_windspeeds_text_tc_fname" title="Permalink to this definition">#</a></dt>
+<dd><p>Produce full output product path from product / sensor specifications.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basedir</strong> (<em>str</em>) – base directory</p></li>
+<li><p><strong>tc_year</strong> (<em>int</em>) – Full 4 digit storm year</p></li>
+<li><p><strong>tc_basin</strong> (<em>str</em>) – <dl class="simple">
+<dt>2 character basin designation</dt><dd><p>SH Southern Hemisphere
+WP West Pacific
+EP East Pacific
+CP Central Pacific
+IO Indian Ocean
+AL Atlantic</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>tc_stormnum</strong> (<em>int</em>) – <dl class="simple">
+<dt>2 digit storm number</dt><dd><p>90 through 99 for invests
+01 through 69 for named storms</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>platform_name</strong> (<em>str</em>) – Name of platform (satellite)</p></li>
+<li><p><strong>product_datetime</strong> (<em>datetime</em>) – Start time of data used to generate product</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>full path of output filename of the format:</dt><dd><dl class="simple">
+<dt>&lt;basedir&gt;/tc&lt;tc_year&gt;/&lt;tc_basin&gt;/&lt;tc_basin&gt;&lt;tc_stormnum&gt;&lt;tc_year&gt;/</dt><dd><p>txt/&lt;source_name&gt;_&lt;platform_name&gt;_surface_winds_&lt;data_provider&gt;_
+&lt;YYYYMMDDHHMN&gt;</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">startdt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;20200216T001412&#39;</span><span class="p">,</span> <span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">T%H%M%S&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">assemble_windspeeds_text_tc_fname</span><span class="p">(</span><span class="s1">&#39;/outdir&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="mi">2020</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;SH&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="mi">16</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;smap-spd&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;smap&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">startdt</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;remss&#39;</span><span class="p">)</span>
+<span class="go">&#39;/outdir/tc2020/SH/SH162020/txt/</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.filename_formatters.text_winds_tc_fname.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.filename_formatters.text_winds_tc_fname.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/preprocessed/tcwww'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/filename_formatters/text_winds_tc_fname.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.filename_formatters.text_winds_tc_fname.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Create TC-specific text windspeed filename.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">geoips.plugins.modules.filename_formatters.text_winds_tc_fname.</span></code></dt><dd><p>assemble_windspeeds_text_tc_fname Shared utility to facilitate creating multiple similar filenames from the same code.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.filename_formatters">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-geoips.plugins.modules.filename_formatters" title="Permalink to this heading">#</a></h2>
+<p>geoips filename_formatters init file.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geoips.plugins.modules.coverage_checkers.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">geoips.plugins.modules.coverage_checkers package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geoips.plugins.modules.filename_formatters.utils.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">geoips.plugins.modules.filename_formatters.utils package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.filename_formatters.basic_fname">geoips.plugins.modules.filename_formatters.basic_fname module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.basic_fname.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.filename_formatters.geoips_fname">geoips.plugins.modules.filename_formatters.geoips_fname module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.geoips_fname.assemble_geoips_fname"><code class="docutils literal notranslate"><span class="pre">assemble_geoips_fname()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.geoips_fname.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.geoips_fname.geoips_fname_remove_duplicates"><code class="docutils literal notranslate"><span class="pre">geoips_fname_remove_duplicates()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.filename_formatters.geoips_netcdf_fname">geoips.plugins.modules.filename_formatters.geoips_netcdf_fname module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.geoips_netcdf_fname.assemble_geoips_netcdf_fname"><code class="docutils literal notranslate"><span class="pre">assemble_geoips_netcdf_fname()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.geoips_netcdf_fname.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.filename_formatters.geotiff_fname">geoips.plugins.modules.filename_formatters.geotiff_fname module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.geotiff_fname.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.filename_formatters.metadata_default_fname">geoips.plugins.modules.filename_formatters.metadata_default_fname module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.metadata_default_fname.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.filename_formatters.tc_clean_fname">geoips.plugins.modules.filename_formatters.tc_clean_fname module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.tc_clean_fname.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.filename_formatters.tc_fname">geoips.plugins.modules.filename_formatters.tc_fname module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.tc_fname.assemble_tc_fname"><code class="docutils literal notranslate"><span class="pre">assemble_tc_fname()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.tc_fname.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.tc_fname.tc_fname_remove_duplicates"><code class="docutils literal notranslate"><span class="pre">tc_fname_remove_duplicates()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.filename_formatters.text_winds_day_fname">geoips.plugins.modules.filename_formatters.text_winds_day_fname module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.text_winds_day_fname.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.filename_formatters.text_winds_full_fname">geoips.plugins.modules.filename_formatters.text_winds_full_fname module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.text_winds_full_fname.assemble_windspeeds_text_full_fname"><code class="docutils literal notranslate"><span class="pre">assemble_windspeeds_text_full_fname()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.text_winds_full_fname.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.filename_formatters.text_winds_tc_fname">geoips.plugins.modules.filename_formatters.text_winds_tc_fname module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.text_winds_tc_fname.assemble_windspeeds_text_tc_fname"><code class="docutils literal notranslate"><span class="pre">assemble_windspeeds_text_tc_fname()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.filename_formatters.text_winds_tc_fname.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.filename_formatters">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.plugins.modules.filename_formatters.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

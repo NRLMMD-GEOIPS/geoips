@@ -1,0 +1,53 @@
+geoips.interfaces.yaml\_based package
+=====================================
+
+Submodules
+----------
+
+geoips.interfaces.yaml\_based.feature\_annotators module
+--------------------------------------------------------
+
+.. automodule:: geoips.interfaces.yaml_based.feature_annotators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.yaml\_based.gridline\_annotators module
+---------------------------------------------------------
+
+.. automodule:: geoips.interfaces.yaml_based.gridline_annotators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.yaml\_based.product\_defaults module
+------------------------------------------------------
+
+.. automodule:: geoips.interfaces.yaml_based.product_defaults
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.yaml\_based.products module
+---------------------------------------------
+
+.. automodule:: geoips.interfaces.yaml_based.products
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.yaml\_based.sectors module
+--------------------------------------------
+
+.. automodule:: geoips.interfaces.yaml_based.sectors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.interfaces.yaml_based
+   :members:
+   :undoc-members:
+   :show-inheritance:

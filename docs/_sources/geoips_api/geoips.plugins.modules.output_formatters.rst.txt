@@ -1,0 +1,109 @@
+geoips.plugins.modules.output\_formatters package
+=================================================
+
+Submodules
+----------
+
+geoips.plugins.modules.output\_formatters.full\_disk\_image module
+------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.full_disk_image
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.geotiff\_standard module
+------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.geotiff_standard
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.imagery\_annotated module
+-------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.imagery_annotated
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.imagery\_clean module
+---------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.imagery_clean
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.imagery\_windbarbs module
+-------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.imagery_windbarbs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.imagery\_windbarbs\_clean module
+--------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.imagery_windbarbs_clean
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.metadata\_default module
+------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.metadata_default
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.metadata\_tc module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.metadata_tc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.netcdf\_geoips module
+---------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.netcdf_geoips
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.netcdf\_xarray module
+---------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.netcdf_xarray
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.text\_winds module
+------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.text_winds
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.unprojected\_image module
+-------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.unprojected_image
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.output_formatters
+   :members:
+   :undoc-members:
+   :show-inheritance:

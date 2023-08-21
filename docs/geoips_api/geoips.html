@@ -1,0 +1,1703 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>geoips package &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geoips.commandline package" href="geoips.commandline.html" />
+    <link rel="prev" title="API Reference" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">geoips package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips package</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="geoips-package">
+<h1>geoips package<a class="headerlink" href="#geoips-package" title="Permalink to this heading">#</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.args">geoips.commandline.args module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.html#geoips.commandline.args.add_args"><code class="docutils literal notranslate"><span class="pre">add_args()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.html#geoips.commandline.args.check_command_line_args"><code class="docutils literal notranslate"><span class="pre">check_command_line_args()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.html#geoips.commandline.args.get_command_line_args"><code class="docutils literal notranslate"><span class="pre">get_command_line_args()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.list_available_modules">geoips.commandline.list_available_modules module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.html#geoips.commandline.list_available_modules.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.log_setup">geoips.commandline.log_setup module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.html#geoips.commandline.log_setup.setup_logging"><code class="docutils literal notranslate"><span class="pre">setup_logging()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.run_procflow">geoips.commandline.run_procflow module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.html#geoips.commandline.run_procflow.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.test_interfaces">geoips.commandline.test_interfaces module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.html#geoips.commandline.test_interfaces.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline.update_tc_tracks_database">geoips.commandline.update_tc_tracks_database module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.html#geoips.commandline.update_tc_tracks_database.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html#module-geoips.commandline">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html#module-geoips.data_manipulations.conversions">geoips.data_manipulations.conversions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.conversions.unit_conversion"><code class="docutils literal notranslate"><span class="pre">unit_conversion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html#module-geoips.data_manipulations.corrections">geoips.data_manipulations.corrections module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_data_range"><code class="docutils literal notranslate"><span class="pre">apply_data_range()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_gamma"><code class="docutils literal notranslate"><span class="pre">apply_gamma()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_maximum_value"><code class="docutils literal notranslate"><span class="pre">apply_maximum_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_minimum_value"><code class="docutils literal notranslate"><span class="pre">apply_minimum_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_offset"><code class="docutils literal notranslate"><span class="pre">apply_offset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_scale_factor"><code class="docutils literal notranslate"><span class="pre">apply_scale_factor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_solar_zenith_correction"><code class="docutils literal notranslate"><span class="pre">apply_solar_zenith_correction()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.corrections.invert_data_range"><code class="docutils literal notranslate"><span class="pre">invert_data_range()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.corrections.mask_day"><code class="docutils literal notranslate"><span class="pre">mask_day()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.corrections.mask_night"><code class="docutils literal notranslate"><span class="pre">mask_night()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.corrections.normalize"><code class="docutils literal notranslate"><span class="pre">normalize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html#module-geoips.data_manipulations.info">geoips.data_manipulations.info module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.info.percent_not_nan"><code class="docutils literal notranslate"><span class="pre">percent_not_nan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.info.percent_unmasked"><code class="docutils literal notranslate"><span class="pre">percent_unmasked()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html#module-geoips.data_manipulations.merge">geoips.data_manipulations.merge module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.merge.daterange"><code class="docutils literal notranslate"><span class="pre">daterange()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.merge.find_datafiles_in_range"><code class="docutils literal notranslate"><span class="pre">find_datafiles_in_range()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.merge.get_matching_files"><code class="docutils literal notranslate"><span class="pre">get_matching_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.merge.hourrange"><code class="docutils literal notranslate"><span class="pre">hourrange()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.data_manipulations.html#geoips.data_manipulations.merge.minrange"><code class="docutils literal notranslate"><span class="pre">minrange()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html#module-geoips.data_manipulations">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html#module-geoips.dev.output_config">geoips.dev.output_config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.get_filename_formatter_kwargs"><code class="docutils literal notranslate"><span class="pre">get_filename_formatter_kwargs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.get_filename_formatters"><code class="docutils literal notranslate"><span class="pre">get_filename_formatters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.get_metadata_filename_formatter"><code class="docutils literal notranslate"><span class="pre">get_metadata_filename_formatter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.get_metadata_filename_formatter_kwargs"><code class="docutils literal notranslate"><span class="pre">get_metadata_filename_formatter_kwargs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.get_metadata_output_formatter"><code class="docutils literal notranslate"><span class="pre">get_metadata_output_formatter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.get_metadata_output_formatter_kwargs"><code class="docutils literal notranslate"><span class="pre">get_metadata_output_formatter_kwargs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.get_minimum_coverage"><code class="docutils literal notranslate"><span class="pre">get_minimum_coverage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.get_output_config_type"><code class="docutils literal notranslate"><span class="pre">get_output_config_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.get_output_formatter"><code class="docutils literal notranslate"><span class="pre">get_output_formatter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.get_output_formatter_kwargs"><code class="docutils literal notranslate"><span class="pre">get_output_formatter_kwargs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.is_valid_output_config"><code class="docutils literal notranslate"><span class="pre">is_valid_output_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.produce_current_time"><code class="docutils literal notranslate"><span class="pre">produce_current_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.set_lonlat_spacing"><code class="docutils literal notranslate"><span class="pre">set_lonlat_spacing()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.output_config.test_output_config_interface"><code class="docutils literal notranslate"><span class="pre">test_output_config_interface()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html#module-geoips.dev.product">geoips.dev.product module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.product.get_cmap_from_product"><code class="docutils literal notranslate"><span class="pre">get_cmap_from_product()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.product.get_covg_args_from_product"><code class="docutils literal notranslate"><span class="pre">get_covg_args_from_product()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.product.get_covg_from_product"><code class="docutils literal notranslate"><span class="pre">get_covg_from_product()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.product.get_data_range"><code class="docutils literal notranslate"><span class="pre">get_data_range()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.product.get_product_display_name"><code class="docutils literal notranslate"><span class="pre">get_product_display_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.product.get_requested_datasets_for_variables"><code class="docutils literal notranslate"><span class="pre">get_requested_datasets_for_variables()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.dev.html#geoips.dev.product.get_required_variables"><code class="docutils literal notranslate"><span class="pre">get_required_variables()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html#module-geoips.dev">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html#module-geoips.filenames.base_paths">geoips.filenames.base_paths module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.filenames.html#geoips.filenames.base_paths.make_dirs"><code class="docutils literal notranslate"><span class="pre">make_dirs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html#module-geoips.filenames.duplicate_files">geoips.filenames.duplicate_files module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.filenames.html#geoips.filenames.duplicate_files.remove_duplicates"><code class="docutils literal notranslate"><span class="pre">remove_duplicates()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html#module-geoips.filenames">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html#module-geoips.image_utils.colormap_utils">geoips.image_utils.colormap_utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.colormap_utils.create_linear_segmented_colormap"><code class="docutils literal notranslate"><span class="pre">create_linear_segmented_colormap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.colormap_utils.from_ascii"><code class="docutils literal notranslate"><span class="pre">from_ascii()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.colormap_utils.set_matplotlib_colors_rgb"><code class="docutils literal notranslate"><span class="pre">set_matplotlib_colors_rgb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.colormap_utils.set_matplotlib_colors_standard"><code class="docutils literal notranslate"><span class="pre">set_matplotlib_colors_standard()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.colormap_utils.set_mpl_colors_info_dict"><code class="docutils literal notranslate"><span class="pre">set_mpl_colors_info_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html#module-geoips.image_utils.maps">geoips.image_utils.maps module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.maps.check_feature_annotator"><code class="docutils literal notranslate"><span class="pre">check_feature_annotator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.maps.check_gridline_annotator"><code class="docutils literal notranslate"><span class="pre">check_gridline_annotator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.maps.compute_lat_auto_spacing"><code class="docutils literal notranslate"><span class="pre">compute_lat_auto_spacing()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.maps.compute_lon_auto_spacing"><code class="docutils literal notranslate"><span class="pre">compute_lon_auto_spacing()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.maps.draw_features"><code class="docutils literal notranslate"><span class="pre">draw_features()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.maps.draw_gridlines"><code class="docutils literal notranslate"><span class="pre">draw_gridlines()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.maps.ellps2axis"><code class="docutils literal notranslate"><span class="pre">ellps2axis()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.maps.is_crs"><code class="docutils literal notranslate"><span class="pre">is_crs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.maps.meridians"><code class="docutils literal notranslate"><span class="pre">meridians()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.maps.parallels"><code class="docutils literal notranslate"><span class="pre">parallels()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.maps.set_gridlines_info_dict"><code class="docutils literal notranslate"><span class="pre">set_gridlines_info_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html#module-geoips.image_utils.mpl_utils">geoips.image_utils.mpl_utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.alpha_from_masked_arrays"><code class="docutils literal notranslate"><span class="pre">alpha_from_masked_arrays()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.create_colorbar"><code class="docutils literal notranslate"><span class="pre">create_colorbar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.create_figure_and_main_ax_and_mapobj"><code class="docutils literal notranslate"><span class="pre">create_figure_and_main_ax_and_mapobj()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.get_title_string_from_objects"><code class="docutils literal notranslate"><span class="pre">get_title_string_from_objects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.percent_unmasked_rgba"><code class="docutils literal notranslate"><span class="pre">percent_unmasked_rgba()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.plot_image"><code class="docutils literal notranslate"><span class="pre">plot_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.plot_overlays"><code class="docutils literal notranslate"><span class="pre">plot_overlays()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.remove_duplicates"><code class="docutils literal notranslate"><span class="pre">remove_duplicates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.rgba_from_arrays"><code class="docutils literal notranslate"><span class="pre">rgba_from_arrays()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.save_image"><code class="docutils literal notranslate"><span class="pre">save_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.set_fonts"><code class="docutils literal notranslate"><span class="pre">set_fonts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.image_utils.html#geoips.image_utils.mpl_utils.set_title"><code class="docutils literal notranslate"><span class="pre">set_title()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html#module-geoips.image_utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.interfaces.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.algorithms">geoips.interfaces.module_based.algorithms module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.colormappers">geoips.interfaces.module_based.colormappers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.coverage_checkers">geoips.interfaces.module_based.coverage_checkers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.filename_formatters">geoips.interfaces.module_based.filename_formatters module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.interpolators">geoips.interfaces.module_based.interpolators module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.output_formatters">geoips.interfaces.module_based.output_formatters module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.procflows">geoips.interfaces.module_based.procflows module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.readers">geoips.interfaces.module_based.readers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.sector_adjusters">geoips.interfaces.module_based.sector_adjusters module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.sector_metadata_generators">geoips.interfaces.module_based.sector_metadata_generators module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.sector_spec_generators">geoips.interfaces.module_based.sector_spec_generators module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based.title_formatters">geoips.interfaces.module_based.title_formatters module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.module_based.html#module-geoips.interfaces.module_based">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.yaml_based.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.yaml_based.html#module-geoips.interfaces.yaml_based.feature_annotators">geoips.interfaces.yaml_based.feature_annotators module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.yaml_based.html#module-geoips.interfaces.yaml_based.gridline_annotators">geoips.interfaces.yaml_based.gridline_annotators module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.yaml_based.html#module-geoips.interfaces.yaml_based.product_defaults">geoips.interfaces.yaml_based.product_defaults module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.yaml_based.html#module-geoips.interfaces.yaml_based.products">geoips.interfaces.yaml_based.products module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.yaml_based.html#module-geoips.interfaces.yaml_based.sectors">geoips.interfaces.yaml_based.sectors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.yaml_based.html#module-geoips.interfaces.yaml_based">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.interfaces.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.interfaces.html#module-geoips.interfaces.base">geoips.interfaces.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseInterface"><code class="docutils literal notranslate"><span class="pre">BaseInterface</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface"><code class="docutils literal notranslate"><span class="pre">BaseModuleInterface</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface.get_plugin"><code class="docutils literal notranslate"><span class="pre">BaseModuleInterface.get_plugin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface.get_plugins"><code class="docutils literal notranslate"><span class="pre">BaseModuleInterface.get_plugins()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface.plugin_is_valid"><code class="docutils literal notranslate"><span class="pre">BaseModuleInterface.plugin_is_valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface.plugins_all_valid"><code class="docutils literal notranslate"><span class="pre">BaseModuleInterface.plugins_all_valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface.test_interface"><code class="docutils literal notranslate"><span class="pre">BaseModuleInterface.test_interface()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModulePlugin"><code class="docutils literal notranslate"><span class="pre">BaseModulePlugin</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.get_plugin"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface.get_plugin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.get_plugins"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface.get_plugins()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.plugin_is_valid"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface.plugin_is_valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.plugins_all_valid"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface.plugins_all_valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.test_interface"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface.test_interface()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.validator"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface.validator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlPlugin"><code class="docutils literal notranslate"><span class="pre">BaseYamlPlugin</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.YamlPluginValidator"><code class="docutils literal notranslate"><span class="pre">YamlPluginValidator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.YamlPluginValidator.schemas"><code class="docutils literal notranslate"><span class="pre">YamlPluginValidator.schemas</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.YamlPluginValidator.validate"><code class="docutils literal notranslate"><span class="pre">YamlPluginValidator.validate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.YamlPluginValidator.validate_list"><code class="docutils literal notranslate"><span class="pre">YamlPluginValidator.validate_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.YamlPluginValidator.validators"><code class="docutils literal notranslate"><span class="pre">YamlPluginValidator.validators</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.extend_with_default"><code class="docutils literal notranslate"><span class="pre">extend_with_default()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.get_schemas"><code class="docutils literal notranslate"><span class="pre">get_schemas()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.get_validators"><code class="docutils literal notranslate"><span class="pre">get_validators()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.plugin_module_to_obj"><code class="docutils literal notranslate"><span class="pre">plugin_module_to_obj()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.plugin_repr"><code class="docutils literal notranslate"><span class="pre">plugin_repr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.plugin_yaml_to_obj"><code class="docutils literal notranslate"><span class="pre">plugin_yaml_to_obj()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.interfaces.html#module-geoips.interfaces">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.plugins.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.html#module-geoips.plugins.modules">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.plugins.html#module-geoips.plugins">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.estimate_area_extent">geoips.sector_utils.estimate_area_extent module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.estimate_area_extent.center_longitude"><code class="docutils literal notranslate"><span class="pre">center_longitude()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.estimate_area_extent.convert_west2east"><code class="docutils literal notranslate"><span class="pre">convert_west2east()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.estimate_area_extent.esitmate_area_from_center"><code class="docutils literal notranslate"><span class="pre">esitmate_area_from_center()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.estimate_area_extent.estimate_area_extent"><code class="docutils literal notranslate"><span class="pre">estimate_area_extent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.estimate_area_extent.generateMinMaxLatLong"><code class="docutils literal notranslate"><span class="pre">generateMinMaxLatLong()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.estimate_area_extent.haversine_distance"><code class="docutils literal notranslate"><span class="pre">haversine_distance()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.overpass_predictor">geoips.sector_utils.overpass_predictor module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.calculate_overpass"><code class="docutils literal notranslate"><span class="pre">calculate_overpass()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.check_tle_name_to_passed_names"><code class="docutils literal notranslate"><span class="pre">check_tle_name_to_passed_names()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.floor_minute"><code class="docutils literal notranslate"><span class="pre">floor_minute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.predict_overpass_area_def"><code class="docutils literal notranslate"><span class="pre">predict_overpass_area_def()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.predict_overpass_yaml"><code class="docutils literal notranslate"><span class="pre">predict_overpass_yaml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.predict_satellite_overpass"><code class="docutils literal notranslate"><span class="pre">predict_satellite_overpass()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.read_satellite_tle"><code class="docutils literal notranslate"><span class="pre">read_satellite_tle()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.projections">geoips.sector_utils.projections module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.projections.get_projection"><code class="docutils literal notranslate"><span class="pre">get_projection()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.tc_tracks">geoips.sector_utils.tc_tracks module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.tc_tracks.create_tc_sector_info_dict"><code class="docutils literal notranslate"><span class="pre">create_tc_sector_info_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.tc_tracks.get_tc_area_id"><code class="docutils literal notranslate"><span class="pre">get_tc_area_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.tc_tracks.get_tc_long_description"><code class="docutils literal notranslate"><span class="pre">get_tc_long_description()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.tc_tracks.interpolate_storm_location"><code class="docutils literal notranslate"><span class="pre">interpolate_storm_location()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.tc_tracks.set_tc_area_def"><code class="docutils literal notranslate"><span class="pre">set_tc_area_def()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.tc_tracks.trackfile_to_area_defs"><code class="docutils literal notranslate"><span class="pre">trackfile_to_area_defs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.tc_tracks_database">geoips.sector_utils.tc_tracks_database module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.check_db"><code class="docutils literal notranslate"><span class="pre">check_db()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.get_all_storms_from_db"><code class="docutils literal notranslate"><span class="pre">get_all_storms_from_db()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.open_tc_db"><code class="docutils literal notranslate"><span class="pre">open_tc_db()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.reprocess_storm"><code class="docutils literal notranslate"><span class="pre">reprocess_storm()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.update_fields"><code class="docutils literal notranslate"><span class="pre">update_fields()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.utils">geoips.sector_utils.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.check_center_coverage"><code class="docutils literal notranslate"><span class="pre">check_center_coverage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.copy_sector_info"><code class="docutils literal notranslate"><span class="pre">copy_sector_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.create_areadefinition_from_yaml"><code class="docutils literal notranslate"><span class="pre">create_areadefinition_from_yaml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.filter_area_defs_actual_time"><code class="docutils literal notranslate"><span class="pre">filter_area_defs_actual_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.get_lat_center"><code class="docutils literal notranslate"><span class="pre">get_lat_center()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.get_lon_center"><code class="docutils literal notranslate"><span class="pre">get_lon_center()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.get_max_lat"><code class="docutils literal notranslate"><span class="pre">get_max_lat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.get_max_lon"><code class="docutils literal notranslate"><span class="pre">get_max_lon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.get_min_lat"><code class="docutils literal notranslate"><span class="pre">get_min_lat()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.get_min_lon"><code class="docutils literal notranslate"><span class="pre">get_min_lon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.get_sectors_from_yamls"><code class="docutils literal notranslate"><span class="pre">get_sectors_from_yamls()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.get_static_area_defs_for_xarray"><code class="docutils literal notranslate"><span class="pre">get_static_area_defs_for_xarray()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.get_tc_area_defs_for_xarray"><code class="docutils literal notranslate"><span class="pre">get_tc_area_defs_for_xarray()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.get_trackfile_area_defs"><code class="docutils literal notranslate"><span class="pre">get_trackfile_area_defs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.is_dynamic_sector"><code class="docutils literal notranslate"><span class="pre">is_dynamic_sector()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.is_requested_aid_type"><code class="docutils literal notranslate"><span class="pre">is_requested_aid_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.is_sector_type"><code class="docutils literal notranslate"><span class="pre">is_sector_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.remove_duplicate_storm_positions"><code class="docutils literal notranslate"><span class="pre">remove_duplicate_storm_positions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.set_tc_coverage_check_area_def"><code class="docutils literal notranslate"><span class="pre">set_tc_coverage_check_area_def()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.set_text_area_def"><code class="docutils literal notranslate"><span class="pre">set_text_area_def()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.utils.storm_locations_match"><code class="docutils literal notranslate"><span class="pre">storm_locations_match()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils.yaml_utils">geoips.sector_utils.yaml_utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.yaml_utils.add_description_to_yamldict"><code class="docutils literal notranslate"><span class="pre">add_description_to_yamldict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.yaml_utils.add_dynamic_datetime_to_yamldict"><code class="docutils literal notranslate"><span class="pre">add_dynamic_datetime_to_yamldict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.yaml_utils.add_projection_to_yamldict"><code class="docutils literal notranslate"><span class="pre">add_projection_to_yamldict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.yaml_utils.add_sectorinfo_to_yamldict"><code class="docutils literal notranslate"><span class="pre">add_sectorinfo_to_yamldict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.yaml_utils.area_def_to_yamldict"><code class="docutils literal notranslate"><span class="pre">area_def_to_yamldict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.yaml_utils.area_def_to_yamlfile"><code class="docutils literal notranslate"><span class="pre">area_def_to_yamlfile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.sector_utils.html#geoips.sector_utils.yaml_utils.write_yamldict"><code class="docutils literal notranslate"><span class="pre">write_yamldict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html#module-geoips.sector_utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html#module-geoips.utils.decorators">geoips.utils.decorators module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.html#geoips.utils.decorators.deprecated"><code class="docutils literal notranslate"><span class="pre">deprecated</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.html#geoips.utils.decorators.developmental"><code class="docutils literal notranslate"><span class="pre">developmental()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html#module-geoips.utils.memusg">geoips.utils.memusg module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.html#geoips.utils.memusg.print_mem_usage"><code class="docutils literal notranslate"><span class="pre">print_mem_usage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.html#geoips.utils.memusg.print_resource_usage"><code class="docutils literal notranslate"><span class="pre">print_resource_usage()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html#module-geoips.utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html#module-geoips.xarray_utils.data">geoips.xarray_utils.data module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.data.get_lat_lon_points"><code class="docutils literal notranslate"><span class="pre">get_lat_lon_points()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.data.get_lat_lon_points_numpy"><code class="docutils literal notranslate"><span class="pre">get_lat_lon_points_numpy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.data.get_sectored_xarrays"><code class="docutils literal notranslate"><span class="pre">get_sectored_xarrays()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.data.get_vis_ir_bg"><code class="docutils literal notranslate"><span class="pre">get_vis_ir_bg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.data.sector_xarray_dataset"><code class="docutils literal notranslate"><span class="pre">sector_xarray_dataset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.data.sector_xarray_spatial"><code class="docutils literal notranslate"><span class="pre">sector_xarray_spatial()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.data.sector_xarray_temporal"><code class="docutils literal notranslate"><span class="pre">sector_xarray_temporal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.data.sector_xarrays"><code class="docutils literal notranslate"><span class="pre">sector_xarrays()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html#module-geoips.xarray_utils.time">geoips.xarray_utils.time module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.time.get_datetime_from_datetime64"><code class="docutils literal notranslate"><span class="pre">get_datetime_from_datetime64()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.time.get_max_from_xarray_time"><code class="docutils literal notranslate"><span class="pre">get_max_from_xarray_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.time.get_min_from_xarray_time"><code class="docutils literal notranslate"><span class="pre">get_min_from_xarray_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.xarray_utils.html#geoips.xarray_utils.time.get_posix_from_datetime"><code class="docutils literal notranslate"><span class="pre">get_posix_from_datetime()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html#module-geoips.xarray_utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-geoips.cli">
+<span id="geoips-cli-module"></span><h2>geoips.cli module<a class="headerlink" href="#module-geoips.cli" title="Permalink to this heading">#</a></h2>
+<p>GeoIPS</p>
+<p>The Geolocated Information Processing System (GeoIPS) is a generalized
+processing system, providing a collection of algorithm and product
+implementations facilitating consistent and reliable application of specific
+products across a variety of sensors and data types.</p>
+<p>GeoIPS acts as a toolbox for internal GeoIPS-based product development - all
+modules are expected to have simple inputs and outputs (Python numpy or dask
+arrays or xarrays, dictionaries, strings, lists), to enable portability and
+simplified interfacing between modules.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.cli.RawDescriptionArgumentDefaultsHelpFormatter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.cli.</span></span><span class="sig-name descname"><span class="pre">RawDescriptionArgumentDefaultsHelpFormatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prog</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent_increment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_help_position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/cli.html#RawDescriptionArgumentDefaultsHelpFormatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.cli.RawDescriptionArgumentDefaultsHelpFormatter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ArgumentDefaultsHelpFormatter</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">RawDescriptionHelpFormatter</span></code></p>
+<p>Compound formatter class for user-readable help.</p>
+<ul class="simple">
+<li><p>preserves the raw description formatting</p></li>
+<li><p>adds defaults to helps.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.cli.add_list_interface_parser">
+<span class="sig-prename descclassname"><span class="pre">geoips.cli.</span></span><span class="sig-name descname"><span class="pre">add_list_interface_parser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparsers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/cli.html#add_list_interface_parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.cli.add_list_interface_parser" title="Permalink to this definition">#</a></dt>
+<dd><p>Add list interface parser.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.cli.formclass">
+<span class="sig-prename descclassname"><span class="pre">geoips.cli.</span></span><span class="sig-name descname"><span class="pre">formclass</span></span><a class="headerlink" href="#geoips.cli.formclass" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#geoips.cli.RawDescriptionArgumentDefaultsHelpFormatter" title="geoips.cli.RawDescriptionArgumentDefaultsHelpFormatter"><code class="xref py py-class docutils literal notranslate"><span class="pre">RawDescriptionArgumentDefaultsHelpFormatter</span></code></a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.cli.get_interface">
+<span class="sig-prename descclassname"><span class="pre">geoips.cli.</span></span><span class="sig-name descname"><span class="pre">get_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/cli.html#get_interface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.cli.get_interface" title="Permalink to this definition">#</a></dt>
+<dd><p>Get interface.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.cli.list_dev_interfaces">
+<span class="sig-prename descclassname"><span class="pre">geoips.cli.</span></span><span class="sig-name descname"><span class="pre">list_dev_interfaces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/cli.html#list_dev_interfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.cli.list_dev_interfaces" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a list of all developmental interfaces.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.cli.list_interface_plugins">
+<span class="sig-prename descclassname"><span class="pre">geoips.cli.</span></span><span class="sig-name descname"><span class="pre">list_interface_plugins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/cli.html#list_interface_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.cli.list_interface_plugins" title="Permalink to this definition">#</a></dt>
+<dd><p>List interface plugins.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.cli.list_interfaces">
+<span class="sig-prename descclassname"><span class="pre">geoips.cli.</span></span><span class="sig-name descname"><span class="pre">list_interfaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/cli.html#list_interfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.cli.list_interfaces" title="Permalink to this definition">#</a></dt>
+<dd><p>List interfaces.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.cli.main">
+<span class="sig-prename descclassname"><span class="pre">geoips.cli.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/cli.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.cli.main" title="Permalink to this definition">#</a></dt>
+<dd><p>Command line interface main function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.cli.print_table">
+<span class="sig-prename descclassname"><span class="pre">geoips.cli.</span></span><span class="sig-name descname"><span class="pre">print_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rows</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/cli.html#print_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.cli.print_table" title="Permalink to this definition">#</a></dt>
+<dd><p>Print a column formatted table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<em>str</em>) – A title for the table</p></li>
+<li><p><strong>headings</strong> (<em>list</em><em> of </em><em>str</em>) – A list of strings to use as column headings</p></li>
+<li><p><strong>rows</strong> (<em>list</em><em> of </em><em>tupl</em><em> of </em><em>str</em>) – A list of equal-length tuples</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.compare_outputs">
+<span id="geoips-compare-outputs-module"></span><h2>geoips.compare_outputs module<a class="headerlink" href="#module-geoips.compare_outputs" title="Permalink to this heading">#</a></h2>
+<p>Test script for representative product comparisons.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.compare_outputs">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">compare_outputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compare_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_products</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_product_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#compare_outputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.compare_outputs" title="Permalink to this definition">#</a></dt>
+<dd><p>Compare the “correct” imagery found the list of current output_products.</p>
+<p>Compares files produced in the current processing run with the list of
+“correct” files contained in “compare_path”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compare_path</strong> (<em>str</em>) – Path to directory of “correct” products - filenames must match output_products</p></li>
+<li><p><strong>output_products</strong> (<em>list</em><em> of </em><em>str</em>) – List of strings of current output products,
+to compare with products in compare_path</p></li>
+<li><p><strong>test_product_func</strong> (<em>function</em><em>, </em><em>default=None</em>) – <p>Alternative function to be used for testing output product</p>
+<blockquote>
+<div><ul>
+<li><p>Call signature must be:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>output_product, compare_product, goodcomps, badcomps, compare_strings</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Return must be:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>goodcomps, badcomps, compare_strings</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p>If None, use geoips.compare_outputs.test_product)</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary code: 0 if all comparisons were completed successfully.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.geoips_netcdf_match">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">geoips_netcdf_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_product</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#geoips_netcdf_match"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.geoips_netcdf_match" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if two geoips formatted netcdf files match.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_product</strong> (<em>str</em>) – Full path to current output product</p></li>
+<li><p><strong>compare_product</strong> (<em>str</em>) – Full path to comparison product</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return True if products match, False if they differ</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.geotiffs_match">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">geotiffs_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_product</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#geotiffs_match"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.geotiffs_match" title="Permalink to this definition">#</a></dt>
+<dd><p>Use diff system command to compare currently produced image to correct image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_product</strong> (<em>str</em>) – Full path to current output product</p></li>
+<li><p><strong>compare_product</strong> (<em>str</em>) – Full path to comparison product</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return True if images match, False if they differ</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.get_out_diff_fname">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">get_out_diff_fname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compare_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#get_out_diff_fname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.get_out_diff_fname" title="Permalink to this definition">#</a></dt>
+<dd><p>Obtain the filename for output and comparison product diff.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compare_product</strong> (<em>str</em>) – Full path to product filename in the comparison directory</p></li>
+<li><p><strong>output_product</strong> (<em>str</em>) – Full path to product filename in the current output directory</p></li>
+<li><p><strong>ext</strong> (<em>str</em><em>, </em><em>default=None</em>) – Extension to use as an alternative to the original file extension</p></li>
+<li><p><strong>flag</strong> (<em>str</em><em>, </em><em>default=None</em>) – Additional identifying string to include in output diff filename</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out_diff_fname</strong> – Full path to output diff file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.gunzip_product">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">gunzip_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#gunzip_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.gunzip_product" title="Permalink to this definition">#</a></dt>
+<dd><p>Gunzip file fname.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>str</em>) – File to gunzip.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filename after gunzipping</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.gzip_product">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">gzip_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#gzip_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.gzip_product" title="Permalink to this definition">#</a></dt>
+<dd><p>Gzip file fname.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>str</em>) – File to gzip.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filename after gzipping</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.images_match">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">images_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fuzz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'5%'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#images_match"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.images_match" title="Permalink to this definition">#</a></dt>
+<dd><p>Use imagemagick compare system command to compare two images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_product</strong> (<em>str</em>) – Current output product</p></li>
+<li><p><strong>compare_product</strong> (<em>str</em>) – Path to comparison product</p></li>
+<li><p><strong>fuzz</strong> (<em>str</em><em>, </em><em>optional</em>) – “fuzz” argument to pass to compare - larger “fuzz” factor to make
+comparison less strict, by default 5%.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return True if images match, False if they differ</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.is_geoips_netcdf">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">is_geoips_netcdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#is_geoips_netcdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.is_geoips_netcdf" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if fname is a geoips formatted netcdf file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>str</em>) – Name of file to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if it is a geoips netcdf file, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.is_geotiff">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">is_geotiff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#is_geotiff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.is_geotiff" title="Permalink to this definition">#</a></dt>
+<dd><p>Determine if fname is a geotiff file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>str</em>) – Name of file to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if it is a geotiff file, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.is_gz">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">is_gz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#is_gz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.is_gz" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if fname is a gzip file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>str</em>) – Name of file to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if it is a gz file, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.is_image">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">is_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#is_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.is_image" title="Permalink to this definition">#</a></dt>
+<dd><p>Determine if fname is an image file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>str</em>) – Name of file to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if it is an image file, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.is_text">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">is_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#is_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.is_text" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if fname is a text file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>str</em>) – Name of file to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if it is a text file, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.print_gunzip_to_file">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">print_gunzip_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gunzip_fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#print_gunzip_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.print_gunzip_to_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Write the command to gunzip the passed “gunzip_fname” to file.</p>
+<p>Writes to the currently open file object, if required.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.print_gzip_to_file">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">print_gzip_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gzip_fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#print_gzip_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.print_gzip_to_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Write the command to gzip the passed “gzip_fname” to file.</p>
+<p>Writes to the currently open file object, if required.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.test_product">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">test_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goodcomps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">badcomps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_strings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#test_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.test_product" title="Permalink to this definition">#</a></dt>
+<dd><p>Test output_product against “good” product stored in “compare_path”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_product</strong> (<em>str</em>) – <ul>
+<li><p>Full path to current output product</p></li>
+</ul>
+</p></li>
+<li><p><strong>compare_product</strong> (<em>str</em>) – <ul>
+<li><p>Full path to “good” comparison product</p></li>
+</ul>
+</p></li>
+<li><p><strong>goodcomps</strong> (<em>list</em><em> of </em><em>str</em>) – <ul>
+<li><p>List of full paths to all “good” successful comparisons
+(output and compare images match)</p></li>
+<li><p>Each str is prepended with a “compare_string” tag to identify which
+comparison type was performed.</p></li>
+</ul>
+</p></li>
+<li><p><strong>badcomps</strong> (<em>list</em><em> of </em><em>str</em>) – <ul>
+<li><p>List of full paths to all “bad” unsuccessful comparisons
+(output and compare images differ)</p></li>
+<li><p>Each str is prepended with a “compare_string” tag to identify which
+comparison type was performed.</p></li>
+</ul>
+</p></li>
+<li><p><strong>compare_strings</strong> (<em>list</em><em> of </em><em>str</em>) – <ul>
+<li><p>List of all comparison “tags” included in goodcomps and badcomps lists.</p></li>
+<li><p>This list is used to remove the comparison tags from goodcomps and
+badcomps to retrieve only the file path.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>goodcomps</strong> (<em>list of str</em>) – All current good comparisons appended to the list passed in.</p></li>
+<li><p><strong>badcomps</strong> (<em>list of str</em>) – All current bad comparisons appended to the list passed in.</p></li>
+<li><p><strong>compare_strings</strong> (<em>list of str</em>) – All current comparison “tags” added to the list passed in.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – Raised when current output product does not have an associated
+    comparison test defined.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.compare_outputs.text_match">
+<span class="sig-prename descclassname"><span class="pre">geoips.compare_outputs.</span></span><span class="sig-name descname"><span class="pre">text_match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_product</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/compare_outputs.html#text_match"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.compare_outputs.text_match" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if two text files match.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_product</strong> (<em>str</em>) – Full path to current output product</p></li>
+<li><p><strong>compare_product</strong> (<em>str</em>) – Full path to “good” comparison product</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return True if products match, False if they differ</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.errors">
+<span id="geoips-errors-module"></span><h2>geoips.errors module<a class="headerlink" href="#module-geoips.errors" title="Permalink to this heading">#</a></h2>
+<p>GeoIPS error module.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="geoips.errors.CoverageError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.errors.</span></span><span class="sig-name descname"><span class="pre">CoverageError</span></span><a class="reference internal" href="../_modules/geoips/errors.html#CoverageError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.errors.CoverageError" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Raise exception on data coverage error.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="geoips.errors.EntryPointError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.errors.</span></span><span class="sig-name descname"><span class="pre">EntryPointError</span></span><a class="reference internal" href="../_modules/geoips/errors.html#EntryPointError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.errors.EntryPointError" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception to be raised when an entry-point cannot be found.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="geoips.errors.PluginError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.errors.</span></span><span class="sig-name descname"><span class="pre">PluginError</span></span><a class="reference internal" href="../_modules/geoips/errors.html#PluginError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.errors.PluginError" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception to be raised when there is an error in a plugin module.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.geoips_utils">
+<span id="geoips-geoips-utils-module"></span><h2>geoips.geoips_utils module<a class="headerlink" href="#module-geoips.geoips_utils" title="Permalink to this heading">#</a></h2>
+<p>General high level utilities for geoips processing.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.copy_standard_metadata">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">copy_standard_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig_xarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_xarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#copy_standard_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.copy_standard_metadata" title="Permalink to this definition">#</a></dt>
+<dd><p>Copy standard metadata from orig_xarray to dest_xarray.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>orig_xarray</strong> (<em>xarray.Dataset</em>) – Original xarray to copy attributes from</p></li>
+<li><p><strong>dest_xarray</strong> (<em>xarray.Dataset</em>) – Destination xarray to copy attributes to</p></li>
+<li><p><strong>extra_attrs</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Additional attributes to copy, beyond the standard metadata, by default None</p></li>
+<li><p><strong>force</strong> (<em>bool</em><em>, </em><em>optional</em>) – If force is True, overwrite existing attributes, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dest_xarray with standard metadata copied in place from orig_xarray.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xarray.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.deprecation">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">deprecation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#deprecation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.deprecation" title="Permalink to this definition">#</a></dt>
+<dd><p>Print a deprecation warning during runtime.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.find_all_txt_plugins">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">find_all_txt_plugins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#find_all_txt_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.find_all_txt_plugins" title="Permalink to this definition">#</a></dt>
+<dd><p>Find all txt plugins in registered plugin packages.</p>
+<p>Search the <code class="docutils literal notranslate"><span class="pre">plugins</span></code> directory of each registered plugin package for files ending
+in <code class="docutils literal notranslate"><span class="pre">.txt</span></code>. Return list of files</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.find_ascii_palette">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">find_ascii_palette</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#find_ascii_palette"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.find_ascii_palette" title="Permalink to this definition">#</a></dt>
+<dd><p>Find ASCII palette named “name”.</p>
+<p>Search the plugins/txt/ascii_palettes directory for ASCII palettes to use
+as colormaps.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.find_config">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">find_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subpackage_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_basename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">txt_suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.yaml'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#find_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.find_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Find matching config file within GEOIPS packages.</p>
+<p>Given ‘subpackage_name’, ‘config_basename’, and txt_suffix, find matching
+text file within GEOIPS packages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subpackage_name</strong> (<em>str</em>) – subdirectory under GEOIPS package to look for text file
+ie text_fname = geoips/&lt;subpackage_name&gt;/&lt;config_basename&gt;&lt;txt_suffix&gt;</p></li>
+<li><p><strong>config_basename</strong> (<em>str</em>) – text basename to look for,
+ie text_fname = geoips/&lt;subpackage_name&gt;/&lt;config_basename&gt;&lt;txt_suffix&gt;</p></li>
+<li><p><strong>txt_suffix</strong> (<em>str</em>) – suffix to look for on config file, defaults to “.yaml”
+ie text_fname = geoips/&lt;subpackage_name&gt;/&lt;config_basename&gt;&lt;txt_suffix&gt;</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>text_fname</strong> – Full path to text filename</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.find_entry_point">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">find_entry_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#find_entry_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.find_entry_point" title="Permalink to this definition">#</a></dt>
+<dd><p>Find object matching ‘name’ using GEOIPS entry point namespace ‘namespace’.</p>
+<p>Automatically add ‘geoips’ prefix to namespace for disambiguation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>namespace</strong> (<em>str</em>) – Entry point namespace (e.g. ‘readers’)</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Entry point name (e.g. ‘amsr2_netcdf’)</p></li>
+<li><p><strong>default</strong> (<em>entry point</em><em>, </em><em>optional</em>) – Default value if no match is found.  If this is not set (i.e. None),
+then no match will result in an exception</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.get_all_entry_points">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">get_all_entry_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">namespace</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#get_all_entry_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.get_all_entry_points" title="Permalink to this definition">#</a></dt>
+<dd><p>Return all entry points in GEOIPS entry point namespace ‘namespace’.</p>
+<p>Automatically add ‘geoips’ prefix to namespace for disambiguation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>namespace</strong> (<em>str</em>) – Entry point namespace (e.g. ‘readers’)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.get_entry_point_group">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">get_entry_point_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#get_entry_point_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.get_entry_point_group" title="Permalink to this definition">#</a></dt>
+<dd><p>Get entry point group.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.get_required_geoips_xarray_attrs">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">get_required_geoips_xarray_attrs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#get_required_geoips_xarray_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.get_required_geoips_xarray_attrs" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface deprecated v2.0.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.list_entry_points">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">list_entry_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">namespace</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#list_entry_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.list_entry_points" title="Permalink to this definition">#</a></dt>
+<dd><p>List names of objects in GEOIPS entry point namespace ‘namespace’.</p>
+<p>Automatically add ‘geoips’ prefix to namespace for disambiguation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>namespace</strong> (<em>str</em>) – Entry point namespace (e.g. ‘readers’)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.list_product_source_dict_yamls">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">list_product_source_dict_yamls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#list_product_source_dict_yamls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.list_product_source_dict_yamls" title="Permalink to this definition">#</a></dt>
+<dd><p>List all YAML files containing product source specifications.</p>
+<p>Search in all geoips packages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of all product source dict YAMLs in all geoips packages</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.list_product_specs_dict_yamls">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">list_product_specs_dict_yamls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#list_product_specs_dict_yamls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.list_product_specs_dict_yamls" title="Permalink to this definition">#</a></dt>
+<dd><p>List all YAML files containing product params in all geoips packages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of all product params dict YAMLs in all geoips packages</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.load_all_yaml_plugins">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">load_all_yaml_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#load_all_yaml_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.load_all_yaml_plugins" title="Permalink to this definition">#</a></dt>
+<dd><p>Find all YAML plugins in registered plugin packages.</p>
+<p>Search the <code class="docutils literal notranslate"><span class="pre">plugins</span></code> directory of each registered plugin package for files ending
+in <code class="docutils literal notranslate"><span class="pre">.yaml</span></code>. Read each plugin file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.merge_nested_dicts">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">merge_nested_dicts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#merge_nested_dicts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.merge_nested_dicts" title="Permalink to this definition">#</a></dt>
+<dd><p>Perform an in-place merge of src into dest.</p>
+<p>Performs an in-place merge of src into dest while preserving any values that already
+exist in dest.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.output_process_times">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">output_process_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">process_datetimes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_str</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'GeoIPS</span> <span class="pre">2'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#output_process_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.output_process_times" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate and print the process times from the process_datetimes dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>process_datetimes</strong> (<em>dict</em>) – <p>dictionary formatted as follows:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">process_datetimes['overall_start']</span></code> - overall start datetime of
+the entire script</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">process_datetimes['overall_end']</span></code> - overall end datetime of the
+entire script</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">process_datetimes[process_name]['start']</span></code> - start time of an
+individual process</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">process_datetimes[process_name]['end']</span></code> - end time of an
+individual process</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.geoips_utils.replace_geoips_paths">
+<span class="sig-prename descclassname"><span class="pre">geoips.geoips_utils.</span></span><span class="sig-name descname"><span class="pre">replace_geoips_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_paths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/geoips_utils.html#replace_geoips_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.geoips_utils.replace_geoips_paths" title="Permalink to this definition">#</a></dt>
+<dd><p>Replace standard environment variables with their non-expanded equivalents.</p>
+<p>Ie, replace</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">$HOME/geoproc/geoips_packages</span> <span class="pre">with</span> <span class="pre">$GEOIPS_PACKAGES_DIR</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$HOME/geoproc/geoips_outdirs</span> <span class="pre">with</span> <span class="pre">$GEOIPS_OUTDIRS</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$HOME/geoproc</span> <span class="pre">with</span> <span class="pre">$GEOIPS_BASEDIR</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>This allows generating output YAML fields / NetCDF attributes that can match
+between different instantiations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<em>str</em>) – Full path to a filename on disk</p></li>
+<li><p><strong>replace_paths</strong> (<em>list</em><em>, </em><em>default=None</em>) – <ul>
+<li><p>Explicit list of standard variable names you would like replaced.</p></li>
+<li><p>If None, replace
+<code class="docutils literal notranslate"><span class="pre">['GEOIPS_OUTDIRS',</span> <span class="pre">'GEOIPS_PACKAGES_DIR',</span> <span class="pre">'GEOIPS_TESTDATA_DIR',</span>
+<span class="pre">'GEOIPS_DEPENDENCIES_DIR',</span> <span class="pre">'GEOIPS_BASEDIR']</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>base_paths</strong> (<em>list</em><em>, </em><em>default=None</em>) – <ul>
+<li><p>List of PATHS dictionaries in which to find the “replace_paths” variables</p></li>
+<li><p>If None, use geoips.filenames.base_paths</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>fname</strong> – Path to file on disk, with explicit path replaced with environment
+variable name and/or full URL.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Note it replaces ALL standard variables that have a corresponding
+<code class="docutils literal notranslate"><span class="pre">&lt;key&gt;_URL</span></code> variable.</p>
+<p>Additionally, it replaces variables specified in “replace_paths” list with
+the unexpanded environment variable name.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-geoips" title="Permalink to this heading">#</a></h2>
+<p>The Geolocated Information Processing System (GeoIPS).</p>
+<section id="geoips-unireg-base-package">
+<h3>GeoIPS ® Base Package<a class="headerlink" href="#geoips-unireg-base-package" title="Permalink to this heading">#</a></h3>
+<p>The GeoIPS Base Package provides a Python 3 based architecture supporting a wide
+variety of satellite and weather data processing. The modular nature of the GeoIPS
+base infrastructure also allows plug-and-play capability for user-specified custom
+functionality.</p>
+<p>Homepage: <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS/geoips">NRLMMD-GEOIPS/geoips</a></p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">API Reference</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geoips.commandline.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">geoips.commandline package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.cli">geoips.cli module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.cli.RawDescriptionArgumentDefaultsHelpFormatter"><code class="docutils literal notranslate"><span class="pre">RawDescriptionArgumentDefaultsHelpFormatter</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.cli.add_list_interface_parser"><code class="docutils literal notranslate"><span class="pre">add_list_interface_parser()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.cli.formclass"><code class="docutils literal notranslate"><span class="pre">formclass</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.cli.get_interface"><code class="docutils literal notranslate"><span class="pre">get_interface()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.cli.list_dev_interfaces"><code class="docutils literal notranslate"><span class="pre">list_dev_interfaces()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.cli.list_interface_plugins"><code class="docutils literal notranslate"><span class="pre">list_interface_plugins()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.cli.list_interfaces"><code class="docutils literal notranslate"><span class="pre">list_interfaces()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.cli.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.cli.print_table"><code class="docutils literal notranslate"><span class="pre">print_table()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.compare_outputs">geoips.compare_outputs module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.compare_outputs"><code class="docutils literal notranslate"><span class="pre">compare_outputs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.geoips_netcdf_match"><code class="docutils literal notranslate"><span class="pre">geoips_netcdf_match()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.geotiffs_match"><code class="docutils literal notranslate"><span class="pre">geotiffs_match()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.get_out_diff_fname"><code class="docutils literal notranslate"><span class="pre">get_out_diff_fname()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.gunzip_product"><code class="docutils literal notranslate"><span class="pre">gunzip_product()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.gzip_product"><code class="docutils literal notranslate"><span class="pre">gzip_product()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.images_match"><code class="docutils literal notranslate"><span class="pre">images_match()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.is_geoips_netcdf"><code class="docutils literal notranslate"><span class="pre">is_geoips_netcdf()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.is_geotiff"><code class="docutils literal notranslate"><span class="pre">is_geotiff()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.is_gz"><code class="docutils literal notranslate"><span class="pre">is_gz()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.is_image"><code class="docutils literal notranslate"><span class="pre">is_image()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.is_text"><code class="docutils literal notranslate"><span class="pre">is_text()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.print_gunzip_to_file"><code class="docutils literal notranslate"><span class="pre">print_gunzip_to_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.print_gzip_to_file"><code class="docutils literal notranslate"><span class="pre">print_gzip_to_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.test_product"><code class="docutils literal notranslate"><span class="pre">test_product()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.compare_outputs.text_match"><code class="docutils literal notranslate"><span class="pre">text_match()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.errors">geoips.errors module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.errors.CoverageError"><code class="docutils literal notranslate"><span class="pre">CoverageError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.errors.EntryPointError"><code class="docutils literal notranslate"><span class="pre">EntryPointError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.errors.PluginError"><code class="docutils literal notranslate"><span class="pre">PluginError</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.geoips_utils">geoips.geoips_utils module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.copy_standard_metadata"><code class="docutils literal notranslate"><span class="pre">copy_standard_metadata()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.deprecation"><code class="docutils literal notranslate"><span class="pre">deprecation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.find_all_txt_plugins"><code class="docutils literal notranslate"><span class="pre">find_all_txt_plugins()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.find_ascii_palette"><code class="docutils literal notranslate"><span class="pre">find_ascii_palette()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.find_config"><code class="docutils literal notranslate"><span class="pre">find_config()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.find_entry_point"><code class="docutils literal notranslate"><span class="pre">find_entry_point()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.get_all_entry_points"><code class="docutils literal notranslate"><span class="pre">get_all_entry_points()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.get_entry_point_group"><code class="docutils literal notranslate"><span class="pre">get_entry_point_group()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.get_required_geoips_xarray_attrs"><code class="docutils literal notranslate"><span class="pre">get_required_geoips_xarray_attrs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.list_entry_points"><code class="docutils literal notranslate"><span class="pre">list_entry_points()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.list_product_source_dict_yamls"><code class="docutils literal notranslate"><span class="pre">list_product_source_dict_yamls()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.list_product_specs_dict_yamls"><code class="docutils literal notranslate"><span class="pre">list_product_specs_dict_yamls()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.load_all_yaml_plugins"><code class="docutils literal notranslate"><span class="pre">load_all_yaml_plugins()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.merge_nested_dicts"><code class="docutils literal notranslate"><span class="pre">merge_nested_dicts()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.output_process_times"><code class="docutils literal notranslate"><span class="pre">output_process_times()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.geoips_utils.replace_geoips_paths"><code class="docutils literal notranslate"><span class="pre">replace_geoips_paths()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-unireg-base-package">GeoIPS ® Base Package</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

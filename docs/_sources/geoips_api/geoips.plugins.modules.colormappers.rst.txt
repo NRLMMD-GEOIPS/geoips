@@ -1,0 +1,40 @@
+geoips.plugins.modules.colormappers package
+===========================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   geoips.plugins.modules.colormappers.pmw_tb
+   geoips.plugins.modules.colormappers.tpw
+   geoips.plugins.modules.colormappers.visir
+   geoips.plugins.modules.colormappers.winds
+
+Submodules
+----------
+
+geoips.plugins.modules.colormappers.cmap\_rgb module
+----------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.cmap_rgb
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.matplotlib\_linear\_norm module
+-------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.matplotlib_linear_norm
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.colormappers
+   :members:
+   :undoc-members:
+   :show-inheritance:

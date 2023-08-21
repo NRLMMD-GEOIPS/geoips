@@ -1,0 +1,993 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.dev.output_config &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/dev/output_config';</script>
+    <link rel="icon" href="../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.dev.output_config</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for geoips.dev.output_config</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # Author:</span>
+<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
+<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
+<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
+<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+
+<span class="sd">&quot;&quot;&quot;Interpolation interface will be deprecated v2.0.</span>
+
+<span class="sd">Wrapper functions for geoips output_config specifications.</span>
+
+<span class="sd">This functionality will be replaced with a class-based implementation v2.0,</span>
+<span class="sd">and deprecated at that time.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">geoips.interfaces</span> <span class="kn">import</span> <span class="n">products</span>
+<span class="kn">from</span> <span class="nn">geoips.interfaces</span> <span class="kn">import</span> <span class="n">colormappers</span>
+<span class="kn">from</span> <span class="nn">geoips.interfaces</span> <span class="kn">import</span> <span class="n">feature_annotators</span>
+<span class="kn">from</span> <span class="nn">geoips.interfaces</span> <span class="kn">import</span> <span class="n">gridline_annotators</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># ### Output config dictionaries ###</span>
+<div class="viewcode-block" id="is_valid_output_config"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.is_valid_output_config">[docs]</a><span class="k">def</span> <span class="nf">is_valid_output_config</span><span class="p">(</span><span class="n">output_config_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+
+<span class="sd">    Check that requested output_config dictionary is properly formatted.</span>
+
+<span class="sd">    The dictionary of output_config</span>
+<span class="sd">    parameters fully determines the outputs required for a given set of</span>
+<span class="sd">    data files.</span>
+
+<span class="sd">    Dictionary of output_config parameters currently specified by a</span>
+<span class="sd">    full path to a YAML file:</span>
+<span class="sd">    and requested via commandline with:</span>
+<span class="sd">    ``--output_config &lt;full_path_to_YAML_output_config&gt;``</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output_config_dict : dict</span>
+<span class="sd">        Dictionary of output config parameters</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    is_valid : bool</span>
+<span class="sd">        * True if ``output_config_dict`` is a properly formatted dictionary of</span>
+<span class="sd">          output parameters.</span>
+<span class="sd">        * False if output_config_dict:</span>
+<span class="sd">            * does not contain supported ``output_config_type``,</span>
+<span class="sd">            * does not contain all ``required`` fields,</span>
+<span class="sd">            * contains non-supported ``optional`` fields</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    output_config_types currently one of:</span>
+<span class="sd">        * ``single_source``</span>
+<span class="sd">        * ``fused``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">required_keys</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">optional_keys</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">required_keys</span><span class="p">[</span><span class="s2">&quot;single_source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;output_config_type&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;reader_name&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;file_names&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;sectored_read&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;available_sectors&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;requested_sector_type&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;output_formatter&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;filename_formatters&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;product_names&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+
+    <span class="n">optional_keys</span><span class="p">[</span><span class="s2">&quot;single_source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;available_sectors&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;sector_list&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;trackfile_parser&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;trackfiles&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tc_spec_template&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;remove_duplicates&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;metadata_filename_formatter&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;metadata_filename_formatters&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;metadata_filename_formatters_kwargs&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;minimum_coverages&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;minimum_coverage&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;compare_path&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;feature_annotator&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;gridline_annotator&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+
+    <span class="n">required_keys</span><span class="p">[</span><span class="s2">&quot;fused&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">required_keys</span><span class="p">[</span><span class="s2">&quot;single_source&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">optional_keys</span><span class="p">[</span><span class="s2">&quot;fused&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optional_keys</span><span class="p">[</span><span class="s2">&quot;single_source&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">optional_keys</span><span class="p">[</span><span class="s2">&quot;fused&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;fuse_files&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;fuse_reader&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;fuse_product&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;outputs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;background_products&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;config_names&quot;</span><span class="p">,</span> <span class="s2">&quot;product_names&quot;</span><span class="p">]},</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="s2">&quot;output_config_type&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_config_dict</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="s2">&quot;INVALID OUTPUT CONFIG &#39;</span><span class="si">%s</span><span class="s2">&#39;: &quot;</span>
+            <span class="s2">&quot;&#39;output_config_type&#39; must be defined within output config dictionary&quot;</span><span class="p">,</span>
+            <span class="n">output_config_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">output_config_dict</span><span class="p">[</span><span class="s2">&quot;output_config_type&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">required_keys</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="s2">&quot;INVALID OUTPUT CONFIG &#39;</span><span class="si">%s</span><span class="s2">&#39;: &quot;</span>
+            <span class="s2">&quot;&#39;output_config_type&#39; in output config dictionary must be one of &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+            <span class="n">output_config_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+            <span class="nb">list</span><span class="p">(</span><span class="n">required_keys</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">output_config_type</span> <span class="o">=</span> <span class="n">output_config_dict</span><span class="p">[</span><span class="s2">&quot;output_config_type&quot;</span><span class="p">]</span>
+
+    <span class="c1"># If we don&#39;t have all of the required keys, return False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">required_keys</span><span class="p">[</span><span class="n">output_config_type</span><span class="p">])</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">output_config_dict</span><span class="p">)):</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="s2">&quot;INVALID OUTPUT CONFIG &#39;</span><span class="si">%s</span><span class="s2">&#39;: &quot;</span>
+            <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; output config dictionary must contain the following fields: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+            <span class="n">output_config_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+            <span class="n">output_config_type</span><span class="p">,</span>
+            <span class="nb">list</span><span class="p">(</span><span class="n">required_keys</span><span class="p">[</span><span class="n">output_config_type</span><span class="p">]),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># If we have non-allowed keys, return False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">output_config_dict</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span>
+        <span class="n">required_keys</span><span class="p">[</span><span class="n">output_config_type</span><span class="p">]</span> <span class="o">+</span> <span class="n">optional_keys</span><span class="p">[</span><span class="n">output_config_type</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="s2">&quot;INVALID OUTPUT CONFIG&#39;</span><span class="si">%s</span><span class="s2">&#39;: &quot;</span>
+            <span class="s2">&quot;Unknown fields in &#39;</span><span class="si">%s</span><span class="s2">&#39; output config dictionary: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+            <span class="n">output_config_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+            <span class="n">output_config_type</span><span class="p">,</span>
+            <span class="nb">set</span><span class="p">(</span><span class="n">output_config_dict</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span>
+                <span class="n">required_keys</span><span class="p">[</span><span class="n">output_config_type</span><span class="p">]</span> <span class="o">+</span> <span class="n">optional_keys</span><span class="p">[</span><span class="n">output_config_type</span><span class="p">]</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Probably need to add in the nested fields too...</span>
+
+    <span class="c1"># If we get here, then the output config dictionary format is valid.</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="get_output_config_type"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.get_output_config_type">[docs]</a><span class="k">def</span> <span class="nf">get_output_config_type</span><span class="p">(</span><span class="n">output_config_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+
+<span class="sd">    Retrieve output_config_type of the passed output_config_dict, found in:</span>
+<span class="sd">           output_config_dict[&#39;output_config_type&#39;]</span>
+
+<span class="sd">    See: geoips.dev.output_config.is_valid_output_config for full list of</span>
+<span class="sd">    supported output_config types.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    output_config_dict : dict</span>
+<span class="sd">        dictionary of complete output config parameters</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        (str) : output_config type, found in output_config_dict[&#39;output_config_type&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">output_config_dict</span><span class="p">[</span><span class="s2">&quot;output_config_type&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="get_filename_formatters"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.get_filename_formatters">[docs]</a><span class="k">def</span> <span class="nf">get_filename_formatters</span><span class="p">(</span><span class="n">output_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;filename_formatter&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+        <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;filename_formatter&quot;</span><span class="p">],</span> <span class="nb">str</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;filename_formatter&quot;</span><span class="p">]]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;filename_formatters&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="get_output_formatter"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.get_output_formatter">[docs]</a><span class="k">def</span> <span class="nf">get_output_formatter</span><span class="p">(</span><span class="n">output_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;output_formatter&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="get_metadata_output_formatter"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.get_metadata_output_formatter">[docs]</a><span class="k">def</span> <span class="nf">get_metadata_output_formatter</span><span class="p">(</span><span class="n">output_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;metadata_output_formatter&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;metadata_output_formatter&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="get_metadata_filename_formatter"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.get_metadata_filename_formatter">[docs]</a><span class="k">def</span> <span class="nf">get_metadata_filename_formatter</span><span class="p">(</span><span class="n">filename_formatter</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.&quot;&quot;&quot;</span>
+    <span class="n">fname_format</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="s2">&quot;metadata_filename_formatter&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+        <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;metadata_filename_formatter&quot;</span><span class="p">],</span> <span class="nb">str</span>
+    <span class="p">):</span>
+        <span class="n">fname_format</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;metadata_filename_formatter&quot;</span><span class="p">]</span>
+
+    <span class="k">elif</span> <span class="p">(</span>
+        <span class="s2">&quot;metadata_filename_formatters&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span>
+        <span class="ow">and</span> <span class="n">filename_formatter</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;metadata_filename_formatters&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="n">fname_format</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;metadata_filename_formatters&quot;</span><span class="p">][</span><span class="n">filename_formatter</span><span class="p">]</span>
+
+    <span class="k">elif</span> <span class="p">(</span>
+        <span class="s2">&quot;metadata_filename_formatters&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span>
+        <span class="ow">and</span> <span class="s2">&quot;all&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;metadata_filename_formatters&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="n">fname_format</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;metadata_filename_formatters&quot;</span><span class="p">][</span><span class="s2">&quot;all&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">fname_format</span></div>
+
+
+<div class="viewcode-block" id="get_minimum_coverage"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.get_minimum_coverage">[docs]</a><span class="k">def</span> <span class="nf">get_minimum_coverage</span><span class="p">(</span><span class="n">product_name</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.&quot;&quot;&quot;</span>
+    <span class="n">minimum_coverage</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="s2">&quot;minimum_coverage&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span>
+        <span class="ow">and</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;minimum_coverage&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="n">minimum_coverage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;minimum_coverage&quot;</span><span class="p">])</span>
+
+    <span class="k">elif</span> <span class="p">(</span>
+        <span class="s2">&quot;minimum_coverages&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span>
+        <span class="ow">and</span> <span class="n">product_name</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;minimum_coverages&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="n">minimum_coverage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;minimum_coverages&quot;</span><span class="p">][</span><span class="n">product_name</span><span class="p">])</span>
+
+    <span class="k">elif</span> <span class="p">(</span>
+        <span class="s2">&quot;minimum_coverages&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span> <span class="ow">and</span> <span class="s2">&quot;all&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;minimum_coverages&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="n">minimum_coverage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;minimum_coverages&quot;</span><span class="p">][</span><span class="s2">&quot;all&quot;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">minimum_coverage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span>
+        <span class="n">minimum_coverage</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">minimum_coverage</span> <span class="o">&gt;</span> <span class="mi">100</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Minimum coverage must be percentage between 0 and 100, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">minimum_coverage</span><span class="si">}</span><span class="s2"> invalid&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">minimum_coverage</span></div>
+
+
+<div class="viewcode-block" id="get_filename_formatter_kwargs"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.get_filename_formatter_kwargs">[docs]</a><span class="k">def</span> <span class="nf">get_filename_formatter_kwargs</span><span class="p">(</span><span class="n">filename_formatter</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+
+<span class="sd">    Return dictionary of filename_formatters_kwargs.</span>
+
+<span class="sd">    based on what was passed in via the YAML output config</span>
+<span class="sd">    dictionary, as well as default kwargs.</span>
+
+<span class="sd">    If &quot;filename_formatter_kwargs (singular) is passed command line, use</span>
+<span class="sd">    that to override ALL filename_formatters_kwargs specified in YAML output config.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filename_formatter_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># YAML output config arguments</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="s2">&quot;filename_formatters_kwargs&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span>
+        <span class="ow">and</span> <span class="s2">&quot;all&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;filename_formatters_kwargs&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="n">filename_formatter_kwargs</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;filename_formatters_kwargs&quot;</span><span class="p">][</span><span class="s2">&quot;all&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="s2">&quot;filename_formatters_kwargs&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span>
+        <span class="ow">and</span> <span class="n">filename_formatter</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;filename_formatters_kwargs&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="n">filename_formatter_kwargs</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;filename_formatters_kwargs&quot;</span><span class="p">][</span>
+            <span class="n">filename_formatter</span>
+        <span class="p">]</span>
+    <span class="c1"># Command line argument overrides all</span>
+    <span class="k">if</span> <span class="s2">&quot;filename_formatter_kwargs&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">:</span>
+        <span class="n">filename_formatter_kwargs</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;filename_formatter_kwargs&quot;</span><span class="p">]</span>
+
+    <span class="n">filename_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;output_dict&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_dict</span>
+
+    <span class="k">return</span> <span class="n">filename_formatter_kwargs</span></div>
+
+
+<div class="viewcode-block" id="get_metadata_filename_formatter_kwargs"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.get_metadata_filename_formatter_kwargs">[docs]</a><span class="k">def</span> <span class="nf">get_metadata_filename_formatter_kwargs</span><span class="p">(</span><span class="n">filename_formatter</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+
+<span class="sd">    Return dictionary of filename_formatters_kwargs.</span>
+
+<span class="sd">    based on what was passed in via the YAML output config</span>
+<span class="sd">    dictionary, as well as default kwargs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">metadata_filename_formatter_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="s2">&quot;metadata_filename_formatters_kwargs&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span>
+        <span class="ow">and</span> <span class="s2">&quot;all&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;metadata_filename_formatters_kwargs&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="n">metadata_filename_formatter_kwargs</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span>
+            <span class="s2">&quot;metadata_filename_formatters_kwargs&quot;</span>
+        <span class="p">][</span><span class="s2">&quot;all&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="s2">&quot;metadata_filename_formatters_kwargs&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span>
+        <span class="ow">and</span> <span class="n">filename_formatter</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;metadata_filename_formatters_kwargs&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="n">metadata_filename_formatter_kwargs</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span>
+            <span class="s2">&quot;metadata_filename_formatters_kwargs&quot;</span>
+        <span class="p">][</span><span class="n">filename_formatter</span><span class="p">]</span>
+
+    <span class="n">metadata_filename_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;output_dict&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_dict</span>
+
+    <span class="k">return</span> <span class="n">metadata_filename_formatter_kwargs</span></div>
+
+
+<div class="viewcode-block" id="set_lonlat_spacing"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.set_lonlat_spacing">[docs]</a><span class="k">def</span> <span class="nf">set_lonlat_spacing</span><span class="p">(</span><span class="n">gridline_annotator</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">gridline_annotator</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="ow">or</span> <span class="s2">&quot;grid_lat_spacing&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gridline_annotator</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="ow">or</span> <span class="s2">&quot;grid_lon_spacing&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gridline_annotator</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="ow">or</span> <span class="n">gridline_annotator</span><span class="p">[</span><span class="s2">&quot;grid_lon_spacing&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span>
+        <span class="ow">or</span> <span class="n">gridline_annotator</span><span class="p">[</span><span class="s2">&quot;grid_lat_spacing&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span>
+    <span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pyresample</span> <span class="kn">import</span> <span class="n">utils</span>
+
+        <span class="n">minlat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">maxlat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">minlon</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">wrap_longitudes</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">maxlon</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">wrap_longitudes</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">minlon</span> <span class="o">&gt;</span> <span class="n">maxlon</span> <span class="ow">and</span> <span class="n">maxlon</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">maxlon</span> <span class="o">=</span> <span class="n">maxlon</span> <span class="o">+</span> <span class="mi">360</span>
+        <span class="n">lon_extent</span> <span class="o">=</span> <span class="n">maxlon</span> <span class="o">-</span> <span class="n">minlon</span>
+        <span class="n">lat_extent</span> <span class="o">=</span> <span class="n">maxlat</span> <span class="o">-</span> <span class="n">minlat</span>
+
+        <span class="k">if</span> <span class="n">lon_extent</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">lon_spacing</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lon_extent</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">lon_extent</span> <span class="o">&gt;</span> <span class="mf">2.5</span><span class="p">:</span>
+            <span class="n">lon_spacing</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lon_spacing</span> <span class="o">=</span> <span class="n">lon_extent</span> <span class="o">/</span> <span class="mf">5.0</span>
+
+        <span class="k">if</span> <span class="n">lat_extent</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">lat_spacing</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lat_extent</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">lat_extent</span> <span class="o">&gt;</span> <span class="mf">2.5</span><span class="p">:</span>
+            <span class="n">lat_spacing</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lat_spacing</span> <span class="o">=</span> <span class="n">lat_extent</span> <span class="o">/</span> <span class="mf">5.0</span>
+
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;lon_extent: </span><span class="si">%s</span><span class="s2">, lon_spacing: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">lon_extent</span><span class="p">,</span> <span class="n">lon_spacing</span><span class="p">)</span>
+        <span class="n">gridline_annotator</span><span class="p">[</span><span class="s2">&quot;grid_lat_spacing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat_spacing</span>
+        <span class="n">gridline_annotator</span><span class="p">[</span><span class="s2">&quot;grid_lon_spacing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon_spacing</span>
+
+    <span class="k">return</span> <span class="n">gridline_annotator</span></div>
+
+
+<div class="viewcode-block" id="get_output_formatter_kwargs"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.get_output_formatter_kwargs">[docs]</a><span class="k">def</span> <span class="nf">get_output_formatter_kwargs</span><span class="p">(</span>
+    <span class="n">output_dict</span><span class="p">,</span>
+    <span class="n">xarray_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">sector_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">bg_files</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">bg_xarrays</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">bg_product_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.&quot;&quot;&quot;</span>
+    <span class="n">output_formatter_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="s2">&quot;output_formatter_kwargs&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">:</span>
+        <span class="n">output_formatter_kwargs</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;output_formatter_kwargs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="s2">&quot;gridline_annotator&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span>
+        <span class="ow">and</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;gridline_annotator&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="n">gridline_annotator</span> <span class="o">=</span> <span class="n">gridline_annotators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span>
+            <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;gridline_annotator&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">gridline_annotator</span> <span class="o">=</span> <span class="n">set_lonlat_spacing</span><span class="p">(</span><span class="n">gridline_annotator</span><span class="p">,</span> <span class="n">area_def</span><span class="p">)</span>
+        <span class="n">output_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;gridline_annotator&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gridline_annotator</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="s2">&quot;feature_annotator&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span>
+        <span class="ow">and</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;feature_annotator&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="n">feature_annotator</span> <span class="o">=</span> <span class="n">feature_annotators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span>
+            <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;feature_annotator&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">output_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;feature_annotator&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">feature_annotator</span>
+
+    <span class="k">if</span> <span class="n">bg_files</span> <span class="ow">and</span> <span class="s2">&quot;background_products&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span> <span class="ow">and</span> <span class="n">sector_type</span> <span class="ow">in</span> <span class="n">bg_xarrays</span><span class="p">:</span>
+        <span class="n">output_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;bg_xarray&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bg_xarrays</span><span class="p">[</span><span class="n">sector_type</span><span class="p">]</span>
+        <span class="n">output_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;bg_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;bg_xarray&quot;</span><span class="p">][</span>
+            <span class="n">bg_product_name</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span>
+        <span class="n">output_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;bg_product_name_title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bg_product_name</span>
+        <span class="n">output_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;bg_mpl_colors_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">bg_product_name</span><span class="p">:</span>
+            <span class="n">bg_prod_plugin</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span>
+                <span class="n">output_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;bg_xarray&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">source_name</span><span class="p">,</span>
+                <span class="n">bg_product_name</span><span class="p">,</span>
+                <span class="n">output_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;product_spec_override&quot;</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">bg_cmap_plugin</span> <span class="o">=</span> <span class="n">colormappers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span>
+                <span class="n">bg_prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;colormapper&quot;</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">bg_cmap_args</span> <span class="o">=</span> <span class="n">bg_prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;colormapper&quot;</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span>
+
+            <span class="n">output_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;bg_mpl_colors_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bg_cmap_plugin</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">bg_cmap_args</span>
+            <span class="p">)</span>
+
+    <span class="n">output_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;output_dict&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_dict</span>
+
+    <span class="k">return</span> <span class="n">output_formatter_kwargs</span></div>
+
+
+<div class="viewcode-block" id="get_metadata_output_formatter_kwargs"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.get_metadata_output_formatter_kwargs">[docs]</a><span class="k">def</span> <span class="nf">get_metadata_output_formatter_kwargs</span><span class="p">(</span><span class="n">output_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.&quot;&quot;&quot;</span>
+    <span class="n">metadata_output_formatter_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="s2">&quot;metadata_output_formatter_kwargs&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">:</span>
+        <span class="n">metadata_output_formatter_kwargs</span> <span class="o">=</span> <span class="n">output_dict</span><span class="p">[</span>
+            <span class="s2">&quot;metadata_output_formatter_kwargs&quot;</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">metadata_output_formatter_kwargs</span><span class="p">[</span><span class="s2">&quot;output_dict&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_dict</span>
+    <span class="k">return</span> <span class="n">metadata_output_formatter_kwargs</span></div>
+
+
+<div class="viewcode-block" id="produce_current_time"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.produce_current_time">[docs]</a><span class="k">def</span> <span class="nf">produce_current_time</span><span class="p">(</span><span class="n">config_dict</span><span class="p">,</span> <span class="n">metadata_xobj</span><span class="p">,</span> <span class="n">output_dict_keys</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+
+<span class="sd">    Determine if the current data file needs to be processed,</span>
+<span class="sd">        based on the requested times.</span>
+<span class="sd">    If output_dict_key is included, apply to only the currently</span>
+<span class="sd">        requested output_dict.</span>
+<span class="sd">    If output_dict_key is None, check ALL outputs to determine if</span>
+<span class="sd">        ANY need the current time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">output_dict_keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output_dict_keys</span> <span class="o">=</span> <span class="n">config_dict</span><span class="p">[</span><span class="s2">&quot;outputs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+    <span class="n">retval</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">output_dict_key</span> <span class="ow">in</span> <span class="n">output_dict_keys</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;CHECKING for required time in output_dict: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">output_dict_key</span><span class="p">)</span>
+        <span class="n">output_dict</span> <span class="o">=</span> <span class="n">config_dict</span><span class="p">[</span><span class="s2">&quot;outputs&quot;</span><span class="p">][</span><span class="n">output_dict_key</span><span class="p">]</span>
+        <span class="c1"># If &#39;produce_times&#39; is not in the current output_dict,</span>
+        <span class="c1"># it means we DO NOT filter based on time, so we</span>
+        <span class="c1"># will need this file time processed.</span>
+        <span class="k">if</span> <span class="s2">&quot;produce_times&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s1">&#39;WILL PROCESS &quot;produce_times&quot; not included in output_dict: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
+                <span class="n">output_dict_key</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">retval</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="s2">&quot;required_minutes&quot;</span> <span class="ow">in</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;produce_times&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">metadata_xobj</span><span class="o">.</span><span class="n">start_datetime</span><span class="o">.</span><span class="n">minute</span>
+                <span class="ow">in</span> <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;produce_times&quot;</span><span class="p">][</span><span class="s2">&quot;required_minutes&quot;</span><span class="p">]</span>
+            <span class="p">):</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;WILL PROCESS produce_times[&#39;required_minutes&#39;]=</span><span class="si">%s</span><span class="s2"> &quot;</span>
+                    <span class="s2">&quot;includes current minute &#39;</span><span class="si">%s</span><span class="s2">&#39;, &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+                    <span class="n">output_dict</span><span class="p">[</span><span class="s2">&quot;produce_times&quot;</span><span class="p">][</span><span class="s2">&quot;required_minutes&quot;</span><span class="p">],</span>
+                    <span class="n">metadata_xobj</span><span class="o">.</span><span class="n">start_datetime</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span>
+                    <span class="n">metadata_xobj</span><span class="o">.</span><span class="n">start_datetime</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">retval</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="n">retval</span></div>
+
+
+<div class="viewcode-block" id="test_output_config_interface"><a class="viewcode-back" href="../../../geoips_api/geoips.dev.html#geoips.dev.output_config.test_output_config_interface">[docs]</a><span class="k">def</span> <span class="nf">test_output_config_interface</span><span class="p">(</span><span class="n">output_config_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface will be deprecated v2.0.</span>
+
+<span class="sd">    Finds and opens every product params dict available within the current</span>
+<span class="sd">    geoips instantiation</span>
+
+<span class="sd">    See geoips.dev.output_config.is_valid_output_config?</span>
+<span class="sd">        for a list of available product params dict types and</span>
+<span class="sd">        associated call signatures / return values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        List of all successful output_config information</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># LOG.info(&#39;Checking source %s&#39;, source_name)</span>
+    <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;validity_check&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_valid_output_config</span><span class="p">(</span><span class="n">output_config_dict</span><span class="p">)</span>
+    <span class="n">out_dict</span><span class="p">[</span><span class="s2">&quot;get_output_config_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_output_config_type</span><span class="p">(</span><span class="n">output_config_dict</span><span class="p">)</span>
+
+    <span class="c1"># Need to loop through all the outputs and available sectors...</span>
+
+    <span class="k">return</span> <span class="n">out_dict</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

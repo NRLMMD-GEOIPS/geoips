@@ -1,0 +1,1006 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>geoips.dev package &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.dev';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geoips.filenames package" href="geoips.filenames.html" />
+    <link rel="prev" title="geoips.data_manipulations package" href="geoips.data_manipulations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="geoips.html">geoips package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">geoips.dev package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="geoips.html" class="nav-link">geoips package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.dev package</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="geoips-dev-package">
+<h1>geoips.dev package<a class="headerlink" href="#geoips-dev-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-geoips.dev.output_config">
+<span id="geoips-dev-output-config-module"></span><h2>geoips.dev.output_config module<a class="headerlink" href="#module-geoips.dev.output_config" title="Permalink to this heading">#</a></h2>
+<p>Interpolation interface will be deprecated v2.0.</p>
+<p>Wrapper functions for geoips output_config specifications.</p>
+<p>This functionality will be replaced with a class-based implementation v2.0,
+and deprecated at that time.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.get_filename_formatter_kwargs">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">get_filename_formatter_kwargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename_formatter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#get_filename_formatter_kwargs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.get_filename_formatter_kwargs" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<p>Return dictionary of filename_formatters_kwargs.</p>
+<p>based on what was passed in via the YAML output config
+dictionary, as well as default kwargs.</p>
+<p>If “filename_formatter_kwargs (singular) is passed command line, use
+that to override ALL filename_formatters_kwargs specified in YAML output config.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.get_filename_formatters">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">get_filename_formatters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#get_filename_formatters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.get_filename_formatters" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.get_metadata_filename_formatter">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">get_metadata_filename_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename_formatter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#get_metadata_filename_formatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.get_metadata_filename_formatter" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.get_metadata_filename_formatter_kwargs">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">get_metadata_filename_formatter_kwargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename_formatter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#get_metadata_filename_formatter_kwargs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.get_metadata_filename_formatter_kwargs" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<p>Return dictionary of filename_formatters_kwargs.</p>
+<p>based on what was passed in via the YAML output config
+dictionary, as well as default kwargs</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.get_metadata_output_formatter">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">get_metadata_output_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#get_metadata_output_formatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.get_metadata_output_formatter" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.get_metadata_output_formatter_kwargs">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">get_metadata_output_formatter_kwargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#get_metadata_output_formatter_kwargs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.get_metadata_output_formatter_kwargs" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.get_minimum_coverage">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">get_minimum_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#get_minimum_coverage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.get_minimum_coverage" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.get_output_config_type">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">get_output_config_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_config_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#get_output_config_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.get_output_config_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<dl class="simple">
+<dt>Retrieve output_config_type of the passed output_config_dict, found in:</dt><dd><p>output_config_dict[‘output_config_type’]</p>
+</dd>
+</dl>
+<p>See: geoips.dev.output_config.is_valid_output_config for full list of
+supported output_config types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output_config_dict</strong> (<em>dict</em>) – dictionary of complete output config parameters</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>(str)</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>output_config type, found in output_config_dict[‘output_config_type’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.get_output_formatter">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">get_output_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#get_output_formatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.get_output_formatter" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.get_output_formatter_kwargs">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">get_output_formatter_kwargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_xarrays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_product_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#get_output_formatter_kwargs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.get_output_formatter_kwargs" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.is_valid_output_config">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">is_valid_output_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_config_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#is_valid_output_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.is_valid_output_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<p>Check that requested output_config dictionary is properly formatted.</p>
+<p>The dictionary of output_config
+parameters fully determines the outputs required for a given set of
+data files.</p>
+<p>Dictionary of output_config parameters currently specified by a
+full path to a YAML file:
+and requested via commandline with:
+<code class="docutils literal notranslate"><span class="pre">--output_config</span> <span class="pre">&lt;full_path_to_YAML_output_config&gt;</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output_config_dict</strong> (<em>dict</em>) – Dictionary of output config parameters</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>is_valid</strong> –</p>
+<ul class="simple">
+<li><p>True if <code class="docutils literal notranslate"><span class="pre">output_config_dict</span></code> is a properly formatted dictionary of
+output parameters.</p></li>
+<li><dl class="simple">
+<dt>False if output_config_dict:</dt><dd><ul>
+<li><p>does not contain supported <code class="docutils literal notranslate"><span class="pre">output_config_type</span></code>,</p></li>
+<li><p>does not contain all <code class="docutils literal notranslate"><span class="pre">required</span></code> fields,</p></li>
+<li><p>contains non-supported <code class="docutils literal notranslate"><span class="pre">optional</span></code> fields</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>output_config_types currently one of:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">single_source</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fused</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.produce_current_time">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">produce_current_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_xobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#produce_current_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.produce_current_time" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<dl class="simple">
+<dt>Determine if the current data file needs to be processed,</dt><dd><p>based on the requested times.</p>
+</dd>
+<dt>If output_dict_key is included, apply to only the currently</dt><dd><p>requested output_dict.</p>
+</dd>
+<dt>If output_dict_key is None, check ALL outputs to determine if</dt><dd><p>ANY need the current time.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.set_lonlat_spacing">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">set_lonlat_spacing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gridline_annotator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#set_lonlat_spacing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.set_lonlat_spacing" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.output_config.test_output_config_interface">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.output_config.</span></span><span class="sig-name descname"><span class="pre">test_output_config_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_config_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/output_config.html#test_output_config_interface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.output_config.test_output_config_interface" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<p>Finds and opens every product params dict available within the current
+geoips instantiation</p>
+<dl class="simple">
+<dt>See geoips.dev.output_config.is_valid_output_config?</dt><dd><p>for a list of available product params dict types and
+associated call signatures / return values.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of all successful output_config information</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.dev.product">
+<span id="geoips-dev-product-module"></span><h2>geoips.dev.product module<a class="headerlink" href="#module-geoips.dev.product" title="Permalink to this heading">#</a></h2>
+<p>Interpolation interface will be deprecated v2.0.</p>
+<p>Wrapper functions for geoips product specifications.</p>
+<p>This functionality will be replaced with a class-based implementation v2.0,
+and deprecated at that time.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.product.get_cmap_from_product">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.product.</span></span><span class="sig-name descname"><span class="pre">get_cmap_from_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prod_plugin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/product.html#get_cmap_from_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.product.get_cmap_from_product" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<p>Retrieve colormapper information, based on requested product and source</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>product_name</strong> (<em>str</em>) – Name of requested product (ie, ‘IR-BD’, ‘89H’, ‘color89Nearest’, etc)</p></li>
+<li><p><strong>source_name</strong> (<em>str</em>) – Name of requested source (ie, ‘ahi’, ‘modis’, etc)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>cmap_func(**cmap_args)</strong> – Return actual colormapper information</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">geoips.dev.check_cmap_func</span></code></dt><dd><p>additional information on colormapper types, arguments, and return values</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.product.get_covg_args_from_product">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.product.</span></span><span class="sig-name descname"><span class="pre">get_covg_args_from_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prod_plugin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covg_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/product.html#get_covg_args_from_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.product.get_covg_args_from_product" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<p>Retrieve coverage check function args, based on requested product and source</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>product_name</strong> (<em>str</em>) – Name of requested product (ie, ‘IR-BD’, ‘89H’, ‘color89Nearest’, etc)</p></li>
+<li><p><strong>source_name</strong> (<em>str</em>) – Name of requested source (ie, ‘ahi’, ‘modis’, etc)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>covg_func_name</strong> – Return dictionary of coverage args required for given product/source</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">geoips.dev.check_cmap_func</span></code></dt><dd><p>additional information on colormapper types, arguments, and return values</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.product.get_covg_from_product">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.product.</span></span><span class="sig-name descname"><span class="pre">get_covg_from_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prod_plugin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covg_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/product.html#get_covg_from_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.product.get_covg_from_product" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<p>Retrieve coverage check function name, based on requested product and source</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>product_name</strong> (<em>str</em>) – Name of requested product (ie, ‘IR-BD’, ‘89H’, ‘color89Nearest’, etc)</p></li>
+<li><p><strong>source_name</strong> (<em>str</em>) – Name of requested source (ie, ‘ahi’, ‘modis’, etc)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>covg_func_name</strong> – Return name of coverage function required for given product/source</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">geoips.dev.check_cmap_func</span></code></dt><dd><p>additional information on colormapper types, arguments, and return values</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.product.get_data_range">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.product.</span></span><span class="sig-name descname"><span class="pre">get_data_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prod_plugin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/product.html#get_data_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.product.get_data_range" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<p>Retrieve required data range for requested product</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>product_name</strong> (<em>str</em>) – Name of requested product (ie, ‘IR-BD’, ‘89H’, ‘color89Nearest’, etc)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>data_range</strong> – List of float specifying min and max value for the output product
+<code class="docutils literal notranslate"><span class="pre">&lt;geoips_package&gt;.algorithms.&lt;algorithm_name&gt;.alg_params['output_data_range']</span></code></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.product.get_product_display_name">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.product.</span></span><span class="sig-name descname"><span class="pre">get_product_display_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prod_plugin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/product.html#get_product_display_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.product.get_product_display_name" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<p>Retrieve product display name. For titles, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>product_name</strong> (<em>str</em>) – Name of requested product (ie, ‘IR-BD’, ‘89H’, ‘color89Nearest’, etc)</p></li>
+<li><p><strong>source_name</strong> (<em>str</em>) – Name of requested source (ie, ‘ahi’, ‘modis’, etc)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>product_display_name</strong> – Return display name for given product</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">geoips.dev.check_cmap_func</span></code></dt><dd><p>additional information on colormapper types, arguments, and return values</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.product.get_requested_datasets_for_variables">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.product.</span></span><span class="sig-name descname"><span class="pre">get_requested_datasets_for_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prod_plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/product.html#get_requested_datasets_for_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.product.get_requested_datasets_for_variables" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<p>Retrieve required datasets if specified for product variables,
+based on requested product and source</p>
+<p>Within product_inputs YAML specifications, variables can be
+requested with <code class="docutils literal notranslate"><span class="pre">&lt;DATASET&gt;:&lt;VARNAME&gt;</span></code> if
+you need a particular variable from a specific dataset.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">&lt;DATASET&gt;:</span></code> is not specified, the first
+variable found when looping through the datasets is used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>product_name</strong> (<em>str</em>) – Name of requested product (ie, ‘IR-BD’, ‘89H’, ‘color89Nearest’, etc)</p></li>
+<li><p><strong>source_name</strong> (<em>str</em>) – Name of requested source (ie, ‘ahi’, ‘modis’, etc)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>datasets_for_variable</strong> –</p>
+<ul>
+<li><p>Dictionary of</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">{'&lt;variable_name&gt;':</span> <span class="pre">'&lt;requested_dataset&gt;'}</span></code> OR</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{'variable_type':</span> <span class="pre">{'&lt;variable_name&gt;':</span> <span class="pre">'&lt;requested_dataset&gt;'}</span></code></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.dev.product.get_required_variables">
+<span class="sig-prename descclassname"><span class="pre">geoips.dev.product.</span></span><span class="sig-name descname"><span class="pre">get_required_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prod_plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/dev/product.html#get_required_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.dev.product.get_required_variables" title="Permalink to this definition">#</a></dt>
+<dd><p>Interface will be deprecated v2.0.</p>
+<p>Return required variables names for the input product plugin. If variables are
+combined with their dataset name, the dataset name will be stripped and only the
+variable names will be returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>prod_plugin</strong> (<em>ProductPlugin</em>) – An instance of the GeoIPS ProductPlugin class.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>required_variables</strong> –</p>
+<ul>
+<li><p>If list: List of strings specifying required variables.</p></li>
+<li><p>If dict: Dictionary of variable types of lists of variable names</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>{‘&lt;variable_type&gt;’: [‘var1’, ‘var2’, … , ‘varn’]}</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list or dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.dev">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-geoips.dev" title="Permalink to this heading">#</a></h2>
+<p>dev init file.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geoips.data_manipulations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">geoips.data_manipulations package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geoips.filenames.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">geoips.filenames package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.dev.output_config">geoips.dev.output_config module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.get_filename_formatter_kwargs"><code class="docutils literal notranslate"><span class="pre">get_filename_formatter_kwargs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.get_filename_formatters"><code class="docutils literal notranslate"><span class="pre">get_filename_formatters()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.get_metadata_filename_formatter"><code class="docutils literal notranslate"><span class="pre">get_metadata_filename_formatter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.get_metadata_filename_formatter_kwargs"><code class="docutils literal notranslate"><span class="pre">get_metadata_filename_formatter_kwargs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.get_metadata_output_formatter"><code class="docutils literal notranslate"><span class="pre">get_metadata_output_formatter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.get_metadata_output_formatter_kwargs"><code class="docutils literal notranslate"><span class="pre">get_metadata_output_formatter_kwargs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.get_minimum_coverage"><code class="docutils literal notranslate"><span class="pre">get_minimum_coverage()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.get_output_config_type"><code class="docutils literal notranslate"><span class="pre">get_output_config_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.get_output_formatter"><code class="docutils literal notranslate"><span class="pre">get_output_formatter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.get_output_formatter_kwargs"><code class="docutils literal notranslate"><span class="pre">get_output_formatter_kwargs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.is_valid_output_config"><code class="docutils literal notranslate"><span class="pre">is_valid_output_config()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.produce_current_time"><code class="docutils literal notranslate"><span class="pre">produce_current_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.set_lonlat_spacing"><code class="docutils literal notranslate"><span class="pre">set_lonlat_spacing()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.output_config.test_output_config_interface"><code class="docutils literal notranslate"><span class="pre">test_output_config_interface()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.dev.product">geoips.dev.product module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.product.get_cmap_from_product"><code class="docutils literal notranslate"><span class="pre">get_cmap_from_product()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.product.get_covg_args_from_product"><code class="docutils literal notranslate"><span class="pre">get_covg_args_from_product()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.product.get_covg_from_product"><code class="docutils literal notranslate"><span class="pre">get_covg_from_product()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.product.get_data_range"><code class="docutils literal notranslate"><span class="pre">get_data_range()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.product.get_product_display_name"><code class="docutils literal notranslate"><span class="pre">get_product_display_name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.product.get_requested_datasets_for_variables"><code class="docutils literal notranslate"><span class="pre">get_requested_datasets_for_variables()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.dev.product.get_required_variables"><code class="docutils literal notranslate"><span class="pre">get_required_variables()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.dev">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.dev.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

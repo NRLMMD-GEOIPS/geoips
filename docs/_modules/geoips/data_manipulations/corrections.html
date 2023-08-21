@@ -1,0 +1,998 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.data_manipulations.corrections &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/data_manipulations/corrections';</script>
+    <link rel="icon" href="../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.data_manipulations.corrections</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for geoips.data_manipulations.corrections</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # Author:</span>
+<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
+<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
+<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
+<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+
+<span class="sd">&quot;&quot;&quot;Apply min/max values, normalize, and invert data arrays.&quot;&quot;&quot;</span>
+<span class="c1"># Python Standard Libraries</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="c1"># Installed Libraries</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="mask_day"><a class="viewcode-back" href="../../../geoips_api/geoips.data_manipulations.html#geoips.data_manipulations.corrections.mask_day">[docs]</a><span class="k">def</span> <span class="nf">mask_day</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">sunzen_array</span><span class="p">,</span> <span class="n">max_zenith</span><span class="o">=</span><span class="mi">90</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mask where solar zenith angle less than the maxinum specified value.</span>
+
+<span class="sd">    Mask all pixels within the data array where the solar zenith angle is less</span>
+<span class="sd">    than the maxinum specified value.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        data values to be masked</span>
+<span class="sd">    sunzen_array : numpy.ndarray</span>
+<span class="sd">        numpy.ndarray or numpy.ma.MaskedArray of solar zenith angles,</span>
+<span class="sd">        of the same shape as the data array</span>
+<span class="sd">    max_zenith : float, optional</span>
+<span class="sd">        Mask all locations in data_array where sunzen_array is less</span>
+<span class="sd">        than max_zenith, by default 90</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ma.MaskedArray</span>
+<span class="sd">        Data array with all locations corresponding to a</span>
+<span class="sd">        solar zenith angle less than max_zenith masked.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;CORRECTION Masking day less than sun zenith angle of </span><span class="si">%s</span><span class="s2">, &quot;</span>
+        <span class="s2">&quot;min sun zen in array </span><span class="si">%s</span><span class="s2">, max sun zen </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">max_zenith</span><span class="p">,</span>
+        <span class="n">sunzen_array</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+        <span class="n">sunzen_array</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">sunzen_array</span> <span class="o">&lt;</span> <span class="n">max_zenith</span><span class="p">,</span> <span class="n">data_array</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="mask_night"><a class="viewcode-back" href="../../../geoips_api/geoips.data_manipulations.html#geoips.data_manipulations.corrections.mask_night">[docs]</a><span class="k">def</span> <span class="nf">mask_night</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">sunzen_array</span><span class="p">,</span> <span class="n">min_zenith</span><span class="o">=</span><span class="mi">90</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mask where solar zenith angle greater than the minimum specified value.</span>
+
+<span class="sd">    Mask all pixels within the data array where the solar zenith angle is</span>
+<span class="sd">    greater than the mininum specified value.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        data values to be masked.</span>
+<span class="sd">    sunzen_array : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        array of solar zenith angles, same shape as the data array.</span>
+<span class="sd">    min_zenith : float, optional</span>
+<span class="sd">        Mask all locations in data_array where sunzen_array is greater than</span>
+<span class="sd">        min_zenith, by default 90.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ma.MaskedArray</span>
+<span class="sd">        Data array with all locations corresponding to a</span>
+<span class="sd">        solar zenith angle greater than min_zenith masked.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;CORRECTION Masking night greater than sun zenith angle of </span><span class="si">%s</span><span class="s2">, &quot;</span>
+        <span class="s2">&quot;min sun zen in array </span><span class="si">%s</span><span class="s2">, max sun zen </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">min_zenith</span><span class="p">,</span>
+        <span class="n">sunzen_array</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+        <span class="n">sunzen_array</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">sunzen_array</span> <span class="o">&gt;</span> <span class="n">min_zenith</span><span class="p">,</span> <span class="n">data_array</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="apply_gamma"><a class="viewcode-back" href="../../../geoips_api/geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_gamma">[docs]</a><span class="k">def</span> <span class="nf">apply_gamma</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply gamma correction to all values in the data array.</span>
+
+<span class="sd">    Gamma correction applied as: data_array ** (1.0 / float(gamma))</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        data array to which gamma will be applied</span>
+<span class="sd">    gamma : float</span>
+<span class="sd">        gamma correction value</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Return numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        if data_array was MaskedArray with gamma correction applied</span>
+<span class="sd">        data_array ** (1.0 / float(gamma))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;CORRECTION Applying gamma correction of </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data_array</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">gamma</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="apply_solar_zenith_correction"><a class="viewcode-back" href="../../../geoips_api/geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_solar_zenith_correction">[docs]</a><span class="k">def</span> <span class="nf">apply_solar_zenith_correction</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">sunzen_array</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply solar zenith angle correction to all values in data_array.</span>
+
+<span class="sd">    Solar zenith correction applied as: data / cos(sunzen)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        data values to be masked</span>
+<span class="sd">    sunzen_array : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        solar zenith angles of the same shape as the data array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Return numpy.ndarray or numpy.ma.MaskedArray if original</span>
+<span class="sd">        data_array was MaskedArray with each value in the</span>
+<span class="sd">        data_array divided by cos(sunzen).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">origmask</span> <span class="o">=</span> <span class="n">data_array</span><span class="o">.</span><span class="n">mask</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;CORRECTION Applying solar zenith correction to array with min &quot;</span>
+        <span class="s2">&quot;solar zenith angle </span><span class="si">%s</span><span class="s2"> and max </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">sunzen_array</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+        <span class="n">sunzen_array</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_array</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">data_array</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">sunzen_array</span><span class="p">)))</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">origmask</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="apply_scale_factor"><a class="viewcode-back" href="../../../geoips_api/geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_scale_factor">[docs]</a><span class="k">def</span> <span class="nf">apply_scale_factor</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">scale_factor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply scale factor to all values in data_array.</span>
+
+<span class="sd">    Scale factor applied as: data_array * scale_factor</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        data values to be scaled</span>
+<span class="sd">    scale_factor : float</span>
+<span class="sd">        requested scale factor</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Return numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        Input data array with scale factor applied</span>
+<span class="sd">        data_array * scale_factor</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;CORRECTION Applying scale factor of </span><span class="si">%s</span><span class="s2"> to array with min </span><span class="si">%s</span><span class="s2"> and max </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">scale_factor</span><span class="p">,</span>
+        <span class="n">data_array</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+        <span class="n">data_array</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">data_array</span> <span class="o">*</span> <span class="n">scale_factor</span></div>
+
+
+<div class="viewcode-block" id="apply_offset"><a class="viewcode-back" href="../../../geoips_api/geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_offset">[docs]</a><span class="k">def</span> <span class="nf">apply_offset</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply offset to all values in data_array.</span>
+
+<span class="sd">    Offset applied as: data_array + offset</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_array : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        data values to which offset will be applied.</span>
+<span class="sd">    scale_factor : float</span>
+<span class="sd">        requested offset.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Return numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        Input data array with offset applied</span>
+<span class="sd">        data_array + offset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;CORRECTION Applying offset of </span><span class="si">%s</span><span class="s2"> to array with min </span><span class="si">%s</span><span class="s2"> and max </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">offset</span><span class="p">,</span>
+        <span class="n">data_array</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+        <span class="n">data_array</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">data_array</span> <span class="o">+</span> <span class="n">offset</span></div>
+
+
+<div class="viewcode-block" id="apply_minimum_value"><a class="viewcode-back" href="../../../geoips_api/geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_minimum_value">[docs]</a><span class="k">def</span> <span class="nf">apply_minimum_value</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">outbounds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply minimum values to an array of data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        data values to which the minimum value will be applied.</span>
+<span class="sd">    min_val : float</span>
+<span class="sd">        The minimum bound to be applied to the input data as a scalar.</span>
+<span class="sd">    outbounds : str</span>
+<span class="sd">        Method to use when applying bounds as a string. Valid values are:</span>
+<span class="sd">          retain: keep all pixels as is</span>
+<span class="sd">          mask: mask all pixels that are out of range.</span>
+<span class="sd">          crop: set all out of range values to min_val.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Return numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        Input data array with values below &#39;min_val&#39;</span>
+<span class="sd">        retained, cropped, or masked appropriately.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Applying minimum value of </span><span class="si">%r</span><span class="s2"> to data with min </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+
+    <span class="c1"># #Determine if mask is currently hardened</span>
+    <span class="c1"># hardmask = data.hardmask</span>
+    <span class="c1"># #Harden the mask to avoid unmasking bad values</span>
+    <span class="c1"># if hardmask is False:</span>
+    <span class="c1">#    data.harden_mask()</span>
+
+    <span class="c1"># Allow for numpy arrays that are not masked arrays</span>
+    <span class="n">hardmask</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;hardmask&quot;</span><span class="p">):</span>
+        <span class="c1"># Determine if mask is currently hardened</span>
+        <span class="n">hardmask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">hardmask</span>
+        <span class="c1"># Harden the mask to avoid unmasking bad values</span>
+        <span class="k">if</span> <span class="n">hardmask</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">harden_mask</span><span class="p">()</span>
+
+    <span class="c1"># If outbounds is set to &quot;mask&quot; then mask the out of range data</span>
+    <span class="k">if</span> <span class="n">outbounds</span> <span class="o">==</span> <span class="s2">&quot;mask&quot;</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_val</span><span class="p">)</span>
+    <span class="c1"># If outbounds set to crop, then set out of range data to the minimum value</span>
+    <span class="k">elif</span> <span class="n">outbounds</span> <span class="o">==</span> <span class="s2">&quot;crop&quot;</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">data</span> <span class="o">&lt;</span> <span class="n">min_val</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_val</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s1">&#39;outbounds must be either &quot;mask&quot; or &quot;crop&quot;.  Got </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="n">outbounds</span>
+        <span class="p">)</span>
+
+    <span class="c1"># If the mask was originally not hardened, then unharden it now</span>
+    <span class="k">if</span> <span class="n">hardmask</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">soften_mask</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="apply_maximum_value"><a class="viewcode-back" href="../../../geoips_api/geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_maximum_value">[docs]</a><span class="k">def</span> <span class="nf">apply_maximum_value</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">outbounds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply maximum value to an array of data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        data values to which the maximum value will be applied.</span>
+<span class="sd">    max_val : float</span>
+<span class="sd">        The maximum bound to be applied to the input data as a scalar.</span>
+<span class="sd">    outbounds : str</span>
+<span class="sd">        Method to use when applying bounds as a string. Valid values are:</span>
+<span class="sd">          retain: keep all pixels as is</span>
+<span class="sd">          mask: mask all pixels that are out of range.</span>
+<span class="sd">          crop: set all out of range values to max_val.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Return numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        Input data array with values above &#39;max_val&#39;</span>
+<span class="sd">        retained, cropped, or masked appropriately.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Applying maximum value of </span><span class="si">%r</span><span class="s2"> to data with max </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+    <span class="c1"># #Determine if mask is currently hardened</span>
+    <span class="c1"># hardmask = data.hardmask</span>
+    <span class="c1"># #Harden the mask to avoid unmasking bad values</span>
+    <span class="c1"># if hardmask is False:</span>
+    <span class="c1">#    data.harden_mask()</span>
+
+    <span class="c1"># Allow for numpy arrays that are not masked arrays</span>
+    <span class="n">hardmask</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;hardmask&quot;</span><span class="p">):</span>
+        <span class="c1"># Determine if mask is currently hardened</span>
+        <span class="n">hardmask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">hardmask</span>
+        <span class="c1"># Harden the mask to avoid unmasking bad values</span>
+        <span class="k">if</span> <span class="n">hardmask</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">harden_mask</span><span class="p">()</span>
+
+    <span class="c1"># If outboudns is set to &quot;mask&quot; then mask the out of range data</span>
+    <span class="k">if</span> <span class="n">outbounds</span> <span class="o">==</span> <span class="s2">&quot;mask&quot;</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_greater</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">max_val</span><span class="p">)</span>
+    <span class="c1"># If outbounds is set to crop, then set out of range data to the maximum value</span>
+    <span class="k">elif</span> <span class="n">outbounds</span> <span class="o">==</span> <span class="s2">&quot;crop&quot;</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">data</span> <span class="o">&gt;</span> <span class="n">max_val</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_val</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s1">&#39;outbounds must be either &quot;mask&quot; or &quot;crop&quot;.  Got </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="n">outbounds</span>
+        <span class="p">)</span>
+
+    <span class="c1"># If the mask was originally not hardened, then unharden it now</span>
+    <span class="k">if</span> <span class="n">hardmask</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">soften_mask</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="apply_data_range"><a class="viewcode-back" href="../../../geoips_api/geoips.data_manipulations.html#geoips.data_manipulations.corrections.apply_data_range">[docs]</a><span class="k">def</span> <span class="nf">apply_data_range</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">min_val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
+    <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
+    <span class="n">norm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">inverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply minimum and maximum values to an array of data.</span>
+
+<span class="sd">    Normalize, invert, and handle out of bounds data as requested.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        data values to which the data range will be applied.</span>
+<span class="sd">    min_val : float, default None</span>
+<span class="sd">        * The minimum bound to be applied to the input data as a scalar,</span>
+<span class="sd">        * If None, use data.min().</span>
+<span class="sd">    max_val : float, default=None</span>
+<span class="sd">        * The maximum bound to be applied to the input data as a scalar.</span>
+<span class="sd">        * If None, use data.max().</span>
+<span class="sd">    min_outbounds : str, default=&#39;crop&#39;</span>
+<span class="sd">        Method to use when applying bounds as a string. Valid values are:</span>
+
+<span class="sd">        * retain: keep all pixels as is</span>
+<span class="sd">        * mask: mask all pixels that are out of range.</span>
+<span class="sd">        * crop: set all out of range values to min_val</span>
+<span class="sd">    max_outbounds : str, default=&#39;crop&#39;</span>
+<span class="sd">        Method to use when applying bounds as a string. Valid values are:</span>
+
+<span class="sd">        * retain: keep all pixels as is</span>
+<span class="sd">        * mask: mask all pixels that are out of range.</span>
+<span class="sd">        * crop: set all out of range values to max_val</span>
+<span class="sd">    norm : bool, default=True</span>
+<span class="sd">        Boolean flag indicating whether to normalize (True) or not (False).</span>
+
+<span class="sd">        * If True, returned data will be in the range from 0 to 1.</span>
+<span class="sd">        * If False, returned data will be in the range min_val to max_val.</span>
+<span class="sd">    inverse : bool, default=False</span>
+<span class="sd">        Boolean flag indicating whether to invert data (True) or not (False).</span>
+
+<span class="sd">        * If True, returned data will be inverted</span>
+<span class="sd">        * If False, returned data will not be inverted</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Return numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        Input data array with values above &#39;max_val&#39; or below &#39;min_val&#39;</span>
+<span class="sd">        retained, cropped, or masked.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Invert data if minimum value is greater than maximum value</span>
+    <span class="k">if</span> <span class="n">inverse</span> <span class="ow">or</span> <span class="p">(</span><span class="n">min_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">max_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">min_val</span> <span class="o">&gt;</span> <span class="n">max_val</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span> <span class="o">=</span> <span class="n">invert_data_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">)</span>
+
+    <span class="c1"># If a minimum value is specified, then apply minimum value</span>
+    <span class="k">if</span> <span class="n">min_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">apply_minimum_value</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">min_outbounds</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">min_val</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+    <span class="c1"># If a maximum value is specified, then apply maximum value</span>
+    <span class="k">if</span> <span class="n">max_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">apply_maximum_value</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">max_outbounds</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">max_val</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+    <span class="c1"># CHANGE DEFAULTS FOR OUTBOUNDS TO NONE??  If you want it to crop, specify.</span>
+    <span class="c1"># Need to change in productfile/xml.py and utils/normalize.py</span>
+    <span class="c1"># Actually, when plotting if you don&#39;t crop, it probably crops anyway.</span>
+    <span class="c1">#   so maybe keep &#39;crop&#39; as default anyway ?</span>
+
+    <span class="c1"># Normalize data if requested</span>
+    <span class="k">if</span> <span class="n">norm</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">min_outbounds</span><span class="p">,</span> <span class="n">max_outbounds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="invert_data_range"><a class="viewcode-back" href="../../../geoips_api/geoips.data_manipulations.html#geoips.data_manipulations.corrections.invert_data_range">[docs]</a><span class="k">def</span> <span class="nf">invert_data_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_val</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Invert data range to an array of data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        data values to which the data range will be applied.</span>
+<span class="sd">    min_val : float, optional</span>
+<span class="sd">        The minimum bound to be applied to the input data as a scalar,</span>
+<span class="sd">        by default None, which results in data.min().</span>
+<span class="sd">    max_val : float, optional</span>
+<span class="sd">        The maximum bound to be applied to the input data as a scalar.</span>
+<span class="sd">        by default None, which results in data.max().</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Return numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        Input data array with values inverted.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">min_val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_val</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">max_val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_val</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Inverting data between </span><span class="si">%r</span><span class="s2"> and </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">min_val</span> <span class="o">&gt;</span> <span class="n">max_val</span><span class="p">:</span>
+        <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span> <span class="o">=</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">min_val</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;mask&quot;</span><span class="p">):</span>
+        <span class="c1"># Preserve mask</span>
+        <span class="n">origmask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mask</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_array</span><span class="p">((</span><span class="n">max_val</span> <span class="o">-</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">min_val</span><span class="p">))</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">origmask</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">max_val</span> <span class="o">-</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">min_val</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span></div>
+
+
+<div class="viewcode-block" id="normalize"><a class="viewcode-back" href="../../../geoips_api/geoips.data_manipulations.html#geoips.data_manipulations.corrections.normalize">[docs]</a><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_bounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span> <span class="n">max_bounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalize data array with min_val and max_val to range 0 to 1.</span>
+
+<span class="sd">    Default to cropping outside requested data range.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        data values to which the data range will be applied.</span>
+<span class="sd">    min_val : float, default=None</span>
+<span class="sd">        * The minimum bound to be applied to the input data as a scalar,</span>
+<span class="sd">        * If None, use data.min().</span>
+<span class="sd">    max_val : float, default=None</span>
+<span class="sd">        * The maximum bound to be applied to the input data as a scalar.</span>
+<span class="sd">        * If None, use data.max().</span>
+<span class="sd">    min_outbounds : str, default=&#39;crop&#39;</span>
+<span class="sd">        Method to use when applying bounds as a string. Valid values are:</span>
+
+<span class="sd">        * retain: keep all pixels as is</span>
+<span class="sd">        * mask: mask all pixels that are out of range.</span>
+<span class="sd">        * crop: set all out of range values to min_val</span>
+<span class="sd">    max_outbounds : str, default=&#39;crop&#39;</span>
+<span class="sd">        Method to use when applying bounds as a string. Valid values are:</span>
+
+<span class="sd">        * retain: keep all pixels as is</span>
+<span class="sd">        * mask: mask all pixels that are out of range.</span>
+<span class="sd">        * crop: set all out of range values to max_val</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Return numpy.ndarray or numpy.ma.MaskedArray</span>
+<span class="sd">        Input data array normalized between 0 and 1, with values above</span>
+<span class="sd">        &#39;max_val&#39; or below &#39;min_val&#39; retained, cropped, or masked.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Determine if mask is currently hardened</span>
+    <span class="n">hardmask</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;hardmask&quot;</span><span class="p">):</span>
+        <span class="n">hardmask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">hardmask</span>
+
+    <span class="c1"># Harden the mask to avoid unmasking bad values</span>
+    <span class="k">if</span> <span class="n">hardmask</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">harden_mask</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">min_val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_val</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">max_val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_val</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">min_bounds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_bounds</span> <span class="o">=</span> <span class="s2">&quot;retain&quot;</span>
+    <span class="k">if</span> <span class="n">max_bounds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_bounds</span> <span class="o">=</span> <span class="s2">&quot;retain&quot;</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">-=</span> <span class="n">min_val</span>
+    <span class="n">data</span> <span class="o">*=</span> <span class="nb">abs</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">max_val</span> <span class="o">-</span> <span class="n">min_val</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">min_bounds</span> <span class="o">==</span> <span class="s2">&quot;retain&quot;</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">min_bounds</span> <span class="o">==</span> <span class="s2">&quot;crop&quot;</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">elif</span> <span class="n">min_bounds</span> <span class="o">==</span> <span class="s2">&quot;mask&quot;</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">max_bounds</span> <span class="o">==</span> <span class="s2">&quot;retain&quot;</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">max_bounds</span> <span class="o">==</span> <span class="s2">&quot;crop&quot;</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">max_bounds</span> <span class="o">==</span> <span class="s2">&quot;mask&quot;</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_greater</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c1"># If the mask was originally not hardened, then unharden it now</span>
+    <span class="k">if</span> <span class="n">hardmask</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">soften_mask</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

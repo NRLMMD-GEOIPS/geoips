@@ -1,0 +1,957 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>geoips.plugins.modules.output_formatters package &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.plugins.modules.output_formatters';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geoips.plugins.modules.procflows package" href="geoips.plugins.modules.procflows.html" />
+    <link rel="prev" title="geoips.plugins.modules.interpolators.utils package" href="geoips.plugins.modules.interpolators.utils.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="geoips.html">geoips package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">geoips.plugins.modules.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="geoips.plugins.modules.html" class="nav-link">geoips.plugins.modules package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.plugins.modules.output_formatters package</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="geoips-plugins-modules-output-formatters-package">
+<h1>geoips.plugins.modules.output_formatters package<a class="headerlink" href="#geoips-plugins-modules-output-formatters-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.full_disk_image">
+<span id="geoips-plugins-modules-output-formatters-full-disk-image-module"></span><h2>geoips.plugins.modules.output_formatters.full_disk_image module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.full_disk_image" title="Permalink to this heading">#</a></h2>
+<p>Full disk image matplotlib-based output format.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.full_disk_image.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.full_disk_image.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean_fname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpl_colors_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_annotator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gridline_annotator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_datatype_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mpl_colors_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_xarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_product_name_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_datatype_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_duplicate_minrange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/full_disk_image.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.full_disk_image.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot full disk image.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.geotiff_standard">
+<span id="geoips-plugins-modules-output-formatters-geotiff-standard-module"></span><h2>geoips.plugins.modules.output_formatters.geotiff_standard module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.geotiff_standard" title="Permalink to this heading">#</a></h2>
+<p>Geotiff image rasterio-based output format.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.geotiff_standard.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.geotiff_standard.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpl_colors_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">existing_image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/geotiff_standard.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.geotiff_standard.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Create standard geotiff output using rasterio.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.geotiff_standard.get_rasterio_cmap_dict">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.geotiff_standard.</span></span><span class="sig-name descname"><span class="pre">get_rasterio_cmap_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mpl_cmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_data_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_data_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">255</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/geotiff_standard.html#get_rasterio_cmap_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.geotiff_standard.get_rasterio_cmap_dict" title="Permalink to this definition">#</a></dt>
+<dd><p>Get rasterio cmap dict.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.geotiff_standard.scale_geotiff_data">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.geotiff_standard.</span></span><span class="sig-name descname"><span class="pre">scale_geotiff_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpl_colors_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_data_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_data_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">255</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missing_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/geotiff_standard.html#scale_geotiff_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.geotiff_standard.scale_geotiff_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Scale geotiff data.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.imagery_annotated">
+<span id="geoips-plugins-modules-output-formatters-imagery-annotated-module"></span><h2>geoips.plugins.modules.output_formatters.imagery_annotated module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.imagery_annotated" title="Permalink to this heading">#</a></h2>
+<p>Matplot-lib based annotated image output.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.imagery_annotated.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.imagery_annotated.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean_fname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpl_colors_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_annotator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gridline_annotator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_datatype_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mpl_colors_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_xarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_product_name_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_datatype_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_duplicate_minrange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_copyright</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_formatter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/imagery_annotated.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.imagery_annotated.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot annotated imagery.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.imagery_clean">
+<span id="geoips-plugins-modules-output-formatters-imagery-clean-module"></span><h2>geoips.plugins.modules.output_formatters.imagery_clean module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.imagery_clean" title="Permalink to this heading">#</a></h2>
+<p>Matplotlib-based clean image output.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.imagery_clean.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.imagery_clean.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpl_colors_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">existing_image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_duplicate_minrange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">main_ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapobj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/imagery_clean.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.imagery_clean.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot clean image on matplotlib figure.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.imagery_windbarbs">
+<span id="geoips-plugins-modules-output-formatters-imagery-windbarbs-module"></span><h2>geoips.plugins.modules.output_formatters.imagery_windbarbs module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.imagery_windbarbs" title="Permalink to this heading">#</a></h2>
+<p>Matplotlib-based windbarb annotated image output.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.imagery_windbarbs.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.imagery_windbarbs.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean_fname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpl_colors_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_annotator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gridline_annotator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_datatype_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_mpl_colors_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_xarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_product_name_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_datatype_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_duplicate_minrange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_copyright</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_formatter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/imagery_windbarbs.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.imagery_windbarbs.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot annotated windbarbs on matplotlib figure.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.imagery_windbarbs.format_windbarb_data">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.imagery_windbarbs.</span></span><span class="sig-name descname"><span class="pre">format_windbarb_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/imagery_windbarbs.html#format_windbarb_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.imagery_windbarbs.format_windbarb_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Format windbarb data before plotting.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.imagery_windbarbs.output_clean_windbarbs">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.imagery_windbarbs.</span></span><span class="sig-name descname"><span class="pre">output_clean_windbarbs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean_fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpl_colors_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatted_data_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">main_ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapobj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/imagery_windbarbs.html#output_clean_windbarbs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.imagery_windbarbs.output_clean_windbarbs" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot and save “clean” windbarb imagery.</p>
+<p>No background imagery, coastlines, gridlines, titles, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Full paths to all resulting output files.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.imagery_windbarbs.plot_barbs">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.imagery_windbarbs.</span></span><span class="sig-name descname"><span class="pre">plot_barbs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpl_colors_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatted_data_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/imagery_windbarbs.html#plot_barbs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.imagery_windbarbs.plot_barbs" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot windbarbs on matplotlib figure.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.imagery_windbarbs_clean">
+<span id="geoips-plugins-modules-output-formatters-imagery-windbarbs-clean-module"></span><h2>geoips.plugins.modules.output_formatters.imagery_windbarbs_clean module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.imagery_windbarbs_clean" title="Permalink to this heading">#</a></h2>
+<p>Matplotlib-based windbarb clean image output (no overlays or backgrounds).</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.imagery_windbarbs_clean.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.imagery_windbarbs_clean.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpl_colors_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">existing_image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_duplicate_minrange</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">main_ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapobj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/imagery_windbarbs_clean.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.imagery_windbarbs_clean.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot clean windbarb imagery on matplotlib figure.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.metadata_default">
+<span id="geoips-plugins-modules-output-formatters-metadata-default-module"></span><h2>geoips.plugins.modules.output_formatters.metadata_default module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.metadata_default" title="Permalink to this heading">#</a></h2>
+<p>Default YAML metadata output format.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.metadata_default.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.metadata_default.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_yaml_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'metadata'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/preprocessed/tcwww'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_metadata_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/metadata_default.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.metadata_default.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Produce metadata yaml file of sector info associated with final_product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area_def</strong> (<em>AreaDefinition</em>) – Pyresample AreaDefintion object</p></li>
+<li><p><strong>final_product</strong> (<em>str</em>) – Product that is associated with the passed area_def</p></li>
+<li><p><strong>metadata_dir</strong> (<em>str</em><em>, </em><em>default='metadata'</em>) – Subdirectory name for metadata (using non-default allows for
+non-operational outputs)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Metadata yaml filename, if one was produced.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.metadata_default.output_metadata_yaml">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.metadata_default.</span></span><span class="sig-name descname"><span class="pre">output_metadata_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata_fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_metadata_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/metadata_default.html#output_metadata_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.metadata_default.output_metadata_yaml" title="Permalink to this definition">#</a></dt>
+<dd><p>Write out yaml file “metadata_fname” of sector info found in “area_def”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metadata_fname</strong> (<em>str</em>) – Path to output metadata_fname</p></li>
+<li><p><strong>area_def</strong> (<em>AreaDefinition</em>) – Pyresample AreaDefinition of sector information</p></li>
+<li><p><strong>xarray_obj</strong> (<em>xarray.Dataset</em>) – xarray Dataset object that was used to produce product</p></li>
+<li><p><strong>productname</strong> (<em>str</em>) – Full path to full product filename that this YAML file refers to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to metadata filename if successfully produced.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.metadata_default.update_sector_info_with_default_metadata">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.metadata_default.</span></span><span class="sig-name descname"><span class="pre">update_sector_info_with_default_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/metadata_default.html#update_sector_info_with_default_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.metadata_default.update_sector_info_with_default_metadata" title="Permalink to this definition">#</a></dt>
+<dd><p>Update sector info found in “area_def” with standard metadata output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area_def</strong> (<em>AreaDefinition</em>) – Pyresample AreaDefinition of sector information</p></li>
+<li><p><strong>xarray_obj</strong> (<em>xarray.Dataset</em>) – xarray Dataset object that was used to produce product</p></li>
+<li><p><strong>product_filename</strong> (<em>str</em>) – Full path to full product filename that this YAML file refers to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>sector_info dict with standard metadata added</dt><dd><ul class="simple">
+<li><p>bounding box</p></li>
+<li><p>product filename with wildcards</p></li>
+<li><p>basename of original source filenames</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.metadata_tc">
+<span id="geoips-plugins-modules-output-formatters-metadata-tc-module"></span><h2>geoips.plugins.modules.output_formatters.metadata_tc module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.metadata_tc" title="Permalink to this heading">#</a></h2>
+<p>TC product YAML metadata output format.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.metadata_tc.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.metadata_tc.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_yaml_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'metadata'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/users/surratt/geoips/outdirs/preprocessed/tcwww'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_fname_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fname_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/metadata_tc.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.metadata_tc.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Produce metadata yaml file of sector info associated with final_product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area_def</strong> (<em>AreaDefinition</em>) – Pyresample AreaDefintion object</p></li>
+<li><p><strong>final_product</strong> (<em>str</em>) – Product that is associated with the passed area_def</p></li>
+<li><p><strong>metadata_dir</strong> (<em>str</em><em>, </em><em>default=&quot;metadata&quot;</em>) – Subdirectory name for metadata (using non-default allows for
+non-operational outputs)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Metadata yaml filename, if one was produced.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.metadata_tc.output_tc_metadata_yaml">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.metadata_tc.</span></span><span class="sig-name descname"><span class="pre">output_tc_metadata_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata_fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_fname_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fname_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/metadata_tc.html#output_tc_metadata_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.metadata_tc.output_tc_metadata_yaml" title="Permalink to this definition">#</a></dt>
+<dd><p>Write out yaml file “metadata_fname” of sector info found in “area_def”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metadata_fname</strong> (<em>str</em>) – Path to output metadata_fname</p></li>
+<li><p><strong>area_def</strong> (<em>AreaDefinition</em>) – Pyresample AreaDefinition of sector information</p></li>
+<li><p><strong>xarray_obj</strong> (<em>xarray.Dataset</em>) – xarray Dataset object that was used to produce product</p></li>
+<li><p><strong>productname</strong> (<em>str</em>) – Full path to full product filename that this YAML file refers to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to metadata filename if successfully produced.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.metadata_tc.update_sector_info_with_coverage">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.metadata_tc.</span></span><span class="sig-name descname"><span class="pre">update_sector_info_with_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sector_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/metadata_tc.html#update_sector_info_with_coverage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.metadata_tc.update_sector_info_with_coverage" title="Permalink to this definition">#</a></dt>
+<dd><p>Update sector info with coverage, for YAML metadata output.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.metadata_tc.update_sector_info_with_data_times">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.metadata_tc.</span></span><span class="sig-name descname"><span class="pre">update_sector_info_with_data_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sector_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/metadata_tc.html#update_sector_info_with_data_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.metadata_tc.update_sector_info_with_data_times" title="Permalink to this definition">#</a></dt>
+<dd><p>Update sector info with data times, for YAML metadata output.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.netcdf_geoips">
+<span id="geoips-plugins-modules-output-formatters-netcdf-geoips-module"></span><h2>geoips.plugins.modules.output_formatters.netcdf_geoips module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.netcdf_geoips" title="Permalink to this heading">#</a></h2>
+<p>Geoips style NetCDF output format.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.netcdf_geoips.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.netcdf_geoips.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fnames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/netcdf_geoips.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.netcdf_geoips.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Write GeoIPS style NetCDF to disk.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.netcdf_xarray">
+<span id="geoips-plugins-modules-output-formatters-netcdf-xarray-module"></span><h2>geoips.plugins.modules.output_formatters.netcdf_xarray module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.netcdf_xarray" title="Permalink to this heading">#</a></h2>
+<p>Standard xarray-based NetCDF output format.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.netcdf_xarray.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.netcdf_xarray.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fnames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/netcdf_xarray.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.netcdf_xarray.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Write xarray-based NetCDF outputs to disk.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.netcdf_xarray.write_xarray_netcdf">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.netcdf_xarray.</span></span><span class="sig-name descname"><span class="pre">write_xarray_netcdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncdf_fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clobber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/netcdf_xarray.html#write_xarray_netcdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.netcdf_xarray.write_xarray_netcdf" title="Permalink to this definition">#</a></dt>
+<dd><p>Write out xarray_obj to netcdf file named ncdf_fname.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.text_winds">
+<span id="geoips-plugins-modules-output-formatters-text-winds-module"></span><h2>geoips.plugins.modules.output_formatters.text_winds module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.text_winds" title="Permalink to this heading">#</a></h2>
+<p>Routines for outputting formatted text wind speed and vector data files.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.text_winds.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.text_winds.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">append</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/text_winds.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.text_winds.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Write text windspeed output file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.text_winds.write_text_winds">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.text_winds.</span></span><span class="sig-name descname"><span class="pre">write_text_winds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">append</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/text_winds.html#write_text_winds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.text_winds.write_text_winds" title="Permalink to this definition">#</a></dt>
+<dd><p>Write out TC formatted text file of wind speeds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text_fname</strong> (<em>str</em>) – String full path to output filename</p></li>
+<li><p><strong>speed_array</strong> (<em>ndarray</em>) – array of windspeeds</p></li>
+<li><p><strong>time_array</strong> (<em>ndarray</em>) – array of POSIX time stamps same length as speed_array</p></li>
+<li><p><strong>lon_array</strong> (<em>ndarray</em>) – array of longitudes of same length as speed_array</p></li>
+<li><p><strong>lat_array</strong> (<em>ndarray</em>) – array of latitudes of same length as speed_array</p></li>
+<li><p><strong>platform_name</strong> (<em>str</em>) – String platform name</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters.unprojected_image">
+<span id="geoips-plugins-modules-output-formatters-unprojected-image-module"></span><h2>geoips.plugins.modules.output_formatters.unprojected_image module<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters.unprojected_image" title="Permalink to this heading">#</a></h2>
+<p>Matplotlib-based unprojected image output.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.output_formatters.unprojected_image.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.output_formatters.unprojected_image.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_name_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mpl_colors_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/output_formatters/unprojected_image.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.output_formatters.unprojected_image.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot unprojected image to matplotlib figure.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.output_formatters">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-geoips.plugins.modules.output_formatters" title="Permalink to this heading">#</a></h2>
+<p>Geoips output formatter init file.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geoips.plugins.modules.interpolators.utils.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">geoips.plugins.modules.interpolators.utils package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geoips.plugins.modules.procflows.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">geoips.plugins.modules.procflows package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.full_disk_image">geoips.plugins.modules.output_formatters.full_disk_image module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.full_disk_image.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.geotiff_standard">geoips.plugins.modules.output_formatters.geotiff_standard module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.geotiff_standard.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.geotiff_standard.get_rasterio_cmap_dict"><code class="docutils literal notranslate"><span class="pre">get_rasterio_cmap_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.geotiff_standard.scale_geotiff_data"><code class="docutils literal notranslate"><span class="pre">scale_geotiff_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.imagery_annotated">geoips.plugins.modules.output_formatters.imagery_annotated module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.imagery_annotated.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.imagery_clean">geoips.plugins.modules.output_formatters.imagery_clean module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.imagery_clean.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.imagery_windbarbs">geoips.plugins.modules.output_formatters.imagery_windbarbs module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.imagery_windbarbs.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.imagery_windbarbs.format_windbarb_data"><code class="docutils literal notranslate"><span class="pre">format_windbarb_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.imagery_windbarbs.output_clean_windbarbs"><code class="docutils literal notranslate"><span class="pre">output_clean_windbarbs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.imagery_windbarbs.plot_barbs"><code class="docutils literal notranslate"><span class="pre">plot_barbs()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.imagery_windbarbs_clean">geoips.plugins.modules.output_formatters.imagery_windbarbs_clean module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.imagery_windbarbs_clean.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.metadata_default">geoips.plugins.modules.output_formatters.metadata_default module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.metadata_default.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.metadata_default.output_metadata_yaml"><code class="docutils literal notranslate"><span class="pre">output_metadata_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.metadata_default.update_sector_info_with_default_metadata"><code class="docutils literal notranslate"><span class="pre">update_sector_info_with_default_metadata()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.metadata_tc">geoips.plugins.modules.output_formatters.metadata_tc module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.metadata_tc.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.metadata_tc.output_tc_metadata_yaml"><code class="docutils literal notranslate"><span class="pre">output_tc_metadata_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.metadata_tc.update_sector_info_with_coverage"><code class="docutils literal notranslate"><span class="pre">update_sector_info_with_coverage()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.metadata_tc.update_sector_info_with_data_times"><code class="docutils literal notranslate"><span class="pre">update_sector_info_with_data_times()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.netcdf_geoips">geoips.plugins.modules.output_formatters.netcdf_geoips module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.netcdf_geoips.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.netcdf_xarray">geoips.plugins.modules.output_formatters.netcdf_xarray module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.netcdf_xarray.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.netcdf_xarray.write_xarray_netcdf"><code class="docutils literal notranslate"><span class="pre">write_xarray_netcdf()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.text_winds">geoips.plugins.modules.output_formatters.text_winds module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.text_winds.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.text_winds.write_text_winds"><code class="docutils literal notranslate"><span class="pre">write_text_winds()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters.unprojected_image">geoips.plugins.modules.output_formatters.unprojected_image module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.output_formatters.unprojected_image.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.output_formatters">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.plugins.modules.output_formatters.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

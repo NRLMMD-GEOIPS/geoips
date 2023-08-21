@@ -1,0 +1,1154 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.plugins.modules.readers.viirs_netcdf &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/readers/viirs_netcdf';</script>
+    <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.plugins.modules.readers.viirs_netcdf</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for geoips.plugins.modules.readers.viirs_netcdf</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # Author:</span>
+<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
+<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
+<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
+<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+
+<span class="sd">&quot;&quot;&quot;VIIRS NetCDF reader.</span>
+
+<span class="sd">This VIIRS reader is designed for reading the NPP/JPSS VIIRS files geoips.</span>
+<span class="sd">The reader is only using the python functions and xarray variables.  Although</span>
+<span class="sd">the file name indicates the data is in netcdf4 format.</span>
+
+<span class="sd">Thus, the reader is based on the netcdf4 data format.</span>
+
+<span class="sd">The orginal reader (viirs_aotcimss_ncdf4_reader.py) was developed for geoips1,</span>
+<span class="sd">which applied many geoips1 function.</span>
+
+<span class="sd">V1.0:  NRL-Monterey, 09/17/2020</span>
+
+<span class="sd">VIIRS file infOrmation::</span>
+
+<span class="sd">    There are 6 files for each time of VIIRS data, i.e.,</span>
+<span class="sd">    For NASA NPP VIIRS</span>
+<span class="sd">    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02DNB.sdr.x.x.nc</span>
+<span class="sd">    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02IMG.sdr.x.x.nc</span>
+<span class="sd">    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02MOD.sdr.x.x.nc</span>
+<span class="sd">    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP03DNB.sdr.x.x.nc</span>
+<span class="sd">    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP03IMG.sdr.x.x.nc</span>
+<span class="sd">    20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP03MOD.sdr.x.x.nc</span>
+
+<span class="sd">    For JPSS VIIRS</span>
+<span class="sd">    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ102DNB.sdr.x.x.nc</span>
+<span class="sd">    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ102IMG.sdr.x.x.nc</span>
+<span class="sd">    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ102MOD.sdr.x.x.nc</span>
+<span class="sd">    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ103DNB.sdr.x.x.nc</span>
+<span class="sd">    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ103IMG.sdr.x.x.nc</span>
+<span class="sd">    20200914.150000.npp.viirs.viirs_sips_jpss_uwssec_001.x.VJ103MOD.sdr.x.x.nc</span>
+
+<span class="sd">    DNB: VIIRS day-night Band obs</span>
+<span class="sd">    MOD: VIIRS M-Band  obs</span>
+<span class="sd">    IMG: VIIRS I-Band  obs</span>
+
+<span class="sd">The *.VNP02* files are for the data records, while the *.VNP03* files are for</span>
+<span class="sd">the geolocation data records.</span>
+
+<span class="sd">The xarray of geoips reader need both the data and lat/lon info. Thus, this</span>
+<span class="sd">VIIRS reader is designed to read in the paired VNP02 and VNP03 files, depending</span>
+<span class="sd">on any one of DNB or IMG or MOD file.  In order to minimize dupilcated excution</span>
+<span class="sd">of VIIRS files, additional adjust of excution of the VIIRS files will be needed</span>
+<span class="sd">(discussion with Mindy on how to do it).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Python Standard Libraries</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Installed Libraries</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="c1"># If this reader is not installed on the system, don&#39;t fail altogether, just skip this import. This reader will</span>
+<span class="c1"># not work if the import fails, and the package will have to be installed</span>
+<span class="c1"># to process data of this type.</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">netCDF4</span> <span class="k">as</span> <span class="nn">ncdf</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed import netCDF4. If you need it, install it.&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># @staticmethod                                     # not sure where it is uwas used?</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">VARLIST</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;DNB&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;DNB_observations&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;IMG&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;I04&quot;</span><span class="p">,</span> <span class="s2">&quot;I05&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;IMG-Vis&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;I01&quot;</span><span class="p">,</span> <span class="s2">&quot;I02&quot;</span><span class="p">,</span> <span class="s2">&quot;I03&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;MOD&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;M07&quot;</span><span class="p">,</span> <span class="s2">&quot;M08&quot;</span><span class="p">,</span> <span class="s2">&quot;M10&quot;</span><span class="p">,</span> <span class="s2">&quot;M11&quot;</span><span class="p">,</span> <span class="s2">&quot;M12&quot;</span><span class="p">,</span> <span class="s2">&quot;M13&quot;</span><span class="p">,</span> <span class="s2">&quot;M14&quot;</span><span class="p">,</span> <span class="s2">&quot;M15&quot;</span><span class="p">,</span> <span class="s2">&quot;M16&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;MOD-Vis&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;M01&quot;</span><span class="p">,</span> <span class="s2">&quot;M02&quot;</span><span class="p">,</span> <span class="s2">&quot;M03&quot;</span><span class="p">,</span> <span class="s2">&quot;M04&quot;</span><span class="p">,</span> <span class="s2">&quot;M05&quot;</span><span class="p">,</span> <span class="s2">&quot;M06&quot;</span><span class="p">,</span> <span class="s2">&quot;M09&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">DNB_CHANNELS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DNB_observations&quot;</span><span class="p">]</span>
+<span class="n">BT_CHANNELS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;I04&quot;</span><span class="p">,</span> <span class="s2">&quot;I05&quot;</span><span class="p">,</span> <span class="s2">&quot;M12&quot;</span><span class="p">,</span> <span class="s2">&quot;M13&quot;</span><span class="p">,</span> <span class="s2">&quot;M14&quot;</span><span class="p">,</span> <span class="s2">&quot;M15&quot;</span><span class="p">,</span> <span class="s2">&quot;M16&quot;</span><span class="p">]</span>
+<span class="n">REF_CHANNELS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;I01&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;I02&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;I03&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M01&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M02&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M03&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M04&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M05&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M06&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M07&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M08&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M09&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M10&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M11&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1"># List of geolocation variables</span>
+
+<span class="n">GVARLIST</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;DNB&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;solar_zenith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;solar_azimuth&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sensor_zenith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sensor_azimuth&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;lunar_zenith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;moon_phase_angle&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;IMG&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;solar_zenith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;solar_azimuth&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sensor_zenith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sensor_azimuth&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;IMG-Vis&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;solar_zenith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;solar_azimuth&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sensor_zenith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sensor_azimuth&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;MOD&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;solar_zenith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;solar_azimuth&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sensor_zenith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sensor_azimuth&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;MOD-Vis&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;solar_zenith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;solar_azimuth&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sensor_zenith&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sensor_azimuth&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+<span class="n">xvarnames</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;solar_zenith&quot;</span><span class="p">:</span> <span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;solar_azimuth&quot;</span><span class="p">:</span> <span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sensor_zenith&quot;</span><span class="p">:</span> <span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sensor_azimuth&quot;</span><span class="p">:</span> <span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lunar_zenith&quot;</span><span class="p">:</span> <span class="s2">&quot;lunar_zenith_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DNB_observations&quot;</span><span class="p">:</span> <span class="s2">&quot;DNB&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># IMG:</span>
+<span class="c1">#     I01(nline, npix): I-band 01 earth view reflectance (0-65527).  range of vlaues: 0 - 1</span>
+<span class="c1">#                       add_offset=0,  scale_factor=1.9991758e-05,</span>
+<span class="c1">#                       radiance_scale_factor=0.010167242, radiance_add_offset=0,</span>
+<span class="c1">#                       radiance_units: Watts/meter^2/steradian/micrometer</span>
+<span class="c1">#     I02(nline, npix): I-band 02 earth view reflectance (0-65527).</span>
+<span class="c1">#                       add_offset=0,  scale_factor=1.9991758e-05,</span>
+<span class="c1">#                       radiance_scale_factor=0.006007384, radiance_add_offset=0,</span>
+<span class="c1">#                       radiance_units: Watts/meter^2/steradian/micrometer</span>
+<span class="c1">#     I03(nline, npix): I-band 03 earth view reflectance (0-65527).</span>
+<span class="c1">#                       add_offset=0,  scale_factor=1.9991758e-05,</span>
+<span class="c1">#                       radiance_scale_factor=0.0015311801, radiance_add_offset=0,</span>
+<span class="c1">#                       radiance_units: Watts/meter^2/steradian/micrometer</span>
+<span class="c1">#     I04(nline, npix): I-band 04 earth view radiance (0-65527). need LUT for TB conversion</span>
+<span class="c1">#                       scale_factor=6.104354e-05, add_offset=0.0016703</span>
+<span class="c1">#                       units: Watts/meter^2/steradian/micrometer</span>
+<span class="c1">#                       I04_brightness_temperature_lut(65536). LUT[65535] is for masked point.</span>
+<span class="c1">#     I05(nline, npix): I-band 05 earth view radiance (0-65527). need LUT for TB conversion</span>
+<span class="c1">#                       scale_factor=0.0003815221, add_offset=0.141121</span>
+<span class="c1">#                       units: Watts/meter^2/steradian/micrometer</span>
+<span class="c1">#                       I05_brightness_temperature_lut(65536). LUT[65535] is for masked point.</span>
+<span class="c1">#     I04TB/I05TB     : associated TBs for I04/I05</span>
+<span class="c1">#</span>
+<span class="c1">#     Note: I04 and I05 converstion to TB will apply its TB conversion LUT. Since the change of TB is so small bewteen</span>
+<span class="c1">#                       the LUT index, we just take value fo the I04/I05 as the LUT index (auto roundup) for easy process.</span>
+<span class="c1">#                       This way will have an error of TB less than 0.05K.  Otherwsie, a interpolation is needed for a more</span>
+<span class="c1">#                       accurate TB.</span>
+
+<span class="c1"># MOD:</span>
+
+<span class="c1">#     M01 - M11(nline,npix):  M-band 01-11 earth view reflectance</span>
+<span class="c1">#     M12 - M16(nline,npix):  M-band 12-16 earth view radiance.  will convert radiance  anto TBs</span>
+<span class="c1">#     M12TB-M16TB:         :  associated TBs for M12-16</span>
+<span class="c1">#</span>
+
+<span class="c1">#    Run plan:  fname has a list of VIIRS files (3 *02* or *03* files)</span>
+
+<span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
+<span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;viirs_netcdf&quot;</span>
+
+
+<div class="viewcode-block" id="required_chan"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.viirs_netcdf.required_chan">[docs]</a><span class="k">def</span> <span class="nf">required_chan</span><span class="p">(</span><span class="n">chans</span><span class="p">,</span> <span class="n">varnames</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if required channel.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">chans</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">varnames</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="required_geo_chan"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.viirs_netcdf.required_geo_chan">[docs]</a><span class="k">def</span> <span class="nf">required_geo_chan</span><span class="p">(</span><span class="n">xarrays</span><span class="p">,</span> <span class="n">xvarname</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if required geolocation channel.&quot;&quot;&quot;</span>
+    <span class="c1"># for data_type in list(xarrays.keys()):</span>
+    <span class="c1">#     if xvarname in list(xarrays[data_type].keys()):</span>
+    <span class="c1">#         LOG.info(&#39;        SKIPPING %s geolocation channel %s, xarray GEOLOCATION variable %s exists&#39;,</span>
+    <span class="c1">#                  data_type, xvarname, xvarname)</span>
+    <span class="c1">#         return False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="required_geo"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.viirs_netcdf.required_geo">[docs]</a><span class="k">def</span> <span class="nf">required_geo</span><span class="p">(</span><span class="n">chans</span><span class="p">,</span> <span class="n">data_type</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if required geolocation dataset.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">chans</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">varname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Ref&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Rad&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;BT&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="ow">in</span> <span class="n">VARLIST</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">varname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Ref&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Rad&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;BT&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot;_observations&quot;</span>
+            <span class="ow">in</span> <span class="n">VARLIST</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="add_to_xarray"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.viirs_netcdf.add_to_xarray">[docs]</a><span class="k">def</span> <span class="nf">add_to_xarray</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="n">nparr</span><span class="p">,</span> <span class="n">xobj</span><span class="p">,</span> <span class="n">dataset_masks</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">nparr_mask</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add variable to xarray Dataset.&quot;&quot;&quot;</span>
+    <span class="c1"># Add current dataset to xarray object</span>
+    <span class="k">if</span> <span class="n">varname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xobj</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+        <span class="n">merged_array</span> <span class="o">=</span> <span class="n">nparr</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">merged_array</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">nparr</span><span class="p">])</span>
+    <span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">merged_array</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dim_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">merged_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># If nparr_mask.shape != nparr.shape, then it is &quot;False&quot; so create an</span>
+    <span class="c1"># array of False the size of nparr</span>
+    <span class="k">if</span> <span class="n">nparr_mask</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">nparr</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="n">nparr_mask</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nparr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="c1"># If we haven&#39;t merged nparr_mask into dataset_masks[data_type] yet, do it now</span>
+    <span class="k">if</span> <span class="n">dataset_masks</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">dataset_masks</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">nparr_mask</span>
+    <span class="k">elif</span> <span class="n">dataset_masks</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">merged_array</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="n">dataset_masks</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">dataset_masks</span><span class="p">[</span><span class="n">data_type</span><span class="p">],</span> <span class="n">nparr_mask</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.viirs_netcdf.call">[docs]</a><span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read VIIRS netcdf data products.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : list</span>
+<span class="sd">        * List of strings, full paths to files</span>
+<span class="sd">    metadata_only : bool, default=False</span>
+<span class="sd">        * Return before actually reading data if True</span>
+<span class="sd">    chans : list of str, default=None</span>
+<span class="sd">        * List of desired channels (skip unneeded variables as needed).</span>
+<span class="sd">        * Include all channels if None.</span>
+<span class="sd">    area_def : pyresample.AreaDefinition, default=None</span>
+<span class="sd">        * NOT YET IMPLEMENTED</span>
+<span class="sd">        * Specify region to read</span>
+<span class="sd">        * Read all data if None.</span>
+<span class="sd">    self_register : str or bool, default=False</span>
+<span class="sd">        * NOT YET IMPLEMENTED</span>
+<span class="sd">        * register all data to the specified dataset id (as specified in the</span>
+<span class="sd">          return dictionary keys).</span>
+<span class="sd">        * Read multiple resolutions of data if False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict of xarray.Datasets</span>
+<span class="sd">        * dictionary of xarray.Dataset objects with required Variables and</span>
+<span class="sd">          Attributes.</span>
+<span class="sd">        * Dictionary keys can be any descriptive dataset ids.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :ref:`xarray_standards`</span>
+<span class="sd">        Additional information regarding required attributes and variables</span>
+<span class="sd">        for GeoIPS-formatted xarray Datasets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+    <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+    <span class="c1"># since fname is a LIST of input files, this reader needs additional adjustments to read all files</span>
+    <span class="c1">#       and put them into the XARRAY output (add one more array for number of files)</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    fnames=[&#39;readers/data_viirs/20200916.081200.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02DNB.sdr.x.x.nc&#39;,\</span>
+<span class="sd">           &#39;readers/data_viirs/20200916.081200.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02IMG.sdr.x.x.nc&#39;,\</span>
+<span class="sd">           &#39;readers/data_viirs/20200916.081200.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02MOD.sdr.x.x.nc&#39;]</span>
+
+<span class="sd">    fnames=[&#39;data_viirs/20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02DNB.sdr.x.x.nc&#39;,\</span>
+<span class="sd">           &#39;data_viirs/20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02IMG.sdr.x.x.nc&#39;,\</span>
+<span class="sd">           &#39;data_viirs/20200826.074800.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02MOD.sdr.x.x.nc&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># --------------- loop input files ---------------</span>
+    <span class="n">xarrays</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dataset_masks</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Requested Channels: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">chans</span><span class="p">)</span>
+
+    <span class="n">tracked_data_type_vars</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="c1"># This fails if fnames happens to be in a different order</span>
+    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+        <span class="c1"># print(&#39;tst name= &#39;, fname)</span>
+
+        <span class="c1"># # chech for right VIIRS file</span>
+        <span class="c1"># if &#39;viirs&#39; in os.path.basename(fname):</span>
+        <span class="c1">#     print(&#39;found a VIIRS file&#39;)</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     print(&#39;not a VIIRS file: skip it&#39;)</span>
+        <span class="c1">#     raise</span>
+
+        <span class="c1"># open the paired input files</span>
+        <span class="n">ncdf_file</span> <span class="o">=</span> <span class="n">ncdf</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fname</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Trying file </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+
+        <span class="c1"># *************** input VIRRS variables *****************</span>
+
+        <span class="c1"># read IMG  or MOD  or DNB files</span>
+
+        <span class="c1"># if data_type == &#39;IMG&#39; or data_type == &#39;MOD&#39; or data_type == &#39;DNB&#39;:</span>
+
+        <span class="c1"># dict_var =dict.fromkeys(VARLIST[data_type])</span>
+        <span class="c1"># dict_gvar=dict.fromkeys(GVARLIST[data_type])</span>
+
+        <span class="n">data_type</span> <span class="o">=</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">product_name</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">data_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dataset_masks</span><span class="p">:</span>
+            <span class="n">dataset_masks</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1">#  ------  Time info for each pixel ------</span>
+        <span class="c1">#  Start (end) time of VIIRS scan in seconds since 1/1/1993</span>
+        <span class="c1">#  Python datetime64 time starts on &#39;1970-01-01T00:00:00Z&#39;</span>
+        <span class="c1">#  Thus, 1/1/1993 datetime64 has seconds of 725846400</span>
+        <span class="c1">#  The scan info does not match the line info of each fields (lines x pix)</span>
+        <span class="c1"># thus, no tiemstamp is applied.  Just the Start_date and End_date are</span>
+        <span class="c1"># sued for time info.</span>
+
+        <span class="n">scan_start_time</span> <span class="o">=</span> <span class="n">ncdf_file</span><span class="p">[</span><span class="s2">&quot;scan_line_attributes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span>
+            <span class="s2">&quot;scan_start_time&quot;</span>
+        <span class="p">][:]</span>
+        <span class="n">scan_end_time</span> <span class="o">=</span> <span class="n">ncdf_file</span><span class="p">[</span><span class="s2">&quot;scan_line_attributes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;scan_end_time&quot;</span><span class="p">][:]</span>
+
+        <span class="n">scan</span> <span class="o">=</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s2">&quot;scan_line_attributes&quot;</span><span class="p">]</span>
+        <span class="c1"># stime = scan.variables[&#39;scan_start_time&#39;][:]</span>
+        <span class="c1"># etime = scan.variables[&#39;scan_end_time&#39;][:]</span>
+
+        <span class="n">s_time</span> <span class="o">=</span> <span class="n">scan_start_time</span> <span class="o">+</span> <span class="mi">725846400</span>
+        <span class="n">e_time</span> <span class="o">=</span> <span class="n">scan_end_time</span> <span class="o">+</span> <span class="mi">725846400</span>
+
+        <span class="c1"># convert it to UTC time in format: datetime.datetime(2020, 8, 26, 7,</span>
+        <span class="c1">#                                                     48, 10, 445420)</span>
+        <span class="n">Start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span><span class="n">s_time</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">End_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span><span class="n">e_time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1">#    ************  setup VIIRS xarray variables *****************</span>
+        <span class="c1">#    only the avaialble fileds are arranged in the xaaray object</span>
+        <span class="c1">#         the missing fields in the data file are not included.</span>
+        <span class="c1">#         i.e, if I01-03 are missing the *IMG file, then only I04 and</span>
+        <span class="c1">#              I05 fields will be processed and output to Xarray</span>
+
+        <span class="c1"># from IPython import embed as shell</span>
+
+        <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Start_date</span>
+        <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">End_date</span>
+        <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;viirs&quot;</span>
+        <span class="k">if</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;Suomi-NPP&quot;</span><span class="p">:</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;npp&quot;</span>
+        <span class="k">if</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;JPSS-1&quot;</span><span class="p">:</span>
+            <span class="c1"># xarrays[data_type].attrs[&#39;platform_name&#39;]  = &#39;jpss-1&#39;</span>
+            <span class="c1"># Attribute still lists JPSS-1, but operational satellite name is NOAA-20.</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;noaa-20&quot;</span>
+        <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;NASA&quot;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]:</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
+
+        <span class="c1"># MTIFs need to be &quot;prettier&quot; for PMW products, so 2km resolution for</span>
+        <span class="c1"># final image</span>
+        <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3000</span>
+
+        <span class="k">if</span> <span class="n">metadata_only</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;metadata_only is True, reading only first file for metadata information and returning&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]}</span>
+
+        <span class="c1"># check fo avaialble varaibles</span>
+        <span class="k">if</span> <span class="s2">&quot;observation_data&quot;</span> <span class="ow">in</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">list_vars</span> <span class="o">=</span> <span class="n">ncdf_file</span><span class="p">[</span><span class="s2">&quot;observation_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="n">ncdata</span> <span class="o">=</span> <span class="n">ncdf_file</span><span class="p">[</span><span class="s2">&quot;observation_data&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;geolocation_data&quot;</span> <span class="ow">in</span> <span class="n">ncdf_file</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">list_vars</span> <span class="o">=</span> <span class="n">ncdf_file</span><span class="p">[</span><span class="s2">&quot;geolocation_data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="n">ncdata</span> <span class="o">=</span> <span class="n">ncdf_file</span><span class="p">[</span><span class="s2">&quot;geolocation_data&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Assign visible chans to own data_type, since they will disappear from day -&gt; night</span>
+        <span class="c1"># These are located in the VNP02MOD/IMG files, or the MOD dataset type</span>
+        <span class="c1"># Also keep track of all variables in the parent file of the data_type</span>
+        <span class="c1"># This will help determine if we need to add geolocation vars to the</span>
+        <span class="c1"># data_type xarray downstream</span>
+        <span class="n">default_data_type</span> <span class="o">=</span> <span class="n">data_type</span>
+        <span class="n">vis_data_type</span> <span class="o">=</span> <span class="n">data_type</span> <span class="o">+</span> <span class="s2">&quot;-Vis&quot;</span>
+        <span class="k">if</span> <span class="n">Start_date</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tracked_data_type_vars</span><span class="p">[</span><span class="n">default_data_type</span><span class="p">]:</span>
+            <span class="n">tracked_data_type_vars</span><span class="p">[</span><span class="n">default_data_type</span><span class="p">][</span><span class="n">Start_date</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tracked_data_type_vars</span><span class="p">[</span><span class="n">default_data_type</span><span class="p">][</span><span class="n">Start_date</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">list_vars</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">data_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;MOD&quot;</span><span class="p">,</span> <span class="s2">&quot;IMG&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">vis_data_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dataset_masks</span><span class="p">:</span>
+                <span class="n">dataset_masks</span><span class="p">[</span><span class="n">vis_data_type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">vis_data_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">vis_data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="n">vis_data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+            <span class="n">geo_target_data_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">default_data_type</span><span class="p">,</span> <span class="n">vis_data_type</span><span class="p">]</span>
+            <span class="n">vis_vars</span> <span class="o">=</span> <span class="n">VARLIST</span><span class="p">[</span><span class="n">vis_data_type</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">Start_date</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tracked_data_type_vars</span><span class="p">[</span><span class="n">vis_data_type</span><span class="p">]:</span>
+                <span class="n">tracked_data_type_vars</span><span class="p">[</span><span class="n">vis_data_type</span><span class="p">][</span><span class="n">Start_date</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">tracked_data_type_vars</span><span class="p">[</span><span class="n">vis_data_type</span><span class="p">][</span><span class="n">Start_date</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">list_vars</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">geo_target_data_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">default_data_type</span><span class="p">]</span>
+            <span class="n">vis_vars</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">list_vars</span><span class="p">:</span>
+            <span class="n">xvarname</span> <span class="o">=</span> <span class="n">var</span>
+            <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">xvarnames</span><span class="p">:</span>
+                <span class="n">xvarname</span> <span class="o">=</span> <span class="n">xvarnames</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+
+            <span class="n">btvarname</span> <span class="o">=</span> <span class="n">xvarname</span> <span class="o">+</span> <span class="s2">&quot;BT&quot;</span>
+            <span class="n">refvarname</span> <span class="o">=</span> <span class="n">xvarname</span> <span class="o">+</span> <span class="s2">&quot;Ref&quot;</span>
+            <span class="n">radvarname</span> <span class="o">=</span> <span class="n">xvarname</span> <span class="o">+</span> <span class="s2">&quot;Rad&quot;</span>
+
+            <span class="n">ncvar</span> <span class="o">=</span> <span class="n">ncdata</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">vis_vars</span><span class="p">:</span>
+                <span class="n">data_type</span> <span class="o">=</span> <span class="n">vis_data_type</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data_type</span> <span class="o">=</span> <span class="n">default_data_type</span>
+
+            <span class="c1"># Need Rad in order to calculate DNB Ref variable.</span>
+            <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">DNB_CHANNELS</span> <span class="ow">and</span> <span class="n">required_chan</span><span class="p">(</span><span class="n">chans</span><span class="p">,</span> <span class="p">[</span><span class="n">radvarname</span><span class="p">,</span> <span class="n">refvarname</span><span class="p">]):</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;        Reading </span><span class="si">%s</span><span class="s2"> channel </span><span class="si">%s</span><span class="s2"> into DNB variable </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">data_type</span><span class="p">,</span>
+                    <span class="n">var</span><span class="p">,</span>
+                    <span class="n">radvarname</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">nparr</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_greater</span><span class="p">(</span><span class="n">ncvar</span><span class="p">[</span><span class="o">...</span><span class="p">],</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">valid_max</span><span class="p">)</span>
+                <span class="n">add_to_xarray</span><span class="p">(</span>
+                    <span class="n">radvarname</span><span class="p">,</span>
+                    <span class="n">nparr</span><span class="p">,</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">],</span>
+                    <span class="n">dataset_masks</span><span class="p">,</span>
+                    <span class="n">data_type</span><span class="p">,</span>
+                    <span class="n">nparr</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">attrname</span> <span class="ow">in</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">ncattrs</span><span class="p">():</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">][</span><span class="n">radvarname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attrname</span><span class="p">]</span> <span class="o">=</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">getncattr</span><span class="p">(</span>
+                        <span class="n">attrname</span>
+                    <span class="p">)</span>
+
+            <span class="c1"># Apply Brightness Temperature conversions if BT version of variable was</span>
+            <span class="c1"># requested.</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">var</span> <span class="ow">in</span> <span class="n">BT_CHANNELS</span> <span class="o">+</span> <span class="n">REF_CHANNELS</span>
+                <span class="ow">and</span> <span class="n">required_chan</span><span class="p">(</span><span class="n">chans</span><span class="p">,</span> <span class="p">[</span><span class="n">btvarname</span><span class="p">])</span>
+                <span class="ow">and</span> <span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_brightness_temperature_lut&quot;</span> <span class="ow">in</span> <span class="n">ncdata</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="p">):</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;        Reading </span><span class="si">%s</span><span class="s2"> channel </span><span class="si">%s</span><span class="s2"> into BRIGHTNESS TEMPERATURE variable </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">data_type</span><span class="p">,</span>
+                    <span class="n">var</span><span class="p">,</span>
+                    <span class="n">btvarname</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">btlut</span> <span class="o">=</span> <span class="n">ncdata</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">var</span> <span class="o">+</span> <span class="s2">&quot;_brightness_temperature_lut&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
+                <span class="n">ncvar</span><span class="o">.</span><span class="n">set_auto_maskandscale</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">unscaled_rad</span> <span class="o">=</span> <span class="n">ncvar</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+                <span class="n">nparr</span> <span class="o">=</span> <span class="n">btlut</span><span class="p">[</span><span class="n">unscaled_rad</span><span class="p">]</span>
+                <span class="n">add_to_xarray</span><span class="p">(</span>
+                    <span class="n">btvarname</span><span class="p">,</span>
+                    <span class="n">nparr</span><span class="p">,</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">],</span>
+                    <span class="n">dataset_masks</span><span class="p">,</span>
+                    <span class="n">data_type</span><span class="p">,</span>
+                    <span class="n">nparr</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">][</span><span class="n">btvarname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Kelvin&quot;</span>
+
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">var</span> <span class="ow">in</span> <span class="n">BT_CHANNELS</span> <span class="o">+</span> <span class="n">REF_CHANNELS</span>
+                <span class="ow">and</span> <span class="n">required_chan</span><span class="p">(</span><span class="n">chans</span><span class="p">,</span> <span class="p">[</span><span class="n">radvarname</span><span class="p">])</span>
+                <span class="ow">and</span> <span class="s2">&quot;radiance_add_offset&quot;</span> <span class="ow">in</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">ncattrs</span><span class="p">()</span>
+            <span class="p">):</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;        Reading </span><span class="si">%s</span><span class="s2"> channel </span><span class="si">%s</span><span class="s2"> into RADIANCE variable </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">data_type</span><span class="p">,</span>
+                    <span class="n">var</span><span class="p">,</span>
+                    <span class="n">radvarname</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="n">ncvar</span><span class="o">.</span><span class="n">set_auto_maskandscale</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="c1"># Bowtie correction</span>
+                <span class="n">nparr_bowtie</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_equal</span><span class="p">(</span><span class="n">ncvar</span><span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">65533</span><span class="p">)</span>
+
+                <span class="n">nparr_masked</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_greater</span><span class="p">(</span>
+                    <span class="p">((</span><span class="n">ncvar</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">-</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">add_offset</span><span class="p">)</span> <span class="o">/</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">scale_factor</span><span class="p">)</span>
+                    <span class="o">*</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">radiance_scale_factor</span>
+                    <span class="o">+</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">radiance_add_offset</span><span class="p">,</span>
+                    <span class="n">ncvar</span><span class="o">.</span><span class="n">valid_max</span> <span class="o">*</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">radiance_scale_factor</span>
+                    <span class="o">+</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">radiance_add_offset</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="n">add_to_xarray</span><span class="p">(</span>
+                    <span class="n">radvarname</span><span class="p">,</span>
+                    <span class="n">nparr_masked</span><span class="p">,</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">],</span>
+                    <span class="n">dataset_masks</span><span class="p">,</span>
+                    <span class="n">data_type</span><span class="p">,</span>
+                    <span class="n">nparr_bowtie</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">attrname</span> <span class="ow">in</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">ncattrs</span><span class="p">():</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">][</span><span class="n">radvarname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attrname</span><span class="p">]</span> <span class="o">=</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">getncattr</span><span class="p">(</span>
+                        <span class="n">attrname</span>
+                    <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">REF_CHANNELS</span> <span class="ow">and</span> <span class="n">required_chan</span><span class="p">(</span><span class="n">chans</span><span class="p">,</span> <span class="p">[</span><span class="n">refvarname</span><span class="p">]):</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;        Reading </span><span class="si">%s</span><span class="s2"> channel </span><span class="si">%s</span><span class="s2"> into REFLECTANCE variable </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">data_type</span><span class="p">,</span>
+                    <span class="n">var</span><span class="p">,</span>
+                    <span class="n">refvarname</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="n">nparr_bowtie</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_equal</span><span class="p">(</span><span class="n">ncvar</span><span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">65533</span><span class="p">)</span>
+
+                <span class="n">nparr_masked</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_greater</span><span class="p">(</span>
+                    <span class="n">ncvar</span><span class="p">[</span><span class="o">...</span><span class="p">],</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">valid_max</span> <span class="o">*</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">scale_factor</span> <span class="o">+</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">add_offset</span>
+                <span class="p">)</span>
+
+                <span class="n">add_to_xarray</span><span class="p">(</span>
+                    <span class="n">refvarname</span><span class="p">,</span>
+                    <span class="n">nparr_masked</span><span class="p">,</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">],</span>
+                    <span class="n">dataset_masks</span><span class="p">,</span>
+                    <span class="n">data_type</span><span class="p">,</span>
+                    <span class="n">nparr_bowtie</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">geo_target_data_type</span> <span class="ow">in</span> <span class="n">geo_target_data_types</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">GVARLIST</span><span class="p">[</span><span class="n">geo_target_data_type</span><span class="p">]</span> <span class="ow">and</span> <span class="n">required_geo</span><span class="p">(</span>
+                    <span class="n">chans</span><span class="p">,</span> <span class="n">geo_target_data_type</span>
+                <span class="p">):</span>
+                    <span class="n">source_file_vars</span> <span class="o">=</span> <span class="n">tracked_data_type_vars</span><span class="p">[</span><span class="n">geo_target_data_type</span><span class="p">][</span>
+                        <span class="n">Start_date</span>
+                    <span class="p">]</span>
+                    <span class="k">if</span> <span class="n">geo_target_data_type</span> <span class="o">==</span> <span class="n">vis_data_type</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">x</span> <span class="ow">in</span> <span class="n">source_file_vars</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vis_vars</span><span class="p">]</span>
+                    <span class="p">):</span>
+                        <span class="c1"># Only add geolocation to vis_data_type if corresponding</span>
+                        <span class="c1"># channels are in the source file</span>
+                        <span class="k">continue</span>
+                    <span class="n">xvarname</span> <span class="o">=</span> <span class="n">var</span>
+                    <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">xvarnames</span><span class="p">:</span>
+                        <span class="n">xvarname</span> <span class="o">=</span> <span class="n">xvarnames</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">required_geo_chan</span><span class="p">(</span><span class="n">xarrays</span><span class="p">,</span> <span class="n">xvarname</span><span class="p">):</span>
+                        <span class="k">continue</span>
+
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">&quot;        Reading </span><span class="si">%s</span><span class="s2"> geolocation channel </span><span class="si">%s</span><span class="s2"> into GEOLOCATION variable </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">geo_target_data_type</span><span class="p">,</span>
+                        <span class="n">var</span><span class="p">,</span>
+                        <span class="n">xvarname</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">nparr</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_equal</span><span class="p">(</span><span class="n">ncvar</span><span class="p">[</span><span class="o">...</span><span class="p">],</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">_FillValue</span><span class="p">)</span>
+                    <span class="n">add_to_xarray</span><span class="p">(</span>
+                        <span class="n">xvarname</span><span class="p">,</span>
+                        <span class="n">nparr</span><span class="p">,</span>
+                        <span class="n">xarrays</span><span class="p">[</span><span class="n">geo_target_data_type</span><span class="p">],</span>
+                        <span class="n">dataset_masks</span><span class="p">,</span>
+                        <span class="n">geo_target_data_type</span><span class="p">,</span>
+                        <span class="n">nparr</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">attrname</span> <span class="ow">in</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">ncattrs</span><span class="p">():</span>
+                        <span class="n">xarrays</span><span class="p">[</span><span class="n">geo_target_data_type</span><span class="p">][</span><span class="n">xvarname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+                            <span class="n">attrname</span>
+                        <span class="p">]</span> <span class="o">=</span> <span class="n">ncvar</span><span class="o">.</span><span class="n">getncattr</span><span class="p">(</span><span class="n">attrname</span><span class="p">)</span>
+
+        <span class="c1"># close the files</span>
+
+        <span class="n">ncdf_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1"># Clean up the final xarray dictionary</span>
+    <span class="n">xarray_returns</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No data read for dataset </span><span class="si">%s</span><span class="s2">, removing from xarray list&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">xarrays</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                <span class="o">~</span><span class="n">dataset_masks</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;DNBRad&quot;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarrays</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">and</span> <span class="n">required_chan</span><span class="p">(</span>
+            <span class="n">chans</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;DNBRef&quot;</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">lunarref.lib.liblunarref</span> <span class="kn">import</span> <span class="n">lunarref</span>
+
+                <span class="n">lunarref_data</span> <span class="o">=</span> <span class="n">lunarref</span><span class="p">(</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;DNB&quot;</span><span class="p">][</span><span class="s2">&quot;DNBRad&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;DNB&quot;</span><span class="p">][</span><span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;DNB&quot;</span><span class="p">][</span><span class="s2">&quot;lunar_zenith_angle&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;DNB&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H&quot;</span><span class="p">),</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;DNB&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%M&quot;</span><span class="p">),</span>
+                    <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;DNB&quot;</span><span class="p">][</span><span class="s2">&quot;moon_phase_angle&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+                <span class="p">)</span>
+                <span class="n">lunarref_data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span>
+                    <span class="n">lunarref_data</span><span class="p">,</span> <span class="o">-</span><span class="mi">999</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span>
+                <span class="p">)</span>
+                <span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;DNB&quot;</span><span class="p">][</span><span class="s2">&quot;DNBRef&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                    <span class="n">lunarref_data</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">xarrays</span><span class="p">[</span><span class="s2">&quot;DNB&quot;</span><span class="p">][</span><span class="s2">&quot;DNBRad&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span>
+                <span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed lunarref in viirs reader.  If you need it, build it&quot;</span><span class="p">)</span>
+        <span class="c1"># This will not duplicate memory - reference</span>
+        <span class="n">xarray_returns</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span>
+
+    <span class="c1"># Force masking of latitude/longitude fill values, otherwise causes issues</span>
+    <span class="c1"># when sectoring</span>
+    <span class="n">fill_value</span> <span class="o">=</span> <span class="o">-</span><span class="mf">999.9</span>
+    <span class="k">for</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">xarray_returns</span><span class="p">:</span>
+        <span class="n">bad_llmask</span> <span class="o">=</span> <span class="n">xarray_returns</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mf">999.9</span>
+        <span class="n">xarray_returns</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray_returns</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="o">~</span><span class="n">bad_llmask</span>
+        <span class="p">)</span>
+        <span class="n">xarray_returns</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray_returns</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="o">~</span><span class="n">bad_llmask</span>
+        <span class="p">)</span>
+
+    <span class="n">xarray_returns</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray_returns</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
+
+    <span class="k">return</span> <span class="n">xarray_returns</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

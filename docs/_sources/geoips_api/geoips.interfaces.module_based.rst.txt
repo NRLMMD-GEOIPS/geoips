@@ -1,0 +1,109 @@
+geoips.interfaces.module\_based package
+=======================================
+
+Submodules
+----------
+
+geoips.interfaces.module\_based.algorithms module
+-------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.algorithms
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.colormappers module
+---------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.colormappers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.coverage\_checkers module
+---------------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.coverage_checkers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.filename\_formatters module
+-----------------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.filename_formatters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.interpolators module
+----------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.interpolators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.output\_formatters module
+---------------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.output_formatters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.procflows module
+------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.procflows
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.readers module
+----------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.readers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.sector\_adjusters module
+--------------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.sector_adjusters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.sector\_metadata\_generators module
+-------------------------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.sector_metadata_generators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.sector\_spec\_generators module
+---------------------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.sector_spec_generators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.title\_formatters module
+--------------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.title_formatters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.interfaces.module_based
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,1306 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.plugins.modules.readers.seviri_hrit &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/readers/seviri_hrit';</script>
+    <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.plugins.modules.readers.seviri_hrit</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for geoips.plugins.modules.readers.seviri_hrit</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # Author:</span>
+<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
+<span class="c1"># # #</span>
+<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
+<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
+<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
+<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+
+<span class="sd">&quot;&quot;&quot;Read SEVIRI hrit data.</span>
+
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">   1) At present, this reader does not work for High Resolution Visible data,</span>
+<span class="sd">      which is ignored. Additionally, to ease generation of geolocation fields,</span>
+<span class="sd">      datasets are assumed to be square and centered at their sub longitude.</span>
+
+<span class="sd">20170330 MLS Try to only decompress what we need (VERY filename dependent),</span>
+<span class="sd">  make scifile and hrit channel names match (more filename dependence),</span>
+<span class="sd">  don&#39;t try to decompress/open file for import_metadata (more filename</span>
+<span class="sd">  dependence for time). satpy requires time to open file, and requires standard</span>
+<span class="sd">  (decompressed) filenames, so built in filename dependence by using satpy.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Python Standard Libraries</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.utils.hrit_reader</span> <span class="kn">import</span> <span class="n">HritFile</span><span class="p">,</span> <span class="n">HritError</span>
+
+<span class="c1"># Installed Libraries</span>
+
+<span class="c1"># GeoIPS Libraries</span>
+<span class="kn">from</span> <span class="nn">geoips.filenames.base_paths</span> <span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
+<span class="kn">from</span> <span class="nn">geoips.plugins.modules.readers.utils.geostationary_geolocation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_geolocation</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numexpr</span> <span class="k">as</span> <span class="nn">ne</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed numexpr import in satnav.py. If you need it, install it.&quot;</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">NPROC</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">ne</span><span class="o">.</span><span class="n">set_num_threads</span><span class="p">(</span><span class="n">NPROC</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed ne.set_num_threads in satnav.py. If you need numexpr, install it.&quot;</span><span class="p">)</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># These should be added to the data file object</span>
+<span class="n">BADVALS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.9</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">VIS_CALIB</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;msg1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;B01&quot;</span><span class="p">:</span> <span class="mf">65.2296</span><span class="p">,</span> <span class="s2">&quot;B02&quot;</span><span class="p">:</span> <span class="mf">73.0127</span><span class="p">,</span> <span class="s2">&quot;B03&quot;</span><span class="p">:</span> <span class="mf">62.3715</span><span class="p">,</span> <span class="s2">&quot;B12&quot;</span><span class="p">:</span> <span class="mf">78.7599</span><span class="p">},</span>
+    <span class="s2">&quot;msg2&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;B01&quot;</span><span class="p">:</span> <span class="mf">65.2065</span><span class="p">,</span> <span class="s2">&quot;B02&quot;</span><span class="p">:</span> <span class="mf">73.1869</span><span class="p">,</span> <span class="s2">&quot;B03&quot;</span><span class="p">:</span> <span class="mf">61.9923</span><span class="p">,</span> <span class="s2">&quot;B12&quot;</span><span class="p">:</span> <span class="mf">79.0113</span><span class="p">},</span>
+    <span class="s2">&quot;msg3&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;B01&quot;</span><span class="p">:</span> <span class="mf">65.5148</span><span class="p">,</span> <span class="s2">&quot;B02&quot;</span><span class="p">:</span> <span class="mf">73.1807</span><span class="p">,</span> <span class="s2">&quot;B03&quot;</span><span class="p">:</span> <span class="mf">62.0208</span><span class="p">,</span> <span class="s2">&quot;B12&quot;</span><span class="p">:</span> <span class="mf">78.9416</span><span class="p">},</span>
+    <span class="s2">&quot;msg4&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;B01&quot;</span><span class="p">:</span> <span class="mf">65.2656</span><span class="p">,</span> <span class="s2">&quot;B02&quot;</span><span class="p">:</span> <span class="mf">73.1692</span><span class="p">,</span> <span class="s2">&quot;B03&quot;</span><span class="p">:</span> <span class="mf">61.9416</span><span class="p">,</span> <span class="s2">&quot;B12&quot;</span><span class="p">:</span> <span class="mf">79.0035</span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">IR_CALIB</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;msg1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;B04&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">2567.330</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9956</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">3.410</span><span class="p">},</span>  <span class="c1"># IR3.9 Water vapour channel</span>
+        <span class="s2">&quot;B05&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1598.103</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9962</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">2.218</span><span class="p">},</span>  <span class="c1"># IR6.2 Water vapour channel</span>
+        <span class="s2">&quot;B06&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1362.081</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9991</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.478</span><span class="p">},</span>  <span class="c1"># IR7.3 Water vapour channel</span>
+        <span class="s2">&quot;B07&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1149.069</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9996</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.179</span><span class="p">},</span>  <span class="c1"># IR8.7 Atmospheric window</span>
+        <span class="s2">&quot;B08&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1034.343</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9999</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.060</span><span class="p">},</span>  <span class="c1"># IR9.7 Ozone channel</span>
+        <span class="s2">&quot;B09&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">930.647</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9983</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.625</span><span class="p">},</span>  <span class="c1"># IR10.8 Atmospheric window</span>
+        <span class="s2">&quot;B10&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">839.660</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9988</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.397</span><span class="p">},</span>  <span class="c1"># IR12.0 Atmospheric window</span>
+        <span class="s2">&quot;B11&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">752.387</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9981</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.578</span><span class="p">},</span>
+    <span class="p">},</span>  <span class="c1"># IR13.4 Carbon dioxide channel</span>
+    <span class="s2">&quot;msg2&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;B04&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">2568.832</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9954</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">3.438</span><span class="p">},</span>  <span class="c1"># IR3.9 Water vapour channel</span>
+        <span class="s2">&quot;B05&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1600.548</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9963</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">2.185</span><span class="p">},</span>  <span class="c1"># IR6.2 Water vapour channel</span>
+        <span class="s2">&quot;B06&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1360.330</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9991</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.470</span><span class="p">},</span>  <span class="c1"># IR7.3 Water vapour channel</span>
+        <span class="s2">&quot;B07&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1148.620</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9996</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.179</span><span class="p">},</span>  <span class="c1"># IR8.7 Atmospheric window</span>
+        <span class="s2">&quot;B08&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1035.289</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9999</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.056</span><span class="p">},</span>  <span class="c1"># IR9.7 Ozone channel</span>
+        <span class="s2">&quot;B09&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">931.700</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9983</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.640</span><span class="p">},</span>  <span class="c1"># IR10.8 Atmospheric window</span>
+        <span class="s2">&quot;B10&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">836.445</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9988</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.408</span><span class="p">},</span>  <span class="c1"># IR12.0 Atmospheric window</span>
+        <span class="s2">&quot;B11&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">751.792</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9981</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.561</span><span class="p">},</span>
+    <span class="p">},</span>  <span class="c1"># IR13.4 Carbon dioxide channel</span>
+    <span class="s2">&quot;msg3&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;B04&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">2547.771</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9915</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">2.9002</span><span class="p">},</span>  <span class="c1"># IR3.9 Water vapour channel</span>
+        <span class="s2">&quot;B05&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1595.621</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9960</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">2.0337</span><span class="p">},</span>  <span class="c1"># IR6.2 Water vapour channel</span>
+        <span class="s2">&quot;B06&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1360.377</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9991</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.4340</span><span class="p">},</span>  <span class="c1"># IR7.3 Water vapour channel</span>
+        <span class="s2">&quot;B07&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1148.130</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9996</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.1714</span><span class="p">},</span>  <span class="c1"># IR8.7 Atmospheric window</span>
+        <span class="s2">&quot;B08&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1034.715</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9999</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.0527</span><span class="p">},</span>  <span class="c1"># IR9.7 Ozone channel</span>
+        <span class="s2">&quot;B09&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">929.842</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9983</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.6084</span><span class="p">},</span>  <span class="c1"># IR10.8 Atmospheric window</span>
+        <span class="s2">&quot;B10&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">838.659</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9988</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.3882</span><span class="p">},</span>  <span class="c1"># IR12.0 Atmospheric window</span>
+        <span class="s2">&quot;B11&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">750.653</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9982</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.5390</span><span class="p">},</span>
+    <span class="p">},</span>  <span class="c1"># IR13.4 Carbon dioxide channel</span>
+    <span class="s2">&quot;msg4&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;B04&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">2555.280</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9916</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">2.9438</span><span class="p">},</span>  <span class="c1"># IR3.9 Water vapour channel</span>
+        <span class="s2">&quot;B05&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1596.080</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9959</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">2.0780</span><span class="p">},</span>  <span class="c1"># IR6.2 Water vapour channel</span>
+        <span class="s2">&quot;B06&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1361.748</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9990</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.4929</span><span class="p">},</span>  <span class="c1"># IR7.3 Water vapour channel</span>
+        <span class="s2">&quot;B07&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1148.130</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9996</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.1731</span><span class="p">},</span>  <span class="c1"># IR8.7 Atmospheric window</span>
+        <span class="s2">&quot;B08&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">1034.851</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9998</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.0597</span><span class="p">},</span>  <span class="c1"># IR9.7 Ozone channel</span>
+        <span class="s2">&quot;B09&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">931.122</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9983</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.6256</span><span class="p">},</span>  <span class="c1"># IR10.8 Atmospheric window</span>
+        <span class="s2">&quot;B10&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">839.113</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9988</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.4002</span><span class="p">},</span>  <span class="c1"># IR12.0 Atmospheric window</span>
+        <span class="s2">&quot;B11&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wn&quot;</span><span class="p">:</span> <span class="mf">748.585</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9981</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.5635</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">}</span>  <span class="c1"># IR13.4 Carbon dioxide channel</span>
+
+<span class="n">geolocation_variable_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
+<span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;seviri_hrit&quot;</span>
+
+
+<div class="viewcode-block" id="calculate_chebyshev_polynomial"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.seviri_hrit.calculate_chebyshev_polynomial">[docs]</a><span class="k">def</span> <span class="nf">calculate_chebyshev_polynomial</span><span class="p">(</span><span class="n">coefs</span><span class="p">,</span> <span class="n">start_dt</span><span class="p">,</span> <span class="n">end_dt</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate Chebyshev Polynomial.&quot;&quot;&quot;</span>
+    <span class="n">start_to_end</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_dt</span> <span class="o">-</span> <span class="n">start_dt</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span>
+    <span class="c1"># dt_to_end = (end_dt - dt).seconds</span>
+    <span class="n">start_to_dt</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt</span> <span class="o">-</span> <span class="n">start_dt</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">start_to_dt</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">start_to_end</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">start_to_end</span><span class="p">))</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span>
+
+    <span class="c1"># I think this is what was in the documentation</span>
+    <span class="c1"># MSG_Level_1_5_Image_Data_Format_Description.pdf</span>
+    <span class="c1"># p 87 earth fixed coordinate frame</span>
+    <span class="c1"># p 124 decoding chebychev polynomial function</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">dd</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">save</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">*</span> <span class="n">d</span> <span class="o">-</span> <span class="n">dd</span> <span class="o">+</span> <span class="n">coefs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">dd</span> <span class="o">=</span> <span class="n">save</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">t</span> <span class="o">*</span> <span class="n">d</span> <span class="o">-</span> <span class="n">dd</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">coefs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># f = -0.5 * coefs[0] # First term of Chebyshev polynomial</span>
+    <span class="c1"># f = f + coefs[0] # second term of Chebyshev polynomial</span>
+    <span class="c1"># f = f + coefs[1]*t # third term</span>
+    <span class="c1"># T_k_minus_3 = 1</span>
+    <span class="c1"># T_k_minus_2 = t</span>
+    <span class="c1"># T_k_minus_1 = t2*T_k_minus_2 - T_k_minus_3</span>
+    <span class="c1">## remaining terms recursively defined</span>
+    <span class="c1"># for xcoef in coefs[3:]:</span>
+    <span class="c1">#    f = f + xcoef * T_k_minus_1</span>
+    <span class="c1">#    T_k_minus_3 = T_k_minus_2</span>
+    <span class="c1">#    T_k_minus_2 = T_k_minus_1</span>
+    <span class="c1">#    T_k_minus_1 = t2*T_k_minus_2 - T_k_minus_3</span>
+    <span class="c1">##from IPython import embed as shell; shell()</span>
+
+    <span class="k">return</span> <span class="n">d</span></div>
+
+
+<div class="viewcode-block" id="XritError"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.seviri_hrit.XritError">[docs]</a><span class="k">class</span> <span class="nc">XritError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise exception on XritError.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize XritError.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">msg</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return XritError string.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="compare_dicts"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.seviri_hrit.compare_dicts">[docs]</a><span class="k">def</span> <span class="nf">compare_dicts</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compare the values in two dictionaries.</span>
+
+<span class="sd">    If they are equal, return True, otherwise False</span>
+<span class="sd">    If skip is set and contains one of the keys, skip that key</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">d1</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">d2</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">d1</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">skip</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">skip</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">d1</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">!=</span> <span class="n">d2</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="get_top_level_metadata"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.seviri_hrit.get_top_level_metadata">[docs]</a><span class="k">def</span> <span class="nf">get_top_level_metadata</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">sect</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get top level metadata.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">HritFile</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;block_2&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">break</span>
+    <span class="n">md</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="s2">&quot;GEOS&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_2&quot;</span><span class="p">][</span><span class="s2">&quot;projection&quot;</span><span class="p">]:</span>
+        <span class="n">md</span><span class="p">[</span><span class="s2">&quot;sector_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Full-Disk&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HritError</span><span class="p">(</span>
+            <span class="s2">&quot;Unknown projection encountered: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_2&quot;</span><span class="p">][</span><span class="s2">&quot;projection&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="n">md</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">start_datetime</span>
+    <span class="n">md</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">start_datetime</span>
+    <span class="n">md</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;nesdisstar&quot;</span>
+    <span class="c1"># MLS Check platform_name</span>
+    <span class="c1"># Turn msg4_iodc into msg4.  Then pull geoips satname (meteoEU/meteoIO)</span>
+    <span class="c1"># from utils/satellite_info.py</span>
+    <span class="n">msg_satname</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">annotation_metadata</span><span class="p">[</span><span class="s2">&quot;platform&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_iodc&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="c1"># Save actual satellite name (msg1 / msg4) for the coefficient tables above.</span>
+    <span class="c1"># geoips specific platform_name should be msg-1 or msg-4</span>
+    <span class="n">md</span><span class="p">[</span><span class="s2">&quot;satellite_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">msg_satname</span>
+    <span class="c1"># from geoips.utils.satellite_info import open_satinfo</span>
+    <span class="c1"># try:</span>
+    <span class="c1">#     satinfo = open_satinfo(msg_satname)</span>
+    <span class="c1">#     if hasattr(satinfo, &#39;geoips_satname&#39;):</span>
+    <span class="c1">#         msg_satname = satinfo.geoips_satname</span>
+    <span class="c1"># except KeyError:</span>
+    <span class="c1">#     raise HritError(&#39;Unknown satname encountered: {}&#39;.format(msg_satname))</span>
+    <span class="n">md</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">msg_satname</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">msg_satname</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># msg-1 or msg-4</span>
+    <span class="n">md</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;seviri&quot;</span>
+    <span class="n">md</span><span class="p">[</span><span class="s2">&quot;area_definition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sect</span>
+    <span class="n">md</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.0</span>
+
+    <span class="k">return</span> <span class="n">md</span></div>
+
+
+<div class="viewcode-block" id="get_latitude_longitude"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.seviri_hrit.get_latitude_longitude">[docs]</a><span class="k">def</span> <span class="nf">get_latitude_longitude</span><span class="p">(</span><span class="n">gmd</span><span class="p">,</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate full-disk latitudes and longitudes.&quot;&quot;&quot;</span>
+    <span class="c1"># Constants</span>
+    <span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+    <span class="n">rad2deg</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="o">/</span> <span class="n">pi</span>
+    <span class="n">deg2rad</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span>
+    <span class="n">Rs</span> <span class="o">=</span> <span class="mi">42164</span>  <span class="c1"># Satellite altitude (km)</span>
+    <span class="n">Re</span> <span class="o">=</span> <span class="mf">6378.1690</span>  <span class="c1"># Earth equatorial radius (km)</span>
+    <span class="n">Rp</span> <span class="o">=</span> <span class="mf">6356.5838</span>  <span class="c1"># Earth polar radius (km)</span>
+    <span class="n">r3</span> <span class="o">=</span> <span class="n">Re</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">Rp</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">sd_coeff</span> <span class="o">=</span> <span class="mi">1737122264</span>  <span class="c1"># If there is a problem for MSG use 1737121856</span>
+    <span class="n">lon0</span> <span class="o">=</span> <span class="n">gmd</span><span class="p">[</span><span class="s2">&quot;lon0&quot;</span><span class="p">]</span>
+
+    <span class="n">deg2rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">gmd</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">gmd</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">deg2rad</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">gmd</span><span class="p">[</span><span class="s2">&quot;sample_offset&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**-</span><span class="mi">16</span> <span class="o">*</span> <span class="n">gmd</span><span class="p">[</span><span class="s2">&quot;sample_scale&quot;</span><span class="p">])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">deg2rad</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">gmd</span><span class="p">[</span><span class="s2">&quot;line_offset&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**-</span><span class="mi">16</span> <span class="o">*</span> <span class="n">gmd</span><span class="p">[</span><span class="s2">&quot;line_scale&quot;</span><span class="p">])</span>
+
+    <span class="n">cos_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">sin_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">cos_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">sin_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">sd</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;(Rs * cos_x * cos_y)**2 - (cos_y**2 + r3 * sin_y**2) * sd_coeff&quot;</span><span class="p">)</span>
+    <span class="n">bad_mask</span> <span class="o">=</span> <span class="n">sd</span> <span class="o">&lt;</span> <span class="mf">0.0</span>
+    <span class="n">sd</span><span class="p">[</span><span class="n">bad_mask</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">sd</span> <span class="o">**=</span> <span class="mf">0.5</span>
+
+    <span class="c1"># Doing inplace operations when variables are no longer needed</span>
+
+    <span class="c1"># sd no longer needed</span>
+    <span class="n">sn</span> <span class="o">=</span> <span class="n">sd</span>
+    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;(Rs * cos_x * cos_y - sd) / (cos_y**2 + r3 * sin_y**2)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sn</span><span class="p">)</span>
+
+    <span class="c1"># cos_x no longer needed</span>
+    <span class="n">s1</span> <span class="o">=</span> <span class="n">cos_x</span>
+    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;Rs - (sn * cos_x * cos_y)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">s1</span><span class="p">)</span>
+
+    <span class="c1"># Nothing unneed, no inplace</span>
+    <span class="n">s2</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;sn * sin_x * cos_y&quot;</span><span class="p">)</span>
+
+    <span class="c1"># sin_y no longer needed</span>
+    <span class="n">s3</span> <span class="o">=</span> <span class="n">cos_y</span>
+    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;-sn * sin_y&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">s3</span><span class="p">)</span>
+
+    <span class="c1"># sn no longer needed</span>
+    <span class="n">sxy</span> <span class="o">=</span> <span class="n">sn</span>
+    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;sqrt(s1**2 + s2**2)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sxy</span><span class="p">)</span>
+
+    <span class="c1"># s3 no longer needed</span>
+    <span class="n">lats</span> <span class="o">=</span> <span class="n">s3</span>
+    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;rad2deg * arctan(r3 * s3 / sxy)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">lats</span><span class="p">)</span>
+
+    <span class="c1"># s1 no longer needed</span>
+    <span class="n">lons</span> <span class="o">=</span> <span class="n">s1</span>
+    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;rad2deg * arctan(s2 / s1) + lon0&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">lons</span><span class="p">)</span>
+    <span class="n">lons</span><span class="p">[</span><span class="n">lons</span> <span class="o">&gt;</span> <span class="mf">180.0</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">360</span>
+
+    <span class="c1"># Set bad values</span>
+    <span class="n">lats</span><span class="p">[</span><span class="n">bad_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">]</span>
+    <span class="n">lons</span><span class="p">[</span><span class="n">bad_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span></div>
+
+
+<span class="c1"># def get_low_res_geolocation_args(prologue):</span>
+<span class="k">def</span> <span class="nf">_get_geolocation_metadata</span><span class="p">(</span><span class="n">prologue</span><span class="p">,</span> <span class="n">file_metadata</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get geolocation metadata.&quot;&quot;&quot;</span>
+    <span class="n">geomet</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file_metadata</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file_metadata</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;scan_mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;projectionDescription&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;typeOfProjection&quot;</span>
+    <span class="p">]</span>
+    <span class="c1"># Used for cached filenames</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;scan_mode&quot;</span><span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;lon0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;projectionDescription&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;longitudeOfSSP&quot;</span>
+    <span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;referenceGridVIS_IR&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;numberOfLines&quot;</span>
+    <span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;referenceGridVIS_IR&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;numberOfColumns&quot;</span>
+    <span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;line_scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">13642337</span>  <span class="c1"># This will only work for low resolution data</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;sample_scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">13642337</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;line_offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;sample_offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;imageAcquisition&quot;</span><span class="p">][</span><span class="s2">&quot;plannedAcquisitionTime&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;trueRepeatCycleStart&quot;</span>
+    <span class="p">]</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;H_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42164</span> <span class="o">*</span> <span class="mf">1000.0</span>  <span class="c1"># Satellite altitude (m)</span>
+    <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;roi_factor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># roi = res_km * 1000 * roi_factor</span>
+    <span class="k">return</span> <span class="n">geomet</span>
+
+
+<div class="viewcode-block" id="countsToRad"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.seviri_hrit.countsToRad">[docs]</a><span class="k">def</span> <span class="nf">countsToRad</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert counts to rad.&quot;&quot;&quot;</span>
+    <span class="n">rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">)</span>
+    <span class="n">rad</span><span class="p">[</span><span class="n">counts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">+</span> <span class="p">(</span><span class="n">slope</span> <span class="o">*</span> <span class="n">counts</span><span class="p">[</span><span class="n">counts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">rad</span></div>
+
+
+<div class="viewcode-block" id="radToRef"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.seviri_hrit.radToRef">[docs]</a><span class="k">def</span> <span class="nf">radToRef</span><span class="p">(</span><span class="n">rad</span><span class="p">,</span> <span class="n">sun_zen</span><span class="p">,</span> <span class="n">platform</span><span class="p">,</span> <span class="n">band</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert Rad to Ref.&quot;&quot;&quot;</span>
+    <span class="n">irrad</span> <span class="o">=</span> <span class="n">VIS_CALIB</span><span class="p">[</span><span class="n">platform</span><span class="p">][</span><span class="n">band</span><span class="p">]</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">rad</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">)</span>
+    <span class="c1"># 0 to 1 rather than 0 to 100</span>
+    <span class="n">ref</span><span class="p">[</span><span class="n">rad</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">rad</span><span class="p">[</span><span class="n">rad</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">irrad</span>
+    <span class="c1"># DO NOT REMOVE THIS STEP ALTOGETHER!!!!  Just take out the solar zenith correction part.</span>
+    <span class="c1"># Previously, solar zenith correction was being applied twice, then we were off by factor of pi/irrad</span>
+    <span class="c1"># Now we should be good!</span>
+    <span class="c1"># ref[rad &gt; 0] = np.pi * rad[rad &gt; 0] / (irrad * np.cos((np.pi / 180) * sun_zen[rad &gt; 0]))</span>
+    <span class="n">ref</span><span class="p">[</span><span class="n">rad</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">rad</span><span class="p">[</span><span class="n">rad</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">irrad</span>
+    <span class="n">ref</span><span class="p">[</span><span class="n">ref</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ref</span><span class="p">[</span><span class="n">ref</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">ref</span><span class="p">[</span><span class="n">sun_zen</span> <span class="o">&gt;</span> <span class="mi">90</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">999.0</span>
+    <span class="n">ref</span><span class="p">[</span><span class="n">sun_zen</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">999</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">999.0</span>
+    <span class="k">return</span> <span class="n">ref</span></div>
+
+
+<div class="viewcode-block" id="radToBT"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.seviri_hrit.radToBT">[docs]</a><span class="k">def</span> <span class="nf">radToBT</span><span class="p">(</span><span class="n">rad</span><span class="p">,</span> <span class="n">platform</span><span class="p">,</span> <span class="n">band</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert rad to BT.&quot;&quot;&quot;</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="mf">1.19104e-05</span>
+    <span class="n">c2</span> <span class="o">=</span> <span class="mf">1.43877</span>
+    <span class="n">wn</span> <span class="o">=</span> <span class="n">IR_CALIB</span><span class="p">[</span><span class="n">platform</span><span class="p">][</span><span class="n">band</span><span class="p">][</span><span class="s2">&quot;wn&quot;</span><span class="p">]</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">IR_CALIB</span><span class="p">[</span><span class="n">platform</span><span class="p">][</span><span class="n">band</span><span class="p">][</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">IR_CALIB</span><span class="p">[</span><span class="n">platform</span><span class="p">][</span><span class="n">band</span><span class="p">][</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">rad</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">)</span>
+    <span class="n">temp</span><span class="p">[</span><span class="n">rad</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">c2</span> <span class="o">*</span> <span class="n">wn</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">wn</span><span class="o">**</span><span class="mi">3</span> <span class="o">*</span> <span class="n">c1</span> <span class="o">/</span> <span class="n">rad</span><span class="p">[</span><span class="n">rad</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+    <span class="k">return</span> <span class="n">temp</span></div>
+
+
+<div class="viewcode-block" id="Chan"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.seviri_hrit.Chan">[docs]</a><span class="k">class</span> <span class="nc">Chan</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Channel class.&quot;&quot;&quot;</span>
+
+    <span class="n">_good_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;B01Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B01Ref&quot;</span><span class="p">,</span>  <span class="c1"># VIS0.6 Cloud mapping</span>
+        <span class="s2">&quot;B02Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B02Ref&quot;</span><span class="p">,</span>  <span class="c1"># VIS0.8 Vegetation index</span>
+        <span class="s2">&quot;B03Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B03Ref&quot;</span><span class="p">,</span>  <span class="c1"># NIR1.6 Cloud / snow discrimination</span>
+        <span class="s2">&quot;B04Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B04BT&quot;</span><span class="p">,</span>  <span class="c1"># IR3.9  Atmospheric window</span>
+        <span class="s2">&quot;B05Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B05BT&quot;</span><span class="p">,</span>  <span class="c1"># IR6.2  Water vapour channel (Upper atmosphere)</span>
+        <span class="s2">&quot;B06Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B06BT&quot;</span><span class="p">,</span>  <span class="c1"># IR7.3  Water vapour channel (Lower atmosphere)</span>
+        <span class="s2">&quot;B07Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B07BT&quot;</span><span class="p">,</span>  <span class="c1"># IR8.7  Atmospheric window</span>
+        <span class="s2">&quot;B08Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B08BT&quot;</span><span class="p">,</span>  <span class="c1"># IR9.7  Ozone channel</span>
+        <span class="s2">&quot;B09Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B09BT&quot;</span><span class="p">,</span>  <span class="c1"># IR10.8 Atmospheric window</span>
+        <span class="s2">&quot;B10Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B10BT&quot;</span><span class="p">,</span>  <span class="c1"># IR12.0 Atmospheric window</span>
+        <span class="s2">&quot;B11Rad&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;B11BT&quot;</span><span class="p">,</span>
+    <span class="p">]</span>  <span class="c1"># IR13.4 Carbon dioxide channel</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Chan object.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;B12&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HritError</span><span class="p">(</span>
+                <span class="s2">&quot;Channel 12 (High Resolution Visible) currently not handled.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_good_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown channel name: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_band</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Name property.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">band</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Band property.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_band</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">band_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Band number property.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_band</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Type property.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span></div>
+
+
+<div class="viewcode-block" id="ChanList"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.seviri_hrit.ChanList">[docs]</a><span class="k">class</span> <span class="nc">ChanList</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ChanList Class.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chans</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize ChanList object.&quot;&quot;&quot;</span>
+        <span class="n">chans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">chans</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_info</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;chans&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">Chan</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span> <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">]}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">[</span><span class="s2">&quot;names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">chan</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">[</span><span class="s2">&quot;bands&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span> <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">[</span><span class="s2">&quot;types&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">chan</span><span class="o">.</span><span class="n">type</span> <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">]))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">chans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Chans property.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Names property.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">[</span><span class="s2">&quot;names&quot;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bands</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Bands property.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">[</span><span class="s2">&quot;bands&quot;</span><span class="p">]</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_all_types_for_bands</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bands</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List all types for bands.&quot;&quot;&quot;</span>
+        <span class="n">good_names</span> <span class="o">=</span> <span class="n">Chan</span><span class="o">.</span><span class="n">_good_names</span>
+        <span class="n">chans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">good_names</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">chan</span><span class="p">:</span>
+                    <span class="n">chans</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">chans</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.seviri_hrit.call">[docs]</a><span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read SEVIRI hrit data products.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : list</span>
+<span class="sd">        * List of strings, full paths to files</span>
+<span class="sd">    metadata_only : bool, default=False</span>
+<span class="sd">        * Return before actually reading data if True</span>
+<span class="sd">    chans : list of str, default=None</span>
+<span class="sd">        * List of desired channels (skip unneeded variables as needed).</span>
+<span class="sd">        * Include all channels if None.</span>
+<span class="sd">    area_def : pyresample.AreaDefinition, default=None</span>
+<span class="sd">        * Specify region to read</span>
+<span class="sd">        * Read all data if None.</span>
+<span class="sd">    self_register : str or bool, default=False</span>
+<span class="sd">        * register all data to the specified dataset id (as specified in the</span>
+<span class="sd">          return dictionary keys).</span>
+<span class="sd">        * Read multiple resolutions of data if False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict of xarray.Datasets</span>
+<span class="sd">        * dictionary of xarray.Dataset objects with required Variables and</span>
+<span class="sd">          Attributes.</span>
+<span class="sd">        * Dictionary keys can be any descriptive dataset ids.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :ref:`xarray_standards`</span>
+<span class="sd">        Additional information regarding required attributes and variables</span>
+<span class="sd">        for GeoIPS-formatted xarray Datasets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gvars</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">datavars</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">adname</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span>
+    <span class="c1"># Remove any HRV files from file list</span>
+    <span class="c1"># See note 1 at top of module</span>
+    <span class="n">fnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">fname</span> <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">val</span> <span class="ow">in</span> <span class="n">fname</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;HRV&quot;</span><span class="p">])]</span>
+
+    <span class="c1"># Check inputs</span>
+    <span class="k">if</span> <span class="n">self_register</span> <span class="ow">and</span> <span class="n">self_register</span> <span class="o">!=</span> <span class="s2">&quot;LOW&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">XritError</span><span class="p">(</span>
+            <span class="s2">&quot;Unknown resolution supplied to self_register: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">self_register</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">area_def</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">adname</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Keyword area_def must be of type Sector.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">adname</span> <span class="o">=</span> <span class="s2">&quot;FULL_DISK&quot;</span>
+
+    <span class="kn">import</span> <span class="nn">xarray</span>
+
+    <span class="n">xarray_obj</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+
+    <span class="c1"># Gather top-level metadata. MUst pass ALL fnames to make sure we</span>
+    <span class="c1"># use a datafile, and not pro or epi (they do not contain projection</span>
+    <span class="c1"># information)</span>
+    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">get_top_level_metadata</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">area_def</span><span class="p">)</span>
+
+    <span class="c1"># chans == [] specifies we don&#39;t want to read ANY data, just metadata.</span>
+    <span class="c1"># chans == None specifies that we are not specifying a channel list,</span>
+    <span class="c1">#               and thus want ALL channels.</span>
+    <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
+        <span class="c1"># If NO CHANNELS were specifically requested, just return at this</span>
+        <span class="c1"># point with the metadata fields populated. A dummy SciFile dataset</span>
+        <span class="c1"># will be created with only metadata. This is for checking what</span>
+        <span class="c1"># platform/source combination we are using, etc.</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xarray_obj</span><span class="p">}</span>
+
+    <span class="c1"># Create file objects for each input file and organize</span>
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">pro</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">epi</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sdt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">imgf</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">all_segs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="kn">from</span> <span class="nn">struct</span> <span class="kn">import</span> <span class="n">error</span> <span class="k">as</span> <span class="n">structerror</span>
+
+    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">HritFile</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">structerror</span><span class="p">:</span>
+            <span class="c1"># Don&#39;t fail altogether if there is one bad file</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;FAILED reader </span><span class="si">%s</span><span class="s2">, skipping&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="c1"># Ensure all files have same start datetime</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sdt</span><span class="p">:</span>
+            <span class="n">sdt</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">start_datetime</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">start_datetime</span> <span class="o">!=</span> <span class="n">sdt</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HritError</span><span class="p">(</span>
+                <span class="s2">&quot;Start date time does not match for all files: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="c1"># Get prologue</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">file_type</span> <span class="o">==</span> <span class="s2">&quot;prologue&quot;</span><span class="p">:</span>
+            <span class="n">pro</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">prologue</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span>
+            <span class="c1"># xarray_obj.attrs[&#39;prologue&#39;] = pro</span>
+            <span class="k">for</span> <span class="n">poly</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">prologue</span><span class="p">[</span><span class="s2">&quot;satelliteStatus&quot;</span><span class="p">][</span><span class="s2">&quot;orbit&quot;</span><span class="p">][</span><span class="s2">&quot;orbitPolynomial&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">dt</span> <span class="o">&lt;=</span> <span class="n">poly</span><span class="p">[</span><span class="s2">&quot;endTime&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">dt</span> <span class="o">&gt;=</span> <span class="n">poly</span><span class="p">[</span><span class="s2">&quot;startTime&quot;</span><span class="p">]:</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Calculating x/y/z satellite location&quot;</span><span class="p">)</span>
+
+                    <span class="n">st</span> <span class="o">=</span> <span class="n">poly</span><span class="p">[</span><span class="s2">&quot;startTime&quot;</span><span class="p">]</span>
+                    <span class="n">et</span> <span class="o">=</span> <span class="n">poly</span><span class="p">[</span><span class="s2">&quot;endTime&quot;</span><span class="p">]</span>
+                    <span class="n">xcoef</span> <span class="o">=</span> <span class="n">poly</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span>
+                    <span class="n">ycoef</span> <span class="o">=</span> <span class="n">poly</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span>
+                    <span class="n">zcoef</span> <span class="o">=</span> <span class="n">poly</span><span class="p">[</span><span class="s2">&quot;Z&quot;</span><span class="p">]</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="n">calculate_chebyshev_polynomial</span><span class="p">(</span><span class="n">xcoef</span><span class="p">,</span> <span class="n">st</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+                    <span class="n">y</span> <span class="o">=</span> <span class="n">calculate_chebyshev_polynomial</span><span class="p">(</span><span class="n">ycoef</span><span class="p">,</span> <span class="n">st</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+                    <span class="n">z</span> <span class="o">=</span> <span class="n">calculate_chebyshev_polynomial</span><span class="p">(</span><span class="n">zcoef</span><span class="p">,</span> <span class="n">st</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+                    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;satECF_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;satECF_m&quot;</span><span class="p">][</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">1000</span>
+                    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;satECF_m&quot;</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="mi">1000</span>
+                    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;satECF_m&quot;</span><span class="p">][</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="mi">1000</span>
+
+                    <span class="c1"># from IPython import embed as shell; shell()</span>
+
+        <span class="c1"># Get epilogue</span>
+        <span class="k">elif</span> <span class="n">df</span><span class="o">.</span><span class="n">file_type</span> <span class="o">==</span> <span class="s2">&quot;epilogue&quot;</span><span class="p">:</span>
+            <span class="n">epi</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">epilogue</span>
+            <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;epilogue&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">epi</span>
+        <span class="c1"># Store data files, organized by band, then segment</span>
+        <span class="k">elif</span> <span class="n">df</span><span class="o">.</span><span class="n">file_type</span> <span class="o">==</span> <span class="s2">&quot;image&quot;</span><span class="p">:</span>
+            <span class="c1"># Ensure all files have the same geolocation information</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">imgf</span><span class="p">:</span>
+                <span class="n">imgf</span> <span class="o">=</span> <span class="n">df</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">compare_dicts</span><span class="p">(</span>
+                <span class="n">imgf</span><span class="o">.</span><span class="n">geolocation_metadata</span><span class="p">,</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">geolocation_metadata</span><span class="p">,</span>
+                <span class="n">skip</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;line_offset&quot;</span><span class="p">,</span> <span class="s2">&quot;sample_offset&quot;</span><span class="p">],</span>
+            <span class="p">):</span>
+                <span class="k">raise</span> <span class="n">HritError</span><span class="p">(</span>
+                    <span class="s2">&quot;Geolocation metadata do not match for image files: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">fnames</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="c1"># Initialize band info with None for eight segments</span>
+            <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">band</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dfs</span><span class="p">:</span>
+                <span class="n">dfs</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">band</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">num</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)}</span>
+            <span class="n">dfs</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">band</span><span class="p">][</span><span class="n">df</span><span class="o">.</span><span class="n">segment</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+            <span class="n">all_segs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">segment</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Unhandled file type encountered: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">file_type</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pro</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HritError</span><span class="p">(</span><span class="s2">&quot;No prologue file found&quot;</span><span class="p">)</span>
+
+    <span class="c1"># If specific channels were requested, check them against the input data</span>
+    <span class="k">if</span> <span class="n">chans</span><span class="p">:</span>
+        <span class="n">chlist</span> <span class="o">=</span> <span class="n">ChanList</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">chans</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">geolocation_variable_names</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">chlist</span><span class="o">.</span><span class="n">chans</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">chan</span><span class="o">.</span><span class="n">band</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dfs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Requested channel </span><span class="si">{}</span><span class="s2"> not found in input data.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="p">)</span>
+    <span class="c1"># If no specific channels were requested, get everything</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">chlist</span> <span class="o">=</span> <span class="n">ChanList</span><span class="o">.</span><span class="n">_all_types_for_bands</span><span class="p">(</span><span class="n">dfs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;datavars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Gather geolocation data</span>
+    <span class="c1"># Assume the datetime is the same for all resolution.  Not true, but close enough.</span>
+    <span class="c1"># This saves us from having slightly different solar angles for each channel.</span>
+    <span class="n">gmd</span> <span class="o">=</span> <span class="n">_get_geolocation_metadata</span><span class="p">(</span><span class="n">pro</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+    <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span> <span class="o">=</span> <span class="n">get_latitude_longitude</span><span class="p">(</span><span class="n">gmd</span><span class="p">,</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span><span class="p">)</span>
+    <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_geolocation</span><span class="p">(</span><span class="n">sdt</span><span class="p">,</span> <span class="n">gmd</span><span class="p">,</span> <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">,</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span><span class="p">)</span>
+
+    <span class="c1"># Drop files for channels other than those requested and decompress</span>
+    <span class="n">outdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;LOCALSCRATCH&quot;</span><span class="p">],</span>
+        <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">],</span>
+        <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">],</span>
+        <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">geoips.filenames.base_paths</span> <span class="kn">import</span> <span class="n">make_dirs</span>
+
+    <span class="n">make_dirs</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
+
+    <span class="c1"># Can not change dictionary size during iteration for Python 3</span>
+    <span class="n">skip_bands</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">dfs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">band</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">chlist</span><span class="o">.</span><span class="n">bands</span><span class="p">:</span>
+            <span class="n">skip_bands</span> <span class="o">+=</span> <span class="p">[</span><span class="n">band</span><span class="p">]</span>
+            <span class="c1"># dfs.pop(band)</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># dfs[band] = {seg: df.decompress(outdir) for seg, df in dfs[band].items()}</span>
+            <span class="n">skip_segs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">seg</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfs</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="s2">&quot;FAILED READ ABOVE, SKIPPING TRYING TO DECOMPRESS FILE </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">band</span><span class="p">,</span>
+                        <span class="n">seg</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">skip_segs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">seg</span><span class="p">]</span>
+                    <span class="c1"># dfs[band].pop(seg)</span>
+                    <span class="k">continue</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">dfs</span><span class="p">[</span><span class="n">band</span><span class="p">][</span><span class="n">seg</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">HritError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+                    <span class="n">skip_segs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">seg</span><span class="p">]</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="s2">&quot;FAILED DECOMPRESSING, </span><span class="si">%s</span><span class="s2">, SKIPPING FILE </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">),</span> <span class="n">df</span><span class="o">.</span><span class="n">name</span>
+                    <span class="p">)</span>
+            <span class="k">for</span> <span class="n">skip_seg</span> <span class="ow">in</span> <span class="n">skip_segs</span><span class="p">:</span>
+                <span class="n">dfs</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">skip_seg</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">skip_band</span> <span class="ow">in</span> <span class="n">skip_bands</span><span class="p">:</span>
+        <span class="n">dfs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">skip_band</span><span class="p">)</span>
+
+    <span class="c1"># Create data arrays for requested data and read count data</span>
+    <span class="n">num_lines</span> <span class="o">=</span> <span class="n">pro</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;referenceGridVIS_IR&quot;</span><span class="p">][</span><span class="s2">&quot;numberOfLines&quot;</span><span class="p">]</span>
+    <span class="n">num_samples</span> <span class="o">=</span> <span class="n">pro</span><span class="p">[</span><span class="s2">&quot;imageDescription&quot;</span><span class="p">][</span><span class="s2">&quot;referenceGridVIS_IR&quot;</span><span class="p">][</span><span class="s2">&quot;numberOfColumns&quot;</span><span class="p">]</span>
+    <span class="n">count_data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">annotation_metadata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">chlist</span><span class="o">.</span><span class="n">bands</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dfs</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;No data in band </span><span class="si">%s</span><span class="s2">, SKIPPING&quot;</span><span class="p">,</span> <span class="n">band</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="c1"># Create empty full-disk array for this channel</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">num_lines</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">),</span> <span class="o">-</span><span class="mf">999.9</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="c1"># Read data into data array</span>
+        <span class="k">for</span> <span class="n">seg</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dfs</span><span class="p">[</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">seg_num_lines</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;block_1&quot;</span><span class="p">][</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
+            <span class="n">start_line</span> <span class="o">=</span> <span class="n">seg_num_lines</span> <span class="o">*</span> <span class="p">(</span><span class="n">seg</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">end_line</span> <span class="o">=</span> <span class="n">seg_num_lines</span> <span class="o">*</span> <span class="n">seg</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">start_line</span><span class="p">:</span><span class="n">end_line</span><span class="p">,</span> <span class="mi">0</span><span class="p">:]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">_read_image_data</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;FAILED READING SEGMENT, SKIPPING </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">resp</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Read band </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">annotation_metadata</span><span class="p">[</span><span class="s2">&quot;band&quot;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="s2">&quot;Lines&quot;</span> <span class="ow">in</span> <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">]:</span>
+            <span class="n">count_data</span><span class="p">[</span><span class="n">band</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;Lines&quot;</span><span class="p">],</span> <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;Samples&quot;</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">count_data</span><span class="p">[</span><span class="n">band</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">annotation_metadata</span><span class="p">[</span><span class="n">band</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">annotation_metadata</span>
+
+    <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">radiances</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">image_cal</span> <span class="o">=</span> <span class="n">pro</span><span class="p">[</span><span class="s2">&quot;radiometricProcessing&quot;</span><span class="p">][</span><span class="s2">&quot;level15ImageCalibration&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">chlist</span><span class="o">.</span><span class="n">chans</span><span class="p">:</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">count_data</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">chan</span><span class="o">.</span><span class="n">band</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">radiances</span><span class="p">:</span>
+            <span class="n">band_cal</span> <span class="o">=</span> <span class="n">image_cal</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="n">band_cal</span><span class="p">[</span><span class="s2">&quot;offset&quot;</span><span class="p">]</span>
+            <span class="n">slope</span> <span class="o">=</span> <span class="n">band_cal</span><span class="p">[</span><span class="s2">&quot;slope&quot;</span><span class="p">]</span>
+            <span class="n">radiances</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">]</span> <span class="o">=</span> <span class="n">countsToRad</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">chan</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Rad&quot;</span><span class="p">:</span>
+            <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">chan</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">radiances</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">chan</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;Ref&quot;</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Calculating reflectances for </span><span class="si">%s</span><span class="s2">, data range </span><span class="si">%f</span><span class="s2"> to </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">,</span>
+                <span class="n">radiances</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                <span class="n">radiances</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+            <span class="p">)</span>
+            <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">chan</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">radToRef</span><span class="p">(</span>
+                <span class="n">radiances</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">],</span>
+                <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">],</span>
+                <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;satellite_name&quot;</span><span class="p">],</span>
+                <span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Final reflectances for </span><span class="si">%s</span><span class="s2">, data range </span><span class="si">%f</span><span class="s2"> to </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">,</span>
+                <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">chan</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">chan</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">chan</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;BT&quot;</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Calculating brightness temperatures for </span><span class="si">%s</span><span class="s2">, data range </span><span class="si">%f</span><span class="s2"> to </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">,</span>
+                <span class="n">radiances</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                <span class="n">radiances</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+            <span class="p">)</span>
+            <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">chan</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">radToBT</span><span class="p">(</span>
+                <span class="n">radiances</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">],</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;satellite_name&quot;</span><span class="p">],</span> <span class="n">chan</span><span class="o">.</span><span class="n">band</span>
+            <span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Final brightness temperatures for </span><span class="si">%s</span><span class="s2">, data range </span><span class="si">%f</span><span class="s2"> to </span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">,</span>
+                <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">chan</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">chan</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">adname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;datavars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;datavars&quot;</span><span class="p">][</span><span class="n">adname</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">chan</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;datavars&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;datavars&quot;</span><span class="p">][</span><span class="n">adname</span><span class="p">][</span><span class="n">chan</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;datavars&quot;</span><span class="p">][</span><span class="n">adname</span><span class="p">][</span><span class="n">chan</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;wavelength&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+            <span class="n">annotation_metadata</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">][</span><span class="s2">&quot;band&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+            <span class="o">+</span> <span class="s2">&quot;.&quot;</span>
+            <span class="o">+</span> <span class="n">annotation_metadata</span><span class="p">[</span><span class="n">chan</span><span class="o">.</span><span class="n">band</span><span class="p">][</span><span class="s2">&quot;band&quot;</span><span class="p">][</span><span class="mi">5</span><span class="p">:]</span>
+        <span class="p">)</span>
+
+    <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span><span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">],</span> <span class="o">-</span><span class="mi">999</span><span class="p">)</span>
+    <span class="n">toplat</span> <span class="o">=</span> <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">])][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">bottomlat</span> <span class="o">=</span> <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">][</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">])][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">toplat</span> <span class="o">&lt;</span> <span class="n">bottomlat</span><span class="p">:</span>
+            <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">]),</span> <span class="o">-</span><span class="mi">999</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span><span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">],</span> <span class="o">-</span><span class="mi">999</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;satellite_zenith_angle&quot;</span> <span class="ow">in</span> <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span>
+                <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">75</span><span class="p">,</span> <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">]</span>
+            <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">toplat</span> <span class="o">&lt;</span> <span class="n">bottomlat</span><span class="p">:</span>
+            <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">]),</span> <span class="o">-</span><span class="mi">999</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span><span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">],</span> <span class="o">-</span><span class="mi">999</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;satellite_zenith_angle&quot;</span> <span class="ow">in</span> <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span>
+                <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">75</span><span class="p">,</span> <span class="n">datavars</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="n">var</span><span class="p">]</span>
+            <span class="p">)</span>
+
+    <span class="n">xarray_objs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">dsname</span> <span class="ow">in</span> <span class="n">datavars</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">xobj</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+        <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">datavars</span><span class="p">[</span><span class="n">dsname</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">datavars</span><span class="p">[</span><span class="n">dsname</span><span class="p">][</span><span class="n">varname</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">gvars</span><span class="p">[</span><span class="n">dsname</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">gvars</span><span class="p">[</span><span class="n">dsname</span><span class="p">][</span><span class="n">varname</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span> <span class="s2">&quot;area_definition&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">pixel_size_x</span><span class="p">,</span> <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">pixel_size_y</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span>
+        <span class="n">xarray_objs</span><span class="p">[</span><span class="n">dsname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj</span>
+
+    <span class="n">xarray_objs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray_objs</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done reading SEVIRI data for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adname</span><span class="p">))</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">xarray_objs</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

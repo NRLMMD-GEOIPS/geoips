@@ -1,0 +1,948 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>geoips.plugins.modules.sector_metadata_generators package &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.plugins.modules.sector_metadata_generators';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geoips.plugins.modules.sector_spec_generators package" href="geoips.plugins.modules.sector_spec_generators.html" />
+    <link rel="prev" title="geoips.plugins.modules.readers.utils package" href="geoips.plugins.modules.readers.utils.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../releases/index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="geoips.html">geoips package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">geoips.plugins.modules.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="geoips.plugins.modules.html" class="nav-link">geoips.plugins.modules package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">geoips.plugins.modules.sector_metadata_generators package</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="geoips-plugins-modules-sector-metadata-generators-package">
+<h1>geoips.plugins.modules.sector_metadata_generators package<a class="headerlink" href="#geoips-plugins-modules-sector-metadata-generators-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-geoips.plugins.modules.sector_metadata_generators.bdeck_parser">
+<span id="geoips-plugins-modules-sector-metadata-generators-bdeck-parser-module"></span><h2>geoips.plugins.modules.sector_metadata_generators.bdeck_parser module<a class="headerlink" href="#module-geoips.plugins.modules.sector_metadata_generators.bdeck_parser" title="Permalink to this heading">#</a></h2>
+<p>TC trackfile parser for B-Deck formatted TC deck files.</p>
+<p>Each B-Deck file contains the full history of storm BEST tracks, on storm per
+location per line (split between 3 lines each in comments for readability):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091318</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">126</span><span class="n">N</span><span class="p">,</span>  <span class="mi">374</span><span class="n">W</span><span class="p">,</span>  <span class="mi">30</span><span class="p">,</span> <span class="mi">1006</span><span class="p">,</span> <span class="n">TD</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>
+    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="mi">1011</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+         <span class="n">TWENTY</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">60</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>   <span class="mi">60</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091400</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">130</span><span class="n">N</span><span class="p">,</span>  <span class="mi">386</span><span class="n">W</span><span class="p">,</span>  <span class="mi">30</span><span class="p">,</span> <span class="mi">1006</span><span class="p">,</span> <span class="n">TD</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="mi">1011</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+         <span class="n">TWENTY</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">60</span><span class="p">,</span>   <span class="mi">60</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091406</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">130</span><span class="n">N</span><span class="p">,</span>  <span class="mi">404</span><span class="n">W</span><span class="p">,</span>  <span class="mi">35</span><span class="p">,</span> <span class="mi">1004</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>   <span class="mi">40</span><span class="p">,</span>   <span class="mi">40</span><span class="p">,</span> <span class="mi">1011</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091412</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="n">N</span><span class="p">,</span>  <span class="mi">422</span><span class="n">W</span><span class="p">,</span>  <span class="mi">35</span><span class="p">,</span> <span class="mi">1004</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">50</span><span class="p">,</span>
+       <span class="mi">30</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>   <span class="mi">50</span><span class="p">,</span> <span class="mi">1011</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span>  <span class="mi">45</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091418</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">129</span><span class="n">N</span><span class="p">,</span>  <span class="mi">434</span><span class="n">W</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span> <span class="mi">1003</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">80</span><span class="p">,</span>
+       <span class="mi">40</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>   <span class="mi">70</span><span class="p">,</span> <span class="mi">1012</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span>  <span class="mi">55</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">90</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091500</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">130</span><span class="n">N</span><span class="p">,</span>  <span class="mi">445</span><span class="n">W</span><span class="p">,</span>  <span class="mi">45</span><span class="p">,</span> <span class="mi">1002</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">100</span><span class="p">,</span>
+       <span class="mi">50</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>   <span class="mi">80</span><span class="p">,</span> <span class="mi">1012</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span>  <span class="mi">55</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">90</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091506</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">134</span><span class="n">N</span><span class="p">,</span>  <span class="mi">455</span><span class="n">W</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="mi">1001</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">100</span><span class="p">,</span>
+       <span class="mi">50</span><span class="p">,</span>   <span class="mi">20</span><span class="p">,</span>   <span class="mi">80</span><span class="p">,</span> <span class="mi">1012</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span>  <span class="mi">60</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091506</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">134</span><span class="n">N</span><span class="p">,</span>  <span class="mi">455</span><span class="n">W</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="mi">1001</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">20</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="mi">1012</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span>  <span class="mi">60</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091512</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">138</span><span class="n">N</span><span class="p">,</span>  <span class="mi">466</span><span class="n">W</span><span class="p">,</span>  <span class="mi">55</span><span class="p">,</span>  <span class="mi">999</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">140</span><span class="p">,</span>
+   <span class="mi">60</span><span class="p">,</span>   <span class="mi">40</span><span class="p">,</span>  <span class="mi">160</span><span class="p">,</span> <span class="mi">1011</span><span class="p">,</span>  <span class="mi">250</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span>  <span class="mi">65</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+      <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091512</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">138</span><span class="n">N</span><span class="p">,</span>  <span class="mi">466</span><span class="n">W</span><span class="p">,</span>  <span class="mi">55</span><span class="p">,</span>  <span class="mi">999</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>
+    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="mi">1011</span><span class="p">,</span>  <span class="mi">250</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span>  <span class="mi">65</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091518</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">142</span><span class="n">N</span><span class="p">,</span>  <span class="mi">475</span><span class="n">W</span><span class="p">,</span>  <span class="mi">55</span><span class="p">,</span>  <span class="mi">997</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">140</span><span class="p">,</span>
+   <span class="mi">80</span><span class="p">,</span>   <span class="mi">40</span><span class="p">,</span>  <span class="mi">160</span><span class="p">,</span> <span class="mi">1011</span><span class="p">,</span>  <span class="mi">250</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span>  <span class="mi">65</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>   <span class="mi">60</span><span class="p">,</span>   <span class="mi">60</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091518</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">142</span><span class="n">N</span><span class="p">,</span>  <span class="mi">475</span><span class="n">W</span><span class="p">,</span>  <span class="mi">55</span><span class="p">,</span>  <span class="mi">997</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>
+    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="mi">1011</span><span class="p">,</span>  <span class="mi">250</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span>  <span class="mi">65</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>   <span class="mi">60</span><span class="p">,</span>   <span class="mi">60</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091600</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">147</span><span class="n">N</span><span class="p">,</span>  <span class="mi">480</span><span class="n">W</span><span class="p">,</span>  <span class="mi">65</span><span class="p">,</span>  <span class="mi">987</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">140</span><span class="p">,</span>
+   <span class="mi">80</span><span class="p">,</span>   <span class="mi">40</span><span class="p">,</span>  <span class="mi">150</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span>  <span class="mi">75</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091600</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">147</span><span class="n">N</span><span class="p">,</span>  <span class="mi">480</span><span class="n">W</span><span class="p">,</span>  <span class="mi">65</span><span class="p">,</span>  <span class="mi">987</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">40</span><span class="p">,</span>
+   <span class="mi">30</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span>  <span class="mi">75</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091600</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">147</span><span class="n">N</span><span class="p">,</span>  <span class="mi">480</span><span class="n">W</span><span class="p">,</span>  <span class="mi">65</span><span class="p">,</span>  <span class="mi">987</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">64</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">20</span><span class="p">,</span>
+    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span>  <span class="mi">75</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091606</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">154</span><span class="n">N</span><span class="p">,</span>  <span class="mi">486</span><span class="n">W</span><span class="p">,</span>  <span class="mi">80</span><span class="p">,</span>  <span class="mi">978</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">140</span><span class="p">,</span>
+   <span class="mi">80</span><span class="p">,</span>   <span class="mi">40</span><span class="p">,</span>  <span class="mi">150</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>  <span class="mi">120</span><span class="p">,</span>  <span class="mi">150</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091606</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">154</span><span class="n">N</span><span class="p">,</span>  <span class="mi">486</span><span class="n">W</span><span class="p">,</span>  <span class="mi">80</span><span class="p">,</span>  <span class="mi">978</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">40</span><span class="p">,</span>
+   <span class="mi">30</span><span class="p">,</span>   <span class="mi">20</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>  <span class="mi">120</span><span class="p">,</span>  <span class="mi">150</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091606</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">154</span><span class="n">N</span><span class="p">,</span>  <span class="mi">486</span><span class="n">W</span><span class="p">,</span>  <span class="mi">80</span><span class="p">,</span>  <span class="mi">978</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">64</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">20</span><span class="p">,</span>
+   <span class="mi">10</span><span class="p">,</span>   <span class="mi">10</span><span class="p">,</span>   <span class="mi">20</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>  <span class="mi">120</span><span class="p">,</span>  <span class="mi">150</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091612</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">161</span><span class="n">N</span><span class="p">,</span>  <span class="mi">493</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">170</span><span class="p">,</span>
+  <span class="mi">170</span><span class="p">,</span>   <span class="mi">40</span><span class="p">,</span>  <span class="mi">150</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091612</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">161</span><span class="n">N</span><span class="p">,</span>  <span class="mi">493</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">50</span><span class="p">,</span>
+   <span class="mi">50</span><span class="p">,</span>   <span class="mi">20</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091612</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">161</span><span class="n">N</span><span class="p">,</span>  <span class="mi">493</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">64</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">25</span><span class="p">,</span>
+   <span class="mi">25</span><span class="p">,</span>   <span class="mi">10</span><span class="p">,</span>   <span class="mi">20</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091618</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">168</span><span class="n">N</span><span class="p">,</span>  <span class="mi">502</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">190</span><span class="p">,</span>
+  <span class="mi">100</span><span class="p">,</span>   <span class="mi">70</span><span class="p">,</span>  <span class="mi">170</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091618</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">168</span><span class="n">N</span><span class="p">,</span>  <span class="mi">502</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">80</span><span class="p">,</span>
+   <span class="mi">50</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>   <span class="mi">90</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091618</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">168</span><span class="n">N</span><span class="p">,</span>  <span class="mi">502</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">64</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>
+   <span class="mi">25</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="mi">1010</span><span class="p">,</span>  <span class="mi">180</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">240</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091700</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">174</span><span class="n">N</span><span class="p">,</span>  <span class="mi">511</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">220</span><span class="p">,</span>
+  <span class="mi">100</span><span class="p">,</span>   <span class="mi">80</span><span class="p">,</span>  <span class="mi">170</span><span class="p">,</span> <span class="mi">1009</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">330</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091700</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">174</span><span class="n">N</span><span class="p">,</span>  <span class="mi">511</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">60</span><span class="p">,</span>
+   <span class="mi">50</span><span class="p">,</span>   <span class="mi">50</span><span class="p">,</span>   <span class="mi">70</span><span class="p">,</span> <span class="mi">1009</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">330</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091700</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">174</span><span class="n">N</span><span class="p">,</span>  <span class="mi">511</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">64</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>
+   <span class="mi">25</span><span class="p">,</span>   <span class="mi">20</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="mi">1009</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">330</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">270</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091706</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="n">N</span><span class="p">,</span>  <span class="mi">520</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">34</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">220</span><span class="p">,</span>
+  <span class="mi">100</span><span class="p">,</span>   <span class="mi">80</span><span class="p">,</span>  <span class="mi">170</span><span class="p">,</span> <span class="mi">1009</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">330</span><span class="p">,</span>  <span class="mi">360</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091706</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="n">N</span><span class="p">,</span>  <span class="mi">520</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">60</span><span class="p">,</span>
+   <span class="mi">50</span><span class="p">,</span>   <span class="mi">50</span><span class="p">,</span>   <span class="mi">70</span><span class="p">,</span> <span class="mi">1009</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">330</span><span class="p">,</span>  <span class="mi">360</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+<span class="n">AL</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2020091706</span><span class="p">,</span>   <span class="p">,</span> <span class="n">BEST</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="n">N</span><span class="p">,</span>  <span class="mi">520</span><span class="n">W</span><span class="p">,</span>  <span class="mi">85</span><span class="p">,</span>  <span class="mi">973</span><span class="p">,</span> <span class="n">HU</span><span class="p">,</span>  <span class="mi">64</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span>
+   <span class="mi">25</span><span class="p">,</span>   <span class="mi">20</span><span class="p">,</span>   <span class="mi">30</span><span class="p">,</span> <span class="mi">1009</span><span class="p">,</span>  <span class="mi">210</span><span class="p">,</span>  <span class="mi">20</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="n">L</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>    <span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span>
+          <span class="n">TEDDY</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">NEQ</span><span class="p">,</span>  <span class="mi">330</span><span class="p">,</span>  <span class="mi">360</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span> <span class="n">genesis</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="mi">039</span><span class="p">,</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.bdeck_parser.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.bdeck_parser.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trackfile_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/bdeck_parser.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.call" title="Permalink to this definition">#</a></dt>
+<dd><p>TC deckfile parser for B-Deck files.</p>
+<p>Each B-Deck file contains the full history of storm BEST tracks, one storm
+location per line. Example b-deck files are available in the GeoIPS repo.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trackfile_name</strong> (<em>str</em>) – Path to bdeck file, with full 6 hourly storm track
+history, formatted as follows:</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Dictionaries of storm metadata fields from each storm location</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="index.html#api"><span class="std std-ref">API Reference</span></a></dt><dd><p>Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_final_storm_name_bdeck">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.bdeck_parser.</span></span><span class="sig-name descname"><span class="pre">get_final_storm_name_bdeck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deck_lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tcyear</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/bdeck_parser.html#get_final_storm_name_bdeck"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_final_storm_name_bdeck" title="Permalink to this definition">#</a></dt>
+<dd><p>Get final storm name from full bdeck file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_invest_number_bdeck">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.bdeck_parser.</span></span><span class="sig-name descname"><span class="pre">get_invest_number_bdeck</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deck_lines</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/bdeck_parser.html#get_invest_number_bdeck"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_invest_number_bdeck" title="Permalink to this definition">#</a></dt>
+<dd><p>Get invest number from full bdeck file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_storm_start_datetime_from_bdeck_entry">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.bdeck_parser.</span></span><span class="sig-name descname"><span class="pre">get_storm_start_datetime_from_bdeck_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deck_lines</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/bdeck_parser.html#get_storm_start_datetime_from_bdeck_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_storm_start_datetime_from_bdeck_entry" title="Permalink to this definition">#</a></dt>
+<dd><p>Get storm start datetime from full bdeck file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_storm_start_datetime_from_bdeck_filename">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.bdeck_parser.</span></span><span class="sig-name descname"><span class="pre">get_storm_start_datetime_from_bdeck_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bdeck_filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/bdeck_parser.html#get_storm_start_datetime_from_bdeck_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_storm_start_datetime_from_bdeck_filename" title="Permalink to this definition">#</a></dt>
+<dd><p>Get storm start datetime from bdeck file name.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_stormyear_from_bdeck_filename">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.bdeck_parser.</span></span><span class="sig-name descname"><span class="pre">get_stormyear_from_bdeck_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bdeck_filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/bdeck_parser.html#get_stormyear_from_bdeck_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_stormyear_from_bdeck_filename" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the storm year from the B-deck filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bdeck_filename</strong> (<em>str</em>) – <ul class="simple">
+<li><p>Path to deck file to search for storm year</p></li>
+<li><p>Must be of format: xxxxxYYYY.dat - pulls YYYY from filename based on
+location</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Storm year</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.bdeck_parser.lat_to_dec">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.bdeck_parser.</span></span><span class="sig-name descname"><span class="pre">lat_to_dec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/bdeck_parser.html#lat_to_dec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.lat_to_dec" title="Permalink to this definition">#</a></dt>
+<dd><p>Return decimal latitude based on N/S specified string.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.bdeck_parser.lon_to_dec">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.bdeck_parser.</span></span><span class="sig-name descname"><span class="pre">lon_to_dec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lon_str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/bdeck_parser.html#lon_to_dec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.lon_to_dec" title="Permalink to this definition">#</a></dt>
+<dd><p>Return decimal longitude based on E/W specified string.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.bdeck_parser.parse_bdeck_line">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.bdeck_parser.</span></span><span class="sig-name descname"><span class="pre">parse_bdeck_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storm_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_storm_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invest_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storm_start_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">original_storm_start_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bdeck_parser'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/bdeck_parser.html#parse_bdeck_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.parse_bdeck_line" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieve the storm information from the current line from the deck file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – <p>Current line from the deck file including all storm information</p>
+<ul class="simple">
+<li><p>AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64,
+NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,
+0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300,
+genesis-num, 039,</p></li>
+<li><p>AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  34,
+NEQ,  220,  100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,
+0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300,
+genesis-num, 039,</p></li>
+<li><p>AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  50,
+NEQ,   60,   50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,
+0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300,
+genesis-num, 039,</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of the fields from the current storm location from the
+deck file</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="index.html#api"><span class="std std-ref">API Reference</span></a></dt><dd><p>Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser">
+<span id="geoips-plugins-modules-sector-metadata-generators-tc-sector-file-parser-module"></span><h2>geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser module<a class="headerlink" href="#module-geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser" title="Permalink to this heading">#</a></h2>
+<p>TC trackfile parser for flat text sectorfiles containing current active storms.</p>
+<p>These files contain no storm history, only the currently active storm locations.
+Potentially useful for real-time processing.</p>
+<p>10S JOSHUA 210120 1200 21.8S 78.1E SHEM 20 1007
+12S ELOISE 210120 1800 15.6S 44.9E SHEM 35 1001
+92S INVEST 210120 1800 14.9S 120.8E SHEM 30 1002
+93S INVEST 210120 1800 12.6S 98.5E SHEM 30 1003</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.NSEW_to_float">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.</span></span><span class="sig-name descname"><span class="pre">NSEW_to_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_lon_val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/tc_sector_file_parser.html#NSEW_to_float"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.NSEW_to_float" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert lat/lon values with NSEW identifiers to positive or negative floats.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lat_lon_val</strong> (<em>str</em>) – Latitude or longitude value as a string,
+with hemisphere specified by NSEW identifiers</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Latitude or Longitude value as a float.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trackfile_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/tc_sector_file_parser.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.call" title="Permalink to this definition">#</a></dt>
+<dd><p>TC trackfile parser for flat text sectorfiles containing current active storms.</p>
+<p>These files contain no storm history, only the currently active storm locations.
+Potentially useful for real-time processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trackfile_name</strong> (<em>str</em>) – Flat text sector file name containing all currently active storm locations,
+formatted as follows:
+* 10S JOSHUA 210120 1200 21.8S 78.1E SHEM 20 1007
+* 12S ELOISE 210120 1800 15.6S 44.9E SHEM 35 1001
+* 92S INVEST 210120 1800 14.9S 120.8E SHEM 30 1002
+* 93S INVEST 210120 1800 12.6S 98.5E SHEM 30 1003</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Dictionaries of storm metadata fields from each storm location
+in the flat text sector file</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="index.html#api"><span class="std std-ref">API Reference</span></a></dt><dd><p>Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.get_storm_year">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.</span></span><span class="sig-name descname"><span class="pre">get_storm_year</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storm_basin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_year</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/tc_sector_file_parser.html#get_storm_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.get_storm_year" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensure correct storm_year is applied.</p>
+<p>For Southern Hemisphere storms that initiate late in the year,
+the storm year identifier is for the following year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storm_basin</strong> (<em>str</em>) – basin of current storm, one of SH, AL, EP, CP, WP, IO</p></li>
+<li><p><strong>current_month</strong> (<em>int</em>) – Current month of storm location</p></li>
+<li><p><strong>current_year</strong> (<em>int</em>) – Current year of storm location</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Storm year identifier. current year, unless SH storm later than June,
+then current year + 1</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.parse_flat_sectorfile_line">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.</span></span><span class="sig-name descname"><span class="pre">parse_flat_sectorfile_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'flat_sectorfile_parser'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/sector_metadata_generators/tc_sector_file_parser.html#parse_flat_sectorfile_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.parse_flat_sectorfile_line" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieve the storm information from the current line from the deck file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – Current line from the deck file including all storm information
+* 10S JOSHUA 210120 1200 21.8S 78.1E SHEM 20 1007</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of the fields from the current storm location from the deck file</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="index.html#api"><span class="std std-ref">API Reference</span></a></dt><dd><p>Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</section>
+<section id="module-geoips.plugins.modules.sector_metadata_generators">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-geoips.plugins.modules.sector_metadata_generators" title="Permalink to this heading">#</a></h2>
+<p>GeoIPS trackfile parsers init file.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geoips.plugins.modules.readers.utils.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">geoips.plugins.modules.readers.utils package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geoips.plugins.modules.sector_spec_generators.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">geoips.plugins.modules.sector_spec_generators package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.sector_metadata_generators.bdeck_parser">geoips.plugins.modules.sector_metadata_generators.bdeck_parser module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_final_storm_name_bdeck"><code class="docutils literal notranslate"><span class="pre">get_final_storm_name_bdeck()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_invest_number_bdeck"><code class="docutils literal notranslate"><span class="pre">get_invest_number_bdeck()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_storm_start_datetime_from_bdeck_entry"><code class="docutils literal notranslate"><span class="pre">get_storm_start_datetime_from_bdeck_entry()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_storm_start_datetime_from_bdeck_filename"><code class="docutils literal notranslate"><span class="pre">get_storm_start_datetime_from_bdeck_filename()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_stormyear_from_bdeck_filename"><code class="docutils literal notranslate"><span class="pre">get_stormyear_from_bdeck_filename()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.lat_to_dec"><code class="docutils literal notranslate"><span class="pre">lat_to_dec()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.lon_to_dec"><code class="docutils literal notranslate"><span class="pre">lon_to_dec()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.parse_bdeck_line"><code class="docutils literal notranslate"><span class="pre">parse_bdeck_line()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser">geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.NSEW_to_float"><code class="docutils literal notranslate"><span class="pre">NSEW_to_float()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.get_storm_year"><code class="docutils literal notranslate"><span class="pre">get_storm_year()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser.parse_flat_sectorfile_line"><code class="docutils literal notranslate"><span class="pre">parse_flat_sectorfile_line()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.sector_metadata_generators">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.plugins.modules.sector_metadata_generators.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1380 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.5.3 (2022-11-07) &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/v1_5_3';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.5.2 (2022-09-26)" href="v1_5_2.html" />
+    <link rel="prev" title="Version 1.6.0 (2022-11-28)" href="v1_6_0.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../starter/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../userguide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../devguide/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../geoips_api/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release Notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contact/index.html">
+                        Contact
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-08-19)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a12.html">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a5.html">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_1.html">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_0.html">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Version 1.5.3 (2022-11-07)</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <blockquote>
+<div><div class="line-block">
+<div class="line"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</div>
+<div class="line"># # #</div>
+<div class="line"># # # Author:</div>
+<div class="line"># # # Naval Research Laboratory, Marine Meteorology Division</div>
+<div class="line"># # #</div>
+<div class="line"># # # This program is free software: you can redistribute it and/or modify it under</div>
+<div class="line"># # # the terms of the NRLMMD License included with this program. This program is</div>
+<div class="line"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</div>
+<div class="line"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</div>
+<div class="line"># # # for more details. If you did not receive the license, for more information see:</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/U-S-NRL-Marine-Meteorology-Division/">U-S-NRL-Marine-Meteorology-Division/</a></div>
+</div>
+</div></blockquote>
+<section id="version-1-5-3-2022-11-07">
+<h1>Version 1.5.3 (2022-11-07)<a class="headerlink" href="#version-1-5-3-2022-11-07" title="Permalink to this heading">#</a></h1>
+<p>v1.5.3: 2022-11-07, update python install process, alternate command line args funcs, unique storm dirnames for invests, bug fixes</p>
+<section id="bug-fixes">
+<h2>2022-11-04 bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h2>
+<p>GEOIPS/geoips#108: 2022-11-04, bug fixes</p>
+<section id="documentation-updates">
+<h3>Documentation Updates<a class="headerlink" href="#documentation-updates" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Clarify steps in updating CHANGELOG during internal release process</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">CHANGELOG_TEMPLATE</span><span class="o">.</span><span class="n">md</span>
+</pre></div>
+</div>
+</section>
+<section id="test-repo-update">
+<h3>Test Repo Update<a class="headerlink" href="#test-repo-update" title="Permalink to this heading">#</a></h3>
+<ul>
+<li><p>Update abi.tc.Infrared.imagery_annotated metadata YAML</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Add Add storm_start_datetime to metadata yaml</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20200918_195020</span><span class="n">_AL202020_abi_goes</span><span class="o">-</span><span class="mi">16</span><span class="n">_Infrared_110kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="fix-sun-set-time-bug-in-overpass-predictor-py">
+<h2>fix sun.set_time bug in overpass_predictor.py<a class="headerlink" href="#fix-sun-set-time-bug-in-overpass-predictor-py" title="Permalink to this heading">#</a></h2>
+<p>GEOIPS/geoips#114: 2022-10-27, fix sun.set_time bug in overpass_predictor.py</p>
+<section id="id1">
+<h3>Bug fixes<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<section id="id2">
+<h4>Fix sun.set_time bug in overpass_predictor.py<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Previously only check sun.rise_time</p></li>
+<li><p>sun.rise_time can be valid while sun.set_time is None, so must check both.</p></li>
+<li><p>return None if either sun.rise_time or sun.set_time is None:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">overpass_predictor</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="viirs-lat-lon-variables-may-contain-unmasked-fill-values">
+<h2>VIIRS lat/lon variables may contain unmasked fill values<a class="headerlink" href="#viirs-lat-lon-variables-may-contain-unmasked-fill-values" title="Permalink to this heading">#</a></h2>
+<p>GEOIPS/geoips#113: 2022-10-27, VIIRS lat/lon variables may contain unmasked fill values</p>
+<section id="bug-fix">
+<h3>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h3>
+<section id="modified-geoips-interface-modules-readers-viirs-netcdf-py">
+<h4>modified: geoips/interface_modules/readers/viirs_netcdf.py<a class="headerlink" href="#modified-geoips-interface-modules-readers-viirs-netcdf-py" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Loop through xarray_return data types, and mask latitude/longitude by their fill value</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="cowvr-edge-case-no-usable-sectored-data">
+<h2>cowvr edge case - no usable sectored data<a class="headerlink" href="#cowvr-edge-case-no-usable-sectored-data" title="Permalink to this heading">#</a></h2>
+<p>GEOIPS/geoips#111: 2022-10-27, cowvr edge case - no usable sectored data</p>
+<section id="id3">
+<h3>Bug fix<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<section id="modified-geoips-interface-modules-procflows-config-based-py">
+<h4>modified: geoips/interface_modules/procflows/config_based.py<a class="headerlink" href="#modified-geoips-interface-modules-procflows-config-based-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Add check if sectored data contains any usable data</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Only add variable to all_vars list if sectored data set is not entirely comprised of NaNs</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="modified-geoips-interface-modules-procflows-single-source-py">
+<h4>modified: geoips/interface_modules/procflows/single_source.py<a class="headerlink" href="#modified-geoips-interface-modules-procflows-single-source-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Add check if sectored data contains any usable data</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Only add variable to all_vars list if sectored data set is not entirely comprised of NaNs</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="add-sectored-and-unsectored-amsr2-winds-outputs">
+<h2>add sectored and unsectored AMSR2 winds outputs<a class="headerlink" href="#add-sectored-and-unsectored-amsr2-winds-outputs" title="Permalink to this heading">#</a></h2>
+<p>GEOIPS/geoips_system_nrl#61: 2022-10-27, add sectored and unsectored AMSR2 winds outputs</p>
+<section id="major-new-functionality">
+<h3>Major New Functionality<a class="headerlink" href="#major-new-functionality" title="Permalink to this heading">#</a></h3>
+<section id="add-sectored-and-unsectored-products-to-product-inputs-amsr2-yaml">
+<h4>Add sectored and unsectored products to product_inputs/amsr2.yaml<a class="headerlink" href="#add-sectored-and-unsectored-products-to-product-inputs-amsr2-yaml" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Allows producing sectored and unsectored text winds outputs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">product_inputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="get-product-allow-empty-dict-bug-fixes">
+<h2>get_product allow empty dict, bug fixes<a class="headerlink" href="#get-product-allow-empty-dict-bug-fixes" title="Permalink to this heading">#</a></h2>
+<p>GEOIPS/data_fusion#8: 2022-10-21, get_product allow empty dict, bug fixes</p>
+<section id="modified-geoips-dev-product-py">
+<h3>modified: geoips/dev/product.py<a class="headerlink" href="#modified-geoips-dev-product-py" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Previously would only replace individual fields within dictionaries in product_inputs</p></li>
+<li><dl class="simple">
+<dt>Now, if an empty dictionary is included within product_inputs, it will replace the entire product_params</dt><dd><p>dictionary with an empty dictionary.</p>
+</dd>
+</dl>
+</li>
+<li><p>This is useful when using product_templates, and replacing the algorithm or colormap, etc</p></li>
+</ul>
+</section>
+<section id="test-repo-updates">
+<h3>Test Repo Updates<a class="headerlink" href="#test-repo-updates" title="Permalink to this heading">#</a></h3>
+<section id="update-ascat-uhr-test-data-path">
+<h4>Update ASCAT UHR test data path<a class="headerlink" href="#update-ascat-uhr-test-data-path" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Renamed ASCAT UHR test data subdirectories with additional test cases:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">ascat_uhr</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">wind</span><span class="o">-</span><span class="n">ambiguities</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="turn-off-minor-ticks">
+<h4>Turn off minor ticks<a class="headerlink" href="#turn-off-minor-ticks" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>matplotlib 3.6.0 sometimes has inconsistent results with including minor ticks or not.</p></li>
+<li><p>Unclear why it impacts some colorbars and not others.</p></li>
+<li><p>We may eventually add support for including minor ticks within mpl_colors_info, but for now</p></li>
+<li><p>explicitly turn off minor ticks so outputs will continue to match (use the old default):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">image_utils</span><span class="o">/</span><span class="n">mpl_utils</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="create-unique-storm-dirnames-for-invests">
+<h2>create unique storm dirnames for invests<a class="headerlink" href="#create-unique-storm-dirnames-for-invests" title="Permalink to this heading">#</a></h2>
+<p>GEOIPS/geoips#103: 2022-10-17, create unique storm dirnames for invests</p>
+<section id="id4">
+<h3>Major New Functionality<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<section id="geoips-interface-modules-filename-formats-tc-clean-fname-py">
+<h4>geoips/interface_modules/filename_formats/tc_clean_fname.py<a class="headerlink" href="#geoips-interface-modules-filename-formats-tc-clean-fname-py" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Allow passing “output_dict” to allow using unique directory name for INVESTS</p></li>
+</ul>
+</section>
+<section id="geoips-interface-modules-filename-formats-tc-fname-py">
+<h4>geoips/interface_modules/filename_formats/tc_fname.py<a class="headerlink" href="#geoips-interface-modules-filename-formats-tc-fname-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>def tc_fname</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Allow passing output_dict to provide current output parameters for overall filename specifications</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>def assemble_tc_fname</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Allow passing both “output_dict” and “sector_info” to allow timestamp in dirname for INVESTS</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="geoips-interface-modules-filename-formats-utils-tc-file-naming-py">
+<h4>geoips/interface_modules/filename_formats/utils/tc_file_naming.py<a class="headerlink" href="#geoips-interface-modules-filename-formats-utils-tc-file-naming-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Allow passing both “output_dict” and “sector_info” to support .%Y%m%d%H dirname for INVESTS</p>
+<blockquote>
+<div><ul>
+<li><p>output_dict[‘file_path_modifications’][‘unique_invest_dirs’] True</p></li>
+<li><p>storm_start_datetime is datetime object</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>sector_info[‘original_storm_start_datetime’] if it exists, else</p></li>
+<li><p>sector_info[‘storm_start_datetime’]</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>storm number &gt; 69 (ie, invest)</p></li>
+<li><p>output_dict[‘file_path_modifications’][‘existing_invest_dirs_allowable_time_diff’] &gt; 0</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If specified, use existing directory closest in time to storm_start_datetime</p></li>
+<li><p>If none exist, use storm_start_datetime appended to INVEST directory</p></li>
+<li><p>Ie, SH932020.2020020506 vs SH932020</p></li>
+<li><p>If SH932020.2020020406 exists, would use that rather than creating 2020020506</p></li>
+<li><p>SH162020 does NOT contain the extra storm start datetime information</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="geoips-interface-modules-trackfile-parsers-bdeck-parser-py">
+<h4>geoips/interface_modules/trackfile_parsers/bdeck_parser.py<a class="headerlink" href="#geoips-interface-modules-trackfile-parsers-bdeck-parser-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Add storm_start_datetime field to bdeck sector info</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>pull from first entry in bdeck file</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Add original_storm_start_datetime field to bdeck sector_info</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Pull from filename if available (since bdeck entries can change)</p></li>
+<li><p>DO NOT INCLUDE in dictionary if it is not available</p></li>
+<li><p>If it exists, this will be a more consistent value than storm_start_datetime (which can change with subsequent deck files)</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="geoips-interface-modules-filename-formats-metadata-default-fname-py">
+<h4>geoips/interface_modules/filename_formats/metadata_default_fname.py<a class="headerlink" href="#geoips-interface-modules-filename-formats-metadata-default-fname-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>def metadata_default_fname</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Allow passing output_dict to provide current output parameters for overall filename specifications</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>def assemble_metadata_default_fname</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Allow passing both “output_dict” and “sector_info” to allow timestamp in dirname for INVESTS</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="geoips-interface-modules-filename-formats-text-winds-tc-fname-py">
+<h4>geoips/interface_modules/filename_formats/text_winds_tc_fname.py<a class="headerlink" href="#geoips-interface-modules-filename-formats-text-winds-tc-fname-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>def text_winds_tc_fname</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Allow passing output_dict to provide current output parameters for overall filename specifications</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>def assemble_text_winds_tc_fname</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Allow passing both “output_dict” and “sector_info” to allow timestamp in dirname for INVESTS</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+</section>
+<section id="id5">
+<h3>Test Repo Updates<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<section id="add-storm-start-datetime-to-yaml-metadata-outputs">
+<h4>Add storm_start_datetime to YAML metadata outputs<a class="headerlink" href="#add-storm-start-datetime-to-yaml-metadata-outputs" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>modified: tests/outputs/abi.tc.IR-BD.imagery_annotated/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml</p></li>
+<li><p>modified: tests/outputs/abi.tc.Visible.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Visible_110kts_100p00_1p0.png.yaml</p></li>
+<li><p>modified: tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png.yaml</p></li>
+<li><p>modified: tests/outputs/amsub_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_amsu-b_metop-a_183-3H_115kts_100p00_1p0.png.yaml</p></li>
+<li><p>modified: tests/outputs/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean/20210421_014248_WP022021_ascat_metop-c_windbarbs_120kts_78p20_0p5-clean.png.yaml</p></li>
+<li><p>modified: tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs/20210421_014156_WP022021_ascat_metop-c_windbarbs_120kts_35p17_1p0.png.yaml</p></li>
+<li><p>modified: tests/outputs/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs/20210421_014200_WP022021_ascatuhr_metop-c_wind-ambiguities_120kts_100p00_0p1.png.yaml</p></li>
+<li><p>modified: tests/outputs/gmi.tc.89pct.imagery_clean/20200917_172045_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png.yaml</p></li>
+<li><p>modified: tests/outputs/hy2.tc.windspeed.imagery_annotated/20211202_084039_WP272021_hscat_hy-2b_windspeed_95kts_97p06_1p0.png.yaml</p></li>
+<li><p>modified: tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated/20210419_230000_WP022021_mimic_tpw_TPW-PWAT_115kts_100p00_1p0.png.yaml</p></li>
+<li><p>modified: tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs/20210209_025351_SH192021_oscat_scatsat-1_windbarbs_135kts_75p10_1p0.png.yaml</p></li>
+<li><p>modified: tests/outputs/saphir.tc.183-3HNearest.imagery_annotated/20210209_003103_SH192021_saphir_meghatropiques_183-3HNearest_135kts_88p76_1p0.png.yaml</p></li>
+<li><p>modified: tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png.yaml</p></li>
+<li><p>modified: tests/outputs/ssmi.tc.37pct.imagery_clean/20200519_080900_IO012020_ssmi_F15_37pct_110kts_50p65_1p0-clean.png.yaml</p></li>
+<li><p>modified: tests/outputs/viirsday.tc.Night-Vis-IR.imagery_annotated/20210209_074210_SH192021_viirs_noaa-20_Night-Vis-IR_130kts_100p00_1p0.png.yaml</p></li>
+</ul>
+</section>
+</section>
+<section id="id6">
+<h3>Bug fixes<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<section id="do-not-attempt-to-set-ticks-if-cbar-ticks-is-not-defined-geoips-image-utils-mpl-utils-py">
+<h4>Do not attempt to set_ticks if cbar_ticks is not defined geoips/image_utils/mpl_utils.py<a class="headerlink" href="#do-not-attempt-to-set-ticks-if-cbar-ticks-is-not-defined-geoips-image-utils-mpl-utils-py" title="Permalink to this heading">#</a></h4>
+</section>
+<section id="replace-fig-savefig-frameon-false-argument-with-facecolor-none">
+<h4>Replace fig.savefig frameon=False argument with facecolor=”none”<a class="headerlink" href="#replace-fig-savefig-frameon-false-argument-with-facecolor-none" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>frameon deprecated maplotlib v3.1.0, support removed v3.6.0</p></li>
+<li><p>facecolor=”none” also works with 3.5.x</p></li>
+<li><p><a class="reference external" href="https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon">https://matplotlib.org/stable/api/prev_api_changes/api_changes_3.1.0.html?highlight=frameon</a></p></li>
+<li><p>Updated files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">geoips</span><span class="o">/</span><span class="n">image_utils</span><span class="o">/</span><span class="n">mpl_utils</span><span class="o">.</span><span class="n">py</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">interface_modules</span><span class="o">/</span><span class="n">output_formats</span><span class="o">/</span><span class="n">unprojected_image</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="allow-alternate-command-line-args-funcs">
+<h2>allow alternate command line args funcs<a class="headerlink" href="#allow-alternate-command-line-args-funcs" title="Permalink to this heading">#</a></h2>
+<p>GEOIPS/data_fusion#8: 2022-09-29, allow alternate command line args funcs</p>
+<section id="enhancements">
+<h3>Enhancements<a class="headerlink" href="#enhancements" title="Permalink to this heading">#</a></h3>
+<section id="new-tests-sectors-tc-bdecks-bwp142022-dat">
+<h4>new: tests/sectors/tc_bdecks/bwp142022.dat<a class="headerlink" href="#new-tests-sectors-tc-bdecks-bwp142022-dat" title="Permalink to this heading">#</a></h4>
+</section>
+<section id="modified-geoips-commandline-args-py">
+<h4>modified: geoips/commandline/args.py<a class="headerlink" href="#modified-geoips-commandline-args-py" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Allow passing alternate check_args_func and get_args_func to get_command_line_args</p></li>
+<li><p>Default output_format None vs imagery_annotated</p></li>
+</ul>
+</section>
+<section id="modified-geoips-commandline-run-procflow-py">
+<h4>modified: geoips/commandline/run_procflow.py<a class="headerlink" href="#modified-geoips-commandline-run-procflow-py" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Allow passing alternate “get_command_line_args” func to run_procflow main</p></li>
+</ul>
+</section>
+<section id="id7">
+<h4>modified: geoips/dev/product.py<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Add ‘xarray_dict_to_output_format’ product type</p></li>
+<li><p>Allow specifying “product_template” within product_params YAML as well as product_inputs</p></li>
+</ul>
+</section>
+<section id="modified-geoips-image-utils-mpl-utils-py">
+<h4>modified: geoips/image_utils/mpl_utils.py<a class="headerlink" href="#modified-geoips-image-utils-mpl-utils-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Support additional mpl_colors_info fields</p>
+<blockquote>
+<div><ul>
+<li><p>explicit colorbar positioning, maintain previous defaults if not set</p>
+<blockquote>
+<div><ul>
+<li><p>cbar_ax_left_start_pos</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If set, explicitly set the left start position for the colorbar axis, relative to figure</p></li>
+<li><p>Else if ‘cbar_full_width’ is set, set to “left_margin”</p></li>
+<li><p>Else default to 2*left_margin</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>cbar_ax_bottom_start_pos</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If set, explicitly set the bottom start position for the colorbar axis, relative to figure</p></li>
+<li><p>Else default to 0.05</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>cbar_ax_width</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If set, explicitly set the width (left to right) of the colorbar axis, relative to figure</p></li>
+<li><p>Else if ‘cbar_full_width’ is set, set to right_margin - left_margin</p></li>
+<li><p>Else default to 1 - 4*left_margin</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>cbar_ax_height</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If set, explicitly set the height (bottom to top) of the colorbar axis, relative to figure</p></li>
+<li><p>Else, default to 0.02</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>explicit colorbar keyword args (mpl_colors_info[‘colorbar_kwargs’])</p>
+<blockquote>
+<div><ul>
+<li><p>colorbar_kwargs[‘orientation’]</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If set, explicitly set orientation</p></li>
+<li><p>Else, default to ‘horizontal’</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>colorbar_kwargs[‘extend’]</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If set, explicitly set extend option to colorbar call</p></li>
+<li><p>Else, default to ‘both’</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>colorbar_kwargs[‘spacing’]</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If set, explicitly set ‘spacing’ option to colorbar call</p></li>
+<li><p>Else, if ‘cbar_spacing’ set, use mpl_colors_info[‘cbar_spacing’]</p></li>
+<li><p>Else, default to ‘proportional’</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>explicit set_ticks_kwargs args (mpl_colors_info[‘set_ticks_kwargs’])</p>
+<blockquote>
+<div><ul>
+<li><p>set_ticks_kwargs[‘size’]</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If set, explicitly set ‘size’ option to set_ticks call</p></li>
+<li><p>Else, default to ‘small’</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>set_ticks_kwargs[‘labels’]</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If set, explicitly set ‘labels’ option to set_ticks call</p></li>
+<li><p>Else, default to mpl_colors_info[‘cbar_tick_labels’]</p></li>
+<li><p>Else, default to mpl_colors_info[‘cbar_ticks’]</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>explicit set_label_kwargs (mpl_colors_info[‘set_label_kwargs])</p>
+<blockquote>
+<div><ul>
+<li><p>set_label_kwargs[‘size’]</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If set, explicitly set ‘size’ option to set_label call</p></li>
+<li><p>Else, default to rc_params[‘font.size’]</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Call pyplot.colorbar vs fig.colorbar</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Pass “cbar_kwargs” in directly to allow specifying arbitrary colorbar options via mpl_colors_info</p></li>
+<li><p>Pass <strong>set_ticks_kwargs to cbar.set_ticks call</strong></p></li>
+<li><p>Pass <strong>set_label_kwargs to cbar.set_label call</strong></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="modified-geoips-interface-modules-output-formats-imagery-clean-py">
+<h4>modified: geoips/interface_modules/output_formats/imagery_clean.py<a class="headerlink" href="#modified-geoips-interface-modules-output-formats-imagery-clean-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Support plotting on existing figure and axis</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Only create fig, main_ax, and mapobj if not passed in explicitly</p></li>
+<li><p>If fig, main_ax, and mapobj passed, plot on existing</p></li>
+<li><p>Only output final image if output_fnames is not None</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="modified-geoips-interface-modules-output-formats-imagery-windbarbs-py">
+<h4>modified: geoips/interface_modules/output_formats/imagery_windbarbs.py<a class="headerlink" href="#modified-geoips-interface-modules-output-formats-imagery-windbarbs-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Support plotting on existing figure and axis</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Update output_clean_windbarbs function to take fig, main_ax, and mapobj arguments</p></li>
+<li><p>Only create figure, main axis, and mapobj if not passed</p></li>
+<li><p>Only output image file if clean_fnames is not None</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Allow specifying barb_sizes in product_definition</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">If</span> <span class="s1">&#39;barb_sizes&#39;</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;product_definition&#39;</span><span class="p">],</span> <span class="n">use</span> <span class="n">those</span> <span class="n">values</span>
+    <span class="o">*</span> <span class="n">thinning</span>
+    <span class="o">*</span> <span class="n">barb_length</span>
+    <span class="o">*</span> <span class="n">line_width</span>
+    <span class="o">*</span> <span class="n">sizes_dict</span>
+    <span class="o">*</span> <span class="n">rain_size</span>
+<span class="n">Else</span><span class="p">,</span> <span class="n">default</span> <span class="n">to</span> <span class="n">former</span> <span class="n">operation</span> <span class="n">based</span> <span class="n">on</span> <span class="n">product_name</span> <span class="o">==</span> <span class="s1">&#39;windbarbs&#39;</span> <span class="ow">or</span> <span class="s1">&#39;wind-ambiguities&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="modified-geoips-interface-modules-output-formats-imagery-windbarbs-clean-py">
+<h4>modified: geoips/interface_modules/output_formats/imagery_windbarbs_clean.py<a class="headerlink" href="#modified-geoips-interface-modules-output-formats-imagery-windbarbs-clean-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Support plotting on existing figure and axis</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Update imagery_windbars_clean function to take fig, main_ax, and mapobj arguments</p></li>
+<li><p>These are passed directly through to imagery_windbarbs.py output_clean_windbarbs function</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="id8">
+<h4>modified: geoips/interface_modules/procflows/single_source.py<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Support plotting data without producing output</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Add “no_output” option to “plot_data” function - do not produce output files if set, only plot</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Support get_area_defs_from_command_line_args with METADATA only available</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Make “variables” argument optional - currently unused anyway</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="modified-geoips-interface-modules-user-colormaps-pmw-tb-cmap-rain-py">
+<h4>modified: geoips/interface_modules/user_colormaps/pmw_tb/cmap_Rain.py<a class="headerlink" href="#modified-geoips-interface-modules-user-colormaps-pmw-tb-cmap-rain-py" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Use colorbar_kwargs and set_ticks_kwargs options for demonstration purposes</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Same functionality as previously, just using explicit keyword argument specifications</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="viirs-reader-bug-fix-for-terminator-case">
+<h2>VIIRS reader bug-fix for terminator case<a class="headerlink" href="#viirs-reader-bug-fix-for-terminator-case" title="Permalink to this heading">#</a></h2>
+<p>GEOIPS/geoips#104: 2022-10-21, VIIRS reader bug-fix for terminator case</p>
+<section id="id9">
+<h3>Bug fixes<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<section id="geoips-interface-modules-readers-viirs-netcdf-nc">
+<h4>geoips/interface_modules/readers/viirs_netcdf.nc<a class="headerlink" href="#geoips-interface-modules-readers-viirs-netcdf-nc" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Move VIIRS solar reflective bands to neww data_type:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>MOD-Vis: M01, M02, M03, M04, M05, M06, M09</p></li>
+<li><p>IMG-Vis: I01, I02, I03</p></li>
+<li><dl class="simple">
+<dt>These reflective bands are not present in nighttime granules,</dt><dd><p>and causes issues when dealing with a pair of granules that cross the terminator.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Reader now capable of reading geo fields from a single file into multiple datasets</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="use-conda-forge-vs-defaults">
+<h2>use ‘conda-forge’ vs ‘defaults’<a class="headerlink" href="#use-conda-forge-vs-defaults" title="Permalink to this heading">#</a></h2>
+<p>GEOIPS/geoips#98: 2022-09-28, use ‘conda-forge’ vs ‘defaults’</p>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h3>
+<section id="setup-sh-default-to-c-conda-forge-allow-c-defaults-by-request-for-conda-commands">
+<h4>setup.sh: default to ‘-c conda-forge’, allow ‘-c defaults’ by request for conda commands:<a class="headerlink" href="#setup-sh-default-to-c-conda-forge-allow-c-defaults-by-request-for-conda-commands" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p><strong>setup.sh conda_install</strong>: use Miniforge by default, Miniconda if “conda_defaults_channel” passed</p></li>
+<li><p><strong>setup.sh conda_update</strong>: Use conda-forge by default, “defaults” if “conda_defaults_channel” passed</p></li>
+<li><p><strong>setup.sh create_geoips_conda_env</strong>: Use conda-forge by default, “defaults” if “conda_defaults_channel” passed</p></li>
+<li><p><strong>setup.sh install</strong>: matplotlib and cartopy still must use conda-forge</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Remove version specifications for matplotlib and cartopy (allow latest until test outputs break)</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="setup-py-update-versions-to-allow-latest-but-maintain-specifically-pre-installed-versions">
+<h4>setup.py: Update versions to allow latest, but maintain specifically pre-installed versions<a class="headerlink" href="#setup-py-update-versions-to-allow-latest-but-maintain-specifically-pre-installed-versions" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>base: matplotlib&gt;=3.5.3 (CI/CD installation requires 3.5.3 to work with cartopy)</p></li>
+<li><p>base: shapely&gt;=1.8.2 (CI/CD installation requires specific 1.8.2 build)</p></li>
+<li><p>base: cartopy&gt;=0.20.3 (CI/CD installation requires 0.20.3 to work with shapely)</p></li>
+<li><p>test_outputs: matplotlib&gt;=3.6.0 (update outputs to latest)</p></li>
+<li><p>test_outputs: cartopy&gt;=0.21.0 (update outputs to latest)</p></li>
+<li><p>cicd_pipeline: Add specific matplotlib (3.5.3), cartopy (0.20.3), and shapely (1.8.2 pre-built) versions</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>This is NOT called from default interactive installation</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="readme-md">
+<h4>README.md<a class="headerlink" href="#readme-md" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>Update GEOIPS_ACTIVE_BRANCH to dev for NRLONLY</p></li>
+<li><p>add GEOIPS_PACKAGES_DIR, GEOIPS_TESTDATA_DIR, and GEOIPS_DEPENDENCIES_DIR env vars for completeness</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Do not use GEOIPS BASEDIR within README EXCEPT to set above env vars</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Pass “conda-forge” to base_install_and_test.sh to explicitly request “conda-forge” channel</p></li>
+</ul>
+</section>
+<section id="base-install-and-test-sh">
+<h4>base_install_and_test.sh<a class="headerlink" href="#base-install-and-test-sh" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Pass $conda_channel to setup.sh commands: conda_install, conda_update, create_geoips_conda_env</p></li>
+<li><p>Separate update_conda and create_geoips_conda_env steps</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="v1_6_0.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.6.0 (2022-11-28)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="v1_5_2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.5.2 (2022-09-26)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">2022-11-04 bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-updates">Documentation Updates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-repo-update">Test Repo Update</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-sun-set-time-bug-in-overpass-predictor-py">fix sun.set_time bug in overpass_predictor.py</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Fix sun.set_time bug in overpass_predictor.py</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#viirs-lat-lon-variables-may-contain-unmasked-fill-values">VIIRS lat/lon variables may contain unmasked fill values</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-geoips-interface-modules-readers-viirs-netcdf-py">modified: geoips/interface_modules/readers/viirs_netcdf.py</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cowvr-edge-case-no-usable-sectored-data">cowvr edge case - no usable sectored data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-geoips-interface-modules-procflows-config-based-py">modified: geoips/interface_modules/procflows/config_based.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-geoips-interface-modules-procflows-single-source-py">modified: geoips/interface_modules/procflows/single_source.py</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-sectored-and-unsectored-amsr2-winds-outputs">add sectored and unsectored AMSR2 winds outputs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#major-new-functionality">Major New Functionality</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#add-sectored-and-unsectored-products-to-product-inputs-amsr2-yaml">Add sectored and unsectored products to product_inputs/amsr2.yaml</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-product-allow-empty-dict-bug-fixes">get_product allow empty dict, bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-geoips-dev-product-py">modified: geoips/dev/product.py</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-repo-updates">Test Repo Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#update-ascat-uhr-test-data-path">Update ASCAT UHR test data path</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#turn-off-minor-ticks">Turn off minor ticks</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-unique-storm-dirnames-for-invests">create unique storm dirnames for invests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Major New Functionality</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-interface-modules-filename-formats-tc-clean-fname-py">geoips/interface_modules/filename_formats/tc_clean_fname.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-interface-modules-filename-formats-tc-fname-py">geoips/interface_modules/filename_formats/tc_fname.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-interface-modules-filename-formats-utils-tc-file-naming-py">geoips/interface_modules/filename_formats/utils/tc_file_naming.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-interface-modules-trackfile-parsers-bdeck-parser-py">geoips/interface_modules/trackfile_parsers/bdeck_parser.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-interface-modules-filename-formats-metadata-default-fname-py">geoips/interface_modules/filename_formats/metadata_default_fname.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-interface-modules-filename-formats-text-winds-tc-fname-py">geoips/interface_modules/filename_formats/text_winds_tc_fname.py</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Test Repo Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#add-storm-start-datetime-to-yaml-metadata-outputs">Add storm_start_datetime to YAML metadata outputs</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#do-not-attempt-to-set-ticks-if-cbar-ticks-is-not-defined-geoips-image-utils-mpl-utils-py">Do not attempt to set_ticks if cbar_ticks is not defined geoips/image_utils/mpl_utils.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-fig-savefig-frameon-false-argument-with-facecolor-none">Replace fig.savefig frameon=False argument with facecolor=”none”</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-alternate-command-line-args-funcs">allow alternate command line args funcs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancements">Enhancements</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#new-tests-sectors-tc-bdecks-bwp142022-dat">new: tests/sectors/tc_bdecks/bwp142022.dat</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-geoips-commandline-args-py">modified: geoips/commandline/args.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-geoips-commandline-run-procflow-py">modified: geoips/commandline/run_procflow.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">modified: geoips/dev/product.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-geoips-image-utils-mpl-utils-py">modified: geoips/image_utils/mpl_utils.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-geoips-interface-modules-output-formats-imagery-clean-py">modified: geoips/interface_modules/output_formats/imagery_clean.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-geoips-interface-modules-output-formats-imagery-windbarbs-py">modified: geoips/interface_modules/output_formats/imagery_windbarbs.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-geoips-interface-modules-output-formats-imagery-windbarbs-clean-py">modified: geoips/interface_modules/output_formats/imagery_windbarbs_clean.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">modified: geoips/interface_modules/procflows/single_source.py</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modified-geoips-interface-modules-user-colormaps-pmw-tb-cmap-rain-py">modified: geoips/interface_modules/user_colormaps/pmw_tb/cmap_Rain.py</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#viirs-reader-bug-fix-for-terminator-case">VIIRS reader bug-fix for terminator case</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-interface-modules-readers-viirs-netcdf-nc">geoips/interface_modules/readers/viirs_netcdf.nc</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-conda-forge-vs-defaults">use ‘conda-forge’ vs ‘defaults’</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-sh-default-to-c-conda-forge-allow-c-defaults-by-request-for-conda-commands">setup.sh: default to ‘-c conda-forge’, allow ‘-c defaults’ by request for conda commands:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-py-update-versions-to-allow-latest-but-maintain-specifically-pre-installed-versions">setup.py: Update versions to allow latest, but maintain specifically pre-installed versions</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#readme-md">README.md</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#base-install-and-test-sh">base_install_and_test.sh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/releases/v1_5_3.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
