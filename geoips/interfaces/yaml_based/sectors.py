@@ -12,13 +12,68 @@
 
 """Sector interface module."""
 
-from geoips.interfaces.base import BaseYamlInterface
+from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
+from pyresample import load_area
+from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
+from cartopy import feature as cfeature
+
+
+def center_to_area_definition(sector):
+    """Return a pyresample AreaDefinition for the input sector.
+
+    The input sector must supply location information in the "center" format.
+    """
+    if not sector.family.startswith("center"):
+        raise ValueError("Sector does not supply location as center coordinates.")
+    raise NotImplementedError
+
+
+def corners_to_area_definition(sector):
+    """Return a pyresample AreaDefinition for the input sector.
+
+    The input sector must supply location information in the "corners" format.
+    """
+    if not sector.family.startswith("center"):
+        raise ValueError("Sector does not supply location as corner coordinates.")
+    raise NotImplementedError
+
+
+class SectorPluginBase(BaseYamlPlugin):
+    """The base class for all sector plugins.
+
+    This class provides the functionality specific to sector plugin classes. It should
+    not be instantiated directly. To access sector plugins, use
+    `geoips.interfaces.sectors`.
+    """
+
+    @property
+    def area_definition(self):
+        """Return the pyresample AreaDefinition for the sector."""
+        if self.family.startswith("area_definition"):
+            ad = load_area(self.abspath, "spec")
+        elif self.family.startswith("center"):
+            ad = center_to_area_definition(self)
+        elif self.family.startswith("corners"):
+            ad = corners_to_area_definition(self)
+        return ad
+
+    def create_test_plot(self, fname):
+        fig, ax, mapobj = create_figure_and_main_ax_and_mapobj(
+            self.area_definition.shape[1],
+            self.area_definition.shape[0],
+            self.area_definition,
+            noborder=True,
+        )
+        ax.add_feature(cfeature.COASTLINE)
+        ax.add_feature(cfeature.BORDERS)
+        fig.savefig(fname)
 
 
 class SectorsInterface(BaseYamlInterface):
     """Interface for sector plugins."""
 
     name = "sectors"
+    plugin_class = SectorPluginBase
 
 
 sectors = SectorsInterface()
