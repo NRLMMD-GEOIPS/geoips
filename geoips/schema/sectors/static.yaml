@@ -14,7 +14,7 @@ required:
 # All of these must exist in the list of if-statements below
 properties:
   family:
-    pattern: "^((area_definition)|(center))_((static)|(pyrocb))$"
+    pattern: "^((area_definition)|(center))_((static)|(pyrocb)|(atmosriver)|(stitched)|(tc)|(volcano))$"
 # This list of if-statements allows the schema to decide which spec and metadata
 # subschema to use based on the contents of the family property.
 allOf:
