@@ -25,6 +25,4 @@ spec:
   shape:
     height: 3408
     width: 4164
-  area_extent:
-    lower_left_xy: [-6247135, -5112369]
-    upper_right_xy: [6247135, 5112369]
+  center: [0, 0]
