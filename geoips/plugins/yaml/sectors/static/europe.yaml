@@ -15,16 +15,17 @@ spec:
   description: European Continent
   projection:
     a: 6371228.0
-    lat_0: 52.83
-    lon_0: 9.205000000000002
-    proj: eqc
+    lat_0: 54.0
+    lon_0: 8.0
+    proj: stere
     units: m
   resolution:
     - 3000
     - 3000
   shape:
-    height: 1272
-    width: 911
-  area_extent:
-    lower_left_xy: [-1367682, -1909285]
-    upper_right_xy: [1367682, 1909285]
+    height: 1400
+    width: 1150
+  center: [0, 0]
+  # area_extent:
+  #   lower_left_xy: [-1367682, -1909285]
+  #   upper_right_xy: [1367682, 1909285]
