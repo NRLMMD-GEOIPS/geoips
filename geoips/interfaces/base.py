@@ -226,60 +226,6 @@ def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
-def plugin_yaml_to_obj(name, yaml_plugin, obj_attrs={}):
-    """Convert a yaml plugin to an object.
-
-    Convert the passed YAML plugin into an object and return it. The returned
-    object will be derived from a class named ``<interface>Plugin`` where
-    interface is the interface specified by the plugin. This class is derived
-    from ``BasePlugin``.
-
-    This function is used instead of predefined classes to allow setting ``__doc__``
-    on a plugin-by-plugin basis. This allows collecting ``__doc__`` and
-    from the plugin and using them in the objects.
-
-    For a yaml plugin to be converted into an object it must meet the following
-    requirements:
-
-    - Must match the jsonschema spec provided for its interface.
-    - The plugin must have the following top-level attributes and the must not be empty.
-      - interface: The name of the interface that the plugin belongs to.
-      - family: The family of plugins that the plugin belongs to within the interface.
-      - name: The name of the plugin which must be unique within the interface.
-      - docstring: A string to be used as the object's docstring.
-    """
-    obj_attrs["id"] = name
-    obj_attrs["yaml"] = yaml_plugin
-
-    missing = []
-    for attr in [
-        "package",
-        "relpath",
-        "abspath",
-        "interface",
-        "family",
-        "name",
-        "docstring",
-    ]:
-        try:
-            obj_attrs[attr] = yaml_plugin[attr]
-        except KeyError:
-            missing.append(attr)
-
-    if missing:
-        raise PluginError(
-            f"Plugin '{yaml_plugin['name']}' is missing the following required "
-            f"top-level properties: '{missing}'"
-        )
-
-    obj_attrs["__doc__"] = obj_attrs["docstring"]
-
-    plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
-    plugin_type = f"{plugin_interface_name}Plugin"
-
-    return type(plugin_type, (BaseYamlPlugin,), obj_attrs)(yaml_plugin)
-
-
 def plugin_module_to_obj(name, module, obj_attrs={}):
     """Convert a module plugin to an object.
 
@@ -438,6 +384,64 @@ class BaseYamlInterface(BaseInterface):
             load_all_yaml_plugins()
         )
 
+    @classmethod
+    def _plugin_yaml_to_obj(cls, name, yaml_plugin, obj_attrs={}):
+        """Convert a yaml plugin to an object.
+
+        Convert the passed YAML plugin into an object and return it. The returned
+        object will be derived from a class named ``<interface>Plugin`` where
+        interface is the interface specified by the plugin. This class is derived
+        from ``BasePlugin``.
+
+        This function is used instead of predefined classes to allow setting ``__doc__``
+        on a plugin-by-plugin basis. This allows collecting ``__doc__`` and
+        from the plugin and using them in the objects.
+
+        For a yaml plugin to be converted into an object it must meet the following
+        requirements:
+
+        - Must match the jsonschema spec provided for its interface.
+        - The plugin must have the following non-empty top-level attributes.
+          - interface: The name of the interface that the plugin belongs to.
+          - family: The family of plugins this plugin belongs to within the interface.
+          - name: The name of the plugin which must be unique within the interface.
+          - docstring: A string to be used as the object's docstring.
+        """
+        obj_attrs["id"] = name
+        obj_attrs["yaml"] = yaml_plugin
+
+        missing = []
+        for attr in [
+            "package",
+            "relpath",
+            "abspath",
+            "interface",
+            "family",
+            "name",
+            "docstring",
+        ]:
+            try:
+                obj_attrs[attr] = yaml_plugin[attr]
+            except KeyError:
+                missing.append(attr)
+
+        if missing:
+            raise PluginError(
+                f"Plugin '{yaml_plugin['name']}' is missing the following required "
+                f"top-level properties: '{missing}'"
+            )
+
+        obj_attrs["__doc__"] = obj_attrs["docstring"]
+
+        plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
+        plugin_type = f"{plugin_interface_name}Plugin"
+
+        plugin_base_class = BaseYamlPlugin
+        if hasattr(cls, "plugin_class") and cls.plugin_class:
+            plugin_base_class = cls.plugin_class
+
+        return type(plugin_type, (plugin_base_class,), obj_attrs)(yaml_plugin)
+
     def _create_unvalidated_plugins_cache(self, yaml_plugins):
         """Create a cache of unvalidated plugin yamls.
 
@@ -461,7 +465,7 @@ class BaseYamlInterface(BaseInterface):
                     #     f"\nin package '{yaml_plg.get('package')}',"
                     #     f"\nlocated at '{yaml_plg.get('abspath')}' "
                     # ) from resp
-                plg_list = plugin_yaml_to_obj(yaml_plg["name"], yaml_plg)
+                plg_list = self._plugin_yaml_to_obj(yaml_plg["name"], yaml_plg)
                 yaml_subplgs = {}
                 for yaml_subplg in plg_list["spec"][self.name]:
                     try:
@@ -512,7 +516,7 @@ class BaseYamlInterface(BaseInterface):
         # Store "name" as the product's "id"
         # This is helpful when an interfaces uses something other than just "name" to
         # find its plugins as is the case with ProductsInterface
-        return plugin_yaml_to_obj(name, validated)
+        return self._plugin_yaml_to_obj(name, validated)
 
     def get_plugins(self):
         """Retrieve a plugin by name."""
