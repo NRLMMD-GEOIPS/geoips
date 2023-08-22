@@ -170,18 +170,34 @@ class YamlPluginValidator:
         except (KeyError, AttributeError, TypeError):
             pass
 
+        # This is a temporary fix as we transition to using one top-level schema per
+        # interface. As we transition, add more exceptions here.
+        if plugin["interface"] == "sectors":
+            if plugin["family"] == "generated":
+                validator_id = "sectors.generated"
+            else:
+                validator_id = "sectors.static"
+
         if not validator_id:
             self.validators["bases.top"].validate(plugin)
             validator_id = f"{plugin['interface']}.{plugin['family']}"
+
         try:
             validator = self.validators[validator_id]
-        except KeyError:
+        except KeyError as err:
             raise ValidationError(
                 f"No validator found for '{validator_id}'"
                 f"\nfrom plugin '{plugin['name']}'"
                 f"\nin interface '{plugin['interface']}'"
-            )
-        validator.validate(plugin)
+            ) from err
+
+        try:
+            validator.validate(plugin)
+        except ValidationError as err:
+            raise ValidationError(
+                f"Failed to validate \"{plugin['name']}\" plugin "
+                f"for the \"{plugin['interface']}\" interface"
+            ) from err
 
         if "family" in plugin and plugin["family"] == "list":
             plugin = self.validate_list(plugin)
