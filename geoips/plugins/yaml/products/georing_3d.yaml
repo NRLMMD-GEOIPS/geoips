@@ -44,9 +44,9 @@ spec:
           plugin:
             name: georing_3d
             arguments:
-              output_data_range: [0, 20]
-              min_outbounds: "crop"
-              max_outbounds: "crop"
+              output_data_range: [0.0, 20.0]
+              min_outbounds: mask
+              max_outbounds: mask
               norm: False
               inverse: False
               alg_type: cloud_depth
@@ -62,8 +62,8 @@ spec:
             name: georing_3d
             arguments:
               output_data_range: [1, 5]
-              min_outbounds: "mask"
-              max_outbounds: "mask"
+              min_outbounds: mask
+              max_outbounds: mask
               norm: False
               inverse: False
               alg_type: layered
@@ -71,6 +71,6 @@ spec:
           plugin:
             name: matplotlib_linear_norm
             arguments:
-              data_range: [1.0, 5.0] # MUST pass data_range, it will not auto-detect
+              data_range: [1.0, 5.0]
               cmap_name: YlOrRd
               cbar_label: Cloud-Layers

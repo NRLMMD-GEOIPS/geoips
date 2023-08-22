@@ -54,20 +54,10 @@ def between(data, min, max, lvl=None, type=None):
     return between_mask
 
 
-def binary_cloud_mask(data, cld_height=None):
+def binary_cloud_mask(data):
     """Create a binary mask on data where clouds exist (1) else (0)."""
-    if cld_height is None:
-        bin_mask = np.zeros_like(data)
-        bin_mask[(data >= 1) & (data <= 4)] = 1
-    else:
-        bin_mask = np.empty(np.shape(data), dtype="int")
-        if "cloud_top_height" == cld_height or "cloud_depth" == cld_height:
-            bin_mask.fill(-999)
-            for lvl in range(81):
-                bin_mask[lvl][(data[lvl] >= 1) & (data[lvl] <= 4)] = (lvl * 0.25) + 0.25
-        elif "cloud_base_height" == cld_height:
-            bin_mask.fill(999)
-            bin_mask[(data >= 1) & (data <= 4)] = 1
+    bin_mask = np.zeros_like(data)
+    bin_mask[(data >= 1) & (data <= 4)] = 1
     return bin_mask
 
 
@@ -77,66 +67,70 @@ def diff_layer(prev_layer, curr_layer):
     return new_layer
 
 
-def collapse(data, cld_height=None):
-    """Collapse a 3D matrix into a 2D matrix, based on cloud type.
+def get_cloud_height(bin_mask, alg_type):
+    """Return a 2D matrix of cloud heights determined by alg_type.
+
+    Parameters
+    ----------
+    bin_mask: 3D numpy ndarray
+        Values are 0 or 1, 1 being where a cloud exists
+    alg_type: String
+        The algorithm type to be applied to cloud height.
+        One of ["cloud_top_height", "cloud_base_height", "cloud_depth"]
+    """
+    rows = np.shape(bin_mask)[1]
+    cols = np.shape(bin_mask)[2]
+    if "cloud_depth" == alg_type:
+        data_top = np.empty((rows, cols), dtype="float32")
+        data_top.fill(-999)
+        data_base = np.empty((rows, cols), dtype="float32")
+        data_base.fill(999)
+    else:
+        data = np.empty((rows, cols), dtype="float32")
+        if "cloud_top_height" == alg_type:
+            data.fill(-999)
+        elif "cloud_base_height" == alg_type:
+            data.fill(999)
+    for lvl in range(np.shape(bin_mask)[0]):
+        lvl_km = (lvl * 0.25)
+        bin_mask_km = bin_mask[lvl] * lvl_km
+        if "cloud_depth" == alg_type:
+            data_top[bin_mask_km > data_top] = lvl_km
+            bin_mask_km[bin_mask_km == 0] = 999
+            data_base[bin_mask_km < data_base] = lvl_km
+        elif "cloud_top_height" == alg_type:
+            data[bin_mask_km > data] = lvl_km
+        elif "cloud_base_height" == alg_type:
+            bin_mask_km[bin_mask_km == 0] = 999
+            data[bin_mask_km < data] = lvl_km
+    if "cloud_depth" == alg_type:
+        return data_top - data_base
+    else:
+        return data
+
+
+def get_cloud_layers(data):
+    """Collapse a 3D matrix into a 2D matrix, calculating cloud layers.
 
     Parameters
     ----------
     data: 3D numpy ndarray
         Contains integers relating to cloud_type, where cloud is between (1,4)
-    cld_height: string
-        If not None, return collapsed 2D matrix with cloud top, cloud base,
-        cloud depth, or layered data.
     """
     rows = np.shape(data)[1]
     cols = np.shape(data)[2]
-    if "cloud_layers" == cld_height:
-        bin_mask = binary_cloud_mask(data, cld_height)
-        collapsed_data = np.zeros((rows, cols), dtype="int")
-    elif "cloud_depth" == cld_height:
-        collapsed_data_top = np.empty((rows, cols), dtype="int")
-        collapsed_data_base = np.empty((rows, cols), dtype="int")
-        collapsed_data_top.fill(-999)
-        collapsed_data_base.fill(999)
-    else:
-        collapsed_data = np.empty((rows, cols), dtype="int")
-        bin_mask = binary_cloud_mask(data, cld_height)
-        if "cloud_top_height" == cld_height:
-            collapsed_data.fill(-999)
-        elif "cloud_base_height" == cld_height:
-            collapsed_data.fill(999)
+    bin_mask = binary_cloud_mask(data)
+    collapsed_data = np.zeros((rows, cols), dtype="int")
     for lvl in range(np.shape(data)[0]):
-        if "cloud_layers" == cld_height:
-            if lvl == 0:
-                prev_layer = collapsed_data
-                lvl_data = None
-            else:
-                prev_layer = lvl_data
-            lvl_data = bin_mask[lvl]
-            layer_mask = diff_layer(prev_layer, lvl_data)
-            collapsed_data[layer_mask == 1] += 1
-        elif "cloud_depth" == cld_height:
-            lvl_data_top = between(data[lvl], 1, 4, lvl, "cloud_top_height")
-            lvl_data_base = np.copy(lvl_data_top)
-            lvl_data_base[lvl_data_base == -999] = 999
-            collapsed_data_top = np.where(lvl_data_top > collapsed_data_top,
-                                          lvl_data_top, collapsed_data_top)
-            collapsed_data_base = np.where(lvl_data_base < collapsed_data_base,
-                                           lvl_data_base, collapsed_data_base)
+        if lvl == 0:
+            prev_layer = collapsed_data
+            lvl_data = None
         else:
-            lvl_km = (lvl * 0.25) + 0.25
-            lvl_mask = bin_mask[lvl]
-            lvl_mask[lvl_mask == 1] = lvl_km
-            if "cloud_top_height" == cld_height:
-                collapsed_data = np.where(lvl_mask > collapsed_data,
-                                          lvl_km, collapsed_data)
-            elif "cloud_base_height" == cld_height:
-                collapsed_data = np.where(lvl_mask < collapsed_data,
-                                          lvl_km, collapsed_data)
-    if "depth" in cld_height:
-        return collapsed_data_top - collapsed_data_base
-    else:
-        return collapsed_data
+            prev_layer = lvl_data
+        lvl_data = bin_mask[lvl]
+        layer_mask = diff_layer(prev_layer, lvl_data)
+        collapsed_data[layer_mask == 1] += 1
+    return collapsed_data
 
 
 def call(
@@ -239,8 +233,17 @@ def call(
         # masks the slice to only include clouds, otherwise the value is -999
     elif "binary_cloud_mask" == alg_type:  # implement binary masking on the dataset
         data = np.max(binary_cloud_mask(data), axis=0)
+    # elif "cloud_top_height" == alg_type:
+    #     bin_mask = binary_cloud_mask(data, alg_type)
+    #     data = np.zeros((7000, 18000), dtype="float32")
+    #     for lvl in range(81):
+    #         lvl_km = (lvl * 0.25) + 0.25
+    #         data[bin_mask[lvl] * lvl_km > data] = lvl_km
+    #     # data = np.max(lvl_mask, axis=0)
     else:
-        data = collapse(data, cld_height=alg_type)
+        bin_mask = binary_cloud_mask(data)
+        data = get_cloud_height(bin_mask, alg_type)
+        # data = collapse(data, cld_height=alg_type)
     lon_final, lat_final = np.meshgrid(lon, lat)
 
     from geoips.data_manipulations.corrections import apply_data_range

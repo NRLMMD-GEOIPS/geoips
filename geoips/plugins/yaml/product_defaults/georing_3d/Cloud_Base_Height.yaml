@@ -12,9 +12,9 @@ spec:
     plugin:
       name: georing_3d
       arguments:
-        output_data_range: [0, 20]
-        min_outbounds: "crop"
-        max_outbounds: "crop"
+        output_data_range: [0.0, 20.0]
+        min_outbounds: mask
+        max_outbounds: mask
         norm: False
         inverse: False
         alg_type: cloud_base_height
@@ -22,4 +22,4 @@ spec:
     plugin:
       name: cmap_cldHeight
       arguments:
-        data_range: [0, 20]
+        data_range: [0.0, 20.0]
