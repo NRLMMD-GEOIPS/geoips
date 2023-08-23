@@ -17,7 +17,7 @@ spec:
     a: 6371228.0
     lat_0: 8.0
     lon_0: 117.0
-    proj: stere
+    proj: eqc
     units: m
   resolution:
     - 1000
