@@ -16,6 +16,7 @@ from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
 from pyresample import load_area
 from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
 from cartopy import feature as cfeature
+from pyresample import create_area_def
 
 
 def center_to_area_definition(sector):
@@ -35,6 +36,23 @@ def corners_to_area_definition(sector):
     """
     if not sector.family.startswith("center"):
         raise ValueError("Sector does not supply location as corner coordinates.")
+
+    ad_info = {
+        "area_id": sector.name,
+        "projection": {
+            "units": "m",
+            "a": 6371228.0,
+            "proj": sector.spec.projection,
+            "lat_0": sector.spec.center.lat,
+            "lon_0": sector.spec.center.lon,
+        },
+        "width": sector.shape[0],
+        "height": sector.shape[1],
+        "resolution": [sector.resolution, sector.resolution],
+        "center": [0, 0],
+    }
+
+    ad = create_area_def(**ad_info)
     raise NotImplementedError
 
 
