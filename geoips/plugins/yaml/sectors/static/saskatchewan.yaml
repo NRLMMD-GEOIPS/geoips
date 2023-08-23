@@ -15,16 +15,14 @@ spec:
   description: Saskatchewan Province
   projection:
     a: 6371228.0
-    lat_0: 55.25148
-    lon_0: -105.97123
-    proj: eqc
+    lat_0: 56.0
+    lon_0: -106.0
+    proj: stere
     units: m
   resolution:
     - 1000
     - 1000
   shape:
-    height: 750
-    width: 500
-  area_extent:
-    lower_left_xy: [-500000, -750000]
-    upper_right_xy: [500000, 750000]
+    height: 1700
+    width: 1200
+  center: [0, 0]

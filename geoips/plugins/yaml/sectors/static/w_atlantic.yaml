@@ -15,16 +15,14 @@ spec:
   description: Western Atlantic
   projection:
     a: 6371228.0
-    lat_0: 21.52
-    lon_0: -69.66000000000003
-    proj: eqc
+    lat_0: 30
+    lon_0: -60.0
+    proj: stere
     units: m
   resolution:
     - 3000
     - 3000
   shape:
-    height: 1086
-    width: 1975
-  area_extent:
-    lower_left_xy: [-2962850, -1630175]
-    upper_right_xy: [2962850, 1630175]
+    height: 2000
+    width: 2000
+  center: [0, 0]
