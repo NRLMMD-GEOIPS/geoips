@@ -10,9 +10,9 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-************************
-Conda-based Installation
-************************
+********************************
+Conda-based Installation for Mac
+********************************
 
 Using a fresh Mini/Anaconda Python 3.9+ Environment is the easiest way to
 get geoips up and running.
