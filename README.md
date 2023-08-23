@@ -20,7 +20,8 @@ plug-and-play capability for user-specified custom functionality.
 Installation
 ------------
 See the
-[installation guide](./docs/source/starter/installation.rst)
+installation guide ([linux](./docs/source/starter/installation.rst), 
+[mac](./docs/source/starter/installation.rst))
 within the source code documentation for installation instructions. GeoIPS has a fully supported
 exhaustive installation process, including a full conda environment, as well as a more basic
 pip based installation for "expert" users.
