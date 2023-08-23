@@ -26,41 +26,7 @@ requiring administrative privileges by using Conda to install all of the
 "Required" system dependencies, then installing geoips into
 that conda environment.
 
-1. Set GeoIPS Environment Variables
------------------------------------
-
-In order to support GeoIPS' testing infrastructure, there are a few required
-environment variables.
-You can change your installation location by changing the value of
-``$GEOIPS_PACKAGES_DIR`` below.
-
-.. code:: bash
-
-    # GeoIPS Default Locations
-    export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS  # Point to base URL for git clone commands
-    export GEOIPS_PACKAGES_DIR=$HOME/geoips
-    export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
-    export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
-
-If desired, the GeoIPS environment variables can be added to your
-``$HOME/.bashrc`` by running the following commands:
-
-.. code:: bash
-
-    echo "export GEOIPS_REPO_URL=$GEOIPS_REPO_URL" >> ~/.bashrc
-    echo "export GEOIPS_PACKAGES_DIR=$GEOIPS_PACKAGES_DIR" >> ~/.bashrc
-    echo "export GEOIPS_TESTDATA_DIR=$GEOIPS_TESTDATA_DIR" >> ~/.bashrc
-    echo "export GEOIPS_OUTDIRS=$GEOIPS_OUTDIRS" >> ~/.bashrc
-
-2. Clone the GeoIPS git repository, for installation and testing commands
--------------------------------------------------------------------------
-
-.. code:: bash
-
-    mkdir -p $GEOIPS_PACKAGES_DIR
-    git clone ${GEOIPS_REPO_URL}/geoips.git $GEOIPS_PACKAGES_DIR/geoips
-
-3. Install Anaconda or Miniconda
+1. Install Anaconda or Miniconda
 --------------------------------
 
 - Download the appropriate version of `Conda
@@ -87,7 +53,7 @@ For example, for Linux with Intel chips, one of the following:
     ./Mambaforge-Linux-x86_64.sh
     # Follow instructions regarding conda init / restarting your terminal !
 
-4. Create and activate a conda environment with some dependencies
+2. Create and activate a conda environment with some dependencies
 -----------------------------------------------------------------
 
 Next we'll create a conda environment named ``geoips`` that contains all system
@@ -106,6 +72,40 @@ but this command will ensure that for everyone.
 **Note:** You will need to run ``conda activate geoips`` every time you want to
 run or work on GeoIPS.
 
+3. Set GeoIPS Environment Variables
+-----------------------------------
+
+In order to support GeoIPS' testing infrastructure, there are a few required
+environment variables.
+You can change your installation location by changing the value of
+``$GEOIPS_PACKAGES_DIR`` below.
+
+.. code:: bash
+
+    # GeoIPS Default Locations
+    export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS  # Point to base URL for git clone commands
+    export GEOIPS_PACKAGES_DIR=$HOME/geoips
+    export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
+    export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
+
+If desired, the GeoIPS environment variables can be added to your
+``$HOME/.bashrc`` by running the following commands:
+
+.. code:: bash
+
+    echo "export GEOIPS_REPO_URL=$GEOIPS_REPO_URL" >> ~/.bashrc
+    echo "export GEOIPS_PACKAGES_DIR=$GEOIPS_PACKAGES_DIR" >> ~/.bashrc
+    echo "export GEOIPS_TESTDATA_DIR=$GEOIPS_TESTDATA_DIR" >> ~/.bashrc
+    echo "export GEOIPS_OUTDIRS=$GEOIPS_OUTDIRS" >> ~/.bashrc
+
+4. Clone the GeoIPS git repository, for installation and testing commands
+-------------------------------------------------------------------------
+
+.. code:: bash
+
+    mkdir -p $GEOIPS_PACKAGES_DIR
+    git clone ${GEOIPS_REPO_URL}/geoips.git $GEOIPS_PACKAGES_DIR/geoips
+
 5. Install the GeoIPS git repository
 ------------------------------------
 
@@ -114,6 +114,9 @@ This command installs all GeoIPS Python dependencies, and GeoIPS itself.
 .. code:: bash
 
     # Ensure geoips python environment enabled before installing geoips
+    # using "conda activate geoips"
+
+    # Install geoips via pip
     pip install -e "$GEOIPS_PACKAGES_DIR/geoips"[doc,lint,test,debug]
 
 6. Test your installation
@@ -128,7 +131,8 @@ To test your installation you will call two scripts:
 .. code:: bash
 
     # Ensure geoips python environment enabled
-    conda activate geoips
+    # using "conda activate geoips"
+
     # Download the test data
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
     # Run integration tests
