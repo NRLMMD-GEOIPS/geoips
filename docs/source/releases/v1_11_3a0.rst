@@ -104,6 +104,18 @@ Add pyPublicDecompWT to dependencies and remove setup_seviri from setup script
 Installation Updates
 ====================
 
+Add Mac installation instructions
+---------------------------------
+
+Added Mac installation instructions in mac_installation.rst and added link in the
+readme. Also reworked order of Linux installation.
+
+::
+
+    modified: docs/source/starter/installation.rst
+    created: docs/source/starter/mac_installation.rst
+    modified: README.md
+
 Add .vscode repository to full Installation
 -------------------------------------------
 
