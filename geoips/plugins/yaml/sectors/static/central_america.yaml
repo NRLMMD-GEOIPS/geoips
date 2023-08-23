@@ -16,16 +16,13 @@ spec:
   projection:
     a: 6371228.0
     lat_0: 20.0
-    lon_0: -95.0
+    lon_0: -95.5
     proj: stere
     units: m
   resolution:
     - 2000
     - 2000
   shape:
-    height: 1700
+    height: 1600
     width: 2100
   center: [0, 0]
-  # area_extent:
-  #   lower_left_xy: [-2114190, -1412782]
-  #   upper_right_xy: [2114190, 1412782]

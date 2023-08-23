@@ -17,7 +17,7 @@ spec:
     a: 6371228.0
     lat_0: -22.9354
     lon_0: -43.159
-    proj: eqc
+    proj: stere
     units: m
   resolution:
     - 100
@@ -25,6 +25,4 @@ spec:
   shape:
     height: 1500
     width: 2500
-  area_extent:
-    lower_left_xy: [-250000, -149999]
-    upper_right_xy: [250000, 149999]
+  center: [0, 0]

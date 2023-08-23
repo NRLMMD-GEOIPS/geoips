@@ -26,6 +26,4 @@ spec:
     height: 3000
     width: 4000
   center: [0, 0]
-  # area_extent:
-  #   lower_left_xy: [-2926051, -1597372]
-  #   upper_right_xy: [2926051, 1597372]
+
