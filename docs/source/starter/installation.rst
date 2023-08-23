@@ -117,7 +117,7 @@ This command installs all GeoIPS Python dependencies, and GeoIPS itself.
     # using "conda activate geoips"
 
     # Install geoips via pip
-    pip install -e "$GEOIPS_PACKAGES_DIR/geoips"[doc,lint,test,debug]
+    pip install -e "$GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]"
 
 6. Test your installation
 -------------------------
