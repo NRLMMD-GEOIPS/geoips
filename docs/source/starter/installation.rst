@@ -26,7 +26,33 @@ requiring administrative privileges by using Conda to install all of the
 "Required" system dependencies, then installing geoips into
 that conda environment.
 
-1. Install Anaconda or Miniconda
+1. Set GeoIPS Environment Variables
+-----------------------------------
+
+In order to support GeoIPS' testing infrastructure, there are a few required
+environment variables.
+You can change your installation location by changing the value of
+``$GEOIPS_PACKAGES_DIR`` below.
+
+.. code:: bash
+
+    # GeoIPS Default Locations
+    export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS  # Point to base URL for git clone commands
+    export GEOIPS_PACKAGES_DIR=$HOME/geoips
+    export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
+    export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
+
+If desired, the GeoIPS environment variables can be added to your
+``$HOME/.bashrc`` by running the following commands:
+
+.. code:: bash
+
+    echo "export GEOIPS_REPO_URL=$GEOIPS_REPO_URL" >> ~/.bashrc
+    echo "export GEOIPS_PACKAGES_DIR=$GEOIPS_PACKAGES_DIR" >> ~/.bashrc
+    echo "export GEOIPS_TESTDATA_DIR=$GEOIPS_TESTDATA_DIR" >> ~/.bashrc
+    echo "export GEOIPS_OUTDIRS=$GEOIPS_OUTDIRS" >> ~/.bashrc
+
+2. Install Anaconda or Miniconda
 --------------------------------
 
 - Download the appropriate version of `Conda
@@ -53,7 +79,7 @@ For example, for Linux with Intel chips, one of the following:
     ./Mambaforge-Linux-x86_64.sh
     # Follow instructions regarding conda init / restarting your terminal !
 
-2. Create and activate a conda environment with some dependencies
+3. Create and activate a conda environment with some dependencies
 -----------------------------------------------------------------
 
 Next we'll create a conda environment named ``geoips`` that contains all system
@@ -71,32 +97,6 @@ but this command will ensure that for everyone.
 
 **Note:** You will need to run ``conda activate geoips`` every time you want to
 run or work on GeoIPS.
-
-3. Set GeoIPS Environment Variables
------------------------------------
-
-In order to support GeoIPS' testing infrastructure, there are a few required
-environment variables.
-You can change your installation location by changing the value of
-``$GEOIPS_PACKAGES_DIR`` below.
-
-.. code:: bash
-
-    # GeoIPS Default Locations
-    export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS  # Point to base URL for git clone commands
-    export GEOIPS_PACKAGES_DIR=$HOME/geoips
-    export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
-    export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
-
-If desired, the GeoIPS environment variables can be added to your
-``$HOME/.bashrc`` by running the following commands:
-
-.. code:: bash
-
-    echo "export GEOIPS_REPO_URL=$GEOIPS_REPO_URL" >> ~/.bashrc
-    echo "export GEOIPS_PACKAGES_DIR=$GEOIPS_PACKAGES_DIR" >> ~/.bashrc
-    echo "export GEOIPS_TESTDATA_DIR=$GEOIPS_TESTDATA_DIR" >> ~/.bashrc
-    echo "export GEOIPS_OUTDIRS=$GEOIPS_OUTDIRS" >> ~/.bashrc
 
 4. Clone the GeoIPS git repository, for installation and testing commands
 -------------------------------------------------------------------------
