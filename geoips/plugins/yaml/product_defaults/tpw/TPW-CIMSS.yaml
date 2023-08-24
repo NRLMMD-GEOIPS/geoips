@@ -17,7 +17,7 @@ spec:
     plugin:
       name: matplotlib_linear_norm
       arguments:
-        cmap_path: "/../../../txt/ascii_palettes/tpw_cimss.txt"
+        cmap_name: tpw_cimss
         data_range: [5, 65]
         cbar_ticks: [5, 15, 25, 35, 45, 55, 65]
         cbar_label: TPW (mm)
