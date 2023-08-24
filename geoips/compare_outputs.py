@@ -243,8 +243,10 @@ def images_match(output_product, compare_product, fuzz="5%"):
         exact_out_diffimg,
     ]
 
+    from subprocess import PIPE
+
     LOG.info("**Running %s", " ".join(call_list))
-    fullimg_retval = subprocess.call(call_list)
+    fullimg_retval = subprocess.call(call_list, stdout=PIPE, stderr=PIPE)
     LOG.info("**Done running compare")
 
     # call_list = ['compare', '-verbose', '-quiet',
@@ -281,7 +283,7 @@ def images_match(output_product, compare_product, fuzz="5%"):
         return False
 
     LOG.info("**Running exact %s", " ".join(exact_call_list))
-    fullimg_retval = subprocess.call(exact_call_list)
+    fullimg_retval = subprocess.call(exact_call_list, stdout=PIPE, stderr=PIPE)
     LOG.info("**Done running exact compare")
 
     if fullimg_retval != 0:
@@ -664,11 +666,11 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
             # Skip 'diff' output directory
             continue
 
-        LOG.interactive(
+        LOG.info(
             "**************************************************************************"
         )
-        LOG.interactive("*** COMPARE  %s ***", basename(output_product))
-        LOG.interactive(
+        LOG.info("*** COMPARE  %s ***", basename(output_product))
+        LOG.info(
             "**************************************************************************"
         )
 
@@ -741,7 +743,7 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
 
     if len(goodcomps) > 0:
         fname_goodcptest = join(diffdir, "cptest_GOODCOMPARE.txt")
-        print("source {0}".format(fname_goodcptest))
+        LOG.info("source {0}".format(fname_goodcptest))
         with open(fname_goodcptest, "w") as fobj:
             fobj.write("mkdir {0}/GOODCOMPARE\n".format(diffdir))
             for goodcomp in goodcomps:
@@ -760,8 +762,8 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     if len(missingcomps) > 0:
         fname_cp = join(diffdir, "cp_MISSINGCOMPARE.txt")
         fname_missingcompcptest = join(diffdir, "cptest_MISSINGCOMPARE.txt")
-        print("source {0}".format(fname_missingcompcptest))
-        print("# source {0}".format(fname_cp))
+        LOG.interactive("source {0}".format(fname_missingcompcptest))
+        LOG.interactive("# source {0}".format(fname_cp))
         with open(fname_cp, "w") as fobj:
             for missingcomp in missingcomps:
                 print_gunzip_to_file(fobj, missingcomp)
@@ -783,8 +785,8 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     if len(missingproducts) > 0:
         fname_rm = join(diffdir, "rm_MISSINGPRODUCTS.txt")
         fname_missingprodcptest = join(diffdir, "cptest_MISSINGPRODUCTS.txt")
-        print("source {0}".format(fname_missingprodcptest))
-        print("# source {0}".format(fname_rm))
+        LOG.interactive("source {0}".format(fname_missingprodcptest))
+        LOG.interactive("# source {0}".format(fname_rm))
         with open(fname_rm, "w") as fobj:
             for missingproduct in missingproducts:
                 fobj.write("rm -v {0}\n".format(missingproduct))
@@ -804,8 +806,8 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     if len(badcomps) > 0:
         fname_cp = join(diffdir, "cp_BADCOMPARES.txt")
         fname_badcptest = join(diffdir, "cptest_BADCOMPARES.txt")
-        print("source {0}".format(fname_badcptest))
-        print("# source {0}".format(fname_cp))
+        LOG.interactive("source {0}".format(fname_badcptest))
+        LOG.interactive("# source {0}".format(fname_cp))
         with open(fname_cp, "w") as fobj:
             for badcomp in badcomps:
                 if compare_strings is not None:
@@ -835,19 +837,19 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
         if len(badcomps) > 4:
             curr_retval = 4
         retval += curr_retval << 0
-        LOG.info("BADCOMPS %s", len(badcomps))
+        LOG.interactive("BADCOMPS %s", len(badcomps))
     if len(missingcomps) != 0:
         curr_retval = len(missingcomps)
         if len(missingcomps) > 4:
             curr_retval = 4
         retval += curr_retval << 0
-        LOG.info("MISSINGCOMPS %s", len(missingcomps))
+        LOG.interactive("MISSINGCOMPS %s", len(missingcomps))
     if len(missingproducts) != 0:
         curr_retval = len(missingproducts)
         if len(missingproducts) > 4:
             curr_retval = 4
         retval += curr_retval << 0
-        LOG.info("MISSINGPRODUCTS %s", len(missingproducts))
+        LOG.interactive("MISSINGPRODUCTS %s", len(missingproducts))
         retval += len(missingproducts) << 4
 
     LOG.info("retval: %s", bin(retval))

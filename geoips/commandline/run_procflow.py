@@ -63,12 +63,12 @@ def main(get_command_line_args_func=None):
         LOG.info(COMMAND_LINE_ARGS)
         LOG.info(PROCFLOW)
         RETVAL = PROCFLOW(COMMAND_LINE_ARGS["filenames"], COMMAND_LINE_ARGS)
-        LOG.interactive(
+        LOG.info(
             "Completed geoips PROCFLOW %s processing, done!",
             COMMAND_LINE_ARGS["procflow"],
         )
-        LOG.interactive("Starting time: %s", DATETIMES["start"])
-        LOG.interactive("Ending time: %s", datetime.utcnow())
+        LOG.info("Starting time: %s", DATETIMES["start"])
+        LOG.info("Ending time: %s", datetime.utcnow())
         LOG.interactive("Total time: %s", datetime.utcnow() - DATETIMES["start"])
         if isinstance(RETVAL, list):
             for ret in RETVAL:

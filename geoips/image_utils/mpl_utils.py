@@ -226,7 +226,7 @@ def save_image(
         if remove_duplicate_minrange is not None:
             remove_duplicates(out_fname, remove_duplicate_minrange)
 
-    LOG.interactive("IMAGESUCCESS wrote %s", out_fname)
+    LOG.info("IMAGESUCCESS wrote %s", out_fname)
     if image_datetime is not None:
         from datetime import datetime
 
