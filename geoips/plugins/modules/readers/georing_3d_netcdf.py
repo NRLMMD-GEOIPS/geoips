@@ -80,7 +80,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     date_time = os.path.basename(fname).split("_")[-1][:-5]
     date = date_time[:8]; hour = date_time[8:10]; minute = date_time[10:]
     dt = datetime.strptime(date + hour + minute, "%Y%m%d%H%M")
-    # dt = date + "-" + hour + "-" + minute
     xobj.attrs["data_provider"] = "cira"
 
     xobj.attrs["start_datetime"] = dt

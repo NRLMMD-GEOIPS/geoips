@@ -145,16 +145,15 @@ def call(
     alg_type="cloud_type",
     level=35
 ):
-    """Apply data range and requested corrections to a single channel product.
+    """Apply data range and requested corrections to a GEOring_3d product.
 
     Data manipulation steps for applying a data range and requested corrections
-    to a single channel product
+    to a GEOring_3d product
 
     Parameters
     ----------
-    arrays : list of numpy.ndarray
-        * list of numpy.ndarray or numpy.MaskedArray of channel data
-        * MUST be length one for single_channel algorithm.
+    xarray_dict : Dictionary of xarray.dataset
+        * contains metadata and cloud type data
     output_data_range : list of float, default=None
         * list of min and max value for output data product.
         * This is applied LAST after all other corrections/adjustments
@@ -194,31 +193,9 @@ def call(
     level : integer, default=0
         * Denotes which level of the data to do cloud_type masking on
 
-    Notes
-    -----
-    Order of operations, based on the passed arguments, is:
-
-    1. Mask night
-    2. Mask day
-    3. Apply solar zenith correction
-    4. Apply gamma values
-    5. Apply scale factor
-    6. Convert units
-    7. Apply data range.
-
-    NOTE: If "norm=True" is specified, the "output_data_range" will NOT
-    match the actual range of the returned data, since the normalized data
-    will be returned between 0 and 1.
-
-    If you require a different order of operations than that specified within
-    "single_channel" algorithm, please create a new algorithm for your desired
-    order of operations.
-
     Returns
     -------
-    numpy.ndarray
-        numpy.ndarray or numpy.MaskedArray of appropriately scaled channel data,
-        in units "output_units".
+    xarray.Dataset
     """
     data = xarray_dict["GEORING"].variables["cloud3d"].data
     lat = xarray_dict["GEORING"].variables["latitude"].data
@@ -233,17 +210,11 @@ def call(
         # masks the slice to only include clouds, otherwise the value is -999
     elif "binary_cloud_mask" == alg_type:  # implement binary masking on the dataset
         data = np.max(binary_cloud_mask(data), axis=0)
-    # elif "cloud_top_height" == alg_type:
-    #     bin_mask = binary_cloud_mask(data, alg_type)
-    #     data = np.zeros((7000, 18000), dtype="float32")
-    #     for lvl in range(81):
-    #         lvl_km = (lvl * 0.25) + 0.25
-    #         data[bin_mask[lvl] * lvl_km > data] = lvl_km
-    #     # data = np.max(lvl_mask, axis=0)
+    elif "layered" == alg_type:
+        data = get_cloud_layers(data)
     else:
         bin_mask = binary_cloud_mask(data)
         data = get_cloud_height(bin_mask, alg_type)
-        # data = collapse(data, cld_height=alg_type)
     lon_final, lat_final = np.meshgrid(lon, lat)
 
     from geoips.data_manipulations.corrections import apply_data_range
