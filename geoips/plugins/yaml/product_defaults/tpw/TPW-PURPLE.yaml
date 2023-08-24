@@ -15,8 +15,15 @@ spec:
         inverse: null
   colormapper:
     plugin:
-      name: tpw_purple
-      arguments: {}
+      name: matplotlib_linear_norm
+      arguments:
+        cmap_path: "/../../../txt/ascii_palettes/tpw_purple.txt"
+        data_range: [5, 65]
+        cbar_ticks: [5, 15, 25, 35, 45, 55, 65]
+        cbar_label: TPW (mm)
+        cbar_spacing: proportional
+        create_colorbar: True
+        cbar_full_width: True
   interpolator:
     plugin:
       name: interp_gauss
