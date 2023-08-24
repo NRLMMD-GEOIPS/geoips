@@ -32,12 +32,15 @@ https://numpydoc.readthedocs.io/en/latest/format.html
 
 bandit, flake8, and black are used to enforce appropriate style, security,
 and syntax usage.  flake8-rst and flake8-rst-docstring plugins are used to
-enforce numpy docstring formatting.
+enforce numpy docstring formatting.  Sphinx is used to validate the
+formatting and syntax within RST files themselves.
 
-The installation script called from **geoips/README.md** contains steps for
-setting up VIM8 with automated syntax checking and highlighting (including
-automated flake8, pylint, and bandit error / warning highlighting), to help
-enforce desired style guides.
+All branches must pass the ``geoips/tests/utils/check_code.sh`` script
+prior to any Pull Requests being approved and merged.  Please ensure this
+script has a successful 0 return as you develop code within the GeoIPS
+Ecosystem to expedite the review and approval process.
 
 VSCode plugins are also available to provide automated syntax checking and
-highlighting.
+highlighting:
+
+https://github.com/NRLMMD-GEOIPS/.vscode

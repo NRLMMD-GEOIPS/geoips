@@ -1,0 +1,13 @@
+$id: sectors.metadata_families.pyrocb
+type: object
+properties:
+  min_lat:
+    type: number
+  min_lon:
+    type: number
+  max_lat:
+    type: number
+  max_lon:
+    type: number
+  box_resolution_km:
+    type: number

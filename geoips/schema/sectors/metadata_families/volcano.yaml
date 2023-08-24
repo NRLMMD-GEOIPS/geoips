@@ -1,0 +1,15 @@
+$id: sectors.metadata_families.volcano
+type: object
+properties:
+  summit_elevation:
+    type: number
+  plume_height:
+    type: number
+  wind_speed:
+    type: number
+  wind_dir:
+    type: number
+  clat:
+    type: number
+  clon:
+    type: number

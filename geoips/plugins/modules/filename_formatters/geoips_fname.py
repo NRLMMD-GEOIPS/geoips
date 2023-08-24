@@ -52,18 +52,23 @@ def call(
     resolution = max(area_def.pixel_size_x, area_def.pixel_size_y) / 1000.0
 
     kwargs = {}
-    if "continent" in area_def.sector_info:
-        kwargs["continent"] = area_def.sector_info["continent"]
-    if "country" in area_def.sector_info:
-        kwargs["country"] = area_def.sector_info["country"]
-    if "area" in area_def.sector_info:
-        kwargs["area"] = area_def.sector_info["area"]
-    if "subarea" in area_def.sector_info:
-        kwargs["subarea"] = area_def.sector_info["subarea"]
-    if "state" in area_def.sector_info:
-        kwargs["state"] = area_def.sector_info["state"]
-    if "city" in area_def.sector_info:
-        kwargs["city"] = area_def.sector_info["city"]
+    sector_info = (
+        area_def.sector_info
+        if "region" not in area_def.sector_info.keys()
+        else area_def.sector_info["region"]
+    )
+    if "continent" in sector_info:
+        kwargs["continent"] = sector_info["continent"]
+    if "country" in sector_info:
+        kwargs["country"] = sector_info["country"]
+    if "area" in sector_info:
+        kwargs["area"] = sector_info["area"]
+    if "subarea" in sector_info:
+        kwargs["subarea"] = sector_info["subarea"]
+    if "state" in sector_info:
+        kwargs["state"] = sector_info["state"]
+    if "city" in sector_info:
+        kwargs["city"] = sector_info["city"]
 
     extra = "{0:0.1f}".format(resolution).replace(".", "p")
     web_fname = assemble_geoips_fname(

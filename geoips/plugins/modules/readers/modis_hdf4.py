@@ -555,9 +555,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     basename(fname)
                     not in xarrays[datasettag].attrs["source_file_names"]
                 ):
-                    xarrays[datasettag].attrs["source_file_names"] += [
-                        basename(fname)
-                    ]
+                    xarrays[datasettag].attrs["source_file_names"] += [basename(fname)]
                 xarrays[datasettag].attrs["sample_distance_km"] = 2  # ????
                 xarrays[datasettag].attrs[
                     "interpolation_radius_of_influence"
@@ -610,13 +608,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 "ASSOCIATEDPLATFORMSHORTNAME"
             ].lower()
             xarrays[datasettag].attrs["data_provider"] = "nasa"
-            if (
-                basename(fname)
-                not in xarrays[datasettag].attrs["source_file_names"]
-            ):
-                xarrays[datasettag].attrs["source_file_names"] += [
-                    basename(fname)
-                ]
+            if basename(fname) not in xarrays[datasettag].attrs["source_file_names"]:
+                xarrays[datasettag].attrs["source_file_names"] += [basename(fname)]
             xarrays[datasettag].attrs["sample_distance_km"] = 2  # ????
             xarrays[datasettag].attrs["interpolation_radius_of_influence"] = 3000  # ???
         else:
@@ -779,13 +772,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 "ASSOCIATEDPLATFORMSHORTNAME"
             ].lower()
             xarrays[datasettag].attrs["data_provider"] = "nasa"
-            if (
-                basename(fname)
-                not in xarrays[datasettag].attrs["source_file_names"]
-            ):
-                xarrays[datasettag].attrs["source_file_names"] += [
-                    basename(fname)
-                ]
+            if basename(fname) not in xarrays[datasettag].attrs["source_file_names"]:
+                xarrays[datasettag].attrs["source_file_names"] += [basename(fname)]
             xarrays[datasettag].attrs["sample_distance_km"] = 2  # ????
             xarrays[datasettag].attrs["interpolation_radius_of_influence"] = 3000  # ???
 

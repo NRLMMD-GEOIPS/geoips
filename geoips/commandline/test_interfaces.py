@@ -22,6 +22,9 @@ from geoips import interfaces
 from geoips.interfaces.base import BaseInterface
 import sys
 
+FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
+FAILED_INTERFACE_HEADER_POST = "interface:"
+
 
 def main():
     """Script to test all dev and stable interfaces."""
@@ -58,10 +61,14 @@ def main():
             print(traceback.format_exc())
             failed_plugins += [curr_interface.name]
             failed_plugins_tracebacks += [
-                f"\n\n\nFailed: {curr_interface.name}\n\n" f"{traceback.format_exc()}"
+                f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{curr_interface.name}' "
+                f"{FAILED_INTERFACE_HEADER_POST}\n\n"
+                f"{traceback.format_exc()}"
             ]
             failed_plugins_errors += [
-                f"\n\n\nFailed: {curr_interface.name}\n\n" f"{str(resp)}"
+                f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{curr_interface.name}' "
+                f"{FAILED_INTERFACE_HEADER_POST}\n\n"
+                f"{str(resp)}"
             ]
 
     ppprinter = pprint.PrettyPrinter(indent=2)
@@ -100,7 +107,18 @@ def main():
         print("")
 
     if len(failed_interfaces) > 0 or len(failed_plugins) > 0:
-        raise TypeError(f"Failed validity check on interfaces {failed_plugins}")
+        failed_plugin_headers = ""
+        for failed_plugin in failed_plugins:
+            failed_plugin_headers += (
+                f"\n  {FAILED_INTERFACE_HEADER_PRE} '{failed_plugin}' "
+                f"{FAILED_INTERFACE_HEADER_POST}"
+            )
+        raise TypeError(
+            f"Failed validity check on interfaces {failed_plugins}."
+            "\nAdditional information on these errors can be found above, "
+            "under headers:"
+            f"{failed_plugin_headers}"
+        )
 
 
 if __name__ == "__main__":

@@ -478,7 +478,7 @@ class BaseYamlInterface(BaseInterface):
                             f"\nin package '{yaml_plg.get('package')}',"
                             f"\nlocated at '{yaml_plg.get('abspath')}' "
                             f"\nMismatched schema and YAML?"
-                        )   
+                        )
                 cache.update(yaml_subplgs)
             else:
                 cache[yaml_plg["name"]] = yaml_plg

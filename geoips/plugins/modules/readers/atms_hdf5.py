@@ -291,9 +291,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         source_file_names = []
         for fname in fnames:
             xarray_atms = read_atms_file(fname, xarray_atms)
-            source_file_names += [
-                basename(fname)
-            ]  # name of last file from input files
+            source_file_names += [basename(fname)]  # name of last file from input files
         xarray_atms.attrs["source_file_names"] = source_file_names
 
         # setup attributors

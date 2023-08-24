@@ -629,4 +629,9 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_85ab.attrs["sample_distance_km"] = 2
     xarray_85ab.attrs["interpolation_radius_of_influence"] = 15000
 
+    LOG.info("  Start time %s", start_time)
+    LOG.info("  End time %s", end_time)
+    LOG.info("  Min lat %s", lat_ab.min())
+    LOG.info("  Max lat %s", lat_ab.max())
+
     return {"HIRES": xarray_85ab, "LORES": xarray_lores, "METADATA": xarray_85ab[[]]}

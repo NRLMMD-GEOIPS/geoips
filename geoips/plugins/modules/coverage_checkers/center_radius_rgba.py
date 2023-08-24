@@ -29,8 +29,6 @@ def call(
     variable_name,
     area_def=None,
     radius_km=300,
-    alt_varname=None,
-    force_alt_varname=False,
 ):
     """Coverage check routine for xarray objects with masked projected arrays.
 
@@ -49,24 +47,12 @@ def call(
     float
         Percent coverage of variable_name
     """
-    varname_for_covg = variable_name
-    if variable_name not in xarray_obj.variables.keys() and alt_varname is not None:
-        LOG.info(
-            '    UPDATING variable "%s" does not exist, using alternate "%s"',
-            variable_name,
-            alt_varname,
+    if variable_name not in xarray_obj:
+        raise KeyError(
+            f"Variable {variable_name} did not exist. Can not calculate coverage."
         )
-        varname_for_covg = alt_varname
-    if force_alt_varname and alt_varname is not None:
-        LOG.info(
-            "    UPDATING force_alt_varname set, using alternate '%s' "
-            "rather than variable '%s'",
-            alt_varname,
-            variable_name,
-        )
-        varname_for_covg = alt_varname
 
-    temp_arr = xarray_obj[varname_for_covg][:, :, 3]
+    temp_arr = xarray_obj[variable_name][:, :, 3]
 
     res_km = (
         min(

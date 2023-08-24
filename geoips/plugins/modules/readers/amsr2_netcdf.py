@@ -222,7 +222,9 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
             dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
         ).tolist()
         LOG.info("    Setting list of times")
-        tss = [curr_time_array for ii in range(0, sub_xarray[varnames[varname]].shape[1])]
+        tss = [
+            curr_time_array for ii in range(0, sub_xarray[varnames[varname]].shape[1])
+        ]
         LOG.info("    Setting time DataArray")
         sub_xarray["time"] = xarray.DataArray(
             data=numpy.array(tss).transpose(),
@@ -240,12 +242,8 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
         get_max_from_xarray_time,
     )
 
-    sub_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
-        sub_xarray, "time"
-    )
-    sub_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
-        sub_xarray, "time"
-    )
+    sub_xarray.attrs["start_datetime"] = get_min_from_xarray_time(sub_xarray, "time")
+    sub_xarray.attrs["end_datetime"] = get_max_from_xarray_time(sub_xarray, "time")
     return sub_xarray
 
 

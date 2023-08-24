@@ -21,6 +21,7 @@ class AlgorithmsInterface(BaseModuleInterface):
     name = "algorithms"
 
     required_args = {
+        "scalar_to_scalar": [],
         "single_channel": ["arrays"],
         "channel_combination": ["arrays"],
         "list_numpy_to_numpy": ["arrays"],
@@ -33,6 +34,7 @@ class AlgorithmsInterface(BaseModuleInterface):
     }
 
     required_kwargs = {
+        "scalar_to_scalar": ["value"],
         "single_channel": [],
         "channel_combination": [],
         "xarray_to_numpy": [],
