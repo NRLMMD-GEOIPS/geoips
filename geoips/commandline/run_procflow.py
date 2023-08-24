@@ -32,16 +32,20 @@ def main(get_command_line_args_func=None):
     """
     DATETIMES = {}
     DATETIMES["start"] = datetime.utcnow()
-    LOG = setup_logging()
 
     if get_command_line_args_func is None:
         get_command_line_args_func = get_command_line_args
-    LOG.interactive("GETTING COMMAND LINE ARGUMENTS")
     # arglist=None allows all possible arguments.
     ARGS = get_command_line_args_func(
         arglist=None, description="Run data file processing"
     )
 
+    COMMAND_LINE_ARGS = ARGS.__dict__
+    if "logging_level" in COMMAND_LINE_ARGS.keys():
+        LOG = setup_logging(logging_level=COMMAND_LINE_ARGS["logging_level"])
+    else:
+        LOG = setup_logging()
+    LOG.interactive("RETRIEVED COMMAND LINE ARGUMENTS")
     import sys
 
     LOG.info(
@@ -49,7 +53,6 @@ def main(get_command_line_args_func=None):
         "\n        ".join([currarg + " \\" for currarg in sys.argv]),
     )
 
-    COMMAND_LINE_ARGS = ARGS.__dict__
     # LOG.info(COMMAND_LINE_ARGS)
     LOG.interactive("GETTING PROCFLOW MODULE")
     PROCFLOW = procflows.get_plugin(COMMAND_LINE_ARGS["procflow"])

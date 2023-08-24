@@ -63,7 +63,7 @@ def addLoggingLevel(levelName, levelNum, methodName=None):
     setattr(logging, methodName, logToRoot)
 
 
-def setup_logging(verbose=True):
+def setup_logging(logging_level="INTERACTIVE", verbose=True):
     """Set up logging handler.
 
     If you do this the first time with no argument, it sets up the logging
@@ -72,8 +72,7 @@ def setup_logging(verbose=True):
     """
     log = logging.getLogger()
     addLoggingLevel("INTERACTIVE", 35)
-    log.setLevel(logging.INTERACTIVE)
-    # log.setLevel(logging.INFO)
+    log.setLevel(getattr(logging, logging_level))
     fmt = logging.Formatter(
         "%(asctime)s %(module)12s %(lineno)4d %(levelname)7s: %(message)s", "%d_%H%M%S"
     )
