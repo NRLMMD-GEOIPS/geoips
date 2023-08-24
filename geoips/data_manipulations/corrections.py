@@ -186,7 +186,7 @@ def apply_offset(data_array, offset):
         Input data array with offset applied
         data_array + offset
     """
-    LOG.info(
+    LOG.interactive(
         "CORRECTION Applying offset of %s to array with min %s and max %s",
         offset,
         data_array.min(),

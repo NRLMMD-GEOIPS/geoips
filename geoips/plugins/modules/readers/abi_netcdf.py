@@ -774,7 +774,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             #     )
             #     gvars[res] = {}
 
-    log.info("Done with geolocation for {}".format(adname))
+    log.interactive("Done with geolocation for {}".format(adname))
     log.info("")
 
     # Read the data

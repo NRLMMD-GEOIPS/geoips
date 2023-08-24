@@ -36,7 +36,7 @@ def main(get_command_line_args_func=None):
 
     if get_command_line_args_func is None:
         get_command_line_args_func = get_command_line_args
-    LOG.info("GETTING COMMAND LINE ARGUMENTS")
+    LOG.interactive("GETTING COMMAND LINE ARGUMENTS")
     # arglist=None allows all possible arguments.
     ARGS = get_command_line_args_func(
         arglist=None, description="Run data file processing"
@@ -51,34 +51,34 @@ def main(get_command_line_args_func=None):
 
     COMMAND_LINE_ARGS = ARGS.__dict__
     # LOG.info(COMMAND_LINE_ARGS)
-    LOG.info("GETTING PROCFLOW MODULE")
+    LOG.interactive("GETTING PROCFLOW MODULE")
     PROCFLOW = procflows.get_plugin(COMMAND_LINE_ARGS["procflow"])
 
-    LOG.info("CALLING PROCFLOW MODULE")
+    LOG.interactive("CALLING PROCFLOW MODULE")
     if PROCFLOW:
         LOG.info(COMMAND_LINE_ARGS["filenames"])
         LOG.info(COMMAND_LINE_ARGS)
         LOG.info(PROCFLOW)
         RETVAL = PROCFLOW(COMMAND_LINE_ARGS["filenames"], COMMAND_LINE_ARGS)
-        LOG.info(
+        LOG.interactive(
             "Completed geoips PROCFLOW %s processing, done!",
             COMMAND_LINE_ARGS["procflow"],
         )
-        LOG.info("Starting time: %s", DATETIMES["start"])
-        LOG.info("Ending time: %s", datetime.utcnow())
-        LOG.info("Total time: %s", datetime.utcnow() - DATETIMES["start"])
+        LOG.interactive("Starting time: %s", DATETIMES["start"])
+        LOG.interactive("Ending time: %s", datetime.utcnow())
+        LOG.interactive("Total time: %s", datetime.utcnow() - DATETIMES["start"])
         if isinstance(RETVAL, list):
             for ret in RETVAL:
-                LOG.info("GEOIPSPROCFLOWSUCCESS %s", ret)
+                LOG.interactive("GEOIPSPROCFLOWSUCCESS %s", ret)
             if len(RETVAL) > 2:
-                LOG.info(
+                LOG.interactive(
                     "GEOIPSTOTALSUCCESS %s %s products generated, total time %s",
                     str(PROCFLOW.name),
                     len(RETVAL),
                     datetime.utcnow() - DATETIMES["start"],
                 )
             else:
-                LOG.info(
+                LOG.interactive(
                     "GEOIPSNOSUCCESS %s %s products generated, total time %s",
                     str(PROCFLOW.name),
                     len(RETVAL),
@@ -86,7 +86,7 @@ def main(get_command_line_args_func=None):
                 )
             sys.exit(0)
         # LOG.info('Return value: %s', bin(RETVAL))
-        LOG.info("Return value: %d", RETVAL)
+        LOG.interactive("Return value: %d", RETVAL)
         sys.exit(RETVAL)
 
     else:

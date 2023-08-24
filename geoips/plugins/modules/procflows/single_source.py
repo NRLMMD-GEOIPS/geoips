@@ -1625,7 +1625,7 @@ def call(fnames, command_line_args=None):
         "The following products were produced from procflow %s", basename(__file__)
     )
     for output_product in final_products:
-        LOG.info("    SINGLESOURCESUCCESS %s", output_product)
+        LOG.interactive("    SINGLESOURCESUCCESS %s", output_product)
         if output_product in database_writes:
             LOG.info("    DATABASESUCCESS %s", output_product)
 
@@ -1660,9 +1660,9 @@ def call(fnames, command_line_args=None):
         )
 
     print_mem_usage("MEMUSG", verbose=True)
-    LOG.info("READER_NAME: %s", reader_name)
-    LOG.info("PRODUCT_NAME: %s", product_name)
-    LOG.info("NUM_PRODUCTS: %s", len(final_products))
-    LOG.info("NUM_DELETED_PRODUCTS: %s", len(removed_products))
+    LOG.interactive("READER_NAME: %s", reader_name)
+    LOG.interactive("PRODUCT_NAME: %s", product_name)
+    LOG.interactive("NUM_PRODUCTS: %s", len(final_products))
+    LOG.interactive("NUM_DELETED_PRODUCTS: %s", len(removed_products))
     output_process_times(process_datetimes, num_jobs, job_str="single_source procflow")
     return retval

@@ -664,11 +664,11 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
             # Skip 'diff' output directory
             continue
 
-        LOG.info(
+        LOG.interactive(
             "**************************************************************************"
         )
-        LOG.info("*** COMPARE  %s ***", basename(output_product))
-        LOG.info(
+        LOG.interactive("*** COMPARE  %s ***", basename(output_product))
+        LOG.interactive(
             "**************************************************************************"
         )
 

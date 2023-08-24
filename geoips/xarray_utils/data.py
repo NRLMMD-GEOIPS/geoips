@@ -384,7 +384,7 @@ def sector_xarray_spatial(
         )
         return None
 
-    LOG.info(
+    LOG.interactive(
         "    OVERALL SUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon and %0.2f and %0.2f lat %s points",
         min_lon,
         max_lon,
@@ -555,7 +555,7 @@ def sector_xarrays(
 
     ret_xobjs = {}
     for key, xobj in xobjs.items():
-        LOG.info("SECTORING dataset %s area_def %s", key, area_def.name)
+        LOG.interactive("SECTORING dataset %s area_def %s", key, area_def.name)
         LOG.info(" requested variables %s", set(varlist))
         LOG.info(" dataset variables %s", set(xobj.variables.keys()))
         LOG.info(" dataset data_vars %s", set(xobj.data_vars))

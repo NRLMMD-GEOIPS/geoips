@@ -192,7 +192,7 @@ def save_image(
         # final with titles, labels, etc.
         # Note bbox_inches='tight' removes white space, pad_inches=0.1 puts back in
         # a bit of white space.
-        LOG.info("Writing %s", out_fname)
+        LOG.interactive("Writing %s", out_fname)
         fig.savefig(
             out_fname,
             dpi=rc_params["figure.dpi"],
@@ -226,7 +226,7 @@ def save_image(
         if remove_duplicate_minrange is not None:
             remove_duplicates(out_fname, remove_duplicate_minrange)
 
-    LOG.info("IMAGESUCCESS wrote %s", out_fname)
+    LOG.interactive("IMAGESUCCESS wrote %s", out_fname)
     if image_datetime is not None:
         from datetime import datetime
 
@@ -460,7 +460,7 @@ def create_figure_and_main_ax_and_mapobj(
         LOG.info("mapobj already exists, not recreating")
         mapobj = existing_mapobj
 
-    LOG.info(
+    LOG.interactive(
         "Creating figure: left, right, bottom, top, xsize, ysize %s %s %s %s %s %s",
         left_margin,
         right_margin,
@@ -480,7 +480,7 @@ def create_figure_and_main_ax_and_mapobj(
     fig.set_size_inches(xsize, ysize)
     set_fonts(y_size, font_size=font_size)
 
-    LOG.info(
+    LOG.interactive(
         "Creating main ax: left, bottom, width, height %s %s %s %s",
         left_margin,
         bottom_margin,

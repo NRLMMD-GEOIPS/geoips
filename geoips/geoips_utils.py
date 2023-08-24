@@ -308,7 +308,7 @@ def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
           individual process
     """
     if "overall_end" in process_datetimes and "overall_start" in process_datetimes:
-        LOG.info(
+        LOG.interactive(
             "Total Time %s: %s Num jobs: %s",
             process_datetimes["overall_end"] - process_datetimes["overall_start"],
             num_jobs,
@@ -318,7 +318,7 @@ def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
         if process_name in ["overall_start", "overall_end"]:
             continue
         if "end" in process_datetimes[process_name]:
-            LOG.info(
+            LOG.interactive(
                 "    SUCCESS Process Time %s: %-20s: %s",
                 job_str,
                 process_name,
@@ -326,7 +326,7 @@ def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
                 - process_datetimes[process_name]["start"],
             )
         elif "fail" in process_datetimes[process_name]:
-            LOG.info(
+            LOG.interactive(
                 "    FAILED  Process Time %s: %-20s: %s",
                 job_str,
                 process_name,
@@ -334,7 +334,7 @@ def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
                 - process_datetimes[process_name]["start"],
             )
         else:
-            LOG.info("    MISSING Process Time %s: %s", job_str, process_name)
+            LOG.interactive("    MISSING Process Time %s: %s", job_str, process_name)
 
 
 def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
