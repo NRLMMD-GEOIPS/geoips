@@ -18,6 +18,7 @@ spec:
       name: matplotlib_linear_norm
       arguments:
         cmap_name: tpw_purple
+        cmap_source: ascii
         data_range: [5, 65]
         cbar_ticks: [5, 15, 25, 35, 45, 55, 65]
         cbar_label: TPW (mm)
