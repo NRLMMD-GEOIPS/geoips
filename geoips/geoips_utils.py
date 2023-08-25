@@ -326,7 +326,7 @@ def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
                 - process_datetimes[process_name]["start"],
             )
         elif "fail" in process_datetimes[process_name]:
-            LOG.interactive(
+            LOG.info(
                 "    FAILED  Process Time %s: %-20s: %s",
                 job_str,
                 process_name,
@@ -334,7 +334,7 @@ def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
                 - process_datetimes[process_name]["start"],
             )
         else:
-            LOG.interactive("    MISSING Process Time %s: %s", job_str, process_name)
+            LOG.info("    MISSING Process Time %s: %s", job_str, process_name)
 
 
 def replace_geoips_paths(fname, replace_paths=None, base_paths=None):

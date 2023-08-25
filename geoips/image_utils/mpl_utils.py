@@ -460,7 +460,7 @@ def create_figure_and_main_ax_and_mapobj(
         LOG.info("mapobj already exists, not recreating")
         mapobj = existing_mapobj
 
-    LOG.interactive(
+    LOG.info(
         "Creating figure: left, right, bottom, top, xsize, ysize %s %s %s %s %s %s",
         left_margin,
         right_margin,
@@ -480,7 +480,7 @@ def create_figure_and_main_ax_and_mapobj(
     fig.set_size_inches(xsize, ysize)
     set_fonts(y_size, font_size=font_size)
 
-    LOG.interactive(
+    LOG.info(
         "Creating main ax: left, bottom, width, height %s %s %s %s",
         left_margin,
         bottom_margin,
