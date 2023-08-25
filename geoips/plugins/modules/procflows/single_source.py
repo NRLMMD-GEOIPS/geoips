@@ -1625,7 +1625,7 @@ def call(fnames, command_line_args=None):
         "The following products were produced from procflow %s", basename(__file__)
     )
     for output_product in final_products:
-        LOG.interactive("    SINGLESOURCESUCCESS %s", output_product)
+        LOG.interactive("    \u001b[34mSINGLESOURCESUCCESS\033[0m %s", output_product)
         if output_product in database_writes:
             LOG.info("    DATABASESUCCESS %s", output_product)
 
