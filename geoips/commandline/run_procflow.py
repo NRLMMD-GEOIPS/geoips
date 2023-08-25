@@ -58,7 +58,7 @@ def main(get_command_line_args_func=None):
     LOG.info("GETTING PROCFLOW MODULE")
     PROCFLOW = procflows.get_plugin(COMMAND_LINE_ARGS["procflow"])
 
-    LOG.info("CALLING PROCFLOW MODULE")
+    LOG.interactive(f"CALLING PROCFLOW MODULE: {PROCFLOW.name}")
     if PROCFLOW:
         LOG.info(COMMAND_LINE_ARGS["filenames"])
         LOG.interactive(
@@ -67,7 +67,7 @@ def main(get_command_line_args_func=None):
         LOG.info(COMMAND_LINE_ARGS)
         LOG.info(PROCFLOW)
         RETVAL = PROCFLOW(COMMAND_LINE_ARGS["filenames"], COMMAND_LINE_ARGS)
-        LOG.info(
+        LOG.interactive(
             "Completed geoips PROCFLOW %s processing, done!",
             COMMAND_LINE_ARGS["procflow"],
         )

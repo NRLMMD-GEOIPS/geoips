@@ -1739,7 +1739,7 @@ def call(fnames, command_line_args=None):
         "The following products were produced from procflow %s", basename(__file__)
     )
     for removed_product in removed_products:
-        LOG.info("    DELETEDPRODUCT %s", removed_product)
+        LOG.interactive("    DELETEDPRODUCT %s", removed_product)
 
     if output_file_list_fname:
         LOG.info("Writing successful outputs to %s", output_file_list_fname)
@@ -1769,7 +1769,7 @@ def call(fnames, command_line_args=None):
         )
 
     for output_product in final_products:
-        LOG.interactive("    SINGLESOURCESUCCESS %s", output_product)
+        LOG.interactive("    \u001b[34mSINGLESOURCESUCCESS\033[0m %s", output_product)
         if output_product in database_writes:
             LOG.info("    DATABASESUCCESS %s", output_product)
 
