@@ -214,37 +214,55 @@ def images_match(output_product, compare_product, fuzz="5%"):
     bool
         Return True if images match, False if they differ
     """
-    out_diffimg = get_out_diff_fname(compare_product, output_product)
-    exact_out_diffimg = get_out_diff_fname(
-        compare_product, output_product, flag="exact_"
-    )
+    # out_diffimg = get_out_diff_fname(compare_product, output_product)
+    # exact_out_diffimg = get_out_diff_fname(
+    #     compare_product, output_product, flag="exact_"
+    # )
 
-    call_list = [
-        "compare",
-        "-verbose",
-        "-quiet",
-        "-metric",
-        "ae",
-        "-fuzz",
-        fuzz,
-        output_product,
-        compare_product,
-        out_diffimg,
-    ]
+    # call_list = [
+    #     "compare",
+    #     "-verbose",
+    #     "-quiet",
+    #     "-metric",
+    #     "ae",
+    #     "-fuzz",
+    #     fuzz,
+    #     output_product,
+    #     compare_product,
+    #     out_diffimg,
+    # ]
 
-    exact_call_list = [
-        "compare",
-        "-verbose",
-        "-quiet",
-        "-metric",
-        "ae",
-        output_product,
-        compare_product,
-        exact_out_diffimg,
-    ]
+    # exact_call_list = [
+    #     "compare",
+    #     "-verbose",
+    #     "-quiet",
+    #     "-metric",
+    #     "ae",
+    #     output_product,
+    #     compare_product,
+    #     exact_out_diffimg,
+    # ]
+    import numpy as np
+    from PIL import Image
+    from matplotlib import pyplot as plt
 
-    LOG.info("**Running %s", " ".join(call_list))
-    fullimg_retval = subprocess.call(call_list)
+    LOG.info("**Comparing output_product vs. compare product")
+    comp_img = np.asarray(Image.open(output_product))
+    out_img = np.asarray(Image.open(compare_product))
+    diff_images = comp_img - out_img
+    fullimg_retval = 0 if np.all(diff_images == 0) else 1
+    fig = plt.figure()
+    fig_shape = np.shape(diff_images)
+    fig.set_size_inches(fig_shape[2], fig_shape[1])
+    left_margin = 0.0
+    right_margin = 1.0
+    bottom_margin = 0.0
+    top_margin = 1.0
+    main_ax = plt.Axes(fig,
+                       [left_margin, bottom_margin,
+                        right_margin - left_margin,
+                        top_margin - bottom_margin,],)
+    # fullimg_retval = subprocess.call(call_list)
     LOG.info("**Done running compare")
 
     # call_list = ['compare', '-verbose', '-quiet',
@@ -275,14 +293,8 @@ def images_match(output_product, compare_product, fuzz="5%"):
         LOG.info("    *** BAD Images do NOT match exactly ***")
         LOG.info("    ***   output_product: %s ***", output_product)
         LOG.info("    ***   compare_product: %s ***", compare_product)
-        LOG.info("    ***   out_diffimg: %s ***", out_diffimg)
-        LOG.info("    ***   exact_out_diffimg: %s ***", exact_out_diffimg)
         LOG.info("    ***************************************")
         return False
-
-    LOG.info("**Running exact %s", " ".join(exact_call_list))
-    fullimg_retval = subprocess.call(exact_call_list)
-    LOG.info("**Done running exact compare")
 
     if fullimg_retval != 0:
         LOG.info("    ******************************************")
@@ -293,9 +305,9 @@ def images_match(output_product, compare_product, fuzz="5%"):
         LOG.info("    *** GOOD Images match exactly ***")
         LOG.info("    *********************************")
     # Remove the image if they matched so we don't have extra stuff to sort through.
-    from os import unlink as osunlink
+    # from os import unlink as osunlink
 
-    osunlink(out_diffimg)
+    # osunlink(out_diffimg)
     return True
 
 
