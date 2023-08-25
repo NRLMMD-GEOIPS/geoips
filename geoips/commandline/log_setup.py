@@ -18,8 +18,10 @@ import sys
 
 def addLoggingLevel(levelName, levelNum, methodName=None):
     """
-    Comprehensively adds a new logging level to the `logging` module and the
-    currently configured logging class.
+    Comprehensively adds a new logging level to the `logging` module.
+
+    Comprehensively adds a new logging level to the `logging` module
+    and the currently configured logging class.
 
     `levelName` becomes an attribute of the `logging` module with the value
     `levelNum`. `methodName` becomes a convenience method for both `logging`
@@ -75,7 +77,7 @@ def setup_logging(logging_level="INTERACTIVE", verbose=True):
     addLoggingLevel("INTERACTIVE", 35)
     log.setLevel(getattr(logging, logging_level))
     fmt = logging.Formatter(
-        "%(asctime)s %(module)12s %(lineno)4d %(levelname)7s: %(message)s", "%d_%H%M%S"
+        "%(asctime)s %(module)12s.py:%(lineno)-4d %(levelname)7s: %(message)s", "%d_%H%M%S"
     )
     if not verbose:
         fmt = logging.Formatter("%(asctime)s: %(message)s", "%d_%H%M%S")
