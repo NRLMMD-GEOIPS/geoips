@@ -1554,7 +1554,7 @@ def call(fnames, command_line_args=None):
             LOG.info("SUCCESSFUL COMPARISON DIR: %s\n", cpath)
             successful_comparison_dirs = successful_comparison_dirs + 1
         for filename in final_products[cpath]["files"]:
-            LOG.interactive("    CONFIGSUCCESS %s", filename)
+            LOG.interactive("    \u001b[34mCONFIGSUCCESS\033[0m %s", filename)
             if filename in final_products[cpath]["database writes"]:
                 LOG.info("    DATABASESUCCESS %s", filename)
         LOG.info("\n")
