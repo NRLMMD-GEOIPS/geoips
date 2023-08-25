@@ -10,7 +10,7 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.11.3a0 (2023-08-19)
+Version 1.11.3a0 (2023-08-25)
 *****************************
 
 * Require sphinx<7.2 due to bugs introduced 2023-08-17 7.2.x release
@@ -19,6 +19,7 @@ Version 1.11.3a0 (2023-08-19)
 * Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
 * Use matplotlib_linear_norm colormapper for tpw_cimss and tpw_purple
 * Add interactive log level, and include useful interactive logs
+* Add option for curly braces in "replace_geoips_paths", use in procflow SUCCESS
 * Bug fixes
 
 Bug Fixes
@@ -46,6 +47,21 @@ has been resolved.
 
 Enhancements
 ============
+
+Add option for curly braces in "replace_geoips_paths", use in procflow SUCCESS
+------------------------------------------------------------------------------
+
+Discovered VSCode will successfully expand environment variables if they
+include curly braces.  Add option to replace geoips paths to allow
+including curly braces, and apply replace_geoips_paths with curly braces
+to the SINGLESOURCESUCCESS and CONFIGSUCCESS outputs (so user-agnostic
+output available at the end of interactive logs, including file names)
+
+::
+
+  modified: geoips/geoips_utils.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/plugins/modules/procflows/config_based.py
 
 Add interactive log level, and include useful interactive logs
 --------------------------------------------------------------

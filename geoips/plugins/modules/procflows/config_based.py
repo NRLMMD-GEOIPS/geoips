@@ -28,6 +28,7 @@ from geoips.dev.product import (
 )
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.filenames.duplicate_files import remove_duplicates
+from geoips.geoips_utils import replace_geoips_paths
 
 
 try:
@@ -1554,7 +1555,10 @@ def call(fnames, command_line_args=None):
             LOG.info("SUCCESSFUL COMPARISON DIR: %s\n", cpath)
             successful_comparison_dirs = successful_comparison_dirs + 1
         for filename in final_products[cpath]["files"]:
-            LOG.interactive("    \u001b[34mCONFIGSUCCESS\033[0m %s", filename)
+            LOG.interactive(
+                "    \u001b[34mCONFIGSUCCESS\033[0m %s",
+                replace_geoips_paths(filename, curly_braces=True),
+            )
             if filename in final_products[cpath]["database writes"]:
                 LOG.info("    DATABASESUCCESS %s", filename)
         LOG.info("\n")

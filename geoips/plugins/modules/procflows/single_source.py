@@ -26,6 +26,7 @@ from geoips.geoips_utils import copy_standard_metadata, output_process_times
 from geoips.utils.memusg import print_mem_usage
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.sector_utils.utils import filter_area_defs_actual_time, is_dynamic_sector
+from geoips.geoips_utils import replace_geoips_paths
 
 # Old interfaces (YAML, not updated to classes yet!)
 from geoips.dev.product import (
@@ -1782,7 +1783,10 @@ def call(fnames, command_line_args=None):
         basename(__file__),
     )
     for output_product in final_products:
-        LOG.interactive("    \u001b[34mSINGLESOURCESUCCESS\033[0m %s", output_product)
+        LOG.interactive(
+            "    \u001b[34mSINGLESOURCESUCCESS\033[0m %s",
+            replace_geoips_paths(output_product, curly_braces=True),
+        )
         if output_product in database_writes:
             LOG.info("    DATABASESUCCESS %s", output_product)
     for removed_product in removed_products:
