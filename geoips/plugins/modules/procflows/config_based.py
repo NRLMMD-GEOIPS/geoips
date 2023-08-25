@@ -39,7 +39,6 @@ try:
     )
 except ImportError:
     pass
-    # print("Please install geoips_db package if required")
 
 try:
     from geoips_db.utils.database_writes import (
@@ -49,7 +48,6 @@ try:
     )
 except ImportError:
     pass
-    # print("Please install geoips_db package if required")
 
 # Old interfaces (YAML, will migrate to new soon)
 from geoips.dev.output_config import (
