@@ -18,6 +18,7 @@ Version 1.11.3a0 (2023-08-19)
 * Add script to enable geoips environment
 * Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
 * Use matplotlib_linear_norm colormapper for tpw_cimss and tpw_purple
+* Add interactive log level, and include useful interactive logs
 * Bug fixes
 
 Bug Fixes
@@ -45,6 +46,29 @@ has been resolved.
 
 Enhancements
 ============
+
+Add interactive log level, and include useful interactive logs
+--------------------------------------------------------------
+
+The following files required interactive log statements:
+
+::
+
+  modified:   geoips/commandline/run_procflow.py
+  modified:   geoips/compare_outputs.py
+  modified:   geoips/plugins/modules/procflows/config_based.py
+  modified:   geoips/plugins/modules/procflows/single_source.py
+
+
+The following files were modified to no longer include interactive logs:
+
+::
+
+  modified:   geoips/data_manipulations/corrections.py
+  modified:   geoips/geoips_utils.py
+  modified:   geoips/image_utils/mpl_utils.py
+  modified:   geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+  modified:   geoips/xarray_utils/data.py
 
 Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
 -------------------------------------------------------------------
