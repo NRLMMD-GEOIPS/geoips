@@ -70,6 +70,14 @@ The following files were modified to no longer include interactive logs:
   modified:   geoips/plugins/modules/readers/utils/geostationary_geolocation.py
   modified:   geoips/xarray_utils/data.py
 
+The following files were modified to create a workflow for interactive logs:
+
+::
+
+  modified:   geoips/commandline/args.py
+  modified:   geoips/commandline/log_setup.py
+
+
 Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
 -------------------------------------------------------------------
 
