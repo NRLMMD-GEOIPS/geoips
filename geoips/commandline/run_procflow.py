@@ -58,7 +58,7 @@ def main(get_command_line_args_func=None):
     LOG.info("GETTING PROCFLOW MODULE")
     PROCFLOW = procflows.get_plugin(COMMAND_LINE_ARGS["procflow"])
 
-    LOG.interactive(f"CALLING PROCFLOW MODULE: {PROCFLOW.name}")
+    LOG.info(f"CALLING PROCFLOW MODULE: {PROCFLOW.name}")
     if PROCFLOW:
         LOG.info(COMMAND_LINE_ARGS["filenames"])
         LOG.interactive(

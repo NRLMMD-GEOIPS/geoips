@@ -1540,8 +1540,9 @@ def call(fnames, command_line_args=None):
     failed_comparison_dirs = 0
     from os.path import basename
 
-    LOG.info(
-        "The following products were produced from procflow %s", basename(__file__)
+    LOG.interactive(
+        "\n\n\nThe following products were produced from procflow %s\n\n",
+        basename(__file__),
     )
     for cpath in final_products:
         if cpath in failed_compares:

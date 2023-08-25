@@ -517,7 +517,9 @@ def plot_data(
 
     if output_plugin.family == "xarray_data":
         LOG.interactive(
-            "  Producing '%s' family final outputs...", output_plugin.family
+            "  Producing '%s' family final outputs '%s'...",
+            output_plugin.family,
+            output_plugin.name,
         )
         output_products = output_plugin(
             xarray_obj=alg_xarray,
@@ -541,7 +543,9 @@ def plot_data(
         if output_plugin.family == "image":
             # This returns None if not specified
             LOG.interactive(
-                "  Producing '%s' family final outputs...", output_plugin.family
+                "  Producing '%s' family final outputs '%s'...",
+                output_plugin.family,
+                output_plugin.name,
             )
             output_products = output_plugin(
                 area_def,
@@ -557,7 +561,9 @@ def plot_data(
         elif output_plugin.family == "unprojected":
             # This returns None if not specified
             LOG.interactive(
-                "  Producing '%s' family final outputs...", output_plugin.family
+                "  Producing '%s' family final outputs '%s'...",
+                output_plugin.family,
+                output_plugin.name,
             )
             output_products = output_plugin(
                 xarray_obj=alg_xarray,
@@ -573,7 +579,9 @@ def plot_data(
             # This can include background information, feature/gridline annotations,
             # information, etc
             LOG.interactive(
-                "  Producing '%s' family final outputs...", output_plugin.family
+                "  Producing '%s' family final outputs '%s'...",
+                output_plugin.family,
+                output_plugin.name,
             )
             output_products = output_plugin(
                 area_def,
@@ -592,7 +600,9 @@ def plot_data(
             output_kwargs["mpl_colors_info"] = mpl_colors_info
             output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
             LOG.interactive(
-                "  Producing '%s' family final outputs...", output_plugin.family
+                "  Producing '%s' family final outputs '%s'...",
+                output_plugin.family,
+                output_plugin.name,
             )
             output_products = output_plugin(
                 xarray_dict=fused_xarray_dict,
@@ -609,7 +619,9 @@ def plot_data(
             output_kwargs["mpl_colors_info"] = mpl_colors_info
             output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
             LOG.interactive(
-                "  Producing '%s' family final outputs...", output_plugin.family
+                "  Producing '%s' family final outputs '%s'...",
+                output_plugin.family,
+                output_plugin.name,
             )
             output_products = output_plugin(
                 xarray_dict=fused_xarray_dict,
@@ -1733,13 +1745,10 @@ def call(fnames, command_line_args=None):
                 area_def.name,
             )
 
-    process_datetimes["overall_end"] = datetime.utcnow()
-
-    LOG.info(
-        "The following products were produced from procflow %s", basename(__file__)
+    LOG.interactive(
+        "\n\n\nProcessing complete! Checking outputs...\n\n",
     )
-    for removed_product in removed_products:
-        LOG.interactive("    DELETEDPRODUCT %s", removed_product)
+    process_datetimes["overall_end"] = datetime.utcnow()
 
     if output_file_list_fname:
         LOG.info("Writing successful outputs to %s", output_file_list_fname)
@@ -1768,10 +1777,16 @@ def call(fnames, command_line_args=None):
             final_products,
         )
 
+    LOG.interactive(
+        "\n\n\nThe following products were produced from procflow %s\n\n",
+        basename(__file__),
+    )
     for output_product in final_products:
         LOG.interactive("    \u001b[34mSINGLESOURCESUCCESS\033[0m %s", output_product)
         if output_product in database_writes:
             LOG.info("    DATABASESUCCESS %s", output_product)
+    for removed_product in removed_products:
+        LOG.interactive("    DELETEDPRODUCT %s", removed_product)
 
     print_mem_usage("MEMUSG", verbose=True)
     LOG.interactive("READER_NAME: %s", reader_name)
