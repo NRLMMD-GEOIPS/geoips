@@ -244,9 +244,11 @@ def images_match(output_product, compare_product, fuzz="5%"):
     ]
 
     LOG.info("**Running %s", " ".join(call_list))
-    fullimg_retval = subprocess.call(
-        call_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    fullimg_ret = subprocess.run(
+        call_list, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
+    LOG.debug(fullimg_ret.stdout)
+
     LOG.info("**Done running compare")
 
     # call_list = ['compare', '-verbose', '-quiet',
@@ -272,7 +274,7 @@ def images_match(output_product, compare_product, fuzz="5%"):
     #     LOG.info('    *** BAD Images do NOT match exactly ***')
     #     LOG.info('    ***************************************')
     #     return False
-    if fullimg_retval != 0:
+    if fullimg_ret.returncode != 0:
         LOG.interactive("    ***************************************")
         LOG.interactive("    *** BAD Images do NOT match exactly ***")
         LOG.interactive("    ***   output_product: %s ***", output_product)
@@ -283,12 +285,13 @@ def images_match(output_product, compare_product, fuzz="5%"):
         return False
 
     LOG.info("**Running exact %s", " ".join(exact_call_list))
-    fullimg_retval = subprocess.call(
-        exact_call_list, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    fullimg_ret = subprocess.run(
+        exact_call_list, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
+    LOG.debug(fullimg_ret.stdout)
     LOG.info("**Done running exact compare")
 
-    if fullimg_retval != 0:
+    if fullimg_ret.returncode != 0:
         LOG.info("    ******************************************")
         LOG.info("    *** GOOD Images match within tolerance ***")
         LOG.info("    ******************************************")
@@ -493,12 +496,13 @@ def text_match(output_product, compare_product):
     bool
         Return True if products match, False if they differ
     """
-    retval = subprocess.call(
+    ret = subprocess.run(
         ["diff", output_product, compare_product],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-    if retval == 0:
+    LOG.debug(ret.stdout)
+    if ret.returncode == 0:
         LOG.info("    *****************************")
         LOG.info("    *** GOOD Text files match ***")
         LOG.info("    *****************************")
