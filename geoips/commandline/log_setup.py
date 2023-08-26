@@ -16,7 +16,7 @@ import logging
 import sys
 
 
-def addLoggingLevel(levelName, levelNum, methodName=None):
+def add_logging_level(levelName, levelNum, methodName=None):
     """
     Comprehensively adds a new logging level to the `logging` module.
 
@@ -35,7 +35,7 @@ def addLoggingLevel(levelName, levelNum, methodName=None):
 
     Example
     -------
-    >>> addLoggingLevel('TRACE', logging.DEBUG - 5)
+    >>> add_logging_level('TRACE', logging.DEBUG - 5)
     >>> logging.getLogger(__name__).setLevel("TRACE")
     >>> logging.getLogger(__name__).trace('that worked')
     >>> logging.trace('so did this')
@@ -74,7 +74,7 @@ def setup_logging(logging_level="INTERACTIVE", verbose=True):
     LOG = logging.getLogger(__name__)
     """
     log = logging.getLogger()
-    addLoggingLevel("INTERACTIVE", 35)
+    add_logging_level("INTERACTIVE", 35)
     log.setLevel(getattr(logging, logging_level))
     fmt = logging.Formatter(
         "%(asctime)s %(module)12s.py:%(lineno)-4d %(levelname)7s: %(message)s",
