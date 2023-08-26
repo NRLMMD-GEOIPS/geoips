@@ -17,7 +17,7 @@ Version 1.11.3a0 (2023-08-19)
 * Add .vscode settings repository to "full_install.sh"
 * Add script to enable geoips environment
 * Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
-
+* Use matplotlib_linear_norm colormapper for tpw_cimss and tpw_purple
 * Bug fixes
 
 Bug Fixes
@@ -104,6 +104,18 @@ Add pyPublicDecompWT to dependencies and remove setup_seviri from setup script
 Installation Updates
 ====================
 
+Add Mac installation instructions
+---------------------------------
+
+Added Mac installation instructions in mac_installation.rst and added link in the
+readme. Also reworked order of Linux installation.
+
+::
+
+    modified: docs/source/starter/installation.rst
+    created: docs/source/starter/mac_installation.rst
+    modified: README.md
+
 Add .vscode repository to full Installation
 -------------------------------------------
 
@@ -126,3 +138,23 @@ Include script that sets explicit paths for geoips environment setup.
 ::
 
   new: setup/USER_MODIFY_config
+
+Refactoring Updates
+===================
+
+Change the specification of tpw_cimss and tpw_purple colormappers
+-----------------------------------------------------------------
+
+The previous tpw_(cimss/purple) colormappers were fully defined via their own
+plugins/modules/colormappers/<cmap_name>.py programs. Now, these two color mappers are
+defined fully in their associated product_defaults YAML files. This removes the
+complexity of these colormappers, and is an easier implementation to follow for the
+future.
+
+::
+
+    deleted: geoips/geoips/plugins/modules/colormappers/tpw/tpw_cimss.py
+    deleted: geoips/geoips/plugins/modules/colormappers/tpw/tpw_cimss.py
+    modified: geoips/geoips/plugins/yaml/product_defaults/tpw/TPW-CIMSS.yaml
+    modified: geoips/geoips/plugins/yaml/product_defaults/tpw/TPW-PURPLE.yaml
+    modified: geoips/pyproject.toml

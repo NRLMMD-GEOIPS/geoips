@@ -105,7 +105,7 @@ def call(
         try:
             mpl_cmap = cm.get_cmap(cmap_name)
         except ValueError:
-            raise ValueError("Colormap {cmap_name} not found in source {cmap_source}")
+            raise ValueError(f"Colormap {cmap_name} not found in source {cmap_source}")
     elif cmap_source == "geoips":
         cmap_plugin = colormappers.get_plugin(cmap_name)
         # Just get the cmap out of mpl_colors_info to use here.

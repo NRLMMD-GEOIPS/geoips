@@ -10,9 +10,9 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-**********************************
-Conda-based Installation for Linux
-**********************************
+********************************
+Conda-based Installation for Mac
+********************************
 
 Using a fresh Mini/Anaconda Python 3.9+ Environment is the easiest way to
 get geoips up and running.
@@ -21,10 +21,10 @@ Complete Local conda-based GeoIPS Installation
 ==============================================
 
 The following instructions will guide you through installing GeoIPS using
-Anaconda Python. This installation method allows users to install GeoIPS without
-requiring administrative privileges by using Conda to install all of the
-"Required" system dependencies, then installing geoips into
-that conda environment.
+Anaconda Python on Mac OSX. This installation method allows users to install
+GeoIPS without requiring administrative privileges by using Conda to install all
+of the "Required" system dependencies, then installing geoips into that conda
+environment.
 
 1. Set GeoIPS Environment Variables
 -----------------------------------
@@ -43,7 +43,7 @@ You can change your installation location by changing the value of
     export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
 
 If desired, the GeoIPS environment variables can be added to your
-``$HOME/.bashrc`` by running the following commands:
+``$HOME/.bashrc`` or ``$HOME/.zshrc`` by running the following commands:
 
 .. code:: bash
 
@@ -60,14 +60,20 @@ If desired, the GeoIPS environment variables can be added to your
   <https://docs.conda.io/en/latest/miniconda.html>`_, or
   `Miniforge/Mambaforge <https://github.com/conda-forge/miniforge#download>`_.
 
-For example, for Linux with Intel chips, one of the following:
-
 .. code:: bash
 
-    # wget https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh
-    # wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    # wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-    wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
+    # Mamba for Intel chips
+    curl -L -o conda_install.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
+    # Mamba for ARM (M1/M2) chips
+    curl -L -o conda_install.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+    # Anaconda for Intel chips
+    curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-x86_64.sh
+    # Anaconda for ARM (M1/M2) chips
+    curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-arm64.sh
+    # Miniconda for Intel chips
+    curl -L -o conda_install.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+    # Miniconda for ARM (M1/M2) chips
+    curl -L -o conda_install.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
 
 - Make the install script executable and run the installer,
   following the prompts (particularly the bit about
@@ -75,8 +81,8 @@ For example, for Linux with Intel chips, one of the following:
 
 .. code:: bash
 
-    chmod u+x Mambaforge-Linux-x86_64.sh
-    ./Mambaforge-Linux-x86_64.sh
+    chmod u+x conda_install.sh
+    ./conda_install.sh
     # Follow instructions regarding conda init / restarting your terminal !
 
 3. Create and activate a conda environment with some dependencies
@@ -88,11 +94,11 @@ but this command will ensure that for everyone.
 
 .. code:: bash
 
-    # Note geos no longer required for cartopy >= 0.22
-    # openblas / gcc required for recenter_tc / akima build.
     # imagemagick required for image comparisons
-    # git required for -C commands
-    conda create -y -n geoips -c conda-forge python=3.10 gcc gxx openblas imagemagick git
+    # git required for pulling from git and for -C commands
+    # pyhdf and pykdtree don't have wheels for mac and don't build cleanly
+    #   best to install via conda
+    conda create -y -n geoips -c conda-forge python=3.10 openblas imagemagick git pyhdf pykdtree
     conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
 **Note:** You will need to run ``conda activate geoips`` every time you want to
