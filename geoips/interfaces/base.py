@@ -172,7 +172,7 @@ class YamlPluginValidator:
 
         # This is a temporary fix as we transition to using one top-level schema per
         # interface. As we transition, add more exceptions here.
-        if plugin["interface"] == "sectors":
+        if not validator_id and plugin["interface"] == "sectors":
             if plugin["family"] == "generated":
                 validator_id = "sectors.generated"
             else:
@@ -191,13 +191,25 @@ class YamlPluginValidator:
                 f"\nin interface '{plugin['interface']}'"
             ) from err
 
-        try:
-            validator.validate(plugin)
-        except ValidationError as err:
-            raise ValidationError(
-                f"Failed to validate \"{plugin['name']}\" plugin "
-                f"for the \"{plugin['interface']}\" interface"
-            ) from err
+        # This turned out to be too big of a change for now.
+        # We should consider how to implement something like this while still being able
+        # to test the preceeding error in our unit tests. Currently, the error ourput by
+        # `valicator.validate(plugin)` is being used for testing in the unit tests.
+        #
+        # See issue #303
+        validator.validate(plugin)
+        # try:
+        #     validator.validate(plugin)
+        # except ValidationError as err:
+        #     try:
+        #         raise ValidationError(
+        #             f"Failed to validate \"{plugin['name']}\" plugin "
+        #             f"for the \"{plugin['interface']}\" interface"
+        #         ) from err
+        #     except (KeyError, TypeError):
+        #         raise ValidationError(
+        #             f'Failed to validate plugin using the "{validator_id}" schema'
+        #         ) from err
 
         if "family" in plugin and plugin["family"] == "list":
             plugin = self.validate_list(plugin)
