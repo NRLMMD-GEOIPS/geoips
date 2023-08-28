@@ -200,6 +200,12 @@ config_based = "geoips.interface_modules.procflows.config_based:config_based"
 flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
 bdeck_parser = "geoips.interface_modules.trackfile_parsers.bdeck_parser:bdeck_parser"
 
+#[project.entry-points."geoips.area_def_generators"]
+[tool.poetry.plugins."geoips.area_def_generators"]
+clat_clon_resolution_shape = "geoips.interface_modules.area_def_generators.clat_clon_resolution_shape:clat_clon_resolution_shape"
+
+
+
 #[project.entry-points."geoips.filename_formats"]
 [tool.poetry.plugins."geoips.filename_formats"]
 geoips_fname = "geoips.interface_modules.filename_formats.geoips_fname:geoips_fname"
@@ -263,8 +269,6 @@ list_available_modules = "geoips.commandline.list_available_modules:main"
 
 
 
-[project.entry-points."geoips.area_def_generators"]
-clat_clon_resolution_shape = "geoips.interface_modules.area_def_generators.clat_clon_resolution_shape:clat_clon_resolution_shape"
 
 [project.entry-points."geoips.interpolation"]
 "pyresample_wrappers.interp_nearest" = "geoips.interface_modules.interpolation.pyresample_wrappers.interp_nearest:interp_nearest"
