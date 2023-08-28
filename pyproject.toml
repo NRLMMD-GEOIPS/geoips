@@ -2,11 +2,15 @@
 
 #[project]
 [tool.poetry]
+
+# required ones
 name = "geoips"         # geoips package available at the root of the project
 #dynamic = ["version"]
 version = "0.1.0"   # this has to be fixed; it's dynamic in setuptools
 description = "Geolocated Information Processing System"
 authors = ["Tom <tom.jerry@colostate.edu>"]
+
+# optional ones
 maintainers = ["Tom <tom.jerry@colostate.edu>"]
 #homepage = "set the url"   // optional
 repository = "https://github.com/NRLMMD-GEOIPS/geoips"    #optional
@@ -16,8 +20,7 @@ readme = "README.md"
 keywords = ["GeoIPS", "Poetry"]
 packages = [{include = "geoips"}]  # not needed as tool.poetry.name is properly set already
 classifiers = [                # // list of PyPI trove classifiers to describe the project
-    "Programming Language :: Python :: 3",
-]
+    "Programming Language :: Python :: 3", ]
 
 # remains same in setuptools and poetry
 [build-system]
@@ -125,6 +128,10 @@ flake8-docstrings = "^1.7.0"    # docstring checking
 flake8-rst = "^0.8.0"           # RST checking
 prettier = "^0.0.7"             # YAML, JSON, etc linting
 doc8 = "^1.1.1"                 # RST linting
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
 
 
 #[project.entry-points."geoips.readers"]
@@ -295,10 +302,6 @@ find = {namespaces = false}
 
 [tool.setuptools.dynamic]
 entry-points = {file = ["entry-points.ini"]}
-
-## Python-style entrypoints and scripts are easily expressed
-#[tool.poetry.scripts]
-#my-script = "my_package:main"
 
 # do we need to distribute lock files along with the package
 # package a need c.2 and package b need c.3 how does lock file takes care of it
