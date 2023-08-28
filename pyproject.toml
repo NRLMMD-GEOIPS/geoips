@@ -204,6 +204,38 @@ bdeck_parser = "geoips.interface_modules.trackfile_parsers.bdeck_parser:bdeck_pa
 [tool.poetry.plugins."geoips.area_def_generators"]
 clat_clon_resolution_shape = "geoips.interface_modules.area_def_generators.clat_clon_resolution_shape:clat_clon_resolution_shape"
 
+#[project.entry-points."geoips.interpolation"]
+[tool.poetry.plugins."geoips.interpolation"]
+"pyresample_wrappers.interp_nearest" = "geoips.interface_modules.interpolation.pyresample_wrappers.interp_nearest:interp_nearest"
+"pyresample_wrappers.interp_gauss" = "geoips.interface_modules.interpolation.pyresample_wrappers.interp_gauss:interp_gauss"
+"scipy_wrappers.interp_grid" = "geoips.interface_modules.interpolation.scipy_wrappers.interp_grid:interp_grid"
+
+#[project.entry-points."geoips.user_colormaps"]
+[tool.poetry.plugins."geoips.user_colormaps"]
+cmap_rgb = "geoips.interface_modules.user_colormaps.cmap_rgb:cmap_rgb"
+matplotlib_linear_norm = "geoips.interface_modules.user_colormaps.matplotlib_linear_norm:matplotlib_linear_norm"
+"pmw_tb.cmap_150H" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_150H:cmap_150H"
+"pmw_tb.cmap_37H_Legacy" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_37H_Legacy:cmap_37H_Legacy"
+"pmw_tb.cmap_37H_Physical" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_37H_Physical:cmap_37H_Physical"
+"pmw_tb.cmap_37H" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_37H:cmap_37H"
+"pmw_tb.cmap_37pct" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_37pct:cmap_37pct"
+"pmw_tb.cmap_89H_Legacy" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_89H_Legacy:cmap_89H_Legacy"
+"pmw_tb.cmap_89H_Physical" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_89H_Physical:cmap_89H_Physical"
+"pmw_tb.cmap_89H" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_89H:cmap_89H"
+"pmw_tb.cmap_89pct" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_89pct:cmap_89pct"
+"pmw_tb.cmap_89HW" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_89HW:cmap_89HW"
+"pmw_tb.cmap_Rain" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_Rain:cmap_Rain"
+"tpw.tpw_cimss" = "geoips.interface_modules.user_colormaps.tpw.tpw_cimss:tpw_cimss"
+"tpw.tpw_purple" = "geoips.interface_modules.user_colormaps.tpw.tpw_purple:tpw_purple"
+"tpw.tpw_pwat" = "geoips.interface_modules.user_colormaps.tpw.tpw_pwat:tpw_pwat"
+"visir.Infrared" = "geoips.interface_modules.user_colormaps.visir.Infrared:Infrared"
+"visir.IR_BD" = "geoips.interface_modules.user_colormaps.visir.IR_BD:IR_BD"
+"visir.WV" = "geoips.interface_modules.user_colormaps.visir.WV:WV"
+"winds.wind_radii_transitions" = "geoips.interface_modules.user_colormaps.winds.wind_radii_transitions:wind_radii_transitions"
+
+
+
+
 
 
 #[project.entry-points."geoips.filename_formats"]
@@ -270,32 +302,7 @@ list_available_modules = "geoips.commandline.list_available_modules:main"
 
 
 
-[project.entry-points."geoips.interpolation"]
-"pyresample_wrappers.interp_nearest" = "geoips.interface_modules.interpolation.pyresample_wrappers.interp_nearest:interp_nearest"
-"pyresample_wrappers.interp_gauss" = "geoips.interface_modules.interpolation.pyresample_wrappers.interp_gauss:interp_gauss"
-"scipy_wrappers.interp_grid" = "geoips.interface_modules.interpolation.scipy_wrappers.interp_grid:interp_grid"
 
-[project.entry-points."geoips.user_colormaps"]
-cmap_rgb = "geoips.interface_modules.user_colormaps.cmap_rgb:cmap_rgb"
-matplotlib_linear_norm = "geoips.interface_modules.user_colormaps.matplotlib_linear_norm:matplotlib_linear_norm"
-"pmw_tb.cmap_150H" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_150H:cmap_150H"
-"pmw_tb.cmap_37H_Legacy" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_37H_Legacy:cmap_37H_Legacy"
-"pmw_tb.cmap_37H_Physical" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_37H_Physical:cmap_37H_Physical"
-"pmw_tb.cmap_37H" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_37H:cmap_37H"
-"pmw_tb.cmap_37pct" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_37pct:cmap_37pct"
-"pmw_tb.cmap_89H_Legacy" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_89H_Legacy:cmap_89H_Legacy"
-"pmw_tb.cmap_89H_Physical" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_89H_Physical:cmap_89H_Physical"
-"pmw_tb.cmap_89H" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_89H:cmap_89H"
-"pmw_tb.cmap_89pct" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_89pct:cmap_89pct"
-"pmw_tb.cmap_89HW" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_89HW:cmap_89HW"
-"pmw_tb.cmap_Rain" = "geoips.interface_modules.user_colormaps.pmw_tb.cmap_Rain:cmap_Rain"
-"tpw.tpw_cimss" = "geoips.interface_modules.user_colormaps.tpw.tpw_cimss:tpw_cimss"
-"tpw.tpw_purple" = "geoips.interface_modules.user_colormaps.tpw.tpw_purple:tpw_purple"
-"tpw.tpw_pwat" = "geoips.interface_modules.user_colormaps.tpw.tpw_pwat:tpw_pwat"
-"visir.Infrared" = "geoips.interface_modules.user_colormaps.visir.Infrared:Infrared"
-"visir.IR_BD" = "geoips.interface_modules.user_colormaps.visir.IR_BD:IR_BD"
-"visir.WV" = "geoips.interface_modules.user_colormaps.visir.WV:WV"
-"winds.wind_radii_transitions" = "geoips.interface_modules.user_colormaps.winds.wind_radii_transitions:wind_radii_transitions"
 
 [project.entry-points."geoips.title_formats"]
 tc_standard = "geoips.interface_modules.title_formats.tc_standard:tc_standard"
