@@ -195,6 +195,11 @@ single_channel = "geoips.interface_modules.algorithms.single_channel:single_chan
 single_source = "geoips.interface_modules.procflows.single_source:single_source"
 config_based = "geoips.interface_modules.procflows.config_based:config_based"
 
+#[project.entry-points."geoips.trackfile_parsers"]
+[tool.poetry.plugins."geoips.trackfile_parsers"]
+flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
+bdeck_parser = "geoips.interface_modules.trackfile_parsers.bdeck_parser:bdeck_parser"
+
 #[project.entry-points."geoips.filename_formats"]
 [tool.poetry.plugins."geoips.filename_formats"]
 geoips_fname = "geoips.interface_modules.filename_formats.geoips_fname:geoips_fname"
@@ -206,6 +211,9 @@ text_winds_day_fname = "geoips.interface_modules.filename_formats.text_winds_day
 text_winds_full_fname = "geoips.interface_modules.filename_formats.text_winds_full_fname:text_winds_full_fname"
 text_winds_tc_fname = "geoips.interface_modules.filename_formats.text_winds_tc_fname:text_winds_tc_fname"
 metadata_default_fname = "geoips.interface_modules.filename_formats.metadata_default_fname:metadata_default_fname"
+
+
+
 
 
 [tool.setuptools.packages]
@@ -254,9 +262,6 @@ list_available_modules = "geoips.commandline.list_available_modules:main"
 
 
 
-[project.entry-points."geoips.trackfile_parsers"]
-flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
-bdeck_parser = "geoips.interface_modules.trackfile_parsers.bdeck_parser:bdeck_parser"
 
 [project.entry-points."geoips.area_def_generators"]
 clat_clon_resolution_shape = "geoips.interface_modules.area_def_generators.clat_clon_resolution_shape:clat_clon_resolution_shape"
