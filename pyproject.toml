@@ -190,7 +190,10 @@ single_channel = "geoips.interface_modules.algorithms.single_channel:single_chan
 "visir.Night_Vis_GeoIPS1" = "geoips.interface_modules.algorithms.visir.Night_Vis_GeoIPS1:Night_Vis_GeoIPS1"
 "visir.Night_Vis" = "geoips.interface_modules.algorithms.visir.Night_Vis:Night_Vis"
 
-
+#[project.entry-points."geoips.procflows"]
+[tool.poetry.plugins."geoips.procflows"]
+single_source = "geoips.interface_modules.procflows.single_source:single_source"
+config_based = "geoips.interface_modules.procflows.config_based:config_based"
 
 #[project.entry-points."geoips.filename_formats"]
 [tool.poetry.plugins."geoips.filename_formats"]
@@ -250,9 +253,6 @@ list_available_modules = "geoips.commandline.list_available_modules:main"
 
 
 
-[project.entry-points."geoips.procflows"]
-single_source = "geoips.interface_modules.procflows.single_source:single_source"
-config_based = "geoips.interface_modules.procflows.config_based:config_based"
 
 [project.entry-points."geoips.trackfile_parsers"]
 flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
