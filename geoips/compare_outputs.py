@@ -252,16 +252,10 @@ def images_match(output_product, compare_product, fuzz="5%"):
     diff_images = comp_img - out_img
     fullimg_retval = 0 if np.all(diff_images == 0) else 1
     fig = plt.figure()
-    fig_shape = np.shape(diff_images)
-    fig.set_size_inches(fig_shape[2], fig_shape[1])
-    left_margin = 0.0
-    right_margin = 1.0
-    bottom_margin = 0.0
-    top_margin = 1.0
-    main_ax = plt.Axes(fig,
-                       [left_margin, bottom_margin,
-                        right_margin - left_margin,
-                        top_margin - bottom_margin,],)
+    fig.suptitle("test_figure")
+    plt.imshow(diff_images)
+    # plt.imsave("test_figure.png", diff_images, cmap="jet")
+    plt.savefig("test_figure.png")
     # fullimg_retval = subprocess.call(call_list)
     LOG.info("**Done running compare")
 
