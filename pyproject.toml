@@ -248,7 +248,9 @@ center_radius_rgba = "geoips.interface_modules.coverage_checks.center_radius_rgb
 rgba = "geoips.interface_modules.coverage_checks.rgba:rgba"
 windbarbs = "geoips.interface_modules.coverage_checks.windbarbs:windbarbs"
 
-
+#[project.entry-points."geoips.output_comparisons"]
+[tool.poetry.plugins."geoips.output_comparisons"]
+compare_outputs = "geoips.compare_outputs:compare_outputs"
 
 #[project.entry-points."geoips.filename_formats"]
 [tool.poetry.plugins."geoips.filename_formats"]
@@ -319,6 +321,4 @@ list_available_modules = "geoips.commandline.list_available_modules:main"
 
 
 
-[project.entry-points."geoips.output_comparisons"]
-compare_outputs = "geoips.compare_outputs:compare_outputs"
 
