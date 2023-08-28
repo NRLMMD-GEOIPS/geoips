@@ -130,8 +130,41 @@ flake8-rst = "^0.8.0"           # RST checking
 prettier = "^0.0.7"             # YAML, JSON, etc linting
 doc8 = "^1.1.1"                 # RST linting
 
+
+#[project.entry-points."geoips.readers"]
+[tool.poetry.plugins."geoips.readers"]
+abi_netcdf = "geoips.interface_modules.readers.abi_netcdf:abi_netcdf"
+abi_l2_netcdf = "geoips.interface_modules.readers.abi_l2_netcdf:abi_l2_netcdf"
+ahi_hsd = "geoips.interface_modules.readers.ahi_hsd:ahi_hsd"
+amsr2_netcdf = "geoips.interface_modules.readers.amsr2_netcdf:amsr2_netcdf"
+amsr2_remss_winds_netcdf = "geoips.interface_modules.readers.amsr2_remss_winds_netcdf:amsr2_remss_winds_netcdf"
+amsub_hdf = "geoips.interface_modules.readers.amsub_hdf:amsub_hdf"
+amsub_mirs = "geoips.interface_modules.readers.amsub_mirs:amsub_mirs"
+atms_hdf5 = "geoips.interface_modules.readers.atms_hdf5:atms_hdf5"
+ewsg_netcdf = "geoips.interface_modules.readers.ewsg_netcdf:ewsg_netcdf"
+geoips_netcdf = "geoips.interface_modules.readers.geoips_netcdf:geoips_netcdf"
+gmi_hdf5 = "geoips.interface_modules.readers.gmi_hdf5:gmi_hdf5"
+imerg_hdf5 = "geoips.interface_modules.readers.imerg_hdf5:imerg_hdf5"
+mimic_netcdf = "geoips.interface_modules.readers.mimic_netcdf:mimic_netcdf"
+modis_hdf4 = "geoips.interface_modules.readers.modis_hdf4:modis_hdf4"
+saphir_hdf5 = "geoips.interface_modules.readers.saphir_hdf5:saphir_hdf5"
+seviri_hrit = "geoips.interface_modules.readers.seviri_hrit:seviri_hrit"
+ascat_uhr_netcdf = "geoips.interface_modules.readers.ascat_uhr_netcdf:ascat_uhr_netcdf"
+smap_remss_winds_netcdf = "geoips.interface_modules.readers.smap_remss_winds_netcdf:smap_remss_winds_netcdf"
+smos_winds_netcdf = "geoips.interface_modules.readers.smos_winds_netcdf:smos_winds_netcdf"
+scat_knmi_winds_netcdf = "geoips.interface_modules.readers.scat_knmi_winds_netcdf:scat_knmi_winds_netcdf"
+windsat_remss_winds_netcdf = "geoips.interface_modules.readers.windsat_remss_winds_netcdf:windsat_remss_winds_netcdf"
+sar_winds_netcdf = "geoips.interface_modules.readers.sar_winds_netcdf:sar_winds_netcdf"
+sfc_winds_text = "geoips.interface_modules.readers.sfc_winds_text:sfc_winds_text"
+ssmi_binary = "geoips.interface_modules.readers.ssmi_binary:ssmi_binary"
+ssmis_binary = "geoips.interface_modules.readers.ssmis_binary:ssmis_binary"
+viirs_netcdf = "geoips.interface_modules.readers.viirs_netcdf:viirs_netcdf"
+wfabba_ascii = "geoips.interface_modules.readers.wfabba_ascii:wfabba_ascii"
+windsat_idr37_binary = "geoips.interface_modules.readers.windsat_idr37_binary:windsat_idr37_binary"
+
+
 #[project.entry-points."geoips.filename_formats"]
-[tool.poetry.plugins."poetry.applicaiton.plugin"]
+[tool.poetry.plugins."geoips.filename_formats"]
 geoips_fname = "geoips.interface_modules.filename_formats.geoips_fname:geoips_fname"
 geoips_netcdf_fname = "geoips.interface_modules.filename_formats.geoips_netcdf_fname:geoips_netcdf_fname"
 geotiff_fname = "geoips.interface_modules.filename_formats.geotiff_fname:geotiff_fname"
@@ -185,35 +218,6 @@ list_available_modules = "geoips.commandline.list_available_modules:main"
 # do we need to distribute lock files along with the package
 # package a need c.2 and package b need c.3 how does lock file takes care of it
 # how to get custom entry points without making them available as command line scripts
-[project.entry-points."geoips.readers"]
-abi_netcdf = "geoips.interface_modules.readers.abi_netcdf:abi_netcdf"
-abi_l2_netcdf = "geoips.interface_modules.readers.abi_l2_netcdf:abi_l2_netcdf"
-ahi_hsd = "geoips.interface_modules.readers.ahi_hsd:ahi_hsd"
-amsr2_netcdf = "geoips.interface_modules.readers.amsr2_netcdf:amsr2_netcdf"
-amsr2_remss_winds_netcdf = "geoips.interface_modules.readers.amsr2_remss_winds_netcdf:amsr2_remss_winds_netcdf"
-amsub_hdf = "geoips.interface_modules.readers.amsub_hdf:amsub_hdf"
-amsub_mirs = "geoips.interface_modules.readers.amsub_mirs:amsub_mirs"
-atms_hdf5 = "geoips.interface_modules.readers.atms_hdf5:atms_hdf5"
-ewsg_netcdf = "geoips.interface_modules.readers.ewsg_netcdf:ewsg_netcdf"
-geoips_netcdf = "geoips.interface_modules.readers.geoips_netcdf:geoips_netcdf"
-gmi_hdf5 = "geoips.interface_modules.readers.gmi_hdf5:gmi_hdf5"
-imerg_hdf5 = "geoips.interface_modules.readers.imerg_hdf5:imerg_hdf5"
-mimic_netcdf = "geoips.interface_modules.readers.mimic_netcdf:mimic_netcdf"
-modis_hdf4 = "geoips.interface_modules.readers.modis_hdf4:modis_hdf4"
-saphir_hdf5 = "geoips.interface_modules.readers.saphir_hdf5:saphir_hdf5"
-seviri_hrit = "geoips.interface_modules.readers.seviri_hrit:seviri_hrit"
-ascat_uhr_netcdf = "geoips.interface_modules.readers.ascat_uhr_netcdf:ascat_uhr_netcdf"
-smap_remss_winds_netcdf = "geoips.interface_modules.readers.smap_remss_winds_netcdf:smap_remss_winds_netcdf"
-smos_winds_netcdf = "geoips.interface_modules.readers.smos_winds_netcdf:smos_winds_netcdf"
-scat_knmi_winds_netcdf = "geoips.interface_modules.readers.scat_knmi_winds_netcdf:scat_knmi_winds_netcdf"
-windsat_remss_winds_netcdf = "geoips.interface_modules.readers.windsat_remss_winds_netcdf:windsat_remss_winds_netcdf"
-sar_winds_netcdf = "geoips.interface_modules.readers.sar_winds_netcdf:sar_winds_netcdf"
-sfc_winds_text = "geoips.interface_modules.readers.sfc_winds_text:sfc_winds_text"
-ssmi_binary = "geoips.interface_modules.readers.ssmi_binary:ssmi_binary"
-ssmis_binary = "geoips.interface_modules.readers.ssmis_binary:ssmis_binary"
-viirs_netcdf = "geoips.interface_modules.readers.viirs_netcdf:viirs_netcdf"
-wfabba_ascii = "geoips.interface_modules.readers.wfabba_ascii:wfabba_ascii"
-windsat_idr37_binary = "geoips.interface_modules.readers.windsat_idr37_binary:windsat_idr37_binary"
 
 [project.entry-points."geoips.output_formats"]
 full_disk_image = "geoips.interface_modules.output_formats.full_disk_image:full_disk_image"
