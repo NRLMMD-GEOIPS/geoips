@@ -33,7 +33,7 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
 #
 ##dependencies = [
 [tool.poetry.dependencies]     # must download to run
-    python = ">=3.9, <3.10"           # mandatory to declare the required python version
+    python = ">=3.9, <=3.10"           # mandatory to declare the required python version
     requests = "^2.31.0"
     #    pyresample = ">= 1.22.3"  # Base requirement - efficiency improvements >= 1.22.3
     pyresample = "^1.27.1"
@@ -90,6 +90,9 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
     scikit-image = "^0.21.0"
 ##]
 
+#[tool.poetry.dev-dependencies]
+# nothing at this stage;
+
 #
 #[project.optional-dependencies]
 #doc = [
@@ -112,23 +115,20 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
 
 
 [tool.poetry.group.doc.dependencies]
-sphinx = "^7.2.2"
-sphinx-design = "^0.5.0"
-pydata-sphinx-theme = "^0.13.3"
+sphinx = "^7.2.2"               # Required for building documentation
+sphinx-design = "^0.5.0"        # Required for building documentation
+pydata-sphinx-theme = "^0.13.3" # Required for building documentation
 
 [tool.poetry.group.lint.dependencies]
-bandit = "^1.7.5"
-black = "^23.7.0"
-pylint = "^2.17.5"
-flake8 = "^6.1.0"
-flake8-rst-docstrings = "^0.3.0"
-flake8-docstrings = "^1.7.0"
-flake8-rst = "^0.8.0"
-prettier = "^0.0.7"
-doc8 = "^1.1.1"
-
-
-
+bandit = "^1.7.5"   # Syntax/security checking
+black = "^23.7.0"   # Syntax checking and reformatting
+pylint = "^2.17.5"  # Syntax checking
+flake8 = "^6.1.0"   # Syntax checking
+flake8-rst-docstrings = "^0.3.0"    # numpy docstring checking
+flake8-docstrings = "^1.7.0"    # docstring checking
+flake8-rst = "^0.8.0"           # RST checking
+prettier = "^0.0.7"             # YAML, JSON, etc linting
+doc8 = "^1.1.1"                 # RST linting
 
 
 [tool.setuptools.packages]
@@ -158,13 +158,6 @@ entry-points = {file = ["entry-points.ini"]}
 
 
 
-# Dependency groups are supported for organizing your dependencies
-##[tool.poetry.group.dev.dependencies]
-#[tool.poetry.group.docs]
-#optional = true
-#[tool.poetry.group.docs.dependencies]
-#Sphinx = "^5.1.1"
-#
 ## Python-style entrypoints and scripts are easily expressed
 #[tool.poetry.scripts]
 #my-script = "my_package:main"
