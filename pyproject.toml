@@ -233,6 +233,11 @@ matplotlib_linear_norm = "geoips.interface_modules.user_colormaps.matplotlib_lin
 "visir.WV" = "geoips.interface_modules.user_colormaps.visir.WV:WV"
 "winds.wind_radii_transitions" = "geoips.interface_modules.user_colormaps.winds.wind_radii_transitions:wind_radii_transitions"
 
+#[project.entry-points."geoips.title_formats"]
+[tool.poetry.plugins."geoips.title_formats"]
+tc_standard = "geoips.interface_modules.title_formats.tc_standard:tc_standard"
+tc_copyright = "geoips.interface_modules.title_formats.tc_copyright:tc_copyright"
+static_standard = "geoips.interface_modules.title_formats.static_standard:static_standard"
 
 
 
@@ -304,10 +309,6 @@ list_available_modules = "geoips.commandline.list_available_modules:main"
 
 
 
-[project.entry-points."geoips.title_formats"]
-tc_standard = "geoips.interface_modules.title_formats.tc_standard:tc_standard"
-tc_copyright = "geoips.interface_modules.title_formats.tc_copyright:tc_copyright"
-static_standard = "geoips.interface_modules.title_formats.static_standard:static_standard"
 
 [project.entry-points."geoips.coverage_checks"]
 masked_arrays = "geoips.interface_modules.coverage_checks.masked_arrays:masked_arrays"
