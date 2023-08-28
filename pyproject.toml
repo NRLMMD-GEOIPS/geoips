@@ -177,6 +177,18 @@ text_winds = "geoips.interface_modules.output_formats.text_winds:text_winds"
 metadata_default = "geoips.interface_modules.output_formats.metadata_default:metadata_default"
 metadata_tc = "geoips.interface_modules.output_formats.metadata_tc:metadata_tc"
 
+#[project.entry-points."geoips.algorithms"]
+[tool.poetry.plugins."geoips.algorithms"]
+single_channel = "geoips.interface_modules.algorithms.single_channel:single_channel"
+"pmw_tb.pmw_37pct" = "geoips.interface_modules.algorithms.pmw_tb.pmw_37pct"
+"pmw_tb.pmw_89pct" = "geoips.interface_modules.algorithms.pmw_tb.pmw_89pct"
+"pmw_tb.pmw_color37" = "geoips.interface_modules.algorithms.pmw_tb.pmw_color37:pmw_color37"
+"pmw_tb.pmw_color89" = "geoips.interface_modules.algorithms.pmw_tb.pmw_color89:pmw_color89"
+"sfc_winds.windbarbs" = "geoips.interface_modules.algorithms.sfc_winds.windbarbs:windbarbs"
+"visir.Night_Vis_IR" = "geoips.interface_modules.algorithms.visir.Night_Vis_IR:Night_Vis_IR"
+"visir.Night_Vis_IR_GeoIPS1" = "geoips.interface_modules.algorithms.visir.Night_Vis_IR_GeoIPS1:Night_Vis_IR_GeoIPS1"
+"visir.Night_Vis_GeoIPS1" = "geoips.interface_modules.algorithms.visir.Night_Vis_GeoIPS1:Night_Vis_GeoIPS1"
+"visir.Night_Vis" = "geoips.interface_modules.algorithms.visir.Night_Vis:Night_Vis"
 
 
 
@@ -237,17 +249,6 @@ list_available_modules = "geoips.commandline.list_available_modules:main"
 # how to get custom entry points without making them available as command line scripts
 
 
-[project.entry-points."geoips.algorithms"]
-single_channel = "geoips.interface_modules.algorithms.single_channel:single_channel"
-"pmw_tb.pmw_37pct" = "geoips.interface_modules.algorithms.pmw_tb.pmw_37pct"
-"pmw_tb.pmw_89pct" = "geoips.interface_modules.algorithms.pmw_tb.pmw_89pct"
-"pmw_tb.pmw_color37" = "geoips.interface_modules.algorithms.pmw_tb.pmw_color37:pmw_color37"
-"pmw_tb.pmw_color89" = "geoips.interface_modules.algorithms.pmw_tb.pmw_color89:pmw_color89"
-"sfc_winds.windbarbs" = "geoips.interface_modules.algorithms.sfc_winds.windbarbs:windbarbs"
-"visir.Night_Vis_IR" = "geoips.interface_modules.algorithms.visir.Night_Vis_IR:Night_Vis_IR"
-"visir.Night_Vis_IR_GeoIPS1" = "geoips.interface_modules.algorithms.visir.Night_Vis_IR_GeoIPS1:Night_Vis_IR_GeoIPS1"
-"visir.Night_Vis_GeoIPS1" = "geoips.interface_modules.algorithms.visir.Night_Vis_GeoIPS1:Night_Vis_GeoIPS1"
-"visir.Night_Vis" = "geoips.interface_modules.algorithms.visir.Night_Vis:Night_Vis"
 
 [project.entry-points."geoips.procflows"]
 single_source = "geoips.interface_modules.procflows.single_source:single_source"
