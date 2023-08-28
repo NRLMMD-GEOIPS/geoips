@@ -130,6 +130,18 @@ flake8-rst = "^0.8.0"           # RST checking
 prettier = "^0.0.7"             # YAML, JSON, etc linting
 doc8 = "^1.1.1"                 # RST linting
 
+#[project.entry-points."geoips.filename_formats"]
+[tool.poetry.plugins."poetry.applicaiton.plugin"]
+geoips_fname = "geoips.interface_modules.filename_formats.geoips_fname:geoips_fname"
+geoips_netcdf_fname = "geoips.interface_modules.filename_formats.geoips_netcdf_fname:geoips_netcdf_fname"
+geotiff_fname = "geoips.interface_modules.filename_formats.geotiff_fname:geotiff_fname"
+tc_fname = "geoips.interface_modules.filename_formats.tc_fname:tc_fname"
+tc_clean_fname = "geoips.interface_modules.filename_formats.tc_clean_fname:tc_clean_fname"
+text_winds_day_fname = "geoips.interface_modules.filename_formats.text_winds_day_fname:text_winds_day_fname"
+text_winds_full_fname = "geoips.interface_modules.filename_formats.text_winds_full_fname:text_winds_full_fname"
+text_winds_tc_fname = "geoips.interface_modules.filename_formats.text_winds_tc_fname:text_winds_tc_fname"
+metadata_default_fname = "geoips.interface_modules.filename_formats.metadata_default_fname:metadata_default_fname"
+
 
 [tool.setuptools.packages]
 find = {namespaces = false}
@@ -266,17 +278,6 @@ matplotlib_linear_norm = "geoips.interface_modules.user_colormaps.matplotlib_lin
 "visir.IR_BD" = "geoips.interface_modules.user_colormaps.visir.IR_BD:IR_BD"
 "visir.WV" = "geoips.interface_modules.user_colormaps.visir.WV:WV"
 "winds.wind_radii_transitions" = "geoips.interface_modules.user_colormaps.winds.wind_radii_transitions:wind_radii_transitions"
-
-[project.entry-points."geoips.filename_formats"]
-geoips_fname = "geoips.interface_modules.filename_formats.geoips_fname:geoips_fname"
-geoips_netcdf_fname = "geoips.interface_modules.filename_formats.geoips_netcdf_fname:geoips_netcdf_fname"
-geotiff_fname = "geoips.interface_modules.filename_formats.geotiff_fname:geotiff_fname"
-tc_fname = "geoips.interface_modules.filename_formats.tc_fname:tc_fname"
-tc_clean_fname = "geoips.interface_modules.filename_formats.tc_clean_fname:tc_clean_fname"
-text_winds_day_fname = "geoips.interface_modules.filename_formats.text_winds_day_fname:text_winds_day_fname"
-text_winds_full_fname = "geoips.interface_modules.filename_formats.text_winds_full_fname:text_winds_full_fname"
-text_winds_tc_fname = "geoips.interface_modules.filename_formats.text_winds_tc_fname:text_winds_tc_fname"
-metadata_default_fname = "geoips.interface_modules.filename_formats.metadata_default_fname:metadata_default_fname"
 
 [project.entry-points."geoips.title_formats"]
 tc_standard = "geoips.interface_modules.title_formats.tc_standard:tc_standard"
