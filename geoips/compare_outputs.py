@@ -246,16 +246,18 @@ def images_match(output_product, compare_product, fuzz="5%"):
     from PIL import Image
     from matplotlib import pyplot as plt
 
-    LOG.info("**Comparing output_product vs. compare product")
+    LOG.info("\n\n\n**Comparing output_product vs. compare product\n\n\n")
     comp_img = np.asarray(Image.open(output_product))
     out_img = np.asarray(Image.open(compare_product))
-    diff_images = comp_img - out_img
-    fullimg_retval = 0 if np.all(diff_images == 0) else 1
+    LOG.info("SHAPE: " + str(np.shape(out_img)) + "\n")
+    diff_pixels = comp_img - out_img
+    diff_img = Image.new(mode="L", size=(2000, 2000))
+    fullimg_retval = 0 if np.all(diff_pixels == 0) else 1
     fig = plt.figure()
     fig.suptitle("test_figure")
-    plt.imshow(diff_images)
+    # plt.imshow(diff_images)
     # plt.imsave("test_figure.png", diff_images, cmap="jet")
-    plt.savefig("test_figure.png")
+    plt.imsave("test_figure.png", diff_img)
     # fullimg_retval = subprocess.call(call_list)
     LOG.info("**Done running compare")
 
