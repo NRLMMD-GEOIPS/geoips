@@ -74,7 +74,7 @@ static_sectors.yaml*
     modified: geoips/interfaces/yaml_based/sectors.py
     deleted: geoips/schema/sectors/area_definition_*.py
     added: geoips/schema/sectors/static.py
-    modified: plugins/yaml/sectors/static/*.py
+    modified: plugins/yaml/sectors/static/*.yaml
 
 Update log output to include <module>.py:<linenum>
 --------------------------------------------------
