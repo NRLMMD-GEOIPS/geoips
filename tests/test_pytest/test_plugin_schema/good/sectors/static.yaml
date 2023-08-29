@@ -1,0 +1,27 @@
+---
+interface: sectors
+family: area_definition_static
+name: CONUS
+docstring: |
+  CONUS sector AreaDefinition.
+metadata:
+  continent: NorthAmerica
+  country: UnitedStates
+  area: Continental
+  subarea: x
+  state: x
+  city: x
+spec:
+  area_id: CONUS
+  description: "Continental United States"
+  projection:
+    proj: stere
+    lat_0: 36
+    lon_0: -101
+    a: 6371228.0
+    units: m
+  shape:
+    height: 2800
+    width: 3600
+  center: [0, 0]
+  resolution: [1, 1]
