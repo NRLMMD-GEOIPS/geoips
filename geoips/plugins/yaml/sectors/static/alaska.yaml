@@ -15,16 +15,14 @@ spec:
   description: Alaskan State
   projection:
     a: 6371228.0
-    lat_0: 61.6
-    lon_0: -155.75
-    proj: eqc
+    lat_0: 62.0
+    lon_0: -150.0
+    proj: stere
     units: m
   resolution:
     - 1000
     - 1000
   shape:
-    height: 1186
-    width: 1159
-  area_extent:
-    lower_left_xy: [-799160, -934070]
-    upper_right_xy: [799160, 934070]
+    height: 2200
+    width: 2800
+  center: [0, 0]

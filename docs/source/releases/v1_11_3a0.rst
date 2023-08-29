@@ -49,12 +49,39 @@ has been resolved.
 Enhancements
 ============
 
+Update sector schema to allow simplified specification
+------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#262: 2023-08-29,Update sector schema to
+allow simplified specification*
+*From NRLMMD-GEOIPS/geoips#262: 2023-08-29, Fix incorrect sectors*
+*From NRLMMD-GEOIPS/geoips#110: 2023-08-29, Develop a schema for static-sector
+interface plugins*
+*From NRLMMD-GEOIPS/geoips#111: 2023-08-29, Additional public examples of
+static sectors*
+*From NRLMMD-GEOIPS/geoips#166: 2023-08-29, Create schema for
+static_sectors.yaml*
+
+* Fix circular import issue in ``*PluginBase`` classes, allowing them to
+  implement their own methods.
+* Add ``SectorPluginBase`` to hold sector-specific methods.
+* Add and correct useable sectors using ``center`` rather than ``area_extent``.
+* Switch to single ``static`` sector schema that handles all families.
+
+::
+
+    modified: geoips/interfaces/base.py
+    modified: geoips/interfaces/yaml_based/sectors.py
+    deleted: geoips/schema/sectors/area_definition_*.py
+    added: geoips/schema/sectors/static.py
+    modified: plugins/yaml/sectors/static/*.yaml
+
 Update log output to include <module>.py:<linenum>
 --------------------------------------------------
 
-To allow CTRL-clicking in VSCode to a specific line number in a specific module,
-update the logging output to include the full filename (<module>.py), as well
-as :<linenum> with a following space.
+To allow CTRL-clicking in VSCode to a specific line number in a specific
+module, update the logging output to include the full filename (<module>.py),
+as well as :<linenum> with a following space.
 
 ::
 
@@ -109,11 +136,13 @@ The following files were modified to create a workflow for interactive logs:
 Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
 -------------------------------------------------------------------
 
-*From NRLMMD-GEOIPS/geoips#264: 2023-08-16, Update seviri reader to use pyPublicDecompWT*
+*From NRLMMD-GEOIPS/geoips#264: 2023-08-16, Update seviri reader to
+use pyPublicDecompWT*
 
-* We had previously been using xRITDecompress which needed to be complied and installed
-  separately. This replaces xRITDecompress with pyPublicDecompWT which provides the same
-  functionality but can be pip installed.
+* We had previously been using xRITDecompress which needed to be
+  compiled and installed separately. This replaces xRITDecompress
+  with pyPublicDecompWT which provides the same functionality but
+  can be pip installed.
 
 ::
 
@@ -129,7 +158,8 @@ Collect test data from CIRA's NextCloud instance
 * Change gcc and gxx requirements to be unrestricted, not less than v10
 * Add new script to download from nextcloud without wget/curl
 * Add static URLs for downloading test datasets
-* Add "test_data" function to check_system_requirements.sh to download test datasets
+* Add "test_data" function to check_system_requirements.sh to download
+  test datasets
 * Remove tests for gitlfs, wget, libgeos, and rclone
 * Add tests for gcc and g++
 * Split system package tests into "geoips_base" and "geoips_full"
@@ -149,7 +179,8 @@ Collect test data from CIRA's NextCloud instance
 Add pyPublicDecompWT to dependencies and remove setup_seviri from setup script
 ------------------------------------------------------------------------------
 
-*From NRLMMD-GEOIPS/geoips#264: 2023-08-16, Update seviri reader to use pyPublicDecompWT*
+*From NRLMMD-GEOIPS/geoips#264: 2023-08-16, Update seviri reader to
+use pyPublicDecompWT*
 
 * Add pypublicdecompwt to install requirements
 * Remove setup_seviri from setup.py
@@ -167,8 +198,8 @@ Installation Updates
 Add Mac installation instructions
 ---------------------------------
 
-Added Mac installation instructions in mac_installation.rst and added link in the
-readme. Also reworked order of Linux installation.
+Added Mac installation instructions in mac_installation.rst and added
+link in the readme. Also reworked order of Linux installation.
 
 ::
 
@@ -206,10 +237,10 @@ Change the specification of tpw_cimss and tpw_purple colormappers
 -----------------------------------------------------------------
 
 The previous tpw_(cimss/purple) colormappers were fully defined via their own
-plugins/modules/colormappers/<cmap_name>.py programs. Now, these two color mappers are
-defined fully in their associated product_defaults YAML files. This removes the
-complexity of these colormappers, and is an easier implementation to follow for the
-future.
+plugins/modules/colormappers/<cmap_name>.py programs. Now, these two color
+mappers are defined fully in their associated product_defaults YAML files.
+This removes the complexity of these colormappers, and is an easier
+implementation to follow for the future.
 
 ::
 

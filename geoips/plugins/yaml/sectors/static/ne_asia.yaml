@@ -15,16 +15,14 @@ spec:
   description: Northeastern Asia
   projection:
     a: 6371228.0
-    lat_0: 35.48685
-    lon_0: 117.28969
-    proj: eqc
+    lat_0: 39.5
+    lon_0: 122.0
+    proj: stere
     units: m
   resolution:
     - 1000
     - 1000
   shape:
-    height: 2000
-    width: 3000
-  area_extent:
-    lower_left_xy: [-3000000, -2000000]
-    upper_right_xy: [3000000, 2000000]
+    height: 2750
+    width: 4000
+  center: [0, 0]
