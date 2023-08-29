@@ -110,6 +110,7 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
 
     if area_def:
         ad = area_def
+        log.info("Using area_definition information ")
         log.info(
             "    Using area_definition information for hash: "
             + str(ad.proj_dict.items())

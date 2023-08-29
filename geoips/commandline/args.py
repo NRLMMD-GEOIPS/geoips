@@ -550,6 +550,16 @@ def add_args(parser, arglist=None):
                                           their respective filename modules""",
         )
 
+    if arglist is None or "logging_level" in arglist:
+        procflow_group.add_argument(
+            "-l",
+            "--logging_level",
+            choices=["INTERACTIVE", "INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"],
+            default="INTERACTIVE",
+            help="""Specify logging config level for GeoIPS run_procflow command.""",
+            type=str.upper,
+        )
+
     rdr_group = parser.add_argument_group(title="Data reader specifications")
 
     if arglist is None or "reader_name" in arglist:
