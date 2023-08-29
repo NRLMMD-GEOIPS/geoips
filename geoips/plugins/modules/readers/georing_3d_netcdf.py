@@ -78,7 +78,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xobj = xarray.open_dataset(fname)
 
     date_time = os.path.basename(fname).split("_")[-1][:-5]
-    date = date_time[:8]; hour = date_time[8:10]; minute = date_time[10:]
+    date = date_time[:8]
+    hour = date_time[8:10]
+    minute = date_time[10:]
     dt = datetime.strptime(date + hour + minute, "%Y%m%d%H%M")
     xobj.attrs["data_provider"] = "cira"
 

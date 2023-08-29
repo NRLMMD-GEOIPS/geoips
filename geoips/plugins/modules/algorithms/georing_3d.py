@@ -18,6 +18,7 @@ to apply corrections to a single channel output product.
 import logging
 import numpy as np
 import xarray
+import multiprocessing as mp
 
 LOG = logging.getLogger(__name__)
 
@@ -133,6 +134,19 @@ def get_cloud_layers(data):
     return collapsed_data
 
 
+def mp_by_function(function, data, alg_type=None):
+    """Return manipulated data in a multiprocess manner, provided function and data."""
+    num_processes = mp.cpu_count()
+    chunk_size = 1000
+
+    pool = mp.Pool(processes=num_processes)
+    if alg_type is not None:
+        data = pool.starmap(function, [(data, alg_type)], chunksize=chunk_size)
+    else:
+        data = pool.starmap(function, [(data)], chunksize=chunk_size)
+    return data[0]
+
+
 def call(
     xarray_dict,
     output_data_range=None,
@@ -215,6 +229,7 @@ def call(
     else:
         bin_mask = binary_cloud_mask(data)
         data = get_cloud_height(bin_mask, alg_type)
+        # data = mp_by_function(get_cloud_height, binary_cloud_mask(data), alg_type)
     lon_final, lat_final = np.meshgrid(lon, lat)
 
     from geoips.data_manipulations.corrections import apply_data_range
