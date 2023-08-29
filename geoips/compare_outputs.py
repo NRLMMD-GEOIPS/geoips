@@ -215,33 +215,9 @@ def images_match(output_product, compare_product, fuzz="5%"):
         Return True if images match, False if they differ
     """
     # out_diffimg = get_out_diff_fname(compare_product, output_product)
-    # exact_out_diffimg = get_out_diff_fname(
-    #     compare_product, output_product, flag="exact_"
-    # )
-
-    # call_list = [
-    #     "compare",
-    #     "-verbose",
-    #     "-quiet",
-    #     "-metric",
-    #     "ae",
-    #     "-fuzz",
-    #     fuzz,
-    #     output_product,
-    #     compare_product,
-    #     out_diffimg,
-    # ]
-
-    # exact_call_list = [
-    #     "compare",
-    #     "-verbose",
-    #     "-quiet",
-    #     "-metric",
-    #     "ae",
-    #     output_product,
-    #     compare_product,
-    #     exact_out_diffimg,
-    # ]
+    exact_out_diffimg = get_out_diff_fname(
+        compare_product, output_product, flag="exact_"
+    )
     from PIL import Image
     from pixelmatch.contrib.PIL import pixelmatch
 
@@ -252,32 +228,9 @@ def images_match(output_product, compare_product, fuzz="5%"):
     num_pix_mismatched = pixelmatch(out_img, comp_img, diff_img, includeAA=True,
                                     alpha=0.33, threshold=0.05)
     fullimg_retval = 0 if num_pix_mismatched == 0 else 1
-    diff_img.save("diff.png")
+    diff_img.save(exact_out_diffimg)
     LOG.info("**Done running compare")
 
-    # call_list = ['compare', '-verbose', '-quiet',
-    #              '-metric', 'rmse',
-    #              '-dissimilarity-threshold', '{0:0.15f}'.format(threshold),
-    #              '-subimage-search',
-    #              output_product,
-    #              compare_product,
-    #              out_diffimg]
-
-    # LOG.info('Running %s', ' '.join(call_list))
-
-    # subimg_retval = subprocess.call(call_list)
-    # if subimg_retval != 0 and fullimg_retval != 0:
-    #     call_list = ['compare', '-verbose', '-quiet',
-    #                  '-metric', 'rmse',
-    #                  '-subimage-search',
-    #                  output_product,
-    #                  compare_product,
-    #                  out_diffimg]
-    #     subprocess.call(call_list)
-    #     LOG.info('    ***************************************')
-    #     LOG.info('    *** BAD Images do NOT match exactly ***')
-    #     LOG.info('    ***************************************')
-    #     return False
     if fullimg_retval != 0:
         LOG.info("    ***************************************")
         LOG.info("    *** BAD Images do NOT match exactly ***")
