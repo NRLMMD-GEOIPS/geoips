@@ -221,13 +221,14 @@ def images_match(output_product, compare_product, fuzz="5%"):
     from PIL import Image
     from pixelmatch.contrib.PIL import pixelmatch
 
-    LOG.info("\n\n\n**Comparing output_product vs. compare product\n\n\n")
+    LOG.info("**Comparing output_product vs. compare product")
     out_img = Image.open(output_product)
     comp_img = Image.open(compare_product)
     diff_img = Image.new(mode="RGB", size=comp_img.size)
     num_pix_mismatched = pixelmatch(out_img, comp_img, diff_img, includeAA=True,
                                     alpha=0.33, threshold=0.05)
     fullimg_retval = 0 if num_pix_mismatched == 0 else 1
+    LOG.info("**Saving exact difference image")
     diff_img.save(exact_out_diffimg)
     LOG.info("**Done running compare")
 
