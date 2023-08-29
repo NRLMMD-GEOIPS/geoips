@@ -242,23 +242,17 @@ def images_match(output_product, compare_product, fuzz="5%"):
     #     compare_product,
     #     exact_out_diffimg,
     # ]
-    import numpy as np
     from PIL import Image
-    from matplotlib import pyplot as plt
+    from pixelmatch.contrib.PIL import pixelmatch
 
     LOG.info("\n\n\n**Comparing output_product vs. compare product\n\n\n")
-    comp_img = np.asarray(Image.open(output_product))
-    out_img = np.asarray(Image.open(compare_product))
-    LOG.info("SHAPE: " + str(np.shape(out_img)) + "\n")
-    diff_pixels = comp_img - out_img
-    diff_img = Image.new(mode="L", size=(2000, 2000))
-    fullimg_retval = 0 if np.all(diff_pixels == 0) else 1
-    fig = plt.figure()
-    fig.suptitle("test_figure")
-    # plt.imshow(diff_images)
-    # plt.imsave("test_figure.png", diff_images, cmap="jet")
-    plt.imsave("test_figure.png", diff_img)
-    # fullimg_retval = subprocess.call(call_list)
+    out_img = Image.open(output_product)
+    comp_img = Image.open(compare_product)
+    diff_img = Image.new(mode="RGB", size=comp_img.size)
+    num_pix_mismatched = pixelmatch(out_img, comp_img, diff_img, includeAA=True,
+                                    alpha=0.33, threshold=0.05)
+    fullimg_retval = 0 if num_pix_mismatched == 0 else 1
+    diff_img.save("diff.png")
     LOG.info("**Done running compare")
 
     # call_list = ['compare', '-verbose', '-quiet',
