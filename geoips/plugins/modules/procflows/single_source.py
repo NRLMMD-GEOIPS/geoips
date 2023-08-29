@@ -964,7 +964,9 @@ def get_alg_xarray(
                 alg_plugin.family,
                 alg_plugin.name,
             )
-            alg_xarray = alg_plugin(input_alg_xarray, **alg_args)
+            alg_xarray = alg_plugin(
+                input_alg_xarray, variables, prod_plugin.name, **alg_args
+            )
         elif alg_plugin.family in ["list_numpy_to_numpy"]:
             # Need to pull all the required variables out of the various xarray datasets
             # and add them to numpy list.
@@ -1157,7 +1159,9 @@ def get_alg_xarray(
             alg_plugin.family,
             alg_plugin.name,
         )
-        interp_xarray = alg_plugin(interp_xarray, **alg_args)
+        interp_xarray = alg_plugin(
+            interp_xarray, variables, prod_plugin.name, **alg_args
+        )
     elif alg_plugin.family in [
         "single_channel",
         "channel_combination",
