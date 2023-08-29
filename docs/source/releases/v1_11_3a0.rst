@@ -10,7 +10,7 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.11.3a0 (2023-08-19)
+Version 1.11.3a0 (2023-08-25)
 *****************************
 
 * Require sphinx<7.2 due to bugs introduced 2023-08-17 7.2.x release
@@ -18,6 +18,9 @@ Version 1.11.3a0 (2023-08-19)
 * Add script to enable geoips environment
 * Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
 * Use matplotlib_linear_norm colormapper for tpw_cimss and tpw_purple
+* Add interactive log level, and include useful interactive logs
+* Add option for curly braces in "replace_geoips_paths", use in procflows
+* Update log output to include <module>.py:<linenum> (Yay VSCode!)
 * Bug fixes
 
 Bug Fixes
@@ -45,6 +48,87 @@ has been resolved.
 
 Enhancements
 ============
+
+<<<<<<< HEAD
+Update sector schema to allow simplified specification
+------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#262: 2023-08-29,Update sector schema to allow simplified specification*
+*From NRLMMD-GEOIPS/geoips#262: 2023-08-29, Fix incorrect sectors*
+*From NRLMMD-GEOIPS/geoips#110: 2023-08-29, Develop a schema for static-sector interface plugins*
+*From NRLMMD-GEOIPS/geoips#111: 2023-08-29, Additional public examples of static sectors*
+*From NRLMMD-GEOIPS/geoips#166: 2023-08-29, Create schema for static_sectors.yaml*
+
+* Fix circular import issue in ``*PluginBase`` classes, allowing them to implement their
+  own methods.
+* Add ``SectorPluginBase`` to hold sector-specific methods.
+* Add and correct useable sectors using ``center`` rather than ``area_extent``.
+* Switch to single ``static`` sector schema that handles all families.
+
+::
+    modified: geoips/interfaces/base.py
+    modified: geoips/interfaces/yaml_based/sectors.py
+    deleted: geoips/schema/sectors/area_definition_*.py
+    added: geoips/schema/sectors/static.py
+    modified: plugins/yaml/sectors/static/*.py
+=======
+Update log output to include <module>.py:<linenum>
+--------------------------------------------------
+
+To allow CTRL-clicking in VSCode to a specific line number in a specific module,
+update the logging output to include the full filename (<module>.py), as well
+as :<linenum> with a following space.
+
+::
+
+  modified: geoips/commandline/log_setup.py
+
+Add option for curly braces in "replace_geoips_paths", use in procflow SUCCESS
+------------------------------------------------------------------------------
+
+Discovered VSCode will successfully expand environment variables if they
+include curly braces.  Add option to replace geoips paths to allow
+including curly braces, and apply replace_geoips_paths with curly braces
+to the SINGLESOURCESUCCESS and CONFIGSUCCESS outputs (so user-agnostic
+output available at the end of interactive logs, including file names)
+
+::
+
+  modified: geoips/geoips_utils.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/plugins/modules/procflows/config_based.py
+
+Add interactive log level, and include useful interactive logs
+--------------------------------------------------------------
+
+The following files required interactive log statements:
+
+::
+
+  modified:   geoips/commandline/run_procflow.py
+  modified:   geoips/compare_outputs.py
+  modified:   geoips/plugins/modules/procflows/config_based.py
+  modified:   geoips/plugins/modules/procflows/single_source.py
+
+
+The following files were modified to no longer include interactive logs:
+
+::
+
+  modified:   geoips/data_manipulations/corrections.py
+  modified:   geoips/geoips_utils.py
+  modified:   geoips/image_utils/mpl_utils.py
+  modified:   geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+  modified:   geoips/xarray_utils/data.py
+
+The following files were modified to create a workflow for interactive logs:
+
+::
+
+  modified:   geoips/commandline/args.py
+  modified:   geoips/commandline/log_setup.py
+>>>>>>> 9e5b439270f0c8730c0e0dea030968577be48c0c
+
 
 Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
 -------------------------------------------------------------------
