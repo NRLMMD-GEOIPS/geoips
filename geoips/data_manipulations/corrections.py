@@ -356,12 +356,6 @@ def apply_data_range(
 
         * If True, returned data will be inverted
         * If False, returned data will not be inverted
-    isxobj : bool, default=False
-        Boolean flag indicating whether the input data are an xarray object (True) or a
-        numpy array (False).
-
-        * If True, treat the data as an xarray object
-        * If False, treat the data as a numpy array
 
     Returns
     -------
