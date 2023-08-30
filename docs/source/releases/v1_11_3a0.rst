@@ -63,6 +63,17 @@ has been resolved.
 Enhancements
 ============
 
+Allow apply_data_range to handle xarray
+---------------------------------------
+
+* Attempt to convert xarray to numpy array and if that conversion succeeds, convert it
+  back to xarray at the end of the function. This is a temporary fix that should be
+  addressed more thoroughly in #308.
+
+::
+
+    modified: geoips/data_manipulations/corrections.py
+
 Update sector schema to allow simplified specification
 ------------------------------------------------------
 
