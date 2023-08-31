@@ -134,6 +134,15 @@ pytest = "^7.4.0"
 pytest-cov = "^4.1.0"
 
 
+#[tool.setuptools.dynamic]
+#entry-points = {file = ["entry-points.ini"]}
+#[tool.poetry.dynamic]
+
+#
+#  need to check on how to specify the entry point file name
+#
+
+
 #[project.entry-points."geoips.readers"]
 [tool.poetry.plugins."geoips.readers"]
 abi_netcdf = "geoips.interface_modules.readers.abi_netcdf:abi_netcdf"
@@ -299,9 +308,6 @@ find = {namespaces = false}
 "version_scheme" = "post-release"  # Use current version .postN vs incrementing
 "local_scheme" = "no-local-version"  # Don't include hash, or date, just postN
 "write_to" = "geoips/version.py"  # Write an actual file
-
-[tool.setuptools.dynamic]
-entry-points = {file = ["entry-points.ini"]}
 
 # do we need to distribute lock files along with the package
 # package a need c.2 and package b need c.3 how does lock file takes care of it
