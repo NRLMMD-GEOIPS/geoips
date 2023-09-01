@@ -18,6 +18,7 @@ import os
 from glob import glob
 from datetime import datetime, timedelta
 import numpy as np
+from IPython import embed as shell
 
 from scipy.ndimage.interpolation import zoom
 
@@ -524,6 +525,26 @@ def _get_geolocation_metadata(metadata):
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+    if metadata_only:
+        return call_single_time([fnames[0]], metadata_only=metadata_only)
+    all_metadata = [call_single_time([x], metadata_only=True) for x in fnames]
+    start_times = [x["METADATA"].start_datetime for x in all_metadata]
+    times = set(start_times)
+    stacked_dataset = xarray.Dataset()
+    for time in times:
+        scan_time_files = [x.start_datetime == time for x in all_metadata]
+        data_dict = call_single_time(
+            fnames[scan_time_files],
+            metadata_only=metadata_only,
+            chans=chans,
+            area_def=area_def,
+            self_register=self_register,
+        )
+
+
+def call_single_time(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """
     Read ABI NetCDF data from a list of filenames.
 
