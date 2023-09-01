@@ -215,7 +215,6 @@ text_winds_full_fname = "geoips.interface_modules.filename_formats.text_winds_fu
 text_winds_tc_fname = "geoips.interface_modules.filename_formats.text_winds_tc_fname:text_winds_tc_fname"
 metadata_default_fname = "geoips.interface_modules.filename_formats.metadata_default_fname:metadata_default_fname"
 
-#[project.entry-points.console_scripts]
 [tool.poetry.scripts]
 run_procflow = "geoips.commandline.run_procflow:main"
 convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
