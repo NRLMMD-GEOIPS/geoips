@@ -288,23 +288,27 @@ test_interfaces = "geoips.commandline.test_interfaces:main"
 list_available_modules = "geoips.commandline.list_available_modules:main"
 
 
+#[tool.setuptools.packages]
+#find = {namespaces = false}
+#
+#[tool.setuptools.package-dir]
+#"" = "."
+#
 
-[tool.setuptools.packages]
-find = {namespaces = false}
+# include non-python files with poetry
 
-[tool.setuptools.package-dir]
-"" = "."
+#[tool.setuptools.package-data]
+#"*" = [
+#    "*.txt",
+#    "*.py",
+#    "*.yaml",
+#    "yaml_configs/*",
+#    "yaml_configs/*/*",
+#    "yaml_configs/*/*/*",
+#    "image_utils/ascii_palettes/*",
+#]
+#
 
-[tool.setuptools.package-data]
-"*" = [
-    "*.txt",
-    "*.py",
-    "*.yaml",
-    "yaml_configs/*",
-    "yaml_configs/*/*",
-    "yaml_configs/*/*/*",
-    "image_utils/ascii_palettes/*",
-]
 
 
 # do we need to distribute lock files along with the package
