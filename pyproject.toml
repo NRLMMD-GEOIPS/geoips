@@ -83,27 +83,6 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
 #[tool.poetry.dev-dependencies]
 # nothing at this stage;
 
-
-#[project.optional-dependencies]
-#doc = [
-#    "sphinx",  # Required for building documentation
-#    "sphinx-design",  # Required for building documentation
-#    "pydata-sphinx-theme",  # Required for building documentation
-#]
-
-#lint = [
-#    "bandit",  # Syntax/security checking
-#    "black",   # Syntax checking and reformatting
-#    "pylint",  # Syntax checking
-#    "flake8",  # Syntax checking
-#    "flake8-rst-docstrings",  # numpy docstring checking
-#    "flake8-docstrings",  # docstring checking
-#    "flake8-rst",  # RST checking
-#    "prettier",  # YAML, JSON, etc linting
-#    "doc8",  # RST linting
-#]
-
-
 [tool.poetry.group.doc.dependencies]
 sphinx = "^7.2.2"               # Required for building documentation
 sphinx-design = "^0.5.0"        # Required for building documentation
