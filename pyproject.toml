@@ -6,7 +6,7 @@
 # required ones
 name = "geoips"         # geoips package available at the root of the project
 #dynamic = ["version"]
-version = "0.1.0"   # this has to be fixed; it's dynamic in setuptools
+version = "0.0.0"   # this has to be fixed; it's dynamic in setuptools
 description = "Geolocated Information Processing System"
 authors = ["Tom <tom.jerry@colostate.edu>"]
 
@@ -21,6 +21,10 @@ keywords = ["GeoIPS", "Poetry"]
 packages = [{include = "geoips"}]  # not needed as tool.poetry.name is properly set already
 classifiers = [                # // list of PyPI trove classifiers to describe the project
     "Programming Language :: Python :: 3", ]
+
+[tool.poetry-dynamic-versioning]
+enable = true
+
 
 # remains same in setuptools and poetry
 [build-system]
@@ -134,14 +138,13 @@ pytest = "^7.4.0"
 pytest-cov = "^4.1.0"
 
 
-#[tool.setuptools.dynamic]
-#entry-points = {file = ["entry-points.ini"]}
-#[tool.poetry.dynamic]
-
 #
 #  need to check on how to specify the entry point file name
 #
 
+#[tool.setuptools.dynamic]
+#entry-points = {file = ["entry-points.ini"]}
+#[tool.poetry.dynamic]
 
 #[project.entry-points."geoips.readers"]
 [tool.poetry.plugins."geoips.readers"]
