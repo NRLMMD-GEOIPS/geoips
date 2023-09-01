@@ -22,6 +22,11 @@ packages = [{include = "geoips"}]  # not needed as tool.poetry.name is properly 
 classifiers = [                # // list of PyPI trove classifiers to describe the project
     "Programming Language :: Python :: 3", ]
 
+[tool.setuptools_scm]
+"version_scheme" = "post-release"  # Use current version .postN vs incrementing
+"local_scheme" = "no-local-version"  # Don't include hash, or date, just postN
+"write_to" = "geoips/version.py"  # Write an actual file
+
 [tool.poetry-dynamic-versioning]
 enable = true
 vcs = "git"
@@ -31,8 +36,6 @@ metadata = false
 [build-system]
 #requires = ["setuptools>=61.2", "setuptools-scm"]
 #build-backend = "setuptools.build_meta"
-#requires = ["poetry-core"]
-#build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"     # object used to perform the build process
 
@@ -308,10 +311,6 @@ find = {namespaces = false}
     "image_utils/ascii_palettes/*",
 ]
 
-[tool.setuptools_scm]
-"version_scheme" = "post-release"  # Use current version .postN vs incrementing
-"local_scheme" = "no-local-version"  # Don't include hash, or date, just postN
-"write_to" = "geoips/version.py"  # Write an actual file
 
 # do we need to distribute lock files along with the package
 # package a need c.2 and package b need c.3 how does lock file takes care of it
