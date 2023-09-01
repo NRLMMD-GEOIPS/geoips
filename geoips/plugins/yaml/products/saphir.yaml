@@ -1,0 +1,45 @@
+interface: products
+family: list
+name: saphir
+docstring: |
+  The saphir product_inputs configuration, which produces 183-1H, and 183-3H products.
+spec:
+  products:
+    - name: 183-1H
+      source_names: [saphir]
+      docstring: |
+        The 183-1H product_defaults configuration for saphir products.
+      product_defaults: 183-1H
+      spec:
+        variables: ["ch3_183.31_2.8"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 183-1HNearest
+      source_names: [saphir]
+      docstring: |
+        The 183-1HNearest product_defaults configuration for saphir products.
+      product_defaults: 183-1HNearest
+      spec:
+        variables: ["ch3_183.31_2.8"]
+    - name: 183-3H
+      source_names: [saphir]
+      docstring: |
+        The 183-3H product_defaults configuration for saphir products.
+      product_defaults: 183-3H
+      spec:
+        variables: ["ch3_183.31_2.8"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 183-3HNearest
+      source_names: [saphir]
+      docstring: |
+        The 183-3HNearest product_defaults configuration for saphir products.
+      product_defaults: 183-3HNearest
+      spec:
+        variables: ["ch3_183.31_2.8"]

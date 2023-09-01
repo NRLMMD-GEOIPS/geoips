@@ -18,5 +18,6 @@ Getting Started
    :maxdepth: 2
 
    installation
+   expert_installation
    starter_examples
    extending

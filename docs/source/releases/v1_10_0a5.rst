@@ -1,0 +1,184 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.10.0a5 (2023-04-25)
+*****************************
+
+* Update to finalized interface names throughout code base.
+
+  * area_def_generators -> sector_loaders/dynamic
+  * trackfile_parsers -> sector_loaders/trackfiles
+  * area_def_adjusters -> sector_adjusters
+* Move YAML sector files to geoips/plugins/yaml/sectors
+
+  * tests/sectors/static to geoips/plugins/yaml/sectors/static
+  * geoips/plugins/yaml/dynamic_sectors to geoips/plugins/yaml/sectors/dynamic
+* Add support for updated dynamic sector YAML formatting (not finalized).
+
+Breaking Changes
+================
+
+Support both old and new dynamic sector YAML formatting
+-------------------------------------------------------
+
+Note this is not finalized, and updates to the schema / format for the
+dynamic sectors will be made in a future PR, requiring
+a final update to this piece of code.
+
+For now, add a try/except within sector_utils/tc_tracks.py to support
+both the old and new YAML format - this will be consolidated
+and the new format finalized with a future PR.
+
+::
+
+  modified: geoips/sector_utils/tc_tracks.py
+
+Move area_def_generators to geoips/plugins/modules/sector_loaders/dynamic
+-------------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+
+Classifying "area_def_generators" as "sector_loaders/dynamic".
+
+Presumably at some point, we would additionally have a "static" sector
+loader which would just read in a pyresample area definition.
+For now, that is done explicitly in the code (and a plugin is only
+used for dynamic sectors)
+
+Note there is currently no interface defined for sector_loaders.dynamic -
+this will need to be implemented in the future to make
+this a fully fledged interface.
+
+::
+
+  renamed: area_def_generators/__init__.py -> sector_loaders/dynamic/__init__.py
+  renamed: area_def_generators/clat_clon_resolution_shape.py -> sector_loaders/dynamic/clat_clon_resolution_shape.py
+
+Move trackfile_parsers to geoips/plugins/modules/sector_loaders/trackfiles
+--------------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+
+Classifying "trackfile_parsers" as "sector_loaders/trackfiles" - since it is
+really loading multiple sectors from the "trackfile".
+
+These are currently still accessed via the command line through the
+"--trackfile_parser" option - this will be re-evaluated with the
+upcoming CLI updates.
+
+Note there is currently no interface defined for sector_loaders.trackfiles -
+this will need to be implemented in the future to make
+this a fully fledged interface.
+
+::
+
+  renamed: trackfile_parsers/__init__.py -> sector_loaders/trackfiles/__init__.py
+  renamed: trackfile_parsers/bdeck_parser.py -> sector_loaders/trackfiles/bdeck_parser.py
+  renamed: trackfile_parsers/flat_sectorfile_parser.py -> sector_loaders/trackfiles/flat_sectorfile_parser.py
+
+Update all instances of trackfile_parsers with sector_loaders.trackfiles
+------------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+
+Note these are still accessed via command line by the "--trackfile_parser"
+option.  This will be re-evaluated with the CLI updates.
+
+::
+
+  modified: commandline/args.py
+  modified: sector_utils/tc_tracks.py
+  modified: sector_utils/utils.py
+
+Update all instances of area_def_generators with sector_loaders.dynamic
+-----------------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+
+::
+
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/plugins/modules/sector_loaders/__init__.py
+  modified: geoips/plugins/modules/sector_loaders/dynamic/__init__.py
+  modified: geoips/sector_utils/tc_tracks.py
+  modified: geoips/sector_utils/utils.py
+
+Update all instances of area_def_adjusters with sector_adjusters
+----------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+
+Note these plugins are actually currently only contained in recenter_tc repo.
+
+Also note there is currently no interface defined for "sector_adjusters" -
+this will need to be implemented in the future to make
+this a fully fledged interface.
+
+::
+
+  modified: geoips/commandline/args.py
+  modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+
+Move plugins/yaml/sectors_dynamic to plugins/yaml/sectors/dynamic
+-----------------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+
+Consolidate both dynamic and static sectors under geoips/plugins/yaml/sectors.
+
+::
+
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1024x1024/tc_1km_1024x1024.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1024x1024/tc_2km_1024x1024.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1400x1400/tc_1km_1400x1400.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1400x1400/tc_2km_1400x1400.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_2km_1400x1400.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1600x1600/tc_2km_1600x1600.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_2km_1600x1600.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_1600x1600/tc_4km_1600x1600.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_1600x1600/tc_4km_1600x1600.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_256x256/tc_4km_256x256.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_256x256/tc_4km_256x256.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_512x512/tc_2km_512x512.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_2km_512x512.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_512x512/tc_4km_512x512.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_512x512/tc_4km_512x512.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_800x800/tc_2km_800x800.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_2km_800x800.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_800x800/tc_4km_800x800.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_800x800/tc_4km_800x800.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_huge/tc_0p1km_3200x3200.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_0p1km_3200x3200.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_huge/tc_1km_2500x2500.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_2500x2500.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_huge/tc_1km_3200x3200.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_huge/tc_1km_3200x3200.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_2km_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_2km_template.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_ascat_high_barbs_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_ascat_high_barbs_template.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_ascatuhr_barbs_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_ascatuhr_barbs_template.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_halfkm_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_halfkm_template.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_qkm_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_qkm_template.yaml
+  renamed: geoips/plugins/yaml/sectors_dynamic/tc_web_template.yaml -> geoips/plugins/yaml/sectors/dynamic/tc_web_template.yaml
+
+Move tests/sectors/static to plugins/yaml/sectors/static
+--------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#183: 2023-04-25, update sector interface names*
+
+Consolidate both dynamic and static sectors under geoips/plugins/yaml/sectors.
+
+::
+
+  modified: tests/yaml_configs/abi_test.yaml
+  modified: tests/yaml_configs/abi_test_low_memory.yaml
+  modified: tests/yaml_configs/amsr2_test.yaml
+  modified: tests/yaml_configs/amsr2_test_low_memory.yaml
+  modified: tests/scripts/abi.static.Infrared.imagery_annotated.sh
+  modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
+  modified: tests/scripts/documentation_imagery.sh
+  modified: tests/scripts/ewsg.static.Infrared.imagery_clean.sh
+  modified: tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
+  renamed: tests/sectors/static/ewsg.yaml -> geoips/plugins/yaml/sectors/static/static/ewsg.yaml
+  renamed: tests/sectors/static/global.yaml -> geoips/plugins/yaml/sectors/static/static/global.yaml
+  renamed: tests/sectors/static/goes16.yaml -> geoips/plugins/yaml/sectors/static/static/goes16.yaml
+  renamed: tests/sectors/static/goes17.yaml -> geoips/plugins/yaml/sectors/static/static/goes17.yaml
+  renamed: tests/sectors/static/himawari8.yaml -> geoips/plugins/yaml/sectors/static/static/himawari8.yaml

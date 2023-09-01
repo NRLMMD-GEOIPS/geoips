@@ -1,0 +1,16 @@
+---
+interface: products
+family: single
+name: abi-infrared
+docstring: "Bad products.single instance with both family and product_defaults"
+spec:
+  product:
+    interface: product
+    family: interpolator_algorithm_colormapper
+    product_defaults: Infrared
+    name: infrared
+    source_names: [abi]
+    docstring: "Good product using family"
+    spec:
+      variables:
+        - B14BT

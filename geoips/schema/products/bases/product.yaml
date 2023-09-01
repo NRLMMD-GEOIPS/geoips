@@ -1,0 +1,38 @@
+$id: products.bases.product
+type: object
+required:
+  - name
+  - source_names
+  # - spec
+unevaluatedProperties: false
+properties:
+  source_names:
+    type: array
+    items:
+      type: string
+  name:
+    $ref: bases.name
+  docstring:
+    $ref: bases.docstring
+  family:
+    $ref: bases.family
+  product_defaults:
+    $ref: bases.product_defaults
+
+  spec:
+    type: object
+    # required:
+    #   - source_names
+    #   - variables
+    properties:
+      variables:
+        type: array
+        minItems: 1
+        items:
+          type: string
+oneOf:
+  - required:
+      - family
+      - docstring
+  - required:
+      - product_defaults

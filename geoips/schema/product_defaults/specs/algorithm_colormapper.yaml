@@ -1,0 +1,26 @@
+$id: product_defaults.specs.algorithm_colormapper
+type: object
+required:
+  - algorithm
+  - colormapper
+properties:
+  display_name:
+    type: string
+  algorithm:
+    $ref: "product_defaults.bases.algorithm"
+  colormapper:
+    $ref: "product_defaults.bases.colormapper"
+  coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  full_coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  filename_coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  image_production_coverage_checker:
+    $ref: "product_defaults.bases.coverage_checker"
+  windbarb_plotter:
+    $ref: "product_defaults.bases.windbarb_plotter"
+  mtif_type:
+    type: string
+  pad_area_definition:
+    type: boolean

@@ -1,0 +1,71 @@
+interface: products
+family: list
+name: ascatuhr
+docstring: |
+  The ascatuhr product_inputs configuration, which produces Windspeed products, Windbarbs products,
+  Wind-ambiguity products, Unsectored/Sectored products, Sigma0 products, and NRCS products
+spec:
+  products:
+    - name: windspeed
+      source_names: [ascatuhr]
+      docstring: |
+        The windspeed product_defaults for ascatuhr product.
+      product_defaults: windspeed
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: windbarbs
+      source_names: [ascatuhr]
+      docstring: |
+        The windbarbs product_defaults for ascatuhr product.
+      product_defaults: windbarbs
+      spec:
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]
+    - name: wind-ambiguities
+      source_names: [ascatuhr]
+      docstring: |
+        The wind-ambiguities product_defaults for ascatuhr product.
+      product_defaults: wind-ambiguities
+      spec:
+        variables:
+          ["wind_speed_ambiguities_kts", "wind_dir_ambiguities_deg_met"]
+    - name: unsectored
+      source_names: [ascatuhr]
+      docstring: |
+        The unsectored product_defaults for ascatuhr product.
+      product_defaults: unsectored
+      spec:
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]
+    - name: sectored
+      source_names: [ascatuhr]
+      docstring: |
+        The sectored product_defaults for ascatuhr product.
+      product_defaults: sectored
+      spec:
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]
+    - name: nrcs
+      source_names: [ascatuhr]
+      docstring: |
+        The nrcs product_defaults for ascatuhr product.
+      product_defaults: nrcs
+      spec:
+        variables: ["sigma0_mean"]
+        # variables: ['sig_fore']
+        # variables: ['sig_mid']
+        # variables: ['sig_aft']
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [-30, -1]
+              input_units: dB
+              output_units: dB
+              min_outbounds: crop
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        colormapper:
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              data_range: [-30, -1]
+              cmap_name: Greys_r

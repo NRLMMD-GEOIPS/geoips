@@ -1,0 +1,25 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: 190VNearest
+docstring: |
+  The 190VNearest product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [110, 310]
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  mtif_type: pmw
+  colormapper:
+    plugin:
+      name: pmw_150H
+      arguments:
+        data_range: [110, 310]
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

@@ -1,0 +1,33 @@
+interface: products
+family: list
+name: oscat
+docstring: |
+  The oscat product_inputs configuration, which produces windspeed, windbarbs, and wind-ambiguities products.
+spec:
+  products:
+    - name: windspeed
+      source_names: [oscat]
+      docstring: |
+        The windspeed product_defaults configuration for oscat products.
+      product_defaults: windspeed
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: windbarbs
+      source_names: [oscat]
+      docstring: |
+        The windbarbs product_defaults configuration for oscat products.
+      product_defaults: windbarbs
+      spec:
+        variables: ["wind_speed_kts", "wind_dir_deg_met", "rain_flag"]
+    - name: wind-ambiguities
+      source_names: [oscat]
+      docstring: |
+        The wind-ambiguities product_defaults configuration for oscat products.
+      product_defaults: wind-ambiguities
+      spec:
+        variables:
+          [
+            "wind_speed_ambiguity_kts",
+            "wind_dir_deg_ambiguity_met",
+            "rain_flag_ambiguity",
+          ]

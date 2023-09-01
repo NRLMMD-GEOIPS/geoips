@@ -12,22 +12,43 @@
 
 """GeoIPS interface module."""
 
-from geoips.interfaces.algorithms import algorithms
-from geoips.interfaces.colormaps import colormaps
-from geoips.interfaces.filename_formats import filename_formats
-from geoips.interfaces.interpolators import interpolators
-from geoips.interfaces.output_formats import output_formats
-from geoips.interfaces.procflows import procflows
-from geoips.interfaces.readers import readers
-from geoips.interfaces.title_formats import title_formats
+from geoips.interfaces.module_based.algorithms import algorithms
+from geoips.interfaces.module_based.colormappers import colormappers
+from geoips.interfaces.module_based.coverage_checkers import coverage_checkers
+from geoips.interfaces.module_based.filename_formatters import filename_formatters
+from geoips.interfaces.module_based.interpolators import interpolators
+from geoips.interfaces.module_based.output_formatters import output_formatters
+from geoips.interfaces.module_based.procflows import procflows
+from geoips.interfaces.module_based.readers import readers
+from geoips.interfaces.module_based.sector_adjusters import sector_adjusters
+from geoips.interfaces.module_based.sector_metadata_generators import (
+    sector_metadata_generators,
+)
+from geoips.interfaces.module_based.sector_spec_generators import sector_spec_generators
+from geoips.interfaces.module_based.title_formatters import title_formatters
+
+from geoips.interfaces.yaml_based.feature_annotators import feature_annotators
+from geoips.interfaces.yaml_based.gridline_annotators import gridline_annotators
+from geoips.interfaces.yaml_based.product_defaults import product_defaults
+from geoips.interfaces.yaml_based.products import products
+from geoips.interfaces.yaml_based.sectors import sectors
 
 __all__ = [
     "algorithms",
-    "colormaps",
-    "filename_formats",
+    "colormappers",
+    "coverage_checkers",
+    "feature_annotators",
+    "filename_formatters",
+    "gridline_annotators",
     "interpolators",
-    "output_formats",
+    "output_formatters",
     "procflows",
+    "product_defaults",
+    "products",
     "readers",
-    "title_formats",
+    "sector_adjusters",
+    "sector_metadata_generators",
+    "sector_spec_generators",
+    "sectors",
+    "title_formatters",
 ]

@@ -1,0 +1,38 @@
+# This is what it should look like:
+# https://www.star.nesdis.noaa.gov/socd/mecb/sar/AKDEMO_products/APL_winds/tropical/2018/WP312018_YUTU/
+# S1A_ESA_2018_10_25_20_32_29_0593814749_140.47E_16.41N_VH_C-_MERGED02_nrcs.png
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: incident-angle
+docstring: |
+  The incident-angle product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [15, 70]
+        input_units: degrees
+        output_units: degrees
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  mtif_type: angles
+  colormapper:
+    plugin:
+      name: matplotlib_linear_norm
+      arguments:
+        data_range: [15, 70]
+        cbar_label: "Incident angle array in degrees from nadir"
+        cbar_ticks: [15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]
+        cmap_name: jet
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}
+  coverage_checker:
+    plugin:
+      name: center_radius
+      arguments:
+        radius_km: 300

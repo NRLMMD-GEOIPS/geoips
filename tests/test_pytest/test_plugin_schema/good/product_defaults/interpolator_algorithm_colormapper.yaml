@@ -1,0 +1,18 @@
+---
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: good_test
+docstring: "This is a good product_defaults"
+spec:
+  interpolator:
+    plugin:
+      name: pyresample.nearest_neighbor
+      arguments: {}
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormapper:
+    plugin:
+      name: matplotlib.colormapper
+      arguments: {}

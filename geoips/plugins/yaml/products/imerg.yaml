@@ -1,0 +1,21 @@
+interface: products
+family: list
+name: imerg
+docstring: |
+  The imerg product_inputs configuration, which produces Rain and RainNearest products.
+spec:
+  products:
+    - name: Rain
+      source_names: [imerg]
+      docstring: |
+        The Rain product_defaults configuration for imerg products.
+      product_defaults: Rain
+      spec:
+        variables: ["rain"]
+    - name: RainNearest
+      source_names: [imerg]
+      docstring: |
+        The RainNearest product_defaults configuration for imerg products.
+      product_defaults: RainNearest
+      spec:
+        variables: ["rain"]

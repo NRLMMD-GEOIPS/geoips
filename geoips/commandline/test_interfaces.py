@@ -17,63 +17,10 @@ Note this will be deprecated with v2.0 - replaced with a new class-based
 interface implementation.
 """
 import pprint
-from importlib import import_module
 import traceback
 from geoips import interfaces
 from geoips.interfaces.base import BaseInterface
-
-
-def test_deprecated_interfaces(
-    failed_plugins, successful_interfaces, successful_plugins
-):
-    """Test the "old" deprecated interfaces.
-
-    This function will be removed once all interfaces are moved to the "new" setup.
-    """
-    out_dicts = {}
-
-    check_interfaces = [
-        "dev.boundaries",
-        "dev.gridlines",
-        "dev.product",
-    ]
-
-    for curr_interface in check_interfaces:
-        interface_name = curr_interface.split(".")[1]
-        print("")
-        print(f"Testing {curr_interface}...")
-        print("ipython")
-        print(
-            f"    from geoips.{curr_interface} import test_{interface_name}_interface"
-        )
-        print(f"    test_{interface_name}_interface()")
-        test_curr_interface = getattr(
-            import_module(f"geoips.{curr_interface}"),
-            f"test_{interface_name}_interface",
-        )
-        try:
-            out_dict = test_curr_interface()
-            out_dicts[curr_interface] = out_dict
-        except Exception:
-            print(traceback.format_exc())
-            raise
-
-        ppprinter = pprint.PrettyPrinter(indent=2)
-        ppprinter.pprint(out_dict)
-
-    for intname in out_dicts:
-        failed_one = False
-        out_dict = out_dicts[intname]
-        for modname in out_dict["validity_check"]:
-            if not out_dict["validity_check"][modname]:
-                failed_plugins += [f"{intname} on {modname}"]
-                failed_one = True
-            else:
-                successful_plugins += [f"{intname} on {modname}"]
-        if not failed_one:
-            successful_interfaces += [intname]
-
-    return failed_plugins, successful_interfaces, successful_plugins
+import sys
 
 
 def main():
@@ -85,17 +32,15 @@ def main():
     failed_plugins_errors = []
     failed_plugins_tracebacks = []
 
+    curr_interfaces = interfaces.__dict__.values()
+    if len(sys.argv) > 1:
+        curr_interfaces = []
+        for curr_interface in sys.argv[1:]:
+            curr_interfaces += [interfaces.__dict__[curr_interface]]
+
     out_dicts = {}
 
-    (
-        failed_plugins,
-        successful_interfaces,
-        successful_plugins,
-    ) = test_deprecated_interfaces(
-        failed_plugins, successful_interfaces, successful_plugins
-    )
-
-    for curr_interface in interfaces.__dict__.values():
+    for curr_interface in curr_interfaces:
         if (type(curr_interface) is BaseInterface) or not isinstance(
             curr_interface, BaseInterface
         ):
@@ -113,10 +58,10 @@ def main():
             print(traceback.format_exc())
             failed_plugins += [curr_interface.name]
             failed_plugins_tracebacks += [
-                f"Failed: {curr_interface.name}\n\n" f"{traceback.format_exc()}"
+                f"\n\n\nFailed: {curr_interface.name}\n\n" f"{traceback.format_exc()}"
             ]
             failed_plugins_errors += [
-                f"Failed: {curr_interface.name}\n\n" f"{str(resp)}"
+                f"\n\n\nFailed: {curr_interface.name}\n\n" f"{str(resp)}"
             ]
 
     ppprinter = pprint.PrettyPrinter(indent=2)
@@ -145,17 +90,17 @@ def main():
         print(f"SUCCESSFUL INTERFACE {curr_successful}")
 
     for curr_failed in failed_plugins:
-        print(f"FAILED PLUGIN {curr_failed}")
+        print(f"FAILED PLUGIN IN {curr_failed}")
 
     for curr_failed in failed_interfaces:
-        print(f"FAILED INTERFACE {curr_failed}")
+        print(f"FAILED INTERFACE VALIDITY CHECK DICT {curr_failed}")
 
     for failed_plugins_error in failed_plugins_errors:
         print(failed_plugins_error)
         print("")
 
     if len(failed_interfaces) > 0 or len(failed_plugins) > 0:
-        raise TypeError(f"Failed validity check on plugins {failed_plugins}")
+        raise TypeError(f"Failed validity check on interfaces {failed_plugins}")
 
 
 if __name__ == "__main__":

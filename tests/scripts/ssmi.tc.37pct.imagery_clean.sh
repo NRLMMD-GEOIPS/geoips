@@ -22,18 +22,18 @@ run_procflow \
           --procflow single_source \
           --reader_name ssmi_binary \
           --product_name 37pct \
-          --filename_format tc_clean_fname \
-          --output_format imagery_clean \
-          --metadata_filename_format metadata_default_fname \
-          --metadata_output_format metadata_default \
+          --filename_formatter tc_clean_fname \
+          --output_formatter imagery_clean \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ssmi.tc.37pct.imagery_clean" \
-          --product_params_override '{}' \
-          --output_format_kwargs '{}' \
-          --filename_format_kwargs '{}' \
-          --metadata_output_format_kwargs '{}' \
-          --metadata_filename_format_kwargs '{}'
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))

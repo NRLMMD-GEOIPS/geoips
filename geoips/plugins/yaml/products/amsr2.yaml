@@ -1,0 +1,276 @@
+interface: products
+family: list
+name: amsr2
+docstring: |
+  The amsr2 products configuration, which produces windspeed, unsectored, sectored, color37, 37pct, color89, 89pct, 89H,
+  89V, 89HW, 89H-Physical, 89H-Legacy, 37H-Legacy, 37H-Physical, 37H, and 37V products.
+spec:
+  products:
+    - name: windspeed
+      source_names: [amsr2]
+      docstring: |
+        The windspeed product_defaults for amsr2 product.
+      product_defaults: windspeed
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: unsectored
+      source_names: [amsr2]
+      docstring: |
+        The unsectored product_defaults for amsr2 product.
+      product_defaults: unsectored
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: sectored
+      source_names: [amsr2]
+      docstring: |
+        The sectored product_defaults for amsr2 product.
+      product_defaults: sectored
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: color37
+      source_names: [amsr2]
+      docstring: |
+        The color37 product_defaults for amsr2 product.
+      product_defaults: color37
+      spec:
+        variables: ["tb36h", "tb36v"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: color37Nearest
+      source_names: [amsr2]
+      docstring: |
+        The color37Nearest product_defaults for amsr2 product.
+      product_defaults: color37Nearest
+      spec:
+        variables: ["tb36h", "tb36v"]
+    - name: 37pct
+      source_names: [amsr2]
+      docstring: |
+        The 37pct product_defaults for amsr2 product.
+      product_defaults: 37pct
+      spec:
+        variables: ["tb36h", "tb36v"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 37pctNearest
+      source_names: [amsr2]
+      docstring: |
+        The 37pctNearest product_defaults for amsr2 product.
+      product_defaults: 37pctNearest
+      spec:
+        variables: ["tb36h", "tb36v"]
+    - name: color89
+      source_names: [amsr2]
+      docstring: |
+        The color89 product_defaults for amsr2 product.
+      product_defaults: color89
+      spec:
+        variables: ["tb89hA", "tb89vA"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: color89Nearest
+      source_names: [amsr2]
+      docstring: |
+        The color89Nearest product_defaults for amsr2 product.
+      product_defaults: color89Nearest
+      spec:
+        variables: ["tb89hA", "tb89vA"]
+    - name: 89pct
+      source_names: [amsr2]
+      docstring: |
+        The 89pct product_defaults for amsr2 product.
+      product_defaults: 89pct
+      spec:
+        variables: ["tb89hA", "tb89vA"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89pctNearest
+      source_names: [amsr2]
+      docstring: |
+        The 89pctNearest product_defaults for amsr2 product.
+      product_defaults: 89pctNearest
+      spec:
+        variables: ["tb89hA", "tb89vA"]
+    - name: 89H
+      source_names: [amsr2]
+      docstring: |
+        The 89H product_defaults for amsr2 product.
+      product_defaults: 89H
+      spec:
+        variables: ["tb89hA"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89HNearest
+      source_names: [amsr2]
+      docstring: |
+        The 89HNearest product_defaults for amsr2 product.
+      product_defaults: 89HNearest
+      spec:
+        variables: ["tb89hA"]
+    - name: 89V
+      source_names: [amsr2]
+      docstring: |
+        The 89V product_defaults for amsr2 product.
+      product_defaults: 89V
+      spec:
+        variables: ["tb89vA"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89VNearest
+      source_names: [amsr2]
+      docstring: |
+        The 89VNearest product_defaults for amsr2 product.
+      product_defaults: 89VNearest
+      spec:
+        variables: ["tb89vA"]
+    - name: 89HW
+      source_names: [amsr2]
+      docstring: |
+        The 89HW product_defaults for amsr2 product.
+      product_defaults: 89HW
+      spec:
+        variables: ["tb89hA"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89HWNearest
+      source_names: [amsr2]
+      docstring: |
+        The 89HWNearest product_defaults for amsr2 product.
+      product_defaults: 89HWNearest
+      spec:
+        variables: ["tb89hA"]
+    - name: 89H-Physical
+      source_names: [amsr2]
+      docstring: |
+        The 89H-Physical product_defaults for amsr2 product.
+      product_defaults: 89H-Physical
+      spec:
+        variables: ["tb89hA"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89H-PhysicalNearest
+      source_names: [amsr2]
+      docstring: |
+        The 89H-PhysicalNearest product_defaults for amsr2 product.
+      product_defaults: 89H-PhysicalNearest
+      spec:
+        variables: ["tb89hA"]
+    - name: 89H-Legacy
+      source_names: [amsr2]
+      docstring: |
+        The 89H-Legacy product_defaults for amsr2 product.
+      product_defaults: 89H-Legacy
+      spec:
+        variables: ["tb89hA"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89H-LegacyNearest
+      source_names: [amsr2]
+      docstring: |
+        The 89H-LegacyNearest product_defaults for amsr2 product.
+      product_defaults: 89H-LegacyNearest
+      spec:
+        variables: ["tb89hA"]
+    - name: 37H-Legacy
+      source_names: [amsr2]
+      docstring: |
+        The 37H-Legacy product_defaults for amsr2 product.
+      product_defaults: 37H-Legacy
+      spec:
+        variables: ["tb36h"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 37H-LegacyNearest
+      source_names: [amsr2]
+      docstring: |
+        The 37H-LegacyNearest product_defaults for amsr2 product.
+      product_defaults: 37H-LegacyNearest
+      spec:
+        variables: ["tb36h"]
+    - name: 37H-Physical
+      source_names: [amsr2]
+      docstring: |
+        The 37H-Physical product_defaults for amsr2 product.
+      product_defaults: 37H-Physical
+      spec:
+        variables: ["tb36h"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 37H-PhysicalNearest
+      source_names: [amsr2]
+      docstring: |
+        The 37H-PhysicalNearest product_defaults for amsr2 product.
+      product_defaults: 37H-PhysicalNearest
+      spec:
+        variables: ["tb36h"]
+    - name: 37H
+      source_names: [amsr2]
+      docstring: |
+        The 37H product_defaults for amsr2 product.
+      product_defaults: 37H
+      spec:
+        variables: ["tb36h"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 37HNearest
+      source_names: [amsr2]
+      docstring: |
+        The 37HNearest product_defaults for amsr2 product.
+      product_defaults: 37HNearest
+      spec:
+        variables: ["tb36h"]
+    - name: 37V
+      source_names: [amsr2]
+      docstring: |
+        The 37V product_defaults for amsr2 product.
+      product_defaults: 37V
+      spec:
+        variables: ["tb36v"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 37VNearest
+      source_names: [amsr2]
+      docstring: |
+        The 37VNearest product_defaults for amsr2 product.
+      product_defaults: 37VNearest
+      spec:
+        variables: ["tb36v"]

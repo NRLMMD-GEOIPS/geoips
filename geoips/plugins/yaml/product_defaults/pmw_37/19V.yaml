@@ -1,0 +1,26 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: 19V
+docstring: |
+  The 19V product_defaults configuration.
+spec:
+  interpolator:
+    plugin:
+      name: interp_gauss
+      arguments:
+        sigmaval: 25000
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [125, 300]
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  mtif_type: pmw
+  colormapper:
+    plugin:
+      name: pmw_37H
+      arguments:
+        data_range: [125, 300]

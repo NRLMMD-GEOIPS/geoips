@@ -1,0 +1,17 @@
+interface: gridline_annotators
+family: cartopy
+name: demo
+docstring: "Good gridline_annotator"
+spec:
+  spacing:
+    latitude: auto
+    longitude: auto
+  labels:
+    top: true
+    bottom: true
+    left: true
+    right: true
+  lines:
+    color: black
+    linestyle: [4, 2]
+    linewidth: 1

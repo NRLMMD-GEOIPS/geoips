@@ -1,0 +1,23 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: color89Nearest
+docstring: |
+  The color89Nearest product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: pmw_color89
+      arguments: {}
+  mtif_type: rgb
+  colormapper:
+    plugin:
+      name: cmap_rgb
+      arguments: {}
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}
+  coverage_checker:
+    plugin:
+      name: rgba
+      arguments: {}

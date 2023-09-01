@@ -1,0 +1,69 @@
+---
+interface: product_defaults
+family: bad_family
+name: good_test
+docstring: "A product_defaults instance with a bad family"
+spec:
+  interpolator:
+    plugin:
+      name: pyresample.nearest_neighbor
+      arguments: {}
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormapper:
+    plugin:
+      name: matplotlib.colormapper
+      arguments: {}
+
+---
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: good_test
+docstring: "A product_defaults instance missing its spec"
+
+---
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: good_test
+docstring: "A product_defaults instance missing its interpolator property"
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormapper:
+    plugin:
+      name: matplotlib.colormapper
+      arguments: {}
+
+---
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: good_test
+docstring: "A product_defaults instance missing its algorithm property"
+spec:
+  interpolator:
+    plugin:
+      name: pyresample.nearest_neighbor
+      arguments: {}
+  colormapper:
+    plugin:
+      name: matplotlib.colormapper
+
+---
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: good_test
+docstring: "A product_defaults instance missing its algorithm property"
+spec:
+  interpolator:
+    plugin:
+      name: pyresample.nearest_neighbor
+      arguments: {}
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+

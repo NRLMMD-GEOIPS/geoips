@@ -1,0 +1,29 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: Infrared-Gray
+docstring: |
+  The Infrared-Gray product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [-100.0, 50.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  mtif_type: ir
+  colormapper:
+    plugin:
+      name: matplotlib_linear_norm
+      arguments:
+        data_range: [-100.0, 50.0]
+        cmap_name: Greys
+        cbar_label: "Brightness Temperatures (degrees Celsius)"
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

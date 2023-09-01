@@ -1,0 +1,3 @@
+$id: product_defaults.specs.xarray_dict_to_output_format
+type: object
+unevaluatedProperties: true

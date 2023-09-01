@@ -1,0 +1,42 @@
+interface: products
+family: list
+name: sar-spd
+docstring: |
+  The sar-spd product_inputs configuration, which produces windspeed, nrcs, incident-angle, unsectored, and sectored products.
+spec:
+  products:
+    - name: windspeed
+      source_names: [sar-spd]
+      docstring: |
+        The windspeed product_defaults configuration for sar-spd products.
+      product_defaults: windspeed
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: nrcs
+      source_names: [sar-spd]
+      docstring: |
+        The nrcs product_defaults configuration for sar-spd products.
+      product_defaults: nrcs
+      spec:
+        variables: ["nrcs"]
+    - name: incident-angle
+      source_names: [sar-spd]
+      docstring: |
+        The incident-angle product_defaults configuration for sar-spd products.
+      product_defaults: incident-angle
+      spec:
+        variables: ["incident_angle"]
+    - name: unsectored
+      source_names: [sar-spd]
+      docstring: |
+        The unsectored product_defaults configuration for sar-spd products.
+      product_defaults: unsectored
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: sectored
+      source_names: [sar-spd]
+      docstring: |
+        The sectored product_defaults configuration for sar-spd products.
+      product_defaults: sectored
+      spec:
+        variables: ["wind_speed_kts"]

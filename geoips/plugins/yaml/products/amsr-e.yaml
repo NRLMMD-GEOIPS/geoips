@@ -1,0 +1,179 @@
+interface: products
+family: list
+name: amsr-e
+docstring: |
+  The amsr-e products configuration, which produces color89, 89pct, 89H, 89V, 89HW,
+  89H-Physical, 89H-Legacy, 19H, and 19V products.
+spec:
+  products:
+    - name: color89
+      source_names: [amsr-e]
+      docstring: |
+        The color89 product_defaults for amsr-e product.
+      product_defaults: color89
+      spec:
+        variables: ["H89", "V89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: color89Nearest
+      source_names: [amsr-e]
+      docstring: |
+        The color89Nearest product_defaults for amsr-e product.
+      product_defaults: color89Nearest
+      spec:
+        variables: ["H89", "V89"]
+    - name: 89pct
+      source_names: [amsr-e]
+      docstring: |
+        The 89pct product_defaults for amsr-e product.
+      product_defaults: 89pct
+      spec:
+        variables: ["H89", "V89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89pctNearest
+      source_names: [amsr-e]
+      docstring: |
+        The 89pctNearest product_defaults for amsr-e product.
+      product_defaults: 89pctNearest
+      spec:
+        variables: ["H89", "V89"]
+    - name: 89H
+      source_names: [amsr-e]
+      docstring: |
+        The 89H product_defaults for amsr-e product.
+      product_defaults: 89H
+      spec:
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89HNearest
+      source_names: [amsr-e]
+      docstring: |
+        The 89HNearest product_defaults for amsr-e product.
+      product_defaults: 89HNearest
+      spec:
+        variables: ["H89"]
+    - name: 89V
+      source_names: [amsr-e]
+      docstring: |
+        The 89V product_defaults for amsr-e product.
+      product_defaults: 89V
+      spec:
+        variables: ["V89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89VNearest
+      source_names: [amsr-e]
+      docstring: |
+        The 89VNearest product_defaults for amsr-e product.
+      product_defaults: 89VNearest
+      spec:
+        variables: ["V89"]
+    - name: 89HW
+      source_names: [amsr-e]
+      docstring: |
+        The 89HW product_defaults for amsr-e product.
+      product_defaults: 89HW
+      spec:
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89HNearest
+      source_names: [amsr-e]
+      docstring: |
+        The 89HNearest product_defaults for amsr-e product.
+      product_defaults: 89HNearest
+      spec:
+        variables: ["H89"]
+    - name: 89H-Physical
+      source_names: [amsr-e]
+      docstring: |
+        The 89H-Physical product_defaults for amsr-e product.
+      product_defaults: 89H-Physical
+      spec:
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89H-PhysicalNearest
+      source_names: [amsr-e]
+      docstring: |
+        The 89H-PhysicalNearest product_defaults for amsr-e product.
+      product_defaults: 89H-PhysicalNearest
+      spec:
+        variables: ["H89"]
+    - name: 89H-Legacy
+      source_names: [amsr-e]
+      docstring: |
+        The 89H-Legacy product_defaults for amsr-e product.
+      product_defaults: 89H-Legacy
+      spec:
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89H-LegacyNearest
+      source_names: [amsr-e]
+      docstring: |
+        The 89H-LegacyNearest product_defaults for amsr-e product.
+      product_defaults: 89H-LegacyNearest
+      spec:
+        variables: ["H89"]
+    - name: 19H
+      source_names: [amsr-e]
+      docstring: |
+        The 19H product_defaults for amsr-e product.
+      product_defaults: 19H
+      spec:
+        variables: ["H19"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 25000
+    - name: 19HNearest
+      source_names: [amsr-e]
+      docstring: |
+        The 19HNearest product_defaults for amsr-e product.
+      product_defaults: 19HNearest
+      spec:
+        variables: ["H19"]
+    - name: 19V
+      source_names: [amsr-e]
+      docstring: |
+        The 19V product_defaults for amsr-e product.
+      product_defaults: 19V
+      spec:
+        variables: ["V19"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 25000
+    - name: 19VNearest
+      source_names: [amsr-e]
+      docstring: |
+        The 19VNearest product_defaults for amsr-e product.
+      product_defaults: 19VNearest
+      spec:
+        variables: ["V19"]

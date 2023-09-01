@@ -1,0 +1,29 @@
+interface: sectors
+family: area_definition
+name: ewsg
+docstring: "Full Disk sector for EWS-G"
+metadata:
+  continent: Global
+  country: x
+  area: EWS-G
+  subarea: x
+  state: x
+  city: x
+spec:
+  area_id: ewsg
+  description: EWS-G Coverage
+  projection:
+    a: 6371228.0
+    lat_0: 0
+    lon_0: 61.5
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 2000
+    width: 2000
+  area_extent:
+    lower_left_xy: [-10000000, -10000000]
+    upper_right_xy: [10000000, 10000000]

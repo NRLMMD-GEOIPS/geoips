@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
 # # #
 # # # Author:
@@ -10,7 +11,6 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-#!/usr/bin/env python
 """GeoIPS command line interface."""
 
 import pkgutil
@@ -115,7 +115,8 @@ def get_interface(name):
                 return getattr(dev, name)
             except AttributeError:
                 raise AttributeError(
-                    f'Interface "{name}" not found in either stable or developmental interface sets'
+                    f'Interface "{name}" not found in '
+                    "either stable or developmental interface sets"
                 )
 
 
@@ -234,23 +235,33 @@ def main():
 
     # list plugins for each interface
     add_list_interface_parser(list_subparsers, "algorithms", aliases=["alg", "algs"])
-    # add_list_interface_parser(list_subparsers, 'boundaries', aliases=['bound', 'bounds'])
-    add_list_interface_parser(list_subparsers, "colormaps", aliases=["cmap", "cmaps"])
+    # add_list_interface_parser(
+    #     list_subparsers, "feature_annotators", aliases=["bound", "bounds"]
+    # )
     add_list_interface_parser(
-        list_subparsers, "filename_formats", aliases=["ff", "ffs"]
+        list_subparsers, "colormappers", aliases=["cmap", "cmaps"]
     )
-    # add_list_interface_parser(list_subparsers, 'gridline_formatters', aliases=['gf', 'gfs'])
+    add_list_interface_parser(
+        list_subparsers, "filename_formatters", aliases=["ff", "ffs"]
+    )
+    # add_list_interface_parser(
+    #     list_subparsers, "gridline_annotators", aliases=["gf", "gfs"]
+    # )
     add_list_interface_parser(
         list_subparsers, "interpolators", aliases=["interp", "interps"]
     )
-    # add_list_interface_parser(list_subparsers, 'outputter_configs', aliases=['oc', 'ocs'])
+    # add_list_interface_parser(
+    #     list_subparsers, "outputter_configs", aliases=["oc", "ocs"]
+    # )
     add_list_interface_parser(
-        list_subparsers, "output_formats", aliases=["out", "outs"]
+        list_subparsers, "output_formatters", aliases=["out", "outs"]
     )
     add_list_interface_parser(list_subparsers, "procflows", aliases=["pf", "pfs"])
     # add_list_interface_parser(list_subparsers, 'products', aliases=['prod', 'prods'])
     add_list_interface_parser(list_subparsers, "readers", aliases=["reader"])
-    add_list_interface_parser(list_subparsers, "title_formats", aliases=["tf", "tfs"])
+    add_list_interface_parser(
+        list_subparsers, "title_formatters", aliases=["tf", "tfs"]
+    )
 
     args = parser.parse_args()
 
@@ -261,7 +272,9 @@ def main():
             list_interface_plugins(args.interface)
             # print(get_interface(args.interface))
             # print(get_interface(args.interface).get_plugins())
-            # getattr(interfaces, args.interface).get_plugins(pretty=True, with_family=True, with_description=True)
+            # getattr(interfaces, args.interface).get_plugins(
+            #     pretty=True, with_family=True, with_description=True
+            # )
 
 
 if __name__ == "__main__":

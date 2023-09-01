@@ -49,21 +49,52 @@ if [[ "$1" == "conda_install" ]]; then
     if [[ "$2" == "conda_defaults_channel" ]]; then
         echo "**wgetting Miniconda3*.sh"
         conda_fname=Miniconda3-latest-${opsys}-${arch}.sh
+        echo "wget https://repo.anaconda.com/miniconda/${conda_fname} -P $GEOIPS_DEPENDENCIES_DIR"
         wget https://repo.anaconda.com/miniconda/${conda_fname} -P $GEOIPS_DEPENDENCIES_DIR
-        echo "**Running Miniconda3*.sh"
+        wget_retval=$?
     else
-        echo "**wgetting Miniforge3*.sh"
-        conda_fname=Miniforge3-${opsys}-${arch}.sh
+        # echo "**wgetting Miniforge3*.sh"
+        # conda_fname=Miniforge3-${opsys}-${arch}.sh
+        echo "**wgetting Mambaforge*.sh"
+        conda_fname=Mambaforge-${opsys}-${arch}.sh
+        echo "wget https://github.com/conda-forge/miniforge/releases/latest/download/${conda_fname} -P $GEOIPS_DEPENDENCIES_DIR"
         wget https://github.com/conda-forge/miniforge/releases/latest/download/${conda_fname} -P $GEOIPS_DEPENDENCIES_DIR
-        echo "**Running Miniforge3*.sh"
+        wget_retval=$?
+    fi
+    if [[ "$wget_retval" != "0" ]]; then
+        echo "FAILED: wget of conda installer failed. Try again."
+        exit 1
     fi
 
     chmod 755 $GEOIPS_DEPENDENCIES_DIR/${conda_fname}
     echo ""
+    echo "**Running conda installer"
+    echo "$GEOIPS_DEPENDENCIES_DIR/${conda_fname} -p $GEOIPS_DEPENDENCIES_DIR/miniconda3"
     $GEOIPS_DEPENDENCIES_DIR/${conda_fname} -p $GEOIPS_DEPENDENCIES_DIR/miniconda3
-    echo ""
+    conda_retval=$?
+    if [[ "$conda_retval" != "0" ]]; then
+        echo "FAILED: conda installer failed. Try again."
+        exit 1
+    fi
 
+    echo "**Sourcing geoips_conda environment setup"
+    echo "source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup"
     source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
+    setup_retval=$?
+    if [[ "$setup_retval" != "0" ]]; then
+        echo "FAILED: conda environment init failed. Try again."
+        exit 1
+    fi
+
+    which_conda=`which conda`
+    which_python=`which python`
+    if [[ "$which_conda" == "" ]]; then
+        echo "FAILED: No conda executable found.  Please attempt installation again"
+        exit 1
+    else
+        echo "SUCCESS: conda installation successful: $which_conda"
+    fi
+
 
 elif [[ "$1" == "conda_init" ]]; then
     echo ""
@@ -73,7 +104,14 @@ elif [[ "$1" == "conda_init" ]]; then
     # echo "**IF SCRIPT WAS NOT SOURCED MUST source ~/.bashrc or restart shell"
     # source ~/.bashrc
     # echo "source ~/.bashrc"
+    echo "**Sourcing geoips_conda environment setup"
+    echo "source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup"
     source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
+    setup_retval=$?
+    if [[ "$setup_retval" != "0" ]]; then
+        echo "FAILED: conda environment init failed. Try again."
+        exit 1
+    fi
 elif [[ "$1" == "conda_update" ]]; then
     echo ""
     echo "**updating base conda env"
@@ -96,41 +134,92 @@ elif [[ "$1" == "remove_geoips_conda_env" ]]; then
     conda env remove --name geoips_conda
 elif [[ "$1" == "create_geoips_conda_env" ]]; then
     echo ""
-    echo "**creating geoips_conda env"
+    echo "**Sourcing geoips_conda environment setup"
+    echo "source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup"
+    source $GEOIPS_PACKAGES_DIR/geoips/setup/geoips_conda_init_setup
+    setup_retval=$?
+    if [[ "$setup_retval" != "0" ]]; then
+        echo "FAILED: conda environment init failed. Try again."
+        exit 1
+    fi
+
     which conda
+    which mamba
     which python
+    echo ""
+    echo "**creating geoips_conda env"
     if [[ "$2" == "conda_defaults_channel" ]]; then
-        conda create --yes --name geoips_conda -c defaults python=3.9 --yes
+        echo "conda create --yes --name geoips_conda -c defaults python=3.9 gcc gxx geos openblas imagemagick git git-lfs rclone --yes"
+        conda create --yes --name geoips_conda -c defaults python=3.9 gcc gxx geos openblas imagemagick git git-lfs rclone --yes
+        conda_retval=$?
     else
-        conda create --yes --name geoips_conda -c conda-forge python=3.9 --yes
+        echo "mamba create --yes --name geoips_conda -c conda-forge python=3.9 gcc gxx geos openblas imagemagick git git-lfs rclone --yes"
+        mamba create --yes --name geoips_conda -c conda-forge python=3.9 gcc gxx geos openblas imagemagick git git-lfs rclone --yes
+        conda_retval=$?
+    fi
+    if [[ "$conda_retval" != "0" ]]; then
+        echo "FAILED: conda create failed. Try again."
+        exit 1
     fi
     echo "**IF SCRIPT WAS NOT SOURCED MUST activate geoips_conda env from parent shell"
     conda activate geoips_conda
     echo "conda activate geoips_conda"
+    which_conda=`which conda`
+    which_python=`which python`
+    if [[ "$which_conda" == "" ]]; then
+        echo "FAILED: No conda executable found.  Please attempt installation again"
+        exit 1
+    else
+        echo "SUCCESS: conda installation successful: $which_conda"
+    fi
+    if [[ "$which_python" != *"geoips_conda"* ]]; then
+        echo "FAILED: python executable NOT in geoips_conda env: $which_python."
+        echo "FAILED: Please attempt create_geoips_conda_env again."
+        exit 1
+    else
+        echo "SUCCESS: geoips_conda installation successful: $which_python"
+    fi
+
 elif [[ "$1" == "install" ]]; then
     echo ""
-    echo "**Installing geos/openblas from conda-forge, for shapely/cartopy/scipy"
-
-    # 20230321, update to pip installed matplotlib>=3.7.0, cartopy>=0.21.0.
-
-    # Only install via conda:
-    #   openblas (scipy dependency) and
-    #   geos (shapely/cartopy dependency)
-    # Conda installations of the SAME verson of matplotlib and cartopy as the pip
-    #   installed versions result in slightly different annotated outputs!
-    # So, ensure we always install the Python packages via pip for consistency,
-    #   only use conda for dependencies.
-
-    # Must also update all test repo outputs required for tests to pass.
-    # Eventually we will likely want to modify the annotated imagery comparison tests
-    #   to not rely on the exact placement of annotations, but for now, just update a
-    #   few test repo outputs on dependency version updates.
-
-    # conda install -c conda-forge "cartopy" "matplotlib==3.6.3" --yes
-    conda install -c conda-forge geos openblas --yes
-
+    echo "**Installing geoips and all dependencies"
+    echo "pip install -e "$GEOIPS_PACKAGES_DIR/geoips"[doc,test,lint]"
     pip install -e "$GEOIPS_PACKAGES_DIR/geoips"[doc,test,lint]
+    pip_retval=$?
+    if [[ "$pip_retval" != "0" ]]; then
+        echo "FAILED: pip install failed. Try again."
+        exit 1
+    else
+        echo "SUCCESS: pip installed geoips and dependencies successfully."
+    fi
 
+elif [[ "$1" == "setup_fusion_test_data" ]]; then
+    # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
+    # rclone lsf publicAWS:noaa-goes17/ABI-L1b-RadF/2020/184/16/
+    # rclone lsf publicAWS:noaa-himawari8/AHI-L1b-FLDK/2022/02/05/0420
+
+    rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
+    goes16dir=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/goes16_20210929.0000
+    goes17dir=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/goes17_20210929.0000
+    ahidir=$GEOIPS_TESTDATA_DIR/test_data_fusion/data/himawari8_20210929.0000
+
+    mkdir -p $goes16dir
+    mkdir -p $goes17dir
+    mkdir -p $ahidir
+    echo "** Setting up fusion test data, from publicAWS to $goes16dir"
+    echo "** Setting up fusion test data, from publicAWS to $goes17dir"
+    echo "** Setting up fusion test data, from publicAWS to $ahidir"
+    echo ""
+    echo "NOAA Geostationary Operational Environmental Satellites (GOES) 16 & 17 was accessed on "
+    echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-goes."
+    echo "Himawari-8 was accessed on "
+    echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-himawari"
+    echo ""
+
+    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh goes16 2021 09 29 00 00 $goes16dir $rcloneconf C14
+    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh goes17 2021 09 29 00 00 $goes17dir $rcloneconf C14
+    $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2021 09 29 00 00 $ahidir $rcloneconf B13
+    bunzip2 $ahidir/*.bz2
 
 elif [[ "$1" == "setup_abi_test_data" ]]; then
     # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
@@ -151,6 +240,32 @@ elif [[ "$1" == "setup_abi_test_data" ]]; then
         rclone --config $rcloneconf copy -P publicAWS:noaa-goes16/ABI-L1b-RadF/2020/262/19/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc $abidir
     else
         $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh goes16 2020 09 18 19 50 $abidir $rcloneconf
+    fi
+
+elif [[ "$1" == "setup_ahi_test_data" ]]; then
+    # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
+    # rclone lsf publicAWS:noaa-goes17/ABI-L1b-RadF/2020/184/16/
+    # rclone lsf publicAWS:noaa-himawari8/AHI-L1b-FLDK/2022/02/05/0420
+
+    rcloneconf=$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf
+    ahi_basedir=$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/
+
+    mkdir -p $ahi_basedir
+    echo "** Setting up ahi test data, from publicAWS:noaa-himawari8/AHI-L1b-FLDK to $ahi_basedir"
+    echo ""
+    echo "Himawari-8 and Himawari-9 data was accessed on "
+    echo $(${date_cmd} -u) "from https://registry.opendata.aws/noaa-himawari"
+    echo ""
+
+    # This is terminator, not needed right now
+    if [[ "$2" == "terminator" ]]; then
+      ahidir=$ahi_basedir/20220109/2000/
+      $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2022 01 09 20 00 $ahidir $rcloneconf "B09 B13"
+      bunzip2 -v $ahidir/*.bz2
+    else
+      ahidir=$ahi_basedir/20200405/0000/
+      $GEOIPS_PACKAGES_DIR/geoips/tests/download_noaa_aws.sh himawari8 2020 04 05 00 00 $ahidir $rcloneconf "B09 B13"
+      bunzip2 -v $ahidir/*.bz2
     fi
 
 elif [[ "$1" == "setup_seviri" ]]; then
@@ -233,15 +348,18 @@ elif [[ "$1" == "download_cartopy_natural_earth" ]]; then
     # echo "    **Checking out tag v5.2.0, to ensure tests pass"
     # git checkout tags/v5.2.0
     git tag | tail -n 5
+    cat VERSION
+    echo "Last tested version: v5.2.0"
+    echo "If latest version is greater than v5.2.0, watch out for failed tests"
     cd $cwd
 elif [[ "$1" == "link_cartopy_natural_earth" ]]; then
     echo ""
-    echo "**Linking natural-earth-data to ~/.local/share/cartopy/shapefiles/natural_earth/cultural and physical"
     source_cartopy_data=$GEOIPS_DEPENDENCIES_DIR/cartopy_map_data
     if [[ -z "$CARTOPY_DATA_DIR" ]]; then
         CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
     fi
     linkdir=$CARTOPY_DATA_DIR/shapefiles/natural_earth
+    echo "**Linking natural-earth-data from $source_cartopy_data to $CARTOPY_DATA_DIR/shapefiles/natural_earth/cultural and physical"
     mkdir -p $linkdir/cultural
     mkdir -p $linkdir/physical
     ln -sfv $source_cartopy_data/natural-earth-vector/*_cultural/*/* $linkdir/cultural
@@ -416,7 +534,12 @@ elif [[ "$1" == "recompress_test_data" ]]; then
 
 elif [[ "$1" =~ "install_geoips_plugin" ]]; then
     $0 clone_source_repo $2
+    clone_retval=$?
     pip install -e $GEOIPS_PACKAGES_DIR/$2
+    pip_retval=$?
+    if [[ "$pip_retval" != "0" || "$clone_retval" != "0" ]]; then
+        exit 1
+    fi
 
 elif [[ "$1" =~ "clone_source_repo" ]]; then
     echo ""

@@ -6,34 +6,38 @@ available_sectors:
     trackfile_parser: bdeck_parser
     trackfiles:
       - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bio012020.dat
-    tc_template_yaml: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/geoips/yaml_configs/sectors_dynamic/tc_web_template.yaml
+    tc_spec_template: tc_web
 
   global:
-    sectorfiles:
-      - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/static/global.yaml
     sector_list:
       - global
 
 outputs:
   tc_overlay:
     requested_sector_type: tcweb_bdeck
-    output_format: imagery_annotated
-    filename_formats: ['tc_fname']
+    output_formatter: imagery_annotated
+    filename_formatters: ['tc_fname']
     product_names:
       - 37pct
       - 89pct
     compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2.<output>.<product>.imagery_annotated_over_Visible
-    metadata_filename_formats:
+    metadata_filename_formatters:
         tc_fname: metadata_default_fname
-    metadata_output_format: metadata_tc
-    product_params_override:
+    metadata_output_formatter: metadata_tc
+    product_spec_override:
       all:
-        fname_covg_func: center_radius
-        fname_covg_args: {'radius_km': 100}
-        full_covg_func: masked_arrays
-        full_covg_args: {}
-        image_production_covg_func: masked_arrays
-        image_production_covg_args: {}
+        filename_coverage_checker:
+          plugin:
+            name: center_radius
+            arguments: {'radius_km': 100}
+        full_coverage_checker:
+          plugin:
+            name: masked_arrays
+            arguments: {}
+        image_production_coverage_checker:
+          plugin:
+            name: masked_arrays
+            arguments: {}
     background_products:
       config_names: ['abi', 'ahi', 'seviri']
       product_names: ['Visible', 'Infrared-Gray']
@@ -43,8 +47,8 @@ outputs:
     minimum_coverage: 10
     produce_times:
       required_minutes: [0, 20, 40]
-    output_format: imagery_annotated
-    filename_formats: ['geoips_fname']
+    output_formatter: imagery_annotated
+    filename_formatters: ['geoips_fname']
     compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2.<output>.<product>.imagery_annotated_over_Visible
     product_names:
       - 89pct

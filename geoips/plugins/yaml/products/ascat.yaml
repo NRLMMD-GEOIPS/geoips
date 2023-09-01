@@ -1,0 +1,71 @@
+interface: products
+family: list
+name: ascat
+docstring: |
+  The ascat product_inputs configuration, which produces Windspeed products, Windbarbs products, Wind-ambiguity products,
+  and Unsectored/Sectored products.
+spec:
+  products:
+    - name: windspeed
+      source_names: [ascat]
+      docstring: |
+        The windspeed product_defaults for ascat product.
+      product_defaults: windspeed
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: Windbarbs-Gray
+      source_names: [ascat]
+      docstring: |
+        The Windbarbs-Gray product_defaults for ascat product.
+      product_defaults: windbarbs
+      spec:
+        variables: ["wind_speed_kts", "wind_dir_deg_met", "rain_flag"]
+        colormapper:
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              data_range: [0, 200]
+              cmap_name: "Greys_r"
+              cbar_label: "Wind speed (kts)"
+        windbarb_plotter:
+          plugin:
+            name: sfc_wind.windbarbs
+            arguments:
+              thinning: 1
+              length: 5
+              width: 1.5
+              sizes_dict: { "height": 0.7, "spacing": 0.3 }
+              rain_size: 10
+    - name: windbarbs
+      source_names: [ascat]
+      docstring: |
+        The windbarbs product_defaults for ascat product.
+      product_defaults: windbarbs
+      spec:
+        variables: ["wind_speed_kts", "wind_dir_deg_met", "rain_flag"]
+    - name: wind-ambiguities
+      source_names: [ascat]
+      docstring: |
+        The wind-ambiguities product_defaults for ascat product.
+      product_defaults: wind-ambiguities
+      spec:
+        variables:
+          [
+            "wind_speed_ambiguity_kts",
+            "wind_dir_deg_ambiguity_met",
+            "rain_flag_ambiguity",
+          ]
+    - name: unsectored
+      source_names: [ascat]
+      docstring: |
+        The unsectored product_defaults for ascat product.
+      product_defaults: unsectored
+      spec:
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]
+    - name: sectored
+      source_names: [ascat]
+      docstring: |
+        The sectored product_defaults for ascat product.
+      product_defaults: sectored
+      spec:
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]

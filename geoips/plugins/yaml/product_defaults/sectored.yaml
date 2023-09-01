@@ -1,0 +1,8 @@
+# This YAML product config is useful only as a "product_template" to
+# define products directly within product_inputs/<source>.yaml
+interface: product_defaults
+family: sectored_xarray_dict_to_output_format
+name: sectored
+docstring: |
+  The sectored product_defaults configuration.
+spec: {}

@@ -20,20 +20,20 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_080644_hy_2b
           --procflow single_source \
           --reader_name scat_knmi_winds_netcdf \
           --product_name windspeed \
-          --filename_format tc_fname \
-          --output_format imagery_annotated \
-          --boundaries_params default \
-          --gridlines_params default \
-          --metadata_filename_format metadata_default_fname \
-          --metadata_output_format metadata_default \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_annotated \
+          --feature_annotator default \
+          --gridline_annotator default \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp272021.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/hy2.tc.<product>.imagery_annotated" \
-          --product_params_override '{}' \
-          --output_format_kwargs '{"title_format": "tc_copyright", "title_copyright": "Data copyright 2021 EUMETSAT, Imagery NRL-MRY"}' \
-          --filename_format_kwargs '{}' \
-          --metadata_output_format_kwargs '{}' \
-          --metadata_filename_format_kwargs '{}'
+          --product_spec_override '{}' \
+          --output_formatter_kwargs '{"title_formatter": "tc_copyright", "title_copyright": "Data copyright 2021 EUMETSAT, Imagery NRL-MRY"}' \
+          --filename_formatter_kwargs '{}' \
+          --metadata_output_formatter_kwargs '{}' \
+          --metadata_filename_formatter_kwargs '{}'
 ss_retval=$?
 
 exit $((ss_retval))

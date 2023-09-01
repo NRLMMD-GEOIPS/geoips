@@ -1,0 +1,64 @@
+interface: products
+family: list
+name: atms
+docstring: |
+  The atms product_inputs configuration, which produces 89V products, 165H products, and 183H products
+spec:
+  products:
+    - name: 89V
+      source_names: [atms]
+      docstring: |
+        The 89V product_defaults for atms product.
+      product_defaults: 89V
+      spec:
+        variables: ["V89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 15000
+    - name: 89VNearest
+      source_names: [atms]
+      docstring: |
+        The 89VNearest product_defaults for atms product.
+      product_defaults: 89VNearest
+      spec:
+        variables: ["V89"]
+    - name: 165H
+      source_names: [atms]
+      docstring: |
+        The 165H product_defaults for atms product.
+      product_defaults: 165H
+      spec:
+        variables: ["H165"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 15000
+    - name: 165HNearest
+      source_names: [atms]
+      docstring: |
+        The 165HNearest product_defaults for atms product.
+      product_defaults: 165HNearest
+      spec:
+        variables: ["H165"]
+    - name: 183H
+      source_names: [atms]
+      docstring: |
+        The 183H product_defaults for atms product.
+      product_defaults: 183H
+      spec:
+        variables: ["H183"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 15000
+    - name: 183HNearest
+      source_names: [atms]
+      docstring: |
+        The 183HNearest product_defaults for atms product.
+      product_defaults: 183HNearest
+      spec:
+        variables: ["H183"]

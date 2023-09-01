@@ -11,6 +11,7 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Utilities for working with YAML sector specifications."""
+
 import logging
 
 LOG = logging.getLogger(__name__)

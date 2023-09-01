@@ -1,0 +1,129 @@
+interface: products
+family: list
+name: windsat
+docstring: |
+  The windsat product_inputs configuration, which produces windspeed, color37,
+  37pct, 37H-Legacy, 37H-Physical, 37H, and 37V products.
+spec:
+  products:
+    - name: windspeed
+      source_names: [windsat]
+      docstring: |
+        The windspeed product_defaults configuration for windsat products.
+      product_defaults: windspeed
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: color37
+      source_names: [windsat]
+      docstring: |
+        The color37 product_defaults configuration for windsat products.
+      product_defaults: color37
+      spec:
+        variables: ["ftb37h", "ftb37v"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: color37Nearest
+      source_names: [windsat]
+      docstring: |
+        The color37Nearest product_defaults configuration for windsat products.
+      product_defaults: color37Nearest
+      spec:
+        variables: ["ftb37h", "ftb37v"]
+    - name: 37pct
+      source_names: [windsat]
+      docstring: |
+        The 37pct product_defaults configuration for windsat products.
+      product_defaults: 37pct
+      spec:
+        variables: ["ftb37h", "ftb37v"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 37pctNearest
+      source_names: [windsat]
+      docstring: |
+        The 37pctNearest product_defaults configuration for windsat products.
+      product_defaults: 37pctNearest
+      spec:
+        variables: ["ftb37h", "ftb37v"]
+    - name: 37H-Legacy
+      source_names: [windsat]
+      docstring: |
+        The 37H-Legacy product_defaults configuration for windsat products.
+      product_defaults: 37H-Legacy
+      spec:
+        variables: ["ftb37h"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 37H-LegacyNearest
+      source_names: [windsat]
+      docstring: |
+        The 37H-LegacyNearest product_defaults configuration for windsat products.
+      product_defaults: 37H-LegacyNearest
+      spec:
+        variables: ["ftb37h"]
+    - name: 37H-Physical
+      source_names: [windsat]
+      docstring: |
+        The 37H-Physical product_defaults configuration for windsat products.
+      product_defaults: 37H-Physical
+      spec:
+        variables: ["ftb37h"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 37H-PhysicalNearest
+      source_names: [windsat]
+      docstring: |
+        The 37H-PhysicalNearest product_defaults configuration for windsat products.
+      product_defaults: 37H-PhysicalNearest
+      spec:
+        variables: ["ftb37h"]
+    - name: 37H
+      source_names: [windsat]
+      docstring: |
+        The 37H product_defaults configuration for windsat products.
+      product_defaults: 37H
+      spec:
+        variables: ["ftb37h"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 37HNearest
+      source_names: [windsat]
+      docstring: |
+        The 37HNearest product_defaults configuration for windsat products.
+      product_defaults: 37HNearest
+      spec:
+        variables: ["ftb37h"]
+    - name: 37V
+      source_names: [windsat]
+      docstring: |
+        The 37V product_defaults configuration for windsat products.
+      product_defaults: 37V
+      spec:
+        variables: ["ftb37v"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 37VNearest
+      source_names: [windsat]
+      docstring: |
+        The 37VNearest product_defaults configuration for windsat products.
+      product_defaults: 37VNearest
+      spec:
+        variables: ["ftb37v"]

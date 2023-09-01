@@ -11,13 +11,15 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """matplotlib utilities."""
+
 # Python Standard Libraries
 import logging
 import matplotlib
 import matplotlib.pyplot as plt
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.interfaces import title_formats
+from geoips.interfaces import title_formatters
+from geoips.image_utils.maps import draw_features, draw_gridlines
 
 matplotlib.use("agg")
 rc_params = matplotlib.rcParams
@@ -119,9 +121,9 @@ def plot_overlays(
     mapobj,
     curr_ax,
     area_def,
-    boundaries_info,
-    gridlines_info,
-    boundaries_zorder=None,
+    feature_annotator=None,
+    gridline_annotator=None,
+    features_zorder=None,
     gridlines_zorder=None,
 ):
     """
@@ -136,36 +138,14 @@ def plot_overlays(
     area_def : AreaDefinition
         pyresample AreaDefinition object specifying the area covered by
         the current plot
-    boundaries_info : dict, optional
-        Dictionary of parameters for plotting map boundaries.
-    gridlines_info : dict, optional
-        Dictionary of parameters for plotting gridlines.
-        If a field is not included in the dictionary, the default is used
-        for that field.
-
-    See Also
-    --------
-    geoips.image_utils.maps.set_boundaries_info_dict
-        for required fields and defaults for boundaries_info
-    geoips.image_utils.maps.set_gridlines_info_dict
-        for required fields and defaults for gridlines_info
+    feature_annotator : YamlPlugin
+        A feature annotator plugin instance.
+    gridline_annotator : YamlPlugin
+       A gridlines annotator plugin instance.
     """
-    from geoips.image_utils.maps import (
-        set_boundaries_info_dict,
-        set_gridlines_info_dict,
-    )
-
-    use_boundaries_info = set_boundaries_info_dict(boundaries_info)
-    use_gridlines_info = set_gridlines_info_dict(gridlines_info, area_def)
-
-    from geoips.image_utils.maps import draw_boundaries
-
-    draw_boundaries(mapobj, curr_ax, use_boundaries_info, zorder=boundaries_zorder)
-
-    from geoips.image_utils.maps import draw_gridlines
-
+    draw_features(mapobj, curr_ax, feature_annotator, zorder=features_zorder)
     draw_gridlines(
-        mapobj, area_def, curr_ax, use_gridlines_info, zorder=gridlines_zorder
+        mapobj, area_def, curr_ax, gridline_annotator, zorder=gridlines_zorder
     )
 
 
@@ -268,7 +248,7 @@ def get_title_string_from_objects(
     bg_product_name_title=None,
     bg_datatype_title=None,
     title_copyright=None,
-    title_format=None,
+    title_formatter=None,
 ):
     """
     Get the title from object information.
@@ -292,7 +272,7 @@ def get_title_string_from_objects(
         background data type
     title_copyright : str, optional
         string for copyright
-    title_format : str, optional
+    title_formatter : str, optional
         format for title
 
     Returns
@@ -323,14 +303,14 @@ def get_title_string_from_objects(
             bg_xarray.platform_name.upper(), bg_xarray.source_name.upper()
         )
 
-    if title_format is not None:
-        title_formatter = title_formats.get_plugin(title_format)
+    if title_formatter is not None:
+        title_formatter_plugin = title_formatters.get_plugin(title_formatter)
     elif is_sector_type(area_def, "tc"):
-        title_formatter = title_formats.get_plugin("tc_standard")
+        title_formatter_plugin = title_formatters.get_plugin("tc_standard")
     else:
-        title_formatter = title_formats.get_plugin("static_standard")
+        title_formatter_plugin = title_formatters.get_plugin("static_standard")
 
-    title_string = title_formatter(
+    title_string = title_formatter_plugin(
         area_def,
         xarray_obj,
         product_name_title,
@@ -475,9 +455,7 @@ def create_figure_and_main_ax_and_mapobj(
 
     if existing_mapobj is None:
         LOG.info("creating mapobj instance")
-        from geoips.image_utils.maps import area_def2mapobj
-
-        mapobj = area_def2mapobj(area_def)
+        mapobj = area_def.to_cartopy_crs()
     else:
         LOG.info("mapobj already exists, not recreating")
         mapobj = existing_mapobj
@@ -691,10 +669,12 @@ def create_colorbar(fig, mpl_colors_info):
     # Required, for setting colorbar labels with set_label and ticks with set_ticks
     cbar_label = mpl_colors_info["cbar_label"]
     cbar_ticks = mpl_colors_info["cbar_ticks"]
+    if cbar_ticks is None:
+        cbar_ticks = [cmap_norm.vmin, cmap_norm.vmax]
 
     # Optional - can be specified in colorbar_kwargs
     cbar_spacing = "proportional"
-    if "cbar_spacing" in mpl_colors_info:
+    if mpl_colors_info.get("cbar_spacing") is not None:
         cbar_spacing = mpl_colors_info["cbar_spacing"]
 
     # Optional - can be specified in set_ticks_kwargs. None will be mapped to
@@ -708,7 +688,7 @@ def create_colorbar(fig, mpl_colors_info):
     # Allow arbitrary kwargs to colorbar, but ensure our defaults for extend
     # and orientation are set.
     cbar_kwargs = {}
-    if "colorbar_kwargs" in mpl_colors_info:
+    if mpl_colors_info.get("colorbar_kwargs") is not None:
         cbar_kwargs = mpl_colors_info["colorbar_kwargs"].copy()
     if "extend" not in cbar_kwargs:
         cbar_kwargs["extend"] = "both"
@@ -720,7 +700,7 @@ def create_colorbar(fig, mpl_colors_info):
     # Allow arbitrary kwargs to set_ticks, but ensure our defaults for labels
     # and font sizes are set
     set_ticks_kwargs = {}
-    if "set_ticks_kwargs" in mpl_colors_info:
+    if mpl_colors_info.get("set_ticks_kwargs") is not None:
         set_ticks_kwargs = mpl_colors_info["set_ticks_kwargs"].copy()
     if "size" not in set_ticks_kwargs:
         set_ticks_kwargs["size"] = "small"
@@ -729,7 +709,7 @@ def create_colorbar(fig, mpl_colors_info):
 
     # Allow arbitrary kwargs to set_label
     set_label_kwargs = {}
-    if "set_label_kwargs" in mpl_colors_info:
+    if mpl_colors_info.get("set_label_kwargs") is not None:
         set_label_kwargs = mpl_colors_info["set_label_kwargs"].copy()
     if "size" not in set_label_kwargs:
         set_label_kwargs["size"] = rc_params["font.size"]
@@ -743,32 +723,26 @@ def create_colorbar(fig, mpl_colors_info):
 
     # Optional positioning information for the colorbar axis - default
     # location appropriately
-    if "cbar_ax_left_start_pos" in mpl_colors_info:
+    if mpl_colors_info.get("cbar_ax_left_start_pos") is not None:
         ax_left_start_pos = mpl_colors_info["cbar_ax_left_start_pos"]
     else:
         ax_left_start_pos = 2 * left_margin
-        if (
-            "cbar_full_width" in mpl_colors_info
-            and mpl_colors_info["cbar_full_width"] is True
-        ):
+        if mpl_colors_info.get("cbar_full_width") is True:
             ax_left_start_pos = left_margin  # Full width colorbar
 
     ax_bottom_start_pos = 0.05
-    if "cbar_ax_bottom_start_pos" in mpl_colors_info:
+    if mpl_colors_info.get("cbar_ax_bottom_start_pos") is not None:
         ax_bottom_start_pos = mpl_colors_info["cbar_ax_bottom_start_pos"]
 
-    if "cbar_ax_width" in mpl_colors_info:
+    if mpl_colors_info.get("cbar_ax_width") is not None:
         ax_width = mpl_colors_info["cbar_ax_width"]
     else:
         ax_width = 1 - 4 * left_margin
-        if (
-            "cbar_full_width" in mpl_colors_info
-            and mpl_colors_info["cbar_full_width"] is True
-        ):
+        if mpl_colors_info.get("cbar_full_width") is True:
             ax_width = right_margin - left_margin  # Full width colorbar
 
     ax_height = 0.020
-    if "cbar_ax_height" in mpl_colors_info:
+    if mpl_colors_info.get("cbar_ax_height") is not None:
         ax_height = mpl_colors_info["cbar_ax_height"]
 
     # Note - if we want to support "automated" pyplot.colorbar placement,
@@ -784,6 +758,7 @@ def create_colorbar(fig, mpl_colors_info):
         boundaries=cmap_boundaries,
         **cbar_kwargs,
     )
+
     if cbar_ticks:
         # matplotlib 3.6.0 sometimes has inconsistent results with including
         # minor ticks or not.

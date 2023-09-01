@@ -1,0 +1,16 @@
+interface: sectors
+family: generated
+name: tc_web_ascat_high_barbs
+docstring: |
+  The tc_web_ascat_high_barbs_template boundaries configuration.
+
+  Using pixel_width: 500, pixel_height: 500, num_lines: 1400, num_samples: 1400.
+spec:
+  sector_spec_generator:
+    name: center_coordinates
+    arguments:
+      projection: eqc
+      pixel_width: 500
+      pixel_height: 500
+      num_lines: 1400
+      num_samples: 1400

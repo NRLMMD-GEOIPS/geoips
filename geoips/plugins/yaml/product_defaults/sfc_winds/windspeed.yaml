@@ -1,0 +1,27 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: windspeed
+docstring: |
+  The windspeed product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [0, 200]
+        input_units: kts
+        output_units: kts
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  mtif_type: windspeed
+  colormapper:
+    plugin:
+      name: wind_radii_transitions
+      arguments:
+        data_range: [0, 200]
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

@@ -1,0 +1,28 @@
+interface: products
+family: list
+name: mimic
+docstring: |
+  The mimic product_inputs configuration, which produces TPW-CIMSS, TPW-PWAT, and TPW-PURPLE products.
+spec:
+  products:
+    - name: TPW-CIMSS
+      source_names: [mimic]
+      docstring: |
+        The TPW-CIMSS product_defaults configuration for mimic products.
+      product_defaults: TPW-CIMSS
+      spec:
+        variables: ["tpw"]
+    - name: TPW-PWAT
+      source_names: [mimic]
+      docstring: |
+        The TPW-PWAT product_defaults configuration for mimic products.
+      product_defaults: TPW-PWAT
+      spec:
+        variables: ["tpw"]
+    - name: TPW-PURPLE
+      source_names: [mimic]
+      docstring: |
+        The TPW-PURPLE product_defaults configuration for mimic products.
+      product_defaults: TPW-PURPLE
+      spec:
+        variables: ["tpw"]

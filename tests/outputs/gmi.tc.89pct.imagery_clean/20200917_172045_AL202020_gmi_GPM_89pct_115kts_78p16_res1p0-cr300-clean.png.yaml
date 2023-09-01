@@ -17,14 +17,14 @@ deck_line: AL, 20, 2020091718,   , BEST,   0, 197N,  537W, 115,  948, HU,  34, N
   genesis-num, 039,
 final_storm_name: TEDDY
 invest_number: 95
-original_source_filenames:
-- 1B.GPM.GMI.TB2016.20200917-S171519-E172017.V05A.RT-H5
-- 1B.GPM.GMI.TB2016.20200917-S172019-E172517.V05A.RT-H5
-- 1B.GPM.GMI.TB2016.20200917-S172519-E173017.V05A.RT-H5
 parser_name: bdeck_parser
 pressure: 948.0
 product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2020/AL/AL202020/png_clean/89pct/GPM/20200917_172045_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png
 sector_type: tc
+source_file_names:
+- 1B.GPM.GMI.TB2016.20200917-S171519-E172017.V05A.RT-H5
+- 1B.GPM.GMI.TB2016.20200917-S172019-E172517.V05A.RT-H5
+- 1B.GPM.GMI.TB2016.20200917-S172519-E173017.V05A.RT-H5
 source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal202020.dat
 source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal202020.dat
 storm_basin: AL

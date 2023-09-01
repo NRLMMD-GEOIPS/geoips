@@ -1,0 +1,120 @@
+---
+error: ValidationError
+error_pattern: ".*No validator found for product_defaults.bad_family.*"
+interface: product_defaults
+family: bad_family
+name: good_test
+docstring: "A product_defaults instance with a bad family"
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormapper:
+    plugin:
+      name: matplotlib.colormapper
+      arguments: {}
+
+---
+error: ValidationError
+error_pattern: ".*'spec' is a required property.*"
+interface: product_defaults
+family: algorithm_interpolator_colormapper
+name: good_test
+docstring: "A product_defaults instance missing its spec"
+
+---
+error: ValidationError
+error_pattern: ".*'interpolator' is a required property.*"
+interface: product_defaults
+family: algorithm_interpolator_colormapper
+name: good_test
+docstring: "A product_defaults instance missing its interpolator property"
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormapper:
+    plugin:
+      name: matplotlib.colormapper
+      arguments: {}
+
+---
+error: ValidationError
+error_pattern: ".*'algorithm' is a required property.*"
+interface: product_defaults
+family: algorithm_interpolator_colormapper
+name: good_test
+docstring: "A product_defaults instance missing its algorithm property"
+spec:
+  interpolator:
+    plugin:
+      name: pyresample.nearest_neighbor
+      arguments: {}
+  colormapper:
+    plugin:
+      name: matplotlib.colormapper
+      arguments: {}
+
+---
+error: ValidationError
+error_pattern: ".*'colormapper' is a required property.*"
+interface: product_defaults
+family: algorithm_interpolator_colormapper
+name: good_test
+docstring: "A product_defaults instance missing its colormapper property"
+spec:
+  interpolator:
+    plugin:
+      name: pyresample.nearest_neighbor
+      arguments: {}
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+
+---
+error: ValidationError
+error_pattern: "Unevaluated properties are not allowed \\('extra' was unexpected\\)"
+interface: product_defaults
+family: algorithm_interpolator_colormapper
+name: good_test
+docstring: "Extra plugin"
+spec:
+  interpolator:
+    plugin:
+      name: pyresample.nearest_neighbor
+      arguments: {}
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormapper:
+    plugin:
+      name: matplotlib.colormapper
+      arguments: {}
+  extra:
+    plugin:
+      name: matplotlib.colormapper
+      arguments: {}
+
+---
+error: ValidationError
+error_pattern: ".*'arguments' is a required property.*"
+interface: product_defaults
+family: algorithm_interpolator_colormapper
+name: good_test
+docstring: "A product_defaults instance missing its colormapper.arguments"
+spec:
+  interpolator:
+    plugin:
+      name: pyresample.nearest_neighbor
+      arguments: {}
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments: {}
+  colormapper:
+    plugin:
+      name: matplotlib.colormapper

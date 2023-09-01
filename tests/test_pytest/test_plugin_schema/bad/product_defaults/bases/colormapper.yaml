@@ -1,0 +1,78 @@
+---
+error: ValidationError
+error_pattern: ".*123 is not of type 'string'.*"
+plugin:
+  name: 123
+  arguments: {}
+---
+error: ValidationError
+error_pattern: ".*'name' is a required property.*"
+plugin:
+  arguments: {}
+---
+error: ValidationError
+error_pattern: ".*'arguments' is a required property.*"
+plugin:
+  name: mycm
+---
+error: ValidationError
+error_pattern: ".*'badprop' was unexpected.*"
+plugin:
+  name: mycm
+  arguments:
+    badprop: bad
+---
+error: ValidationError
+error_pattern: ".*123 is not of type 'string'.*"
+plugin:
+  name: mycm
+  arguments:
+    cmap_name: 123
+
+---
+error: ValidationError
+error_pattern: ".*123 is not of type 'array'.*"
+plugin:
+  name: mycm
+  arguments:
+    data_range: 123
+
+---
+error: ValidationError
+error_pattern: ".*is too short.*"
+plugin:
+  name: mycm
+  arguments:
+    data_range: [1]
+
+---
+error: ValidationError
+error_pattern: ".*is too long.*"
+plugin:
+  name: mycm
+  arguments:
+    data_range: [1, 2, 3]
+
+---
+error: ValidationError
+error_pattern: ".*123 is not of type 'string'.*"
+plugin:
+  name: mycm
+  arguments:
+    cbar_label: 123
+
+---
+error: ValidationError
+error_pattern: ".*'mystring' is not of type 'array'.*"
+plugin:
+  name: mycm
+  arguments:
+    cbar_ticks: "mystring"
+
+---
+error: ValidationError
+error_pattern: ".*'a' is not of type 'number'.*"
+plugin:
+  name: mycm
+  arguments:
+    cbar_ticks: ["a"]

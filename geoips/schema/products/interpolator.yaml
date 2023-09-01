@@ -1,0 +1,20 @@
+$id: products.interpolator
+$ref: bases.top
+type: object
+required:
+  - spec
+properties:
+  family:
+    const: interpolator
+  source_names:
+    type: array
+    items:
+      type: string
+  spec:
+    unevaluatedProperties: false
+    $ref: "product_defaults.specs.interpolator"
+    properties:
+      variables:
+        type: array
+        items:
+          type: string

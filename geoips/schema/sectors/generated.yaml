@@ -1,0 +1,20 @@
+$id: sectors.generated
+$ref: bases.top
+required:
+  - spec
+properties:
+  spec:
+    type: object
+    required:
+      - sector_spec_generator
+    properties:
+      sector_spec_generator:
+        type: object
+        required:
+          - name
+          - arguments
+        properties:
+          name:
+            type: string
+          arguments:
+            type: object

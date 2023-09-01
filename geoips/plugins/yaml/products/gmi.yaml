@@ -1,0 +1,388 @@
+interface: products
+family: list
+name: gmi
+docstring: |
+  The gmi product_inputs configuration, which produces color37, 37pct, color89, 89H, 89V, 89HW, 89H-Legacy, 89H-Physical, 166H, 166V,
+  183-1H, 183-3H, 190V, 19H, 19V, 37H-Legacy, 37H-Physical, 37H, and 37V products.
+spec:
+  products:
+    - name: color37
+      source_names: [gmi]
+      docstring: |
+        The color37 product_defaults for gmi product.
+      product_defaults: color37
+      spec:
+        variables: ["H37", "V37"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 25000
+    - name: color37Nearest
+      source_names: [gmi]
+      docstring: |
+        The color37Nearest product_defaults for gmi product.
+      product_defaults: color37Nearest
+      spec:
+        variables: ["H37", "V37"]
+    - name: 37pct
+      source_names: [gmi]
+      docstring: |
+        The 37pct product_defaults for gmi product.
+      product_defaults: 37pct
+      spec:
+        variables: ["H37", "V37"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 25000
+    - name: 37pctNearest
+      source_names: [gmi]
+      docstring: |
+        The 37pctNearest product_defaults for gmi product.
+      product_defaults: 37pctNearest
+      spec:
+        variables: ["H37", "V37"]
+    - name: color89
+      source_names: [gmi]
+      docstring: |
+        The color89 product_defaults for gmi product.
+      product_defaults: color89
+      spec:
+        variables: ["H89", "V89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: color89Nearest
+      source_names: [gmi]
+      docstring: |
+        The color89Nearest product_defaults for gmi product.
+      product_defaults: color89Nearest
+      spec:
+        variables: ["H89", "V89"]
+    - name: 89pct
+      source_names: [gmi]
+      docstring: |
+        The 89pct product_defaults for gmi product.
+      product_defaults: 89pct
+      spec:
+        variables: ["H89", "V89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89pctNearest
+      source_names: [gmi]
+      docstring: |
+        The 89pctNearest product_defaults for gmi product.
+      product_defaults: 89pctNearest
+      spec:
+        variables: ["H89", "V89"]
+    - name: 89H
+      source_names: [gmi]
+      docstring: |
+        The 89H product_defaults for gmi product.
+      product_defaults: 89H
+      spec:
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89HNearest
+      source_names: [gmi]
+      docstring: |
+        The 89HNearest product_defaults for gmi product.
+      product_defaults: 89HNearest
+      spec:
+        variables: ["H89"]
+    - name: 89V
+      source_names: [gmi]
+      docstring: |
+        The 89V product_defaults for gmi product.
+      product_defaults: 89V
+      spec:
+        variables: ["V89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89VNearest
+      source_names: [gmi]
+      docstring: |
+        The 89VNearest product_defaults for gmi product.
+      product_defaults: 89VNearest
+      spec:
+        variables: ["V89"]
+    - name: 89HW
+      source_names: [gmi]
+      docstring: |
+        The 89HW product_defaults for gmi product.
+      product_defaults: 89HW
+      spec:
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89HWNearest
+      source_names: [gmi]
+      docstring: |
+        The 89HWNearest product_defaults for gmi product.
+      product_defaults: 89HWNearest
+      spec:
+        variables: ["H89"]
+    - name: 89H-Legacy
+      source_names: [gmi]
+      docstring: |
+        The 89H-Legacy product_defaults for gmi product.
+      product_defaults: 89H-Legacy
+      spec:
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89H-LegacyNearest
+      source_names: [gmi]
+      docstring: |
+        The 89H-LegacyNearest product_defaults for gmi product.
+      product_defaults: 89H-LegacyNearest
+      spec:
+        variables: ["H89"]
+    - name: 89H-Physical
+      source_names: [gmi]
+      docstring: |
+        The 89H-Physical product_defaults for gmi product.
+      product_defaults: 89H-Physical
+      spec:
+        variables: ["H89"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 89H-PhysicalNearest
+      source_names: [gmi]
+      docstring: |
+        The 89H-PhysicalNearest product_defaults for gmi product.
+      product_defaults: 89H-PhysicalNearest
+      spec:
+        variables: ["H89"]
+    - name: 166H
+      source_names: [gmi]
+      docstring: |
+        The 166H product_defaults for gmi product.
+      product_defaults: 166H
+      spec:
+        variables: ["H166"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 166HNearest
+      source_names: [gmi]
+      docstring: |
+        The 166HNearest product_defaults for gmi product.
+      product_defaults: 166HNearest
+      spec:
+        variables: ["H166"]
+    - name: 166V
+      source_names: [gmi]
+      docstring: |
+        The 166V product_defaults for gmi product.
+      product_defaults: 166V
+      spec:
+        variables: ["V166"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 166VNearest
+      source_names: [gmi]
+      docstring: |
+        The 166VNearest product_defaults for gmi product.
+      product_defaults: 166VNearest
+      spec:
+        variables: ["V166"]
+    - name: 183-1H
+      source_names: [gmi]
+      docstring: |
+        The 183-1H product_defaults for gmi product.
+      product_defaults: 183-1H
+      spec:
+        variables: ["V183-3"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 183-1HNearest
+      source_names: [gmi]
+      docstring: |
+        The 183-1HNearest product_defaults for gmi product.
+      product_defaults: 183-1HNearest
+      spec:
+        variables: ["V183-3"]
+    - name: 183-3H
+      source_names: [gmi]
+      docstring: |
+        The 183-3H product_defaults for gmi product.
+      product_defaults: 183-3H
+      spec:
+        variables: ["V183-3"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 183-3HNearest
+      source_names: [gmi]
+      docstring: |
+        The 183-3HNearest product_defaults for gmi product.
+      product_defaults: 183-3HNearest
+      spec:
+        variables: ["V183-3"]
+    - name: 190V
+      source_names: [gmi]
+      docstring: |
+        The 190V product_defaults for gmi product.
+      product_defaults: 190V
+      spec:
+        variables: ["V183-7"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name: 190VNearest
+      source_names: [gmi]
+      docstring: |
+        The 190VNearest product_defaults for gmi product.
+      product_defaults: 190VNearest
+      spec:
+        variables: ["V183-7"]
+    - name: 19H
+      source_names: [gmi]
+      docstring: |
+        The 19H product_defaults for gmi product.
+      product_defaults: 19H
+      spec:
+        variables: ["H19"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 25000
+    - name: 19HNearest
+      source_names: [gmi]
+      docstring: |
+        The 19HNearest product_defaults for gmi product.
+      product_defaults: 19HNearest
+      spec:
+        variables: ["H19"]
+    - name: 19V
+      source_names: [gmi]
+      docstring: |
+        The 19V product_defaults for gmi product.
+      product_defaults: 19V
+      spec:
+        variables: ["V19"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 25000
+    - name: 19VNearest
+      source_names: [gmi]
+      docstring: |
+        The 19VNearest product_defaults for gmi product.
+      product_defaults: 19VNearest
+      spec:
+        variables: ["V19"]
+    - name: 37H-Legacy
+      source_names: [gmi]
+      docstring: |
+        The 37H-Legacy product_defaults for gmi product.
+      product_defaults: 37H-Legacy
+      spec:
+        variables: ["H37"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 25000
+    - name: 37H-LegacyNearest
+      source_names: [gmi]
+      docstring: |
+        The 37H-LegacyNearest product_defaults for gmi product.
+      product_defaults: 37H-LegacyNearest
+      spec:
+        variables: ["H37"]
+    - name: 37H-Physical
+      source_names: [gmi]
+      docstring: |
+        The 37H-Physical product_defaults for gmi product.
+      product_defaults: 37H-Physical
+      spec:
+        variables: ["H37"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 25000
+    - name: 37H-PhysicalNearest
+      source_names: [gmi]
+      docstring: |
+        The 37H-PhysicalNearest product_defaults for gmi product.
+      product_defaults: 37H-PhysicalNearest
+      spec:
+        variables: ["H37"]
+    - name: 37H
+      source_names: [gmi]
+      docstring: |
+        The 37H product_defaults for gmi product.
+      product_defaults: 37H
+      spec:
+        variables: ["H37"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 25000
+    - name: 37HNearest
+      source_names: [gmi]
+      docstring: |
+        The 37HNearest product_defaults for gmi product.
+      product_defaults: 37HNearest
+      spec:
+        variables: ["H37"]
+    - name: 37V
+      source_names: [gmi]
+      docstring: |
+        The 37V product_defaults for gmi product.
+      product_defaults: 37V
+      spec:
+        variables: ["V37"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 25000
+    - name: 37VNearest
+      source_names: [gmi]
+      docstring: |
+        The 37VNearest product_defaults for gmi product.
+      product_defaults: 37VNearest
+      spec:
+        variables: ["V37"]

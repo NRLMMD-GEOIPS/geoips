@@ -1,0 +1,25 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: 89H-LegacyNearest
+docstring: |
+  The 89H-LegacyNearest product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [180, 280]
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  mtif_type: pmw
+  colormapper:
+    plugin:
+      name: pmw_89H_Legacy
+      arguments:
+        data_range: [180, 280]
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}
