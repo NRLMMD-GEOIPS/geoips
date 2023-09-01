@@ -1090,7 +1090,7 @@ def get_alg_xarray(
 
             # apply the requested interpolation routine.
             interp_args["varlist"] = [varname]
-            if "time" in sect_xarray.dims:
+            if "time_dim" in sect_xarray.dims:
                 # This is for a particularly formatted dataset, that includes
                 # separate arrays for different times (ABI fire product).
                 # We need to be careful this does not break for some other
