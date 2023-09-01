@@ -25,7 +25,7 @@ classifiers = [                # // list of PyPI trove classifiers to describe t
 [tool.poetry-dynamic-versioning]
 enable = true
 vcs = "git"
-
+metadata = false
 
 # remains same in setuptools and poetry
 [build-system]
