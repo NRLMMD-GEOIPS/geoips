@@ -34,10 +34,7 @@ vcs = "git"
 metadata = false    # don't include local-version hash; date doesn't appear by deafult
 style = "pep440"    # pep440 is deafult; can rmeove later on; used for : keeping 0.0.8 as the default install until 0.0.9 is out
 
-# remains same in setuptools and poetry
 [build-system]
-#requires = ["setuptools>=61.2", "setuptools-scm"]
-#build-backend = "setuptools.build_meta"
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"     # object used to perform the build process
 # evaluate using above vs below line
