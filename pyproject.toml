@@ -23,14 +23,16 @@ classifiers = [                # // list of PyPI trove classifiers to describe t
     "Programming Language :: Python :: 3", ]
 
 [tool.setuptools_scm]
-"version_scheme" = "post-release"  # Use current version .postN vs incrementing
-"local_scheme" = "no-local-version"  # Don't include hash, or date, just postN
-"write_to" = "geoips/version.py"  # Write an actual file
+#"version_scheme" = "post-release"  # Use current version .postN vs incrementing
+#"local_scheme" = "no-local-version"  # Don't include hash, or date, just postN
+"write_to" = "geoips/_version.py"  # Write an actual file
 
+# uses current version .postN and not incrementing
 [tool.poetry-dynamic-versioning]
 enable = true
 vcs = "git"
-metadata = false
+metadata = false    # don't include local-version hash; date doesn't appear by deafult
+style = "pep440"    # pep440 is deafult; can rmeove later on; used for : keeping 0.0.8 as the default install until 0.0.9 is out
 
 # remains same in setuptools and poetry
 [build-system]
@@ -38,6 +40,8 @@ metadata = false
 #build-backend = "setuptools.build_meta"
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"     # object used to perform the build process
+# evaluate using above vs below line
+#build-system = ["poetry-core", "poetry-dynamic-versioning"]
 
 #dependencies = [
 [tool.poetry.dependencies]     # must download to run
@@ -140,15 +144,6 @@ doc8 = "^1.1.1"                 # RST linting
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
 pytest-cov = "^4.1.0"
-
-
-#
-#  need to check on how to specify the entry point file name
-#
-
-#[tool.setuptools.dynamic]
-#entry-points = {file = ["entry-points.ini"]}
-#[tool.poetry.dynamic]
 
 #[project.entry-points."geoips.readers"]
 [tool.poetry.plugins."geoips.readers"]
