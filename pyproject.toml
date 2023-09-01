@@ -1,6 +1,5 @@
 #  Experimenting with poetry as the build backend
 
-#[project]
 [tool.poetry]
 
 # required ones
