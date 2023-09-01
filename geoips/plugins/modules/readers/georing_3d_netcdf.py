@@ -1,20 +1,7 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
-
 """GEOring_3D NetCDF reader."""
 
 # Python Standard Libraries
 import logging
-import os
 from datetime import datetime
 
 LOG = logging.getLogger(__name__)
@@ -77,13 +64,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     xobj = xarray.open_dataset(fname)
 
-    date_time = os.path.basename(fname).split("_")[-1][:-5]
-    date = date_time[:8]
-    hour = date_time[8:10]
-    minute = date_time[10:]
-    dt = datetime.strptime(date + hour + minute, "%Y%m%d%H%M")
+    dt_list = str(xobj.attrs["DateTime Start UTC"]).split(" ")
+    dt_str = dt_list[0] + dt_list[1]
+    dt = datetime.strptime(dt_str, "%Y%m%d%H%M")
     xobj.attrs["data_provider"] = "cira"
-
     xobj.attrs["start_datetime"] = dt
     xobj.attrs["end_datetime"] = dt
     xobj.attrs["platform_name"] = "GEOring_3D"
