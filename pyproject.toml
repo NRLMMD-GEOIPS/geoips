@@ -1,7 +1,4 @@
-#  Experimenting with poetry as the build backend
-
 [tool.poetry]
-
 # required ones
 name = "geoips"         # geoips package available at the root of the project
 #dynamic = ["version"]
@@ -39,7 +36,6 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
 # evaluate using above vs below line
 #build-system = ["poetry-core", "poetry-dynamic-versioning"]
 
-#dependencies = [
 [tool.poetry.dependencies]     # must download to run
     python = ">=3.9, <=3.10"           # mandatory to declare the required python version
     requests = "^2.31.0"
@@ -74,7 +70,6 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
     referencing = "^0.30.2"
     astropy = "^5.3.2"              # Used for accounting leap seconds when converting epoch timestamps
     pypublicdecompwt = "^2.8.1.4"   # Required to read SEVIRI data
-#]
 
 #[tool.poetry.dev-dependencies]
 # nothing at this stage;
@@ -99,7 +94,6 @@ doc8 = "^1.1.1"                 # RST linting
 pytest = "^7.4.0"
 pytest-cov = "^4.1.0"
 
-#[project.entry-points."geoips.readers"]
 [tool.poetry.plugins."geoips.readers"]
 abi_netcdf = "geoips.interface_modules.readers.abi_netcdf:abi_netcdf"
 abi_l2_netcdf = "geoips.interface_modules.readers.abi_l2_netcdf:abi_l2_netcdf"
@@ -130,7 +124,6 @@ viirs_netcdf = "geoips.interface_modules.readers.viirs_netcdf:viirs_netcdf"
 wfabba_ascii = "geoips.interface_modules.readers.wfabba_ascii:wfabba_ascii"
 windsat_idr37_binary = "geoips.interface_modules.readers.windsat_idr37_binary:windsat_idr37_binary"
 
-#[project.entry-points."geoips.output_formats"]
 [tool.poetry.plugins."geoips.output_formats"]
 full_disk_image = "geoips.interface_modules.output_formats.full_disk_image:full_disk_image"
 unprojected_image = "geoips.interface_modules.output_formats.unprojected_image:unprojected_image"
@@ -145,7 +138,6 @@ text_winds = "geoips.interface_modules.output_formats.text_winds:text_winds"
 metadata_default = "geoips.interface_modules.output_formats.metadata_default:metadata_default"
 metadata_tc = "geoips.interface_modules.output_formats.metadata_tc:metadata_tc"
 
-#[project.entry-points."geoips.algorithms"]
 [tool.poetry.plugins."geoips.algorithms"]
 single_channel = "geoips.interface_modules.algorithms.single_channel:single_channel"
 "pmw_tb.pmw_37pct" = "geoips.interface_modules.algorithms.pmw_tb.pmw_37pct"
@@ -158,27 +150,22 @@ single_channel = "geoips.interface_modules.algorithms.single_channel:single_chan
 "visir.Night_Vis_GeoIPS1" = "geoips.interface_modules.algorithms.visir.Night_Vis_GeoIPS1:Night_Vis_GeoIPS1"
 "visir.Night_Vis" = "geoips.interface_modules.algorithms.visir.Night_Vis:Night_Vis"
 
-#[project.entry-points."geoips.procflows"]
 [tool.poetry.plugins."geoips.procflows"]
 single_source = "geoips.interface_modules.procflows.single_source:single_source"
 config_based = "geoips.interface_modules.procflows.config_based:config_based"
 
-#[project.entry-points."geoips.trackfile_parsers"]
 [tool.poetry.plugins."geoips.trackfile_parsers"]
 flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
 bdeck_parser = "geoips.interface_modules.trackfile_parsers.bdeck_parser:bdeck_parser"
 
-#[project.entry-points."geoips.area_def_generators"]
 [tool.poetry.plugins."geoips.area_def_generators"]
 clat_clon_resolution_shape = "geoips.interface_modules.area_def_generators.clat_clon_resolution_shape:clat_clon_resolution_shape"
 
-#[project.entry-points."geoips.interpolation"]
 [tool.poetry.plugins."geoips.interpolation"]
 "pyresample_wrappers.interp_nearest" = "geoips.interface_modules.interpolation.pyresample_wrappers.interp_nearest:interp_nearest"
 "pyresample_wrappers.interp_gauss" = "geoips.interface_modules.interpolation.pyresample_wrappers.interp_gauss:interp_gauss"
 "scipy_wrappers.interp_grid" = "geoips.interface_modules.interpolation.scipy_wrappers.interp_grid:interp_grid"
 
-#[project.entry-points."geoips.user_colormaps"]
 [tool.poetry.plugins."geoips.user_colormaps"]
 cmap_rgb = "geoips.interface_modules.user_colormaps.cmap_rgb:cmap_rgb"
 matplotlib_linear_norm = "geoips.interface_modules.user_colormaps.matplotlib_linear_norm:matplotlib_linear_norm"
@@ -201,13 +188,11 @@ matplotlib_linear_norm = "geoips.interface_modules.user_colormaps.matplotlib_lin
 "visir.WV" = "geoips.interface_modules.user_colormaps.visir.WV:WV"
 "winds.wind_radii_transitions" = "geoips.interface_modules.user_colormaps.winds.wind_radii_transitions:wind_radii_transitions"
 
-#[project.entry-points."geoips.title_formats"]
 [tool.poetry.plugins."geoips.title_formats"]
 tc_standard = "geoips.interface_modules.title_formats.tc_standard:tc_standard"
 tc_copyright = "geoips.interface_modules.title_formats.tc_copyright:tc_copyright"
 static_standard = "geoips.interface_modules.title_formats.static_standard:static_standard"
 
-#[project.entry-points."geoips.coverage_checks"]
 [tool.poetry.plugins."geoips.coverage_checks"]
 masked_arrays = "geoips.interface_modules.coverage_checks.masked_arrays:masked_arrays"
 numpy_arrays_nan = "geoips.interface_modules.coverage_checks.numpy_arrays_nan:numpy_arrays_nan"
@@ -216,11 +201,9 @@ center_radius_rgba = "geoips.interface_modules.coverage_checks.center_radius_rgb
 rgba = "geoips.interface_modules.coverage_checks.rgba:rgba"
 windbarbs = "geoips.interface_modules.coverage_checks.windbarbs:windbarbs"
 
-#[project.entry-points."geoips.output_comparisons"]
 [tool.poetry.plugins."geoips.output_comparisons"]
 compare_outputs = "geoips.compare_outputs:compare_outputs"
 
-#[project.entry-points."geoips.filename_formats"]
 [tool.poetry.plugins."geoips.filename_formats"]
 geoips_fname = "geoips.interface_modules.filename_formats.geoips_fname:geoips_fname"
 geoips_netcdf_fname = "geoips.interface_modules.filename_formats.geoips_netcdf_fname:geoips_netcdf_fname"
