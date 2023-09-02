@@ -22,10 +22,21 @@ Version 1.11.3a0 (2023-08-25)
 * Add option for curly braces in "replace_geoips_paths", use in procflows
 * Update log output to include <module>.py:<linenum> (Yay VSCode!)
 * Update support for xarray_to_xarray algorithm family
+* Add reader_kwargs command line argument
 * Bug fixes
 
 Bug Fixes
 =========
+
+Add reader_kwargs command line argument
+---------------------------------------
+
+Ensure arbitrary keyword arguments can be passed to specified reader.
+
+::
+
+    geoips/commandline/args.py
+    geoips/plugins/modules/procflows/single_source.py
 
 Update support for xarray_to_xarray algorithm family
 ----------------------------------------------------
