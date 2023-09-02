@@ -570,6 +570,16 @@ def add_args(parser, arglist=None):
                     geoips*.readers.myreader_name.myreader_name,
                     The reader_name string should be the reader module name (no .py)""",
         )
+    if arglist is None or "reader_kwargs" in arglist:
+        sect_group.add_argument(
+            "--reader_kwargs",
+            nargs="?",
+            default={},
+            type=jloads,
+            help="""Specify reader kwargs that should be used for
+                            this reader. Should be formatted as a json
+                            dictionary string""",
+        )
 
     if arglist is None or "bg_product_name" in arglist:
         rdr_group.add_argument(
