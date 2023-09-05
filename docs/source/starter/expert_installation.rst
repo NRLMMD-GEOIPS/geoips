@@ -33,22 +33,18 @@ dependencies**
 Required (**included in**
 `Complete Local conda-based GeoIPS Installation <./installation.rst>`)
 
-* wget (Miniconda and rclone setup)
+* wget (Miniconda installation)
 * git >= 2.19.1 (git -C commands in complete installation)
-* git-lfs (required for clones of test data repos)
 * imagemagick (required for test output comparisons)
 * openblas (required for scipy pip install)
-* libgeos (required for shapely / cartopy pip install)
 * Python >= 3.9 (3.9 required for entry points)
-* rclone (required to obtain ABI and AHI test data from AWS)
 * Test data repos contained in $GEOIPS_TESTDATA_DIR
   (required for tests to pass)
 
 Optional
 
-* gfortran (only required for plugins including fortran builds,
-  build-essential)
-* gcc (required for plugins including fortran or C builds, build-essential)
+* gfortran (only required for plugins including fortran builds, build-essential)
+* gcc & g++ (required for plugins including fortran or C builds, build-essential)
 * screen (convenience package)
 * ncurses (only required if building vim, ncurses and libncurses5-dev)
 

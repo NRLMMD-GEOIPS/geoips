@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: canada
+docstring: "Canadian Country"
+metadata:
+  region:
+    continent: NorthAmerica
+    country: Canada
+    area: x
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: canada
+  description: Canadian Country
+  projection:
+    a: 6371228.0
+    lat_0: 60.0
+    lon_0: -96.5
+    proj: stere
+    units: m
+  resolution:
+    - 2000
+    - 2000
+  shape:
+    height: 2000
+    width: 3300
+  center: [0, 0]

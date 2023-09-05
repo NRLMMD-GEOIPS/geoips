@@ -1,0 +1,45 @@
+$id: sectors.specs.area_definition
+type: object
+required:
+  - area_id
+properties:
+  area_id:
+    type: string
+  description:
+    type: string
+  projection:
+    type: object
+  shape:
+    type: object
+    required:
+      - height
+      - width
+    properties:
+      height:
+        type: integer
+      width:
+        type: integer
+  area_extent:
+    type: object
+    required:
+      - lower_left_xy
+      - upper_right_xy
+    properties:
+      lower_left_xy:
+        type: array
+        minItems: 2
+        maxItems: 2
+        items:
+          type: integer
+      upper_right_xy:
+        type: array
+        minItems: 2
+        maxItems: 2
+        items:
+          type: integer
+  resolution:
+    type: array
+    minItems: 2
+    maxItems: 2
+    items:
+      type: integer

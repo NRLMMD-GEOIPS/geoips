@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: saskatchewan
+docstring: "Saskatchewan Province"
+metadata:
+  region:
+    continent: NorthAmerica
+    country: Canada
+    area: x
+    subarea: x
+    state: Saskatchewan
+    city: x
+spec:
+  area_id: saskatchewan
+  description: Saskatchewan Province
+  projection:
+    a: 6371228.0
+    lat_0: 56.0
+    lon_0: -106.0
+    proj: stere
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1700
+    width: 1200
+  center: [0, 0]

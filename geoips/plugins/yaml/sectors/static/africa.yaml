@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: africa
+docstring: "African Continent"
+metadata:
+  region:
+    continent: Africa
+    country: x
+    area: Continental
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: africa
+  description: African Continent
+  projection:
+    a: 6371228.0
+    lat_0: 3.0
+    lon_0: 17.0
+    proj: eqc
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 2900
+    width: 2800
+  center: [0, 0]

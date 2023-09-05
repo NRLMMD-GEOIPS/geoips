@@ -32,16 +32,21 @@ def main(get_command_line_args_func=None):
     """
     DATETIMES = {}
     DATETIMES["start"] = datetime.utcnow()
-    LOG = setup_logging()
 
     if get_command_line_args_func is None:
         get_command_line_args_func = get_command_line_args
-    LOG.info("GETTING COMMAND LINE ARGUMENTS")
     # arglist=None allows all possible arguments.
     ARGS = get_command_line_args_func(
         arglist=None, description="Run data file processing"
     )
 
+    COMMAND_LINE_ARGS = ARGS.__dict__
+    if "logging_level" in COMMAND_LINE_ARGS.keys():
+        LOG = setup_logging(logging_level=COMMAND_LINE_ARGS["logging_level"])
+    else:
+        LOG = setup_logging()
+    LOG.info("RETRIEVED COMMAND LINE ARGUMENTS")
+    LOG.interactive("\n\n\nStarting %s procflow...\n\n", COMMAND_LINE_ARGS["procflow"])
     import sys
 
     LOG.info(
@@ -49,36 +54,38 @@ def main(get_command_line_args_func=None):
         "\n        ".join([currarg + " \\" for currarg in sys.argv]),
     )
 
-    COMMAND_LINE_ARGS = ARGS.__dict__
     # LOG.info(COMMAND_LINE_ARGS)
     LOG.info("GETTING PROCFLOW MODULE")
     PROCFLOW = procflows.get_plugin(COMMAND_LINE_ARGS["procflow"])
 
-    LOG.info("CALLING PROCFLOW MODULE")
+    LOG.info(f"CALLING PROCFLOW MODULE: {PROCFLOW.name}")
     if PROCFLOW:
         LOG.info(COMMAND_LINE_ARGS["filenames"])
+        LOG.interactive(
+            "\n\n\nRunning on filenames: %s\n\n", COMMAND_LINE_ARGS["filenames"]
+        )
         LOG.info(COMMAND_LINE_ARGS)
         LOG.info(PROCFLOW)
         RETVAL = PROCFLOW(COMMAND_LINE_ARGS["filenames"], COMMAND_LINE_ARGS)
-        LOG.info(
+        LOG.interactive(
             "Completed geoips PROCFLOW %s processing, done!",
             COMMAND_LINE_ARGS["procflow"],
         )
         LOG.info("Starting time: %s", DATETIMES["start"])
         LOG.info("Ending time: %s", datetime.utcnow())
-        LOG.info("Total time: %s", datetime.utcnow() - DATETIMES["start"])
+        LOG.interactive("Total time: %s", datetime.utcnow() - DATETIMES["start"])
         if isinstance(RETVAL, list):
             for ret in RETVAL:
-                LOG.info("GEOIPSPROCFLOWSUCCESS %s", ret)
+                LOG.interactive("GEOIPSPROCFLOWSUCCESS %s", ret)
             if len(RETVAL) > 2:
-                LOG.info(
+                LOG.interactive(
                     "GEOIPSTOTALSUCCESS %s %s products generated, total time %s",
                     str(PROCFLOW.name),
                     len(RETVAL),
                     datetime.utcnow() - DATETIMES["start"],
                 )
             else:
-                LOG.info(
+                LOG.interactive(
                     "GEOIPSNOSUCCESS %s %s products generated, total time %s",
                     str(PROCFLOW.name),
                     len(RETVAL),
@@ -86,7 +93,7 @@ def main(get_command_line_args_func=None):
                 )
             sys.exit(0)
         # LOG.info('Return value: %s', bin(RETVAL))
-        LOG.info("Return value: %d", RETVAL)
+        LOG.interactive("Return value: %d", RETVAL)
         sys.exit(RETVAL)
 
     else:

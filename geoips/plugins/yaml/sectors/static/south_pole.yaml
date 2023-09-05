@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: south_pole
+docstring: "South Pole Region"
+metadata:
+  region:
+    continent: x
+    country: x
+    area: SouthPole
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: south_pole
+  description: South Pole Region
+  projection:
+    a: 6371228.0
+    lat_0: -89.99
+    lon_0: 90.0
+    proj: stere
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 1900
+    width: 2200
+  center: [0, 0]

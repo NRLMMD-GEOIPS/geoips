@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: south_america
+docstring: "South American Continent"
+metadata:
+  region:
+    continent: SouthAmerica
+    country: SouthAmericanCountries
+    area: Continental
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: south_america
+  description: South American Continent
+  projection:
+    a: 6371228.0
+    lat_0: -22.0
+    lon_0: -58.5
+    proj: stere
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 2700
+    width: 1900
+  center: [0, 0]

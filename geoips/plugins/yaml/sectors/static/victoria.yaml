@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: victoria
+docstring: "Victorian State"
+metadata:
+  region:
+    continent: Australia
+    country: x
+    area: x
+    subarea: x
+    state: Victoria
+    city: x
+spec:
+  area_id: victoria
+  description: Victorian State
+  projection:
+    a: 6371228.0
+    lat_0: -36.5
+    lon_0: 145.0
+    proj: stere
+    units: m
+  resolution:
+    - 500
+    - 500
+  shape:
+    height: 1200
+    width: 2000
+  center: [0, 0]

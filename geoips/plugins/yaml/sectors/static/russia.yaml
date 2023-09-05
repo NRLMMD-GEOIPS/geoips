@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: russia
+docstring: "Russian Country"
+metadata:
+  region:
+    continent: Asia
+    country: Russia
+    area: x
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: russia
+  description: Russian Country
+  projection:
+    a: 6371228.0
+    lat_0: 67.0
+    lon_0: 94.0
+    proj: stere
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 4300
+    width: 7800
+  center: [0, 0]

@@ -29,56 +29,84 @@ echo ""
 # Note you must use the variable "call" in the for the loop
 
 # Argument to test_all_pre.sh ONLY sets the prefix on the log output / filenames.
-# Used for clarity, and to differentiate potentially multiple "test_all.sh" scripts in the same repo.
+# Used for clarity, and to differentiate potentially multiple "test_all.sh" scripts in
+# the same repo.
 
-. $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_pre.sh full
+geoips_repopath=`dirname $0`/../../
+geoips_pkgname=geoips
+
+recenter_tc_repopath=$GEOIPS_PACKAGES_DIR/recenter_tc
+recenter_tc_pkgname=recenter_tc
+
+data_fusion_repopath=$GEOIPS_PACKAGES_DIR/data_fusion
+data_fusion_pkgname=data_fusion
+
+template_basic_plugin_repopath=$GEOIPS_PACKAGES_DIR/template_basic_plugin
+template_basic_plugin_pkgname=my_package
+
+template_fusion_plugin_repopath=$GEOIPS_PACKAGES_DIR/template_fusion_plugin
+template_fusion_plugin_pkgname=my_fusion_package
+
+geoips_plugin_example_repopath=$GEOIPS_PACKAGES_DIR/geoips_plugin_example
+geoips_plugin_example_pkgname=geoips_plugin_example
+
+geoips_clavrx_repopath=$GEOIPS_PACKAGES_DIR/geoips_clavrx
+geoips_clavrx_pkgname=geoips_clavrx
+
+. $geoips_repopath/tests/utils/test_all_pre.sh ${geoips_pkgname}_full
 
 echo ""
 # "call" used in test_all_run.sh
 for call in \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/utils/check_code.sh all `dirname $0`/../ flake8_docstring_only" \
-    "$GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.sh `dirname $0`/../../ html_only" \
-    "pytest $GEOIPS_PACKAGES_DIR/geoips/tests/test_pytest" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
-    "test_interfaces" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.config_based_output_low_memory.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.config_based_output.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ahi.tc.WV.geotiff.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_no_compare.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/gmi.tc.89pct.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/sar.tc.nrcs.imagery_annotated.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/smap.unsectored.text_winds.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh" \
-    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/abi.tc.Visible.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/amsr2.tc.color37.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/amsr2.tc.windspeed.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/ascat_uhr.tc.windbarbs.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/metopc_knmi_125.tc.windbarbs.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/oscat.tc.windspeed.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/sar.tc.nrcs.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/smap.tc.windspeed.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/recenter_tc/tests/scripts/viirs.tc.Infrared-Gray.imagery_clean.sh" \
-    "$GEOIPS_PACKAGES_DIR/template_basic_plugin/tests/test_all.sh" \
-    "$GEOIPS_PACKAGES_DIR/template_fusion_plugin/tests/test_all.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips_plugin_example/tests/test_all.sh" \
-    "$GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh" \
-    "$GEOIPS_PACKAGES_DIR/data_fusion/tests/test_all.sh"
+  "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath flake8_docstring_only" \
+  "$geoips_repopath/docs/build_docs.sh $geoips_repopath $geoips_pkgname html_only" \
+  "$geoips_repopath/docs/build_docs.sh $recenter_tc_repopath $recenter_tc_pkgname html_only" \
+  "$geoips_repopath/docs/build_docs.sh $data_fusion_repopath $data_fusion_pkgname html_only" \
+  "$geoips_repopath/docs/build_docs.sh $template_basic_plugin_repopath $template_basic_plugin_pkgname html_only" \
+  "$geoips_repopath/docs/build_docs.sh $template_fusion_plugin_repopath $template_fusion_plugin_pkgname html_only" \
+  "pytest $geoips_repopath/tests/test_pytest" \
+  "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
+  "test_interfaces" \
+  "$geoips_repopath/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
+  "$geoips_repopath/tests/scripts/abi.config_based_output_low_memory.sh" \
+  "$geoips_repopath/tests/scripts/abi.config_based_output.sh" \
+  "$geoips_repopath/tests/scripts/ahi.tc.WV.geotiff.sh" \
+  "$geoips_repopath/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh" \
+  "$geoips_repopath/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh" \
+  "$geoips_repopath/tests/scripts/amsr2.config_based_no_compare.sh" \
+  "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output.sh" \
+  "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh" \
+  "$geoips_repopath/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh" \
+  "$geoips_repopath/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/gmi.tc.89pct.imagery_clean.sh" \
+  "$geoips_repopath/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
+  "$geoips_repopath/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/sar.tc.nrcs.imagery_annotated.sh" \
+  "$geoips_repopath/tests/scripts/smap.unsectored.text_winds.sh" \
+  "$geoips_repopath/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh" \
+  "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh" \
+  "$geoips_repopath/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh" \
+  "$recenter_tc_repopath/tests/scripts/abi.tc.Visible.imagery_clean.sh" \
+  "$recenter_tc_repopath/tests/scripts/amsr2.tc.color37.imagery_clean.sh" \
+  "$recenter_tc_repopath/tests/scripts/amsr2.tc.windspeed.imagery_clean.sh" \
+  "$recenter_tc_repopath/tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh" \
+  "$recenter_tc_repopath/tests/scripts/ascat_uhr.tc.windbarbs.imagery_clean.sh" \
+  "$recenter_tc_repopath/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
+  "$recenter_tc_repopath/tests/scripts/metopc_knmi_125.tc.windbarbs.imagery_clean.sh" \
+  "$recenter_tc_repopath/tests/scripts/oscat.tc.windspeed.imagery_clean.sh" \
+  "$recenter_tc_repopath/tests/scripts/sar.tc.nrcs.imagery_clean.sh" \
+  "$recenter_tc_repopath/tests/scripts/smap.tc.windspeed.imagery_clean.sh" \
+  "$recenter_tc_repopath/tests/scripts/viirs.tc.Infrared-Gray.imagery_clean.sh" \
+  "$template_basic_plugin_repopath/tests/test_all.sh" \
+  "$template_fusion_plugin_repopath/tests/test_all.sh" \
+  "$geoips_plugin_example_repopath/tests/test_all.sh" \
+  "$geoips_clavrx_repopath/tests/test_all.sh" \
+  "$data_fusion_repopath/tests/test_all.sh"
 do
-    . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
+  . $geoips_repopath/tests/utils/test_all_run.sh
 done
 
-. $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_post.sh
+. $geoips_repopath/tests/utils/test_all_post.sh

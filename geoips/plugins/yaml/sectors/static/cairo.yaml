@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: cairo
+docstring: "City of Cairo"
+metadata:
+  region:
+    continent: Africa
+    country: Egypt
+    area: x
+    subarea: x
+    state: Cairo
+    city: Cairo
+spec:
+  area_id: cairo
+  description: City of Cairo
+  projection:
+    a: 6371228.0
+    lat_0: 30.0248
+    lon_0: 31.2357
+    proj: eqc
+    units: m
+  resolution:
+    - 100
+    - 100
+  shape:
+    height: 2000
+    width: 2000
+  center: [0, 0]

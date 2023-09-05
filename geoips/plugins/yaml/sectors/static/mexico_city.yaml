@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: mexico_city
+docstring: "Mexico City"
+metadata:
+  region:
+    continent: NorthAmerica
+    country: Mexico
+    area: x
+    subarea: x
+    state: x
+    city: MexicoCity
+spec:
+  area_id: mexico_city
+  description: Mexico City
+  projection:
+    a: 6371228.0
+    lat_0: 19.42189
+    lon_0: -99.13314
+    proj: stere
+    units: m
+  resolution:
+    - 100
+    - 100
+  shape:
+    height: 2000
+    width: 2000
+  center: [0, 0]

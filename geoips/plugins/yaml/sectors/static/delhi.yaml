@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: delhi
+docstring: "City of Delhi"
+metadata:
+  region:
+    continent: Asia
+    country: India
+    area: x
+    subarea: x
+    state: x
+    city: Delhi
+spec:
+  area_id: delhi
+  description: City of Delhi
+  projection:
+    a: 6371228.0
+    lat_0: 28.5884
+    lon_0: 77.21
+    proj: eqc
+    units: m
+  resolution:
+    - 100
+    - 100
+  shape:
+    height: 2000
+    width: 2000
+  center: [0, 0]

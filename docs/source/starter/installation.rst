@@ -10,9 +10,9 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-************************
-Conda-based Installation
-************************
+**********************************
+Conda-based Installation for Linux
+**********************************
 
 Using a fresh Mini/Anaconda Python 3.9+ Environment is the easiest way to
 get geoips up and running.
@@ -52,15 +52,7 @@ If desired, the GeoIPS environment variables can be added to your
     echo "export GEOIPS_TESTDATA_DIR=$GEOIPS_TESTDATA_DIR" >> ~/.bashrc
     echo "export GEOIPS_OUTDIRS=$GEOIPS_OUTDIRS" >> ~/.bashrc
 
-2. Clone the GeoIPS git repository, for installation and testing commands
--------------------------------------------------------------------------
-
-.. code:: bash
-
-    mkdir -p $GEOIPS_PACKAGES_DIR
-    git clone ${GEOIPS_REPO_URL}/geoips.git $GEOIPS_PACKAGES_DIR/geoips
-
-3. Install Anaconda or Miniconda
+2. Install Anaconda or Miniconda
 --------------------------------
 
 - Download the appropriate version of `Conda
@@ -87,22 +79,32 @@ For example, for Linux with Intel chips, one of the following:
     ./Mambaforge-Linux-x86_64.sh
     # Follow instructions regarding conda init / restarting your terminal !
 
-4. Create and activate a conda environment with some dependencies
+3. Create and activate a conda environment with some dependencies
 -----------------------------------------------------------------
 
 Next we'll create a conda environment named ``geoips`` that contains all system
 requirements for GeoIPS. Many of these may already be installed on your system,
 but this command will ensure that for everyone.
 
-
 .. code:: bash
 
-    conda create -y -n geoips -c conda-forge python=3.10 gcc gxx geos openblas imagemagick git git-lfs rclone
+    # Note geos no longer required for cartopy >= 0.22
+    # openblas / gcc required for recenter_tc / akima build.
+    # imagemagick required for image comparisons
+    # git required for -C commands
+    conda create -y -n geoips -c conda-forge python=3.10 gcc gxx openblas imagemagick git
     conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
-    git lfs install
 
 **Note:** You will need to run ``conda activate geoips`` every time you want to
 run or work on GeoIPS.
+
+4. Clone the GeoIPS git repository, for installation and testing commands
+-------------------------------------------------------------------------
+
+.. code:: bash
+
+    mkdir -p $GEOIPS_PACKAGES_DIR
+    git clone ${GEOIPS_REPO_URL}/geoips.git $GEOIPS_PACKAGES_DIR/geoips
 
 5. Install the GeoIPS git repository
 ------------------------------------
@@ -112,7 +114,10 @@ This command installs all GeoIPS Python dependencies, and GeoIPS itself.
 .. code:: bash
 
     # Ensure geoips python environment enabled before installing geoips
-    pip install -e "$GEOIPS_PACKAGES_DIR/geoips"[doc,lint,test]
+    # using "conda activate geoips"
+
+    # Install geoips via pip
+    pip install -e "$GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]"
 
 6. Test your installation
 -------------------------
@@ -126,8 +131,8 @@ To test your installation you will call two scripts:
 .. code:: bash
 
     # Ensure geoips python environment enabled
-    # Ensure git lfs is enabled BEFORE attempting to download data
-    git lfs install
+    # using "conda activate geoips"
+
     # Download the test data
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
     # Run integration tests
