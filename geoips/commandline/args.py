@@ -710,7 +710,7 @@ def add_args(parser, arglist=None):
         fusion_group.add_argument(
             "--fuse_reader_kwargs",
             action="append",
-            default={},
+            default=None,
             type=jloads,
             help="""Provide the reader kwargs for files passed under the
                     fuse_files flag. Should be formatted as a json dictionary string.
