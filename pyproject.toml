@@ -31,6 +31,7 @@ metadata = false    # don't include local-version hash; date doesn't appear by d
 style = "semver"
 tag-branch = "feature-poetry"
 strict = true
+pattern = "(?x)^((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)([-._]?((?P<stage>[a-zA-Z]+)[-._]?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"
 
 
 [build-system]
