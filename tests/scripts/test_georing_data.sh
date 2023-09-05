@@ -16,7 +16,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_georing_3d/source/* \
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_georing_3d/source/*L3*0904* \
              --procflow single_source \
              --reader_name georing_3d_netcdf \
              --product_name Cloud_Top_Height \

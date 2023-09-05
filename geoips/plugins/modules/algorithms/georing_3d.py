@@ -212,9 +212,8 @@ def call(
     xarray.Dataset
     """
     data = xarray_dict["GEORING"].variables["cloud3d"].data
-    lat = xarray_dict["GEORING"].variables["latitude"].data
-    lon = xarray_dict["GEORING"].variables["longitude"].data
-
+    lat = xarray_dict["GEORING"].variables["lat"].data
+    lon = xarray_dict["GEORING"].variables["lon"].data
     if output_data_range is None:
         output_data_range = [data.min(), data.max()]
 

@@ -11,35 +11,35 @@ spec:
         The Cloud_Type products configuration for georing_3d product.
       product_defaults: Cloud_Type
       spec:
-        variables: ["cloud3d", "latitude", "longitude"]
+        variables: ["cloud3d", "lat", "lon"]
     - name: Binary_Cloud_Mask
       source_names: [georing_3d]
       docstring: |
         The Binary_Cloud_Mask products configuration for georing_3d product.
       product_defaults: Binary_Cloud_Mask
       spec:
-        variables: ["cloud3d", "latitude", "longitude"]
+        variables: ["cloud3d", "lat", "lon"]
     - name: Cloud_Top_Height
       source_names: [georing_3d]
       docstring: |
         The Cloud_Top_Height products configuration for georing_3d product.
       product_defaults: Cloud_Top_Height
       spec:
-        variables: ["cloud3d", "latitude", "longitude"]
+        variables: ["cloud3d", "lat", "lon"]
     - name: Cloud_Base_Height
       source_names: [georing_3d]
       docstring: |
         The Cloud_Base_Height products configuration for georing_3d product.
       product_defaults: Cloud_Base_Height
       spec:
-        variables: ["cloud3d", "latitude", "longitude"]
+        variables: ["cloud3d", "lat", "lon"]
     - name: Cloud_Depth
       source_names: [georing_3d]
       docstring: |
         The Cloud_Depth products configuration for georing_3d product.
       product_defaults: Cloud_Top_Height
       spec:
-        variables: ["cloud3d", "latitude", "longitude"]
+        variables: ["cloud3d", "lat", "lon"]
         algorithm:
           plugin:
             name: georing_3d
@@ -56,7 +56,7 @@ spec:
         The Cloud_Layers products configuration for georing_3d product.
       product_defaults: Cloud_Top_Height
       spec:
-        variables: ["cloud3d", "latitude", "longitude"]
+        variables: ["cloud3d", "lat", "lon"]
         algorithm:
           plugin:
             name: georing_3d

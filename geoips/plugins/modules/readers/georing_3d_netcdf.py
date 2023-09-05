@@ -59,13 +59,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         for GeoIPS-formatted xarray Datasets.
     """
     fname = fnames[0]
-
     import xarray
 
     xobj = xarray.open_dataset(fname)
 
-    dt_list = str(xobj.attrs["DateTime Start UTC"]).split(" ")
-    dt_str = dt_list[0] + dt_list[1]
+    dt_list = str(xobj.attrs["Sensor_DateTime_Start_UTC"]).split(" ")
+    dt_str = dt_list[0].replace("T", "")
+    dt_str = dt_str.replace("Z", "")
     dt = datetime.strptime(dt_str, "%Y%m%d%H%M")
     xobj.attrs["data_provider"] = "cira"
     xobj.attrs["start_datetime"] = dt
@@ -73,6 +73,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xobj.attrs["platform_name"] = "GEOring_3D"
     xobj.attrs["source_file_datetimes"] = [dt]
     xobj.attrs["source_name"] = "georing_3d"
-    if metadata_only is True:
-        return {"METADATA": xobj}
+    if metadata_only:
+        return {"METADATA": xobj[[]]}
     return {"GEORING": xobj, "METADATA": xobj[[]]}
