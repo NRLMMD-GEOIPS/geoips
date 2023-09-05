@@ -249,19 +249,40 @@ def get_bg_xarray(sect_xarrays, area_def, prod_plugin, resampled_read=False):
 
 
 def get_resampled_read(
-    config_dict, area_defs, area_def_id, sector_type, reader_plugin, reader_kwargs, fnames, variables
+    config_dict,
+    area_defs,
+    area_def_id,
+    sector_type,
+    reader_plugin,
+    reader_kwargs,
+    fnames,
+    variables,
 ):
     """Return dictionary of xarray datasets for a given area def.
 
     Xarrays resampled to area_def
     """
     return get_sectored_read(
-        config_dict, area_defs, area_def_id, sector_type, reader_plugin, reader_kwargs, fnames, variables
+        config_dict,
+        area_defs,
+        area_def_id,
+        sector_type,
+        reader_plugin,
+        reader_kwargs,
+        fnames,
+        variables,
     )
 
 
 def get_sectored_read(
-    config_dict, area_defs, area_def_id, sector_type, reader_plugin, reader_kwargs, fnames, variables
+    config_dict,
+    area_defs,
+    area_def_id,
+    sector_type,
+    reader_plugin,
+    reader_kwargs,
+    fnames,
+    variables,
 ):
     """Return dictionary of xarray datasets for a given area def.
 
@@ -276,7 +297,11 @@ def get_sectored_read(
         pad_area_def = pad_area_definition(area_def)
     try:
         xobjs = reader_plugin(
-            fnames, metadata_only=False, chans=variables, area_def=pad_area_def, **reader_kwargs,
+            fnames,
+            metadata_only=False,
+            chans=variables,
+            area_def=pad_area_def,
+            **reader_kwargs,
         )
     # geostationary satellites fail with IndexError when the area_def does not intersect the
     # data.  Just skip those.  We need a better method for handling this generally, but for
@@ -747,6 +772,7 @@ def call(fnames, command_line_args=None):
         "output_config",
         "fuse_files",
         "fuse_reader",
+        "fuse_reader_kwargs",
         "fuse_resampled_read",
         "fuse_product",
         "filename_formatter_kwargs",
@@ -780,7 +806,9 @@ def call(fnames, command_line_args=None):
     elif "fuse_reader" in config_dict:
         bg_reader_plugin = readers.get_plugin(config_dict["fuse_reader"])
     if command_line_args.get("fuse_reader_kwargs") is not None:
-        bg_reader_kwargs = readers.get_plugin(command_line_args["fuse_reader_kwargs"][0])
+        bg_reader_kwargs = readers.get_plugin(
+            command_line_args["fuse_reader_kwargs"][0]
+        )
     elif "fuse_reader_kwargs" in config_dict:
         bg_reader_kwargs = readers.get_plugin(config_dict["fuse_reader_kwargs"])
 
@@ -865,7 +893,9 @@ def call(fnames, command_line_args=None):
     if not resampled_read and not sectored_read:
         print_mem_usage("MEMUSG", verbose=False)
         LOG.interactive("Reading full dataset using reader '%s'...", reader_plugin.name)
-        xobjs = reader_plugin(fnames, metadata_only=False, chans=variables, **reader_kwargs)
+        xobjs = reader_plugin(
+            fnames, metadata_only=False, chans=variables, **reader_kwargs
+        )
 
     print_mem_usage("MEMUSG", verbose=False)
 
@@ -1071,7 +1101,8 @@ def call(fnames, command_line_args=None):
                     bg_pad_sect_xarrays = None
                     try:
                         LOG.interactive(
-                            "Reading background data with reader '%s'", bg_reader_plugin.name
+                            "Reading background data with reader '%s'",
+                            bg_reader_plugin.name,
                         )
                         bg_xobjs = bg_reader_plugin(
                             bg_files,
