@@ -1375,7 +1375,9 @@ def call(fnames, command_line_args=None):
             "with reader '%s'...",
             reader_plugin.name,
         )
-        xobjs = reader_plugin(fnames, metadata_only=False, chans=variables, **reader_kwargs)
+        xobjs = reader_plugin(
+            fnames, metadata_only=False, chans=variables, **reader_kwargs
+        )
 
     # Use the xarray objects and command line args to determine required area_defs
     print_mem_usage("MEMUSG", verbose=False)
@@ -1395,7 +1397,9 @@ def call(fnames, command_line_args=None):
         LOG.interactive(
             "Reading full dataset " "with reader '%s'...", reader_plugin.name
         )
-        xobjs = reader_plugin(fnames, metadata_only=False, chans=variables, **reader_kwargs)
+        xobjs = reader_plugin(
+            fnames, metadata_only=False, chans=variables, **reader_kwargs
+        )
 
     print_mem_usage("MEMUSG", verbose=False)
     # If we have a product of type "unsectored_xarray_dict_to_output_format"
@@ -1445,7 +1449,11 @@ def call(fnames, command_line_args=None):
                     reader_plugin.name,
                 )
                 xobjs = reader_plugin(
-                    fnames, metadata_only=False, chans=variables, area_def=pad_area_def, **reader_kwargs
+                    fnames,
+                    metadata_only=False,
+                    chans=variables,
+                    area_def=pad_area_def,
+                    **reader_kwargs,
                 )
             # geostationary satellites fail with IndexError when the area_def
             # does not intersect the data.  Just skip those.  We need a better
