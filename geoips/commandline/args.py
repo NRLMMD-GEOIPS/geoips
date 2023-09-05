@@ -712,9 +712,6 @@ def add_args(parser, arglist=None):
             action="append",
             default={},
             type=jloads,
-            help="""Specify reader kwargs that should be used for
-                            this reader. Should be formatted as a json
-                            dictionary string""",
             help="""Provide the reader kwargs for files passed under the
                     fuse_files flag. Should be formatted as a json dictionary string.
                     Only provide one json dict str to this flag.
