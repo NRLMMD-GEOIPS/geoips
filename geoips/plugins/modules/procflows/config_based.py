@@ -770,6 +770,7 @@ def call(fnames, command_line_args=None):
     # These args should always be checked
     check_args = [
         "output_config",
+        "reader_kwargs",
         "fuse_files",
         "fuse_reader",
         "fuse_reader_kwargs",
@@ -790,11 +791,20 @@ def call(fnames, command_line_args=None):
         fnames = glob(config_dict["filenames"])
 
     output_file_list_fname = command_line_args["output_file_list_fname"]
+    reader_kwargs = None
     bg_files = None
     bg_product_name = None
+    bg_reader_kwargs = None
     bg_resampled_read = False
     bg_self_register_dataset = None
     bg_self_register_source = None
+
+    if command_line_args.get("reader_kwargs"):
+        reader_kwargs = command_line_args["reader_kwargs"]
+    elif "reader_kwargs" in config_dict:
+        reader_kwargs = config_dict.get("reader_kwargs")
+    if not reader_kwargs:
+        reader_kwargs = {}
 
     if command_line_args.get("fuse_files") is not None:
         bg_files = command_line_args["fuse_files"][0]
@@ -806,11 +816,11 @@ def call(fnames, command_line_args=None):
     elif "fuse_reader" in config_dict:
         bg_reader_plugin = readers.get_plugin(config_dict["fuse_reader"])
     if command_line_args.get("fuse_reader_kwargs") is not None:
-        bg_reader_kwargs = readers.get_plugin(
-            command_line_args["fuse_reader_kwargs"][0]
-        )
+        bg_reader_kwargs = command_line_args["fuse_reader_kwargs"][0]
     elif "fuse_reader_kwargs" in config_dict:
-        bg_reader_kwargs = readers.get_plugin(config_dict["fuse_reader_kwargs"])
+        bg_reader_kwargs = config_dict["fuse_reader_kwargs"]
+    if not bg_reader_kwargs:
+        bg_reader_kwargs = {}
 
     if command_line_args.get("fuse_product") is not None:
         bg_product_name = command_line_args["fuse_product"][0]
@@ -865,10 +875,9 @@ def call(fnames, command_line_args=None):
 
     print_mem_usage("MEMUSG", verbose=False)
     reader_plugin = readers.get_plugin(config_dict["reader_name"])
-    reader_kwargs = config_dict.get("reader_kwargs")
-    if not reader_kwargs:
-        reader_kwargs = {}
-    LOG.interactive("Reading metadata from datasets using reader '%s'...", reader.name)
+    LOG.interactive(
+        "Reading metadata from datasets using reader '%s'...", reader_plugin.name
+    )
     xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
     source_name = xobjs["METADATA"].source_name
 
