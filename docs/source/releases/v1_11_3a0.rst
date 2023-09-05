@@ -279,13 +279,14 @@ implementation to follow for the future.
 Make sectoring in procflow optional
 -----------------------------------
 
-The previous implementation of single_source sectoring always sectors data, whether
+The previous implementation of procflow sectoring always sectors data, whether
 or not the user actually wants that to happen. This sometimes causes errors with
 specific data formats, and therefor needs an appropriate refactoring update. To
 implement this, an added flag called 'no_sectoring' has beed created, and when used,
-single_source sectoring no longer occurs.
+procflow sectoring no longer occurs.
 
 ::
 
     modified: geoips/geoips/plugins/modules/procflows/singe_source.py
+    modified: geoips/geoips/plugins/modules/procflows/config_based.py
     modified: geoips/geoips/commandline/args.py
