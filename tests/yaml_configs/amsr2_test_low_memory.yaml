@@ -1,6 +1,6 @@
 reader_name: amsr2_netcdf
 reader_kwargs:
-  test_arg: "Config based reader_kwargs test_arg"
+  test_arg: "Config based YAML reader_kwargs test_arg"
 sectored_read: False
 
 available_sectors:
