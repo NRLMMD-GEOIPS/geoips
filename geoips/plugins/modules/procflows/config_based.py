@@ -799,6 +799,9 @@ def call(fnames, command_line_args=None):
     bg_self_register_dataset = None
     bg_self_register_source = None
 
+    # 1. get reader_kwargs from command line if specified command line
+    # 2. next get reader_kwargs from YAML config_dict if specified within YAML config
+    # 3. Finally, if not specified elsewhere, default reader_kwargs to {}
     if command_line_args.get("reader_kwargs"):
         reader_kwargs = command_line_args["reader_kwargs"]
     elif "reader_kwargs" in config_dict:
@@ -815,6 +818,10 @@ def call(fnames, command_line_args=None):
         bg_reader_plugin = readers.get_plugin(command_line_args["fuse_reader"][0])
     elif "fuse_reader" in config_dict:
         bg_reader_plugin = readers.get_plugin(config_dict["fuse_reader"])
+
+    # 1. get bg_reader_kwargs from command line if specified command line
+    # 2. next get bg_reader_kwargs from YAML config_dict if specified within YAML
+    # 3. Finally, if not specified elsewhere, default bg_reader_kwargs to {}
     if command_line_args.get("fuse_reader_kwargs") is not None:
         bg_reader_kwargs = command_line_args["fuse_reader_kwargs"][0]
     elif "fuse_reader_kwargs" in config_dict:
