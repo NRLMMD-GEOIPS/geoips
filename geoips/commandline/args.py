@@ -708,6 +708,20 @@ def add_args(parser, arglist=None):
                     fuse_readers must be passed in the same order.""",
         )
         fusion_group.add_argument(
+            "--fuse_reader_kwargs",
+            action="append",
+            default={},
+            type=jloads,
+            help="""Specify reader kwargs that should be used for
+                            this reader. Should be formatted as a json
+                            dictionary string""",
+            help="""Provide the reader kwargs for files passed under the
+                    fuse_files flag. Should be formatted as a json dictionary string.
+                    Only provide one json dict str to this flag.
+                    If multiple fuse_files flags are passed, the same number of
+                    fuse_reader_kwargs must be passed in the same order.""",
+        )
+        fusion_group.add_argument(
             "--fuse_product",
             action="append",
             default=None,
