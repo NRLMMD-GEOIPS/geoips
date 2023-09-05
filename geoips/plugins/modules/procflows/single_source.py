@@ -1322,7 +1322,9 @@ def call(fnames, command_line_args=None):
         "output_formatter"
     ]  # output_formatters.imagery_annotated
     reader_name = command_line_args["reader_name"]  # ssmis_binary
-    reader_kwargs = command_line_args["reader_kwargs"]
+    reader_kwargs = command_line_args.get("reader_kwargs")
+    if not reader_kwargs:
+        reader_kwargs = {}
     compare_path = command_line_args["compare_path"]
     output_file_list_fname = command_line_args["output_file_list_fname"]
     compare_outputs_module = command_line_args["compare_outputs_module"]

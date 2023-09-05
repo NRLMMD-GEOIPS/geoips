@@ -574,7 +574,7 @@ def add_args(parser, arglist=None):
         sect_group.add_argument(
             "--reader_kwargs",
             nargs="?",
-            default={},
+            default=None,
             type=jloads,
             help="""Specify reader kwargs that should be used for
                             this reader. Should be formatted as a json
