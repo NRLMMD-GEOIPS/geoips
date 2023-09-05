@@ -1,7 +1,6 @@
 [tool.poetry]
 # required ones
 name = "geoips"         # geoips package available at the root of the project
-#dynamic = ["version"]
 version = "0.0.0.post141.dev0+4c15e7a"   # this has to be fixed; it's dynamic in setuptools
 description = "Geolocated Information Processing System"
 authors = ["Tom <tom.jerry@colostate.edu>"]
@@ -29,12 +28,13 @@ enable = true
 vcs = "git"
 metadata = false    # don't include local-version hash; date doesn't appear by deafult
 style = "pep440"    # pep440 is deafult; can rmeove later on; used for : keeping 0.0.8 as the default install until 0.0.9 is out
+tag-branch = "main"
+strict = true
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"     # object used to perform the build process
-# evaluate using above vs below line
-#build-system = ["poetry-core", "poetry-dynamic-versioning"]
 
 [tool.poetry.dependencies]     # must download to run
     python = ">=3.9, <=3.10"           # mandatory to declare the required python version
