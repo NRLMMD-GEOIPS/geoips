@@ -214,7 +214,6 @@ def images_match(output_product, compare_product, fuzz="5%"):
     bool
         Return True if images match, False if they differ
     """
-    # out_diffimg = get_out_diff_fname(compare_product, output_product)
     exact_out_diffimg = get_out_diff_fname(
         compare_product, output_product, flag="exact_"
     )
@@ -250,10 +249,7 @@ def images_match(output_product, compare_product, fuzz="5%"):
         LOG.info("    *********************************")
         LOG.info("    *** GOOD Images match exactly ***")
         LOG.info("    *********************************")
-    # Remove the image if they matched so we don't have extra stuff to sort through.
-    # from os import unlink as osunlink
 
-    # osunlink(out_diffimg)
     return True
 
 

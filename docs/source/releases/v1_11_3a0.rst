@@ -18,6 +18,7 @@ Version 1.11.3a0 (2023-08-19)
 * Add script to enable geoips environment
 * Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
 * Use matplotlib_linear_norm colormapper for tpw_cimss and tpw_purple
+* Replace Imagemagick with PIL and Numpy based comparison
 * Bug fixes
 
 Bug Fixes
@@ -158,3 +159,16 @@ future.
     modified: geoips/geoips/plugins/yaml/product_defaults/tpw/TPW-CIMSS.yaml
     modified: geoips/geoips/plugins/yaml/product_defaults/tpw/TPW-PURPLE.yaml
     modified: geoips/pyproject.toml
+
+Replace Imagemagick with PIL and Numpy Based comparison
+-------------------------------------------------------
+
+The previous comparison method failed for annotated imagery, using Imagemagick. to
+circumvent this problem, we've replaced the usage of Imagemagick with a PIL and Numpy
+based method, which not only removes a dependency, but can be configured to our own
+needs as well.
+
+::
+
+    modified: geoips/geoips/compare_outputs.py
+
