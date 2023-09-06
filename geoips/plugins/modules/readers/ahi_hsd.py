@@ -26,10 +26,13 @@ from scipy.ndimage.interpolation import zoom
 
 from geoips.utils.memusg import print_mem_usage
 
+LOG = logging.getLogger(__name__)
+
+
 try:
     import numexpr as ne
 except Exception:
-    print(
+    LOG.info(
         "Failed numexpr import in scifile/readers/ahi_hsd_reader_new.py. If you need it, install it."
     )
 
@@ -40,13 +43,12 @@ from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     AutoGenError,
 )
 
-log = logging.getLogger(__name__)
 
 try:
     nprocs = 6
     ne.set_num_threads(nprocs)
 except Exception:
-    print(
+    LOG.info(
         "Failed numexpr.set_num_threads in {}. If numexpr is not installed and you need it, install it.".format(
             __file__
         )
@@ -165,8 +167,8 @@ def findDiff(d1, d2, path=""):
     """Find diff."""
     for k in d1.keys():
         if k not in d2:
-            print(path, ":")
-            print(k + " as key not in d2", "\n")
+            LOG.info(path, ":")
+            LOG.info(k + " as key not in d2", "\n")
         else:
             if type(d1[k]) is dict:
                 if path == "":
@@ -176,9 +178,9 @@ def findDiff(d1, d2, path=""):
                 findDiff(d1[k], d2[k], path)
             else:
                 if np.all(d1[k] != d2[k]):
-                    print(path, ":")
-                    print(" - ", k, " : ", d1[k])
-                    print(" + ", k, " : ", d2[k])
+                    LOG.info(path, ":")
+                    LOG.info(" - ", k, " : ", d1[k])
+                    LOG.info(" + ", k, " : ", d2[k])
 
 
 def metadata_to_datetime(metadata, time_var="ob_start_time"):
@@ -252,15 +254,15 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
                 "GETGEO Requested NO AUTOGEN GEOLOCATION. "
                 + "Could not create latlonfile for ad {}: {}"
             ).format(metadata["ob_area"], fname)
-            log.error(msg)
+            LOG.error(msg)
             raise AutoGenError(msg)
 
-        log.debug("Calculating latitudes and longitudes.")
+        LOG.debug("Calculating latitudes and longitudes.")
 
         sclunit = 1.525878906250000e-05  # NOQA
 
         # Constants
-        log.info("    LATLONCALC Building constants.")
+        LOG.info("    LATLONCALC Building constants.")
         pi = np.pi
         rad2deg = 180.0 / pi  # NOQA
         deg2rad = pi / 180.0  # NOQA
@@ -286,7 +288,7 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
         sample_step = 1
 
         # Create cartesian grid
-        log.info("    LATLONCALC Creating cartesian grid")
+        LOG.info("    LATLONCALC Creating cartesian grid")
         x, y = np.meshgrid(
             np.arange(first_sample, last_sample, sample_step),
             np.arange(first_line, last_line, line_step),
@@ -301,7 +303,7 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
         x = ne.evaluate("deg2rad * (x - coff) / (sclunit * cfac)")  # NOQA
         y = ne.evaluate("deg2rad*(y - loff)/(sclunit * lfac)")  # NOQA
         # # Improvement here is from 132ms for np.sin(x) to 23.5ms for ne.evaluate('sin(x)')
-        log.info("    LATLONCALC Calculating sines and cosines")
+        LOG.info("    LATLONCALC Calculating sines and cosines")
         # sin_x = ne.evaluate('sin(x)')  # NOQA
         # sin_y = ne.evaluate('sin(y)')  # NOQA
         # cos_x = ne.evaluate('cos(x)')  # NOQA
@@ -309,7 +311,7 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
 
         # Calculate surface distance (I think)
         # Improvement here is from 200ms for numpy to 16.9ms for ne
-        log.debug("Calculating Sd")
+        LOG.debug("Calculating Sd")
         Sd = ne.evaluate(
             "(Rs * cos(x) * cos(y))**2 - (cos(y)**2 + ecc * sin(y)**2) * Sd_coeff"
         )
@@ -322,34 +324,34 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
 
         # # Now I'm lost, but it seems to work.  Comes from the Himawari-8 users's guide.
         # # Original version with excess calculations
-        log.debug("Calculating Sn")
+        LOG.debug("Calculating Sn")
         # Sn = ne.evaluate('(Rs * cos_x * cos_y-Sd)/(cos_y**2 + ecc * sin_y**2)')  # NOQA
-        log.debug("Calculating S1")
+        LOG.debug("Calculating S1")
         # S1 = ne.evaluate('Rs - (Sn * cos_x * cos_y)')  # NOQA
-        log.debug("Calculating S2")
+        LOG.debug("Calculating S2")
         # S2 = ne.evaluate('Sn * sin_x * cos_y')  # NOQA
-        log.debug("Calculating S3")
+        LOG.debug("Calculating S3")
         # S3 = ne.evaluate('-Sn * sin_y')  # NOQA
-        log.debug("Calculating Sxy")
+        LOG.debug("Calculating Sxy")
         # Sxy = ne.evaluate('(S1**2 + S2**2)**0.5')  # NOQA
 
         # # if hasattr(self, '_temp_latitudes_arr'):
         # #     lats = self._temp_latitudes_arr
         # # else:
-        log.debug("    LATLONCALC Allocating latitudes")
+        LOG.debug("    LATLONCALC Allocating latitudes")
         # lats = np.full((num_lines, num_samples), df.BADVALS['Off_Of_Disk'])
         # # if hasattr(self, '_temp_longitudes_arr'):
         # #     lons = self._temp_longitudes_arr
         # # else:
-        log.debug("    LATLONCALC Allocating longitudes")
+        LOG.debug("    LATLONCALC Allocating longitudes")
         # lons = np.full((num_lines, num_samples), df.BADVALS['Off_Of_Disk'])
 
         # # It may help to figure out how to index into an array in numeval
         # # Improves from 663ms for numpy to 329ms for numeval
-        # log.debug('Calculating latitudes')
+        # LOG.debug('Calculating latitudes')
         # lats[good] = ne.evaluate('rad2deg*arctan(ecc*S3/Sxy)')[good]
         # # Improves from 669ms for numpy to 301ms for numeval
-        # log.debug('Calculating longitudes')
+        # LOG.debug('Calculating longitudes')
         # lons[good] = ne.evaluate('rad2deg*arctan(S2/S1)+sub_lon')[good]
         # # No real savings on these lines.  Leave alone.
         # lons[lons > 180.0] -= 360
@@ -360,7 +362,7 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
         # The more we can fit into a single equation, the faster things will be.
         # I know this makes things ugly, but hopefully this will never have to be
         # edited.
-        log.info("    LATLONCALC Calculating latitudes")
+        LOG.info("    LATLONCALC Calculating latitudes")
         bad = Sd == 0
         lats = ne.evaluate(
             "rad2deg*arctan(-ecc*(Rs*cos(x)*cos(y)-Sd)/(cos(y)**2+ecc*sin(y)**2) * sin(y)"
@@ -368,14 +370,14 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
             "+ ((Rs*cos(x)*cos(y)-Sd)/(cos(y)**2+ecc*sin(y)**2)*sin(x)*cos(y))**2)**0.5)"
         )
         lats[bad] = BADVALS["Off_Of_Disk"]
-        log.info("    LATLONCALC Calculating longitudes")
+        LOG.info("    LATLONCALC Calculating longitudes")
         lons = ne.evaluate(
             "rad2deg*arctan(((Rs*cos(x)*cos(y)-Sd)/(cos(y)**2 + ecc*sin(y)**2))*sin(x)*cos(y)"
             + "/ (Rs-((Rs*cos(x)*cos(y)-Sd)/(cos(y)**2 + ecc*sin(y)**2))*cos(x)*cos(y))) + sub_lon"
         )
         lons[bad] = BADVALS["Off_Of_Disk"]
         lons[lons > 180.0] -= 360
-        log.debug("Done calculating latitudes and longitudes")
+        LOG.debug("Done calculating latitudes and longitudes")
 
         with open(fname, "w") as df:
             lats.tofile(df)
@@ -388,7 +390,7 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
     # Nothing will be read until explicitly requested
     # We are mapping this here so that the lats and lons are available when
     # calculating satlelite angles
-    log.info(
+    LOG.info(
         "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["ob_area"])
     )
 
@@ -1001,19 +1003,19 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 if currchan in fname:
                     gotone = True
             if not gotone:
-                log.info(
+                LOG.info(
                     "SKIPPING file %s, not needed from channel list %s", fname, chans
                 )
                 continue
         try:
             all_metadata[fname] = _get_metadata(open(fname, "rb"))
         except IOError as resp:
-            log.exception("BAD FILE %s skipping", resp)
+            LOG.exception("BAD FILE %s skipping", resp)
             if ".bz2" in fname:
-                log.exception("BAD FILE %s must be bunzip2ed prior to processing", resp)
+                LOG.exception("BAD FILE %s must be bunzip2ed prior to processing", resp)
             continue
         if metadata_only:
-            log.info("Only need metadata from first file, skipping rest of files")
+            LOG.info("Only need metadata from first file, skipping rest of files")
             break
 
     # Check to be sure that all input files are from the same image time
@@ -1097,7 +1099,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     # If metadata_only requested, return here.
     if metadata_only:
-        log.info("Only need metadata from first file, returning")
+        LOG.info("Only need metadata from first file, returning")
         return {"METADATA": xarray_obj}
 
     # If one or more channels are missing a segment that other channels have, add it in as "None"
@@ -1120,7 +1122,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 raise ValueError("Requested channel {0} not recognized.".format(chan))
             if chan[0:3] not in file_chans:
                 # raise ValueError('Requested channel {0} not found in input data'.format(chan))
-                log.warning("Requested channel %s not found in input data", chan)
+                LOG.warning("Requested channel %s not found in input data", chan)
 
     # If no specific channels were requested, get everything
     if not chans:
@@ -1141,15 +1143,15 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # Loop over resolutions and get metadata as needed
     # for res in ['HIGH', 'MED', 'LOW']:
     if self_register:
-        log.info("")
-        log.info("Getting geolocation information for adname %s.", adname)
+        LOG.info("")
+        LOG.info("Getting geolocation information for adname %s.", adname)
         gmd = _get_geolocation_metadata(res_md[self_register])
         fldk_lats, fldk_lons = get_latitude_longitude(gmd, BADVALS, area_def)
         gvars[adname] = get_geolocation(
             start_dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def
         )
         if not gvars[adname]:
-            log.error(
+            LOG.error(
                 "GEOLOCATION FAILED for adname %s DONT_AUTOGEN_GEOLOCATION is: %s",
                 adname,
                 DONT_AUTOGEN_GEOLOCATION,
@@ -1161,8 +1163,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 res_md[res]
             except KeyError:
                 continue
-            log.info("")
-            log.info(
+            LOG.info("")
+            LOG.info(
                 "Getting geolocation information for resolution %s for %s", res, adname
             )
             try:
@@ -1172,24 +1174,24 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     start_dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def
                 )
             except IndexError as resp:
-                log.exception("SKIPPING apparently no coverage or bad geolocation file")
+                LOG.exception("SKIPPING apparently no coverage or bad geolocation file")
                 raise IndexError(resp)
 
-    log.info("Done with geolocation for %s", adname)
-    log.info("")
+    LOG.info("Done with geolocation for %s", adname)
+    LOG.info("")
     # Read the data
     # Will read all data if area_def is None
     # Will only read required data if an area_def is provided
     for chan, types in chan_info.items():
         if chan not in file_info.keys():
             continue
-        log.info("Reading %s", chan)
+        LOG.info("Reading %s", chan)
         chan_md = file_info[chan]
         for res, res_chans in DATASET_INFO.items():
             if chan in res_chans:
                 break
         if (not self_register) and (res not in gvars.keys() or not gvars[res]):
-            log.info(
+            LOG.info(
                 "We don't have geolocation information for {} for {} skipping {}".format(
                     res, adname, chan
                 )
@@ -1251,7 +1253,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         adname = "FULL_DISK"
 
         # Determine which resolution has geolocation
-        log.info("Registering to %s", self_register)
+        LOG.info("Registering to %s", self_register)
         if self_register == "HIGH":
             datavars["FULL_DISK"] = datavars.pop("HIGH")
             for varname, var in datavars["LOW"].items():
@@ -1332,8 +1334,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # May need to deconflict / combine at some point, but for now just use attributes from
         # any one of the datasets as the METADATA dataset
         xarray_objs["METADATA"] = xobj[[]]
-    log.info("Done reading AHI data for {}".format(adname))
-    log.info("")
+    LOG.info("Done reading AHI data for {}".format(adname))
+    LOG.info("")
 
     print_mem_usage("MEMUSG", verbose=False)
     process_datetimes["overall_end"] = datetime.utcnow()
@@ -1458,18 +1460,18 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
     # if np.any(zoom_mod):
     #     raise ValueError('Zoom level does not produce integer dimensions.')
     # counts = np.full(np.int(np.array(shape) * zoom), 1 + 2**valid_bits, dtype=np.uint16)
-    log.debug("Making counts array")
+    LOG.debug("Making counts array")
     counts = np.full(shape, 1 + 2**valid_bits, dtype=np.uint16)
 
     # Loop over segments
     for seg, smd in md.items():
-        log.info("Reading segment {}".format(seg))
+        LOG.info("Reading segment {}".format(seg))
         # Skip if we don't have a file for this segment
         if not smd:
             continue
 
         # Get calibration info
-        log.debug("Getting calibration info")
+        LOG.debug("Getting calibration info")
         calib = smd["block_05"]
         gain = calib["gain"]
         offset = calib["offset"]
@@ -1478,7 +1480,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         valid_bits = smd["block_05"]["valid_bits_per_pixel"]
 
         # Get info for current file
-        log.debug("Getting lines and samples")
+        LOG.debug("Getting lines and samples")
         path = smd["path"]
         nl = smd["num_lines"]
         ns = smd["num_samples"]
@@ -1489,7 +1491,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         if not req_lines.intersection(lines):
             continue
 
-        log.debug("Determining indicies in data array.")
+        LOG.debug("Determining indicies in data array.")
         header_len = smd["block_01"]["total_header_length"]
         if not full_disk:
             data_inds = np.where(
@@ -1507,7 +1509,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
                 path, mode="r", dtype=np.uint16, offset=header_len, shape=(nl, ns)
             )[:, :]
 
-        log.info("Doing the actual read for segment {}".format(seg))
+        LOG.info("Doing the actual read for segment {}".format(seg))
 
     # It appears that there are values that appear to be good outside the allowable range
     # The allowable range is set by the number of valid bits per pixel
@@ -1547,7 +1549,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
     # Note the weird memory manipulation to save memory when radiances are not requested
     band_num = calib["band_number"]
     if ref:
-        log.info("Converting to Reflectance")
+        LOG.info("Converting to Reflectance")
         if band_num not in range(1, 7):
             raise ValueError(
                 "Unable to calculate reflectances for band #{0}".format(band_num)
@@ -1569,7 +1571,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
     # If brightness temperature is requested
     # Note the weird memory manipulation to save memory when radiances are not requested
     if bt:
-        log.info("Converting to Brightness Temperature")
+        LOG.info("Converting to Brightness Temperature")
         if band_num not in range(7, 17):
             raise ValueError(
                 "Unable to calculate brightness temperatures for band #{0}".format(
@@ -1604,7 +1606,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         )
 
     for val in data.values():
-        log.info("Setting badvals")
+        LOG.info("Setting badvals")
         val[root_inds] = BADVALS["Root_Test"]
         val[outrange_inds] = BADVALS["Out_Of_Valid_Range"]
         val[offdisk_inds] = BADVALS["Off_Of_Disk"]

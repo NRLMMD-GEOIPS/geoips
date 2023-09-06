@@ -21,9 +21,12 @@ import traceback
 from geoips import interfaces
 from geoips.interfaces.base import BaseInterface
 import sys
+import logging
+
 
 FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
 FAILED_INTERFACE_HEADER_POST = "interface:"
+LOG = logging.getLogger(__name__)
 
 
 def main():
@@ -49,8 +52,8 @@ def main():
         ):
             continue
 
-        print("")
-        print(f"Testing {curr_interface.name}...")
+        LOG.info("")
+        LOG.info(f"Testing {curr_interface.name}...")
 
         # Open all the interfaces (not just checking call signatures)
         # This returns a dictionary of all sorts of stuff.
@@ -58,7 +61,7 @@ def main():
             out_dict = curr_interface.test_interface()
             out_dicts[curr_interface.name] = out_dict
         except Exception as resp:
-            print(traceback.format_exc())
+            LOG.info(traceback.format_exc())
             failed_plugins += [curr_interface.name]
             failed_plugins_tracebacks += [
                 f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{curr_interface.name}' "
@@ -87,24 +90,24 @@ def main():
                 successful_plugins += [f"{intname} on {modname}"]
 
     for failed_plugins_traceback in failed_plugins_tracebacks:
-        print(failed_plugins_traceback)
-        print("")
+        LOG.info(failed_plugins_traceback)
+        LOG.info("")
 
     for curr_plugin in successful_plugins:
-        print(f"SUCCESSFUL PLUGIN {curr_plugin}")
+        LOG.info(f"SUCCESSFUL PLUGIN {curr_plugin}")
 
     for curr_successful in successful_interfaces:
-        print(f"SUCCESSFUL INTERFACE {curr_successful}")
+        LOG.info(f"SUCCESSFUL INTERFACE {curr_successful}")
 
     for curr_failed in failed_plugins:
-        print(f"FAILED PLUGIN IN {curr_failed}")
+        LOG.info(f"FAILED PLUGIN IN {curr_failed}")
 
     for curr_failed in failed_interfaces:
-        print(f"FAILED INTERFACE VALIDITY CHECK DICT {curr_failed}")
+        LOG.info(f"FAILED INTERFACE VALIDITY CHECK DICT {curr_failed}")
 
     for failed_plugins_error in failed_plugins_errors:
-        print(failed_plugins_error)
-        print("")
+        LOG.info(failed_plugins_error)
+        LOG.info("")
 
     if len(failed_interfaces) > 0 or len(failed_plugins) > 0:
         failed_plugin_headers = ""

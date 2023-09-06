@@ -66,16 +66,17 @@ import xarray as xr
 # If this reader is not installed on the system, don't fail altogether, just skip this import. This reader will
 # not work if the import fails, and the package will have to be installed
 # to process data of this type.
+LOG = logging.getLogger(__name__)
+
 
 try:
     import netCDF4 as ncdf
 except:
-    print("Failed import netCDF4. If you need it, install it.")
+    LOG.info("Failed import netCDF4. If you need it, install it.")
 
 
 # @staticmethod                                     # not sure where it is uwas used?
 
-LOG = logging.getLogger(__name__)
 
 VARLIST = {
     "DNB": ["DNB_observations"],
@@ -322,13 +323,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     tracked_data_type_vars = defaultdict(dict)
     # This fails if fnames happens to be in a different order
     for fname in sorted(fnames):
-        # print('tst name= ', fname)
+        # LOG.info('tst name= ', fname)
 
         # # chech for right VIIRS file
         # if 'viirs' in os.path.basename(fname):
-        #     print('found a VIIRS file')
+        #     LOG.info('found a VIIRS file')
         # else:
-        #     print('not a VIIRS file: skip it')
+        #     LOG.info('not a VIIRS file: skip it')
         #     raise
 
         # open the paired input files
@@ -644,7 +645,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     lunarref_data, dims=xarrays["DNB"]["DNBRad"].dims
                 )
             except:
-                print("Failed lunarref in viirs reader.  If you need it, build it")
+                LOG.info("Failed lunarref in viirs reader.  If you need it, build it")
         # This will not duplicate memory - reference
         xarray_returns[dtype] = xarrays[dtype]
 

@@ -20,10 +20,12 @@ import pprint
 from importlib import import_module
 import traceback
 import warnings
+import logging
 
 # Always actually raise DeprecationWarnings
 # Note this SO answer https://stackoverflow.com/a/20960427
 warnings.simplefilter("always", DeprecationWarning)
+LOG = logging.getLogger(__name__)
 
 
 def main():
@@ -42,17 +44,17 @@ def main():
     }
 
     for curr_interface, list_func in interfaces.items():
-        print("")
+        LOG.info("")
         test_curr_interface = getattr(
             import_module(f"geoips.{curr_interface}"), f"{list_func}"
         )
         try:
             out_dict = test_curr_interface()
         except Exception:
-            print(traceback.format_exc())
+            LOG.info(traceback.format_exc())
             raise
 
-        print(f"Available {curr_interface} modules:")
+        LOG.info(f"Available {curr_interface} modules:")
 
         ppprinter = pprint.PrettyPrinter(indent=2)
         ppprinter.pprint(dict(out_dict))

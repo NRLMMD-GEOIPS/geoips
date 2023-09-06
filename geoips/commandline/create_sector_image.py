@@ -3,6 +3,9 @@
 import os
 import argparse
 from geoips import interfaces
+import logging
+
+LOG = logging.getLogger(__name__)
 
 
 def main():
@@ -18,7 +21,7 @@ def main():
     for sector_name in args.sectors:
         fname = os.path.join(args.outdir, f"{sector_name}.png")
         sect = interfaces.sectors.get_plugin(sector_name)
-        print(f"Creating {fname}")
+        LOG.info(f"Creating {fname}")
         sect.create_test_plot(fname)
 
 
