@@ -90,6 +90,10 @@ def load_all_yaml_plugins():
 
             # Set some additional information on the YAML plugin
             # The name of the package the plugin comes from
+            if yaml_plugin is None:
+                raise PluginError(
+                    f"YAML file is empty, please fill {yaml_file} with the "
+                    f"appropriate information.")
             yaml_plugin["package"] = pkg.value
             # The relative path to the plugin within the package
             yaml_plugin["relpath"] = str(yaml_file.relative_to(pkg_plugin_path))
