@@ -15,16 +15,14 @@ spec:
   description: Mediterranean Region
   projection:
     a: 6371228.0
-    lat_0: 37.4834
-    lon_0: 13.84369
-    proj: eqc
+    lat_0: 38.0
+    lon_0: 15.0
+    proj: stere
     units: m
   resolution:
     - 1000
     - 1000
   shape:
-    height: 2000
-    width: 3000
-  area_extent:
-    lower_left_xy: [-3000000, -2000000]
-    upper_right_xy: [3000000, 2000000]
+    height: 1800
+    width: 4000
+  center: [0, 0]

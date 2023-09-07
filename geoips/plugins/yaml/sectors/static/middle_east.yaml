@@ -15,16 +15,14 @@ spec:
   description: Middle Eastern Region
   projection:
     a: 6371228.0
-    lat_0: 28.43657
-    lon_0: 47.98788
-    proj: eqc
+    lat_0: 26.5
+    lon_0: 53.5
+    proj: stere
     units: m
   resolution:
     - 1000
     - 1000
   shape:
-    height: 2500
-    width: 2500
-  area_extent:
-    lower_left_xy: [-2499999, -2500000]
-    upper_right_xy: [2499999, 2500000]
+    height: 3100
+    width: 3800
+  center: [0, 0]
