@@ -16,6 +16,7 @@ import logging
 
 # Installed Libraries
 import numpy
+from xarray import DataArray
 
 LOG = logging.getLogger(__name__)
 
@@ -363,6 +364,14 @@ def apply_data_range(
         Input data array with values above 'max_val' or below 'min_val'
         retained, cropped, or masked.
     """
+    # This is a temporary fix to treat xarrays like numpy arrays
+    try:
+        data = data.to_masked_array()
+        is_xarr = True
+    except AttributeError:
+        pass
+        is_xarr = False
+
     # Invert data if minimum value is greater than maximum value
     if inverse or (min_val is not None and max_val is not None and min_val > max_val):
         data, min_val, max_val = invert_data_range(data, min_val, max_val)
@@ -387,6 +396,10 @@ def apply_data_range(
     # Normalize data if requested
     if norm is True:
         data = normalize(data, min_val, max_val, min_outbounds, max_outbounds)
+
+    if is_xarr:
+        data = DataArray(data)
+
     return data
 
 

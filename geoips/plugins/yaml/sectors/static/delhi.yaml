@@ -25,6 +25,4 @@ spec:
   shape:
     height: 2000
     width: 2000
-  area_extent:
-    lower_left_xy: [-199999, -199999]
-    upper_right_xy: [199999, 199999]
+  center: [0, 0]

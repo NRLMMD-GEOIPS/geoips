@@ -414,7 +414,7 @@ def _get_metadata_block_info(df):
     """
     # Initialize the first block's data
     block_info = {1: (0, 0)}
-    print(df.name)
+    # print(df.name)
 
     # Loop over blocks and determine their sizes
     for blockind in range(1, 12):

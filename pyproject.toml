@@ -111,6 +111,7 @@ update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
 test_interfaces = "geoips.commandline.test_interfaces:main"
 list_available_modules = "geoips.commandline.list_available_modules:main"
+create_sector_image = "geoips.commandline.create_sector_image:main"
 
 [project.entry-points."geoips.readers"]
 abi_netcdf = "geoips.plugins.modules.readers.abi_netcdf"
