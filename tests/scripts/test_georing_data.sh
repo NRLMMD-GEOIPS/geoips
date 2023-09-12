@@ -24,6 +24,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_georing_3d/source/*L3*0904* \
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list global \
+             --no_sectoring \
              --minimum_coverage 0
 retval=$?
 
