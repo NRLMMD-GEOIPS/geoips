@@ -23,6 +23,7 @@ Version 1.11.3a0 (2023-08-25)
 * Update log output to include <module>.py:<linenum> (Yay VSCode!)
 * Update support for xarray_to_xarray algorithm family
 * Add 'no_sectoring' procflow flag to disable sectoring
+* Added plugins for 3D georing data
 * Bug fixes
 
 Bug Fixes
@@ -173,6 +174,32 @@ use pyPublicDecompWT*
 ::
 
     modified: geoips/plugins/modules/readers/utils/hrit_reader.py
+
+Add Plugins for 3D GEOring data
+-------------------------------
+
+*From NRLMMD-GEOIPS/geoips#253: 2023-08-09, Create GEOring_3D reader for GeoIPS
+
+GeoIPS previously was unable to process 3D data due to the limitations in run_procflow.
+This branch was merged with 315-make-sectoring-optional, so that the data wouldn't be
+sectored before the algorithm was applied. Eventually we'd like to implement this data
+via an order-based procflow, but this works for now. A reader, algorithm,
+title_formatter, and products/product_defaults were created for this data.
+
+::
+
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
+    modified: geoips/geoips/commandline/args.py
+    modified: geoips/pyproject.toml
+    added: geoips/geoips/plugins/modules/algorithms/georing_3d.py
+    added: geoips/geoips/plugins/modules/readers/georing_3d_netcdf.py
+    added: geoips/geoips/plugins/modules/title_formatters/georing_3d_cloud_type.py
+    added: geoips/geoips/plugins/yaml/products/georing_3d.yaml
+    added: geoips/geoips/plugins/yaml/product_defaults/georing_3d/Binary_Cloud_Mask.yaml
+    added: geoips/geoips/plugins/yaml/product_defaults/georing_3d/Cloud_Base_Height.yaml
+    added: geoips/geoips/plugins/yaml/product_defaults/georing_3d/Cloud_Top_Height.yaml
+    added: geoips/geoips/plugins/yaml/product_defaults/georing_3d/Cloud_Type.yaml
+    added: geoips/tests/scripts/test_georing_data.sh
 
 Installation Updates
 ====================
