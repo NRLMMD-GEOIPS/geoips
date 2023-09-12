@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: europe
+docstring: "European Continent"
+metadata:
+  region:
+    continent: Europe
+    country: x
+    area: Continental
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: europe
+  description: European Continent
+  projection:
+    a: 6371228.0
+    lat_0: 54.0
+    lon_0: 8.0
+    proj: stere
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 1400
+    width: 1150
+  center: [0, 0]

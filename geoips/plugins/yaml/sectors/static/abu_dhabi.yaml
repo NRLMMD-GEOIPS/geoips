@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: abu_dhabi
+docstring: "City of Abu Dhabi"
+metadata:
+  region:
+    continent: Asia
+    country: UnitedArabEmirates
+    area: x
+    subarea: x
+    state: AbuDhabi
+    city: AbuDhabi
+spec:
+  area_id: abu_dhabit
+  description: City of Abu Dhabi
+  projection:
+    a: 6371228.0
+    lat_0: 24.42714
+    lon_0: 54.41388
+    proj: eqc
+    units: m
+  resolution:
+    - 100
+    - 100
+  shape:
+    height: 2000
+    width: 2000
+  center: [0, 0]

@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: beijing
+docstring: "City of Beijing"
+metadata:
+  region:
+    continent: Asia
+    country: China
+    area: x
+    subarea: x
+    state: Beijing
+    city: Beijing
+spec:
+  area_id: beijing
+  description: City of Beijing
+  projection:
+    a: 6371228.0
+    lat_0: 39.91347
+    lon_0: 116.3897
+    proj: eqc
+    units: m
+  resolution:
+    - 100
+    - 100
+  shape:
+    height: 2000
+    width: 2000
+  center: [0, 0]

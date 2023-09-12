@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: middle_east
+docstring: "Middle Eastern Region"
+metadata:
+  region:
+    continent: Asia
+    country: x
+    area: MiddleEast
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: middle_east
+  description: Middle Eastern Region
+  projection:
+    a: 6371228.0
+    lat_0: 26.5
+    lon_0: 53.5
+    proj: stere
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 3100
+    width: 3800
+  center: [0, 0]

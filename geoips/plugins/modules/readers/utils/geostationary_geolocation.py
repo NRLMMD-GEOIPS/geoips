@@ -79,7 +79,10 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
     if is_dynamic_sector(area_def):
         cache = os.path.join(DYNAMIC_GEOLOCDIR, metadata["platform_name"])
     if not os.path.isdir(cache):
-        os.makedirs(cache)
+        try:
+            os.makedirs(cache)
+        except FileExistsError:
+            pass
 
     # In order to ensure consistency here, take a sha1 hash of the string representation of the dictionary values.
     # hash is applied to the object itself, which appears to not be consistent from one Python 3 run to the next.
@@ -107,6 +110,7 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
 
     if area_def:
         ad = area_def
+        log.info("Using area_definition information ")
         log.info(
             "    Using area_definition information for hash: "
             + str(ad.proj_dict.items())

@@ -27,7 +27,6 @@ Notes
 # Python Standard Libraries
 import os
 import logging
-from glob import glob
 import numpy as np
 from .utils.hrit_reader import HritFile, HritError
 
@@ -36,9 +35,7 @@ from .utils.hrit_reader import HritFile, HritError
 # GeoIPS Libraries
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
-    get_geolocation_cache_filename,
     get_geolocation,
-    AutoGenError,
 )
 
 try:

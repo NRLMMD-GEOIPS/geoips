@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: melbourne
+docstring: "City of Melbourne"
+metadata:
+  region:
+    continent: Australia
+    country: x
+    area: x
+    subarea: x
+    state: Victoria
+    city: Melbourne
+spec:
+  area_id: melbourne
+  description: City of Melbourne
+  projection:
+    a: 6371228.0
+    lat_0: -37.83518
+    lon_0: 144.95664
+    proj: eqc
+    units: m
+  resolution:
+    - 100
+    - 100
+  shape:
+    height: 2000
+    width: 2000
+  center: [0, 0]

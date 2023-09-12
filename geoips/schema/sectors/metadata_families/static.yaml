@@ -1,0 +1,18 @@
+$id: sectors.metadata_families.static
+type: object
+properties:
+  region:
+    type: object
+    properties:
+      continent:
+        type: string
+      country:
+        type: string
+      area:
+        type: string
+      subarea:
+        type: string
+      state:
+        type: string
+      city:
+        type: string

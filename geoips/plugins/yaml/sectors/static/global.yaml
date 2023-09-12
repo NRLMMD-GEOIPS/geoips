@@ -1,14 +1,15 @@
 interface: sectors
-family: area_definition
+family: area_definition_static
 name: global
 docstring: "Global sector"
 metadata:
-  continent: Global
-  country: x
-  area: x
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: Global
+    country: x
+    area: x
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: global
   description: "Global Sector"

@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: denver
+docstring: "City of Denver"
+metadata:
+  region:
+    continent: NorthAmerica
+    country: UnitedStates
+    area: x
+    subarea: x
+    state: Colorado
+    city: Denver
+spec:
+  area_id: denver
+  description: City of Denver
+  projection:
+    a: 6371228.0
+    lat_0: 39.73264
+    lon_0: -104.99318
+    proj: eqc
+    units: m
+  resolution:
+    - 100
+    - 100
+  shape:
+    height: 2000
+    width: 2000
+  center: [0, 0]

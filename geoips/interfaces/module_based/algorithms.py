@@ -21,10 +21,12 @@ class AlgorithmsInterface(BaseModuleInterface):
     name = "algorithms"
 
     required_args = {
+        "scalar_to_scalar": [],
         "single_channel": ["arrays"],
         "channel_combination": ["arrays"],
         "list_numpy_to_numpy": ["arrays"],
         "xarray_to_numpy": ["xobj"],
+        "xarray_to_xarray": ["xobj", "variables", "product_name"],
         "rgb": ["arrays"],
         "xarray_dict_to_xarray": ["xarray_dict"],
         "xarray_dict_dict_to_xarray": ["xarray_dict_dict"],
@@ -33,9 +35,11 @@ class AlgorithmsInterface(BaseModuleInterface):
     }
 
     required_kwargs = {
+        "scalar_to_scalar": ["value"],
         "single_channel": [],
         "channel_combination": [],
         "xarray_to_numpy": [],
+        "xarray_to_xarray": [],
         "list_numpy_to_numpy": [],
         "rgb": [],
         "xarray_dict_to_xarray": [],

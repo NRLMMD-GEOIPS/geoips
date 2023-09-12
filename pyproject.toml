@@ -52,17 +52,13 @@ dependencies = [
     "pyresample",  # Base requirement - efficiency improvements >= 1.22.3
     "numpy",  # Base requirement
     "xarray",  # Base requirement
-    "matplotlib>=3.7.0",  # Base requirement
-    # 20230321, allow >=3.7.0, changes annotated imagery outputs
-    # 20230214, force to 3.6.3 until outputs updated
-    # 20220922, force to 0.20.3/3.5.3 until outputs updated
-    #           also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
+    "matplotlib>=3.7.0",  # Base requirement, version specific to test outputs
     "scipy",  # Base requirement, requires openblas
     "netcdf4",  # Base requirement
     "pyyaml",  # Base requirement
-    "pyshp>=2.2.0",
-    "shapely>=1.8.2",  # requires libgeos
-    "cartopy>=0.21.0",  # requires libgeos
+    # "pyshp>=2.2.0",  # May be covered by cartopy ?
+    # "shapely>=1.8.2",  # May be covered by cartopy. may not require libgeos
+    "cartopy>=0.22.0",  # No longer requires libgeos. 0.21 incompatible with geos 3.12
     "pyaml_env",  # Reading YAML output config files, with paths
     "h5py",  # hdf5 readers (GMI)
     "pyhdf",  # hdf4 readers (MODIS)
@@ -77,6 +73,7 @@ dependencies = [
     "jsonschema>=4.18.0a5",  # Provides validation for YAML plugins
     "referencing",
     "astropy", # Used for accounting leap seconds when converting epoch timestamps
+    "pyPublicDecompWt"  # Required to read SEVIRI data
 ]
 
 [project.optional-dependencies]
@@ -85,7 +82,7 @@ test = [
     "pytest-cov"  # Reports on test coverage
 ]
 doc = [
-    "sphinx",  # Required for building documentation
+    "sphinx<7.2",  # Required for building documentation, v7.2 errors
     "sphinx-design",  # Required for building documentation
     "pydata-sphinx-theme",  # Required for building documentation
 ]
@@ -100,6 +97,9 @@ lint = [
     "prettier",  # YAML, JSON, etc linting
     "doc8",  # RST linting
 ]
+debug = [
+    "ipython",
+]
 
 [project.entry-points."geoips.plugin_packages"]
 geoips = "geoips"
@@ -111,6 +111,7 @@ update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
 test_interfaces = "geoips.commandline.test_interfaces:main"
 list_available_modules = "geoips.commandline.list_available_modules:main"
+create_sector_image = "geoips.commandline.create_sector_image:main"
 
 [project.entry-points."geoips.readers"]
 abi_netcdf = "geoips.plugins.modules.readers.abi_netcdf"
@@ -133,6 +134,7 @@ ascat_uhr_netcdf = "geoips.plugins.modules.readers.ascat_uhr_netcdf"
 smap_remss_winds_netcdf = "geoips.plugins.modules.readers.smap_remss_winds_netcdf"
 smos_winds_netcdf = "geoips.plugins.modules.readers.smos_winds_netcdf"
 scat_knmi_winds_netcdf = "geoips.plugins.modules.readers.scat_knmi_winds_netcdf"
+scat_noaa_winds_netcdf = "geoips.plugins.modules.readers.scat_noaa_winds_netcdf"
 windsat_remss_winds_netcdf = "geoips.plugins.modules.readers.windsat_remss_winds_netcdf"
 sar_winds_netcdf = "geoips.plugins.modules.readers.sar_winds_netcdf"
 sfc_winds_text = "geoips.plugins.modules.readers.sfc_winds_text"
@@ -222,8 +224,6 @@ pmw_89H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89H"
 pmw_89pct = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89pct"
 pmw_89HW = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89HW"
 pmw_Rain = "geoips.plugins.modules.colormappers.pmw_tb.cmap_Rain"
-tpw_cimss = "geoips.plugins.modules.colormappers.tpw.tpw_cimss"
-tpw_purple = "geoips.plugins.modules.colormappers.tpw.tpw_purple"
 tpw_pwat = "geoips.plugins.modules.colormappers.tpw.tpw_pwat"
 Infrared = "geoips.plugins.modules.colormappers.visir.Infrared"
 IR_BD = "geoips.plugins.modules.colormappers.visir.IR_BD"

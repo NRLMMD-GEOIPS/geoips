@@ -1,0 +1,29 @@
+interface: sectors
+family: area_definition_static
+name: e_pacific
+docstring: "Eastern Pacific"
+metadata:
+  region:
+    continent: x
+    country: x
+    area: Eastern Pacific
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: e_pacific
+  description: Eastern Pacific
+  projection:
+    a: 6371228.0
+    lat_0: 30.0
+    lon_0: -140.0
+    proj: stere
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 3000
+    width: 4000
+  center: [0, 0]
+

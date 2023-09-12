@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""GeoIPS documentation build configuration file."""
+"""GeoIPS PKGNAME documentation build configuration file."""
 import sys
 import os
 import jinja2
@@ -32,7 +32,7 @@ sys.path.extend(
     ]
 )
 
-# Use Jinja for navigtional tools
+# Use Jinja for navigational tools
 with open(os.path.join(source_path, "_templates/indexrst.html")) as f:
     t = jinja2.Template(f.read())
 with open(os.path.join(source_path, "index.rst"), "w") as f:
@@ -141,7 +141,7 @@ html_theme = "pydata_sphinx_theme"
 html_theme_options = {
     "external_links": [],
     "footer_end": ["geoips_footer"],
-    "github_url": "https://github.com/NRLMMD-GEOIPS/geoips",
+    "github_url": "https://github.com/NRLMMD-GEOIPS/PKGNAME",
     "navbar_end": ["theme-switcher", "navbar-icon-links"],
     "logo": {
         "image_light": "_static/NRL_logo_RGB.jpg",
@@ -164,20 +164,14 @@ html_theme_options = {
 html_logo = "_static/NRL_logo_sidebar_Reverse.png"
 
 # The name of an image file (relative to this directory) to use as a favicon of
-# the docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
-# pixels large.
+# the docs.  This file should be a Windows icon file (.ico) being 16x16 or
+# 32x32 pixels large.
 html_favicon = "_static/nrlicon.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
-
-
-# need min:max width limits ref https://stackoverflow.com/a/43186995/1480918
-def setup(app):
-    """Css width setup."""
-    app.add_css_file("set_width.css")
 
 
 # Add any extra paths that contain custom files (such as robots.txt or
@@ -242,7 +236,7 @@ html_search_language = "en"
 # html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "GeoIPSdoc"
+htmlhelp_basename = "GeoIPS_PKGNAME_doc"
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -264,11 +258,15 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
+pkgnamelatex = "PKGNAME".split("_")
+if len(pkgnamelatex) > 1:
+    # set up latex escape
+    pkgnamelatex = "\_".join(pkgnamelatex)
 latex_documents = [
     (
         master_doc,
-        "GeoIPS.tex",
-        "GeoIPS Documentation",
+        "GeoIPS_PKGNAME.tex",
+        "GeoIPS {0} Documentation".format(pkgnamelatex),
         "U.S. NAVAL RESEARCH LABORATORY",
         "manual",
         False,
@@ -300,7 +298,9 @@ latex_domain_indices = True
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "GeoIPS", "GeoIPS Documentation", [author], 1)]
+man_pages = [
+    (master_doc, "GeoIPS_PKGNAME", "GeoIPS PKGNAME Documentation", [author], 1)
+]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -314,8 +314,8 @@ man_pages = [(master_doc, "GeoIPS", "GeoIPS Documentation", [author], 1)]
 texinfo_documents = [
     (
         master_doc,
-        "GeoIPS",
-        "GeoIPS Documentation",
+        "GeoIPS_PKGNAME",
+        "GeoIPS PKGNAME Documentation",
         author,
         "NRL-MMD",
         "Geolocated Information Processing System.",
@@ -348,6 +348,9 @@ def rstjinja(app, docname, source):
     source[0] = rendered
 
 
+# need min:max width limits ref https://stackoverflow.com/a/43186995/1480918
 def setup(app):
+    """Css width setup."""
+    app.add_css_file("set_width.css")
     """Jinja setup function."""
     app.connect("source-read", rstjinja)

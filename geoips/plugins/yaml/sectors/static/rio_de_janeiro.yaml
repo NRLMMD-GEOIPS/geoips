@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: rio_de_janeiro
+docstring: "Rio De Janeiro City"
+metadata:
+  region:
+    continent: SouthAmerica
+    country: Brazil
+    area: x
+    subarea: x
+    state: x
+    city: Rio De Janeiro
+spec:
+  area_id: rio_de_janeiro
+  description: Rio De Janeiro City
+  projection:
+    a: 6371228.0
+    lat_0: -22.9354
+    lon_0: -43.159
+    proj: stere
+    units: m
+  resolution:
+    - 100
+    - 100
+  shape:
+    height: 1500
+    width: 2500
+  center: [0, 0]

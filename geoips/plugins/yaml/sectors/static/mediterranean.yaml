@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: mediterranean
+docstring: "Mediterranean Region"
+metadata:
+  region:
+    continent: x
+    country: x
+    area: Mediterranean
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: mediterranean
+  description: Mediterranean Region
+  projection:
+    a: 6371228.0
+    lat_0: 38.0
+    lon_0: 15.0
+    proj: stere
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1800
+    width: 4000
+  center: [0, 0]

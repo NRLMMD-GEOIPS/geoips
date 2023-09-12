@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: north_pole
+docstring: "North Pole Region"
+metadata:
+  region:
+    continent: x
+    country: x
+    area: NorthPole
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: north_pole
+  description: North Pole Region
+  projection:
+    a: 6371228.0
+    lat_0: 87.0
+    lon_0: 90.0
+    proj: stere
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 1500
+    width: 2000
+  center: [0, 0]
