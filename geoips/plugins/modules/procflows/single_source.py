@@ -1334,11 +1334,7 @@ def call(fnames, command_line_args=None):
     resampled_read = command_line_args["resampled_read"]
     product_db = command_line_args["product_db"]
     product_db_writer = command_line_args["product_db_writer"]
-
-    sector = True
-
-    if "no_sectoring" in command_line_args.keys():
-        sector = False
+    sector = not command_line_args["no_sectoring"]
 
     if product_db:
         from geoips_db.dev.postgres_database import get_db_writer
