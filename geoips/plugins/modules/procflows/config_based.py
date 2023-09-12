@@ -771,7 +771,7 @@ def call(fnames, command_line_args=None):
     bg_self_register_source = None
 
     if command_line_args.get("no_sectoring") is not None:
-        sector = False
+        sector = not command_line_args["no_sectoring"]
     else:
         sector = True
 
