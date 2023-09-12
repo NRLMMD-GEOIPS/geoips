@@ -15,9 +15,9 @@ spec:
   description: Country of France
   projection:
     a: 6371228.0
-    lat_0: 46.53679
-    lon_0: 2.47083
-    proj: eqc
+    lat_0: 46.7
+    lon_0: 1.8
+    proj: stere
     units: m
   resolution:
     - 1000
@@ -25,6 +25,4 @@ spec:
   shape:
     height: 1000
     width: 1000
-  area_extent:
-    lower_left_xy: [-999999, -1000000]
-    upper_right_xy: [999999, 1000000]
+  center: [0, 0]

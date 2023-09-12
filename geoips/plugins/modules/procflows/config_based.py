@@ -28,6 +28,7 @@ from geoips.dev.product import (
 )
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.filenames.duplicate_files import remove_duplicates
+from geoips.geoips_utils import replace_geoips_paths
 
 
 try:
@@ -37,7 +38,7 @@ try:
         write_stats_to_database,
     )
 except ImportError:
-    print("Please install geoips_db package if required")
+    pass
 
 try:
     from geoips_db.utils.database_writes import (
@@ -46,7 +47,7 @@ try:
         write_stats_to_database,
     )
 except ImportError:
-    print("Please install geoips_db package if required")
+    pass
 
 # Old interfaces (YAML, will migrate to new soon)
 from geoips.dev.output_config import (
@@ -187,6 +188,9 @@ def get_required_outputs(config_dict, sector_type):
 def get_bg_xarray(sect_xarrays, area_def, prod_plugin, resampled_read=False):
     """Get background xarray."""
     interp_plugin = None
+    LOG.interactive(
+        "Getting background xarray dataset for product '%s'", prod_plugin.name
+    )
     if "interpolator" in prod_plugin["spec"]:
         interp_plugin = interpolators.get_plugin(
             prod_plugin["spec"]["interpolator"]["plugin"]["name"]
@@ -766,6 +770,11 @@ def call(fnames, command_line_args=None):
     bg_self_register_dataset = None
     bg_self_register_source = None
 
+    if command_line_args.get("no_sectoring") is not None:
+        sector = False
+    else:
+        sector = True
+
     if command_line_args.get("fuse_files") is not None:
         bg_files = command_line_args["fuse_files"][0]
     elif "fuse_files" in config_dict:
@@ -811,6 +820,9 @@ def call(fnames, command_line_args=None):
             config_dict["available_sectors"][sector] = database_writer
 
     if bg_files is not None:
+        LOG.interactive(
+            "Reading background datasets using reader '%s'...", bg_reader.name
+        )
         bg_xobjs = bg_reader(bg_files, metadata_only=True)
         prod_plugin = products.get_plugin(
             bg_xobjs["METADATA"].source_name,
@@ -826,11 +838,12 @@ def call(fnames, command_line_args=None):
 
     print_mem_usage("MEMUSG", verbose=False)
     reader = readers.get_plugin(config_dict["reader_name"])
+    LOG.interactive("Reading metadata from datasets using reader '%s'...", reader.name)
     xobjs = reader(fnames, metadata_only=True)
     source_name = xobjs["METADATA"].source_name
 
     if not produce_current_time(config_dict, xobjs["METADATA"], output_dict_keys=None):
-        LOG.info("SKIPPING ALL PROCESSING no products required for current time")
+        LOG.interactive("SKIPPING ALL PROCESSING no products required for current time")
         return 0
 
     print_mem_usage("MEMUSG", verbose=False)
@@ -849,6 +862,7 @@ def call(fnames, command_line_args=None):
 
     if not resampled_read and not sectored_read:
         print_mem_usage("MEMUSG", verbose=False)
+        LOG.interactive("Reading full dataset using reader '%s'...", reader.name)
         xobjs = reader(fnames, metadata_only=False, chans=variables)
 
     print_mem_usage("MEMUSG", verbose=False)
@@ -861,6 +875,7 @@ def call(fnames, command_line_args=None):
 
     # Check if we have any required unsectored outputs, if so produce here,
     # then continue
+    LOG.interactive("\n\n\n\nNEXT Processing any unsectored data outputs...\n\n")
     final_products = process_unsectored_data_outputs(
         final_products,
         config_dict["outputs"],
@@ -874,13 +889,14 @@ def call(fnames, command_line_args=None):
 
     list_area_defs = get_area_def_list_from_dict(area_defs)
 
+    LOG.interactive("\n\n\n\nNEXT Processing any sectored data outputs...\n\n")
     area_def_num = 0
     # Loop through each template - register the data once for each template/area_def
     for area_def_id in area_defs:
         area_def_num = area_def_num + 1
 
-        LOG.info(
-            "\n\n\n\nNEXT area def id: %s (%s of %s)",
+        LOG.interactive(
+            "\n\n\n\nNEXT area def id: %s (%s of %s)\n\n",
             area_def_id,
             area_def_num,
             len(area_defs),
@@ -908,6 +924,9 @@ def call(fnames, command_line_args=None):
                 # This will return potentially multiple sectored datasets of different shapes/resolutions.
                 # Note currently get_sectored_read and get_resampled_read are identical, because we have no
                 # sectored_read based readers.
+                LOG.interactive(
+                    "Performing sectored read with reader '%s'", reader.name
+                )
                 xobjs = get_sectored_read(
                     config_dict,
                     area_defs,
@@ -924,6 +943,9 @@ def call(fnames, command_line_args=None):
                 # This will return one resampled dataset
                 # Note currently get_sectored_read and get_resampled_read are identical, because we have no
                 # sectored_read based readers.
+                LOG.interactive(
+                    "Performing resampled read with reader '%s'", reader.name
+                )
                 xobjs = get_resampled_read(
                     config_dict,
                     area_defs,
@@ -953,7 +975,7 @@ def call(fnames, command_line_args=None):
             # See if this sector_type is used at all for product output, if not, skip
             # it.
             if not is_required_sector_type(config_dict["outputs"], sector_type):
-                LOG.info(
+                LOG.interactive(
                     "\n\n\nSKIPPING sector type: %s, not required for outputs %s",
                     sector_type,
                     config_dict["outputs"].keys(),
@@ -963,9 +985,9 @@ def call(fnames, command_line_args=None):
                 "requested_sector_dict"
             ]
 
-            LOG.info(
+            LOG.interactive(
                 "\n\n\n\nNEXT area def id: %s (%s of %s), "
-                "sector_type: %s (%s of %s)",
+                "sector_type: %s (%s of %s)\n\n",
                 area_def_id,
                 area_def_num,
                 len(area_defs),
@@ -986,14 +1008,18 @@ def call(fnames, command_line_args=None):
             # Do NOT sector if we are using a reader_defined or self_register area_def - that indicates we are going
             # to use all of the data we have, so we will not sector
             if area_def.sector_type not in ["reader_defined", "self_register"]:
-                pad_sect_xarrays = sector_xarrays(
-                    xobjs,
-                    pad_area_def,
-                    varlist=curr_variables,
-                    hours_before_sector_time=6,
-                    hours_after_sector_time=9,
-                    drop=True,
-                )
+                if sector:
+                    LOG.interactive("Sectoring xarrays, drop=True")
+                    pad_sect_xarrays = sector_xarrays(
+                        xobjs,
+                        pad_area_def,
+                        varlist=curr_variables,
+                        hours_before_sector_time=6,
+                        hours_after_sector_time=9,
+                        drop=True,
+                    )
+                else:
+                    pad_sect_xarrays = xobjs
             else:
                 pad_sect_xarrays = xobjs
 
@@ -1010,7 +1036,7 @@ def call(fnames, command_line_args=None):
 
             # If we didn't get any data, continue to the next sector_type
             if len(pad_sect_xarrays) == 0:
-                LOG.info(
+                LOG.interactive(
                     "SKIPPING no pad_area_def pad_sect_xarrays returned for %s",
                     area_def.name,
                 )
@@ -1028,7 +1054,7 @@ def call(fnames, command_line_args=None):
                 pad_sect_xarrays["METADATA"].start_datetime,
                 pad_sect_xarrays["METADATA"].end_datetime,
             ):
-                LOG.info(
+                LOG.interactive(
                     "SKIPPING duplicate area_def, out of time range, for %s",
                     area_def.name,
                 )
@@ -1043,20 +1069,27 @@ def call(fnames, command_line_args=None):
                     print_mem_usage("MEMUSG", verbose=False)
                     bg_pad_sect_xarrays = None
                     try:
+                        LOG.interactive(
+                            "Reading background data with reader '%s'", bg_reader.name
+                        )
                         bg_xobjs = bg_reader(
                             bg_files,
                             metadata_only=False,
                             chans=bg_variables,
                             area_def=pad_area_def,
                         )
-                        bg_pad_sect_xarrays = sector_xarrays(
-                            bg_xobjs,
-                            pad_area_def,
-                            varlist=bg_variables,
-                            hours_before_sector_time=6,
-                            hours_after_sector_time=9,
-                            drop=True,
-                        )
+                        if sector:
+                            LOG.interactive("Sectoring background data")
+                            bg_pad_sect_xarrays = sector_xarrays(
+                                bg_xobjs,
+                                pad_area_def,
+                                varlist=bg_variables,
+                                hours_before_sector_time=6,
+                                hours_after_sector_time=9,
+                                drop=True,
+                            )
+                        else:
+                            bg_pad_sect_xarrays = bg_xobjs
                     except CoverageError as resp:
                         LOG.warning(
                             f"{resp} SKIPPING - NO COVERAGE FOR BACKGROUND DATA"
@@ -1100,14 +1133,21 @@ def call(fnames, command_line_args=None):
                     # to ensure we both have an accurate center time for adjustments, and so we
                     # get all of the data.
                     if area_def.sector_type not in ["reader_defined", "self_register"]:
-                        sect_xarrays = sector_xarrays(
-                            pad_sect_xarrays,
-                            area_def,
-                            varlist=curr_variables,
-                            hours_before_sector_time=6,
-                            hours_after_sector_time=9,
-                            drop=True,
+                        LOG.interactive(
+                            "Sectoring xarrays for sector adjuster '%s'",
+                            sector_adjuster,
                         )
+                        if sector:
+                            sect_xarrays = sector_xarrays(
+                                pad_sect_xarrays,
+                                area_def,
+                                varlist=curr_variables,
+                                hours_before_sector_time=6,
+                                hours_after_sector_time=9,
+                                drop=True,
+                            )
+                        else:
+                            sect_xarrays = pad_sect_xarrays
                     else:
                         sect_xarrays = pad_sect_xarrays
                     print_mem_usage("MEMUSG", verbose=False)
@@ -1115,7 +1155,7 @@ def call(fnames, command_line_args=None):
                     # Note we can have coverage for pad_sect_xarrays, but none for sect_xarrays - ensure we also
                     # skip no coverage for sect_xarrays
                     if len(sect_xarrays) == 0:
-                        LOG.info(
+                        LOG.interactive(
                             "SKIPPING no area_def sect_xarrays returned for %s",
                             area_def.name,
                         )
@@ -1124,6 +1164,7 @@ def call(fnames, command_line_args=None):
                         sect_adj_plugin.family
                         == "list_xarray_list_variables_to_area_def_out_fnames"
                     ):
+                        LOG.interactive("Adjusting sector with '%s'", sector_adjuster)
                         area_def, adadj_fnames = sect_adj_plugin(
                             list(sect_xarrays.values()),
                             area_def,
@@ -1133,6 +1174,7 @@ def call(fnames, command_line_args=None):
                             ],
                         )
                     else:
+                        LOG.interactive("Adjusting sector with '%s'", sector_adjuster)
                         area_def = sect_adj_plugin(
                             list(sect_xarrays.values()),
                             area_def,
@@ -1148,6 +1190,7 @@ def call(fnames, command_line_args=None):
                         sect_adj_plugin.family
                         == "list_xarray_list_variables_to_area_def_out_fnames"
                     ):
+                        LOG.interactive("Adjusting sector with '%s'", sector_adjuster)
                         area_def, adadj_fnames = sect_adj_plugin(
                             list(pad_sect_xarrays.values()),
                             area_def,
@@ -1157,6 +1200,7 @@ def call(fnames, command_line_args=None):
                             ],
                         )
                     else:
+                        LOG.interactive("Adjusting sector with '%s'", sector_adjuster)
                         area_def = sect_adj_plugin(
                             list(pad_sect_xarrays.values()),
                             area_def,
@@ -1188,14 +1232,20 @@ def call(fnames, command_line_args=None):
             # Do NOT sector if we are using a reader_defined or self_register area_def - that indicates we are going
             # to use all of the data we have, so we will not sector
             if area_def.sector_type not in ["reader_defined", "self_register"]:
-                sect_xarrays = sector_xarrays(
-                    pad_sect_xarrays,
-                    area_def,
-                    varlist=curr_variables,
-                    hours_before_sector_time=6,
-                    hours_after_sector_time=9,
-                    drop=True,
+                LOG.interactive(
+                    "Sectoring self register xarrays for area_def '%s'", area_def.name
                 )
+                if sector:
+                    sect_xarrays = sector_xarrays(
+                        pad_sect_xarrays,
+                        area_def,
+                        varlist=curr_variables,
+                        hours_before_sector_time=6,
+                        hours_after_sector_time=9,
+                        drop=True,
+                    )
+                else:
+                    sect_xarrays = pad_sect_xarrays
             else:
                 sect_xarrays = pad_sect_xarrays
 
@@ -1204,7 +1254,7 @@ def call(fnames, command_line_args=None):
             # Note we can have coverage for pad_sect_xarrays, but none for sect_xarrays - ensure we also
             # skip no coverage for sect_xarrays
             if len(sect_xarrays) == 0:
-                LOG.info(
+                LOG.interactive(
                     "SKIPPING no area_def sect_xarrays returned for %s", area_def.name
                 )
                 continue
@@ -1219,7 +1269,7 @@ def call(fnames, command_line_args=None):
                 if not produce_current_time(
                     config_dict, xobjs["METADATA"], output_dict_keys=[output_type]
                 ):
-                    LOG.info(
+                    LOG.interactive(
                         "SKIPPING PROCESSING no products required for output_type %s at current time",
                         output_type,
                     )
@@ -1230,10 +1280,10 @@ def call(fnames, command_line_args=None):
 
                 output_num = output_num + 1
 
-                LOG.info(
+                LOG.interactive(
                     "\n\n\n\nNEXT area def id: %s (%s of %s), "
                     "sector_type: %s (%s of %s), "
-                    "output_type: %s (%s of %s)",
+                    "output_type: %s (%s of %s)\n\n",
                     area_def_id,
                     area_def_num,
                     len(area_defs),
@@ -1267,11 +1317,11 @@ def call(fnames, command_line_args=None):
                     )
                     LOG.info("\n\n\n\nCurrent area definition: %s", area_def)
 
-                    LOG.info(
+                    LOG.interactive(
                         "\n\n\n\nNEXT area def id: %s (%s of %s), "
                         "sector_type: %s (%s of %s), "
                         "output_type: %s (%s of %s), "
-                        "product_name: %s (%s of %s)",
+                        "product_name: %s (%s of %s)\n\n",
                         area_def_id,
                         area_def_num,
                         len(area_defs),
@@ -1296,7 +1346,7 @@ def call(fnames, command_line_args=None):
 
                     # Make sure we still have all the required variables after sectoring
                     if not set(product_variables).issubset(all_vars):
-                        LOG.info(
+                        LOG.interactive(
                             "SKIPPING product %s missing variables %s",
                             product_name,
                             set(product_variables).difference(all_vars),
@@ -1311,6 +1361,10 @@ def call(fnames, command_line_args=None):
                     final_products[cpath]["compare_outputs_module"] = cmodule
 
                     # Produce sectored data output
+                    LOG.interactive(
+                        "Processing sectored data products for product '%s'",
+                        prod_plugin.name,
+                    )
                     curr_output_products = process_sectored_data_output(
                         pad_sect_xarrays,
                         product_variables,
@@ -1407,14 +1461,14 @@ def call(fnames, command_line_args=None):
                         minimum_coverage = alg_xarray.minimum_coverage
                     if config_minimum_coverage is not None:
                         minimum_coverage = config_minimum_coverage
-                    LOG.info(
+                    LOG.interactive(
                         "Required coverage %s for product %s, actual coverage %s",
                         minimum_coverage,
                         product_name,
                         covg,
                     )
                     if covg < minimum_coverage and fname_covg < minimum_coverage:
-                        LOG.info(
+                        LOG.interactive(
                             "Insufficient coverage %s / %s for data products, SKIPPING",
                             covg,
                             fname_covg,
@@ -1482,6 +1536,8 @@ def call(fnames, command_line_args=None):
     print_mem_usage("MEMUSG", verbose=False)
     process_datetimes["overall_end"] = datetime.utcnow()
 
+    LOG.interactive("\n\n\nProcessing complete! Checking outputs...\n\n\n")
+
     retval = 0
     failed_compares = {}
     for cpath in final_products:
@@ -1500,12 +1556,13 @@ def call(fnames, command_line_args=None):
     failed_comparison_dirs = 0
     from os.path import basename
 
-    LOG.info(
-        "The following products were produced from procflow %s", basename(__file__)
+    LOG.interactive(
+        "\n\n\nThe following products were produced from procflow %s\n\n",
+        basename(__file__),
     )
     for cpath in final_products:
         if cpath in failed_compares:
-            LOG.info(
+            LOG.interactive(
                 "%s FAILED COMPARISONS IN DIR: %s\n", failed_compares[cpath], cpath
             )
             failed_comparison_dirs = failed_comparison_dirs + 1
@@ -1513,13 +1570,16 @@ def call(fnames, command_line_args=None):
             LOG.info("SUCCESSFUL COMPARISON DIR: %s\n", cpath)
             successful_comparison_dirs = successful_comparison_dirs + 1
         for filename in final_products[cpath]["files"]:
-            LOG.info("    CONFIGSUCCESS %s", filename)
+            LOG.interactive(
+                "    \u001b[34mCONFIGSUCCESS\033[0m %s",
+                replace_geoips_paths(filename, curly_braces=True),
+            )
             if filename in final_products[cpath]["database writes"]:
                 LOG.info("    DATABASESUCCESS %s", filename)
         LOG.info("\n")
 
     for removed_product in removed_products:
-        LOG.info("    DELETEDPRODUCT %s", removed_product)
+        LOG.interactive("    DELETEDPRODUCT %s", removed_product)
         if product_db:
             LOG.info("    FLAGGING as deleted in product database")
             flag_product_as_deleted(removed_product, area_defs)
@@ -1555,11 +1615,11 @@ def call(fnames, command_line_args=None):
                     )
 
     mem_usage_stats = print_mem_usage("MEMUSG", verbose=True)
-    LOG.info("READER_NAME: %s", config_dict["reader_name"])
+    LOG.interactive("READER_NAME: %s", config_dict["reader_name"])
     num_products = sum(
         [len(final_products[cpath]["files"]) for cpath in final_products]
     )
-    LOG.info("NUM_PRODUCTS: %s", num_products)
+    LOG.interactive("NUM_PRODUCTS: %s", num_products)
     if product_db:
         LOG.info(
             "NUM_DATABASE_WRITES: %s",
@@ -1570,9 +1630,9 @@ def call(fnames, command_line_args=None):
                 ]
             ),
         )
-    LOG.info("NUM_DELETED_PRODUCTS: %s", len(removed_products))
-    LOG.info("NUM_SUCCESSFUL_COMPARISON_DIRS: %s", successful_comparison_dirs)
-    LOG.info("NUM_FAILED_COMPARISON_DIRS: %s", failed_comparison_dirs)
+    LOG.interactive("NUM_DELETED_PRODUCTS: %s", len(removed_products))
+    LOG.interactive("NUM_SUCCESSFUL_COMPARISON_DIRS: %s", successful_comparison_dirs)
+    LOG.interactive("NUM_FAILED_COMPARISON_DIRS: %s", failed_comparison_dirs)
     output_process_times(process_datetimes, num_jobs)
     if product_db:
         all_sectors_use_tcdb = all(

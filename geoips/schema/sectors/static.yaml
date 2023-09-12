@@ -1,0 +1,74 @@
+# This is a generic schema for all sectors. It determines which spec and metadata
+# subschema to use based on the contents of the family property.
+#
+# If adding a new spec or metadata subschema, you much edit both the "family" pattern
+# and the list of if-statements.
+$id: sectors.static
+$ref: bases.top
+required:
+  - spec
+  - metadata
+# Check to be sure that the family is a known family
+# The first group defines which spec schema to use
+# The second group defines which metadata schema to use
+# All of these must exist in the list of if-statements below
+properties:
+  family:
+    pattern: "^((area_definition)|(center))_((static)|(pyrocb)|(atmosriver)|(stitched)|(tc)|(volcano))$"
+# This list of if-statements allows the schema to decide which spec and metadata
+# subschema to use based on the contents of the family property.
+allOf:
+  # Spec selector
+  - if:
+      properties:
+        family:
+          pattern: "^area_definition_.*"
+    then:
+      properties:
+        spec:
+          $ref: "sectors.specs.area_definition"
+  - if:
+      properties:
+        family:
+          pattern: "^center_.*"
+    then:
+      properties:
+        spec:
+          $ref: "sectors.specs.center"
+  # Metadata selector
+  - if:
+      properties:
+        family:
+          pattern: ".*_static$"
+    then:
+      properties:
+        metadata:
+          $ref: "sectors.metadata_families.static"
+  - if:
+      properties:
+        family:
+          pattern: ".*_pyrocb$"
+    then:
+      properties:
+        metadata:
+          $ref: "sectors.metadata_families.pyrocb"
+#   spec:
+#     properties:
+#       area_id:
+#         type: string
+#       center:
+#         type: object
+#         properties:
+#           lat:
+#             type: number
+#             minimum: -90
+#             maximum: 90
+#           lon:
+#             type: number
+#             minimum: -180
+#             maximum: 180
+#     dependentSchemas:
+#       area_id:
+#         $ref: "sectors.specs.area_definition"
+#       center:
+#         $ref: "sectors.specs.center"

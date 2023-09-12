@@ -192,7 +192,7 @@ def save_image(
         # final with titles, labels, etc.
         # Note bbox_inches='tight' removes white space, pad_inches=0.1 puts back in
         # a bit of white space.
-        LOG.info("Writing %s", out_fname)
+        LOG.interactive("Writing %s", out_fname)
         fig.savefig(
             out_fname,
             dpi=rc_params["figure.dpi"],

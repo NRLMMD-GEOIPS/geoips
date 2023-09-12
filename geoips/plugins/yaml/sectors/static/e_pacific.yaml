@@ -15,16 +15,15 @@ spec:
   description: Eastern Pacific
   projection:
     a: 6371228.0
-    lat_0: 18.955
-    lon_0: -120.75999999999999
-    proj: eqc
+    lat_0: 30.0
+    lon_0: -140.0
+    proj: stere
     units: m
   resolution:
     - 3000
     - 3000
   shape:
-    height: 1064
-    width: 1950
-  area_extent:
-    lower_left_xy: [-2926051, -1597372]
-    upper_right_xy: [2926051, 1597372]
+    height: 3000
+    width: 4000
+  center: [0, 0]
+

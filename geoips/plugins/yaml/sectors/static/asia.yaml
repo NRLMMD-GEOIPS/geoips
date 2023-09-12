@@ -15,16 +15,14 @@ spec:
   description: Asian Continent
   projection:
     a: 6371228.0
-    lat_0: 31.305
-    lon_0: 103.505
-    proj: eqc
+    lat_0: 31.0
+    lon_0: 103.0
+    proj: stere
     units: m
   resolution:
     - 3000
     - 3000
   shape:
-    height: 3408
-    width: 4164
-  area_extent:
-    lower_left_xy: [-6247135, -5112369]
-    upper_right_xy: [6247135, 5112369]
+    height: 3200
+    width: 3500
+  center: [0, 0]
