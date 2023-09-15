@@ -10,6 +10,8 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+.. _mac_install:
+
 ********************************
 Conda-based Installation for Mac
 ********************************
