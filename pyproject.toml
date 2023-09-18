@@ -22,6 +22,7 @@ classifiers = [                # // list of PyPI trove classifiers to describe t
 #"local_scheme" = "no-local-version"  # Don't include hash, or date, just postN
 "write_to" = "geoips/_version.py"  # Write an actual file
 
+
 # uses current version .postN and not incrementing
 [tool.poetry-dynamic-versioning]
 enable = true
@@ -34,8 +35,6 @@ strict = true
 pattern = "(?x)^((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)([-._]?((?P<stage>[a-zA-Z]+)[-._]?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"
                          #           also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
 
-strict = true
-pattern = "(?x)^((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)([-._]?((?P<stage>[a-zA-Z]+)[-._]?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"
 
 [tool.poetry-dynamic-versioning.substitution]
 files = ["*/_version.py"]
@@ -54,8 +53,6 @@ files = ["*/_version.py"]
 #    },
 #  ],
 #}
-
-
 
 
 [build-system]
