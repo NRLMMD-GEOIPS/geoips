@@ -770,6 +770,11 @@ def call(fnames, command_line_args=None):
     bg_self_register_dataset = None
     bg_self_register_source = None
 
+    if command_line_args.get("no_presectoring") is not None:
+        presector_data = not command_line_args["no_presectoring"]
+    else:
+        presector_data = True
+
     if command_line_args.get("fuse_files") is not None:
         bg_files = command_line_args["fuse_files"][0]
     elif "fuse_files" in config_dict:
@@ -1003,15 +1008,18 @@ def call(fnames, command_line_args=None):
             # Do NOT sector if we are using a reader_defined or self_register area_def - that indicates we are going
             # to use all of the data we have, so we will not sector
             if area_def.sector_type not in ["reader_defined", "self_register"]:
-                LOG.interactive("Sectoring xarrays, drop=True")
-                pad_sect_xarrays = sector_xarrays(
-                    xobjs,
-                    pad_area_def,
-                    varlist=curr_variables,
-                    hours_before_sector_time=6,
-                    hours_after_sector_time=9,
-                    drop=True,
-                )
+                if presector_data:
+                    LOG.interactive("Sectoring xarrays, drop=True")
+                    pad_sect_xarrays = sector_xarrays(
+                        xobjs,
+                        pad_area_def,
+                        varlist=curr_variables,
+                        hours_before_sector_time=6,
+                        hours_after_sector_time=9,
+                        drop=True,
+                    )
+                else:
+                    pad_sect_xarrays = xobjs
             else:
                 pad_sect_xarrays = xobjs
 
@@ -1070,15 +1078,18 @@ def call(fnames, command_line_args=None):
                             chans=bg_variables,
                             area_def=pad_area_def,
                         )
-                        LOG.interactive("Sectoring background data")
-                        bg_pad_sect_xarrays = sector_xarrays(
-                            bg_xobjs,
-                            pad_area_def,
-                            varlist=bg_variables,
-                            hours_before_sector_time=6,
-                            hours_after_sector_time=9,
-                            drop=True,
-                        )
+                        if presector_data:
+                            LOG.interactive("Sectoring background data")
+                            bg_pad_sect_xarrays = sector_xarrays(
+                                bg_xobjs,
+                                pad_area_def,
+                                varlist=bg_variables,
+                                hours_before_sector_time=6,
+                                hours_after_sector_time=9,
+                                drop=True,
+                            )
+                        else:
+                            bg_pad_sect_xarrays = bg_xobjs
                     except CoverageError as resp:
                         LOG.warning(
                             f"{resp} SKIPPING - NO COVERAGE FOR BACKGROUND DATA"
@@ -1126,14 +1137,17 @@ def call(fnames, command_line_args=None):
                             "Sectoring xarrays for sector adjuster '%s'",
                             sector_adjuster,
                         )
-                        sect_xarrays = sector_xarrays(
-                            pad_sect_xarrays,
-                            area_def,
-                            varlist=curr_variables,
-                            hours_before_sector_time=6,
-                            hours_after_sector_time=9,
-                            drop=True,
-                        )
+                        if presector_data:
+                            sect_xarrays = sector_xarrays(
+                                pad_sect_xarrays,
+                                area_def,
+                                varlist=curr_variables,
+                                hours_before_sector_time=6,
+                                hours_after_sector_time=9,
+                                drop=True,
+                            )
+                        else:
+                            sect_xarrays = pad_sect_xarrays
                     else:
                         sect_xarrays = pad_sect_xarrays
                     print_mem_usage("MEMUSG", verbose=False)
@@ -1221,14 +1235,17 @@ def call(fnames, command_line_args=None):
                 LOG.interactive(
                     "Sectoring self register xarrays for area_def '%s'", area_def.name
                 )
-                sect_xarrays = sector_xarrays(
-                    pad_sect_xarrays,
-                    area_def,
-                    varlist=curr_variables,
-                    hours_before_sector_time=6,
-                    hours_after_sector_time=9,
-                    drop=True,
-                )
+                if presector_data:
+                    sect_xarrays = sector_xarrays(
+                        pad_sect_xarrays,
+                        area_def,
+                        varlist=curr_variables,
+                        hours_before_sector_time=6,
+                        hours_after_sector_time=9,
+                        drop=True,
+                    )
+                else:
+                    sect_xarrays = pad_sect_xarrays
             else:
                 sect_xarrays = pad_sect_xarrays
 
