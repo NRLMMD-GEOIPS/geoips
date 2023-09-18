@@ -79,6 +79,7 @@ Building a Custom GeoIPS Package
         * # Your package name can be anything so long as it doesn’t have dashes
             * export MY_PKG_NAME=cool_plugins
             * export MY_PKG_DIR=$GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
+            * # Note, you can also add these to your .bashrc if you plan on using these references often.
     * Back in your terminal window, run the series of following commands:
         * # Clone the template repository from GitHub
             * cd $GEOIPS_PACKAGES_DIR
@@ -95,7 +96,7 @@ Building a Custom GeoIPS Package
                 * Find/replace all occurrences of @package@ with your package name
                 * Note: The @ symbols are for ease of searching, take them out when you
                   put your package name in!
-            #. Update pyproject.toml (vim pyproject.toml, more on this in the next slide)
+            #. Update pyproject.toml (vim pyproject.toml)
                 * Find/replace all occurrences of my_package with your package name
             #. Add and commit your changes
                 * git add README.md pyproject.toml
@@ -115,6 +116,167 @@ Example Module-based Plugins
 
 Algorithnms
 -----------
+
+* The following steps will teach you how to create a custom algorithm plugin.
+* Copy the existing algorithm plugin to a new file to modify
+    * cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/modules/algorithms
+    * cp pmw_89test.py my_cloud_depth.py
+* Edit my_cloud_depth.py (see below)
+
+* Module plugins are required to have several top-level variables:
+    * name
+    * interface
+    * family
+* It is additionally required to have a docstring.
+* To convert this algorithm to “my_cloud_depth”:
+    * Update the docstring.
+    * Update “name” to “my_cloud_depth”.
+
+.. code-block:: python
+
+    """Sample algorithm plugin, duplicate of "89pct".
+
+    Duplicate of Passive Microwave 89 GHz Polarization Corrected Temperature.
+    Data manipulation steps for the "89test" product, duplicate of "89pct".
+    This algorithm expects Brightness Temperatures in units of degrees Kelvin
+    """
+    import logging
+    from xarray import DataArray
+
+    LOG = logging.getLogger(__name__)
+
+    interface = "algorithms"  # The same for all algorithm plugins
+    family = "xarray_to_xarray"  # In English: this plugin takes an Xarray dataset containing all required variables, and returns an Xarray dataset with a new variable holding the output from the algorithm
+    name = "pmw_89test"
+
+* Update the code block above with the changes shown below.
+
+.. code-block:: python
+
+    """Cloud depth product.
+
+    Difference of cloud top height and cloud base height.
+    """
+    import logging
+    from xarray import DataArray
+
+    LOG = logging.getLogger(__name__)
+
+    interface = "algorithms"
+    family = "xarray_to_xarray"
+    name = "my_cloud_depth"  # Conventionally matches the name of the plugin definition file, but can be anything that does not contain hyphens.
+
+* Each module-based plugin is required to have a 'call' function. This is how geoips
+  will interact with the module-based plugins. See below for the call signature of the
+  pmw_89test.py plugin.
+
+.. code-block:: python
+
+    def call(
+        xobj,  # Xarray dataset holding xarrays
+        variables,  # list of required input variables for algorithm. Note: Python lists are ordered, so you can count on your list of variables being in the order in which you define them in your product plugin variables
+        product_name,
+        output_data_range,
+        min_outbounds="crop",
+        max_outbounds="mask",
+        norm=False,
+        inverse=False,
+    ):
+        """89pct product algorithm data manipulation steps."""
+
+* Update the code block above to the code block below. These changes will help us create
+  a cloud-depth algorithm.
+
+.. code-block:: python
+
+    def call(
+        xobj,
+        variables,
+        product_name,
+        output_data_range,
+        scale_factor,  # Adding a scale factor here for use in converting input meters to output kilometers
+        min_outbounds="crop",
+        max_outbounds="crop",
+        norm=False,
+        inverse=False,
+    ):
+        """My cloud depth product algorithm manipulation steps."""
+
+* This is where the actual data manipulation occurs. Make sure to index the variable
+  list to the order of the variables you defined in your product, then make the
+  following changes.
+
+.. code-block:: python
+
+    h89 = xobj[variables[0]]
+    v89 = xobj[variables[1]]
+
+    out = (1.7 * v89) - (0.7 * h89)
+
+    from geoips.data_manipulations.corrections import apply_data_range
+
+    data = apply_data_range(
+        out,
+        min_val=output_data_range[0],
+        max_val=output_data_range[1],
+        min_outbounds=min_outbounds,
+        max_outbounds=max_outbounds,
+        norm=norm,
+        inverse=inverse,
+    )
+    xobj[product_name] = DataArray(data)
+
+    return xobj
+
+* Update the code above to the code below. This is how cloud-depth will be calculated.
+
+.. code-block:: python
+
+    cth = xobj[variables[0]]
+    cbh = xobj[variables[1]]
+
+    out = (cth - cbh) * scale_factor
+
+    from geoips.data_manipulations.corrections import apply_data_range
+
+    data = apply_data_range(
+        out,
+        min_val=output_data_range[0],
+        max_val=output_data_range[1],
+        min_outbounds=min_outbounds,
+        max_outbounds=max_outbounds,
+        norm=norm,
+        inverse=inverse,
+    )
+    xobj[product_name] = DataArray(data)
+
+    return xobj
+
+* Now that we've created our custom algorithm, we need to add an entry point for it in
+  pyproject.toml so that GeoIPS can locate it during runtime. This must be done anytime
+  a new module-based plugin is created.
+* Module-based plugins must be registered to an entry-point namespace. This allows
+  GeoIPS to find your plugin, even though it is in a different package!
+* The namespaces are named for their interface (e.g. “geoips.algorithms”, “geoips.interpolators”, etc.).
+* Add your entrypoint:
+    * cd $MY_PKG_DIR
+	* Edit pyproject.toml
+
+.. code-block:: toml
+
+    [project.entry-points."geoips.algorithms"]
+    pmw_89test = "cool_plugins.plugins.modules.algorithms.pmw_89test"
+    my_cloud_depth = "cool_plugins.plugins.modules.algorithms.my_cloud_depth"
+
+* Reinstall your package
+    * pip install -e $MY_PKG_DIR
+    * # This is required anytime pyproject.toml is edited!
+
+* Let's revisit our My-Cloud-Depth product definition to use the algorithm we just created
+    * Note: If you haven't yet created this product, see the *Products* section.
+    * cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+
+Edit my_clavrx_products.yaml (see below)
 
 Colormaps
 ---------
@@ -149,8 +311,317 @@ Gridline Annotators
 Product Defaults
 ----------------
 
+* A word about product defaults
+* GeoIPS has a number of product_defaults plugins defined to help you not reinvent the wheel, but:
+    * You can override any of the product defaults within your product definition
+    * You can absolutely define all of the available options within your product plugin
+* `Pre-defined CLAVR-x product defaults <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/tree/main/geoips_clavrx/plugins/yaml/product_defaults>`_
+  (part of the CLAVR-x plugin)
+* `Pre-defined GeoIPS product defaults <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/yaml/product_defaults>`_
+* If you have product definition parameters that you want to reuse (i.e. if you're copy/pasting product definition parameters!),
+  consider creating a product default for your plugin
+
+* Shown below is the geoips_clavrx Cloud-Height product defaults yaml file.
+
+.. code-block:: yaml
+
+    interface: product_defaults
+    family: interpolator_algorithm_colormapper
+    name: Cloud-Height
+    docstring: |
+      The Cloud-Height product_defaults geoips_clavrx configuration.
+    spec:
+      interpolator:
+        plugin:
+          name: interp_nearest
+          arguments: {}
+          algorithm:
+            plugin:
+              name: single_channel
+              arguments:
+                output_data_range: [0, 20]
+                scale_factor: 0.001
+                min_outbounds: "crop"
+                max_outbounds: "crop"
+                norm: False
+                inverse: False
+          colormapper:
+            plugin:
+              name: cmap_cldHeight
+              arguments:
+                data_range: [0, 20]
+
+* In your product you can use the product_defaults verbatim.
+
+.. code-block:: yaml
+
+    spec:
+      products:
+        - name: My-Cloud-Top-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Top Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_acha", "latitude", "longitude"]
+
+* You can also override just some parts of the product_defaults.
+* In this example, we override the algorithm plugin contained in the Cloud-Height
+  product_defaults, with our own specification.
+
+.. code-block:: yaml
+
+    interface: products
+    family: list
+    name: clavrx
+    docstring: |
+      The Products geoips_clavrx default configuration
+    spec:
+      products:
+        - name: Cloud-Top-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Top Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_acha", "latitude", "longitude"]
+            algorithm:
+              plugin:
+                name: single_channel
+                arguments:
+                  output_data_range: [0, 20]
+                  scale_factor: 0.001
+                  min_outbounds: "mask"
+                  max_outbounds: "mask"
+                  norm: True
+                  inverse: False
+
+* We also have the option to define a product without using product_defaults.
+* To do this:
+    * Remove the ‘product_defaults’ property
+    * Add the ‘family’ property
+    * This is shown in the code block below.
+
+.. code-block:: yaml
+
+    interface: products
+    family: list
+    name: clavrx
+    docstring: |
+      The Products geoips_clavrx default configuration
+    spec:
+      products:
+        - name: Cloud-Top-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Top Height
+          family: interpolator_algorithm_colormapper
+          spec:
+            variables: ["cld_height_acha", "latitude", "longitude"]
+            interpolator:
+              plugin:
+                name: interp_nearest
+                arguments: {}
+            algorithm:
+              plugin:
+                name: single_channel
+                arguments:
+                  output_data_range: [0, 20]
+                  scale_factor: 0.001
+                  min_outbounds: "mask"
+                  max_outbounds: "mask"
+                  norm: True
+                  inverse: False
+            colormapper:
+              plugin:
+                name: cmap_cldHeight
+                arguments:
+                  data_range: [0, 20]
+
 Products
 --------
+
+* Creating a Product for CLAVR-x Cloud Top Height
+
+#. Copy the existing product plugin to a new file to modify
+    * cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+    * cp amsr2_using_product_defaults.yaml my_clavrx_products.yaml
+#. Edit my_clavrx_products.yaml properties (vim my_clavrx_products.yaml)
+    * # (Feel free to remove all lines preceded by “# @”)
+
+.. code-block:: yaml
+
+    interface: products
+    family: list
+    name: amsr2_using_product_defaults
+    docstring: |
+      AMSR-2 products using product_defaults
+
+* Change the above code block to the code listed below
+
+.. code-block:: yaml
+
+    interface: products
+    family: list
+    name: my_clavrx_products
+    docstring: |
+      CLAVR-x imagery products
+
+* Now we'll update the 'spec' portion of the yaml file to support our new product plugin
+
+.. code-block:: yaml
+
+    spec:
+      products:
+        - name: 89-PCT-Using-Product-Defaults
+          source_names: [amsr2]
+          docstring: |
+            89 MHz Polarization Corrected Brighness Temperature Implementation
+            using the 89-PCT-Test product defaults in the product definition.
+          product_defaults: 89-PCT-Test
+          spec:
+            variables: ["tb89hA", "tb89vA"]
+
+* Update the code block above to what is stored in the code block below. You don't need the comments included.
+
+.. code-block:: yaml
+
+    spec:
+      products:
+        - name: My-Cloud-Top-Height # The name of the product you're defining (can be anything)
+          source_names: [clavrx] # Defined as metadata in the corresponding reader
+          docstring: | # Pipe says to YAML this will be a multiline comment, can be anything
+            CLAVR-x Cloud Top Height
+          product_defaults: Cloud-Height # See the Product Defaults section for more info
+          spec: # Variables are the neccessary variables which are needed to produce your product
+            variables: ["cld_height_acha", "latitude", "longitude"]
+
+* To use your product that you just created, you'll need to create a bash script that
+  implements 'run_procflow'.
+* GeoIPS is called via a command line interface
+* The main command that you will use is run_procflow which will run your data through the
+  specified procflow using the specified plugins
+* It's easiest to do this via a script, and scripts are stored in your plugin package's
+  tests/ directory because they can be used later to regression test your package
+* Copy the existing test script into a new file to modify
+    * cd $MY_PKG_DIR/tests/scripts
+    * cp amsr2.global_clean.89-PCT-Using-Product-Defaults.sh clavrx.conus_annotated.my-cloud-top-height.sh
+* Edit clavrx.conus_annotated.my-cloud-top-height.sh (see code blocks below)
+    * vim clavrx.conus_annotated.my-cloud-top-height.sh
+
+.. code-block:: bash
+
+    run_procflow \
+    $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
+        --procflow single_source \
+        --reader_name amsr2_netcdf \
+        --product_name 89-PCT-Using-Product-Defaults \
+        --compare_path $GEOIPS_PACKAGES_DIR/template_basic_plugin/tests/outputs/amsr2.global_clean.89-PCT-Product-Defaults \
+        --output_formatter imagery_clean \
+        --filename_formatter geoips_fname \
+        --minimum_coverage 0 \
+        --sector_list global
+
+* Change the code above to the code listed below. Note that the '--compare_path' line
+  has been removed
+
+.. code-block:: bash
+
+    run_procflow \
+    $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
+        --procflow single_source \
+        --reader_name clavrx_hdf4 \
+        --product_name My-Cloud-Top-Height \
+        --output_formatter imagery_annotated \
+        --filename_formatter geoips_fname \
+        --minimum_coverage 0 \
+        --sector_list conus
+
+* Once these changes have been created, we can run our test script to produce Cloud Top
+  Height Imagery.
+* Run your script
+    * $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-top-height.sh
+* This will write some log output.
+* If your script succeeded it will end with INTERACTIVE: Return Value 0
+* To view your output, look for a line that says SINGLESOURCESUCCESS
+* Open the PNG file, it should look like the image below.
+
+.. image:: ../images/command_line_examples/my_cloud_top_height.png
+   :width: 800
+
+* Using your definition of My-Cloud-Top-Height as an example, create a product definition for My-Cloud-Base-Height
+    * cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+    * Edit my_clavrx_products.yaml
+* Helpful Hints:
+    * The relevant variable in the CLAVR-x output file (and the equivalent GeoIPS reader) is called "cld_height_base"
+    * The Cloud-Height product_default can be used to simplify this product definition (or you can DIY or override if you'd like!)
+* The correct products implementation for 'my_clavrx_products.yaml' is shown below.
+
+.. code-block:: yaml
+
+    interface: products
+    family: list
+    name: my_clavrx_products
+    docstring: |
+      CLAVR-x imagery products
+    spec:
+      products:
+        - name: My-Cloud-Top-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Top Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_acha", "latitude", "longitude"]
+        - name: My-Cloud-Base-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Base Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_base", "latitude", "longitude"]
+
+* Using your definitions of My-Cloud-Top-Height and My-Cloud-Base-Height as examples, create a product definition for My-Cloud-Depth
+    * cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+    * Edit my_clavrx_products.yaml
+* Helpful Hints:
+    * We will define Cloud Depth for this tutorial as the difference between CTH and CBH
+
+.. code-block:: yaml
+
+    interface: products
+    family: list
+    name: my_clavrx_products
+    docstring: |
+      CLAVR-x imagery products
+    spec:
+      products:
+        - name: My-Cloud-Top-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Top Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_acha", "latitude", "longitude"]
+        - name: My-Cloud-Base-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Base Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_base", "latitude", "longitude"]
+        - name: My-Cloud-Depth
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Depth
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_acha", "cld_height_base", "latitude", "longitude"]
+
+* We now have two variables, but if we examine the `Cloud-Height Product Defaults https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml`_
+  we see that it uses the “single_channel” algorithm.
+* This algorithm just manipulates a single data variable and plots it.
+* We need a new algorithm! See the *Algorithms* section.
 
 Dynamic Sectors
 ---------------
@@ -172,7 +643,7 @@ Static Sectors
     name: australia
     docstring: "Australian Continent"
     metadata:
-    region:
+      region:
         continent: Australia
         country: x
         area: Continental
@@ -180,21 +651,21 @@ Static Sectors
         state: x
         city: x
     spec:
-        area_id: australia
-        description: Australian Continent
-        projection:
-            a: 6371228.0
-            lat_0: -26.5
-            lon_0: 134.0
-            proj: stere
-            units: m
-        resolution:
-            - 2000
-            - 2000
-        shape:
-            height: 2100
-            width: 2400
-        center: [0, 0]
+      area_id: australia
+      description: Australian Continent
+      projection:
+        a: 6371228.0
+        lat_0: -26.5
+        lon_0: 134.0
+        proj: stere
+        units: m
+      resolution:
+        - 2000
+        - 2000
+      shape:
+        height: 2100
+        width: 2400
+      center: [0, 0]
 
 .. code-block:: yaml
 
@@ -203,7 +674,7 @@ Static Sectors
     name: my_conus_sector
     docstring: "My CONUS Sector"
     metadata:
-    region:
+      region:
         continent: NorthAmerica
         country: UnitedStates
         area: x
@@ -211,21 +682,21 @@ Static Sectors
         state: x
         city: x
     spec:
-        area_id: my_conus_sector
-        description: CONUS
-        projection:
-            a: 6371228.0
-            lat_0: 37.0
-            lon_0: -96.0
-            proj: eqc # Describes the Projection Type (from PROJ Projections)
-            units: m
-        resolution:
-            - 3000 # The resolution of each pixel in meters (x, y)
-            - 3000
-        shape:
-            height: 1000
-            width: 2200
-        center: [0, 0]
+      area_id: my_conus_sector
+      description: CONUS
+      projection:
+        a: 6371228.0
+        lat_0: 37.0
+        lon_0: -96.0
+        proj: eqc # Describes the Projection Type (from PROJ Projections)
+        units: m
+      resolution:
+        - 3000 # The resolution of each pixel in meters (x, y)
+        - 3000
+      shape:
+        height: 1000
+        width: 2200
+      center: [0, 0]
 
 * The code blocks above depict the changes you will need to make to create a custom
   conus sector plugin. While you can leave the metadata untouched, it is very helpful to
@@ -264,7 +735,6 @@ Static Sectors
 
 .. image:: ../images/command_line_examples/my_conus_sector_cth.png
    :width: 800
-
 
 ProcFlow Configurations
 -----------------------
