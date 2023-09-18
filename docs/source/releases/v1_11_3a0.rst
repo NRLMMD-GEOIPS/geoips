@@ -22,7 +22,7 @@ Version 1.11.3a0 (2023-08-25)
 * Add option for curly braces in "replace_geoips_paths", use in procflows
 * Update log output to include <module>.py:<linenum> (Yay VSCode!)
 * Update support for xarray_to_xarray algorithm family
-* Add 'no_sectoring' procflow flag to disable sectoring
+* Add 'no_presectoring' procflow flag to disable sectoring
 * Bug fixes
 
 Bug Fixes
@@ -276,17 +276,30 @@ implementation to follow for the future.
     modified: geoips/geoips/plugins/yaml/product_defaults/tpw/TPW-PURPLE.yaml
     modified: geoips/pyproject.toml
 
-Make sectoring in procflow optional
------------------------------------
+Make pre-sectoring in procflow optional
+---------------------------------------
 
-The previous implementation of procflow sectoring always sectors data, whether
-or not the user actually wants that to happen. This sometimes causes errors with
-specific data formats, and therefor needs an appropriate refactoring update. To
-implement this, an added flag called 'no_sectoring' has beed created, and when used,
-procflow sectoring no longer occurs.
+The previous implementation of procflows always sectors data prior to
+passing to the algorithm, whether
+or not the user actually wants that to happen.
+
+While this can provide some efficiency improvements, it can also cause
+issues with certain data formats, and
+therefore needs an appropriate refactoring update. To implement this,
+an added flag called 'no_presectoring' has beed created, and when used,
+procflow pre-sectoring no longer occurs.
+
+Also updated the GMI test script to use the "--no_presectoring" option,
+and updated the test outputs from a filename with 1720Z to a filename
+with 1715Z (due to the lack of sectoring, the filename uses the start
+time of the full granule, rather than the start time of the pre-sectored
+data).
 
 ::
 
     modified: geoips/geoips/plugins/modules/procflows/singe_source.py
     modified: geoips/geoips/plugins/modules/procflows/config_based.py
     modified: geoips/geoips/commandline/args.py
+    modified: tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png
+    modified: tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png.yaml
+    modified: tests/scripts/gmi.tc.89pct.imagery_clean.sh
