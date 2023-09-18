@@ -300,6 +300,6 @@ data).
     modified: geoips/geoips/plugins/modules/procflows/singe_source.py
     modified: geoips/geoips/plugins/modules/procflows/config_based.py
     modified: geoips/geoips/commandline/args.py
-    modified: tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png
-    modified: tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png.yaml
+    renamed: 1720 -> tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png
+    renamed: 1720 -> tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png.yaml
     modified: tests/scripts/gmi.tc.89pct.imagery_clean.sh
