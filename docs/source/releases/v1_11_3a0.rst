@@ -27,6 +27,16 @@ Version 1.11.3a0 (2023-08-25)
 Bug Fixes
 =========
 
+Temporarily pin numexpr<2.8.5
+-----------------------------
+
+A bug was introduced in numexpr 2.8.5 that causes scientific notation
+to break. For now, temporarily pin numexpr<2.8.5.
+
+::
+
+  modified: pyproject.toml
+
 Update support for xarray_to_xarray algorithm family
 ----------------------------------------------------
 
