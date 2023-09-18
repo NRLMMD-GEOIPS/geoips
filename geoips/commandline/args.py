@@ -560,6 +560,15 @@ def add_args(parser, arglist=None):
             type=str.upper,
         )
 
+    if arglist is None or "no_presectoring" in arglist:
+        procflow_group.add_argument(
+            "--no_presectoring",
+            action="store_true",
+            help="""If true, do not pre-sector data prior to running the algorithm.
+                    This is less efficient, but allows the original dataset to
+                    be passed to the algorithm in full.""",
+        )
+
     rdr_group = parser.add_argument_group(title="Data reader specifications")
 
     if arglist is None or "reader_name" in arglist:

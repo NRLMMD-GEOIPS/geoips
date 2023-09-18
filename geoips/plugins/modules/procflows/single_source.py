@@ -1337,6 +1337,7 @@ def call(fnames, command_line_args=None):
     resampled_read = command_line_args["resampled_read"]
     product_db = command_line_args["product_db"]
     product_db_writer = command_line_args["product_db_writer"]
+    presector_data = not command_line_args["no_presectoring"]
 
     if product_db:
         from geoips_db.dev.postgres_database import get_db_writer
@@ -1473,15 +1474,18 @@ def call(fnames, command_line_args=None):
             )
             pad_sect_xarrays = xobjs
         else:
-            LOG.interactive("Sectoring xarrays...")
-            pad_sect_xarrays = sector_xarrays(
-                xobjs,
-                pad_area_def,
-                varlist=variables,
-                hours_before_sector_time=6,
-                hours_after_sector_time=9,
-                drop=True,
-            )
+            if presector_data:
+                LOG.interactive("Sectoring xarrays...")
+                pad_sect_xarrays = sector_xarrays(
+                    xobjs,
+                    pad_area_def,
+                    varlist=variables,
+                    hours_before_sector_time=6,
+                    hours_after_sector_time=9,
+                    drop=True,
+                )
+            else:
+                pad_sect_xarrays = xobjs
 
         print_mem_usage("MEMUSG", verbose=False)
         if len(pad_sect_xarrays.keys()) == 0:
@@ -1537,14 +1541,17 @@ def call(fnames, command_line_args=None):
                     sect_xarrays = pad_sect_xarrays
                 else:
                     LOG.interactive("Sectoring padded xarrays...")
-                    sect_xarrays = sector_xarrays(
-                        pad_sect_xarrays,
-                        area_def,
-                        varlist=variables,
-                        hours_before_sector_time=6,
-                        hours_after_sector_time=9,
-                        drop=True,
-                    )
+                    if presector_data:
+                        sect_xarrays = sector_xarrays(
+                            pad_sect_xarrays,
+                            area_def,
+                            varlist=variables,
+                            hours_before_sector_time=6,
+                            hours_after_sector_time=9,
+                            drop=True,
+                        )
+                    else:
+                        sect_xarrays = pad_sect_xarrays
                 if (
                     sect_adj_plugin.family
                     == "list_xarray_list_variables_to_area_def_out_fnames"
@@ -1627,7 +1634,7 @@ def call(fnames, command_line_args=None):
                     pad_sect_xarrays,
                     area_def,
                     prod_plugin,
-                    resector=True,
+                    resector=presector_data,
                     resampled_read=resampled_read,
                 )
 
