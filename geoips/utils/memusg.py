@@ -22,7 +22,9 @@ LOG = logging.getLogger(__name__)
 try:
     import psutil
 except ImportError:
-    LOG.info("Failed import psutil in utils/memusg.py. " + "If you need it, install it.")
+    LOG.info(
+        "Failed import psutil in utils/memusg.py. " + "If you need it, install it."
+    )
 
 
 def print_mem_usage(logstr="", verbose=False):
