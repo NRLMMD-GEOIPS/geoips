@@ -564,7 +564,9 @@ def add_args(parser, arglist=None):
         procflow_group.add_argument(
             "--no_sectoring",
             action="store_true",
-            help="""Specify whether or not you want sectoring to occur.""",
+            help="""If true, do not pre-sector data prior to running the algorithm.
+                    This is less efficient, but allows the original dataset to
+                    be passed to the algorithm in full.""",
         )
 
     rdr_group = parser.add_argument_group(title="Data reader specifications")
