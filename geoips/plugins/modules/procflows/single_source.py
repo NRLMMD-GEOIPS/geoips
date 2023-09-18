@@ -1623,7 +1623,7 @@ def call(fnames, command_line_args=None):
                     pad_sect_xarrays,
                     area_def,
                     prod_plugin,
-                    resector=sector,
+                    resector=presector_data,
                     resampled_read=resampled_read,
                 )
 
