@@ -10,41 +10,120 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+.. _plugin-extend:
+
 **************************
 Extend GeoIPS with Plugins
 **************************
 
-Overall GeoIPS Structure
-------------------------
+GeoIPS is almost entirely composed of plugins and can be extended by developing
+new plugins in external python packages. The ability to extend GeoIPS using
+plugins means that there is no need to edit the main GeoIPS code to add new
+functionality.  Most types of functionality in GeoIPS can be extended. If you
+encounter something that you would like to be able to extend but are unable to,
+please contact the GeoIPS team or create an issue on GitHub.
 
-* GeoIPS is a plugin-based system for manipulating geolocated data.
-    * It can produce imagery in several formats (most often PNG).
-    * It can also produce output data products in NetCDF4 format.
-    * Can be extended to add other output formats via plugins.
+Developing a new plugin for GeoIPS requires developing a new Python package that GeoIPS
+terms a "plugin package". The plugin package can contain one or more plugins. It is
+configured in a special way such that, when it is installed,
+it registers itself and its plugins with GeoIPS.
 
-* GeoIPS is almost entirely composed of plugins.
-    * GeoIPS can be extended by developing new plugins in external python packages.
-    * No need to edit the main GeoIPS code to add new functionality.
-    * Most types of functionality in GeoIPS can be extended (and if something can’t be
-      extended, and you think it should, let us know!).
+An example repository **add a link here** is provided that can guide you through
+the process of creating a new plugin package containing one or more custom
+plugins.
 
-GeoIPS Vocabulary
+GeoIPS Plugin Vocabulary
+========================
+
+Plugin
+------
+A GeoIPS plugin may be either a Python module or a YAML file that extends GeoIPS with
+new functionality. Whether a plugin is a Python module or a YAML file is determined by
+its interface.
+
+Plugins are stored in installable Python packages that register their payload with
+GeoIPS through the use of `entrypoints<entry-points>`.
+
+Module-based Plugin
+-------------------
+A module-based plugin is a plugin that extends GeoIPS by adding new
+functionality that is capable of performing an action (e.g. apply an algorithm,
+read data, apply formatting, etc.).  Module-based plugins are defined as a
+single python module that contains a handful of required top-level variables and
+a single function that performs the action of the plugin. Examples of
+module-based plugins include ``algorithms``, ``readers``, and various types of
+formatters.
+
+YAML-based Plugin
 -----------------
+A YAML-based plugin is a plugin that extends GeoIPS by adding a new set of
+static configuration options for GeoIPS.  Examples of YAML-based plugins include
+``sectors``, ``products``, and ``feature-annotators``.
 
-* YAML
-    * "Yet Another Markdown Language"
-    * A human-readable data serialization language that is often used for writing
-      configuration files
-* Plugin
-    * A Python module or YAML file that defines GeoIPS functionality
-    * Stored in an installable Python package that registers its plugin payload with
-      GeoIPS
-* Interface
-    * A class of Python plugins that modify the same type of functionality within GeoIPS
-      (e.g., “the algorithms interface” or “the colormappers interface”)
-* Family
-    * A subset of an interface whose plugins accept different sets of
-      arguments/properties
+Interface
+---------
+An ``interface`` defines a class of GeoIPS plugins that extend the same type of
+functionality within GeoIPS. For example, some commonly used interfaces include the
+``algorithms``, ``colormappers``, and ``sectors`` interfaces.
+
+Family
+------
+A ``family`` is a subset of an interface's plugins which accept specific sets of
+arguments/properties. Module-based plugins of the same ``family`` have similar call
+signatures. YAML-based plugins of the same ``family`` are validated against the same
+schema (i.e. they contain the same properties).
+
+.. _plugin-development-setup:
+
+Setting up for Plugin Development
+=================================
+
+1. To develop a new GeoIPS plugin, first :ref:`install GeoIPS<complete_install>` and ensure
+   that you have your environment enabled and all environment variables set as described in
+   the installation instructions.
+
+2. Then, choose a name for your package. By contention the package name should:
+
+   * be all lower case
+   * start with a letter
+   * contain only letters, numbers, and underscores
+
+   From here on, anywhere ``@package@`` is used should be replaced with your chosen package
+   name.
+
+3. Clone the ``template_basic_plugin`` repository and rename it:
+   ::
+
+       cd $GEOIPS_PACKAGES_DIR
+       git clone --no-tags --single-branch https://github.com/NRLMMD-GEOIPS/template_basic_plugin.git
+
+       # Replace @package@ with your package name, removing the @s
+       mv template_basic_plugin @package@
+
+4. Update readme.md
+
+   The ``readme.md`` file describes your plugin package and should be updated to match your
+   package. To do this, edit ``README.md`` to:
+
+   * Replace all instances of ``@package@`` with your package name.
+   * Search for all remaining ``@`` within the file and follow the included instructions to
+     update the readme appropriately.
+   * Remove all lines containing ``@``.
+
+5. Update pyproject.toml
+
+   Installing a Python package requires metadata that describes the package and how to
+   install it. GeoIPS uses ``pyproject.toml`` to define this information. We, additionally,
+   make GeoIPS aware of plugin packages using ``entry-points``.
+
+   To update ``pyproject.toml`` for your package, edit the file to:
+
+   * Update ``@package@`` to your package name.
+   * Add any python package depenencies to the ``install_requires`` section.
+
+6. Add more subsections
+
+   Add more subsections to complete the setup
 
 Defining pyproject.toml
 -----------------------
@@ -114,8 +193,10 @@ Developing YAML-based plugin
 Example Module-based Plugins
 ============================
 
+
 Algorithnms
 -----------
+:ref:`algorithms<add-an-algorithm>`
 
 * The following steps will teach you how to create a custom algorithm plugin.
 * Copy the existing algorithm plugin to a new file to modify
@@ -738,3 +819,5 @@ Static Sectors
 
 ProcFlow Configurations
 -----------------------
+
+.. _entry-points: https://packaging.python.org/en/latest/specifications/entry-points/
