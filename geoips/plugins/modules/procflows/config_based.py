@@ -770,10 +770,10 @@ def call(fnames, command_line_args=None):
     bg_self_register_dataset = None
     bg_self_register_source = None
 
-    if command_line_args.get("no_sectoring") is not None:
-        sector = not command_line_args["no_sectoring"]
+    if command_line_args.get("no_presectoring") is not None:
+        presector_data = not command_line_args["no_presectoring"]
     else:
-        sector = True
+        presector_data = True
 
     if command_line_args.get("fuse_files") is not None:
         bg_files = command_line_args["fuse_files"][0]
@@ -1008,7 +1008,7 @@ def call(fnames, command_line_args=None):
             # Do NOT sector if we are using a reader_defined or self_register area_def - that indicates we are going
             # to use all of the data we have, so we will not sector
             if area_def.sector_type not in ["reader_defined", "self_register"]:
-                if sector:
+                if presector_data:
                     LOG.interactive("Sectoring xarrays, drop=True")
                     pad_sect_xarrays = sector_xarrays(
                         xobjs,
@@ -1078,7 +1078,7 @@ def call(fnames, command_line_args=None):
                             chans=bg_variables,
                             area_def=pad_area_def,
                         )
-                        if sector:
+                        if presector_data:
                             LOG.interactive("Sectoring background data")
                             bg_pad_sect_xarrays = sector_xarrays(
                                 bg_xobjs,
@@ -1137,7 +1137,7 @@ def call(fnames, command_line_args=None):
                             "Sectoring xarrays for sector adjuster '%s'",
                             sector_adjuster,
                         )
-                        if sector:
+                        if presector_data:
                             sect_xarrays = sector_xarrays(
                                 pad_sect_xarrays,
                                 area_def,
@@ -1235,7 +1235,7 @@ def call(fnames, command_line_args=None):
                 LOG.interactive(
                     "Sectoring self register xarrays for area_def '%s'", area_def.name
                 )
-                if sector:
+                if presector_data:
                     sect_xarrays = sector_xarrays(
                         pad_sect_xarrays,
                         area_def,

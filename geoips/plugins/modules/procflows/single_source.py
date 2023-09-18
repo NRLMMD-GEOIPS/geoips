@@ -1334,7 +1334,7 @@ def call(fnames, command_line_args=None):
     resampled_read = command_line_args["resampled_read"]
     product_db = command_line_args["product_db"]
     product_db_writer = command_line_args["product_db_writer"]
-    sector = not command_line_args["no_sectoring"]
+    presector_data = not command_line_args["no_presectoring"]
 
     if product_db:
         from geoips_db.dev.postgres_database import get_db_writer
@@ -1463,7 +1463,7 @@ def call(fnames, command_line_args=None):
             )
             pad_sect_xarrays = xobjs
         else:
-            if sector:
+            if presector_data:
                 LOG.interactive("Sectoring xarrays...")
                 pad_sect_xarrays = sector_xarrays(
                     xobjs,
@@ -1530,7 +1530,7 @@ def call(fnames, command_line_args=None):
                     sect_xarrays = pad_sect_xarrays
                 else:
                     LOG.interactive("Sectoring padded xarrays...")
-                    if sector:
+                    if presector_data:
                         sect_xarrays = sector_xarrays(
                             pad_sect_xarrays,
                             area_def,
