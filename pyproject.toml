@@ -209,13 +209,13 @@ tc_standard = "geoips.plugins.modules.title_formats.tc_standard:tc_standard"
 tc_copyright = "geoips.plugins.modules.title_formats.tc_copyright:tc_copyright"
 static_standard = "geoips.plugins.modules.title_formats.static_standard:static_standard"
 
-[tool.poetry.plugins."geoips.coverage_checks"]
-masked_arrays = "geoips.interface_modules.coverage_checks.masked_arrays:masked_arrays"
-numpy_arrays_nan = "geoips.interface_modules.coverage_checks.numpy_arrays_nan:numpy_arrays_nan"
-center_radius = "geoips.interface_modules.coverage_checks.center_radius:center_radius"
-center_radius_rgba = "geoips.interface_modules.coverage_checks.center_radius_rgba:center_radius_rgba"
-rgba = "geoips.interface_modules.coverage_checks.rgba:rgba"
-windbarbs = "geoips.interface_modules.coverage_checks.windbarbs:windbarbs"
+[tool.poetry.plugins."geoips.coverage_checkers"]
+masked_arrays = "geoips.plugins.modules.coverage_checks.masked_arrays:masked_arrays"
+numpy_arrays_nan = "geoips.plugins.modules.coverage_checks.numpy_arrays_nan:numpy_arrays_nan"
+center_radius = "geoips.plugins.modules.coverage_checks.center_radius:center_radius"
+center_radius_rgba = "geoips.plugins.modules.coverage_checks.center_radius_rgba:center_radius_rgba"
+rgba = "geoips.plugins.modules.coverage_checks.rgba:rgba"
+windbarbs = "geoips.plugins.modules.coverage_checks.windbarbs:windbarbs"
 
 [tool.poetry.plugins."geoips.output_comparisons"]
 compare_outputs = "geoips.compare_outputs:compare_outputs"
@@ -231,8 +231,6 @@ text_winds_day_fname = "geoips.plugins.modules.filename_formatters.text_winds_da
 text_winds_full_fname = "geoips.plugins.modules.filename_formatters.text_winds_full_fname"
 text_winds_tc_fname = "geoips.plugins.modules.filename_formatters.text_winds_tc_fname"
 metadata_default_fname = "geoips.plugins.modules.filename_formatters.metadata_default_fname"
-
-
 
 [tool.poetry.scripts]
 run_procflow = "geoips.commandline.run_procflow:main"
