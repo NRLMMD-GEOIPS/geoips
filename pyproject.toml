@@ -32,21 +32,6 @@ pattern = "(?x)^((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)([-._]?((?P<stage>[a-
 
 [tool.poetry-dynamic-versioning.substitution]
 files = ["*/_version.py"]
-#
-#substitution = {
-#  files = [
-#    #"*.py",
-#    #"*/__init__.py",
-#    #"*/__version__.py",
-#    "*/_version.py",
-#  ],
-#  patterns = [
-#    {
-#      regex = r'__version__ = "(.*?)"',
-#      substitution = r'__version__ = "{version}"',
-#    },
-#  ],
-#}
 
 
 [build-system]
