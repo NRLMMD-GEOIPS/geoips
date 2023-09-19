@@ -226,9 +226,13 @@ def images_match(output_product, compare_product, fuzz="5%"):
     comp_img = Image.open(compare_product)
     diff_img = Image.new(mode="RGB", size=comp_img.size)
     diff_arr = np.abs(np.array(comp_img) - np.array(out_img))
-    num_pix_mismatched = pixelmatch(out_img, comp_img, diff_img, includeAA=True,
-                                    alpha=0.33, threshold=0.05)
-    fullimg_retval = 0 if np.all(diff_arr == 0) and num_pix_mismatched == 0 else 1
+    num_pix_mismatched = pixelmatch(
+        out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=0.05
+    )
+    if np.all(diff_arr == 0) and num_pix_mismatched == 0:
+        fullimg_retval = 0
+    else:
+        fullimg_retval = 1
     LOG.info("**Saving exact difference image")
     diff_img.save(exact_out_diffimg)
     LOG.info("**Done running compare")
