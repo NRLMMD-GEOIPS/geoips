@@ -96,6 +96,9 @@ doc8 = "^1.1.1"                 # RST linting
 pytest = "^7.4.0"		# Required for unit tests
 pytest-cov = "^4.1.0"		# Reports on test coverage
 
+[tool.poetry.group.debug.dependencies]
+ipython = "^8.15.0"
+
 [tool.poetry.plugins."geoips.plugin_packages"]
 geoips = "geoips"
 
@@ -161,9 +164,9 @@ single_source = "geoips.plugins.modules.procflows.single_source"
 config_based = "geoips.plugins.modules.procflows.config_based"
 
 
-[tool.poetry.
-tc_sector_file_parser = "geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser"
-bdeck_parser = "geoips.plugins.modules.sector_metadata_generators.bdeck_parser"
+#[tool.poetry.
+#tc_sector_file_parser = "geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser"
+#bdeck_parser = "geoips.plugins.modules.sector_metadata_generators.bdeck_parser"
 
 
 
