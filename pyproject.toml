@@ -70,8 +70,6 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
     scikit-image = "^0.21.0"        # Radius based center coverage checks
     #shapely = "^2.0.1"             # May be covered by cartopy. may not require libgeos
     
-
-
 #[tool.poetry.dev-dependencies]
 # nothing at this stage;
 
@@ -133,7 +131,7 @@ viirs_netcdf = "geoips.plugins.modules.readers.viirs_netcdf"
 wfabba_ascii = "geoips.plugins.modules.readers.wfabba_ascii"
 windsat_idr37_binary = "geoips.plugins.modules.readers.windsat_idr37_binary"
 
-[tool.poetry.plugins."geoips.output_formats"]
+[tool.poetry.plugins."geoips.output_formatters"]
 full_disk_image = "geoips.plugins.modules.output_formatters.full_disk_image"
 unprojected_image = "geoips.plugins.modules.output_formatters.unprojected_image"
 geotiff_standard = "geoips.plugins.modules.output_formatters.geotiff_standard"
@@ -175,8 +173,6 @@ interp_nearest = "geoips.plugins.modules.interpolators.pyresample_wrappers.inter
 interp_gauss = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_gauss"
 interp_grid = "geoips.plugins.modules.interpolators.scipy_wrappers.interp_grid"
 
-
-
 [tool.poetry.plugins."geoips.trackfile_parsers"]
 flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
 bdeck_parser = "geoips.interface_modules.trackfile_parsers.bdeck_parser:bdeck_parser"
@@ -184,7 +180,7 @@ bdeck_parser = "geoips.interface_modules.trackfile_parsers.bdeck_parser:bdeck_pa
 [tool.poetry.plugins."geoips.area_def_generators"]
 clat_clon_resolution_shape = "geoips.interface_modules.area_def_generators.clat_clon_resolution_shape:clat_clon_resolution_shape"
 
-[tool.poetry.plugins."geoips.user_colormappers"]
+[tool.poetry.plugins."geoips.colormappers"]
 cmap_rgb = "geoips.plugins.modules.colormappers.cmap_rgb"
 matplotlib_linear_norm = "geoips.plugins.modules.colormappers.matplotlib_linear_norm"
 pmw_150H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_150H"
@@ -205,17 +201,17 @@ WV = "geoips.plugins.modules.colormappers.visir.WV"
 wind_radii_transitions = "geoips.plugins.modules.colormappers.winds.wind_radii_transitions"
 
 [tool.poetry.plugins."geoips.title_formatters"]
-tc_standard = "geoips.plugins.modules.title_formats.tc_standard:tc_standard"
-tc_copyright = "geoips.plugins.modules.title_formats.tc_copyright:tc_copyright"
-static_standard = "geoips.plugins.modules.title_formats.static_standard:static_standard"
+tc_standard = "geoips.plugins.modules.title_formatters.tc_standard"
+tc_copyright = "geoips.plugins.modules.title_formatters.tc_copyright"
+static_standard = "geoips.plugins.modules.title_formatters.static_standard"
 
 [tool.poetry.plugins."geoips.coverage_checkers"]
-masked_arrays = "geoips.plugins.modules.coverage_checks.masked_arrays:masked_arrays"
-numpy_arrays_nan = "geoips.plugins.modules.coverage_checks.numpy_arrays_nan:numpy_arrays_nan"
-center_radius = "geoips.plugins.modules.coverage_checks.center_radius:center_radius"
-center_radius_rgba = "geoips.plugins.modules.coverage_checks.center_radius_rgba:center_radius_rgba"
-rgba = "geoips.plugins.modules.coverage_checks.rgba:rgba"
-windbarbs = "geoips.plugins.modules.coverage_checks.windbarbs:windbarbs"
+masked_arrays = "geoips.plugins.modules.coverage_checkers.masked_arrays"
+numpy_arrays_nan = "geoips.plugins.modules.coverage_checkers.numpy_arrays_nan"
+center_radius = "geoips.plugins.modules.coverage_checkers.center_radius"
+center_radius_rgba = "geoips.plugins.modules.coverage_checkers.center_radius_rgba"
+rgba = "geoips.plugins.modules.coverage_checkers.rgba"
+windbarbs = "geoips.plugins.modules.coverage_checkers.windbarbs"
 
 [tool.poetry.plugins."geoips.output_comparisons"]
 compare_outputs = "geoips.compare_outputs:compare_outputs"
