@@ -163,7 +163,7 @@ def calculate_overpass(tle, observer_lat, observer_lon, date, satellite_name):
             is_geostationary = True
             is_above_horizon = True
         else:
-            # print(resp)
+            # LOG.info(resp)
             return None
         opass_info["rise time"] = date
         opass_info["max altitude time"] = date

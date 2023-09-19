@@ -320,4 +320,4 @@ if __name__ == "__main__":
             "upper_right_xy": upper_right_xy,
         }
     )
-    print(populated_template)
+    LOG.info(populated_template)
