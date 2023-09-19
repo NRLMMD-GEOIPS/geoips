@@ -18,7 +18,6 @@ Version 1.11.3a0 (2023-09-19)
 * Add script to enable geoips environment
 * Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
 * Use matplotlib_linear_norm colormapper for tpw_cimss and tpw_purple
-* Replace Imagemagick with PIL and Numpy based comparison
 * Add interactive log level, and include useful interactive logs
 * Add option for curly braces in "replace_geoips_paths", use in procflows
 * Update log output to include <module>.py:<linenum> (Yay VSCode!)
