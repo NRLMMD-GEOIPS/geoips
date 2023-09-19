@@ -225,7 +225,11 @@ def images_match(output_product, compare_product, fuzz="5%"):
     out_img = Image.open(output_product)
     comp_img = Image.open(compare_product)
     diff_img = Image.new(mode="RGB", size=comp_img.size)
-    diff_arr = np.abs(np.array(comp_img) - np.array(out_img))
+    try:
+        diff_arr = np.abs(np.array(comp_img) - np.array(out_img))
+    except ValueError:
+        return False
+
     num_pix_mismatched = pixelmatch(
         out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=0.05
     )
@@ -238,11 +242,12 @@ def images_match(output_product, compare_product, fuzz="5%"):
     LOG.info("**Done running compare")
 
     if fullimg_retval != 0:
-        LOG.info("    ***************************************")
-        LOG.info("    *** BAD Images do NOT match exactly ***")
-        LOG.info("    ***   output_product: %s ***", output_product)
-        LOG.info("    ***   compare_product: %s ***", compare_product)
-        LOG.info("    ***************************************")
+        LOG.interactive("    ***************************************")
+        LOG.interactive("    *** BAD Images do NOT match exactly ***")
+        LOG.interactive("    ***   output_product: %s ***", output_product)
+        LOG.interactive("    ***   compare_product: %s ***", compare_product)
+        LOG.interactive("    ***   exact dif image: %s ***", exact_out_diffimg)
+        LOG.interactive("    ***************************************")
         return False
 
     if fullimg_retval != 0:
