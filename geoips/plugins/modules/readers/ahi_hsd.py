@@ -982,7 +982,7 @@ def call(
         for GeoIPS-formatted xarray Datasets.
     """
     process_datetimes = {}
-    log.interactive("AHI reader test_arg: %s", test_arg)
+    LOG.interactive("AHI reader test_arg: %s", test_arg)
     print_mem_usage("MEMUSG", verbose=False)
     process_datetimes["overall_start"] = datetime.utcnow()
     gvars = {}
