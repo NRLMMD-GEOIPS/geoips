@@ -167,6 +167,9 @@ config_based = "geoips.plugins.modules.procflows.config_based"
 tc_sector_file_parser = "geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser"
 bdeck_parser = "geoips.plugins.modules.sector_metadata_generators.bdeck_parser"
 
+[tool.poetry.plugins."geoips.sector_spec_generators"]
+center_coordinates = "geoips.plugins.modules.sector_spec_generators.center_coordinates"
+
 [tool.poetry.plugins."geoips.trackfile_parsers"]
 flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
 bdeck_parser = "geoips.interface_modules.trackfile_parsers.bdeck_parser:bdeck_parser"
