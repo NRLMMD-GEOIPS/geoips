@@ -24,6 +24,7 @@ Version 1.11.3a0 (2023-08-25)
 * Update support for xarray_to_xarray algorithm family
 * Change all GeoIPS print statements to LOG.info statements
 * Update console scripts to use shared logging and argparse setup
+* Fix bug where YAML plugin is empty and error is not helpful
 * Add reader_kwargs command line argument
 * Add 'no_presectoring' procflow flag to disable sectoring
 * Bug fixes
@@ -123,6 +124,17 @@ has been resolved.
 ::
 
   modified: pyproject.toml
+
+Add PluginError for empty YAML plugins
+--------------------------------------
+
+Currently, when a YAML plugin is empty in GeoIPS, the error raised is non-descriptive
+and not helpful. To fix this, we've added a PluginError which points the user to the
+empty YAML file, and tells them to fill it with the appropriate information.
+
+::
+
+    modified: geoips/geoips/geoips_utis.py
 
 Enhancements
 ============
