@@ -24,6 +24,8 @@ Version 1.11.3a0 (2023-08-25)
 * Update support for xarray_to_xarray algorithm family
 * Change all GeoIPS print statements to LOG.info statements
 * Update console scripts to use shared logging and argparse setup
+* Add reader_kwargs command line argument
+* Add 'no_presectoring' procflow flag to disable sectoring
 * Bug fixes
 
 Bug Fixes
@@ -47,6 +49,37 @@ Additionally, add test scripts for "create_sector_image" and "list_available_plu
   modified:   pyproject.toml
   new file:   tests/scripts/console_script_create_sector_image.sh
   new file:   tests/scripts/console_script_list_available_plugins.sh
+
+Add reader_kwargs command line argument
+---------------------------------------
+
+Ensure arbitrary keyword arguments can be passed to specified reader.
+
+Single source tests:
+
+* amsr2.tc.89H-Physical.imagery_annotated.sh: single_source reader_kwargs command line
+* amsr2_ocean.*.sh: no change - tests default amsr2 reader
+
+Config based tests:
+
+* amsr2.config_based_no_compare.sh:config-based command line reader_kwargs
+  and fuse_reader_kwargs.
+* amsr2_test_low_memory.yaml: tests YAML-based reader_kwargs and fuse_reader_kwargs.
+* amsr2.config_based.sh: no change - tests default amsr2 and ahi reader_kwargs and
+  fuse_reader_kwargs
+
+::
+
+    modified: geoips/commandline/args.py
+    modified: geoips/plugins/modules/readers/ahi_hsd.py
+    modified: geoips/plugins/modules/readers/amsr2_netcdf.py
+
+    modified: geoips/plugins/modules/procflows/single_source.py
+    modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: tests/scripts/amsr2.config_based_no_compare.sh
+    modified: tests/yaml_configs/amsr2_test_low_memory.yaml
 
 Update support for xarray_to_xarray algorithm family
 ----------------------------------------------------
@@ -238,9 +271,6 @@ use pyPublicDecompWT*
     modified: setup_seviri
     modified: config/config_geoips
 
-Installation Updates
-====================
-
 Add Mac installation instructions
 ---------------------------------
 
@@ -330,3 +360,31 @@ information to the user, and follows GeoIPS conventions.
     modified: geoips/geoips/sector_utils/estimate_area_extent.py
     modified: geoips/geoips/sector_utils/overpass_predictor.py
     modified: geoips/geoips/utils/memusg.py
+
+Make pre-sectoring in procflow optional
+---------------------------------------
+
+The previous implementation of procflows always sectors data prior to
+passing to the algorithm, whether
+or not the user actually wants that to happen.
+
+While this can provide some efficiency improvements, it can also cause
+issues with certain data formats, and
+therefore needs an appropriate refactoring update. To implement this,
+an added flag called 'no_presectoring' has beed created, and when used,
+procflow pre-sectoring no longer occurs.
+
+Also updated the GMI test script to use the "--no_presectoring" option,
+and updated the test outputs from a filename with 1720Z to a filename
+with 1715Z (due to the lack of sectoring, the filename uses the start
+time of the full granule, rather than the start time of the pre-sectored
+data).
+
+::
+
+    modified: geoips/geoips/plugins/modules/procflows/singe_source.py
+    modified: geoips/geoips/plugins/modules/procflows/config_based.py
+    modified: geoips/geoips/commandline/args.py
+    renamed: 1720 -> tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png
+    modified: 1720 -> tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png.yaml
+    modified: tests/scripts/gmi.tc.89pct.imagery_clean.sh

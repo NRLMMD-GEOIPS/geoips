@@ -285,7 +285,14 @@ def read_amsr_data(full_xarray, chans):
     return xarrays
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    test_arg="AMSR2 Default Test Arg",
+):
     """
     Read AMSR2 netcdf data products.
 
@@ -322,6 +329,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         for GeoIPS-formatted xarray Datasets.
     """
     import xarray
+
+    LOG.interactive("AMSR2 reader test_arg: %s", test_arg)
 
     ingested = []
     for fname in fnames:
