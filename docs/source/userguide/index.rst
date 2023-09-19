@@ -24,3 +24,4 @@ User Guide
    plugin_development/algorithm
    plugin_development/static_sector
    plugin_development/product
+   plugin_development/product_default

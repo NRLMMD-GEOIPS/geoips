@@ -176,11 +176,8 @@ Reinstall your package
     pip install -e $MY_PKG_DIR
     # This is required anytime pyproject.toml is edited!
 
-Let's revisit our My-Cloud-Depth product definition to use the algorithm we just created
-Note: If you haven't yet created this product, see the *Products* section.
-::
+Let's revisit our :ref:`My-Cloud-Depth product definition<cloud-depth-product>` to use
+the algorithm we just created. Note: If you haven't yet created this product, see the
+:ref:`Products<create-a-product>` section.
 
-    cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
-
-Edit my_clavrx_products.yaml (see below)
 

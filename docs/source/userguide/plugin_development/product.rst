@@ -115,7 +115,7 @@ We'll now create a test script to generate an image for the product you just cre
         --minimum_coverage 0 \
         --sector_list global
 
-Change the code above to the code listed below. Note that the '--compare_path' line
+Change the code above to the code listed below. Note that the ``--compare_path`` line
 has been removed. As shown below, we define which procflow we want to use, which reader,
 what product will be displayed, how to output it, which filename formatter will be used,
 the minimum coverage needed to create an output (% based), as well as the sector used to
@@ -133,25 +133,37 @@ plot the data. Many more items can be added if wanted.
         --minimum_coverage 0 \
         --sector_list conus
 
-* Once these changes have been created, we can run our test script to produce Cloud Top
-  Height Imagery.
-* Run your script
-    * $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-top-height.sh
-* This will write some log output.
-* If your script succeeded it will end with INTERACTIVE: Return Value 0
-* To view your output, look for a line that says SINGLESOURCESUCCESS
-* Open the PNG file, it should look like the image below.
+Once these changes have been created, we can run our test script to produce Cloud Top
+Height Imagery. To do so, run your script using the line shown below.
+::
+
+    $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-top-height.sh
+
+This will write some log output. If your script succeeded it will end with INTERACTIVE:
+Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
+the PNG file, it should look like the image below.
 
 .. image:: ../../images/command_line_examples/my_cloud_top_height.png
    :width: 800
 
-* Using your definition of My-Cloud-Top-Height as an example, create a product definition for My-Cloud-Base-Height
-    * cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
-    * Edit my_clavrx_products.yaml
-* Helpful Hints:
-    * The relevant variable in the CLAVR-x output file (and the equivalent GeoIPS reader) is called "cld_height_base"
-    * The Cloud-Height product_default can be used to simplify this product definition (or you can DIY or override if you'd like!)
-* The correct products implementation for 'my_clavrx_products.yaml' is shown below.
+Okay! We've developed a plugin which produces CLAVR-x Cloud Top Height. This is nice,
+but what if we want to extend our plugin to produce Cloud Base Height? What about Cloud
+Depth? Using the method shown above, we're going to extend our my_clavrx_products.yaml
+to produce just that.
+
+Using your definition of My-Cloud-Top-Height as an example, create a product definition
+for My-Cloud-Base-Height.
+::
+
+    cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+
+Now, edit my_clavrx_products.yaml. Here are some helpful hints:
+  * The relevant variable in the CLAVR-x output file (and the equivalent GeoIPS reader) is called "cld_height_base"
+  * The Cloud-Height product_default can be used to simplify this product definition (or you can DIY or override if you'd like!)
+
+The correct products implementation for 'my_clavrx_products.yaml' is shown below.
+Hopefully, you didn't have to make any changes after seeing this! Developing products,
+and other types of plugins should be somewhat intuitive after completing this tutorial.
 
 .. code-block:: yaml
 
@@ -177,11 +189,16 @@ plot the data. Many more items can be added if wanted.
           spec:
             variables: ["cld_height_base", "latitude", "longitude"]
 
-* Using your definitions of My-Cloud-Top-Height and My-Cloud-Base-Height as examples, create a product definition for My-Cloud-Depth
-    * cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
-    * Edit my_clavrx_products.yaml
-* Helpful Hints:
-    * We will define Cloud Depth for this tutorial as the difference between CTH and CBH
+Now that we have products for both Cloud Top Height and Cloud Base Height, we can
+develop a product that produces Cloud Depth. To do so, use your definitions of
+My-Cloud-Top-Height and My-Cloud-Base-Height as examples, create a product definition
+for My-Cloud-Depth.
+::
+
+    cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+
+Edit my_clavrx_products.yaml. Here is a helful hint to get you started:
+  * We will define Cloud Depth for this tutorial as the difference between CTH and CBH
 
 .. code-block:: yaml
 
@@ -214,7 +231,104 @@ plot the data. Many more items can be added if wanted.
           spec:
             variables: ["cld_height_acha", "cld_height_base", "latitude", "longitude"]
 
-* We now have two variables, but if we examine the `Cloud-Height Product Defaults <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml>`_
-  we see that it uses the “single_channel” algorithm.
-* This algorithm just manipulates a single data variable and plots it.
-* We need a new algorithm! See the :ref:`Algorithms Section<add-an-algorithm>`.
+We now have two variables, but if we examine the `Cloud-Height Product Defaults <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml>`_
+we see that it uses the ``single_channel`` algorithm. This doesn't work for our use case,
+since the ``single_channel`` algorithm just manipulates a single data variable and
+plots it. Therefore, we need a new algorithm! See the
+:ref:`Algorithms Section<add-an-algorithm>` to keep moving forward with this turorial.
+
+Using Your Cloud Depth Product
+------------------------------
+
+.. _cloud-depth-product:
+
+Note: Before moving forward in this section, make sure you've completed
+:ref:`creating a new algorithm<add-an-algorithm>`. We are going to modify our Cloud
+Depth product to use the algorithm we just created.
+
+Now that we've created our cloud depth algorithm, we need to implement it in our cloud
+depth product. As shown in the :ref:`Product Defaults Section<create-product-defaults>`,
+we can override the product defaults specified to our own specification. To do so,
+modify ``My-Cloud-Depth`` product in my_clavrx_products.yaml to the code block shown
+below.
+
+.. code-block:: yaml
+
+  interface: products
+    family: list
+    name: my_clavrx_products
+    docstring: |
+      CLAVR-x imagery products
+    spec:
+      products:
+        - name: My-Cloud-Top-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Top Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_acha", "latitude", "longitude"]
+        - name: My-Cloud-Base-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Base Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_base", "latitude", "longitude"]
+        - name: My-Cloud-Depth
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Depth
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_acha", "cld_height_base", "latitude", "longitude"]
+            algorithm:
+              plugin:
+                name: my_cloud_depth
+                arguments:
+                  output_data_range: [0, 20]
+                  scale_factor: 0.001
+
+The changes shown above modify My-Cloud-Depth to use our ``my_cloud_depth`` algorithm
+that we created. If we left this portion unchanged, My-Cloud-Depth would use the
+``single_channel`` algorithm, which is unfit for our purposes. We also added two other
+arguments, ``output_data_range`` ands ``scale_factor``, which override the Cloud-Height
+product defaults arguments for those two variables. Output data range of [0, 20] states
+that our data will be in the range of zero to twenty, and the scale factor says that we
+are scaling our data to be in kilometers.
+
+To use this modified My-Cloud-Depth product, follow the series of commands. We will be
+creating a new test script which implements our new changes.
+::
+
+    cd $MY_PKG_DIR/tests/scripts
+    cp clavrx.conus_annotated.my-cloud-top-height.sh clavrx.conus_annotated.my-cloud-depth.sh
+
+Now we need to edit ``clavrx.conus_annotated.my-cloud-depth.sh`` to implement
+``My-Cloud-Depth`` rather than ``My-Cloud-Top-Height``. Your new test script should look
+like the code shown below.
+
+.. code-block:: bash
+
+  run_procflow \
+    $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
+    --procflow single_source \
+    --reader_name clavrx_hdf4 \
+    --product_name My-Cloud-Depth \
+    --output_formatter imagery_annotated \
+    --filename_formatter geoips_fname \
+    --minimum_coverage 0 \
+    --sector_list conus
+
+Nice! Now all we need to do is run our script. This will display Cloud Depth over the
+CONUS sector. To do so, run the command below.
+::
+
+    $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-depth.sh
+
+This will output a bunch of log output. If your script succeeded it will end with INFO:
+Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
+the PNG file to view your Cloud Depth Image! It should look like the image shown below.
+
+.. image:: ../../images/command_line_examples/my_cloud_depth.png
+   :width: 800
