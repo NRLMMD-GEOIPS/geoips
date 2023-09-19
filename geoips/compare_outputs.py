@@ -197,7 +197,7 @@ def get_out_diff_fname(compare_product, output_product, ext=None, flag=None):
 
 
 def images_match(output_product, compare_product, fuzz="5%"):
-    """Use imagemagick compare system command to compare two images.
+    """Use PIL and matplotlib to compare two images.
 
     Parameters
     ----------
@@ -222,12 +222,16 @@ def images_match(output_product, compare_product, fuzz="5%"):
     from pixelmatch.contrib.PIL import pixelmatch
 
     LOG.info("**Comparing output_product vs. compare product")
+    # Open existing images.
     out_img = Image.open(output_product)
     comp_img = Image.open(compare_product)
     diff_img = Image.new(mode="RGB", size=comp_img.size)
-    try:
+    # Compute the pixel diff between the two images.
+    if np.array(comp_img).shape == np.array(out_img).shape:
         diff_arr = np.abs(np.array(comp_img) - np.array(out_img))
-    except ValueError:
+    # If shapes of arrays do not match, pixel diff can not be performed.
+    # Print the names of the two images and associated shapes, and return False.
+    else:
         LOG.interactive("    ***************************************")
         LOG.interactive("    *** BAD Images NOT match exactly, different sizes ***")
         LOG.interactive(
@@ -243,17 +247,23 @@ def images_match(output_product, compare_product, fuzz="5%"):
         LOG.interactive("    ***************************************")
         return False
 
+    # Determine the number of pixels that are mismatched
     num_pix_mismatched = pixelmatch(
         out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=0.05
     )
+    # Currently, return 0 ONLY if the images are exactly matched.  Eventually
+    # we may update this to allow returning 0 for "close enough" matches.
     if np.all(diff_arr == 0) and num_pix_mismatched == 0:
         fullimg_retval = 0
     else:
         fullimg_retval = 1
+    # Write out the exact image difference.
     LOG.info("**Saving exact difference image")
     diff_img.save(exact_out_diffimg)
     LOG.info("**Done running compare")
 
+    # If the images do not match exactly, print the output image, comparison image,
+    # and exact diff image to log, for easy viewing.  Return False.
     if fullimg_retval != 0:
         LOG.interactive("    ***************************************")
         LOG.interactive("    *** BAD Images do NOT match exactly ***")
@@ -263,6 +273,8 @@ def images_match(output_product, compare_product, fuzz="5%"):
         LOG.interactive("    ***************************************")
         return False
 
+    # If the images match exactly, just output to GOOD comparison log to info level
+    # (only bad comparisons to interactive level)
     if fullimg_retval != 0:
         LOG.info("    ******************************************")
         LOG.info("    *** GOOD Images match within tolerance ***")
