@@ -170,6 +170,9 @@ bdeck_parser = "geoips.plugins.modules.sector_metadata_generators.bdeck_parser"
 [tool.poetry.plugins."geoips.sector_spec_generators"]
 center_coordinates = "geoips.plugins.modules.sector_spec_generators.center_coordinates"
 
+
+
+
 [tool.poetry.plugins."geoips.trackfile_parsers"]
 flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
 bdeck_parser = "geoips.interface_modules.trackfile_parsers.bdeck_parser:bdeck_parser"
@@ -177,10 +180,11 @@ bdeck_parser = "geoips.interface_modules.trackfile_parsers.bdeck_parser:bdeck_pa
 [tool.poetry.plugins."geoips.area_def_generators"]
 clat_clon_resolution_shape = "geoips.interface_modules.area_def_generators.clat_clon_resolution_shape:clat_clon_resolution_shape"
 
-[tool.poetry.plugins."geoips.interpolation"]
-"pyresample_wrappers.interp_nearest" = "geoips.interface_modules.interpolation.pyresample_wrappers.interp_nearest:interp_nearest"
-"pyresample_wrappers.interp_gauss" = "geoips.interface_modules.interpolation.pyresample_wrappers.interp_gauss:interp_gauss"
-"scipy_wrappers.interp_grid" = "geoips.interface_modules.interpolation.scipy_wrappers.interp_grid:interp_grid"
+[tool.poetry.plugins."geoips.interpolators"]
+interp_nearest = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_nearest"
+interp_gauss = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_gauss"
+interp_grid = "geoips.plugins.modules.interpolators.scipy_wrappers.interp_grid"
+
 
 [tool.poetry.plugins."geoips.user_colormaps"]
 cmap_rgb = "geoips.interface_modules.user_colormaps.cmap_rgb:cmap_rgb"
