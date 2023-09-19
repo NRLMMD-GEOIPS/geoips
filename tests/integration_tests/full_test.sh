@@ -67,6 +67,8 @@ for call in \
   "pytest $geoips_repopath/tests/test_pytest" \
   "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
   "test_interfaces" \
+  "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh" \
+  "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh" \
   "$geoips_repopath/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/abi.config_based_output_low_memory.sh" \
   "$geoips_repopath/tests/scripts/abi.config_based_output.sh" \

@@ -6,4 +6,6 @@ retval_readers=$?
 list_available_plugins
 retval_all=$?
 
-exit $(retval_readers+retval_all)
+echo "Readers retval: $retval_readers"
+echo "All retval: $retval_all"
+exit $((retval_readers+retval_all))
