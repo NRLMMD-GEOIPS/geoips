@@ -228,6 +228,19 @@ def images_match(output_product, compare_product, fuzz="5%"):
     try:
         diff_arr = np.abs(np.array(comp_img) - np.array(out_img))
     except ValueError:
+        LOG.interactive("    ***************************************")
+        LOG.interactive("    *** BAD Images NOT match exactly, different sizes ***")
+        LOG.interactive(
+            "    ***   output_product: %s %s ***",
+            np.array(out_img).shape,
+            output_product,
+        )
+        LOG.interactive(
+            "    ***   compare_product: %s %s ***",
+            np.array(comp_img).shape,
+            compare_product,
+        )
+        LOG.interactive("    ***************************************")
         return False
 
     num_pix_mismatched = pixelmatch(
