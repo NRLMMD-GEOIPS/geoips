@@ -355,11 +355,13 @@ Replace Imagemagick with PIL and Numpy Based comparison
 The previous comparison method failed for annotated imagery, using Imagemagick. to
 circumvent this problem, we've replaced the usage of Imagemagick with a PIL and Numpy
 based method, which not only removes a dependency, but can be configured to our own
-needs as well.
+needs as well.  Currently only implements exact comparisons - can be modified to
+allow very similar images to pass.
 
 ::
 
     modified: geoips/geoips/compare_outputs.py
+    modified: pyproject.toml
 
 Change all GeoIPS print statements to LOG.info statements
 ---------------------------------------------------------
