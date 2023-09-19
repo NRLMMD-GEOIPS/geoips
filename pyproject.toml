@@ -76,9 +76,10 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
 # nothing at this stage;
 
 [tool.poetry.group.doc.dependencies]
-sphinx = "^7.2.2"               # Required for building documentation
-sphinx-design = "^0.5.0"        # Required for building documentation
 pydata-sphinx-theme = "^0.13.3" # Required for building documentation
+sphinx = "^7.2.2"               # Required for building documentation, v7.2 errors
+sphinx-design = "^0.5.0"        # Required for building documentation
+
 
 [tool.poetry.group.lint.dependencies]
 bandit = "^1.7.5"   # Syntax/security checking
@@ -92,8 +93,8 @@ prettier = "^0.0.7"             # YAML, JSON, etc linting
 doc8 = "^1.1.1"                 # RST linting
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.4.0"
-pytest-cov = "^4.1.0"
+pytest = "^7.4.0"		# Required for unit tests
+pytest-cov = "^4.1.0"		# Reports on test coverage
 
 [tool.poetry.plugins."geoips.plugin_packages"]
 geoips = "geoips"
