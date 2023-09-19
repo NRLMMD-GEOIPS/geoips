@@ -25,3 +25,5 @@ User Guide
    plugin_development/static_sector
    plugin_development/product
    plugin_development/product_default
+   plugin_development/feature_annotator
+   plugin_development/gridline_annotator

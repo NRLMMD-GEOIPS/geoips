@@ -213,11 +213,15 @@ Title Formatters
 Example YAML-based Plugins
 ==========================
 
-Boundary Annotators
+Feature Annotators
 -------------------
+
+:ref:`Create a New Feature Annotator<create-feature-annotator>`
 
 Gridline Annotators
 -------------------
+
+:ref:`Create a New Gridline Annotator<create-gridline-annotator>`
 
 Product Defaults
 ----------------
