@@ -75,7 +75,7 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
                                             #           also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
 
     netcdf4 = "^1.6.4"              # Base requirement
-    numexpr = "^2.8.5"              # for efficiency improvements
+    numexpr = "<2.8.5"              # for efficiency improvements
     numpy = "^1.25.2"               # Base requirement
     psutil = "^5.9.5"               # Required for memory checks
     pyhdf = "^0.11.3"               # hdf4 readers (MODIS)
