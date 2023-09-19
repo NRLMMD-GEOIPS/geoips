@@ -68,7 +68,9 @@ dependencies = [
     "ephem",  # Required for overpass predictor
     "isodate",  # Required for overpass predictor
     "satpy",  # efficiency improvements >= 0.33.1
-    "numexpr",  # for efficiency improvements
+    "numexpr<2.8.5",  # for efficiency improvements
+                      # pinned to 2.8.5 until scientific notation is fixed (see
+                      # https://github.com/pydata/numexpr/issues/442)
     "scikit-image",  # Radius based center coverage checks
     "jsonschema>=4.18.0a5",  # Provides validation for YAML plugins
     "referencing",

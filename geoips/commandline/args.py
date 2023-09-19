@@ -560,6 +560,15 @@ def add_args(parser, arglist=None):
             type=str.upper,
         )
 
+    if arglist is None or "no_presectoring" in arglist:
+        procflow_group.add_argument(
+            "--no_presectoring",
+            action="store_true",
+            help="""If true, do not pre-sector data prior to running the algorithm.
+                    This is less efficient, but allows the original dataset to
+                    be passed to the algorithm in full.""",
+        )
+
     rdr_group = parser.add_argument_group(title="Data reader specifications")
 
     if arglist is None or "reader_name" in arglist:
@@ -569,6 +578,16 @@ def add_args(parser, arglist=None):
             help="""If --reader_name is passed, the specific reader will be located in
                     geoips*.readers.myreader_name.myreader_name,
                     The reader_name string should be the reader module name (no .py)""",
+        )
+    if arglist is None or "reader_kwargs" in arglist:
+        sect_group.add_argument(
+            "--reader_kwargs",
+            nargs="?",
+            default=None,
+            type=jloads,
+            help="""Specify reader kwargs that should be used for
+                            this reader. Should be formatted as a json
+                            dictionary string""",
         )
 
     if arglist is None or "bg_product_name" in arglist:
@@ -696,6 +715,17 @@ def add_args(parser, arglist=None):
                     fuse_files flag. Only provide one reader to this flag.
                     If multiple fuse_files flags are passed, the same number of
                     fuse_readers must be passed in the same order.""",
+        )
+        fusion_group.add_argument(
+            "--fuse_reader_kwargs",
+            action="append",
+            default=None,
+            type=jloads,
+            help="""Provide the reader kwargs for files passed under the
+                    fuse_files flag. Should be formatted as a json dictionary string.
+                    Only provide one json dict str to this flag.
+                    If multiple fuse_files flags are passed, the same number of
+                    fuse_reader_kwargs must be passed in the same order.""",
         )
         fusion_group.add_argument(
             "--fuse_product",
