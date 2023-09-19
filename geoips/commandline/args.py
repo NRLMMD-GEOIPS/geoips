@@ -15,6 +15,7 @@
 import argparse
 import logging
 from os.path import abspath, exists
+from os import getenv
 from json import loads as jloads
 
 LOG = logging.getLogger(__name__)
@@ -156,6 +157,40 @@ def check_command_line_args(arglist, argdict):
     return True
 
 
+def get_argparser(
+    arglist=None, description=None, add_args_func=None, check_args_func=None
+):
+    """Get argparse.ArgumentParser with all standard arguments added.
+
+    Parameters
+    ----------
+    arglist : list, optional
+        list of requested arguments to add to the ArgumentParser, default None.
+        if None, include all arguments
+    description : str, optional
+        String description of arguments, default None
+    add_args_func : function, optional
+        Alternative "add_args" function, default None
+        If None, use internal "add_args"
+    check_args_func: function, optional
+        Alternative "check_args" function, default None
+        If None, use internal "check_args"
+
+    Returns
+    -------
+    argparse.ArgumentParser
+        Including all requested/required command line arguments.
+    """
+    if add_args_func is None:
+        add_args_func = add_args
+    if check_args_func is None:
+        check_args_func = check_command_line_args
+
+    parser = argparse.ArgumentParser(description=description)
+    add_args_func(parser, arglist)
+    return parser
+
+
 def get_command_line_args(
     arglist=None, description=None, add_args_func=None, check_args_func=None
 ):
@@ -180,15 +215,10 @@ def get_command_line_args(
     dict
         Dictionary of command line arguments
     """
-    if add_args_func is None:
-        add_args_func = add_args
-    if check_args_func is None:
-        check_args_func = check_command_line_args
-
-    parser = argparse.ArgumentParser(description=description)
-    add_args_func(parser, arglist)
+    parser = get_argparser(arglist, description, add_args_func, check_args_func)
     argdict = parser.parse_args()
-    check_args_func(["filenames", "procflow"], argdict.__dict__)
+    if arglist and "filenames" in arglist and "procflow" in arglist:
+        check_args_func(["filenames", "procflow"], argdict.__dict__)
     return argdict
 
 
@@ -214,6 +244,24 @@ def add_args(parser, arglist=None):
             default=None,
             type=abspath,
             help="""Fully qualified paths to data files to be processed.""",
+        )
+
+    if arglist is None or "outdir" in arglist:
+        parser.add_argument(
+            "-o",
+            "--outdir",
+            default=getenv("GEOIPS_OUTDIRS"),
+            help="""Path to write output files.  Defaults to GEOIPS_OUTDIRS.""",
+        )
+
+    if arglist is None or "logging_level" in arglist:
+        parser.add_argument(
+            "-l",
+            "--logging_level",
+            choices=["INTERACTIVE", "INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"],
+            default="INTERACTIVE",
+            help="""Specify logging config level for GeoIPS commands.""",
+            type=str.upper,
         )
 
     sect_group = parser.add_argument_group(
@@ -548,16 +596,6 @@ def add_args(parser, arglist=None):
             default=None,
             help="""Specify YAML config file holding output modile names and
                                           their respective filename modules""",
-        )
-
-    if arglist is None or "logging_level" in arglist:
-        procflow_group.add_argument(
-            "-l",
-            "--logging_level",
-            choices=["INTERACTIVE", "INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"],
-            default="INTERACTIVE",
-            help="""Specify logging config level for GeoIPS run_procflow command.""",
-            type=str.upper,
         )
 
     rdr_group = parser.add_argument_group(title="Data reader specifications")

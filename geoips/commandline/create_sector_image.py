@@ -1,44 +1,40 @@
 """Produce PNG test images depicting defined GeoIPS sectors."""
 
 import os
-import argparse
+
 from geoips import interfaces
 from geoips.commandline.log_setup import setup_logging
+from geoips.commandline.args import get_command_line_args, check_command_line_args
 
 
 def main():
     """Produce PNG test images depicting defined GeoIPS sectors."""
-    "logging_level", "sector_list"
+    supported_args = ["logging_level", "sector_list", "outdir"]
 
-    parser = argparse.ArgumentParser(
-        description="Produce PNG test images depicting defined GeoIPS sectors."
+    # Use standard GeoIPS argparser - use standard formatting for standard args.
+    ARGS = get_command_line_args(
+        arglist=supported_args,
+        description="Produce PNG test images depicting defined GeoIPS sectors.",
     )
-    parser.add_argument(
-        "-l",
-        "--logging_level",
-        choices=["INTERACTIVE", "INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"],
-        default="INTERACTIVE",
-        help="""Specify logging config level for GeoIPS run_procflow command.""",
-        type=str.upper,
-    )
-    parser.add_argument(
-        "-s",
-        "--sector_list",
-        nargs="*",
-        default=None,
-        help="""A list of short sector plugin names found within YAML sectorfiles
-                over which the data file should be processed.""",
-    )
-    parser.add_argument("-o", "--outdir", default=".")
 
-    args = parser.parse_args()
+    # Get the dictionary of command line args.
+    COMMAND_LINE_ARGS = ARGS.__dict__
+    # Check included arguments for appropriate formatting / type.
+    check_command_line_args(supported_args, COMMAND_LINE_ARGS)
 
-    LOG = setup_logging(logging_level="INFO")
+    # Setup logging at the requested logging level.
+    LOG = setup_logging(logging_level=COMMAND_LINE_ARGS["logging_level"])
 
-    for sector_name in args.sector_list:
-        fname = os.path.join(args.outdir, f"{sector_name}.png")
+    # For this console script, sector_list is explicitly required.
+    if not COMMAND_LINE_ARGS["sector_list"]:
+        raise TypeError("Must pass list of sectors")
+
+    # Create an image for each requested sector, including just the
+    # map and white background.
+    for sector_name in COMMAND_LINE_ARGS["sector_list"]:
+        fname = os.path.join(COMMAND_LINE_ARGS["outdir"], f"{sector_name}.png")
         sect = interfaces.sectors.get_plugin(sector_name)
-        LOG.info(f"Creating {fname}")
+        LOG.interactive(f"Creating {fname}")
         sect.create_test_plot(fname)
 
 
