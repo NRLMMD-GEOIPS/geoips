@@ -65,9 +65,12 @@ def main():
         ):
             continue
 
-        LOG.info("")
-        for plugin in curr_interface.get_plugins():
-            LOG.interactive("%s plugin: %s", curr_interface.name, plugin.name)
+        # This prints a "horizontal line" character U+2015, not a dash
+        LOG.interactive("―" * len(curr_interface.name))
+        LOG.interactive(f"{curr_interface.name}")
+        LOG.interactive("―" * len(curr_interface.name))
+        plugin_names = sorted([plg.name for plg in curr_interface.get_plugins()])
+        LOG.interactive(", ".join(plugin_names))
 
 
 if __name__ == "__main__":
