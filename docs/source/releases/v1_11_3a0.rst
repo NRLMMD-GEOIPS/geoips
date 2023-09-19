@@ -50,6 +50,16 @@ Additionally, add test scripts for "create_sector_image" and "list_available_plu
   new file:   tests/scripts/console_script_create_sector_image.sh
   new file:   tests/scripts/console_script_list_available_plugins.sh
 
+Temporarily pin numexpr<2.8.5
+-----------------------------
+
+A bug was introduced in numexpr 2.8.5 that causes scientific notation
+to break. For now, temporarily pin numexpr<2.8.5.
+
+::
+
+  modified: pyproject.toml
+
 Add reader_kwargs command line argument
 ---------------------------------------
 
