@@ -22,11 +22,43 @@ Version 1.11.3a0 (2023-08-25)
 * Add option for curly braces in "replace_geoips_paths", use in procflows
 * Update log output to include <module>.py:<linenum> (Yay VSCode!)
 * Update support for xarray_to_xarray algorithm family
+* Add reader_kwargs command line argument
 * Add 'no_presectoring' procflow flag to disable sectoring
 * Bug fixes
 
 Bug Fixes
 =========
+
+Add reader_kwargs command line argument
+---------------------------------------
+
+Ensure arbitrary keyword arguments can be passed to specified reader.
+
+Single source tests:
+
+* amsr2.tc.89H-Physical.imagery_annotated.sh: single_source reader_kwargs command line
+* amsr2_ocean.*.sh: no change - tests default amsr2 reader
+
+Config based tests:
+
+* amsr2.config_based_no_compare.sh:config-based command line reader_kwargs
+  and fuse_reader_kwargs.
+* amsr2_test_low_memory.yaml: tests YAML-based reader_kwargs and fuse_reader_kwargs.
+* amsr2.config_based.sh: no change - tests default amsr2 and ahi reader_kwargs and
+  fuse_reader_kwargs
+
+::
+
+    modified: geoips/commandline/args.py
+    modified: geoips/plugins/modules/readers/ahi_hsd.py
+    modified: geoips/plugins/modules/readers/amsr2_netcdf.py
+
+    modified: geoips/plugins/modules/procflows/single_source.py
+    modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: tests/scripts/amsr2.config_based_no_compare.sh
+    modified: tests/yaml_configs/amsr2_test_low_memory.yaml
 
 Update support for xarray_to_xarray algorithm family
 ----------------------------------------------------
