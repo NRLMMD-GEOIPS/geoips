@@ -61,11 +61,10 @@ nprocs = 6
 try:
     ne.set_num_threads(nprocs)
 except Exception:
-    log = logging.getLogger(__name__)
-(
-    f"Failed numexpr.set_num_threads in {__file__}. "
-    f"If numexpr is not installed and you need it, install it."
-)
+    LOG.info(
+        f"Failed numexpr.set_num_threads in {__file__}. "
+        "If numexpr is not installed and you need it, install it."
+    )
 
 DONT_AUTOGEN_GEOLOCATION = False
 if os.getenv("DONT_AUTOGEN_GEOLOCATION"):
