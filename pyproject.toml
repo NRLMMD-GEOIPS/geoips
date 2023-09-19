@@ -163,12 +163,9 @@ Night_Vis = "geoips.plugins.modules.algorithms.visir.Night_Vis"
 single_source = "geoips.plugins.modules.procflows.single_source"
 config_based = "geoips.plugins.modules.procflows.config_based"
 
-
-#[tool.poetry.
-#tc_sector_file_parser = "geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser"
-#bdeck_parser = "geoips.plugins.modules.sector_metadata_generators.bdeck_parser"
-
-
+[tool.poetry.plugins."geoips.sector_metadata_generators"]
+tc_sector_file_parser = "geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser"
+bdeck_parser = "geoips.plugins.modules.sector_metadata_generators.bdeck_parser"
 
 [tool.poetry.plugins."geoips.trackfile_parsers"]
 flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
