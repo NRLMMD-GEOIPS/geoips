@@ -23,10 +23,30 @@ Version 1.11.3a0 (2023-08-25)
 * Update log output to include <module>.py:<linenum> (Yay VSCode!)
 * Update support for xarray_to_xarray algorithm family
 * Change all GeoIPS print statements to LOG.info statements
+* Update console scripts to use shared logging and argparse setup
 * Bug fixes
 
 Bug Fixes
 =========
+
+Update console scripts to use shared logging and argparse setup
+---------------------------------------------------------------
+
+Ensure shared setup_logging and commandline/args.py utilities are used within
+"main" for all console scripts. This allows using shared argument layout, and
+shared logging setup for consistent usage.
+
+Additionally, add test scripts for "create_sector_image" and "list_available_plugins".
+
+::
+
+  modified:   geoips/commandline/args.py
+  modified:   geoips/commandline/create_sector_image.py
+  renamed: list_available_modules.py ->  geoips/commandline/list_available_plugins.py
+  modified:   geoips/commandline/test_interfaces.py
+  modified:   pyproject.toml
+  new file:   tests/scripts/console_script_create_sector_image.sh
+  new file:   tests/scripts/console_script_list_available_plugins.sh
 
 Update support for xarray_to_xarray algorithm family
 ----------------------------------------------------
