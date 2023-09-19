@@ -17,12 +17,6 @@ packages = [{include = "geoips"}]  # not needed as tool.poetry.name is properly 
 classifiers = [                # // list of PyPI trove classifiers to describe the project
     "Programming Language :: Python :: 3", ]
 
-[tool.setuptools_scm]
-#"version_scheme" = "post-release"  # Use current version .postN vs incrementing
-#"local_scheme" = "no-local-version"  # Don't include hash, or date, just postN
-"write_to" = "geoips/_version.py"  # Write an actual file
-
-
 # uses current version .postN and not incrementing
 [tool.poetry-dynamic-versioning]
 enable = true
@@ -60,19 +54,14 @@ requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"     # object used to perform the build process
 
 [tool.poetry.dependencies]     # must download to run
-    python = ">=3.9, <3.11"           # mandatory to declare the required python version
+    python = ">=3.9, <3.11"         # mandatory to declare the required python version
     astropy = "^5.3.2"              # Used for accounting leap seconds when converting epoch timestamps
-    #cartopy = "^0.22.0"
-    cartopy = ">=0.22.0, *"         # requires libgeos
+    cartopy = ">=0.22.0, *"         # No longer requires libgeos. 0.21 incompatible with geos 3.12
     ephem = "^4.1.4"                # Required for overpass predictor
     h5py = "^3.9.0"                 # hdf5 readers (GMI)
     isodate = "^0.6.1"              # Required for overpass predictor
     jsonschema = "^4.19.0"          # Provides validation for YAML plugins
-    matplotlib = "^3.7.2"           # Base requirement
-                                            # 20230321, allow >=3.7.0, changes annotated imagery outputs
-                                            # 20230214, force to 3.6.3 until outputs updated
-                                            # 20220922, force to 0.20.3/3.5.3 until outputs updated
-                                            #           also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
+    matplotlib = "^3.7.2"           # Base requirement works, version specific to test outputs
 
     netcdf4 = "^1.6.4"              # Base requirement
     numexpr = "<2.8.5"              # for efficiency improvements
@@ -82,8 +71,9 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
     pyaml-env = "^1.2.1"            # Reading YAML output config files, with paths
     pyorbital = "^1.8.0"            # required by satpy
     pypublicdecompwt = "^2.8.1.4"   # Required to read SEVIRI data
-    pyresample = "^1.27.1"          # Geospatial image resampling  # Base requirement - efficiency improvements >= 1.22.3
-    pyshp = "^2.3.1"
+    pyresample = "^1.27.1"          # Base requirement Geospatial image resampling 
+    				     	# efficiency improvements >= 1.22.3
+    #pyshp = "^2.3.1"		     # May be covered by cartopy ?	
     pyyaml = "^6.0.1"               # Base requirement
     rasterio = "^1.3.8"             # GEOTIFF output
     referencing = "^0.30.2"
@@ -91,8 +81,8 @@ build-backend = "poetry_dynamic_versioning.backend"     # object used to perform
     #    "scipy",  # Base requirement, requires openblas
     satpy = "^0.43.0"               # efficiency improvements >= 0.33.1
     scikit-image = "^0.21.0"        # Radius based center coverage checks
-    scipy = "^1.11.2"   # did not require openblas; investigate
-    shapely = "^2.0.1"              # requires libgeos
+    scipy = "^1.11.2"  	     # Base requirement, requires openblas 
+    #shapely = "^2.0.1"             # May be covered by cartopy. may not require libgeos
     xarray = "^2023.7.0"            # Base requirement
 
 
