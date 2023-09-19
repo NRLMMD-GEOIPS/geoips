@@ -19,6 +19,8 @@
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
           --procflow single_source \
           --reader_name amsr2_netcdf \
+          --reader_kwargs \
+            '{"test_arg": "AMSR2 single source command line reader test_arg"}' \
           --product_name 89H-Physical \
           --filename_formatter tc_fname \
           --output_formatter imagery_annotated \

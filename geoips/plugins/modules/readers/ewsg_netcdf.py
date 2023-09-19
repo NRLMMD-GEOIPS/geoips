@@ -56,15 +56,16 @@ import pandas as pd
 # not work if the import fails, and the package will have to be installed
 # to process data of this type.
 
+LOG = logging.getLogger(__name__)
+
+
 try:
     import netCDF4 as ncdf
 except:
-    print("Failed import netCDF4. If you need it, install it.")
+    LOG.info("Failed import netCDF4. If you need it, install it.")
 
 
 # @staticmethod                                     # not sure where it is uwas used?
-
-LOG = logging.getLogger(__name__)
 
 # gvar_ch6 has only half scanlines of other channels (1,2,4),we temporally do not read the ch6 in.
 #   we will modify this reader if gvar_ch6 is needed in the future.
@@ -144,7 +145,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
         if data_name != "nc":
-            print("Warning: EWS-G data type:  data_type=", data_name)
+            LOG.info("Warning: EWS-G data type:  data_type=", data_name)
             raise
 
         # open the paired input files
@@ -152,9 +153,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         LOG.info("    Trying file %s", fname)
 
         if ncdf_file.satellite == "goes-13":
-            print("found a NOAA EWS-G data file")
+            LOG.info("found a NOAA EWS-G data file")
         else:
-            print("not a NOAA EWS-G data file: skip it")
+            LOG.info("not a NOAA EWS-G data file: skip it")
             raise
 
         # *************** input VIRRS variables  and output xarray required by geo

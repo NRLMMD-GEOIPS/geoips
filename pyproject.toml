@@ -68,7 +68,9 @@ dependencies = [
     "ephem",  # Required for overpass predictor
     "isodate",  # Required for overpass predictor
     "satpy",  # efficiency improvements >= 0.33.1
-    "numexpr",  # for efficiency improvements
+    "numexpr<2.8.5",  # for efficiency improvements
+                      # pinned to 2.8.5 until scientific notation is fixed (see
+                      # https://github.com/pydata/numexpr/issues/442)
     "scikit-image",  # Radius based center coverage checks
     "jsonschema>=4.18.0a5",  # Provides validation for YAML plugins
     "referencing",
@@ -110,7 +112,7 @@ convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
 update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
 test_interfaces = "geoips.commandline.test_interfaces:main"
-list_available_modules = "geoips.commandline.list_available_modules:main"
+list_available_plugins = "geoips.commandline.list_available_plugins:main"
 create_sector_image = "geoips.commandline.create_sector_image:main"
 
 [project.entry-points."geoips.readers"]

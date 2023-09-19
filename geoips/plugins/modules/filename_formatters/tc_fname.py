@@ -203,7 +203,7 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
                 dirname, stormname, sensor, platform, product, res
             )
         )
-        # print(dtstr)
+        # LOG.info(dtstr)
         matching_fnames += glob(dtstr)
     max_coverage = 0
     min_dt = None
