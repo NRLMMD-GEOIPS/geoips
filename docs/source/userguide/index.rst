@@ -22,3 +22,5 @@ User Guide
    function_list
    plugin_extend
    plugin_development/algorithm
+   plugin_development/static_sector
+   plugin_development/product

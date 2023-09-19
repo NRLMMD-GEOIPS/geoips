@@ -1,0 +1,220 @@
+
+.. _create-a-product:
+
+**********************************
+Extending GeoIPS with new Products
+**********************************
+
+This section discusses how to create multiple products for CLAVR-x data, specifically
+Cloud-Top-Height, Cloud-Base-Height, and Cloud-Depth. Products are the cornerstone
+plugin for GeoIPS, as they define how to produce a specific product as a combination of
+other plugins. Products use other plugins, such as an algorithm, colormapper,
+interpolater, etc. to generate the correct result.
+
+We will now go hands on in creating a product for CLAVR-x Cloud-Top-Height.
+
+#. Copy the existing product plugin to a new file to modify
+   ::
+
+        cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+        cp amsr2_using_product_defaults.yaml my_clavrx_products.yaml
+
+#. Edit my_clavrx_products.yaml properties (vim my_clavrx_products.yaml)
+    * # (Feel free to remove all lines preceded by “# @”)
+
+.. code-block:: yaml
+
+    interface: products
+    family: list
+    name: amsr2_using_product_defaults
+    docstring: |
+      AMSR-2 products using product_defaults
+
+The code snippet shown above shows properties required in every GeoIPS plugin, YAML or
+Module-based. These properties help GeoIPS define what type of plugin you are developing
+and also defines what schema your plugin will be validated against.
+
+Change the above code block to the code listed below.
+
+.. code-block:: yaml
+
+    interface: products
+    family: list
+    name: my_clavrx_products
+    docstring: |
+      CLAVR-x imagery products
+
+Now we'll update the ``spec`` portion of the yaml file to support our new product plugin.
+``spec`` is a container for the 'specification' of your yaml plugin. In this case, it
+contains a list of ``products``, as shown below. Denoted by the ``family: list``
+property shown above, this yaml file will contain a list of products, which can be of
+length 1 if you so desire.
+
+.. code-block:: yaml
+
+    spec:
+      products:
+        - name: 89-PCT-Using-Product-Defaults
+          source_names: [amsr2]
+          docstring: |
+            89 MHz Polarization Corrected Brighness Temperature Implementation
+            using the 89-PCT-Test product defaults in the product definition.
+          product_defaults: 89-PCT-Test
+          spec:
+            variables: ["tb89hA", "tb89vA"]
+
+Update the code block above to what is stored in the code block below.
+You don't need the comments included, as they are only describing what each product
+property actually does.
+
+.. code-block:: yaml
+
+    spec:
+      products:
+        - name: My-Cloud-Top-Height # The name of the product you're defining (can be anything)
+          source_names: [clavrx] # Defined as metadata in the corresponding reader
+          docstring: | # Pipe says to YAML this will be a multiline comment, can be anything
+            CLAVR-x Cloud Top Height
+          product_defaults: Cloud-Height # See the Product Defaults section for more info
+          spec: # Variables are the neccessary variables which are needed to produce your product
+            variables: ["cld_height_acha", "latitude", "longitude"]
+
+To use your product that you just created, you'll need to create a bash script that
+implements ``run_procflow`` (run-process-workflow). This is a script which defines the
+process workflow needed to generate your product. We'll keep this short for now, but you
+are able to strictly define how you want your product to be created, as well as what
+format you'd like it outputted as. You can also define the sector you'd like your data
+to be plotted on, as well as compare the output product to a validated product if wanted.
+
+GeoIPS is called via a command line interface. The main command that you will use is
+run_procflow which will run your data through the specified procflow using the specified
+plugins. It's easiest to do this via a script, and scripts are stored in your plugin
+package's ``tests/`` directory because they can be used later to regression test your
+package.
+
+We'll now create a test script to generate an image for the product you just created.
+
+#. Copy the existing test script into a new file to modify
+   ::
+
+        cd $MY_PKG_DIR/tests/scripts
+        cp amsr2.global_clean.89-PCT-Using-Product-Defaults.sh clavrx.conus_annotated.my-cloud-top-height.sh
+
+#. Edit clavrx.conus_annotated.my-cloud-top-height.sh (see code blocks below)
+
+.. code-block:: bash
+
+    run_procflow \
+    $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
+        --procflow single_source \
+        --reader_name amsr2_netcdf \
+        --product_name 89-PCT-Using-Product-Defaults \
+        --compare_path $GEOIPS_PACKAGES_DIR/template_basic_plugin/tests/outputs/amsr2.global_clean.89-PCT-Product-Defaults \
+        --output_formatter imagery_clean \
+        --filename_formatter geoips_fname \
+        --minimum_coverage 0 \
+        --sector_list global
+
+Change the code above to the code listed below. Note that the '--compare_path' line
+has been removed. As shown below, we define which procflow we want to use, which reader,
+what product will be displayed, how to output it, which filename formatter will be used,
+the minimum coverage needed to create an output (% based), as well as the sector used to
+plot the data. Many more items can be added if wanted.
+
+.. code-block:: bash
+
+    run_procflow \
+    $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
+        --procflow single_source \
+        --reader_name clavrx_hdf4 \
+        --product_name My-Cloud-Top-Height \
+        --output_formatter imagery_annotated \
+        --filename_formatter geoips_fname \
+        --minimum_coverage 0 \
+        --sector_list conus
+
+* Once these changes have been created, we can run our test script to produce Cloud Top
+  Height Imagery.
+* Run your script
+    * $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-top-height.sh
+* This will write some log output.
+* If your script succeeded it will end with INTERACTIVE: Return Value 0
+* To view your output, look for a line that says SINGLESOURCESUCCESS
+* Open the PNG file, it should look like the image below.
+
+.. image:: ../../images/command_line_examples/my_cloud_top_height.png
+   :width: 800
+
+* Using your definition of My-Cloud-Top-Height as an example, create a product definition for My-Cloud-Base-Height
+    * cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+    * Edit my_clavrx_products.yaml
+* Helpful Hints:
+    * The relevant variable in the CLAVR-x output file (and the equivalent GeoIPS reader) is called "cld_height_base"
+    * The Cloud-Height product_default can be used to simplify this product definition (or you can DIY or override if you'd like!)
+* The correct products implementation for 'my_clavrx_products.yaml' is shown below.
+
+.. code-block:: yaml
+
+    interface: products
+    family: list
+    name: my_clavrx_products
+    docstring: |
+      CLAVR-x imagery products
+    spec:
+      products:
+        - name: My-Cloud-Top-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Top Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_acha", "latitude", "longitude"]
+        - name: My-Cloud-Base-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Base Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_base", "latitude", "longitude"]
+
+* Using your definitions of My-Cloud-Top-Height and My-Cloud-Base-Height as examples, create a product definition for My-Cloud-Depth
+    * cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+    * Edit my_clavrx_products.yaml
+* Helpful Hints:
+    * We will define Cloud Depth for this tutorial as the difference between CTH and CBH
+
+.. code-block:: yaml
+
+    interface: products
+    family: list
+    name: my_clavrx_products
+    docstring: |
+      CLAVR-x imagery products
+    spec:
+      products:
+        - name: My-Cloud-Top-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Top Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_acha", "latitude", "longitude"]
+        - name: My-Cloud-Base-Height
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Base Height
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_base", "latitude", "longitude"]
+        - name: My-Cloud-Depth
+          source_names: [clavrx]
+          docstring: |
+            CLAVR-x Cloud Depth
+          product_defaults: Cloud-Height
+          spec:
+            variables: ["cld_height_acha", "cld_height_base", "latitude", "longitude"]
+
+* We now have two variables, but if we examine the `Cloud-Height Product Defaults <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml>`_
+  we see that it uses the “single_channel” algorithm.
+* This algorithm just manipulates a single data variable and plots it.
+* We need a new algorithm! See the :ref:`Algorithms Section<add-an-algorithm>`.
