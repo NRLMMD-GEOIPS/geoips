@@ -1,7 +1,7 @@
 [tool.poetry]
 # required ones
 name = "geoips"         # geoips package available at the root of the project
-version = "1.11.1.post85.dev0"
+version = "1.11.1.post90.dev0"
 description = "Geolocated Information Processing System"
 authors = ["Tom <tom.jerry@colostate.edu>"]
 
@@ -73,33 +73,59 @@ referencing = "*"
 satpy = "*"               # efficiency improvements >= 0.33.1
 scikit-image = "*"        # Radius based center coverage checks
 
+# Optional dependencies
+# To add a new optional dependency it must be added both here and in one of the "extra"
+# groups below.
+#
+# Doc group
+pydata-sphinx-theme = { version = "*", optional = true }
+sphinx = { version = "<7.2", optional = true }
+sphinx-design = { version = "*", optional = true }
+# Lint group
+bandit = { version = "*", optional = true }
+black = { version = "*", optional = true }
+pylint = { version = "*", optional = true }
+flake8 = { version = "*", optional = true }
+flake8-rst-docstrings = { version = "*", optional = true }
+flake8-docstrings = { version = "*", optional = true }
+flake8-rst = { version = "*", optional = true }
+prettier = { version = "*", optional = true }
+doc8 = { version = "*", optional = true }
+# Test group
+pytest = { version = "*", optional = true }
+pytest-cov = { version = "*", optional = true }
+pixelmatch = { version = "*", optional = true }
+# Debug group
+ipython = { version = "*", optional = true }
+
 #[tool.poetry.dev-dependencies]
 # nothing at this stage;
 
-[tool.poetry.group.doc.dependencies]
-pydata-sphinx-theme = "*" # Required for building documentation
-sphinx = "<7.2"           # Required for building documentation, v7.2 errors
-sphinx-design = "*"       # Required for building documentation
-
-
-[tool.poetry.group.lint.dependencies]
-bandit = "*"                # Syntax/security checking
-black = "*"                 # Syntax checking and reformatting
-pylint = "*"                # Syntax checking
-flake8 = "*"                # Syntax checking
-flake8-rst-docstrings = "*" # numpy docstring checking
-flake8-docstrings = "*"     # docstring checking
-flake8-rst = "*"            # RST checking
-prettier = "*"              # YAML, JSON, etc linting
-doc8 = "*"                  # RST linting
-
-[tool.poetry.group.test.dependencies]
-pytest = "*"		# Required for unit tests
-pytest-cov = "*"    # Reports on test coverage
-pixelmatch = "*"
-
-[tool.poetry.group.debug.dependencies]
-ipython = "*"
+[tool.poetry.extras]
+doc = [
+    "pydata-sphinx-theme", # Required for building documentation
+    "sphinx",              # Required for building documentation, v7.2 errors
+    "sphinx-design"        # Required for building documentation
+]
+lint = [
+    "bandit",                # Syntax/security checking
+    "black",                 # Syntax checking and reformatting
+    "pylint",                # Syntax checking
+    "flake8",                # Syntax checking
+    "flake8-rst-docstrings", # numpy docstring checking
+    "flake8-docstrings",     # docstring checking
+    "flake8-rst",            # RST checking
+    "prettier",              # YAML, JSON, etc linting
+    "doc8"                   # RST linting
+]
+test = [
+    "pytest",		 # Required for unit tests
+    "pytest-cov",    # Reports on test coverage
+    "pixelmatch"
+]
+debug = [
+    "ipython"
+]
 
 [tool.poetry.plugins."geoips.plugin_packages"]
 geoips = "geoips"
