@@ -197,7 +197,7 @@ def get_out_diff_fname(compare_product, output_product, ext=None, flag=None):
 
 
 def images_match(output_product, compare_product, fuzz="5%"):
-    """Use PIL and matplotlib to compare two images.
+    """Use PIL and numpy to compare two images.
 
     Parameters
     ----------
