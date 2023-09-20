@@ -13,28 +13,27 @@ interpolater, etc. to generate the correct result.
 
 We will now go hands on in creating a product for CLAVR-x Cloud-Top-Height.
 
-#. Copy the existing product plugin to a new file to modify
+#. First off, change directories to your product plugins directory.
    ::
 
         cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
-        cp amsr2_using_product_defaults.yaml my_clavrx_products.yaml
 
-#. Edit my_clavrx_products.yaml properties (vim my_clavrx_products.yaml)
-    * # (Feel free to remove all lines preceded by “# @”)
+#. Now, create a file called ``my_clavrx_products.yaml``, which we'll fill in soon.
+   Before we add any code let's discuss some of the top level properties that are
+   required in any GeoIPS plugin.
 
-.. code-block:: yaml
+.. include:: ../plugin_extend.rst
+   :start-line: 62
+   :end-line: 86
 
-    interface: products
-    family: list
-    name: amsr2_using_product_defaults
-    docstring: |
-      AMSR-2 products using product_defaults
+Creating a GeoIPS Product Plugin
+--------------------------------
 
-The code snippet shown above shows properties required in every GeoIPS plugin, YAML or
+The code snippet shown below shows properties required in every GeoIPS plugin, YAML or
 Module-based. These properties help GeoIPS define what type of plugin you are developing
 and also defines what schema your plugin will be validated against.
 
-Change the above code block to the code listed below.
+Copy and paste the code shown below into my_clavrx_products.yaml.
 
 .. code-block:: yaml
 
@@ -50,22 +49,10 @@ contains a list of ``products``, as shown below. Denoted by the ``family: list``
 property shown above, this yaml file will contain a list of products, which can be of
 length 1 if you so desire.
 
-.. code-block:: yaml
-
-    spec:
-      products:
-        - name: 89-PCT-Using-Product-Defaults
-          source_names: [amsr2]
-          docstring: |
-            89 MHz Polarization Corrected Brighness Temperature Implementation
-            using the 89-PCT-Test product defaults in the product definition.
-          product_defaults: 89-PCT-Test
-          spec:
-            variables: ["tb89hA", "tb89vA"]
-
-Update the code block above to what is stored in the code block below.
-You don't need the comments included, as they are only describing what each product
-property actually does.
+Copy and paste the code block below under your to the end of your file. spec should be
+right under the docstring you wrote, with no tabs behind it. YAML is a whitespace-based
+coding language, similar to Python in that aspect. Feel free to remove the comments, as
+they just describe what each property does.
 
 .. code-block:: yaml
 
@@ -81,45 +68,29 @@ property actually does.
 
 To use your product that you just created, you'll need to create a bash script that
 implements ``run_procflow`` (run-process-workflow). This is a script which defines the
-process workflow needed to generate your product. We'll keep this short for now, but you
+*process-workflow* needed to generate your product. We'll keep this short for now, but you
 are able to strictly define how you want your product to be created, as well as what
 format you'd like it outputted as. You can also define the sector you'd like your data
 to be plotted on, as well as compare the output product to a validated product if wanted.
 
-GeoIPS is called via a command line interface. The main command that you will use is
-run_procflow which will run your data through the specified procflow using the specified
+GeoIPS is called via a command line interface (CLI). The main command that you will use is
+run_procflow which will run your data through the selected procflow using the specified
 plugins. It's easiest to do this via a script, and scripts are stored in your plugin
 package's ``tests/`` directory because they can be used later to regression test your
 package.
 
+Creating a Script to Visualize Your Product
+-------------------------------------------
+
 We'll now create a test script to generate an image for the product you just created.
 
-#. Copy the existing test script into a new file to modify
+#. Change directories into your scripts directory.
    ::
 
         cd $MY_PKG_DIR/tests/scripts
-        cp amsr2.global_clean.89-PCT-Using-Product-Defaults.sh clavrx.conus_annotated.my-cloud-top-height.sh
 
-#. Edit clavrx.conus_annotated.my-cloud-top-height.sh (see code blocks below)
-
-.. code-block:: bash
-
-    run_procflow \
-    $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
-        --procflow single_source \
-        --reader_name amsr2_netcdf \
-        --product_name 89-PCT-Using-Product-Defaults \
-        --compare_path $GEOIPS_PACKAGES_DIR/template_basic_plugin/tests/outputs/amsr2.global_clean.89-PCT-Product-Defaults \
-        --output_formatter imagery_clean \
-        --filename_formatter geoips_fname \
-        --minimum_coverage 0 \
-        --sector_list global
-
-Change the code above to the code listed below. Note that the ``--compare_path`` line
-has been removed. As shown below, we define which procflow we want to use, which reader,
-what product will be displayed, how to output it, which filename formatter will be used,
-the minimum coverage needed to create an output (% based), as well as the sector used to
-plot the data. Many more items can be added if wanted.
+#. Create a bash file called clavrx.conus_annotated.my-cloud-top-height.sh and edit it
+   to include the codeblock below.
 
 .. code-block:: bash
 
@@ -132,6 +103,12 @@ plot the data. Many more items can be added if wanted.
         --filename_formatter geoips_fname \
         --minimum_coverage 0 \
         --sector_list conus
+
+As shown above, we define which procflow we want to use, which reader,
+what product will be displayed, how to output it, which filename formatter will be used,
+the minimum coverage needed to create an output (% based), as well as the sector used to
+plot the data. Many more items can be added if wanted. If you'd like some examples of
+that, feel free to peruse the `GeoIPS Scripts Directory <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/scripts>`_.
 
 Once these changes have been created, we can run our test script to produce Cloud Top
 Height Imagery. To do so, run your script using the line shown below.
@@ -237,10 +214,10 @@ since the ``single_channel`` algorithm just manipulates a single data variable a
 plots it. Therefore, we need a new algorithm! See the
 :ref:`Algorithms Section<add-an-algorithm>` to keep moving forward with this turorial.
 
+.. _cloud-depth-product:
+
 Using Your Cloud Depth Product
 ------------------------------
-
-.. _cloud-depth-product:
 
 Note: Before moving forward in this section, make sure you've completed
 :ref:`creating a new algorithm<add-an-algorithm>`. We are going to modify our Cloud

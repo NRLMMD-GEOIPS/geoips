@@ -21,6 +21,12 @@ All of which have the same parameters:
     * The ``color`` of the feature
     * The ``linewidth`` of the feature displayed
 
+Here is some information on the top level properties required in every GeoIPS plugin.
+
+.. include:: ../plugin_extend.rst
+   :start-line: 62
+   :end-line: 86
+
 Shown below, is the default feature annotator plugin that you have been using when
 producing your own imagery.
 
@@ -53,6 +59,9 @@ family available for both gridline annotators and feature annotators, as the bac
 GeoIPS makes use of cartopy functions to create your gridlines and features shown in
 your imagery.
 
+Creating a New Feature Annotator
+--------------------------------
+
 Now that we're familiar with the structure of feature annotator plugins, let's create
 one of our own. Feel free to get creative here, feel no need to copy this verbatim. This
 is your feature annotator, and you get to make the choices! Just make sure that your
@@ -65,10 +74,9 @@ These commands will also copy over a template feature annotator for you to modif
 
     mkdir -pv $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/feature_annotators
     cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/feature_annotators
-    cp $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/feature_annotators/default.yaml tutorial.yaml
 
-Once you have your ``tutorial.yaml`` feature annotator in that directory, we can change
-it to our own specifications. Here is an example of a new Feature Annotator:
+Create a file called ``tutorial.yaml`` in that directory, which we'll update with our
+own specifications. Here is an example of a new Feature Annotator:
 
 .. code-block:: yaml
 
@@ -97,6 +105,9 @@ it to our own specifications. Here is an example of a new Feature Annotator:
         edgecolor: cyan
         linewidth: 1
 
+Creating a Script to Visualize our New Feature Annotator
+--------------------------------------------------------
+
 Now that we have a custom feature annotator, we can use our test script created in the
 :ref:`Products/Cloud-Depth Section<cloud-depth-product>` to visualize our data with our
 new feature annotator. Follow the series of commands to appropriately edit that test
@@ -105,11 +116,10 @@ script to employ your new feature annotator.
 ::
 
     cd $MY_PKG_DIR/tests/scripts
-    cp clavrx.conus_annotated.my-cloud-depth.sh clavrx.conus_annotated_features_gridlines.my-cloud-depth.sh
 
-Once you have ``clavrx.conus_annotated_features_gridlines.my-cloud-depth.sh`` created, we
-need to add just this line to our test script. ``--feature_annotator tutorial \``.
-Shown below is what your new test script should look like.
+Create a file called ``clavrx.conus_annotated_features_gridlines.my-cloud-depth.sh``.
+Copy and paste the code below into that file, which will now make use of our new feature
+annotator
 
 .. code-block:: bash
 

@@ -20,8 +20,18 @@ To give you a better idea of what we are talking about, feel free to view some f
     * `Pre-defined CLAVR-x product defaults <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/tree/main/geoips_clavrx/plugins/yaml/product_defaults>`_ (part of the CLAVR-x plugin)
     * `Pre-defined GeoIPS product defaults <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/yaml/product_defaults>`_
 
-If you have product definition parameters that you want to reuse (i.e. if you're copy/pasting product definition parameters!),
-consider creating a product default for your plugin.
+If you have product definition parameters that you want to reuse (i.e. if you're
+copy/pasting product definition parameters!), consider creating a product default for
+your plugin.
+
+Here is some information on the top level properties required for every GeoIPS plugin.
+
+.. include:: ../plugin_extend.rst
+   :start-line: 62
+   :end-line: 86
+
+Different Implementations of Product Defaults
+---------------------------------------------
 
 Shown below is the geoips_clavrx Cloud-Height product defaults yaml file. That we will be
 using in all of our :ref:`Products<create-a-product>`. Wherever we add

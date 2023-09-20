@@ -17,6 +17,15 @@ Gridline Annotators control the following properties of your imagery:
     * ``spacing``, such as the distance between ``latitude`` and ``longitude`` labels,
       and the gridlines that represent them.
 
+Here is some information on the top level properties required in every GeoIPS plugin.
+
+.. include:: ../plugin_extend.rst
+   :start-line: 62
+   :end-line: 86
+
+An Example Gridline Annotator
+-----------------------------
+
 Shown below, is the default gridline annotator plugin that you have been using when
 producing your own imagery.
 
@@ -48,22 +57,23 @@ family available for both gridline annotators and feature annotators, as the bac
 GeoIPS makes use of cartopy functions to create your gridlines and features shown in
 your imagery.
 
+Creating a New Gridline Annotator
+---------------------------------
+
 Now that we're familiar with the structure of gridline annotator plugins, let's create
 one of our own. Feel free to get creative here, feel no need to copy this verbatim. This
 is your gridline annotator, and you get to make the choices! Just make sure that your
 color is a matplotlib named color or a hexidecimal string.
 
 Run the series of commands shown below to create a directory for your gridline annotators.
-These commands will also copy over a template gridline annotator for you to modify.
 
 ::
 
     mkdir -pv $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/gridline_annotators
     cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/gridline_annotators
-    cp $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/gridline_annotators/default.yaml tutorial.yaml
 
-Once you have your ``tutorial.yaml`` gridline annotator in that directory, we can change
-it to our own specifications. Here is an example of a new Gridline Annotator:
+Now, create a file called ``tutorial.yaml`` in that directory, which
+we will update to our own specifications. Here is an example of a new Gridline Annotator:
 
 .. code-block:: yaml
 
@@ -88,6 +98,9 @@ it to our own specifications. Here is an example of a new Gridline Annotator:
         latitude: 2.5
         longitude: 2.5
 
+Creating a Script to Visualize our Gridline Annotator
+-----------------------------------------------------
+
 Now that we have a custom gridline annotator, we can use our test script created in the
 :ref:`Products/Cloud-Depth Section<cloud-depth-product>` to visualize our data with our
 new gridline annotator. Follow the series of commands to appropriately edit that test
@@ -96,11 +109,9 @@ script to employ your new gridline annotator.
 ::
 
     cd $MY_PKG_DIR/tests/scripts
-    cp clavrx.conus_annotated.my-cloud-depth.sh clavrx.conus_annotated_features_gridlines.my-cloud-depth.sh
 
-Once you have ``clavrx.conus_annotated_features_gridlines.my-cloud-depth.sh`` created, we
-need to add just this line to our test script. ``--gridline_annotator tutorial \``.
-Shown below is what your new test script should look like.
+Create a script called ``clavrx.conus_annotated_features_gridlines.my-cloud-depth.sh``.w
+Copy and paste the code below into that file, which will use our new gridline annotator.
 
 .. code-block:: bash
 

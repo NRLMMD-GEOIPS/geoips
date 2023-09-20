@@ -62,16 +62,28 @@ static configuration options for GeoIPS.  Examples of YAML-based plugins include
 
 Interface
 ---------
+
 An ``interface`` defines a class of GeoIPS plugins that extend the same type of
 functionality within GeoIPS. For example, some commonly used interfaces include the
 ``algorithms``, ``colormappers``, and ``sectors`` interfaces.
 
 Family
 ------
+
 A ``family`` is a subset of an interface's plugins which accept specific sets of
 arguments/properties. Module-based plugins of the same ``family`` have similar call
 signatures. YAML-based plugins of the same ``family`` are validated against the same
 schema (i.e. they contain the same properties).
+
+Docstring
+---------
+
+A ``docstring`` is a chunk of documentation which describes what your plugin does. This
+property is required for every GeoIPS plugin created, module-based or YAML-based. We
+require this property for proper documentation of created plugins, and it will also be
+a useful feature later on when the GeoIPS Command Line Interface (CLI) is created, as
+you will be able to see what each plugin does provided the ``docstring`` for that plugin
+is filled.
 
 .. _plugin-development-setup:
 

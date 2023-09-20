@@ -12,49 +12,19 @@ shape of the sector in pixels, and also include a metadata section which gives u
 more information about the sector they are using.
 
 In this section, we will be creating a custom static sector that overlays the
-Continental United States (CONUS).
-
-First off, copy this GeoIPS Static Sector YAML File to edit.
+Continental United States (CONUS). To start off, run the following commands, which
+create a new folder for your static sectors.
 ::
 
     mkdir -pv $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/sectors/static
     cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/sectors/static
-    cp $GEOIPS_PACKAGES_DIR/geoips/geoips/plugins/yaml/sectors/static/australia.yaml my_conus_sector.yaml
-    vim my_conus_sector.yaml
 
-.. code-block:: yaml
+Once you've created the folder, you are able to create your custom CONUS static sector.
+Copy and paste the code block below into my_conus_sector.yaml. Feel free to remove the
+comments, as they just descibe what each property does.
 
-    interface: sectors
-    family: area_definition_static
-    name: australia
-    docstring: "Australian Continent"
-    metadata:
-      region:
-        continent: Australia
-        country: x
-        area: Continental
-        subarea: x
-        state: x
-        city: x
-    spec:
-      area_id: australia
-      description: Australian Continent
-      projection:
-        a: 6371228.0
-        lat_0: -26.5
-        lon_0: 134.0
-        proj: stere
-        units: m
-      resolution:
-        - 2000
-        - 2000
-      shape:
-        height: 2100
-        width: 2400
-      center: [0, 0]
-
-Once you've copied the file shown above to the appropriate location, you are able to
-create your custom CONUS static sector. Change the file above to the file shown below.
+Creating Your Static Sector
+---------------------------
 
 .. code-block:: yaml
 
@@ -74,31 +44,41 @@ create your custom CONUS static sector. Change the file above to the file shown 
       area_id: my_conus_sector
       description: CONUS
       projection:
-        a: 6371228.0
-        lat_0: 37.0
-        lon_0: -96.0
+        a: 6371228.0  # The average radius of the Earth in Meters
+        lat_0: 37.0  # The center latitude point
+        lon_0: -96.0  # The center longitude point
         proj: eqc # Describes the Projection Type (from PROJ Projections)
         units: m
       resolution:
         - 3000 # The resolution of each pixel in meters (x, y)
         - 3000
       shape:
-        height: 1000
-        width: 2200
-      center: [0, 0]
+        height: 1000  # The height of your sector in pixels
+        width: 2200  # The width of your sector in pixels
+      center: [0, 0]  # The center x/y point of your sector. Almost always [0, 0]
+
+If this is your first time creating a plugin, it's good to know what the top level
+properties actually do for a plugin. Here is some information on ``interface``,
+``family``, and ``docstring``.
+
+.. include:: ../plugin_extend.rst
+   :start-line: 62
+   :end-line: 86
 
 Note: while you can leave the metadata untouched, it is very helpful to
 have additional information about the sector being displayed, not only for the backend
 of GeoIPS, but also for people using this sector plugin. The metadata also tells the
-GeoIPS output formatters where to place the image, via geographic-labeled subdirectories.
+GeoIPS filename formatters where to place the image, via geographic-labeled
+subdirectories, based on the info you provide in the ``region`` object..
 
 Once you’ve made the appropriate changes, you will be ready to use your custom sector
 plugin with CLAVR-x data.
 
 The commands you ran in the previously create a custom conus sector.
 my_conus_sector.yaml will be an example plugin, showing you that you can create
-sectors just like conus.yaml, to your own specifications. You can create a sector
-anywhere on the globe, in the fashion we just displayed above.
+sectors just like `conus.yaml <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/yaml/sectors/static/conus.yaml>`_,
+to your own specifications. You can create a sector anywhere on the globe, in the
+fashion we just displayed above.
 
 To quickly check whether or not you like the shape and resolution of your custom sector,
 you can use the command line function create_sector_image. This will plot and save
@@ -137,6 +117,6 @@ image using your custom CONUS sector!
     $MY_PKG_DIR/tests/scripts/clavrx.my_conus_sector.my-cloud-top-height.sh
 
 Output
-^^^^^^
+------
 .. image:: ../../images/command_line_examples/my_conus_sector_cth.png
    :width: 800
