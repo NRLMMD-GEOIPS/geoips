@@ -206,7 +206,8 @@ def images_match(output_product, compare_product, fuzz="5%"):
     compare_product : str
         Path to comparison product
     fuzz : str, optional
-        "fuzz" argument to pass to compare - larger "fuzz" factor to make
+        NOTE: currently not implemented.
+        "fuzz" argument to allow small diffs to pass - larger "fuzz" factor to make
         comparison less strict, by default 5%.
 
     Returns
