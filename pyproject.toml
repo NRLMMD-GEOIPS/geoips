@@ -132,17 +132,11 @@ geoips = "geoips"
 [tool.poetry.scripts]
 convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
 create_sector_image = "geoips.commandline.create_sector_image:main"
-list_available_modules = "geoips.commandline.list_available_modules:main"
+list_available_plugins = "geoips.commandline.list_available_plugins:main"
 run_procflow = "geoips.commandline.run_procflow:main"
 test_interfaces = "geoips.commandline.test_interfaces:main"
 update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
-<<<<<<< HEAD
-=======
-test_interfaces = "geoips.commandline.test_interfaces:main"
-list_available_plugins = "geoips.commandline.list_available_plugins:main"
-create_sector_image = "geoips.commandline.create_sector_image:main"
->>>>>>> main
 
 [tool.poetry.plugins."geoips.algorithms"]
 Night_Vis = "geoips.plugins.modules.algorithms.visir.Night_Vis"
