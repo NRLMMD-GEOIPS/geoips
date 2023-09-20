@@ -1,7 +1,7 @@
 [tool.poetry]
 # required ones
 name = "geoips"         # geoips package available at the root of the project
-version = "1.11.1.post83.dev0"
+version = "1.11.1.post85.dev0"
 description = "Geolocated Information Processing System"
 authors = ["Tom <tom.jerry@colostate.edu>"]
 
@@ -16,6 +16,15 @@ keywords = ["GeoIPS", "Poetry"]
 packages = [{include = "geoips"}]  # not needed as tool.poetry.name is properly set already
 classifiers = [                # // list of PyPI trove classifiers to describe the project
     "Programming Language :: Python :: 3", ]
+include = [
+    "*.txt",
+    "*.py",
+    "*.yaml",
+    "yaml_configs/*",
+    "yaml_configs/*/*",
+    "yaml_configs/*/*/*",
+    "image_utils/ascii_palettes/*",
+]
 
 # uses current version .postN and not incrementing
 [tool.poetry-dynamic-versioning]
