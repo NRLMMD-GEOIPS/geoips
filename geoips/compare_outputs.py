@@ -629,18 +629,6 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    try:
-        from shutil import which
-
-        if not which("compare"):
-            raise OSError(
-                (
-                    "Imagemagick compare does not exist, "
-                    "install if you want to check outputs"
-                )
-            )
-    except ImportError:
-        pass
     badcomps = []
     goodcomps = []
     missingcomps = []
