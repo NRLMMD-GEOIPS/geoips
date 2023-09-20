@@ -121,7 +121,8 @@ Add your entrypoint:
 
     cd $MY_PKG_DIR
 
-Edit ``pyproject.toml`` to include the code shown below.
+Edit ``pyproject.toml`` to include the code shown below. Note: if you named your package
+somehting other that ``cool_plugins``, replace that with your package name.
 
 .. code-block:: toml
 

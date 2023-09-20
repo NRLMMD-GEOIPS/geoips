@@ -201,8 +201,10 @@ Algorithms
 
 :ref:`Create an Algorithm<add-an-algorithm>`
 
-Colormaps
----------
+Colormappers
+------------
+
+:ref:`Create a Colormapper<create-colormappers>`
 
 Filename formatters
 -------------------
@@ -212,6 +214,8 @@ Interpolators
 
 Output Formatters
 -----------------
+
+:ref:`Create an Output Formatter<create-output-formatter>`
 
 ProcFlows
 ---------

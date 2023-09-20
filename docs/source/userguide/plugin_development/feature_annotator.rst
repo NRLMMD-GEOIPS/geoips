@@ -2,7 +2,7 @@
 .. _create-feature-annotator:
 
 *********************************************
-Extending GeoIPS with a New Feature Annotator
+Extend GeoIPS with a New Feature Annotator
 *********************************************
 
 GeoIPS Feature Annotators describe the format of the features shown in your imagery.
@@ -124,15 +124,16 @@ annotator
 .. code-block:: bash
 
   run_procflow \
-    $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
-    --procflow single_source \
-    --reader_name clavrx_hdf4 \
-    --product_name My-Cloud-Depth \
-    --output_formatter imagery_annotated \
-    --filename_formatter geoips_fname \
-    --minimum_coverage 0 \
-    --feature_annotator tutorial \
-    --sector_list conus
+      $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
+      --procflow single_source \
+      --reader_name clavrx_hdf4 \
+      --product_name My-Cloud-Depth \
+      --output_formatter imagery_annotated \
+      --filename_formatter geoips_fname \
+      --minimum_coverage 0 \
+      --feature_annotator tutorial \
+      --sector_list conus
+  ss_retval=$?
 
 If you named your feature annotator with a different name, please replace ``tutorial``
 with your plugin name.

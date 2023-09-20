@@ -2,7 +2,7 @@
 .. _create-a-product:
 
 **********************************
-Extending GeoIPS with new Products
+Extend GeoIPS with new Products
 **********************************
 
 This section discusses how to create multiple products for CLAVR-x data, specifically
@@ -95,7 +95,7 @@ We'll now create a test script to generate an image for the product you just cre
 .. code-block:: bash
 
     run_procflow \
-    $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
+        $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
         --procflow single_source \
         --reader_name clavrx_hdf4 \
         --product_name My-Cloud-Top-Height \
@@ -103,6 +103,7 @@ We'll now create a test script to generate an image for the product you just cre
         --filename_formatter geoips_fname \
         --minimum_coverage 0 \
         --sector_list conus
+    ss_retval=$?
 
 As shown above, we define which procflow we want to use, which reader,
 what product will be displayed, how to output it, which filename formatter will be used,
@@ -288,14 +289,15 @@ like the code shown below.
 .. code-block:: bash
 
   run_procflow \
-    $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
-    --procflow single_source \
-    --reader_name clavrx_hdf4 \
-    --product_name My-Cloud-Depth \
-    --output_formatter imagery_annotated \
-    --filename_formatter geoips_fname \
-    --minimum_coverage 0 \
-    --sector_list conus
+      $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
+      --procflow single_source \
+      --reader_name clavrx_hdf4 \
+      --product_name My-Cloud-Depth \
+      --output_formatter imagery_annotated \
+      --filename_formatter geoips_fname \
+      --minimum_coverage 0 \
+      --sector_list conus
+  ss_retval=$?
 
 Nice! Now all we need to do is run our script. This will display Cloud Depth over the
 CONUS sector. To do so, run the command below.

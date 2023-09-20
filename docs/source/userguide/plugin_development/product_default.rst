@@ -1,7 +1,7 @@
 .. _create-product-defaults:
 
 ******************************************
-Extending GeoIPS with new Product Defaults
+Extend GeoIPS with new Product Defaults
 ******************************************
 
 Lets first discuss what product defaults are. Product Defaults, as their name implies,
