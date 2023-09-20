@@ -17,13 +17,9 @@ packages = [{include = "geoips"}]  # not needed as tool.poetry.name is properly 
 classifiers = [                # // list of PyPI trove classifiers to describe the project
     "Programming Language :: Python :: 3", ]
 include = [
-    "*.txt",
-    "*.py",
-    "*.yaml",
-    "yaml_configs/*",
-    "yaml_configs/*/*",
-    "yaml_configs/*/*/*",
-    "image_utils/ascii_palettes/*",
+    "**/*.txt",
+    "**/*.py",
+    "**/*.yaml",
 ]
 
 # uses current version .postN and not incrementing
@@ -36,7 +32,6 @@ style = "pep440"    # pep440 is deafult; can rmeove later on; used for : keeping
 #tag-branch = "feature-poetry"
 strict = true
 pattern = "(?x)^((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)([-._]?((?P<stage>[a-zA-Z]+)[-._]?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"
-                         #           also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
 
 [tool.poetry-dynamic-versioning.substitution]
 files = ["*/_version.py"]
@@ -56,7 +51,7 @@ pyyaml = "*"               # Base requirement
 scipy = "*"  	           # Base requirement, requires openblas
 xarray = "*"               # Base requirement
 astropy = "*"              # Used for accounting leap seconds when converting epoch timestamps
-cartopy = ">=0.22.0"         # No longer requires libgeos. 0.21 incompatible with geos 3.12
+cartopy = ">=0.22.0"       # No longer requires libgeos
 ephem = "*"                # Required for overpass predictor
 h5py = "*"                 # hdf5 readers (GMI)
 isodate = "*"              # Required for overpass predictor
