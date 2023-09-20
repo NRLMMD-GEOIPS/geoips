@@ -10,25 +10,25 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.11.3a0 (2023-09-19)
+Version 1.11.3a0 (2023-09-20)
 *****************************
 
-* Require sphinx<7.2 due to bugs introduced 2023-08-17 7.2.x release
-* Add .vscode settings repository to "full_install.sh"
-* Add script to enable geoips environment
-* Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
-* Use matplotlib_linear_norm colormapper for tpw_cimss and tpw_purple
-* Add interactive log level, and include useful interactive logs
-* Add option for curly braces in "replace_geoips_paths", use in procflows
-* Update log output to include <module>.py:<linenum> (Yay VSCode!)
-* Update support for xarray_to_xarray algorithm family
-* Change all GeoIPS print statements to LOG.info statements
-* Update console scripts to use shared logging and argparse setup
-* Fix bug where YAML plugin is empty and error is not helpful
-* Add reader_kwargs command line argument
-* Add 'no_presectoring' procflow flag to disable sectoring
-* Replace Imagemagick with PIL and Numpy Based comparison
-* Bug fixes
+* *Bug fix*: Require sphinx<7.2 due to bugs introduced 2023-08-17 7.2.x release
+* *Installation*: Add .vscode settings repository to "full_install.sh"
+* *Installation*: Add script to enable geoips environment
+* *Enhancement*: Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
+* *Refactor*: Use matplotlib_linear_norm colormapper for tpw_cimss and tpw_purple
+* *Enhancement*: Add interactive log level, and include useful interactive logs
+* *Enhancement*: Add option for curly braces in "replace_geoips_paths", use in procflows
+* *Documentation*: Update log output to include <module>.py:<linenum> (Yay VSCode!)
+* *Bug fix*: Update support for xarray_to_xarray algorithm family
+* *Enhancement*: Change all GeoIPS print statements to LOG.info statements
+* *Enhancement*: Update console scripts to use shared logging and argparse setup
+* *Bug fix*: Fix bug where YAML plugin is empty and error is not helpful
+* *Bug fix*: Add reader_kwargs command line argument
+* *Bug fix*: Add 'no_presectoring' procflow flag to disable sectoring
+* *Testing*: Replace Imagemagick with PIL and Numpy Based comparison
+* *Installation*: Remove imagemagick conda requirement
 
 Bug Fixes
 =========
@@ -253,6 +253,20 @@ use pyPublicDecompWT*
 Installation Updates
 ====================
 
+Remove imagemagick conda requirement
+------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#295: 2023-09-18, replace imagemagick with python*
+
+imagemagick compare no longer required in compare_outputs - replaced with
+numpy/PIL python-based comparisons.  Remove all references to imagemagick
+in installation and compare_outputs.py
+
+::
+
+  docs/source/starter/installation.rst
+  geoips/compare_outputs.py
+
 Collect test data from CIRA's NextCloud instance
 ------------------------------------------------
 
@@ -351,6 +365,8 @@ implementation to follow for the future.
 
 Replace Imagemagick with PIL and Numpy Based comparison
 -------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#295: 2023-09-18, replace imagemagick with python*
 
 The previous comparison method failed for annotated imagery, using Imagemagick. to
 circumvent this problem, we've replaced the usage of Imagemagick with a PIL and Numpy
