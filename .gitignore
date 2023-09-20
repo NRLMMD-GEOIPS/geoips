@@ -8,7 +8,7 @@ tests/data/**
 # GeoIPS Environment specific .gitignore options:
 
 # auto-generated version file, created at run-time
-**/_version.py
+_version.py
 # auto-generated diff images for test outputs
 *diff_test_output*
 # auto-generated documentation build files
