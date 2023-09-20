@@ -1,7 +1,7 @@
 [tool.poetry]
 # required ones
 name = "geoips"         # geoips package available at the root of the project
-version = "1.11.1.post90.dev0"
+version = "0.0.0"
 description = "Geolocated Information Processing System"
 authors = ["Tom <tom.jerry@colostate.edu>"]
 
