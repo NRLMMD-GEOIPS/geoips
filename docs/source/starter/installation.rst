@@ -92,7 +92,7 @@ but this command will ensure that for everyone.
     # openblas / gcc required for recenter_tc / akima build.
     # imagemagick required for image comparisons
     # git required for -C commands
-    conda create -y -n geoips -c conda-forge python=3.10 gcc gxx openblas imagemagick git
+    conda create -y -n geoips -c conda-forge python=3.10 gcc gxx openblas git
     conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
 **Note:** You will need to run ``conda activate geoips`` every time you want to
