@@ -10,7 +10,7 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.11.3a0 (2023-08-25)
+Version 1.11.3a0 (2023-09-19)
 *****************************
 
 * Require sphinx<7.2 due to bugs introduced 2023-08-17 7.2.x release
@@ -27,6 +27,7 @@ Version 1.11.3a0 (2023-08-25)
 * Fix bug where YAML plugin is empty and error is not helpful
 * Add reader_kwargs command line argument
 * Add 'no_presectoring' procflow flag to disable sectoring
+* Replace Imagemagick with PIL and Numpy Based comparison
 * Bug fixes
 
 Bug Fixes
@@ -347,6 +348,20 @@ implementation to follow for the future.
     modified: geoips/geoips/plugins/yaml/product_defaults/tpw/TPW-CIMSS.yaml
     modified: geoips/geoips/plugins/yaml/product_defaults/tpw/TPW-PURPLE.yaml
     modified: geoips/pyproject.toml
+
+Replace Imagemagick with PIL and Numpy Based comparison
+-------------------------------------------------------
+
+The previous comparison method failed for annotated imagery, using Imagemagick. to
+circumvent this problem, we've replaced the usage of Imagemagick with a PIL and Numpy
+based method, which not only removes a dependency, but can be configured to our own
+needs as well.  Currently only implements exact comparisons - can be modified to
+allow very similar images to pass.
+
+::
+
+    modified: geoips/geoips/compare_outputs.py
+    modified: pyproject.toml
 
 Change all GeoIPS print statements to LOG.info statements
 ---------------------------------------------------------
