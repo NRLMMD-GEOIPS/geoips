@@ -249,19 +249,40 @@ def get_bg_xarray(sect_xarrays, area_def, prod_plugin, resampled_read=False):
 
 
 def get_resampled_read(
-    config_dict, area_defs, area_def_id, sector_type, reader, fnames, variables
+    config_dict,
+    area_defs,
+    area_def_id,
+    sector_type,
+    reader_plugin,
+    reader_kwargs,
+    fnames,
+    variables,
 ):
     """Return dictionary of xarray datasets for a given area def.
 
     Xarrays resampled to area_def
     """
     return get_sectored_read(
-        config_dict, area_defs, area_def_id, sector_type, reader, fnames, variables
+        config_dict,
+        area_defs,
+        area_def_id,
+        sector_type,
+        reader_plugin,
+        reader_kwargs,
+        fnames,
+        variables,
     )
 
 
 def get_sectored_read(
-    config_dict, area_defs, area_def_id, sector_type, reader, fnames, variables
+    config_dict,
+    area_defs,
+    area_def_id,
+    sector_type,
+    reader_plugin,
+    reader_kwargs,
+    fnames,
+    variables,
 ):
     """Return dictionary of xarray datasets for a given area def.
 
@@ -275,8 +296,12 @@ def get_sectored_read(
     else:
         pad_area_def = pad_area_definition(area_def)
     try:
-        xobjs = reader(
-            fnames, metadata_only=False, chans=variables, area_def=pad_area_def
+        xobjs = reader_plugin(
+            fnames,
+            metadata_only=False,
+            chans=variables,
+            area_def=pad_area_def,
+            **reader_kwargs,
         )
     # geostationary satellites fail with IndexError when the area_def does not intersect the
     # data.  Just skip those.  We need a better method for handling this generally, but for
@@ -745,8 +770,10 @@ def call(fnames, command_line_args=None):
     # These args should always be checked
     check_args = [
         "output_config",
+        "reader_kwargs",
         "fuse_files",
         "fuse_reader",
+        "fuse_reader_kwargs",
         "fuse_resampled_read",
         "fuse_product",
         "filename_formatter_kwargs",
@@ -764,12 +791,23 @@ def call(fnames, command_line_args=None):
         fnames = glob(config_dict["filenames"])
 
     output_file_list_fname = command_line_args["output_file_list_fname"]
+    reader_kwargs = None
     bg_files = None
     bg_product_name = None
+    bg_reader_kwargs = None
     bg_resampled_read = False
     bg_self_register_dataset = None
     bg_self_register_source = None
 
+    # 1. get reader_kwargs from command line if specified command line
+    # 2. next get reader_kwargs from YAML config_dict if specified within YAML config
+    # 3. Finally, if not specified elsewhere, default reader_kwargs to {}
+    if command_line_args.get("reader_kwargs"):
+        reader_kwargs = command_line_args["reader_kwargs"]
+    elif "reader_kwargs" in config_dict:
+        reader_kwargs = config_dict.get("reader_kwargs")
+    if not reader_kwargs:
+        reader_kwargs = {}
     if command_line_args.get("no_presectoring") is not None:
         presector_data = not command_line_args["no_presectoring"]
     else:
@@ -781,9 +819,19 @@ def call(fnames, command_line_args=None):
         bg_files = glob(config_dict["fuse_files"])
 
     if command_line_args.get("fuse_reader") is not None:
-        bg_reader = readers.get_plugin(command_line_args["fuse_reader"][0])
+        bg_reader_plugin = readers.get_plugin(command_line_args["fuse_reader"][0])
     elif "fuse_reader" in config_dict:
-        bg_reader = readers.get_plugin(config_dict["fuse_reader"])
+        bg_reader_plugin = readers.get_plugin(config_dict["fuse_reader"])
+
+    # 1. get bg_reader_kwargs from command line if specified command line
+    # 2. next get bg_reader_kwargs from YAML config_dict if specified within YAML
+    # 3. Finally, if not specified elsewhere, default bg_reader_kwargs to {}
+    if command_line_args.get("fuse_reader_kwargs") is not None:
+        bg_reader_kwargs = command_line_args["fuse_reader_kwargs"][0]
+    elif "fuse_reader_kwargs" in config_dict:
+        bg_reader_kwargs = config_dict["fuse_reader_kwargs"]
+    if not bg_reader_kwargs:
+        bg_reader_kwargs = {}
 
     if command_line_args.get("fuse_product") is not None:
         bg_product_name = command_line_args["fuse_product"][0]
@@ -821,9 +869,9 @@ def call(fnames, command_line_args=None):
 
     if bg_files is not None:
         LOG.interactive(
-            "Reading background datasets using reader '%s'...", bg_reader.name
+            "Reading background datasets using reader '%s'...", bg_reader_plugin.name
         )
-        bg_xobjs = bg_reader(bg_files, metadata_only=True)
+        bg_xobjs = bg_reader_plugin(bg_files, metadata_only=True, **bg_reader_kwargs)
         prod_plugin = products.get_plugin(
             bg_xobjs["METADATA"].source_name,
             bg_product_name,
@@ -837,9 +885,11 @@ def call(fnames, command_line_args=None):
             raise ValueError("Need to set both $GEOIPS_DB_USER and $GEOIPS_DB_PASS")
 
     print_mem_usage("MEMUSG", verbose=False)
-    reader = readers.get_plugin(config_dict["reader_name"])
-    LOG.interactive("Reading metadata from datasets using reader '%s'...", reader.name)
-    xobjs = reader(fnames, metadata_only=True)
+    reader_plugin = readers.get_plugin(config_dict["reader_name"])
+    LOG.interactive(
+        "Reading metadata from datasets using reader '%s'...", reader_plugin.name
+    )
+    xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
     source_name = xobjs["METADATA"].source_name
 
     if not produce_current_time(config_dict, xobjs["METADATA"], output_dict_keys=None):
@@ -862,8 +912,10 @@ def call(fnames, command_line_args=None):
 
     if not resampled_read and not sectored_read:
         print_mem_usage("MEMUSG", verbose=False)
-        LOG.interactive("Reading full dataset using reader '%s'...", reader.name)
-        xobjs = reader(fnames, metadata_only=False, chans=variables)
+        LOG.interactive("Reading full dataset using reader '%s'...", reader_plugin.name)
+        xobjs = reader_plugin(
+            fnames, metadata_only=False, chans=variables, **reader_kwargs
+        )
 
     print_mem_usage("MEMUSG", verbose=False)
 
@@ -925,14 +977,15 @@ def call(fnames, command_line_args=None):
                 # Note currently get_sectored_read and get_resampled_read are identical, because we have no
                 # sectored_read based readers.
                 LOG.interactive(
-                    "Performing sectored read with reader '%s'", reader.name
+                    "Performing sectored read with reader '%s'", reader_plugin.name
                 )
                 xobjs = get_sectored_read(
                     config_dict,
                     area_defs,
                     area_def_id,
                     sector_type,
-                    reader,
+                    reader_plugin,
+                    reader_kwargs,
                     fnames,
                     curr_variables,
                 )
@@ -944,14 +997,15 @@ def call(fnames, command_line_args=None):
                 # Note currently get_sectored_read and get_resampled_read are identical, because we have no
                 # sectored_read based readers.
                 LOG.interactive(
-                    "Performing resampled read with reader '%s'", reader.name
+                    "Performing resampled read with reader '%s'", reader_plugin.name
                 )
                 xobjs = get_resampled_read(
                     config_dict,
                     area_defs,
                     area_def_id,
                     sector_type,
-                    reader,
+                    reader_plugin,
+                    reader_kwargs,
                     fnames,
                     curr_variables,
                 )
@@ -1070,9 +1124,10 @@ def call(fnames, command_line_args=None):
                     bg_pad_sect_xarrays = None
                     try:
                         LOG.interactive(
-                            "Reading background data with reader '%s'", bg_reader.name
+                            "Reading background data with reader '%s'",
+                            bg_reader_plugin.name,
                         )
-                        bg_xobjs = bg_reader(
+                        bg_xobjs = bg_reader_plugin(
                             bg_files,
                             metadata_only=False,
                             chans=bg_variables,

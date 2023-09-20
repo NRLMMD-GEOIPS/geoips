@@ -131,13 +131,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
     if data_name != "NS":
-        print("Warning: wrong AMSU-B/MHS data type:  data_type=", data_name)
+        LOG.info("Warning: wrong AMSU-B/MHS data type:  data_type=", data_name)
         raise
 
     if ("NRP" and "MHOP") in os.path.basename(fname):
-        print("found a AMSU-B/MHS hdf file")
+        LOG.info("found a AMSU-B/MHS hdf file")
     else:
-        print("not a AMSU-B/MHS hdf file: skip it")
+        LOG.info("not a AMSU-B/MHS hdf file: skip it")
         raise
 
     """    ------  Notes  ------

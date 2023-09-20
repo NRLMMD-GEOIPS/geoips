@@ -135,13 +135,13 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
     if data_name != "def":
-        print("Warning: wrong SSMI SDR data type:  data_type={0}".format(data_name))
+        LOG.info("Warning: wrong SSMI SDR data type:  data_type={0}".format(data_name))
         raise
 
     if "cfnoc" in os.path.basename(fname) and "sdrmi" in os.path.basename(fname):
-        print("found a SSMI SDR file")
+        LOG.info("found a SSMI SDR file")
     else:
-        print("not a SSMI SDR file: skip it")
+        LOG.info("not a SSMI SDR file: skip it")
         raise IOError("Not an SSMI SDR file: skip it")
 
     """    ------  Notes  ------
@@ -387,12 +387,12 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         buf = np.append([0, 0], buf0)  # shift two bytes so buf will have "length" bytes
 
         if length == BAD_LEN:
-            print("fatal error:  Ban_length")
+            LOG.info("fatal error:  Ban_length")
             raise  # fatal error stop
         elif length == EOF_LEN or length == 0:
             break
         elif length != blocks["ScanHdr"]:
-            print("block length= {0} {1}".format(blocks["ScanHdr"], length))
+            LOG.info("block length= {0} {1}".format(blocks["ScanHdr"], length))
             continue  # unexpected block length, go to next block
 
         # extraction of parameters from scan header block
@@ -444,12 +444,12 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         elif length == EOF_LEN or length == 0:
             break
         elif length != blocks["Scan"]:
-            print("block length= {0} {1}".format(blocks["Scan"], length))
+            LOG.info("block length= {0} {1}".format(blocks["Scan"], length))
             continue  # unexpected block lengthi, go to next block
 
         # check of max scans
         if scan_read > MAXSCANS:
-            print("Reached max scans, break!")
+            LOG.info("Reached max scans, break!")
             break
 
         # extract parameters from the scan block
@@ -513,7 +513,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
                     minute[ii],
                 )
             except:
-                print(
+                LOG.info(
                     "Failed setting arrays in LORES channels {0} {1} {2}".format(
                         ii, jj, jj2
                     )
@@ -552,7 +552,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
                     jj
                 ]  # same time for A and B scan
             except:
-                print("Failed setting arrays in HIRES channels")
+                LOG.info("Failed setting arrays in HIRES channels")
 
     #          ------  setup xarray variables   ------
     namelist_lores = [

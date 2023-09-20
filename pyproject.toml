@@ -41,7 +41,6 @@ pattern = "(?x)^((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)([-._]?((?P<stage>[a-
 [tool.poetry-dynamic-versioning.substitution]
 files = ["*/_version.py"]
 
-
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"     # object used to perform the build process
@@ -138,6 +137,12 @@ run_procflow = "geoips.commandline.run_procflow:main"
 test_interfaces = "geoips.commandline.test_interfaces:main"
 update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
+<<<<<<< HEAD
+=======
+test_interfaces = "geoips.commandline.test_interfaces:main"
+list_available_plugins = "geoips.commandline.list_available_plugins:main"
+create_sector_image = "geoips.commandline.create_sector_image:main"
+>>>>>>> main
 
 [tool.poetry.plugins."geoips.algorithms"]
 Night_Vis = "geoips.plugins.modules.algorithms.visir.Night_Vis"
@@ -265,16 +270,3 @@ flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sector
 static_standard = "geoips.plugins.modules.title_formatters.static_standard"
 tc_copyright = "geoips.plugins.modules.title_formatters.tc_copyright"
 tc_standard = "geoips.plugins.modules.title_formatters.tc_standard"
-
-#[tool.setuptools.package-data]
-#"*" = [
-#    "*.txt",
-#    "*.py",
-#    "*.yaml",
-#    "yaml_configs/*",
-#    "yaml_configs/*/*",
-#    "yaml_configs/*/*/*",
-#    "image_utils/ascii_palettes/*",
-#]
-#
-

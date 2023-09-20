@@ -10,23 +10,88 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.11.3a0 (2023-08-25)
+Version 1.11.3a0 (2023-09-20)
 *****************************
 
-* Require sphinx<7.2 due to bugs introduced 2023-08-17 7.2.x release
-* Add .vscode settings repository to "full_install.sh"
-* Add script to enable geoips environment
-* Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
-* Use matplotlib_linear_norm colormapper for tpw_cimss and tpw_purple
-* Add interactive log level, and include useful interactive logs
-* Add option for curly braces in "replace_geoips_paths", use in procflows
-* Update log output to include <module>.py:<linenum> (Yay VSCode!)
-* Update support for xarray_to_xarray algorithm family
-* Add 'no_presectoring' procflow flag to disable sectoring
-* Bug fixes
+* *Bug fix*: Require sphinx<7.2 due to bugs introduced 2023-08-17 7.2.x release
+* *Installation*: Add .vscode settings repository to "full_install.sh"
+* *Installation*: Add script to enable geoips environment
+* *Enhancement*: Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
+* *Refactor*: Use matplotlib_linear_norm colormapper for tpw_cimss and tpw_purple
+* *Enhancement*: Add interactive log level, and include useful interactive logs
+* *Enhancement*: Add option for curly braces in "replace_geoips_paths", use in procflows
+* *Documentation*: Update log output to include <module>.py:<linenum> (Yay VSCode!)
+* *Bug fix*: Update support for xarray_to_xarray algorithm family
+* *Enhancement*: Change all GeoIPS print statements to LOG.info statements
+* *Enhancement*: Update console scripts to use shared logging and argparse setup
+* *Bug fix*: Fix bug where YAML plugin is empty and error is not helpful
+* *Bug fix*: Add reader_kwargs command line argument
+* *Bug fix*: Add 'no_presectoring' procflow flag to disable sectoring
+* *Testing*: Replace Imagemagick with PIL and Numpy Based comparison
+* *Installation*: Remove imagemagick conda requirement
 
 Bug Fixes
 =========
+
+Update console scripts to use shared logging and argparse setup
+---------------------------------------------------------------
+
+Ensure shared setup_logging and commandline/args.py utilities are used within
+"main" for all console scripts. This allows using shared argument layout, and
+shared logging setup for consistent usage.
+
+Additionally, add test scripts for "create_sector_image" and "list_available_plugins".
+
+::
+
+  modified:   geoips/commandline/args.py
+  modified:   geoips/commandline/create_sector_image.py
+  renamed: list_available_modules.py ->  geoips/commandline/list_available_plugins.py
+  modified:   geoips/commandline/test_interfaces.py
+  modified:   pyproject.toml
+  new file:   tests/scripts/console_script_create_sector_image.sh
+  new file:   tests/scripts/console_script_list_available_plugins.sh
+
+Temporarily pin numexpr<2.8.5
+-----------------------------
+
+A bug was introduced in numexpr 2.8.5 that causes scientific notation
+to break. For now, temporarily pin numexpr<2.8.5.
+
+::
+
+  modified: pyproject.toml
+
+Add reader_kwargs command line argument
+---------------------------------------
+
+Ensure arbitrary keyword arguments can be passed to specified reader.
+
+Single source tests:
+
+* amsr2.tc.89H-Physical.imagery_annotated.sh: single_source reader_kwargs command line
+* amsr2_ocean.*.sh: no change - tests default amsr2 reader
+
+Config based tests:
+
+* amsr2.config_based_no_compare.sh:config-based command line reader_kwargs
+  and fuse_reader_kwargs.
+* amsr2_test_low_memory.yaml: tests YAML-based reader_kwargs and fuse_reader_kwargs.
+* amsr2.config_based.sh: no change - tests default amsr2 and ahi reader_kwargs and
+  fuse_reader_kwargs
+
+::
+
+    modified: geoips/commandline/args.py
+    modified: geoips/plugins/modules/readers/ahi_hsd.py
+    modified: geoips/plugins/modules/readers/amsr2_netcdf.py
+
+    modified: geoips/plugins/modules/procflows/single_source.py
+    modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: tests/scripts/amsr2.config_based_no_compare.sh
+    modified: tests/yaml_configs/amsr2_test_low_memory.yaml
 
 Update support for xarray_to_xarray algorithm family
 ----------------------------------------------------
@@ -60,6 +125,17 @@ has been resolved.
 ::
 
   modified: pyproject.toml
+
+Add PluginError for empty YAML plugins
+--------------------------------------
+
+Currently, when a YAML plugin is empty in GeoIPS, the error raised is non-descriptive
+and not helpful. To fix this, we've added a PluginError which points the user to the
+empty YAML file, and tells them to fill it with the appropriate information.
+
+::
+
+    modified: geoips/geoips/geoips_utis.py
 
 Enhancements
 ============
@@ -177,6 +253,20 @@ use pyPublicDecompWT*
 Installation Updates
 ====================
 
+Remove imagemagick conda requirement
+------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#295: 2023-09-18, replace imagemagick with python*
+
+imagemagick compare no longer required in compare_outputs - replaced with
+numpy/PIL python-based comparisons.  Remove all references to imagemagick
+in installation and compare_outputs.py
+
+::
+
+  docs/source/starter/installation.rst
+  geoips/compare_outputs.py
+
 Collect test data from CIRA's NextCloud instance
 ------------------------------------------------
 
@@ -217,9 +307,6 @@ use pyPublicDecompWT*
     modified: pyproject.toml
     modified: setup_seviri
     modified: config/config_geoips
-
-Installation Updates
-====================
 
 Add Mac installation instructions
 ---------------------------------
@@ -275,6 +362,57 @@ implementation to follow for the future.
     modified: geoips/geoips/plugins/yaml/product_defaults/tpw/TPW-CIMSS.yaml
     modified: geoips/geoips/plugins/yaml/product_defaults/tpw/TPW-PURPLE.yaml
     modified: geoips/pyproject.toml
+
+Replace Imagemagick with PIL and Numpy Based comparison
+-------------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#295: 2023-09-18, replace imagemagick with python*
+
+The previous comparison method failed for annotated imagery, using Imagemagick. to
+circumvent this problem, we've replaced the usage of Imagemagick with a PIL and Numpy
+based method, which not only removes a dependency, but can be configured to our own
+needs as well.  Currently only implements exact comparisons - can be modified to
+allow very similar images to pass.
+
+::
+
+    modified: geoips/geoips/compare_outputs.py
+    modified: pyproject.toml
+
+Change all GeoIPS print statements to LOG.info statements
+---------------------------------------------------------
+
+GeoIPS previously had 92 print statements scattered throughout multiple files which
+needed to be reevaluated. While this update doesn't remove any of these print
+statements, they have been changed to LOG.info statements, which provide more
+information to the user, and follows GeoIPS conventions.
+
+::
+
+    modified: geoips/geoips/cli.py
+    modified: geoips/geoips/commandline/create_sector_image.py
+    modified: geoips/geoips/commandline/list_available_modules.py
+    modified: geoips/geoips/commandline/test_interfaces.py
+    modified: geoips/geoips/image_utils/maps.py
+    modified: geoips/geoips/plugins/modules/colormappers/visir/IR_BD.py
+    modified: geoips/geoips/plugins/modules/colormappers/visir/WV.py
+    modified: geoips/geoips/plugins/modules/filename_formatters/geoips_fname.py
+    modified: geoips/geoips/plugins/modules/filename_formatters/tc_fname.py
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
+    modified: geoips/geoips/plugins/modules/readers/abi_netcdf.py
+    modified: geoips/geoips/plugins/modules/readers/ahi_hsd.py
+    modified: geoips/geoips/plugins/modules/readers/amsub_hdf.py
+    modified: geoips/geoips/plugins/modules/readers/amsub_mirs.py
+    modified: geoips/geoips/plugins/modules/readers/ewsg_netcdf.py
+    modified: geoips/geoips/plugins/modules/readers/modis_hdf4.py
+    modified: geoips/geoips/plugins/modules/readers/seviri_hrit.py
+    modified: geoips/geoips/plugins/modules/readers/ssmi_binary.py
+    modified: geoips/geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+    modified: geoips/geoips/plugins/modules/readers/viirs_netcdf.py
+    modified: geoips/geoips/plugins/modules/readers/windsat_idr37_binary.py
+    modified: geoips/geoips/sector_utils/estimate_area_extent.py
+    modified: geoips/geoips/sector_utils/overpass_predictor.py
+    modified: geoips/geoips/utils/memusg.py
 
 Make pre-sectoring in procflow optional
 ---------------------------------------

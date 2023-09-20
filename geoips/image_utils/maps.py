@@ -236,7 +236,7 @@ def check_gridline_annotator(gridline_annotator):
             )
         for subkey in subkeys:
             if subkey not in gridline_annotator["spec"][key]:
-                print(gridline_annotator)
+                LOG.info(gridline_annotator)
                 raise ValueError(
                     "Missing gridline_annotator property {0}, required_fields {1}".format(
                         f"{key}.{subkey}", required_fields

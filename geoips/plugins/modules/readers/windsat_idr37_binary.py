@@ -117,7 +117,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 dataset_info = {
     "WINDSAT_SDR_FWD": {
@@ -210,10 +210,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         (int(time_s_year) % 4 == 0) and (int(time_s_year) % 100 != 0)
     ):
         year_leap = "true"
-        print("%d is a Leap Year" % int(time_s_year))
+        LOG.info("%d is a Leap Year" % int(time_s_year))
     else:
         year_leap = "false"
-        print("%d is Not the Leap Year" % int(time_s_year))
+        LOG.info("%d is Not the Leap Year" % int(time_s_year))
 
     if int(time_e_hhmm) < int(time_s_hhmm):
         time_e_day = int(time_s_day) + 1
@@ -280,12 +280,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     try:
         good_datafile = filesize_info % len_OneRec
         if good_datafile == 0:
-            print("This is a good windsat idr37 data file")
+            LOG.info("This is a good windsat idr37 data file")
         else:
-            print("This is not a good windsat idr37 data file:  skipping ....")
+            LOG.info("This is not a good windsat idr37 data file:  skipping ....")
             return
     except Exception as resp:
-        log.info(
+        LOG.info(
             "\tBLANKET EXCEPTION %s: %s >> %s : %s",
             type(resp).__name__,
             str(resp.__doc__),
@@ -300,7 +300,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         windsat_read = np.ma.zeros(rec_tot)  # initialization of zeros
         np.ma.masked_all_like(windsat_read)
     except Exception as resp:
-        log.info(
+        LOG.info(
             "\tBLANKET EXCEPTION %s: %s >> %s : %s",
             type(resp).__name__,
             str(resp.__doc__),
@@ -334,7 +334,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # read in the windsat edr products for all data  points
     for ii in range(rec_tot):  # loop records of this file
         if ii % 10000 == 0:
-            log.info("Running record number %s of %s", ii, rec_tot)
+            LOG.info("Running record number %s of %s", ii, rec_tot)
         try:
             # read in variables using their size (bytes)
             jd2000 = np.frombuffer(f1.read(8), dtype=np.dtype("float64")).byteswap()[
@@ -424,7 +424,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 k2 += 1
 
         except Exception as resp:
-            log.info(
+            LOG.info(
                 "\tBLANKET EXCEPTION %s: %s >> %s : %s",
                 type(resp).__name__,
                 str(resp.__doc__),
