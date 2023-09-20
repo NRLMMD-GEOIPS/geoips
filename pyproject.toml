@@ -1,7 +1,7 @@
 [tool.poetry]
 # required ones
 name = "geoips"         # geoips package available at the root of the project
-version = "0.0.0"
+version = "1.11.1.post83.dev0"
 description = "Geolocated Information Processing System"
 authors = ["Tom <tom.jerry@colostate.edu>"]
 
@@ -38,36 +38,32 @@ requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"     # object used to perform the build process
 
 [tool.poetry.dependencies]     # must download to run
-    python = ">=3.9, <3.11"    # mandatory to declare the required python version
-    matplotlib = ">=3.7.0"     # Base requirement works, version specific to test outputs
-    netcdf4 = "*"              # Base requirement
-    numpy = "*"                # Base requirement
-    pyresample = "*"           # Base requirement Geospatial image resampling
-    				     	       # efficiency improvements >= 1.22.3
-    pyyaml = "*"               # Base requirement
-    scipy = "*"  	           # Base requirement, requires openblas
-    xarray = "*"               # Base requirement
-    
-    astropy = "*"              # Used for accounting leap seconds when converting epoch timestamps
-    cartopy = ">=0.22.0"         # No longer requires libgeos. 0.21 incompatible with geos 3.12
-    ephem = "*"                # Required for overpass predictor
-    h5py = "*"                 # hdf5 readers (GMI)
-    isodate = "*"              # Required for overpass predictor
-    jsonschema = ">4.18.0a5"   # Provides validation for YAML plugins
-    numexpr = "<2.8.5"         # for efficiency improvements
-    psutil = "*"               # Required for memory checks
-    pyhdf = "*"                # hdf4 readers (MODIS)
-    pyaml-env = "*"            # Reading YAML output config files, with paths
-    pyorbital = "*"            # required by satpy
-    pypublicdecompwt = "*"     # Required to read SEVIRI data
-    #pyshp = ">2.2.0"		   # May be covered by cartopy ?
-    rasterio = "*"             # GEOTIFF output
-    referencing = "*"
-    requests = "^2.31.0"
-    satpy = "*"               # efficiency improvements >= 0.33.1
-    scikit-image = "*"        # Radius based center coverage checks
-    #shapely = ">1.8.2"             # May be covered by cartopy. may not require libgeos
-    
+python = ">=3.9"    # mandatory to declare the required python version
+matplotlib = ">=3.7.0"     # Base requirement works, version specific to test outputs
+netcdf4 = "*"              # Base requirement
+numpy = "*"                # Base requirement
+pyresample = "*"           # Base requirement Geospatial image resampling
+			     	       # efficiency improvements >= 1.22.3
+pyyaml = "*"               # Base requirement
+scipy = "*"  	           # Base requirement, requires openblas
+xarray = "*"               # Base requirement
+astropy = "*"              # Used for accounting leap seconds when converting epoch timestamps
+cartopy = ">=0.22.0"         # No longer requires libgeos. 0.21 incompatible with geos 3.12
+ephem = "*"                # Required for overpass predictor
+h5py = "*"                 # hdf5 readers (GMI)
+isodate = "*"              # Required for overpass predictor
+jsonschema = ">4.18.0"   # Provides validation for YAML plugins
+numexpr = "<2.8.5"         # for efficiency improvements
+psutil = "*"               # Required for memory checks
+pyhdf = "*"                # hdf4 readers (MODIS)
+pyaml-env = "*"            # Reading YAML output config files, with paths
+pyorbital = "*"            # required by satpy
+pypublicdecompwt = "*"     # Required to read SEVIRI data
+rasterio = "*"             # GEOTIFF output
+referencing = "*"
+satpy = "*"               # efficiency improvements >= 0.33.1
+scikit-image = "*"        # Radius based center coverage checks
+
 #[tool.poetry.dev-dependencies]
 # nothing at this stage;
 
@@ -91,6 +87,7 @@ doc8 = "*"                  # RST linting
 [tool.poetry.group.test.dependencies]
 pytest = "*"		# Required for unit tests
 pytest-cov = "*"    # Reports on test coverage
+pixelmatch = "*"
 
 [tool.poetry.group.debug.dependencies]
 ipython = "*"
@@ -98,14 +95,104 @@ ipython = "*"
 [tool.poetry.plugins."geoips.plugin_packages"]
 geoips = "geoips"
 
+[tool.poetry.scripts]
+convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
+create_sector_image = "geoips.commandline.create_sector_image:main"
+list_available_modules = "geoips.commandline.list_available_modules:main"
+run_procflow = "geoips.commandline.run_procflow:main"
+test_interfaces = "geoips.commandline.test_interfaces:main"
+update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
+xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
+
+[tool.poetry.plugins."geoips.algorithms"]
+Night_Vis = "geoips.plugins.modules.algorithms.visir.Night_Vis"
+Night_Vis_GeoIPS1 = "geoips.plugins.modules.algorithms.visir.Night_Vis_GeoIPS1"
+Night_Vis_IR = "geoips.plugins.modules.algorithms.visir.Night_Vis_IR"
+Night_Vis_IR_GeoIPS1 = "geoips.plugins.modules.algorithms.visir.Night_Vis_IR_GeoIPS1"
+pmw_37pct = "geoips.plugins.modules.algorithms.pmw_tb.pmw_37pct"
+pmw_89pct = "geoips.plugins.modules.algorithms.pmw_tb.pmw_89pct"
+pmw_color37 = "geoips.plugins.modules.algorithms.pmw_tb.pmw_color37"
+pmw_color89 = "geoips.plugins.modules.algorithms.pmw_tb.pmw_color89"
+single_channel = "geoips.plugins.modules.algorithms.single_channel"
+windbarbs = "geoips.plugins.modules.algorithms.sfc_winds.windbarbs"
+
+[tool.poetry.plugins."geoips.area_def_generators"]
+clat_clon_resolution_shape = "geoips.interface_modules.area_def_generators.clat_clon_resolution_shape:clat_clon_resolution_shape"
+
+[tool.poetry.plugins."geoips.colormappers"]
+IR_BD = "geoips.plugins.modules.colormappers.visir.IR_BD"
+Infrared = "geoips.plugins.modules.colormappers.visir.Infrared"
+WV = "geoips.plugins.modules.colormappers.visir.WV"
+cmap_rgb = "geoips.plugins.modules.colormappers.cmap_rgb"
+matplotlib_linear_norm = "geoips.plugins.modules.colormappers.matplotlib_linear_norm"
+pmw_150H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_150H"
+pmw_37H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37H"
+pmw_37H_Legacy = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37H_Legacy"
+pmw_37H_Physical = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37H_Physical"
+pmw_37pct = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37pct"
+pmw_89H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89H"
+pmw_89HW = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89HW"
+pmw_89H_Legacy = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89H_Legacy"
+pmw_89H_Physical = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89H_Physical"
+pmw_89pct = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89pct"
+pmw_Rain = "geoips.plugins.modules.colormappers.pmw_tb.cmap_Rain"
+tpw_pwat = "geoips.plugins.modules.colormappers.tpw.tpw_pwat"
+wind_radii_transitions = "geoips.plugins.modules.colormappers.winds.wind_radii_transitions"
+
+[tool.poetry.plugins."geoips.coverage_checkers"]
+center_radius = "geoips.plugins.modules.coverage_checkers.center_radius"
+center_radius_rgba = "geoips.plugins.modules.coverage_checkers.center_radius_rgba"
+masked_arrays = "geoips.plugins.modules.coverage_checkers.masked_arrays"
+numpy_arrays_nan = "geoips.plugins.modules.coverage_checkers.numpy_arrays_nan"
+rgba = "geoips.plugins.modules.coverage_checkers.rgba"
+windbarbs = "geoips.plugins.modules.coverage_checkers.windbarbs"
+
+[tool.poetry.plugins."geoips.filename_formatters"]
+geoips_fname = "geoips.plugins.modules.filename_formatters.geoips_fname"
+geoips_netcdf_fname = "geoips.plugins.modules.filename_formatters.geoips_netcdf_fname"
+geotiff_fname = "geoips.plugins.modules.filename_formatters.geotiff_fname"
+metadata_default_fname = "geoips.plugins.modules.filename_formatters.metadata_default_fname"
+tc_clean_fname = "geoips.plugins.modules.filename_formatters.tc_clean_fname"
+tc_fname = "geoips.plugins.modules.filename_formatters.tc_fname"
+text_winds_day_fname = "geoips.plugins.modules.filename_formatters.text_winds_day_fname"
+text_winds_full_fname = "geoips.plugins.modules.filename_formatters.text_winds_full_fname"
+text_winds_tc_fname = "geoips.plugins.modules.filename_formatters.text_winds_tc_fname"
+
+[tool.poetry.plugins."geoips.interpolators"]
+interp_gauss = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_gauss"
+interp_grid = "geoips.plugins.modules.interpolators.scipy_wrappers.interp_grid"
+interp_nearest = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_nearest"
+
+[tool.poetry.plugins."geoips.output_comparisons"]
+compare_outputs = "geoips.compare_outputs:compare_outputs"
+
+[tool.poetry.plugins."geoips.output_formatters"]
+full_disk_image = "geoips.plugins.modules.output_formatters.full_disk_image"
+geotiff_standard = "geoips.plugins.modules.output_formatters.geotiff_standard"
+imagery_annotated = "geoips.plugins.modules.output_formatters.imagery_annotated"
+imagery_clean = "geoips.plugins.modules.output_formatters.imagery_clean"
+imagery_windbarbs = "geoips.plugins.modules.output_formatters.imagery_windbarbs"
+imagery_windbarbs_clean = "geoips.plugins.modules.output_formatters.imagery_windbarbs_clean"
+metadata_default = "geoips.plugins.modules.output_formatters.metadata_default"
+metadata_tc = "geoips.plugins.modules.output_formatters.metadata_tc"
+netcdf_geoips = "geoips.plugins.modules.output_formatters.netcdf_geoips"
+netcdf_xarray = "geoips.plugins.modules.output_formatters.netcdf_xarray"
+text_winds = "geoips.plugins.modules.output_formatters.text_winds"
+unprojected_image = "geoips.plugins.modules.output_formatters.unprojected_image"
+
+[tool.poetry.plugins."geoips.procflows"]
+config_based = "geoips.plugins.modules.procflows.config_based"
+single_source = "geoips.plugins.modules.procflows.single_source"
+
 [tool.poetry.plugins."geoips.readers"]
-abi_netcdf = "geoips.plugins.modules.readers.abi_netcdf"
 abi_l2_netcdf = "geoips.plugins.modules.readers.abi_l2_netcdf"
+abi_netcdf = "geoips.plugins.modules.readers.abi_netcdf"
 ahi_hsd = "geoips.plugins.modules.readers.ahi_hsd"
 amsr2_netcdf = "geoips.plugins.modules.readers.amsr2_netcdf"
 amsr2_remss_winds_netcdf = "geoips.plugins.modules.readers.amsr2_remss_winds_netcdf"
 amsub_hdf = "geoips.plugins.modules.readers.amsub_hdf"
 amsub_mirs = "geoips.plugins.modules.readers.amsub_mirs"
+ascat_uhr_netcdf = "geoips.plugins.modules.readers.ascat_uhr_netcdf"
 atms_hdf5 = "geoips.plugins.modules.readers.atms_hdf5"
 ewsg_netcdf = "geoips.plugins.modules.readers.ewsg_netcdf"
 geoips_netcdf = "geoips.plugins.modules.readers.geoips_netcdf"
@@ -114,135 +201,35 @@ imerg_hdf5 = "geoips.plugins.modules.readers.imerg_hdf5"
 mimic_netcdf = "geoips.plugins.modules.readers.mimic_netcdf"
 modis_hdf4 = "geoips.plugins.modules.readers.modis_hdf4"
 saphir_hdf5 = "geoips.plugins.modules.readers.saphir_hdf5"
-seviri_hrit = "geoips.plugins.modules.readers.seviri_hrit"
-ascat_uhr_netcdf = "geoips.plugins.modules.readers.ascat_uhr_netcdf"
-smap_remss_winds_netcdf = "geoips.plugins.modules.readers.smap_remss_winds_netcdf"
-smos_winds_netcdf = "geoips.plugins.modules.readers.smos_winds_netcdf"
+sar_winds_netcdf = "geoips.plugins.modules.readers.sar_winds_netcdf"
 scat_knmi_winds_netcdf = "geoips.plugins.modules.readers.scat_knmi_winds_netcdf"
 scat_noaa_winds_netcdf = "geoips.plugins.modules.readers.scat_noaa_winds_netcdf"
-windsat_remss_winds_netcdf = "geoips.plugins.modules.readers.windsat_remss_winds_netcdf"
-sar_winds_netcdf = "geoips.plugins.modules.readers.sar_winds_netcdf"
+seviri_hrit = "geoips.plugins.modules.readers.seviri_hrit"
 sfc_winds_text = "geoips.plugins.modules.readers.sfc_winds_text"
+smap_remss_winds_netcdf = "geoips.plugins.modules.readers.smap_remss_winds_netcdf"
+smos_winds_netcdf = "geoips.plugins.modules.readers.smos_winds_netcdf"
 ssmi_binary = "geoips.plugins.modules.readers.ssmi_binary"
 ssmis_binary = "geoips.plugins.modules.readers.ssmis_binary"
 viirs_netcdf = "geoips.plugins.modules.readers.viirs_netcdf"
 wfabba_ascii = "geoips.plugins.modules.readers.wfabba_ascii"
 windsat_idr37_binary = "geoips.plugins.modules.readers.windsat_idr37_binary"
-
-[tool.poetry.plugins."geoips.output_formatters"]
-full_disk_image = "geoips.plugins.modules.output_formatters.full_disk_image"
-unprojected_image = "geoips.plugins.modules.output_formatters.unprojected_image"
-geotiff_standard = "geoips.plugins.modules.output_formatters.geotiff_standard"
-imagery_annotated = "geoips.plugins.modules.output_formatters.imagery_annotated"
-imagery_clean = "geoips.plugins.modules.output_formatters.imagery_clean"
-imagery_windbarbs = "geoips.plugins.modules.output_formatters.imagery_windbarbs"
-imagery_windbarbs_clean = "geoips.plugins.modules.output_formatters.imagery_windbarbs_clean"
-netcdf_geoips = "geoips.plugins.modules.output_formatters.netcdf_geoips"
-netcdf_xarray = "geoips.plugins.modules.output_formatters.netcdf_xarray"
-text_winds = "geoips.plugins.modules.output_formatters.text_winds"
-metadata_default = "geoips.plugins.modules.output_formatters.metadata_default"
-metadata_tc = "geoips.plugins.modules.output_formatters.metadata_tc"
-
-[tool.poetry.plugins."geoips.algorithms"]
-single_channel = "geoips.plugins.modules.algorithms.single_channel"
-pmw_37pct = "geoips.plugins.modules.algorithms.pmw_tb.pmw_37pct"
-pmw_89pct = "geoips.plugins.modules.algorithms.pmw_tb.pmw_89pct"
-pmw_color37 = "geoips.plugins.modules.algorithms.pmw_tb.pmw_color37"
-pmw_color89 = "geoips.plugins.modules.algorithms.pmw_tb.pmw_color89"
-windbarbs = "geoips.plugins.modules.algorithms.sfc_winds.windbarbs"
-Night_Vis_IR = "geoips.plugins.modules.algorithms.visir.Night_Vis_IR"
-Night_Vis_IR_GeoIPS1 = "geoips.plugins.modules.algorithms.visir.Night_Vis_IR_GeoIPS1"
-Night_Vis_GeoIPS1 = "geoips.plugins.modules.algorithms.visir.Night_Vis_GeoIPS1"
-Night_Vis = "geoips.plugins.modules.algorithms.visir.Night_Vis"
-
-[tool.poetry.plugins."geoips.procflows"]
-single_source = "geoips.plugins.modules.procflows.single_source"
-config_based = "geoips.plugins.modules.procflows.config_based"
+windsat_remss_winds_netcdf = "geoips.plugins.modules.readers.windsat_remss_winds_netcdf"
 
 [tool.poetry.plugins."geoips.sector_metadata_generators"]
-tc_sector_file_parser = "geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser"
 bdeck_parser = "geoips.plugins.modules.sector_metadata_generators.bdeck_parser"
+tc_sector_file_parser = "geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser"
 
 [tool.poetry.plugins."geoips.sector_spec_generators"]
 center_coordinates = "geoips.plugins.modules.sector_spec_generators.center_coordinates"
 
-[tool.poetry.plugins."geoips.interpolators"]
-interp_nearest = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_nearest"
-interp_gauss = "geoips.plugins.modules.interpolators.pyresample_wrappers.interp_gauss"
-interp_grid = "geoips.plugins.modules.interpolators.scipy_wrappers.interp_grid"
-
 [tool.poetry.plugins."geoips.trackfile_parsers"]
-flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
 bdeck_parser = "geoips.interface_modules.trackfile_parsers.bdeck_parser:bdeck_parser"
-
-[tool.poetry.plugins."geoips.area_def_generators"]
-clat_clon_resolution_shape = "geoips.interface_modules.area_def_generators.clat_clon_resolution_shape:clat_clon_resolution_shape"
-
-[tool.poetry.plugins."geoips.colormappers"]
-cmap_rgb = "geoips.plugins.modules.colormappers.cmap_rgb"
-matplotlib_linear_norm = "geoips.plugins.modules.colormappers.matplotlib_linear_norm"
-pmw_150H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_150H"
-pmw_37H_Legacy = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37H_Legacy"
-pmw_37H_Physical = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37H_Physical"
-pmw_37H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37H"
-pmw_37pct = "geoips.plugins.modules.colormappers.pmw_tb.cmap_37pct"
-pmw_89H_Legacy = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89H_Legacy"
-pmw_89H_Physical = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89H_Physical"
-pmw_89H = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89H"
-pmw_89pct = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89pct"
-pmw_89HW = "geoips.plugins.modules.colormappers.pmw_tb.cmap_89HW"
-pmw_Rain = "geoips.plugins.modules.colormappers.pmw_tb.cmap_Rain"
-tpw_pwat = "geoips.plugins.modules.colormappers.tpw.tpw_pwat"
-Infrared = "geoips.plugins.modules.colormappers.visir.Infrared"
-IR_BD = "geoips.plugins.modules.colormappers.visir.IR_BD"
-WV = "geoips.plugins.modules.colormappers.visir.WV"
-wind_radii_transitions = "geoips.plugins.modules.colormappers.winds.wind_radii_transitions"
+flat_sectorfile_parser = "geoips.interface_modules.trackfile_parsers.flat_sectorfile_parser:flat_sectorfile_parser"
 
 [tool.poetry.plugins."geoips.title_formatters"]
-tc_standard = "geoips.plugins.modules.title_formatters.tc_standard"
-tc_copyright = "geoips.plugins.modules.title_formatters.tc_copyright"
 static_standard = "geoips.plugins.modules.title_formatters.static_standard"
-
-[tool.poetry.plugins."geoips.coverage_checkers"]
-masked_arrays = "geoips.plugins.modules.coverage_checkers.masked_arrays"
-numpy_arrays_nan = "geoips.plugins.modules.coverage_checkers.numpy_arrays_nan"
-center_radius = "geoips.plugins.modules.coverage_checkers.center_radius"
-center_radius_rgba = "geoips.plugins.modules.coverage_checkers.center_radius_rgba"
-rgba = "geoips.plugins.modules.coverage_checkers.rgba"
-windbarbs = "geoips.plugins.modules.coverage_checkers.windbarbs"
-
-[tool.poetry.plugins."geoips.output_comparisons"]
-compare_outputs = "geoips.compare_outputs:compare_outputs"
-
-[tool.poetry.plugins."geoips.filename_formatters"]
-geoips_fname = "geoips.plugins.modules.filename_formatters.geoips_fname"
-geoips_netcdf_fname = "geoips.plugins.modules.filename_formatters.geoips_netcdf_fname"
-geotiff_fname = "geoips.plugins.modules.filename_formatters.geotiff_fname"
-tc_fname = "geoips.plugins.modules.filename_formatters.tc_fname"
-tc_clean_fname = "geoips.plugins.modules.filename_formatters.tc_clean_fname"
-text_winds_day_fname = "geoips.plugins.modules.filename_formatters.text_winds_day_fname"
-text_winds_full_fname = "geoips.plugins.modules.filename_formatters.text_winds_full_fname"
-text_winds_tc_fname = "geoips.plugins.modules.filename_formatters.text_winds_tc_fname"
-metadata_default_fname = "geoips.plugins.modules.filename_formatters.metadata_default_fname"
-
-[tool.poetry.scripts]
-run_procflow = "geoips.commandline.run_procflow:main"
-convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
-update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
-xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
-test_interfaces = "geoips.commandline.test_interfaces:main"
-list_available_modules = "geoips.commandline.list_available_modules:main"
-create_sector_image = "geoips.commandline.create_sector_image:main"
-
-
-#[tool.setuptools.packages]
-#find = {namespaces = false}
-#
-#[tool.setuptools.package-dir]
-#"" = "."
-#
-
-# include non-python files with poetry
+tc_copyright = "geoips.plugins.modules.title_formatters.tc_copyright"
+tc_standard = "geoips.plugins.modules.title_formatters.tc_standard"
 
 #[tool.setuptools.package-data]
 #"*" = [
