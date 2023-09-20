@@ -36,7 +36,6 @@ style = "pep440"    # pep440 is deafult; can rmeove later on; used for : keeping
 #tag-branch = "feature-poetry"
 strict = true
 pattern = "(?x)^((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)([-._]?((?P<stage>[a-zA-Z]+)[-._]?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"
-                         #           also: 3.6.0 incompatible with 0.20.3, but 0.21.0 works
 
 [tool.poetry-dynamic-versioning.substitution]
 files = ["*/_version.py"]
