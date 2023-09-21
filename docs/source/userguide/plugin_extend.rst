@@ -223,6 +223,8 @@ ProcFlows
 Readers
 -------
 
+:ref:`Get to Know Readers<describe-readers>`
+
 Title Formatters
 ----------------
 
@@ -230,7 +232,7 @@ Example YAML-based Plugins
 ==========================
 
 Feature Annotators
--------------------
+------------------
 
 :ref:`Create a New Feature Annotator<create-feature-annotator>`
 
