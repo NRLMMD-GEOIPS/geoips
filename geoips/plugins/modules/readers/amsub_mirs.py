@@ -282,13 +282,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
         if data_name != "nc":
-            print("Warning: wrong AMSU-B/MHS data type:  data_type=", data_name)
+            LOG.info("Warning: wrong AMSU-B/MHS data type:  data_type=", data_name)
             raise
 
         if "NPR-MIRS-IMG" in os.path.basename(fname):
-            print("found a NOAA MIRS AMSU-B/MHS file")
+            LOG.info("found a NOAA MIRS AMSU-B/MHS file")
         else:
-            print("not a NOAA MIRS AMSU-B/MHS file: skip it")
+            LOG.info("not a NOAA MIRS AMSU-B/MHS file: skip it")
             raise
 
         """    ------  Notes  ------

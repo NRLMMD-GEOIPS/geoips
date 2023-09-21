@@ -197,7 +197,7 @@ def get_out_diff_fname(compare_product, output_product, ext=None, flag=None):
 
 
 def images_match(output_product, compare_product, fuzz="5%"):
-    """Use imagemagick compare system command to compare two images.
+    """Use PIL and numpy to compare two images.
 
     Parameters
     ----------
@@ -206,7 +206,8 @@ def images_match(output_product, compare_product, fuzz="5%"):
     compare_product : str
         Path to comparison product
     fuzz : str, optional
-        "fuzz" argument to pass to compare - larger "fuzz" factor to make
+        NOTE: currently not implemented.
+        "fuzz" argument to allow small diffs to pass - larger "fuzz" factor to make
         comparison less strict, by default 5%.
 
     Returns
@@ -214,84 +215,68 @@ def images_match(output_product, compare_product, fuzz="5%"):
     bool
         Return True if images match, False if they differ
     """
-    out_diffimg = get_out_diff_fname(compare_product, output_product)
     exact_out_diffimg = get_out_diff_fname(
         compare_product, output_product, flag="exact_"
     )
+    from PIL import Image
+    import numpy as np
+    from pixelmatch.contrib.PIL import pixelmatch
 
-    call_list = [
-        "compare",
-        "-verbose",
-        "-quiet",
-        "-metric",
-        "ae",
-        "-fuzz",
-        fuzz,
-        output_product,
-        compare_product,
-        out_diffimg,
-    ]
+    LOG.info("**Comparing output_product vs. compare product")
+    # Open existing images.
+    out_img = Image.open(output_product)
+    comp_img = Image.open(compare_product)
+    diff_img = Image.new(mode="RGB", size=comp_img.size)
+    # Compute the pixel diff between the two images.
+    if np.array(comp_img).shape == np.array(out_img).shape:
+        diff_arr = np.abs(np.array(comp_img) - np.array(out_img))
+    # If shapes of arrays do not match, pixel diff can not be performed.
+    # Print the names of the two images and associated shapes, and return False.
+    else:
+        LOG.interactive("    ***************************************")
+        LOG.interactive("    *** BAD Images NOT match exactly, different sizes ***")
+        LOG.interactive(
+            "    ***   output_product: %s %s ***",
+            np.array(out_img).shape,
+            output_product,
+        )
+        LOG.interactive(
+            "    ***   compare_product: %s %s ***",
+            np.array(comp_img).shape,
+            compare_product,
+        )
+        LOG.interactive("    ***************************************")
+        return False
 
-    exact_call_list = [
-        "compare",
-        "-verbose",
-        "-quiet",
-        "-metric",
-        "ae",
-        output_product,
-        compare_product,
-        exact_out_diffimg,
-    ]
-
-    LOG.info("**Running %s", " ".join(call_list))
-    fullimg_ret = subprocess.run(
-        call_list, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    # Determine the number of pixels that are mismatched
+    num_pix_mismatched = pixelmatch(
+        out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=0.05
     )
-    LOG.debug(fullimg_ret.stdout)
-
+    # Currently, return 0 ONLY if the images are exactly matched.  Eventually
+    # we may update this to allow returning 0 for "close enough" matches.
+    if np.all(diff_arr == 0) and num_pix_mismatched == 0:
+        fullimg_retval = 0
+    else:
+        fullimg_retval = 1
+    # Write out the exact image difference.
+    LOG.info("**Saving exact difference image")
+    diff_img.save(exact_out_diffimg)
     LOG.info("**Done running compare")
 
-    # call_list = ['compare', '-verbose', '-quiet',
-    #              '-metric', 'rmse',
-    #              '-dissimilarity-threshold', '{0:0.15f}'.format(threshold),
-    #              '-subimage-search',
-    #              output_product,
-    #              compare_product,
-    #              out_diffimg]
-
-    # LOG.info('Running %s', ' '.join(call_list))
-
-    # subimg_retval = subprocess.call(call_list)
-    # if subimg_retval != 0 and fullimg_retval != 0:
-    #     call_list = ['compare', '-verbose', '-quiet',
-    #                  '-metric', 'rmse',
-    #                  '-subimage-search',
-    #                  output_product,
-    #                  compare_product,
-    #                  out_diffimg]
-    #     subprocess.call(call_list)
-    #     LOG.info('    ***************************************')
-    #     LOG.info('    *** BAD Images do NOT match exactly ***')
-    #     LOG.info('    ***************************************')
-    #     return False
-    if fullimg_ret.returncode != 0:
+    # If the images do not match exactly, print the output image, comparison image,
+    # and exact diff image to log, for easy viewing.  Return False.
+    if fullimg_retval != 0:
         LOG.interactive("    ***************************************")
         LOG.interactive("    *** BAD Images do NOT match exactly ***")
         LOG.interactive("    ***   output_product: %s ***", output_product)
         LOG.interactive("    ***   compare_product: %s ***", compare_product)
-        LOG.interactive("    ***   out_diffimg: %s ***", out_diffimg)
-        LOG.interactive("    ***   exact_out_diffimg: %s ***", exact_out_diffimg)
+        LOG.interactive("    ***   exact dif image: %s ***", exact_out_diffimg)
         LOG.interactive("    ***************************************")
         return False
 
-    LOG.info("**Running exact %s", " ".join(exact_call_list))
-    fullimg_ret = subprocess.run(
-        exact_call_list, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-    )
-    LOG.debug(fullimg_ret.stdout)
-    LOG.info("**Done running exact compare")
-
-    if fullimg_ret.returncode != 0:
+    # If the images match exactly, just output to GOOD comparison log to info level
+    # (only bad comparisons to interactive level)
+    if fullimg_retval != 0:
         LOG.info("    ******************************************")
         LOG.info("    *** GOOD Images match within tolerance ***")
         LOG.info("    ******************************************")
@@ -299,10 +284,7 @@ def images_match(output_product, compare_product, fuzz="5%"):
         LOG.info("    *********************************")
         LOG.info("    *** GOOD Images match exactly ***")
         LOG.info("    *********************************")
-    # Remove the image if they matched so we don't have extra stuff to sort through.
-    from os import unlink as osunlink
 
-    osunlink(out_diffimg)
     return True
 
 
@@ -647,18 +629,6 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    try:
-        from shutil import which
-
-        if not which("compare"):
-            raise OSError(
-                (
-                    "Imagemagick compare does not exist, "
-                    "install if you want to check outputs"
-                )
-            )
-    except ImportError:
-        pass
     badcomps = []
     goodcomps = []
     missingcomps = []
