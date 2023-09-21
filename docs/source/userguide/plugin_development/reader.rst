@@ -10,7 +10,7 @@ too, such as .csv, .xls, etc. GeoIPS is primarly used as a package for Geo-infor
 data, however if you purpose in a plugin that reads different types of data, the world
 is your oyster.
 
-GeoIPS readerrs return a dictionary of xarrays minimally containing the following
+GeoIPS readers return a dictionary of xarrays minimally containing the following
 variables.
 
 .. _minimum-contents:
@@ -138,7 +138,7 @@ A Typical Read Function
 -----------------------
 
 When creating a read function in a GeoIPS Reader, it is largely the dealers choice (ie.
-yourself). The read function needs to open the file and read the contents (`Remember the
+yourself). The read function needs to open the file and read the contents (:ref:`Remember the
 Minimum Contents Table<minimum-contents>`) into a dictionary of xarrays to be passed
 along to GeoIPS. However, as with any piece of code, there are some challenges that you
 should be aware of.
