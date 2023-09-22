@@ -1,18 +1,18 @@
 interface: sectors
 family: area_definition_static
-name: goes16
-docstring: "Full disk sector for GOES-16"
+name: goes_east
+docstring: "Full disk sector for GOES-Easte"
 metadata:
   region:
     continent: Global
     country: x
-    area: GOES-16
+    area: GOES-East
     subarea: x
     state: x
     city: x
 spec:
-  area_id: goes16
-  description: GOES-16 Coverage
+  area_id: goes_east
+  description: GOES-East Coverage
   projection:
     a: 6371228.0
     lat_0: 0

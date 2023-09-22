@@ -1,22 +1,22 @@
 interface: sectors
 family: area_definition_static
-name: himawari8
-docstring: "Full disk sector for Himawari-8"
+name: goes_west
+docstring: "Full disk sector for GOES-West"
 metadata:
   region:
     continent: Global
     country: x
-    area: Himawari-8
+    area: GOES-West
     subarea: x
     state: x
     city: x
 spec:
-  area_id: himawari8
-  description: Himawari-8 Coverage
+  area_id: goes_west
+  description: GOES-West Coverage
   projection:
     a: 6371228.0
     lat_0: 0
-    lon_0: 140.7
+    lon_0: -137.2
     proj: eqc
     units: m
   resolution:
