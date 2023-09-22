@@ -19,7 +19,7 @@ from glob import glob
 from datetime import datetime, timedelta
 import numpy as np
 
-from scipy.ndimage.interpolation import zoom
+from scipy.ndimage import zoom
 
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
