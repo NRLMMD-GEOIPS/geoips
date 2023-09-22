@@ -1,0 +1,39 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.11.5a0 (2023-09-22)
+*****************************
+
+* Fixed from scipy.ndimage.interpolation import zoom deprecation warning
+* Added v_11_5a0.rst to the releases documentation
+
+Bug Fixes
+=========
+
+Fixed from scipy.ndimage.interpolation import zoom deprecation warning
+----------------------------------------------------------------------
+
+The scipy.ndimage.interpolation library has recently been deprecated, and was causing
+warnings when importing the zoom libary for the ahi_hsd reader and the abi_netcdf reader
+
+The following files have been modified to remove those deprecation warnings.
+
+    * modified: geoips/geoips/plugins/modules/readers/abi_netcdf.py
+    * modified: geoips/geoips/plugins/modules/readers/ahi_hsd.py
+
+Documentation
+-------------
+
+Added the v_11_5a0.rst to the releases documentation. v1_11_3a0 has recently been
+released, so we need a new release form to document our changes.
+
+    * added: geoips/docs/source/releases/v_11_5a0.rst
