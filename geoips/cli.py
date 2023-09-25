@@ -112,15 +112,12 @@ def get_interface(name):
         return getattr(interfaces, name)
     except AttributeError:
         try:
-            return getattr(stable, name)
+            return getattr(dev, name)
         except AttributeError:
-            try:
-                return getattr(dev, name)
-            except AttributeError:
-                raise AttributeError(
-                    f'Interface "{name}" not found in '
-                    "either stable or developmental interface sets"
-                )
+            raise AttributeError(
+                f'Interface "{name}" not found in '
+                "either stable or developmental interface sets"
+            )
 
 
 def add_list_interface_parser(subparsers, name, aliases=None):
