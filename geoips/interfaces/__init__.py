@@ -14,6 +14,7 @@
 
 from geoips.interfaces.module_based.algorithms import algorithms
 from geoips.interfaces.module_based.colormappers import colormappers
+from geoips.interfaces.module_based.compare_outputs import compare_outputs
 from geoips.interfaces.module_based.coverage_checkers import coverage_checkers
 from geoips.interfaces.module_based.filename_formatters import filename_formatters
 from geoips.interfaces.module_based.interpolators import interpolators
@@ -36,6 +37,7 @@ from geoips.interfaces.yaml_based.sectors import sectors
 __all__ = [
     "algorithms",
     "colormappers",
+    "compare_outputs",
     "coverage_checkers",
     "feature_annotators",
     "filename_formatters",
