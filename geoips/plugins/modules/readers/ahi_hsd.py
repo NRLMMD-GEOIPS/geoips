@@ -25,7 +25,11 @@ import xarray
 from scipy.ndimage.interpolation import zoom
 
 from geoips.utils.memusg import print_mem_usage
-
+from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+    get_geolocation_cache_filename,
+    get_geolocation,
+    AutoGenError,
+)
 LOG = logging.getLogger(__name__)
 
 
@@ -33,23 +37,17 @@ try:
     import numexpr as ne
 except Exception:
     LOG.info(
-        "Failed numexpr import in scifile/readers/ahi_hsd_reader_new.py. If you need it, install it."
+        """Failed numexpr import in scifile/readers/ahi_hsd_reader_new.py. If you need
+        it, install it."""
     )
-
-from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
-    get_geolocation_cache_filename,
-    get_geolocation,
-    AutoGenError,
-)
-
 
 try:
     nprocs = 6
     ne.set_num_threads(nprocs)
 except Exception:
     LOG.info(
-        "Failed numexpr.set_num_threads in {}. If numexpr is not installed and you need it, install it.".format(
+        """Failed numexpr.set_num_threads in {}. If numexpr is not installed and you
+        need it, install it.""".format(
             __file__
         )
     )
@@ -157,10 +155,10 @@ family = "standard"
 name = "ahi_hsd"
 
 
-class AutoGenError(Exception):
-    """Raise exception on geolocation autogeneration error."""
+# class AutoGenError(Exception):
+#     """Raise exception on geolocation autogeneration error."""
 
-    pass
+#     pass
 
 
 def findDiff(d1, d2, path=""):
@@ -293,16 +291,19 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
             np.arange(first_sample, last_sample, sample_step),
             np.arange(first_line, last_line, line_step),
         )
-        # Changing to use numexpr rather than numpy.  Appears to speed up each statement by about five times.
+        # Changing to use numexpr rather than numpy.  Appears to speed up each statement
+        # by about five times.
         #
-        # In [8]: timeit -n100 deg2rad * (np.array(x, dtype=np.float) - coff)/(sclunit * cfac)
+        # In [8]: timeit -n100 deg2rad *
+        # (np.array(x, dtype=np.float) - coff)/(sclunit * cfac)
         # 100 loops, best of 3: 96.6 ms per loop
         #
         # In [9]: timeit -n100 ne.evaluate('deg2rad*(x-coff)/(sclunit*cfac)')
         # 100 loops, best of 3: 20 ms per loop
         x = ne.evaluate("deg2rad * (x - coff) / (sclunit * cfac)")  # NOQA
         y = ne.evaluate("deg2rad*(y - loff)/(sclunit * lfac)")  # NOQA
-        # # Improvement here is from 132ms for np.sin(x) to 23.5ms for ne.evaluate('sin(x)')
+        # # Improvement here is from 132ms for np.sin(x) to 23.5ms for
+        # ne.evaluate('sin(x)')
         LOG.info("    LATLONCALC Calculating sines and cosines")
         # sin_x = ne.evaluate('sin(x)')  # NOQA
         # sin_y = ne.evaluate('sin(y)')  # NOQA
@@ -322,10 +323,11 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
         # # Good data mask
         # good = Sd != 0
 
-        # # Now I'm lost, but it seems to work.  Comes from the Himawari-8 users's guide.
+        # # Now I'm lost, but it seems to work.  Comes from the Himawari-8 users's guide
         # # Original version with excess calculations
         LOG.debug("Calculating Sn")
-        # Sn = ne.evaluate('(Rs * cos_x * cos_y-Sd)/(cos_y**2 + ecc * sin_y**2)')  # NOQA
+        # Sn = ne.evaluate('(Rs * cos_x * cos_y-Sd)/(cos_y**2 + ecc * sin_y**2)')
+        # # NOQA
         LOG.debug("Calculating S1")
         # S1 = ne.evaluate('Rs - (Sn * cos_x * cos_y)')  # NOQA
         LOG.debug("Calculating S2")
@@ -383,7 +385,8 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
             lats.tofile(df)
             lons.tofile(df)
         # Switch to xarray based geolocation files
-        # ds = xarray.Dataset({'latitude':(['x','y'],lats),'longitude':(['x','y'],lons)})
+        # ds = xarray.Dataset({'latitude':(['x','y'],lats),
+        #                      'longitude':(['x','y'],lons)})
         # ds.to_netcdf(fname)
 
     # Create a memmap to the lat/lon file
@@ -913,8 +916,10 @@ def _check_file_consistency(metadata):
 
     # Check the following fields for exact equality.
     #   satellite_name: Must make sure this isn't Himawari-8 and 9 mixed.
-    #   ob_timeline: Provides HHMM for each image, so should be the same for all files from thes same image.
-    #   ob_area: Provides the four letter code of the observation area (e.g. FLDK or JP01).
+    #   ob_timeline: Provides HHMM for each image, so should be the same for all files
+    #   from thes same image.
+    #   ob_area: Provides the four letter code of the observation area
+    #   (e.g. FLDK or JP01).
     #   sub_lon: Just a dummy check to be sure nothing REALLY weird is going on.
     members_to_check = {
         "block_01": {"satellite_name": None, "ob_timeline": None, "ob_area": None},
@@ -995,7 +1000,8 @@ def call(
     elif self_register:
         if self_register not in DATASET_INFO:
             raise ValueError(
-                "Unrecognized resolution name requested for self registration: {}".format(
+                """Unrecognized resolution name requested for self registration: {}""".
+                format(
                     self_register
                 )
             )
@@ -1031,8 +1037,8 @@ def call(
         raise ValueError("Input files inconsistent.")
 
     # Now put together a dict that shows what we actually got
-    # This is largely to help us read in order and only create arrays of the minimum required size
-    # Dict structure is channel{segment{file}}
+    # This is largely to help us read in order and only create arrays of the minimum
+    # required size. Dict structure is channel{segment{file}}
     # Also build sets containing all segments and channels passed
     file_info = {}
     file_segs = set()
@@ -1072,7 +1078,8 @@ def call(
 
     if len(list(res_md.keys())) == 0:
         raise ValueError(
-            "No valid files found in list, make sure .DAT.bz2 are bunzip2-ed: {0}".format(
+            """No valid files found in list, make sure .DAT.bz2 are bunzip2-ed: {0}""".
+            format(
                 fnames
             )
         )
@@ -1110,8 +1117,8 @@ def call(
         LOG.info("Only need metadata from first file, returning")
         return {"METADATA": xarray_obj}
 
-    # If one or more channels are missing a segment that other channels have, add it in as "None"
-    # This will be set to bad values in the output data
+    # If one or more channels are missing a segment that other channels have, add it in
+    # as "None". This will be set to bad values in the output data
     for ch, segs in file_info.items():
         diff = file_segs.difference(segs.keys())
         if diff:
@@ -1129,14 +1136,15 @@ def call(
             if chan not in all_chans_list:
                 raise ValueError("Requested channel {0} not recognized.".format(chan))
             if chan[0:3] not in file_chans:
-                # raise ValueError('Requested channel {0} not found in input data'.format(chan))
+                # raise ValueError('Requested channel {0} not found in input data'.
+                # format(chan))
                 LOG.warning("Requested channel %s not found in input data", chan)
 
     # If no specific channels were requested, get everything
     if not chans:
         chans = all_chans_list
-    # Creates dict whose keys are band numbers in the form B## and whose values are lists
-    # containing the data type(s) requested for the band (e.g. Rad, Ref, BT).
+    # Creates dict whose keys are band numbers in the form B## and whose values are
+    # lists containing the data type(s) requested for the band (e.g. Rad, Ref, BT).
     chan_info = {}
     for ch in chans:
         chn = ch[0:3]
@@ -1200,7 +1208,8 @@ def call(
                 break
         if (not self_register) and (res not in gvars.keys() or not gvars[res]):
             LOG.info(
-                "We don't have geolocation information for {} for {} skipping {}".format(
+                """We don't have geolocation information for {} for {} skipping {}""".
+                format(
                     res, adname, chan
                 )
             )
@@ -1331,16 +1340,16 @@ def call(
         for varname in gvars[dsname].keys():
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
         # if hasattr(xobj, 'area_definition') and xobj.area_definition is not None:
-        #     xobj.attrs['interpolation_radius_of_influence'] = max(xobj.area_definition.pixel_size_x,
-        #                                                           xobj.area_definition.pixel_size_y)
+        #     xobj.attrs['interpolation_radius_of_influence'] =
+        #     max(xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y)
         # else:
         #     xobj.attrs['interpolation_radius_of_influence'] = 2000
         # Make this a fixed 3000 (1.5 * lowest resolution data) - may want to
         # adjust for different channels.
         xobj.attrs["interpolation_radius_of_influence"] = 3000
         xarray_objs[dsname] = xobj
-        # May need to deconflict / combine at some point, but for now just use attributes from
-        # any one of the datasets as the METADATA dataset
+        # May need to deconflict / combine at some point, but for now just use
+        # attributes from any one of the datasets as the METADATA dataset
         xarray_objs["METADATA"] = xobj[[]]
     LOG.info("Done reading AHI data for {}".format(adname))
     LOG.info("")
@@ -1416,9 +1425,10 @@ def get_band_metadata(all_metadata):
 def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
     """Read data for a full channel's worth of files."""
     # Coordinate arrays for reading
-    # Unsure if Lines can ever be None, but the test below was causing an error due to testing
-    #   the truth value of an entire array.  May need to implement test again here to ensure that
-    #   gvars['Lines'] is actually something, but testing this method for now.
+    # Unsure if Lines can ever be None, but the test below was causing an error due to
+    # testing the truth value of an entire array.  May need to implement test again here
+    # to ensure that gvars['Lines'] is actually something, but testing this method for
+    # now.
     # Test against full-disk.  Works for sectors...
     # if ('Lines' in gvars and 'Samples' in gvars) and gvars['Lines'].any()
     # and gvars['Samples'].any():
@@ -1467,7 +1477,8 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
     # zoom_mod = np.mod(np.array(shape), 1/zoom)
     # if np.any(zoom_mod):
     #     raise ValueError('Zoom level does not produce integer dimensions.')
-    # counts = np.full(np.int(np.array(shape) * zoom), 1 + 2**valid_bits, dtype=np.uint16)
+    # counts = np.full(np.int(np.array(shape) * zoom),
+    #                  1 + 2**valid_bits, dtype=np.uint16)
     LOG.debug("Making counts array")
     counts = np.full(shape, 1 + 2**valid_bits, dtype=np.uint16)
 
@@ -1519,8 +1530,8 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
 
         LOG.info("Doing the actual read for segment {}".format(seg))
 
-    # It appears that there are values that appear to be good outside the allowable range
-    # The allowable range is set by the number of valid bits per pixel
+    # It appears that there are values that appear to be good outside the allowable
+    # range.  The allowable range is set by the number of valid bits per pixel
     # This number can be 11, 12, or 14
     # These correspond to valid ranges of [0:2048], [0:4096], [0:16384]
     # Here we find all invalid pixels so we can mask later
@@ -1528,9 +1539,9 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
     error_inds = np.where(counts == count_badval)
     offdisk_inds = np.where(counts == count_outbounds)
 
-    # It appears that some AHI data does not correctly set erroneous pixels to count_badval.
-    # To fis this, we can find the count value at which radiances become less than or equal to zero.
-    # Any counts above that value are bad.
+    # It appears that some AHI data does not correctly set erroneous pixels to
+    # count_badval. To fis this, we can find the count value at which radiances become
+    # less than or equal to zero. Any counts above that value are bad.
     # Note: This is only for use when calculating brightness temperatures
     # (i.e. when gain is negative)
     if gain < 0:
@@ -1539,7 +1550,8 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
     else:
         root_inds = []
 
-    # Create mask for good values in order to suppress warning from log of negative values.
+    # Create mask for good values in order to suppress warning from log of negative
+    # values.
     # Note: This is only for use when calculating brightness temperatures
     good = np.ones(counts.shape, dtype=bool)
     good[root_inds] = 0
