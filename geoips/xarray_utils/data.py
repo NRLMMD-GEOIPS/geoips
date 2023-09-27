@@ -394,25 +394,23 @@ def sector_xarray_spatial(
     # if covg:
     if sector_xarray["latitude"].size == 0:
         LOG.warning(
-            """    OVERALL INSUFFICIENT SPATIAL DATA between {0} and {1} lon and {2} and
-            {3}lat""".format(
-                min_lon,
-                max_lon,
-                min_lat,
-                max_lat,
-            )
+            "    OVERALL INSUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon",
+            min_lat,
+            max_lon,
+            "and %0.2f and %0.2f lat",
+            min_lat,
+            max_lat,
         )
         return None
 
     LOG.info(
-        """    OVERALL SUFFICIENT SPATIAL DATA between {0} and {1} lon and {2} and {3}
-        lat {4} points""".format(
-            min_lon,
-            max_lon,
-            min_lat,
-            max_lat,
-            sector_xarray["latitude"].size,
-        )
+        "    OVERALL SUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon and %0.2f ",
+        min_lon,
+        max_lon,
+        min_lat,
+        "and %0.2f lat %0.2f points",
+        max_lat,
+        sector_xarray["latitude"].size,
     )
     # extent_lonlat[0], extent_lonlat[2], extent_lonlat[1], extent_lonlat[3],
     # final_good_points)
@@ -707,14 +705,13 @@ def sector_xarrays(
 
         if is_dynamic_sector(area_def):
             LOG.info(
-                """  Trying to sector {0} with dynamic time {1}, data time {2} to {3},
-                {4} points""".format(
-                    area_def.area_id,
-                    area_def.sector_start_datetime,
-                    xobj.start_datetime,
-                    xobj.end_datetime,
-                    xobj["latitude"].size,
-                )
+                "  Trying to sector %s with dynamic time %s, data time %s to %s, ",
+                area_def.area_id,
+                area_def.sector_start_datetime,
+                xobj.start_datetime,
+                xobj.end_datetime,
+                "%s points",
+                xobj["latitude"].size,
             )
         else:
             LOG.info(
