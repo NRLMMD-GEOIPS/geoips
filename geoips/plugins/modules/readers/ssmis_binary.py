@@ -144,7 +144,9 @@ def read_ssmis_data_file(fname, metadata_only=False):
 
     # READ HEARDER
     sw_rev = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()[0]  # NOQA
-    endian, fileid = np.fromstring(f1.read(2), dtype=np.dtype("int8")).byteswap()  # NOQA
+    endian, fileid = np.fromstring(
+        f1.read(2), dtype=np.dtype("int8")
+    ).byteswap()  # NOQA
     rev = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
     year = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
     jday = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()
@@ -153,7 +155,9 @@ def read_ssmis_data_file(fname, metadata_only=False):
     spare1, spare2, spare3 = np.fromstring(  # NOQA
         f1.read(3), dtype=np.dtype("int8")
     ).byteswap()
-    proc_stat_flags = np.fromstring(f1.read(1), dtype=np.dtype("int8")).byteswap()  # NOQA
+    proc_stat_flags = np.fromstring(
+        f1.read(1), dtype=np.dtype("int8")
+    ).byteswap()  # NOQA
     spare4 = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
     # Need to set up time to be read in by the metadata (year and jday are arrays)
     time = "%04d%03d%02d%02d" % (year[0], jday[0], hour, minu)  # NOQA
@@ -163,7 +167,9 @@ def read_ssmis_data_file(fname, metadata_only=False):
         nbytes % 512
     )  # skip nfiller bytes so that the scan header will start at the 513th byte of
     # the data records,
-    filler_bytes = np.fromstring(f1.read(nfiller), dtype=np.dtype("int8")).byteswap()  # NOQA
+    filler_bytes = np.fromstring(
+        f1.read(nfiller), dtype=np.dtype("int8")
+    ).byteswap()  # NOQA
 
     # Rev 6A of the SSMIS SDR software changed the scalling of channel 12-16 to 100
     # (it was 10 before this change) effective with orbit rev 12216 for F-16 and
