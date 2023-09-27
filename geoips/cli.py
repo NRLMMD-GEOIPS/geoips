@@ -115,8 +115,7 @@ def get_interface(name):
             return getattr(dev, name)
         except AttributeError:
             raise AttributeError(
-                f'Interface "{name}" not found in '
-                "either stable or developmental interface sets"
+                f'Interface "{name}" not found'
             )
 
 
