@@ -13,7 +13,21 @@
 Version 1.11.5a0 (2023-09-27)
 *****************************
 
+* Remove flake8_docstring_only option from check_code.sh workflow call
 * Update "update_this_release_note" to v1_11_5a0.rst
+
+Git Workflow Updates
+====================
+
+Remove flake8_docstring_only option from check_code.sh workflow call
+--------------------------------------------------------------------
+
+flake8 errors now corrected throughout geoips repo - fully enforce flake8
+from the github actions workflow.
+
+::
+
+  .github/workflows/release_note_update.yaml
 
 Release Updates
 ===============
