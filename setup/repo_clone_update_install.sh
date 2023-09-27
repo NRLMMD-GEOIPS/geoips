@@ -32,7 +32,6 @@ if [[ "$1" == "setup" ]]; then
     fi
     mkdir -p $GEOIPS_DEPENDENCIES_DIR/bin
     mkdir -p $GEOIPS_PACKAGES_DIR
-    mkdir -p $GEOIPS_TESTDATA_DIR
 
 elif [[ "$1" == "repo_clone" ]]; then
     for internal_repo in $internal_plugins $internal_algs; do

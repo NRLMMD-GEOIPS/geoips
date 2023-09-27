@@ -13,7 +13,7 @@
 """Processing workflow for single data source processing."""
 
 from os import getenv
-from os.path import basename
+from os.path import basename, exists
 import logging
 from datetime import timedelta
 import inspect
@@ -835,8 +835,38 @@ def get_alg_xarray(
     resector=True,
     resampled_read=False,
     variable_names=None,
+    window_start_time=None,
+    window_end_time=None,
 ):
-    """Get alg xarray."""
+    """Get alg xarray.
+
+    Parameters
+    ----------
+    sect_xarrays: dict of xarray.Dataset
+        dictionary of xarray Datasets to apply algorithm.
+    area_def: pyresample.AreaDefinition
+        Spatial region required in the final xarray Datasets.
+    prod_plugin: ProductPlugin
+        GeoIPS Product Plugin obtained through interfaces.products.get_plugin("name").
+    resector: bool, default=True
+        Specify whether to resector the data prior to applying the algorithm.
+    resampled_read: bool, default=False
+        Specify whether a resampled read is required, needed for datatypes that
+        will be read within "get_alg_xarray"
+    variable_names: list of str
+        List of variable names within xarray Datasets to include in the final
+        sectored xarray Datasets
+    window_start_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+    window_end_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+
+    Returns
+    -------
+    xarray.Dataset
+        xarray Dataset containing the final data after interpolation, algorithm,
+        resectoring, etc have been applied.
+    """
     if not variable_names:
         # original input variables from sensor.py (i.e., abi.py)
         variables = get_required_variables(prod_plugin)
@@ -880,6 +910,8 @@ def get_alg_xarray(
             hours_before_sector_time=6,
             hours_after_sector_time=9,
             drop=True,
+            window_start_time=window_start_time,
+            window_end_time=window_end_time,
         )
         # hours_before_sector_time=6, hours_after_sector_time=6, drop=True)
     else:
@@ -1090,20 +1122,20 @@ def get_alg_xarray(
 
             # apply the requested interpolation routine.
             interp_args["varlist"] = [varname]
-            if "time" in sect_xarray.dims:
+            if "time_dim" in sect_xarray.dims:
                 # This is for a particularly formatted dataset, that includes
                 # separate arrays for different times (ABI fire product).
                 # We need to be careful this does not break for some other
                 # dataset that includes a differently formatted "time"
                 # dimension.
-                tdims = len(sect_xarray.time)
+                tdims = len(sect_xarray.time_dim)
                 LOG.interactive(
                     "  Interpolating data with interpolator '%s'...", interp_plugin.name
                 )
                 interp_list = [
                     interp_plugin(
                         area_def,
-                        sect_xarray.isel(time=i),
+                        sect_xarray.isel(time_dim=i),
                         xarray.Dataset(),
                         **interp_args,
                     )
@@ -1310,6 +1342,8 @@ def call(fnames, command_line_args=None):
         "reader_defined_area_def",
         "self_register_source",
         "self_register_dataset",
+        "window_start_time",
+        "window_end_time",
         "sectored_read",
         "resampled_read",
         "product_db",
@@ -1317,6 +1351,22 @@ def call(fnames, command_line_args=None):
 
     check_command_line_args(check_args, command_line_args)
 
+    if not fnames:
+        raise IOError(
+            "No files found on disk. "
+            "Please include valid files either at the command line, "
+            "or within the YAML config"
+        )
+    for fname in fnames:
+        if not exists(fname):
+            raise IOError(
+                f"File '{fname}' not found. "
+                "Please include valid files either at the command line, "
+                "or within the YAML config"
+            )
+
+    window_start_time = command_line_args.get("window_start_time")
+    window_end_time = command_line_args.get("window_end_time")
     product_name = command_line_args["product_name"]  # 89HNearest
     output_formatter = command_line_args[
         "output_formatter"
@@ -1476,6 +1526,7 @@ def call(fnames, command_line_args=None):
         else:
             if presector_data:
                 LOG.interactive("Sectoring xarrays...")
+                # Note window start/end time overrides hours before/after sector time
                 pad_sect_xarrays = sector_xarrays(
                     xobjs,
                     pad_area_def,
@@ -1483,6 +1534,8 @@ def call(fnames, command_line_args=None):
                     hours_before_sector_time=6,
                     hours_after_sector_time=9,
                     drop=True,
+                    window_start_time=window_start_time,
+                    window_end_time=window_end_time,
                 )
             else:
                 pad_sect_xarrays = xobjs
@@ -1542,6 +1595,8 @@ def call(fnames, command_line_args=None):
                 else:
                     LOG.interactive("Sectoring padded xarrays...")
                     if presector_data:
+                        # Note window start/end time overrides hours
+                        # before/after sector time
                         sect_xarrays = sector_xarrays(
                             pad_sect_xarrays,
                             area_def,
@@ -1549,6 +1604,8 @@ def call(fnames, command_line_args=None):
                             hours_before_sector_time=6,
                             hours_after_sector_time=9,
                             drop=True,
+                            window_start_time=window_start_time,
+                            window_end_time=window_end_time,
                         )
                     else:
                         sect_xarrays = pad_sect_xarrays
@@ -1619,6 +1676,8 @@ def call(fnames, command_line_args=None):
                     prod_plugin,
                     resector=False,
                     resampled_read=resampled_read,
+                    window_start_time=window_start_time,
+                    window_end_time=window_end_time,
                 )
             elif area_def.sector_type in ["reader_defined", "self_register"]:
                 alg_xarray = get_alg_xarray(
@@ -1628,6 +1687,8 @@ def call(fnames, command_line_args=None):
                     resector=False,
                     resampled_read=resampled_read,
                     variable_names=variables,
+                    window_start_time=window_start_time,
+                    window_end_time=window_end_time,
                 )
             else:
                 alg_xarray = get_alg_xarray(
@@ -1636,6 +1697,8 @@ def call(fnames, command_line_args=None):
                     prod_plugin,
                     resector=presector_data,
                     resampled_read=resampled_read,
+                    window_start_time=window_start_time,
+                    window_end_time=window_end_time,
                 )
 
             print_mem_usage("MEMUSG", verbose=False)

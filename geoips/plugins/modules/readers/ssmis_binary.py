@@ -235,15 +235,43 @@ def read_ssmis_data_file(fname, metadata_only=False):
         if nn == nsdr - 1:
             end_time = yyyyjjjhhmn
 
+        try:
+            # The start end time in the standard file name seems to be a bit more
+            # reliable, so try parsing the file name first before falling back
+            # on the header information in the binary file
+
+            # Grab only the file name
+            bfname = os.path.basename(fname)
+
+            # Standard SSMIS file names are the following format:
+            # <FILE_ID>_<SATELLITE>_<DATE>_<START>_<END>_<REV>_<EXTENSION>
+            split_fname = bfname.split("_")
+            date = split_fname[2]
+            start = split_fname[3]
+            end = split_fname[4]
+            start_datetime = datetime.strptime(date + start, "d%Y%m%ds%H%M%S")
+            end_datetime = datetime.strptime(date + end, "d%Y%m%de%H%M%S")
+            if end_datetime < start_datetime:
+                # Rolled over to new day
+                end_datetime += timedelta(days=1)
+        except ValueError:
+            # Could not parse the start/end time from the file name
+            # Fall back on using info in header
+            start_datetime = datetime.strptime(start_time, "%Y%j%H%M")
+
+            # Estimate end time just for metadata purposes
+            # To my knowledge, the file end time is not included in the binary header
+            # The following offset was determined by taking the start/end time
+            # listed in the file name, then dividing the total number of seconds by the
+            # number of sensor data records, which came out to 45.5 seconds
+            estimated_seconds_per_sensor_data_record = 45.5
+            seconds_offset = estimated_seconds_per_sensor_data_record * nsdr
+            end_datetime = start_datetime + timedelta(seconds=seconds_offset)
+
         if metadata_only:
             xarray_imager = xr.Dataset()
-            xarray_imager.attrs["start_datetime"] = datetime.strptime(
-                start_time, "%Y%j%H%M"
-            )
-            # Estimate end time just for metadata purposes
-            xarray_imager.attrs["end_datetime"] = datetime.strptime(
-                start_time, "%Y%j%H%M"
-            ) + timedelta(minutes=100)
+            xarray_imager.attrs["start_datetime"] = start_datetime
+            xarray_imager.attrs["end_datetime"] = end_datetime
             xarray_imager.attrs["source_name"] = "ssmis"
             xarray_imager.attrs["platform_name"] = satid
             xarray_imager.attrs["data_provider"] = "DMSP"
@@ -794,7 +822,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
 
     f1.close()
 
-    LOG.info("start_time, end_time= %s, %s", start_time, end_time)
+    LOG.info("start_time, end_time= %s, %s", start_datetime, end_datetime)
 
     # --------------------- Xarray Objects for Processing Datasets------------
     #   conversion of TBs to K
@@ -980,8 +1008,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     # Setup attributes
 
     # for Imager
-    xarray_imager.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_imager.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_imager.attrs["start_datetime"] = start_datetime
+    xarray_imager.attrs["end_datetime"] = end_datetime
     xarray_imager.attrs["source_name"] = "ssmis"
     xarray_imager.attrs["platform_name"] = satid
     xarray_imager.attrs["data_provider"] = "DMSP"
@@ -995,8 +1023,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_imager.attrs["interpolation_radius_of_influence"] = 15000
 
     # for Enviro
-    xarray_enviro.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_enviro.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_enviro.attrs["start_datetime"] = start_datetime
+    xarray_enviro.attrs["end_datetime"] = end_datetime
     xarray_enviro.attrs["source_name"] = "ssmis"
     xarray_enviro.attrs["platform_name"] = satid
     xarray_enviro.attrs["data_provider"] = "DMSP"
@@ -1010,8 +1038,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_enviro.attrs["interpolation_radius_of_influence"] = 50000
 
     # for LAS
-    xarray_las.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_las.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_las.attrs["start_datetime"] = start_datetime
+    xarray_las.attrs["end_datetime"] = end_datetime
     xarray_las.attrs["source_name"] = "ssmis"
     xarray_las.attrs["platform_name"] = satid
     xarray_las.attrs["data_provider"] = "DMSP"
@@ -1025,8 +1053,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_las.attrs["interpolation_radius_of_influence"] = 50000
 
     # for UAS
-    xarray_uas.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_uas.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_uas.attrs["start_datetime"] = start_datetime
+    xarray_uas.attrs["end_datetime"] = end_datetime
     xarray_uas.attrs["source_name"] = "ssmis"
     xarray_uas.attrs["platform_name"] = satid
     xarray_uas.attrs["data_provider"] = "DMSP"
