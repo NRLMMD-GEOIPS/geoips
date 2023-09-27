@@ -27,7 +27,7 @@ from the github actions workflow.
 
 ::
 
-  .github/workflows/release_note_update.yaml
+  .github/workflows/check-code.yaml
 
 Release Updates
 ===============
