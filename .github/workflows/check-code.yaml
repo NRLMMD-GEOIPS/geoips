@@ -1,0 +1,129 @@
+name: Check Code Pull Request
+
+defaults:
+  run:
+    shell: bash
+
+# script runs geoips/tests/utils/check_code.sh
+on:
+  # Triggers the workflow when pull request created and updated
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+  # Allows run of this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  check_code_black:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 'pypy-3.9'
+          check-latest: true
+      - name: Checkout PyTorch
+        uses: actions/checkout@master
+      - name: Update pip
+        run: pip install --upgrade pip
+      - name: Install black
+        run: pip install black
+      - name: Checkout plugin current branch
+        uses: actions/checkout@v3
+      - name: Checkout geoips main branch
+        uses: actions/checkout@v3
+        with:
+          repository: NRLMMD-GEOIPS/geoips
+          ref: main
+          token: ${{ secrets.GEOIPS_TOKEN }}
+          path: geoips_dev_utils
+          sparse-checkout: |
+            tests/utils
+      - name: Run code check script black
+        run: |
+          ret=$(bash geoips_dev_utils/tests/utils/check_code.sh black .)
+          echo "::group::black_analysis"
+          echo "BLACK analysis of code"
+          echo "${ret}"
+          echo "::endgroup::"
+          if [[ "${ret##*:}" != *"0"* ]]; then
+            echo "::error::due to black violations ${ret##*:}"
+            exit 1
+          fi
+  check_code_flake8:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 'pypy-3.9'
+          check-latest: true
+      - name: Checkout PyTorch
+        uses: actions/checkout@master
+      - name: Update pip
+        run: pip install --upgrade pip
+      - name: Install flake8
+        run: pip install flake8
+      - name: Install flake8-docstrings
+        run: pip install flake8-docstrings
+      - name: Install flake8-rst-docstrings
+        run: pip install flake8-rst-docstrings
+      - name: Checkout plugin current branch
+        uses: actions/checkout@v3
+      - name: Checkout geoips main branch
+        uses: actions/checkout@v3
+        with:
+          repository: NRLMMD-GEOIPS/geoips
+          ref: main
+          token: ${{ secrets.GEOIPS_TOKEN }}
+          path: geoips_dev_utils
+          sparse-checkout: |
+            tests/utils
+      - name: Run code check script flake8
+        run: |
+          ret=$(bash geoips_dev_utils/tests/utils/check_code.sh flake8 .)
+          echo "::group::flake8_analysis"
+          echo "FLAKE8 analysis of flake8_docstring_only"
+          echo "${ret}"
+          echo "::endgroup::"
+          if [[ "${ret##*:}" != *"0"* ]]; then
+            echo "::error::due to flake8 violations ${ret##*:}"
+            exit 1
+          fi
+  check_code_bandit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 'pypy-3.9'
+          check-latest: true
+      - name: Checkout PyTorch
+        uses: actions/checkout@master
+      - name: Update pip
+        run: pip install --upgrade pip
+      - name: Install bandit
+        run: pip install bandit
+      - name: Checkout plugin current branch
+        uses: actions/checkout@v3
+      - name: Checkout geoips main branch
+        uses: actions/checkout@v3
+        with:
+          repository: NRLMMD-GEOIPS/geoips
+          ref: main
+          token: ${{ secrets.GEOIPS_TOKEN }}
+          path: geoips_dev_utils
+          sparse-checkout: |
+            tests/utils
+      - name: Run code check script bandit
+        run: |
+          ret=$(bash geoips_dev_utils/tests/utils/check_code.sh bandit .)
+          echo "::group::bandit_analysis"
+          echo "BANDIT analysis of code"
+          echo "${ret}"
+          echo "::endgroup::"
+          if [[ "${ret##*:}" != *"0"* ]]; then
+            echo "::error::due to bandit violations ${ret##*:}"
+            exit 1
+          fi

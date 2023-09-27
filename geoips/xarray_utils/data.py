@@ -407,8 +407,51 @@ def sector_xarray_dataset(
     hours_before_sector_time=18,
     hours_after_sector_time=6,
     drop=False,
+    window_start_time=None,
+    window_end_time=None,
 ):
-    """Use the xarray to appropriately sector out data by lat/lon and time."""
+    """Use the xarray to appropriately sector out data by lat/lon and time.
+
+    Parameters
+    ----------
+    full_xarray: xarray.Dataset
+        The full input xarray Dataset
+    area_def: pyresample.AreaDefinition
+        The requested region to sector spatially from the full_xarray.
+        If None, no spatial sectoring required.
+    varnames: list of str
+        List of variable names within full_xarray to include in the final
+        xarray Dataset
+    lon_pad: float, default=3
+        Amount of padding to include around the longitude dimension
+    lat_pad: float, default=0
+        Amount of padding to include around the latitude dimension
+    verbose: bool, default=False
+        If True, include log output, otherwise return silently.
+    hours_before_sector_time: float, default=18
+        For dynamic sectors, number of hours before sector start time
+        to include when sectoring temporally.
+    hours_after_sector_time: float, default=6
+        For dynamic sectors, number of hours after sector end time
+        to include when sectoring temporally.
+    drop: bool, default=False
+        If True, drop data outside range, temporally and spatially.
+        If False, mask outside range.
+    window_start_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+        hours_before_sector_time and hours_after_sector_time are ignored if
+        window start/end time are set!
+    window_end_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+        hours_before_sector_time and hours_after_sector_time are ignored if
+        window start/end time are set!
+
+    Returns
+    -------
+    xarray.Dataset
+        sectored dataset containing requested "varnames" sectored spatially and
+        temporally as requested.
+    """
     from datetime import timedelta
 
     LOG.debug(
@@ -423,19 +466,34 @@ def sector_xarray_dataset(
             hasattr(area_def, "sector_start_datetime")
             and area_def.sector_start_datetime
         ):
-            # If it is a dynamic sector, sector temporally to make sure we use the
-            # appropriate data
-            mindt = area_def.sector_start_datetime - timedelta(
-                hours=hours_before_sector_time
+            if not window_start_time:
+                # If it is a dynamic sector and we did not specify window
+                # start/end time, sector temporally to make sure we use the
+                # appropriate data
+                mindt = area_def.sector_start_datetime - timedelta(
+                    hours=hours_before_sector_time
+                )
+                maxdt = area_def.sector_start_datetime + timedelta(
+                    hours=hours_after_sector_time
+                )
+            else:
+                # If we requested window start/end time, use it.
+                mindt = window_start_time
+                maxdt = window_end_time
+            time_xarray = sector_xarray_temporal(
+                full_xarray, mindt, maxdt, varnames, verbose=verbose
             )
-            maxdt = area_def.sector_start_datetime + timedelta(
-                hours=hours_after_sector_time
-            )
+        elif window_start_time:
+            # If this is not a dynamic sector, but we requested start/end
+            # time, still apply the requested window.
+            mindt = window_start_time
+            maxdt = window_end_time
             time_xarray = sector_xarray_temporal(
                 full_xarray, mindt, maxdt, varnames, verbose=verbose
             )
         else:
-            # If it is not a dynamic sector, just return all of the data, because all
+            # If it is not a dynamic sector, and we didn't pass window
+            # start/end time, just return all of the data, because all
             # we care about is spatial coverage.
             time_xarray = full_xarray.copy()
 
@@ -472,7 +530,17 @@ def sector_xarray_dataset(
             sector_xarray.attrs["start_datetime"] = full_xarray.start_datetime
             sector_xarray.attrs["end_datetime"] = full_xarray.end_datetime
 
+    elif window_start_time:
+        # If the area_def is not specified, but we requested start and end time,
+        # apply requested window here.
+        mindt = window_start_time
+        maxdt = window_end_time
+        sector_xarray = sector_xarray_temporal(
+            full_xarray, mindt, maxdt, varnames, verbose=verbose
+        )
     else:
+        # If we did not request temporal or spatial sectoring,
+        # just return full xarray
         sector_xarray = full_xarray.copy()
 
     if sector_xarray is not None:
@@ -549,8 +617,55 @@ def sector_xarrays(
     drop=False,
     lon_pad=3,
     lat_pad=0,
+    window_start_time=None,
+    window_end_time=None,
 ):
-    """Return list of sectored xarray objects."""
+    """Return dict of sectored xarray objects.
+
+    Parameters
+    ----------
+    xobjs: dict of xarray.Dataset
+        The full input xarray Datasets, with dataset names as keys to the dictionary.
+    area_def: pyresample.AreaDefinition
+        The requested region to sector spatially from the full_xarray.
+        If None, no spatial sectoring required.
+    varlist: list of str
+        List of variable names within xarray Datasets to include in the final
+        sectored xarray Datasets
+    verbose: bool, default=False
+        If True, include log output, otherwise return silently.
+    hours_before_sector_time: float, default=18
+        For dynamic sectors, number of hours before sector start time
+        to include when sectoring temporally.
+    hours_after_sector_time: float, default=6
+        For dynamic sectors, number of hours after sector end time
+        to include when sectoring temporally.
+    check_center: bool, default=True
+        If True and sector_type is "tc", check that there is coverage in the
+        center of the image prior to sectoring. Skip dataset altogether if no
+        center coverage.
+    drop: bool, default=False
+        If True, drop data outside range, temporally and spatially.
+        If False, mask outside range.
+    lon_pad: float, default=3
+        Amount of padding to include around the longitude dimension
+    lat_pad: float, default=0
+        Amount of padding to include around the latitude dimension
+    window_start_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+        hours_before_sector_time and hours_after_sector_time are ignored if
+        window start/end time are set!
+    window_end_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+        hours_before_sector_time and hours_after_sector_time are ignored if
+        window start/end time are set!
+
+    Returns
+    -------
+    dict of xarray.Dataset
+        Dictionary of sectored datasets containing requested "varnames",
+        sectored spatially and temporally as requested.
+    """
     import numpy
 
     ret_xobjs = {}
@@ -611,6 +726,8 @@ def sector_xarrays(
             drop=drop,
             lon_pad=lon_pad,
             lat_pad=lat_pad,
+            window_start_time=window_start_time,
+            window_end_time=window_end_time,
         )
 
         # numpy arrays fail if numpy_array is None, and xarrays fail if x_array == None

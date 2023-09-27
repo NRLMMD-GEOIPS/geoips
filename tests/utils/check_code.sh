@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-#!/bin/sh
+#!/bin/bash
 
 echo "$0 $@"
 
@@ -117,21 +117,25 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
         echo "CALLING TEST:"
         echo flake8 --max-line-length=88 \
                $select_string \
+               --count \
                --ignore=E203,W503,E712 \
                --extend-exclude _version.py,lib,*_docs \
                --docstring-convention=numpy \
                --rst-roles=class,func,ref \
                --rst-directives=envvar,exception \
                --rst-substitutions=version \
+               --statistics \
                $path
         flake8 --max-line-length=88 \
                $select_string \
+               --count \
                --ignore=E203,W503,E712 \
                --extend-exclude _version.py,lib,*_docs \
                --docstring-convention=numpy \
                --rst-roles=class,func,ref \
                --rst-directives=envvar,exception \
                --rst-substitutions=version \
+               --statistics \
                $path
         flake8_retval=$?
         echo "TEST COMPLETE flake8"
