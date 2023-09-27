@@ -238,8 +238,8 @@ def check_gridline_annotator(gridline_annotator):
             if subkey not in gridline_annotator["spec"][key]:
                 LOG.info(gridline_annotator)
                 raise ValueError(
-                    "Missing gridline_annotator property {0}, required_fields {1}".
-                    format(
+                    """Missing gridline_annotator property {0}, required_fields
+                    {1}""".format(
                         f"{key}.{subkey}", required_fields
                     )
                 )
@@ -423,8 +423,11 @@ def check_feature_annotator(feature_annotator):
                 if prop not in spec[feature_name]:
                     raise ValueError(
                         """Missing '{0}' property of '{1}' in
-                        feature_annotator, named '{2}'""".
-                        format(prop, feature_name, feature_annotator['name'])
+                        feature_annotator, named '{2}'.""".format(
+                            prop,
+                            feature_name,
+                            feature_annotator["name"],
+                        )
                     )
     return feature_annotator
 

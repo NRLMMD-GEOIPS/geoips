@@ -243,7 +243,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 wind_xarray.attrs["platform_name"],
                 wind_xarray.attrs["data_provider"],
                 wind_xarray.attrs["interpolation_radius_of_influence"],
-                wind_xarray.attrs["sample_distance_km"]
+                wind_xarray.attrs["sample_distance_km"],
             )
         )
 

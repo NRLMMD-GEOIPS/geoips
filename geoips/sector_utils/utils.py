@@ -579,7 +579,7 @@ def remove_duplicate_storm_positions(area_defs, aid_type=None):
                         """Including area_def {0} in return list, NOT including {1},
                         invest_storm_id defined""".format(
                             other_area_def.name,
-                            area_def.name
+                            area_def.name,
                         )
                     )
                     ret_area_defs += [other_area_def]

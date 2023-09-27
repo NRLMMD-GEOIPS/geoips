@@ -351,7 +351,7 @@ def print_area_def(area_def, print_str):
     LOG.info(
         """\n\n*************************************************************************
         ***********""".format(),
-        f"\n***{print_str}\n{area_def}"
+        f"\n***{print_str}\n{area_def}",
     )
     for key, value in area_def.sector_info.items():
         LOG.info(f"{key}: {value}")

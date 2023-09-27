@@ -30,6 +30,7 @@ from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation,
     AutoGenError,
 )
+
 LOG = logging.getLogger(__name__)
 
 
@@ -1004,9 +1005,9 @@ def call(
     elif self_register:
         if self_register not in DATASET_INFO:
             raise ValueError(
-                """Unrecognized resolution name requested for self registration: {}""".
-                format(
-                    self_register
+                """Unrecognized resolution name requested for self registration:
+                {0}""".format(
+                    self_register,
                 )
             )
         adname = "FULL_DISK"
@@ -1082,9 +1083,9 @@ def call(
 
     if len(list(res_md.keys())) == 0:
         raise ValueError(
-            """No valid files found in list, make sure .DAT.bz2 are bunzip2-ed: {0}""".
-            format(
-                fnames
+            """No valid files found in list, make sure .DAT.bz2 are bunzip2-ed:
+            {0}""".format(
+                fnames,
             )
         )
 
@@ -1212,9 +1213,11 @@ def call(
                 break
         if (not self_register) and (res not in gvars.keys() or not gvars[res]):
             LOG.info(
-                """We don't have geolocation information for {} for {} skipping {}""".
-                format(
-                    res, adname, chan
+                """We don't have geolocation information for {0} for {1} skipping
+                {2}""".format(
+                    res,
+                    adname,
+                    chan,
                 )
             )
             continue

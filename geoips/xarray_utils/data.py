@@ -330,7 +330,7 @@ def sector_xarray_spatial(
                 lons.max().data,
                 lats.min().data,
                 lats.max().data,
-                lats.size
+                lats.size,
             )
         )
         # lons.min().data, lons.max().data, lats.min().data, lats.max().data,
@@ -399,7 +399,7 @@ def sector_xarray_spatial(
                 min_lon,
                 max_lon,
                 min_lat,
-                max_lat
+                max_lat,
             )
         )
         return None
@@ -411,7 +411,7 @@ def sector_xarray_spatial(
             max_lon,
             min_lat,
             max_lat,
-            sector_xarray["latitude"].size
+            sector_xarray["latitude"].size,
         )
     )
     # extent_lonlat[0], extent_lonlat[2], extent_lonlat[1], extent_lonlat[3],
@@ -713,7 +713,7 @@ def sector_xarrays(
                     area_def.sector_start_datetime,
                     xobj.start_datetime,
                     xobj.end_datetime,
-                    xobj["latitude"].size
+                    xobj["latitude"].size,
                 )
             )
         else:
@@ -815,7 +815,7 @@ def sector_xarrays(
                 sect_xarray.end_datetime,
                 sect_xarray[vars_to_interp[0]].size,
                 vars_to_interp[0],
-                vars_to_interp
+                vars_to_interp,
             )
         )
         sect_xarray.attrs["sectored"] = True

@@ -272,8 +272,9 @@ def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
 
         # Convert lats / lons to radians from sub point
         LOG.debug("Calculating beta")
+        # fmt: off
         beta = ne.evaluate("arccos(cos(deg2rad * (lats - sub_lat)) * cos(deg2rad * (lons - sub_lon)))")  # NOQA
-
+        # fmt: on
         bad = lats == BADVALS["Off_Of_Disk"]
 
         # Calculate satellite zenith angle
@@ -424,7 +425,7 @@ def get_indexes(metadata, lats, lons, area_def):
                 area_def.area_id,
                 roi,
                 metadata["res_km"],
-                metadata["roi_factor"]
+                metadata["roi_factor"],
             )
         )
         (

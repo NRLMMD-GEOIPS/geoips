@@ -1410,7 +1410,9 @@ def call(fnames, command_line_args=None):
                 ):
                     LOG.interactive(
                         """SKIPPING PROCESSING no products required for output_type {0}
-                        at current time""".format(output_type)
+                        at current time""".format(
+                            output_type,
+                        )
                     )
                     continue
                 output_dict = update_output_dict_from_command_line_args(
@@ -1477,7 +1479,10 @@ def call(fnames, command_line_args=None):
 
                     LOG.info(
                         """\n\n\n\nAll current output_types for sector_type {0}:
-                        {1}\n\n\n\n""".format(sector_type, required_outputs.keys())
+                        {1}\n\n\n\n""".format(
+                            sector_type,
+                            required_outputs.keys(),
+                        )
                     )
 
                     product_variables = get_required_variables(prod_plugin)
@@ -1756,7 +1761,9 @@ def call(fnames, command_line_args=None):
                 else:
                     LOG.info(
                         """  SKIPPING WRITING {0} to output file list, no products
-                        generated""".format(cpath)
+                        generated""".format(
+                            cpath,
+                        )
                     )
 
     mem_usage_stats = print_mem_usage("MEMUSG", verbose=True)

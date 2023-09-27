@@ -130,14 +130,20 @@ def calculate_overpass(tle, observer_lat, observer_lon, date, satellite_name):
     sun.compute(sector)
     if not sun.rise_time:
         LOG.info(
-            """{0}:Something went wrong when calculating sun rise time for {1}!""".
-            format(satellite_name, date)
+            """{0}:Something went wrong when calculating sun rise time for
+            {1}!""".format(
+                satellite_name,
+                date,
+            )
         )
         return None
     if not sun.set_time:
         LOG.info(
-            """{0}:Something went wrong when calculating sun set time for {1}!""".
-            format(satellite_name, date)
+            """{0}:Something went wrong when calculating sun set time for
+            {1}!""".format(
+                satellite_name,
+                date,
+            )
         )
         return None
     sunrise = sun.rise_time.datetime()
@@ -177,14 +183,20 @@ def calculate_overpass(tle, observer_lat, observer_lon, date, satellite_name):
     except AttributeError as resp:
         LOG.info(
             """{0}: Something when wrong with calculating the next overpass for {1}
-            (AttributeError)""".format(satellite_name, date)
+            (AttributeError)""".format(
+                satellite_name,
+                date,
+            )
         )
         LOG.debug(resp)
         return None
     except TypeError as resp:
         LOG.info(
             """{0}: Something when wrong with calculating the next overpass for {1}
-            (TypeError)""".format(satellite_name, date)
+            (TypeError)""".format(
+                satellite_name,
+                date,
+            )
         )
         LOG.debug(resp)
         return None

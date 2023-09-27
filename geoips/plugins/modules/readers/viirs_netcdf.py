@@ -502,7 +502,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     variable {2}""".format(
                         data_type,
                         var,
-                        btvarname
+                        btvarname,
                     )
                 )
                 btlut = ncdata.variables[var + "_brightness_temperature_lut"][...]
@@ -606,7 +606,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                         variable {2}""".format(
                             geo_target_data_type,
                             var,
-                            xvarname
+                            xvarname,
                         )
                     )
                     nparr = numpy.ma.masked_equal(ncvar[...], ncvar._FillValue)
