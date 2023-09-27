@@ -1,4 +1,4 @@
-name: Validate Pull Request
+name: Changelog Unchanged
 
 defaults:
   run:
@@ -49,38 +49,5 @@ jobs:
               echo "POLICY VIOLATION for modifying CHANGELOG_TEMPLATE.rst"
               echo "Please restore CHANGELOG_TEMPLATE.rst"
               echo "Add log notes in docs/source/releases"
-              exit 1
-          fi
-  commit_message_template_change_detection:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Modification check of COMMIT_MESSAGE_TEMPLATE.md
-        run: |
-          ret=$(git diff --name-only --diff-filter=M \
-              ${COMMIT_INTO} -- COMMIT_MESSAGE_TEMPLATE.md)
-          if [[ "${ret}" == "COMMIT_MESSAGE_TEMPLATE.md" ]]; then
-              echo "POLICY VIOLATION for modifying COMMIT_MESSAGE_TEMPLATE.md"
-              echo "Please restore COMMIT_MESSAGE_TEMPLATE.md"
-              echo "Add log notes in docs/source/releases"
-              exit 1
-          fi
-  release_v_change_detection:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Detect new and modified release files
-        run: |
-          ret=$(git diff --name-only --diff-filter=AM \
-              ${COMMIT_INTO} -- docs/source/releases/v*.rst)
-          if [[ "${ret}" != *"docs/source/releases/v"* ]]; then
-              echo "No release note changes detected"
-              echo "Please enter change logs in docs/source/releases"
               exit 1
           fi
