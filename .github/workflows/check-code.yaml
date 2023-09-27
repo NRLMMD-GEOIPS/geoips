@@ -82,7 +82,7 @@ jobs:
             tests/utils
       - name: Run code check script flake8
         run: |
-          ret=$(bash geoips_dev_utils/tests/utils/check_code.sh flake8 . flake8_docstring_only)
+          ret=$(bash geoips_dev_utils/tests/utils/check_code.sh flake8 .)
           echo "::group::flake8_analysis"
           echo "FLAKE8 analysis of flake8_docstring_only"
           echo "${ret}"
