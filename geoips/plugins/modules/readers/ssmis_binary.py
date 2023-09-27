@@ -269,6 +269,39 @@ def read_ssmis_data_file(fname, metadata_only=False):
             seconds_offset = estimated_seconds_per_sensor_data_record * nsdr
             end_datetime = start_datetime + timedelta(seconds=seconds_offset)
 
+        try:
+            # The start end time in the standard file name seems to be a bit more
+            # reliable, so try parsing the file name first before falling back
+            # on the header information in the binary file
+
+            # Grab only the file name
+            bfname = os.path.basename(fname)
+
+            # Standard SSMIS file names are the following format:
+            # <FILE_ID>_<SATELLITE>_<DATE>_<START>_<END>_<REV>_<EXTENSION>
+            split_fname = bfname.split("_")
+            date = split_fname[2]
+            start = split_fname[3]
+            end = split_fname[4]
+            start_datetime = datetime.strptime(date + start, "d%Y%m%ds%H%M%S")
+            end_datetime = datetime.strptime(date + end, "d%Y%m%de%H%M%S")
+            if end_datetime < start_datetime:
+                # Rolled over to new day
+                end_datetime += timedelta(days=1)
+        except ValueError:
+            # Could not parse the start/end time from the file name
+            # Fall back on using info in header
+            start_datetime = datetime.strptime(start_time, "%Y%j%H%M")
+
+            # Estimate end time just for metadata purposes
+            # To my knowledge, the file end time is not included in the binary header
+            # The following offset was determined by taking the start/end time
+            # listed in the file name, then dividing the total number of seconds by the
+            # number of sensor data records, which came out to 45.5 seconds
+            estimated_seconds_per_sensor_data_record = 45.5
+            seconds_offset = estimated_seconds_per_sensor_data_record * nsdr
+            end_datetime = start_datetime + timedelta(seconds=seconds_offset)
+
         if metadata_only:
             xarray_imager = xr.Dataset()
             xarray_imager.attrs["start_datetime"] = start_datetime
