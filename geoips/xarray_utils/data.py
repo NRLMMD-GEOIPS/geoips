@@ -394,21 +394,21 @@ def sector_xarray_spatial(
     # if covg:
     if sector_xarray["latitude"].size == 0:
         LOG.warning(
-            "    OVERALL INSUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon",
+            "    OVERALL INSUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon"
+            " and %0.2f and %0.2f lat",
             min_lat,
             max_lon,
-            "and %0.2f and %0.2f lat",
             min_lat,
             max_lat,
         )
         return None
 
     LOG.info(
-        "    OVERALL SUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon and %0.2f ",
+        "    OVERALL SUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon and %0.2f"
+        " and %0.2f lat %0.2f points",
         min_lon,
         max_lon,
         min_lat,
-        "and %0.2f lat %0.2f points",
         max_lat,
         sector_xarray["latitude"].size,
     )

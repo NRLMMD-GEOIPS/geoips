@@ -38,8 +38,8 @@ try:
     import numexpr as ne
 except Exception:
     LOG.info(
-        """Failed numexpr import in scifile/readers/ahi_hsd_reader_new.py. If you need
-        it, install it."""
+        "Failed numexpr import in scifile/readers/ahi_hsd_reader_new.py. If you need"
+        " it, install it."
     )
 
 try:
@@ -47,10 +47,9 @@ try:
     ne.set_num_threads(nprocs)
 except Exception:
     LOG.info(
-        """Failed numexpr.set_num_threads in {}. If numexpr is not installed and you
-        need it, install it.""".format(
-            __file__
-        )
+        "Failed numexpr.set_num_threads in %s. If numexpr is not installed and you"
+        " need it, install it.",
+        __file__,
     )
 
 DONT_AUTOGEN_GEOLOCATION = False
@@ -1005,10 +1004,8 @@ def call(
     elif self_register:
         if self_register not in DATASET_INFO:
             raise ValueError(
-                """Unrecognized resolution name requested for self registration:
-                {0}""".format(
-                    self_register,
-                )
+                "Unrecognized resolution name requested for self registration: %s",
+                self_register,
             )
         adname = "FULL_DISK"
 
@@ -1213,12 +1210,10 @@ def call(
                 break
         if (not self_register) and (res not in gvars.keys() or not gvars[res]):
             LOG.info(
-                """We don't have geolocation information for {0} for {1} skipping
-                {2}""".format(
-                    res,
-                    adname,
-                    chan,
-                )
+                "We don't have geolocation information for %s for %s skipping %s",
+                res,
+                adname,
+                chan,
             )
             continue
         if not area_def:

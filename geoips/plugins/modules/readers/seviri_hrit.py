@@ -233,6 +233,8 @@ def get_top_level_metadata(fnames, sect):
 
 def get_latitude_longitude(gmd, BADVALS, area_def):
     """Generate full-disk latitudes and longitudes."""
+    # Anywhere you see NOQA or noqa: F841, this is added since the variables are used
+    # however they are not recognized by flake8 linter under numexpr.evaluate()
     # Constants
     pi = np.pi
     # rad2deg = 180.0 / pi
@@ -273,7 +275,7 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
     s1 = cos_x
     ne.evaluate("Rs - (sn * cos_x * cos_y)", out=s1)
 
-    # Nothing unneed, no inplace
+    # Nothing unneed
     s2 = ne.evaluate("sn * sin_x * cos_y")  # noqa: F841
 
     # sin_y no longer needed

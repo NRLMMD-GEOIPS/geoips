@@ -283,11 +283,14 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
         conn.commit()
 
         # This ONLY runs if it is a brand new storm file and we requested
-        # processing.
+        # processing. Not used right now -- includes errors.
         # if process:
         #     reprocess_storm(tc_trackfilename)
     return updated_files
 
+
+# The function below was commented out as it included errors, and is not used by GeoIPS
+# at this time. 9/27/23
 
 # def reprocess_storm(tc_trackfilename):
 #     """Reprocess storm tc_trackfilename, using info in TC tracks database."""

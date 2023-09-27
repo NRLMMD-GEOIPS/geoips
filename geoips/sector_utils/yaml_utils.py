@@ -32,6 +32,10 @@ def area_def_to_yamldict(area_def):
         sector_start_datetime=area_def.sector_start_datetime,
         info_dict=dict(area_def.sector_info),
     )
+
+    # The section below was commented out as it is not used by GeoIPS at this time, and
+    # the function didn't work since it included errors. 9/27/23
+
     # yamldict = add_projection_to_yamldict(
     #     yamldict,
     #     sectorname,
@@ -129,6 +133,9 @@ def add_sectorinfo_to_yamldict(yaml_dict, sectorname, sector_info_dict):
     yaml_dict[sectorname]["sector_info"] = sector_info_dict
     return yaml_dict
 
+
+# The function below were commented out as they included errors, and were not used
+# by GeoIPS at this time. 9/27/23
 
 # def add_projection_to_yamldict(
 #     yaml_dict,

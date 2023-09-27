@@ -40,8 +40,9 @@ try:
     import netCDF4 as ncdf
 except ImportError:
     LOG.info(
-        """Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. If you need it,
-        install it."""
+        "Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. If you need it,"
+        " install it."
+        ""
     )
 
 try:

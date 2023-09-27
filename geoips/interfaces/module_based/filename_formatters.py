@@ -53,6 +53,9 @@ class FilenameFormattersInterface(BaseModuleInterface):
         "standard_metadata": ["metadata_dir", "metadata_type", "basedir"],
     }
 
+    # The functions below were commented out as they included errors, and were not used
+    # by GeoIPS at this time. 9/27/23
+
     # def find_duplicates(self, *args, **kwargs):
     #     """Find duplicate files."""
     #     try:
