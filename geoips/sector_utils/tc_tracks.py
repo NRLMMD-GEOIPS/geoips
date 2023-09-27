@@ -12,11 +12,8 @@
 
 """Modules to access TC tracks, based on locations found in the deck files."""
 
-import os
-from datetime import datetime
 import logging
 
-from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.interfaces import (
     sector_metadata_generators,
     sector_spec_generators,
@@ -25,11 +22,12 @@ from geoips.interfaces import (
 
 LOG = logging.getLogger(__name__)
 
-# If we ever revert back to numbered storm from named storm, we may need to include this list in "get_final_storm_name"
-# rather than just INVEST
-# UNNAMED_STORM_NAMES = ['invest', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
-#                        'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen',
-#                        'nineteen', 'twenty', 'twenty-one']
+# If we ever revert back to numbered storm from named storm, we may need to include this
+# list in "get_final_storm_name" rather than just INVEST
+# UNNAMED_STORM_NAMES = ['invest', 'one', 'two', 'three', 'four', 'five', 'six',
+#                        'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve',
+#                        'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen',
+#                        'eighteen', 'nineteen', 'twenty', 'twenty-one']
 
 
 def create_tc_sector_info_dict(
@@ -293,7 +291,8 @@ def trackfile_to_area_defs(
     area_defs = []
     LOG.info("STARTING setting TC area_defs")
     for fields in all_fields:
-        # area_defs += [set_tc_sector(fields, dynamic_templatefname, finalstormname, tcyear, sfname, dynamic_xmlpath)]
+        # area_defs += [set_tc_sector(fields, dynamic_templatefname, finalstormname,
+        #               tcyear, sfname, dynamic_xmlpath)]
         area_defs += [
             set_tc_area_def(
                 fields,

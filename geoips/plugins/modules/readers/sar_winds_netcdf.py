@@ -86,7 +86,8 @@ def read_sar_data(wind_xarray):
     wind_pandas = wind_xarray.to_dataframe()
 
     # This worked with xarray version 0.16.1
-    # wind_xarray['time'] = wind_pandas['acquisition_time'][:, 5, :].to_xarray().transpose()
+    # wind_xarray['time'] = wind_pandas['acquisition_time'][:, 5, :].to_xarray()
+    #                                                                       .transpose()
 
     # Make sure it grabs the right ones, no matter which order x, y, and xfit are in.
     # Later versions (0.18.0) of xarray can have different orders -
@@ -254,13 +255,15 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
 
         LOG.info(
-            "Read data %s start_dt %s source %s platform %s data_provider %s roi %s native resolution",
-            wind_xarray.attrs["start_datetime"],
-            wind_xarray.attrs["source_name"],
-            wind_xarray.attrs["platform_name"],
-            wind_xarray.attrs["data_provider"],
-            wind_xarray.attrs["interpolation_radius_of_influence"],
-            wind_xarray.attrs["sample_distance_km"],
+            """Read data {0} start_dt {1} source {2} platform {3} data_provider {4} roi
+            {5} native resolution""".format(
+                wind_xarray.attrs["start_datetime"],
+                wind_xarray.attrs["source_name"],
+                wind_xarray.attrs["platform_name"],
+                wind_xarray.attrs["data_provider"],
+                wind_xarray.attrs["interpolation_radius_of_influence"],
+                wind_xarray.attrs["sample_distance_km"]
+            )
         )
 
     wind_xarrays["METADATA"] = wind_xarray[[]]
@@ -276,7 +279,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 wind_xarray.time_coverage_end, "%Y%m%dT%H%M%S"
             )
         except ValueError:
-            # 20221103 used YYYYMMDDTHHMNSS, on 20221105 switched to YYYY-MM-DDTHH:MN:SSZ
+            # 20221103 used YYYYMMDDTHHMNSS, on 20221105 switched to
+            #                                                       YYYY-MM-DDTHH:MN:SSZ
             # Allow both
             wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
                 wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%SZ"

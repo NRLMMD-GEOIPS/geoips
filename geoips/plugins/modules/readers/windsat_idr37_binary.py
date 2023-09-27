@@ -115,7 +115,6 @@ from datetime import datetime
 
 # Installed Libraries
 import numpy as np
-import pandas as pd
 
 LOG = logging.getLogger(__name__)
 
@@ -290,7 +289,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             type(resp).__name__,
             str(resp.__doc__),
             str(resp.args),
-            "windsat idr37 data does not have even number of data records !! Skipping...",
+            """windsat idr37 data does not have even number of data records !!
+            Skipping...""",
         )
         return {"METADATA": xarray_obj}
 
@@ -305,7 +305,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             type(resp).__name__,
             str(resp.__doc__),
             str(resp.args),
-            "windsat idr37 data does not have even number of data records !! Skipping...",
+            """windsat idr37 data does not have even number of data records !!
+            Skipping...""",
         )
         return {"METADATA": xarray_obj}
 
@@ -341,11 +342,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 0
             ]  # sec since 1200Z,01/01/2000
             # get time info for each data point
-            timeinfo = pd.datetime(2000, 1, 1, 12) + pd.Timedelta(jd2000, unit="s")
-            time_date = int(
-                str(timeinfo.year) + str(timeinfo.month) + str(timeinfo.day)
-            )
-            time_hhmm = int(str(timeinfo.hour) + str(timeinfo.minute))
+            # timeinfo = pd.datetime(2000, 1, 1, 12) + pd.Timedelta(jd2000, unit="s")
+            # time_date = int(
+            #     str(timeinfo.year) + str(timeinfo.month) + str(timeinfo.day)
+            # )
+            # time_hhmm = int(str(timeinfo.hour) + str(timeinfo.minute))
             tb37v, tb37h, tb37info1, tb37info2 = np.frombuffer(
                 f1.read(16), dtype=np.dtype("float32")
             ).byteswap()  # K (37v,37h,info1,info2)
@@ -358,33 +359,33 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             # if lon > 180.0:          # windbarbs needs lon in (-180,180)
             #   lon=lon-360
 
-            eia = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
-                0
-            ]  # unit in radiance =~53 deg
-            pra = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[0]
-            caa = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[0]
-            slat = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
-                0
-            ]  # deg
-            slon = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
-                0
-            ]  # deg
-            salt = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
-                0
-            ]  # meter
+            # eia = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
+            #     0
+            # ]  # unit in radiance =~53 deg
+            # pra = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[0]
+            # caa = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[0]
+            # slat = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
+            #     0
+            # ]  # deg
+            # slon = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
+            #     0
+            # ]  # deg
+            # salt = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
+            #     0
+            # ]  # meter
             errflag = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()[
                 0
             ]  # deg
-            scanNum = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()[0]
-            downcountNum = np.frombuffer(
-                f1.read(2), dtype=np.dtype("int16")
-            ).byteswap()[0]
+            # scanNum = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()[0]
+            # downcountNum = np.frombuffer(
+            #     f1.read(2), dtype=np.dtype("int16")
+            # ).byteswap()[0]
             surfaceType = np.frombuffer(f1.read(2), dtype=np.dtype("int16")).byteswap()[
                 0
             ]
-            spare = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
-                0
-            ]  # spare var for space holder
+            # spare = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
+            #     0
+            # ]  # spare var for space holder
 
             # decode errflag to assign value to approperated variables, i.e.,
             # forward/aft mode, ascending/descending etc

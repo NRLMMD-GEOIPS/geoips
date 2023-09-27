@@ -148,13 +148,12 @@ def calculate_chebyshev_polynomial(coefs, start_dt, end_dt, dt):
     # T_k_minus_3 = 1
     # T_k_minus_2 = t
     # T_k_minus_1 = t2*T_k_minus_2 - T_k_minus_3
-    ## remaining terms recursively defined
+    # remaining terms recursively defined
     # for xcoef in coefs[3:]:
     #    f = f + xcoef * T_k_minus_1
     #    T_k_minus_3 = T_k_minus_2
     #    T_k_minus_2 = T_k_minus_1
     #    T_k_minus_1 = t2*T_k_minus_2 - T_k_minus_3
-    ##from IPython import embed as shell; shell()
 
     return d
 
@@ -236,14 +235,14 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
     """Generate full-disk latitudes and longitudes."""
     # Constants
     pi = np.pi
-    rad2deg = 180.0 / pi
+    # rad2deg = 180.0 / pi
     deg2rad = pi / 180.0
-    Rs = 42164  # Satellite altitude (km)
+    Rs = 42164  # Satellite altitude (km)  # noqa: F841
     Re = 6378.1690  # Earth equatorial radius (km)
     Rp = 6356.5838  # Earth polar radius (km)
-    r3 = Re**2 / Rp**2
-    sd_coeff = 1737122264  # If there is a problem for MSG use 1737121856
-    lon0 = gmd["lon0"]
+    r3 = Re**2 / Rp**2  # noqa: F841
+    sd_coeff = 1737122264  # If there is a problem for MSG use 1737121856  # noqa: F841
+    lon0 = gmd["lon0"]  # noqa: F841
 
     deg2rad = np.pi / 180.0
     x, y = np.meshgrid(
@@ -255,9 +254,9 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
     y = deg2rad * (y - gmd["line_offset"]) / (2**-16 * gmd["line_scale"])
 
     cos_x = np.cos(x)
-    sin_x = np.sin(x)
+    sin_x = np.sin(x)  # noqa: F841
     cos_y = np.cos(y)
-    sin_y = np.sin(y)
+    sin_y = np.sin(y)  # noqa: F841
 
     sd = ne.evaluate("(Rs * cos_x * cos_y)**2 - (cos_y**2 + r3 * sin_y**2) * sd_coeff")
     bad_mask = sd < 0.0
@@ -275,7 +274,7 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
     ne.evaluate("Rs - (sn * cos_x * cos_y)", out=s1)
 
     # Nothing unneed, no inplace
-    s2 = ne.evaluate("sn * sin_x * cos_y")
+    s2 = ne.evaluate("sn * sin_x * cos_y")  # noqa: F841
 
     # sin_y no longer needed
     s3 = cos_y
@@ -346,10 +345,11 @@ def radToRef(rad, sun_zen, platform, band):
     ref = np.full_like(rad, -999.0)
     # 0 to 1 rather than 0 to 100
     ref[rad > 0] = rad[rad > 0] / irrad
-    # DO NOT REMOVE THIS STEP ALTOGETHER!!!!  Just take out the solar zenith correction part.
-    # Previously, solar zenith correction was being applied twice, then we were off by factor of pi/irrad
-    # Now we should be good!
-    # ref[rad > 0] = np.pi * rad[rad > 0] / (irrad * np.cos((np.pi / 180) * sun_zen[rad > 0]))
+    # DO NOT REMOVE THIS STEP ALTOGETHER!!!!  Just take out the solar zenith correction
+    # part. Previously, solar zenith correction was being applied twice, then we were
+    # off by factor of pi/irrad. Now we should be good!
+    # ref[rad > 0] = np.pi * rad[rad > 0] /
+    #                                 (irrad * np.cos((np.pi / 180) * sun_zen[rad > 0]))
     ref[rad > 0] = np.pi * rad[rad > 0] / irrad
     ref[ref < 0] = 0
     ref[ref > 1] = 1

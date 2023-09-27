@@ -32,19 +32,19 @@ def area_def_to_yamldict(area_def):
         sector_start_datetime=area_def.sector_start_datetime,
         info_dict=dict(area_def.sector_info),
     )
-    yamldict = add_projection_to_yamldict(
-        yamldict,
-        sectorname,
-        area_def.proj_dict["proj"],
-        area_def.proj_dict["lat_0"],
-        area_def.proj_dict["lon_0"],
-        center_x=0,
-        center_y=0,
-        pix_x=area_def.x_size,
-        pix_y=area_def.y_size,
-        pix_width_m=area_def.pixel_size_x,
-        pix_height_m=area_def.pixel_size_y,
-    )
+    # yamldict = add_projection_to_yamldict(
+    #     yamldict,
+    #     sectorname,
+    #     area_def.proj_dict["proj"],
+    #     area_def.proj_dict["lat_0"],
+    #     area_def.proj_dict["lon_0"],
+    #     center_x=0,
+    #     center_y=0,
+    #     pix_x=area_def.x_size,
+    #     pix_y=area_def.y_size,
+    #     pix_width_m=area_def.pixel_size_x,
+    #     pix_height_m=area_def.pixel_size_y,
+    # )
     return yamldict
 
 
@@ -130,41 +130,39 @@ def add_sectorinfo_to_yamldict(yaml_dict, sectorname, sector_info_dict):
     return yaml_dict
 
 
-def add_projection_to_yamldict(
-    yaml_dict,
-    sectorname,
-    center_lat,
-    center_lon,
-    center_x=0,
-    center_y=0,
-    template_yaml=None,
-):
-    """Add projection information to YAML dictionary."""
-    LOG.info("add_projection_to_yamldict - update to template_yaml")
-    from IPython import embed as shell
+# def add_projection_to_yamldict(
+#     yaml_dict,
+#     sectorname,
+#     center_lat,
+#     center_lon,
+#     center_x=0,
+#     center_y=0,
+#     template_yaml=None,
+# ):
+#     """Add projection information to YAML dictionary."""
+#     LOG.info("add_projection_to_yamldict - update to template_yaml")
 
-    shell()
-    yaml_dict[sectorname]["projection"] = {}
-    yaml_dict[sectorname]["projection"]["proj"] = proj
-    yaml_dict[sectorname]["projection"]["a"] = 6371228.0
-    yaml_dict[sectorname]["projection"]["units"] = "m"
-    yaml_dict[sectorname]["projection"]["lat_0"] = center_lat
-    yaml_dict[sectorname]["projection"]["lon_0"] = center_lon
-    yaml_dict[sectorname]["center"] = [center_x, center_y]
-    yaml_dict[sectorname]["resolution"] = [pix_width_m, pix_height_m]
-    # yaml_dict[sectorname]['shape'] = [pix_x, pix_y]
-    yaml_dict[sectorname]["shape"] = {}
-    yaml_dict[sectorname]["shape"]["width"] = pix_x
-    yaml_dict[sectorname]["shape"]["height"] = pix_y
-    # This only works because it is square!!
-    yaml_dict[sectorname]["area_extent"] = {
-        "lower_left_xy": [
-            center_x - (pix_x * pix_width_m / 2),
-            center_y - (pix_y * pix_height_m / 2),
-        ],
-        "upper_right_xy": [
-            center_x + (pix_x * pix_width_m / 2),
-            center_y + (pix_y * pix_height_m / 2),
-        ],
-    }
-    return yaml_dict
+#     yaml_dict[sectorname]["projection"] = {}
+#     yaml_dict[sectorname]["projection"]["proj"] = proj
+#     yaml_dict[sectorname]["projection"]["a"] = 6371228.0
+#     yaml_dict[sectorname]["projection"]["units"] = "m"
+#     yaml_dict[sectorname]["projection"]["lat_0"] = center_lat
+#     yaml_dict[sectorname]["projection"]["lon_0"] = center_lon
+#     yaml_dict[sectorname]["center"] = [center_x, center_y]
+#     yaml_dict[sectorname]["resolution"] = [pix_width_m, pix_height_m]
+#     # yaml_dict[sectorname]['shape'] = [pix_x, pix_y]
+#     yaml_dict[sectorname]["shape"] = {}
+#     yaml_dict[sectorname]["shape"]["width"] = pix_x
+#     yaml_dict[sectorname]["shape"]["height"] = pix_y
+#     # This only works because it is square!!
+#     yaml_dict[sectorname]["area_extent"] = {
+#         "lower_left_xy": [
+#             center_x - (pix_x * pix_width_m / 2),
+#             center_y - (pix_y * pix_height_m / 2),
+#         ],
+#         "upper_right_xy": [
+#             center_x + (pix_x * pix_width_m / 2),
+#             center_y + (pix_y * pix_height_m / 2),
+#         ],
+#     }
+#     return yaml_dict

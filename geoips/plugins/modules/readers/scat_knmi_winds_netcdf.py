@@ -228,13 +228,15 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
 
         LOG.info(
-            "Read data %s start_dt %s source %s platform %s data_provider %s roi %s native resolution",
-            wind_xarray.attrs["start_datetime"],
-            wind_xarray.attrs["source_name"],
-            wind_xarray.attrs["platform_name"],
-            wind_xarray.attrs["data_provider"],
-            wind_xarray.attrs["interpolation_radius_of_influence"],
-            wind_xarray.attrs["sample_distance_km"],
+            """Read data {0} start_dt {1} source {2} platform {3} data_provider {4} roi
+            {5} native resolution""".format(
+                wind_xarray.attrs["start_datetime"],
+                wind_xarray.attrs["source_name"],
+                wind_xarray.attrs["platform_name"],
+                wind_xarray.attrs["data_provider"],
+                wind_xarray.attrs["interpolation_radius_of_influence"],
+                wind_xarray.attrs["sample_distance_km"]
+            )
         )
 
     final_wind_xarrays["METADATA"] = wind_xarray[[]]

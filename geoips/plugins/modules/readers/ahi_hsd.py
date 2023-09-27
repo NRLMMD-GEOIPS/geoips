@@ -367,15 +367,19 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
         LOG.info("    LATLONCALC Calculating latitudes")
         bad = Sd == 0
         lats = ne.evaluate(
-            "rad2deg*arctan(-ecc*(Rs*cos(x)*cos(y)-Sd)/(cos(y)**2+ecc*sin(y)**2) * sin(y)"
-            + "/ ((Rs-(Rs*cos(x)*cos(y)-Sd)/(cos(y)**2+ecc*sin(y)**2)*cos(x)*cos(y))**2"
-            "+ ((Rs*cos(x)*cos(y)-Sd)/(cos(y)**2+ecc*sin(y)**2)*sin(x)*cos(y))**2)**0.5)"
+            "rad2deg*arctan(-ecc*(Rs*cos(x)*cos(y)-Sd)"
+            "/ (cos(y)**2+ecc*sin(y)**2) * sin(y)"
+            "/ ((Rs-(Rs*cos(x)*cos(y)-Sd)/(cos(y)**2+ecc*sin(y)**2)*cos(x)*cos(y))**2"
+            "+ ((Rs*cos(x)*cos(y)-Sd)"
+            "/(cos(y)**2+ecc*sin(y)**2)*sin(x)*cos(y))**2)**0.5)"
         )
         lats[bad] = BADVALS["Off_Of_Disk"]
         LOG.info("    LATLONCALC Calculating longitudes")
         lons = ne.evaluate(
-            "rad2deg*arctan(((Rs*cos(x)*cos(y)-Sd)/(cos(y)**2 + ecc*sin(y)**2))*sin(x)*cos(y)"
-            + "/ (Rs-((Rs*cos(x)*cos(y)-Sd)/(cos(y)**2 + ecc*sin(y)**2))*cos(x)*cos(y))) + sub_lon"
+            "rad2deg*arctan(((Rs*cos(x)*cos(y)-Sd)"
+            "/ (cos(y)**2 + ecc*sin(y)**2))*sin(x)*cos(y)"
+            "/ (Rs-((Rs*cos(x)*cos(y)-Sd)"
+            "/ (cos(y)**2 + ecc*sin(y)**2))*cos(x)*cos(y))) + sub_lon"
         )
         lons[bad] = BADVALS["Off_Of_Disk"]
         lons[lons > 180.0] -= 360

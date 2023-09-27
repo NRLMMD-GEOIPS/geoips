@@ -63,15 +63,15 @@ import os
 import numpy
 import xarray as xr
 
-# If this reader is not installed on the system, don't fail altogether, just skip this import. This reader will
-# not work if the import fails, and the package will have to be installed
-# to process data of this type.
+# If this reader is not installed on the system, don't fail altogether, just skip this
+# import. This reader will not work if the import fails, and the package will have to be
+# installed to process data of this type.
 LOG = logging.getLogger(__name__)
 
 
 try:
     import netCDF4 as ncdf
-except:
+except ImportError:
     LOG.info("Failed import netCDF4. If you need it, install it.")
 
 
@@ -161,7 +161,8 @@ xvarnames = {
 }
 
 # IMG:
-#     I01(nline, npix): I-band 01 earth view reflectance (0-65527).  range of vlaues: 0 - 1
+#     I01(nline, npix): I-band 01 earth view reflectance (0-65527).
+#                                                                 range of vlaues: 0 - 1
 #                       add_offset=0,  scale_factor=1.9991758e-05,
 #                       radiance_scale_factor=0.010167242, radiance_add_offset=0,
 #                       radiance_units: Watts/meter^2/steradian/micrometer
@@ -173,25 +174,31 @@ xvarnames = {
 #                       add_offset=0,  scale_factor=1.9991758e-05,
 #                       radiance_scale_factor=0.0015311801, radiance_add_offset=0,
 #                       radiance_units: Watts/meter^2/steradian/micrometer
-#     I04(nline, npix): I-band 04 earth view radiance (0-65527). need LUT for TB conversion
+#     I04(nline, npix): I-band 04 earth view radiance (0-65527). need LUT for TB
+#                                                                             conversion
 #                       scale_factor=6.104354e-05, add_offset=0.0016703
 #                       units: Watts/meter^2/steradian/micrometer
-#                       I04_brightness_temperature_lut(65536). LUT[65535] is for masked point.
-#     I05(nline, npix): I-band 05 earth view radiance (0-65527). need LUT for TB conversion
+#                       I04_brightness_temperature_lut(65536). LUT[65535] is for
+#                                                                          masked point.
+#     I05(nline, npix): I-band 05 earth view radiance (0-65527). need LUT for TB
+#                                                                             conversion
 #                       scale_factor=0.0003815221, add_offset=0.141121
 #                       units: Watts/meter^2/steradian/micrometer
-#                       I05_brightness_temperature_lut(65536). LUT[65535] is for masked point.
+#                       I05_brightness_temperature_lut(65536). LUT[65535] is for
+#                                                                          masked point.
 #     I04TB/I05TB     : associated TBs for I04/I05
 #
-#     Note: I04 and I05 converstion to TB will apply its TB conversion LUT. Since the change of TB is so small bewteen
-#                       the LUT index, we just take value fo the I04/I05 as the LUT index (auto roundup) for easy process.
-#                       This way will have an error of TB less than 0.05K.  Otherwsie, a interpolation is needed for a more
-#                       accurate TB.
+#     Note: I04 and I05 converstion to TB will apply its TB conversion LUT. Since the
+#                       change of TB is so small bewteen the LUT index, we just take
+#                       value fo the I04/I05 as the LUT index (auto roundup) for easy
+#                       process. This way will have an error of TB less than 0.05K.
+#                       Otherwsie, a interpolation is needed for a more accurate TB.
 
 # MOD:
 
 #     M01 - M11(nline,npix):  M-band 01-11 earth view reflectance
-#     M12 - M16(nline,npix):  M-band 12-16 earth view radiance.  will convert radiance  anto TBs
+#     M12 - M16(nline,npix):  M-band 12-16 earth view radiance. will convert radiance
+#                                                                               anto TBs
 #     M12TB-M16TB:         :  associated TBs for M12-16
 #
 
@@ -216,8 +223,8 @@ def required_geo_chan(xarrays, xvarname):
     """Return True if required geolocation channel."""
     # for data_type in list(xarrays.keys()):
     #     if xvarname in list(xarrays[data_type].keys()):
-    #         LOG.info('        SKIPPING %s geolocation channel %s, xarray GEOLOCATION variable %s exists',
-    #                  data_type, xvarname, xvarname)
+    #         LOG.info('        SKIPPING %s geolocation channel %s, xarray GEOLOCATION
+    #                           variable %s exists', data_type, xvarname, xvarname)
     #         return False
     return True
 
@@ -300,10 +307,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     """
     from collections import defaultdict
     from datetime import datetime
-    import pandas as pd
 
-    # since fname is a LIST of input files, this reader needs additional adjustments to read all files
-    #       and put them into the XARRAY output (add one more array for number of files)
+    # since fname is a LIST of input files, this reader needs additional adjustments to
+    # read all files and put them into the XARRAY output (add one more array for
+    # number of files)
 
     """
     fnames=['readers/data_viirs/20200916.081200.npp.viirs.viirs_npp_nasaearthdata_x.x.VNP02DNB.sdr.x.x.nc',\
@@ -366,7 +373,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         ][:]
         scan_end_time = ncdf_file["scan_line_attributes"].variables["scan_end_time"][:]
 
-        scan = ncdf_file.groups["scan_line_attributes"]
+        # scan = ncdf_file.groups["scan_line_attributes"]
         # stime = scan.variables['scan_start_time'][:]
         # etime = scan.variables['scan_end_time'][:]
 
@@ -406,7 +413,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         if metadata_only is True:
             LOG.info(
-                "metadata_only is True, reading only first file for metadata information and returning"
+                """metadata_only is True, reading only first file for metadata
+                information and returning"""
             )
             return {"METADATA": xarrays[data_type]}
 
@@ -418,7 +426,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             list_vars = ncdf_file["geolocation_data"].variables.keys()
             ncdata = ncdf_file["geolocation_data"]
 
-        # Assign visible chans to own data_type, since they will disappear from day -> night
+        # Assign visible chans to own data_type, since they will disappear
+        # from day -> night.
         # These are located in the VNP02MOD/IMG files, or the MOD dataset type
         # Also keep track of all variables in the parent file of the data_type
         # This will help determine if we need to add geolocation vars to the
@@ -489,10 +498,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 and var + "_brightness_temperature_lut" in ncdata.variables.keys()
             ):
                 LOG.info(
-                    "        Reading %s channel %s into BRIGHTNESS TEMPERATURE variable %s",
-                    data_type,
-                    var,
-                    btvarname,
+                    """        Reading {0} channel {1} into BRIGHTNESS TEMPERATURE
+                    variable {2}""".format(
+                        data_type,
+                        var,
+                        btvarname
+                    )
                 )
                 btlut = ncdata.variables[var + "_brightness_temperature_lut"][...]
                 ncvar.set_auto_maskandscale(False)
@@ -591,10 +602,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                         continue
 
                     LOG.info(
-                        "        Reading %s geolocation channel %s into GEOLOCATION variable %s",
-                        geo_target_data_type,
-                        var,
-                        xvarname,
+                        """        Reading {0} geolocation channel {1} into GEOLOCATION
+                        variable {2}""".format(
+                            geo_target_data_type,
+                            var,
+                            xvarname
+                        )
                     )
                     nparr = numpy.ma.masked_equal(ncvar[...], ncvar._FillValue)
                     add_to_xarray(
@@ -644,14 +657,14 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 xarrays["DNB"]["DNBRef"] = xr.DataArray(
                     lunarref_data, dims=xarrays["DNB"]["DNBRad"].dims
                 )
-            except:
+            except ImportError:
                 LOG.info("Failed lunarref in viirs reader.  If you need it, build it")
         # This will not duplicate memory - reference
         xarray_returns[dtype] = xarrays[dtype]
 
     # Force masking of latitude/longitude fill values, otherwise causes issues
     # when sectoring
-    fill_value = -999.9
+    # fill_value = -999.9
     for dtype in xarray_returns:
         bad_llmask = xarray_returns[dtype]["latitude"] == -999.9
         xarray_returns[dtype]["latitude"] = xarray_returns[dtype]["latitude"].where(
