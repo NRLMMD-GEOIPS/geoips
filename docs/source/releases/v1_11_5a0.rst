@@ -10,11 +10,12 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.11.5a0 (2023-09-22)
+Version 1.11.5a0 (2023-09-27)
 *****************************
 
+* Update "update_this_release_note" to v1_11_5a0.rst
 * Fixed from scipy.ndimage.interpolation import zoom deprecation warning
-* Added v_11_5a0.rst to the releases documentation
+* Remove flake8_docstring_only option from check_code.sh workflow call
 
 Bug Fixes
 =========
@@ -37,3 +38,27 @@ Added the v_11_5a0.rst to the releases documentation. v1_11_3a0 has recently bee
 released, so we need a new release form to document our changes.
 
     * added: geoips/docs/source/releases/v_11_5a0.rst
+
+
+Git Workflow Updates
+====================
+
+Remove flake8_docstring_only option from check_code.sh workflow call
+--------------------------------------------------------------------
+
+flake8 errors now corrected throughout geoips repo - fully enforce flake8
+from the github actions workflow.
+
+::
+
+  .github/workflows/check-code.yaml
+
+Release Updates
+===============
+
+Update "update_this_release_note" to docs/source/releases/v1_11_5a0.rst
+-----------------------------------------------------------------------
+
+::
+
+  modified: update_this_release_note
