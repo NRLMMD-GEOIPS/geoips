@@ -17,6 +17,10 @@ from os.path import basename, join, splitext, dirname, isdir, isfile, exists
 
 LOG = logging.getLogger(__name__)
 
+interface = "output_checkers"
+family = "standard"
+name = "image_checker"
+
 
 def correct_type(fname):
     """Determine if fname is an image file.
@@ -33,6 +37,27 @@ def correct_type(fname):
     """
     if splitext(fname)[-1] in [".png", ".jpg", ".jpeg", ".jif"]:
         return True
+    return False
+
+
+def is_text(fname):
+    """Check if fname is a text file.
+
+    Parameters
+    ----------
+    fname : str
+        Name of file to check.
+
+    Returns
+    -------
+    bool
+        True if it is a text file, False otherwise.
+    """
+    if splitext(fname)[-1] in ["", ".txt", ".text", ".yaml"]:
+        with open(fname) as f:
+            line = f.readline()
+        if isinstance(line, str):
+            return True
     return False
 
 
@@ -216,6 +241,15 @@ def test_product(output_product, compare_product, goodcomps, badcomps, compare_s
         else:
             badcomps += ["IMAGE {0}".format(output_product)]
 
+    if is_text(output_product):
+        from geoips.plugins.modules.output_checkers import text_checker
+        matched_one = True
+        compare_strings += ["TEXT "]
+        if text_checker.text_match(output_product, compare_product):
+            goodcomps += ["TEXT {0}".format(output_product)]
+        else:
+            badcomps += ["TEXT {0}".format(output_product)]
+
     if not matched_one:
         raise TypeError(f"MISSING TEST for output product: {output_product}")
 
@@ -240,7 +274,7 @@ def print_gzip_to_file(fobj, gzip_fname):
         fobj.write(f"gzip -v {gzip_fname}\n")
 
 
-def compare_outputs(compare_path, output_products, test_product_func=None):
+def call(compare_path, output_products, test_product_func=None):
     """Compare the "correct" imagery found the list of current output_products.
 
     Compares files produced in the current processing run with the list of

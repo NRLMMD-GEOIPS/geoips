@@ -18,6 +18,10 @@ from os.path import basename, join, splitext, dirname, isdir, isfile, exists
 
 LOG = logging.getLogger(__name__)
 
+interface = "output_checkers"
+family = "standard"
+name = "gz_checker"
+
 
 def is_geotiff(fname):
     """Determine if fname is a geotiff file.
@@ -598,7 +602,7 @@ def print_gzip_to_file(fobj, gzip_fname):
         fobj.write(f"gzip -v {gzip_fname}\n")
 
 
-def compare_outputs(compare_path, output_products, test_product_func=None):
+def call(compare_path, output_products, test_product_func=None):
     """Compare the "correct" imagery found the list of current output_products.
 
     Compares files produced in the current processing run with the list of

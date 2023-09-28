@@ -26,13 +26,19 @@ class OutputCheckersInterface(BaseModuleInterface):
     """Output Checkers routines to apply when comparing data outputs."""
 
     name = "output_checkers"
-    required_args = {"standard": ["fname", "compare_product", "output_product"],
-                     "print_gunzip": ["fobj", "gunzip_fname"],
-                     "print_gzip": ["fobj", "gzip_fname"]}
+    required_args = {"standard": {}}
     required_kwargs = {"standard": {}}
-    allowable_kwargs = {"test_product": ["goodcomps", "badcomps", "compare_strings"],
-                        "out_diffname": ["ext", "flag"],
-                        "compare_outputs": ["test_product_func"]}
+    # required_args = {
+    #     "standard": ["fname", "output_product", "compare_product"],
+    #     "print_gunzip": ["fobj", "gunzip_fname"],
+    #     "print_gzip": ["fobj", "gzip_fname"],
+    # }
+    # required_kwargs = {"standard": {}}
+    # allowable_kwargs = {
+    #     "test_product": ["goodcomps", "badcomps", "compare_strings"],
+    #     "out_diffname": ["ext", "flag"],
+    #     "compare_outputs": ["test_product_func"],
+    # }
     plugin_class = OutputCheckersBase
 
     def get_checker(self, filename):
@@ -44,8 +50,14 @@ class OutputCheckersInterface(BaseModuleInterface):
             netcdf_checker,
             text_checker,
         )
-        output_checkers = [geotiff_checker, image_checker, gz_checker,
-                           netcdf_checker, text_checker]
+
+        output_checkers = [
+            geotiff_checker,
+            image_checker,
+            gz_checker,
+            netcdf_checker,
+            text_checker,
+        ]
         correct_checker = None
         checker_found = False
         for output_checker in output_checkers:
@@ -54,9 +66,7 @@ class OutputCheckersInterface(BaseModuleInterface):
                 correct_checker = output_checker
                 break
         if not checker_found:
-            raise TypeError(
-                "There isn't an output checker built for this data type."
-            )
+            raise TypeError("There isn't an output checker built for this data type.")
         return correct_checker
 
 
