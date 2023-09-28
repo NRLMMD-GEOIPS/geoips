@@ -434,8 +434,8 @@ def _get_metadata_block_info(df):
         block_num = unpack("B", df.read(1))[0]
         if block_num != blockind:
             raise IOError(
-                "Unexpected block number encountered.  Expected %s, but got %s. File %s"
-                % (blockind, block_num, df.name)
+                "Unexpected block number encountered. "
+                f"Expected {blockind}, but got {block_num}. File {df.name}"
             )
         block_length = unpack("H", df.read(2))[0]
 
@@ -1003,8 +1003,8 @@ def call(
     elif self_register:
         if self_register not in DATASET_INFO:
             raise ValueError(
-                "Unrecognized resolution name requested for self registration: %s",
-                self_register,
+                "Unrecognized resolution name requested for self registration: "
+                f"{self_register}",
             )
         adname = "FULL_DISK"
 
@@ -1079,8 +1079,8 @@ def call(
 
     if len(list(res_md.keys())) == 0:
         raise ValueError(
-            "No valid files found in list, make sure .DAT.bz2 are bunzip2-ed: %s",
-            fnames,
+            "No valid files found in list, make sure .DAT.bz2 are bunzip2-ed: "
+            f"{fnames}"
         )
 
     # Gather metadata
@@ -1593,9 +1593,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         LOG.info("Converting to Brightness Temperature")
         if band_num not in range(7, 17):
             raise ValueError(
-                "Unable to calculate brightness temperatures for band #{0}".format(
-                    band_num
-                )
+                f"Unable to calculate brightness temperatures for band #{band_num}"
             )
 
         # Get the radiance data
