@@ -142,8 +142,8 @@ def sector_xarray_temporal(
 
     if full_xarray is None:
         LOG.info(
-            """    full_xarray is None - not attempting to sector temporally,
-            returning None"""
+            "    full_xarray is None - not attempting to sector temporally, "
+            "returning None"
         )
         return None
 
@@ -154,8 +154,8 @@ def sector_xarray_temporal(
 
     if "time" not in varnames:
         LOG.info(
-            """    time variable not included in list - not temporally sectoring,
-            returning all data"""
+            "    time variable not included in list - not temporally sectoring, "
+            "returning all data"
         )
         return full_xarray
 
@@ -266,8 +266,8 @@ def sector_xarray_spatial(
     if full_xarray is None:
         if verbose:
             LOG.info(
-                """    full_xarray is None - not attempting to sector spatially,
-                returning None"""
+                "    full_xarray is None - not attempting to sector spatially, "
+                "returning None"
             )
         return None
 
@@ -320,18 +320,17 @@ def sector_xarray_spatial(
 
     if verbose:
         LOG.info(
-            """    Getting appropriate sector area lon {0} to {1} lat {2} to {3}, data
-            minlon {4}, maxlon {5}, minlat {6}, maxlat {7}, {8} points""".format(
-                min_lon,
-                max_lon,
-                min_lat,
-                max_lat,
-                lons.min().data,
-                lons.max().data,
-                lats.min().data,
-                lats.max().data,
-                lats.size,
-            )
+            "    Getting appropriate sector area lon %s to %s lat %s to %s, data "
+            "minlon %s, maxlon %s, minlat %s, maxlat %s, %s points",
+            min_lon,
+            max_lon,
+            min_lat,
+            max_lat,
+            lons.min().data,
+            lons.max().data,
+            lats.min().data,
+            lats.max().data,
+            lats.size,
         )
         # lons.min().data, lons.max().data, lats.min().data, lats.max().data,
         # good_speeds)
@@ -783,8 +782,8 @@ def sector_xarrays(
             # sensors are polar orbiters.
             if (covg_xarray.end_datetime - covg_xarray.start_datetime).seconds > 3000:
                 LOG.info(
-                    """Original sectored xarray contains more than one overpass -
-                    switching to start/datetime in center"""
+                    "Original sectored xarray contains more than one overpass - "
+                    "switching to start/datetime in center"
                 )
                 sect_xarray.attrs["start_datetime"] = covg_xarray.start_datetime
                 sect_xarray.attrs["end_datetime"] = covg_xarray.end_datetime
@@ -806,14 +805,13 @@ def sector_xarrays(
             # time_info for this sector
 
         LOG.debug(
-            """  Sectored data start/end datetime: {0} {1}, {2} points from var {3},
-            all vars {4}""".format(
-                sect_xarray.start_datetime,
-                sect_xarray.end_datetime,
-                sect_xarray[vars_to_interp[0]].size,
-                vars_to_interp[0],
-                vars_to_interp,
-            )
+            "  Sectored data start/end datetime: %s %s, %s points from var %s, "
+            "all vars %s",
+            sect_xarray.start_datetime,
+            sect_xarray.end_datetime,
+            sect_xarray[vars_to_interp[0]].size,
+            vars_to_interp[0],
+            vars_to_interp,
         )
         sect_xarray.attrs["sectored"] = True
         ret_xobjs[key] = sect_xarray

@@ -29,8 +29,8 @@ try:
     import numexpr as ne
 except ImportError:
     LOG.info(
-        """Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py.
-        If you need it, install it."""
+        "Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py."
+        "If you need it, install it."
     )
 
 
@@ -40,10 +40,9 @@ try:
     ne.set_num_threads(nprocs)
 except Exception:
     LOG.info(
-        """Failed numexpr.set_num_threads in {}. If numexpr is not installed and you
-        need it, install it.""".format(
-            __file__
-        )
+        "Failed numexpr.set_num_threads in {}. If numexpr is not installed and you "
+        "need it, install it.",
+        __file__,
     )
 
 DONT_AUTOGEN_GEOLOCATION = False
@@ -420,13 +419,12 @@ def get_indexes(metadata, lats, lons, area_def):
             metadata["roi_factor"] * 1000.0 * metadata["res_km"]
         )  # roi_factor * resolution in meters
         LOG.info(
-            """    GETGEOINDS Running get_neighbour_info {0} roi {1} res_km {2}
-            roi_factor {3}""".format(
-                area_def.area_id,
-                roi,
-                metadata["res_km"],
-                metadata["roi_factor"],
-            )
+            "    GETGEOINDS Running get_neighbour_info %s roi %s res_km %s "
+            "roi_factor %s",
+            area_def.area_id,
+            roi,
+            metadata["res_km"],
+            metadata["roi_factor"],
         )
         (
             valid_input_index,
@@ -512,8 +510,8 @@ def get_indexes(metadata, lats, lons, area_def):
         samples = np.memmap(fname, mode="r", dtype=np.int64, offset=offset, shape=shape)
     except ValueError as resp:
         LOG.warning(
-            """Mismatched geolocation file size (Empty?  No coverage?  Or old sector of
-            different shape?"""
+            "Mismatched geolocation file size (Empty?  No coverage?  Or old sector of "
+            "different shape?"
         )
         raise IndexError(resp)
     # Possible switch to xarray based geolocation files, but we lose memmapping.

@@ -289,8 +289,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             type(resp).__name__,
             str(resp.__doc__),
             str(resp.args),
-            """windsat idr37 data does not have even number of data records !!
-            Skipping...""",
+            "windsat idr37 data does not have even number of data records !! "
+            "Skipping...",
         )
         return {"METADATA": xarray_obj}
 
@@ -305,8 +305,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             type(resp).__name__,
             str(resp.__doc__),
             str(resp.args),
-            """windsat idr37 data does not have even number of data records !!
-            Skipping...""",
+            "windsat idr37 data does not have even number of data records !! "
+            "Skipping...",
         )
         return {"METADATA": xarray_obj}
 

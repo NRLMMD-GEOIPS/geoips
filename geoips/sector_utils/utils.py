@@ -409,18 +409,16 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorlist):
     ):
         if xarray_obj.area_definition.area_id in sectorlist:
             LOG.info(
-                """{0} area_id in sectorlist and in xarray_obj.area_definition, adding
-                area_def""".format(
-                    xarray_obj.area_definition.area_id
-                )
+                "%s area_id in sectorlist and in xarray_obj.area_definition, adding "
+                "area_def",
+                xarray_obj.area_definition.area_id,
             )
             area_defs = [xarray_obj.area_definition]
         else:
             LOG.info(
-                """{0} area_id NOT in sectorlist and set on xarray_obj.area_definition,
-                SKIPPING area_def""".format(
-                    xarray_obj.area_definition.area_id
-                )
+                "%s area_id NOT in sectorlist and set on xarray_obj.area_definition, "
+                "SKIPPING area_def",
+                xarray_obj.area_definition.area_id,
             )
     elif sectorlist is not None:
         area_defs = get_sectors_from_yamls(sectorlist)
@@ -576,11 +574,10 @@ def remove_duplicate_storm_positions(area_defs, aid_type=None):
                 ):
                     kept_one = True
                     LOG.info(
-                        """Including area_def {0} in return list, NOT including {1},
-                        invest_storm_id defined""".format(
-                            other_area_def.name,
-                            area_def.name,
-                        )
+                        "Including area_def %s in return list, NOT including %s, "
+                        "invest_storm_id defined",
+                        other_area_def.name,
+                        area_def.name,
                     )
                     ret_area_defs += [other_area_def]
 

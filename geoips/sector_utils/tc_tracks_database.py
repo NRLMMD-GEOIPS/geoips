@@ -162,8 +162,8 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
             + TC_DECKS_DB
         )
         old_start_datetime, old_end_datetime, old_vmax = cc.execute(
-            """SELECT start_datetime,end_datetime,vmax from tc_trackfiles WHERE
-            filename = ?""",
+            "SELECT start_datetime,end_datetime,vmax from tc_trackfiles WHERE "
+            "filename = ?",
             (tc_trackfilename,),
         ).fetchone()
         # Eventually add in storm_start_datetime

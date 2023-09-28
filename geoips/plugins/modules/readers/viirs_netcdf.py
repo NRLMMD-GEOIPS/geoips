@@ -413,8 +413,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         if metadata_only is True:
             LOG.info(
-                """metadata_only is True, reading only first file for metadata
-                information and returning"""
+                "metadata_only is True, reading only first file for metadata "
+                "information and returning"
             )
             return {"METADATA": xarrays[data_type]}
 
@@ -498,12 +498,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 and var + "_brightness_temperature_lut" in ncdata.variables.keys()
             ):
                 LOG.info(
-                    """        Reading {0} channel {1} into BRIGHTNESS TEMPERATURE
-                    variable {2}""".format(
-                        data_type,
-                        var,
-                        btvarname,
-                    )
+                    "        Reading %s channel %s into BRIGHTNESS TEMPERATURE "
+                    "variable %s",
+                    data_type,
+                    var,
+                    btvarname,
                 )
                 btlut = ncdata.variables[var + "_brightness_temperature_lut"][...]
                 ncvar.set_auto_maskandscale(False)
@@ -602,12 +601,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                         continue
 
                     LOG.info(
-                        """        Reading {0} geolocation channel {1} into GEOLOCATION
-                        variable {2}""".format(
-                            geo_target_data_type,
-                            var,
-                            xvarname,
-                        )
+                        "        Reading %s geolocation channel %s into GEOLOCATION "
+                        "variable %s",
+                        geo_target_data_type,
+                        var,
+                        xvarname,
                     )
                     nparr = numpy.ma.masked_equal(ncvar[...], ncvar._FillValue)
                     add_to_xarray(

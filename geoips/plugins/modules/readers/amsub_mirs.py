@@ -359,10 +359,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 time_scan[i:] = "%04d%03d%02d%02d" % (yr, dy, hr, mn)
             except ValueError:
                 LOG.info(
-                    """Could not parse time for scan line {0}: YEAR={1}, DOY={2},
-                    HOUR={3}, MINUTE={4}""".format(
-                        i, yr, dy, hr, mn
-                    )
+                    "Could not parse time for scan line %s: YEAR=%s, DOY=%s, "
+                    "HOUR=%s, MINUTE=%s",
+                    i,
+                    yr,
+                    dy,
+                    hr,
+                    mn,
                 )
                 continue
         #          ------  setup xarray variables   ------

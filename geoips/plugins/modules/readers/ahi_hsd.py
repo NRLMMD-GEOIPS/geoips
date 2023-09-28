@@ -1079,10 +1079,8 @@ def call(
 
     if len(list(res_md.keys())) == 0:
         raise ValueError(
-            """No valid files found in list, make sure .DAT.bz2 are bunzip2-ed:
-            {0}""".format(
-                fnames,
-            )
+            "No valid files found in list, make sure .DAT.bz2 are bunzip2-ed: %s",
+            fnames,
         )
 
     # Gather metadata
