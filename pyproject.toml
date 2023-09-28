@@ -257,4 +257,4 @@ static_standard = "geoips.plugins.modules.title_formatters.static_standard"
 tc_copyright = "geoips.plugins.modules.title_formatters.tc_copyright"
 tc_standard = "geoips.plugins.modules.title_formatters.tc_standard"
 
-[tool.poetry.plugins."geoips.compare_outputs"]
+[tool.poetry.plugins."geoips.output_checkers"]
