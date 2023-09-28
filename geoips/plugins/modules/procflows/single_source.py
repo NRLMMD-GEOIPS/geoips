@@ -1790,7 +1790,6 @@ def call(fnames, command_line_args=None):
 
     retval = 0
     if compare_path:
-        # from geoips.geoips_utils import find_entry_point
         from geoips.interfaces.module_based.output_checkers import output_checkers
 
         output_checker = output_checkers.get_checker(final_products[0])
@@ -1800,14 +1799,6 @@ def call(fnames, command_line_args=None):
             .replace("<output>", output_formatter),
             final_products,
         )
-
-        # compare_outputs = find_entry_point("output_comparisons", compare_outputs_module)
-        # retval = compare_outputs(
-        #     compare_path.replace("<product>", product_name)
-        #     .replace("<procflow>", "single_source")
-        #     .replace("<output>", output_formatter),
-        #     final_products,
-        # )
 
     LOG.interactive(
         "\n\n\nThe following products were produced from procflow %s\n\n",
