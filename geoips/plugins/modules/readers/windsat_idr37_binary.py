@@ -115,7 +115,7 @@ from datetime import datetime
 
 # Installed Libraries
 import numpy as np
-import pandas as pd
+# import pandas as pd
 
 LOG = logging.getLogger(__name__)
 
@@ -348,7 +348,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             ]  # sec since 1200Z,01/01/2000
             # get time info for each data point
             # fmt: off
-            timeinfo = pd.datetime(2000, 1, 1, 12) + pd.Timedelta(jd2000, unit="s")
+            # timeinfo = pd.datetime(2000, 1, 1, 12) + pd.Timedelta(jd2000, unit="s")
             # time_date = int(
             #     str(timeinfo.year) + str(timeinfo.month) + str(timeinfo.day)
             # )
