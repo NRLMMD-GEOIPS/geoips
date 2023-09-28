@@ -193,7 +193,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     sensor_scan_angle = 45.0
     satellite_altitude = 859
 
-    bad_value = -999  # NOQA
+    # bad_value = -999
 
     for nn in range(nsdr):  # loop number of sdr data records
         nbytes = 0
@@ -205,7 +205,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         scan_hour, scan_minu = np.fromstring(
             f1.read(2), dtype=np.dtype("int8")
         ).byteswap()
-        scan = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
+        scan = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
         nscan_imager, nscan_enviro, nscan_las, nscan_uas = np.fromstring(
             f1.read(4), dtype=np.dtype("int8")
         ).byteswap()
@@ -231,7 +231,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         scenecounts_uas = np.fromstring(f1.read(4), dtype=np.dtype("uint8")).byteswap()
         spare = np.fromstring(f1.read(20), dtype=np.dtype("int32")).byteswap()  # NOQA
         nbytes += 360  # total bytes of the scan header
-        nscan0 = scan - 1  # number of scans
+        # nscan0 = scan - 1  # number of scans
 
         # not use geoips functions for time variables
         yyyyjjjhhmn = "{0:4d}{1:03d}{2:02d}{3:02d}".format(
@@ -242,8 +242,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
 
         if nn == 0:
             start_time = yyyyjjjhhmn
-        if nn == nsdr - 1:
-            end_time = yyyyjjjhhmn  # NOQA
+        # if nn == nsdr - 1:
+        #     end_time = yyyyjjjhhmn
 
         try:
             # The start end time in the standard file name seems to be a bit more
@@ -371,7 +371,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     imager_ch18,
                 ) = np.fromstring(f1.read(12), dtype=np.dtype("short")).byteswap()
                 nbytes += 20
-                k = 180 * (nscan0 + ii) + jj  # NOQA
+                # k = 180 * (nscan0 + ii) + jj
                 lat = 0.01 * imager_lat
                 lon = 0.01 * imager_lon
                 try:
@@ -887,55 +887,55 @@ def read_ssmis_data_file(fname, metadata_only=False):
         "rain",
         "time",
     ]
-    namelist_enviro = [  # NOQA
-        "latitude",
-        "longitude",
-        "H19",
-        "V19",
-        "V22",
-        "H37",
-        "V37",
-        "ch15_5x5",
-        "ch16_5x5",
-        "ch17_5x5",
-        "ch18_5x5",
-        "ch17_5x4",
-        "ch18_5x4",
-        "time",
-    ]
-    namelist_las = [  # NOQA
-        "latitude",
-        "longitude",
-        "ch01_3x3",
-        "ch02_3x3",
-        "ch03_3x3",
-        "ch04_3x3",
-        "ch05_3x3",
-        "ch06_3x3",
-        "ch07_3x3",
-        "ch08_5x5",
-        "ch09_5x5",
-        "ch10_5x5",
-        "ch11_5x5",
-        "ch18_5x5_las",
-        "ch24_3x3",
-        "height_1000mb",
-        "surf_las",
-        "time",
-    ]
-    namelist_uas = [  # NOQA
-        "latitude",
-        "longitude",
-        "ch19_6x6",
-        "ch20_6x6",
-        "ch21_6x6",
-        "ch22_6x6",
-        "ch23_6x6",
-        "ch24_6x6",
-        "scene",
-        "tqflag",
-        "time",
-    ]
+    # namelist_enviro = [
+    #     "latitude",
+    #     "longitude",
+    #     "H19",
+    #     "V19",
+    #     "V22",
+    #     "H37",
+    #     "V37",
+    #     "ch15_5x5",
+    #     "ch16_5x5",
+    #     "ch17_5x5",
+    #     "ch18_5x5",
+    #     "ch17_5x4",
+    #     "ch18_5x4",
+    #     "time",
+    # ]
+    # namelist_las = [
+    #     "latitude",
+    #     "longitude",
+    #     "ch01_3x3",
+    #     "ch02_3x3",
+    #     "ch03_3x3",
+    #     "ch04_3x3",
+    #     "ch05_3x3",
+    #     "ch06_3x3",
+    #     "ch07_3x3",
+    #     "ch08_5x5",
+    #     "ch09_5x5",
+    #     "ch10_5x5",
+    #     "ch11_5x5",
+    #     "ch18_5x5_las",
+    #     "ch24_3x3",
+    #     "height_1000mb",
+    #     "surf_las",
+    #     "time",
+    # ]
+    # namelist_uas = [
+    #     "latitude",
+    #     "longitude",
+    #     "ch19_6x6",
+    #     "ch20_6x6",
+    #     "ch21_6x6",
+    #     "ch22_6x6",
+    #     "ch23_6x6",
+    #     "ch24_6x6",
+    #     "scene",
+    #     "tqflag",
+    #     "time",
+    # ]
 
     # set xarray object for imager variables
     xarray_imager = xr.Dataset()

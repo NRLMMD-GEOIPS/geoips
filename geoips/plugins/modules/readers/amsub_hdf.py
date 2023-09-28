@@ -59,13 +59,12 @@ Basic information on AMSU-B product file::
 # Python Standard Libraries
 import logging
 
-import matplotlib
-
 # library for hdf files
 from pyhdf.SD import SD, SDC
 from pyhdf import HDF, HC
 
 # from pyhdf.VS import *
+import matplotlib
 
 matplotlib.use("agg")
 

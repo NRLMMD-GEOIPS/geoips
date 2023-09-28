@@ -282,24 +282,24 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     LORES = 64  # pixels per lo-res scan
     HIRES = 128  # pixels per gi-res scan
     MAXSCANS = 3000  # max lo-res scans per file
-    SCANTIME = 3.798  # approximate A-B scan interval  # NOQA
+    # SCANTIME = 3.798  # approximate A-B scan interval
 
-    TRUE = 1  # NOQA
-    FALSE = 0  # NOQA
-    BUFSIZE = 4444  # NOQA
-    FRAMESIZE = 12798  # NOQA
-    FILLER = 0xA5  # NOQA
+    # TRUE = 1
+    # FALSE = 0
+    # BUFSIZE = 4444
+    # FRAMESIZE = 12798
+    # FILLER = 0xA5
     EOF_LEN = 6
 
     # Return Codes
-    OK = 0  # NOQA
-    BAD_HDRS = 3  # NOQA
-    BAD_EOF = 4  # NOQA
+    # OK = 0
+    # BAD_HDRS = 3
+    # BAD_EOF = 4
     BAD_LEN = 5
-    WRITE_ERR = 6  # NOQA
-    END_FILE = 7  # NOQA
-    FATAL_ERR = 8  # NOQA
-    CANT_OPEN = 9  # NOQA
+    # WRITE_ERR = 6
+    # END_FILE = 7
+    # FATAL_ERR = 8
+    # CANT_OPEN = 9
 
     # Header Info
     blocks = {
@@ -330,14 +330,14 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     buf = np.frombuffer(f1.read(blocks["ProdID"]), dtype="uint8")
     satid0 = 10 * (V1(18) - 48) + V1(19) - 48
     fcyr = V2(20)  # date of this input file createed
-    fcmon = V1(22)  # NOQA
-    fcday = V1(23)  # NOQA
-    fchr = V1(24)  # NOQA
-    fcmin = V1(25)  # NOQA
+    # fcmon = V1(22)
+    # fcday = V1(23)
+    # fchr = V1(24)
+    # fcmin = V1(25)
 
     #    Data Sequence Block
     buf = np.frombuffer(f1.read(blocks["DataSeq"]), dtype="uint8")
-    scans = V2(14)  # number of total scans of this orbital file  # NOQA
+    # scans = V2(14)  # number of total scans of this orbital file
 
     #    Data Description Blocks
     buf = np.frombuffer(f1.read(blocks["RevHdrDD"]), dtype="uint8")
@@ -346,21 +346,21 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
 
     #     Rev Header Block
     buf = np.frombuffer(f1.read(blocks["RevHdr"]), dtype="uint8")
-    scid = V4(4)  # spcaecraft ID, i.e., 15 for F15  # NOQA
-    rev = V4(8)  # NOQA
+    # scid = V4(4)  # spcaecraft ID, i.e., 15 for F15
+    # rev = V4(8)
     bjld = V2(12)  # start date info: julian day
     bhr = V1(14)  # -                 hour
     bmin = V1(15)
-    bsec = V1(16)  # NOQA
+    # bsec = V1(16)
     ejld = V2(17)  # end date info: Julian day
     ehr = V1(19)
     emin = V1(20)
-    esec = V1(21)  # NOQA
-    ajld = V2(22)  # julian day for ascending node  # NOQA
-    ahr = V1(24)  # NOQA
-    amin = V1(25)  # NOQA
-    asec = V1(26)  # NOQA
-    lsat = V1(27)  # logical satellite ID  # NOQA
+    # esec = V1(21)
+    # ajld = V2(22)  # julian day for ascending node
+    # ahr = V1(24)
+    # amin = V1(25)
+    # asec = V1(26)
+    # lsat = V1(27)  # logical satellite ID
 
     # setup year and julian day for this input file
     year_info = str(fcyr)
@@ -400,7 +400,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
             continue  # unexpected block length, go to next block
 
         # extraction of parameters from scan header block
-        scann = V2(4)  # not used      (first scan, i.e., scan header)  # NOQA
+        # scann = V2(4)  # not used      (first scan, i.e., scan header)
         bst = V4(6)  # B-scan start time (sec): second of the day
 
         # conver time to seconds from beggining of 1987 (do we need this info?)
@@ -413,7 +413,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
 
         scan_yr = date_info.year
         scan_mon = date_info.month
-        scan_day = date_info.day  # NOQA
+        # scan_day = date_info.day
 
         # set up time info for each B scan  (will set: A scantime = B scantime later)
         year[scan_read] = scan_yr
@@ -467,7 +467,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
 
     LOG.info("Making full dataframe")
 
-    bad_value = -999  # NOQA
+    # bad_value = -999
 
     # initilization of variables
     lat_lo = np.zeros((scan_read, 64))  # LORES channels: lat
@@ -559,17 +559,17 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
                 LOG.info("Failed setting arrays in HIRES channels")
 
     #          ------  setup xarray variables   ------
-    namelist_lores = [  # NOQA
-        "latitude",
-        "longitude",
-        "V19",
-        "H19",
-        "V22",
-        "V37",
-        "H37",
-        "time_scan_lo",
-    ]
-    namelist_85ab = ["latitude", "longitude", "V85", "H85", "sfcType", "time"]  # NOQA
+    # namelist_lores = [
+    #     "latitude",
+    #     "longitude",
+    #     "V19",
+    #     "H19",
+    #     "V22",
+    #     "V37",
+    #     "H37",
+    #     "time_scan_lo",
+    # ]
+    # namelist_85ab = ["latitude", "longitude", "V85", "H85", "sfcType", "time"]
 
     # for LORES channels
     xarray_lores = xr.Dataset()

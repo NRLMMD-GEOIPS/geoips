@@ -94,7 +94,13 @@ class MaskedCornersSwathDefinition(SwathDefinition):
                 % self.__class__.__name__
             )
 
-        if not isinstance(lons, type(np.array)) and isinstance(lats, type(np.array)):
+        lons_nparray = isinstance(lons, type(np.array))
+        lats_nparray = isinstance(lats, type(np.array))
+
+        lons_yes_lats_no = lons_nparray and not lats_nparray
+        lons_no_lats_yes = not lons_nparray and lats_nparray
+
+        if lons_yes_lats_no or lons_no_lats_yes:
             raise TypeError("lons and lats must be of same type")
         elif lons is not None:
             if lons.shape != lats.shape:
@@ -446,7 +452,13 @@ class PlanarPolygonDefinition(CoordinateDefinition):
                 % self.__class__.__name__
             )
 
-        if not isinstance(lons, type(np.array)) and isinstance(lats, type(np.array)):
+        lons_nparray = isinstance(lons, type(np.array))
+        lats_nparray = isinstance(lats, type(np.array))
+
+        lons_yes_lats_no = lons_nparray and not lats_nparray
+        lons_no_lats_yes = not lons_nparray and lats_nparray
+
+        if lons_yes_lats_no or lons_no_lats_yes:
             raise TypeError("lons and lats must be of same type")
         elif lons is not None:
             if lons.shape != lats.shape:

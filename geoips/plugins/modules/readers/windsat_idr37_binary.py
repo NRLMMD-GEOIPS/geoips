@@ -349,10 +349,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             # get time info for each data point
             # fmt: off
             timeinfo = pd.datetime(2000, 1, 1, 12) + pd.Timedelta(jd2000, unit="s")
-            time_date = int(  # NOQA
-                str(timeinfo.year) + str(timeinfo.month) + str(timeinfo.day)
-            )
-            time_hhmm = int(str(timeinfo.hour) + str(timeinfo.minute))  # NOQA
+            # time_date = int(
+            #     str(timeinfo.year) + str(timeinfo.month) + str(timeinfo.day)
+            # )
+            # time_hhmm = int(str(timeinfo.hour) + str(timeinfo.minute))
             tb37v, tb37h, tb37info1, tb37info2 = np.frombuffer(
                 f1.read(16), dtype=np.dtype("float32")
             ).byteswap()  # K (37v,37h,info1,info2)

@@ -40,7 +40,7 @@ try:
     ne.set_num_threads(nprocs)
 except Exception:
     LOG.info(
-        "Failed numexpr.set_num_threads in {}. If numexpr is not installed and you "
+        "Failed numexpr.set_num_threads in %s. If numexpr is not installed and you "
         "need it, install it.",
         __file__,
     )

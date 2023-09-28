@@ -168,10 +168,11 @@ Additional info::
 """
 # Python Standard Libraries
 import logging
-import matplotlib
 
 # library for hdf files
 import h5py
+
+import matplotlib
 
 matplotlib.use("agg")
 
