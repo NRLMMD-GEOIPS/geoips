@@ -35,23 +35,29 @@ class OutputCheckersInterface(BaseModuleInterface):
                         "compare_outputs": ["test_product_func"]}
     plugin_class = OutputCheckersBase
 
-    def get_checker(filename):
+    def get_checker(self, filename):
+        """Find and Return the correct output checker for the provided filename."""
         from geoips.plugins.modules.output_checkers import (
             geotiff_checker,
+            gz_checker,
             image_checker,
             netcdf_checker,
             text_checker,
         )
-        output_checkers = [geotiff_checker, image_checker, netcdf_checker, text_checker]
+        output_checkers = [geotiff_checker, image_checker, gz_checker,
+                           netcdf_checker, text_checker]
         correct_checker = None
         checker_found = False
         for output_checker in output_checkers:
-            checker_found = output_checker.correct_type()
+            checker_found = output_checker.correct_type(filename)
             if checker_found:
                 correct_checker = output_checker
                 break
         if not checker_found:
-            raise
+            raise TypeError(
+                "There isn't an output checker built for this data type."
+            )
+        return correct_checker
 
 
-compare_outputs = OutputCheckersInterface()
+output_checkers = OutputCheckersInterface()

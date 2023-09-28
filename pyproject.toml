@@ -258,3 +258,8 @@ tc_copyright = "geoips.plugins.modules.title_formatters.tc_copyright"
 tc_standard = "geoips.plugins.modules.title_formatters.tc_standard"
 
 [tool.poetry.plugins."geoips.output_checkers"]
+geotiff_checker = "geoips.plugins.modules.output_checkers.geotiff_checker"
+gz_checker = "geoips.plugins.modules.output_checkers.gz_checker"
+image_checker = "geoips.plugins.modules.output_checkers.image_checker"
+netcdf_checker = "geoips.plugins.modules.output_checkers.netcdf_checker"
+text_checker = "geoips.plugins.modules.output_checkers.text_checker"

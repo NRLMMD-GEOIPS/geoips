@@ -100,7 +100,7 @@ def is_text(fname):
     return False
 
 
-def is_gz(fname):
+def correct_type(fname):
     """Check if fname is a gzip file.
 
     Parameters
@@ -667,7 +667,7 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
         )
 
         rezip = False
-        if is_gz(output_product):
+        if correct_type(output_product):
             rezip = True
             output_product = gunzip_product(output_product)
 

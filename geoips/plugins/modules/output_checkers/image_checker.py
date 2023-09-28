@@ -12,7 +12,6 @@
 
 """Test script for representative product comparisons."""
 
-import subprocess
 import logging
 from os.path import basename, join, splitext, dirname, isdir, isfile, exists
 
@@ -35,44 +34,6 @@ def correct_type(fname):
     if splitext(fname)[-1] in [".png", ".jpg", ".jpeg", ".jif"]:
         return True
     return False
-
-
-def gunzip_product(fname):
-    """Gunzip file fname.
-
-    Parameters
-    ----------
-    fname : str
-        File to gunzip.
-
-    Returns
-    -------
-    str
-        Filename after gunzipping
-    """
-    LOG.info("**** Gunzipping product for comparisons - will gzip after comparing")
-    LOG.info("gunzip %s", fname)
-    subprocess.call(["gunzip", fname])
-    return splitext(fname)[0]
-
-
-def gzip_product(fname):
-    """Gzip file fname.
-
-    Parameters
-    ----------
-    fname : str
-        File to gzip.
-
-    Returns
-    -------
-    str
-        Filename after gzipping
-    """
-    LOG.info("**** Gzipping product - leave things as we found them")
-    LOG.info("gzip %s", fname)
-    subprocess.call(["gzip", fname])
-    return splitext(fname)[0]
 
 
 def get_out_diff_fname(compare_product, output_product, ext=None, flag=None):
@@ -207,220 +168,6 @@ def images_match(output_product, compare_product, fuzz="5%"):
     return True
 
 
-def geotiffs_match(output_product, compare_product):
-    """Use diff system command to compare currently produced image to correct image.
-
-    Parameters
-    ----------
-    output_product : str
-        Full path to current output product
-    compare_product : str
-        Full path to comparison product
-
-    Returns
-    -------
-    bool
-        Return True if images match, False if they differ
-    """
-    # out_diffimg = get_out_diff_fname(compare_product, output_product)
-
-    call_list = ["diff", output_product, compare_product]
-    LOG.info("Running %s", " ".join(call_list))
-    retval = subprocess.call(call_list)
-
-    # subimg_retval = subprocess.call(call_list)
-    if retval != 0:
-        LOG.interactive("    *****************************************")
-        LOG.interactive("    *** BAD geotiffs do NOT match exactly ***")
-        LOG.interactive("    ***   output_product: %s ***", output_product)
-        LOG.interactive("    ***   compare_product: %s ***", compare_product)
-        LOG.interactive("    *****************************************")
-        return False
-
-    LOG.info("    ***************************")
-    LOG.info("    *** GOOD geotiffs match ***")
-    LOG.info("    ***************************")
-    return True
-
-
-def geoips_netcdf_match(output_product, compare_product):
-    """Check if two geoips formatted netcdf files match.
-
-    Parameters
-    ----------
-    output_product : str
-        Full path to current output product
-    compare_product : str
-        Full path to comparison product
-
-    Returns
-    -------
-    bool
-        Return True if products match, False if they differ
-    """
-    out_difftxt = get_out_diff_fname(compare_product, output_product)
-    diffout = []
-    retval = True
-    import xarray
-
-    out_xobj = xarray.open_dataset(output_product)
-    compare_xobj = xarray.open_dataset(compare_product)
-
-    if out_xobj.attrs != compare_xobj.attrs:
-        LOG.interactive(
-            "    **************************************************************"
-        )
-        LOG.interactive(
-            "    *** BAD GeoIPS NetCDF file attributes do NOT match exactly ***"
-        )
-        LOG.interactive("    ***   output_product: %s ***", output_product)
-        LOG.interactive("    ***   compare_product: %s ***", compare_product)
-        LOG.interactive(
-            "    **************************************************************"
-        )
-        for attr in out_xobj.attrs.keys():
-            if attr not in compare_xobj.attrs:
-                diffstr = (
-                    f"\nattr {attr}\n\n"
-                    f"output\n{out_xobj.attrs[attr]}\n\n"
-                    "not in comparison\n"
-                )
-                diffout += [diffstr]
-                LOG.info(diffstr)
-            elif out_xobj.attrs[attr] != compare_xobj.attrs[attr]:
-                diffstr = (
-                    f"\nattr {attr}\n\n"
-                    f"output\n{out_xobj.attrs[attr]}\n\n"
-                    f"comparison\n{compare_xobj.attrs[attr]}\n"
-                )
-                diffout += [diffstr]
-                LOG.info(diffstr)
-        for attr in compare_xobj.attrs.keys():
-            if attr not in out_xobj.attrs:
-                diffstr = (
-                    f"\nattr {attr}\n\n"
-                    f"not in output\n\n"
-                    f"comparison\n{compare_xobj.attrs[attr]}\n"
-                )
-                diffout += [diffstr]
-                LOG.info(diffstr)
-            elif out_xobj.attrs[attr] != compare_xobj.attrs[attr]:
-                diffstr = (
-                    f"\nattr {attr}\n\n"
-                    f"output\n{out_xobj.attrs[attr]}\n\n"
-                    f"comparison\n{compare_xobj.attrs[attr]}\n"
-                )
-                diffout += [diffstr]
-                LOG.info(diffstr)
-        diffout += ["\n"]
-        retval = False
-
-    if retval is False:
-        with open(out_difftxt, "w") as fobj:
-            fobj.writelines(diffout)
-        return False
-
-    try:
-        xarray.testing.assert_allclose(compare_xobj, out_xobj)
-    except AssertionError as resp:
-        LOG.interactive(
-            "    ****************************************************************"
-        )
-        LOG.interactive(
-            "    *** BAD GeoIPS NetCDF files do not match within tolerance *****"
-        )
-        LOG.interactive("    ***   output_product: %s ***", output_product)
-        LOG.interactive("    ***   compare_product: %s ***", compare_product)
-        for line in str(resp).split("\n"):
-            LOG.info(f"    *** {line} ***")
-        diffout += [
-            "\nxarray objects do not match between current output and comparison\n"
-        ]
-        diffout += [f"\nOut: {out_xobj}\n"]
-        diffout += [f"\nCompare: {compare_xobj}\n"]
-        diffout += [f"\n{resp}\n"]
-        for varname in compare_xobj.variables:
-            maxdiff = (compare_xobj[varname] - out_xobj[varname]).max()
-            mindiff = (compare_xobj[varname] - out_xobj[varname]).min()
-            meandiff = (compare_xobj[varname] - out_xobj[varname]).mean()
-            if mindiff != 0:
-                LOG.info(f"    *** mindiff {varname}: {mindiff} ***")
-                diffout += [f"mindiff {varname}: {mindiff}\n"]
-            if maxdiff != 0:
-                LOG.info(f"    *** maxdiff {varname}: {maxdiff} ***")
-                diffout += [f"maxdiff {varname}: {maxdiff}\n"]
-            if meandiff != 0:
-                LOG.info(f"    *** meandiff {varname}: {meandiff} ***")
-                diffout += [f"meandiff {varname}: {meandiff}\n"]
-        LOG.info("    ****************************************************************")
-        retval = False
-
-    try:
-        xarray.testing.assert_identical(compare_xobj, out_xobj)
-    except AssertionError as resp:
-        LOG.info("    ****************************************************************")
-        LOG.info("    *** INFORMATIONAL ONLY assert_identical differences *****")
-        for line in str(resp).split("\n"):
-            LOG.info(f"    *** {line} ***")
-        for varname in compare_xobj.variables:
-            maxdiff = (compare_xobj[varname] - out_xobj[varname]).max()
-            mindiff = (compare_xobj[varname] - out_xobj[varname]).min()
-            meandiff = (compare_xobj[varname] - out_xobj[varname]).mean()
-            if mindiff != 0:
-                LOG.info(f"    *** mindiff {varname}: {mindiff} ***")
-            if maxdiff != 0:
-                LOG.info(f"    *** maxdiff {varname}: {maxdiff} ***")
-            if meandiff != 0:
-                LOG.info(f"    *** meandiff {varname}: {meandiff} ***")
-        LOG.info("    ****************************************************************")
-
-    if retval is False:
-        with open(out_difftxt, "w") as fobj:
-            fobj.writelines(diffout)
-        return False
-
-    return True
-
-
-def text_match(output_product, compare_product):
-    """Check if two text files match.
-
-    Parameters
-    ----------
-    output_product : str
-        Full path to current output product
-    compare_product : str
-        Full path to "good" comparison product
-
-    Returns
-    -------
-    bool
-        Return True if products match, False if they differ
-    """
-    ret = subprocess.run(
-        ["diff", output_product, compare_product],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    LOG.debug(ret.stdout)
-    if ret.returncode == 0:
-        LOG.info("    *****************************")
-        LOG.info("    *** GOOD Text files match ***")
-        LOG.info("    *****************************")
-        return True
-
-    out_difftxt = get_out_diff_fname(compare_product, output_product)
-    with open(out_difftxt, "w") as fobj:
-        subprocess.call(["diff", output_product, compare_product], stdout=fobj)
-    LOG.interactive("    *******************************************")
-    LOG.interactive("    *** BAD Text files do NOT match exactly ***")
-    LOG.interactive("    ***   output_product: %s ***", output_product)
-    LOG.interactive("    ***   compare_product: %s ***", compare_product)
-    LOG.interactive("    ***   out_difftxt: %s ***", out_difftxt)
-    LOG.interactive("    *******************************************")
-    return False
-
-
 def test_product(output_product, compare_product, goodcomps, badcomps, compare_strings):
     """Test output_product against "good" product stored in "compare_path".
 
@@ -461,37 +208,13 @@ def test_product(output_product, compare_product, goodcomps, badcomps, compare_s
         comparison test defined.
     """
     matched_one = False
-    if is_image(output_product):
+    if correct_type(output_product):
         matched_one = True
         compare_strings += ["IMAGE "]
         if images_match(output_product, compare_product):
             goodcomps += ["IMAGE {0}".format(output_product)]
         else:
             badcomps += ["IMAGE {0}".format(output_product)]
-
-    if is_geotiff(output_product):
-        matched_one = True
-        compare_strings += ["GEOTIFF "]
-        if geotiffs_match(output_product, compare_product):
-            goodcomps += ["GEOTIFF {0}".format(output_product)]
-        else:
-            badcomps += ["GEOTIFF {0}".format(output_product)]
-
-    if is_text(output_product):
-        matched_one = True
-        compare_strings += ["TEXT "]
-        if text_match(output_product, compare_product):
-            goodcomps += ["TEXT {0}".format(output_product)]
-        else:
-            badcomps += ["TEXT {0}".format(output_product)]
-
-    if is_geoips_netcdf(output_product):
-        matched_one = True
-        compare_strings += ["GEOIPS NETCDF "]
-        if geoips_netcdf_match(output_product, compare_product):
-            goodcomps += ["GEOIPS NETCDF {0}".format(output_product)]
-        else:
-            badcomps += ["GEOIPS NETCDF {0}".format(output_product)]
 
     if not matched_one:
         raise TypeError(f"MISSING TEST for output product: {output_product}")
@@ -585,11 +308,6 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
             "**************************************************************************"
         )
 
-        rezip = False
-        if is_gz(output_product):
-            rezip = True
-            output_product = gunzip_product(output_product)
-
         if basename(output_product) in compare_basenames:
             if test_product_func is None:
                 test_product_func = test_product
@@ -603,10 +321,6 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
         else:
             missingcomps += [output_product]
         final_output_products += [output_product]
-
-        # Make sure we leave things as we found them
-        if rezip is True:
-            gzip_product(output_product)
 
         LOG.info("")
     LOG.info(

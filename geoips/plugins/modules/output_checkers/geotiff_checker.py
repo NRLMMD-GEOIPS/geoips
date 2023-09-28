@@ -37,44 +37,6 @@ def correct_type(fname):
     return False
 
 
-def gunzip_product(fname):
-    """Gunzip file fname.
-
-    Parameters
-    ----------
-    fname : str
-        File to gunzip.
-
-    Returns
-    -------
-    str
-        Filename after gunzipping
-    """
-    LOG.info("**** Gunzipping product for comparisons - will gzip after comparing")
-    LOG.info("gunzip %s", fname)
-    subprocess.call(["gunzip", fname])
-    return splitext(fname)[0]
-
-
-def gzip_product(fname):
-    """Gzip file fname.
-
-    Parameters
-    ----------
-    fname : str
-        File to gzip.
-
-    Returns
-    -------
-    str
-        Filename after gzipping
-    """
-    LOG.info("**** Gzipping product - leave things as we found them")
-    LOG.info("gzip %s", fname)
-    subprocess.call(["gzip", fname])
-    return splitext(fname)[0]
-
-
 def get_out_diff_fname(compare_product, output_product, ext=None, flag=None):
     """Obtain the filename for output and comparison product diff.
 
@@ -461,37 +423,14 @@ def test_product(output_product, compare_product, goodcomps, badcomps, compare_s
         comparison test defined.
     """
     matched_one = False
-    if is_image(output_product):
-        matched_one = True
-        compare_strings += ["IMAGE "]
-        if images_match(output_product, compare_product):
-            goodcomps += ["IMAGE {0}".format(output_product)]
-        else:
-            badcomps += ["IMAGE {0}".format(output_product)]
 
-    if is_geotiff(output_product):
+    if correct_type(output_product):
         matched_one = True
         compare_strings += ["GEOTIFF "]
         if geotiffs_match(output_product, compare_product):
             goodcomps += ["GEOTIFF {0}".format(output_product)]
         else:
             badcomps += ["GEOTIFF {0}".format(output_product)]
-
-    if is_text(output_product):
-        matched_one = True
-        compare_strings += ["TEXT "]
-        if text_match(output_product, compare_product):
-            goodcomps += ["TEXT {0}".format(output_product)]
-        else:
-            badcomps += ["TEXT {0}".format(output_product)]
-
-    if is_geoips_netcdf(output_product):
-        matched_one = True
-        compare_strings += ["GEOIPS NETCDF "]
-        if geoips_netcdf_match(output_product, compare_product):
-            goodcomps += ["GEOIPS NETCDF {0}".format(output_product)]
-        else:
-            badcomps += ["GEOIPS NETCDF {0}".format(output_product)]
 
     if not matched_one:
         raise TypeError(f"MISSING TEST for output product: {output_product}")
@@ -585,11 +524,6 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
             "**************************************************************************"
         )
 
-        rezip = False
-        if is_gz(output_product):
-            rezip = True
-            output_product = gunzip_product(output_product)
-
         if basename(output_product) in compare_basenames:
             if test_product_func is None:
                 test_product_func = test_product
@@ -603,10 +537,6 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
         else:
             missingcomps += [output_product]
         final_output_products += [output_product]
-
-        # Make sure we leave things as we found them
-        if rezip is True:
-            gzip_product(output_product)
 
         LOG.info("")
     LOG.info(
