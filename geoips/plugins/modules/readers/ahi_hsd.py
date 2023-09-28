@@ -28,7 +28,6 @@ from geoips.utils.memusg import print_mem_usage
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
-    AutoGenError,
 )
 
 LOG = logging.getLogger(__name__)
@@ -155,10 +154,10 @@ family = "standard"
 name = "ahi_hsd"
 
 
-# class AutoGenError(Exception):
-#     """Raise exception on geolocation autogeneration error."""
+class AutoGenError(Exception):
+    """Raise exception on geolocation autogeneration error."""
 
-#     pass
+    pass
 
 
 def findDiff(d1, d2, path=""):

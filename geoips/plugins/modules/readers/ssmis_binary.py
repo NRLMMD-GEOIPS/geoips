@@ -155,7 +155,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     spare1, spare2, spare3 = np.fromstring(  # NOQA
         f1.read(3), dtype=np.dtype("int8")
     ).byteswap()
-    proc_stat_flags = np.fromstring(
+    proc_stat_flags = np.fromstring(  # NOQA
         f1.read(1), dtype=np.dtype("int8")
     ).byteswap()  # NOQA
     spare4 = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
