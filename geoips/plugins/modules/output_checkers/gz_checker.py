@@ -72,5 +72,5 @@ def call(compare_path, output_products, test_product_func=None):
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = co.compare_outpus(compare_path, output_products, test_product_func)
+    retval = co.compare_outputs(compare_path, output_products, test_product_func)
     return retval
