@@ -704,12 +704,12 @@ def sector_xarrays(
 
         if is_dynamic_sector(area_def):
             LOG.info(
-                "  Trying to sector %s with dynamic time %s, data time %s to %s, ",
+                "  Trying to sector %s with dynamic time %s, data time %s to %s, "
+                "%s points",
                 area_def.area_id,
                 area_def.sector_start_datetime,
                 xobj.start_datetime,
                 xobj.end_datetime,
-                "%s points",
                 xobj["latitude"].size,
             )
         else:
