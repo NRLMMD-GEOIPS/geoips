@@ -59,17 +59,16 @@ Basic information on AMSU-B product file::
 # Python Standard Libraries
 import logging
 
-LOG = logging.getLogger(__name__)
+# library for hdf files
+from pyhdf.SD import SD, SDC
+from pyhdf import HDF, HC
+
+# from pyhdf.VS import *
 import matplotlib
 
 matplotlib.use("agg")
-import matplotlib.pyplot as plt
-from numpy import datetime64
 
-# library for hdf files
-from pyhdf.SD import SD, SDC
-from pyhdf.HDF import *
-from pyhdf.VS import *
+LOG = logging.getLogger(__name__)
 
 interface = "readers"
 family = "standard"
@@ -164,11 +163,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     # get scan time info
     year = VData_ID.attach("ScanTime_year")[:]
-    month = VData_ID.attach("ScanTime_month")[:]
-    day = VData_ID.attach("ScanTime_dom")[:]
+    # month = VData_ID.attach("ScanTime_month")[:]
+    # day = VData_ID.attach("ScanTime_dom")[:]
     hour = VData_ID.attach("ScanTime_hour")[:]
     minute = VData_ID.attach("ScanTime_minute")[:]
-    second = VData_ID.attach("ScanTime_second")[:]
+    # second = VData_ID.attach("ScanTime_second")[:]
     jday = VData_ID.attach("ScanTime_doy")[:]
 
     # get EDRs
@@ -185,22 +184,22 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     Chan3_AT = SData_ID.select("Chan3_AT").get()
     Chan4_AT = SData_ID.select("Chan4_AT").get()
     Chan5_AT = SData_ID.select("Chan5_AT").get()
-    SZ_angle = SData_ID.select("SZ_angle").get()
-    LZ_angle = SData_ID.select("LZ_angle").get()
+    # SZ_angle = SData_ID.select("SZ_angle").get()
+    # LZ_angle = SData_ID.select("LZ_angle").get()
 
     # Min, Max, and scale factors (using hdfview)
-    AT_min = 75.0
-    AT_max = 325.0
-    RR_min = 0.0
-    RR_max = 30.0
-    Snow_min = 0.0
-    Snow_max = 100.0
-    IWP_min = 0.0
-    IWP_max = 3.0
-    SWE_min = 0.0
-    SWE_max = 30.0
-    SFR_min = 0.03
-    SFR_max = 5.0
+    # AT_min = 75.0
+    # AT_max = 325.0
+    # RR_min = 0.0
+    # RR_max = 30.0
+    # Snow_min = 0.0
+    # Snow_max = 100.0
+    # IWP_min = 0.0
+    # IWP_max = 3.0
+    # SWE_min = 0.0
+    # SWE_max = 30.0
+    # SFR_min = 0.03
+    # SFR_max = 5.0
 
     AT_scale = 100.0
     RR_scale = 10.0
@@ -245,8 +244,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     #          ------  setup xarray variables   ------
 
-    # namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT', 'Chan3_AT','Chan4_AT','Chan5_AT',
-    #                  'RR','Snow','IWP','SWE','SFR','Sfc_type','time']
+    # namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT', 'Chan3_AT',
+    #                    'Chan4_AT','Chan5_AT', 'RR','Snow','IWP','SWE','SFR',
+    #                    'Sfc_type','time']
 
     # setup amsub xarray
     xarray_amsub = xr.Dataset()

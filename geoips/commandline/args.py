@@ -17,6 +17,7 @@ import logging
 from os.path import abspath, exists
 from os import getenv
 from json import loads as jloads
+import isodate
 
 LOG = logging.getLogger(__name__)
 
@@ -285,6 +286,32 @@ def add_args(parser, arglist=None):
             help="""Specify sector_adjuster kwargs that should be used for
                             this sector_adjuster. Should be formatted as a json
                             dictionary string""",
+        )
+    if arglist is None or "window_start_time" in arglist:
+        sect_group.add_argument(
+            "--window_start_time",
+            nargs="?",
+            default=None,
+            type=isodate.parse_datetime,
+            help="""If specified, only include data between
+                    window_start_time and window_end_time.
+                    Must be specified with window_end_time.
+                    This option will override any default time ranges determined
+                    based on potential dynamic sector times.
+                            Defaults to None (include all data).""",
+        )
+    if arglist is None or "window_end_time" in arglist:
+        sect_group.add_argument(
+            "--window_end_time",
+            nargs="?",
+            default=None,
+            type=isodate.parse_datetime,
+            help="""If specified, only include data between
+                    window_start_time and window_end_time.
+                    Must be specified with window_start_time.
+                    This option will override any default time ranges determined
+                    based on potential dynamic sector times.
+                            Defaults to None (include all data).""",
         )
 
     tc_group = parser.add_argument_group(
@@ -565,8 +592,9 @@ def add_args(parser, arglist=None):
             default={},
             type=jloads,
             help="""Specify output format kwargs that should be used for this
-                    output_formatter. should be formatted as a json dictionary string, ie:
-                    '{"title_formatter": "tc_copyright", "title_copyright": "NRL"}' """,
+                    output_formatter. should be formatted as a json dictionary string,
+                    ie: '{"title_formatter": "tc_copyright", "title_copyright": "NRL"}'
+                    """,
         )
 
     if arglist is None or "metadata_output_formatter" in arglist:

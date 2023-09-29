@@ -83,6 +83,9 @@ for call in \
   "$geoips_repopath/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh" \
   "$geoips_repopath/tests/scripts/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs.sh" \
   "$geoips_repopath/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh" \
+  "$geoips_repopath/tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/ascat_uhr.tc.windspeed.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/gmi.tc.89pct.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh" \

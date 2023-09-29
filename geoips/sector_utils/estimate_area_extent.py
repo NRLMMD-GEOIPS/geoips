@@ -15,6 +15,9 @@
 import argparse
 import numpy as np
 from string import Template
+import logging
+
+LOG = logging.getLogger(__name__)
 
 EARTH_RADIUS_METERS = 6371228.0
 
@@ -226,7 +229,8 @@ def esitmate_area_from_center(lat_0, lon_0, height, width, resolution):
     lat_distance = haversine_distance(
         lats_lons[0], center_lon, lats_lons[1], center_lon
     )
-    # distance = inverse_haversine_distance(lat_0, center_lon, height, width, resolution)
+    # distance =
+    #           inverse_haversine_distance(lat_0, center_lon, height, width, resolution)
     if (max_lonE - min_lonE) > 180:
         dist1 = haversine_distance(center_lat, min_lonE, center_lat, min_lonE + 180)
         dist2 = haversine_distance(center_lat, min_lonE + 180, center_lat, max_lonE)
@@ -298,7 +302,7 @@ if __name__ == "__main__":
         estimated_extent = estimate_area_extent(
             ARGS.min_lat, ARGS.min_lon, ARGS.max_lat, ARGS.max_lon, ARGS.resolution
         )
-    except:
+    except argparse.ArgumentError:
         estimated_extent = esitmate_area_from_center(
             ARGS.lat_0, ARGS.lon_0, ARGS.height, ARGS.width, ARGS.resolution
         )

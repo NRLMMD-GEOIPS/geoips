@@ -53,6 +53,9 @@
 
    - NOTE: X.Y.Z is the UPCOMING VERSION of the repository, NOT the current
      tagged version!
+   - The current release note to update directly on any geoips plugin
+     repository with current changes can be found in the file
+     `update_this_release_note` within the geoips repo dev branch.
 
 
 ::

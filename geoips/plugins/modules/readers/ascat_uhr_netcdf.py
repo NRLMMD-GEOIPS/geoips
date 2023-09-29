@@ -94,9 +94,20 @@ def read_byu_data(wind_xarray, fname):
         wind_xarray.attrs["storms_with_coverage"] = [storm_name]
         new_file = False
     except IndexError:
-        # New filenames as of 20220826, no time, only YYYYMMDD, orbit num, and A or D for ascending or descending
+        # New filenames as of 20220826, no time, only YYYYMMDD, orbit num, and A or D
+        # for ascending or descending
         # MUIFA_20220911_19947_C_D-product.nc
         # Store the storm names lower case - only reference to it is in the filename..
+        storm_name = (
+            os.path.basename(wind_xarray.source_file_names[0]).split("_")[0].lower()
+        )
+        wind_xarray.attrs["storms_with_coverage"] = [storm_name]
+        new_file = True
+    except ValueError:
+        # New filenames as of 20230906, only YYYYMMDD, orbit num,
+        # and A or D for ascending or descending. Example file name:
+        # LEE_20230912_25146_C_A-cmod5h-scaled_v2.nc
+        # Store the storm names lower case - only reference to it is in the filename.
         storm_name = (
             os.path.basename(wind_xarray.source_file_names[0]).split("_")[0].lower()
         )
@@ -212,8 +223,29 @@ def read_byu_data(wind_xarray, fname):
             "_"
         )[1]
         dt = datetime.strptime(expected_yyyymmdd + "0000", "%Y%m%d%H%M")
-        timediff = numpy.datetime64(dt) - numpy.datetime64("2000-01-01T00:00:00")
-        wind_xarray["time"] = wind_xarray["time"] + timediff
+        # Find the "true" minimum valid time of the data array.
+        # Simply running min() on the time data array will
+        # return "2000-01-01T00:00:00". The second lowest
+        # value represents the true start time of the data
+        # numpy.unique is a quick and easy way to do this,
+        # it will return a sorted array of unique times.
+        native_min_time = numpy.unique(wind_xarray["time"])[1]
+        if abs((native_min_time - numpy.datetime64(dt)) * 1e-9) > 86400:
+            # If the the native time difference is less than a day compared to the
+            # expected, then assume the time array actually contains the correct dates!
+            # Otherwise, time offset adjustments are needed
+            timediff = numpy.datetime64(dt) - numpy.datetime64("2000-01-01T00:00:00")
+            min_time = native_min_time + timediff
+            min_time_diff = min_time - numpy.datetime64(dt)
+            if min_time_diff * 1e-9 > 86400:
+                LOG.info(
+                    "Start time greater than 1day ahead of expected time. "
+                    "Removing one day from applied offset"
+                )
+                from datetime import timedelta
+
+                timediff -= numpy.array(timedelta(days=1), dtype="timedelta64")
+            wind_xarray["time"] = wind_xarray["time"] + timediff
 
         # This is all it will be in the end
         # wind_xarray = wind_xarray.rename({'time', 'time'})
@@ -313,7 +345,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
 
         LOG.info(
-            "Read data %s start_dt %s source %s platform %s data_provider %s roi %s native resolution",
+            "Read data %s start_dt %s source %s platform %s data_provider %s roi"
+            " %s native resolution",
             wind_xarray.attrs["start_datetime"],
             wind_xarray.attrs["source_name"],
             wind_xarray.attrs["platform_name"],
