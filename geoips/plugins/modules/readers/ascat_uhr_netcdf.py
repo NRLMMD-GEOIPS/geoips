@@ -94,7 +94,8 @@ def read_byu_data(wind_xarray, fname):
         wind_xarray.attrs["storms_with_coverage"] = [storm_name]
         new_file = False
     except IndexError:
-        # New filenames as of 20220826, no time, only YYYYMMDD, orbit num, and A or D for ascending or descending
+        # New filenames as of 20220826, no time, only YYYYMMDD, orbit num, and A or D
+        # for ascending or descending
         # MUIFA_20220911_19947_C_D-product.nc
         # Store the storm names lower case - only reference to it is in the filename..
         storm_name = (
@@ -344,7 +345,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
 
         LOG.info(
-            "Read data %s start_dt %s source %s platform %s data_provider %s roi %s native resolution",
+            "Read data %s start_dt %s source %s platform %s data_provider %s roi"
+            " %s native resolution",
             wind_xarray.attrs["start_datetime"],
             wind_xarray.attrs["source_name"],
             wind_xarray.attrs["platform_name"],
