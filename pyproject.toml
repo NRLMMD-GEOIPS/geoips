@@ -116,6 +116,7 @@ test = [
     "pytest-cov", # Reports on test coverage
     "pixelmatch",
 ]
+
 debug = ["ipython"]
 
 [tool.poetry.plugins."geoips.plugin_packages"]
