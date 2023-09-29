@@ -77,7 +77,6 @@ def get_out_diff_fname(compare_product, output_product, ext=None, flag=None):
         Full path to output diff file.
     """
     from os import makedirs, getenv
-    from os.path import exists
 
     if not flag:
         flag = ""
@@ -316,7 +315,6 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
             missingproducts += [compare_product]
 
     from os import makedirs, getenv
-    from os.path import exists
 
     diffdir = join(compare_path, "diff_test_output_dir_{0}".format(getenv("USER")))
     if not exists(diffdir):

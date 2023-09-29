@@ -1597,10 +1597,12 @@ def call(fnames, command_line_args=None):
     failed_compares = {}
     for cpath in final_products:
         if cpath != "no_comparison":
-            curr_compare_outputs = find_entry_point(
-                "output_comparisons", final_products[cpath]["compare_outputs_module"]
+            from geoips.interfaces.module_based.output_checkers import output_checkers
+
+            output_checker = output_checkers.get_checker(
+                final_products[cpath]["files"][0]
             )
-            curr_retval = curr_compare_outputs(cpath, final_products[cpath]["files"])
+            curr_retval = output_checker.call(cpath, final_products[cpath]["files"])
             retval += curr_retval
             if curr_retval != 0:
                 failed_compares[cpath] = curr_retval
