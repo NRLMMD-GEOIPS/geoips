@@ -1,0 +1,66 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.11.5a0 (2023-09-27)
+*****************************
+
+* Remove flake8_docstring_only option from check_code.sh workflow call
+* Update "update_this_release_note" to v1_11_5a0.rst
+* Create "output_checkers" interface
+
+Git Workflow Updates
+====================
+
+Remove flake8_docstring_only option from check_code.sh workflow call
+--------------------------------------------------------------------
+
+flake8 errors now corrected throughout geoips repo - fully enforce flake8
+from the github actions workflow.
+
+::
+
+  .github/workflows/check-code.yaml
+
+Release Updates
+===============
+
+Update "update_this_release_note" to docs/source/releases/v1_11_5a0.rst
+-----------------------------------------------------------------------
+
+::
+
+  modified: update_this_release_note
+
+Enhancements
+============
+
+Create "output_checkers" interface
+----------------------------------
+
+Currently in GeoIPS, products are compared using the "compare_outputs.py" python
+module. This needs to be refactored into an interface called "output_checkers", and
+split info multiple plugins for different product types.
+
+::
+
+    modified: geoips/interfaces/__init__.py
+    modified: pyproject.toml
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: geoips/plugins/modules/procflows/single_source.py
+    added: geoips/interfaces/module_based/output_checkers.py
+    added: geoips/plugins/modules/output_checkers/utils/compare_outputs.py
+    added: geoips/plugins/modules/output_checkers/geotiff_checker.py
+    added: geoips/plugins/modules/output_checkers/gz_checker.py
+    added: geoips/plugins/modules/output_checkers/image_checker.py
+    added: geoips/plugins/modules/output_checkers/netcdf_checker.py
+    added: geoips/plugins/modules/output_checkers/text_checker.py
+    deleted: geoips/compare_outputs.py
