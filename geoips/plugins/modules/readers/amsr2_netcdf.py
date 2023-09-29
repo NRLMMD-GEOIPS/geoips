@@ -132,8 +132,9 @@ def read_amsr_winds(wind_xarray):
                 *tuple([xx for xx in scan_time.values])
             )
         ]
-    # Have to set it on the actual xarray so it becomes a xarray format time series (otherwise if you set it
-    # directly to ts, it is a pandas format time series, and expand_dims doesn't exist).
+    # Have to set it on the actual xarray so it becomes a xarray format time series
+    # (otherwise if you set it directly to ts, it is a pandas format time series, and
+    # expand_dims doesn't exist).
     time_array = pandas.to_datetime(
         dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
     ).tolist()
@@ -190,8 +191,8 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
     sub_xarray.attrs["interpolation_radius_of_influence"] = 10000
     for dim in sub_xarray.dims.keys():
         if "low_rez" in dim:
-            # MTIFs need to be "prettier" for PMW products, so 2km resolution for all channels
-            # sub_xarray.attrs['sample_distance_km'] = 7.0
+            # MTIFs need to be "prettier" for PMW products, so 2km resolution for all
+            # channels. sub_xarray.attrs['sample_distance_km'] = 7.0
             sub_xarray.attrs["sample_distance_km"] = 2.0
             sub_xarray.attrs["interpolation_radius_of_influence"] = 20000
 
@@ -215,9 +216,9 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
                     *tuple([xx for xx in scan_time.values])
                 )
             ]
-        # Have to set it on the actual xarray so it becomes a xarray format time series (otherwise if you set it
-        # directly to ts, it is a pandas format time series, and expand_dims
-        # doesn't exist).
+        # Have to set it on the actual xarray so it becomes a xarray format time series
+        # (otherwise if you set it directly to ts, it is a pandas format time series,
+        # and expand_dims doesn't exist).
         curr_time_array = pandas.to_datetime(
             dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
         ).tolist()
