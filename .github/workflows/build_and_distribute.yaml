@@ -26,6 +26,6 @@ jobs:
         # if: github.event.action == 'published' && startsWith(github.event.release.tag_name, 'v')
         uses: pypa/gh-action-pypi-publish@v1.8.10
         with:
-          repository: https://test.pypi.org/legacy/
+          repository-url: https://test.pypi.org/legacy/
           user: ${{ secrets.TEST_PYPI_USER }}
           password: ${{ secrets.TEST_PYPI_PASSWORD }}
