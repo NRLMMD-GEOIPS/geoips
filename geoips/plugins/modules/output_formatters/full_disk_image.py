@@ -46,9 +46,7 @@ def call(
     success_outputs = []
     plot_data = xarray_obj[product_name].to_masked_array()
     from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
-    from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
     from geoips.image_utils.mpl_utils import (
-        plot_image,
         save_image,
         plot_overlays,
         create_colorbar,
@@ -62,7 +60,6 @@ def call(
         x_size = area_def.get_lonlats()[0].shape[0]
         y_size = area_def.get_lonlats()[0].shape[1]
 
-    import matplotlib.pyplot as plt
     import cartopy
 
     if hasattr(area_def, "proj_dict"):

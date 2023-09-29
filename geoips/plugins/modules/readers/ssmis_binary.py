@@ -43,6 +43,9 @@ interface = "readers"
 family = "standard"
 name = "ssmis_binary"
 
+# NOTE: Anytime you see a # NOQA comment, this is for flake8 formatting. Unused
+# variables are needed in this for moving through the binary file correctly.
+
 
 def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=False):
     """Read SSMIS binary data products.
@@ -140,30 +143,37 @@ def read_ssmis_data_file(fname, metadata_only=False):
     f1 = open(fname, "rb")
 
     # READ HEARDER
-    sw_rev = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()[0]
-    endian, fileid = np.fromstring(f1.read(2), dtype=np.dtype("int8")).byteswap()
+    sw_rev = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()[0]  # NOQA
+    endian, fileid = np.fromstring(
+        f1.read(2), dtype=np.dtype("int8")
+    ).byteswap()  # NOQA
     rev = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
     year = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
     jday = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()
     hour, minu = np.fromstring(f1.read(2), dtype=np.dtype("int8")).byteswap()
     satid, nsdr = np.fromstring(f1.read(4), dtype=np.dtype("short")).byteswap()
-    spare1, spare2, spare3 = np.fromstring(
+    spare1, spare2, spare3 = np.fromstring(  # NOQA
         f1.read(3), dtype=np.dtype("int8")
     ).byteswap()
-    proc_stat_flags = np.fromstring(f1.read(1), dtype=np.dtype("int8")).byteswap()
-    spare4 = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
+    proc_stat_flags = np.fromstring(  # NOQA
+        f1.read(1), dtype=np.dtype("int8")
+    ).byteswap()  # NOQA
+    spare4 = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
     # Need to set up time to be read in by the metadata (year and jday are arrays)
-    time = "%04d%03d%02d%02d" % (year[0], jday[0], hour, minu)
+    time = "%04d%03d%02d%02d" % (year[0], jday[0], hour, minu)  # NOQA
     nbytes = 28  # bytes that have been read in
     # Read scan records at 512-byte boundaries
     nfiller = 512 - (
         nbytes % 512
-    )  # skip nfiller bytes so that the scan header will start at the 513th byte of the data records,
-    filler_bytes = np.fromstring(f1.read(nfiller), dtype=np.dtype("int8")).byteswap()
+    )  # skip nfiller bytes so that the scan header will start at the 513th byte of
+    # the data records,
+    filler_bytes = np.fromstring(
+        f1.read(nfiller), dtype=np.dtype("int8")
+    ).byteswap()  # NOQA
 
-    # Rev 6A of the SSMIS SDR software changed the scalling of channel 12-16 to 100 (it was 10 before this change)
-    # effective with orbit rev 12216 for F-16 and thereafter for all future
-    # satellites
+    # Rev 6A of the SSMIS SDR software changed the scalling of channel 12-16 to 100
+    # (it was 10 before this change) effective with orbit rev 12216 for F-16 and
+    # thereafter for all future satellites
     rev6a = 1
     # When revs wrapped back to 0, the rev[0] < 12216 was no longer valid.
     # Check that rev < 12216, AND year < 2023 (revs wrapped on 7 March 2023)
@@ -183,19 +193,19 @@ def read_ssmis_data_file(fname, metadata_only=False):
     sensor_scan_angle = 45.0
     satellite_altitude = 859
 
-    bad_value = -999
+    # bad_value = -999
 
     for nn in range(nsdr):  # loop number of sdr data records
         nbytes = 0
 
         # SCAN HEADER
-        syncword = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
+        syncword = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
         scan_year = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
         scan_jday = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()
         scan_hour, scan_minu = np.fromstring(
             f1.read(2), dtype=np.dtype("int8")
         ).byteswap()
-        scan = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
+        scan = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
         nscan_imager, nscan_enviro, nscan_las, nscan_uas = np.fromstring(
             f1.read(4), dtype=np.dtype("int8")
         ).byteswap()
@@ -219,9 +229,9 @@ def read_ssmis_data_file(fname, metadata_only=False):
             f1.read(16), dtype=np.dtype("int32")
         ).byteswap()
         scenecounts_uas = np.fromstring(f1.read(4), dtype=np.dtype("uint8")).byteswap()
-        spare = np.fromstring(f1.read(20), dtype=np.dtype("int32")).byteswap()
+        spare = np.fromstring(f1.read(20), dtype=np.dtype("int32")).byteswap()  # NOQA
         nbytes += 360  # total bytes of the scan header
-        nscan0 = scan - 1  # number of scans
+        # nscan0 = scan - 1  # number of scans
 
         # not use geoips functions for time variables
         yyyyjjjhhmn = "{0:4d}{1:03d}{2:02d}{3:02d}".format(
@@ -232,18 +242,79 @@ def read_ssmis_data_file(fname, metadata_only=False):
 
         if nn == 0:
             start_time = yyyyjjjhhmn
-        if nn == nsdr - 1:
-            end_time = yyyyjjjhhmn
+        # if nn == nsdr - 1:
+        #     end_time = yyyyjjjhhmn
+
+        try:
+            # The start end time in the standard file name seems to be a bit more
+            # reliable, so try parsing the file name first before falling back
+            # on the header information in the binary file
+
+            # Grab only the file name
+            bfname = os.path.basename(fname)
+
+            # Standard SSMIS file names are the following format:
+            # <FILE_ID>_<SATELLITE>_<DATE>_<START>_<END>_<REV>_<EXTENSION>
+            split_fname = bfname.split("_")
+            date = split_fname[2]
+            start = split_fname[3]
+            end = split_fname[4]
+            start_datetime = datetime.strptime(date + start, "d%Y%m%ds%H%M%S")
+            end_datetime = datetime.strptime(date + end, "d%Y%m%de%H%M%S")
+            if end_datetime < start_datetime:
+                # Rolled over to new day
+                end_datetime += timedelta(days=1)
+        except ValueError:
+            # Could not parse the start/end time from the file name
+            # Fall back on using info in header
+            start_datetime = datetime.strptime(start_time, "%Y%j%H%M")
+
+            # Estimate end time just for metadata purposes
+            # To my knowledge, the file end time is not included in the binary header
+            # The following offset was determined by taking the start/end time
+            # listed in the file name, then dividing the total number of seconds by the
+            # number of sensor data records, which came out to 45.5 seconds
+            estimated_seconds_per_sensor_data_record = 45.5
+            seconds_offset = estimated_seconds_per_sensor_data_record * nsdr
+            end_datetime = start_datetime + timedelta(seconds=seconds_offset)
+
+        try:
+            # The start end time in the standard file name seems to be a bit more
+            # reliable, so try parsing the file name first before falling back
+            # on the header information in the binary file
+
+            # Grab only the file name
+            bfname = os.path.basename(fname)
+
+            # Standard SSMIS file names are the following format:
+            # <FILE_ID>_<SATELLITE>_<DATE>_<START>_<END>_<REV>_<EXTENSION>
+            split_fname = bfname.split("_")
+            date = split_fname[2]
+            start = split_fname[3]
+            end = split_fname[4]
+            start_datetime = datetime.strptime(date + start, "d%Y%m%ds%H%M%S")
+            end_datetime = datetime.strptime(date + end, "d%Y%m%de%H%M%S")
+            if end_datetime < start_datetime:
+                # Rolled over to new day
+                end_datetime += timedelta(days=1)
+        except ValueError:
+            # Could not parse the start/end time from the file name
+            # Fall back on using info in header
+            start_datetime = datetime.strptime(start_time, "%Y%j%H%M")
+
+            # Estimate end time just for metadata purposes
+            # To my knowledge, the file end time is not included in the binary header
+            # The following offset was determined by taking the start/end time
+            # listed in the file name, then dividing the total number of seconds by the
+            # number of sensor data records, which came out to 45.5 seconds
+            estimated_seconds_per_sensor_data_record = 45.5
+            seconds_offset = estimated_seconds_per_sensor_data_record * nsdr
+            end_datetime = start_datetime + timedelta(seconds=seconds_offset)
 
         if metadata_only:
             xarray_imager = xr.Dataset()
-            xarray_imager.attrs["start_datetime"] = datetime.strptime(
-                start_time, "%Y%j%H%M"
-            )
-            # Estimate end time just for metadata purposes
-            xarray_imager.attrs["end_datetime"] = datetime.strptime(
-                start_time, "%Y%j%H%M"
-            ) + timedelta(minutes=100)
+            xarray_imager.attrs["start_datetime"] = start_datetime
+            xarray_imager.attrs["end_datetime"] = end_datetime
             xarray_imager.attrs["source_name"] = "ssmis"
             xarray_imager.attrs["platform_name"] = satid
             xarray_imager.attrs["data_provider"] = "DMSP"
@@ -300,7 +371,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     imager_ch18,
                 ) = np.fromstring(f1.read(12), dtype=np.dtype("short")).byteswap()
                 nbytes += 20
-                k = 180 * (nscan0 + ii) + jj
+                # k = 180 * (nscan0 + ii) + jj
                 lat = 0.01 * imager_lat
                 lon = 0.01 * imager_lon
                 try:
@@ -314,12 +385,13 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     ch18[ii][jj] = imager_ch18  # 91H
                     surf[ii][jj] = imager_surf
                     rain[ii][jj] = imager_rain
-                except:
+                except ValueError:
                     LOG.info("Failed setting arrays in scan_imager")
 
         time_imager[:][
             :
-        ] = yyyyjjjhhmn  # set same time for this data record and must use the datetime64 format
+        ] = yyyyjjjhhmn  # set same time for this data record and must use the
+        # datetime64 format
 
         # catenation of data records
         if nn == 0:
@@ -413,7 +485,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     enviroodd_rain1, enviroodd_rain2 = np.fromstring(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
-                    edr_bitflags = np.fromstring(
+                    edr_bitflags = np.fromstring(  # NOQA
                         f1.read(4), dtype=np.dtype("int32")
                     ).byteswap()
                     nbytes += 36
@@ -448,7 +520,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
 
             if (
                 ii % 2 == 1
-            ):  # for even scan numbers (ch15_5x5, ch16_5x5, ch17_5x5, ch18_5x5, ch17_5x4, ch18_5x4 ??? need a review)
+            ):  # for even scan numbers (ch15_5x5, ch16_5x5, ch17_5x5, ch18_5x5,
+                # ch17_5x4, ch18_5x4 ??? need a review)
                 if start_scantime_enviro[ii] == -999:
                     LOG.info("value of enviro even scan is %s", ii)
                     continue
@@ -783,9 +856,10 @@ def read_ssmis_data_file(fname, metadata_only=False):
         #       fill up space
         nfiller = 512 - (
             nbytes % 512
-        )  # nfiller bytes to be skipped so that the next scan header will start at the 513th byte.
+        )  # nfiller bytes to be skipped so that the next scan header will start at
+        # the 513th byte.
         try:
-            filler_bytes = np.fromstring(
+            filler_bytes = np.fromstring(  # NOQA
                 f1.read(nfiller), dtype=np.dtype("int8")
             ).byteswap()[0]
         except Exception as resp:
@@ -794,13 +868,13 @@ def read_ssmis_data_file(fname, metadata_only=False):
 
     f1.close()
 
-    LOG.info("start_time, end_time= %s, %s", start_time, end_time)
+    LOG.info("start_time, end_time= %s, %s", start_datetime, end_datetime)
 
     # --------------------- Xarray Objects for Processing Datasets------------
     #   conversion of TBs to K
     #             TBs/100 + 273.15   (K)
     #             setup xarray objects
-    namelist_imager = [
+    namelist_imager = [  # NOQA
         "latitude",
         "longitude",
         "H150",
@@ -813,55 +887,55 @@ def read_ssmis_data_file(fname, metadata_only=False):
         "rain",
         "time",
     ]
-    namelist_enviro = [
-        "latitude",
-        "longitude",
-        "H19",
-        "V19",
-        "V22",
-        "H37",
-        "V37",
-        "ch15_5x5",
-        "ch16_5x5",
-        "ch17_5x5",
-        "ch18_5x5",
-        "ch17_5x4",
-        "ch18_5x4",
-        "time",
-    ]
-    namelist_las = [
-        "latitude",
-        "longitude",
-        "ch01_3x3",
-        "ch02_3x3",
-        "ch03_3x3",
-        "ch04_3x3",
-        "ch05_3x3",
-        "ch06_3x3",
-        "ch07_3x3",
-        "ch08_5x5",
-        "ch09_5x5",
-        "ch10_5x5",
-        "ch11_5x5",
-        "ch18_5x5_las",
-        "ch24_3x3",
-        "height_1000mb",
-        "surf_las",
-        "time",
-    ]
-    namelist_uas = [
-        "latitude",
-        "longitude",
-        "ch19_6x6",
-        "ch20_6x6",
-        "ch21_6x6",
-        "ch22_6x6",
-        "ch23_6x6",
-        "ch24_6x6",
-        "scene",
-        "tqflag",
-        "time",
-    ]
+    # namelist_enviro = [
+    #     "latitude",
+    #     "longitude",
+    #     "H19",
+    #     "V19",
+    #     "V22",
+    #     "H37",
+    #     "V37",
+    #     "ch15_5x5",
+    #     "ch16_5x5",
+    #     "ch17_5x5",
+    #     "ch18_5x5",
+    #     "ch17_5x4",
+    #     "ch18_5x4",
+    #     "time",
+    # ]
+    # namelist_las = [
+    #     "latitude",
+    #     "longitude",
+    #     "ch01_3x3",
+    #     "ch02_3x3",
+    #     "ch03_3x3",
+    #     "ch04_3x3",
+    #     "ch05_3x3",
+    #     "ch06_3x3",
+    #     "ch07_3x3",
+    #     "ch08_5x5",
+    #     "ch09_5x5",
+    #     "ch10_5x5",
+    #     "ch11_5x5",
+    #     "ch18_5x5_las",
+    #     "ch24_3x3",
+    #     "height_1000mb",
+    #     "surf_las",
+    #     "time",
+    # ]
+    # namelist_uas = [
+    #     "latitude",
+    #     "longitude",
+    #     "ch19_6x6",
+    #     "ch20_6x6",
+    #     "ch21_6x6",
+    #     "ch22_6x6",
+    #     "ch23_6x6",
+    #     "ch24_6x6",
+    #     "scene",
+    #     "tqflag",
+    #     "time",
+    # ]
 
     # set xarray object for imager variables
     xarray_imager = xr.Dataset()
@@ -980,8 +1054,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     # Setup attributes
 
     # for Imager
-    xarray_imager.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_imager.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_imager.attrs["start_datetime"] = start_datetime
+    xarray_imager.attrs["end_datetime"] = end_datetime
     xarray_imager.attrs["source_name"] = "ssmis"
     xarray_imager.attrs["platform_name"] = satid
     xarray_imager.attrs["data_provider"] = "DMSP"
@@ -995,8 +1069,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_imager.attrs["interpolation_radius_of_influence"] = 15000
 
     # for Enviro
-    xarray_enviro.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_enviro.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_enviro.attrs["start_datetime"] = start_datetime
+    xarray_enviro.attrs["end_datetime"] = end_datetime
     xarray_enviro.attrs["source_name"] = "ssmis"
     xarray_enviro.attrs["platform_name"] = satid
     xarray_enviro.attrs["data_provider"] = "DMSP"
@@ -1010,8 +1084,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_enviro.attrs["interpolation_radius_of_influence"] = 50000
 
     # for LAS
-    xarray_las.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_las.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_las.attrs["start_datetime"] = start_datetime
+    xarray_las.attrs["end_datetime"] = end_datetime
     xarray_las.attrs["source_name"] = "ssmis"
     xarray_las.attrs["platform_name"] = satid
     xarray_las.attrs["data_provider"] = "DMSP"
@@ -1025,8 +1099,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_las.attrs["interpolation_radius_of_influence"] = 50000
 
     # for UAS
-    xarray_uas.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_uas.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_uas.attrs["start_datetime"] = start_datetime
+    xarray_uas.attrs["end_datetime"] = end_datetime
     xarray_uas.attrs["source_name"] = "ssmis"
     xarray_uas.attrs["platform_name"] = satid
     xarray_uas.attrs["data_provider"] = "DMSP"

@@ -67,7 +67,6 @@ def check_db(filenames=None, process=False):
     string directory name, it expands to list of files in dir.
     """
     from os.path import join as pathjoin
-    from os.path import dirname as pathdirname
     from glob import glob
 
     if filenames is None:
@@ -104,9 +103,9 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
 
     # Check if we match Gxxdddddd.dat filename format.
     # If not just return and don't do anything.
-    if not re.compile("G\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat").match(
+    if not re.compile(r"G\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat").match(
         pathbasename(tc_trackfilename)
-    ) and not re.compile("G\D\D\d\d\d\d\d\d\.dat").match(
+    ) and not re.compile(r"G\D\D\d\d\d\d\d\d\.dat").match(
         pathbasename(tc_trackfilename)
     ):
         LOG.info("")
@@ -163,11 +162,14 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
             + TC_DECKS_DB
         )
         old_start_datetime, old_end_datetime, old_vmax = cc.execute(
-            "SELECT start_datetime,end_datetime,vmax from tc_trackfiles WHERE filename = ?",
+            "SELECT start_datetime,end_datetime,vmax from tc_trackfiles WHERE "
+            "filename = ?",
             (tc_trackfilename,),
         ).fetchone()
         # Eventually add in storm_start_datetime
-        # old_storm_start_datetime,old_start_datetime,old_end_datetime,old_vmax = cc.execute("SELECT storm_start_datetime,start_datetime,end_datetime,vmax from tc_trackfiles WHERE filename = ?", (tc_trackfilename,)).fetchone()
+        # old_storm_start_datetime,old_start_datetime,old_end_datetime,old_vmax =
+        #   cc.execute("SELECT storm_start_datetime,start_datetime,end_datetime,vmax
+        #   from tc_trackfiles WHERE filename = ?", (tc_trackfilename,)).fetchone()
         if old_start_datetime == start_datetime.strftime("%Y-%m-%d %H:%M:%S"):
             LOG.info("    UNCHANGED start_datetime: " + old_start_datetime)
         else:
@@ -178,10 +180,12 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
                 + start_datetime.strftime("%Y-%m-%d %H:%M:%S")
             )
             updated_files += [tc_trackfilename]
-        # if old_storm_start_datetime == storm_start_datetime.strftime('%Y-%m-%d %H:%M:%S'):
+        # if old_storm_start_datetime ==
+        #                            storm_start_datetime.strftime('%Y-%m-%d %H:%M:%S'):
         #    LOG.info('    UNCHANGED storm_start_datetime: '+old_storm_start_datetime)
         # else:
-        #    LOG.info('    Old storm_start_datetime: '+old_storm_start_datetime+' to new: '+storm_start_datetime.strftime('%Y-%m-%d %H:%M:%S'))
+        #    LOG.info('    Old storm_start_datetime: '+old_storm_start_datetime+' to
+        #              new: '+storm_start_datetime.strftime('%Y-%m-%d %H:%M:%S'))
         if old_end_datetime == end_datetime.strftime("%Y-%m-%d %H:%M:%S"):
             LOG.info("    UNCHANGED end_datetime: " + old_end_datetime)
         else:
@@ -240,7 +244,7 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
     except IndexError:
         start_name = start_line[41]
 
-    if data == None:
+    if data is None:
         # print '    Adding '+tc_trackfilename+' to '+TC_DECKS_DB
         cc.execute(
             """insert into tc_trackfiles(
@@ -279,61 +283,61 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
         conn.commit()
 
         # This ONLY runs if it is a brand new storm file and we requested
-        # processing.
-        if process:
-            reprocess_storm(tc_trackfilename)
+        # processing. Not used right now -- includes errors.
+        # if process:
+        #     reprocess_storm(tc_trackfilename)
     return updated_files
 
 
-def reprocess_storm(tc_trackfilename):
-    """Reprocess storm tc_trackfilename, using info in TC tracks database."""
-    # from IPython import embed as shell; shell()
+# The function below was commented out as it included errors, and is not used by GeoIPS
+# at this time. 9/27/23
 
-    datelist = [startdt.strftime("%Y%m%d")]
-    for nn in range((enddt - startdt).days + 2):
-        datelist += [(startdt + timedelta(nn)).strftime("%Y%m%d")]
+# def reprocess_storm(tc_trackfilename):
+#     """Reprocess storm tc_trackfilename, using info in TC tracks database."""
+#     datelist = [startdt.strftime("%Y%m%d")]
+#     for nn in range((enddt - startdt).days + 2):
+#         datelist += [(startdt + timedelta(nn)).strftime("%Y%m%d")]
 
-    hourlist = []
-    for ii in range(24):
-        hourlist += [(enddt - timedelta(hours=ii)).strftime("%H")]
-    hourlist.sort()
-    # Do newest first
-    datelist.sort(reverse=True)
+#     hourlist = []
+#     for ii in range(24):
+#         hourlist += [(enddt - timedelta(hours=ii)).strftime("%H")]
+#     hourlist.sort()
+#     # Do newest first
+#     datelist.sort(reverse=True)
 
-    for sat, sensor in [
-        ("gcom-w1", "amsr2"),
-        ("gpm", "gmi"),
-        ("npp", "viirs"),
-        ("jpss-1", "viirs"),
-        ("aqua", "modis"),
-        ("terra", "modis"),
-        ("himawari-8", "ahi"),
-        ("goes-16", "abi"),
-        ("goes-17", "abi"),
-    ]:
-        for datestr in datelist:
-            process_overpass(
-                sat,
-                sensor,
-                productlist=None,
-                sectorlist=[startstormsect.name],
-                sectorfiles=None,
-                extra_dirs=None,
-                sector_file=sector_file,
-                datelist=[datestr],
-                hourlist=hourlist,
-                queue=os.getenv("DEFAULT_QUEUE"),
-                mp_max_cpus=3,
-                allstatic=False,
-                alldynamic=True,
-                # list=True will just list files and not actually run
-                # list=True,
-                list=False,
-                quiet=True,
-                start_datetime=startdt,
-                end_datetime=enddt,
-            )
-    # shell()
+#     for sat, sensor in [
+#         ("gcom-w1", "amsr2"),
+#         ("gpm", "gmi"),
+#         ("npp", "viirs"),
+#         ("jpss-1", "viirs"),
+#         ("aqua", "modis"),
+#         ("terra", "modis"),
+#         ("himawari-8", "ahi"),
+#         ("goes-16", "abi"),
+#         ("goes-17", "abi"),
+#     ]:
+#         for datestr in datelist:
+#             process_overpass(
+#                 sat,
+#                 sensor,
+#                 productlist=None,
+#                 sectorlist=[startstormsect.name],
+#                 sectorfiles=None,
+#                 extra_dirs=None,
+#                 sector_file=sector_file,
+#                 datelist=[datestr],
+#                 hourlist=hourlist,
+#                 queue=os.getenv("DEFAULT_QUEUE"),
+#                 mp_max_cpus=3,
+#                 allstatic=False,
+#                 alldynamic=True,
+#                 # list=True will just list files and not actually run
+#                 # list=True,
+#                 list=False,
+#                 quiet=True,
+#                 start_datetime=startdt,
+#                 end_datetime=enddt,
+#             )
 
 
 def get_all_storms_from_db(
