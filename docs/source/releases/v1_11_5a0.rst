@@ -32,7 +32,6 @@ The following files have been modified to remove those deprecation warnings.
     * modified: geoips/geoips/plugins/modules/readers/abi_netcdf.py
     * modified: geoips/geoips/plugins/modules/readers/ahi_hsd.py
 
-
 Git Workflow Updates
 ====================
 
