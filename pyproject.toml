@@ -118,7 +118,7 @@ test = [
     "pixelmatch"
 ]
 debug = [
-    "ipython"
+    "ipython",
 ]
 
 [tool.poetry.plugins."geoips.plugin_packages"]

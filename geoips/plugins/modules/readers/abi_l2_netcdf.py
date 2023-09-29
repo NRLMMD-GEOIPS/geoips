@@ -166,9 +166,9 @@ def call(fnames, area_def=None, metadata_only=False, chans=False, self_register=
     # different resolutions
     if len(xarrays) > 1:
         start_times = [x.attrs["start_datetime"] for x in xarrays]
-        xarray_dset = xr.concat(xarrays, dim="time")
+        xarray_dset = xr.concat(xarrays, dim="time_dim")
         xarray_dset.attrs["start_datetime"] = min(start_times)
-        xarray_dset = xarray_dset.assign_coords({"time": start_times})
+        xarray_dset = xarray_dset.assign_coords({"time_dim": start_times})
     else:
         xarray_dset = xarrays[0]
 

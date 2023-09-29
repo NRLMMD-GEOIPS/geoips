@@ -21,52 +21,50 @@
    # calling the test scripts appropriately, and
    # setting the final return value.
 
-geoips_repopath=$GEOIPS_PACKAGES_DIR/geoips
-
 repopath=`dirname $0`/../
 pkgname=geoips
 
-. $geoips_repopath/tests/utils/test_all_pre.sh ${pkgname}_all
+. $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_pre.sh ${pkgname}_all
 
 echo ""
 # Note you must use the variable "call" in the for the loop
 # "call" used in test_all_run.sh
 for call in \
-  "$geoips_repopath/tests/utils/check_code.sh all $repopath flake8_docstring_only" \
-  "$geoips_repopath/docs/build_docs.sh $repopath $pkgname html_only" \
-  "$geoips_repopath/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
-  "$geoips_repopath/tests/scripts/ahi.tc.WV.geotiff.sh" \
-  "$geoips_repopath/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh" \
-  "$geoips_repopath/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh" \
-  "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output.sh" \
-  "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh" \
-  "$geoips_repopath/tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh" \
-  "$geoips_repopath/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh" \
-  "$geoips_repopath/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh" \
-  "$geoips_repopath/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh" \
-  "$geoips_repopath/tests/scripts/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs.sh" \
-  "$geoips_repopath/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
-  "$geoips_repopath/tests/scripts/atms.tc.165H.netcdf_geoips.sh" \
-  "$geoips_repopath/tests/scripts/ewsg.static.Infrared.imagery_clean.sh" \
-  "$geoips_repopath/tests/scripts/gmi.tc.89pct.imagery_clean.sh" \
-  "$geoips_repopath/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh" \
-  "$geoips_repopath/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
-  "$geoips_repopath/tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh" \
-  "$geoips_repopath/tests/scripts/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh" \
-  "$geoips_repopath/tests/scripts/modis.Infrared.unprojected_image.sh" \
-  "$geoips_repopath/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh" \
-  "$geoips_repopath/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh" \
-  "$geoips_repopath/tests/scripts/sar.tc.nrcs.imagery_annotated.sh" \
-  "$geoips_repopath/tests/scripts/seviri.WV-Upper.unprojected_image.sh" \
-  "$geoips_repopath/tests/scripts/smap.unsectored.text_winds.sh" \
-  "$geoips_repopath/tests/scripts/smos.tc.sectored.text_winds.sh" \
-  "$geoips_repopath/tests/scripts/ssmi.tc.37pct.imagery_clean.sh" \
-  "$geoips_repopath/tests/scripts/ssmis.color91.unprojected_image.sh" \
-  "$geoips_repopath/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh" \
-  "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh" \
-  "$geoips_repopath/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh"
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/utils/check_code.sh all $repopath flake8_docstring_only" \
+  "$GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.sh $repopath $pkgname html_only" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ahi.tc.WV.geotiff.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/atms.tc.165H.netcdf_geoips.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ewsg.static.Infrared.imagery_clean.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/gmi.tc.89pct.imagery_clean.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/modis.Infrared.unprojected_image.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/sar.tc.nrcs.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/seviri.WV-Upper.unprojected_image.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/smap.unsectored.text_winds.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/smos.tc.sectored.text_winds.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ssmi.tc.37pct.imagery_clean.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ssmis.color91.unprojected_image.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh"
 do
-  . $geoips_repopath/tests/utils/test_all_run.sh
+  . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
 done
 
-. $geoips_repopath/tests/utils/test_all_post.sh
+. $GEOIPS_PACKAGES_DIR/tests/utils/test_all_post.sh
