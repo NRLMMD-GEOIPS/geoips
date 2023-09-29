@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+        fetch-tags: true
 
       - name: Create distributions
         shell: bash -l {0}
