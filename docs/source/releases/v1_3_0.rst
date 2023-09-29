@@ -34,7 +34,7 @@ Breaking Interface Changes
 
     * intermediate_files/GeoIPSfinal -> geoips_outdirs/preprocessed/annotated_imagery
     * intermediate_files/GeoIPStemp -> geoips_outdirs/preprocessed/clean_imagery
-    * longterm_files -> geoips_outdirs/longterm_files
+    * longterm files -> geoips_outdirs/longterm files
 
 * Moved TCWWW, PUBLICWWW, and PRIVATEWWW directly under geoips_outdirs/preprocessed
 
