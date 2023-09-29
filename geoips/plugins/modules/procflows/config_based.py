@@ -18,7 +18,6 @@ from glob import glob
 from os.path import exists
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.geoips_utils import find_entry_point
 from geoips.utils.memusg import print_mem_usage
 from geoips.geoips_utils import output_process_times
 from geoips.dev.product import (
