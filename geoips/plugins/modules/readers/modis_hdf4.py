@@ -44,21 +44,21 @@ import xarray as xr
 try:
     from pyhdf.HDF import ishdf
 except ImportError:
-    print(
+    LOG.info(
         "Failed import pyhdf in /readers/modis_hdf4.py. "
         + "If you need it, install it."
     )
 try:
     from pyhdf.SD import SD, SDC
 except ImportError:
-    print(
+    LOG.info(
         "Failed import pyhdf in /readers/modis_hdf4.py. "
         + "If you need it, install it."
     )
 try:
     from pyhdf.error import HDF4Error
 except ImportError:
-    print(
+    LOG.info(
         "Failed import pyhdf in /readers/modis_hdf4_reader.py. "
         + "If you need it, install it."
     )

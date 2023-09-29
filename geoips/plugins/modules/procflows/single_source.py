@@ -353,8 +353,8 @@ def print_area_def(area_def, print_str):
         f"\n***{print_str}\n{area_def}"
     )
     for key, value in area_def.sector_info.items():
-        print(f"{key}: {value}")
-    print(
+        LOG.info(f"{key}: {value}")
+    LOG.info(
         f"************************************************************************************"
     )
 
@@ -1322,6 +1322,9 @@ def call(fnames, command_line_args=None):
         "output_formatter"
     ]  # output_formatters.imagery_annotated
     reader_name = command_line_args["reader_name"]  # ssmis_binary
+    reader_kwargs = command_line_args.get("reader_kwargs")
+    if not reader_kwargs:
+        reader_kwargs = {}
     compare_path = command_line_args["compare_path"]
     output_file_list_fname = command_line_args["output_file_list_fname"]
     compare_outputs_module = command_line_args["compare_outputs_module"]
@@ -1334,6 +1337,7 @@ def call(fnames, command_line_args=None):
     resampled_read = command_line_args["resampled_read"]
     product_db = command_line_args["product_db"]
     product_db_writer = command_line_args["product_db_writer"]
+    presector_data = not command_line_args["no_presectoring"]
 
     if product_db:
         from geoips_db.dev.postgres_database import get_db_writer
@@ -1351,7 +1355,7 @@ def call(fnames, command_line_args=None):
     LOG.interactive(
         "Reading metadata from dataset with reader '%s'...", reader_plugin.name
     )
-    xobjs = reader_plugin(fnames, metadata_only=True)
+    xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
     source_name = xobjs["METADATA"].source_name
     print_mem_usage("MEMUSG", verbose=False)
 
@@ -1372,7 +1376,9 @@ def call(fnames, command_line_args=None):
             "with reader '%s'...",
             reader_plugin.name,
         )
-        xobjs = reader_plugin(fnames, metadata_only=False, chans=variables)
+        xobjs = reader_plugin(
+            fnames, metadata_only=False, chans=variables, **reader_kwargs
+        )
 
     # Use the xarray objects and command line args to determine required area_defs
     print_mem_usage("MEMUSG", verbose=False)
@@ -1392,7 +1398,9 @@ def call(fnames, command_line_args=None):
         LOG.interactive(
             "Reading full dataset " "with reader '%s'...", reader_plugin.name
         )
-        xobjs = reader_plugin(fnames, metadata_only=False, chans=variables)
+        xobjs = reader_plugin(
+            fnames, metadata_only=False, chans=variables, **reader_kwargs
+        )
 
     print_mem_usage("MEMUSG", verbose=False)
     # If we have a product of type "unsectored_xarray_dict_to_output_format"
@@ -1403,7 +1411,7 @@ def call(fnames, command_line_args=None):
             "Reading full dataset " "for unsectored products " "with reader '%s'...",
             reader_plugin.name,
         )
-        xdict = reader_plugin(fnames, metadata_only=False)
+        xdict = reader_plugin(fnames, metadata_only=False, **reader_kwargs)
         final_products += process_xarray_dict_to_output_format(
             xdict, variables, prod_plugin, command_line_args
         )
@@ -1412,7 +1420,7 @@ def call(fnames, command_line_args=None):
             "Reading full dataset " "for unsectored products " "with reader '%s'...",
             reader_plugin.name,
         )
-        xdict = reader_plugin(fnames, metadata_only=False)
+        xdict = reader_plugin(fnames, metadata_only=False, **reader_kwargs)
 
     print_mem_usage("MEMUSG", verbose=False)
 
@@ -1442,7 +1450,11 @@ def call(fnames, command_line_args=None):
                     reader_plugin.name,
                 )
                 xobjs = reader_plugin(
-                    fnames, metadata_only=False, chans=variables, area_def=pad_area_def
+                    fnames,
+                    metadata_only=False,
+                    chans=variables,
+                    area_def=pad_area_def,
+                    **reader_kwargs,
                 )
             # geostationary satellites fail with IndexError when the area_def
             # does not intersect the data.  Just skip those.  We need a better
@@ -1462,15 +1474,18 @@ def call(fnames, command_line_args=None):
             )
             pad_sect_xarrays = xobjs
         else:
-            LOG.interactive("Sectoring xarrays...")
-            pad_sect_xarrays = sector_xarrays(
-                xobjs,
-                pad_area_def,
-                varlist=variables,
-                hours_before_sector_time=6,
-                hours_after_sector_time=9,
-                drop=True,
-            )
+            if presector_data:
+                LOG.interactive("Sectoring xarrays...")
+                pad_sect_xarrays = sector_xarrays(
+                    xobjs,
+                    pad_area_def,
+                    varlist=variables,
+                    hours_before_sector_time=6,
+                    hours_after_sector_time=9,
+                    drop=True,
+                )
+            else:
+                pad_sect_xarrays = xobjs
 
         print_mem_usage("MEMUSG", verbose=False)
         if len(pad_sect_xarrays.keys()) == 0:
@@ -1526,14 +1541,17 @@ def call(fnames, command_line_args=None):
                     sect_xarrays = pad_sect_xarrays
                 else:
                     LOG.interactive("Sectoring padded xarrays...")
-                    sect_xarrays = sector_xarrays(
-                        pad_sect_xarrays,
-                        area_def,
-                        varlist=variables,
-                        hours_before_sector_time=6,
-                        hours_after_sector_time=9,
-                        drop=True,
-                    )
+                    if presector_data:
+                        sect_xarrays = sector_xarrays(
+                            pad_sect_xarrays,
+                            area_def,
+                            varlist=variables,
+                            hours_before_sector_time=6,
+                            hours_after_sector_time=9,
+                            drop=True,
+                        )
+                    else:
+                        sect_xarrays = pad_sect_xarrays
                 if (
                     sect_adj_plugin.family
                     == "list_xarray_list_variables_to_area_def_out_fnames"
@@ -1616,7 +1634,7 @@ def call(fnames, command_line_args=None):
                     pad_sect_xarrays,
                     area_def,
                     prod_plugin,
-                    resector=True,
+                    resector=presector_data,
                     resampled_read=resampled_read,
                 )
 

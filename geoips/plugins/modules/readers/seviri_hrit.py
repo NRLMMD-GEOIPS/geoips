@@ -38,18 +38,20 @@ from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation,
 )
 
+LOG = logging.getLogger(__name__)
+
+
 try:
     import numexpr as ne
 except ImportError:
-    print("Failed numexpr import in satnav.py. If you need it, install it.")
+    LOG.info("Failed numexpr import in satnav.py. If you need it, install it.")
 
 try:
     NPROC = 6
     ne.set_num_threads(NPROC)
 except NameError:
-    print("Failed ne.set_num_threads in satnav.py. If you need numexpr, install it.")
+    LOG.info("Failed ne.set_num_threads in satnav.py. If you need numexpr, install it.")
 
-LOG = logging.getLogger(__name__)
 
 # These should be added to the data file object
 BADVALS = {

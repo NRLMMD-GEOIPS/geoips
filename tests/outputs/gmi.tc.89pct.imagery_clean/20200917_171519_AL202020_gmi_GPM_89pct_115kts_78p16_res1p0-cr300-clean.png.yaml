@@ -19,7 +19,7 @@ final_storm_name: TEDDY
 invest_number: 95
 parser_name: bdeck_parser
 pressure: 948.0
-product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2020/AL/AL202020/png_clean/89pct/GPM/20200917_172045_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png
+product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2020/AL/AL202020/png_clean/89pct/GPM/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png
 sector_type: tc
 source_file_names:
 - 1B.GPM.GMI.TB2016.20200917-S171519-E172017.V05A.RT-H5
