@@ -13,7 +13,6 @@
 """Unit tests for sector plugins."""
 
 import pytest
-import pyresample
 from geoips import interfaces
 from geoips.interfaces.yaml_based.sectors import SectorPluginBase
 

@@ -349,13 +349,15 @@ def process_xarray_dict_to_output_format(
 def print_area_def(area_def, print_str):
     """Print area def."""
     LOG.info(
-        f"\n\n************************************************************************************"
+        "\n\n*************************************************************************"
+        "***********"
         f"\n***{print_str}\n{area_def}"
     )
     for key, value in area_def.sector_info.items():
         LOG.info(f"{key}: {value}")
     LOG.info(
-        f"************************************************************************************"
+        "*****************************************************************************"
+        "*******"
     )
 
 
@@ -368,8 +370,8 @@ def pad_area_definition(
     # Always pad TC sectors, and if "force_pad=True" is passed into the function
     if is_sector_type(area_def, "tc") or force_pad:
         LOG.info("Trying area_def %s, %s", area_def.name, area_def.sector_info)
-        # Get an extra 50% size for TCs so we can handle recentering and not have missing data.
-        # --larger area for possibly moved center for vis/ir backgrounds
+        # Get an extra 50% size for TCs so we can handle recentering and not have
+        # missing data. --larger area for possibly moved center for vis/ir backgrounds
         # Default to 1.5x padding
         num_lines = int(area_def.y_size * y_scale_factor)
         num_samples = int(area_def.x_size * x_scale_factor)
@@ -1516,8 +1518,8 @@ def call(fnames, command_line_args=None):
 
         process_datetimes[area_def.area_id] = {}
         process_datetimes[area_def.area_id]["start"] = datetime.utcnow()
-        # add satellite_azimuth_angle and solar_azimuth_angle into list of the variables for ABI only
-        # (come from ABI reader)
+        # add satellite_azimuth_angle and solar_azimuth_angle into list of the variables
+        # for ABI only (come from ABI reader)
         if area_def.sector_type in ["reader_defined", "self_register"]:
             LOG.interactive(
                 "CONTINUE Not sectoring sector_type %s", area_def.sector_type
@@ -1847,8 +1849,9 @@ def call(fnames, command_line_args=None):
                     ]
                 )
             )
-            # If we don't write out the last newline, then wc won't return the appropriate number, and we won't get
-            # to the last file when attempting to loop through
+            # If we don't write out the last newline, then wc won't return the
+            # appropriate number, and we won't get to the last file when attempting to
+            # loop through
             fobj.writelines(["\n"])
 
     retval = 0

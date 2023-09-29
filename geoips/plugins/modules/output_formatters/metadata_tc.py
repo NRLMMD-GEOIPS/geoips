@@ -157,7 +157,7 @@ def update_sector_info_with_coverage(
         sector_info["covg_info"][covg_func_type + "_covg"] = covgs[covg_func_type]
 
     if covgs.keys() and not set(covg_func_types).issubset(set(covgs.keys())):
-        sector_info["covg_info"]["default_covg_func"] = default_covg_funcs.name
+        sector_info["covg_info"]["default_covg_func"] = default_covgs.name
         sector_info["covg_info"]["default_covg_args"] = default_covg_args
         sector_info["covg_info"]["default_covg"] = default_covgs
 
