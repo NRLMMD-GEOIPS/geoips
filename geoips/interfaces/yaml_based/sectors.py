@@ -16,7 +16,6 @@ from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
 from pyresample import load_area
 from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
 from cartopy import feature as cfeature
-from pyresample import create_area_def
 
 
 # Commenting these out for PR #260
