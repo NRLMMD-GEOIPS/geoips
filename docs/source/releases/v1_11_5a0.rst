@@ -25,8 +25,9 @@ Bug Fixes
 Fixed from scipy.ndimage.interpolation import zoom deprecation warning
 ----------------------------------------------------------------------
 
-The scipy.ndimage.interpolation library has recently been deprecated, and was causing
-warnings when importing the zoom libary for the ahi_hsd reader and the abi_netcdf reader
+The scipy.ndimage.interpolation library was deprecated as of scipy v1.2 (Dec 2018), 
+and was causing warnings when importing the zoom libary for the ahi_hsd reader and
+the abi_netcdf reader.
 
 The following files have been modified to remove those deprecation warnings.
 
