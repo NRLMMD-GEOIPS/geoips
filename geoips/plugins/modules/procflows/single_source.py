@@ -1858,7 +1858,7 @@ def call(fnames, command_line_args=None):
     if compare_path:
         from geoips.interfaces.module_based.output_checkers import output_checkers
 
-        output_checker = output_checkers.get_checker(final_products[0])
+        output_checker = output_checkers.select_checker(final_products[0])
         retval = output_checker.call(
             compare_path.replace("<product>", product_name)
             .replace("<procflow>", "single_source")

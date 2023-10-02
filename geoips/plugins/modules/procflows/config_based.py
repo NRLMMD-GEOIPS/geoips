@@ -1692,7 +1692,7 @@ def call(fnames, command_line_args=None):
         if cpath != "no_comparison":
             from geoips.interfaces.module_based.output_checkers import output_checkers
 
-            output_checker = output_checkers.get_checker(
+            output_checker = output_checkers.select_checker(
                 final_products[cpath]["files"][0]
             )
             curr_retval = output_checker.call(cpath, final_products[cpath]["files"])
