@@ -13,6 +13,7 @@
 Version 1.11.5a0 (2023-09-27)
 *****************************
 
+* Add workflow to build sdist and wheel and push to pypi
 * Update "update_this_release_note" to v1_11_5a0.rst
 * Fix Errors from Flake8 Linting
 * Remove flake8_docstring_only option from check_code.sh workflow call
@@ -30,6 +31,16 @@ from the github actions workflow.
 ::
 
   .github/workflows/check-code.yaml
+
+GitHub Actions Updates
+======================
+
+Add a workflow that builds sdist and wheel packages for new releases and pushes them to
+Pypi.
+
+::
+
+    .github/workflows/package-and-publish.yaml
 
 Release Updates
 ===============
