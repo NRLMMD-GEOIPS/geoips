@@ -97,22 +97,7 @@ but this command will ensure that for everyone.
 **Note:** You will need to run ``conda activate geoips`` every time you want to
 run or work on GeoIPS.
 
-++++++++++++++++++++
-For stable releases:
-++++++++++++++++++++
-
-4.1 Install the GeoIPS pip release
----------------------------------
-
-.. code:: bash
-
-    pip install geoips
-
-++++++++++++
-From source:
-++++++++++++
-
-4.1 Clone the GeoIPS git repository, for installation and testing commands
+4. Clone the GeoIPS git repository, for installation and testing commands
 -------------------------------------------------------------------------
 
 .. code:: bash
@@ -120,7 +105,7 @@ From source:
     mkdir -p $GEOIPS_PACKAGES_DIR
     git clone ${GEOIPS_REPO_URL}/geoips.git $GEOIPS_PACKAGES_DIR/geoips
 
-4.2 Install the GeoIPS git repository
+5. Install the GeoIPS git repository
 ------------------------------------
 
 This command installs all GeoIPS Python dependencies, and GeoIPS itself.
@@ -128,9 +113,12 @@ This command installs all GeoIPS Python dependencies, and GeoIPS itself.
 .. code:: bash
 
     # Ensure geoips python environment enabled before installing geoips
+    # using "conda activate geoips"
+
+    # Install geoips via pip
     pip install -e "$GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]"
 
-5. Test your installation
+6. Test your installation
 -------------------------
 
 To test your installation you will call two scripts:
@@ -142,14 +130,14 @@ To test your installation you will call two scripts:
 .. code:: bash
 
     # Ensure geoips python environment enabled
+    # using "conda activate geoips"
 
     # Download the test data
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
-
     # Run integration tests
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh
 
-6. Test output
+7. Test output
 --------------
 
 For reference, the end of the output from the base_test.sh command should
