@@ -1858,13 +1858,15 @@ def call(fnames, command_line_args=None):
     if compare_path:
         from geoips.interfaces.module_based.output_checkers import output_checkers
 
-        output_checker = output_checkers.select_checker(final_products[0])
-        retval = output_checker.call(
-            compare_path.replace("<product>", product_name)
-            .replace("<procflow>", "single_source")
-            .replace("<output>", output_formatter),
-            final_products,
-        )
+        for output_product in final_products:
+            output_checker = output_checkers.get_plugin(output_product)
+            retval += output_checker(
+                output_checker,
+                compare_path.replace("<product>", product_name)
+                .replace("<procflow>", "single_source")
+                .replace("<output>", output_formatter),
+                [output_product],
+            )
 
     LOG.interactive(
         "\n\n\nThe following products were produced from procflow %s\n\n",

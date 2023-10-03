@@ -15,7 +15,6 @@
 import subprocess
 import logging
 from os.path import splitext
-from geoips.plugins.modules.output_checkers.utils import compare_outputs as co
 
 LOG = logging.getLogger(__name__)
 
@@ -42,7 +41,7 @@ def correct_type(fname):
     return False
 
 
-def geotiffs_match(output_product, compare_product):
+def outputs_match(output_product, compare_product):
     """Use diff system command to compare currently produced image to correct image.
 
     Parameters
@@ -78,8 +77,8 @@ def geotiffs_match(output_product, compare_product):
     return True
 
 
-def call(compare_path, output_products, test_product_func=None):
-    """Compare the "correct" imagery found the list of current output_products.
+def call(self, compare_path, output_products, test_product_func=None):
+    """Compare the "correct" geotiffs found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
     "correct" files contained in "compare_path".
@@ -109,5 +108,5 @@ def call(compare_path, output_products, test_product_func=None):
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = co.compare_outputs(compare_path, output_products, test_product_func)
+    retval = self.compare_outputs(compare_path, output_products, test_product_func)
     return retval

@@ -254,7 +254,7 @@ def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
-def plugin_module_to_obj(name, module, obj_attrs={}):
+def plugin_module_to_obj(cls, name, module, obj_attrs={}):
     """Convert a module plugin to an object.
 
     Convert the passed module plugin into an object and return it. The returned
@@ -327,8 +327,12 @@ def plugin_module_to_obj(name, module, obj_attrs={}):
     plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
     plugin_type = f"{plugin_interface_name}Plugin"
 
+    plugin_base_class = BaseModulePlugin
+    if hasattr(cls, "plugin_class") and cls.plugin_class:
+        plugin_base_class = cls.plugin_class
+
     # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
-    return type(plugin_type, (BaseModulePlugin,), obj_attrs)()
+    return type(plugin_type, (plugin_base_class,), obj_attrs)()
 
 
 class BaseYamlPlugin(dict):
@@ -662,14 +666,14 @@ class BaseModuleInterface(BaseInterface):
                 f" attempting to access the correct plugin name)"
             ) from resp
         # Convert the module into an object
-        return plugin_module_to_obj(name, module)
+        return plugin_module_to_obj(self, name, module)
 
     def get_plugins(self):
         """Get a list of plugins for this interface."""
         plugins = []
         for ep in get_all_entry_points(self.name):
             try:
-                plugins.append(plugin_module_to_obj(ep.name, ep))
+                plugins.append(plugin_module_to_obj(self, ep.name, ep))
             except AttributeError as resp:
                 raise PluginError(
                     f"Plugin '{ep.__name__}' is missing the 'name' attribute, "

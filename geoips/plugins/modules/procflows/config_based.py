@@ -1692,13 +1692,16 @@ def call(fnames, command_line_args=None):
         if cpath != "no_comparison":
             from geoips.interfaces.module_based.output_checkers import output_checkers
 
-            output_checker = output_checkers.select_checker(
-                final_products[cpath]["files"][0]
-            )
-            curr_retval = output_checker.call(cpath, final_products[cpath]["files"])
-            retval += curr_retval
-            if curr_retval != 0:
-                failed_compares[cpath] = curr_retval
+            for output_product in final_products[cpath]["files"]:
+                output_checker = output_checkers.get_plugin(output_product)
+                curr_retval = output_checker(
+                    output_checker,
+                    cpath,
+                    [output_product],
+                )
+                retval += curr_retval
+                if curr_retval != 0:
+                    failed_compares[cpath] = curr_retval
         else:
             LOG.info("No comparison specified, not attempting to compare outputs")
 

@@ -96,91 +96,6 @@ def get_out_diff_fname(compare_product, output_product, ext=None, flag=None):
     return out_diff_fname
 
 
-def test_product(output_product, compare_product, goodcomps, badcomps, compare_strings):
-    """Test output_product against "good" product stored in "compare_path".
-
-    Parameters
-    ----------
-    output_product : str
-        * Full path to current output product
-    compare_product : str
-        * Full path to "good" comparison product
-    goodcomps : list of str
-        * List of full paths to all "good" successful comparisons
-          (output and compare images match)
-        * Each str is prepended with a "compare_string" tag to identify which
-          comparison type was performed.
-    badcomps : list of str
-        * List of full paths to all "bad" unsuccessful comparisons
-          (output and compare images differ)
-        * Each str is prepended with a "compare_string" tag to identify which
-          comparison type was performed.
-    compare_strings : list of str
-        * List of all comparison "tags" included in goodcomps and badcomps lists.
-        * This list is used to remove the comparison tags from goodcomps and
-          badcomps to retrieve only the file path.
-
-    Returns
-    -------
-    goodcomps: list of str
-        All current good comparisons appended to the list passed in.
-    badcomps: list of str
-        All current bad comparisons appended to the list passed in.
-    compare_strings: list of str
-        All current comparison "tags" added to the list passed in.
-
-    Raises
-    ------
-    TypeError
-        Raised when current output product does not have an associated
-        comparison test defined.
-    """
-    from geoips.plugins.modules.output_checkers import (
-        geotiff_checker,
-        image_checker,
-        netcdf_checker,
-        text_checker,
-    )
-
-    matched_one = False
-    if image_checker.correct_type(output_product):
-        matched_one = True
-        compare_strings += ["IMAGE "]
-        if image_checker.images_match(output_product, compare_product):
-            goodcomps += ["IMAGE {0}".format(output_product)]
-        else:
-            badcomps += ["IMAGE {0}".format(output_product)]
-
-    if geotiff_checker.correct_type(output_product):
-        matched_one = True
-        compare_strings += ["GEOTIFF "]
-        if geotiff_checker.geotiffs_match(output_product, compare_product):
-            goodcomps += ["GEOTIFF {0}".format(output_product)]
-        else:
-            badcomps += ["GEOTIFF {0}".format(output_product)]
-
-    if text_checker.correct_type(output_product):
-        matched_one = True
-        compare_strings += ["TEXT "]
-        if text_checker.text_match(output_product, compare_product):
-            goodcomps += ["TEXT {0}".format(output_product)]
-        else:
-            badcomps += ["TEXT {0}".format(output_product)]
-
-    if netcdf_checker.correct_type(output_product):
-        matched_one = True
-        compare_strings += ["GEOIPS NETCDF "]
-        if netcdf_checker.geoips_netcdf_match(output_product, compare_product):
-            goodcomps += ["GEOIPS NETCDF {0}".format(output_product)]
-        else:
-            badcomps += ["GEOIPS NETCDF {0}".format(output_product)]
-
-    if not matched_one:
-        raise TypeError(f"MISSING TEST for output product: {output_product}")
-
-    return goodcomps, badcomps, compare_strings
-
-
 def print_gunzip_to_file(fobj, gunzip_fname):
     """Write the command to gunzip the passed "gunzip_fname" to file.
 
@@ -275,7 +190,9 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
 
         if basename(output_product) in compare_basenames:
             if test_product_func is None:
-                test_product_func = test_product
+                from geoips.interfaces import output_checkers
+
+                test_product_func = output_checkers.test_product_on_checker
             goodcomps, badcomps, compare_strings = test_product_func(
                 output_product,
                 join(compare_path, basename(output_product)),

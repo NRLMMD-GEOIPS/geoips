@@ -13,7 +13,6 @@
 """Test script for representative product comparisons."""
 
 import logging
-from geoips.plugins.modules.output_checkers.utils import compare_outputs as co
 
 LOG = logging.getLogger(__name__)
 
@@ -46,7 +45,7 @@ def correct_type(fname):
     return set(get_required_geoips_xarray_attrs()).issubset(set(xobj.attrs.keys()))
 
 
-def geoips_netcdf_match(output_product, compare_product):
+def outputs_match(self, output_product, compare_product):
     """Check if two geoips formatted netcdf files match.
 
     Parameters
@@ -61,7 +60,7 @@ def geoips_netcdf_match(output_product, compare_product):
     bool
         Return True if products match, False if they differ
     """
-    out_difftxt = co.get_out_diff_fname(compare_product, output_product)
+    out_difftxt = self.get_out_diff_fname(compare_product, output_product)
     diffout = []
     retval = True
     import xarray
@@ -185,8 +184,8 @@ def geoips_netcdf_match(output_product, compare_product):
     return True
 
 
-def call(compare_path, output_products, test_product_func=None):
-    """Compare the "correct" imagery found the list of current output_products.
+def call(self, compare_path, output_products, test_product_func=None):
+    """Compare the "correct" netcdfs found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
     "correct" files contained in "compare_path".
@@ -216,5 +215,5 @@ def call(compare_path, output_products, test_product_func=None):
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = co.compare_outputs(compare_path, output_products, test_product_func)
+    retval = self.compare_outputs(compare_path, output_products, test_product_func)
     return retval
