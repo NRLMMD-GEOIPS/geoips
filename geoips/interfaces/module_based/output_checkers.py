@@ -189,9 +189,10 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             # 'not comp_found' expects a list (len > 1) of product_basenames,
             # whereas the code below assumes only one match is needed
             for compare_product in glob(compare_path + "/*"):
-                if (isfile(compare_product)):
+                if isfile(compare_product):
                     compare_products.append(basename(compare_product))
             import numpy as np
+
             if np.any([comp == product_basenames[0] for comp in compare_products]):
                 comp_found = True
         if not comp_found:
