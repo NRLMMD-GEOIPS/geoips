@@ -152,7 +152,7 @@ jobs:
           path: geoips_dev_utils
           sparse-checkout: |
             tests/utils
-      - name: Run code check script pytest:
+      - name: Run code check script pytest
         run: |
           pytest -v geoips/xarray_utils/test_dtree.py
       
