@@ -42,8 +42,6 @@ Pypi.
 
     .github/workflows/package-and-publish.yaml
 
-
-
 Release Updates
 ===============
 
@@ -62,7 +60,7 @@ Add windows installation instructions
 
 ::
 
-  new: docs/source/starter/installation_windows. rst
+  new: docs/source/starter/windows_installation.rst
   modified: README.md
 
 Code Checks
