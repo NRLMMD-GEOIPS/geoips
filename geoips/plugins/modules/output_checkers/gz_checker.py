@@ -97,7 +97,7 @@ def correct_type(fname):
     return False
 
 
-def call(self, compare_path, output_products, test_product_func=None):
+def call(plugin, compare_path, output_products, test_product_func=None):
     """Compare the "correct" gzs found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
@@ -105,6 +105,8 @@ def call(self, compare_path, output_products, test_product_func=None):
 
     Parameters
     ----------
+    plugin: OutputCheckerPlugin
+        The corresponding gz OutputCheckerPlugin that has access to needed methods
     compare_path : str
         Path to directory of "correct" products - filenames must match output_products
     output_products : list of str
@@ -128,5 +130,5 @@ def call(self, compare_path, output_products, test_product_func=None):
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = self.compare_outputs(compare_path, output_products, test_product_func)
+    retval = plugin.compare_outputs(compare_path, output_products, test_product_func)
     return retval

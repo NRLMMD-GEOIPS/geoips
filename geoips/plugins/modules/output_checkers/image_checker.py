@@ -40,11 +40,13 @@ def correct_type(fname):
     return False
 
 
-def outputs_match(self, output_product, compare_product, fuzz="5%"):
+def outputs_match(plugin, output_product, compare_product, fuzz="5%"):
     """Use PIL and numpy to compare two images.
 
     Parameters
     ----------
+    plugin: OutputCheckerPlugin
+        The corresponding geotiff OutputCheckerPlugin that has access to needed methods
     output_product : str
         Current output product
     compare_product : str
@@ -59,7 +61,7 @@ def outputs_match(self, output_product, compare_product, fuzz="5%"):
     bool
         Return True if images match, False if they differ
     """
-    exact_out_diffimg = self.get_out_diff_fname(
+    exact_out_diffimg = plugin.get_out_diff_fname(
         compare_product, output_product, flag="exact_"
     )
     from PIL import Image
@@ -132,7 +134,7 @@ def outputs_match(self, output_product, compare_product, fuzz="5%"):
     return True
 
 
-def call(self, compare_path, output_products, test_product_func=None):
+def call(plugin, compare_path, output_products, test_product_func=None):
     """Compare the "correct" imagery found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
@@ -140,6 +142,8 @@ def call(self, compare_path, output_products, test_product_func=None):
 
     Parameters
     ----------
+    plugin: OutputCheckerPlugin
+        The corresponding image OutputCheckerPlugin that has access to needed methods
     compare_path : str
         Path to directory of "correct" products - filenames must match output_products
     output_products : list of str
@@ -163,5 +167,5 @@ def call(self, compare_path, output_products, test_product_func=None):
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = self.compare_outputs(compare_path, output_products, test_product_func)
+    retval = plugin.compare_outputs(compare_path, output_products, test_product_func)
     return retval

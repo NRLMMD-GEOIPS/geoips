@@ -182,14 +182,25 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         )
 
         product_basenames = [basename(yy) for yy in final_output_products]
-        suffix = "." + final_output_products[0].split(".")[-1]
-        for compare_product in glob(compare_path + "/*"):
-            if (
-                isfile(compare_product)
-                and basename(compare_product) not in product_basenames
-                and suffix == compare_product[-(len(suffix))]
-            ):
-                missingproducts += [compare_product]
+        compare_products = []
+        comp_found = False
+        if len(product_basenames) == 1:
+            # this is needed for comparisons of a single product. The code chuck where
+            # 'not comp_found' expects a list (len > 1) of product_basenames,
+            # whereas the code below assumes only one match is needed
+            for compare_product in glob(compare_path + "/*"):
+                if (isfile(compare_product)):
+                    compare_products.append(basename(compare_product))
+            import numpy as np
+            if np.any([comp == product_basenames[0] for comp in compare_products]):
+                comp_found = True
+        if not comp_found:
+            for compare_product in glob(compare_path + "/*"):
+                if (
+                    isfile(compare_product)
+                    and basename(compare_product) not in product_basenames
+                ):
+                    missingproducts += [compare_product]
 
         from os import makedirs, getenv
 
@@ -407,8 +418,6 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             comparison test defined.
         """
         matched_one = False
-        # checker_name = self.identify_checker(output_product)
-        # output_checker = self.get_plugin(checker_name)
         if self.name == "image_checker":
             matched_one = True
             compare_strings += ["IMAGE "]
