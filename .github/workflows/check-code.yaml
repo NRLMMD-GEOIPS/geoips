@@ -151,14 +151,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Checkout geoips main branch
         uses: actions/checkout@v3
-        with:
-          repository: NRLMMD-GEOIPS/geoips
-          ref: main
-          token: ${{ secrets.GEOIPS_TOKEN }}
-          path: geoips_dev_utils
-          sparse-checkout: |
-            tests/utils
       - name: Run code check script pytest
         run: |
-          pytest -v geoips/xarray_utils/test_dtree.py
+          pytest -v geoips/tests/test_pytest
       
