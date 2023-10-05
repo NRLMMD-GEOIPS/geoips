@@ -14,6 +14,8 @@ Version 1.11.5 (2023-10-02)
 ***************************
 
 * Call check_code.sh script directly from actions
+* Update internal update_this_release_note to v1_11_6.rst
+* Update github.com update_this_release_note to v1_11_7a0.rst
 
 Bug fixes
 =========
@@ -46,14 +48,16 @@ Add 1.11.5 release note
     new file: docs/source/releases/v1_11_5.rst
     modified: docs/source/releases/index.rst
 
-Update 'update_this_release_note' to v1_11_6.rst
----------------------------------------------------------
+Update internal and github.com 'update_this_release_note'
+-----------------------------------------------------------
 
 *From issue GEOIPS#368: 2023-10-02, update 'update_this_release_note'*
 
 Updated 'update_this_release_note' file in geoips repo for the
 next internal version:
 docs/source/releases/v1_11_6.rst
+next github.com version:
+docs/source/releases/v1_11_7a0.rst
 
 ::
 
