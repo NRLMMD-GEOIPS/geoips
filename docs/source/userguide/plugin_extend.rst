@@ -14,6 +14,8 @@
 
 .. _plugin-extend:
 
+.. _plugin-extend:
+
 **************************
 Extend GeoIPS with Plugins
 **************************
