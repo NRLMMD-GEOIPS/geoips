@@ -15,29 +15,8 @@ Version 1.11.5a0 (2023-09-27)
 
 * Add workflow to build sdist and wheel and push to pypi
 * Update "update_this_release_note" to v1_11_5a0.rst
-* Add Links Throughout GeoIPS Documentation
 * Remove flake8_docstring_only option from check_code.sh workflow call
 * Fix Errors from Flake8 Linting
-
-Documentation
-=============
-
-Add Links Throughout GeoIPS Documentation
------------------------------------------
-
-*From issue GEOIPS#322: 2023-09-14, Add Links Throught GeoIPS Sphinx Documentation*
-
-The GeoIPS html documentation needed updating; it lacked appropriate links throughout
-some of its pages, and this section makes those updates accordingly.
-
-Files Modified:
-
-::
-
-    docs/source/starter/expert_installation.rst
-    docs/source/starter/extending.rst
-    docs/source/starter/installation.rst
-    docs/source/userguide/plugin_extend.rst
 
 Git Workflow Updates
 ====================

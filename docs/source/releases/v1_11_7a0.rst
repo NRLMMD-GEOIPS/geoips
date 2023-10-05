@@ -14,9 +14,29 @@ Version 1.11.7a0 (2023-10-05)
 *****************************
 
 * Added documentation for windows installation
+* Add Links Throughout GeoIPS Documentation
 
 Documentation Updates
 =====================
+
+Add Links Throughout GeoIPS Documentation
+-----------------------------------------
+
+*From issue GEOIPS#322: 2023-09-14, Add Links Throught GeoIPS Sphinx Documentation*
+
+The GeoIPS html documentation needed updating; it lacked appropriate links throughout
+some of its pages, and this section makes those updates accordingly.
+
+Files Modified:
+
+::
+
+    docs/source/starter/expert_installation.rst
+    docs/source/starter/windows_installation.rst
+    docs/source/starter/extending.rst
+    docs/source/starter/installation.rst
+    docs/source/userguide/plugin_extend.rst
+
 
 Add windows installation instructions
 -------------------------------------
