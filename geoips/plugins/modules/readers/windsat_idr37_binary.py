@@ -115,9 +115,10 @@ from datetime import datetime
 
 # Installed Libraries
 import numpy as np
-import pandas as pd
 
-log = logging.getLogger(__name__)
+# import pandas as pd
+
+LOG = logging.getLogger(__name__)
 
 dataset_info = {
     "WINDSAT_SDR_FWD": {
@@ -149,6 +150,10 @@ gvar_info = {
 interface = "readers"
 family = "standard"
 name = "windsat_idr37_binary"
+
+# NOTE: Anytime you see a # NOQA comment, this is for flake8 formatting. Unused
+# variables are needed in this for moving through the binary file correctly. There is
+# fmt: off and fmt: on comments, which prevent black from moving the # NOQA comments.
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -210,10 +215,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         (int(time_s_year) % 4 == 0) and (int(time_s_year) % 100 != 0)
     ):
         year_leap = "true"
-        print("%d is a Leap Year" % int(time_s_year))
+        LOG.info("%d is a Leap Year" % int(time_s_year))
     else:
         year_leap = "false"
-        print("%d is Not the Leap Year" % int(time_s_year))
+        LOG.info("%d is Not the Leap Year" % int(time_s_year))
 
     if int(time_e_hhmm) < int(time_s_hhmm):
         time_e_day = int(time_s_day) + 1
@@ -280,17 +285,18 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     try:
         good_datafile = filesize_info % len_OneRec
         if good_datafile == 0:
-            print("This is a good windsat idr37 data file")
+            LOG.info("This is a good windsat idr37 data file")
         else:
-            print("This is not a good windsat idr37 data file:  skipping ....")
+            LOG.info("This is not a good windsat idr37 data file:  skipping ....")
             return
     except Exception as resp:
-        log.info(
+        LOG.info(
             "\tBLANKET EXCEPTION %s: %s >> %s : %s",
             type(resp).__name__,
             str(resp.__doc__),
             str(resp.args),
-            "windsat idr37 data does not have even number of data records !! Skipping...",
+            "windsat idr37 data does not have even number of data records !! "
+            "Skipping...",
         )
         return {"METADATA": xarray_obj}
 
@@ -300,12 +306,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         windsat_read = np.ma.zeros(rec_tot)  # initialization of zeros
         np.ma.masked_all_like(windsat_read)
     except Exception as resp:
-        log.info(
+        LOG.info(
             "\tBLANKET EXCEPTION %s: %s >> %s : %s",
             type(resp).__name__,
             str(resp.__doc__),
             str(resp.args),
-            "windsat idr37 data does not have even number of data records !! Skipping...",
+            "windsat idr37 data does not have even number of data records !! "
+            "Skipping...",
         )
         return {"METADATA": xarray_obj}
 
@@ -334,18 +341,19 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # read in the windsat edr products for all data  points
     for ii in range(rec_tot):  # loop records of this file
         if ii % 10000 == 0:
-            log.info("Running record number %s of %s", ii, rec_tot)
+            LOG.info("Running record number %s of %s", ii, rec_tot)
         try:
             # read in variables using their size (bytes)
             jd2000 = np.frombuffer(f1.read(8), dtype=np.dtype("float64")).byteswap()[
                 0
             ]  # sec since 1200Z,01/01/2000
             # get time info for each data point
-            timeinfo = pd.datetime(2000, 1, 1, 12) + pd.Timedelta(jd2000, unit="s")
-            time_date = int(
-                str(timeinfo.year) + str(timeinfo.month) + str(timeinfo.day)
-            )
-            time_hhmm = int(str(timeinfo.hour) + str(timeinfo.minute))
+            # fmt: off
+            # timeinfo = pd.datetime(2000, 1, 1, 12) + pd.Timedelta(jd2000, unit="s")
+            # time_date = int(
+            #     str(timeinfo.year) + str(timeinfo.month) + str(timeinfo.day)
+            # )
+            # time_hhmm = int(str(timeinfo.hour) + str(timeinfo.minute))
             tb37v, tb37h, tb37info1, tb37info2 = np.frombuffer(
                 f1.read(16), dtype=np.dtype("float32")
             ).byteswap()  # K (37v,37h,info1,info2)
@@ -358,34 +366,51 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             # if lon > 180.0:          # windbarbs needs lon in (-180,180)
             #   lon=lon-360
 
-            eia = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
+            eia = np.frombuffer(  # NOQA
+                f1.read(4), dtype=np.dtype("float32")
+            ).byteswap()[
                 0
             ]  # unit in radiance =~53 deg
-            pra = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[0]
-            caa = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[0]
-            slat = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
+            pra = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[  # NOQA
+                0
+            ]
+            caa = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[  # NOQA
+                0
+            ]
+            slat = np.frombuffer(  # NOQA
+                f1.read(4), dtype=np.dtype("float32")
+            ).byteswap()[
                 0
             ]  # deg
-            slon = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
+            slon = np.frombuffer(  # NOQA
+                f1.read(4), dtype=np.dtype("float32")
+            ).byteswap()[
                 0
             ]  # deg
-            salt = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
+            salt = np.frombuffer(  # NOQA
+                f1.read(4), dtype=np.dtype("float32")
+            ).byteswap()[
                 0
             ]  # meter
             errflag = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()[
                 0
             ]  # deg
-            scanNum = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()[0]
-            downcountNum = np.frombuffer(
+            scanNum = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()[  # NOQA
+                0
+            ]
+            downcountNum = np.frombuffer(  # NOQA
                 f1.read(2), dtype=np.dtype("int16")
             ).byteswap()[0]
             surfaceType = np.frombuffer(f1.read(2), dtype=np.dtype("int16")).byteswap()[
                 0
             ]
-            spare = np.frombuffer(f1.read(4), dtype=np.dtype("float32")).byteswap()[
+            spare = np.frombuffer(  # NOQA
+                f1.read(4), dtype=np.dtype("float32")
+            ).byteswap()[
                 0
             ]  # spare var for space holder
 
+            # fmt: on
             # decode errflag to assign value to approperated variables, i.e.,
             # forward/aft mode, ascending/descending etc
             fore_aft_scan = (
@@ -424,7 +449,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 k2 += 1
 
         except Exception as resp:
-            log.info(
+            LOG.info(
                 "\tBLANKET EXCEPTION %s: %s >> %s : %s",
                 type(resp).__name__,
                 str(resp.__doc__),

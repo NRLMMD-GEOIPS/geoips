@@ -1,0 +1,36 @@
+aid_type: BEST
+bounding_box:
+  image_height: 1400
+  image_width: 1400
+  maxlat: 25.99502596032627
+  maxlon: -47.40497403967373
+  minlat: 13.404974039673728
+  minlon: -59.99502596032628
+  pixel_height_m: 1000.0
+  pixel_width_m: 1000.0
+  proj4_string: +proj=eqc +lat_ts=0 +lat_0=19.7 +lon_0=-53.7 +x_0=0 +y_0=0 +R=6371228
+    +units=m +no_defs +type=crs
+clat: 19.7
+clon: -53.7
+deck_line: AL, 20, 2020091718,   , BEST,   0, 197N,  537W, 115,  948, HU,  34, NEQ,  200,  150,   90,  180,
+  1009,  200,  20, 135,   0,   L,   0,    ,   0,   0,      TEDDY, D, 12, NEQ,  330,  330,  300,  360,
+  genesis-num, 039,
+final_storm_name: TEDDY
+invest_number: 95
+parser_name: bdeck_parser
+pressure: 948.0
+product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2020/AL/AL202020/png_clean/89pct/GPM/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png
+sector_type: tc
+source_file_names:
+- 1B.GPM.GMI.TB2016.20200917-S171519-E172017.V05A.RT-H5
+- 1B.GPM.GMI.TB2016.20200917-S172019-E172517.V05A.RT-H5
+- 1B.GPM.GMI.TB2016.20200917-S172519-E173017.V05A.RT-H5
+source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal202020.dat
+source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal202020.dat
+storm_basin: AL
+storm_name: TEDDY
+storm_num: 20
+storm_start_datetime: 2020-09-10 06:00:00
+storm_year: 2020
+synoptic_time: 2020-09-17 18:00:00
+vmax: 115.0

@@ -13,7 +13,7 @@
 """Processing workflow for single data source processing."""
 
 from os import getenv
-from os.path import basename
+from os.path import basename, exists
 import logging
 from datetime import timedelta
 import inspect
@@ -26,6 +26,7 @@ from geoips.geoips_utils import copy_standard_metadata, output_process_times
 from geoips.utils.memusg import print_mem_usage
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.sector_utils.utils import filter_area_defs_actual_time, is_dynamic_sector
+from geoips.geoips_utils import replace_geoips_paths
 
 # Old interfaces (YAML, not updated to classes yet!)
 from geoips.dev.product import (
@@ -348,13 +349,15 @@ def process_xarray_dict_to_output_format(
 def print_area_def(area_def, print_str):
     """Print area def."""
     LOG.info(
-        f"\n\n************************************************************************************"
+        "\n\n*************************************************************************"
+        "***********"
         f"\n***{print_str}\n{area_def}"
     )
     for key, value in area_def.sector_info.items():
-        print(f"{key}: {value}")
-    print(
-        f"************************************************************************************"
+        LOG.info(f"{key}: {value}")
+    LOG.info(
+        "*****************************************************************************"
+        "*******"
     )
 
 
@@ -367,8 +370,8 @@ def pad_area_definition(
     # Always pad TC sectors, and if "force_pad=True" is passed into the function
     if is_sector_type(area_def, "tc") or force_pad:
         LOG.info("Trying area_def %s, %s", area_def.name, area_def.sector_info)
-        # Get an extra 50% size for TCs so we can handle recentering and not have missing data.
-        # --larger area for possibly moved center for vis/ir backgrounds
+        # Get an extra 50% size for TCs so we can handle recentering and not have
+        # missing data. --larger area for possibly moved center for vis/ir backgrounds
         # Default to 1.5x padding
         num_lines = int(area_def.y_size * y_scale_factor)
         num_samples = int(area_def.x_size * x_scale_factor)
@@ -442,9 +445,18 @@ def get_filename(
             prod_plugin,
             covg_field="filename_coverage_checker",
         )
+        # Set variable_name to prod_plugin.name if not defined.
+        # Always use variable_name if it is defined.
+        covg_varname = covg_args.pop("variable_name", prod_plugin.name)
+        # Note variables can be specified as DATASET:VARIABLE, since this is a
+        # preprocessed alg_xarray, and not a dictionary of datasets, just use the
+        # variable name (we expect the correct variable will exist in this final
+        # processed array)
+        if ":" in covg_varname:
+            covg_varname = covg_varname.split(":")[1]
         covg = covg_plugin(
             alg_xarray,
-            covg_args.pop("varname", prod_plugin.name),
+            covg_varname,
             area_def,
             **covg_args,
         )
@@ -491,6 +503,11 @@ def plot_data(
     output_kwargs["output_dict"] = output_dict
     output_formatter = get_output_formatter(output_dict)
     output_plugin = output_formatters.get_plugin(output_formatter)
+    LOG.interactive(
+        "Producing product '%s' final outputs as type '%s'...",
+        prod_plugin.name,
+        output_plugin.name,
+    )
 
     if no_output or output_plugin.family in OUTPUT_FAMILIES_WITH_NO_OUTFNAMES_ARG:
         output_fnames = {}
@@ -502,6 +519,11 @@ def plot_data(
         )
 
     if output_plugin.family == "xarray_data":
+        LOG.interactive(
+            "  Producing '%s' family final outputs '%s'...",
+            output_plugin.family,
+            output_plugin.name,
+        )
         output_products = output_plugin(
             xarray_obj=alg_xarray,
             product_names=[prod_plugin.name, "latitude", "longitude"],
@@ -523,6 +545,11 @@ def plot_data(
         display_name = prod_plugin["spec"].get("display_name", prod_plugin.name)
         if output_plugin.family == "image":
             # This returns None if not specified
+            LOG.interactive(
+                "  Producing '%s' family final outputs '%s'...",
+                output_plugin.family,
+                output_plugin.name,
+            )
             output_products = output_plugin(
                 area_def,
                 xarray_obj=alg_xarray,
@@ -536,6 +563,11 @@ def plot_data(
                 raise ValueError("Did not produce expected products")
         elif output_plugin.family == "unprojected":
             # This returns None if not specified
+            LOG.interactive(
+                "  Producing '%s' family final outputs '%s'...",
+                output_plugin.family,
+                output_plugin.name,
+            )
             output_products = output_plugin(
                 xarray_obj=alg_xarray,
                 product_name=prod_plugin.name,
@@ -549,6 +581,11 @@ def plot_data(
         elif output_plugin.family == "image_overlay":
             # This can include background information, feature/gridline annotations,
             # information, etc
+            LOG.interactive(
+                "  Producing '%s' family final outputs '%s'...",
+                output_plugin.family,
+                output_plugin.name,
+            )
             output_products = output_plugin(
                 area_def,
                 xarray_obj=alg_xarray,
@@ -565,6 +602,11 @@ def plot_data(
             output_kwargs["product_name_title"] = (display_name,)
             output_kwargs["mpl_colors_info"] = mpl_colors_info
             output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
+            LOG.interactive(
+                "  Producing '%s' family final outputs '%s'...",
+                output_plugin.family,
+                output_plugin.name,
+            )
             output_products = output_plugin(
                 xarray_dict=fused_xarray_dict,
                 area_def=area_def,
@@ -579,6 +621,11 @@ def plot_data(
             output_kwargs["product_name_title"] = (display_name,)
             output_kwargs["mpl_colors_info"] = mpl_colors_info
             output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
+            LOG.interactive(
+                "  Producing '%s' family final outputs '%s'...",
+                output_plugin.family,
+                output_plugin.name,
+            )
             output_products = output_plugin(
                 xarray_dict=fused_xarray_dict,
                 area_def=area_def,
@@ -790,8 +837,38 @@ def get_alg_xarray(
     resector=True,
     resampled_read=False,
     variable_names=None,
+    window_start_time=None,
+    window_end_time=None,
 ):
-    """Get alg xarray."""
+    """Get alg xarray.
+
+    Parameters
+    ----------
+    sect_xarrays: dict of xarray.Dataset
+        dictionary of xarray Datasets to apply algorithm.
+    area_def: pyresample.AreaDefinition
+        Spatial region required in the final xarray Datasets.
+    prod_plugin: ProductPlugin
+        GeoIPS Product Plugin obtained through interfaces.products.get_plugin("name").
+    resector: bool, default=True
+        Specify whether to resector the data prior to applying the algorithm.
+    resampled_read: bool, default=False
+        Specify whether a resampled read is required, needed for datatypes that
+        will be read within "get_alg_xarray"
+    variable_names: list of str
+        List of variable names within xarray Datasets to include in the final
+        sectored xarray Datasets
+    window_start_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+    window_end_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+
+    Returns
+    -------
+    xarray.Dataset
+        xarray Dataset containing the final data after interpolation, algorithm,
+        resectoring, etc have been applied.
+    """
     if not variable_names:
         # original input variables from sensor.py (i.e., abi.py)
         variables = get_required_variables(prod_plugin)
@@ -801,6 +878,7 @@ def get_alg_xarray(
         # sectored xarray.
         variables = variable_names
 
+    LOG.interactive("Applying algorithms and interpolation...")
     datasets_for_vars = get_requested_datasets_for_variables(prod_plugin)
 
     # Only attempt to set algorithm function if algorithm requested in product type
@@ -826,6 +904,7 @@ def get_alg_xarray(
     # area_def here.
     # Allow specifying whether it needs to be resectored or not via kwargs.
     if resector:
+        LOG.interactive("Resectoring xarrays without padding...")
         curr_sect_xarrays = sector_xarrays(
             sect_xarrays,
             area_def,
@@ -833,6 +912,8 @@ def get_alg_xarray(
             hours_before_sector_time=6,
             hours_after_sector_time=9,
             drop=True,
+            window_start_time=window_start_time,
+            window_end_time=window_end_time,
         )
         # hours_before_sector_time=6, hours_after_sector_time=6, drop=True)
     else:
@@ -857,18 +938,33 @@ def get_alg_xarray(
                 if set(variable_names).issubset(
                     set(sect_xarrays[dsname].variables.keys())
                 ):
+                    LOG.interactive(
+                        "  Applying '%s' family algorithm '%s' to data...",
+                        alg_plugin.family,
+                        alg_plugin.name,
+                    )
                     alg_xarray[prod_plugin.name] = xarray.DataArray(
                         alg_plugin(sect_xarrays[dsname], **alg_args)
                     )
         elif alg_plugin.family in ["xarray_dict_area_def_to_numpy"]:
             # Format the call signature for passing a dictionary of xarrays,
             # plus area_def, and return a single numpy array
+            LOG.interactive(
+                "  Applying '%s' family algorithm '%s' to data...",
+                alg_plugin.family,
+                alg_plugin.name,
+            )
             alg_xarray[prod_plugin.name] = xarray.DataArray(
                 alg_plugin(sect_xarrays, area_def, **alg_args)
             )
         elif alg_plugin.family in ["xarray_dict_to_xarray"]:
             # Format the call signature for passing a dictionary of xarrays,
             # plus area_def, and return a single numpy array
+            LOG.interactive(
+                "  Applying '%s' family algorithm '%s' to data...",
+                alg_plugin.family,
+                alg_plugin.name,
+            )
             alg_xarray = alg_plugin(sect_xarrays, **alg_args)
         elif alg_plugin.family in ["xarray_to_xarray"]:
             input_alg_xarray = None
@@ -897,7 +993,14 @@ def get_alg_xarray(
                     "No required variables in any xarrays for 'xarray_to_xarray' "
                     "algorithm type"
                 )
-            alg_xarray = alg_plugin(input_alg_xarray, **alg_args)
+            LOG.interactive(
+                "  Applying '%s' family algorithm '%s' to data...",
+                alg_plugin.family,
+                alg_plugin.name,
+            )
+            alg_xarray = alg_plugin(
+                input_alg_xarray, variables, prod_plugin.name, **alg_args
+            )
         elif alg_plugin.family in ["list_numpy_to_numpy"]:
             # Need to pull all the required variables out of the various xarray datasets
             # and add them to numpy list.
@@ -909,16 +1012,24 @@ def get_alg_xarray(
                     if varname in list(curr_sect_xarray.variables.keys()):
                         numpys += [curr_sect_xarray[varname].to_masked_array()]
                         alg_xarray = curr_sect_xarray
+            LOG.interactive(
+                "  Applying '%s' family algorithm '%s' to data...",
+                alg_plugin.family,
+                alg_plugin.name,
+            )
             alg_xarray[prod_plugin.name] = xarray.DataArray(
                 alg_plugin(numpys, **alg_args)
             )
 
         # No interpolation required
-        if prod_plugin.family == "algorithm_colormapper":
+        if prod_plugin.family in ["algorithm", "algorithm_colormapper"]:
             final_xarray = alg_xarray
         # If required, interpolate the result prior to returning
         elif prod_plugin.family == "algorithm_interpolator_colormapper":
             interp_args["varlist"] = [prod_plugin.name]
+            LOG.interactive(
+                "  Interpolating data with interpolator '%s'...", interp_plugin.name
+            )
             final_xarray = interp_plugin(
                 area_def, alg_xarray, alg_xarray, **interp_args
             )
@@ -1013,17 +1124,20 @@ def get_alg_xarray(
 
             # apply the requested interpolation routine.
             interp_args["varlist"] = [varname]
-            if "time" in sect_xarray.dims:
+            if "time_dim" in sect_xarray.dims:
                 # This is for a particularly formatted dataset, that includes
                 # separate arrays for different times (ABI fire product).
                 # We need to be careful this does not break for some other
                 # dataset that includes a differently formatted "time"
                 # dimension.
-                tdims = len(sect_xarray.time)
+                tdims = len(sect_xarray.time_dim)
+                LOG.interactive(
+                    "  Interpolating data with interpolator '%s'...", interp_plugin.name
+                )
                 interp_list = [
                     interp_plugin(
                         area_def,
-                        sect_xarray.isel(time=i),
+                        sect_xarray.isel(time_dim=i),
                         xarray.Dataset(),
                         **interp_args,
                     )
@@ -1033,6 +1147,9 @@ def get_alg_xarray(
                     varname
                 ]
             else:
+                LOG.interactive(
+                    "  Interpolating data with interpolator '%s'...", interp_plugin.name
+                )
                 interp_xarray = interp_plugin(
                     area_def, sect_xarray, interp_xarray, **interp_args
                 )
@@ -1056,6 +1173,11 @@ def get_alg_xarray(
     elif alg_plugin.family in ["xarray_to_numpy"]:
         # xarray_to_numpy will return a single array, which can be set to the
         # "product_name" variable.
+        LOG.interactive(
+            "  Applying '%s' family algorithm '%s' to data...",
+            alg_plugin.family,
+            alg_plugin.name,
+        )
         interp_xarray[prod_plugin.name] = xarray.DataArray(
             alg_plugin(interp_xarray, **alg_args)
         )
@@ -1066,7 +1188,14 @@ def get_alg_xarray(
         # "alt_varname_for_covg" kwarg in the coverage checks - if we want to
         # just use a specific variable for the coverage checks rather than the
         # "product_name" variable.
-        interp_xarray = alg_plugin(interp_xarray, **alg_args)
+        LOG.interactive(
+            "  Applying '%s' family algorithm '%s' to data...",
+            alg_plugin.family,
+            alg_plugin.name,
+        )
+        interp_xarray = alg_plugin(
+            interp_xarray, variables, prod_plugin.name, **alg_args
+        )
     elif alg_plugin.family in [
         "single_channel",
         "channel_combination",
@@ -1076,6 +1205,11 @@ def get_alg_xarray(
         # Assume ANYTHING else takes in a list of numpy arrays, and returns a
         # single numpy array.
         # Perhaps we should be explicit here...
+        LOG.interactive(
+            "  Applying '%s' family algorithm '%s' to data...",
+            alg_plugin.family,
+            alg_plugin.name,
+        )
         interp_xarray[prod_plugin.name] = xarray.DataArray(
             alg_plugin(
                 [interp_xarray[varname].to_masked_array() for varname in variables],
@@ -1210,6 +1344,8 @@ def call(fnames, command_line_args=None):
         "reader_defined_area_def",
         "self_register_source",
         "self_register_dataset",
+        "window_start_time",
+        "window_end_time",
         "sectored_read",
         "resampled_read",
         "product_db",
@@ -1217,11 +1353,30 @@ def call(fnames, command_line_args=None):
 
     check_command_line_args(check_args, command_line_args)
 
+    if not fnames:
+        raise IOError(
+            "No files found on disk. "
+            "Please include valid files either at the command line, "
+            "or within the YAML config"
+        )
+    for fname in fnames:
+        if not exists(fname):
+            raise IOError(
+                f"File '{fname}' not found. "
+                "Please include valid files either at the command line, "
+                "or within the YAML config"
+            )
+
+    window_start_time = command_line_args.get("window_start_time")
+    window_end_time = command_line_args.get("window_end_time")
     product_name = command_line_args["product_name"]  # 89HNearest
     output_formatter = command_line_args[
         "output_formatter"
     ]  # output_formatters.imagery_annotated
     reader_name = command_line_args["reader_name"]  # ssmis_binary
+    reader_kwargs = command_line_args.get("reader_kwargs")
+    if not reader_kwargs:
+        reader_kwargs = {}
     compare_path = command_line_args["compare_path"]
     output_file_list_fname = command_line_args["output_file_list_fname"]
     compare_outputs_module = command_line_args["compare_outputs_module"]
@@ -1234,6 +1389,7 @@ def call(fnames, command_line_args=None):
     resampled_read = command_line_args["resampled_read"]
     product_db = command_line_args["product_db"]
     product_db_writer = command_line_args["product_db_writer"]
+    presector_data = not command_line_args["no_presectoring"]
 
     if product_db:
         from geoips_db.dev.postgres_database import get_db_writer
@@ -1248,7 +1404,10 @@ def call(fnames, command_line_args=None):
     print_mem_usage("MEMUSG", verbose=False)
 
     num_jobs = 0
-    xobjs = reader_plugin(fnames, metadata_only=True)
+    LOG.interactive(
+        "Reading metadata from dataset with reader '%s'...", reader_plugin.name
+    )
+    xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
     source_name = xobjs["METADATA"].source_name
     print_mem_usage("MEMUSG", verbose=False)
 
@@ -1263,7 +1422,15 @@ def call(fnames, command_line_args=None):
     if (not sectored_read and not resampled_read) and (
         reader_defined_area_def or (self_register_source and self_register_dataset)
     ):
-        xobjs = reader_plugin(fnames, metadata_only=False, chans=variables)
+        LOG.interactive(
+            "Reading full dataset "
+            "for self registered products "
+            "with reader '%s'...",
+            reader_plugin.name,
+        )
+        xobjs = reader_plugin(
+            fnames, metadata_only=False, chans=variables, **reader_kwargs
+        )
 
     # Use the xarray objects and command line args to determine required area_defs
     print_mem_usage("MEMUSG", verbose=False)
@@ -1280,19 +1447,32 @@ def call(fnames, command_line_args=None):
         and not resampled_read
     ):
         print_mem_usage("MEMUSG", verbose=False)
-        xobjs = reader_plugin(fnames, metadata_only=False, chans=variables)
+        LOG.interactive(
+            "Reading full dataset " "with reader '%s'...", reader_plugin.name
+        )
+        xobjs = reader_plugin(
+            fnames, metadata_only=False, chans=variables, **reader_kwargs
+        )
 
     print_mem_usage("MEMUSG", verbose=False)
     # If we have a product of type "unsectored_xarray_dict_to_output_format"
     # process it here
     # This will not have any required area_defs
     if prod_plugin.family == "unsectored_xarray_dict_to_output_format":
-        xdict = reader_plugin(fnames, metadata_only=False)
+        LOG.interactive(
+            "Reading full dataset " "for unsectored products " "with reader '%s'...",
+            reader_plugin.name,
+        )
+        xdict = reader_plugin(fnames, metadata_only=False, **reader_kwargs)
         final_products += process_xarray_dict_to_output_format(
             xdict, variables, prod_plugin, command_line_args
         )
     elif prod_plugin.family == "unsectored_xarray_dict_area_to_output_format":
-        xdict = reader_plugin(fnames, metadata_only=False)
+        LOG.interactive(
+            "Reading full dataset " "for unsectored products " "with reader '%s'...",
+            reader_plugin.name,
+        )
+        xdict = reader_plugin(fnames, metadata_only=False, **reader_kwargs)
 
     print_mem_usage("MEMUSG", verbose=False)
 
@@ -1300,6 +1480,9 @@ def call(fnames, command_line_args=None):
     # setup for TC products
     for area_def in area_defs:
         if prod_plugin.family == "unsectored_xarray_dict_area_to_output_format":
+            LOG.interactive(
+                "Producing outputs for unsectored product '%s'...", prod_plugin.name
+            )
             final_products += process_xarray_dict_to_output_format(
                 xdict, variables, prod_plugin, command_line_args, area_def
             )
@@ -1312,8 +1495,18 @@ def call(fnames, command_line_args=None):
         # "sectored_read" or "resampled_read"
         if sectored_read or resampled_read:
             try:
+                LOG.interactive(
+                    "Reading sectored dataset "
+                    "for self registered products "
+                    "with reader '%s'...",
+                    reader_plugin.name,
+                )
                 xobjs = reader_plugin(
-                    fnames, metadata_only=False, chans=variables, area_def=pad_area_def
+                    fnames,
+                    metadata_only=False,
+                    chans=variables,
+                    area_def=pad_area_def,
+                    **reader_kwargs,
                 )
             # geostationary satellites fail with IndexError when the area_def
             # does not intersect the data.  Just skip those.  We need a better
@@ -1325,24 +1518,35 @@ def call(fnames, command_line_args=None):
 
         process_datetimes[area_def.area_id] = {}
         process_datetimes[area_def.area_id]["start"] = datetime.utcnow()
-        # add satellite_azimuth_angle and solar_azimuth_angle into list of the variables for ABI only
-        # (come from ABI reader)
+        # add satellite_azimuth_angle and solar_azimuth_angle into list of the variables
+        # for ABI only (come from ABI reader)
         if area_def.sector_type in ["reader_defined", "self_register"]:
-            LOG.info("CONTINUE Not sectoring sector_type %s", area_def.sector_type)
+            LOG.interactive(
+                "CONTINUE Not sectoring sector_type %s", area_def.sector_type
+            )
             pad_sect_xarrays = xobjs
         else:
-            pad_sect_xarrays = sector_xarrays(
-                xobjs,
-                pad_area_def,
-                varlist=variables,
-                hours_before_sector_time=6,
-                hours_after_sector_time=9,
-                drop=True,
-            )
+            if presector_data:
+                LOG.interactive("Sectoring xarrays...")
+                # Note window start/end time overrides hours before/after sector time
+                pad_sect_xarrays = sector_xarrays(
+                    xobjs,
+                    pad_area_def,
+                    varlist=variables,
+                    hours_before_sector_time=6,
+                    hours_after_sector_time=9,
+                    drop=True,
+                    window_start_time=window_start_time,
+                    window_end_time=window_end_time,
+                )
+            else:
+                pad_sect_xarrays = xobjs
 
         print_mem_usage("MEMUSG", verbose=False)
         if len(pad_sect_xarrays.keys()) == 0:
-            LOG.info("SKIPPING no sectored xarrays returned for %s", area_def.name)
+            LOG.interactive(
+                "SKIPPING no sectored xarrays returned for %s", area_def.name
+            )
             continue
 
         # Now we check to see if the current area_def is the closest one to
@@ -1362,6 +1566,7 @@ def call(fnames, command_line_args=None):
             )
             continue
 
+        LOG.interactive("Producing sectored outputs...")
         curr_output_products = process_sectored_data_output(
             pad_sect_xarrays,
             variables,
@@ -1385,23 +1590,32 @@ def call(fnames, command_line_args=None):
             # adjusting the area_def.
             if pad_sect_xarrays["METADATA"].source_name not in ["amsu-b", "mhs"]:
                 if area_def.sector_type in ["reader_defined", "self_register"]:
-                    LOG.info(
+                    LOG.interactive(
                         "CONTINUE Not sectoring sector_type %s", area_def.sector_type
                     )
                     sect_xarrays = pad_sect_xarrays
                 else:
-                    sect_xarrays = sector_xarrays(
-                        pad_sect_xarrays,
-                        area_def,
-                        varlist=variables,
-                        hours_before_sector_time=6,
-                        hours_after_sector_time=9,
-                        drop=True,
-                    )
+                    LOG.interactive("Sectoring padded xarrays...")
+                    if presector_data:
+                        # Note window start/end time overrides hours
+                        # before/after sector time
+                        sect_xarrays = sector_xarrays(
+                            pad_sect_xarrays,
+                            area_def,
+                            varlist=variables,
+                            hours_before_sector_time=6,
+                            hours_after_sector_time=9,
+                            drop=True,
+                            window_start_time=window_start_time,
+                            window_end_time=window_end_time,
+                        )
+                    else:
+                        sect_xarrays = pad_sect_xarrays
                 if (
                     sect_adj_plugin.family
                     == "list_xarray_list_variables_to_area_def_out_fnames"
                 ):
+                    LOG.interactive("Adjusting sectors with %s...", sector_adjuster)
                     area_def, adadj_fnames = sect_adj_plugin(
                         list(sect_xarrays.values()),
                         area_def,
@@ -1409,6 +1623,7 @@ def call(fnames, command_line_args=None):
                         **sector_adjuster_kwargs,
                     )
                 else:
+                    LOG.interactive("Adjusting sectors with %s...", sector_adjuster)
                     area_def = sect_adj_plugin(
                         list(sect_xarrays.values()),
                         area_def,
@@ -1421,6 +1636,7 @@ def call(fnames, command_line_args=None):
                     sect_adj_plugin.family
                     == "list_xarray_list_variables_to_area_def_out_fnames"
                 ):
+                    LOG.interactive("Adjusting sectors with %s...", sector_adjuster)
                     area_def, adadj_fnames = sect_adj_plugin(
                         list(pad_sect_xarrays.values()),
                         area_def,
@@ -1428,6 +1644,7 @@ def call(fnames, command_line_args=None):
                         **sector_adjuster_kwargs,
                     )
                 else:
+                    LOG.interactive("Adjusting sectors with %s...", sector_adjuster)
                     area_def = sect_adj_plugin(
                         list(pad_sect_xarrays.values()),
                         area_def,
@@ -1461,6 +1678,8 @@ def call(fnames, command_line_args=None):
                     prod_plugin,
                     resector=False,
                     resampled_read=resampled_read,
+                    window_start_time=window_start_time,
+                    window_end_time=window_end_time,
                 )
             elif area_def.sector_type in ["reader_defined", "self_register"]:
                 alg_xarray = get_alg_xarray(
@@ -1470,14 +1689,18 @@ def call(fnames, command_line_args=None):
                     resector=False,
                     resampled_read=resampled_read,
                     variable_names=variables,
+                    window_start_time=window_start_time,
+                    window_end_time=window_end_time,
                 )
             else:
                 alg_xarray = get_alg_xarray(
                     pad_sect_xarrays,
                     area_def,
                     prod_plugin,
-                    resector=True,
+                    resector=presector_data,
                     resampled_read=resampled_read,
+                    window_start_time=window_start_time,
+                    window_end_time=window_end_time,
                 )
 
             print_mem_usage("MEMUSG", verbose=False)
@@ -1492,7 +1715,21 @@ def call(fnames, command_line_args=None):
                 prod_plugin,
                 covg_field="image_production_coverage_checker",
             )
-            covg = covg_plugin(alg_xarray, prod_plugin.name, area_def, **covg_args)
+            # Set variable_name to prod_plugin.name if not defined.
+            # Always use variable_name if it is defined.
+            covg_varname = covg_args.pop("variable_name", prod_plugin.name)
+            # Note variables can be specified as DATASET:VARIABLE, since this is a
+            # preprocessed alg_xarray, and not a dictionary of datasets, just use the
+            # variable name (we expect the correct variable will exist in this final
+            # processed array)
+            if ":" in covg_varname:
+                covg_varname = covg_varname.split(":")[1]
+            covg = covg_plugin(
+                alg_xarray,
+                covg_varname,
+                area_def,
+                **covg_args,
+            )
 
             fname_covg_plugin = get_covg_from_product(
                 prod_plugin,
@@ -1502,8 +1739,20 @@ def call(fnames, command_line_args=None):
                 prod_plugin,
                 covg_field="filename_coverage_checker",
             )
+            # Set variable_name to prod_plugin.name if not defined.
+            # Always use variable_name if it is defined.
+            fname_covg_varname = fname_covg_args.pop("variable_name", prod_plugin.name)
+            # Note variables can be specified as DATASET:VARIABLE, since this is a
+            # preprocessed alg_xarray, and not a dictionary of datasets, just use the
+            # variable name (we expect the correct variable will exist in this final
+            # processed array)
+            if ":" in fname_covg_varname:
+                fname_covg_varname = fname_covg_varname.split(":")[1]
             fname_covg = fname_covg_plugin(
-                alg_xarray, prod_plugin.name, area_def, **fname_covg_args
+                alg_xarray,
+                fname_covg_varname,
+                area_def,
+                **fname_covg_args,
             )
 
             for attrname in new_attrs:
@@ -1584,18 +1833,10 @@ def call(fnames, command_line_args=None):
                 area_def.name,
             )
 
-    process_datetimes["overall_end"] = datetime.utcnow()
-
-    LOG.info(
-        "The following products were produced from procflow %s", basename(__file__)
+    LOG.interactive(
+        "\n\n\nProcessing complete! Checking outputs...\n\n",
     )
-    for output_product in final_products:
-        LOG.info("    SINGLESOURCESUCCESS %s", output_product)
-        if output_product in database_writes:
-            LOG.info("    DATABASESUCCESS %s", output_product)
-
-    for removed_product in removed_products:
-        LOG.info("    DELETEDPRODUCT %s", removed_product)
+    process_datetimes["overall_end"] = datetime.utcnow()
 
     if output_file_list_fname:
         LOG.info("Writing successful outputs to %s", output_file_list_fname)
@@ -1608,8 +1849,9 @@ def call(fnames, command_line_args=None):
                     ]
                 )
             )
-            # If we don't write out the last newline, then wc won't return the appropriate number, and we won't get
-            # to the last file when attempting to loop through
+            # If we don't write out the last newline, then wc won't return the
+            # appropriate number, and we won't get to the last file when attempting to
+            # loop through
             fobj.writelines(["\n"])
 
     retval = 0
@@ -1624,10 +1866,24 @@ def call(fnames, command_line_args=None):
             final_products,
         )
 
+    LOG.interactive(
+        "\n\n\nThe following products were produced from procflow %s\n\n",
+        basename(__file__),
+    )
+    for output_product in final_products:
+        LOG.interactive(
+            "    \u001b[34mSINGLESOURCESUCCESS\033[0m %s",
+            replace_geoips_paths(output_product, curly_braces=True),
+        )
+        if output_product in database_writes:
+            LOG.info("    DATABASESUCCESS %s", output_product)
+    for removed_product in removed_products:
+        LOG.interactive("    DELETEDPRODUCT %s", removed_product)
+
     print_mem_usage("MEMUSG", verbose=True)
-    LOG.info("READER_NAME: %s", reader_name)
-    LOG.info("PRODUCT_NAME: %s", product_name)
-    LOG.info("NUM_PRODUCTS: %s", len(final_products))
-    LOG.info("NUM_DELETED_PRODUCTS: %s", len(removed_products))
+    LOG.interactive("READER_NAME: %s", reader_name)
+    LOG.interactive("PRODUCT_NAME: %s", product_name)
+    LOG.interactive("NUM_PRODUCTS: %s", len(final_products))
+    LOG.interactive("NUM_DELETED_PRODUCTS: %s", len(removed_products))
     output_process_times(process_datetimes, num_jobs, job_str="single_source procflow")
     return retval

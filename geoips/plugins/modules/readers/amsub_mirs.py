@@ -168,19 +168,13 @@ Additional info::
 """
 # Python Standard Libraries
 import logging
+
+# library for hdf files
+import h5py
+
 import matplotlib
 
 matplotlib.use("agg")
-import matplotlib.pyplot as plt
-from numpy import datetime64
-
-# library for hdf files
-from pyhdf.SD import SD, SDC
-from pyhdf.HDF import *
-from pyhdf.VS import *
-
-import h5py
-
 
 LOG = logging.getLogger(__name__)
 
@@ -282,13 +276,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
         if data_name != "nc":
-            print("Warning: wrong AMSU-B/MHS data type:  data_type=", data_name)
+            LOG.info("Warning: wrong AMSU-B/MHS data type:  data_type=", data_name)
             raise
 
         if "NPR-MIRS-IMG" in os.path.basename(fname):
-            print("found a NOAA MIRS AMSU-B/MHS file")
+            LOG.info("found a NOAA MIRS AMSU-B/MHS file")
         else:
-            print("not a NOAA MIRS AMSU-B/MHS file: skip it")
+            LOG.info("not a NOAA MIRS AMSU-B/MHS file: skip it")
             raise
 
         """    ------  Notes  ------
@@ -366,13 +360,20 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 time_scan[i:] = "%04d%03d%02d%02d" % (yr, dy, hr, mn)
             except ValueError:
                 LOG.info(
-                    f"Could not parse time for scan line {i}: YEAR={yr}, DOY={dy}, HOUR={hr}, MINUTE={mn}"
+                    "Could not parse time for scan line %s: YEAR=%s, DOY=%s, "
+                    "HOUR=%s, MINUTE=%s",
+                    i,
+                    yr,
+                    dy,
+                    hr,
+                    mn,
                 )
                 continue
         #          ------  setup xarray variables   ------
 
-        # namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT', 'Chan3_AT','Chan4_AT','Chan5_AT',
-        #                  'RR','Snow','IWP','SWE','SFR','Sfc_type','time']
+        # namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT', 'Chan3_AT'
+        #                    ,'Chan4_AT','Chan5_AT', 'RR','Snow','IWP','SWE','SFR',
+        #                    'Sfc_type','time']
 
         xarray_amsub = xr.Dataset()
 
@@ -408,7 +409,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         xarray_amsub.attrs["crtm_name"] = crtm_name
         xarray_amsub.attrs["data_provider"] = "NOAA-nesdis"
 
-        # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
+        # MTIFs need to be "prettier" for PMW products, so 2km resolution for
+        # final image.
         # xarray_amsub.attrs['sample_distance_km'] = 15
         xarray_amsub.attrs["sample_distance_km"] = 2
         xarray_amsub.attrs["interpolation_radius_of_influence"] = 30000

@@ -132,8 +132,9 @@ def read_amsr_winds(wind_xarray):
                 *tuple([xx for xx in scan_time.values])
             )
         ]
-    # Have to set it on the actual xarray so it becomes a xarray format time series (otherwise if you set it
-    # directly to ts, it is a pandas format time series, and expand_dims doesn't exist).
+    # Have to set it on the actual xarray so it becomes a xarray format time series
+    # (otherwise if you set it directly to ts, it is a pandas format time series, and
+    # expand_dims doesn't exist).
     time_array = pandas.to_datetime(
         dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
     ).tolist()
@@ -190,8 +191,8 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
     sub_xarray.attrs["interpolation_radius_of_influence"] = 10000
     for dim in sub_xarray.dims.keys():
         if "low_rez" in dim:
-            # MTIFs need to be "prettier" for PMW products, so 2km resolution for all channels
-            # sub_xarray.attrs['sample_distance_km'] = 7.0
+            # MTIFs need to be "prettier" for PMW products, so 2km resolution for all
+            # channels. sub_xarray.attrs['sample_distance_km'] = 7.0
             sub_xarray.attrs["sample_distance_km"] = 2.0
             sub_xarray.attrs["interpolation_radius_of_influence"] = 20000
 
@@ -215,14 +216,16 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
                     *tuple([xx for xx in scan_time.values])
                 )
             ]
-        # Have to set it on the actual xarray so it becomes a xarray format time series (otherwise if you set it
-        # directly to ts, it is a pandas format time series, and expand_dims
-        # doesn't exist).
+        # Have to set it on the actual xarray so it becomes a xarray format time series
+        # (otherwise if you set it directly to ts, it is a pandas format time series,
+        # and expand_dims doesn't exist).
         curr_time_array = pandas.to_datetime(
             dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
         ).tolist()
         LOG.info("    Setting list of times")
-        tss = [curr_time_array for ii in range(0, sub_xarray[varnames[varname]].shape[1])]
+        tss = [
+            curr_time_array for ii in range(0, sub_xarray[varnames[varname]].shape[1])
+        ]
         LOG.info("    Setting time DataArray")
         sub_xarray["time"] = xarray.DataArray(
             data=numpy.array(tss).transpose(),
@@ -240,12 +243,8 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
         get_max_from_xarray_time,
     )
 
-    sub_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
-        sub_xarray, "time"
-    )
-    sub_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
-        sub_xarray, "time"
-    )
+    sub_xarray.attrs["start_datetime"] = get_min_from_xarray_time(sub_xarray, "time")
+    sub_xarray.attrs["end_datetime"] = get_max_from_xarray_time(sub_xarray, "time")
     return sub_xarray
 
 
@@ -287,7 +286,14 @@ def read_amsr_data(full_xarray, chans):
     return xarrays
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    test_arg="AMSR2 Default Test Arg",
+):
     """
     Read AMSR2 netcdf data products.
 
@@ -324,6 +330,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         for GeoIPS-formatted xarray Datasets.
     """
     import xarray
+
+    LOG.interactive("AMSR2 reader test_arg: %s", test_arg)
 
     ingested = []
     for fname in fnames:

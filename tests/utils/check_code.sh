@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-#!/bin/sh
+#!/bin/bash
 
 echo "$0 $@"
 
@@ -77,9 +77,11 @@ if [[ "$test" == "black" || "$test" == "all" ]]; then
     #       so include / around dirs to make sure we only match the dirs.
     #       Also, do NOT include "*" in the path (since it is just looking for
     #       substrings directly)
-    echo "black --check --extend-exclude _version.py --extend-exclude /lib/ --extend-exclude _docs/ $path"
-    black --check --extend-exclude _version.py --extend-exclude /lib/ --extend-exclude _docs/ $path
+    echo "CALLING TEST:"
+    echo "black --check --extend-exclude _version.py --extend-exclude /lib/ --extend-exclude _docs/ --extend-exclude geoips_dev_utils/ $path"
+    black --check --extend-exclude _version.py --extend-exclude /lib/ --extend-exclude _docs/ --extend-exclude geoips_dev_utils/ $path
     black_retval=$?
+    echo "TEST COMPLETE black"
     retval=$((black_retval+retval))
 fi
 if [[ "$test" == "flake8" || "$test" == "all" ]]; then
@@ -112,33 +114,41 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
         #       So, do not include "/" in the extend-exclude, since it is
         #       not attempting to match the full string path, but each individual
         #       subdirectory or file.
+        echo "CALLING TEST:"
         echo flake8 --max-line-length=88 \
                $select_string \
+               --count \
                --ignore=E203,W503,E712 \
-               --extend-exclude _version.py,lib,*_docs \
+               --extend-exclude _version.py,lib,*_docs,geoips_dev_utils \
                --docstring-convention=numpy \
                --rst-roles=class,func,ref \
                --rst-directives=envvar,exception \
                --rst-substitutions=version \
+               --statistics \
                $path
         flake8 --max-line-length=88 \
                $select_string \
+               --count \
                --ignore=E203,W503,E712 \
-               --extend-exclude _version.py,lib,*_docs \
+               --extend-exclude _version.py,lib,*_docs,geoips_dev_utils \
                --docstring-convention=numpy \
                --rst-roles=class,func,ref \
                --rst-directives=envvar,exception \
                --rst-substitutions=version \
+               --statistics \
                $path
         flake8_retval=$?
+        echo "TEST COMPLETE flake8"
         retval=$((flake8_retval+retval))
     fi
 fi
 if [[ "$test" == "bandit" || "$test" == "all" ]]; then
     echo ""
+    echo "CALLING TEST:"
     echo "bandit -ll -r path"
     bandit -ll -r $path
     bandit_retval=$?
+    echo "TEST COMPLETE bandit"
     retval=$((bandit_retval+retval))
 fi
 if [[ "$test" == "interfaces" || "$test" == "all" ]]; then
@@ -148,9 +158,11 @@ if [[ "$test" == "interfaces" || "$test" == "all" ]]; then
         interfaces_retval="Not tested"
     else
         echo ""
+        echo "CALLING TEST interfaces:"
         echo "test_interfaces"
         test_interfaces
         interfaces_retval=$?
+        echo "TEST COMPLETE interfaces"
         retval=$((interfaces_retval+retval))
     fi
 fi

@@ -20,7 +20,9 @@ plug-and-play capability for user-specified custom functionality.
 Installation
 ------------
 See the
-[installation guide](./docs/source/starter/installation.rst)
+installation guide ([linux](./docs/source/starter/installation.rst),
+[mac](./docs/source/starter/mac_installation.rst),
+[windows](./docs/source/starter/windows_installation.rst))
 within the source code documentation for installation instructions. GeoIPS has a fully supported
 exhaustive installation process, including a full conda environment, as well as a more basic
 pip based installation for "expert" users.
@@ -55,7 +57,7 @@ and other forms of communication.
 
 Slack Channel
 ----------
-For those interested in contributing to GeoIPS, have informal feature requests, or 
+For those interested in contributing to GeoIPS, have informal feature requests, or
 have lingering questions not answered by the documentation, feel free to join our
 [Slack Channel](https://geoips.slack.com/). If you are not permitted to join, email
 geoips@nrlmry.navy.mil to request access.

@@ -15,16 +15,14 @@ spec:
   description: South American Continent
   projection:
     a: 6371228.0
-    lat_0: -21.762500000000003
-    lon_0: -58.57499999999999
-    proj: eqc
+    lat_0: -22.0
+    lon_0: -58.5
+    proj: stere
     units: m
   resolution:
     - 3000
     - 3000
   shape:
-    height: 2551
-    width: 1640
-  area_extent:
-    lower_left_xy: [-2460334, -3827410]
-    upper_right_xy: [2460334, 3827410]
+    height: 2700
+    width: 1900
+  center: [0, 0]

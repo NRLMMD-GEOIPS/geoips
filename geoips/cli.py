@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
 # # #
 # # # Author:
@@ -22,10 +23,12 @@ from argparse import (
 from geoips import dev, interfaces
 from geoips.interfaces.base import BaseInterface
 import warnings
+import logging
 
 # Always actually raise DeprecationWarnings
 # Note this SO answer https://stackoverflow.com/a/20960427
 warnings.simplefilter("always", DeprecationWarning)
+LOG = logging.getLogger(__name__)
 
 __doc__ = """
 GeoIPS
@@ -85,22 +88,22 @@ def print_table(title, headings, rows):
 
     title_case_title = title.replace("_", " ").title()
     title_width = sum(col_widths) + 3 * (len(col_widths) - 1)
-    print("\n" + title_width * "=")
-    print(f"{title_case_title:^{title_width}}")
-    print(title_width * "=")
+    LOG.info("\n" + title_width * "=")
+    LOG.info(f"{title_case_title:^{title_width}}")
+    LOG.info(title_width * "=")
 
     # Create and print the header
     head_str = " | ".join(
         [f"{head:{width}}" for head, width in zip(headings, col_widths)]
     )
-    print(head_str)
-    print(len(head_str) * "-")
+    LOG.info(head_str)
+    LOG.info(len(head_str) * "-")
 
     # Create and print the rows
     for row in rows:
         # print(list(zip(row, col_widths)))
         row_str = " | ".join([f"{val:{width}}" for val, width in zip(row, col_widths)])
-        print(row_str)
+        LOG.info(row_str)
 
 
 def get_interface(name):
@@ -109,15 +112,9 @@ def get_interface(name):
         return getattr(interfaces, name)
     except AttributeError:
         try:
-            return getattr(stable, name)
+            return getattr(dev, name)
         except AttributeError:
-            try:
-                return getattr(dev, name)
-            except AttributeError:
-                raise AttributeError(
-                    f'Interface "{name}" not found in '
-                    "either stable or developmental interface sets"
-                )
+            raise AttributeError(f'Interface "{name}" not found')
 
 
 def add_list_interface_parser(subparsers, name, aliases=None):

@@ -15,16 +15,14 @@ spec:
   description: Horn of Africa
   projection:
     a: 6371228.0
-    lat_0: 4.695
-    lon_0: 44.53
+    lat_0: 6.0
+    lon_0: 46.5
     proj: eqc
     units: m
   resolution:
     - 1000
     - 1000
   shape:
-    height: 1232
-    width: 1269
-  area_extent:
-    lower_left_xy: [-1346464, -1164808]
-    upper_right_xy: [1346464, 1164808]
+    height: 2000
+    width: 2300
+  center: [0, 0]

@@ -315,7 +315,12 @@ def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
             LOG.info("    MISSING Process Time %s: %s", job_str, process_name)
 
 
-def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
+def replace_geoips_paths(
+    fname,
+    replace_paths=None,
+    base_paths=None,
+    curly_braces=False,
+):
     """Replace standard environment variables with their non-expanded equivalents.
 
     Ie, replace
@@ -339,6 +344,9 @@ def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
     base_paths : list, default=None
         * List of PATHS dictionaries in which to find the "replace_paths" variables
         * If None, use geoips.filenames.base_paths
+    curly_braces: bool, default=False
+        * Specifies whether to include curly braces in the environment variables
+          or not.
 
     Returns
     -------
@@ -378,7 +386,10 @@ def replace_geoips_paths(fname, replace_paths=None, base_paths=None):
     for replace_path in replace_paths:
         for paths in base_paths:
             if replace_path in paths:
-                fname = fname.replace(paths[replace_path], f"${replace_path}")
+                if curly_braces:
+                    fname = fname.replace(paths[replace_path], f"${{{replace_path}}}")
+                else:
+                    fname = fname.replace(paths[replace_path], f"${replace_path}")
     return fname
 
 

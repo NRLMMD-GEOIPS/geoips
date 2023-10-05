@@ -142,7 +142,8 @@ def sector_xarray_temporal(
 
     if full_xarray is None:
         LOG.info(
-            "    full_xarray is None - not attempting to sector temporally, returning None"
+            "    full_xarray is None - not attempting to sector temporally, "
+            "returning None"
         )
         return None
 
@@ -153,12 +154,14 @@ def sector_xarray_temporal(
 
     if "time" not in varnames:
         LOG.info(
-            "    time variable not included in list - not temporally sectoring, returning all data"
+            "    time variable not included in list - not temporally sectoring, "
+            "returning all data"
         )
         return full_xarray
 
     for varname in varnames:
-        # To masked array can have a performance hit for dask arrays, do not use them unnecessarily
+        # To masked array can have a performance hit for dask arrays,
+        # do not use them unnecessarily.
         # good_speeds = numpy.ma.count(full_xarray[varname].to_masked_array())
         if verbose:
             LOG.info(
@@ -169,9 +172,7 @@ def sector_xarray_temporal(
     mindt64 = numpy.datetime64(mindt)
     maxdt64 = numpy.datetime64(maxdt)
 
-    xarray_time_mask = (full_xarray["time"] > mindt64) & (
-        full_xarray["time"] < maxdt64
-    )
+    xarray_time_mask = (full_xarray["time"] > mindt64) & (full_xarray["time"] < maxdt64)
 
     time_inds = numpy.where(xarray_time_mask)
 
@@ -192,25 +193,29 @@ def sector_xarray_temporal(
     for varname in varnames:
         if drop is True:
             if len(time_inds) == 2:
-                # time_xarray[varname] = full_xarray[varname].where(xarray_time_mask, drop=drop)
+                # time_xarray[varname] =
+                #                full_xarray[varname].where(xarray_time_mask, drop=drop)
                 time_xarray[varname] = full_xarray[varname][min_y:max_y, min_x:max_x]
             else:
-                # time_xarray[varname] = full_xarray[varname].where(xarray_time_mask, drop=drop)
+                # time_xarray[varname] =
+                #                full_xarray[varname].where(xarray_time_mask, drop=drop)
                 time_xarray[varname] = full_xarray[varname][min_y:max_y]
         else:
             time_xarray[varname] = full_xarray[varname].where(xarray_time_mask)
 
-        # To masked array can have a performance hit for dask arrays, do not use them unnecessarily
+        # To masked array can have a performance hit for dask arrays,
+        # do not use them unnecessarily.
         # good_speeds = numpy.ma.count(time_xarray[varname].to_masked_array())
         # if good_speeds > final_good_points:
         #     final_good_points = good_speeds
         # if good_speeds < MIN_POINTS:
         #     if verbose:
-        #         LOG.warning('    INSUFFICIENT TIME DATA between %s and %s for var %s, %s points',
-        #                     mindt, maxdt, varname, good_speeds)
+        #         LOG.warning('    INSUFFICIENT TIME DATA between %s and %s for var %s,
+        #                     %s points', mindt, maxdt, varname, good_speeds)
         # else:
         #     if verbose:
-        #         LOG.info('    MATCHED TIME %s points for var %s', good_speeds, varname)
+        #         LOG.info('    MATCHED TIME %s points for var %s', good_speeds,
+        #                  varname)
         #     covg = True
 
     # if not covg:
@@ -261,7 +266,8 @@ def sector_xarray_spatial(
     if full_xarray is None:
         if verbose:
             LOG.info(
-                "    full_xarray is None - not attempting to sector spatially, returning None"
+                "    full_xarray is None - not attempting to sector spatially, "
+                "returning None"
             )
         return None
 
@@ -304,15 +310,18 @@ def sector_xarray_spatial(
         )
     lats = full_xarray["latitude"]
 
-    # To masked array can have a performance hit for dask arrays, do not use them unnecessarily
+    # To masked array can have a performance hit for dask arrays,
+    # do not use them unnecessarily
     # for varname in varnames:
     #     good_speeds = numpy.ma.count(full_xarray[varname].to_masked_array())
     #     if verbose:
-    #         LOG.info('    STARTED SPATIAL WITH %s points for %s', good_speeds, varname)
+    #         LOG.info('    STARTED SPATIAL WITH %s points for %s', good_speeds,
+    #                  varname)
 
     if verbose:
         LOG.info(
-            "    Getting appropriate sector area lon %s to %s lat %s to %s, data minlon %s, maxlon %s, minlat %s, maxlat %s, %s points",
+            "    Getting appropriate sector area lon %s to %s lat %s to %s, data "
+            "minlon %s, maxlon %s, minlat %s, maxlat %s, %s points",
             min_lon,
             max_lon,
             min_lat,
@@ -353,33 +362,40 @@ def sector_xarray_spatial(
     for varname in varnames:
         if drop is True:
             if len(sector_inds) == 2:
-                # sector_xarray[varname] = full_xarray[varname].where(xarray_sector_mask, drop=drop)
+                # sector_xarray[varname] =
+                #              full_xarray[varname].where(xarray_sector_mask, drop=drop)
                 sector_xarray[varname] = full_xarray[varname][min_y:max_y, min_x:max_x]
             else:
-                # sector_xarray[varname] = full_xarray[varname].where(xarray_sector_mask, drop=drop)
+                # sector_xarray[varname] =
+                #              full_xarray[varname].where(xarray_sector_mask, drop=drop)
                 sector_xarray[varname] = full_xarray[varname][min_y:max_y]
         else:
             sector_xarray[varname] = full_xarray[varname].where(xarray_sector_mask)
 
-        # To masked array can have a performance hit for dask arrays, do not use them unnecessarily
+        # To masked array can have a performance hit for dask arrays,
+        # do not use them unnecessarily
         # good_speeds = numpy.ma.count(sector_xarray[varname].to_masked_array())
         # if good_speeds > final_good_points:
         #     final_good_points = good_speeds
 
         # if sector_xarray[varname].size < MIN_POINTS or good_speeds < MIN_POINTS:
         #     if verbose:
-        #         LOG.warning('    INSUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon and %0.2f and %0.2f lat, varname %s, %s points',
-        #                     extent_lonlat[0], extent_lonlat[2], extent_lonlat[1], extent_lonlat[3], varname, good_speeds)
+        #         LOG.warning('    INSUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon
+        #                     and %0.2f and %0.2f lat, varname %s, %s points',
+        #                     extent_lonlat[0], extent_lonlat[2], extent_lonlat[1],
+        #                     extent_lonlat[3], varname, good_speeds)
         # else:
         #     if verbose:
-        #         LOG.info('    MATCHED SPATIAL %s points for var %s after location sectoring', good_speeds, varname)
+        #         LOG.info('    MATCHED SPATIAL %s points for var %s after location
+        #                  sectoring', good_speeds, varname)
         #     covg = True
 
     # if covg:
     if sector_xarray["latitude"].size == 0:
         LOG.warning(
-            "    OVERALL INSUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon and %0.2f and %0.2f lat",
-            min_lon,
+            "    OVERALL INSUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon"
+            " and %0.2f and %0.2f lat",
+            min_lat,
             max_lon,
             min_lat,
             max_lat,
@@ -387,7 +403,8 @@ def sector_xarray_spatial(
         return None
 
     LOG.info(
-        "    OVERALL SUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon and %0.2f and %0.2f lat %s points",
+        "    OVERALL SUFFICIENT SPATIAL DATA between %0.2f and %0.2f lon and %0.2f"
+        " and %0.2f lat %0.2f points",
         min_lon,
         max_lon,
         min_lat,
@@ -409,8 +426,51 @@ def sector_xarray_dataset(
     hours_before_sector_time=18,
     hours_after_sector_time=6,
     drop=False,
+    window_start_time=None,
+    window_end_time=None,
 ):
-    """Use the xarray to appropriately sector out data by lat/lon and time."""
+    """Use the xarray to appropriately sector out data by lat/lon and time.
+
+    Parameters
+    ----------
+    full_xarray: xarray.Dataset
+        The full input xarray Dataset
+    area_def: pyresample.AreaDefinition
+        The requested region to sector spatially from the full_xarray.
+        If None, no spatial sectoring required.
+    varnames: list of str
+        List of variable names within full_xarray to include in the final
+        xarray Dataset
+    lon_pad: float, default=3
+        Amount of padding to include around the longitude dimension
+    lat_pad: float, default=0
+        Amount of padding to include around the latitude dimension
+    verbose: bool, default=False
+        If True, include log output, otherwise return silently.
+    hours_before_sector_time: float, default=18
+        For dynamic sectors, number of hours before sector start time
+        to include when sectoring temporally.
+    hours_after_sector_time: float, default=6
+        For dynamic sectors, number of hours after sector end time
+        to include when sectoring temporally.
+    drop: bool, default=False
+        If True, drop data outside range, temporally and spatially.
+        If False, mask outside range.
+    window_start_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+        hours_before_sector_time and hours_after_sector_time are ignored if
+        window start/end time are set!
+    window_end_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+        hours_before_sector_time and hours_after_sector_time are ignored if
+        window start/end time are set!
+
+    Returns
+    -------
+    xarray.Dataset
+        sectored dataset containing requested "varnames" sectored spatially and
+        temporally as requested.
+    """
     from datetime import timedelta
 
     LOG.debug(
@@ -425,19 +485,34 @@ def sector_xarray_dataset(
             hasattr(area_def, "sector_start_datetime")
             and area_def.sector_start_datetime
         ):
-            # If it is a dynamic sector, sector temporally to make sure we use the
-            # appropriate data
-            mindt = area_def.sector_start_datetime - timedelta(
-                hours=hours_before_sector_time
+            if not window_start_time:
+                # If it is a dynamic sector and we did not specify window
+                # start/end time, sector temporally to make sure we use the
+                # appropriate data
+                mindt = area_def.sector_start_datetime - timedelta(
+                    hours=hours_before_sector_time
+                )
+                maxdt = area_def.sector_start_datetime + timedelta(
+                    hours=hours_after_sector_time
+                )
+            else:
+                # If we requested window start/end time, use it.
+                mindt = window_start_time
+                maxdt = window_end_time
+            time_xarray = sector_xarray_temporal(
+                full_xarray, mindt, maxdt, varnames, verbose=verbose
             )
-            maxdt = area_def.sector_start_datetime + timedelta(
-                hours=hours_after_sector_time
-            )
+        elif window_start_time:
+            # If this is not a dynamic sector, but we requested start/end
+            # time, still apply the requested window.
+            mindt = window_start_time
+            maxdt = window_end_time
             time_xarray = sector_xarray_temporal(
                 full_xarray, mindt, maxdt, varnames, verbose=verbose
             )
         else:
-            # If it is not a dynamic sector, just return all of the data, because all
+            # If it is not a dynamic sector, and we didn't pass window
+            # start/end time, just return all of the data, because all
             # we care about is spatial coverage.
             time_xarray = full_xarray.copy()
 
@@ -474,7 +549,17 @@ def sector_xarray_dataset(
             sector_xarray.attrs["start_datetime"] = full_xarray.start_datetime
             sector_xarray.attrs["end_datetime"] = full_xarray.end_datetime
 
+    elif window_start_time:
+        # If the area_def is not specified, but we requested start and end time,
+        # apply requested window here.
+        mindt = window_start_time
+        maxdt = window_end_time
+        sector_xarray = sector_xarray_temporal(
+            full_xarray, mindt, maxdt, varnames, verbose=verbose
+        )
     else:
+        # If we did not request temporal or spatial sectoring,
+        # just return full xarray
         sector_xarray = full_xarray.copy()
 
     if sector_xarray is not None:
@@ -493,7 +578,6 @@ def get_vis_ir_bg(sect_xarray):
     """Find matching vis/ir background for data in sect_xarray."""
     from geoips.data_manipulations.merge import get_matching_files
     from geoips.filenames.base_paths import PATHS as gpaths
-    import xarray
 
     irfnames = get_matching_files(
         sect_xarray.area_definition.area_id,
@@ -551,19 +635,65 @@ def sector_xarrays(
     drop=False,
     lon_pad=3,
     lat_pad=0,
+    window_start_time=None,
+    window_end_time=None,
 ):
-    """Return list of sectored xarray objects."""
-    import numpy
+    """Return dict of sectored xarray objects.
 
+    Parameters
+    ----------
+    xobjs: dict of xarray.Dataset
+        The full input xarray Datasets, with dataset names as keys to the dictionary.
+    area_def: pyresample.AreaDefinition
+        The requested region to sector spatially from the full_xarray.
+        If None, no spatial sectoring required.
+    varlist: list of str
+        List of variable names within xarray Datasets to include in the final
+        sectored xarray Datasets
+    verbose: bool, default=False
+        If True, include log output, otherwise return silently.
+    hours_before_sector_time: float, default=18
+        For dynamic sectors, number of hours before sector start time
+        to include when sectoring temporally.
+    hours_after_sector_time: float, default=6
+        For dynamic sectors, number of hours after sector end time
+        to include when sectoring temporally.
+    check_center: bool, default=True
+        If True and sector_type is "tc", check that there is coverage in the
+        center of the image prior to sectoring. Skip dataset altogether if no
+        center coverage.
+    drop: bool, default=False
+        If True, drop data outside range, temporally and spatially.
+        If False, mask outside range.
+    lon_pad: float, default=3
+        Amount of padding to include around the longitude dimension
+    lat_pad: float, default=0
+        Amount of padding to include around the latitude dimension
+    window_start_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+        hours_before_sector_time and hours_after_sector_time are ignored if
+        window start/end time are set!
+    window_end_time: datetime.datetime, default=None
+        If specified, sector temporally between window_start_time and window_end_time.
+        hours_before_sector_time and hours_after_sector_time are ignored if
+        window start/end time are set!
+
+    Returns
+    -------
+    dict of xarray.Dataset
+        Dictionary of sectored datasets containing requested "varnames",
+        sectored spatially and temporally as requested.
+    """
     ret_xobjs = {}
     for key, xobj in xobjs.items():
         LOG.info("SECTORING dataset %s area_def %s", key, area_def.name)
         LOG.info(" requested variables %s", set(varlist))
         LOG.info(" dataset variables %s", set(xobj.variables.keys()))
         LOG.info(" dataset data_vars %s", set(xobj.data_vars))
-        # Compile a list of variables that will be used to sector - the current data variable, and we will add in
-        # the appropriate latitude and longitude variables (of the same shape as data), and if it exists the
-        # appropriately shaped time array
+        # Compile a list of variables that will be used to sector - the current data
+        # variable, and we will add in the appropriate latitude and longitude variables
+        # (of the same shape as data), and if it exists the appropriately shaped time
+        # array.
         # Use data_vars here - since coordinates (lat/lon/time) get added below
         vars_to_interp = list(set(varlist) & set(xobj.data_vars))
         if not vars_to_interp:
@@ -574,7 +704,8 @@ def sector_xarrays(
 
         if is_dynamic_sector(area_def):
             LOG.info(
-                "  Trying to sector %s with dynamic time %s, data time %s to %s, %s points",
+                "  Trying to sector %s with dynamic time %s, data time %s to %s, "
+                "%s points",
                 area_def.area_id,
                 area_def.sector_start_datetime,
                 xobj.start_datetime,
@@ -590,7 +721,8 @@ def sector_xarrays(
 
         vars_to_sect = []
         vars_to_sect += vars_to_interp
-        # we have to have 'latitude','longitude" in the full_xarray, and 'time' if we want temporal sectoring
+        # we have to have 'latitude','longitude" in the full_xarray, and 'time' if we
+        # want temporal sectoring.
         # Note if lat/lon/time are included as coordinates, they will NOT show up
         # in data_vars, so must use variables
         if "latitude" in list(xobj.variables.keys()):
@@ -613,6 +745,8 @@ def sector_xarrays(
             drop=drop,
             lon_pad=lon_pad,
             lat_pad=lat_pad,
+            window_start_time=window_start_time,
+            window_end_time=window_end_time,
         )
 
         # numpy arrays fail if numpy_array is None, and xarrays fail if x_array == None
@@ -648,7 +782,8 @@ def sector_xarrays(
             # sensors are polar orbiters.
             if (covg_xarray.end_datetime - covg_xarray.start_datetime).seconds > 3000:
                 LOG.info(
-                    "Original sectored xarray contains more than one overpass - switching to start/datetime in center"
+                    "Original sectored xarray contains more than one overpass - "
+                    "switching to start/datetime in center"
                 )
                 sect_xarray.attrs["start_datetime"] = covg_xarray.start_datetime
                 sect_xarray.attrs["end_datetime"] = covg_xarray.end_datetime
@@ -670,10 +805,10 @@ def sector_xarrays(
             # time_info for this sector
 
         LOG.debug(
-            "  Sectored data start/end datetime: %s %s, %s points from var %s, all vars %s",
+            "  Sectored data start/end datetime: %s %s, %s points from var %s, "
+            "all vars %s",
             sect_xarray.start_datetime,
             sect_xarray.end_datetime,
-            # numpy.ma.count(sect_xarray[vars_to_interp[0]].to_masked_array()),
             sect_xarray[vars_to_interp[0]].size,
             vars_to_interp[0],
             vars_to_interp,

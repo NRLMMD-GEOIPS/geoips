@@ -15,10 +15,6 @@
 # Python Standard Libraries
 import logging
 
-from os.path import join as pathjoin
-
-from geoips.filenames.base_paths import PATHS as gpaths
-
 LOG = logging.getLogger(__name__)
 
 interface = "title_formatters"
@@ -53,7 +49,8 @@ def call(
         sector_time.strftime("%Y-%m-%d %H:%M:%S"),
     )
 
-    # data_time = xarray_obj.start_datetime + (xarray_obj.end_datetime - xarray_obj.start_datetime)/2
+    # data_time = xarray_obj.start_datetime +
+    #                            (xarray_obj.end_datetime - xarray_obj.start_datetime)/2
     data_time = xarray_obj.start_datetime
     # pandas dataframes seem to handle time objects much better than xarray.
     title_line2 = "{0} {1} at {2}".format(
@@ -62,14 +59,16 @@ def call(
         data_time.strftime("%Y-%m-%d %H:%M:%S"),
     )
     if bg_xarray is not None:
-        # bg_data_time = bg_xarray.start_datetime + (bg_xarray.end_datetime - bg_xarray.start_datetime)/2
+        # bg_data_time = bg_xarray.start_datetime +
+        #                          (bg_xarray.end_datetime - bg_xarray.start_datetime)/2
         bg_data_time = bg_xarray.start_datetime
         title_line3 = "{0} {1} at {2}".format(
             bg_datatype_title,
             bg_product_name_title,
             bg_data_time.strftime("%Y-%m-%d %H:%M:%S"),
         )
-        # title_string = f'{title_line1}\n{title_line2}\n{title_line3}\n{title_copyright}'
+        # title_string = f'{title_line1}\n{title_line2}\n{title_line3}\n
+        #                                                             {title_copyright}'
         title_string = f"{title_line1}, {title_copyright}\n{title_line2}\n{title_line3}"
     else:
         # title_string = f'{title_line1}\n{title_line2}\n{title_copyright}'

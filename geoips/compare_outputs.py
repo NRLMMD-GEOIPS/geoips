@@ -197,7 +197,7 @@ def get_out_diff_fname(compare_product, output_product, ext=None, flag=None):
 
 
 def images_match(output_product, compare_product, fuzz="5%"):
-    """Use imagemagick compare system command to compare two images.
+    """Use PIL and numpy to compare two images.
 
     Parameters
     ----------
@@ -206,7 +206,8 @@ def images_match(output_product, compare_product, fuzz="5%"):
     compare_product : str
         Path to comparison product
     fuzz : str, optional
-        "fuzz" argument to pass to compare - larger "fuzz" factor to make
+        NOTE: currently not implemented.
+        "fuzz" argument to allow small diffs to pass - larger "fuzz" factor to make
         comparison less strict, by default 5%.
 
     Returns
@@ -214,76 +215,67 @@ def images_match(output_product, compare_product, fuzz="5%"):
     bool
         Return True if images match, False if they differ
     """
-    out_diffimg = get_out_diff_fname(compare_product, output_product)
     exact_out_diffimg = get_out_diff_fname(
         compare_product, output_product, flag="exact_"
     )
+    from PIL import Image
+    import numpy as np
+    from pixelmatch.contrib.PIL import pixelmatch
 
-    call_list = [
-        "compare",
-        "-verbose",
-        "-quiet",
-        "-metric",
-        "ae",
-        "-fuzz",
-        fuzz,
-        output_product,
-        compare_product,
-        out_diffimg,
-    ]
-
-    exact_call_list = [
-        "compare",
-        "-verbose",
-        "-quiet",
-        "-metric",
-        "ae",
-        output_product,
-        compare_product,
-        exact_out_diffimg,
-    ]
-
-    LOG.info("**Running %s", " ".join(call_list))
-    fullimg_retval = subprocess.call(call_list)
-    LOG.info("**Done running compare")
-
-    # call_list = ['compare', '-verbose', '-quiet',
-    #              '-metric', 'rmse',
-    #              '-dissimilarity-threshold', '{0:0.15f}'.format(threshold),
-    #              '-subimage-search',
-    #              output_product,
-    #              compare_product,
-    #              out_diffimg]
-
-    # LOG.info('Running %s', ' '.join(call_list))
-
-    # subimg_retval = subprocess.call(call_list)
-    # if subimg_retval != 0 and fullimg_retval != 0:
-    #     call_list = ['compare', '-verbose', '-quiet',
-    #                  '-metric', 'rmse',
-    #                  '-subimage-search',
-    #                  output_product,
-    #                  compare_product,
-    #                  out_diffimg]
-    #     subprocess.call(call_list)
-    #     LOG.info('    ***************************************')
-    #     LOG.info('    *** BAD Images do NOT match exactly ***')
-    #     LOG.info('    ***************************************')
-    #     return False
-    if fullimg_retval != 0:
-        LOG.info("    ***************************************")
-        LOG.info("    *** BAD Images do NOT match exactly ***")
-        LOG.info("    ***   output_product: %s ***", output_product)
-        LOG.info("    ***   compare_product: %s ***", compare_product)
-        LOG.info("    ***   out_diffimg: %s ***", out_diffimg)
-        LOG.info("    ***   exact_out_diffimg: %s ***", exact_out_diffimg)
-        LOG.info("    ***************************************")
+    LOG.info("**Comparing output_product vs. compare product")
+    # Open existing images.
+    out_img = Image.open(output_product)
+    comp_img = Image.open(compare_product)
+    diff_img = Image.new(mode="RGB", size=comp_img.size)
+    # Compute the pixel diff between the two images.
+    if np.array(comp_img).shape == np.array(out_img).shape:
+        diff_arr = np.abs(np.array(comp_img) - np.array(out_img))
+    # If shapes of arrays do not match, pixel diff can not be performed.
+    # Print the names of the two images and associated shapes, and return False.
+    else:
+        LOG.interactive("    ***************************************")
+        LOG.interactive("    *** BAD Images NOT match exactly, different sizes ***")
+        LOG.interactive(
+            "    ***   output_product: %s %s ***",
+            np.array(out_img).shape,
+            output_product,
+        )
+        LOG.interactive(
+            "    ***   compare_product: %s %s ***",
+            np.array(comp_img).shape,
+            compare_product,
+        )
+        LOG.interactive("    ***************************************")
         return False
 
-    LOG.info("**Running exact %s", " ".join(exact_call_list))
-    fullimg_retval = subprocess.call(exact_call_list)
-    LOG.info("**Done running exact compare")
+    # Determine the number of pixels that are mismatched
+    num_pix_mismatched = pixelmatch(
+        out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=0.05
+    )
+    # Currently, return 0 ONLY if the images are exactly matched.  Eventually
+    # we may update this to allow returning 0 for "close enough" matches.
+    if np.all(diff_arr == 0) and num_pix_mismatched == 0:
+        fullimg_retval = 0
+    else:
+        fullimg_retval = 1
+    # Write out the exact image difference.
+    LOG.info("**Saving exact difference image")
+    diff_img.save(exact_out_diffimg)
+    LOG.info("**Done running compare")
 
+    # If the images do not match exactly, print the output image, comparison image,
+    # and exact diff image to log, for easy viewing.  Return False.
+    if fullimg_retval != 0:
+        LOG.interactive("    ***************************************")
+        LOG.interactive("    *** BAD Images do NOT match exactly ***")
+        LOG.interactive("    ***   output_product: %s ***", output_product)
+        LOG.interactive("    ***   compare_product: %s ***", compare_product)
+        LOG.interactive("    ***   exact dif image: %s ***", exact_out_diffimg)
+        LOG.interactive("    ***************************************")
+        return False
+
+    # If the images match exactly, just output to GOOD comparison log to info level
+    # (only bad comparisons to interactive level)
     if fullimg_retval != 0:
         LOG.info("    ******************************************")
         LOG.info("    *** GOOD Images match within tolerance ***")
@@ -292,10 +284,7 @@ def images_match(output_product, compare_product, fuzz="5%"):
         LOG.info("    *********************************")
         LOG.info("    *** GOOD Images match exactly ***")
         LOG.info("    *********************************")
-    # Remove the image if they matched so we don't have extra stuff to sort through.
-    from os import unlink as osunlink
 
-    osunlink(out_diffimg)
     return True
 
 
@@ -322,11 +311,11 @@ def geotiffs_match(output_product, compare_product):
 
     # subimg_retval = subprocess.call(call_list)
     if retval != 0:
-        LOG.info("    *****************************************")
-        LOG.info("    *** BAD geotiffs do NOT match exactly ***")
-        LOG.info("    ***   output_product: %s ***", output_product)
-        LOG.info("    ***   compare_product: %s ***", compare_product)
-        LOG.info("    *****************************************")
+        LOG.interactive("    *****************************************")
+        LOG.interactive("    *** BAD geotiffs do NOT match exactly ***")
+        LOG.interactive("    ***   output_product: %s ***", output_product)
+        LOG.interactive("    ***   compare_product: %s ***", compare_product)
+        LOG.interactive("    *****************************************")
         return False
 
     LOG.info("    ***************************")
@@ -359,11 +348,17 @@ def geoips_netcdf_match(output_product, compare_product):
     compare_xobj = xarray.open_dataset(compare_product)
 
     if out_xobj.attrs != compare_xobj.attrs:
-        LOG.info("    **************************************************************")
-        LOG.info("    *** BAD GeoIPS NetCDF file attributes do NOT match exactly ***")
-        LOG.info("    ***   output_product: %s ***", output_product)
-        LOG.info("    ***   compare_product: %s ***", compare_product)
-        LOG.info("    **************************************************************")
+        LOG.interactive(
+            "    **************************************************************"
+        )
+        LOG.interactive(
+            "    *** BAD GeoIPS NetCDF file attributes do NOT match exactly ***"
+        )
+        LOG.interactive("    ***   output_product: %s ***", output_product)
+        LOG.interactive("    ***   compare_product: %s ***", compare_product)
+        LOG.interactive(
+            "    **************************************************************"
+        )
         for attr in out_xobj.attrs.keys():
             if attr not in compare_xobj.attrs:
                 diffstr = (
@@ -409,10 +404,14 @@ def geoips_netcdf_match(output_product, compare_product):
     try:
         xarray.testing.assert_allclose(compare_xobj, out_xobj)
     except AssertionError as resp:
-        LOG.info("    ****************************************************************")
-        LOG.info("    *** BAD GeoIPS NetCDF files do not match within tolerance *****")
-        LOG.info("    ***   output_product: %s ***", output_product)
-        LOG.info("    ***   compare_product: %s ***", compare_product)
+        LOG.interactive(
+            "    ****************************************************************"
+        )
+        LOG.interactive(
+            "    *** BAD GeoIPS NetCDF files do not match within tolerance *****"
+        )
+        LOG.interactive("    ***   output_product: %s ***", output_product)
+        LOG.interactive("    ***   compare_product: %s ***", compare_product)
         for line in str(resp).split("\n"):
             LOG.info(f"    *** {line} ***")
         diffout += [
@@ -479,20 +478,27 @@ def text_match(output_product, compare_product):
     bool
         Return True if products match, False if they differ
     """
-    retval = subprocess.call(["diff", output_product, compare_product])
-    if retval == 0:
+    ret = subprocess.run(
+        ["diff", output_product, compare_product],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    LOG.debug(ret.stdout)
+    if ret.returncode == 0:
         LOG.info("    *****************************")
         LOG.info("    *** GOOD Text files match ***")
         LOG.info("    *****************************")
         return True
-    LOG.info("    *******************************************")
-    LOG.info("    *** BAD Text files do NOT match exactly ***")
-    LOG.info("    ***   output_product: %s ***", output_product)
-    LOG.info("    ***   compare_product: %s ***", compare_product)
-    LOG.info("    *******************************************")
+
     out_difftxt = get_out_diff_fname(compare_product, output_product)
     with open(out_difftxt, "w") as fobj:
         subprocess.call(["diff", output_product, compare_product], stdout=fobj)
+    LOG.interactive("    *******************************************")
+    LOG.interactive("    *** BAD Text files do NOT match exactly ***")
+    LOG.interactive("    ***   output_product: %s ***", output_product)
+    LOG.interactive("    ***   compare_product: %s ***", compare_product)
+    LOG.interactive("    ***   out_difftxt: %s ***", out_difftxt)
+    LOG.interactive("    *******************************************")
     return False
 
 
@@ -623,18 +629,6 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    try:
-        from shutil import which
-
-        if not which("compare"):
-            raise OSError(
-                (
-                    "Imagemagick compare does not exist, "
-                    "install if you want to check outputs"
-                )
-            )
-    except ImportError:
-        pass
     badcomps = []
     goodcomps = []
     missingcomps = []
@@ -741,7 +735,7 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
 
     if len(goodcomps) > 0:
         fname_goodcptest = join(diffdir, "cptest_GOODCOMPARE.txt")
-        print("source {0}".format(fname_goodcptest))
+        LOG.info("source {0}".format(fname_goodcptest))
         with open(fname_goodcptest, "w") as fobj:
             fobj.write("mkdir {0}/GOODCOMPARE\n".format(diffdir))
             for goodcomp in goodcomps:
@@ -760,8 +754,12 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     if len(missingcomps) > 0:
         fname_cp = join(diffdir, "cp_MISSINGCOMPARE.txt")
         fname_missingcompcptest = join(diffdir, "cptest_MISSINGCOMPARE.txt")
-        print("source {0}".format(fname_missingcompcptest))
-        print("# source {0}".format(fname_cp))
+        LOG.interactive(
+            "MISSINGCOMPARE Commands to copy %d missing files to test output path.",
+            len(missingcomps),
+        )
+        LOG.interactive("  source {0}".format(fname_missingcompcptest))
+        LOG.interactive("  source {0}".format(fname_cp))
         with open(fname_cp, "w") as fobj:
             for missingcomp in missingcomps:
                 print_gunzip_to_file(fobj, missingcomp)
@@ -783,8 +781,13 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     if len(missingproducts) > 0:
         fname_rm = join(diffdir, "rm_MISSINGPRODUCTS.txt")
         fname_missingprodcptest = join(diffdir, "cptest_MISSINGPRODUCTS.txt")
-        print("source {0}".format(fname_missingprodcptest))
-        print("# source {0}".format(fname_rm))
+        LOG.interactive(
+            "MISSINGPRODUCTS Commands to remove %d "
+            "incorrect files from test output path.",
+            len(missingproducts),
+        )
+        LOG.interactive("  source {0}".format(fname_missingprodcptest))
+        LOG.interactive("  source {0}".format(fname_rm))
         with open(fname_rm, "w") as fobj:
             for missingproduct in missingproducts:
                 fobj.write("rm -v {0}\n".format(missingproduct))
@@ -804,8 +807,12 @@ def compare_outputs(compare_path, output_products, test_product_func=None):
     if len(badcomps) > 0:
         fname_cp = join(diffdir, "cp_BADCOMPARES.txt")
         fname_badcptest = join(diffdir, "cptest_BADCOMPARES.txt")
-        print("source {0}".format(fname_badcptest))
-        print("# source {0}".format(fname_cp))
+        LOG.interactive(
+            "BADCOMPARES Commands to copy %d files that had bad comparisons",
+            len(badcomps),
+        )
+        LOG.interactive("  source {0}".format(fname_badcptest))
+        LOG.interactive("  source {0}".format(fname_cp))
         with open(fname_cp, "w") as fobj:
             for badcomp in badcomps:
                 if compare_strings is not None:

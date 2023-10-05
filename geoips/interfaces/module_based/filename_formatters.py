@@ -53,20 +53,23 @@ class FilenameFormattersInterface(BaseModuleInterface):
         "standard_metadata": ["metadata_dir", "metadata_type", "basedir"],
     }
 
-    def find_duplicates(self, *args, **kwargs):
-        """Find duplicate files."""
-        try:
-            func = self.get_plugin_attr(name, "find_duplicates")
-        except AttributeError:
-            raise AttributeError(
-                f'Plugin {name} does not have a "find_duplicates" function.'
-            )
+    # The functions below were commented out as they included errors, and were not used
+    # by GeoIPS at this time. 9/27/23
 
-        duplicates = func()
+    # def find_duplicates(self, *args, **kwargs):
+    #     """Find duplicate files."""
+    #     try:
+    #         func = self.get_plugin_attr(name, "find_duplicates")
+    #     except AttributeError:
+    #         raise AttributeError(
+    #             f'Plugin {name} does not have a "find_duplicates" function.'
+    #         )
 
-    def remove_duplicates(self):
-        """Remove duplicate files."""
-        duplicates = self.find_duplicates()
+    #     duplicates = func()
+
+    # def remove_duplicates(self):
+    #     """Remove duplicate files."""
+    #     duplicates = self.find_duplicates()
 
 
 filename_formatters = FilenameFormattersInterface()

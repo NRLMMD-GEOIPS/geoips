@@ -15,7 +15,9 @@
 import argparse
 import logging
 from os.path import abspath, exists
+from os import getenv
 from json import loads as jloads
+import isodate
 
 LOG = logging.getLogger(__name__)
 
@@ -156,6 +158,40 @@ def check_command_line_args(arglist, argdict):
     return True
 
 
+def get_argparser(
+    arglist=None, description=None, add_args_func=None, check_args_func=None
+):
+    """Get argparse.ArgumentParser with all standard arguments added.
+
+    Parameters
+    ----------
+    arglist : list, optional
+        list of requested arguments to add to the ArgumentParser, default None.
+        if None, include all arguments
+    description : str, optional
+        String description of arguments, default None
+    add_args_func : function, optional
+        Alternative "add_args" function, default None
+        If None, use internal "add_args"
+    check_args_func: function, optional
+        Alternative "check_args" function, default None
+        If None, use internal "check_args"
+
+    Returns
+    -------
+    argparse.ArgumentParser
+        Including all requested/required command line arguments.
+    """
+    if add_args_func is None:
+        add_args_func = add_args
+    if check_args_func is None:
+        check_args_func = check_command_line_args
+
+    parser = argparse.ArgumentParser(description=description)
+    add_args_func(parser, arglist)
+    return parser
+
+
 def get_command_line_args(
     arglist=None, description=None, add_args_func=None, check_args_func=None
 ):
@@ -180,15 +216,10 @@ def get_command_line_args(
     dict
         Dictionary of command line arguments
     """
-    if add_args_func is None:
-        add_args_func = add_args
-    if check_args_func is None:
-        check_args_func = check_command_line_args
-
-    parser = argparse.ArgumentParser(description=description)
-    add_args_func(parser, arglist)
+    parser = get_argparser(arglist, description, add_args_func, check_args_func)
     argdict = parser.parse_args()
-    check_args_func(["filenames", "procflow"], argdict.__dict__)
+    if arglist and "filenames" in arglist and "procflow" in arglist:
+        check_args_func(["filenames", "procflow"], argdict.__dict__)
     return argdict
 
 
@@ -216,6 +247,24 @@ def add_args(parser, arglist=None):
             help="""Fully qualified paths to data files to be processed.""",
         )
 
+    if arglist is None or "outdir" in arglist:
+        parser.add_argument(
+            "-o",
+            "--outdir",
+            default=getenv("GEOIPS_OUTDIRS"),
+            help="""Path to write output files.  Defaults to GEOIPS_OUTDIRS.""",
+        )
+
+    if arglist is None or "logging_level" in arglist:
+        parser.add_argument(
+            "-l",
+            "--logging_level",
+            choices=["INTERACTIVE", "INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"],
+            default="INTERACTIVE",
+            help="""Specify logging config level for GeoIPS commands.""",
+            type=str.upper,
+        )
+
     sect_group = parser.add_argument_group(
         title="Sector Requests: General arguments for sectors"
     )
@@ -237,6 +286,32 @@ def add_args(parser, arglist=None):
             help="""Specify sector_adjuster kwargs that should be used for
                             this sector_adjuster. Should be formatted as a json
                             dictionary string""",
+        )
+    if arglist is None or "window_start_time" in arglist:
+        sect_group.add_argument(
+            "--window_start_time",
+            nargs="?",
+            default=None,
+            type=isodate.parse_datetime,
+            help="""If specified, only include data between
+                    window_start_time and window_end_time.
+                    Must be specified with window_end_time.
+                    This option will override any default time ranges determined
+                    based on potential dynamic sector times.
+                            Defaults to None (include all data).""",
+        )
+    if arglist is None or "window_end_time" in arglist:
+        sect_group.add_argument(
+            "--window_end_time",
+            nargs="?",
+            default=None,
+            type=isodate.parse_datetime,
+            help="""If specified, only include data between
+                    window_start_time and window_end_time.
+                    Must be specified with window_start_time.
+                    This option will override any default time ranges determined
+                    based on potential dynamic sector times.
+                            Defaults to None (include all data).""",
         )
 
     tc_group = parser.add_argument_group(
@@ -517,8 +592,9 @@ def add_args(parser, arglist=None):
             default={},
             type=jloads,
             help="""Specify output format kwargs that should be used for this
-                    output_formatter. should be formatted as a json dictionary string, ie:
-                    '{"title_formatter": "tc_copyright", "title_copyright": "NRL"}' """,
+                    output_formatter. should be formatted as a json dictionary string,
+                    ie: '{"title_formatter": "tc_copyright", "title_copyright": "NRL"}'
+                    """,
         )
 
     if arglist is None or "metadata_output_formatter" in arglist:
@@ -550,6 +626,15 @@ def add_args(parser, arglist=None):
                                           their respective filename modules""",
         )
 
+    if arglist is None or "no_presectoring" in arglist:
+        procflow_group.add_argument(
+            "--no_presectoring",
+            action="store_true",
+            help="""If true, do not pre-sector data prior to running the algorithm.
+                    This is less efficient, but allows the original dataset to
+                    be passed to the algorithm in full.""",
+        )
+
     rdr_group = parser.add_argument_group(title="Data reader specifications")
 
     if arglist is None or "reader_name" in arglist:
@@ -559,6 +644,16 @@ def add_args(parser, arglist=None):
             help="""If --reader_name is passed, the specific reader will be located in
                     geoips*.readers.myreader_name.myreader_name,
                     The reader_name string should be the reader module name (no .py)""",
+        )
+    if arglist is None or "reader_kwargs" in arglist:
+        sect_group.add_argument(
+            "--reader_kwargs",
+            nargs="?",
+            default=None,
+            type=jloads,
+            help="""Specify reader kwargs that should be used for
+                            this reader. Should be formatted as a json
+                            dictionary string""",
         )
 
     if arglist is None or "bg_product_name" in arglist:
@@ -686,6 +781,17 @@ def add_args(parser, arglist=None):
                     fuse_files flag. Only provide one reader to this flag.
                     If multiple fuse_files flags are passed, the same number of
                     fuse_readers must be passed in the same order.""",
+        )
+        fusion_group.add_argument(
+            "--fuse_reader_kwargs",
+            action="append",
+            default=None,
+            type=jloads,
+            help="""Provide the reader kwargs for files passed under the
+                    fuse_files flag. Should be formatted as a json dictionary string.
+                    Only provide one json dict str to this flag.
+                    If multiple fuse_files flags are passed, the same number of
+                    fuse_reader_kwargs must be passed in the same order.""",
         )
         fusion_group.add_argument(
             "--fuse_product",

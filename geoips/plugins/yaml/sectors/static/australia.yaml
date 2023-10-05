@@ -15,16 +15,14 @@ spec:
   description: Australian Continent
   projection:
     a: 6371228.0
-    lat_0: -25.49375
-    lon_0: 133.9696
-    proj: eqc
+    lat_0: -26.5
+    lon_0: 134.0
+    proj: stere
     units: m
   resolution:
-    - 3000
-    - 3000
+    - 2000
+    - 2000
   shape:
-    height: 625
-    width: 770
-  area_extent:
-    lower_left_xy: [-2309999, -1874999]
-    upper_right_xy: [2309999, 1874999]
+    height: 2100
+    width: 2400
+  center: [0, 0]

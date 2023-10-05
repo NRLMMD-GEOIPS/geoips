@@ -41,9 +41,6 @@ export CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
 export PYTHONPATH=$GEOIPS_BASEDIR/geoips_packages
 export PATH=$GEOIPS_DEPENDENCIES_DIR/bin:$PATH
 
-# Required for SEVIRI processing - must install xRIT software
-export XRIT_DECOMPRESS_PATH=$GEOIPS_DEPENDENCIES_DIR/seviri_wavelet/PublicDecompWT/xRITDecompress/xRITDecompress
-
 ############################################################################
 # Everything after this point are optional convenience functions.  Must set 
 # CURRENT_CONFIGPATH before sourcing.

@@ -15,7 +15,7 @@ spec:
         max_outbounds: crop
         norm: null
         inverse: null
-  mtif_type: windspeed
+  mtif_type: image
   colormapper:
     plugin:
       name: wind_radii_transitions

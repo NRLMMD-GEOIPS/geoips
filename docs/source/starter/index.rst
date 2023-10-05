@@ -21,3 +21,4 @@ Getting Started
    expert_installation
    starter_examples
    extending
+   mac_installation

@@ -46,5 +46,6 @@ echo "Package: $package_name"
 echo "Total run time: $overall_runtime seconds"
 echo "Number data types run: ${#overall_procflow_retvals[@]}"
 echo "Number data types failed: $overall_procflow_retval"
+date -u
 
 exit $overall_procflow_retval

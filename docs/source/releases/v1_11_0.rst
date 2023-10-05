@@ -1,0 +1,325 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.11.0 (2023-08-02)
+***************************
+
+* New Functionality: New reader that reads in ASCAT wind netCDF files from NOAA
+  (CLASS/PDA)
+* New Functionality: Add new TCWeb ASCAT sector templates
+* Bug Fix: Add "algorithm" to list of families that do not require interpolation
+* Bug Fix: Handle FileExistsError when creating geostationary geolocation directory
+* Bug Fix: Update mtif_type under wind-ambiguities product default YAML
+* Add 'scalar_to_scalar' algorithm type
+* Improve error outputs for test_interfaces
+* Documentation updates
+
+  * Update documentation build to allow building plugin repositories
+  * Allow passing relative paths for documentation builds
+  * Remove buildfrom_docs and sphinx directories prior to doc build.
+  * Update build_docs.sh to delete buildfrom_docs and sphinx directories
+  * Deployment script to deploy the sphinx html docs to GitHub pages for each
+    repository.
+  * Require passing explicit package name to build_docs.sh
+* Test output updates
+
+  * Update test outputs for cartopy 0.22 update
+  * Replace incorrect ssmi test output
+  * Update test_all.sh and full_test.sh to set repopath and pkgname variables
+  * Add test scripts and outputs for ASCAT NOAA 25km and 50km windbarb products
+* Installation updates
+
+  * Remove geos requirement
+  * Update cartopy to >=0.22
+  * Update gcc/gxx requirement to <10 (for seviri wavelet build)
+
+New Functionality
+=================
+
+New ASCAT reader
+----------------
+
+New reader for ingesting ASCAT_L2 files provided by NOAA
+
+::
+
+    new file: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+    modified: pyproject.toml
+
+ASCAT dynamic spec templates
+----------------------------
+
+Add new dynamic sector TCweb template for lower-res ASCAT products
+
+* tc_web_ascat_low_barbs_template intended for ASCAT 25km winds
+
+::
+
+    new file: geoips/plugins/yaml/sectors/dynamic/tc_web_ascat_50km_barbs_template.yaml
+    new file: geoips/plugins/yaml/sectors/dynamic/tc_web_ascat_low_barbs_template.yaml
+
+Bug Fixes
+=========
+
+Update error messages in "bad" product_defaults tests
+-----------------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#255: 2023-08-09, Fix error matching regex*
+
+* jsonschema changed their error messages to add additional quotes. This just modifies
+  our test regex to ignore more of the error.
+
+::
+
+    modified: tests/test_plugin_schema/bad/product_defaults/algorithm_colormapper.yaml
+    modified: tests/test_plugin_schema/bad/product_defaults/algorithm_interpolator_colormapper.yaml
+
+Improve error handling when creating geolocation directory
+----------------------------------------------------------
+
+Place makedirs in try/except statement when attempting to
+create geostationary geolocation directory
+
+* Two concurrent procflows may both attempt to create this directory,
+  which raises FileExistsError
+
+::
+    modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+
+Update mtif_type under wind-ambiguities product default YAML
+------------------------------------------------------------
+
+Update mtif_type from windspeed to image
+
+::
+    modified: geoips/plugins/yaml/product_defaults/sfc_winds/wind-ambiguities.yaml
+
+Expand list of product families that do not require interpolation
+-----------------------------------------------------------------
+
+Add "algorithm" to list of families that do not require interpolation
+
+::
+
+    modified: geoips/plugins/modules/procflows/single_source.py
+
+Enhancements
+============
+
+Add 'scalar_to_scalar' algorithm type
+-------------------------------------
+
+Currently unused.
+
+::
+
+  modified: geoips/interfaces/algorithms.py
+
+Documentation Updates
+=====================
+
+Require passing explicit package name to build_docs.sh
+------------------------------------------------------
+
+For packages that may not have the same name as their repository name
+(ie, template_basic_plugin repo, and my_package package name), we must
+the explicit package name to build_docs.sh.
+
+Updated some terminology in deploy_pages.sh to clarify that it operates solely
+on the repository path - removed references to package.  Functionality unchanged
+for deploy_pages.sh
+
+* build_docs.sh <repo_path> <package_name> <optional_html_only>
+* deploy_pages.sh <repo_path>
+* Update build_docs.sh call in test_all.sh
+
+::
+
+  tests/test_all.sh
+  docs/build_docs.sh
+  docs/deploy_pages.sh
+
+Add deployment script to deploy the sphinx html docs to GitHub pages
+--------------------------------------------------------------------
+
+*From GEOIPS#293 2023-08-01, deploy sphinx html to GitHub pages*
+
+* Deployment script to deploy the sphinx html docs to GitHub pages for each repository.
+
+::
+
+    added: docs/deploy_pages.sh
+
+Update build_docs.sh to delete buildfrom_docs and sphinx directories
+--------------------------------------------------------------------
+
+If build/buildfrom_docs and build/sphinx directories exist, delete
+them before attempting to build documentation.
+
+::
+
+  modified: docs/build_docs.sh
+
+Allow passing relative paths for documentation builds
+-----------------------------------------------------
+
+Use realpath basename to determine full path from passed path, whether fully
+specified or relative.
+
+::
+
+  modified: docs/build_docs.sh
+  modified: docs/deploy_pages.sh
+
+Update documentation build to allow building plugin repositories
+----------------------------------------------------------------
+
+*From GEOIPS#217 2023-08-01, Use geoips documentation build scripts in
+additional plugin*
+
+
+* Use the geoips repo documentation build scripts and style
+  information to build documentation in the plugin repositories
+* Copy docs directory to "buildfrom_docs" prior to copying over auto-generated
+  and template files.
+* Ignore only \*_docs rather than individual files, since all auto-generated
+  files will be placed in buildfrom_docs
+
+::
+
+    modified: .gitignore
+    modified: docs/build_docs.sh
+    deleted: docs/source/_static/nrlmryLogo.jpg
+    deleted: docs/source/_static/nrlmryLogoTrans.png
+    modified: docs/source/_templates/conf_PKG.py
+    modified: docs/source/_templates/index_PKG.html
+    modified: geoips/__init__.py
+    deleted: geoips/__version__.py
+
+Testing Updates
+===============
+
+Update test_all.sh and full_test.sh to set repopath and pkgname variables
+-------------------------------------------------------------------------
+
+Update standard test_all.sh formatting to set repopath and pkgname by default.
+These get passed to test_all_pre.sh, build_docs.sh, and check_code.sh.
+
+::
+
+  modified: tests/test_all.sh
+  modified: tests/integration_tests/full_test.sh
+
+Improve error outputs for test_interfaces
+-----------------------------------------
+
+Add clarifying statements to final error message identifying where to look
+in prior error messages for details.
+
+::
+
+  modified:   geoips/commandline/test_interfaces.py
+
+Replace incorrect ssmi test output
+----------------------------------
+
+Added start/end time and min/max lat to ssmi_binary reader for reference.
+
+Updated SSMI test outputs from 0809 data time in filename to 0900.  Since data
+ran from 0809 to 0953, 0900 time is more valid than 0809.  Not sure what changed to
+cause this update, however, but it seems right now.
+
+::
+
+  modified: geoips/plugins/modules/readers/ssmi_binary.py
+  renamed:    tests/outputs/ssmi.tc.37pct.imagery_clean/20200519_080900_IO012020_ssmi_F15_37pct_110kts_50p65_1p0-clean.png -> tests/outputs/ssmi.tc.37pct.imagery_clean/20200519_090000_IO012020_ssmi_F15_37pct_110kts_50p65_1p0-clean.png
+  renamed:    tests/outputs/ssmi.tc.37pct.imagery_clean/20200519_080900_IO012020_ssmi_F15_37pct_110kts_50p65_1p0-clean.png.yaml -> tests/outputs/ssmi.tc.37pct.imagery_clean/20200519_090000_IO012020_ssmi_F15_37pct_110kts_50p65_1p0-clean.png.yaml
+
+Update test outputs for cartopy 0.22 update
+-------------------------------------------
+
+Note cartopy 0.21 is incompatible with geos 3.12.0 - caused segmentation faults in
+some matplotlib.savefig calls.
+
+cartopy 0.22 removed the reliance on the geos library, so updating geoips requirements
+to require cartopy 0.22.
+
+This update caused very slight non-visible changes to the annotated test image
+output.  Updating all test outputs accordingly.
+
+::
+
+  modified:   tests/outputs/abi.tc.IR-BD.imagery_annotated/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png
+  modified:   tests/outputs/abi.tc.Infrared.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Infrared_110kts_100p00_1p0.png
+  modified:   tests/outputs/abi.tc.Visible.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Visible_110kts_100p00_1p0.png
+  modified:   tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+  modified:   tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+
+  modified:   tests/outputs/abi.static.Infrared.imagery_annotated/20200918.195020.goes-16.abi.Infrared.goes16.45p56.noaa.10p0.png
+  modified:   tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes16.41p12.noaa.10p0.png
+  modified:   tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+  modified:   tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+  modified:   tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+  modified:   tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+  modified:   tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png
+  modified:   tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png
+  modified:   tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png
+  modified:   tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png
+  modified:   tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png
+  modified:   tests/outputs/amsub_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_amsu-b_metop-a_183-3H_115kts_100p00_1p0.png
+  modified:   tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs/20210421_014156_WP022021_ascat_metop-c_windbarbs_120kts_35p17_1p0.png
+  modified:   tests/outputs/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs/20210421_014200_WP022021_ascatuhr_metop-c_wind-ambiguities_120kts_100p00_0p1.png
+  modified:   tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.J01.165H_latitude_longitude.tc2021ep11kevin.nc
+  modified:   tests/outputs/hy2.tc.windspeed.imagery_annotated/20211202_084039_WP272021_hscat_hy-2b_windspeed_95kts_97p06_1p0.png
+  modified:   tests/outputs/hy2.tc.windspeed.imagery_annotated/20211202_084039_WP272021_hscat_hy-2b_windspeed_95kts_97p06_1p0.png.yaml
+  modified:   tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global.83p60.cimss.20p0.png
+  modified:   tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated/20210419_230000_WP022021_mimic_tpw_TPW-PWAT_115kts_100p00_1p0.png
+  modified:   tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs/20210209_025351_SH192021_oscat_scatsat-1_windbarbs_135kts_75p10_1p0.png
+  modified:   tests/outputs/saphir.tc.183-3HNearest.imagery_annotated/20210209_003103_SH192021_saphir_meghatropiques_183-3HNearest_135kts_88p76_1p0.png
+  modified:   tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png
+  modified:   tests/outputs/viirsday.tc.Night-Vis-IR.imagery_annotated/20210209_074210_SH192021_viirs_noaa-20_Night-Vis-IR_130kts_100p00_1p0.png
+
+Add test scripts for ASCAT NOAA 25km and 50km windbarb products
+---------------------------------------------------------------
+
+Formal test scripts for scat_noaa_winds_netcdf reader
+
+Tests for annotated windbarbs products using 25km and 50km input files
+
+Add tests to full_test.sh script
+
+::
+
+  new file: tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235304_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png
+  new file: tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235304_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png.yaml
+  new file: tests/outputs/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs/20230524_235200_WP022023_ascat_metop-c_windbarbs_135kts_50p08_1p1.png
+  new file: tests/outputs/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs/20230524_235200_WP022023_ascat_metop-c_windbarbs_135kts_50p08_1p1.png.yaml
+  new file: tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh
+  new file: tests/scripts/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs.sh
+  modified: tests/integration_tests/full_test.sh
+
+Installation Updates
+====================
+
+Update install requirements
+---------------------------
+
+* Update gcc/gxx to <10 (for seviri wavelet build)
+* Remove geos requirement (not required for cartopy >= 0.22)
+* Update cartopy to >= 0.22
+* Add ipython to geoips[debug] requirements
+
+::
+
+  setup.sh
+  pyproject.toml
+  docs/source/starter/installation.rst
