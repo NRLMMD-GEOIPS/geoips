@@ -95,13 +95,6 @@ Was not initially created
   new: schema/product_defaults/interpolator.yaml
   new: schema/product_defaults/specs/interpolator.yaml
 
-Added dictionary xarray to datatree conversion
-----------------------------------------------
-
-::
-
-  new: geoips/xarray_utils/xr_to_dtree.py
-
 Refactoring Updates
 ===================
 

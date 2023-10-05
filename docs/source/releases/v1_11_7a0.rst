@@ -14,6 +14,18 @@ Version 1.11.7a0 (2023-10-05)
 *****************************
 
 * Added documentation for windows installation
+* Added dictionary xarray to datatree conversion
+
+Enhancements
+============
+
+Added dictionary xarray to datatree conversion
+----------------------------------------------
+
+::
+
+  new: geoips/xarray_utils/xr_to_dtree.py
+  new: tests/test_pytest/test_dtree.py
 
 Documentation Updates
 =====================
