@@ -17,7 +17,6 @@ Version 1.11.5a0 (2023-09-27)
 * Update "update_this_release_note" to v1_11_5a0.rst
 * Fix Errors from Flake8 Linting
 * Remove flake8_docstring_only option from check_code.sh workflow call
-* Added documentation for windows installation
 
 Git Workflow Updates
 ====================
@@ -51,17 +50,6 @@ Update "update_this_release_note" to docs/source/releases/v1_11_5a0.rst
 ::
 
   modified: update_this_release_note
-
-Documentation Updates
-=====================
-
-Add windows installation instructions
--------------------------------------
-
-::
-
-  new: docs/source/starter/windows_installation.rst
-  modified: README.md
 
 Code Checks
 ===========
