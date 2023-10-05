@@ -60,7 +60,7 @@ Create "output_checkers" interface
 
 Currently in GeoIPS, products are compared using the "compare_outputs.py" python
 module. This needs to be refactored into an interface called "output_checkers", and
-split info multiple plugins for different product types.
+split into multiple plugins for different product types.
 
 ::
 
