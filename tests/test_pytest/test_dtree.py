@@ -24,15 +24,19 @@ LOG = logging.getLogger(__name__)
 
 @pytest.fixture
 def load_testfiles():
+    """Preload files for testing"""
 
+    #only want a few files for testing
     fnames = glob.glob('geoips/test_data/test_data_amsr2/data/*.nc')[:2]
     amsr2_reader = readers.get_plugin('amsr2_netcdf')
     xarray_dict = amsr2_reader(fnames)
     return xarray_dict
 
 def test_xarray_to_datatree(load_testfiles):
-    xarray_dict = load_testfiles
-    xarray_datatree = DataTree.from_dict(xarray_dict)
-    assert xarray_datatree == xarray_dict
+    """Convert a xarray dictionary to a datatree"""
+
+    #check that the datatree is equal to the dict-xarray
+    xarray_datatree = DataTree.from_dict(load_testfiles)
+    assert xarray_datatree == load_testfiles
 
     #return xarray_datatree
