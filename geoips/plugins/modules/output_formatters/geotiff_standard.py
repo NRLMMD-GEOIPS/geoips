@@ -93,6 +93,10 @@ def call(
             maxlat = area_def.area_extent_ll[-1]
             minlon = area_def.area_extent_ll[0]
 
+            # Note the original implementation here, following the
+            # rasterio documentation, resulted in upside down imagery.
+            # https://github.com/rasterio/rasterio/issues/1683
+            # Updates 20231005 resolved the flipped geotiff imagery.
             transform = Affine.translation(
                 minlon - res_deg_x / 2, maxlat - res_deg_y / 2
             ) * Affine.scale(res_deg_x, -res_deg_y)
