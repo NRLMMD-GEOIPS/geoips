@@ -21,6 +21,9 @@ from geoips.commandline.args import get_argparser, check_command_line_args
 FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
 FAILED_INTERFACE_HEADER_POST = "interface:"
 
+FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
+FAILED_INTERFACE_HEADER_POST = "interface:"
+
 
 def main():
     """Script to test all plugins in all interfaces."""

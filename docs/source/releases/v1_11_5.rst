@@ -1,0 +1,60 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.11.5 (2023-10-02)
+***************************
+
+* Call check_code.sh script directly from actions
+
+Bug fixes
+=========
+
+Call check_code.sh script directly from actions
+-----------------------------------------------
+
+Previously the method of calling check_code.sh prevented the output from being
+printed in the event of a failure.  Call check_code.sh directly (rather from within
+$() construct), so the output is consistently printed.
+
+Also renamed release_note_update.yaml for consistency.
+
+::
+
+  modified: .github/workflows/check-code.yaml
+  renamed: .github/workflows/release_note_update.yaml -> release-note-update.yaml
+
+Release Updates
+===============
+
+Add 1.11.5 release note
+-----------------------
+
+*From issue GEOIPS#368: 2023-10-02, version update*
+
+::  
+
+    modified: CHANGELOG.rst
+    new file: docs/source/releases/v1_11_5.rst
+    modified: docs/source/releases/index.rst
+
+Update 'update_this_release_note' to v1_11_6.rst
+---------------------------------------------------------
+
+*From issue GEOIPS#368: 2023-10-02, update 'update_this_release_note'*
+
+Updated 'update_this_release_note' file in geoips repo for the
+next internal version:
+docs/source/releases/v1_11_6.rst
+
+::
+
+    modified: update_this_release_note
