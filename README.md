@@ -21,7 +21,8 @@ Installation
 ------------
 See the
 installation guide ([linux](./docs/source/starter/installation.rst),
-[mac](./docs/source/starter/mac_installation.rst))
+[mac](./docs/source/starter/mac_installation.rst),
+[windows](./docs/source/starter/windows_installation.rst))
 within the source code documentation for installation instructions. GeoIPS has a fully supported
 exhaustive installation process, including a full conda environment, as well as a more basic
 pip based installation for "expert" users.
