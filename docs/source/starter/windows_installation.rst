@@ -36,4 +36,4 @@ the windows machine.
 After a successful install and setup, run wsl and use the Linux installation
 guide for installing geoips and the required Python environment:
 
-`Complete Linux conda-based GeoIPS Installation <./installation.rst>`
+:ref:`Complete Linux conda-based GeoIPS Installation<linux_installation`
