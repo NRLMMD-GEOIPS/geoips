@@ -17,22 +17,6 @@ Version 1.11.5a0 (2023-09-27)
 * Update "update_this_release_note" to v1_11_5a0.rst
 * Fix Errors from Flake8 Linting
 * Remove flake8_docstring_only option from check_code.sh workflow call
-* Fixed from scipy.ndimage.interpolation import zoom deprecation warning
-
-Bug Fixes
-=========
-
-Fixed from scipy.ndimage.interpolation import zoom deprecation warning
-----------------------------------------------------------------------
-
-The scipy.ndimage.interpolation library was deprecated as of scipy v1.2 (Dec 2018), 
-and was causing warnings when importing the zoom libary for the ahi_hsd reader and
-the abi_netcdf reader.
-
-The following files have been modified to remove those deprecation warnings.
-
-    * modified: geoips/geoips/plugins/modules/readers/abi_netcdf.py
-    * modified: geoips/geoips/plugins/modules/readers/ahi_hsd.py
 
 Git Workflow Updates
 ====================
