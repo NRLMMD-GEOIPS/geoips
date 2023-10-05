@@ -13,22 +13,26 @@
 """Takes in a dictionary of xarrays and converts to xarray datatree."""
 
 
-import logging
 import pytest
+import xarray
+import numpy as np
 from datatree import DataTree
-import glob
-from geoips.interfaces import readers
+from geoips.commandline.log_setup import setup_logging
 
-LOG = logging.getLogger(__name__)
+LOG = setup_logging()
 
 
 @pytest.fixture
 def load_testfiles():
     """Preload files for testing."""
     # only want a few files for testing
-    fnames = glob.glob('geoips/test_data/test_data_amsr2/data/*.nc')[:2]
-    amsr2_reader = readers.get_plugin('amsr2_netcdf')
-    xarray_dict = amsr2_reader(fnames)
+    xarray_dict = {
+        "test_{}".format(k): xarray.Dataset(
+            data_vars=dict(temp=(["x", "y"], np.empty((2, 2)))),
+            coords=dict(lon=(["x", "y"], np.empty((2, 2)))),
+        )
+        for k in range(0, 4)
+    }
     return xarray_dict
 
 
