@@ -14,7 +14,7 @@ Version 1.11.7a0 (2023-10-05)
 *****************************
 
 * Added documentation for windows installation
-* Add Links Throughout GeoIPS Documentation
+* Add sphinx reference links throughout geoIPS documentation
 
 Documentation Updates
 =====================
@@ -24,8 +24,9 @@ Add Links Throughout GeoIPS Documentation
 
 *From issue GEOIPS#322: 2023-09-14, Add Links Throught GeoIPS Sphinx Documentation*
 
-The GeoIPS html documentation needed updating; it lacked appropriate links throughout
-some of its pages, and this section makes those updates accordingly.
+Links in much of the GeoIPS documentation were relative paths to RST files within
+the docs/source directory.  This does not work within sphinx-built html documentation.
+All relative path links updated to valid sphinx ref links.
 
 Files Modified:
 
