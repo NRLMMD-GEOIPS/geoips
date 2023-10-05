@@ -30,6 +30,7 @@ as Google Earth. We need to fix this so users aren't confused
 ::
 
     modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
+    modified: geoips/tests/outputs/ahi.tc.WV.geotiff/20200405_000000_SH252020_ahi_himawari-8_WV_100kts_100p00_1p0.tif
 
 Git Workflow Updates
 ====================
