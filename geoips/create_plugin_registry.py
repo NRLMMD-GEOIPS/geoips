@@ -23,7 +23,7 @@ def get_entry_point_group(group):
         return metadata.entry_points()[group]
 
 
-def write_registered_plugins(plugins):
+def write_registered_plugins(pkg_base_dir, plugins):
     """Write dictionary of all plugins available from installed GeoIPS packages.
 
     Parameters
@@ -31,14 +31,15 @@ def write_registered_plugins(plugins):
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
     """
-    reg_plug_abspath = str(os.path.abspath(__file__)).replace(
-        "geoips/create_plugin_registry.py", "registered_plugins.yaml")
+    # reg_plug_abspath = str(os.path.abspath(__file__)).replace(
+    #     "geoips/create_plugin_registry.py", "registered_plugins.yaml")
+    reg_plug_abspath = pkg_base_dir + "registered_plugins.yaml"
     yaml_plugins = yaml.dump(plugins, sort_keys=False)
     with open(reg_plug_abspath, "w") as plugin_registry:
         plugin_registry.write("{}".format(yaml_plugins))
 
 
-def parse_packages_to_plugins(plugin_packages, plugins):
+def parse_packages_to_plugins(plugin_packages):  #, plugins):
     """Generate all plugin paths associated with every installed GeoIPS packages.
 
     These paths include schema plugins, module_based plugins
@@ -56,9 +57,12 @@ def parse_packages_to_plugins(plugin_packages, plugins):
         A dictionary object of all installed GeoIPS package plugins
     """
     for pkg in plugin_packages:
+        plugins = {"bases": []}
         package = pkg.value
         print("package == " + str(package))
         pkg_plugin_path = resources.files(package) / "plugins"
+        pkg_base_dir = str(resources.files(package))
+        pkg_base_dir = pkg_base_dir[:-len(os.path.basename(pkg_base_dir))]
         yaml_files = pkg_plugin_path.rglob("*.yaml")
         python_files = pkg_plugin_path.rglob("*.py")
         schema_yaml_path = resources.files(package) / "schema"
@@ -67,6 +71,8 @@ def parse_packages_to_plugins(plugin_packages, plugins):
             "yamls": yaml_files, "schemas": schema_yamls, "pyfiles": python_files
         }
         parse_plugin_paths(plugin_paths, package, plugins)
+        print("Available Plugin Interfaces:\n" + str(plugins.keys()))
+        write_registered_plugins(pkg_base_dir, plugins)
 
 
 def parse_plugin_paths(plugin_paths, package, plugins):
@@ -195,12 +201,12 @@ def main():
     file which contains a dictionary of all the registered GeoIPS plugins. This
     dictionary is called 'registered_plugins'
     """
-    plugins = {"bases": []}  # includes bases due to a yaml conversion problem w/ bases
+    # plugins = {"bases": []}  # includes bases due to a yaml conversion problem w/ bases
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
     print(plugin_packages)
-    parse_packages_to_plugins(plugin_packages, plugins)
-    print("Available Plugin Interfaces:\n" + str(plugins.keys()))
-    write_registered_plugins(plugins)
+    parse_packages_to_plugins(plugin_packages)#, plugins)
+    # print("Available Plugin Interfaces:\n" + str(plugins.keys()))
+    # write_registered_plugins(plugins)
 
 
 if __name__ == "__main__":

@@ -513,6 +513,8 @@ class BaseYamlInterface(BaseInterface):
                         )
                 cache.update(yaml_subplgs)
             else:
+                if len(yaml_plg.keys()) == 1:
+                    yaml_plg = yaml_plg[list(yaml_plg.keys())[0]]
                 if "name" not in yaml_plg.keys():
                     cache[yaml_plg["$id"]] = yaml_plg
                 else:
