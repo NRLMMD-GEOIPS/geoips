@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Takes in a dictionary of xarrays and converts to xarray datatree"""
+"""Takes in a dictionary of xarrays and converts to xarray datatree."""
 
 
 import logging
@@ -20,7 +20,7 @@ LOG = logging.getLogger(__name__)
 
 
 def xarray_to_datatree(xarray_dict):
-    """Convert a flat (non nested) dictionary of xarrays to DataTree format"""
+    """Convert a flat (non nested) dictionary of xarrays to DataTree format."""
     xarray_datatree = DataTree.from_dict(xarray_dict)
     assert xarray_datatree == xarray_dict
 
