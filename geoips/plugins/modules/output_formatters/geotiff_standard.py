@@ -103,9 +103,6 @@ def call(
             profile = rasterio.profiles.DefaultGTiffProfile(count=1)
             profile.update(dtype=rasterio.uint8, count=1, compress="lzw")
 
-            # from IPython import embed as shell
-            # shell()
-
             with rasterio.open(
                 output_fname,
                 "w",
