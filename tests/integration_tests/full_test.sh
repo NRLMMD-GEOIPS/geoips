@@ -58,7 +58,7 @@ geoips_clavrx_pkgname=geoips_clavrx
 echo ""
 # "call" used in test_all_run.sh
 for call in \
-  "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath flake8_docstring_only" \
+  "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath" \
   "$geoips_repopath/docs/build_docs.sh $geoips_repopath $geoips_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $recenter_tc_repopath $recenter_tc_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $data_fusion_repopath $data_fusion_pkgname html_only" \
