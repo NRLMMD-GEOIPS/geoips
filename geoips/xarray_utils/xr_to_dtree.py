@@ -1,4 +1,3 @@
-
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
 # # #
 # # # Author:
@@ -18,6 +17,7 @@ import logging
 from datatree import DataTree
 
 LOG = logging.getLogger(__name__)
+
 
 def xarray_to_datatree(xarray_dict):
     """Convert a flat (non nested) dictionary of xarrays to DataTree format"""

@@ -1,4 +1,3 @@
-
 # # # Distribution Statement A. Approved for public release. Distribution unlimited.
 # # #
 # # # Author:
@@ -22,6 +21,7 @@ from geoips.interfaces import readers
     
 LOG = logging.getLogger(__name__)
 
+
 @pytest.fixture
 def load_testfiles():
     """Preload files for testing"""
@@ -31,6 +31,7 @@ def load_testfiles():
     amsr2_reader = readers.get_plugin('amsr2_netcdf')
     xarray_dict = amsr2_reader(fnames)
     return xarray_dict
+
 
 def test_xarray_to_datatree(load_testfiles):
     """Convert a xarray dictionary to a datatree"""
