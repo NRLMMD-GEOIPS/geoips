@@ -16,16 +16,16 @@
 import pytest
 import xarray
 import numpy as np
-from datatree import DataTree
 from geoips.commandline.log_setup import setup_logging
+from geoips.xarray_utils import xr_to_dtree
 
 LOG = setup_logging()
 
 
 @pytest.fixture
 def load_testfiles():
-    """Preload files for testing."""
-    # only want a few files for testing
+    """Generate test xarrays for testing."""
+    # only want a small sample for testing
     xarray_dict = {
         "test_{}".format(k): xarray.Dataset(
             data_vars=dict(temp=(["x", "y"], np.empty((2, 2)))),
@@ -48,5 +48,6 @@ def test_xarray_to_datatree(load_testfiles):
     -------
     None
     """
-    xarray_datatree = DataTree.from_dict(load_testfiles)
+    xarray_datatree = xr_to_dtree.xarray_to_datatree(load_testfiles)
     assert xarray_datatree == load_testfiles
+    assert xarray_datatree.keys() == load_testfiles.keys()
