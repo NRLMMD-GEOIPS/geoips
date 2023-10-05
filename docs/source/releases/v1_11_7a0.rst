@@ -14,6 +14,21 @@ Version 1.11.7a0 (2023-10-05)
 *****************************
 
 * Added documentation for windows installation
+* Fix Upside Down Geotiff error
+
+Bug Fixes
+=========
+
+Fix Upside Down Geotiff Error
+-----------------------------
+
+Geotiffs created by GeoIPS are upside down when imported into other applications, such
+as Google Earth. We need to fix this so users aren't confused
+
+::
+
+    modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
+    modified: geoips/tests/outputs/ahi.tc.WV.geotiff/20200405_000000_SH252020_ahi_himawari-8_WV_100kts_100p00_1p0.tif
 
 Documentation Updates
 =====================
