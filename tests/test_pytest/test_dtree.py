@@ -34,15 +34,15 @@ def load_testfiles():
 
 def test_xarray_to_datatree(load_testfiles):
     """Test conversion a xarray dictionary to a datatree.
+
     Parameters
     ----------
     load_testfiles : dict(xarrays)
-        Dictionary of xarrays    
+        Dictionary of xarrays
 
     Returns
     -------
-    None 
-        
+    None
     """
     xarray_datatree = DataTree.from_dict(load_testfiles)
     assert xarray_datatree == load_testfiles
