@@ -30,7 +30,7 @@ echo ""
 # Note you must use the variable "call" in the for the loop
 # "call" used in test_all_run.sh
 for call in \
-  "$GEOIPS_PACKAGES_DIR/geoips/tests/utils/check_code.sh all $repopath flake8_docstring_only" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/utils/check_code.sh all $repopath" \
   "$GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.sh $repopath $pkgname html_only" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ahi.tc.WV.geotiff.sh" \
