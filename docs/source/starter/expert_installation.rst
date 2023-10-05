@@ -14,7 +14,7 @@
 Expert User Installation (Administrative privileges)
 ****************************************************
 
-The :ref:`Complete Local conda-based GeoIPS Installation<linux_installation>`
+The :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`
 is the easiest way to get GeoIPS up and running, but if you have administrative
 privileges on your system, and are confident you can install all the required
 system dependencies yourself, you can install GeoIPS by setting a few environment
@@ -26,12 +26,12 @@ Expert User GeoIPS Installation
 System Dependencies
 -------------------
 
-**Use the** :ref:`Complete Local conda-based GeoIPS Installation<linux_installation>`
+**Use the** :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`
 **for the fully supported installation, which includes all
 dependencies**
 
 Required (**included in**
-:ref:`Complete Local conda-based GeoIPS Installation<linux_installation>`)
+:ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`)
 
 * wget (Miniconda installation)
 * git >= 2.19.1 (git -C commands in complete installation)
@@ -51,7 +51,7 @@ Optional
 Minimal install
 ---------------
 
-**Use the** :ref:`Complete Local conda-based GeoIPS Installation<linux_installation>`.
+**Use the** :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`.
 **for the fully supported installation, which includes all
 dependencies**
 
@@ -61,7 +61,7 @@ installation process (which includes conda, rclone, test data, etc),
 you can clone the geoips repo and pip install from your local copy.
 
 **For the fully supported installation, please use the**
-:ref:`Complete Local conda-based GeoIPS Installation<linux_installation>`.
+:ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`.
 
 .. code:: bash
 

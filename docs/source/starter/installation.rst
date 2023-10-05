@@ -10,7 +10,7 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-.. _linux_installation:
+.. _linux-installation:
 
 **********************************
 Conda-based Installation for Linux
