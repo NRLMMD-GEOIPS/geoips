@@ -16,6 +16,20 @@ Version 1.11.5a0 (2023-09-27)
 * Update "update_this_release_note" to v1_11_5a0.rst
 * Fix Errors from Flake8 Linting
 * Remove flake8_docstring_only option from check_code.sh workflow call
+* Fix Upside Down Geotiff error
+
+Bugs
+====
+
+Fix Upside Down Geotiff Error
+-----------------------------
+
+Geotiffs created by GeoIPS are upside down when imported into other applications, such
+as Google Earth. We need to fix this so users aren't confused
+
+::
+
+    modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
 
 Git Workflow Updates
 ====================
