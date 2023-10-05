@@ -10,7 +10,7 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-.. _expert_install:
+.. _expert-installation:
 
 ****************************************************
 Expert User Installation (Administrative privileges)
