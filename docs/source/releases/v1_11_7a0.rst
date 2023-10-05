@@ -14,7 +14,7 @@ Version 1.11.7a0 (2023-10-05)
 *****************************
 
 * Added documentation for windows installation
-* Fix Upside Down Geotiff error
+* Fix Upside Down Geotiff Error
 
 Bug Fixes
 =========
