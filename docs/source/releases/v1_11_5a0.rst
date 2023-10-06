@@ -16,7 +16,6 @@ Version 1.11.5a0 (2023-09-27)
 * Add workflow to build sdist and wheel and push to pypi
 * Update "update_this_release_note" to v1_11_5a0.rst
 * Remove flake8_docstring_only option from check_code.sh workflow call
-* Create "output_checkers" interface
 * Fix Errors from Flake8 Linting
 
 Git Workflow Updates
@@ -51,31 +50,6 @@ Update "update_this_release_note" to docs/source/releases/v1_11_5a0.rst
 ::
 
   modified: update_this_release_note
-
-Enhancements
-============
-
-Create "output_checkers" interface
-----------------------------------
-
-Currently in GeoIPS, products are compared using the "compare_outputs.py" python
-module. This needs to be refactored into an interface called "output_checkers", and
-split into multiple plugins for different product types.
-
-::
-
-    modified: geoips/interfaces/__init__.py
-    modified: geoips/interfaces/base.py
-    modified: pyproject.toml
-    modified: geoips/plugins/modules/procflows/config_based.py
-    modified: geoips/plugins/modules/procflows/single_source.py
-    added: geoips/interfaces/module_based/output_checkers.py
-    added: geoips/plugins/modules/output_checkers/geotiff_checker.py
-    added: geoips/plugins/modules/output_checkers/gz_checker.py
-    added: geoips/plugins/modules/output_checkers/image_checker.py
-    added: geoips/plugins/modules/output_checkers/netcdf_checker.py
-    added: geoips/plugins/modules/output_checkers/text_checker.py
-    deleted: geoips/compare_outputs.py
 
 Code Checks
 ===========
