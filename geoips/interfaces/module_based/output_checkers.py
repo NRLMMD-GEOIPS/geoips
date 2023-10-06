@@ -12,7 +12,11 @@
 
 """Output Checkers interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface, BaseModulePlugin
+from geoips.interfaces.base import (
+    BaseModuleInterface,
+    BaseModulePlugin,
+    ValidationError,
+)
 import logging
 from geoips.errors import PluginError
 
@@ -117,7 +121,13 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         )
         LOG.info("")
         from glob import glob
-        from geoips.plugins.modules.output_checkers import gz_checker
+        from geoips.plugins.modules.output_checkers.gz import (
+            correct_type,
+            gunzip_product,
+            print_gunzip_to_file,
+            print_gzip_to_file,
+            gzip_product,
+        )
         from os.path import basename, exists, isdir, isfile, join
 
         compare_basenames = [basename(yy) for yy in glob(compare_path + "/*")]
@@ -139,9 +149,9 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             )
 
             rezip = False
-            if gz_checker.correct_type(output_product):
+            if correct_type(output_product):
                 rezip = True
-                output_product = gz_checker.gunzip_product(output_product)
+                output_product = gunzip_product(output_product)
             if basename(output_product) in compare_basenames:
                 if test_product_func is None:
                     test_product_func = self.test_products
@@ -158,7 +168,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
 
             # Make sure we leave things as we found them
             if rezip is True:
-                gz_checker.gzip_product(output_product)
+                gzip_product(output_product)
 
             LOG.info("")
         LOG.info(
@@ -235,13 +245,13 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
 
                     # For display purposes - tifs are easier to view
                     out_fname = basename(goodcomp).replace(".jif", ".tif")
-                    gz_checker.print_gunzip_to_file(fobj, goodcomp)
+                    print_gunzip_to_file(fobj, goodcomp)
                     fobj.write(
                         "cp {0} {1}/GOODCOMPARE/{2}\n".format(
                             goodcomp, diffdir, out_fname
                         )
                     )
-                    gz_checker.print_gzip_to_file(fobj, goodcomp)
+                    print_gzip_to_file(fobj, goodcomp)
 
         if len(missingcomps) > 0:
             fname_cp = join(diffdir, "cp_MISSINGCOMPARE.txt")
@@ -254,21 +264,21 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             LOG.interactive("  source {0}".format(fname_cp))
             with open(fname_cp, "w") as fobj:
                 for missingcomp in missingcomps:
-                    gz_checker.print_gunzip_to_file(fobj, missingcomp)
+                    print_gunzip_to_file(fobj, missingcomp)
                     fobj.write("cp -v {0} {1}/../\n".format(missingcomp, diffdir))
-                    gz_checker.print_gzip_to_file(fobj, missingcomp)
+                    print_gzip_to_file(fobj, missingcomp)
             with open(fname_missingcompcptest, "w") as fobj:
                 fobj.write("mkdir {0}/MISSINGCOMPARE\n".format(diffdir))
                 for missingcomp in missingcomps:
                     # For display purposes - tifs are easier to view
                     out_fname = basename(missingcomp).replace(".jif", ".tif")
-                    gz_checker.print_gunzip_to_file(fobj, missingcomp)
+                    print_gunzip_to_file(fobj, missingcomp)
                     fobj.write(
                         "cp -v {0} {1}/MISSINGCOMPARE/{2}\n".format(
                             missingcomp, diffdir, out_fname
                         )
                     )
-                    gz_checker.print_gzip_to_file(fobj, missingcomp)
+                    print_gzip_to_file(fobj, missingcomp)
 
         if len(missingproducts) > 0:
             fname_rm = join(diffdir, "rm_MISSINGPRODUCTS.txt")
@@ -288,13 +298,13 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                 for missingproduct in missingproducts:
                     # For display purposes - tifs are easier to view
                     out_fname = basename(missingproduct).replace(".jif", ".tif")
-                    gz_checker.print_gunzip_to_file(fobj, missingproduct)
+                    print_gunzip_to_file(fobj, missingproduct)
                     fobj.write(
                         "cp -v {0} {1}/MISSINGPRODUCTS/{2}\n".format(
                             missingproduct, diffdir, out_fname
                         )
                     )
-                    gz_checker.print_gzip_to_file(fobj, missingproduct)
+                    print_gzip_to_file(fobj, missingproduct)
 
         if len(badcomps) > 0:
             fname_cp = join(diffdir, "cp_BADCOMPARES.txt")
@@ -310,9 +320,9 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                     if compare_strings is not None:
                         for compare_string in compare_strings:
                             badcomp = badcomp.replace(compare_string, "")
-                    gz_checker.print_gunzip_to_file(fobj, badcomp)
+                    print_gunzip_to_file(fobj, badcomp)
                     fobj.write("cp -v {0} {1}/../\n".format(badcomp, diffdir))
-                    gz_checker.print_gzip_to_file(fobj, badcomp)
+                    print_gzip_to_file(fobj, badcomp)
             with open(fname_badcptest, "w") as fobj:
                 fobj.write("mkdir {0}/BADCOMPARES\n".format(diffdir))
                 for badcomp in badcomps:
@@ -322,13 +332,13 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                     badcomp = badcomp.replace("GEOTIFF ", "")
                     # For display purposes - tifs are easier to view
                     out_fname = basename(badcomp).replace(".jif", ".tif")
-                    gz_checker.print_gunzip_to_file(fobj, badcomp)
+                    print_gunzip_to_file(fobj, badcomp)
                     fobj.write(
                         "cp {0} {1}/BADCOMPARES/{2}\n".format(
                             badcomp, diffdir, out_fname
                         )
                     )
-                    gz_checker.print_gzip_to_file(fobj, badcomp)
+                    print_gzip_to_file(fobj, badcomp)
 
         retval = 0
         if len(badcomps) != 0:
@@ -418,41 +428,15 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             Raised when current output product does not have an associated
             comparison test defined.
         """
-        matched_one = False
-        if self.name == "image_checker":
-            matched_one = True
-            compare_strings += ["IMAGE "]
-            if self.module.outputs_match(self, output_product, compare_product):
-                goodcomps += ["IMAGE {0}".format(output_product)]
-            else:
-                badcomps += ["IMAGE {0}".format(output_product)]
-
-        if self.name == "geotiff_checker":
-            matched_one = True
-            compare_strings += ["GEOTIFF "]
-            if self.module.outputs_match(output_product, compare_product):
-                goodcomps += ["GEOTIFF {0}".format(output_product)]
-            else:
-                badcomps += ["GEOTIFF {0}".format(output_product)]
-
-        if self.name == "text_checker":
-            matched_one = True
-            compare_strings += ["TEXT "]
-            if self.module.outputs_match(self, output_product, compare_product):
-                goodcomps += ["TEXT {0}".format(output_product)]
-            else:
-                badcomps += ["TEXT {0}".format(output_product)]
-
-        if self.name == "netcdf_checker":
-            matched_one = True
-            compare_strings += ["GEOIPS NETCDF "]
-            if self.module.outputs_match(self, output_product, compare_product):
-                goodcomps += ["GEOIPS NETCDF {0}".format(output_product)]
-            else:
-                badcomps += ["GEOIPS NETCDF {0}".format(output_product)]
-
-        if not matched_one:
-            raise TypeError(f"MISSING TEST for output product: {output_product}")
+        if self.name == "netcdf":
+            comp_str = "GEOIPS NETCDF "
+        else:
+            comp_str = self.name.upper() + " "
+        compare_strings += [comp_str]
+        if self.module.outputs_match(self, output_product, compare_product):
+            goodcomps += [comp_str + "{0}".format(output_product)]
+        else:
+            badcomps += [comp_str + "{0}".format(output_product)]
 
         return goodcomps, badcomps, compare_strings
 
@@ -492,9 +476,27 @@ class OutputCheckersInterface(BaseModuleInterface):
     def get_plugin(self, name):
         """Get the output checker plugin corresponding to checker_name and return it."""
         try:
-            return super().get_plugin(name)
+            plug = super().get_plugin(name)
+            if self.valid_plugin(plug):
+                return plug
         except PluginError:
-            return super().get_plugin(self.identify_checker(name))
+            plug = super().get_plugin(self.identify_checker(name))
+            if self.valid_plugin(plug):
+                return plug
+
+    def valid_plugin(self, plugin):
+        """Check the validity of the supplied output_checker plugin."""
+        if (
+            not hasattr(plugin.module, "outputs_match")
+            or not hasattr(plugin.module, "correct_type")
+            or not hasattr(plugin.module, "call")
+        ):
+            raise ValidationError(
+                "The plugin returned is missing one or more of the following functions."
+                "\n[outputs_match, correct_type, call]. Please create those before "
+                "using this plugin."
+            )
+        return True
 
 
 output_checkers = OutputCheckersInterface()

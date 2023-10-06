@@ -12,75 +12,19 @@
 
 """Test script for representative product comparisons."""
 
-import logging
-from os.path import splitext, exists
 import subprocess
+import logging
+from os.path import splitext
 
 LOG = logging.getLogger(__name__)
 
 interface = "output_checkers"
 family = "standard"
-name = "gz_checker"
-
-
-def gunzip_product(fname):
-    """Gunzip file fname.
-
-    Parameters
-    ----------
-    fname : str
-        File to gunzip.
-
-    Returns
-    -------
-    str
-        Filename after gunzipping
-    """
-    LOG.info("**** Gunzipping product for comparisons - will gzip after comparing")
-    LOG.info("gunzip %s", fname)
-    subprocess.call(["gunzip", fname])
-    return splitext(fname)[0]
-
-
-def gzip_product(fname):
-    """Gzip file fname.
-
-    Parameters
-    ----------
-    fname : str
-        File to gzip.
-
-    Returns
-    -------
-    str
-        Filename after gzipping
-    """
-    LOG.info("**** Gzipping product - leave things as we found them")
-    LOG.info("gzip %s", fname)
-    subprocess.call(["gzip", fname])
-    return splitext(fname)[0]
-
-
-def print_gunzip_to_file(fobj, gunzip_fname):
-    """Write the command to gunzip the passed "gunzip_fname" to file.
-
-    Writes to the currently open file object, if required.
-    """
-    if exists(f"{gunzip_fname}.gz") and not exists(f"{gunzip_fname}"):
-        fobj.write(f"gunzip -v {gunzip_fname}.gz\n")
-
-
-def print_gzip_to_file(fobj, gzip_fname):
-    """Write the command to gzip the passed "gzip_fname" to file.
-
-    Writes to the currently open file object, if required.
-    """
-    if exists(f"{gzip_fname}.gz") and not exists(f"{gzip_fname}"):
-        fobj.write(f"gzip -v {gzip_fname}\n")
+name = "text"
 
 
 def correct_type(fname):
-    """Check if fname is a gzip file.
+    """Check if fname is a text file.
 
     Parameters
     ----------
@@ -90,15 +34,59 @@ def correct_type(fname):
     Returns
     -------
     bool
-        True if it is a gz file, False otherwise.
+        True if it is a text file, False otherwise.
     """
-    if splitext(fname)[-1] in [".gz"]:
+    if splitext(fname)[-1] in ["", ".txt", ".text", ".yaml"]:
+        with open(fname) as f:
+            line = f.readline()
+        if isinstance(line, str):
+            return True
+    return False
+
+
+def outputs_match(plugin, output_product, compare_product):
+    """Check if two text files match.
+
+    Parameters
+    ----------
+    plugin: OutputCheckerPlugin
+        The corresponding geotiff OutputCheckerPlugin that has access to needed methods
+    output_product : str
+        Full path to current output product
+    compare_product : str
+        Full path to "good" comparison product
+
+    Returns
+    -------
+    bool
+        Return True if products match, False if they differ
+    """
+    ret = subprocess.run(
+        ["diff", output_product, compare_product],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    LOG.debug(ret.stdout)
+    if ret.returncode == 0:
+        LOG.info("    *****************************")
+        LOG.info("    *** GOOD Text files match ***")
+        LOG.info("    *****************************")
         return True
+
+    out_difftxt = plugin.get_out_diff_fname(compare_product, output_product)
+    with open(out_difftxt, "w") as fobj:
+        subprocess.call(["diff", output_product, compare_product], stdout=fobj)
+    LOG.interactive("    *******************************************")
+    LOG.interactive("    *** BAD Text files do NOT match exactly ***")
+    LOG.interactive("    ***   output_product: %s ***", output_product)
+    LOG.interactive("    ***   compare_product: %s ***", compare_product)
+    LOG.interactive("    ***   out_difftxt: %s ***", out_difftxt)
+    LOG.interactive("    *******************************************")
     return False
 
 
 def call(plugin, compare_path, output_products, test_product_func=None):
-    """Compare the "correct" gzs found the list of current output_products.
+    """Compare the "correct" text found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
     "correct" files contained in "compare_path".
@@ -106,7 +94,7 @@ def call(plugin, compare_path, output_products, test_product_func=None):
     Parameters
     ----------
     plugin: OutputCheckerPlugin
-        The corresponding gz OutputCheckerPlugin that has access to needed methods
+        The corresponding text OutputCheckerPlugin that has access to needed methods
     compare_path : str
         Path to directory of "correct" products - filenames must match output_products
     output_products : list of str

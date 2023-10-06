@@ -19,7 +19,7 @@ LOG = logging.getLogger(__name__)
 
 interface = "output_checkers"
 family = "standard"
-name = "image_checker"
+name = "image"
 
 
 def correct_type(fname):
@@ -134,7 +134,7 @@ def outputs_match(plugin, output_product, compare_product, fuzz="5%"):
     return True
 
 
-def call(plugin, compare_path, output_products, test_product_func=None):
+def call(plugin, compare_path, output_products):
     """Compare the "correct" imagery found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
@@ -149,23 +149,11 @@ def call(plugin, compare_path, output_products, test_product_func=None):
     output_products : list of str
         List of strings of current output products,
         to compare with products in compare_path
-    test_product_func : function, default=None
-        Alternative function to be used for testing output product
-
-          * Call signature must be:
-
-              * output_product, compare_product, goodcomps, badcomps, compare_strings
-
-          * Return must be:
-
-              * goodcomps, badcomps, compare_strings
-
-        * If None, use geoips.compare_outputs.test_product)
 
     Returns
     -------
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = plugin.compare_outputs(compare_path, output_products, test_product_func)
+    retval = plugin.compare_outputs(compare_path, output_products)
     return retval
