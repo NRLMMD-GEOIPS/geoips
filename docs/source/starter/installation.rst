@@ -10,6 +10,8 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+.. _linux-installation:
+
 **********************************
 Conda-based Installation for Linux
 **********************************
@@ -113,6 +115,9 @@ This command installs all GeoIPS Python dependencies, and GeoIPS itself.
 .. code:: bash
 
     # Ensure geoips python environment enabled before installing geoips
+    # using "conda activate geoips"
+
+    # Install geoips via pip
     pip install -e "$GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]"
 
 6. Test your installation
@@ -127,10 +132,10 @@ To test your installation you will call two scripts:
 .. code:: bash
 
     # Ensure geoips python environment enabled
+    # using "conda activate geoips"
 
     # Download the test data
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
-
     # Run integration tests
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh
 
