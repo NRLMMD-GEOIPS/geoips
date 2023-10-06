@@ -17,5 +17,5 @@ Extending GeoIPS with your own functionality
 Discussion
 ==========
 
-Please see “Extending GeoIPS with Plugins” in the User's Guide
+Please see :ref:`Extending GeoIPS with Plugins<plugin-extend>` in the User's Guide
 for more information on using GeoIPS for your own use cases.
