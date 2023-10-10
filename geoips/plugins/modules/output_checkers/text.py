@@ -85,7 +85,7 @@ def outputs_match(plugin, output_product, compare_product):
     return False
 
 
-def call(plugin, compare_path, output_products, test_product_func=None):
+def call(plugin, compare_path, output_products):
     """Compare the "correct" text found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
@@ -118,5 +118,5 @@ def call(plugin, compare_path, output_products, test_product_func=None):
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = plugin.compare_outputs(compare_path, output_products, test_product_func)
+    retval = plugin.compare_outputs(compare_path, output_products)
     return retval

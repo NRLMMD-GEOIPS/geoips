@@ -40,7 +40,7 @@ def correct_type(fname):
     return False
 
 
-def outputs_match(plugin, output_product, compare_product, fuzz="5%"):
+def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
     """Use PIL and numpy to compare two images.
 
     Parameters
@@ -51,10 +51,9 @@ def outputs_match(plugin, output_product, compare_product, fuzz="5%"):
         Current output product
     compare_product : str
         Path to comparison product
-    fuzz : str, optional
-        NOTE: currently not implemented.
-        "fuzz" argument to allow small diffs to pass - larger "fuzz" factor to make
-        comparison less strict, by default 5%.
+    threshold : str, optional
+        "theshold" argument to allow small diffs to pass - larger "threshold" factor
+        to make comparison less strict, by default 5%.
 
     Returns
     -------
@@ -93,14 +92,19 @@ def outputs_match(plugin, output_product, compare_product, fuzz="5%"):
         )
         LOG.interactive("    ***************************************")
         return False
-
+    threshold_dict = {
+        "lenient": 0.05,
+        "medium": 0.025,
+        "strict": 0.00,
+    }
+    threshold = threshold_dict[threshold]
     # Determine the number of pixels that are mismatched
-    num_pix_mismatched = pixelmatch(
-        out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=0.05
+    thresholded_retval = pixelmatch(
+        out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=threshold
     )
     # Currently, return 0 ONLY if the images are exactly matched.  Eventually
     # we may update this to allow returning 0 for "close enough" matches.
-    if np.all(diff_arr == 0) and num_pix_mismatched == 0:
+    if np.all(diff_arr == 0) and thresholded_retval == 0:
         fullimg_retval = 0
     else:
         fullimg_retval = 1
@@ -111,9 +115,20 @@ def outputs_match(plugin, output_product, compare_product, fuzz="5%"):
 
     # If the images do not match exactly, print the output image, comparison image,
     # and exact diff image to log, for easy viewing.  Return False.
-    if fullimg_retval != 0:
+    if thresholded_retval != 0:
+        bad_inds = np.where(diff_arr != 0)
         LOG.interactive("    ***************************************")
-        LOG.interactive("    *** BAD Images do NOT match exactly ***")
+        LOG.interactive("    *** BAD Images do NOT match within tolerance ***")
+        LOG.interactive("    *** ***")
+        LOG.interactive(
+            "    *** %s mismatched pixels exceeding threshold %s ***",
+            thresholded_retval,
+            threshold,
+        )
+        LOG.interactive("    *** %s mismatched exact ***", len(diff_arr[bad_inds]))
+        LOG.interactive("    *** np.where(diff_arr != 0): %s ***", bad_inds)
+        LOG.interactive("    *** diff_arr[bad_inds]: %s ***", diff_arr[bad_inds])
+        LOG.interactive("    *** ***")
         LOG.interactive("    ***   output_product: %s ***", output_product)
         LOG.interactive("    ***   compare_product: %s ***", compare_product)
         LOG.interactive("    ***   exact dif image: %s ***", exact_out_diffimg)
@@ -123,9 +138,13 @@ def outputs_match(plugin, output_product, compare_product, fuzz="5%"):
     # If the images match exactly, just output to GOOD comparison log to info level
     # (only bad comparisons to interactive level)
     if fullimg_retval != 0:
-        LOG.info("    ******************************************")
-        LOG.info("    *** GOOD Images match within tolerance ***")
-        LOG.info("    ******************************************")
+        LOG.interactive("    ******************************************")
+        LOG.interactive("    *** GOOD Images match within tolerance ***")
+        LOG.interactive(
+            "    *** %s mismatched pixels from exact comparison ***",
+            len(diff_arr[bad_inds]),
+        )
+        LOG.interactive("    ******************************************")
     else:
         LOG.info("    *********************************")
         LOG.info("    *** GOOD Images match exactly ***")

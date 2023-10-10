@@ -19,12 +19,84 @@ from geoips.interfaces.base import (
 )
 import logging
 from geoips.errors import PluginError
+import subprocess
+from os.path import exists, splitext
 
 LOG = logging.getLogger(__name__)
+rezip = False
 
 
 class OutputCheckersBasePlugin(BaseModulePlugin):
     """Output Checkers Base Plugin for comparing data outputs."""
+
+    def is_gz(fname):
+        """Check if fname is a gzip file.
+
+        Parameters
+        ----------
+        fname : str
+            Name of file to check.
+
+        Returns
+        -------
+        bool
+            True if it is a gz file, False otherwise.
+        """
+        if splitext(fname)[-1] in [".gz"]:
+            return True
+        return False
+
+    def gunzip_product(self, fname):
+        """Gunzip file fname.
+
+        Parameters
+        ----------
+        fname : str
+            File to gunzip.
+
+        Returns
+        -------
+        str
+            Filename after gunzipping
+        """
+        LOG.info("**** Gunzipping product for comparisons - will gzip after comparing")
+        LOG.info("gunzip %s", fname)
+        subprocess.call(["gunzip", fname])
+        return splitext(fname)[0]
+
+    def gzip_product(self, fname):
+        """Gzip file fname.
+
+        Parameters
+        ----------
+        fname : str
+            File to gzip.
+
+        Returns
+        -------
+        str
+            Filename after gzipping
+        """
+        LOG.info("**** Gzipping product - leave things as we found them")
+        LOG.info("gzip %s", fname)
+        subprocess.call(["gzip", fname])
+        return splitext(fname)[0]
+
+    def print_gunzip_to_file(self, fobj, gunzip_fname):
+        """Write the command to gunzip the passed "gunzip_fname" to file.
+
+        Writes to the currently open file object, if required.
+        """
+        if exists(f"{gunzip_fname}.gz") and not exists(f"{gunzip_fname}"):
+            fobj.write(f"gunzip -v {gunzip_fname}.gz\n")
+
+    def print_gzip_to_file(self, fobj, gzip_fname):
+        """Write the command to gzip the passed "gzip_fname" to file.
+
+        Writes to the currently open file object, if required.
+        """
+        if exists(f"{gzip_fname}.gz") and not exists(f"{gzip_fname}"):
+            fobj.write(f"gzip -v {gzip_fname}\n")
 
     def get_out_diff_fname(self, compare_product, output_product, ext=None, flag=None):
         """Obtain the filename for output and comparison product diff.
@@ -65,7 +137,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             out_diff_fname = splitext(out_diff_fname)[0] + ".png"
         return out_diff_fname
 
-    def compare_outputs(self, compare_path, output_products, test_product_func=None):
+    def compare_outputs(self, compare_path, output_products):
         """Compare the "correct" imagery found the list of current output_products.
 
         Compares files produced in the current processing run with the list of
@@ -79,24 +151,14 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         output_products : list of str
             List of strings of current output products,
             to compare with products in compare_path
-        test_product_func : function, default=None
-            Alternative function to be used for testing output product
-
-            * Call signature must be:
-
-                * output_product, compare_product, goodcomps, badcomps, compare_strings
-
-            * Return must be:
-
-                * goodcomps, badcomps, compare_strings
-
-            * If None, use geoips.compare_outputs.test_product)
 
         Returns
         -------
         int
             Binary code: 0 if all comparisons were completed successfully.
         """
+        global rezip
+
         badcomps = []
         goodcomps = []
         missingcomps = []
@@ -121,13 +183,6 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         )
         LOG.info("")
         from glob import glob
-        from geoips.plugins.modules.output_checkers.gz import (
-            correct_type,
-            gunzip_product,
-            print_gunzip_to_file,
-            print_gzip_to_file,
-            gzip_product,
-        )
         from os.path import basename, exists, isdir, isfile, join
 
         compare_basenames = [basename(yy) for yy in glob(compare_path + "/*")]
@@ -148,13 +203,12 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                 "****"
             )
 
-            rezip = False
-            if correct_type(output_product):
-                rezip = True
-                output_product = gunzip_product(output_product)
+            # rezip = False
+            # if self.is_gz(output_product):
+            #     rezip = True
+            #     output_product = self.gunzip_product(output_product)
             if basename(output_product) in compare_basenames:
-                if test_product_func is None:
-                    test_product_func = self.test_products
+                test_product_func = self.test_products
                 goodcomps, badcomps, compare_strings = test_product_func(
                     output_product,
                     join(compare_path, basename(output_product)),
@@ -168,7 +222,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
 
             # Make sure we leave things as we found them
             if rezip is True:
-                gzip_product(output_product)
+                self.gzip_product(output_product)
 
             LOG.info("")
         LOG.info(
@@ -245,13 +299,13 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
 
                     # For display purposes - tifs are easier to view
                     out_fname = basename(goodcomp).replace(".jif", ".tif")
-                    print_gunzip_to_file(fobj, goodcomp)
+                    self.print_gunzip_to_file(fobj, goodcomp)
                     fobj.write(
                         "cp {0} {1}/GOODCOMPARE/{2}\n".format(
                             goodcomp, diffdir, out_fname
                         )
                     )
-                    print_gzip_to_file(fobj, goodcomp)
+                    self.print_gzip_to_file(fobj, goodcomp)
 
         if len(missingcomps) > 0:
             fname_cp = join(diffdir, "cp_MISSINGCOMPARE.txt")
@@ -264,21 +318,21 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             LOG.interactive("  source {0}".format(fname_cp))
             with open(fname_cp, "w") as fobj:
                 for missingcomp in missingcomps:
-                    print_gunzip_to_file(fobj, missingcomp)
+                    self.print_gunzip_to_file(fobj, missingcomp)
                     fobj.write("cp -v {0} {1}/../\n".format(missingcomp, diffdir))
-                    print_gzip_to_file(fobj, missingcomp)
+                    self.print_gzip_to_file(fobj, missingcomp)
             with open(fname_missingcompcptest, "w") as fobj:
                 fobj.write("mkdir {0}/MISSINGCOMPARE\n".format(diffdir))
                 for missingcomp in missingcomps:
                     # For display purposes - tifs are easier to view
                     out_fname = basename(missingcomp).replace(".jif", ".tif")
-                    print_gunzip_to_file(fobj, missingcomp)
+                    self.print_gunzip_to_file(fobj, missingcomp)
                     fobj.write(
                         "cp -v {0} {1}/MISSINGCOMPARE/{2}\n".format(
                             missingcomp, diffdir, out_fname
                         )
                     )
-                    print_gzip_to_file(fobj, missingcomp)
+                    self.print_gzip_to_file(fobj, missingcomp)
 
         if len(missingproducts) > 0:
             fname_rm = join(diffdir, "rm_MISSINGPRODUCTS.txt")
@@ -298,13 +352,13 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                 for missingproduct in missingproducts:
                     # For display purposes - tifs are easier to view
                     out_fname = basename(missingproduct).replace(".jif", ".tif")
-                    print_gunzip_to_file(fobj, missingproduct)
+                    self.print_gunzip_to_file(fobj, missingproduct)
                     fobj.write(
                         "cp -v {0} {1}/MISSINGPRODUCTS/{2}\n".format(
                             missingproduct, diffdir, out_fname
                         )
                     )
-                    print_gzip_to_file(fobj, missingproduct)
+                    self.print_gzip_to_file(fobj, missingproduct)
 
         if len(badcomps) > 0:
             fname_cp = join(diffdir, "cp_BADCOMPARES.txt")
@@ -320,9 +374,9 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                     if compare_strings is not None:
                         for compare_string in compare_strings:
                             badcomp = badcomp.replace(compare_string, "")
-                    print_gunzip_to_file(fobj, badcomp)
+                    self.print_gunzip_to_file(fobj, badcomp)
                     fobj.write("cp -v {0} {1}/../\n".format(badcomp, diffdir))
-                    print_gzip_to_file(fobj, badcomp)
+                    self.print_gzip_to_file(fobj, badcomp)
             with open(fname_badcptest, "w") as fobj:
                 fobj.write("mkdir {0}/BADCOMPARES\n".format(diffdir))
                 for badcomp in badcomps:
@@ -332,13 +386,13 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                     badcomp = badcomp.replace("GEOTIFF ", "")
                     # For display purposes - tifs are easier to view
                     out_fname = basename(badcomp).replace(".jif", ".tif")
-                    print_gunzip_to_file(fobj, badcomp)
+                    self.print_gunzip_to_file(fobj, badcomp)
                     fobj.write(
                         "cp {0} {1}/BADCOMPARES/{2}\n".format(
                             badcomp, diffdir, out_fname
                         )
                     )
-                    print_gzip_to_file(fobj, badcomp)
+                    self.print_gzip_to_file(fobj, badcomp)
 
         retval = 0
         if len(badcomps) != 0:
@@ -462,8 +516,13 @@ class OutputCheckersInterface(BaseModuleInterface):
 
     def identify_checker(self, filename):
         """Identify the correct output checker plugin and return its name."""
+        global rezip
+
         checker_found = False
         checker_name = None
+        if self.plugin_class.is_gz(filename):
+            rezip = True
+            filename = self.plugin_class.gunzip_product(filename)
         for output_checker in self.get_plugins():
             checker_found = output_checker.module.correct_type(filename)
             if checker_found:
