@@ -20,7 +20,7 @@ from geoips.interfaces.base import (
 import logging
 from geoips.errors import PluginError
 import subprocess
-from os.path import exists, splitext
+from os.path import exists, splitext, basename
 
 LOG = logging.getLogger(__name__)
 rezip = False
@@ -29,7 +29,7 @@ rezip = False
 class OutputCheckersBasePlugin(BaseModulePlugin):
     """Output Checkers Base Plugin for comparing data outputs."""
 
-    def is_gz(fname):
+    def is_gz(self, fname):
         """Check if fname is a gzip file.
 
         Parameters
@@ -61,8 +61,16 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         """
         LOG.info("**** Gunzipping product for comparisons - will gzip after comparing")
         LOG.info("gunzip %s", fname)
-        subprocess.call(["gunzip", fname])
-        return splitext(fname)[0]
+        file_name = str(basename(fname)).replace(".gz", "")
+        save_dir = "$GEOIPS_PACKAGES_DIR/outdirs/scratch/gunzipped_products/"
+        subprocess.call(
+            [
+                "gunzip -c",
+                fname,
+                "> " + save_dir + file_name,
+            ]
+        )
+        return save_dir + file_name
 
     def gzip_product(self, fname):
         """Gzip file fname.
@@ -157,8 +165,6 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         int
             Binary code: 0 if all comparisons were completed successfully.
         """
-        global rezip
-
         badcomps = []
         goodcomps = []
         missingcomps = []
@@ -215,10 +221,6 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             else:
                 missingcomps += [output_product]
             final_output_products += [output_product]
-
-            # Make sure we leave things as we found them
-            if rezip is True:
-                self.gzip_product(output_product)
 
             LOG.info("")
         LOG.info(
@@ -478,6 +480,8 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             Raised when current output product does not have an associated
             comparison test defined.
         """
+        if self.is_gz(compare_product):
+            compare_product = self.gunzip_product(compare_product)
         if self.name == "netcdf":
             comp_str = "GEOIPS NETCDF "
         else:
@@ -512,13 +516,8 @@ class OutputCheckersInterface(BaseModuleInterface):
 
     def identify_checker(self, filename):
         """Identify the correct output checker plugin and return its name."""
-        global rezip
-
         checker_found = False
         checker_name = None
-        if self.plugin_class.is_gz(filename):
-            rezip = True
-            filename = self.plugin_class.gunzip_product(filename)
         for output_checker in self.get_plugins():
             checker_found = output_checker.module.correct_type(filename)
             if checker_found:
