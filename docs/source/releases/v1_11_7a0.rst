@@ -35,7 +35,6 @@ and split into multiple plugins for different product types.
     modified: geoips/plugins/modules/procflows/single_source.py
     added: geoips/interfaces/module_based/output_checkers.py
     added: geoips/plugins/modules/output_checkers/geotiff_checker.py
-    added: geoips/plugins/modules/output_checkers/gz_checker.py
     added: geoips/plugins/modules/output_checkers/image_checker.py
     added: geoips/plugins/modules/output_checkers/netcdf_checker.py
     added: geoips/plugins/modules/output_checkers/text_checker.py

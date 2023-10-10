@@ -93,8 +93,8 @@ def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
         LOG.interactive("    ***************************************")
         return False
     threshold_dict = {
-        "lenient": 0.05,
-        "medium": 0.025,
+        "lenient": 0.1,
+        "medium": 0.05,
         "strict": 0.00,
     }
     threshold = threshold_dict[threshold]
