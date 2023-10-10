@@ -126,16 +126,7 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
                --rst-substitutions=version \
                --statistics \
                $path
-        flake8 --max-line-length=88 \
-               $select_string \
-               --count \
-               --ignore=E203,W503,E712 \
-               --extend-exclude _version.py,lib,*_docs,geoips_dev_utils \
-               --docstring-convention=numpy \
-               --rst-roles=class,func,ref \
-               --rst-directives=envvar,exception \
-               --rst-substitutions=version \
-               --statistics \
+        flake8 --config .config/flake8_config.cfg \
                $path
         flake8_retval=$?
         echo "TEST COMPLETE flake8"
