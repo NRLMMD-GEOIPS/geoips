@@ -203,10 +203,6 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                 "****"
             )
 
-            # rezip = False
-            # if self.is_gz(output_product):
-            #     rezip = True
-            #     output_product = self.gunzip_product(output_product)
             if basename(output_product) in compare_basenames:
                 test_product_func = self.test_products
                 goodcomps, badcomps, compare_strings = test_product_func(
