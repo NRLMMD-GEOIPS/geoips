@@ -35,6 +35,9 @@ and syntax usage.  flake8-rst and flake8-rst-docstring plugins are used to
 enforce numpy docstring formatting.  Sphinx is used to validate the
 formatting and syntax within RST files themselves.
 
+Corresponding configuration files for both black and flake8 can be found
+in the geoips directory ``.config/``. 
+
 All branches must pass the ``geoips/tests/utils/check_code.sh`` script
 prior to any Pull Requests being approved and merged.  Please ensure this
 script has a successful 0 return as you develop code within the GeoIPS

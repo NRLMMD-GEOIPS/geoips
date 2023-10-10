@@ -79,7 +79,7 @@ if [[ "$test" == "black" || "$test" == "all" ]]; then
     #       substrings directly)
     echo "CALLING TEST:"
     echo "black --check --extend-exclude _version.py --extend-exclude /lib/ --extend-exclude _docs/ --extend-exclude geoips_dev_utils/ $path"
-    black --check --extend-exclude _version.py --extend-exclude /lib/ --extend-exclude _docs/ --extend-exclude geoips_dev_utils/ $path
+    black --config $path/.config/black $path
     black_retval=$?
     echo "TEST COMPLETE black"
     retval=$((black_retval+retval))
@@ -126,7 +126,7 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
                --rst-substitutions=version \
                --statistics \
                $path
-        flake8 --config .config/flake8_config.cfg \
+        flake8 --config $path/.config/flake8_config.cfg \
                $path
         flake8_retval=$?
         echo "TEST COMPLETE flake8"
