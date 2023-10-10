@@ -15,6 +15,7 @@ Version 1.11.7a0 (2023-10-05)
 
 * Added documentation for windows installation
 * Fix Upside Down Geotiff Error
+* Add sphinx reference links throughout geoIPS documentation
 
 Bug Fixes
 =========
@@ -32,6 +33,26 @@ as Google Earth. We need to fix this so users aren't confused
 
 Documentation Updates
 =====================
+
+Add Links Throughout GeoIPS Documentation
+-----------------------------------------
+
+*From issue GEOIPS#322: 2023-09-14, Add Links Throught GeoIPS Sphinx Documentation*
+
+Links in much of the GeoIPS documentation were relative paths to RST files within
+the docs/source directory.  This does not work within sphinx-built html documentation.
+All relative path links updated to valid sphinx ref links.
+
+Files Modified:
+
+::
+
+    docs/source/starter/expert_installation.rst
+    docs/source/starter/windows_installation.rst
+    docs/source/starter/extending.rst
+    docs/source/starter/installation.rst
+    docs/source/userguide/plugin_extend.rst
+
 
 Add windows installation instructions
 -------------------------------------

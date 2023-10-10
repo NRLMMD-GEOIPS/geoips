@@ -15,8 +15,8 @@ Version 1.11.5a0 (2023-09-27)
 
 * Add workflow to build sdist and wheel and push to pypi
 * Update "update_this_release_note" to v1_11_5a0.rst
-* Fix Errors from Flake8 Linting
 * Remove flake8_docstring_only option from check_code.sh workflow call
+* Fix Errors from Flake8 Linting
 
 Git Workflow Updates
 ====================
