@@ -40,7 +40,7 @@ def correct_type(fname):
     return False
 
 
-def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
+def outputs_match(plugin, output_product, compare_product, image_compare_threshold):
     """Use PIL and numpy to compare two images.
 
     Parameters
@@ -51,9 +51,10 @@ def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
         Current output product
     compare_product : str
         Path to comparison product
-    threshold : str, optional
-        "theshold" argument to allow small diffs to pass - larger "threshold" factor
-        to make comparison less strict, by default 5%.
+    image_compare_threshold : str, optional
+        "image_compare_threshold" argument to allow small diffs to pass - larger
+        "image_compare_threshold" factor to make comparison less strict, by default
+        "medium" --> 5%.
 
     Returns
     -------
@@ -97,7 +98,8 @@ def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
         "medium": 0.05,
         "strict": 0.00,
     }
-    threshold = threshold_dict[threshold]
+    LOG.interactive("Using " + image_compare_threshold + " image compare threshold.")
+    threshold = threshold_dict[image_compare_threshold]
     # Determine the number of pixels that are mismatched
     thresholded_retval = pixelmatch(
         out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=threshold
@@ -138,6 +140,8 @@ def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
     # If the images match exactly, just output to GOOD comparison log to info level
     # (only bad comparisons to interactive level)
     if fullimg_retval != 0:
+        if thresholded_retval == 0:
+            bad_inds = np.where(diff_arr != 0)
         LOG.interactive("    ******************************************")
         LOG.interactive("    *** GOOD Images match within tolerance ***")
         LOG.interactive(
@@ -153,7 +157,7 @@ def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
     return True
 
 
-def call(plugin, compare_path, output_products):
+def call(plugin, compare_path, output_products, image_compare_threshold):
     """Compare the "correct" imagery found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
@@ -174,5 +178,7 @@ def call(plugin, compare_path, output_products):
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = plugin.compare_outputs(compare_path, output_products)
+    retval = plugin.compare_outputs(
+        compare_path, output_products, image_compare_threshold
+    )
     return retval

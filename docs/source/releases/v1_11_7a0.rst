@@ -16,6 +16,7 @@ Version 1.11.7a0 (2023-10-06)
 * Added documentation for windows installation
 * Add sphinx reference links throughout geoIPS documentation
 * Create "output_checkers" interface
+* Create "image_compare_threshold" commandline argument
 
 Enhancements
 ============
@@ -40,6 +41,21 @@ and split into multiple plugins for different product types.
     added: geoips/plugins/modules/output_checkers/text_checker.py
     deleted: geoips/compare_outputs.py
 
+Create "image_compare_threshold" commandline argument
+-----------------------------------------------------
+
+With the addition of output_checkers, we decided we would also like to have flexibility
+with our pixel comparisons. Specifically, we'd like to have the ability to adjust the
+"threshold" (% difference between pixels), for different user needs. This update adds
+three threshold values ["lenient" (10%), "medium" (5%), "strict" (0%)].
+
+::
+
+    modified: geoips/commandline/args.py
+    modified: geoips/interfaces/module_based/output_checkers.py
+    modified: geoips/plugins/modules/output_checkers/image.py
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: geoips/plugins/modules/single_source.py
 
 Documentation Updates
 =====================

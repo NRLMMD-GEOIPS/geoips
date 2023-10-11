@@ -860,6 +860,10 @@ def call(fnames, command_line_args=None):
         presector_data = not command_line_args["no_presectoring"]
     else:
         presector_data = True
+    if command_line_args.get("image_compare_threshold") is not None:
+        image_compare_threshold = command_line_args["image_compare_threshold"]
+    else:
+        image_compare_threshold = None
 
     # Allow pulling command line arguments from either command line or YAML config.
     # Command line arguments override YAML config
@@ -1694,11 +1698,19 @@ def call(fnames, command_line_args=None):
 
             for output_product in final_products[cpath]["files"]:
                 output_checker = output_checkers.get_plugin(output_product)
-                curr_retval = output_checker(
-                    output_checker,
-                    cpath,
-                    [output_product],
-                )
+                if output_checker.name == "image":
+                    curr_retval = output_checker(
+                        output_checker,
+                        cpath,
+                        [output_product],
+                        image_compare_threshold,
+                    )
+                else:
+                    curr_retval = output_checker(
+                        output_checker,
+                        cpath,
+                        [output_product],
+                    )
                 retval += curr_retval
                 if curr_retval != 0:
                     failed_compares[cpath] = curr_retval
