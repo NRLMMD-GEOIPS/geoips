@@ -14,7 +14,24 @@ Version 1.11.7a0 (2023-10-05)
 *****************************
 
 * Added documentation for windows installation
+* Fixed from scipy.ndimage.interpolation import zoom deprecation warning
 * Add sphinx reference links throughout geoIPS documentation
+
+
+Bug Fixes
+=========
+
+Fixed from scipy.ndimage.interpolation import zoom deprecation warning
+----------------------------------------------------------------------
+
+The scipy.ndimage.interpolation library was deprecated as of scipy v1.2 (Dec 2018), 
+and was causing warnings when importing the zoom libary for the ahi_hsd reader and
+the abi_netcdf reader.
+
+The following files have been modified to remove those deprecation warnings.
+
+    * modified: geoips/geoips/plugins/modules/readers/abi_netcdf.py
+    * modified: geoips/geoips/plugins/modules/readers/ahi_hsd.py
 
 Documentation Updates
 =====================
