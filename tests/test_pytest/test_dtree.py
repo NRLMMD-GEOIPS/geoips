@@ -33,6 +33,9 @@ def load_testfiles():
         )
         for k in range(0, 4)
     }
+    xarray_dict["METADATA"] = xarray.Dataset(
+        attrs={"units": "test", "dataset": "synthetic"}
+    )
     return xarray_dict
 
 
