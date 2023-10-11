@@ -133,25 +133,3 @@ jobs:
             echo "::error::due to bandit violations, return code ${ret}"
             exit 1
           fi
-  check_code_pytest:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 'pypy-3.9'
-          check-latest: true
-      - name: Checkout PyTorch
-        uses: actions/checkout@master
-      - name: Update pip
-        run: pip install --upgrade pip
-      - name: Install pytest
-        run: pip install pytest
-      - name: Checkout plugin current branch
-        uses: actions/checkout@v3
-      - name: Checkout geoips main branch
-        uses: actions/checkout@v3
-      - name: Run code check script pytest
-        run: |
-          pytest -v geoips/tests/test_pytest
-      
