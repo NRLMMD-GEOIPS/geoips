@@ -21,7 +21,12 @@ LOG = logging.getLogger(__name__)
 
 def xarray_to_datatree(xarray_dict):
     """Convert a flat (non nested) dictionary of xarrays to DataTree format."""
-    xarray_datatree = DataTree.from_dict(xarray_dict)
+    tmp_meta = xarray_dict.pop['METADATA']
+    xarray_datatree = DataTree(
+        name="METADATA",
+        data=tmp_meta,
+        children=DataTree.from_dict(xarray_dict)
+    )
     assert xarray_datatree == xarray_dict
 
     return xarray_datatree
