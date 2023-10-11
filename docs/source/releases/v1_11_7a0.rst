@@ -10,11 +10,13 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.11.7a0 (2023-10-05)
+Version 1.11.7a0 (2023-10-11)
 *****************************
 
 * Added documentation for windows installation
 * Fix Upside Down Geotiff Error
+* Add sphinx reference links throughout geoIPS documentation
+* Fixed from scipy.ndimage.interpolation import zoom deprecation warning
 * Add sphinx reference links throughout geoIPS documentation
 
 Bug Fixes
@@ -30,6 +32,21 @@ as Google Earth. We need to fix this so users aren't confused
 
     modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
     modified: geoips/tests/outputs/ahi.tc.WV.geotiff/20200405_000000_SH252020_ahi_himawari-8_WV_100kts_100p00_1p0.tif
+
+Bug Fixes
+=========
+
+Fixed from scipy.ndimage.interpolation import zoom deprecation warning
+----------------------------------------------------------------------
+
+The scipy.ndimage.interpolation library was deprecated as of scipy v1.2 (Dec 2018), 
+and was causing warnings when importing the zoom libary for the ahi_hsd reader and
+the abi_netcdf reader.
+
+The following files have been modified to remove those deprecation warnings.
+
+    * modified: geoips/geoips/plugins/modules/readers/abi_netcdf.py
+    * modified: geoips/geoips/plugins/modules/readers/ahi_hsd.py
 
 Documentation Updates
 =====================
