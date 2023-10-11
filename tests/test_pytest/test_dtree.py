@@ -54,3 +54,4 @@ def test_xarray_to_datatree(load_testfiles):
     xarray_datatree = xr_to_dtree.xarray_to_datatree(load_testfiles)
     assert xarray_datatree == load_testfiles
     assert xarray_datatree.keys() == load_testfiles.keys()
+    
