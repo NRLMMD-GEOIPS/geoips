@@ -16,6 +16,7 @@ Version 1.11.7a0 (2023-10-06)
 * Added documentation for windows installation
 * Add sphinx reference links throughout geoIPS documentation
 * Create "output_checkers" interface
+* Convert base.py: plugin_module_to_obj to class-based method
 
 Enhancements
 ============
@@ -71,3 +72,18 @@ Add windows installation instructions
 
   new: docs/source/starter/windows_installation.rst
   modified: README.md
+
+Refactoring Updates
+===================
+
+Convert base.py: plugin_module_to_obj to class-based method
+-----------------------------------------------------------
+
+Currently, base.py: plugin_module_to_obj is a standalone function in interfaces/base.py,
+which causes unneccesary confusion and should be converted to a class-based function
+under BaseModuleInterface. This follows the convention of plugin_yaml_to_obj under
+BaseYamlInterface, which is a much better implementation.
+
+::
+
+    modified: geoips/interfaces/base.py
