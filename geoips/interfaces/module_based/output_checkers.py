@@ -519,7 +519,7 @@ class OutputCheckersInterface(BaseModuleInterface):
         checker_found = False
         checker_name = None
         for output_checker in self.get_plugins():
-            checker_found = output_checker.module.correct_type(filename)
+            checker_found = output_checker.module.correct_file_format(filename)
             if checker_found:
                 checker_name = output_checker.module.name
                 break
@@ -542,13 +542,13 @@ class OutputCheckersInterface(BaseModuleInterface):
         """Check the validity of the supplied output_checker plugin."""
         if (
             not hasattr(plugin.module, "outputs_match")
-            or not hasattr(plugin.module, "correct_type")
+            or not hasattr(plugin.module, "correct_file_format")
             or not hasattr(plugin.module, "call")
         ):
             raise ValidationError(
                 "The plugin returned is missing one or more of the following functions."
-                "\n[outputs_match, correct_type, call]. Please create those before "
-                "using this plugin."
+                "\n[outputs_match, correct_file_format, call]. Please create those "
+                "before using this plugin."
             )
         return True
 
