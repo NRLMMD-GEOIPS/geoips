@@ -1707,7 +1707,7 @@ def call(fnames, command_line_args=None):
                     output_checker,
                     cpath,
                     [output_product],
-                    **output_checker_kwargs[output_checker.name],
+                    output_checker_kwargs[output_checker.name],
                 )
                 retval += curr_retval
                 if curr_retval != 0:

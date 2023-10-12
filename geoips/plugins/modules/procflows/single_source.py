@@ -1869,7 +1869,7 @@ def call(fnames, command_line_args=None):
                 .replace("<procflow>", "single_source")
                 .replace("<output>", output_formatter),
                 [output_product],
-                **output_checker_kwargs[output_checker.name],
+                output_checker_kwargs[output_checker.name],
             )
 
     LOG.interactive(
