@@ -14,6 +14,7 @@ Version 1.11.7a0 (2023-10-11)
 *****************************
 
 * Added documentation for windows installation
+* Added dictionary xarray to datatree conversion
 * Fix Upside Down Geotiff Error
 * Add sphinx reference links throughout geoIPS documentation
 * Create "output_checkers" interface
@@ -68,6 +69,17 @@ The following files have been modified to remove those deprecation warnings.
 
     * modified: geoips/geoips/plugins/modules/readers/abi_netcdf.py
     * modified: geoips/geoips/plugins/modules/readers/ahi_hsd.py
+
+Enhancements
+============
+
+Added dictionary xarray to datatree conversion
+----------------------------------------------
+
+::
+
+  new: geoips/xarray_utils/xr_to_dtree.py
+  new: tests/test_pytest/test_dtree.py
 
 Documentation Updates
 =====================
