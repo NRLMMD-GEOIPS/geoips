@@ -146,7 +146,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         return out_diff_fname
 
     def compare_outputs(
-        self, compare_path, output_products, image_compare_threshold="medium"
+        self, compare_path, output_products, output_checker_kwargs,
     ):
         """Compare the "correct" imagery found the list of current output_products.
 
@@ -161,10 +161,8 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         output_products : list of str
             List of strings of current output products,
             to compare with products in compare_path
-        image_compare_threshold : str, optional
-            "image_compare_threshold" argument to allow small diffs to pass - larger
-            "image_compare_threshold" factor to make comparison less strict, by default
-            "medium" --> 5%.
+        output_checker_kwargs: dict
+            Dictionary containing kwargs for comparing products.
 
         Returns
         -------
@@ -223,7 +221,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                     goodcomps,
                     badcomps,
                     compare_strings,
-                    image_compare_threshold,
+                    output_checker_kwargs,
                 )
             else:
                 missingcomps += [output_product]
@@ -453,7 +451,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         goodcomps,
         badcomps,
         compare_strings,
-        image_compare_threshold="medium",
+        output_checker_kwargs,
     ):
         """Test output_product against "good" product stored in "compare_path".
 
@@ -477,10 +475,8 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             * List of all comparison "tags" included in goodcomps and badcomps lists.
             * This list is used to remove the comparison tags from goodcomps and
               badcomps to retrieve only the file path.
-        image_compare_threshold : str, optional
-            "image_compare_threshold" argument to allow small diffs to pass - larger
-            "image_compare_threshold" factor to make comparison less strict, by default
-            "medium" --> 5%.
+        output_checker_kwargs: dict
+            Dictionary containing kwargs for comparing products.
 
         Returns
         -------
@@ -504,12 +500,9 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         else:
             comp_str = self.name.upper() + " "
         compare_strings += [comp_str]
-        if self.name == "image":
-            if self.module.outputs_match(
-                self, output_product, compare_product, image_compare_threshold
-            ):
-                goodcomps += [comp_str + "{0}".format(output_product)]
-        elif self.module.outputs_match(self, output_product, compare_product):
+        if self.module.outputs_match(
+            self, output_product, compare_product, output_checker_kwargs,
+        ):
             goodcomps += [comp_str + "{0}".format(output_product)]
         else:
             badcomps += [comp_str + "{0}".format(output_product)]

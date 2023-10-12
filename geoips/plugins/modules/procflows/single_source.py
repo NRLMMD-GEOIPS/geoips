@@ -1392,7 +1392,7 @@ def call(fnames, command_line_args=None):
     product_db = command_line_args["product_db"]
     product_db_writer = command_line_args["product_db_writer"]
     presector_data = not command_line_args["no_presectoring"]
-    image_compare_threshold = command_line_args["image_compare_threshold"]
+    output_checker_kwargs = command_line_args["output_checker_kwargs"]
 
     if product_db:
         from geoips_db.dev.postgres_database import get_db_writer
@@ -1863,23 +1863,14 @@ def call(fnames, command_line_args=None):
 
         for output_product in final_products:
             output_checker = output_checkers.get_plugin(output_product)
-            if output_checker.name == "image":
-                retval += output_checker(
-                    output_checker,
-                    compare_path.replace("<product>", product_name)
-                    .replace("<procflow>", "single_source")
-                    .replace("<output>", output_formatter),
-                    [output_product],
-                    image_compare_threshold,
-                )
-            else:
-                retval += output_checker(
-                    output_checker,
-                    compare_path.replace("<product>", product_name)
-                    .replace("<procflow>", "single_source")
-                    .replace("<output>", output_formatter),
-                    [output_product],
-                )
+            retval += output_checker(
+                output_checker,
+                compare_path.replace("<product>", product_name)
+                .replace("<procflow>", "single_source")
+                .replace("<output>", output_formatter),
+                [output_product],
+                **output_checker_kwargs[output_checker.name],
+            )
 
     LOG.interactive(
         "\n\n\nThe following products were produced from procflow %s\n\n",

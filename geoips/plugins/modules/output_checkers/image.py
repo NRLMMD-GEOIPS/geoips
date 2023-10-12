@@ -40,7 +40,7 @@ def correct_type(fname):
     return False
 
 
-def outputs_match(plugin, output_product, compare_product, image_compare_threshold):
+def outputs_match(plugin, output_product, compare_product, output_checker_kwargs):
     """Use PIL and numpy to compare two images.
 
     Parameters
@@ -51,10 +51,8 @@ def outputs_match(plugin, output_product, compare_product, image_compare_thresho
         Current output product
     compare_product : str
         Path to comparison product
-    image_compare_threshold : str, optional
-        "image_compare_threshold" argument to allow small diffs to pass - larger
-        "image_compare_threshold" factor to make comparison less strict, by default
-        "medium" --> 5%.
+    output_checker_kwargs: dict
+        Dictionary containing kwargs for comparing products.
 
     Returns
     -------
@@ -98,6 +96,12 @@ def outputs_match(plugin, output_product, compare_product, image_compare_thresho
         "medium": 0.05,
         "strict": 0.00,
     }
+    if "image_threshold" in list(output_checker_kwargs.keys()):
+        image_compare_threshold = threshold_dict[
+            output_checker_kwargs["image_threshold"]
+        ]
+    else:
+        image_compare_threshold = threshold_dict["medium"]
     LOG.interactive("Using " + image_compare_threshold + " image compare threshold.")
     threshold = threshold_dict[image_compare_threshold]
     # Determine the number of pixels that are mismatched
@@ -157,7 +161,7 @@ def outputs_match(plugin, output_product, compare_product, image_compare_thresho
     return True
 
 
-def call(plugin, compare_path, output_products, image_compare_threshold):
+def call(plugin, compare_path, output_products, output_checker_kwargs):
     """Compare the "correct" imagery found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
@@ -172,6 +176,8 @@ def call(plugin, compare_path, output_products, image_compare_threshold):
     output_products : list of str
         List of strings of current output products,
         to compare with products in compare_path
+    output_checker_kwargs: dict
+        Dictionary containing kwargs for comparing products.
 
     Returns
     -------
@@ -179,6 +185,6 @@ def call(plugin, compare_path, output_products, image_compare_threshold):
         Binary code: 0 if all comparisons were completed successfully.
     """
     retval = plugin.compare_outputs(
-        compare_path, output_products, image_compare_threshold
+        compare_path, output_products, output_checker_kwargs
     )
     return retval

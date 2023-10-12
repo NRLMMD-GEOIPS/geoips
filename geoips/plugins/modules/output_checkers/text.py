@@ -44,7 +44,7 @@ def correct_type(fname):
     return False
 
 
-def outputs_match(plugin, output_product, compare_product):
+def outputs_match(plugin, output_product, compare_product, output_checker_kwargs):
     """Check if two text files match.
 
     Parameters
@@ -55,6 +55,8 @@ def outputs_match(plugin, output_product, compare_product):
         Full path to current output product
     compare_product : str
         Full path to "good" comparison product
+    output_checker_kwargs: dict
+        Dictionary containing kwargs for comparing products.
 
     Returns
     -------
@@ -85,7 +87,7 @@ def outputs_match(plugin, output_product, compare_product):
     return False
 
 
-def call(plugin, compare_path, output_products):
+def call(plugin, compare_path, output_products, output_checker_kwargs):
     """Compare the "correct" text found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
@@ -100,23 +102,15 @@ def call(plugin, compare_path, output_products):
     output_products : list of str
         List of strings of current output products,
         to compare with products in compare_path
-    test_product_func : function, default=None
-        Alternative function to be used for testing output product
-
-          * Call signature must be:
-
-              * output_product, compare_product, goodcomps, badcomps, compare_strings
-
-          * Return must be:
-
-              * goodcomps, badcomps, compare_strings
-
-        * If None, use geoips.compare_outputs.test_product)
+    output_checker_kwargs: dict
+        Dictionary containing kwargs for comparing products.
 
     Returns
     -------
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = plugin.compare_outputs(compare_path, output_products)
+    retval = plugin.compare_outputs(
+        compare_path, output_products, output_checker_kwargs
+    )
     return retval

@@ -635,13 +635,17 @@ def add_args(parser, arglist=None):
                     be passed to the algorithm in full.""",
         )
 
-    if arglist is None or "image_compare_threshold" in arglist:
+    if arglist is None or "output_checker_kwargs" in arglist:
         procflow_group.add_argument(
-            "--image_compare_threshold",
-            choices=["lenient", "medium", "strict"],
-            default="medium",
-            type=str.lower,
-            help="Threshold Value for comparing Pixels in Images.",
+            "--output_checker_kwargs",
+            default={
+                "image": {"image_threshold": "medium"},
+                "geotiff": {},
+                "netcdf": {},
+                "text": {},
+            },
+            type=jloads,
+            help="Output Checker Keyword Arguments",
         )
 
     rdr_group = parser.add_argument_group(title="Data reader specifications")
