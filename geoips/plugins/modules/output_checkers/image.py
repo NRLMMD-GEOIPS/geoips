@@ -22,7 +22,7 @@ family = "standard"
 name = "image"
 
 
-def correct_type(fname):
+def correct_file_format(fname):
     """Determine if fname is an image file.
 
     Parameters

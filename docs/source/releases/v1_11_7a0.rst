@@ -10,13 +10,16 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.11.7a0 (2023-10-06)
+Version 1.11.7a0 (2023-10-11)
 *****************************
 
 * Added documentation for windows installation
+* Fix Upside Down Geotiff Error
 * Add sphinx reference links throughout geoIPS documentation
 * Create "output_checkers" interface
 * Create "image_compare_threshold" commandline argument
+* Convert base.py: plugin_module_to_obj to class-based method
+* Fixed from scipy.ndimage.interpolation import zoom deprecation warning
 
 Enhancements
 ============
@@ -57,6 +60,32 @@ three threshold values ["lenient" (10%), "medium" (5%), "strict" (0%)].
     modified: geoips/plugins/modules/procflows/config_based.py
     modified: geoips/plugins/modules/single_source.py
 
+Bug Fixes
+=========
+
+Fix Upside Down Geotiff Error
+-----------------------------
+
+Geotiffs created by GeoIPS are upside down when imported into other applications, such
+as Google Earth. We need to fix this so users aren't confused
+
+::
+
+    modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
+    modified: geoips/tests/outputs/ahi.tc.WV.geotiff/20200405_000000_SH252020_ahi_himawari-8_WV_100kts_100p00_1p0.tif
+
+Fixed from scipy.ndimage.interpolation import zoom deprecation warning
+----------------------------------------------------------------------
+
+The scipy.ndimage.interpolation library was deprecated as of scipy v1.2 (Dec 2018), 
+and was causing warnings when importing the zoom libary for the ahi_hsd reader and
+the abi_netcdf reader.
+
+The following files have been modified to remove those deprecation warnings.
+
+    * modified: geoips/geoips/plugins/modules/readers/abi_netcdf.py
+    * modified: geoips/geoips/plugins/modules/readers/ahi_hsd.py
+
 Documentation Updates
 =====================
 
@@ -87,3 +116,18 @@ Add windows installation instructions
 
   new: docs/source/starter/windows_installation.rst
   modified: README.md
+
+Refactoring Updates
+===================
+
+Convert base.py: plugin_module_to_obj to class-based method
+-----------------------------------------------------------
+
+Currently, base.py: plugin_module_to_obj is a standalone function in interfaces/base.py,
+which causes unneccesary confusion and should be converted to a class-based function
+under BaseModuleInterface. This follows the convention of plugin_yaml_to_obj under
+BaseYamlInterface, which is a much better implementation.
+
+::
+
+    modified: geoips/interfaces/base.py
