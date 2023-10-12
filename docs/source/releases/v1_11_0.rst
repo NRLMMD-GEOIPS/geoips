@@ -183,8 +183,9 @@ specified or relative.
 Update documentation build to allow building plugin repositories
 ----------------------------------------------------------------
 
-*From GEOIPS#217 2023-08-01,
-Use geoips documentation build scripts in additional plugin*
+*From GEOIPS#217 2023-08-01, Use geoips documentation build scripts in
+additional plugin*
+
 
 * Use the geoips repo documentation build scripts and style
   information to build documentation in the plugin repositories

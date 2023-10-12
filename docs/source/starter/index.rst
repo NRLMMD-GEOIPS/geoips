@@ -22,3 +22,4 @@ Getting Started
    starter_examples
    extending
    mac_installation
+   windows_installation

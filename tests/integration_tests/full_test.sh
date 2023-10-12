@@ -58,7 +58,7 @@ geoips_clavrx_pkgname=geoips_clavrx
 echo ""
 # "call" used in test_all_run.sh
 for call in \
-  "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath flake8_docstring_only" \
+  "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath" \
   "$geoips_repopath/docs/build_docs.sh $geoips_repopath $geoips_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $recenter_tc_repopath $recenter_tc_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $data_fusion_repopath $data_fusion_pkgname html_only" \
@@ -83,6 +83,9 @@ for call in \
   "$geoips_repopath/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh" \
   "$geoips_repopath/tests/scripts/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs.sh" \
   "$geoips_repopath/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh" \
+  "$geoips_repopath/tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/ascat_uhr.tc.windspeed.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/gmi.tc.89pct.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh" \

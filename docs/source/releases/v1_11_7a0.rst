@@ -1,0 +1,48 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.11.7a0 (2023-10-05)
+*****************************
+
+* Added documentation for windows installation
+* Add sphinx reference links throughout geoIPS documentation
+
+Documentation Updates
+=====================
+
+Add Links Throughout GeoIPS Documentation
+-----------------------------------------
+
+*From issue GEOIPS#322: 2023-09-14, Add Links Throught GeoIPS Sphinx Documentation*
+
+Links in much of the GeoIPS documentation were relative paths to RST files within
+the docs/source directory.  This does not work within sphinx-built html documentation.
+All relative path links updated to valid sphinx ref links.
+
+Files Modified:
+
+::
+
+    docs/source/starter/expert_installation.rst
+    docs/source/starter/windows_installation.rst
+    docs/source/starter/extending.rst
+    docs/source/starter/installation.rst
+    docs/source/userguide/plugin_extend.rst
+
+
+Add windows installation instructions
+-------------------------------------
+
+::
+
+  new: docs/source/starter/windows_installation.rst
+  modified: README.md

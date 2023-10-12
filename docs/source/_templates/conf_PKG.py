@@ -261,7 +261,7 @@ latex_elements = {
 pkgnamelatex = "PKGNAME".split("_")
 if len(pkgnamelatex) > 1:
     # set up latex escape
-    pkgnamelatex = "\_".join(pkgnamelatex)
+    pkgnamelatex = r"\_".join(pkgnamelatex)
 latex_documents = [
     (
         master_doc,

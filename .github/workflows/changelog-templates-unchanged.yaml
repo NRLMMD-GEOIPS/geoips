@@ -1,0 +1,70 @@
+name: Changelog templates unchanged
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  COMMIT_INTO: remotes/origin/main
+
+on:
+  # Triggers the workflow when pull request created and updated
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+  # Allows run of this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  changelog_change_detection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Modification check of CHANGELOG.rst
+        run: |
+          ret=$(git diff --name-only --diff-filter=M \
+              ${COMMIT_INTO} -- CHANGELOG.rst)
+          if [[ "${ret}" == "CHANGELOG.rst" ]]; then
+              echo "POLICY VIOLATION for modifying CHANGELOG.rst"
+              echo "Please restore CHANGELOG.rst"
+              echo "Add log notes in docs/source/releases"
+              exit 1
+          fi
+  changelog_template_change_detection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Modification check of CHANGELOG_TEMPLATE.rst
+        run: |
+          ret=$(git diff --name-only --diff-filter=M \
+              ${COMMIT_INTO} -- CHANGELOG_TEMPLATE.rst)
+          if [[ "${ret}" == "CHANGELOG_TEMPLATE.rst" ]]; then
+              echo "POLICY VIOLATION for modifying CHANGELOG_TEMPLATE.rst"
+              echo "Please restore CHANGELOG_TEMPLATE.rst"
+              echo "Add log notes in docs/source/releases"
+              exit 1
+          fi
+  commit_message_template_change_detection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Modification check of COMMIT_MESSAGE_TEMPLATE.md
+        run: |
+          ret=$(git diff --name-only --diff-filter=M \
+              ${COMMIT_INTO} -- COMMIT_MESSAGE_TEMPLATE.md)
+          if [[ "${ret}" == "COMMIT_MESSAGE_TEMPLATE.md" ]]; then
+              echo "POLICY VIOLATION for modifying COMMIT_MESSAGE_TEMPLATE.md"
+              echo "Please restore COMMIT_MESSAGE_TEMPLATE.md"
+              echo "Add log notes in docs/source/releases"
+              exit 1
+          fi
