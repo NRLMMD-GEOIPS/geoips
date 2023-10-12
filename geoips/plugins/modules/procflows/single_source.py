@@ -1379,7 +1379,7 @@ def call(fnames, command_line_args=None):
         reader_kwargs = {}
     compare_path = command_line_args["compare_path"]
     output_file_list_fname = command_line_args["output_file_list_fname"]
-    compare_outputs_module = command_line_args["compare_outputs_module"]
+    # compare_outputs_module = command_line_args["compare_outputs_module"]
     sector_adjuster = command_line_args["sector_adjuster"]
     sector_adjuster_kwargs = command_line_args["sector_adjuster_kwargs"]
     self_register_source = command_line_args["self_register_source"]
@@ -1856,15 +1856,17 @@ def call(fnames, command_line_args=None):
 
     retval = 0
     if compare_path:
-        from geoips.geoips_utils import find_entry_point
+        from geoips.interfaces.module_based.output_checkers import output_checkers
 
-        compare_outputs = find_entry_point("output_comparisons", compare_outputs_module)
-        retval = compare_outputs(
-            compare_path.replace("<product>", product_name)
-            .replace("<procflow>", "single_source")
-            .replace("<output>", output_formatter),
-            final_products,
-        )
+        for output_product in final_products:
+            output_checker = output_checkers.get_plugin(output_product)
+            retval += output_checker(
+                output_checker,
+                compare_path.replace("<product>", product_name)
+                .replace("<procflow>", "single_source")
+                .replace("<output>", output_formatter),
+                [output_product],
+            )
 
     LOG.interactive(
         "\n\n\nThe following products were produced from procflow %s\n\n",
