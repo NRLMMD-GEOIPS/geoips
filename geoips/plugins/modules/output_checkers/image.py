@@ -97,11 +97,9 @@ def outputs_match(plugin, output_product, compare_product, output_checker_kwargs
         "strict": 0.00,
     }
     if "image_threshold" in list(output_checker_kwargs.keys()):
-        image_compare_threshold = threshold_dict[
-            output_checker_kwargs["image_threshold"]
-        ]
+        image_compare_threshold = output_checker_kwargs["image_threshold"]
     else:
-        image_compare_threshold = threshold_dict["medium"]
+        image_compare_threshold = "medium"
     LOG.interactive("Using " + image_compare_threshold + " image compare threshold.")
     threshold = threshold_dict[image_compare_threshold]
     # Determine the number of pixels that are mismatched
