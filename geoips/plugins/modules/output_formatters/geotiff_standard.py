@@ -90,15 +90,19 @@ def call(
             res_deg_x = (lons[-1][-1] - lons[0][0]) / width
             res_deg_y = (lats[0][0] - lats[-1][-1]) / height
 
-            minlat = area_def.area_extent_ll[1]
+            maxlat = area_def.area_extent_ll[-1]
             minlon = area_def.area_extent_ll[0]
 
+            # Note the original implementation here, following the
+            # rasterio documentation, resulted in upside down imagery.
+            # https://github.com/rasterio/rasterio/issues/1683
+            # Updates 20231005 resolved the flipped geotiff imagery.
             transform = Affine.translation(
-                minlon - res_deg_y / 2, minlat - res_deg_x / 2
-            ) * Affine.scale(res_deg_y, res_deg_x)
+                minlon - res_deg_x / 2, maxlat - res_deg_y / 2
+            ) * Affine.scale(res_deg_x, -res_deg_y)
 
             # crs = rasterio.crs.CRS.from_proj4(area_def.proj4_string)
-            crs = "+proj=latlong"
+            crs = "+proj=longlat"
 
             profile = rasterio.profiles.DefaultGTiffProfile(count=1)
             profile.update(dtype=rasterio.uint8, count=1, compress="lzw")
