@@ -15,6 +15,7 @@ Version 1.11.7a0 (2023-10-05)
 
 * Added documentation for windows installation
 * Add sphinx reference links throughout geoIPS documentation
+* Rename Geostationary Sectors
 
 Documentation Updates
 =====================
@@ -46,3 +47,32 @@ Add windows installation instructions
 
   new: docs/source/starter/windows_installation.rst
   modified: README.md
+
+Refactoring Updates
+===================
+
+Rename Geostationary Sectors
+----------------------------
+
+*From issue GEOIPS#304: 2023-08-27, Rename Geostationary Sectors*
+
+Currently, GeoIPS has sectors that need to be renamed, so they are more informative.
+This includes goes16, goes17, and himawari8. We also should add additional Geostationary
+sectors, such as meteosat-europe, meteosat-africa, and meteosat-indian-ocean. This will
+require changes to the output products as well.
+
+::
+
+    modified: geoips/plugins/yaml/sectors/static/goes16.yaml --> goes_east.yaml
+    modified: geoips/plugins/yaml/sectors/static/goes17.yaml --> goes_west.yaml
+    modified: geoips/plugins/yaml/sectors/static/himawari8.yaml --> himawari.yaml
+    added: geoips/plugins/yaml/sectors/static/meteosat-africa.yaml
+    added: geoips/plugins/yaml/sectors/static/meteosat-europe.yaml
+    added: geoips/plugins/yaml/sectors/static/meteosat-indian-ocean.yaml
+    modified: tests/outputs/abi.static.Infrared.imagery_annotated/20200918.195020.goes-16.abi.Infrared.goes16.45p56.noaa.10p0.png
+    modified: tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes16.41p12.noaa.10p0.png
+    modified: tests/scripts/abi.static.Infrared.imagery_annotated.sh
+    modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
+    modified: tests/yaml_configs/abi_test.yaml
+    modified: tests/yaml_configs/abi_test_low_memory.yaml
+
