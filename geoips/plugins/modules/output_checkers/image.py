@@ -40,7 +40,7 @@ def correct_file_format(fname):
     return False
 
 
-def outputs_match(plugin, output_product, compare_product, output_checker_kwargs):
+def outputs_match(plugin, output_product, compare_product, threshold=0.05):
     """Use PIL and numpy to compare two images.
 
     Parameters
@@ -51,8 +51,8 @@ def outputs_match(plugin, output_product, compare_product, output_checker_kwargs
         Current output product
     compare_product : str
         Path to comparison product
-    output_checker_kwargs: dict
-        Dictionary containing kwargs for comparing products.
+    threshold: float
+        Threshold for the image comparison. Argument to pixelmatch.
 
     Returns
     -------
@@ -91,18 +91,8 @@ def outputs_match(plugin, output_product, compare_product, output_checker_kwargs
         )
         LOG.interactive("    ***************************************")
         return False
-    threshold_dict = {
-        "lenient": 0.1,
-        "medium": 0.05,
-        "strict": 0.00,
-    }
-    if "image_threshold" in list(output_checker_kwargs.keys()):
-        image_compare_threshold = output_checker_kwargs["image_threshold"]
-    else:
-        image_compare_threshold = "medium"
-    LOG.interactive("Using " + image_compare_threshold + " image compare threshold.")
-    threshold = threshold_dict[image_compare_threshold]
     # Determine the number of pixels that are mismatched
+    LOG.interactive("Using threshold %s", threshold)
     thresholded_retval = pixelmatch(
         out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=threshold
     )
@@ -159,7 +149,7 @@ def outputs_match(plugin, output_product, compare_product, output_checker_kwargs
     return True
 
 
-def call(plugin, compare_path, output_products, output_checker_kwargs):
+def call(plugin, compare_path, output_products, threshold=0.05):
     """Compare the "correct" imagery found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
@@ -174,8 +164,8 @@ def call(plugin, compare_path, output_products, output_checker_kwargs):
     output_products : list of str
         List of strings of current output products,
         to compare with products in compare_path
-    output_checker_kwargs: dict
-        Dictionary containing kwargs for comparing products.
+    threshold: float
+        Image threshold to apply, argument to pixelmatch function.
 
     Returns
     -------
@@ -183,6 +173,8 @@ def call(plugin, compare_path, output_products, output_checker_kwargs):
         Binary code: 0 if all comparisons were completed successfully.
     """
     retval = plugin.compare_outputs(
-        compare_path, output_products, output_checker_kwargs
+        compare_path,
+        output_products,
+        threshold=threshold,
     )
     return retval

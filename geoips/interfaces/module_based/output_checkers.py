@@ -149,7 +149,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         self,
         compare_path,
         output_products,
-        output_checker_kwargs,
+        **kwargs,
     ):
         """Compare the "correct" imagery found the list of current output_products.
 
@@ -224,7 +224,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                     goodcomps,
                     badcomps,
                     compare_strings,
-                    output_checker_kwargs,
+                    **kwargs,
                 )
             else:
                 missingcomps += [output_product]
@@ -454,7 +454,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         goodcomps,
         badcomps,
         compare_strings,
-        output_checker_kwargs,
+        **kwargs,
     ):
         """Test output_product against "good" product stored in "compare_path".
 
@@ -478,8 +478,8 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             * List of all comparison "tags" included in goodcomps and badcomps lists.
             * This list is used to remove the comparison tags from goodcomps and
               badcomps to retrieve only the file path.
-        output_checker_kwargs: dict
-            Dictionary containing kwargs for comparing products.
+        kwargs: dict
+            Additional arguments to pass through to "compare_outputs" method.
 
         Returns
         -------

@@ -45,7 +45,7 @@ def correct_file_format(fname):
     return set(get_required_geoips_xarray_attrs()).issubset(set(xobj.attrs.keys()))
 
 
-def outputs_match(plugin, output_product, compare_product, output_checker_kwargs):
+def outputs_match(plugin, output_product, compare_product):
     """Check if two geoips formatted netcdf files match.
 
     Parameters
@@ -56,8 +56,6 @@ def outputs_match(plugin, output_product, compare_product, output_checker_kwargs
         Full path to current output product
     compare_product : str
         Full path to comparison product
-    output_checker_kwargs: dict
-        Dictionary containing kwargs for comparing products.
 
     Returns
     -------
@@ -188,7 +186,7 @@ def outputs_match(plugin, output_product, compare_product, output_checker_kwargs
     return True
 
 
-def call(plugin, compare_path, output_products, output_checker_kwargs):
+def call(plugin, compare_path, output_products):
     """Compare the "correct" netcdfs found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
@@ -203,8 +201,6 @@ def call(plugin, compare_path, output_products, output_checker_kwargs):
     output_products : list of str
         List of strings of current output products,
         to compare with products in compare_path
-    output_checker_kwargs: dict
-        Dictionary containing kwargs for comparing products.
 
     Returns
     -------
@@ -212,6 +208,7 @@ def call(plugin, compare_path, output_products, output_checker_kwargs):
         Binary code: 0 if all comparisons were completed successfully.
     """
     retval = plugin.compare_outputs(
-        compare_path, output_products, output_checker_kwargs
+        compare_path,
+        output_products,
     )
     return retval

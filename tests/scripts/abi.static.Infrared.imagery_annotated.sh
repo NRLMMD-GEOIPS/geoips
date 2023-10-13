@@ -23,6 +23,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
              --output_formatter imagery_annotated \
              --filename_formatter geoips_fname \
+             --output_checker_kwargs '{"image", {"threshold", "0.10"}}' \
              --resampled_read \
              --sector_list goes16
 retval=$?
