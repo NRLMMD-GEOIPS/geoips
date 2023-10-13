@@ -164,8 +164,9 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         output_products : list of str
             List of strings of current output products,
             to compare with products in compare_path
-        output_checker_kwargs: dict
+        kwargs: dict
             Dictionary containing kwargs for comparing products.
+            This gets passed through to the "test_products" method.
 
         Returns
         -------
@@ -479,7 +480,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             * This list is used to remove the comparison tags from goodcomps and
               badcomps to retrieve only the file path.
         kwargs: dict
-            Additional arguments to pass through to "compare_outputs" method.
+            Additional arguments to pass through to "outputs_match" method.
 
         Returns
         -------
