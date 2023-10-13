@@ -27,7 +27,7 @@ LOG = setup_logging()
         ("abi_netcdf", ""),
         ("ahi_hsd", ""),
         ("amsr2_netcdf", "geoips/test_data/test_data_amsr2/data/AMSR2*.nc"),
-        ("amsr2_remss_winds_netcdf", "geoips/test_data/test_data_smap/data/RSS*.nc"),
+        ("amsr2_remss_winds_netcdf", "geoips/test_data/test_data_amsr2/data/RSS*.nc"),
         ("amsub_hdf", ""),
         ("amsub_mirs", ""),
         ("ascat_uhr_netcdf", ""),
@@ -40,7 +40,10 @@ LOG = setup_logging()
         ("modis_hdf4", ""),
         ("saphir_hdf5", ""),
         ("sar_winds_netcdf", "geoips/test_data/test_data_sar/data/*.nc"),
-        ("scat_knmi_winds_netcdf", "geoips/test_data/test_data_scat/data/20220*/*.nc"),
+        (
+            "scat_knmi_winds_netcdf",
+            "geoips/test_data/test_data_scat/data/metopc*knmi*/*coa*.nc",
+        ),
         (
             "scat_noaa_winds_netcdf",
             "geoips/test_data/test_data_scat/data/20230524_metopc_noaa*/*.nc",
