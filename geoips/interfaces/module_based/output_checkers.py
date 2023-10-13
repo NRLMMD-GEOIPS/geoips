@@ -146,7 +146,10 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         return out_diff_fname
 
     def compare_outputs(
-        self, compare_path, output_products, output_checker_kwargs,
+        self,
+        compare_path,
+        output_products,
+        output_checker_kwargs,
     ):
         """Compare the "correct" imagery found the list of current output_products.
 
@@ -501,7 +504,10 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             comp_str = self.name.upper() + " "
         compare_strings += [comp_str]
         if self.module.outputs_match(
-            self, output_product, compare_product, output_checker_kwargs,
+            self,
+            output_product,
+            compare_product,
+            output_checker_kwargs,
         ):
             goodcomps += [comp_str + "{0}".format(output_product)]
         else:
