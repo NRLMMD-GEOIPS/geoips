@@ -507,7 +507,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             self,
             output_product,
             compare_product,
-            output_checker_kwargs,
+            **kwargs,
         ):
             goodcomps += [comp_str + "{0}".format(output_product)]
         else:
