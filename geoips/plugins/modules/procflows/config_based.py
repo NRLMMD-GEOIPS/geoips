@@ -863,12 +863,7 @@ def call(fnames, command_line_args=None):
     if command_line_args.get("output_checker_kwargs") is not None:
         output_checker_kwargs = command_line_args["output_checker_kwargs"]
     else:
-        output_checker_kwargs = {
-            "image": {"image_threshold": "medium"},
-            "geotiff": {},
-            "netcdf": {},
-            "text": {},
-        }
+        output_checker_kwargs = {}
 
     # Allow pulling command line arguments from either command line or YAML config.
     # Command line arguments override YAML config
