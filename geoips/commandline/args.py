@@ -638,12 +638,7 @@ def add_args(parser, arglist=None):
     if arglist is None or "output_checker_kwargs" in arglist:
         procflow_group.add_argument(
             "--output_checker_kwargs",
-            default={
-                "image": {"image_threshold": "medium"},
-                "geotiff": {},
-                "netcdf": {},
-                "text": {},
-            },
+            default={},
             type=jloads,
             help="Output Checker Keyword Arguments",
         )
