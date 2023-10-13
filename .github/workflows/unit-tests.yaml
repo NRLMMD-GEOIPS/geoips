@@ -1,0 +1,47 @@
+name: Run Unit Tests
+
+defaults:
+  run:
+    shell: bash
+
+# script runs geoips/tests/utils/check_code.sh
+on:
+  # Triggers the workflow when pull request created and updated
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+  # Allows run of this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  check_code_black:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 'pypy-3.9'
+          check-latest: true
+      - name: Checkout PyTorch
+        uses: actions/checkout@master
+      - name: Update pip
+        run: pip install --upgrade pip
+      - name: Install pytest
+        run: pip install pytest
+      - name: Checkout plugin current branch
+        uses: actions/checkout@v3
+      - name: Checkout geoips default branch
+        uses: actions/checkout@v3
+        with:
+          repository: NRLMMD-GEOIPS/geoips
+          ref: main
+          token: ${{ secrets.GEOIPS_TOKEN }}
+          path: geoips_dev_utils
+          sparse-checkout: |
+            tests/utils
+      - name: Run pytest
+        uses: tests/test_pytest/reader_test.py
+        with:
+          extensions: pytest
+          options: -vv -s
