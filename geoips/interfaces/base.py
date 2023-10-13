@@ -553,7 +553,7 @@ class BaseModuleInterface(BaseInterface):
     #     return obj
 
     @classmethod
-    def plugin_module_to_obj(cls, name, module, obj_attrs={}):
+    def _plugin_module_to_obj(cls, name, module, obj_attrs={}):
         """Convert a module plugin to an object.
 
         Convert the passed module plugin into an object and return it. The returned
@@ -667,14 +667,14 @@ class BaseModuleInterface(BaseInterface):
                 f" attempting to access the correct plugin name)"
             ) from resp
         # Convert the module into an object
-        return self.plugin_module_to_obj(name, module)
+        return self._plugin_module_to_obj(name, module)
 
     def get_plugins(self):
         """Get a list of plugins for this interface."""
         plugins = []
         for ep in get_all_entry_points(self.name):
             try:
-                plugins.append(self.plugin_module_to_obj(ep.name, ep))
+                plugins.append(self._plugin_module_to_obj(ep.name, ep))
             except AttributeError as resp:
                 raise PluginError(
                     f"Plugin '{ep.__name__}' is missing the 'name' attribute, "
