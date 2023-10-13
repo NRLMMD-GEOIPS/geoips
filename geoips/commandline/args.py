@@ -641,15 +641,18 @@ def add_args(parser, arglist=None):
             default={},
             type=jloads,
             help="""Output Checker Keyword Arguments.
-                    These keyword arguments get passed
-                    through directly to the outputs_match method on the
-                    output_checker plugin.
+                    
+                    These keyword arguments get passed through directly to the 
+                    outputs_match method on the output_checker plugin.
+                    
                     This should be formatted as a json dictionary string,
                     with the first level being the plugin name that the
-                    keyword arguments apply to, and the second level of
-                    the dictionary being a dictionary of keyword argument
-                    names to values.  Ie, for the "threshold" keyword argument
-                    in the "image" output_checker plugin, you would pass
+                    keyword arguments apply to, and the second level being 
+                    a dictionary of keyword argument name/value pairs.
+                    
+                    Ie, for the "threshold" keyword argument in the "image"
+                    output_checker plugin, you would pass:
+                    
                       --output_checker_kwargs '{"image": {"threshold": "0.05"}}'
                     """,
         )
