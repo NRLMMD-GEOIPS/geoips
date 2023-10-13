@@ -23,7 +23,7 @@ family = "standard"
 name = "geotiff"
 
 
-def correct_type(fname):
+def correct_file_format(fname):
     """Determine if fname is a geotiff file.
 
     Parameters

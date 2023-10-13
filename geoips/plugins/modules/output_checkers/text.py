@@ -23,7 +23,7 @@ family = "standard"
 name = "text"
 
 
-def correct_type(fname):
+def correct_file_format(fname):
     """Check if fname is a text file.
 
     Parameters

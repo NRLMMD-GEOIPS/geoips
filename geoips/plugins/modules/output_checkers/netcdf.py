@@ -21,7 +21,7 @@ family = "standard"
 name = "netcdf"
 
 
-def correct_type(fname):
+def correct_file_format(fname):
     """Check if fname is a geoips formatted netcdf file.
 
     Parameters
