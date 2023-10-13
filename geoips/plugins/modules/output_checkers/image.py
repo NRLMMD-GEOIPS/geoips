@@ -51,8 +51,9 @@ def outputs_match(plugin, output_product, compare_product, threshold=0.05):
         Current output product
     compare_product : str
         Path to comparison product
-    threshold: float
+    threshold: float, default=0.05
         Threshold for the image comparison. Argument to pixelmatch.
+        Between 0 and 1, with 0 the most strict comparison, and 1 the most lenient.
 
     Returns
     -------
@@ -164,8 +165,9 @@ def call(plugin, compare_path, output_products, threshold=0.05):
     output_products : list of str
         List of strings of current output products,
         to compare with products in compare_path
-    threshold: float
-        Image threshold to apply, argument to pixelmatch function.
+    threshold: float, default=0.05
+        Threshold for the image comparison. Argument to pixelmatch.
+        Between 0 and 1, with 0 the most strict comparison, and 1 the most lenient.
 
     Returns
     -------
