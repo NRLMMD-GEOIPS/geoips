@@ -640,7 +640,10 @@ def add_args(parser, arglist=None):
             "--output_checker_kwargs",
             default={},
             type=jloads,
-            help="Output Checker Keyword Arguments",
+            help="""Output Checker Keyword Arguments.
+                    These keyword arguments get passed
+                    through directly to the outputs_match method on the
+                    output_checker plugin""",
         )
 
     rdr_group = parser.add_argument_group(title="Data reader specifications")
