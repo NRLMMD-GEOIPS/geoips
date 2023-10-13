@@ -92,7 +92,7 @@ def outputs_match(plugin, output_product, compare_product, threshold=0.05):
         LOG.interactive("    ***************************************")
         return False
     # Determine the number of pixels that are mismatched
-    LOG.interactive("Using threshold %s", threshold)
+    LOG.info("Using threshold %s", threshold)
     thresholded_retval = pixelmatch(
         out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=threshold
     )
