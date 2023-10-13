@@ -22,7 +22,7 @@ from datetime import datetime, timedelta
 # Installed Libraries
 import numpy as np
 import xarray
-from scipy.ndimage.interpolation import zoom
+from scipy.ndimage import zoom
 
 from geoips.utils.memusg import print_mem_usage
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (

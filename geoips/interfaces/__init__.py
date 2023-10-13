@@ -14,6 +14,7 @@
 
 from geoips.interfaces.module_based.algorithms import algorithms
 from geoips.interfaces.module_based.colormappers import colormappers
+from geoips.interfaces.module_based.output_checkers import output_checkers
 from geoips.interfaces.module_based.coverage_checkers import coverage_checkers
 from geoips.interfaces.module_based.filename_formatters import filename_formatters
 from geoips.interfaces.module_based.interpolators import interpolators
@@ -41,6 +42,7 @@ __all__ = [
     "filename_formatters",
     "gridline_annotators",
     "interpolators",
+    "output_checkers",
     "output_formatters",
     "procflows",
     "product_defaults",
