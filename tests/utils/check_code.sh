@@ -57,7 +57,13 @@ else
 fi
 
 path=$2
-GEOIPS_PATH=$GEOIPS_PACKAGES_DIR/geoips
+if [[ -d "./geoips_dev_utils/.config" ]]; then
+    # This is for GitHub Actions, geoips repo cloned as "geoips_dev_utils"
+    CONFIG_PATH=./geoips_dev_utils/.config
+else
+    # This is for local development clone
+    CONFIG_PATH=$GEOIPS_PACKAGES_DIR/geoips/.config
+fi
 
 extra_args=$3
 
@@ -80,7 +86,7 @@ if [[ "$test" == "black" || "$test" == "all" ]]; then
     #       substrings directly)
     echo "CALLING TEST:"
     echo "black --check --extend-exclude _version.py --extend-exclude /lib/ --extend-exclude _docs/ --extend-exclude geoips_dev_utils/ $path"
-    black --config $GEOIPS_PATH/.config/black $path
+    black --config $CONFIG_PATH/black $path
     black_retval=$?
     echo "TEST COMPLETE black"
     retval=$((black_retval+retval))
@@ -127,7 +133,7 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
                --rst-substitutions=version \
                --statistics \
                $path
-        flake8 --config $GEOIPS_PATH/.config/flake8_config.cfg \
+        flake8 --config $CONFIG_PATH/flake8_config.cfg \
                $path
         flake8_retval=$?
         echo "TEST COMPLETE flake8"
