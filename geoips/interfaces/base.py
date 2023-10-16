@@ -254,87 +254,6 @@ def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
-def plugin_module_to_obj(cls, name, module, obj_attrs={}):
-    """Convert a module plugin to an object.
-
-    Convert the passed module plugin into an object and return it. The returned
-    object will be derrived from a class named ``<interface>Plugin`` where
-    interface is the interface specified by the plugin. This class is derrived
-    from ``BasePlugin``.
-
-    This function is used instead of predefined classes to allow setting ``__doc__`` and
-    ``__call__`` on a plugin-by-plugin basis. This allows collecting ``__doc__`` and
-    ``__call__`` from the plugin modules and using them in the objects.
-
-    For a module to be converted into an object it must meet the following requirements:
-
-    - The module must define a docstring. This will be used as the docstring for the
-      plugin class as well as the docstring for the plugin when requested on the
-      command line.  The first line will be used as a "short" description, and the
-      full docstring will be used as a more detailed discussion of the plugin.
-    - The following global attributes must be defined in the module:
-      - interface: The name of the interface that the plugin belongs to.
-      - family: The family of plugins that the plugin belongs to within the interface.
-      - name: The name of the plugin which must be unique within the interface.
-    - A callable named `call` that will be called when the plugin is used.
-
-    Parameters
-    ----------
-    module : module
-      The imported plugin module.
-    obj_attrs : dict, optional
-      Additional attributes to be assigned to the plugin object.
-
-    Returns
-    -------
-    An object of type ``<interface>InterfacePlugin`` where ``<interface>`` is the name
-    of the interface that the desired plugin belongs to.
-    """
-    obj_attrs["id"] = name
-    obj_attrs["module"] = module
-
-    missing = []
-    for attr in ["interface", "family", "name"]:
-        try:
-            obj_attrs[attr] = getattr(module, attr)
-        except AttributeError:
-            missing.append(attr)
-
-    if missing:
-        raise PluginError(
-            f"Plugin '{module.__name__}' is missing the following required global "
-            f"attributes: '{missing}'."
-        )
-
-    if module.__doc__:
-        obj_attrs["__doc__"] = module.__doc__
-    else:
-        raise PluginError(
-            f"Plugin modules must have a docstring. "
-            f"No docstring found in '{module.__name__}'."
-        )
-    obj_attrs["docstring"] = module.__doc__
-
-    # Collect the callable and assign to __call__
-    try:
-        obj_attrs["__call__"] = staticmethod(getattr(module, "call"))
-    except AttributeError as err:
-        raise PluginError(
-            f"Plugin modules must contain a callable name 'call'. This is missing in "
-            f"plugin module '{module.__name__}'"
-        ) from err
-
-    plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
-    plugin_type = f"{plugin_interface_name}Plugin"
-
-    plugin_base_class = BaseModulePlugin
-    if hasattr(cls, "plugin_class") and cls.plugin_class:
-        plugin_base_class = cls.plugin_class
-
-    # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
-    return type(plugin_type, (plugin_base_class,), obj_attrs)()
-
-
 class BaseYamlPlugin(dict):
     """Base class for GeoIPS plugins."""
 
@@ -618,20 +537,102 @@ class BaseModuleInterface(BaseInterface):
         """Plugin interface repr method."""
         return f"{self.__class__.__name__}()"
 
-    def _plugin_module_to_obj(self, module, module_call_func="call", obj_attrs={}):
-        """Convert a plugin module into an object.
+    # def _plugin_module_to_obj(self, module, module_call_func="call", obj_attrs={}):
+    #     """Convert a plugin module into an object.
 
-        Convert the passed module into an object of type.
+    #     Convert the passed module into an object of type.
+    #     """
+    #     obj = plugin_module_to_obj(
+    #         module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
+    #     )
+    #     if obj.interface != self.name:
+    #         raise PluginError(
+    #             f"Plugin 'interface' attribute on '{obj.name}' plugin does not "
+    #             f"match the name of its interface as specified by entry_points."
+    #         )
+    #     return obj
+
+    @classmethod
+    def _plugin_module_to_obj(cls, name, module, obj_attrs={}):
+        """Convert a module plugin to an object.
+
+        Convert the passed module plugin into an object and return it. The returned
+        object will be derrived from a class named ``<interface>Plugin`` where
+        interface is the interface specified by the plugin. This class is derrived
+        from ``BasePlugin``.
+
+        This function is used instead of predefined classes to allow setting ``__doc__``
+        and ``__call__`` on a plugin-by-plugin basis. This allows collecting ``__doc__``
+        and ``__call__`` from the plugin modules and using them in the objects.
+
+        For a module to be converted into an object it must meet the following
+        requirements:
+
+        - The module must define a docstring. This will be used as the docstring for the
+          plugin class as well as the docstring for the plugin when requested on the
+          command line.  The first line will be used as a "short" description, and the
+          full docstring will be used as a more detailed discussion of the plugin.
+        - The following global attributes must be defined in the module:
+        - interface: The name of the interface that the plugin belongs to.
+        - family: The family of plugins that the plugin belongs to within the interface.
+        - name: The name of the plugin which must be unique within the interface.
+        - A callable named `call` that will be called when the plugin is used.
+
+        Parameters
+        ----------
+        module : module
+        The imported plugin module.
+        obj_attrs : dict, optional
+        Additional attributes to be assigned to the plugin object.
+
+        Returns
+        -------
+        An object of type ``<interface>InterfacePlugin`` where ``<interface>`` is the
+        name of the interface that the desired plugin belongs to.
         """
-        obj = plugin_module_to_obj(
-            module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
-        )
-        if obj.interface != self.name:
+        obj_attrs["id"] = name
+        obj_attrs["module"] = module
+
+        missing = []
+        for attr in ["interface", "family", "name"]:
+            try:
+                obj_attrs[attr] = getattr(module, attr)
+            except AttributeError:
+                missing.append(attr)
+
+        if missing:
             raise PluginError(
-                f"Plugin 'interface' attribute on '{obj.name}' plugin does not "
-                f"match the name of its interface as specified by entry_points."
+                f"Plugin '{module.__name__}' is missing the following required global "
+                f"attributes: '{missing}'."
             )
-        return obj
+
+        if module.__doc__:
+            obj_attrs["__doc__"] = module.__doc__
+        else:
+            raise PluginError(
+                f"Plugin modules must have a docstring. "
+                f"No docstring found in '{module.__name__}'."
+            )
+        obj_attrs["docstring"] = module.__doc__
+
+        # Collect the callable and assign to __call__
+        try:
+            obj_attrs["__call__"] = staticmethod(getattr(module, "call"))
+        except AttributeError as err:
+            raise PluginError(
+                f"Plugin modules must contain a callable name 'call'. This is missing "
+                f"in plugin module '{module.__name__}'"
+            ) from err
+
+        plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
+        plugin_type = f"{plugin_interface_name}Plugin"
+
+        plugin_base_class = BaseModulePlugin
+        if hasattr(cls, "plugin_class") and cls.plugin_class:
+            plugin_base_class = cls.plugin_class
+
+        # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
+        return type(plugin_type, (plugin_base_class,), obj_attrs)()
 
     def get_plugin(self, name):
         """Retrieve a plugin from this interface by name.
@@ -666,14 +667,14 @@ class BaseModuleInterface(BaseInterface):
                 f" attempting to access the correct plugin name)"
             ) from resp
         # Convert the module into an object
-        return plugin_module_to_obj(self, name, module)
+        return self._plugin_module_to_obj(name, module)
 
     def get_plugins(self):
         """Get a list of plugins for this interface."""
         plugins = []
         for ep in get_all_entry_points(self.name):
             try:
-                plugins.append(plugin_module_to_obj(self, ep.name, ep))
+                plugins.append(self._plugin_module_to_obj(ep.name, ep))
             except AttributeError as resp:
                 raise PluginError(
                     f"Plugin '{ep.__name__}' is missing the 'name' attribute, "

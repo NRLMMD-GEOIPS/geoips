@@ -19,8 +19,8 @@ Version 1.11.7a0 (2023-10-11)
 * Add sphinx reference links throughout geoIPS documentation
 * Rename Geostationary Sectors
 * Create "output_checkers" interface
+* Convert base.py: plugin_module_to_obj to class-based method
 * Fixed from scipy.ndimage.interpolation import zoom deprecation warning
-* Add sphinx reference links throughout geoIPS documentation
 
 Enhancements
 ============
@@ -129,6 +129,18 @@ command line arguments in the check_code.sh
 
 Refactoring Updates
 ===================
+
+Convert base.py: plugin_module_to_obj to class-based method
+-----------------------------------------------------------
+
+Currently, base.py: plugin_module_to_obj is a standalone function in interfaces/base.py,
+which causes unneccesary confusion and should be converted to a class-based function
+under BaseModuleInterface. This follows the convention of plugin_yaml_to_obj under
+BaseYamlInterface, which is a much better implementation.
+
+::
+
+    modified: geoips/interfaces/base.py
 
 Rename Geostationary Sectors
 ----------------------------
