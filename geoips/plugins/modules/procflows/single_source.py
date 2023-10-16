@@ -1335,7 +1335,7 @@ def call(fnames, command_line_args=None):
         "filename_formatter",
         "output_formatter_kwargs",
         "filename_formatter_kwargs",
-        "image_compare_threshold",
+        "output_checker_kwargs",
         "metadata_output_formatter",
         "metadata_filename_formatter",
         "metadata_output_formatter_kwargs",
