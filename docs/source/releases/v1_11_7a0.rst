@@ -21,6 +21,7 @@ Version 1.11.7a0 (2023-10-11)
 * Create "output_checkers" interface
 * Fixed from scipy.ndimage.interpolation import zoom deprecation warning
 * Add sphinx reference links throughout geoIPS documentation
+* Added unit test for image output checker
 
 Enhancements
 ============
@@ -62,7 +63,7 @@ as Google Earth. We need to fix this so users aren't confused
 Fixed from scipy.ndimage.interpolation import zoom deprecation warning
 ----------------------------------------------------------------------
 
-The scipy.ndimage.interpolation library was deprecated as of scipy v1.2 (Dec 2018), 
+The scipy.ndimage.interpolation library was deprecated as of scipy v1.2 (Dec 2018),
 and was causing warnings when importing the zoom libary for the ahi_hsd reader and
 the abi_netcdf reader.
 
@@ -141,3 +142,19 @@ require changes to the output products as well.
     modified: tests/yaml_configs/abi_test.yaml
     modified: tests/yaml_configs/abi_test_low_memory.yaml
 
+Testing Updates
+===============
+
+Added Unit Tests for Image Output Checker
+-----------------------------------------
+
+* From issue GEOIPS#374: 2023-10-16, Create Unit Test Suite for Output Checker Interface*
+
+Currently, GeoIPS has no unit tests for the output_checkers interface and largely any
+GeoIPS interface available. This update adds pytest-based unit tests for GeoIPS image
+output_checkers. There will be more unit tests for the remaining output checkers in a
+future update.
+
+::
+
+    added: geoips/test/test_pytest/test_output_checkers.py

@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Test all YAML plugins."""
+"""Test all Output Checker plugins."""
 import pytest
 from PIL import Image
 import numpy as np
