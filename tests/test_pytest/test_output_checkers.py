@@ -23,7 +23,12 @@ from geoips.commandline import log_setup
 log_setup.setup_logging()
 image = output_checkers.get_plugin("image")
 savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_images/pytest/"
-
+not_tested_yet = {
+    "fdeck": [[], []],
+    "geotiff": [[], []],
+    "netcdf": [[], []],
+    "text": [[], []],
+}
 
 def yield_images():
     """Yield a series of compare vs output image paths for testing purposes."""
@@ -44,11 +49,16 @@ def yield_images():
             comp_img.save(comp_path)
             output_img.save(output_path)
             yield (comp_path, output_path)
+    for plugin in not_tested_yet:
+        yield (not_tested_yet[plugin][0], not_tested_yet[plugin][1])
+
 
 
 @pytest.mark.parametrize("compare_path, output_path", yield_images())
 def test_image_comparisons(compare_path, output_path):
     """Test the comparison of two images with the Image Output Checker."""
+    if len(compare_path) == 0 or len(output_path) == 1:
+        pytest.xfail("Interface is not ready to be tested yet.")
     threshold_floats = [0.1, 0.05, 0.0]
     for threshold in threshold_floats:
         image.module.outputs_match(image, output_path, compare_path, threshold)
