@@ -29,10 +29,10 @@ class TestOutputCheckers:
     image = output_checkers.get_plugin("image")
     savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_images/pytest/"
     available_output_checkers = {
-        "geotiff": [[], []],
-        "image": [[True], [True]],
-        "netcdf": [[], []],
-        "text": [[], []],
+        "geotiff": (False, False),
+        "image": (True, True),
+        "netcdf": (False, False),
+        "text": (False, False),
     }
 
     def yield_images(self):
@@ -76,10 +76,7 @@ class TestOutputCheckers:
         """Test all output_checkers that are ready for testing."""
         for output_checker in checkers:
             print(output_checker)
-            if (
-                len(checkers[output_checker][0]) < 1
-                or len(checkers[output_checker][1]) < 1
-            ):
+            if (not checkers[output_checker][0] or not checkers[output_checker][1]):
                 pytest.mark.xfail(output_checker + " is not ready to be tested yet.")
             if output_checker == "image":
                 compare_paths, output_paths = self.yield_images()
