@@ -100,23 +100,14 @@ def call(plugin, compare_path, output_products):
     output_products : list of str
         List of strings of current output products,
         to compare with products in compare_path
-    test_product_func : function, default=None
-        Alternative function to be used for testing output product
-
-          * Call signature must be:
-
-              * output_product, compare_product, goodcomps, badcomps, compare_strings
-
-          * Return must be:
-
-              * goodcomps, badcomps, compare_strings
-
-        * If None, use geoips.compare_outputs.test_product)
 
     Returns
     -------
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = plugin.compare_outputs(compare_path, output_products)
+    retval = plugin.compare_outputs(
+        compare_path,
+        output_products,
+    )
     return retval
