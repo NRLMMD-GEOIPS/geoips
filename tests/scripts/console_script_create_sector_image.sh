@@ -15,7 +15,7 @@
 create_sector_image -s conus
 retval_conus=$?
 
-create_sector_image -s global goes16 -l info
+create_sector_image -s global goes_east -l info
 retval_all=$?
 
 echo "CONUS retval: $retval_conus"

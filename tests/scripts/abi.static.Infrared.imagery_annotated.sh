@@ -25,7 +25,8 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*
              --filename_formatter geoips_fname \
              --output_checker_kwargs '{"image": {"threshold": "0.10"}}' \
              --resampled_read \
-             --sector_list goes16
+             --logging_level info \
+             --sector_list goes_east
 retval=$?
 
 exit $retval
