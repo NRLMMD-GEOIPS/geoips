@@ -30,6 +30,7 @@ not_tested_yet = {
     "text": [[], []],
 }
 
+
 def yield_images():
     """Yield a series of compare vs output image paths for testing purposes."""
     thresholds = ["lenient", "medium", "strict"]
@@ -51,7 +52,6 @@ def yield_images():
             yield (comp_path, output_path)
     for plugin in not_tested_yet:
         yield (not_tested_yet[plugin][0], not_tested_yet[plugin][1])
-
 
 
 @pytest.mark.parametrize("compare_path, output_path", yield_images())
