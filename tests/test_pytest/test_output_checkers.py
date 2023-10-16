@@ -14,6 +14,7 @@
 import pytest
 from PIL import Image
 import numpy as np
+from os import environ
 
 from geoips.interfaces import output_checkers
 from geoips.commandline import log_setup
@@ -21,13 +22,11 @@ from geoips.commandline import log_setup
 
 log_setup.setup_logging()
 image = output_checkers.get_plugin("image")
-savedir = str(__file__).replace(
-    "geoips/tests/test_pytest/test_output_checkers.py", "test_data/test_images/pytest/"
-)
+savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_images/pytest/"
 thresholds = ["lenient", "medium", "strict"]
 
 
-def yeild_images():
+def yield_images():
     """Yield a series of compare vs output image paths for testing purposes."""
     for threshold in thresholds:
         for i in range(3):
@@ -47,7 +46,7 @@ def yeild_images():
             yield (comp_path, output_path)
 
 
-@pytest.mark.parametrize("compare_path, output_path", yeild_images())
+@pytest.mark.parametrize("compare_path, output_path", yield_images())
 def test_image_comparisons(compare_path, output_path):
     """Test the comparison of two images with the Image Output Checker."""
     for threshold in thresholds:
