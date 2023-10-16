@@ -22,7 +22,8 @@ from geoips.commandline import log_setup
 log_setup.setup_logging()
 image = output_checkers.get_plugin("image")
 savedir = str(__file__).replace(
-    "geoips/tests/test_pytest/test_output_checkers.py", "test_data/test_images/pytest/")
+    "geoips/tests/test_pytest/test_output_checkers.py", "test_data/test_images/pytest/"
+)
 thresholds = ["lenient", "medium", "strict"]
 
 
