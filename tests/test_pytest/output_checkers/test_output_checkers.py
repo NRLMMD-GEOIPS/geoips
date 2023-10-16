@@ -21,44 +21,67 @@ from geoips.commandline import log_setup
 
 
 log_setup.setup_logging()
-image = output_checkers.get_plugin("image")
-savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_images/pytest/"
-not_tested_yet = {
-    "fdeck": [[], []],
-    "geotiff": [[], []],
-    "netcdf": [[], []],
-    "text": [[], []],
-}
 
 
-def yield_images():
-    """Yield a series of compare vs output image paths for testing purposes."""
-    thresholds = ["lenient", "medium", "strict"]
-    for threshold in thresholds:
-        for i in range(3):
-            comp_arr = np.random.rand(100, 100, 3)
-            output_arr = np.copy(comp_arr)
-            if i == 1:
-                rand = np.random.randint(0, 100)
-                output_arr[rand][:] = np.random.rand(3)
-            elif i == 2:
-                output_arr = np.random.rand(100, 100, 3)
-            comp_img = Image.fromarray((comp_arr * 255).astype(np.uint8))
-            output_img = Image.fromarray((output_arr * 255).astype(np.uint8))
-            comp_path = savedir + "comp_img_" + threshold + str(i) + ".png"
-            output_path = savedir + "output_img_" + threshold + str(i) + ".png"
-            comp_img.save(comp_path)
-            output_img.save(output_path)
-            yield (comp_path, output_path)
-    for plugin in not_tested_yet:
-        yield (not_tested_yet[plugin][0], not_tested_yet[plugin][1])
+class TestOutputCheckers:
+    """TestOutputChecker class, defining methods as well."""
 
+    image = output_checkers.get_plugin("image")
+    savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_images/pytest/"
+    available_output_checkers = {
+        "fdeck": [[], []],
+        "geotiff": [[], []],
+        "image": [[True], [True]],
+        "netcdf": [[], []],
+        "text": [[], []],
+    }
 
-@pytest.mark.parametrize("compare_path, output_path", yield_images())
-def test_image_comparisons(compare_path, output_path):
-    """Test the comparison of two images with the Image Output Checker."""
-    if len(compare_path) == 0 or len(output_path) == 1:
-        pytest.xfail("Interface is not ready to be tested yet.")
-    threshold_floats = [0.1, 0.05, 0.0]
-    for threshold in threshold_floats:
-        image.module.outputs_match(image, output_path, compare_path, threshold)
+    def yield_images(self):
+        """Return a series of compare vs output image paths for testing purposes."""
+        thresholds = ["lenient", "medium", "strict"]
+        compare_paths = []
+        output_paths = []
+        for threshold in thresholds:
+            for i in range(3):
+                comp_arr = np.random.rand(100, 100, 3)
+                output_arr = np.copy(comp_arr)
+                if i == 1:
+                    rand = np.random.randint(0, 100)
+                    output_arr[rand][:] = np.random.rand(3)
+                elif i == 2:
+                    output_arr = np.random.rand(100, 100, 3)
+                comp_img = Image.fromarray((comp_arr * 255).astype(np.uint8))
+                output_img = Image.fromarray((output_arr * 255).astype(np.uint8))
+                comp_path = self.savedir + "comp_img_" + threshold + str(i) + ".png"
+                output_path = self.savedir + "output_img_" + threshold + str(i) + ".png"
+                comp_img.save(comp_path)
+                output_img.save(output_path)
+                compare_paths.append(comp_path)
+                output_paths.append(output_path)
+        return compare_paths, output_paths
+
+    def image_comparisons(self, compare_paths, output_paths):
+        """Test the comparison of two images with the Image Output Checker."""
+        threshold_floats = [0.1, 0.05, 0.0]
+        for threshold in threshold_floats:
+            for path_idx in range(len(compare_paths)):
+                self.image.module.outputs_match(
+                    self.image,
+                    output_paths[path_idx],
+                    compare_paths[path_idx],
+                    threshold,
+                )
+
+    @pytest.mark.parametrize("checkers", [available_output_checkers])
+    def test_output_checkers(self, checkers):
+        """Test all output_checkers that are ready for testing."""
+        for output_checker in checkers:
+            print(output_checker)
+            if (
+                len(checkers[output_checker][0]) < 1
+                or len(checkers[output_checker][1]) < 1
+            ):
+                pytest.mark.xfail(output_checker + " is not ready to be tested yet.")
+            if output_checker == "image":
+                compare_paths, output_paths = self.yield_images()
+                self.image_comparisons(compare_paths, output_paths)
