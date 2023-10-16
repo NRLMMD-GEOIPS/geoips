@@ -13,9 +13,9 @@
 """Tests all the readers given input test files."""
 
 import pytest
+from glob import glob
 from geoips.commandline.log_setup import setup_logging
 from geoips.interfaces import readers
-from glob import glob
 
 LOG = setup_logging()
 

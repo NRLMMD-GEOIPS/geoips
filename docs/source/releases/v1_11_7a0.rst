@@ -43,6 +43,15 @@ and split into multiple plugins for different product types.
     added: geoips/plugins/modules/output_checkers/text_checker.py
     deleted: geoips/compare_outputs.py
 
+Added unit tests for readers
+----------------------------
+
+Created file to unit test readers on test data sets.
+
+::
+
+    created: tests/test_pytest/reader_test.py
+
 Bug Fixes
 =========
 
