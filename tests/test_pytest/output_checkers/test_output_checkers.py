@@ -29,7 +29,6 @@ class TestOutputCheckers:
     image = output_checkers.get_plugin("image")
     savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_images/pytest/"
     available_output_checkers = {
-        "fdeck": [[], []],
         "geotiff": [[], []],
         "image": [[True], [True]],
         "netcdf": [[], []],
