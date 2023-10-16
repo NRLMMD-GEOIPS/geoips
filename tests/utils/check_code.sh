@@ -133,7 +133,7 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
                --rst-substitutions=version \
                --statistics \
                $path
-        flake8 --config $CONFIG_PATH/flake8_config.cfg \
+        flake8 --config $CONFIG_PATH/.flake8 \
                $path
         flake8_retval=$?
         echo "TEST COMPLETE flake8"
