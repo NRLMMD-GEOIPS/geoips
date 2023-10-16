@@ -14,8 +14,6 @@
 
 .. _plugin-extend:
 
-.. _plugin-extend:
-
 **************************
 Extend GeoIPS with Plugins
 **************************
@@ -94,7 +92,7 @@ is filled.
 Setting up for Plugin Development
 =================================
 
-1. To develop a new GeoIPS plugin, first :ref:`install GeoIPS<complete_install>` and ensure
+1. To develop a new GeoIPS plugin, first :ref:`install GeoIPS<linux-installation>` and ensure
    that you have your environment enabled and all environment variables set as described in
    the installation instructions.
 
@@ -183,8 +181,8 @@ And makes it aware of our module-based plugins using one namespace per interface
 Building a Custom GeoIPS Package
 --------------------------------
 
-Note, this any section below assumes you have completed either the :ref:`complete_install`,
-the :ref:`mac_install`, or the :ref:`expert_install`. If you havent, please complete
+Note, this any section below assumes you have completed either the :ref:`linux-installation`,
+the :ref:`mac-installation`, or the :ref:`expert-installation`. If you havent, please complete
 those steps before moving forward.
 
 We will now go hands on in creating a :ref:`Product<create-a-product>` for your custom
