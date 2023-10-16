@@ -19,6 +19,7 @@ Version 1.11.7a0 (2023-10-11)
 * Add sphinx reference links throughout geoIPS documentation
 * Rename Geostationary Sectors
 * Create "output_checkers" interface
+* Create "output_checker_kwargs" commandline argument
 * Convert base.py: plugin_module_to_obj to class-based method
 * Fixed from scipy.ndimage.interpolation import zoom deprecation warning
 
@@ -39,11 +40,32 @@ and split into multiple plugins for different product types.
     modified: geoips/plugins/modules/procflows/config_based.py
     modified: geoips/plugins/modules/procflows/single_source.py
     added: geoips/interfaces/module_based/output_checkers.py
-    added: geoips/plugins/modules/output_checkers/geotiff_checker.py
-    added: geoips/plugins/modules/output_checkers/image_checker.py
-    added: geoips/plugins/modules/output_checkers/netcdf_checker.py
-    added: geoips/plugins/modules/output_checkers/text_checker.py
+    added: geoips/plugins/modules/output_checkers/geotiff.py
+    added: geoips/plugins/modules/output_checkers/image.py
+    added: geoips/plugins/modules/output_checkers/netcdf.py
+    added: geoips/plugins/modules/output_checkers/text.py
     deleted: geoips/compare_outputs.py
+
+Create "output_checker_kwargs" commandline argument
+-----------------------------------------------------
+
+With the addition of output_checkers, we decided we would also like to have flexibility
+with our pixel comparisons, as well as any other types of comparisons. Therefore, we
+need to add a commandline argument called "output_checker_kwargs" to handle this.
+Specifically for images, we'd like to have the ability to adjust the "image_threshold"
+(% difference between pixels), for different user needs. This update adds three
+threshold values ["lenient" (10%), "medium" (5%), "strict" (0%)].
+
+::
+
+    modified: geoips/commandline/args.py
+    modified: geoips/interfaces/module_based/output_checkers.py
+    modified: geoips/plugins/modules/output_checkers/image.py
+    modified: geoips/plugins/modules/output_checkers/geotiff.py
+    modified: geoips/plugins/modules/output_checkers/netcdf.py
+    modified: geoips/plugins/modules/output_checkers/text.py
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: geoips/plugins/modules/single_source.py
 
 Bug Fixes
 =========
@@ -62,7 +84,7 @@ as Google Earth. We need to fix this so users aren't confused
 Fixed from scipy.ndimage.interpolation import zoom deprecation warning
 ----------------------------------------------------------------------
 
-The scipy.ndimage.interpolation library was deprecated as of scipy v1.2 (Dec 2018), 
+The scipy.ndimage.interpolation library was deprecated as of scipy v1.2 (Dec 2018),
 and was causing warnings when importing the zoom libary for the ahi_hsd reader and
 the abi_netcdf reader.
 
