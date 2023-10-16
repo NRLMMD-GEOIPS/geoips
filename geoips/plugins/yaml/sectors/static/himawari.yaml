@@ -1,18 +1,18 @@
 interface: sectors
 family: area_definition_static
-name: himawari8
-docstring: "Full disk sector for Himawari-8"
+name: himawari
+docstring: "Full disk sector for Himawari"
 metadata:
   region:
     continent: Global
     country: x
-    area: Himawari-8
+    area: Himawari
     subarea: x
     state: x
     city: x
 spec:
-  area_id: himawari8
-  description: Himawari-8 Coverage
+  area_id: himawari
+  description: Himawari Coverage
   projection:
     a: 6371228.0
     lat_0: 0

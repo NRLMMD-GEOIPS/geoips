@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: meteosat_indian_ocean
+docstring: "Meteosat-Indian-Ocean Coverage"
+metadata:
+  region:
+    continent: Global
+    country: x
+    area: Meteosat-Indian-Ocean
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: meteosat_indian_ocean
+  description: Meteosat-Indian-Ocean Coverage
+  projection:
+    a: 6371228.0
+    lat_0: 0
+    lon_0: 82.5
+    proj: eqc
+    units: m
+  resolution:
+    - 6000
+    - 6000
+  shape:
+    height: 1300
+    width: 1500
+  center: [0, 0]

@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: meteosat_europe
+docstring: "Metoesat-Europe Cocerage"
+metadata:
+  region:
+    continent: Global
+    country: x
+    area: Meteosat-Europe
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: meteosat_eurpe
+  description: Meteosat-Europe Coverage
+  projection:
+    a: 6371228.0
+    lat_0: 54.0
+    lon_0: 8.0
+    proj: stere
+    units: m
+  resolution:
+    - 2000
+    - 2000
+  shape:
+    height: 2000
+    width: 2000
+  center: [0, 0]
