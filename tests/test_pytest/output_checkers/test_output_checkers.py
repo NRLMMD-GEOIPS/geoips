@@ -76,7 +76,7 @@ class TestOutputCheckers:
         """Test all output_checkers that are ready for testing."""
         for output_checker in checkers:
             print(output_checker)
-            if (not checkers[output_checker][0] or not checkers[output_checker][1]):
+            if not checkers[output_checker][0] or not checkers[output_checker][1]:
                 pytest.mark.xfail(output_checker + " is not ready to be tested yet.")
             if output_checker == "image":
                 compare_paths, output_paths = self.yield_images()
