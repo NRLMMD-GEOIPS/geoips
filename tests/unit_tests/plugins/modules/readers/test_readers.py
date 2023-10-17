@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Tests all the readers given input test files."""
+"""Unit tests on all the readers."""
 
 import os
 from glob import glob
@@ -22,9 +22,11 @@ from geoips.interfaces import readers
 LOG = setup_logging()
 
 
-@pytest.mark.parametrize(
-    "key,files,data_key",
-    [
+class TestReaders:
+    """Tests all reader, checking GEOIPS standards and keywords."""
+
+    data_dir = os.environ["GEOIPS_TESTDATA_DIR"]
+    available_readers = [
         ("abi_l2_netcdf", "", ""),
         ("abi_netcdf", "", ""),
         ("ahi_hsd", "", ""),
@@ -66,27 +68,45 @@ LOG = setup_logging()
         ("wfabba_ascii", "", ""),
         ("windsat_idr37_binary", "", ""),
         ("windsat_remss_winds_netcdf", "", ""),
-    ],
-)
-def test_standards(key, files, data_key):
-    """Takes the input xarray and tests for conformity with internal standards."""
-    wc_path = os.environ["GEOIPS_TESTDATA_DIR"] + files
-    filelist = glob(wc_path)
+    ]
 
-    if len(filelist) == 0 or os.path.isdir(filelist[0]):
-        pytest.xfail("No files given, or bad path")
-    tmp_reader = readers.get_plugin(key)
-    inxr = tmp_reader(filelist[:2])
+    def check_xr(self, inxr, data_key):
+        """Check the input array with GEOIPS xarray standards."""
+        assert inxr
+        assert inxr[data_key]
+        assert inxr[data_key].longitude.max()
+        assert inxr[data_key].longitude.min()
+        assert inxr[data_key].latitude.max()
+        assert inxr[data_key].latitude.min()
+        assert inxr["METADATA"].attrs["source_name"]
+        assert inxr["METADATA"].attrs["platform_name"]
+        assert inxr["METADATA"].attrs["data_provider"]
+        assert inxr["METADATA"].attrs["start_datetime"]
+        assert inxr["METADATA"].attrs["end_datetime"]
+        assert inxr["METADATA"].attrs["interpolation_radius_of_influence"]
 
-    assert inxr
-    assert inxr[data_key]
-    assert inxr[data_key].longitude.max()
-    assert inxr[data_key].longitude.min()
-    assert inxr[data_key].latitude.max()
-    assert inxr[data_key].latitude.min()
-    assert inxr["METADATA"].attrs["source_name"]
-    assert inxr["METADATA"].attrs["platform_name"]
-    assert inxr["METADATA"].attrs["data_provider"]
-    assert inxr["METADATA"].attrs["start_datetime"]
-    assert inxr["METADATA"].attrs["end_datetime"]
-    assert inxr["METADATA"].attrs["interpolation_radius_of_influence"]
+    @pytest.mark.parametrize("key,files,data_key", available_readers)
+    def test_reader_plugins(self, key, files, data_key):
+        """Test all reader plugins, xfails for readers that don't have files.
+
+        Parameters
+        ----------
+        key : string
+           Reader plugin key
+        files : string
+           Wildcard path to data for reader
+        data_key : string
+           Key for data values in xarray dictionary
+
+        Returns
+        -------
+        None
+        """
+        file_path = self.data_dir + files
+        filelist = glob(file_path)
+        if files == "" or len(filelist) == 0:
+            pytest.xfail("No files given")
+
+        tmp_reader = readers.get_plugin(key)
+        inxr = tmp_reader(filelist[:2])
+        self.check_xr(inxr, data_key)
