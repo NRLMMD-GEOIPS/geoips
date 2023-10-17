@@ -26,14 +26,17 @@ log_setup.setup_logging()
 class TestOutputCheckers:
     """TestOutputChecker class, defining methods as well."""
 
-    image = output_checkers.get_plugin("image")
     savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_images/pytest/"
     available_output_checkers = {
-        "geotiff": (False, False),
-        "image": (True, True),
-        "netcdf": (False, False),
-        "text": (False, False),
+        "geotiff": False,
+        "image": True,
+        "netcdf": False,
+        "text": False,
     }
+
+    def yield_geotiffs(self):
+        """Return a series of compare vs output geotiff paths for testing purposes."""
+        print("Not Implemented yet.")
 
     def yield_images(self):
         """Return a series of compare vs output image paths for testing purposes."""
@@ -59,24 +62,69 @@ class TestOutputCheckers:
                 output_paths.append(output_path)
         return compare_paths, output_paths
 
-    def image_comparisons(self, compare_paths, output_paths):
+    def yield_netcdf(self):
+        """Return a series of compare vs output netcdf paths for testing purposes."""
+        print("Not Implemented yet.")
+
+    def yield_text(self):
+        """Return a series of compare vs output text paths for testing purposes."""
+        print("Not Implemented yet.")
+
+    def yield_plugin_products(self, plugin):
+        """Return the appropriate compare/output paths for the corresponding plugin."""
+        if plugin.name == "geotiff":
+            return self.yield_geotiffs()
+        if plugin.name == "image":
+            return self.yield_images()
+        if plugin.name == "netcdf":
+            return self.yield_netcdf()
+        if plugin.name == "text":
+            return self.yield_text()
+
+    def geotiff_comparisons(self, plugin, compare_paths, output_paths):
+        """Test the comparison of two geotiffs with the Geotiff Output Checker."""
+        print(compare_paths, output_paths)
+        print("Not Implemented yet.")
+
+    def image_comparisons(self, plugin, compare_paths, output_paths):
         """Test the comparison of two images with the Image Output Checker."""
         threshold_floats = [0.1, 0.05, 0.0]
         for threshold in threshold_floats:
             for path_idx in range(len(compare_paths)):
-                self.image.module.outputs_match(
-                    self.image,
+                plugin.module.outputs_match(
+                    plugin,
                     output_paths[path_idx],
                     compare_paths[path_idx],
                     threshold,
                 )
 
+    def netcdf_comparisons(self, plugin, compare_paths, output_paths):
+        """Test the comparison of two netcdf files with the Geotiff Output Checker."""
+        print(compare_paths, output_paths)
+        print("Not Implemented yet.")
+
+    def text_comparisons(self, plugin, compare_paths, output_paths):
+        """Test the comparison of two text files with the Geotiff Output Checker."""
+        print(compare_paths, output_paths)
+        print("Not Implemented yet.")
+
+    def compare_plugin(self, plugin):
+        """Test the comparision of two images with the appropriate Output Checker."""
+        compare_paths, output_paths = self.yield_plugin_products(plugin)
+        if plugin.name == "geotiff":
+            self.geotiff_comparisons(plugin, compare_paths, output_paths)
+        if plugin.name == "image":
+            self.image_comparisons(plugin, compare_paths, output_paths)
+        if plugin.name == "netcdf":
+            self.netcdf_comparisons(plugin, compare_paths, output_paths)
+        if plugin.name == "text":
+            self.text_comparisons(plugin, compare_paths, output_paths)
+
     @pytest.mark.parametrize("checker_name", available_output_checkers)
     def test_plugins(self, checker_name):
         """Test all output_checkers that are ready for testing."""
         output_checker = self.available_output_checkers[checker_name]
-        if not output_checker[0] or not output_checker[1]:
+        if not output_checker or checker_name not in self.available_output_checkers:
             pytest.xfail(checker_name + " is not ready to be tested yet.")
-        if checker_name == "image":
-            compare_paths, output_paths = self.yield_images()
-            self.image_comparisons(compare_paths, output_paths)
+        plugin = output_checkers.get_plugin(checker_name)
+        self.compare_plugin(plugin)
