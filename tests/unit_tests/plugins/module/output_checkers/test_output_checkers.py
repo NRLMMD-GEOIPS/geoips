@@ -109,7 +109,7 @@ class TestOutputCheckers:
         print("Not Implemented yet.")
 
     def compare_plugin(self, plugin):
-        """Test the comparision of two images with the appropriate Output Checker."""
+        """Test the comparision of two products with the appropriate Output Checker."""
         compare_paths, output_paths = self.yield_plugin_products(plugin)
         if plugin.name == "geotiff":
             self.geotiff_comparisons(plugin, compare_paths, output_paths)
