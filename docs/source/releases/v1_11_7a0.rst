@@ -191,4 +191,4 @@ future update.
 
 ::
 
-    added: geoips/test/test_pytest/output_checkers/test_output_checkers.py
+    added: geoips/test/unit_tests/plugins/module/output_checkers/test_output_checkers.py
