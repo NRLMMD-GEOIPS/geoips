@@ -71,13 +71,12 @@ class TestOutputCheckers:
                     threshold,
                 )
 
-    @pytest.mark.parametrize("checkers", [available_output_checkers])
-    def test_plugins(self, checkers):
+    @pytest.mark.parametrize("checker_name", available_output_checkers)
+    def test_plugins(self, checker_name):
         """Test all output_checkers that are ready for testing."""
-        for output_checker in checkers:
-            print(output_checker)
-            if not checkers[output_checker][0] or not checkers[output_checker][1]:
-                pytest.mark.xfail(output_checker + " is not ready to be tested yet.")
-            if output_checker == "image":
-                compare_paths, output_paths = self.yield_images()
-                self.image_comparisons(compare_paths, output_paths)
+        output_checker = self.available_output_checkers[checker_name]
+        if not output_checker[0] or not output_checker[1]:
+            pytest.xfail(checker_name + " is not ready to be tested yet.")
+        if checker_name == "image":
+            compare_paths, output_paths = self.yield_images()
+            self.image_comparisons(compare_paths, output_paths)
