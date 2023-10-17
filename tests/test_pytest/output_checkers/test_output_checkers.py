@@ -72,7 +72,7 @@ class TestOutputCheckers:
                 )
 
     @pytest.mark.parametrize("checkers", [available_output_checkers])
-    def test_output_checkers(self, checkers):
+    def test_plugins(self, checkers):
         """Test all output_checkers that are ready for testing."""
         for output_checker in checkers:
             print(output_checker)
