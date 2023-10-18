@@ -22,6 +22,49 @@ family = "standard"
 name = "image"
 
 
+def yield_test_files():
+    """Return a series of compare vs output image paths for testing purposes."""
+    from PIL import Image
+    import numpy as np
+    from os import environ
+
+    savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_images/pytest/"
+    thresholds = ["lenient", "medium", "strict"]
+    compare_paths = []
+    output_paths = []
+    for threshold in thresholds:
+        for i in range(3):
+            comp_arr = np.random.rand(100, 100, 3)
+            output_arr = np.copy(comp_arr)
+            if i == 1:
+                rand = np.random.randint(0, 100)
+                output_arr[rand][:] = np.random.rand(3)
+            elif i == 2:
+                output_arr = np.random.rand(100, 100, 3)
+            comp_img = Image.fromarray((comp_arr * 255).astype(np.uint8))
+            output_img = Image.fromarray((output_arr * 255).astype(np.uint8))
+            comp_path = savedir + "comp_img_" + threshold + str(i) + ".png"
+            output_path = savedir + "output_img_" + threshold + str(i) + ".png"
+            comp_img.save(comp_path)
+            output_img.save(output_path)
+            compare_paths.append(comp_path)
+            output_paths.append(output_path)
+    return compare_paths, output_paths
+
+
+def perform_test_comparisons(plugin, compare_paths, output_paths):
+    """Test the comparison of two images with the Image Output Checker."""
+    threshold_floats = [0.1, 0.05, 0.0]
+    for threshold in threshold_floats:
+        for path_idx in range(len(compare_paths)):
+            outputs_match(
+                plugin,
+                output_paths[path_idx],
+                compare_paths[path_idx],
+                threshold,
+            )
+
+
 def correct_file_format(fname):
     """Determine if fname is an image file.
 
