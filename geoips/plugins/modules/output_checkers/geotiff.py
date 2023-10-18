@@ -23,6 +23,79 @@ family = "standard"
 name = "geotiff"
 
 
+def random_modification(input_path, output_path, max_modification=0.1):
+    """Randomly modify the file from input path, and output it to output_path."""
+    from osgeo import gdal
+    from osgeo import gdalconst
+    import tempfile
+    import shutil
+    from numpy.random import rand
+    from os import remove
+
+    # Open the input GeoTIFF file
+    dataset = gdal.Open(input_path, gdalconst.GA_ReadOnly)
+
+    # Create a temporary copy of the input file
+    temp_path = tempfile.mktemp(suffix=".tif")
+    shutil.copy(input_path, temp_path)
+
+    # Randomly modify the temporary copy
+    band = dataset.GetRasterBand(1)
+    data = band.ReadAsArray().astype("float64")
+    data += ((rand() - 0.5) * max_modification * 2)
+    band.WriteArray(data)
+
+    # Close the dataset
+    dataset = None
+
+    # Save the modified copy
+    shutil.copy(temp_path, output_path)
+    remove(temp_path)
+
+
+def yield_test_files():
+    """Return a Series of GeoTIFF paths, of which are randomly modified from compare."""
+    from os import environ, makedirs
+    from os.path import exists, join
+    import shutil
+    # Ensure the output directory exists
+    savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_geotiffs/pytest/"
+    if not exists(savedir):
+        makedirs(savedir)
+
+    compare_path = savedir + "compare.tif"
+    # Prepare paths for matched, close_mismatch, and bad_mismatch
+    matched_path = join(savedir, "matched.tif")
+    close_mismatch_path = join(savedir, "close_mismatch.tif")
+    bad_mismatch_path = join(savedir, "bad_mismatch.tif")
+
+    # Copy the original compare file to the output directory
+    shutil.copy(compare_path, matched_path)
+
+    # Create a close mismatch by applying a small random modification
+    random_modification(compare_path, close_mismatch_path, max_modification=0.05)
+
+    # Create a bad mismatch by applying a larger random modification
+    random_modification(compare_path, bad_mismatch_path, max_modification=0.25)
+
+    # Return the paths to the files
+    return compare_path, [matched_path, close_mismatch_path, bad_mismatch_path]
+
+
+def perform_test_comparisons(plugin, compare_path, output_paths):
+    """Test the comparison of two GeoTIFF files with the GeoTIFF Output Checker."""
+    from os import remove
+
+    for path_idx in range(len(output_paths)):
+        plugin.module.outputs_match(
+            plugin,
+            output_paths[path_idx],
+            compare_path,
+        )
+    for path in output_paths:
+        remove(path)
+
+
 def correct_file_format(fname):
     """Determine if fname is a geotiff file.
 

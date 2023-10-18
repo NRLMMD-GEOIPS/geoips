@@ -21,6 +21,62 @@ family = "standard"
 name = "netcdf"
 
 
+def yield_test_files():
+    """Return a Series of Netcdf paths, of which are randomly modified from compare."""
+    from os import environ
+    from os.path import join
+    import xarray as xr
+    import numpy as np
+
+    savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_netcdf/pytest/"
+    # Path for the "compare" NetCDF file
+    compare_path = join(savedir, "compare.nc")
+
+    # Generate random data for the "compare" file
+    compare_data = np.random.rand(10, 10)
+    compare_ds = xr.Dataset(data_vars={"data": (("x", "y"), compare_data)})
+    compare_ds.to_netcdf(compare_path)
+
+    # Paths for the other files
+    matched_path = join(savedir, "matched.nc")
+    close_mismatch_path = join(savedir, "close_mismatch.nc")
+    bad_mismatch_path = join(savedir, "bad_mismatch.nc")
+
+    # Randomly modify the "compare" data for "close_mismatch" and "bad_mismatch"
+    close_mismatch_data = compare_data + np.random.normal(
+        scale=0.05, size=compare_data.shape)
+    bad_mismatch_data = compare_data + np.random.normal(
+        scale=0.25, size=compare_data.shape)
+
+    # Create DataArrays for the modified data
+    close_mismatch_da = xr.DataArray(data=close_mismatch_data, dims=("x", "y"))
+    bad_mismatch_da = xr.DataArray(data=bad_mismatch_data, dims=("x", "y"))
+
+    # Create Datasets and save them to NetCDF files
+    close_mismatch_ds = xr.Dataset(data_vars={"data": close_mismatch_da})
+    bad_mismatch_ds = xr.Dataset(data_vars={"data": bad_mismatch_da})
+
+    close_mismatch_ds.to_netcdf(close_mismatch_path)
+    bad_mismatch_ds.to_netcdf(bad_mismatch_path)
+    compare_ds.to_netcdf(matched_path)
+    return compare_path, [matched_path, close_mismatch_path, bad_mismatch_path]
+
+
+def perform_test_comparisons(plugin, compare_path, output_paths):
+    """Test the comparison of two Netcdf files with the Netcdf Output Checker."""
+    from os import remove
+
+    for path_idx in range(len(output_paths)):
+        plugin.module.outputs_match(
+            plugin,
+            output_paths[path_idx],
+            compare_path,
+        )
+    remove(compare_path)
+    for path in output_paths:
+        remove(path)
+
+
 def correct_file_format(fname):
     """Check if fname is a geoips formatted netcdf file.
 
