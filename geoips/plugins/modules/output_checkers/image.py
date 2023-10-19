@@ -57,12 +57,16 @@ def perform_test_comparisons(plugin, compare_paths, output_paths):
     threshold_floats = [0.1, 0.05, 0.0]
     for threshold in threshold_floats:
         for path_idx in range(len(compare_paths)):
-            outputs_match(
+            retval = plugin.module.outputs_match(
                 plugin,
                 output_paths[path_idx],
                 compare_paths[path_idx],
                 threshold,
             )
+            if path_idx % 3 == 0:
+                assert retval is True
+            else:
+                assert retval is False
 
 
 def correct_file_format(fname):

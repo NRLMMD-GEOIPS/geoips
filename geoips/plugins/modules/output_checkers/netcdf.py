@@ -67,11 +67,15 @@ def perform_test_comparisons(plugin, compare_path, output_paths):
     from os import remove
 
     for path_idx in range(len(output_paths)):
-        plugin.module.outputs_match(
+        retval = plugin.module.outputs_match(
             plugin,
             output_paths[path_idx],
             compare_path,
         )
+        if path_idx == 0:
+            assert retval is True
+        else:
+            assert retval is False
     remove(compare_path)
     for path in output_paths:
         remove(path)

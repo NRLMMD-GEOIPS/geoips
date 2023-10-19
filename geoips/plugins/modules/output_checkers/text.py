@@ -34,6 +34,7 @@ def yield_test_files():
     """Return a series of varied text files."""
     from os import environ
     import numpy as np
+    from shutil import copy
 
     savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_text/pytest/"
     comp_path = savedir + "compare.txt"
@@ -41,22 +42,19 @@ def yield_test_files():
     close_path = savedir + "close_mismatch.txt"
     bad_path = savedir + "bad_mismatch.txt"
     clear_text(match_path, close_path, bad_path)
+    copy(comp_path, match_path)
     with open(comp_path, mode="r") as comp_txt:
-        match = open(match_path, "w")
         close_mismatch = open(close_path, "w")
         bad_mismatch = open(bad_path, "w")
         for line in comp_txt.readlines():
-            for version in range(3):
+            for version in range(2):
                 rand = np.random.rand()
-                if version == 0:  # matched
-                    match.write(line)
-                elif version == 1:  # Close but mismatched
+                if version == 0:  # Close but mismatched
                     if rand > 0.05:
                         close_mismatch.write(line)
                 else:  # Mismatched -- not close
                     if rand > 0.25:
                         bad_mismatch.write(line)
-        match.close()
         close_mismatch.close()
         bad_mismatch.close()
     return comp_path, [match_path, close_path, bad_path]
@@ -65,11 +63,15 @@ def yield_test_files():
 def perform_test_comparisons(plugin, compare_path, output_paths):
     """Test the comparison of two text files with the Text Output Checker."""
     for path_idx in range(len(output_paths)):
-        plugin.module.outputs_match(
+        retval = plugin.module.outputs_match(
             plugin,
             output_paths[path_idx],
             compare_path,
         )
+        if path_idx == 0:
+            assert retval is True
+        else:
+            assert retval is False
 
 
 def correct_file_format(fname):

@@ -27,30 +27,21 @@ def random_modification(input_path, output_path, max_modification=0.1):
     """Randomly modify the file from input path, and output it to output_path."""
     from osgeo import gdal
     from osgeo import gdalconst
-    import tempfile
-    import shutil
     from numpy.random import rand
-    from os import remove
 
     # Open the input GeoTIFF file
-    dataset = gdal.Open(input_path, gdalconst.GA_ReadOnly)
-
-    # Create a temporary copy of the input file
-    temp_path = tempfile.mktemp(suffix=".tif")
-    shutil.copy(input_path, temp_path)
+    src_ds = gdal.Open(input_path, gdalconst.GA_ReadOnly)
+    driver = gdal.GetDriverByName('GTiff')
+    dst_ds = driver.CreateCopy(output_path, src_ds, 0)
 
     # Randomly modify the temporary copy
-    band = dataset.GetRasterBand(1)
+    band = dst_ds.GetRasterBand(1)
     data = band.ReadAsArray().astype("float64")
     data += ((rand() - 0.5) * max_modification * 2)
     band.WriteArray(data)
 
     # Close the dataset
-    dataset = None
-
-    # Save the modified copy
-    shutil.copy(temp_path, output_path)
-    remove(temp_path)
+    dst_ds = None
 
 
 def yield_test_files():
@@ -87,11 +78,15 @@ def perform_test_comparisons(plugin, compare_path, output_paths):
     from os import remove
 
     for path_idx in range(len(output_paths)):
-        plugin.module.outputs_match(
+        retval = plugin.module.outputs_match(
             plugin,
             output_paths[path_idx],
             compare_path,
         )
+        if path_idx == 0:
+            assert retval is True
+        else:
+            assert retval is False
     for path in output_paths:
         remove(path)
 
