@@ -33,9 +33,8 @@ class TestOutputCheckers:
     def test_plugins(self, checker_name):
         """Test all output_checkers that are ready for testing."""
         plugin = output_checkers.get_plugin(checker_name)
-        if (
-            not hasattr(plugin.module, "yield_test_files")
-            or not hasattr(plugin.module, "perform_test_comparisons")
+        if not hasattr(plugin.module, "yield_test_files") or not hasattr(
+            plugin.module, "perform_test_comparisons"
         ):
             pytest.xfail(checker_name + " is not ready to be tested yet.")
         self.compare_plugin(plugin)

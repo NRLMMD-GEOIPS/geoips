@@ -31,13 +31,13 @@ def random_modification(input_path, output_path, max_modification=0.1):
 
     # Open the input GeoTIFF file
     src_ds = gdal.Open(input_path, gdalconst.GA_ReadOnly)
-    driver = gdal.GetDriverByName('GTiff')
+    driver = gdal.GetDriverByName("GTiff")
     dst_ds = driver.CreateCopy(output_path, src_ds, 0)
 
     # Randomly modify the temporary copy
     band = dst_ds.GetRasterBand(1)
     data = band.ReadAsArray().astype("float64")
-    data += ((rand() - 0.5) * max_modification * 2)
+    data += (rand() - 0.5) * max_modification * 2
     band.WriteArray(data)
 
     # Close the dataset
@@ -49,6 +49,7 @@ def yield_test_files():
     from os import environ, makedirs
     from os.path import exists, join
     import shutil
+
     # Ensure the output directory exists
     savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_geotiffs/pytest/"
     if not exists(savedir):

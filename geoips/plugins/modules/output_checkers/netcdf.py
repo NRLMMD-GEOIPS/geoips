@@ -44,9 +44,11 @@ def yield_test_files():
 
     # Randomly modify the "compare" data for "close_mismatch" and "bad_mismatch"
     close_mismatch_data = compare_data + np.random.normal(
-        scale=0.05, size=compare_data.shape)
+        scale=0.05, size=compare_data.shape
+    )
     bad_mismatch_data = compare_data + np.random.normal(
-        scale=0.25, size=compare_data.shape)
+        scale=0.25, size=compare_data.shape
+    )
 
     # Create DataArrays for the modified data
     close_mismatch_da = xr.DataArray(data=close_mismatch_data, dims=("x", "y"))
