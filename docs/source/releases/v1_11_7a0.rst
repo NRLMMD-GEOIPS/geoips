@@ -23,6 +23,7 @@ Version 1.11.7a0 (2023-10-11)
 * Convert base.py: plugin_module_to_obj to class-based method
 * Fixed from scipy.ndimage.interpolation import zoom deprecation warning
 * Added unit test for image output checker
+* Attached unit tests to output checker plugins
 
 Enhancements
 ============
@@ -182,7 +183,7 @@ Testing Updates
 Added Unit Tests for Image Output Checker
 -----------------------------------------
 
-* From issue GEOIPS#374: 2023-10-16, Create Unit Test Suite for Output Checker Interface*
+*From issue GEOIPS#374: 2023-10-16, Create Unit Test Suite for Output Checker Interface*
 
 Currently, GeoIPS has no unit tests for the output_checkers interface and largely any
 GeoIPS interface available. This update adds pytest-based unit tests for GeoIPS image
@@ -192,3 +193,22 @@ future update.
 ::
 
     added: geoips/test/unit_tests/plugins/module/output_checkers/test_output_checkers.py
+
+Attached Unit Tests to Output Checker Plugins
+---------------------------------------------
+
+*From issue GEOIPS#378: 2023-10-18, Modify Unit Tests to have some functionality attached to the plugin itself*
+
+With the addition of Unit Tests, we've found there is some commonality between function
+signatures. While the functions pertaining to the plugin differ, they use the same
+inputs. For this reason, we are going to remove these functions from the Unit Test
+itself, and attach them to the plugins under the same nomenclature. If the plugin is
+missing these functions, raise a pytest.xfail.
+
+::
+
+    modified: geoips/tests/unit_tests/plugins/modules/output_checkers/test_output_checkers.py
+    modified: geoips/geoips/plugins/modules/output_checkers/geotiff.py
+    modified: geoips/geoips/plugins/modules/output_checkers/image.py
+    modified: geoips/geoips/plugins/modules/output_checkers/netcdf.py
+    modified: geoips/geoips/plugins/modules/output_checkers/text.py
