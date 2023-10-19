@@ -411,6 +411,7 @@ class BaseYamlInterface(BaseInterface):
         self._unvalidated_plugins = self._create_unvalidated_plugins_cache(
             load_all_yaml_plugins()
         )
+        # self._unvalidated_plugins = load_all_yaml_plugins()
 
     @classmethod
     def _plugin_yaml_to_obj(cls, name, yaml_plugin, obj_attrs={}):
@@ -452,7 +453,6 @@ class BaseYamlInterface(BaseInterface):
                 obj_attrs[attr] = yaml_plugin[attr]
             except KeyError:
                 missing.append(attr)
-
         if missing:
             raise PluginError(
                 f"Plugin '{yaml_plugin['name']}' is missing the following required "
@@ -502,9 +502,15 @@ class BaseYamlInterface(BaseInterface):
                             for subplg_name in subplg_names:
                                 yaml_subplgs[subplg_name] = deepcopy(yaml_subplg)
                                 yaml_subplgs[subplg_name]["interface"] = self.name
-                                yaml_subplgs[subplg_name]["package"] = yaml_plg["package"]  # NOQA
-                                yaml_subplgs[subplg_name]["relpath"] = yaml_plg["relpath"]  # NOQA
-                                yaml_subplgs[subplg_name]["abspath"] = yaml_plg["abspath"]  # NOQA
+                                yaml_subplgs[subplg_name]["package"] = yaml_plg[
+                                    "package"
+                                ]  # NOQA
+                                yaml_subplgs[subplg_name]["relpath"] = yaml_plg[
+                                    "relpath"
+                                ]  # NOQA
+                                yaml_subplgs[subplg_name]["abspath"] = yaml_plg[
+                                    "abspath"
+                                ]  # NOQA
                         except KeyError as resp:
                             LOG.warning(
                                 f"{resp}: from plugin '{yaml_plg.get('name')}',"
@@ -544,7 +550,26 @@ class BaseYamlInterface(BaseInterface):
         'name'.
         """
         try:
-            validated = self.validator.validate(self._unvalidated_plugins[name])
+            # validated = self.validator.validate(self._unvalidated_plugins[name])
+            if isinstance(name, tuple):
+                plugin = yaml.safe_load(
+                    open(self._unvalidated_plugins[name[0]]["abspath"], "r")
+                )
+                for product in plugin["spec"]["products"]:
+                    if product["name"] == name[1]:
+                        plugin = product
+                        break
+                plugin["abspath"] = self._unvalidated_plugins[name[0]]["abspath"]
+                plugin["relpath"] = self._unvalidated_plugins[name[0]]["relpath"]
+                plugin["package"] = self._unvalidated_plugins[name[0]]["package"]
+            else:
+                plugin = yaml.safe_load(
+                    open(self._unvalidated_plugins[name]["abspath"], "r")
+                )
+                plugin["abspath"] = self._unvalidated_plugins[name]["abspath"]
+                plugin["relpath"] = self._unvalidated_plugins[name]["relpath"]
+                plugin["package"] = self._unvalidated_plugins[name]["package"]
+            validated = self.validator.validate(plugin)
         except KeyError:
             raise PluginError(f"Plugin '{name}' not found for '{self.name}' interface.")
         # Store "name" as the product's "id"

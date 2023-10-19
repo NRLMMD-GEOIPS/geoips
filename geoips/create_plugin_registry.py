@@ -62,13 +62,15 @@ def parse_packages_to_plugins(plugin_packages):  # , plugins):
         print("package == " + str(package))
         pkg_plugin_path = resources.files(package) / "plugins"
         pkg_base_dir = str(resources.files(package))
-        pkg_base_dir = pkg_base_dir[:-len(os.path.basename(pkg_base_dir))]
+        pkg_base_dir = pkg_base_dir[: -len(os.path.basename(pkg_base_dir))]
         yaml_files = pkg_plugin_path.rglob("*.yaml")
         python_files = pkg_plugin_path.rglob("*.py")
         schema_yaml_path = resources.files(package) / "schema"
         schema_yamls = schema_yaml_path.rglob("*.yaml")
         plugin_paths = {
-            "yamls": yaml_files, "schemas": schema_yamls, "pyfiles": python_files
+            "yamls": yaml_files,
+            "schemas": schema_yamls,
+            "pyfiles": python_files,
         }
         parse_plugin_paths(plugin_paths, package, plugins)
         print("Available Plugin Interfaces:\n" + str(plugins.keys()))
@@ -127,7 +129,22 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
     plugin["abspath"] = abspath
     plugin["relpath"] = relpath
     plugin["package"] = package
-    plugins[interface_name].append({plugin["name"]: plugin})
+    # plugins[interface_name].append({plugin["name"]: plugin})
+    # plugins[interface_name].append({plugin["name"]: {
+    #                                 "interface": interface_name,
+    #                                 "family": plugin["family"],
+    #                                 "name": plugin["name"],
+    #                                 "abspath": abspath}})
+    plugins[interface_name].append(
+        {
+            plugin["name"]: {
+                "name": plugin["name"],
+                "abspath": abspath,
+                "relpath": relpath,
+                "package": package,
+            }
+        }
+    )
 
 
 def add_schema_plugin(filepath, abspath, relpath, package, plugins):
@@ -155,7 +172,10 @@ def add_schema_plugin(filepath, abspath, relpath, package, plugins):
     plugin["abspath"] = abspath
     plugin["relpath"] = relpath
     plugin["package"] = package
-    plugins[interface_name].append({plugin["$id"]: plugin})
+    # plugins[interface_name].append({plugin["$id"]: plugin})
+    plugins[interface_name].append(
+        {plugin["$id"]: {"$id": plugin["$id"], "abspath": abspath}}
+    )
 
 
 def add_module_plugin(abspath, relpath, package, plugins):
@@ -185,9 +205,17 @@ def add_module_plugin(abspath, relpath, package, plugins):
         family = module.family
         name = module.name
         del module
-        module_plugin = {name: {"interface": interface_name, "family": family,
-                                "name": name, "abspath": abspath, "relpath": relpath,
-                                "package": package}}
+        # module_plugin = {name: {"interface": interface_name, "family": family,
+        #                         "name": name, "abspath": abspath, "relpath": relpath,
+        #                         "package": package}}
+        module_plugin = {
+            name: {
+                "interface": interface_name,
+                "family": family,
+                "name": name,
+                "abspath": abspath,
+            }
+        }
         plugins[interface_name].append(module_plugin)
     except (ImportError, AttributeError) as e:
         print(e)

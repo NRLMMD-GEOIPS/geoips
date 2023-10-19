@@ -79,10 +79,9 @@ def load_all_yaml_plugins():
 
     reg_plug_path = str(environ["GEOIPS_PACKAGES_DIR"])
     reg_plug_path += "/geoips/registered_plugins.yaml"
-    # reg_plug_path = str(os.path.abspath(__file__)).replace(
-    #     "geoips/geoips_utils.py", "registered_plugins.yaml")
     if not os.path.exists(reg_plug_path):
         from . import create_plugin_registry
+
         create_plugin_registry.main()
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
     plugins = {}
@@ -91,11 +90,9 @@ def load_all_yaml_plugins():
         "gridline_annotators",
         "product_defaults",
         "products",
-        "sectors"
+        "sectors",
     ]
     for pkg in plugin_packages:
-        # registered_plugins_path = str(environ["GEOIPS_PACKAGES_DIR"]) + "/"
-        # registered_plugins_path += str(pkg.value) + "/registered_plugins.yaml"
         pkg_plug_path = resources.files(pkg.value) / "../registered_plugins.yaml"
         registered_plugins = yaml.safe_load(open(pkg_plug_path, "r"))
         for interface in registered_plugins:
@@ -104,7 +101,6 @@ def load_all_yaml_plugins():
                     plugins[interface] = [registered_plugins[interface]]
                 else:
                     plugins[interface].append(registered_plugins[interface])
-    # plugins = yaml.safe_load(open(reg_plug_path, "r"))
     return plugins
 
 
