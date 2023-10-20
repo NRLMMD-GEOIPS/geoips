@@ -75,10 +75,8 @@ def load_all_yaml_plugins():
     in ``.yaml``. Read each plugin file
     """
     # Load all entry points for plugin packages
-    from os import environ
 
-    reg_plug_path = str(environ["GEOIPS_PACKAGES_DIR"])
-    reg_plug_path += "/geoips/registered_plugins.yaml"
+    reg_plug_path = resources.files("geoips") / "../registered_plugins.yaml"
     if not os.path.exists(reg_plug_path):
         from . import create_plugin_registry
 

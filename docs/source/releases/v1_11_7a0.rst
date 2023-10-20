@@ -204,5 +204,6 @@ this functionality to work. This includes:
 
 ::
 
-    modified: geoips/geoips/geoips_utils.py (load_all_yaml_plugins())
-    modified: geoips/geoips/interfaces/base.py (_create_unvalidated_plugins_cache())
+    modified: geoips/geoips/geoips_utils.py
+    modified: geoips/geoips/interfaces/base.py
+    modified: geoips/geoips/interfaces/yaml_based/products.py
