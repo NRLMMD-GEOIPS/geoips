@@ -18,7 +18,6 @@ from glob import glob
 from os.path import exists
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.geoips_utils import find_entry_point
 from geoips.utils.memusg import print_mem_usage
 from geoips.geoips_utils import output_process_times
 from geoips.dev.product import (
@@ -861,6 +860,10 @@ def call(fnames, command_line_args=None):
         presector_data = not command_line_args["no_presectoring"]
     else:
         presector_data = True
+    if command_line_args.get("output_checker_kwargs") is not None:
+        output_checker_kwargs = command_line_args["output_checker_kwargs"]
+    else:
+        output_checker_kwargs = {}
 
     # Allow pulling command line arguments from either command line or YAML config.
     # Command line arguments override YAML config
@@ -1691,13 +1694,22 @@ def call(fnames, command_line_args=None):
     failed_compares = {}
     for cpath in final_products:
         if cpath != "no_comparison":
-            curr_compare_outputs = find_entry_point(
-                "output_comparisons", final_products[cpath]["compare_outputs_module"]
-            )
-            curr_retval = curr_compare_outputs(cpath, final_products[cpath]["files"])
-            retval += curr_retval
-            if curr_retval != 0:
-                failed_compares[cpath] = curr_retval
+            from geoips.interfaces.module_based.output_checkers import output_checkers
+
+            for output_product in final_products[cpath]["files"]:
+                output_checker = output_checkers.get_plugin(output_product)
+                kwargs = {}
+                if output_checker.name in output_checker_kwargs:
+                    kwargs = output_checker_kwargs[output_checker.name]
+                curr_retval = output_checker(
+                    output_checker,
+                    cpath,
+                    [output_product],
+                    **kwargs,
+                )
+                retval += curr_retval
+                if curr_retval != 0:
+                    failed_compares[cpath] = curr_retval
         else:
             LOG.info("No comparison specified, not attempting to compare outputs")
 

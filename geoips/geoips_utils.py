@@ -20,7 +20,7 @@ import logging
 from glob import glob
 from importlib import metadata, resources
 
-from geoips.errors import EntryPointError, PluginError
+from geoips.errors import EntryPointError
 from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)

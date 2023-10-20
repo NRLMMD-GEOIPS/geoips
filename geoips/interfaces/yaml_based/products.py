@@ -139,9 +139,15 @@ class ProductsInterface(BaseYamlInterface):
 
     def get_plugins(self):
         """Retrieve a plugin by name."""
+        import yaml
+
         plugins = []
-        for source_name, name in self._unvalidated_plugins.keys():
-            plugins.append(self.get_plugin(source_name, name))
+        for source_name in self._unvalidated_plugins[self.name].keys():
+            plugin = yaml.safe_load(
+                open(self._unvalidated_plugins[self.name][source_name]["abspath"], "r")
+            )
+            for subplg in plugin["spec"]["products"]:
+                plugins.append(self.get_plugin(source_name, subplg["name"]))
         return plugins
 
     def plugin_is_valid(self, source_name, name):
