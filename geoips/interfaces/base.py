@@ -408,10 +408,10 @@ class BaseYamlInterface(BaseInterface):
 
     def __init__(self):
         """YAML plugin interface init method."""
-        self._unvalidated_plugins = self._create_unvalidated_plugins_cache(
-            load_all_yaml_plugins()
-        )
-        # self._unvalidated_plugins = load_all_yaml_plugins()
+        # self._unvalidated_plugins = self._create_unvalidated_plugins_cache(
+        #     load_all_yaml_plugins()
+        # )
+        self._unvalidated_plugins = load_all_yaml_plugins()
 
     @classmethod
     def _plugin_yaml_to_obj(cls, name, yaml_plugin, obj_attrs={}):
@@ -544,26 +544,38 @@ class BaseYamlInterface(BaseInterface):
         'name'.
         """
         try:
-            validated = self.validator.validate(self._unvalidated_plugins[name])
-            # if isinstance(name, tuple):
-            #     plugin = yaml.safe_load(
-            #         open(self._unvalidated_plugins[name[0]]["abspath"], "r")
-            #     )
-            #     for product in plugin["spec"]["products"]:
-            #         if product["name"] == name[1]:
-            #             plugin = product
-            #             break
-            #     plugin["abspath"] = self._unvalidated_plugins[name[0]]["abspath"]
-            #     plugin["relpath"] = self._unvalidated_plugins[name[0]]["relpath"]
-            #     plugin["package"] = self._unvalidated_plugins[name[0]]["package"]
-            # else:
-            #     plugin = yaml.safe_load(
-            #         open(self._unvalidated_plugins[name]["abspath"], "r")
-            #     )
-            #     plugin["abspath"] = self._unvalidated_plugins[name]["abspath"]
-            #     plugin["relpath"] = self._unvalidated_plugins[name]["relpath"]
-            #     plugin["package"] = self._unvalidated_plugins[name]["package"]
-            # validated = self.validator.validate(plugin)
+            if isinstance(name, tuple):
+                plugin = yaml.safe_load(
+                    open(self._unvalidated_plugins[self.name][name[0]]["abspath"], "r")
+                )
+                for product in plugin["spec"]["products"]:
+                    if product["name"] == name[1]:
+                        plugin = product
+                        break
+                plugin["interface"] = "products"
+                plugin["abspath"] = self._unvalidated_plugins[self.name][name[0]][
+                    "abspath"
+                ]
+                plugin["relpath"] = self._unvalidated_plugins[self.name][name[0]][
+                    "relpath"
+                ]
+                plugin["package"] = self._unvalidated_plugins[self.name][name[0]][
+                    "package"
+                ]
+            else:
+                plugin = yaml.safe_load(
+                    open(self._unvalidated_plugins[self.name][name]["abspath"], "r")
+                )
+                plugin["abspath"] = self._unvalidated_plugins[self.name][name][
+                    "abspath"
+                ]
+                plugin["relpath"] = self._unvalidated_plugins[self.name][name][
+                    "relpath"
+                ]
+                plugin["package"] = self._unvalidated_plugins[self.name][name][
+                    "package"
+                ]
+            validated = self.validator.validate(plugin)
         except KeyError:
             raise PluginError(f"Plugin '{name}' not found for '{self.name}' interface.")
         # Store "name" as the product's "id"

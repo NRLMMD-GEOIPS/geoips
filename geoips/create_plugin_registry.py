@@ -9,7 +9,6 @@ will do the rest!
 """
 
 import yaml
-import numpy as np
 from importlib import metadata, resources, util
 import os
 import sys
@@ -31,15 +30,13 @@ def write_registered_plugins(pkg_base_dir, plugins):
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
     """
-    # reg_plug_abspath = str(os.path.abspath(__file__)).replace(
-    #     "geoips/create_plugin_registry.py", "registered_plugins.yaml")
     reg_plug_abspath = pkg_base_dir + "registered_plugins.yaml"
     yaml_plugins = yaml.dump(plugins, sort_keys=False)
     with open(reg_plug_abspath, "w") as plugin_registry:
         plugin_registry.write("{}".format(yaml_plugins))
 
 
-def parse_packages_to_plugins(plugin_packages):  # , plugins):
+def parse_packages_to_plugins(plugin_packages):
     """Generate all plugin paths associated with every installed GeoIPS packages.
 
     These paths include schema plugins, module_based plugins
@@ -57,7 +54,6 @@ def parse_packages_to_plugins(plugin_packages):  # , plugins):
         A dictionary object of all installed GeoIPS package plugins
     """
     for pkg in plugin_packages:
-        # plugins = {"bases": {}}
         plugins = {}
         package = pkg.value
         print("package == " + str(package))
@@ -66,8 +62,8 @@ def parse_packages_to_plugins(plugin_packages):  # , plugins):
         pkg_base_dir = pkg_base_dir[: -len(os.path.basename(pkg_base_dir))]
         yaml_files = pkg_plugin_path.rglob("*.yaml")
         python_files = pkg_plugin_path.rglob("*.py")
-        schema_yaml_path = resources.files(package) / "schema"
-        schema_yamls = schema_yaml_path.rglob("*.yaml")
+        # schema_yaml_path = resources.files(package) / "schema"
+        # schema_yamls = schema_yaml_path.rglob("*.yaml")
         plugin_paths = {
             "yamls": yaml_files,
             # "schemas": schema_yamls,
@@ -127,25 +123,11 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
     interface_name = plugin["interface"]
     if interface_name not in plugins.keys():
         plugins[interface_name] = {}
-    plugin["abspath"] = abspath
-    plugin["relpath"] = relpath
-    plugin["package"] = package
-    plugins[interface_name][plugin["name"]] = plugin
-    # plugins[interface_name].append({plugin["name"]: {
-    #                                 "interface": interface_name,
-    #                                 "family": plugin["family"],
-    #                                 "name": plugin["name"],
-    #                                 "abspath": abspath}})
-    # plugins[interface_name].append(
-    #     {
-    #         plugin["name"]: {
-    #             "name": plugin["name"],
-    #             "abspath": abspath,
-    #             "relpath": relpath,
-    #             "package": package,
-    #         }
-    #     }
-    # )
+    plugins[interface_name][plugin["name"]] = {
+        "abspath": abspath,
+        "relpath": relpath,
+        "package": package,
+    }
 
 
 # def add_schema_plugin(filepath, abspath, relpath, package, plugins):
@@ -203,26 +185,9 @@ def add_module_plugin(abspath, relpath, package, plugins):
         interface_name = module.interface
         if interface_name not in plugins.keys():
             plugins[interface_name] = {}
-        family = module.family
         name = module.name
         del module
-        module_plugin = {
-            "interface": interface_name,
-            "family": family,
-            "name": name,
-            "abspath": abspath,
-            "relpath": relpath,
-            "package": package,
-        }
-        # module_plugin = {
-        #     name: {
-        #         "interface": interface_name,
-        #         "family": family,
-        #         "name": name,
-        #         "abspath": abspath,
-        #     }
-        # }
-        plugins[interface_name][name] = module_plugin
+        plugins[interface_name][name] = {"abspath": abspath}
     except (ImportError, AttributeError) as e:
         print(e)
         return
@@ -235,12 +200,9 @@ def main():
     file which contains a dictionary of all the registered GeoIPS plugins. This
     dictionary is called 'registered_plugins'
     """
-    # plugins = {"bases": []}  # include bases due to a yaml conversion problem w/ bases
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
     print(plugin_packages)
-    parse_packages_to_plugins(plugin_packages)  # , plugins)
-    # print("Available Plugin Interfaces:\n" + str(plugins.keys()))
-    # write_registered_plugins(plugins)
+    parse_packages_to_plugins(plugin_packages)
 
 
 if __name__ == "__main__":
