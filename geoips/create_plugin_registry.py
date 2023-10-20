@@ -57,7 +57,8 @@ def parse_packages_to_plugins(plugin_packages):  # , plugins):
         A dictionary object of all installed GeoIPS package plugins
     """
     for pkg in plugin_packages:
-        plugins = {"bases": []}
+        # plugins = {"bases": {}}
+        plugins = {}
         package = pkg.value
         print("package == " + str(package))
         pkg_plugin_path = resources.files(package) / "plugins"
@@ -69,7 +70,7 @@ def parse_packages_to_plugins(plugin_packages):  # , plugins):
         schema_yamls = schema_yaml_path.rglob("*.yaml")
         plugin_paths = {
             "yamls": yaml_files,
-            "schemas": schema_yamls,
+            # "schemas": schema_yamls,
             "pyfiles": python_files,
         }
         parse_plugin_paths(plugin_paths, package, plugins)
@@ -100,8 +101,8 @@ def parse_plugin_paths(plugin_paths, package, plugins):
             relpath = os.path.relpath(filepath)
             if interface_key == "yamls":  # yaml based plugins
                 add_yaml_plugin(filepath, abspath, relpath, package, plugins)
-            elif interface_key == "schemas":  # schema based yamls
-                add_schema_plugin(filepath, abspath, relpath, package, plugins)
+            # elif interface_key == "schemas":  # schema based yamls
+            #     add_schema_plugin(filepath, abspath, relpath, package, plugins)
             else:  # module based plugins
                 add_module_plugin(abspath, relpath, package, plugins)
 
@@ -125,57 +126,57 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
     plugin = yaml.safe_load(open(filepath, mode="r"))
     interface_name = plugin["interface"]
     if interface_name not in plugins.keys():
-        plugins[interface_name] = []
+        plugins[interface_name] = {}
     plugin["abspath"] = abspath
     plugin["relpath"] = relpath
     plugin["package"] = package
-    # plugins[interface_name].append({plugin["name"]: plugin})
+    plugins[interface_name][plugin["name"]] = plugin
     # plugins[interface_name].append({plugin["name"]: {
     #                                 "interface": interface_name,
     #                                 "family": plugin["family"],
     #                                 "name": plugin["name"],
     #                                 "abspath": abspath}})
-    plugins[interface_name].append(
-        {
-            plugin["name"]: {
-                "name": plugin["name"],
-                "abspath": abspath,
-                "relpath": relpath,
-                "package": package,
-            }
-        }
-    )
+    # plugins[interface_name].append(
+    #     {
+    #         plugin["name"]: {
+    #             "name": plugin["name"],
+    #             "abspath": abspath,
+    #             "relpath": relpath,
+    #             "package": package,
+    #         }
+    #     }
+    # )
 
 
-def add_schema_plugin(filepath, abspath, relpath, package, plugins):
-    """Add the schema plugin associated with the filepaths and package to plugins.
+# def add_schema_plugin(filepath, abspath, relpath, package, plugins):
+#     """Add the schema plugin associated with the filepaths and package to plugins.
 
-    Parameters
-    ----------
-    filepath: str
-        The path of the plugin derived from resouces.files(package) / schema
-    abspath: str
-        The absolute path to the filepath provided
-    relpath: str
-        The relative path to the filepath provided
-    package: str
-        The current GeoIPS package being parsed
-    plugins: dict
-        A dictionary object of all installed GeoIPS package plugins
-    """
-    split_path = np.array(filepath.split("/"))
-    interface_idx = np.argmax(split_path == "schema") + 1
-    interface_name = split_path[interface_idx]
-    if interface_name not in plugins.keys():
-        plugins[interface_name] = []
-    plugin = yaml.safe_load(open(filepath, mode="r"))
-    plugin["abspath"] = abspath
-    plugin["relpath"] = relpath
-    plugin["package"] = package
-    # plugins[interface_name].append({plugin["$id"]: plugin})
-    plugins[interface_name].append(
-        {plugin["$id"]: {"$id": plugin["$id"], "abspath": abspath}}
-    )
+#     Parameters
+#     ----------
+#     filepath: str
+#         The path of the plugin derived from resouces.files(package) / schema
+#     abspath: str
+#         The absolute path to the filepath provided
+#     relpath: str
+#         The relative path to the filepath provided
+#     package: str
+#         The current GeoIPS package being parsed
+#     plugins: dict
+#         A dictionary object of all installed GeoIPS package plugins
+#     """
+#     split_path = np.array(filepath.split("/"))
+#     interface_idx = np.argmax(split_path == "schema") + 1
+#     interface_name = split_path[interface_idx]
+#     if interface_name not in plugins.keys():
+#         plugins[interface_name] = {}
+#     plugin = yaml.safe_load(open(filepath, mode="r"))
+#     plugin["abspath"] = abspath
+#     plugin["relpath"] = relpath
+#     plugin["package"] = package
+#     plugins[interface_name][plugin["$id"]] = plugin
+#     # plugins[interface_name].append(
+#     #     {plugin["$id"]: {"$id": plugin["$id"], "abspath": abspath}}
+#     # )
 
 
 def add_module_plugin(abspath, relpath, package, plugins):
@@ -201,22 +202,27 @@ def add_module_plugin(abspath, relpath, package, plugins):
         spec.loader.exec_module(module)
         interface_name = module.interface
         if interface_name not in plugins.keys():
-            plugins[interface_name] = []
+            plugins[interface_name] = {}
         family = module.family
         name = module.name
         del module
-        # module_plugin = {name: {"interface": interface_name, "family": family,
-        #                         "name": name, "abspath": abspath, "relpath": relpath,
-        #                         "package": package}}
         module_plugin = {
-            name: {
-                "interface": interface_name,
-                "family": family,
-                "name": name,
-                "abspath": abspath,
-            }
+            "interface": interface_name,
+            "family": family,
+            "name": name,
+            "abspath": abspath,
+            "relpath": relpath,
+            "package": package,
         }
-        plugins[interface_name].append(module_plugin)
+        # module_plugin = {
+        #     name: {
+        #         "interface": interface_name,
+        #         "family": family,
+        #         "name": name,
+        #         "abspath": abspath,
+        #     }
+        # }
+        plugins[interface_name][name] = module_plugin
     except (ImportError, AttributeError) as e:
         print(e)
         return

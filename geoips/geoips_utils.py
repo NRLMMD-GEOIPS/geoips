@@ -98,9 +98,9 @@ def load_all_yaml_plugins():
         for interface in registered_plugins:
             if interface in yaml_interfaces:
                 if interface not in plugins:
-                    plugins[interface] = [registered_plugins[interface]]
+                    plugins[interface] = registered_plugins[interface]
                 else:
-                    plugins[interface].append(registered_plugins[interface])
+                    plugins[interface].update(registered_plugins[interface])
     return plugins
 
 

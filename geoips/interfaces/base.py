@@ -465,6 +465,9 @@ class BaseYamlInterface(BaseInterface):
         plugin_type = f"{plugin_interface_name}Plugin"
 
         plugin_base_class = BaseYamlPlugin
+        # from IPython import embed as shell
+
+        # shell()
         if hasattr(cls, "plugin_class") and cls.plugin_class:
             plugin_base_class = cls.plugin_class
 
@@ -478,54 +481,45 @@ class BaseYamlInterface(BaseInterface):
         cache = {}
         # If this is a list, split out all of the subs and store them all
         # If this is any other family, just store it
-        for yaml_plgs in yaml_plugins[self.name]:
-            for yaml_plg in yaml_plgs:
-                if "family" in yaml_plg.keys() and yaml_plg["family"] == "list":
+        for key in yaml_plugins[self.name].keys():
+            yaml_plg = yaml_plugins[self.name][key]
+            if "$id" in yaml_plg.keys():
+                continue
+            if yaml_plg["family"] == "list":
+                try:
+                    yaml_plg = self.validator.validate(yaml_plg)
+                except ValidationError as resp:
+                    LOG.warning(
+                        f"{resp}: from plugin '{yaml_plg.get('name')}',"
+                        f"\nin package '{yaml_plg.get('package')}',"
+                        f"\nlocated at '{yaml_plg.get('abspath')}' "
+                    )
+                    # raise ValidationError(
+                    #     f"{resp}: from plugin '{yaml_plg.get('name')}',"
+                    #     f"\nin package '{yaml_plg.get('package')}',"
+                    #     f"\nlocated at '{yaml_plg.get('abspath')}' "
+                    # ) from resp
+                plg_list = self._plugin_yaml_to_obj(yaml_plg["name"], yaml_plg)
+                yaml_subplgs = {}
+                for yaml_subplg in plg_list["spec"][self.name]:
                     try:
-                        yaml_plg = self.validator.validate(yaml_plg)
-                    except ValidationError as resp:
+                        subplg_names = self._create_plugin_cache_names(yaml_subplg)
+                        for subplg_name in subplg_names:
+                            yaml_subplgs[subplg_name] = deepcopy(yaml_subplg)
+                            yaml_subplgs[subplg_name]["interface"] = self.name
+                            yaml_subplgs[subplg_name]["package"] = yaml_plg["package"]
+                            yaml_subplgs[subplg_name]["relpath"] = yaml_plg["relpath"]
+                            yaml_subplgs[subplg_name]["abspath"] = yaml_plg["abspath"]
+                    except KeyError as resp:
                         LOG.warning(
                             f"{resp}: from plugin '{yaml_plg.get('name')}',"
                             f"\nin package '{yaml_plg.get('package')}',"
                             f"\nlocated at '{yaml_plg.get('abspath')}' "
+                            f"\nMismatched schema and YAML?"
                         )
-                        # raise ValidationError(
-                        #     f"{resp}: from plugin '{yaml_plg.get('name')}',"
-                        #     f"\nin package '{yaml_plg.get('package')}',"
-                        #     f"\nlocated at '{yaml_plg.get('abspath')}' "
-                        # ) from resp
-                    plg_list = self._plugin_yaml_to_obj(yaml_plg["name"], yaml_plg)
-                    yaml_subplgs = {}
-                    for yaml_subplg in plg_list["spec"][self.name]:
-                        try:
-                            subplg_names = self._create_plugin_cache_names(yaml_subplg)
-                            for subplg_name in subplg_names:
-                                yaml_subplgs[subplg_name] = deepcopy(yaml_subplg)
-                                yaml_subplgs[subplg_name]["interface"] = self.name
-                                yaml_subplgs[subplg_name]["package"] = yaml_plg[
-                                    "package"
-                                ]  # NOQA
-                                yaml_subplgs[subplg_name]["relpath"] = yaml_plg[
-                                    "relpath"
-                                ]  # NOQA
-                                yaml_subplgs[subplg_name]["abspath"] = yaml_plg[
-                                    "abspath"
-                                ]  # NOQA
-                        except KeyError as resp:
-                            LOG.warning(
-                                f"{resp}: from plugin '{yaml_plg.get('name')}',"
-                                f"\nin package '{yaml_plg.get('package')}',"
-                                f"\nlocated at '{yaml_plg.get('abspath')}' "
-                                f"\nMismatched schema and YAML?"
-                            )
-                    cache.update(yaml_subplgs)
-                else:
-                    if len(yaml_plg.keys()) == 1:
-                        yaml_plg = yaml_plg[list(yaml_plg.keys())[0]]
-                    if "name" not in yaml_plg.keys():
-                        cache[yaml_plg["$id"]] = yaml_plg
-                    else:
-                        cache[yaml_plg["name"]] = yaml_plg
+                cache.update(yaml_subplgs)
+            else:
+                cache[yaml_plg["name"]] = yaml_plg
         return cache
 
     @staticmethod
@@ -550,26 +544,26 @@ class BaseYamlInterface(BaseInterface):
         'name'.
         """
         try:
-            # validated = self.validator.validate(self._unvalidated_plugins[name])
-            if isinstance(name, tuple):
-                plugin = yaml.safe_load(
-                    open(self._unvalidated_plugins[name[0]]["abspath"], "r")
-                )
-                for product in plugin["spec"]["products"]:
-                    if product["name"] == name[1]:
-                        plugin = product
-                        break
-                plugin["abspath"] = self._unvalidated_plugins[name[0]]["abspath"]
-                plugin["relpath"] = self._unvalidated_plugins[name[0]]["relpath"]
-                plugin["package"] = self._unvalidated_plugins[name[0]]["package"]
-            else:
-                plugin = yaml.safe_load(
-                    open(self._unvalidated_plugins[name]["abspath"], "r")
-                )
-                plugin["abspath"] = self._unvalidated_plugins[name]["abspath"]
-                plugin["relpath"] = self._unvalidated_plugins[name]["relpath"]
-                plugin["package"] = self._unvalidated_plugins[name]["package"]
-            validated = self.validator.validate(plugin)
+            validated = self.validator.validate(self._unvalidated_plugins[name])
+            # if isinstance(name, tuple):
+            #     plugin = yaml.safe_load(
+            #         open(self._unvalidated_plugins[name[0]]["abspath"], "r")
+            #     )
+            #     for product in plugin["spec"]["products"]:
+            #         if product["name"] == name[1]:
+            #             plugin = product
+            #             break
+            #     plugin["abspath"] = self._unvalidated_plugins[name[0]]["abspath"]
+            #     plugin["relpath"] = self._unvalidated_plugins[name[0]]["relpath"]
+            #     plugin["package"] = self._unvalidated_plugins[name[0]]["package"]
+            # else:
+            #     plugin = yaml.safe_load(
+            #         open(self._unvalidated_plugins[name]["abspath"], "r")
+            #     )
+            #     plugin["abspath"] = self._unvalidated_plugins[name]["abspath"]
+            #     plugin["relpath"] = self._unvalidated_plugins[name]["relpath"]
+            #     plugin["package"] = self._unvalidated_plugins[name]["package"]
+            # validated = self.validator.validate(plugin)
         except KeyError:
             raise PluginError(f"Plugin '{name}' not found for '{self.name}' interface.")
         # Store "name" as the product's "id"
