@@ -396,64 +396,6 @@ class BaseYamlInterface(BaseInterface):
 
         return type(plugin_type, (plugin_base_class,), obj_attrs)(yaml_plugin)
 
-    def _create_unvalidated_plugins_cache(self, yaml_plugins):
-        """Create a cache of unvalidated plugin yamls.
-
-        These will be validated when they are actually used.
-        """
-        cache = {}
-        # If this is a list, split out all of the subs and store them all
-        # If this is any other family, just store it
-        for key in yaml_plugins[self.name].keys():
-            yaml_plg = yaml_plugins[self.name][key]
-            if "$id" in yaml_plg.keys():
-                continue
-            if yaml_plg["family"] == "list":
-                try:
-                    yaml_plg = self.validator.validate(yaml_plg)
-                except ValidationError as resp:
-                    LOG.warning(
-                        f"{resp}: from plugin '{yaml_plg.get('name')}',"
-                        f"\nin package '{yaml_plg.get('package')}',"
-                        f"\nlocated at '{yaml_plg.get('abspath')}' "
-                    )
-                    # raise ValidationError(
-                    #     f"{resp}: from plugin '{yaml_plg.get('name')}',"
-                    #     f"\nin package '{yaml_plg.get('package')}',"
-                    #     f"\nlocated at '{yaml_plg.get('abspath')}' "
-                    # ) from resp
-                plg_list = self._plugin_yaml_to_obj(yaml_plg["name"], yaml_plg)
-                yaml_subplgs = {}
-                for yaml_subplg in plg_list["spec"][self.name]:
-                    try:
-                        subplg_names = self._create_plugin_cache_names(yaml_subplg)
-                        for subplg_name in subplg_names:
-                            yaml_subplgs[subplg_name] = deepcopy(yaml_subplg)
-                            yaml_subplgs[subplg_name]["interface"] = self.name
-                            yaml_subplgs[subplg_name]["package"] = yaml_plg["package"]
-                            yaml_subplgs[subplg_name]["relpath"] = yaml_plg["relpath"]
-                            yaml_subplgs[subplg_name]["abspath"] = yaml_plg["abspath"]
-                    except KeyError as resp:
-                        LOG.warning(
-                            f"{resp}: from plugin '{yaml_plg.get('name')}',"
-                            f"\nin package '{yaml_plg.get('package')}',"
-                            f"\nlocated at '{yaml_plg.get('abspath')}' "
-                            f"\nMismatched schema and YAML?"
-                        )
-                cache.update(yaml_subplgs)
-            else:
-                cache[yaml_plg["name"]] = yaml_plg
-        return cache
-
-    @staticmethod
-    def _create_plugin_cache_name(yaml_plugin):
-        """Create a plugin name for cache storage.
-
-        Some interfaces need to override this (e.g. products) because they need a more
-        complex name for retrieval.
-        """
-        return [yaml_plugin["name"]]
-
     def __repr__(self):
         """Plugin interface repr method."""
         return f"{self.__class__.__name__}()"
