@@ -332,6 +332,14 @@ class BaseYamlInterface(BaseInterface):
         """YAML plugin interface init method."""
         self._unvalidated_plugins = load_all_yaml_plugins()
 
+    def _create_registered_plugin_names(self, yaml_plugin):
+        """Create a plugin name for plugin registry.
+
+        Some interfaces need to override this (e.g. products) because they
+        need a more complex name for retrieval.
+        """
+        return [yaml_plugin["name"]]
+
     @classmethod
     def _plugin_yaml_to_obj(cls, name, yaml_plugin, obj_attrs={}):
         """Convert a yaml plugin to an object.
