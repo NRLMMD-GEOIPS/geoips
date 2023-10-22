@@ -191,19 +191,32 @@ run. To fix this, we have created a plugin registry, which is essentially a pyth
 dictionary of all the available plugins. This is now used to select the appropriate
 plugin when run_procflow is called.
 
-To do this, these files were added:
+create_plugin_registry was also added as a console script within pyproject.toml,
+so it can be executed as "create_plugin_registry".
 
 ::
 
     added: geoips/geoips/create_plugin_registry.py
+    modified: pyproject.toml
 
-When the file above is called, it generates a file in the same directory called
-"registered_plugins.py". This is the plugin dictionary which run_procflow selects from.
-With this new plugin registry implementation, certain changes were required to get
-this functionality to work. This includes:
+create_plugin_registry.py generates a YAML file in the top level directory
+of each plugin package called "registered_plugins.yaml".
+This YAML file contains an entry for each plugin within the current package,
+including the plugin name, interface, and absolute path.
+geoips_utils and the base interfaces were updated to use this new plugin registry
+rather than the deprecated "plugin cache" (which was created a runtime, every
+time geoips was imported).
 
 ::
 
     modified: geoips/geoips/geoips_utils.py
     modified: geoips/geoips/interfaces/base.py
     modified: geoips/geoips/interfaces/yaml_based/products.py
+
+To additionally decrease import time for geoips, move pyresample, geoips.mpl_utils,
+and cartopy imports in the base sectors interface module into the respective
+methods that use them, as those packages can take several seconds to import.
+
+::
+
+    modified: geoips/interfaces/yaml_based/sectors.py
