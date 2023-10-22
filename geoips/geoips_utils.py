@@ -17,11 +17,9 @@ from copy import deepcopy
 import sys
 import yaml
 import logging
-from glob import glob
 from importlib import metadata, resources
 
-from geoips.errors import EntryPointError
-from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.errors import EntryPointError, PluginRegistryError
 
 LOG = logging.getLogger(__name__)
 
@@ -36,6 +34,38 @@ def get_entry_point_group(group):
         return metadata.entry_points()[group]
 
 
+def find_ascii_palette(name):
+    """Find ASCII palette named "name".
+
+    Search the plugins/txt/ascii_palettes directory for ASCII palettes to use
+    as colormaps.
+    """
+    all_plugins = find_all_txt_plugins("txt/ascii_palettes")
+
+    for plugin in all_plugins:
+        if name == os.path.splitext(os.path.basename(plugin))[0]:
+            return plugin
+    raise ValueError(f"Non-existent txt plugin: {name}")
+
+
+def find_all_txt_plugins(subdir=""):
+    """Find all txt plugins in registered plugin packages.
+
+    Search the ``plugins`` directory of each registered plugin package for files ending
+    in ``.txt``. Return list of files
+    """
+    # Load all entry points for plugin packages
+    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+
+    # Loop over the plugin packages and load all of their yaml plugins
+    txt_files = []
+    for pkg in plugin_packages:
+        pkg_plugin_path = resources.files(pkg.value) / "plugins" / subdir
+        txt_files += pkg_plugin_path.rglob("*.txt")
+
+    return txt_files
+
+
 def load_all_yaml_plugins():
     """Find all YAML plugins in registered plugin packages.
 
@@ -46,9 +76,10 @@ def load_all_yaml_plugins():
 
     reg_plug_path = resources.files("geoips") / "registered_plugins.yaml"
     if not os.path.exists(reg_plug_path):
-        from . import create_plugin_registry
-
-        create_plugin_registry.main()
+        raise PluginRegistryError(
+            f"Plugin registry {reg_plug_path} did not exist, "
+            "please run 'create_plugin_registry'"
+        )
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
     plugins = {}
     yaml_interfaces = [
