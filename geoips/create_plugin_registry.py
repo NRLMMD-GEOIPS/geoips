@@ -9,11 +9,12 @@ The main function will do the rest!
 """
 
 import yaml
-from importlib import metadata, resources, util
+from importlib import metadata, resources, util, import_module
 import os
 import sys
 import logging
 from geoips.commandline.log_setup import setup_logging
+import geoips.interfaces
 
 LOG = logging.getLogger(__name__)
 
@@ -40,7 +41,7 @@ def write_registered_plugins(pkg_dir, plugins):
         yaml.safe_dump(plugins, plugin_registry, default_flow_style=False)
 
 
-def parse_packages_to_plugins(plugin_packages):
+def create_plugin_registry(plugin_packages):
     """Generate all plugin paths associated with every installed GeoIPS packages.
 
     These paths include schema plugins, module_based plugins
@@ -123,14 +124,43 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
         A dictionary object of all installed GeoIPS package plugins
     """
     plugin = yaml.safe_load(open(filepath, mode="r"))
+    plugin["abspath"] = abspath
+    plugin["relpath"] = relpath
+    plugin["package"] = package
+
     interface_name = plugin["interface"]
+    interface_module = getattr(geoips.interfaces, f"{interface_name}")
+
     if interface_name not in plugins.keys():
         plugins[interface_name] = {}
-    plugins[interface_name][plugin["name"]] = {
-        "abspath": abspath,
-        "relpath": relpath,
-        "package": package,
-    }
+
+    if plugin["family"] == "list":
+        # Do not validate the plugins here, they will be validated on open.
+        plg_list = interface_module._plugin_yaml_to_obj(plugin["name"], plugin)
+        for yaml_subplg in plg_list["spec"][interface_module.name]:
+            try:
+                subplg_names = interface_module._create_registered_plugin_names(
+                    yaml_subplg
+                )
+                for subplg_name in subplg_names:
+                    plugins[interface_name][str(subplg_name)] = {
+                        "package": plugin["package"],
+                        "relpath": plugin["relpath"],
+                        "abspath": plugin["abspath"],
+                    }
+            except KeyError as resp:
+                LOG.warning(
+                    f"{resp}: from plugin '{plugin.get('name')}',"
+                    f"\nin package '{plugin.get('package')}',"
+                    f"\nlocated at '{plugin.get('abspath')}' "
+                    f"\nMismatched schema and YAML?"
+                )
+    else:
+        plugins[interface_name][plugin["name"]] = {
+            "abspath": abspath,
+            "relpath": relpath,
+            "package": package,
+        }
 
 
 # def add_schema_plugin(filepath, abspath, relpath, package, plugins):
@@ -199,14 +229,14 @@ def add_module_plugin(abspath, relpath, package, plugins):
 def main():
     """Generate all available plugins from all installed GeoIPS packages.
 
-    After all plugins have been generated, they are written to a registered_plugins.py
-    file which contains a dictionary of all the registered GeoIPS plugins. This
-    dictionary is called 'registered_plugins'
+    After all plugins have been generated, they are written to registered_plugins.yaml
+    containing a dictionary of all the registered GeoIPS plugins. Keys in this
+    dictionary are the interface names, following by each plugin name.
     """
     LOG = setup_logging(logging_level="INTERACTIVE")
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
     LOG.debug(plugin_packages)
-    parse_packages_to_plugins(plugin_packages)
+    create_plugin_registry(plugin_packages)
     sys.exit(0)
 
 
