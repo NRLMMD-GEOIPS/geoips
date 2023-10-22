@@ -115,6 +115,7 @@ test = [
     "pytest",     # Required for unit tests
     "pytest-cov", # Reports on test coverage
     "pixelmatch",
+    "xarray-datatree", # Currently only used in unit tests
 ]
 
 debug = ["ipython"]
