@@ -207,9 +207,19 @@ geoips_utils and the base interfaces were updated to use this new plugin registr
 rather than the deprecated "plugin cache" (which was created a runtime, every
 time geoips was imported).
 
+Note create_plugin_registry is NOT auto-called from within geoips_utils,
+if the plugin registry is not found, a PluginRegistryError is raised, prompting
+the user to run "create_plugin_registry"
+
+Also note tuple-based interfaces (ie, products, which are stored as
+(source_name, product_name)) are expanded out into each full tuple within
+the plugin registry, and are accessed directly by their tuple from within
+the geoips interfaces.
+
 ::
 
     modified: geoips/geoips/geoips_utils.py
+    modified: geoips/geoips/errors.py
     modified: geoips/geoips/interfaces/base.py
     modified: geoips/geoips/interfaces/yaml_based/products.py
 
