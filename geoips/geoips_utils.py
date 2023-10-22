@@ -76,7 +76,7 @@ def load_all_yaml_plugins():
     """
     # Load all entry points for plugin packages
 
-    reg_plug_path = resources.files("geoips") / "../registered_plugins.yaml"
+    reg_plug_path = resources.files("geoips") / "registered_plugins.yaml"
     if not os.path.exists(reg_plug_path):
         from . import create_plugin_registry
 
@@ -91,7 +91,7 @@ def load_all_yaml_plugins():
         "sectors",
     ]
     for pkg in plugin_packages:
-        pkg_plug_path = resources.files(pkg.value) / "../registered_plugins.yaml"
+        pkg_plug_path = resources.files(pkg.value) / "registered_plugins.yaml"
         registered_plugins = yaml.safe_load(open(pkg_plug_path, "r"))
         for interface in registered_plugins:
             if interface in yaml_interfaces:
