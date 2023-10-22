@@ -88,6 +88,7 @@ doc8 = { version = "*", optional = true }
 pytest = { version = "*", optional = true }
 pytest-cov = { version = "*", optional = true }
 pixelmatch = { version = "*", optional = true }
+xarray-datatree = { version = "*", optional = true }
 # Debug group
 ipython = { version = "*", optional = true }
 
