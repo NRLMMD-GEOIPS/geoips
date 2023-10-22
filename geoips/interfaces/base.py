@@ -15,7 +15,6 @@
 import yaml
 import inspect
 import logging
-from copy import deepcopy
 
 from importlib.resources import files
 from pathlib import Path
