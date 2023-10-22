@@ -13,10 +13,6 @@
 """Sector interface module."""
 
 from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
-from pyresample import load_area
-from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
-from cartopy import feature as cfeature
-
 
 # Commenting these out for PR #260
 # Will work on this again after the 2023 workshop
@@ -70,6 +66,7 @@ class SectorPluginBase(BaseYamlPlugin):
     def area_definition(self):
         """Return the pyresample AreaDefinition for the sector."""
         # if self.family.startswith(("area_definition", "generated")):
+        from pyresample import load_area
         if self.family.startswith("area_definition"):
             ad = load_area(self.abspath, "spec")
         # elif self.family.startswith("center"):
@@ -80,6 +77,8 @@ class SectorPluginBase(BaseYamlPlugin):
 
     def create_test_plot(self, fname):
         """Create a test PNG image for this sector."""
+        from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
+        from cartopy import feature as cfeature
         fig, ax, mapobj = create_figure_and_main_ax_and_mapobj(
             self.area_definition.shape[1],
             self.area_definition.shape[0],
