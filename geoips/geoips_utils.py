@@ -36,38 +36,6 @@ def get_entry_point_group(group):
         return metadata.entry_points()[group]
 
 
-def find_ascii_palette(name):
-    """Find ASCII palette named "name".
-
-    Search the plugins/txt/ascii_palettes directory for ASCII palettes to use
-    as colormaps.
-    """
-    all_plugins = find_all_txt_plugins("txt/ascii_palettes")
-
-    for plugin in all_plugins:
-        if name == os.path.splitext(os.path.basename(plugin))[0]:
-            return plugin
-    raise ValueError(f"Non-existent txt plugin: {name}")
-
-
-def find_all_txt_plugins(subdir=""):
-    """Find all txt plugins in registered plugin packages.
-
-    Search the ``plugins`` directory of each registered plugin package for files ending
-    in ``.txt``. Return list of files
-    """
-    # Load all entry points for plugin packages
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
-
-    # Loop over the plugin packages and load all of their yaml plugins
-    txt_files = []
-    for pkg in plugin_packages:
-        pkg_plugin_path = resources.files(pkg.value) / "plugins" / subdir
-        txt_files += pkg_plugin_path.rglob("*.txt")
-
-    return txt_files
-
-
 def load_all_yaml_plugins():
     """Find all YAML plugins in registered plugin packages.
 
@@ -100,56 +68,6 @@ def load_all_yaml_plugins():
                 else:
                     plugins[interface].update(registered_plugins[interface])
     return plugins
-
-
-def find_config(subpackage_name, config_basename, txt_suffix=".yaml"):
-    """Find matching config file within GEOIPS packages.
-
-    Given 'subpackage_name', 'config_basename', and txt_suffix, find matching
-    text file within GEOIPS packages.
-
-    Parameters
-    ----------
-    subpackage_name : str
-        subdirectory under GEOIPS package to look for text file
-        ie text_fname = geoips/<subpackage_name>/<config_basename><txt_suffix>
-    config_basename : str
-        text basename to look for,
-        ie text_fname = geoips/<subpackage_name>/<config_basename><txt_suffix>
-    txt_suffix : str
-        suffix to look for on config file, defaults to ".yaml"
-        ie text_fname = geoips/<subpackage_name>/<config_basename><txt_suffix>
-
-    Returns
-    -------
-    text_fname : str
-        Full path to text filename
-    """
-    text_fname = None
-
-    for package_name in gpaths["GEOIPS_PACKAGES"]:
-        fname = os.path.join(
-            os.getenv("GEOIPS_PACKAGES_DIR"),
-            package_name,
-            subpackage_name,
-            config_basename + txt_suffix,
-        )
-        # LOG.info('Trying %s', fname)
-        if os.path.exists(fname):
-            LOG.info("FOUND %s", fname)
-            text_fname = fname
-        fname = os.path.join(
-            os.getenv("GEOIPS_PACKAGES_DIR"),
-            package_name,
-            package_name,
-            subpackage_name,
-            config_basename + txt_suffix,
-        )
-        # LOG.info('Trying %s', fname)
-        if os.path.exists(fname):
-            LOG.info("FOUND %s", fname)
-            text_fname = fname
-    return text_fname
 
 
 def find_entry_point(namespace, name, default=None):
@@ -420,70 +338,6 @@ def get_required_geoips_xarray_attrs():
         "end_datetime",
     ]
     return required_xarray_attrs
-
-
-def list_product_specs_dict_yamls():
-    """List all YAML files containing product params in all geoips packages.
-
-    Returns
-    -------
-    list
-        List of all product params dict YAMLs in all geoips packages
-    """
-    all_files = []
-    for package_name in gpaths["GEOIPS_PACKAGES"]:
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/*/yaml_configs/product_params/*/*.yaml"
-        )
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/yaml_configs/product_params/*/*.yaml"
-        )
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/*/yaml_configs/product_params/*.yaml"
-        )
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/yaml_configs/product_params/*.yaml"
-        )
-    return [fname for fname in all_files if "__init__" not in fname]
-
-
-def list_product_source_dict_yamls():
-    """List all YAML files containing product source specifications.
-
-    Search in all geoips packages.
-
-    Returns
-    -------
-    list
-        List of all product source dict YAMLs in all geoips packages
-    """
-    all_files = []
-    for package_name in gpaths["GEOIPS_PACKAGES"]:
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/*/yaml_configs/product_inputs/*.yaml"
-        )
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/yaml_configs/product_inputs/*.yaml"
-        )
-    return [fname for fname in all_files if "__init__" not in fname]
 
 
 def merge_nested_dicts(dest, src, in_place=True):
