@@ -130,6 +130,7 @@ run_procflow = "geoips.commandline.run_procflow:main"
 test_interfaces = "geoips.commandline.test_interfaces:main"
 update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
+create_plugin_registry = "geoips.create_plugin_registry:main"
 
 [tool.poetry.plugins."geoips.algorithms"]
 Night_Vis = "geoips.plugins.modules.algorithms.visir.Night_Vis"
