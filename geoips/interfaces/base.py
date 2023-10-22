@@ -330,9 +330,6 @@ class BaseYamlInterface(BaseInterface):
 
     def __init__(self):
         """YAML plugin interface init method."""
-        # self._unvalidated_plugins = self._create_unvalidated_plugins_cache(
-        #     load_all_yaml_plugins()
-        # )
         self._unvalidated_plugins = load_all_yaml_plugins()
 
     @classmethod
@@ -387,9 +384,6 @@ class BaseYamlInterface(BaseInterface):
         plugin_type = f"{plugin_interface_name}Plugin"
 
         plugin_base_class = BaseYamlPlugin
-        # from IPython import embed as shell
-
-        # shell()
         if hasattr(cls, "plugin_class") and cls.plugin_class:
             plugin_base_class = cls.plugin_class
 
