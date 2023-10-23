@@ -13,7 +13,9 @@
 """Read AMSR2 data products."""
 
 import logging
+import os
 from os.path import basename
+from glob import glob
 
 LOG = logging.getLogger(__name__)
 
@@ -390,3 +392,17 @@ def call(
         )
     final_xarrays["METADATA"] = list(final_xarrays.values())[0][[]]
     return final_xarrays
+
+
+def yeild_test_files():
+    """Yeilds test files for unit testing reader."""
+    filepath = os.environ["GEOIPS_TESTDATA_DIR"] + "/test_data_amsr2/data/AMSR2*.nc"
+    filelist = glob(filepath)[:2]
+    tmp_xr = call(filelist)
+
+    return tmp_xr
+
+
+def yeild_test_parameters():
+    """Yeilds a data key for unit testing."""
+    return "Brightness_Temperature_10_GHzH"

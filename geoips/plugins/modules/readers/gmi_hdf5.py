@@ -39,7 +39,8 @@ Dataset information::
 """
 # Python Standard Libraries
 from os.path import basename
-
+from os import environ
+from glob import glob
 import h5py
 import numpy as np
 import logging
@@ -269,3 +270,18 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_gmi.attrs["interpolation_radius_of_influence"] = 12500
 
     return {"GMI": xarray_gmi, "METADATA": xarray_gmi[[]]}
+
+
+def yeild_test_files():
+    """Yeilds unit files and test xarray for unit testing."""
+    filepath = environ["GEOIPS_TESTDATA_DIR"] + "/test_data_gpm/data/1B*.RT-H5"
+    filelist = glob(filepath)
+    tmp_xr = call(filelist)
+    if len(filelist) == 0:
+        raise NameError("No files found")
+    return tmp_xr
+
+
+def yeild_test_parameters():
+    """Yeilds data key for unit testing."""
+    return "GMI"

@@ -15,6 +15,8 @@
 import logging
 from os.path import basename
 from copy import deepcopy
+from os import environ
+from glob import glob
 
 LOG = logging.getLogger(__name__)
 
@@ -241,3 +243,20 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     final_wind_xarrays["METADATA"] = wind_xarray[[]]
 
     return final_wind_xarrays
+
+
+def yeild_test_files():
+    """Yeild test xarray from test data for unit testing."""
+    filepath = (
+        environ["GEOIPS_TESTDATA_DIR"] + "/test_data_scat/data/metopc*knmi*/*coa*.nc"
+    )
+    filelist = glob(filepath)
+    tmp_xr = call(filelist)
+    if len(filelist) == 0:
+        raise NameError("No files found")
+    return tmp_xr
+
+
+def yeild_test_parameters():
+    """Yeild test data key for unit testing."""
+    return "WINDSPEED"

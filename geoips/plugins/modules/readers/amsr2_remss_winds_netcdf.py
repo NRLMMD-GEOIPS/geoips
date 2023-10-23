@@ -14,6 +14,8 @@
 
 import logging
 from os.path import basename
+from glob import glob
+import os
 
 LOG = logging.getLogger(__name__)
 
@@ -117,3 +119,19 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     wind_xarrays["METADATA"] = wind_xarray[[]]
 
     return wind_xarrays
+
+
+def yeild_test_files():
+    """Yeilds test files for unit testing reader."""
+    filepath = os.environ["GEOIPS_TESTDATA_DIR"] + "/test_data_amsr2/data/RSS*.nc"
+    filelist = glob(filepath)[:2]
+    if len(filelist) == 0:
+        raise NameError("No files found")
+    tmp_xr = call(filelist)
+
+    return tmp_xr
+
+
+def yeild_test_parameters():
+    """Yeilds data key for unit testing."""
+    return "WINDSPEED_1"

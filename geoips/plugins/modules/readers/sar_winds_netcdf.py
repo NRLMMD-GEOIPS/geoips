@@ -14,6 +14,8 @@
 
 import logging
 from os.path import basename
+from os import environ
+import glob
 
 LOG = logging.getLogger(__name__)
 
@@ -289,3 +291,18 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             )
 
     return wind_xarrays
+
+
+def yeild_test_files():
+    """Yeilds testing xarray from test data."""
+    filepath = environ["GEOIPS_TESTDATA_DIR"] + "/test_data_sar/data/*.nc"
+    filelist = glob.glob(filepath)
+    tmp_xr = call(filelist)
+    if len(filelist) == 0:
+        raise NameError("No files found")
+    return tmp_xr
+
+
+def yeild_test_parameters():
+    """Yeilds test data key for unit testing."""
+    return "WINDSPEED"
