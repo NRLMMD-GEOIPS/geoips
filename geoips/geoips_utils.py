@@ -81,24 +81,26 @@ def load_all_yaml_plugins():
             "please run 'create_plugin_registry'"
         )
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
-    plugins = {}
-    yaml_interfaces = [
-        "feature_annotators",
-        "gridline_annotators",
-        "product_defaults",
-        "products",
-        "sectors",
-    ]
+    yaml_plugins = {}
     for pkg in plugin_packages:
         pkg_plug_path = resources.files(pkg.value) / "registered_plugins.yaml"
+        # This will include all plugins, including schemas, yaml_based,
+        # and module_based plugins.
         registered_plugins = yaml.safe_load(open(pkg_plug_path, "r"))
-        for interface in registered_plugins:
-            if interface in yaml_interfaces:
-                if interface not in plugins:
-                    plugins[interface] = registered_plugins[interface]
+        # Only pull the "yaml_based" plugins here.
+        try:
+            for interface in registered_plugins["yaml_based"]:
+                if interface not in yaml_plugins:
+                    yaml_plugins[interface] = registered_plugins["yaml_based"][
+                        interface
+                    ]
                 else:
-                    plugins[interface].update(registered_plugins[interface])
-    return plugins
+                    yaml_plugins[interface].update(
+                        registered_plugins["yaml_based"][interface]
+                    )
+        except TypeError:
+            raise PluginRegistryError(f"Failed reading {pkg_plug_path}.")
+    return yaml_plugins
 
 
 def find_entry_point(namespace, name, default=None):
