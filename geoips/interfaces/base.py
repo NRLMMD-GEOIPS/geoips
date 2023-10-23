@@ -421,25 +421,36 @@ class BaseYamlInterface(BaseInterface):
                 # These are stored in the yaml as str(name),
                 # ie "('viirs', 'Infrared')"
                 plugin = yaml.safe_load(
-                    open(self._unvalidated_plugins[self.name][name[0]]["abspath"], "r")
+                    open(
+                        self._unvalidated_plugins[self.name][name[0]][name[1]][
+                            "abspath"
+                        ],
+                        "r",
+                    )
                 )
+                plugin_found = False
                 for product in plugin["spec"]["products"]:
                     if (
                         product["name"] == name[1]
                         and name[0] in product["source_names"]
                     ):
+                        plugin_found = True
                         plugin = product
                         break
+                if not plugin_found:
+                    raise PluginError(
+                        "There is no plugin that has " + name[1] + " included in it."
+                    )
                 plugin["interface"] = "products"
                 plugin["abspath"] = self._unvalidated_plugins[self.name][name[0]][
-                    "abspath"
-                ]
+                    name[1]
+                ]["abspath"]
                 plugin["relpath"] = self._unvalidated_plugins[self.name][name[0]][
-                    "relpath"
-                ]
+                    name[1]
+                ]["relpath"]
                 plugin["package"] = self._unvalidated_plugins[self.name][name[0]][
-                    "package"
-                ]
+                    name[1]
+                ]["package"]
             else:
                 plugin = yaml.safe_load(
                     open(self._unvalidated_plugins[self.name][name]["abspath"], "r")

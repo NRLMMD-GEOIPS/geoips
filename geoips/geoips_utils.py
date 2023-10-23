@@ -95,8 +95,9 @@ def load_all_yaml_plugins():
                         interface
                     ]
                 else:
-                    yaml_plugins[interface].update(
-                        registered_plugins["yaml_based"][interface]
+                    merge_nested_dicts(
+                        yaml_plugins[interface],
+                        registered_plugins["yaml_based"][interface],
                     )
         except TypeError:
             raise PluginRegistryError(f"Failed reading {pkg_plug_path}.")

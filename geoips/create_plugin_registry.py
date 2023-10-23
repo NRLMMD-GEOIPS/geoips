@@ -184,15 +184,14 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
                 # access.
                 for subplg_name in subplg_names:
                     if str(subplg_name[0]) not in list(plugins[interface_name].keys()):
-                        plugins[interface_name][str(subplg_name[0])] = {
-                            "package": plugin["package"],
-                            "relpath": plugin["relpath"],
-                            "abspath": plugin["abspath"],
-                            "products": {},
-                        }
-                    plugins[interface_name][str(subplg_name[0])]["products"][
+                        plugins[interface_name][str(subplg_name[0])] = {}
+                    plugins[interface_name][str(subplg_name[0])][
                         str(subplg_name[1])
-                    ] = str(subplg_name[1])
+                    ] = {
+                        "package": plugin["package"],
+                        "relpath": plugin["relpath"],
+                        "abspath": plugin["abspath"],
+                    }
             # If the plugin was not found, issue a warning and continue.
             # Do not fail catastrophically for a bad plugin.
             except KeyError as resp:
