@@ -1,10 +1,9 @@
 """Generates all available plugins from all installed GeoIPS packages.
 
-After all plugins have been generated, they are written to a registered_plugins.py
-file which contains a dictionary of all the registered GeoIPS plugins. This dictionary
-is called 'registered_plugins'.
+After all plugins have been generated, they are written to a registered_plugins.yaml
+file which contains a dictionary of all the registered GeoIPS plugins.
 
-To use this module, simply call 'create_registered_plugins'.
+To use this module, simply call 'python create_plugin_registry.py'.
 The main function will do the rest!
 """
 
@@ -125,7 +124,7 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
             #         filepath, abspath, relpath, package, plugins["schemas"]
             #     )
             else:  # module based plugins
-                add_module_plugin(abspath, relpath, package, plugins["module_based"])
+                add_module_plugin(abspath, plugins["module_based"])
 
 
 def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
@@ -241,17 +240,13 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
 #     # )
 
 
-def add_module_plugin(abspath, relpath, package, plugins):
+def add_module_plugin(abspath, plugins):
     """Add the yaml plugin associated with the filepaths and package to plugins.
 
     Parameters
     ----------
     abspath: str
         The absolute path to the module plugin
-    relpath: str
-        The relative path to the module plugin
-    package: str
-        The current GeoIPS package being parsed
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
     """
