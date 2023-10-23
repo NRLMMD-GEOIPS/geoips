@@ -370,6 +370,7 @@ class BaseYamlInterface(BaseInterface):
         obj_attrs["yaml"] = yaml_plugin
 
         missing = []
+
         for attr in [
             "package",
             "relpath",
@@ -397,7 +398,6 @@ class BaseYamlInterface(BaseInterface):
         plugin_base_class = BaseYamlPlugin
         if hasattr(cls, "plugin_class") and cls.plugin_class:
             plugin_base_class = cls.plugin_class
-
         return type(plugin_type, (plugin_base_class,), obj_attrs)(yaml_plugin)
 
     def __repr__(self):
@@ -421,9 +421,7 @@ class BaseYamlInterface(BaseInterface):
                 # These are stored in the yaml as str(name),
                 # ie "('viirs', 'Infrared')"
                 plugin = yaml.safe_load(
-                    open(
-                        self._unvalidated_plugins[self.name][str(name)]["abspath"], "r"
-                    )
+                    open(self._unvalidated_plugins[self.name][name[0]]["abspath"], "r")
                 )
                 for product in plugin["spec"]["products"]:
                     if (
@@ -433,13 +431,13 @@ class BaseYamlInterface(BaseInterface):
                         plugin = product
                         break
                 plugin["interface"] = "products"
-                plugin["abspath"] = self._unvalidated_plugins[self.name][str(name)][
+                plugin["abspath"] = self._unvalidated_plugins[self.name][name[0]][
                     "abspath"
                 ]
-                plugin["relpath"] = self._unvalidated_plugins[self.name][str(name)][
+                plugin["relpath"] = self._unvalidated_plugins[self.name][name[0]][
                     "relpath"
                 ]
-                plugin["package"] = self._unvalidated_plugins[self.name][str(name)][
+                plugin["package"] = self._unvalidated_plugins[self.name][name[0]][
                     "package"
                 ]
             else:

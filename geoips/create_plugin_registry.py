@@ -57,12 +57,12 @@ def create_plugin_registry(plugin_packages):
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
     """
-    plugins = {
-        # "schemas": {},
-        "yaml_based": {},
-        "module_based": {},
-    }
     for pkg in plugin_packages:
+        plugins = {
+            # "schemas": {},
+            "yaml_based": {},
+            "module_based": {},
+        }
         # Track sets of plugins by plugin type
         # (schemas, yaml_based, and module_based)
         package = pkg.value
@@ -183,11 +183,16 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
                 # Give each one its own entry in the plugin registry for easy
                 # access.
                 for subplg_name in subplg_names:
-                    plugins[interface_name][str(subplg_name)] = {
-                        "package": plugin["package"],
-                        "relpath": plugin["relpath"],
-                        "abspath": plugin["abspath"],
-                    }
+                    if str(subplg_name[0]) not in list(plugins[interface_name].keys()):
+                        plugins[interface_name][str(subplg_name[0])] = {
+                            "package": plugin["package"],
+                            "relpath": plugin["relpath"],
+                            "abspath": plugin["abspath"],
+                            "products": {},
+                        }
+                    plugins[interface_name][str(subplg_name[0])]["products"][
+                        str(subplg_name[1])
+                    ] = str(subplg_name[1])
             # If the plugin was not found, issue a warning and continue.
             # Do not fail catastrophically for a bad plugin.
             except KeyError as resp:
