@@ -73,12 +73,12 @@ def create_plugin_registry(plugin_packages):
             # "schemas": schema_yamls,
             "pyfiles": python_files,
         }
-        parse_plugin_paths(plugin_paths, package, plugins)
+        parse_plugin_paths(plugin_paths, package, pkg_dir, plugins)
         LOG.debug("Available Plugin Interfaces:\n" + str(plugins.keys()))
         write_registered_plugins(pkg_dir, plugins)
 
 
-def parse_plugin_paths(plugin_paths, package, plugins):
+def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
     """Parse the plugin_paths provided from the current installed GeoIPS package.
 
     Then, add them to the plugins dictionary based on the path of the plugin.
@@ -91,6 +91,8 @@ def parse_plugin_paths(plugin_paths, package, plugins):
         A dictionary of filepaths, with keys referring to the type of plugin
     package: str
         The current GeoIPS package being parsed
+    package_dir: str
+        The path to the current GeoIPS package (for determining relative paths)
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
     """
@@ -98,7 +100,8 @@ def parse_plugin_paths(plugin_paths, package, plugins):
         for filepath in plugin_paths[interface_key]:
             filepath = str(filepath)
             abspath = os.path.abspath(filepath)
-            relpath = os.path.relpath(filepath)
+            # Path relative to the package directory
+            relpath = os.path.relpath(filepath, start=package_dir)
             if interface_key == "yamls":  # yaml based plugins
                 add_yaml_plugin(filepath, abspath, relpath, package, plugins)
             # elif interface_key == "schemas":  # schema based yamls
