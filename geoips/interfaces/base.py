@@ -23,7 +23,7 @@ import referencing
 from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
-from geoips.errors import EntryPointError, PluginError
+from geoips.errors import EntryPointError, PluginError, PluginRegistryError
 from geoips.geoips_utils import (
     find_entry_point,
     get_all_entry_points,
@@ -330,10 +330,18 @@ class BaseYamlInterface(BaseInterface):
 
     def __init__(self):
         """YAML plugin interface init method."""
-        # self._unvalidated_plugins = self._create_unvalidated_plugins_cache(
-        #     load_all_yaml_plugins()
-        # )
-        self._unvalidated_plugins = load_all_yaml_plugins()
+        try:
+            self._unvalidated_plugins = load_all_yaml_plugins()
+        except PluginRegistryError:
+            self._unvalidated_plugins = {}
+
+    def _create_registered_plugin_names(self, yaml_plugin):
+        """Create a plugin name for plugin registry.
+
+        Some interfaces need to override this (e.g. products) because they
+        need a more complex name for retrieval.
+        """
+        return [yaml_plugin["name"]]
 
     @classmethod
     def _plugin_yaml_to_obj(cls, name, yaml_plugin, obj_attrs={}):
@@ -362,6 +370,7 @@ class BaseYamlInterface(BaseInterface):
         obj_attrs["yaml"] = yaml_plugin
 
         missing = []
+
         for attr in [
             "package",
             "relpath",
@@ -387,12 +396,8 @@ class BaseYamlInterface(BaseInterface):
         plugin_type = f"{plugin_interface_name}Plugin"
 
         plugin_base_class = BaseYamlPlugin
-        # from IPython import embed as shell
-
-        # shell()
         if hasattr(cls, "plugin_class") and cls.plugin_class:
             plugin_base_class = cls.plugin_class
-
         return type(plugin_type, (plugin_base_class,), obj_attrs)(yaml_plugin)
 
     def __repr__(self):
@@ -407,25 +412,45 @@ class BaseYamlInterface(BaseInterface):
         ProductsInterface which uses a tuple containing 'source_name' and
         'name'.
         """
+        if not self._unvalidated_plugins:
+            raise PluginRegistryError(
+                "Plugin registry not found, please run 'create_plugin_registry'"
+            )
         try:
             if isinstance(name, tuple):
+                # These are stored in the yaml as str(name),
+                # ie "('viirs', 'Infrared')"
                 plugin = yaml.safe_load(
-                    open(self._unvalidated_plugins[self.name][name[0]]["abspath"], "r")
+                    open(
+                        self._unvalidated_plugins[self.name][name[0]][name[1]][
+                            "abspath"
+                        ],
+                        "r",
+                    )
                 )
+                plugin_found = False
                 for product in plugin["spec"]["products"]:
-                    if product["name"] == name[1]:
+                    if (
+                        product["name"] == name[1]
+                        and name[0] in product["source_names"]
+                    ):
+                        plugin_found = True
                         plugin = product
                         break
+                if not plugin_found:
+                    raise PluginError(
+                        "There is no plugin that has " + name[1] + " included in it."
+                    )
                 plugin["interface"] = "products"
                 plugin["abspath"] = self._unvalidated_plugins[self.name][name[0]][
-                    "abspath"
-                ]
+                    name[1]
+                ]["abspath"]
                 plugin["relpath"] = self._unvalidated_plugins[self.name][name[0]][
-                    "relpath"
-                ]
+                    name[1]
+                ]["relpath"]
                 plugin["package"] = self._unvalidated_plugins[self.name][name[0]][
-                    "package"
-                ]
+                    name[1]
+                ]["package"]
             else:
                 plugin = yaml.safe_load(
                     open(self._unvalidated_plugins[self.name][name]["abspath"], "r")
@@ -450,6 +475,10 @@ class BaseYamlInterface(BaseInterface):
     def get_plugins(self):
         """Retrieve a plugin by name."""
         plugins = []
+        if not self._unvalidated_plugins:
+            raise PluginRegistryError(
+                "Plugin registry not found, please run 'create_plugin_registry'"
+            )
         for name in self._unvalidated_plugins[self.name].keys():
             plugins.append(self.get_plugin(name))
         return plugins

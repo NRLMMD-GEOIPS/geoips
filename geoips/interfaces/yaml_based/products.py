@@ -95,6 +95,17 @@ class ProductsInterface(BaseYamlInterface):
     name = "products"
     validator = ProductsPluginValidator()
 
+    def _create_registered_plugin_names(self, yaml_plugin):
+        """Create a plugin name for plugin registry.
+
+        This name is a tuple containing source_name and name.
+        Overrides the same method from YamlPluginValidator.
+        """
+        names = []
+        for source_name in yaml_plugin["source_names"]:
+            names += [(source_name, yaml_plugin["name"])]
+        return names
+
     def get_plugin(self, source_name, name, product_spec_override=None):
         """Retrieve a Product plugin by source_name, name, and product_spec_override.
 
@@ -126,15 +137,10 @@ class ProductsInterface(BaseYamlInterface):
 
     def get_plugins(self):
         """Retrieve a plugin by name."""
-        import yaml
-
         plugins = []
         for source_name in self._unvalidated_plugins[self.name].keys():
-            plugin = yaml.safe_load(
-                open(self._unvalidated_plugins[self.name][source_name]["abspath"], "r")
-            )
-            for subplg in plugin["spec"]["products"]:
-                plugins.append(self.get_plugin(source_name, subplg["name"]))
+            for subplg_name in self._unvalidated_plugins[self.name][source_name].keys():
+                plugins.append(self.get_plugin(source_name, subplg_name))
         return plugins
 
     def plugin_is_valid(self, source_name, name):
