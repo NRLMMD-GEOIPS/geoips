@@ -415,7 +415,7 @@ class BaseYamlInterface(BaseInterface):
 
         if not self._unvalidated_plugins:
             raise PluginRegistryError(
-                "Plugin registry not found, please run 'create_plugin_registry'"
+                "Plugin registries not found, please run 'create_plugin_registries'"
             )
         try:
             if isinstance(name, tuple):
@@ -472,7 +472,7 @@ class BaseYamlInterface(BaseInterface):
         plugins = []
         if not self._unvalidated_plugins:
             raise PluginRegistryError(
-                "Plugin registry not found, please run 'create_plugin_registry'"
+                "Plugin registries not found, please run 'create_plugin_registries'"
             )
         for name in self._unvalidated_plugins[self.name].keys():
             plugins.append(self.get_plugin(name))
