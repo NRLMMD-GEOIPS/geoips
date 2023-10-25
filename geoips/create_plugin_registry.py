@@ -14,8 +14,100 @@ import sys
 import logging
 from geoips.commandline.log_setup import setup_logging
 import geoips.interfaces
+from geoips.errors import PluginRegistryError
 
 LOG = logging.getLogger(__name__)
+
+
+def registry_sanity_check(plugin_packages):
+    """Check that each plugin package registry has no duplicate lowest depth entries.
+
+    Parameters
+    ----------
+    plugin_packages: list EntryPoints
+        A list of EntryPoints pointing to each installed
+        GeoIPS package --> ie.
+        [EntryPoint(name='geoips', value='geoips', group='geoips.plugin_packages'), ...]
+    """
+    for comp_idx, comp_pkg in enumerate(plugin_packages):
+        comp_registry = yaml.safe_load(
+            open(resources.files(comp_pkg.value) / "registered_plugins.yaml")
+        )
+        for pkg_idx, pkg in enumerate(plugin_packages):
+            if pkg_idx <= comp_idx:  # same package or already compared
+                continue
+            # Track sets of plugins by plugin type
+            # (schemas, yaml_based, and module_based)
+            pkg_registry = yaml.safe_load(
+                open(resources.files(pkg.value) / "registered_plugins.yaml")
+            )
+            for plugin_type in ["yaml_based", "module_based"]:
+                for interface in comp_registry[plugin_type]:
+                    if interface in pkg_registry[plugin_type]:
+                        geoips_plugins = comp_registry[plugin_type][interface]
+                        for plugin in geoips_plugins:
+                            if plugin in pkg_registry[plugin_type][interface]:
+                                pkg_plugin = pkg_registry[plugin_type][interface][
+                                    plugin
+                                ]
+                                if (
+                                    plugin_type == "module_based"
+                                    or "abspath" in pkg_plugin
+                                ):
+                                    raise PluginRegistryError(
+                                        """Error with packages [{}, {}]:
+                                        You can't have two Plugins of the same interface
+                                        [{}] with the same name [{}].""".format(
+                                            comp_pkg.value,
+                                            pkg.value,
+                                            interface,
+                                            plugin,
+                                        )
+                                    )
+                                comp_plugin = comp_registry[plugin_type][interface][
+                                    plugin
+                                ]
+                                for sub_plg in comp_plugin:  # product plugin
+                                    if sub_plg in pkg_plugin:
+                                        raise PluginRegistryError(
+                                            """Error with packages [{}, {}]:
+                                            You can't have two products of the same
+                                            interface [{}] with the same name [{}] found
+                                            under source name [{}].""".format(
+                                                comp_pkg.value,
+                                                pkg.value,
+                                                interface,
+                                                sub_plg,
+                                                plugin,
+                                            )
+                                        )
+
+
+def check_plugin_exists(package, plugins, interface_name, plugin_name):
+    """Check if plugin already exists, and if it does, raise a PluginRegistryError.
+
+    Parameters
+    ----------
+    package: str
+        The GeoIPS package being tested against
+    plugins: dict
+        A dictionary object of all installed GeoIPS package plugins
+    interface_name: str
+        A string representing the GeoIPS interface being checked against
+    plugin_name: str
+        A string representing the name of the plugin within the GeoIPS interface
+    """
+    if plugin_name in plugins[interface_name]:
+        raise PluginRegistryError(
+            """Error in package [{}]:
+            You can not have two Plugins of the same interface [{}]
+            with the same name [{}].""".format(
+                package,
+                interface_name,
+                plugin_name,
+            )
+        )
+    return False
 
 
 def get_entry_point_group(group):
@@ -88,6 +180,7 @@ def create_plugin_registry(plugin_packages):
             + str(plugins["module_based"].keys())
         )
         write_registered_plugins(pkg_dir, plugins)
+    registry_sanity_check(plugin_packages)
 
 
 def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
@@ -124,7 +217,7 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
             #         filepath, abspath, relpath, package, plugins["schemas"]
             #     )
             else:  # module based plugins
-                add_module_plugin(abspath, plugins["module_based"])
+                add_module_plugin(package, abspath, plugins["module_based"])
 
 
 def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
@@ -153,6 +246,8 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
 
     if interface_name not in plugins.keys():
         plugins[interface_name] = {}
+
+    check_plugin_exists(package, plugins, interface_name, plugin["name"])
 
     # If the current family is "list", make sure we loop through the list,
     # expanding out each individual product found within the list.
@@ -244,11 +339,13 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
 #     # )
 
 
-def add_module_plugin(abspath, plugins):
+def add_module_plugin(package, abspath, plugins):
     """Add the yaml plugin associated with the filepaths and package to plugins.
 
     Parameters
     ----------
+    package: str
+        The current GeoIPS package being parsed
     abspath: str
         The absolute path to the module plugin
     plugins: dict
@@ -266,6 +363,7 @@ def add_module_plugin(abspath, plugins):
             plugins[interface_name] = {}
         name = module.name
         del module
+        check_plugin_exists(package, plugins, interface_name, name)
         plugins[interface_name][name] = {"abspath": abspath}
     except (ImportError, AttributeError) as e:
         LOG.debug(e)
