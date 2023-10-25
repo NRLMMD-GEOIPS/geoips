@@ -196,7 +196,7 @@ so it can be executed as "create_plugin_registries".
 
 ::
 
-    added: geoips/geoips/create_plugin_registry.py
+    added: geoips/geoips/create_plugin_registries.py
     modified: pyproject.toml
 
 create_plugin_registries.py generates a YAML file in the top level directory
