@@ -100,12 +100,12 @@ Raise error when two plugins have the same name
 
 *From NRLMMD-GEOIPS/geoips#382: 2023-10-23*
 
-Currently in GeoIPS, if two plugins have the same name, one is just overwritten. This
-would occur in the order in which GeoIPS defines its entry points. This is a bug, and
-needs to be fixed. To do so, we check all registered_plugins.yaml found in each package,
-loop through them, and compare them against every other plugin registry. If duplicates
-are found, an error is raised, and the registries are removed until one of the
-duplicates is renamed.
+Currently in GeoIPS, if two plugins of the same interface have the same name, one is
+just overwritten. This would occur in the order in which GeoIPS defines its entry
+points. This is a bug, and needs to be fixed. To do so, we check all
+registered_plugins.yaml found in each package, loop through them, and compare them
+against every other plugin registry. If duplicates are found, an error is raised, and
+the registries are removed until one of the duplicates is renamed.
 
 ::
 
