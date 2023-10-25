@@ -67,9 +67,11 @@ class SectorPluginBase(BaseYamlPlugin):
         """Return the pyresample AreaDefinition for the sector."""
         # if self.family.startswith(("area_definition", "generated")):
         from pyresample import load_area
+        from importlib.resources import files
 
         if self.family.startswith("area_definition"):
-            ad = load_area(self.abspath, "spec")
+            abspath = str(files(self.package) / self.relpath)
+            ad = load_area(abspath, "spec")
         # elif self.family.startswith("center"):
         #     ad = center_to_area_definition(self)
         # elif self.family.startswith("corners"):

@@ -374,7 +374,6 @@ class BaseYamlInterface(BaseInterface):
         for attr in [
             "package",
             "relpath",
-            "abspath",
             "interface",
             "family",
             "name",
@@ -412,6 +411,8 @@ class BaseYamlInterface(BaseInterface):
         ProductsInterface which uses a tuple containing 'source_name' and
         'name'.
         """
+        from importlib.resources import files
+
         if not self._unvalidated_plugins:
             raise PluginRegistryError(
                 "Plugin registry not found, please run 'create_plugin_registry'"
@@ -420,11 +421,16 @@ class BaseYamlInterface(BaseInterface):
             if isinstance(name, tuple):
                 # These are stored in the yaml as str(name),
                 # ie "('viirs', 'Infrared')"
+                relpath = self._unvalidated_plugins[self.name][name[0]][name[1]][
+                    "relpath"
+                ]
+                package = self._unvalidated_plugins[self.name][name[0]][name[1]][
+                    "package"
+                ]
+                abspath = str(files(package) / relpath)
                 plugin = yaml.safe_load(
                     open(
-                        self._unvalidated_plugins[self.name][name[0]][name[1]][
-                            "abspath"
-                        ],
+                        abspath,
                         "r",
                     )
                 )
@@ -442,28 +448,17 @@ class BaseYamlInterface(BaseInterface):
                         "There is no plugin that has " + name[1] + " included in it."
                     )
                 plugin["interface"] = "products"
-                plugin["abspath"] = self._unvalidated_plugins[self.name][name[0]][
-                    name[1]
-                ]["abspath"]
-                plugin["relpath"] = self._unvalidated_plugins[self.name][name[0]][
-                    name[1]
-                ]["relpath"]
-                plugin["package"] = self._unvalidated_plugins[self.name][name[0]][
-                    name[1]
-                ]["package"]
+                plugin["package"] = package
+                plugin["abspath"] = abspath
+                plugin["relpath"] = relpath
             else:
-                plugin = yaml.safe_load(
-                    open(self._unvalidated_plugins[self.name][name]["abspath"], "r")
-                )
-                plugin["abspath"] = self._unvalidated_plugins[self.name][name][
-                    "abspath"
-                ]
-                plugin["relpath"] = self._unvalidated_plugins[self.name][name][
-                    "relpath"
-                ]
-                plugin["package"] = self._unvalidated_plugins[self.name][name][
-                    "package"
-                ]
+                relpath = self._unvalidated_plugins[self.name][name]["relpath"]
+                package = self._unvalidated_plugins[self.name][name]["package"]
+                abspath = str(files(package) / relpath)
+                plugin = yaml.safe_load(open(abspath, "r"))
+                plugin["package"] = package
+                plugin["abspath"] = abspath
+                plugin["relpath"] = relpath
             validated = self.validator.validate(plugin)
         except KeyError:
             raise PluginError(f"Plugin '{name}' not found for '{self.name}' interface.")
