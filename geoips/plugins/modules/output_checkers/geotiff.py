@@ -44,14 +44,15 @@ def random_modification(input_path, output_path, max_modification=0.1):
     dst_ds = None
 
 
-def yield_test_files():
+def get_test_files():
     """Return a Series of GeoTIFF paths, of which are randomly modified from compare."""
-    from os import environ, makedirs
+    from os import makedirs
     from os.path import exists, join
     import shutil
+    from importlib.resources import files
 
     # Ensure the output directory exists
-    savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_geotiffs/pytest/"
+    savedir = str(files("geoips") / "../../test_data/test_geotiffs/pytest") + "/"
     if not exists(savedir):
         makedirs(savedir)
 

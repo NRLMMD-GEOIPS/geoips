@@ -30,13 +30,17 @@ def clear_text(match_path, close_path, bad_path):
     open(bad_path, "w").close()
 
 
-def yield_test_files():
+def get_test_files():
     """Return a series of varied text files."""
-    from os import environ
     import numpy as np
     from shutil import copy
+    from os import makedirs
+    from os.path import exists
+    from importlib.resources import files
 
-    savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_text/pytest/"
+    savedir = str(files("geoips") / "../../test_data/test_text/pytest") + "/"
+    if not exists(savedir):
+        makedirs(savedir)
     comp_path = savedir + "compare.txt"
     match_path = savedir + "matched.txt"
     close_path = savedir + "close_mismatch.txt"

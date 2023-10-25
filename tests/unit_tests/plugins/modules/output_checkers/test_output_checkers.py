@@ -26,14 +26,14 @@ class TestOutputCheckers:
 
     def compare_plugin(self, plugin):
         """Test the comparision of two products with the appropriate Output Checker."""
-        compare_paths, output_paths = plugin.module.yield_test_files()
+        compare_paths, output_paths = plugin.module.get_test_files()
         plugin.module.perform_test_comparisons(plugin, compare_paths, output_paths)
 
     @pytest.mark.parametrize("checker_name", available_output_checkers)
     def test_plugins(self, checker_name):
         """Test all output_checkers that are ready for testing."""
         plugin = output_checkers.get_plugin(checker_name)
-        if not hasattr(plugin.module, "yield_test_files") or not hasattr(
+        if not hasattr(plugin.module, "get_test_files") or not hasattr(
             plugin.module, "perform_test_comparisons"
         ):
             pytest.xfail(checker_name + " is not ready to be tested yet.")

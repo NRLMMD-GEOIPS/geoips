@@ -22,13 +22,18 @@ family = "standard"
 name = "image"
 
 
-def yield_test_files():
+def get_test_files():
     """Return a series of compare vs output image paths for testing purposes."""
     from PIL import Image
     import numpy as np
-    from os import environ
+    from importlib.resources import files
+    from os import makedirs
+    from os.path import exists
 
-    savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_images/pytest/"
+    savedir = str(files("geoips") / "../../test_data/test_images/pytest") + "/"
+    if not exists(savedir):
+        makedirs(savedir)
+
     thresholds = ["lenient", "medium", "strict"]
     compare_paths = []
     output_paths = []

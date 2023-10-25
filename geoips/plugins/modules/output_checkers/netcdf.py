@@ -21,19 +21,22 @@ family = "standard"
 name = "netcdf"
 
 
-def yield_test_files():
+def get_test_files():
     """Return a Series of Netcdf paths, of which are randomly modified from compare."""
-    from os import environ
-    from os.path import join
     import xarray as xr
     import numpy as np
+    from os import makedirs
+    from os.path import join, exists
+    from importlib.resources import files
 
-    savedir = str(environ["GEOIPS_PACKAGES_DIR"]) + "/test_data/test_netcdf/pytest/"
+    savedir = str(files("geoips") / "../../test_data/test_netcdf/pytest") + "/"
+    if not exists(savedir):
+        makedirs(savedir)
     # Path for the "compare" NetCDF file
     compare_path = join(savedir, "compare.nc")
 
     # Generate random data for the "compare" file
-    compare_data = np.random.rand(10, 10)
+    compare_data = np.random.rand(100, 100)
     compare_ds = xr.Dataset(data_vars={"data": (("x", "y"), compare_data)})
     compare_ds.to_netcdf(compare_path)
 
