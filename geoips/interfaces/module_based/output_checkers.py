@@ -21,6 +21,7 @@ import logging
 from geoips.errors import PluginError
 import subprocess
 from os.path import exists, splitext, basename
+from geoips.commandline.log_setup import log_with_emphasis
 
 LOG = logging.getLogger(__name__)
 rezip = False
@@ -178,23 +179,8 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         missingcomps = []
         missingproducts = []
         compare_strings = []
-        LOG.info(
-            "**************************************************************************"
-            "****"
-        )
-        LOG.info(
-            "**************************************************************************"
-            "****"
-        )
-        LOG.info("*** RUNNING COMPARISONS OF KNOWN OUTPUTS IN %s ***", compare_path)
-        LOG.info(
-            "**************************************************************************"
-            "****"
-        )
-        LOG.info(
-            "**************************************************************************"
-            "****"
-        )
+        message = f"RUNNING COMPARISONS OF KNOWN OUTPUTS IN {compare_path}"
+        log_with_emphasis(LOG.info, message)
         LOG.info("")
         from glob import glob
         from os.path import basename, exists, isdir, isfile, join
@@ -206,16 +192,8 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             if isdir(output_product):
                 # Skip 'diff' output directory
                 continue
-
-            LOG.info(
-                "**********************************************************************"
-                "****"
-            )
-            LOG.info("*** COMPARE  %s ***", basename(output_product))
-            LOG.info(
-                "**********************************************************************"
-                "****"
-            )
+            message = f"COMPARE  {basename(output_product)}"
+            log_with_emphasis(LOG.info, message)
 
             if basename(output_product) in compare_basenames:
                 test_product_func = self.test_products
@@ -232,25 +210,8 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             final_output_products += [output_product]
 
             LOG.info("")
-        LOG.info(
-            "**************************************************************************"
-            "****"
-        )
-        LOG.info(
-            "**************************************************************************"
-            "****"
-        )
-        LOG.info(
-            "*** DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN %s ***", compare_path
-        )
-        LOG.info(
-            "**************************************************************************"
-            "****"
-        )
-        LOG.info(
-            "**************************************************************************"
-            "****"
-        )
+        message = f"DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN {compare_path}"
+        log_with_emphasis(LOG.info, message)
 
         product_basenames = [basename(yy) for yy in final_output_products]
         compare_products = []

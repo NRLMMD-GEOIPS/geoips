@@ -16,6 +16,21 @@ import logging
 import sys
 
 
+def log_with_emphasis(LOG, message):
+    """Log the given message with emphasis provided a certain log type.
+
+    Parameters
+    ----------
+    LOG: logging function
+        Can be of any type [debug, info, interactive...]
+    message: str
+        The message to be logged with emphasis
+    """
+    LOG("    " + "*" * (len(message) + 8))
+    LOG("    " + "*** " + message + " ***")
+    LOG("    " + "*" * (len(message) + 8))
+
+
 def add_logging_level(levelName, levelNum, methodName=None):
     """
     Comprehensively adds a new logging level to the `logging` module.

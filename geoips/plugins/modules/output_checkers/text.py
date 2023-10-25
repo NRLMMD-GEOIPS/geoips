@@ -61,6 +61,8 @@ def outputs_match(plugin, output_product, compare_product):
     bool
         Return True if products match, False if they differ
     """
+    from geoips.commandline.log_setup import log_with_emphasis
+
     ret = subprocess.run(
         ["diff", output_product, compare_product],
         stdout=subprocess.PIPE,
@@ -68,20 +70,16 @@ def outputs_match(plugin, output_product, compare_product):
     )
     LOG.debug(ret.stdout)
     if ret.returncode == 0:
-        LOG.info("    *****************************")
-        LOG.info("    *** GOOD Text files match ***")
-        LOG.info("    *****************************")
+        log_with_emphasis(LOG.info, "GOOD Text files match")
         return True
 
     out_difftxt = plugin.get_out_diff_fname(compare_product, output_product)
     with open(out_difftxt, "w") as fobj:
         subprocess.call(["diff", output_product, compare_product], stdout=fobj)
-    LOG.interactive("    *******************************************")
-    LOG.interactive("    *** BAD Text files do NOT match exactly ***")
-    LOG.interactive("    ***   output_product: %s ***", output_product)
-    LOG.interactive("    ***   compare_product: %s ***", compare_product)
-    LOG.interactive("    ***   out_difftxt: %s ***", out_difftxt)
-    LOG.interactive("    *******************************************")
+    log_with_emphasis(LOG.interactive, "BAD Text files do NOT match exactly")
+    log_with_emphasis(LOG.interactive, f"output_product: {output_product}")
+    log_with_emphasis(LOG.interactive, f"compare_product: {compare_product}")
+    log_with_emphasis(LOG.interactive, f"out_difftxt: {out_difftxt}")
     return False
 
 
