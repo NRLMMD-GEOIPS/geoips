@@ -679,6 +679,8 @@ def get_sectors_from_yamls(sector_list):
         entries added as attributes to each area def (this is to allow specifying
         "sector_info" metadata dictionary within the YAML file)
     """
+    from importlib.resources import files
+
     area_defs = []
     for sector_name in sector_list:
         try:
@@ -690,7 +692,8 @@ def get_sectors_from_yamls(sector_list):
                 f"\nCheck plugin directories for sector plugin named "
                 f"{sector_name}"
             )
-        area_def = load_area(sector_plugin.abspath, "spec")
+        abspath = str(files(sector_plugin.package) / sector_plugin.relpath)
+        area_def = load_area(abspath, "spec")
         area_def.__setattr__("sector_info", sector_plugin["metadata"])
         area_def.__setattr__("sector_type", sector_plugin["family"])
         area_defs += [area_def]

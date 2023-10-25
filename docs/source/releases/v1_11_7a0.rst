@@ -14,7 +14,7 @@ Version 1.11.7a0 (2023-10-11)
 *****************************
 
 * Added documentation for windows installation
-* Add create_plugin_registry.py to avoid loading all YAML plugins during run_procflow.
+* Add create_plugin_registries.py to avoid loading all YAML plugins during run_procflow.
 * Added dictionary xarray to datatree conversion
 * Fix Upside Down Geotiff Error
 * Add sphinx reference links throughout geoIPS documentation
@@ -191,15 +191,15 @@ run. To fix this, we have created a plugin registry, which is essentially a pyth
 dictionary of all the available plugins. This is now used to select the appropriate
 plugin when run_procflow is called.
 
-create_plugin_registry was also added as a console script within pyproject.toml,
-so it can be executed as "create_plugin_registry".
+create_plugin_registries was also added as a console script within pyproject.toml,
+so it can be executed as "create_plugin_registries".
 
 ::
 
-    added: geoips/geoips/create_plugin_registry.py
+    added: geoips/geoips/create_plugin_registries.py
     modified: pyproject.toml
 
-create_plugin_registry.py generates a YAML file in the top level directory
+create_plugin_registries.py generates a YAML file in the top level directory
 of each plugin package called "registered_plugins.yaml".
 This YAML file contains an entry for each plugin within the current package,
 including the plugin name, interface, and absolute path.
@@ -207,9 +207,9 @@ geoips_utils and the base interfaces were updated to use this new plugin registr
 rather than the deprecated "plugin cache" (which was created a runtime, every
 time geoips was imported).
 
-Note create_plugin_registry is NOT auto-called from within geoips_utils,
+Note create_plugin_registries is NOT auto-called from within geoips_utils,
 if the plugin registry is not found, a PluginRegistryError is raised, prompting
-the user to run "create_plugin_registry"
+the user to run "create_plugin_registries"
 
 Also note tuple-based interfaces (ie, products, which are stored as
 (source_name, product_name)) are expanded out into each full tuple within
@@ -222,6 +222,7 @@ the geoips interfaces.
     modified: geoips/geoips/errors.py
     modified: geoips/geoips/interfaces/base.py
     modified: geoips/geoips/interfaces/yaml_based/products.py
+    modified: geoips/geoips/sector_utils/utils.py
 
 To additionally decrease import time for geoips, move pyresample, geoips.mpl_utils,
 and cartopy imports in the base sectors interface module into the respective

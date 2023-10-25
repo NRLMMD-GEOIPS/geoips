@@ -19,6 +19,26 @@ from geoips.errors import PluginRegistryError
 LOG = logging.getLogger(__name__)
 
 
+def remove_registries(plugin_packages):
+    """Remove all plugin registries if a PluginRegistryError is raised.
+
+    Parameters
+    ----------
+    plugin_packages: list EntryPoints
+        A list of EntryPoints pointing to each installed
+        GeoIPS package --> ie.
+        [EntryPoint(name='geoips', value='geoips', group='geoips.plugin_packages'), ...]
+    """
+    from os import remove
+
+    LOG.interactive(
+        "\n\n\n\nERROR: Removing registries due to duplicate plugins. You must fix the "
+        "error shown below before GeoIPS can operate correctly.\n\n\n"
+    )
+    for pkg in plugin_packages:
+        remove(str(resources.files(pkg.value) / "registered_plugins.yaml"))
+
+
 def registry_sanity_check(plugin_packages):
     """Check that each plugin package registry has no duplicate lowest depth entries.
 
@@ -54,6 +74,7 @@ def registry_sanity_check(plugin_packages):
                                     plugin_type == "module_based"
                                     or "abspath" in pkg_plugin
                                 ):
+                                    remove_registries(plugin_packages)
                                     raise PluginRegistryError(
                                         """Error with packages [{}, {}]:
                                         You can't have two Plugins of the same interface
@@ -69,6 +90,7 @@ def registry_sanity_check(plugin_packages):
                                 ]
                                 for sub_plg in comp_plugin:  # product plugin
                                     if sub_plg in pkg_plugin:
+                                        remove_registries(plugin_packages)
                                         raise PluginRegistryError(
                                             """Error with packages [{}, {}]:
                                             You can't have two products of the same
@@ -132,7 +154,7 @@ def write_registered_plugins(pkg_dir, plugins):
         yaml.safe_dump(plugins, plugin_registry, default_flow_style=False)
 
 
-def create_plugin_registry(plugin_packages):
+def create_plugin_registries(plugin_packages):
     """Generate all plugin paths associated with every installed GeoIPS packages.
 
     These paths include schema plugins, module_based plugins
@@ -204,31 +226,25 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
     for interface_key in plugin_paths:
         for filepath in plugin_paths[interface_key]:
             filepath = str(filepath)
-            # Full path to the plugin file
-            abspath = os.path.abspath(filepath)
             # Path relative to the package directory
             relpath = os.path.relpath(filepath, start=package_dir)
             if interface_key == "yamls":  # yaml based plugins
-                add_yaml_plugin(
-                    filepath, abspath, relpath, package, plugins["yaml_based"]
-                )
+                add_yaml_plugin(filepath, relpath, package, plugins["yaml_based"])
             # elif interface_key == "schemas":  # schema based yamls
             #     add_schema_plugin(
             #         filepath, abspath, relpath, package, plugins["schemas"]
             #     )
             else:  # module based plugins
-                add_module_plugin(package, abspath, plugins["module_based"])
+                add_module_plugin(package, relpath, plugins["module_based"])
 
 
-def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
+def add_yaml_plugin(filepath, relpath, package, plugins):
     """Add the yaml plugin associated with the filepaths and package to plugins.
 
     Parameters
     ----------
     filepath: str
         The path of the plugin derived from resouces.files(package) / plugin
-    abspath: str
-        The absolute path to the filepath provided
     relpath: str
         The relative path to the filepath provided
     package: str
@@ -237,7 +253,6 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
         A dictionary object of all installed GeoIPS package plugins
     """
     plugin = yaml.safe_load(open(filepath, mode="r"))
-    plugin["abspath"] = abspath
     plugin["relpath"] = relpath
     plugin["package"] = package
 
@@ -285,7 +300,6 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
                     ] = {
                         "package": plugin["package"],
                         "relpath": plugin["relpath"],
-                        "abspath": plugin["abspath"],
                     }
             # If the plugin was not found, issue a warning and continue.
             # Do not fail catastrophically for a bad plugin.
@@ -300,7 +314,6 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
         # If this is not of family list, just set a single entry for
         # current plugin name.
         plugins[interface_name][plugin["name"]] = {
-            "abspath": abspath,
             "relpath": relpath,
             "package": package,
         }
@@ -339,21 +352,22 @@ def add_yaml_plugin(filepath, abspath, relpath, package, plugins):
 #     # )
 
 
-def add_module_plugin(package, abspath, plugins):
+def add_module_plugin(package, relpath, plugins):
     """Add the yaml plugin associated with the filepaths and package to plugins.
 
     Parameters
     ----------
     package: str
         The current GeoIPS package being parsed
-    abspath: str
-        The absolute path to the module plugin
+    relpath: str
+        The relpath path to the module plugin
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
     """
-    if "__init__.py" in abspath:
+    if "__init__.py" in relpath:
         return
-    module_name = str(abspath).split("/")[-1][:-3]
+    module_name = str(relpath).split("/")[-1][:-3]
+    abspath = resources.files(package) / relpath
     spec = util.spec_from_file_location(module_name, abspath)
     try:
         module = util.module_from_spec(spec)
@@ -364,7 +378,7 @@ def add_module_plugin(package, abspath, plugins):
         name = module.name
         del module
         check_plugin_exists(package, plugins, interface_name, name)
-        plugins[interface_name][name] = {"abspath": abspath}
+        plugins[interface_name][name] = {"relpath": relpath}
     except (ImportError, AttributeError) as e:
         LOG.debug(e)
         return
@@ -380,7 +394,7 @@ def main():
     LOG = setup_logging(logging_level="INTERACTIVE")
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
     LOG.debug(plugin_packages)
-    create_plugin_registry(plugin_packages)
+    create_plugin_registries(plugin_packages)
     sys.exit(0)
 
 

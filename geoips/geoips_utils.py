@@ -78,7 +78,7 @@ def load_all_yaml_plugins():
     if not os.path.exists(reg_plug_path):
         raise PluginRegistryError(
             f"Plugin registry {reg_plug_path} did not exist, "
-            "please run 'create_plugin_registry'"
+            "please run 'create_plugin_registries'"
         )
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
     yaml_plugins = {}
