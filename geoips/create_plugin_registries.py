@@ -42,6 +42,10 @@ def remove_registries(plugin_packages):
 def registry_sanity_check(plugin_packages):
     """Check that each plugin package registry has no duplicate lowest depth entries.
 
+    If it does, raise a PluginRegistryError for that specific package, then remove all
+    plugin registries from each package so the user must fix the error before
+    continuing.
+
     Parameters
     ----------
     plugin_packages: list EntryPoints
