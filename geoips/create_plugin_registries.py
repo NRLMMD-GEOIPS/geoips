@@ -30,13 +30,18 @@ def remove_registries(plugin_packages):
         [EntryPoint(name='geoips', value='geoips', group='geoips.plugin_packages'), ...]
     """
     from os import remove
+    from os.path import exists
 
     LOG.interactive(
         "\n\n\n\nERROR: Removing registries due to duplicate plugins. You must fix the "
-        "error shown below before GeoIPS can operate correctly.\n\n\n"
+        "error shown below before GeoIPS can operate correctly.\n"
+        "Once fixed, please run 'create_plugin_registries' to set up GeoIPS "
+        "appropriately\n\n\n"
     )
     for pkg in plugin_packages:
-        remove(str(resources.files(pkg.value) / "registered_plugins.yaml"))
+        reg_plug_path = str(resources.files(pkg.value) / "registered_plugins.yaml")
+        if exists(reg_plug_path):
+            remove(reg_plug_path)
 
 
 def registry_sanity_check(plugin_packages):
@@ -44,7 +49,8 @@ def registry_sanity_check(plugin_packages):
 
     If it does, raise a PluginRegistryError for that specific package, then remove all
     plugin registries from each package so the user must fix the error before
-    continuing.
+    continuing. While this doesn't cause a normal error, duplicate plugins will be
+    overwritten by same-named plugin found in the last package-entrypoint.
 
     Parameters
     ----------
@@ -54,11 +60,20 @@ def registry_sanity_check(plugin_packages):
         [EntryPoint(name='geoips', value='geoips', group='geoips.plugin_packages'), ...]
     """
     for comp_idx, comp_pkg in enumerate(plugin_packages):
+        # comp_pkg is the package being compared against. This package is compared
+        # against every other available GeoIPS package that is installed.
         comp_registry = yaml.safe_load(
             open(resources.files(comp_pkg.value) / "registered_plugins.yaml")
         )
         for pkg_idx, pkg in enumerate(plugin_packages):
-            if pkg_idx <= comp_idx:  # same package or already compared
+            # pkg is the package being compared against comp_pkg. For example, if
+            # comp_pkg was 'geoips', then it would compare against recenter_tc,
+            # data_fusion, template_basic_plugin, etc.
+
+            # The if statement below checks the index of pkg_idx and comp_idx.
+            # If pkg_idk <= comp_idx, that means it's either the same package as
+            # comp_pkg, or that the comparison has already been performed.
+            if pkg_idx <= comp_idx:
                 continue
             # Track sets of plugins by plugin type
             # (schemas, yaml_based, and module_based)
@@ -66,11 +81,19 @@ def registry_sanity_check(plugin_packages):
                 open(resources.files(pkg.value) / "registered_plugins.yaml")
             )
             for plugin_type in ["yaml_based", "module_based"]:
+                # check the pkg's registry for both yaml-based and module-based plugins
                 for interface in comp_registry[plugin_type]:
+                    # check each interface of comp_pkg
+                    # for each type of plugin (yaml/module)-based
                     if interface in pkg_registry[plugin_type]:
-                        geoips_plugins = comp_registry[plugin_type][interface]
-                        for plugin in geoips_plugins:
+                        # if this interface is also in the pkg_registry, then get the
+                        # dictionary of comp_plugins for that interface
+                        comp_plugins = comp_registry[plugin_type][interface]
+                        for plugin in comp_plugins:
+                            # for each plugin in comp_plugins dict
                             if plugin in pkg_registry[plugin_type][interface]:
+                                # if this plugin is also in the pkg_registry's
+                                # corresponding interface, then retrieve that plugin
                                 pkg_plugin = pkg_registry[plugin_type][interface][
                                     plugin
                                 ]
@@ -78,6 +101,12 @@ def registry_sanity_check(plugin_packages):
                                     plugin_type == "module_based"
                                     or "abspath" in pkg_plugin
                                 ):
+                                    # If the plugin_type is module_based or 'abspath'
+                                    # is found in the plugin, raise a
+                                    # PluginRegistryError, and remove the registries.
+                                    # We do this because either option means you're at
+                                    # the lowest depth of the Plugin entry, meaning
+                                    # their are two Plugins with Duplicate Names.
                                     remove_registries(plugin_packages)
                                     raise PluginRegistryError(
                                         """Error with packages [{}, {}]:
@@ -89,11 +118,21 @@ def registry_sanity_check(plugin_packages):
                                             plugin,
                                         )
                                     )
+                                # If the statement above is false, that means the plugin
+                                # we are dealing with is 'Product'-based. This means
+                                # their are subplugins that we need to check against
+                                # their defind source names. Grab the comparsion
+                                # Product Plugin.
                                 comp_plugin = comp_registry[plugin_type][interface][
                                     plugin
                                 ]
-                                for sub_plg in comp_plugin:  # product plugin
+                                for sub_plg in comp_plugin:
+                                    # Loop through each sub-plugin of the comparison
+                                    # product plugin.
                                     if sub_plg in pkg_plugin:
+                                        # If this sub-plugin is also in the package
+                                        # Product plugin, raise a PluginRegistryError
+                                        # and remove the registries.
                                         remove_registries(plugin_packages)
                                         raise PluginRegistryError(
                                             """Error with packages [{}, {}]:
@@ -124,6 +163,7 @@ def check_plugin_exists(package, plugins, interface_name, plugin_name):
         A string representing the name of the plugin within the GeoIPS interface
     """
     if plugin_name in plugins[interface_name]:
+        remove_registries(get_entry_point_group("geoips.plugin_packages"))
         raise PluginRegistryError(
             """Error in package [{}]:
             You can not have two Plugins of the same interface [{}]
