@@ -35,6 +35,7 @@ def get_test_files():
         makedirs(savedir)
 
     thresholds = ["lenient", "medium", "strict"]
+    # thresholds is used for naming files. Relates to thresholds [0.1, 0.05, 0.0]
     compare_paths = []
     output_paths = []
     for threshold in thresholds:
