@@ -11,9 +11,14 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Unit tests on all the readers."""
+from os.path import exists
+from os import scandir
+from importlib.resources import files
+
 import pytest
 from geoips.commandline.log_setup import setup_logging
 from geoips.interfaces import readers
+from geoips.geoips_utils import get_entry_point_group
 
 
 LOG = setup_logging()
@@ -22,37 +27,14 @@ LOG = setup_logging()
 class TestReaders:
     """Unit tests every reader."""
 
-    available_readers = [
-        ("abi_l2_netcdf"),
-        ("abi_netcdf"),
-        ("ahi_hsd"),
-        ("amsr2_netcdf"),
-        ("amsr2_remss_winds_netcdf"),
-        ("amsub_hdf"),
-        ("amsub_mirs"),
-        ("ascat_uhr_netcdf"),
-        ("atms_hdf5"),
-        ("ewsg_netcdf"),
-        ("geoips_netcdf"),
-        ("gmi_hdf5"),
-        ("imerg_hdf5"),
-        ("mimic_netcdf"),
-        ("modis_hdf4"),
-        ("saphir_hdf5"),
-        ("sar_winds_netcdf"),
-        ("scat_knmi_winds_netcdf"),
-        ("scat_noaa_winds_netcdf"),
-        ("seviri_hrit"),
-        ("sfc_winds_text"),
-        ("smap_remss_winds_netcdf"),
-        ("smos_winds_netcdf"),
-        ("ssmi_binary"),
-        ("ssmis_binary"),
-        ("viirs_netcdf"),
-        ("wfabba_ascii"),
-        ("windsat_idr37_binary"),
-        ("windsat_remss_winds_netcdf"),
-    ]
+    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    available_readers = []
+    for pkg in plugin_packages:
+        dir_path = str(files(pkg.value) / "plugins/modules/readers/")
+        if exists(dir_path):
+            for reader_path in scandir(dir_path):
+                if reader_path.is_file() and "__init__" not in reader_path.name:
+                    available_readers.append(reader_path.name.split(".")[0])
 
     def verify_plugin(self, plugin):
         """Yeild test xarray and parameters."""
@@ -62,14 +44,16 @@ class TestReaders:
 
     def verify_xarray(self, inxr, test_parameters):
         """Test every parameter."""
-        # could add more parameters; lon_max, lat_max, etc
-        data_key = test_parameters
+        data_key = test_parameters["data_key"]
+        data_var = test_parameters["data_var"]
+
         assert inxr
         assert inxr[data_key]
         assert inxr[data_key].longitude.max()
         assert inxr[data_key].longitude.min()
         assert inxr[data_key].latitude.max()
         assert inxr[data_key].latitude.min()
+        assert getattr(inxr[data_key], data_var).mean()
         assert inxr["METADATA"].attrs["source_name"]
         assert inxr["METADATA"].attrs["platform_name"]
         assert inxr["METADATA"].attrs["data_provider"]
@@ -85,4 +69,5 @@ class TestReaders:
             reader.module, "gen_test_parameters"
         ):
             pytest.xfail(reader_name + " has no test modules")
+        print("\n", reader_name)
         self.verify_plugin(reader)
