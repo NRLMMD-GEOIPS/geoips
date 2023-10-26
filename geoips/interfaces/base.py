@@ -417,51 +417,50 @@ class BaseYamlInterface(BaseInterface):
             raise PluginRegistryError(
                 "Plugin registries not found, please run 'create_plugin_registries'"
             )
-        try:
-            if isinstance(name, tuple):
-                # These are stored in the yaml as str(name),
-                # ie "('viirs', 'Infrared')"
+        if isinstance(name, tuple):
+            # These are stored in the yaml as str(name),
+            # ie "('viirs', 'Infrared')"
+            try:
                 relpath = self._unvalidated_plugins[self.name][name[0]][name[1]][
                     "relpath"
                 ]
                 package = self._unvalidated_plugins[self.name][name[0]][name[1]][
                     "package"
                 ]
-                abspath = str(files(package) / relpath)
-                plugin = yaml.safe_load(
-                    open(
-                        abspath,
-                        "r",
-                    )
+            except KeyError:
+                raise PluginError(
+                    f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
                 )
-                plugin_found = False
-                for product in plugin["spec"]["products"]:
-                    if (
-                        product["name"] == name[1]
-                        and name[0] in product["source_names"]
-                    ):
-                        plugin_found = True
-                        plugin = product
-                        break
-                if not plugin_found:
-                    raise PluginError(
-                        "There is no plugin that has " + name[1] + " included in it."
-                    )
-                plugin["interface"] = "products"
-                plugin["package"] = package
-                plugin["abspath"] = abspath
-                plugin["relpath"] = relpath
-            else:
+            abspath = str(files(package) / relpath)
+            plugin = yaml.safe_load(open(abspath, "r"))
+            plugin_found = False
+            for product in plugin["spec"]["products"]:
+                if product["name"] == name[1] and name[0] in product["source_names"]:
+                    plugin_found = True
+                    plugin = product
+                    break
+            if not plugin_found:
+                raise PluginError(
+                    "There is no plugin that has " + name[1] + " included in it."
+                )
+            plugin["interface"] = "products"
+            plugin["package"] = package
+            plugin["abspath"] = abspath
+            plugin["relpath"] = relpath
+        else:
+            try:
                 relpath = self._unvalidated_plugins[self.name][name]["relpath"]
                 package = self._unvalidated_plugins[self.name][name]["package"]
-                abspath = str(files(package) / relpath)
-                plugin = yaml.safe_load(open(abspath, "r"))
-                plugin["package"] = package
-                plugin["abspath"] = abspath
-                plugin["relpath"] = relpath
-            validated = self.validator.validate(plugin)
-        except KeyError:
-            raise PluginError(f"Plugin '{name}' not found for '{self.name}' interface.")
+            except KeyError:
+                raise PluginError(
+                    f"Plugin [{name}] doesn't exist under interface [{self.name}]"
+                )
+            abspath = str(files(package) / relpath)
+            plugin = yaml.safe_load(open(abspath, "r"))
+            plugin["package"] = package
+            plugin["abspath"] = abspath
+            plugin["relpath"] = relpath
+        validated = self.validator.validate(plugin)
         # Store "name" as the product's "id"
         # This is helpful when an interfaces uses something other than just "name" to
         # find its plugins as is the case with ProductsInterface
