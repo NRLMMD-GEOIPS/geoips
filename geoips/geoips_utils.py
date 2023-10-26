@@ -73,16 +73,16 @@ def load_all_yaml_plugins():
     in ``.yaml``. Read each plugin file
     """
     # Load all entry points for plugin packages
-
+    reg_plug_path = resources.files("geoips") / "registered_plugins.yaml"
+    if not os.path.exists(reg_plug_path):
+        raise PluginRegistryError(
+            f"Plugin registry {reg_plug_path} did not exist, "
+            "please run 'create_plugin_registries'"
+        )
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
     yaml_plugins = {}
     for pkg in plugin_packages:
-        pkg_plug_path = str(resources.files(pkg.value) / "registered_plugins.yaml")
-        if not os.path.exists(pkg_plug_path):
-            raise PluginRegistryError(
-                f"Plugin registry {pkg_plug_path} did not exist, "
-                "please run 'create_plugin_registries'"
-            )
+        pkg_plug_path = resources.files(pkg.value) / "registered_plugins.yaml"
         # This will include all plugins, including schemas, yaml_based,
         # and module_based plugins.
         registered_plugins = yaml.safe_load(open(pkg_plug_path, "r"))

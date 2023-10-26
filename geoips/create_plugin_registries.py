@@ -16,6 +16,7 @@ from geoips.commandline.log_setup import setup_logging
 import geoips.interfaces
 from geoips.errors import PluginRegistryError
 
+
 LOG = logging.getLogger(__name__)
 
 
