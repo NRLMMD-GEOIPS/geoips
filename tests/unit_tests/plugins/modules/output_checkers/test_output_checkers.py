@@ -15,7 +15,6 @@ import pytest
 
 from geoips.interfaces import output_checkers
 from geoips.commandline import log_setup
-from geoips.geoips_utils import get_entry_point_group
 
 log_setup.setup_logging()
 
@@ -23,21 +22,11 @@ log_setup.setup_logging()
 class TestOutputCheckers:
     """TestOutputChecker class, defining methods as well."""
 
-    from os.path import basename, exists
-    from os import listdir
-    from importlib.resources import files
+    from geoips.interfaces import output_checkers
 
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
-    available_output_checkers = []
-    for pkg in plugin_packages:
-        dir_path = str(files(pkg.value) / "plugins/modules/output_checkers") + "/"
-        if exists(dir_path):
-            for output_checker_path in listdir(dir_path):
-                if "__pycache__" not in output_checker_path:
-                    # get the basename of the path and remove the .py extension
-                    available_output_checkers.append(
-                        str(basename(output_checker_path))[:-3]
-                    )
+    available_output_checkers = [
+        str(checker.name) for checker in output_checkers.get_plugins()
+    ]
 
     def compare_plugin(self, plugin):
         """Test the comparision of two products with the appropriate Output Checker."""
