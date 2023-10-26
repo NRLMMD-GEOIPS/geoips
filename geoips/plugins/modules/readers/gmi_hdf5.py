@@ -284,4 +284,4 @@ def gen_test_files():
 
 def gen_test_parameters():
     """Yeilds data key for unit testing."""
-    return "GMI"
+    return {"data_key": "GMI", "data_var": "V10"}

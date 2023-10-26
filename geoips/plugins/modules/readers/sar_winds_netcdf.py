@@ -305,4 +305,4 @@ def gen_test_files():
 
 def gen_test_parameters():
     """Generate test data key for unit testing."""
-    return "WINDSPEED"
+    return {"data_key": "WINDSPEED", "data_var": "wind_speed_kts"}

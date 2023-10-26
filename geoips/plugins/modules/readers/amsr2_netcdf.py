@@ -405,4 +405,4 @@ def gen_test_files():
 
 def gen_test_parameters():
     """Generate a data key for unit testing."""
-    return "Brightness_Temperature_10_GHzH"
+    return {"data_key": "Brightness_Temperature_10_GHzH", "data_var": "tb10h"}
