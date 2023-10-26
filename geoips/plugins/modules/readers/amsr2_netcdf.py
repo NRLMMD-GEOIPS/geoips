@@ -394,8 +394,8 @@ def call(
     return final_xarrays
 
 
-def yeild_test_files():
-    """Yeilds test files for unit testing reader."""
+def gen_test_files():
+    """Generate test files for unit testing reader."""
     filepath = os.environ["GEOIPS_TESTDATA_DIR"] + "/test_data_amsr2/data/AMSR2*.nc"
     filelist = glob(filepath)[:2]
     tmp_xr = call(filelist)
@@ -403,6 +403,6 @@ def yeild_test_files():
     return tmp_xr
 
 
-def yeild_test_parameters():
-    """Yeilds a data key for unit testing."""
+def gen_test_parameters():
+    """Generate a data key for unit testing."""
     return "Brightness_Temperature_10_GHzH"

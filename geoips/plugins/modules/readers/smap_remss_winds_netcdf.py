@@ -121,8 +121,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     return wind_xarrays
 
 
-def yeild_test_files():
-    """Yeild test xarray from test files for unit testing."""
+def gen_test_files():
+    """Generate test xarray from test files for unit testing."""
     filepath = environ["GEOIPS_TESTDATA_DIR"] + "/test_data_smap/data/*.nc"
     filelist = glob(filepath)
     tmp_xr = call(filelist)
@@ -131,6 +131,6 @@ def yeild_test_files():
     return tmp_xr
 
 
-def yeild_test_parameters():
-    """Yeild test data key for unit testing."""
+def gen_test_parameters():
+    """Generate test data key for unit testing."""
     return "WINDSPEED_1"

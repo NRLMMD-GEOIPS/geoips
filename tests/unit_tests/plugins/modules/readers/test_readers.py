@@ -56,8 +56,8 @@ class TestReaders:
 
     def verify_plugin(self, plugin):
         """Yeild test xarray and parameters."""
-        test_xr = plugin.module.yeild_test_files()
-        test_param = plugin.module.yeild_test_parameters()
+        test_xr = plugin.module.gen_test_files()
+        test_param = plugin.module.gen_test_parameters()
         self.verify_xarray(test_xr, test_param)
 
     def verify_xarray(self, inxr, test_parameters):
@@ -79,10 +79,10 @@ class TestReaders:
 
     @pytest.mark.parametrize("reader_name", available_readers)
     def test_reader_plugins(self, reader_name):
-        """Unit test every plugin, yeild xfail for ones with no unit tests."""
+        """Unit test every plugin, xfail for ones with no unit tests."""
         reader = readers.get_plugin(reader_name)
-        if not hasattr(reader.module, "yeild_test_files") or not hasattr(
-            reader.module, "yeild_test_parameters"
+        if not hasattr(reader.module, "gen_test_files") or not hasattr(
+            reader.module, "gen_test_parameters"
         ):
             pytest.xfail(reader_name + " has no test modules")
         self.verify_plugin(reader)
