@@ -119,6 +119,7 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
             if plugin_type == "yamls":  # yaml based plugins
                 add_yaml_plugin(filepath, relpath, package, plugins["yaml_based"])
             elif plugin_type == "text":
+                add_text_plugin(package, relpath, plugins["text_based"])
             # elif plugin_type == "schemas":  # schema based yamls
             #     add_schema_plugin(
             #         filepath, abspath, relpath, package, plugins["schemas"]
@@ -207,7 +208,21 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
 
 
 def add_text_plugin(package, relpath, plugins):
-    pass
+    """Add all txt plugins into plugin registries.
+
+    Parameters
+    ----------
+    package: str
+        The current GeoIPS package being parsed
+    relpath: str
+        The relpath path to the module plugin
+    plugins: dict
+        A dictionary object of all installed GeoIPS package plugins
+    """
+    from os.path import basename, splitext
+
+    text_name = splitext(basename(relpath))[0]
+    plugins[text_name] = {"package": package, "relpath": relpath}
 
 
 # def add_schema_plugin(filepath, abspath, relpath, package, plugins):
@@ -255,9 +270,11 @@ def add_module_plugin(package, relpath, plugins):
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
     """
+    from os.path import basename, splitext
+
     if "__init__.py" in relpath:
         return
-    module_name = str(relpath).split("/")[-1][:-3]
+    module_name = splitext(basename(relpath))[0]
     abspath = resources.files(package) / relpath
     spec = util.spec_from_file_location(module_name, abspath)
     try:
