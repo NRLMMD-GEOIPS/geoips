@@ -25,13 +25,12 @@ def get_test_files():
     """Return a Series of Netcdf paths, of which are randomly modified from compare."""
     import xarray as xr
     import numpy as np
-    from os import makedirs
+    from os import mkdir, environ
     from os.path import join, exists
-    from importlib.resources import files
 
-    savedir = str(files("geoips") / "../../test_data/test_netcdf/pytest") + "/"
+    savedir = str(environ["GEOIPS_OUTDIRS"]) + "/scratch/unit_tests/test_netcdf/"
     if not exists(savedir):
-        makedirs(savedir)
+        mkdir(savedir)
     # Path for the "compare" NetCDF file
     compare_path = join(savedir, "compare.nc")
 

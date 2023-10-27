@@ -34,13 +34,12 @@ def get_test_files():
     """Return a series of varied text files."""
     import numpy as np
     from shutil import copy
-    from os import makedirs
+    from os import mkdir, environ
     from os.path import exists
-    from importlib.resources import files
 
-    savedir = str(files("geoips") / "../../test_data/test_text/pytest") + "/"
+    savedir = str(environ["GEOIPS_OUTDIRS"]) + "/scratch/unit_tests/test_text/"
     if not exists(savedir):
-        makedirs(savedir)
+        mkdir(savedir)
     comp_path = savedir + "compare.txt"
     match_path = savedir + "matched.txt"
     close_path = savedir + "close_mismatch.txt"
