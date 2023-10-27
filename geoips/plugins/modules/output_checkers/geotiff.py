@@ -50,23 +50,25 @@ def get_test_files():
         profile = src.profile
 
     # Save the original as 'compare'
-    with rasterio.open(compare_path, 'w', **profile) as dst:
+    with rasterio.open(compare_path, "w", **profile) as dst:
         dst.write(compare_data)
 
     # Make a 'matched' version (identical to compare)
-    with rasterio.open(matched_path, 'w', **profile) as dst:
+    with rasterio.open(matched_path, "w", **profile) as dst:
         dst.write(compare_data)
 
     # Make a 'close_mismatch' version (slightly modified)
-    close_mismatch_data = compare_data + np.random.normal(scale=0.05,
-                                                          size=compare_data.shape)
-    with rasterio.open(close_mismatch_path, 'w', **profile) as dst:
+    close_mismatch_data = compare_data + np.random.normal(
+        scale=0.05, size=compare_data.shape
+    )
+    with rasterio.open(close_mismatch_path, "w", **profile) as dst:
         dst.write(close_mismatch_data)
 
     # Make a 'bad_mismatch' version (strongly modified)
-    bad_mismatch_data = compare_data + np.random.normal(scale=0.25,
-                                                        size=compare_data.shape)
-    with rasterio.open(bad_mismatch_path, 'w', **profile) as dst:
+    bad_mismatch_data = compare_data + np.random.normal(
+        scale=0.25, size=compare_data.shape
+    )
+    with rasterio.open(bad_mismatch_path, "w", **profile) as dst:
         dst.write(bad_mismatch_data)
 
     return compare_path, [matched_path, close_mismatch_path, bad_mismatch_path]
