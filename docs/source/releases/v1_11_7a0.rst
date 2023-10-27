@@ -10,7 +10,7 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.11.7a0 (2023-10-11)
+Version 1.11.7a0 (2023-10-26)
 *****************************
 
 * Added documentation for windows installation
@@ -26,7 +26,7 @@ Version 1.11.7a0 (2023-10-11)
 * Added unit test for image output checker
 * Attached unit tests to output checker plugins
 * Do not fail if setup_logging is called twice
-
+* Add text plugins to package registries
 
 Enhancements
 ============
@@ -242,6 +242,18 @@ missing these functions, raise a pytest.xfail.
     modified: geoips/geoips/plugins/modules/output_checkers/image.py
     modified: geoips/geoips/plugins/modules/output_checkers/netcdf.py
     modified: geoips/geoips/plugins/modules/output_checkers/text.py
+
+Add text plugins to package registries
+--------------------------------------
+
+With the addition of create_plugin_registries, we can access module-based and yaml-based
+plugins via those registries. However, that PR did not include text-based plugins, which
+are currently found in the GeoIPS package, and others may be added in new packages in
+the future. We need to modify this process to include text based plugins.
+
+::
+
+    modified: geoips/geoips/create_plugin_registries.py
 
 Efficiency Improvements
 =======================
