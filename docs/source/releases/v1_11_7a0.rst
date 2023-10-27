@@ -24,6 +24,8 @@ Version 1.11.7a0 (2023-10-11)
 * Fixed from scipy.ndimage.interpolation import zoom deprecation warning
 * Added unit test for image output checker
 * Attached unit tests to output checker plugins
+* Do not fail if setup_logging is called twice
+
 
 Enhancements
 ============
@@ -71,6 +73,19 @@ threshold values ["lenient" (10%), "medium" (5%), "strict" (0%)].
 
 Bug Fixes
 =========
+
+Do not fail if setup_logging is called twice
+--------------------------------------------
+
+Instead of raising AttributeError and catastrophically failing if setup_logging
+is called twice, just catch the error and continue on when INTERACTIVE is
+attempted to be added a second time.  This allows multiple modules to setup
+logging without catastrophic failure.
+
+::
+
+    geoips/commandline/log_setup.py
+
 
 Fix Upside Down Geotiff Error
 -----------------------------
