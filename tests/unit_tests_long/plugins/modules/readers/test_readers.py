@@ -12,6 +12,7 @@
 
 """Unit tests on all the readers."""
 import pytest
+from pathlib import Path
 from geoips.commandline.log_setup import setup_logging
 from geoips.interfaces import readers
 
@@ -26,7 +27,7 @@ class TestReaders:
 
     def verify_plugin(self, plugin):
         """Yeild test xarray and parameters."""
-        test_xr = plugin.module.get_test_files()
+        test_xr = plugin.module.get_test_files(Path(os.environ["GEOIPS_TESTDATA_DIR"]))
         test_param = plugin.module.get_test_parameters()
         self.verify_xarray(test_xr, test_param)
 
