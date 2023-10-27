@@ -23,33 +23,14 @@ family = "standard"
 name = "geotiff"
 
 
-def random_modification(input_path, output_path, max_modification=0.1):
-    """Randomly modify the file from input path, output it to output_path."""
-    from osgeo import gdal
-    from osgeo import gdalconst
-    from numpy.random import rand
-
-    # Open the input GeoTIFF file
-    src_ds = gdal.Open(input_path, gdalconst.GA_ReadOnly)
-    driver = gdal.GetDriverByName("GTiff")
-    dst_ds = driver.CreateCopy(output_path, src_ds, 0)
-
-    # Randomly modify the temporary copy
-    band = dst_ds.GetRasterBand(1)
-    data = band.ReadAsArray().astype("float64")
-    data += (rand() - 0.5) * max_modification * 2
-    band.WriteArray(data)
-
-    # Close the dataset
-    dst_ds = None
-
-
 def get_test_files():
     """Return a Series of GeoTIFF paths, randomly modified from compare."""
+    import rasterio
     import shutil
     from os import getenv, makedirs
     from os.path import exists, join
     from importlib.resources import files
+    import numpy as np
 
     savedir = join(getenv("GEOIPS_OUTDIRS"), "scratch", "unit_tests", "test_geotiffs")
     if not exists(savedir):
@@ -58,22 +39,36 @@ def get_test_files():
     tif_name = "20200405_000000_SH252020_ahi_himawari-8_WV_100kts_100p00_1p0.tif"
     tif_path = str(files("geoips") / "../tests/outputs/ahi.tc.WV.geotiff" / tif_name)
     shutil.copy(tif_path, join(savedir, "compare.tif"))
-    compare_path = join(savedir, "compare.tif")
     # Prepare paths for matched, close_mismatch, and bad_mismatch
+    compare_path = join(savedir, "compare.tif")
     matched_path = join(savedir, "matched.tif")
     close_mismatch_path = join(savedir, "close_mismatch.tif")
     bad_mismatch_path = join(savedir, "bad_mismatch.tif")
+    # Load the original GeoTIFF file
+    with rasterio.open(compare_path) as src:
+        compare_data = src.read()
+        profile = src.profile
 
-    # Copy the original compare file to the output directory
-    shutil.copy(compare_path, matched_path)
+    # Save the original as 'compare'
+    with rasterio.open(compare_path, 'w', **profile) as dst:
+        dst.write(compare_data)
 
-    # Create a close mismatch by applying a small random modification
-    random_modification(compare_path, close_mismatch_path, max_modification=0.05)
+    # Make a 'matched' version (identical to compare)
+    with rasterio.open(matched_path, 'w', **profile) as dst:
+        dst.write(compare_data)
 
-    # Create a bad mismatch by applying a larger random modification
-    random_modification(compare_path, bad_mismatch_path, max_modification=0.25)
+    # Make a 'close_mismatch' version (slightly modified)
+    close_mismatch_data = compare_data + np.random.normal(scale=0.05,
+                                                          size=compare_data.shape)
+    with rasterio.open(close_mismatch_path, 'w', **profile) as dst:
+        dst.write(close_mismatch_data)
 
-    # Return the paths to the files
+    # Make a 'bad_mismatch' version (strongly modified)
+    bad_mismatch_data = compare_data + np.random.normal(scale=0.25,
+                                                        size=compare_data.shape)
+    with rasterio.open(bad_mismatch_path, 'w', **profile) as dst:
+        dst.write(bad_mismatch_data)
+
     return compare_path, [matched_path, close_mismatch_path, bad_mismatch_path]
 
 
