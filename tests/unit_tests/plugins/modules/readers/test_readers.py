@@ -11,14 +11,9 @@
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 """Unit tests on all the readers."""
-from os.path import exists
-from os import scandir
-from importlib.resources import files
-
 import pytest
 from geoips.commandline.log_setup import setup_logging
 from geoips.interfaces import readers
-from geoips.geoips_utils import get_entry_point_group
 
 
 LOG = setup_logging()
@@ -27,19 +22,12 @@ LOG = setup_logging()
 class TestReaders:
     """Unit tests every reader."""
 
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
-    available_readers = []
-    for pkg in plugin_packages:
-        dir_path = str(files(pkg.value) / "plugins/modules/readers/")
-        if exists(dir_path):
-            for reader_path in scandir(dir_path):
-                if reader_path.is_file() and "__init__" not in reader_path.name:
-                    available_readers.append(reader_path.name.split(".")[0])
+    available_readers = [reader_type.name for reader_type in readers.get_plugins()]
 
     def verify_plugin(self, plugin):
         """Yeild test xarray and parameters."""
-        test_xr = plugin.module.gen_test_files()
-        test_param = plugin.module.gen_test_parameters()
+        test_xr = plugin.module.get_test_files()
+        test_param = plugin.module.get_test_parameters()
         self.verify_xarray(test_xr, test_param)
 
     def verify_xarray(self, inxr, test_parameters):
@@ -65,9 +53,8 @@ class TestReaders:
     def test_reader_plugins(self, reader_name):
         """Unit test every plugin, xfail for ones with no unit tests."""
         reader = readers.get_plugin(reader_name)
-        if not hasattr(reader.module, "gen_test_files") or not hasattr(
-            reader.module, "gen_test_parameters"
+        if not hasattr(reader.module, "get_test_files") or not hasattr(
+            reader.module, "get_test_parameters"
         ):
             pytest.xfail(reader_name + " has no test modules")
-        print("\n", reader_name)
         self.verify_plugin(reader)

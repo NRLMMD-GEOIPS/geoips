@@ -394,7 +394,7 @@ def call(
     return final_xarrays
 
 
-def gen_test_files():
+def get_test_files():
     """Generate test files for unit testing reader."""
     filepath = os.environ["GEOIPS_TESTDATA_DIR"] + "/test_data_amsr2/data/AMSR2*.nc"
     filelist = glob(filepath)[:2]
@@ -403,6 +403,6 @@ def gen_test_files():
     return tmp_xr
 
 
-def gen_test_parameters():
+def get_test_parameters():
     """Generate a data key for unit testing."""
     return {"data_key": "Brightness_Temperature_10_GHzH", "data_var": "tb10h"}

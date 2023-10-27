@@ -121,7 +121,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     return wind_xarrays
 
 
-def gen_test_files():
+def get_test_files():
     """Generate test files for unit testing reader."""
     filepath = os.environ["GEOIPS_TESTDATA_DIR"] + "/test_data_amsr2/data/RSS*.nc"
     filelist = glob(filepath)[:2]
@@ -132,7 +132,7 @@ def gen_test_files():
     return tmp_xr
 
 
-def gen_test_parameters():
+def get_test_parameters():
     """Generate data key for unit testing."""
     return {
         "data_key": "WINDSPEED_1",

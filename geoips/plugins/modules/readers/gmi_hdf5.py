@@ -272,7 +272,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     return {"GMI": xarray_gmi, "METADATA": xarray_gmi[[]]}
 
 
-def gen_test_files():
+def get_test_files():
     """Yeilds unit files and test xarray for unit testing."""
     filepath = environ["GEOIPS_TESTDATA_DIR"] + "/test_data_gpm/data/1B*.RT-H5"
     filelist = glob(filepath)
@@ -282,6 +282,6 @@ def gen_test_files():
     return tmp_xr
 
 
-def gen_test_parameters():
+def get_test_parameters():
     """Yeilds data key for unit testing."""
     return {"data_key": "GMI", "data_var": "V10"}

@@ -245,7 +245,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     return final_wind_xarrays
 
 
-def gen_test_files():
+def get_test_files():
     """Generate test xarray from test data for unit testing."""
     filepath = (
         environ["GEOIPS_TESTDATA_DIR"] + "/test_data_scat/data/metopc*knmi*/*coa*.nc"
@@ -257,6 +257,6 @@ def gen_test_files():
     return tmp_xr
 
 
-def gen_test_parameters():
+def get_test_parameters():
     """Generate test data key for unit testing."""
     return {"data_key": "WINDSPEED", "data_var": "wind_speed_kts"}
