@@ -23,6 +23,7 @@ Version 1.11.7a0 (2023-10-11)
 * Create "output_checker_kwargs" commandline argument
 * Convert base.py: plugin_module_to_obj to class-based method
 * Fixed from scipy.ndimage.interpolation import zoom deprecation warning
+* Add text plugins to package registries
 
 Enhancements
 ============
@@ -175,6 +176,18 @@ require changes to the output products as well.
     modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
     modified: tests/yaml_configs/abi_test.yaml
     modified: tests/yaml_configs/abi_test_low_memory.yaml
+
+Add text plugins to package registries
+--------------------------------------
+
+With the addition of create_plugin_registries, we can access module-based and yaml-based
+plugins via those registries. However, that PR did not include text-based plugins, which
+are currently found in the GeoIPS package, and others may be added in new packages in
+the future. We need to modify this process to include text based plugins.
+
+::
+
+    modified: geoips/geoips/create_plugin_registries.py
 
 Efficiency Improvements
 =======================
