@@ -120,9 +120,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     return wind_xarrays
 
 
-def get_test_files(data_dir):
+def get_test_files(test_data_dir):
     """Generate test xarray from test files for unit testing."""
-    filepath = data_dir + "/test_data_smap/data/*.nc"
+    filepath = test_data_dir + "/test_data_smap/data/*.nc"
     filelist = glob(filepath)
     tmp_xr = call(filelist)
     if len(filelist) == 0:

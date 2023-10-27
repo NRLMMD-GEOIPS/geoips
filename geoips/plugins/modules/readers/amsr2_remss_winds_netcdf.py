@@ -120,9 +120,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     return wind_xarrays
 
 
-def get_test_files(data_dir):
+def get_test_files(test_data_dir):
     """Generate test files for unit testing reader."""
-    filepath = data_dir + "/test_data_amsr2/data/RSS*.nc"
+    filepath = test_data_dir + "/test_data_amsr2/data/RSS*.nc"
     filelist = glob(filepath)[:2]
     if len(filelist) == 0:
         raise NameError("No files found")

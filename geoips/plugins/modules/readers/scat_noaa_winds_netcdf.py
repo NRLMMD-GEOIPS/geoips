@@ -235,10 +235,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     return final_wind_xarrays
 
 
-def get_test_files(data_dir):
+def get_test_files(test_data_dir):
     """Generate test xarray from test files for unit testing."""
     filepath = (
-        data_dir
+        test_data_dir
         + "/test_data_scat/data/20230524_metopc_"
         + "noaa_class_tc2023wp02mawar/L2OVW25kmASCAT_v1r1_m03_s202305242348000*.nc"
     )
