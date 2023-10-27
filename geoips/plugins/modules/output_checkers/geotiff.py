@@ -23,16 +23,16 @@ family = "standard"
 name = "geotiff"
 
 
-def get_test_files():
+def get_test_files(output_path):
     """Return a Series of GeoTIFF paths, randomly modified from compare."""
     import rasterio
     import shutil
-    from os import getenv, makedirs
+    from os import makedirs
     from os.path import exists, join
     from importlib.resources import files
     import numpy as np
 
-    savedir = join(getenv("GEOIPS_OUTDIRS"), "scratch", "unit_tests", "test_geotiffs")
+    savedir = join(output_path, "scratch", "unit_tests", "test_geotiffs")
     if not exists(savedir):
         makedirs(savedir)
 

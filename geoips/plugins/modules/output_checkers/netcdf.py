@@ -21,14 +21,14 @@ family = "standard"
 name = "netcdf"
 
 
-def get_test_files():
+def get_test_files(output_path):
     """Return a Series of Netcdf paths, randomly modified from compare."""
     import xarray as xr
     import numpy as np
-    from os import getenv, makedirs
+    from os import makedirs
     from os.path import exists, join
 
-    savedir = join(getenv("GEOIPS_OUTDIRS"), "scratch", "unit_tests", "test_netcdf")
+    savedir = join(output_path, "scratch", "unit_tests", "test_netcdf")
     if not exists(savedir):
         makedirs(savedir)
     # Path for the "compare" NetCDF file

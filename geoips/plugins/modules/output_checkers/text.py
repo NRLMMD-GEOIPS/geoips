@@ -41,15 +41,15 @@ def copy_files(text_path, savedir, file_ext):
     copy(text_path, join(savedir, "bad_mismatch." + file_ext))
 
 
-def get_test_files():
+def get_test_files(output_path):
     """Return a series of varied text files."""
     import numpy as np
     from shutil import copy
-    from os import getenv, makedirs
+    from os import makedirs
     from os.path import exists, join
     from importlib.resources import files
 
-    savedir = join(getenv("GEOIPS_OUTDIRS"), "scratch", "unit_tests", "test_text")
+    savedir = join(output_path, "scratch", "unit_tests", "test_text")
     if not exists(savedir):
         makedirs(savedir)
     text_path = str(files("geoips") / "plugins/txt/ascii_palettes/tpw_cimss.txt")
