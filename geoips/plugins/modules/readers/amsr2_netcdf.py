@@ -394,9 +394,9 @@ def call(
     return final_xarrays
 
 
-def get_test_files():
+def get_test_files(test_data_path):
     """Generate test files for unit testing reader."""
-    filepath = os.environ["GEOIPS_TESTDATA_DIR"] + "/test_data_amsr2/data/AMSR2-MBT*.nc"
+    filepath = test_data_path / "test_data_amsr2/data/AMSR2-MBT*.nc"
     filelist = glob(filepath)
     tmp_xr = call(filelist)
 
