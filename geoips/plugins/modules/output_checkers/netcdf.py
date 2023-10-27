@@ -21,23 +21,23 @@ family = "standard"
 name = "netcdf"
 
 
-def get_test_files(output_path):
+def get_test_files(test_data_dir):
     """Return a Series of Netcdf paths, randomly modified from compare."""
     import xarray as xr
     import numpy as np
     from os import makedirs
     from os.path import exists, join
 
-    savedir = join(output_path, "scratch", "unit_tests", "test_netcdf")
+    savedir = join(test_data_dir, "scratch", "unit_tests", "test_netcdf")
     if not exists(savedir):
         makedirs(savedir)
     # Path for the "compare" NetCDF file
-    compare_path = join(savedir, "compare.nc")
+    compare_file = join(savedir, "compare.nc")
 
     # Generate random data for the "compare" file
     compare_data = np.random.rand(100, 100)
     compare_ds = xr.Dataset(data_vars={"data": (("x", "y"), compare_data)})
-    compare_ds.to_netcdf(compare_path)
+    compare_ds.to_netcdf(compare_file)
 
     # Paths for the other files
     matched_path = join(savedir, "matched.nc")
@@ -63,26 +63,21 @@ def get_test_files(output_path):
     close_mismatch_ds.to_netcdf(close_mismatch_path)
     bad_mismatch_ds.to_netcdf(bad_mismatch_path)
     compare_ds.to_netcdf(matched_path)
-    return compare_path, [matched_path, close_mismatch_path, bad_mismatch_path]
+    return compare_file, [matched_path, close_mismatch_path, bad_mismatch_path]
 
 
-def perform_test_comparisons(plugin, compare_path, output_paths):
+def perform_test_comparisons(plugin, compare_file, test_files):
     """Test the comparison of two Netcdf files with the Netcdf Output Checker."""
-    from os import remove
-
-    for path_idx in range(len(output_paths)):
+    for path_idx in range(len(test_files)):
         retval = plugin.module.outputs_match(
             plugin,
-            output_paths[path_idx],
-            compare_path,
+            test_files[path_idx],
+            compare_file,
         )
         if path_idx == 0:
             assert retval is True
         else:
             assert retval is False
-    remove(compare_path)
-    for path in output_paths:
-        remove(path)
 
 
 def correct_file_format(fname):

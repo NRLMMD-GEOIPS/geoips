@@ -22,51 +22,51 @@ family = "standard"
 name = "image"
 
 
-def get_test_files(output_path):
+def get_test_files(test_data_dir):
     """Return a series of compare vs output image paths for testing purposes."""
     from PIL import Image
     import numpy as np
     from os import makedirs
     from os.path import exists, join
 
-    savedir = join(output_path, "scratch", "unit_tests", "test_images/")
+    savedir = join(test_data_dir, "scratch", "unit_tests", "test_images/")
     if not exists(savedir):
         makedirs(savedir)
 
     thresholds = ["lenient", "medium", "strict"]
     # thresholds is used for naming files.
     # Relates to thresholds [0.1, 0.05, 0.0]
-    compare_paths = []
-    output_paths = []
+    compare_files = []
+    test_files = []
     for threshold in thresholds:
         for i in range(3):
             comp_arr = np.random.rand(100, 100, 3)
-            output_arr = np.copy(comp_arr)
+            test_arr = np.copy(comp_arr)
             if i == 1:
                 rand = np.random.randint(0, 100)
-                output_arr[rand][:] = np.random.rand(3)
+                test_arr[rand][:] = np.random.rand(3)
             elif i == 2:
-                output_arr = np.random.rand(100, 100, 3)
+                test_arr = np.random.rand(100, 100, 3)
             comp_img = Image.fromarray((comp_arr * 255).astype(np.uint8))
-            output_img = Image.fromarray((output_arr * 255).astype(np.uint8))
-            comp_path = savedir + "comp_img_" + threshold + str(i) + ".png"
-            output_path = savedir + "output_img_" + threshold + str(i) + ".png"
-            comp_img.save(comp_path)
-            output_img.save(output_path)
-            compare_paths.append(comp_path)
-            output_paths.append(output_path)
-    return compare_paths, output_paths
+            test_img = Image.fromarray((test_arr * 255).astype(np.uint8))
+            comp_file = join(savedir, f"comp_img_{threshold}{str(i)}.png")
+            test_file = join(savedir, f"test_img_{threshold}{str(i)}.png")
+            comp_img.save(comp_file)
+            test_img.save(test_file)
+            compare_files.append(comp_file)
+            test_files.append(test_file)
+    return compare_files, test_files
 
 
-def perform_test_comparisons(plugin, compare_paths, output_paths):
+def perform_test_comparisons(plugin, compare_files, test_files):
     """Test the comparison of two images with the Image Output Checker."""
     threshold_floats = [0.1, 0.05, 0.0]
     for threshold in threshold_floats:
-        for path_idx in range(len(compare_paths)):
+        for path_idx in range(len(compare_files)):
             retval = plugin.module.outputs_match(
                 plugin,
-                output_paths[path_idx],
-                compare_paths[path_idx],
+                test_files[path_idx],
+                compare_files[path_idx],
                 threshold,
             )
             if path_idx % 3 == 0:

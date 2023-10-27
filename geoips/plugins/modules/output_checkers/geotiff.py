@@ -23,7 +23,7 @@ family = "standard"
 name = "geotiff"
 
 
-def get_test_files(output_path):
+def get_test_files(test_data_dir):
     """Return a Series of GeoTIFF paths, randomly modified from compare."""
     import rasterio
     import shutil
@@ -32,7 +32,7 @@ def get_test_files(output_path):
     from importlib.resources import files
     import numpy as np
 
-    savedir = join(output_path, "scratch", "unit_tests", "test_geotiffs")
+    savedir = join(test_data_dir, "scratch", "unit_tests", "test_geotiffs")
     if not exists(savedir):
         makedirs(savedir)
 
@@ -40,56 +40,52 @@ def get_test_files(output_path):
     tif_path = str(files("geoips") / "../tests/outputs/ahi.tc.WV.geotiff" / tif_name)
     shutil.copy(tif_path, join(savedir, "compare.tif"))
     # Prepare paths for matched, close_mismatch, and bad_mismatch
-    compare_path = join(savedir, "compare.tif")
-    matched_path = join(savedir, "matched.tif")
-    close_mismatch_path = join(savedir, "close_mismatch.tif")
-    bad_mismatch_path = join(savedir, "bad_mismatch.tif")
+    compare_file = join(savedir, "compare.tif")
+    matched_file = join(savedir, "matched.tif")
+    close_mismatch_file = join(savedir, "close_mismatch.tif")
+    bad_mismatch_file = join(savedir, "bad_mismatch.tif")
     # Load the original GeoTIFF file
-    with rasterio.open(compare_path) as src:
+    with rasterio.open(compare_file) as src:
         compare_data = src.read()
         profile = src.profile
 
     # Save the original as 'compare'
-    with rasterio.open(compare_path, "w", **profile) as dst:
+    with rasterio.open(compare_file, "w", **profile) as dst:
         dst.write(compare_data)
 
     # Make a 'matched' version (identical to compare)
-    with rasterio.open(matched_path, "w", **profile) as dst:
+    with rasterio.open(matched_file, "w", **profile) as dst:
         dst.write(compare_data)
 
     # Make a 'close_mismatch' version (slightly modified)
     close_mismatch_data = compare_data + np.random.normal(
         scale=0.05, size=compare_data.shape
     )
-    with rasterio.open(close_mismatch_path, "w", **profile) as dst:
+    with rasterio.open(close_mismatch_file, "w", **profile) as dst:
         dst.write(close_mismatch_data)
 
     # Make a 'bad_mismatch' version (strongly modified)
     bad_mismatch_data = compare_data + np.random.normal(
         scale=0.25, size=compare_data.shape
     )
-    with rasterio.open(bad_mismatch_path, "w", **profile) as dst:
+    with rasterio.open(bad_mismatch_file, "w", **profile) as dst:
         dst.write(bad_mismatch_data)
 
-    return compare_path, [matched_path, close_mismatch_path, bad_mismatch_path]
+    return compare_file, [matched_file, close_mismatch_file, bad_mismatch_file]
 
 
-def perform_test_comparisons(plugin, compare_path, output_paths):
+def perform_test_comparisons(plugin, compare_file, test_files):
     """Test the comparison of two GeoTIFF files with the GeoTIFF Output Checker."""
-    from os import remove
-
-    for path_idx in range(len(output_paths)):
+    for path_idx in range(len(test_files)):
         retval = plugin.module.outputs_match(
             plugin,
-            output_paths[path_idx],
-            compare_path,
+            test_files[path_idx],
+            compare_file,
         )
         if path_idx == 0:
             assert retval is True
         else:
             assert retval is False
-    for path in output_paths:
-        remove(path)
 
 
 def correct_file_format(fname):

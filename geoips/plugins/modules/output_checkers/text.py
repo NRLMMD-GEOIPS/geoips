@@ -41,7 +41,7 @@ def copy_files(text_path, savedir, file_ext):
     copy(text_path, join(savedir, "bad_mismatch." + file_ext))
 
 
-def get_test_files(output_path):
+def get_test_files(test_data_dir):
     """Return a series of varied text files."""
     import numpy as np
     from shutil import copy
@@ -49,7 +49,7 @@ def get_test_files(output_path):
     from os.path import exists, join
     from importlib.resources import files
 
-    savedir = join(output_path, "scratch", "unit_tests", "test_text")
+    savedir = join(test_data_dir, "scratch", "unit_tests", "test_text")
     if not exists(savedir):
         makedirs(savedir)
     text_path = str(files("geoips") / "plugins/txt/ascii_palettes/tpw_cimss.txt")
@@ -77,13 +77,13 @@ def get_test_files(output_path):
     return comp_path, [match_path, close_path, bad_path]
 
 
-def perform_test_comparisons(plugin, compare_path, output_paths):
+def perform_test_comparisons(plugin, compare_file, test_files):
     """Test the comparison of two text files with the Text Output Checker."""
-    for path_idx in range(len(output_paths)):
+    for path_idx in range(len(test_files)):
         retval = plugin.module.outputs_match(
             plugin,
-            output_paths[path_idx],
-            compare_path,
+            test_files[path_idx],
+            compare_file,
         )
         if path_idx == 0:
             assert retval is True
