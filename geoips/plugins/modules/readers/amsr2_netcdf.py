@@ -396,8 +396,8 @@ def call(
 
 def get_test_files():
     """Generate test files for unit testing reader."""
-    filepath = os.environ["GEOIPS_TESTDATA_DIR"] + "/test_data_amsr2/data/AMSR2*.nc"
-    filelist = glob(filepath)[:2]
+    filepath = os.environ["GEOIPS_TESTDATA_DIR"] + "/test_data_amsr2/data/AMSR2-MBT*.nc"
+    filelist = glob(filepath)
     tmp_xr = call(filelist)
 
     return tmp_xr

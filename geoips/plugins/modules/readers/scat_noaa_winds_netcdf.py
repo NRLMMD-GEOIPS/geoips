@@ -240,9 +240,11 @@ def get_test_files():
     """Generate test xarray from test files for unit testing."""
     filepath = (
         environ["GEOIPS_TESTDATA_DIR"]
-        + "/test_data_scat/data/20230524_metopc_noaa*/*.nc"
+        + "/test_data_scat/data/20230524_metopc_"
+        + "noaa_class_tc2023wp02mawar/L2OVW25kmASCAT_v1r1_m03_s202305242348000*.nc"
     )
     filelist = glob(filepath)[:2]
+
     tmp_xr = call(filelist)
     if len(filelist) == 0:
         raise NameError("No files found")
