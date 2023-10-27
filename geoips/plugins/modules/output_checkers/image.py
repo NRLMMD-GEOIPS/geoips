@@ -29,7 +29,7 @@ def get_test_files():
     from os import getenv, makedirs
     from os.path import exists, join
 
-    savedir = join(getenv("GEOIPS_OUTDIRS"), "scratch", "unit_tests", "test_geotiffs")
+    savedir = join(getenv("GEOIPS_OUTDIRS"), "scratch", "unit_tests", "test_images/")
     if not exists(savedir):
         makedirs(savedir)
 

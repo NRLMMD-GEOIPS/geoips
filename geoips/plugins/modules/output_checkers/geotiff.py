@@ -49,11 +49,15 @@ def get_test_files():
     import shutil
     from os import getenv, makedirs
     from os.path import exists, join
+    from importlib.resources import files
 
     savedir = join(getenv("GEOIPS_OUTDIRS"), "scratch", "unit_tests", "test_geotiffs")
     if not exists(savedir):
         makedirs(savedir)
 
+    tif_name = "20200405_000000_SH252020_ahi_himawari-8_WV_100kts_100p00_1p0.tif"
+    tif_path = str(files("geoips") / "../tests/outputs/ahi.tc.WV.geotiff" / tif_name)
+    shutil.copy(tif_path, join(savedir, "compare.tif"))
     compare_path = join(savedir, "compare.tif")
     # Prepare paths for matched, close_mismatch, and bad_mismatch
     matched_path = join(savedir, "matched.tif")

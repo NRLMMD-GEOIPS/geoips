@@ -30,17 +30,30 @@ def clear_text(match_path, close_path, bad_path):
     open(bad_path, "w").close()
 
 
+def copy_files(text_path, savedir, file_ext):
+    """Copy text file internal in GeoIPS to output directory."""
+    from shutil import copy
+    from os.path import join
+
+    copy(text_path, join(savedir, "compare." + file_ext))
+    copy(text_path, join(savedir, "matched." + file_ext))
+    copy(text_path, join(savedir, "close_mismatch." + file_ext))
+    copy(text_path, join(savedir, "bad_mismatch." + file_ext))
+
+
 def get_test_files():
     """Return a series of varied text files."""
     import numpy as np
     from shutil import copy
     from os import getenv, makedirs
     from os.path import exists, join
+    from importlib.resources import files
 
     savedir = join(getenv("GEOIPS_OUTDIRS"), "scratch", "unit_tests", "test_text")
     if not exists(savedir):
         makedirs(savedir)
-
+    text_path = str(files("geoips") / "plugins/txt/ascii_palettes/tpw_cimss.txt")
+    copy_files(text_path, savedir, "txt")
     comp_path = join(savedir, "compare.txt")
     match_path = join(savedir, "matched.txt")
     close_path = join(savedir, "close_mismatch.txt")
