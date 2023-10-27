@@ -14,7 +14,6 @@
 
 import logging
 from os.path import basename
-from os import environ
 import glob
 
 LOG = logging.getLogger(__name__)
@@ -293,9 +292,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     return wind_xarrays
 
 
-def get_test_files():
+def get_test_files(data_dir):
     """Generate testing xarray from test data."""
-    filepath = environ["GEOIPS_TESTDATA_DIR"] + "/test_data_sar/data/*.nc"
+    filepath = data_dir + "/test_data_sar/data/*.nc"
     filelist = glob.glob(filepath)
     tmp_xr = call(filelist)
     if len(filelist) == 0:

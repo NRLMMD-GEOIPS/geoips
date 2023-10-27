@@ -15,7 +15,6 @@
 import logging
 from os.path import basename
 from glob import glob
-import os
 
 LOG = logging.getLogger(__name__)
 
@@ -121,9 +120,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     return wind_xarrays
 
 
-def get_test_files():
+def get_test_files(data_dir):
     """Generate test files for unit testing reader."""
-    filepath = os.environ["GEOIPS_TESTDATA_DIR"] + "/test_data_amsr2/data/RSS*.nc"
+    filepath = data_dir + "/test_data_amsr2/data/RSS*.nc"
     filelist = glob(filepath)[:2]
     if len(filelist) == 0:
         raise NameError("No files found")

@@ -13,7 +13,6 @@
 """Read AMSR2 data products."""
 
 import logging
-import os
 from os.path import basename
 from glob import glob
 
@@ -394,9 +393,9 @@ def call(
     return final_xarrays
 
 
-def get_test_files(test_data_path):
+def get_test_files(test_dir):
     """Generate test files for unit testing reader."""
-    filepath = test_data_path / "test_data_amsr2/data/AMSR2-MBT*.nc"
+    filepath = test_dir + "/test_data_amsr2/data/AMSR2-MBT*.nc"
     filelist = glob(filepath)
     tmp_xr = call(filelist)
 
