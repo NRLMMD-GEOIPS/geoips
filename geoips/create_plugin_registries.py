@@ -60,6 +60,7 @@ def create_plugin_registries(plugin_packages):
     for pkg in plugin_packages:
         plugins = {
             # "schemas": {},
+            "text_based": {},
             "yaml_based": {},
             "module_based": {},
         }
@@ -71,10 +72,12 @@ def create_plugin_registries(plugin_packages):
         pkg_dir = str(resources.files(package))
         yaml_files = pkg_plugin_path.rglob("*.yaml")
         python_files = pkg_plugin_path.rglob("*.py")
+        text_files = pkg_plugin_path.rglob("*.txt")
         # schema_yaml_path = resources.files(package) / "schema"
         # schema_yamls = schema_yaml_path.rglob("*.yaml")
         plugin_paths = {
             "yamls": yaml_files,
+            "text": text_files,
             # "schemas": schema_yamls,
             "pyfiles": python_files,
         }
@@ -108,14 +111,15 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
     """
-    for interface_key in plugin_paths:
-        for filepath in plugin_paths[interface_key]:
+    for plugin_type in plugin_paths:
+        for filepath in plugin_paths[plugin_type]:
             filepath = str(filepath)
             # Path relative to the package directory
             relpath = os.path.relpath(filepath, start=package_dir)
-            if interface_key == "yamls":  # yaml based plugins
+            if plugin_type == "yamls":  # yaml based plugins
                 add_yaml_plugin(filepath, relpath, package, plugins["yaml_based"])
-            # elif interface_key == "schemas":  # schema based yamls
+            elif plugin_type == "text":
+            # elif plugin_type == "schemas":  # schema based yamls
             #     add_schema_plugin(
             #         filepath, abspath, relpath, package, plugins["schemas"]
             #     )
@@ -200,6 +204,10 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
             "relpath": relpath,
             "package": package,
         }
+
+
+def add_text_plugin(package, relpath, plugins):
+    pass
 
 
 # def add_schema_plugin(filepath, abspath, relpath, package, plugins):
