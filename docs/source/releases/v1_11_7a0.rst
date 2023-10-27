@@ -136,6 +136,20 @@ Add windows installation instructions
   new: docs/source/starter/windows_installation.rst
   modified: README.md
 
+Added paths to linter configuration files
+-----------------------------------------
+
+Added description on location for flake8 and black configuration files
+
+Created configuration files for flake8 and black, replacing the normal 
+command line arguments in the check_code.sh
+
+::
+
+   new: .config/black
+   new: .config/flake8
+   modified: tests/utils/check_code.sh
+
 Refactoring Updates
 ===================
 

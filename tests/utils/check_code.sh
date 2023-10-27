@@ -57,7 +57,7 @@ else
 fi
 
 path=$2
-
+CONFIG_PATH=`dirname $0`/../../.config
 extra_args=$3
 
 retval=0
@@ -78,8 +78,8 @@ if [[ "$test" == "black" || "$test" == "all" ]]; then
     #       Also, do NOT include "*" in the path (since it is just looking for
     #       substrings directly)
     echo "CALLING TEST:"
-    echo "black --check --extend-exclude _version.py --extend-exclude /lib/ --extend-exclude _docs/ --extend-exclude geoips_dev_utils/ $path"
-    black --check --extend-exclude _version.py --extend-exclude /lib/ --extend-exclude _docs/ --extend-exclude geoips_dev_utils/ $path
+    echo "black --config $CONFIG_PATH/black $path"
+    black --config $CONFIG_PATH/black $path
     black_retval=$?
     echo "TEST COMPLETE black"
     retval=$((black_retval+retval))
@@ -115,27 +115,9 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
         #       not attempting to match the full string path, but each individual
         #       subdirectory or file.
         echo "CALLING TEST:"
-        echo flake8 --max-line-length=88 \
-               $select_string \
-               --count \
-               --ignore=E203,W503,E712 \
-               --extend-exclude _version.py,lib,*_docs,geoips_dev_utils \
-               --docstring-convention=numpy \
-               --rst-roles=class,func,ref \
-               --rst-directives=envvar,exception \
-               --rst-substitutions=version \
-               --statistics \
+        echo flake8 --config $CONFIG_PATH/flake8 \
                $path
-        flake8 --max-line-length=88 \
-               $select_string \
-               --count \
-               --ignore=E203,W503,E712 \
-               --extend-exclude _version.py,lib,*_docs,geoips_dev_utils \
-               --docstring-convention=numpy \
-               --rst-roles=class,func,ref \
-               --rst-directives=envvar,exception \
-               --rst-substitutions=version \
-               --statistics \
+        flake8 --config $CONFIG_PATH/flake8 \
                $path
         flake8_retval=$?
         echo "TEST COMPLETE flake8"
