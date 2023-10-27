@@ -23,6 +23,9 @@ Version 1.11.7a0 (2023-10-26)
 * Create "output_checker_kwargs" commandline argument
 * Convert base.py: plugin_module_to_obj to class-based method
 * Fixed from scipy.ndimage.interpolation import zoom deprecation warning
+* Added unit test for image output checker
+* Attached unit tests to output checker plugins
+* Do not fail if setup_logging is called twice
 * Add text plugins to package registries
 
 Enhancements
@@ -103,6 +106,19 @@ threshold values ["lenient" (10%), "medium" (5%), "strict" (0%)].
 
 Bug Fixes
 =========
+
+Do not fail if setup_logging is called twice
+--------------------------------------------
+
+Instead of raising AttributeError and catastrophically failing if setup_logging
+is called twice, just catch the error and continue on when INTERACTIVE is
+attempted to be added a second time.  This allows multiple modules to setup
+logging without catastrophic failure.
+
+::
+
+    geoips/commandline/log_setup.py
+
 
 Fix Upside Down Geotiff Error
 -----------------------------
@@ -222,6 +238,42 @@ require changes to the output products as well.
     modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
     modified: tests/yaml_configs/abi_test.yaml
     modified: tests/yaml_configs/abi_test_low_memory.yaml
+
+Testing Updates
+===============
+
+Added Unit Tests for Image Output Checker
+-----------------------------------------
+
+*From issue GEOIPS#374: 2023-10-16, Create Unit Test Suite for Output Checker Interface*
+
+Currently, GeoIPS has no unit tests for the output_checkers interface and largely any
+GeoIPS interface available. This update adds pytest-based unit tests for GeoIPS image
+output_checkers. There will be more unit tests for the remaining output checkers in a
+future update.
+
+::
+
+    added: geoips/test/unit_tests/plugins/module/output_checkers/test_output_checkers.py
+
+Attached Unit Tests to Output Checker Plugins
+---------------------------------------------
+
+*From issue GEOIPS#378: 2023-10-18, Modify Unit Tests to have some functionality attached to the plugin itself*
+
+With the addition of Unit Tests, we've found there is some commonality between function
+signatures. While the functions pertaining to the plugin differ, they use the same
+inputs. For this reason, we are going to remove these functions from the Unit Test
+itself, and attach them to the plugins under the same nomenclature. If the plugin is
+missing these functions, raise a pytest.xfail.
+
+::
+
+    modified: geoips/tests/unit_tests/plugins/modules/output_checkers/test_output_checkers.py
+    modified: geoips/geoips/plugins/modules/output_checkers/geotiff.py
+    modified: geoips/geoips/plugins/modules/output_checkers/image.py
+    modified: geoips/geoips/plugins/modules/output_checkers/netcdf.py
+    modified: geoips/geoips/plugins/modules/output_checkers/text.py
 
 Add text plugins to package registries
 --------------------------------------
