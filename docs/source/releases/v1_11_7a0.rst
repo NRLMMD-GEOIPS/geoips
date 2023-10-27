@@ -146,7 +146,7 @@ command line arguments in the check_code.sh
 ::
 
    new: .config/black
-   new: .config/.flake8
+   new: .config/flake8
    modified: tests/utils/check_code.sh
 
 Refactoring Updates
