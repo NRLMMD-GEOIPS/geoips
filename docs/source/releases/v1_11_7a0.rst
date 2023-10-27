@@ -50,11 +50,34 @@ and split into multiple plugins for different product types.
 Added unit tests for readers
 ----------------------------
 
-Created file to unit test readers on test data sets.
+Created file to unit test readers on test data sets. Uses
+existing test data found in $GEOIPS_TESTDATA_DIR.
+
+This unit test expects "get_test_files" and "get_test_parameters"
+methods on any readers that support unit testing, and the
+"reader_test.py" unit testing infrastructure uses those
+methods to ensure all required metadata and variables
+are included in the reader, based on the geoips xarray
+standards.
+
+A future update will additionally check min, max, and
+mean value of an expected variable from each reader's
+test dataset, and potentially additional relevant information for
+each reader.  For now this unit test only tests the
+required metadata and variables.
+
+Added required methods to 7 current readers.
 
 ::
 
     created: tests/test_pytest/reader_test.py
+    modified: geoips/plugins/modules/readers/amsr2_netcdf.py
+    modified: geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
+    modified: geoips/plugins/modules/readers/gmi_hdf5.py
+    modified: geoips/plugins/modules/readers/sar_winds_netcdf.py
+    modified: geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
+    modified: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+    modified: geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
 
 Create "output_checker_kwargs" commandline argument
 -----------------------------------------------------
