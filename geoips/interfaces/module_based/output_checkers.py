@@ -145,7 +145,12 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             out_diff_fname = splitext(out_diff_fname)[0] + ".png"
         return out_diff_fname
 
-    def compare_outputs(self, compare_path, output_products):
+    def compare_outputs(
+        self,
+        compare_path,
+        output_products,
+        **kwargs,
+    ):
         """Compare the "correct" imagery found the list of current output_products.
 
         Compares files produced in the current processing run with the list of
@@ -159,6 +164,9 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         output_products : list of str
             List of strings of current output products,
             to compare with products in compare_path
+        kwargs: dict
+            Dictionary containing kwargs for comparing products.
+            This gets passed through to the "test_products" method.
 
         Returns
         -------
@@ -217,6 +225,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                     goodcomps,
                     badcomps,
                     compare_strings,
+                    **kwargs,
                 )
             else:
                 missingcomps += [output_product]
@@ -440,7 +449,13 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         return retval
 
     def test_products(
-        self, output_product, compare_product, goodcomps, badcomps, compare_strings
+        self,
+        output_product,
+        compare_product,
+        goodcomps,
+        badcomps,
+        compare_strings,
+        **kwargs,
     ):
         """Test output_product against "good" product stored in "compare_path".
 
@@ -464,6 +479,8 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             * List of all comparison "tags" included in goodcomps and badcomps lists.
             * This list is used to remove the comparison tags from goodcomps and
               badcomps to retrieve only the file path.
+        kwargs: dict
+            Additional arguments to pass through to "outputs_match" method.
 
         Returns
         -------
@@ -487,7 +504,12 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         else:
             comp_str = self.name.upper() + " "
         compare_strings += [comp_str]
-        if self.module.outputs_match(self, output_product, compare_product):
+        if self.module.outputs_match(
+            self,
+            output_product,
+            compare_product,
+            **kwargs,
+        ):
             goodcomps += [comp_str + "{0}".format(output_product)]
         else:
             badcomps += [comp_str + "{0}".format(output_product)]

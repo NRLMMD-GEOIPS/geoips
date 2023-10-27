@@ -95,12 +95,10 @@ class ProductsInterface(BaseYamlInterface):
     name = "products"
     validator = ProductsPluginValidator()
 
-    @staticmethod
-    def _create_plugin_cache_names(yaml_plugin):
-        """Create a plugin name for cache storage.
+    def _create_registered_plugin_names(self, yaml_plugin):
+        """Create a plugin name for plugin registry.
 
         This name is a tuple containing source_name and name.
-
         Overrides the same method from YamlPluginValidator.
         """
         names = []
@@ -140,8 +138,9 @@ class ProductsInterface(BaseYamlInterface):
     def get_plugins(self):
         """Retrieve a plugin by name."""
         plugins = []
-        for source_name, name in self._unvalidated_plugins.keys():
-            plugins.append(self.get_plugin(source_name, name))
+        for source_name in self._unvalidated_plugins[self.name].keys():
+            for subplg_name in self._unvalidated_plugins[self.name][source_name].keys():
+                plugins.append(self.get_plugin(source_name, subplg_name))
         return plugins
 
     def plugin_is_valid(self, source_name, name):

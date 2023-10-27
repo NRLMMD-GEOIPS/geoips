@@ -14,13 +14,15 @@ Version 1.11.7a0 (2023-10-11)
 *****************************
 
 * Added documentation for windows installation
+* Add create_plugin_registries.py to avoid loading all YAML plugins during run_procflow.
 * Added dictionary xarray to datatree conversion
 * Fix Upside Down Geotiff Error
 * Add sphinx reference links throughout geoIPS documentation
 * Rename Geostationary Sectors
 * Create "output_checkers" interface
+* Create "output_checker_kwargs" commandline argument
+* Convert base.py: plugin_module_to_obj to class-based method
 * Fixed from scipy.ndimage.interpolation import zoom deprecation warning
-* Add sphinx reference links throughout geoIPS documentation
 
 Enhancements
 ============
@@ -39,10 +41,10 @@ and split into multiple plugins for different product types.
     modified: geoips/plugins/modules/procflows/config_based.py
     modified: geoips/plugins/modules/procflows/single_source.py
     added: geoips/interfaces/module_based/output_checkers.py
-    added: geoips/plugins/modules/output_checkers/geotiff_checker.py
-    added: geoips/plugins/modules/output_checkers/image_checker.py
-    added: geoips/plugins/modules/output_checkers/netcdf_checker.py
-    added: geoips/plugins/modules/output_checkers/text_checker.py
+    added: geoips/plugins/modules/output_checkers/geotiff.py
+    added: geoips/plugins/modules/output_checkers/image.py
+    added: geoips/plugins/modules/output_checkers/netcdf.py
+    added: geoips/plugins/modules/output_checkers/text.py
     deleted: geoips/compare_outputs.py
 
 Added unit tests for readers
@@ -53,6 +55,27 @@ Created file to unit test readers on test data sets.
 ::
 
     created: tests/test_pytest/reader_test.py
+
+Create "output_checker_kwargs" commandline argument
+-----------------------------------------------------
+
+With the addition of output_checkers, we decided we would also like to have flexibility
+with our pixel comparisons, as well as any other types of comparisons. Therefore, we
+need to add a commandline argument called "output_checker_kwargs" to handle this.
+Specifically for images, we'd like to have the ability to adjust the "image_threshold"
+(% difference between pixels), for different user needs. This update adds three
+threshold values ["lenient" (10%), "medium" (5%), "strict" (0%)].
+
+::
+
+    modified: geoips/commandline/args.py
+    modified: geoips/interfaces/module_based/output_checkers.py
+    modified: geoips/plugins/modules/output_checkers/image.py
+    modified: geoips/plugins/modules/output_checkers/geotiff.py
+    modified: geoips/plugins/modules/output_checkers/netcdf.py
+    modified: geoips/plugins/modules/output_checkers/text.py
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: geoips/plugins/modules/single_source.py
 
 Bug Fixes
 =========
@@ -71,7 +94,7 @@ as Google Earth. We need to fix this so users aren't confused
 Fixed from scipy.ndimage.interpolation import zoom deprecation warning
 ----------------------------------------------------------------------
 
-The scipy.ndimage.interpolation library was deprecated as of scipy v1.2 (Dec 2018), 
+The scipy.ndimage.interpolation library was deprecated as of scipy v1.2 (Dec 2018),
 and was causing warnings when importing the zoom libary for the ahi_hsd reader and
 the abi_netcdf reader.
 
@@ -125,6 +148,18 @@ Add windows installation instructions
 Refactoring Updates
 ===================
 
+Convert base.py: plugin_module_to_obj to class-based method
+-----------------------------------------------------------
+
+Currently, base.py: plugin_module_to_obj is a standalone function in interfaces/base.py,
+which causes unneccesary confusion and should be converted to a class-based function
+under BaseModuleInterface. This follows the convention of plugin_yaml_to_obj under
+BaseYamlInterface, which is a much better implementation.
+
+::
+
+    modified: geoips/interfaces/base.py
+
 Rename Geostationary Sectors
 ----------------------------
 
@@ -150,3 +185,58 @@ require changes to the output products as well.
     modified: tests/yaml_configs/abi_test.yaml
     modified: tests/yaml_configs/abi_test_low_memory.yaml
 
+Efficiency Improvements
+=======================
+
+Changed how run_procflow accesses plugins, by creating a plugin registry
+------------------------------------------------------------------------
+
+From NRLMMD-GEOIPS/geoips#238: 2023-07-06
+
+Currently, when run_procflow is called, GeoIPS actually has to load in every
+existing GeoIPS plugin to find the appropriate plugin. This is very inefficient
+and was resulting in 15+ seconds of lag time before run_procflow would actually
+run. To fix this, we have created a plugin registry, which is essentially a python
+dictionary of all the available plugins. This is now used to select the appropriate
+plugin when run_procflow is called.
+
+create_plugin_registries was also added as a console script within pyproject.toml,
+so it can be executed as "create_plugin_registries".
+
+::
+
+    added: geoips/geoips/create_plugin_registries.py
+    modified: pyproject.toml
+
+create_plugin_registries.py generates a YAML file in the top level directory
+of each plugin package called "registered_plugins.yaml".
+This YAML file contains an entry for each plugin within the current package,
+including the plugin name, interface, and absolute path.
+geoips_utils and the base interfaces were updated to use this new plugin registry
+rather than the deprecated "plugin cache" (which was created a runtime, every
+time geoips was imported).
+
+Note create_plugin_registries is NOT auto-called from within geoips_utils,
+if the plugin registry is not found, a PluginRegistryError is raised, prompting
+the user to run "create_plugin_registries"
+
+Also note tuple-based interfaces (ie, products, which are stored as
+(source_name, product_name)) are expanded out into each full tuple within
+the plugin registry, and are accessed directly by their tuple from within
+the geoips interfaces.
+
+::
+
+    modified: geoips/geoips/geoips_utils.py
+    modified: geoips/geoips/errors.py
+    modified: geoips/geoips/interfaces/base.py
+    modified: geoips/geoips/interfaces/yaml_based/products.py
+    modified: geoips/geoips/sector_utils/utils.py
+
+To additionally decrease import time for geoips, move pyresample, geoips.mpl_utils,
+and cartopy imports in the base sectors interface module into the respective
+methods that use them, as those packages can take several seconds to import.
+
+::
+
+    modified: geoips/interfaces/yaml_based/sectors.py

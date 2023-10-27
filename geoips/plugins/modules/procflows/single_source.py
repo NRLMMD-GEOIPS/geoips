@@ -1335,10 +1335,12 @@ def call(fnames, command_line_args=None):
         "filename_formatter",
         "output_formatter_kwargs",
         "filename_formatter_kwargs",
+        "output_checker_kwargs",
         "metadata_output_formatter",
         "metadata_filename_formatter",
         "metadata_output_formatter_kwargs",
         "metadata_filename_formatter_kwargs",
+        "no_presectoring",
         "sector_adjuster",
         "sector_adjuster_kwargs",
         "reader_defined_area_def",
@@ -1390,6 +1392,7 @@ def call(fnames, command_line_args=None):
     product_db = command_line_args["product_db"]
     product_db_writer = command_line_args["product_db_writer"]
     presector_data = not command_line_args["no_presectoring"]
+    output_checker_kwargs = command_line_args["output_checker_kwargs"]
 
     if product_db:
         from geoips_db.dev.postgres_database import get_db_writer
@@ -1860,12 +1863,16 @@ def call(fnames, command_line_args=None):
 
         for output_product in final_products:
             output_checker = output_checkers.get_plugin(output_product)
+            kwargs = {}
+            if output_checker.name in output_checker_kwargs:
+                kwargs = output_checker_kwargs[output_checker.name]
             retval += output_checker(
                 output_checker,
                 compare_path.replace("<product>", product_name)
                 .replace("<procflow>", "single_source")
                 .replace("<output>", output_formatter),
                 [output_product],
+                **kwargs,
             )
 
     LOG.interactive(

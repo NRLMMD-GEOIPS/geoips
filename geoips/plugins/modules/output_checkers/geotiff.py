@@ -100,5 +100,8 @@ def call(plugin, compare_path, output_products):
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = plugin.compare_outputs(compare_path, output_products)
+    retval = plugin.compare_outputs(
+        compare_path,
+        output_products,
+    )
     return retval
