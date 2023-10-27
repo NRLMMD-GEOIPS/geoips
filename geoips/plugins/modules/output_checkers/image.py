@@ -26,15 +26,16 @@ def get_test_files():
     """Return a series of compare vs output image paths for testing purposes."""
     from PIL import Image
     import numpy as np
-    from os import mkdir, environ
-    from os.path import exists
+    from os import getenv, makedirs
+    from os.path import exists, join
 
-    savedir = str(environ["GEOIPS_OUTDIRS"]) + "/scratch/unit_tests/test_images/"
+    savedir = join(getenv("GEOIPS_OUTDIRS"), "scratch", "unit_tests", "test_geotiffs")
     if not exists(savedir):
-        mkdir(savedir)
+        makedirs(savedir)
 
     thresholds = ["lenient", "medium", "strict"]
-    # thresholds is used for naming files. Relates to thresholds [0.1, 0.05, 0.0]
+    # thresholds is used for naming files.
+    # Relates to thresholds [0.1, 0.05, 0.0]
     compare_paths = []
     output_paths = []
     for threshold in thresholds:

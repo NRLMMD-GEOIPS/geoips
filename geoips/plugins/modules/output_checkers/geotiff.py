@@ -24,7 +24,7 @@ name = "geotiff"
 
 
 def random_modification(input_path, output_path, max_modification=0.1):
-    """Randomly modify the file from input path, and output it to output_path."""
+    """Randomly modify the file from input path, output it to output_path."""
     from osgeo import gdal
     from osgeo import gdalconst
     from numpy.random import rand
@@ -45,17 +45,16 @@ def random_modification(input_path, output_path, max_modification=0.1):
 
 
 def get_test_files():
-    """Return a Series of GeoTIFF paths, of which are randomly modified from compare."""
-    from os import environ, mkdir
-    from os.path import exists, join
+    """Return a Series of GeoTIFF paths, randomly modified from compare."""
     import shutil
+    from os import getenv, makedirs
+    from os.path import exists, join
 
-    # Ensure the output directory exists
-    savedir = str(environ["GEOIPS_OUTDIRS"]) + "/scratch/unit_tests/test_geotiffs/"
+    savedir = join(getenv("GEOIPS_OUTDIRS"), "scratch", "unit_tests", "test_geotiffs")
     if not exists(savedir):
-        mkdir(savedir)
+        makedirs(savedir)
 
-    compare_path = savedir + "compare.tif"
+    compare_path = join(savedir, "compare.tif")
     # Prepare paths for matched, close_mismatch, and bad_mismatch
     matched_path = join(savedir, "matched.tif")
     close_mismatch_path = join(savedir, "close_mismatch.tif")

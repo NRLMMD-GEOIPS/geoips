@@ -22,15 +22,15 @@ name = "netcdf"
 
 
 def get_test_files():
-    """Return a Series of Netcdf paths, of which are randomly modified from compare."""
+    """Return a Series of Netcdf paths, randomly modified from compare."""
     import xarray as xr
     import numpy as np
-    from os import mkdir, environ
-    from os.path import join, exists
+    from os import getenv, makedirs
+    from os.path import exists, join
 
-    savedir = str(environ["GEOIPS_OUTDIRS"]) + "/scratch/unit_tests/test_netcdf/"
+    savedir = join(getenv("GEOIPS_OUTDIRS"), "scratch", "unit_tests", "test_netcdf")
     if not exists(savedir):
-        mkdir(savedir)
+        makedirs(savedir)
     # Path for the "compare" NetCDF file
     compare_path = join(savedir, "compare.nc")
 
