@@ -14,7 +14,7 @@ import sys
 import logging
 from geoips.commandline.log_setup import setup_logging
 import geoips.interfaces
-from geoips.errors import PluginRegistryError
+from geoips.errors import PluginError, PluginRegistryError
 
 LOG = logging.getLogger(__name__)
 
@@ -26,6 +26,9 @@ class PluginRegistry:
     This class will load a plugin when requested, rather than loading all plugins when
     GeoIPS is instantiated.
     """
+
+    _interface_mapping = {}
+
     def __init__(self, _test_registry_files=[]):
         # Use this for unit testing
         if _test_registry_files:
@@ -37,6 +40,7 @@ class PluginRegistry:
                 self.registry_files.append(
                     str(resources.files(pkg.value) / "registered_plugins.yaml")
                 )
+            self.registered_plugins
 
     @property
     def registered_plugins(self):
@@ -75,13 +79,90 @@ class PluginRegistry:
                                 )
                 except TypeError:
                     raise PluginRegistryError(f"Failed reading {reg_path}.")
+        return self._registered_plugins
 
-    def get_plugin_info(self, interface, plugin_name):
+    def get_plugin_info(self, interface, plugin_name, just_info=True):
         """Find a plugin in the registry and return its info.
 
         This should remove all plugin loading from the base interfaces and allow us
         to only load one plugin at a time
         """
+        plugin_type = self.identify_plugin_type(interface)
+        if plugin_type == "yaml_based":
+            return self.load_yaml_plugin(interface, plugin_name, just_info)
+
+    def load_yaml_plugin(self, interface, name, just_info=False):
+        """Load a YAML plugin and return it."""
+        if isinstance(name, tuple):
+            try:
+                relpath = self._registered_plugins["yaml_based"]["products"][name[0]][
+                    name[1]]["relpath"]
+                package = self._registered_plugins["yaml_based"]["products"][name[0]][
+                    name[1]]["package"]
+            except KeyError:
+                raise PluginError(
+                    f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
+                )
+            abspath = str(resources.files(package) / relpath)
+            plugin = yaml.safe_load(open(abspath, "r"))
+            plugin_found = False
+            for product in plugin["spec"]["products"]:
+                if product["name"] == name[1] and name[0] in product["source_names"]:
+                    plugin_found = True
+                    plugin = product
+                    break
+            if not plugin_found:
+                raise PluginError(
+                    "There is no plugin that has " + name[1] + " included in it."
+                )
+            plugin["interface"] = "products"
+            plugin["package"] = package
+            plugin["abspath"] = abspath
+            plugin["relpath"] = relpath
+        else:
+            try:
+                relpath = self._registered_plugins["yaml_based"][interface][name][
+                    "relpath"
+                ]
+                package = self._registered_plugins["yaml_based"][interface][name][
+                    "package"
+                ]
+            except KeyError:
+                raise PluginError(
+                    f"Plugin [{name}] doesn't exist under interface [{interface}]"
+                )
+            abspath = str(resources.files(package) / relpath)
+            plugin = yaml.safe_load(open(abspath, "r"))
+            plugin["package"] = package
+            plugin["abspath"] = abspath
+            plugin["relpath"] = relpath
+        if just_info:
+            info_dict = {
+                "interface": interface,
+                "package": package,
+                "abspath": abspath,
+                "relpath": relpath,
+                "name": plugin["name"],
+            }
+            if interface == "products":
+                info_dict["source_names"] = plugin["source_names"]
+                info_dict["product_defaults"] = plugin["product_defaults"]
+            return info_dict
+        else:
+            interface_module = getattr(geoips.interfaces, "products")
+            validated = interface_module.validator.validate(plugin)
+            return interface_module._plugin_yaml_to_obj(name, validated)
+
+    def list_plugins(self, interface):
+        """List the plugins available for an interface ONLY based on the registries.
+
+        This should not load any plugins, just return info from the registries.
+        """
+        plugin_type = self.identify_plugin_type(interface)
+        return self._registered_plugins[plugin_type][interface]
+
+    def identify_plugin_type(self, interface):
+        """Identify the Plugin Type based on the provided interface."""
         plugin_type = None
         for p_type in self._interface_mapping:
             if interface in self._interface_mapping[p_type]:
@@ -91,20 +172,7 @@ class PluginRegistry:
             raise PluginRegistryError(
                 f"{interface} does not exist within any package registry."
             )
-        if plugin_type == "yaml_based":
-            if interface == "products":
-                # different loading process than other yaml plugins
-                pass
-            else:
-                # plugin = yaml.safe_load(open(
-                #     self._registered_plugins[plugin_type][interface][plugin_name]
-                # ))
-                pass
-
-    def list_plugins(self, interface):
-        # List the plugins available for an interface ONLY based on the registries.
-        # This should not load any plugins, just return info from the registries.
-        pass
+        return plugin_type
 
     def merge_nested_dicts(self, dest, src, in_place=True):
         """Perform an in-place merge of src into dest.
