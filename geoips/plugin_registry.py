@@ -40,23 +40,22 @@ class PluginRegistry:
                 self.registry_files.append(
                     str(resources.files(pkg.value) / "registered_plugins.yaml")
                 )
-            self._set_class_properties
+            self._set_class_properties()
 
     @property
     def registered_plugins(self):
         """Plugin Registry registered_plugins attribute."""
         if not hasattr(self, "_registered_plugins"):
-            self._set_class_properties
+            self._set_class_properties()
         return self._registered_plugins
 
     @property
     def interface_mapping(self):
         """Plugin Registry interface_mapping attribute."""
         if not hasattr(self, "_interface_mapping"):
-            self._set_class_properties
+            self._set_class_properties()
         return self._interface_mapping
 
-    @property
     def _set_class_properties(self):
         """Find all plugins in registered plugin packages.
 
