@@ -19,6 +19,121 @@ from geoips.errors import PluginRegistryError
 LOG = logging.getLogger(__name__)
 
 
+class PluginRegistry:
+    """Plugin Registry class definition.
+
+    Represents all of the plugins found in all of the available GeoIPS packages.
+    This class will load a plugin when requested, rather than loading all plugins when
+    GeoIPS is instantiated.
+    """
+    def __init__(self, _test_registry_files=[]):
+        # Use this for unit testing
+        if _test_registry_files:
+            self.registry_files = _test_registry_files
+        # Use this for normal operation and collect the registry files
+        else:
+            self.registry_files = []  # Collect the paths to the registry files here
+            for pkg in get_entry_point_group("geoips.plugin_packages"):
+                self.registry_files.append(
+                    str(resources.files(pkg.value) / "registered_plugins.yaml")
+                )
+
+    @property
+    def registered_plugins(self):
+        """Find all plugins in registered plugin packages.
+
+        Search the ``registered_plugins.yaml`` of each registered plugin package and add
+        them to the _registered_plugins dictionary
+        """
+        # Load the registries here and return them as a dictionary
+        if not hasattr(self, "_registered_plugins"):
+            self._registered_plugins = {}
+            self._interface_mapping = {}
+            for reg_path in self.registry_files:
+                if not os.path.exists(reg_path):
+                    raise PluginRegistryError(
+                        f"Plugin registry {reg_path} did not exist, "
+                        "please run 'create_plugin_registries'"
+                    )
+                # This will include all plugins, including schemas, yaml_based,
+                # and module_based plugins.
+                pkg_plugins = yaml.safe_load(open(reg_path, "r"))
+                try:
+                    for plugin_type in pkg_plugins:
+                        if plugin_type not in self._registered_plugins:
+                            self._registered_plugins[plugin_type] = {}
+                            self._interface_mapping[plugin_type] = []
+                        for interface in pkg_plugins[plugin_type]:
+                            interface_dict = pkg_plugins[plugin_type][interface]
+                            if interface not in self._registered_plugins[plugin_type]:
+                                self._registered_plugins[plugin_type][interface] = interface_dict  # NOQA
+                                self._interface_mapping[plugin_type].append(interface)
+                            else:
+                                self.merge_nested_dicts(
+                                    self._registered_plugins[plugin_type][interface],
+                                    interface_dict,
+                                )
+                except TypeError:
+                    raise PluginRegistryError(f"Failed reading {reg_path}.")
+
+    def get_plugin_info(self, interface, plugin_name):
+        """Find a plugin in the registry and return its info.
+
+        This should remove all plugin loading from the base interfaces and allow us
+        to only load one plugin at a time
+        """
+        plugin_type = None
+        for p_type in self._interface_mapping:
+            if interface in self._interface_mapping[p_type]:
+                plugin_type = p_type
+                break
+        if plugin_type is None:
+            raise PluginRegistryError(
+                f"{interface} does not exist within any package registry."
+            )
+        if plugin_type == "yaml_based":
+            if interface == "products":
+                # different loading process than other yaml plugins
+                pass
+            else:
+                # plugin = yaml.safe_load(open(
+                #     self._registered_plugins[plugin_type][interface][plugin_name]
+                # ))
+                pass
+
+    def list_plugins(self, interface):
+        # List the plugins available for an interface ONLY based on the registries.
+        # This should not load any plugins, just return info from the registries.
+        pass
+
+    def merge_nested_dicts(self, dest, src, in_place=True):
+        """Perform an in-place merge of src into dest.
+
+        Performs an in-place merge of src into dest while preserving any values that
+        already exist in dest.
+        """
+        from copy import deepcopy
+
+        if not in_place:
+            final_dest = deepcopy(dest)
+        else:
+            final_dest = dest
+        try:
+            final_dest.update(src | final_dest)
+        except (AttributeError, TypeError):
+            return
+        try:
+            for key, val in final_dest.items():
+                try:
+                    self.merge_nested_dicts(final_dest[key], src[key])
+                except KeyError:
+                    pass
+        except AttributeError:
+            raise
+        if not in_place:
+            return final_dest
+
+
 def remove_registries(plugin_packages):
     """Remove all plugin registries if a PluginRegistryError is raised.
 
