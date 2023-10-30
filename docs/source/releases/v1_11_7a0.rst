@@ -23,6 +23,7 @@ Version 1.11.7a0 (2023-10-26)
 * Create "output_checker_kwargs" commandline argument
 * Convert base.py: plugin_module_to_obj to class-based method
 * Fixed from scipy.ndimage.interpolation import zoom deprecation warning
+* Raise error when two plugins have the same name
 * Added unit test for image output checker
 * Attached unit tests to output checker plugins
 * Do not fail if setup_logging is called twice
@@ -143,6 +144,22 @@ The following files have been modified to remove those deprecation warnings.
     * modified: geoips/geoips/plugins/modules/readers/abi_netcdf.py
     * modified: geoips/geoips/plugins/modules/readers/ahi_hsd.py
 
+Raise error when two plugins have the same name
+-----------------------------------------------
+
+*From NRLMMD-GEOIPS/geoips#382: 2023-10-23*
+
+Currently in GeoIPS, if two plugins of the same interface have the same name, one is
+just overwritten. This would occur in the order in which GeoIPS defines its entry
+points. This is a bug, and needs to be fixed. To do so, we check all
+registered_plugins.yaml found in each package, loop through them, and compare them
+against every other plugin registry. If duplicates are found, an error is raised, and
+the registries are removed until one of the duplicates is renamed.
+
+::
+
+    modified: geoips/geoips/create_plugin_registries.py
+
 Enhancements
 ============
 
@@ -190,7 +207,7 @@ Added paths to linter configuration files
 
 Added description on location for flake8 and black configuration files
 
-Created configuration files for flake8 and black, replacing the normal 
+Created configuration files for flake8 and black, replacing the normal
 command line arguments in the check_code.sh
 
 ::
@@ -293,7 +310,7 @@ Efficiency Improvements
 Changed how run_procflow accesses plugins, by creating a plugin registry
 ------------------------------------------------------------------------
 
-From NRLMMD-GEOIPS/geoips#238: 2023-07-06
+*From NRLMMD-GEOIPS/geoips#238: 2023-07-06*
 
 Currently, when run_procflow is called, GeoIPS actually has to load in every
 existing GeoIPS plugin to find the appropriate plugin. This is very inefficient
