@@ -62,7 +62,14 @@ class PluginRegistry:
             from geoips.geoips_utils import merge_nested_dicts
             import pickle  # nosec
 
+            # Complete dictionary of all available plugins found in every geoips package
             self._registered_plugins = {}
+            # A mapping of interfaces to plugin_types. Ie:
+            # {
+            # "yaml_based": [products, sectors, ...],
+            # "module_based": [algorithms, readers, ...],
+            # "text_based": [tpw_cimss, ...]
+            # }
             self._interface_mapping = {}
             for reg_path in self.registry_files:
                 if not os.path.exists(reg_path):
@@ -124,70 +131,6 @@ class PluginRegistry:
         """
         plugin_type = self.identify_plugin_type(interface)
         return list(self.registered_plugins[plugin_type][interface].keys())
-
-    # def load_yaml_plugin(self, interface, name, just_info=False):
-    #     """Load a YAML plugin and return it."""
-    #     if isinstance(name, tuple):
-    #         try:
-    #             relpath = self._registered_plugins["yaml_based"]["products"][name[0]][
-    #                 name[1]
-    #             ]["relpath"]
-    #             package = self._registered_plugins["yaml_based"]["products"][name[0]][
-    #                 name[1]
-    #             ]["package"]
-    #         except KeyError:
-    #             raise PluginError(
-    #                 f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
-    #             )
-    #         abspath = str(resources.files(package) / relpath)
-    #         plugin = yaml.safe_load(open(abspath, "r"))
-    #         plugin_found = False
-    #         for product in plugin["spec"]["products"]:
-    #             if product["name"] == name[1] and name[0] in product["source_names"]:
-    #                 plugin_found = True
-    #                 plugin = product
-    #                 break
-    #         if not plugin_found:
-    #             raise PluginError(
-    #                 "There is no plugin that has " + name[1] + " included in it."
-    #             )
-    #         plugin["interface"] = "products"
-    #         plugin["package"] = package
-    #         plugin["abspath"] = abspath
-    #         plugin["relpath"] = relpath
-    #     else:
-    #         try:
-    #             relpath = self._registered_plugins["yaml_based"][interface][name][
-    #                 "relpath"
-    #             ]
-    #             package = self._registered_plugins["yaml_based"][interface][name][
-    #                 "package"
-    #             ]
-    #         except KeyError:
-    #             raise PluginError(
-    #                 f"Plugin [{name}] doesn't exist under interface [{interface}]"
-    #             )
-    #         abspath = str(resources.files(package) / relpath)
-    #         plugin = yaml.safe_load(open(abspath, "r"))
-    #         plugin["package"] = package
-    #         plugin["abspath"] = abspath
-    #         plugin["relpath"] = relpath
-    #     if just_info:
-    #         info_dict = {
-    #             "interface": interface,
-    #             "package": package,
-    #             "abspath": abspath,
-    #             "relpath": relpath,
-    #             "name": plugin["name"],
-    #         }
-    #         if interface == "products":
-    #             info_dict["source_names"] = plugin["source_names"]
-    #             info_dict["product_defaults"] = plugin["product_defaults"]
-    #         return info_dict
-    #     else:
-    #         interface_module = getattr(geoips.interfaces, "products")
-    #         validated = interface_module.validator.validate(plugin)
-    #         return interface_module._plugin_yaml_to_obj(name, validated)
 
     def list_plugins(self, interface):
         """List the plugins available for an interface ONLY based on the registries.

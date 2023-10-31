@@ -96,9 +96,6 @@ def registry_sanity_check(plugin_packages, save_type):
                 pkg_registry = pickle.load(  # nosec
                     open(resources.files(pkg.value) / "registered_plugins", "rb")
                 )
-            # from IPython import embed as shell
-
-            # shell()
             for plugin_type in list(pkg_registry.keys()):
                 # check the pkg's registry for both yaml-based and module-based plugins
                 for interface in comp_registry[plugin_type]:
