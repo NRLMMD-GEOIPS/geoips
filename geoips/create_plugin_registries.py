@@ -15,7 +15,7 @@ import logging
 from geoips.commandline.log_setup import setup_logging
 import geoips.interfaces
 from geoips.errors import PluginRegistryError
-import pickle
+import pickle  # nosec
 
 LOG = logging.getLogger(__name__)
 
@@ -73,7 +73,7 @@ def registry_sanity_check(plugin_packages, save_type):
                 open(resources.files(comp_pkg.value) / "registered_plugins.yaml")
             )
         else:
-            comp_registry = pickle.load(
+            comp_registry = pickle.load(  # nosec
                 open(resources.files(comp_pkg.value) / "registered_plugins", "rb")
             )
         for pkg_idx, pkg in enumerate(plugin_packages):
@@ -93,7 +93,7 @@ def registry_sanity_check(plugin_packages, save_type):
                     open(resources.files(pkg.value) / "registered_plugins.yaml")
                 )
             else:
-                pkg_registry = pickle.load(
+                pkg_registry = pickle.load(  # nosec
                     open(resources.files(pkg.value) / "registered_plugins", "rb")
                 )
             # from IPython import embed as shell
@@ -497,7 +497,7 @@ def add_module_plugin(package, relpath, plugins):
             "docstring": module.__doc__,
             "family": module.family,
             "interface": module.interface,
-            # "name": name,
+            "package": package,
             "plugin_type": "module_based",
             "signature": str(signature(module.call)),
             "relpath": relpath,
@@ -508,7 +508,7 @@ def add_module_plugin(package, relpath, plugins):
         return
 
 
-def main(args):
+def main():
     """Generate all available plugins from all installed GeoIPS packages.
 
     After all plugins have been generated, they are written to registered_plugins.yaml
@@ -521,7 +521,7 @@ def main(args):
         List of strings representing the arguments provided via command line.
     """
     save_type = "pickle"
-    if len(args) > 1 and args[1].lower() == "yaml":
+    if len(sys.argv) > 1 and sys.argv[1].lower() == "yaml":
         save_type = "yaml"
     LOG = setup_logging(logging_level="INTERACTIVE")
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
@@ -531,4 +531,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()

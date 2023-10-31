@@ -15,8 +15,10 @@
 import yaml
 import inspect
 import logging
+from os.path import exists
 
 from importlib.resources import files
+from importlib import util
 from pathlib import Path
 import jsonschema
 import referencing
@@ -24,10 +26,11 @@ from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
 from geoips.errors import EntryPointError, PluginError, PluginRegistryError
+
 from geoips.geoips_utils import (
     find_entry_point,
-    get_all_entry_points,
-    load_all_yaml_plugins,
+    # get_all_entry_points,
+    # load_all_yaml_plugins,
 )
 
 # from geoips.interfaces import product_defaults
@@ -294,6 +297,10 @@ class BaseInterface:
     the GeoIPS algorithm plugins.
     """
 
+    from geoips.plugin_registry import plugin_registry
+
+    plugin_registry = plugin_registry
+
     def __new__(cls):
         """Plugin interface new method."""
         if not hasattr(cls, "name") or not cls.name:
@@ -331,7 +338,10 @@ class BaseYamlInterface(BaseInterface):
     def __init__(self):
         """YAML plugin interface init method."""
         try:
-            self._unvalidated_plugins = load_all_yaml_plugins()
+            # self._unvalidated_plugins = load_all_yaml_plugins()
+            self._unvalidated_plugins = self.plugin_registry.registered_plugins[
+                "yaml_based"
+            ]
         except PluginRegistryError:
             self._unvalidated_plugins = {}
 
@@ -553,6 +563,16 @@ class BaseModuleInterface(BaseInterface):
     #         )
     #     return obj
 
+    def __init__(self):
+        """Initialize module plugin interface."""
+        try:
+            # self._unvalidated_plugins = load_all_yaml_plugins()
+            self._unvalidated_plugins = self.plugin_registry.registered_plugins[
+                "module_based"
+            ]
+        except PluginRegistryError:
+            self._unvalidated_plugins = {}
+
     @classmethod
     def _plugin_module_to_obj(cls, name, module, obj_attrs={}):
         """Convert a module plugin to an object.
@@ -655,7 +675,16 @@ class BaseModuleInterface(BaseInterface):
         """
         # Find the plugin module
         try:
-            module = find_entry_point(self.name, name)
+            if exists(name):
+                module = find_entry_point(self.name, name)
+            else:
+                package = self._unvalidated_plugins[self.name][name]["package"]
+                relpath = self._unvalidated_plugins[self.name][name]["relpath"]
+                abspath = files(package) / relpath
+                spec = util.spec_from_file_location(name, abspath)
+                module = util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+            # module = find_entry_point(self.name, name)
         except EntryPointError as resp:
             raise PluginError(
                 f"{resp}:\nPlugin '{name}' not found for '{self.name}' interface. "
@@ -673,13 +702,15 @@ class BaseModuleInterface(BaseInterface):
     def get_plugins(self):
         """Get a list of plugins for this interface."""
         plugins = []
-        for ep in get_all_entry_points(self.name):
+        # for ep in get_all_entry_points(self.name):
+        for plugin_name in self._unvalidated_plugins[self.name]:
             try:
-                plugins.append(self._plugin_module_to_obj(ep.name, ep))
+                plugins.append(self.get_plugin(plugin_name))
             except AttributeError as resp:
                 raise PluginError(
-                    f"Plugin '{ep.__name__}' is missing the 'name' attribute, "
-                    f"\nfrom '{ep.__module__}' module,"
+                    f"Plugin '{plugin_name}' is missing the 'name' attribute, "
+                    f"\nfrom package '{plugin_name['package']},' "
+                    f"'{plugin_name['relpath']}' module,"
                 ) from resp
         return plugins
 

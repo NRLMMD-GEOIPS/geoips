@@ -87,7 +87,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         and "Remote Sensing Systems" in wind_xarray.institution
     ):
         if hasattr(wind_xarray, "title") and "SMAP" in wind_xarray.title:
-            from .utils.remss_reader import read_remss_data
+            from geoips.plugins.modules.readers.utils.remss_reader import (
+                read_remss_data
+            )
 
             wind_xarrays = read_remss_data(wind_xarray, "smap")
 

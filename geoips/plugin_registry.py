@@ -60,7 +60,7 @@ class PluginRegistry:
         # Load the registries here and return them as a dictionary
         if not hasattr(self, "_registered_plugins"):
             from geoips.geoips_utils import merge_nested_dicts
-            import pickle
+            import pickle  # nosec
 
             self._registered_plugins = {}
             self._interface_mapping = {}
@@ -72,7 +72,7 @@ class PluginRegistry:
                     )
                 # This will include all plugins, including schemas, yaml_based,
                 # and module_based plugins.
-                pkg_plugins = pickle.load(open(reg_path, "rb"))
+                pkg_plugins = pickle.load(open(reg_path, "rb"))  # nosec
                 try:
                     for plugin_type in pkg_plugins:
                         if plugin_type not in self._registered_plugins:

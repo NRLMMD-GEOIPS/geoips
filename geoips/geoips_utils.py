@@ -15,6 +15,7 @@
 import os
 from copy import deepcopy
 import sys
+
 # import yaml
 import logging
 from importlib import metadata, resources
@@ -73,7 +74,7 @@ def load_all_yaml_plugins():
     in ``.yaml``. Read each plugin file
     """
     # Load all entry points for plugin packages
-    import pickle
+    import pickle  # nosec
 
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
     yaml_plugins = {}
@@ -86,7 +87,7 @@ def load_all_yaml_plugins():
             )
         # This will include all plugins, including schemas, yaml_based,
         # and module_based plugins.
-        registered_plugins = pickle.load(open(pkg_plug_path, "rb"))
+        registered_plugins = pickle.load(open(pkg_plug_path, "rb"))  # nosec
         # Only pull the "yaml_based" plugins here.
         try:
             for interface in registered_plugins["yaml_based"]:
