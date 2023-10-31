@@ -27,15 +27,91 @@ class PluginRegistry:
         # Use this for unit testing
         if _test_registry_files:
             self.registry_files = _test_registry_files
+            self._is_test = True
         # Use this for normal operation and collect the registry files
         else:
             from geoips.geoips_utils import get_entry_point_group
 
+            self._is_test = False
             self.registry_files = []  # Collect the paths to the registry files here
             for pkg in get_entry_point_group("geoips.plugin_packages"):
                 self.registry_files.append(
                     str(resources.files(pkg.value) / "registered_plugins")
                 )
+
+    def test_registries(self):
+        """Test all plugins found in registered plugins for their validity."""
+        for plugin_type in self.registered_plugins:
+            for interface in self.registered_plugins[plugin_type]:
+                for plugin in self.registered_plugins[plugin_type][interface]:
+                    try:
+                        if interface == "products":
+                            for subplg in self.registered_plugins[plugin_type][
+                                interface
+                            ][plugin]:
+                                self.test_plugin(
+                                    plugin_type,
+                                    interface,
+                                    (plugin, subplg),
+                                    self.registered_plugins[plugin_type][interface][
+                                        plugin
+                                    ][subplg],
+                                )
+                        else:
+                            self.test_plugin(
+                                plugin_type,
+                                interface,
+                                plugin,
+                                self.registered_plugins[plugin_type][interface][plugin],
+                            )
+                    except PluginRegistryError as e:
+                        print(e)
+
+    def test_plugin(self, plugin_type, interface, name, plugin):
+        """Test non-product plugin for all required attributes."""
+        # import pytest
+
+        missing = []
+        if plugin_type == "yaml_based" and interface != "products":
+            attrs = [
+                "docstring",
+                "family",
+                "interface",
+                "package",
+                "plugin_type",
+                "relpath",
+            ]
+        elif plugin_type == "yaml_based":
+            attrs = [
+                "docstring",
+                "family",
+                "interface",
+                "package",
+                "plugin_type",
+                "product_defaults",
+                "source_names",
+                "relpath",
+            ]
+        else:
+            attrs = [
+                "docstring",
+                "family",
+                "interface",
+                "package",
+                "plugin_type",
+                "signature",
+                "relpath",
+            ]
+        for attr in attrs:
+            try:
+                plugin[attr]
+            except KeyError:
+                missing.append(attr)
+        if missing:
+            raise PluginRegistryError(
+                f"Plugin '{name}' is missing the following required "
+                f"top-level properties: '{missing}'"
+            )
 
     @property
     def registered_plugins(self):
@@ -61,6 +137,7 @@ class PluginRegistry:
         if not hasattr(self, "_registered_plugins"):
             from geoips.geoips_utils import merge_nested_dicts
             import pickle  # nosec
+            import yaml
 
             # Complete dictionary of all available plugins found in every geoips package
             self._registered_plugins = {}
@@ -79,7 +156,10 @@ class PluginRegistry:
                     )
                 # This will include all plugins, including schemas, yaml_based,
                 # and module_based plugins.
-                pkg_plugins = pickle.load(open(reg_path, "rb"))  # nosec
+                if self._is_test:
+                    pkg_plugins = yaml.safe_load(open(reg_path, "r"))
+                else:
+                    pkg_plugins = pickle.load(open(reg_path, "rb"))  # nosec
                 try:
                     for plugin_type in pkg_plugins:
                         if plugin_type not in self._registered_plugins:
