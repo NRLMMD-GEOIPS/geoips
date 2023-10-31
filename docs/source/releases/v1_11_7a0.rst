@@ -28,6 +28,7 @@ Version 1.11.7a0 (2023-10-26)
 * Attached unit tests to output checker plugins
 * Do not fail if setup_logging is called twice
 * Add text plugins to package registries
+* Create PluginRegistry Class
 
 Enhancements
 ============
@@ -255,6 +256,28 @@ require changes to the output products as well.
     modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
     modified: tests/yaml_configs/abi_test.yaml
     modified: tests/yaml_configs/abi_test_low_memory.yaml
+
+Create PluginRegistry Class
+---------------------------
+
+*From issue GEOIPS#389: 2023-10-26, Make better use of the plugin registry*
+
+Now that we have a plugin registry, we should make better use of it. Currently,
+create_plugin_registries registered_plugins.yaml outputs are only made use by YAML
+plugins. This is inefficient, and should be converted into a class that is used by
+every type of interface and plugin. This would also resolve load_all_yaml_plugins
+(geoips/geoips_utils.py) being called for each interface, as we instantiate the plugin
+registry at the top most level of BaseInterface. This PR will improve the speed of
+GeoIPS, and allow for unit testing for the registry itself.
+
+::
+
+    modified: geoips/geoips/create_plugin_registries.py
+    modified: geoips/geoips/geoips_utils.py
+    modified: geoips/geoips/interfaces/base.py
+    modified: geoips/geoips/interfaces/module_based/filename_formatters.py
+    modified: geoips/geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
+    added: geoips/geoips/plugin_registry.py
 
 Testing Updates
 ===============
