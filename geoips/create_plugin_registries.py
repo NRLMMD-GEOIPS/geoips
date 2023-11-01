@@ -376,6 +376,9 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
                     family = None
                     if "family" in list(yaml_subplg.keys()):
                         family = yaml_subplg["family"]
+                    # since we are dealing with sub-plugins of a product plugin, include
+                    # a couple other pieces of information, such as product_defaults
+                    # and source_names.
                     plugins[interface_name][str(subplg_name[0])][
                         str(subplg_name[1])
                     ] = {
@@ -400,6 +403,9 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
     else:
         # If this is not of family list, just set a single entry for
         # current plugin name.
+        # Since this is not a product plugin, we can ensure that these top-level
+        # attributes should exist. Don't include product_defaults or source_names in
+        # this info, because it doesn't apply to this type of plugin.
         plugins[interface_name][plugin["name"]] = {
             "docstring": plugin["docstring"],
             "family": plugin["family"],
@@ -490,6 +496,9 @@ def add_module_plugin(package, relpath, plugins):
             plugins[interface_name] = {}
         name = module.name
         check_plugin_exists(package, plugins, interface_name, name)
+        # Add info shown below obtained from the module plugin. Every module plugin
+        # is required to have these entries in the registry to be considered a valid
+        # plugin.
         plugins[interface_name][name] = {
             "docstring": module.__doc__,
             "family": module.family,
