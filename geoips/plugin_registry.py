@@ -39,80 +39,6 @@ class PluginRegistry:
                     str(resources.files(pkg.value) / "registered_plugins")
                 )
 
-    def test_registries(self):
-        """Test all plugins found in registered plugins for their validity."""
-        for plugin_type in self.registered_plugins:
-            for interface in self.registered_plugins[plugin_type]:
-                for plugin in self.registered_plugins[plugin_type][interface]:
-                    try:
-                        if interface == "products":
-                            for subplg in self.registered_plugins[plugin_type][
-                                interface
-                            ][plugin]:
-                                self.test_plugin(
-                                    plugin_type,
-                                    interface,
-                                    (plugin, subplg),
-                                    self.registered_plugins[plugin_type][interface][
-                                        plugin
-                                    ][subplg],
-                                )
-                        else:
-                            self.test_plugin(
-                                plugin_type,
-                                interface,
-                                plugin,
-                                self.registered_plugins[plugin_type][interface][plugin],
-                            )
-                    except PluginRegistryError as e:
-                        print(e)
-
-    def test_plugin(self, plugin_type, interface, name, plugin):
-        """Test non-product plugin for all required attributes."""
-        # import pytest
-
-        missing = []
-        if plugin_type == "yaml_based" and interface != "products":
-            attrs = [
-                "docstring",
-                "family",
-                "interface",
-                "package",
-                "plugin_type",
-                "relpath",
-            ]
-        elif plugin_type == "yaml_based":
-            attrs = [
-                "docstring",
-                "family",
-                "interface",
-                "package",
-                "plugin_type",
-                "product_defaults",
-                "source_names",
-                "relpath",
-            ]
-        else:
-            attrs = [
-                "docstring",
-                "family",
-                "interface",
-                "package",
-                "plugin_type",
-                "signature",
-                "relpath",
-            ]
-        for attr in attrs:
-            try:
-                plugin[attr]
-            except KeyError:
-                missing.append(attr)
-        if missing:
-            raise PluginRegistryError(
-                f"Plugin '{name}' is missing the following required "
-                f"top-level properties: '{missing}'"
-            )
-
     @property
     def registered_plugins(self):
         """Plugin Registry registered_plugins attribute."""
@@ -135,6 +61,10 @@ class PluginRegistry:
         """
         # Load the registries here and return them as a dictionary
         if not hasattr(self, "_registered_plugins"):
+            from IPython import embed as shell
+
+            shell()
+            # SEE HERE JEREMY
             from geoips.geoips_utils import merge_nested_dicts
             import pickle  # nosec
             import yaml
@@ -160,6 +90,10 @@ class PluginRegistry:
                     pkg_plugins = yaml.safe_load(open(reg_path, "r"))
                 else:
                     pkg_plugins = pickle.load(open(reg_path, "rb"))  # nosec
+                try:
+                    self.ensure_plugin_types_exist(pkg_plugins, reg_path)
+                except PluginRegistryError as e:
+                    print(e)
                 try:
                     for plugin_type in pkg_plugins:
                         if plugin_type not in self._registered_plugins:
@@ -232,6 +166,91 @@ class PluginRegistry:
                 f"{interface} does not exist within any package registry."
             )
         return plugin_type
+
+    def ensure_plugin_types_exist(self, reg_dict, reg_path):
+        """Test that all top level plugin types exist in each registry file."""
+        expected_plugin_types = ["yaml_based", "module_based", "text_based"]
+        for p_type in expected_plugin_types:
+            if p_type not in reg_dict:
+                error_str = f"Expected plugin type '{p_type}' to be in the registry but"
+                error_str += f" wasn't. This was in file '{reg_path}'."
+                raise PluginRegistryError(error_str)
+
+
+class TestPluginRegistry(PluginRegistry):
+    """Subclass of PluginRegistry which adds functionality for unit testing."""
+
+    def test_registries(self):
+        """Test all plugins found in registered plugins for their validity."""
+        for plugin_type in self.registered_plugins:
+            for interface in self.registered_plugins[plugin_type]:
+                for plugin in self.registered_plugins[plugin_type][interface]:
+                    try:
+                        if interface == "products":
+                            for subplg in self.registered_plugins[plugin_type][
+                                interface
+                            ][plugin]:
+                                self.test_plugin_attrs(
+                                    plugin_type,
+                                    interface,
+                                    (plugin, subplg),
+                                    self.registered_plugins[plugin_type][interface][
+                                        plugin
+                                    ][subplg],
+                                )
+                        else:
+                            self.test_plugin_attrs(
+                                plugin_type,
+                                interface,
+                                plugin,
+                                self.registered_plugins[plugin_type][interface][plugin],
+                            )
+                    except PluginRegistryError as e:
+                        LOG.info(e)
+
+    def test_plugin_attrs(self, plugin_type, interface, name, plugin):
+        """Test non-product plugin for all required attributes."""
+        missing = []
+        if plugin_type == "yaml_based" and interface != "products":
+            attrs = [
+                "docstring",
+                "family",
+                "interface",
+                "package",
+                "plugin_type",
+                "relpath",
+            ]
+        elif plugin_type == "yaml_based":
+            attrs = [
+                "docstring",
+                "family",
+                "interface",
+                "package",
+                "plugin_type",
+                "product_defaults",
+                "source_names",
+                "relpath",
+            ]
+        else:
+            attrs = [
+                "docstring",
+                "family",
+                "interface",
+                "package",
+                "plugin_type",
+                "signature",
+                "relpath",
+            ]
+        for attr in attrs:
+            try:
+                plugin[attr]
+            except KeyError:
+                missing.append(attr)
+        if missing:
+            raise PluginRegistryError(
+                f"Plugin '{name}' is missing the following required "
+                f"top-level properties: '{missing}'"
+            )
 
 
 plugin_registry = PluginRegistry()
