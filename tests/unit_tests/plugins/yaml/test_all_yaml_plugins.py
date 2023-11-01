@@ -30,13 +30,19 @@ def yield_plugins():
         fpath = resources.files("geoips") / "plugins/yaml"
         plugin_files = fpath.rglob("*.yaml")
         for pf in plugin_files:
-            yield yaml.safe_load(open(pf, "r"))
+            yield pf
 
 
-@pytest.mark.parametrize("plugin", yield_plugins())
+def gen_label(val):
+    """Generate the yaml name."""
+    return val.name
+
+
+@pytest.mark.parametrize("plugin", yield_plugins(), ids=gen_label)
 def test_is_plugin_valid(plugin):
     """Test if plugin is valid."""
-    if plugin["interface"] == "products":
-        product_validator.validate(plugin)
+    rplugin = yaml.safe_load(open(plugin, "r"))
+    if rplugin["interface"] == "products":
+        product_validator.validate(rplugin)
     else:
-        validator.validate(plugin)
+        validator.validate(rplugin)
