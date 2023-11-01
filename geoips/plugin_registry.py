@@ -11,6 +11,9 @@ from importlib import resources
 import os
 import logging
 from geoips.errors import PluginRegistryError
+import pytest
+import yaml
+import pickle  # nosec
 
 LOG = logging.getLogger(__name__)
 
@@ -62,8 +65,6 @@ class PluginRegistry:
         # Load the registries here and return them as a dictionary
         if not hasattr(self, "_registered_plugins"):
             from geoips.geoips_utils import merge_nested_dicts
-            import pickle  # nosec
-            import yaml
 
             # Complete dictionary of all available plugins found in every geoips package
             self._registered_plugins = {}
@@ -86,10 +87,7 @@ class PluginRegistry:
                     pkg_plugins = yaml.safe_load(open(reg_path, "r"))
                 else:
                     pkg_plugins = pickle.load(open(reg_path, "rb"))  # nosec
-                try:
-                    self.ensure_plugin_types_exist(pkg_plugins, reg_path)
-                except PluginRegistryError as e:
-                    print(e)
+                self.validate_registry(pkg_plugins, reg_path)
                 try:
                     for plugin_type in pkg_plugins:
                         if plugin_type not in self._registered_plugins:
@@ -109,6 +107,7 @@ class PluginRegistry:
                                 )
                 except TypeError:
                     raise PluginRegistryError(f"Failed reading {reg_path}.")
+            self.validate_registry(self._registered_plugins, "all_registered_plugins")
         return self._registered_plugins
 
     def get_plugin_info(self, interface, plugin_name):
@@ -163,7 +162,7 @@ class PluginRegistry:
             )
         return plugin_type
 
-    def ensure_plugin_types_exist(self, reg_dict, reg_path):
+    def validate_plugin_types_exist(self, reg_dict, reg_path):
         """Test that all top level plugin types exist in each registry file."""
         expected_plugin_types = ["yaml_based", "module_based", "text_based"]
         for p_type in expected_plugin_types:
@@ -171,6 +170,134 @@ class PluginRegistry:
                 error_str = f"Expected plugin type '{p_type}' to be in the registry but"
                 error_str += f" wasn't. This was in file '{reg_path}'."
                 raise PluginRegistryError(error_str)
+
+    def validate_registry(self, current_registry, fpath):
+        """Test all plugins found in registered plugins for their validity."""
+        try:
+            self.validate_plugin_types_exist(current_registry, fpath)
+        except PluginRegistryError as e:
+            print(e)
+            pytest.xfail(str(e))
+        try:
+            self.validate_registry_interfaces(current_registry)
+        except PluginRegistryError as e:
+            print(e)
+            pytest.xfail(str(e))
+        for plugin_type in current_registry:
+            for interface in current_registry[plugin_type]:
+                for plugin in current_registry[plugin_type][interface]:
+                    try:
+                        if interface == "products":
+                            for subplg in current_registry[plugin_type][
+                                interface
+                            ][plugin]:
+                                self.validate_plugin_attrs(
+                                    plugin_type,
+                                    interface,
+                                    (plugin, subplg),
+                                    current_registry[plugin_type][interface][
+                                        plugin
+                                    ][subplg],
+                                )
+                        else:
+                            self.validate_plugin_attrs(
+                                plugin_type,
+                                interface,
+                                plugin,
+                                current_registry[plugin_type][interface][plugin],
+                            )
+                    except PluginRegistryError as e:
+                        print(e)
+                        pytest.xfail(str(e))
+
+    def validate_plugin_attrs(self, plugin_type, interface, name, plugin):
+        """Test non-product plugin for all required attributes."""
+        missing = []
+        if plugin_type == "yaml_based" and interface != "products":
+            attrs = [
+                "docstring",
+                "family",
+                "interface",
+                "package",
+                "plugin_type",
+                "relpath",
+            ]
+        elif plugin_type == "yaml_based":
+            attrs = [
+                "docstring",
+                "family",
+                "interface",
+                "package",
+                "plugin_type",
+                "product_defaults",
+                "source_names",
+                "relpath",
+            ]
+        else:
+            attrs = [
+                "docstring",
+                "family",
+                "interface",
+                "package",
+                "plugin_type",
+                "signature",
+                "relpath",
+            ]
+        for attr in attrs:
+            try:
+                plugin[attr]
+            except KeyError:
+                missing.append(attr)
+        if missing:
+            raise PluginRegistryError(
+                f"Plugin '{name}' is missing the following required "
+                f"top-level properties: '{missing}'"
+            )
+
+    def validate_registry_interfaces(self, current_registry):
+        """Test Plugin Registry interfaces validity."""
+        yaml_interfaces = [
+            "feature_annotators",
+            "gridline_annotators",
+            "product_defaults",
+            "products",
+            "sectors",
+        ]
+        module_interfaces = [
+            "algorithms",
+            "colormappers",
+            "coverage_checkers",
+            "filename_formatters",
+            "interpolators",
+            "output_checkers",
+            "output_formatters",
+            "procflows",
+            "readers",
+            "sector_adjusters",
+            "sector_metadata_generators",
+            "sector_spec_generators",
+            "title_formatters",
+        ]
+        bad_interfaces = []
+        for plugin_type in ["module_based", "yaml_based"]:
+            for interface in current_registry[plugin_type]:
+                if (
+                    interface not in module_interfaces
+                    and interface not in yaml_interfaces
+                ):
+                    error_str = f"Plugin type '{plugin_type}' does not allow interface "
+                    error_str += f"'{interface}'. Here is a list of valid interfaces: "
+                    if plugin_type == "module_based":
+                        interface_list = module_interfaces
+                    else:
+                        interface_list = yaml_interfaces
+                    error_str += f"\n{interface_list}\n"
+                    bad_interfaces.append(error_str)
+        if bad_interfaces:
+            error_str = "\nThe following interfaces were not valid:\n"
+            for error in bad_interfaces:
+                error_str += error
+            raise PluginRegistryError(error_str)
 
 
 plugin_registry = PluginRegistry()

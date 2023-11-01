@@ -138,8 +138,12 @@ class ProductsInterface(BaseYamlInterface):
     def get_plugins(self):
         """Retrieve a plugin by name."""
         plugins = []
-        for source_name in self._unvalidated_plugins[self.name].keys():
-            for subplg_name in self._unvalidated_plugins[self.name][source_name].keys():
+        for source_name in self.plugin_registry.registered_plugins["yaml_based"][
+            self.name
+        ].keys():
+            for subplg_name in self.plugin_registry.registered_plugins["yaml_based"][
+                self.name
+            ][source_name].keys():
                 plugins.append(self.get_plugin(source_name, subplg_name))
         return plugins
 

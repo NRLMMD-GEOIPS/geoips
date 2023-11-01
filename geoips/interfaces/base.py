@@ -673,9 +673,11 @@ class BaseModuleInterface(BaseInterface):
                 module = find_entry_point(self.name, name)
             else:
                 package = self.plugin_registry.registered_plugins["module_based"][
-                    self.name][name]["package"]
+                    self.name
+                ][name]["package"]
                 relpath = self.plugin_registry.registered_plugins["module_based"][
-                    self.name][name]["relpath"]
+                    self.name
+                ][name]["relpath"]
                 abspath = files(package) / relpath
                 spec = util.spec_from_file_location(name, abspath)
                 module = util.module_from_spec(spec)
