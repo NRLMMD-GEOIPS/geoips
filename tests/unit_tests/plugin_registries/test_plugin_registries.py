@@ -35,27 +35,27 @@ class TestPluginRegistry:
         """Generate pytest id for current test."""
         return f"{splitext(basename(fpath))[0]}"
 
-    # def test_interface_mapping_property(self):
-    #     """Ensure registered_plugins is valid in its nature."""
-    #     assert isinstance(self.plugin_registry.interface_mapping, dict)
-    #     print(self.plugin_registry.interface_mapping)
-    #     assert "yaml_based" in self.plugin_registry.interface_mapping
-    #     assert "module" in self.plugin_registry.interface_mapping
-    #     assert "text" in self.plugin_registry.interface_mapping
-    #     assert isinstance(self.plugin_registry.interface_mapping["yaml_based"], list)
-    #     assert isinstance(self.plugin_registry.interface_mapping["module_based"], list)
-    #     assert isinstance(self.plugin_registry.interface_mapping["text_based"], list)
-
     @pytest.mark.parametrize("fpath", plugin_registry.registry_files, ids=generate_id)
     def test_all_registries(self, fpath):
         """Test all available yaml registries."""
         current_registry = yaml.safe_load(open(fpath, "r"))
         self.plugin_registry.validate_registry(current_registry, fpath)
 
-    # def test_registered_plugin_property(self):
-    #     """Ensure registered_plugins is valid in its nature."""
-    #     print(self.plugin_registry.registered_plugins)
-    #     assert isinstance(self.plugin_registry.registered_plugins, dict)
-    #     assert "yaml_based" in self.plugin_registry.registered_plugins
-    #     assert "module" in self.plugin_registry.registered_plugins
-    #     assert "text" in self.plugin_registry.registered_plugins
+    def test_registered_plugin_property(self):
+        """Ensure registered_plugins is valid in its nature."""
+        print(self.plugin_registry.registered_plugins)
+        assert isinstance(self.plugin_registry.registered_plugins, dict)
+        assert "yaml_based" in self.plugin_registry.registered_plugins
+        assert "module_based" in self.plugin_registry.registered_plugins
+        assert "text_based" in self.plugin_registry.registered_plugins
+
+    def test_interface_mapping_property(self):
+        """Ensure interface_mapping is valid in its nature."""
+        print(self.plugin_registry.interface_mapping)
+        assert isinstance(self.plugin_registry.interface_mapping, dict)
+        assert "yaml_based" in self.plugin_registry.interface_mapping
+        assert "module_based" in self.plugin_registry.interface_mapping
+        assert "text_based" in self.plugin_registry.interface_mapping
+        assert isinstance(self.plugin_registry.interface_mapping["yaml_based"], list)
+        assert isinstance(self.plugin_registry.interface_mapping["module_based"], list)
+        assert isinstance(self.plugin_registry.interface_mapping["text_based"], list)

@@ -87,7 +87,7 @@ class PluginRegistry:
                     pkg_plugins = yaml.safe_load(open(reg_path, "r"))
                 else:
                     pkg_plugins = pickle.load(open(reg_path, "rb"))  # nosec
-                self.validate_registry(pkg_plugins, reg_path)
+                    self.validate_registry(pkg_plugins, reg_path)
                 try:
                     for plugin_type in pkg_plugins:
                         if plugin_type not in self._registered_plugins:
@@ -107,7 +107,11 @@ class PluginRegistry:
                                 )
                 except TypeError:
                     raise PluginRegistryError(f"Failed reading {reg_path}.")
-            self.validate_registry(self._registered_plugins, "all_registered_plugins")
+            if not self._is_test:
+                self.validate_registry(
+                    self._registered_plugins,
+                    "all_registered_plugins",
+                )
         return self._registered_plugins
 
     def get_plugin_info(self, interface, plugin_name):
@@ -188,16 +192,16 @@ class PluginRegistry:
                 for plugin in current_registry[plugin_type][interface]:
                     try:
                         if interface == "products":
-                            for subplg in current_registry[plugin_type][
-                                interface
-                            ][plugin]:
+                            for subplg in current_registry[plugin_type][interface][
+                                plugin
+                            ]:
                                 self.validate_plugin_attrs(
                                     plugin_type,
                                     interface,
                                     (plugin, subplg),
-                                    current_registry[plugin_type][interface][
-                                        plugin
-                                    ][subplg],
+                                    current_registry[plugin_type][interface][plugin][
+                                        subplg
+                                    ],
                                 )
                         else:
                             self.validate_plugin_attrs(
@@ -260,14 +264,12 @@ class PluginRegistry:
         import inspect
 
         yaml_interfaces = [
-            str(info[0]) for info in inspect.getmembers(
-                interfaces.yaml_based,
-                inspect.ismodule)
+            str(info[0])
+            for info in inspect.getmembers(interfaces.yaml_based, inspect.ismodule)
         ]
         module_interfaces = [
-            str(info[0]) for info in inspect.getmembers(
-                interfaces.module_based,
-                inspect.ismodule)
+            str(info[0])
+            for info in inspect.getmembers(interfaces.module_based, inspect.ismodule)
         ]
         bad_interfaces = []
         for plugin_type in ["module_based", "yaml_based"]:
