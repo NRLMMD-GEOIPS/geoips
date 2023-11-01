@@ -203,7 +203,7 @@ class PluginRegistry:
                                         subplg
                                     ],
                                 )
-                        else:
+                        elif plugin_type != "text_based":
                             self.validate_plugin_attrs(
                                 plugin_type,
                                 interface,

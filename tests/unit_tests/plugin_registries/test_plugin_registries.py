@@ -33,13 +33,10 @@ class TestPluginRegistry:
 
     def generate_id(fpath):
         """Generate pytest id for current test."""
-        return f"{splitext(basename(fpath))[0]}"
-
-    @pytest.mark.parametrize("fpath", plugin_registry.registry_files, ids=generate_id)
-    def test_all_registries(self, fpath):
-        """Test all available yaml registries."""
-        current_registry = yaml.safe_load(open(fpath, "r"))
-        self.plugin_registry.validate_registry(current_registry, fpath)
+        test_id = "bad"
+        if "/good/" in fpath:
+            test_id = "good"
+        return f"{test_id}-{splitext(basename(fpath))[0]}"
 
     def test_registered_plugin_property(self):
         """Ensure registered_plugins is valid in its nature."""
@@ -59,3 +56,9 @@ class TestPluginRegistry:
         assert isinstance(self.plugin_registry.interface_mapping["yaml_based"], list)
         assert isinstance(self.plugin_registry.interface_mapping["module_based"], list)
         assert isinstance(self.plugin_registry.interface_mapping["text_based"], list)
+
+    @pytest.mark.parametrize("fpath", plugin_registry.registry_files, ids=generate_id)
+    def test_all_registries(self, fpath):
+        """Test all available yaml registries."""
+        current_registry = yaml.safe_load(open(fpath, "r"))
+        self.plugin_registry.validate_registry(current_registry, fpath)
