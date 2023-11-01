@@ -256,27 +256,18 @@ class PluginRegistry:
 
     def validate_registry_interfaces(self, current_registry):
         """Test Plugin Registry interfaces validity."""
+        from geoips import interfaces
+        import inspect
+
         yaml_interfaces = [
-            "feature_annotators",
-            "gridline_annotators",
-            "product_defaults",
-            "products",
-            "sectors",
+            str(info[0]) for info in inspect.getmembers(
+                interfaces.yaml_based,
+                inspect.ismodule)
         ]
         module_interfaces = [
-            "algorithms",
-            "colormappers",
-            "coverage_checkers",
-            "filename_formatters",
-            "interpolators",
-            "output_checkers",
-            "output_formatters",
-            "procflows",
-            "readers",
-            "sector_adjusters",
-            "sector_metadata_generators",
-            "sector_spec_generators",
-            "title_formatters",
+            str(info[0]) for info in inspect.getmembers(
+                interfaces.module_based,
+                inspect.ismodule)
         ]
         bad_interfaces = []
         for plugin_type in ["module_based", "yaml_based"]:
@@ -294,7 +285,7 @@ class PluginRegistry:
                     error_str += f"\n{interface_list}\n"
                     bad_interfaces.append(error_str)
         if bad_interfaces:
-            error_str = "\nThe following interfaces were not valid:\n"
+            error_str = "The following interfaces were not valid:\n"
             for error in bad_interfaces:
                 error_str += error
             raise PluginRegistryError(error_str)
