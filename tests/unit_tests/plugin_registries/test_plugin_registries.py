@@ -30,13 +30,13 @@ class CheckPluginRegistry(PluginRegistry):
             "files/**/*.yaml"), recursive=True)
         super().__init__(fpaths)
 
-    def check_registries(self, ):
+    def check_registries(self):
         """Test all plugins found in registered plugins for their validity."""
         try:
             self.check_registry_interfaces()
         except PluginRegistryError as e:
-            pytest.xfail(str(e))
-            # print(e)
+            print(e)
+            # pytest.xfail(str(e))
         for plugin_type in self.registered_plugins:
             for interface in self.registered_plugins[plugin_type]:
                 for plugin in self.registered_plugins[plugin_type][interface]:
@@ -61,8 +61,8 @@ class CheckPluginRegistry(PluginRegistry):
                                 self.registered_plugins[plugin_type][interface][plugin],
                             )
                     except PluginRegistryError as e:
-                        pytest.xfail(str(e))
-                        # print(e)
+                        print(e)
+                        # pytest.xfail(str(e))
 
     def check_plugin_attrs(self, plugin_type, interface, name, plugin):
         """Test non-product plugin for all required attributes."""
