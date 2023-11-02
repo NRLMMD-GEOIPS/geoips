@@ -260,7 +260,7 @@ def create_plugin_registries(plugin_packages, save_type):
         # schema_yaml_path = resources.files(package) / "schema"
         # schema_yamls = schema_yaml_path.rglob("*.yaml")
         plugin_paths = {
-            "yamls": yaml_files,
+            "yamls": sorted(yaml_files),
             "text": text_files,
             # "schemas": schema_yamls,
             "pyfiles": python_files,
@@ -379,10 +379,19 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
                     # since we are dealing with sub-plugins of a product plugin, include
                     # a couple other pieces of information, such as product_defaults
                     # and source_names.
+                    if "docstring" not in yaml_subplg:
+                        # if the yaml_subplg doesn't include a docstring, grab its
+                        # product_defaults docstring
+                        docstring = plugins["product_defaults"][
+                            yaml_subplg["product_defaults"]
+                        ]["docstring"]
+                    else:
+                        # otherwise use its defined docstring
+                        docstring = yaml_subplg["docstring"]
                     plugins[interface_name][str(subplg_name[0])][
                         str(subplg_name[1])
                     ] = {
-                        "docstring": yaml_subplg["docstring"],
+                        "docstring": docstring,
                         "family": family,
                         "interface": interface_module.name,
                         "package": plugin["package"],
