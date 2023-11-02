@@ -23,6 +23,74 @@ family = "standard"
 name = "text"
 
 
+def clear_text(match_path, close_path, bad_path):
+    """Clear output text files so they can be written again."""
+    open(match_path, "w").close()
+    open(close_path, "w").close()
+    open(bad_path, "w").close()
+
+
+def copy_files(text_path, savedir, file_ext):
+    """Copy text file internal in GeoIPS to output directory."""
+    from shutil import copy
+    from os.path import join
+
+    copy(text_path, join(savedir, "compare." + file_ext))
+    copy(text_path, join(savedir, "matched." + file_ext))
+    copy(text_path, join(savedir, "close_mismatch." + file_ext))
+    copy(text_path, join(savedir, "bad_mismatch." + file_ext))
+
+
+def get_test_files(test_data_dir):
+    """Return a series of varied text files."""
+    import numpy as np
+    from shutil import copy
+    from os import makedirs
+    from os.path import exists, join
+    from importlib.resources import files
+
+    savedir = join(test_data_dir, "scratch", "unit_tests", "test_text")
+    if not exists(savedir):
+        makedirs(savedir)
+    text_path = str(files("geoips") / "plugins/txt/ascii_palettes/tpw_cimss.txt")
+    copy_files(text_path, savedir, "txt")
+    comp_path = join(savedir, "compare.txt")
+    match_path = join(savedir, "matched.txt")
+    close_path = join(savedir, "close_mismatch.txt")
+    bad_path = join(savedir, "bad_mismatch.txt")
+    clear_text(match_path, close_path, bad_path)
+    copy(comp_path, match_path)
+    with open(comp_path, mode="r") as comp_txt:
+        close_mismatch = open(close_path, "w")
+        bad_mismatch = open(bad_path, "w")
+        for line in comp_txt.readlines():
+            for version in range(2):
+                rand = np.random.rand()
+                if version == 0:  # Close but mismatched
+                    if rand > 0.05:
+                        close_mismatch.write(line)
+                else:  # Mismatched -- not close
+                    if rand > 0.25:
+                        bad_mismatch.write(line)
+        close_mismatch.close()
+        bad_mismatch.close()
+    return comp_path, [match_path, close_path, bad_path]
+
+
+def perform_test_comparisons(plugin, compare_file, test_files):
+    """Test the comparison of two text files with the Text Output Checker."""
+    for path_idx in range(len(test_files)):
+        retval = plugin.module.outputs_match(
+            plugin,
+            test_files[path_idx],
+            compare_file,
+        )
+        if path_idx == 0:
+            assert retval is True
+        else:
+            assert retval is False
+
+
 def correct_file_format(fname):
     """Check if fname is a text file.
 
@@ -100,23 +168,14 @@ def call(plugin, compare_path, output_products):
     output_products : list of str
         List of strings of current output products,
         to compare with products in compare_path
-    test_product_func : function, default=None
-        Alternative function to be used for testing output product
-
-          * Call signature must be:
-
-              * output_product, compare_product, goodcomps, badcomps, compare_strings
-
-          * Return must be:
-
-              * goodcomps, badcomps, compare_strings
-
-        * If None, use geoips.compare_outputs.test_product)
 
     Returns
     -------
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = plugin.compare_outputs(compare_path, output_products)
+    retval = plugin.compare_outputs(
+        compare_path,
+        output_products,
+    )
     return retval

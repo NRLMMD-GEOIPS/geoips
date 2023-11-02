@@ -22,6 +22,59 @@ family = "standard"
 name = "image"
 
 
+def get_test_files(test_data_dir):
+    """Return a series of compare vs output image paths for testing purposes."""
+    from PIL import Image
+    import numpy as np
+    from os import makedirs
+    from os.path import exists, join
+
+    savedir = join(test_data_dir, "scratch", "unit_tests", "test_images/")
+    if not exists(savedir):
+        makedirs(savedir)
+
+    thresholds = ["lenient", "medium", "strict"]
+    # thresholds is used for naming files.
+    # Relates to thresholds [0.1, 0.05, 0.0]
+    compare_files = []
+    test_files = []
+    for threshold in thresholds:
+        for i in range(3):
+            comp_arr = np.random.rand(100, 100, 3)
+            test_arr = np.copy(comp_arr)
+            if i == 1:
+                rand = np.random.randint(0, 100)
+                test_arr[rand][:] = np.random.rand(3)
+            elif i == 2:
+                test_arr = np.random.rand(100, 100, 3)
+            comp_img = Image.fromarray((comp_arr * 255).astype(np.uint8))
+            test_img = Image.fromarray((test_arr * 255).astype(np.uint8))
+            comp_file = join(savedir, f"comp_img_{threshold}{str(i)}.png")
+            test_file = join(savedir, f"test_img_{threshold}{str(i)}.png")
+            comp_img.save(comp_file)
+            test_img.save(test_file)
+            compare_files.append(comp_file)
+            test_files.append(test_file)
+    return compare_files, test_files
+
+
+def perform_test_comparisons(plugin, compare_files, test_files):
+    """Test the comparison of two images with the Image Output Checker."""
+    threshold_floats = [0.1, 0.05, 0.0]
+    for threshold in threshold_floats:
+        for path_idx in range(len(compare_files)):
+            retval = plugin.module.outputs_match(
+                plugin,
+                test_files[path_idx],
+                compare_files[path_idx],
+                threshold,
+            )
+            if path_idx % 3 == 0:
+                assert retval is True
+            else:
+                assert retval is False
+
+
 def correct_file_format(fname):
     """Determine if fname is an image file.
 
@@ -40,7 +93,7 @@ def correct_file_format(fname):
     return False
 
 
-def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
+def outputs_match(plugin, output_product, compare_product, threshold=0.05):
     """Use PIL and numpy to compare two images.
 
     Parameters
@@ -51,9 +104,9 @@ def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
         Current output product
     compare_product : str
         Path to comparison product
-    threshold : str, optional
-        "theshold" argument to allow small diffs to pass - larger "threshold" factor
-        to make comparison less strict, by default 5%.
+    threshold: float, default=0.05
+        Threshold for the image comparison. Argument to pixelmatch.
+        Between 0 and 1, with 0 the most strict comparison, and 1 the most lenient.
 
     Returns
     -------
@@ -92,13 +145,8 @@ def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
         )
         LOG.interactive("    ***************************************")
         return False
-    threshold_dict = {
-        "lenient": 0.1,
-        "medium": 0.05,
-        "strict": 0.00,
-    }
-    threshold = threshold_dict[threshold]
     # Determine the number of pixels that are mismatched
+    LOG.info("Using threshold %s", threshold)
     thresholded_retval = pixelmatch(
         out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=threshold
     )
@@ -138,6 +186,8 @@ def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
     # If the images match exactly, just output to GOOD comparison log to info level
     # (only bad comparisons to interactive level)
     if fullimg_retval != 0:
+        if thresholded_retval == 0:
+            bad_inds = np.where(diff_arr != 0)
         LOG.interactive("    ******************************************")
         LOG.interactive("    *** GOOD Images match within tolerance ***")
         LOG.interactive(
@@ -153,7 +203,7 @@ def outputs_match(plugin, output_product, compare_product, threshold="lenient"):
     return True
 
 
-def call(plugin, compare_path, output_products):
+def call(plugin, compare_path, output_products, threshold=0.05):
     """Compare the "correct" imagery found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
@@ -168,11 +218,18 @@ def call(plugin, compare_path, output_products):
     output_products : list of str
         List of strings of current output products,
         to compare with products in compare_path
+    threshold: float, default=0.05
+        Threshold for the image comparison. Argument to pixelmatch.
+        Between 0 and 1, with 0 the most strict comparison, and 1 the most lenient.
 
     Returns
     -------
     int
         Binary code: 0 if all comparisons were completed successfully.
     """
-    retval = plugin.compare_outputs(compare_path, output_products)
+    retval = plugin.compare_outputs(
+        compare_path,
+        output_products,
+        threshold=threshold,
+    )
     return retval

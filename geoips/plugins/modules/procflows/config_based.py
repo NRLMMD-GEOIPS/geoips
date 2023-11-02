@@ -860,6 +860,10 @@ def call(fnames, command_line_args=None):
         presector_data = not command_line_args["no_presectoring"]
     else:
         presector_data = True
+    if command_line_args.get("output_checker_kwargs") is not None:
+        output_checker_kwargs = command_line_args["output_checker_kwargs"]
+    else:
+        output_checker_kwargs = {}
 
     # Allow pulling command line arguments from either command line or YAML config.
     # Command line arguments override YAML config
@@ -1694,10 +1698,14 @@ def call(fnames, command_line_args=None):
 
             for output_product in final_products[cpath]["files"]:
                 output_checker = output_checkers.get_plugin(output_product)
+                kwargs = {}
+                if output_checker.name in output_checker_kwargs:
+                    kwargs = output_checker_kwargs[output_checker.name]
                 curr_retval = output_checker(
                     output_checker,
                     cpath,
                     [output_product],
+                    **kwargs,
                 )
                 retval += curr_retval
                 if curr_retval != 0:

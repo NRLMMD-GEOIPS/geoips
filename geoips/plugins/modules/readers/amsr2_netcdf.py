@@ -14,6 +14,7 @@
 
 import logging
 from os.path import basename
+from glob import glob
 
 LOG = logging.getLogger(__name__)
 
@@ -390,3 +391,17 @@ def call(
         )
     final_xarrays["METADATA"] = list(final_xarrays.values())[0][[]]
     return final_xarrays
+
+
+def get_test_files(test_data_dir):
+    """Generate test files for unit testing reader."""
+    filepath = test_data_dir + "/test_data_amsr2/data/AMSR2-MBT*.nc"
+    filelist = glob(filepath)
+    tmp_xr = call(filelist)
+
+    return tmp_xr
+
+
+def get_test_parameters():
+    """Generate a data key for unit testing."""
+    return {"data_key": "Brightness_Temperature_10_GHzH", "data_var": "tb10h"}

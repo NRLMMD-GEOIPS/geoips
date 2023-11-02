@@ -1,0 +1,9 @@
+[tool.black]
+check = 'True'
+extend-exclude = '''
+(
+    /lib/
+    _docs/
+    geoips_dev_utils/
+)
+'''

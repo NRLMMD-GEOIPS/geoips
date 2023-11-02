@@ -15,6 +15,7 @@
 import logging
 from os.path import basename
 from copy import deepcopy
+from glob import glob
 
 LOG = logging.getLogger(__name__)
 
@@ -241,3 +242,18 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     final_wind_xarrays["METADATA"] = wind_xarray[[]]
 
     return final_wind_xarrays
+
+
+def get_test_files(test_data_dir):
+    """Generate test xarray from test data for unit testing."""
+    filepath = test_data_dir + "/test_data_scat/data/metopc*knmi*/*coa*.nc"
+    filelist = glob(filepath)
+    tmp_xr = call(filelist)
+    if len(filelist) == 0:
+        raise NameError("No files found")
+    return tmp_xr
+
+
+def get_test_parameters():
+    """Generate test data key for unit testing."""
+    return {"data_key": "WINDSPEED", "data_var": "wind_speed_kts"}
