@@ -41,11 +41,11 @@ def remove_registries(plugin_packages):
     )
     for pkg in plugin_packages:
         yaml_plug_path = str(resources.files(pkg.value) / "registered_plugins.yaml")
-        bin_plug_path = str(resources.files(pkg.value) / "registered_plugins")
+        json_plug_path = str(resources.files(pkg.value) / "registered_plugins.json")
         if exists(yaml_plug_path):
             remove(yaml_plug_path)
-        if exists(bin_plug_path):
-            remove(bin_plug_path)
+        if exists(json_plug_path):
+            remove(json_plug_path)
 
 
 def registry_sanity_check(plugin_packages, save_type):
