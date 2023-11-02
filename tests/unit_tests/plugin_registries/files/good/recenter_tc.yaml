@@ -1,0 +1,42 @@
+module_based:
+  filename_formatters:
+    archer_fix:
+      docstring: Specifications for output filename formats for tc product types.
+      family: xarray_metadata_to_filename
+      interface: filename_formatters
+      package: recenter_tc
+      plugin_type: module_based
+      relpath: plugins/modules/filename_formatters/archer_fix.py
+      signature: (xarray_obj, extension=None, basedir='/home/evrose54/geoips/geoips_packages/outdirs/preprocessed/archer/fix',
+        variable_name=None, archer_channel_type=None, use_storm_subdirs=False)
+    archer_image:
+      docstring: Specifications for output filename formats for tc product types.
+      family: xarray_metadata_to_filename
+      interface: filename_formatters
+      package: recenter_tc
+      plugin_type: module_based
+      relpath: plugins/modules/filename_formatters/archer_image.py
+      signature: (xarray_obj, extension='.png', basedir='/home/evrose54/geoips/geoips_packages/outdirs/preprocessed/archer/image',
+        variable_name=None, archer_channel_type=None)
+  output_checkers:
+    fdeck:
+      docstring: Test script for representative product comparisons.
+      family: standard
+      interface: output_checkers
+      package: recenter_tc
+      plugin_type: module_based
+      relpath: plugins/modules/output_checkers/fdeck.py
+      signature: (plugin, compare_path, output_products)
+  sector_adjusters:
+    recenter_tc:
+      docstring: Functionality for recentering TC sectors, based on akima and archer
+        algorithms.
+      family: list_xarray_list_variables_to_area_def_out_fnames
+      interface: sector_adjusters
+      package: recenter_tc
+      plugin_type: module_based
+      relpath: plugins/modules/sector_adjusters/recenter_tc.py
+      signature: (xobjs, area_def, variables, recenter_variables=None, akima_only=False,
+        include_archer_info=False)
+text_based: {}
+yaml_based: {}

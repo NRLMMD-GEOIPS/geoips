@@ -1,0 +1,257 @@
+module_based:
+  algorithms:
+    stitched:
+      docstring: Data manipulation steps for "stitched" algorithm.
+      family: xarray_dict_to_xarray
+      interface: algorithms
+      package: data_fusion
+      plugin_type: module_based
+      relpath: plugins/modules/algorithms/stitched.py
+      signature: (xarray_dict, parallax_correction=True, satzen_correction=True)
+  output_formatters:
+    layered_imagery:
+      docstring: Layered imagery output formatter module.
+      family: xrdict_area_product_outfnames_to_outlist
+      interface: output_formatters
+      package: data_fusion
+      plugin_type: module_based
+      relpath: plugins/modules/output_formatters/layered_imagery.py
+      signature: (xarray_dict, area_def, product_name, output_fnames, boundaries_info=None,
+        gridlines_info=None, title_format=None, title_copyright=None)
+  procflows:
+    data_fusion:
+      docstring: Driver for standard single channel products.
+      family: standard
+      interface: procflows
+      package: data_fusion
+      plugin_type: module_based
+      relpath: plugins/modules/procflows/data_fusion.py
+      signature: (fnames, command_line_args=None)
+text_based: {}
+yaml_based:
+  product_defaults:
+    Layered-Winds-Horizontal-Adjust:
+      docstring: 'Layered imagery example with horizontal colorbar adjustments.
+
+
+        This product allows layering windbarbs, windspeed, and Infrared
+
+        products in a single output image.  Each product is fully specified
+
+        command line (ie, sensor, filenames, etc), and colorbar positioning
+
+        is specified within this YAML.
+
+        '
+      family: xarray_dict_to_output_format
+      interface: product_defaults
+      package: data_fusion
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/Layered-Winds-Horizontal-Adjust.yaml
+    Layered-Winds-Horizontal-and-Vertical:
+      docstring: 'Layered imagery with horizontal and vertical colorbar adjustments.
+
+
+        This product allows layering windbarbs, windspeed, and Infrared
+
+        products in a single output image.  Each product is fully specified
+
+        command line (ie, sensor, filenames, etc), and colorbar positioning
+
+        is specified within this YAML.
+
+        '
+      family: xarray_dict_to_output_format
+      interface: product_defaults
+      package: data_fusion
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/Layered-Winds-Horizontal-and-Vertical.yaml
+    Layered-Winds-Vertical-Adjust:
+      docstring: 'Layered imagery example with vertical colorbar adjustments.
+
+
+        This product allows layering windbarbs, windspeed, and Infrared
+
+        products in a single output image.  Each product is fully specified
+
+        command line (ie, sensor, filenames, etc), and colorbar positioning
+
+        is specified within this YAML.
+
+        '
+      family: xarray_dict_to_output_format
+      interface: product_defaults
+      package: data_fusion
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/Layered-Winds-Vertical-Adjust.yaml
+    Layered-Winds-Vertical-Default:
+      docstring: 'Layered imagery example with default vertical colorbar placement.
+
+
+        This product allows layering windbarbs, windspeed, and Infrared
+
+        products in a single output image.  Each product is fully specified
+
+        command line (ie, sensor, filenames, etc), and colorbar positioning
+
+        is specified within this YAML.
+
+        '
+      family: xarray_dict_to_output_format
+      interface: product_defaults
+      package: data_fusion
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/Layered-Winds-Vertical-Default.yaml
+  products:
+    abi:
+      Blended-Infrared-Gray:
+        docstring: 'Blended-Infrared-Gray ABI product for use in stitched imagery.
+
+
+          This uses the standard Infrared-Gray product_defaults, with the addition
+
+          of the "satellite_zenith_angle" variable for blending between satellites
+          in a stitched
+
+          image.
+
+          '
+        family: null
+        interface: products
+        package: data_fusion
+        plugin_type: yaml_based
+        product_defaults: Infrared-Gray
+        relpath: plugins/yaml/products/abi.yaml
+        source_names:
+        - abi
+    ahi:
+      Blended-Infrared-Gray:
+        docstring: 'Blended-Infrared-Gray AHI product for use in stitched imagery.
+
+
+          This uses the standard Infrared-Gray product_defaults, with the addition
+
+          of the "satellite_zenith_angle" variable for blending between satellites
+          in a stitched
+
+          image.
+
+          '
+        family: null
+        interface: products
+        package: data_fusion
+        plugin_type: yaml_based
+        product_defaults: Infrared-Gray
+        relpath: plugins/yaml/products/ahi.yaml
+        source_names:
+        - ahi
+    layered:
+      Layered-Winds-Default:
+        docstring: 'Layered winds product using default colorbar placement.
+
+          '
+        family: xarray_dict_to_output_format
+        interface: products
+        package: data_fusion
+        plugin_type: yaml_based
+        product_defaults: null
+        relpath: plugins/yaml/products/layered.yaml
+        source_names:
+        - layered
+      Layered-Winds-Horizontal-Adjust:
+        docstring: 'Layered winds product using horizontal adjust colorbar placement.
+
+          '
+        family: null
+        interface: products
+        package: data_fusion
+        plugin_type: yaml_based
+        product_defaults: Layered-Winds-Horizontal-Adjust
+        relpath: plugins/yaml/products/layered.yaml
+        source_names:
+        - layered
+      Layered-Winds-Horizontal-and-Vertical:
+        docstring: 'Layered winds product using Horizontal and Vertical colorbar placement.
+
+          '
+        family: null
+        interface: products
+        package: data_fusion
+        plugin_type: yaml_based
+        product_defaults: Layered-Winds-Horizontal-and-Vertical
+        relpath: plugins/yaml/products/layered.yaml
+        source_names:
+        - layered
+      Layered-Winds-Two-Colorbars:
+        docstring: 'Layered winds product using default 2 colorbar placement.
+
+
+          This example layered image includes default colorbar placement
+
+          for both windspeed and ir products, and no colorbar for windbarbs.
+
+          '
+        family: xarray_dict_to_output_format
+        interface: products
+        package: data_fusion
+        plugin_type: yaml_based
+        product_defaults: null
+        relpath: plugins/yaml/products/layered.yaml
+        source_names:
+        - layered
+      Layered-Winds-Vertical-Adjust:
+        docstring: 'Layered winds product using Vertical Adjust colorbar placement.
+
+          '
+        family: null
+        interface: products
+        package: data_fusion
+        plugin_type: yaml_based
+        product_defaults: Layered-Winds-Vertical-Adjust
+        relpath: plugins/yaml/products/layered.yaml
+        source_names:
+        - layered
+      Layered-Winds-Vertical-Default:
+        docstring: 'Layered winds product using Vertical Default colorbar placement.
+
+          '
+        family: null
+        interface: products
+        package: data_fusion
+        plugin_type: yaml_based
+        product_defaults: Layered-Winds-Vertical-Default
+        relpath: plugins/yaml/products/layered.yaml
+        source_names:
+        - layered
+    seviri:
+      Blended-Infrared-Gray:
+        docstring: 'Blended-Infrared-Gray SEVIRI product for use in stitched imagery.
+
+
+          This uses the standard Infrared-Gray product_defaults, with the addition
+
+          of the "satellite_zenith_angle" variable for blending between satellites
+          in a stitched
+
+          image, as well as latitude and longitude for location-based corrections.
+
+          '
+        family: null
+        interface: products
+        package: data_fusion
+        plugin_type: yaml_based
+        product_defaults: Infrared-Gray
+        relpath: plugins/yaml/products/seviri.yaml
+        source_names:
+        - seviri
+    stitched:
+      Blended-Infrared-Gray:
+        docstring: Blended infrared gray product for multiple GEO sensors
+        family: algorithm_colormapper
+        interface: products
+        package: data_fusion
+        plugin_type: yaml_based
+        product_defaults: null
+        relpath: plugins/yaml/products/stitched.yaml
+        source_names:
+        - stitched

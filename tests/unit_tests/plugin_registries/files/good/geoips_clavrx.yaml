@@ -1,0 +1,274 @@
+module_based:
+  colormappers:
+    cmap_IR:
+      docstring: Colormap for IR Brightness Temperatures.
+      family: matplotlib
+      interface: colormappers
+      package: geoips_clavrx
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/cmap_IR.py
+      signature: (data_range=[180, 340])
+    cmap_cldFraction:
+      docstring: Satellite cloud fraction product colormap.
+      family: matplotlib
+      interface: colormappers
+      package: geoips_clavrx
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/cmap_cldFraction.py
+      signature: (data_range=[0.0, 1.0])
+    cmap_cldHeight:
+      docstring: Module containing colormap for cloud Height product.
+      family: matplotlib
+      interface: colormappers
+      package: geoips_clavrx
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/cmap_cldHeight.py
+      signature: (data_range=[0, 20])
+    cmap_cldMask:
+      docstring: Module containing colormap for satellite cloud mask products.
+      family: matplotlib
+      interface: colormappers
+      package: geoips_clavrx
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/cmap_cldMask.py
+      signature: (data_range=[0, 3])
+    cmap_cldOpd:
+      docstring: Module containing colormap for satellite cloud optical depth products.
+      family: matplotlib
+      interface: colormappers
+      package: geoips_clavrx
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/cmap_cldOpd.py
+      signature: (data_range=[-0.2, 8])
+    cmap_cldPhase:
+      docstring: Module containing colormap for satellite cloud phase products.
+      family: matplotlib
+      interface: colormappers
+      package: geoips_clavrx
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/cmap_cldPhase.py
+      signature: (data_range=[0, 5])
+    cmap_cldReff:
+      docstring: Module containing colormap for effective radius of cloud particles
+        product.
+      family: matplotlib
+      interface: colormappers
+      package: geoips_clavrx
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/cmap_cldReff.py
+      signature: (data_range=[0, 160])
+    cmap_cldTemp:
+      docstring: Module containing colormap for cloud top temperature product.
+      family: matplotlib
+      interface: colormappers
+      package: geoips_clavrx
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/cmap_cldTemp.py
+      signature: (data_range=[160, 320])
+    cmap_cldType:
+      docstring: Module containing colormap for satellite cloud type products.
+      family: matplotlib
+      interface: colormappers
+      package: geoips_clavrx
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/cmap_cldType.py
+      signature: (data_range=[0, 13])
+  readers:
+    clavrx_hdf4:
+      docstring: '
+
+        CLAVR-x hdf4 cloud property data reader.
+
+
+        S.Yang:  1/19/2023
+
+        '
+      family: standard
+      interface: readers
+      package: geoips_clavrx
+      plugin_type: module_based
+      relpath: plugins/modules/readers/clavrx_hdf4.py
+      signature: (fnames, metadata_only=False, chans=None, area_def=None, self_register=False)
+    clavrx_netcdf4:
+      docstring: CLAVR-x NetCDF4 Reader.
+      family: standard
+      interface: readers
+      package: geoips_clavrx
+      plugin_type: module_based
+      relpath: plugins/modules/readers/clavrx_netcdf4.py
+      signature: (fnames, metadata_only=False, chans=None, area_def=None, self_register=False)
+text_based: {}
+yaml_based:
+  product_defaults:
+    CLAVR-x-Base:
+      docstring: 'Base product defaults for all CLAVR-x products.
+
+        Each individual product will specify individual scaling
+
+        factors, data ranges, colormappers, etc within the product
+
+        list.
+
+        '
+      family: interpolator_algorithm_colormapper
+      interface: product_defaults
+      package: geoips_clavrx
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/CLAVR-x-Base.yaml
+    Cloud-Height:
+      docstring: 'The Cloud-Height product_defaults geoips_clavrx configuration.
+
+        '
+      family: interpolator_algorithm_colormapper
+      interface: product_defaults
+      package: geoips_clavrx
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/Cloud-Height.yaml
+    Temp:
+      docstring: 'The geoips_clavrx Temp product_defaults.
+
+        '
+      family: interpolator_algorithm_colormapper
+      interface: product_defaults
+      package: geoips_clavrx
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/Temp.yaml
+  products:
+    clavrx:
+      Cloud-Base-Height:
+        docstring: 'GeoIPS CLAVR-x Cloud Base Height product
+
+          '
+        family: null
+        interface: products
+        package: geoips_clavrx
+        plugin_type: yaml_based
+        product_defaults: Cloud-Height
+        relpath: plugins/yaml/products/clavrx.yaml
+        source_names:
+        - clavrx
+      Cloud-Fraction:
+        docstring: 'GeoIPS CLAVR-x Cloud Fraction product.
+
+          '
+        family: null
+        interface: products
+        package: geoips_clavrx
+        plugin_type: yaml_based
+        product_defaults: CLAVR-x-Base
+        relpath: plugins/yaml/products/clavrx.yaml
+        source_names:
+        - clavrx
+      Cloud-Mask:
+        docstring: "GeoIPS CLAVR-x Cloud Mask product.\n  0: Clear\n  1: Probably\
+          \ clear\n  2: Probably cloudy\n  3: Cloudy\n"
+        family: null
+        interface: products
+        package: geoips_clavrx
+        plugin_type: yaml_based
+        product_defaults: CLAVR-x-Base
+        relpath: plugins/yaml/products/clavrx.yaml
+        source_names:
+        - clavrx
+      Cloud-Optical-Depth:
+        docstring: 'GeoIPS CLAVR-x Cloud Optical Depth product
+
+          Cloud optical depth at 0.65um.
+
+          '
+        family: null
+        interface: products
+        package: geoips_clavrx
+        plugin_type: yaml_based
+        product_defaults: CLAVR-x-Base
+        relpath: plugins/yaml/products/clavrx.yaml
+        source_names:
+        - clavrx
+      Cloud-Phase:
+        docstring: "GeoIPS CLAVR-x Cloud Phase product\n  0: Clear\n  1: Water\n \
+          \ 2: Supercooled\n  3: Mixed\n  4: Ice\n  5: Unknown\n"
+        family: null
+        interface: products
+        package: geoips_clavrx
+        plugin_type: yaml_based
+        product_defaults: CLAVR-x-Base
+        relpath: plugins/yaml/products/clavrx.yaml
+        source_names:
+        - clavrx
+      Cloud-Temp-ACHA:
+        docstring: 'GeoIPS CLAVR-x ACHA Cloud Temperature product.
+
+          '
+        family: null
+        interface: products
+        package: geoips_clavrx
+        plugin_type: yaml_based
+        product_defaults: Temp
+        relpath: plugins/yaml/products/clavrx.yaml
+        source_names:
+        - clavrx
+      Cloud-Top-Height:
+        docstring: 'GeoIPS CLAVR-x Cloud Top Height product
+
+          '
+        family: null
+        interface: products
+        package: geoips_clavrx
+        plugin_type: yaml_based
+        product_defaults: Cloud-Height
+        relpath: plugins/yaml/products/clavrx.yaml
+        source_names:
+        - clavrx
+      Cloud-Type:
+        docstring: "GeoIPS CLAVR-x Cloud Type product.\n  0: Clear\n  1: Probably\
+          \ clear\n  2: Fog\n  3: Water\n  4: Supercooled water\n  5: Mixed\n  6:\
+          \ Opaque ice\n  7: Cirrus\n  8: Overlapping\n  9: Overshooting\n  10: Unknown\n\
+          \  11: Dust\n  12: Smoke\n  13: Fire\n"
+        family: null
+        interface: products
+        package: geoips_clavrx
+        plugin_type: yaml_based
+        product_defaults: CLAVR-x-Base
+        relpath: plugins/yaml/products/clavrx.yaml
+        source_names:
+        - clavrx
+      Effective-Radius:
+        docstring: 'GeoIPS CLAVR-x cloud particles effective radius product
+
+          NOTE: Values are only available where cloud exists -
+
+          clear pixels are masked out.
+
+          '
+        family: null
+        interface: products
+        package: geoips_clavrx
+        plugin_type: yaml_based
+        product_defaults: CLAVR-x-Base
+        relpath: plugins/yaml/products/clavrx.yaml
+        source_names:
+        - clavrx
+      Temp-11p0:
+        docstring: 'GeoIPS CLAVR-x 11.0um Brightness Temperatures product
+
+          '
+        family: null
+        interface: products
+        package: geoips_clavrx
+        plugin_type: yaml_based
+        product_defaults: Temp
+        relpath: plugins/yaml/products/clavrx.yaml
+        source_names:
+        - clavrx
+      Temp-3p75:
+        docstring: 'GeoIPS CLAVR-x 3p75um Brightness Temperatures product
+
+          '
+        family: null
+        interface: products
+        package: geoips_clavrx
+        plugin_type: yaml_based
+        product_defaults: Temp
+        relpath: plugins/yaml/products/clavrx.yaml
+        source_names:
+        - clavrx

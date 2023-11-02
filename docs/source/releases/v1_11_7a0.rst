@@ -29,6 +29,8 @@ Version 1.11.7a0 (2023-10-26)
 * Attached unit tests to output checker plugins
 * Do not fail if setup_logging is called twice
 * Add text plugins to package registries
+* Create PluginRegistry Class
+* Bug fix: include full path to remss_reader import
 
 Enhancements
 ============
@@ -108,6 +110,18 @@ threshold values ["lenient" (10%), "medium" (5%), "strict" (0%)].
 
 Bug Fixes
 =========
+
+Include full path to remss_reader import
+----------------------------------------
+
+pytest errored due to ambiguous relative import, so update to use full path
+to geoips.plugins.modules.readers.utils.remss_reader utility within the
+amsr2_remss_winds_netcdf and smap_remss_winds_netcdf readers.
+
+::
+
+  modified: geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
+  modified: geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
 
 Do not fail if setup_logging is called twice
 --------------------------------------------
@@ -287,6 +301,44 @@ require changes to the output products as well.
     modified: tests/yaml_configs/abi_test.yaml
     modified: tests/yaml_configs/abi_test_low_memory.yaml
 
+Create PluginRegistry Class
+---------------------------
+
+*From issue GEOIPS#389: 2023-10-26, Make better use of the plugin registry*
+
+Now that we have a plugin registry, we should make better use of it. Currently,
+create_plugin_registries registered_plugins outputs are only made use by YAML
+plugins. This is inefficient, and should be converted into a class that is used by
+every type of interface and plugin. This would also resolve load_all_yaml_plugins
+(geoips/geoips_utils.py) being called for each interface, as we instantiate the plugin
+registry at the top most level of BaseInterface. This PR will improve the speed of
+GeoIPS, and allow for unit testing for the registry itself.
+
+This PR updated from the initial registered_plugins.yaml implementation to the faster
+registered_plugins.json.
+
+Unit tests were also added to test to the plugin registry within this PR.
+
+Also bug fix in interface name for tc_sector_file_parser.py
+
+Also updated path to pytest in full_test.sh (will eventually move to check_code.sh)
+
+::
+
+    modified: geoips/geoips/create_plugin_registries.py
+    modified: geoips/geoips/geoips_utils.py
+    modified: geoips/geoips/interfaces/base.py
+    modified: geoips/geoips/interfaces/yaml_based/products.py
+    modified: geoips/geoips/interfaces/module_based/filename_formatters.py
+    modified: geoips/geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
+    modified: geoips/geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
+    modified: plugins/modules/sector_metadata_generators/tc_sector_file_parser.py
+    modified: tests/integration_tests/full_test.sh
+    added: geoips/geoips/plugin_registry.py
+    added: geoips/tests/unit_tests/plugin_registries/test_plugin_registries.py
+    added: geoips/tests/unit_tests/plugin_registries/files/bad/*
+    added: geoips/tests/unit_tests/plugin_registries/files/good/*
+
 Testing Updates
 ===============
 
@@ -358,9 +410,12 @@ so it can be executed as "create_plugin_registries".
     added: geoips/geoips/create_plugin_registries.py
     modified: pyproject.toml
 
-create_plugin_registries.py generates a YAML file in the top level directory
-of each plugin package called "registered_plugins.yaml".
-This YAML file contains an entry for each plugin within the current package,
+create_plugin_registries.py generates a JSON file in the top level directory
+of each plugin package called "registered_plugins.json" (we originally implemented
+this as a YAML file, but due to efficiency reasons switched it for JSON, which
+loads much faster).
+
+The JSON registry file contains an entry for each plugin within the current package,
 including the plugin name, interface, and absolute path.
 geoips_utils and the base interfaces were updated to use this new plugin registry
 rather than the deprecated "plugin cache" (which was created a runtime, every
