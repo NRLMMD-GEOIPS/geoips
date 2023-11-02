@@ -1,10 +1,17 @@
-"""Generates all available plugins from all installed GeoIPS packages.
+"""PluginRegistry class to interface with the JSON plugin registries.
 
-After all plugins have been generated, they are written to a registered_plugins.yaml
-file which contains a dictionary of all the registered GeoIPS plugins.
+The "create_plugin_registries" utility generates a JSON file at the top
+level of every geoips plugin package with a complete list of all plugins with
+the associated metadata (everything except the actual contents of the plugin
+itself).
 
-To use this module, simply call 'python create_plugin_registry.py'.
-The main function will do the rest!
+Once all of the registered_plugins.json files have been generated via
+create_plugin_registries, this class uses those registries to quickly
+identify and open plugins as required.  Previously the individual
+interface classes would open all plugins every time one was required,
+so moving this process into a single PluginRegistry object allows us to
+more effectively cache plugins across all interfaces, and avoid reading
+in all plugins multiple times.
 """
 
 from importlib import resources
