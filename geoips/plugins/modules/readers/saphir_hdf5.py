@@ -87,8 +87,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     date_time_group = fileobj["ScienceData"]["Scan_FirstSampleAcqTime"][...]
 
     sstart_date_time_group = date_time_group[0, 0]
-    # NOTE in Python 3, since h5py returns a binary string, splitting on ' ' failed, but splitting on the default
-    # delimeter worked.  This appears to work on Python 2 as well.
+    # NOTE in Python 3, since h5py returns a binary string, splitting on ' ' failed,
+    # but splitting on the default delimeter worked.
+    # This appears to work on Python 2 as well.
     # sstart_date_group, sstart_time_group = sstart_date_time_group.split(' ')
     sstart_date_group, sstart_time_group = sstart_date_time_group.split()
     sstart_group_time = sstart_time_group[0:6]
@@ -98,8 +99,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     edtg = date_time_group.size - 1
     send_date_time_group = date_time_group[0, edtg]
-    # NOTE in Python 3, since h5py returns a binary string, splitting on ' ' failed, but splitting on the default
-    # delimeter worked.  This appears to work on Python 2 as well.
+    # NOTE in Python 3, since h5py returns a binary string, splitting on ' ' failed,
+    # but splitting on the default delimeter worked.
+    # This appears to work on Python 2 as well.
     send_date_group, send_time_group = send_date_time_group.split()
     send_group_time = send_time_group[0:6]
 

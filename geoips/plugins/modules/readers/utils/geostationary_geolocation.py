@@ -19,27 +19,30 @@ from pyresample import utils
 from pyresample.geometry import SwathDefinition
 from pyresample.kd_tree import get_neighbour_info  # , get_sample_from_neighbour_info
 
-try:
-    import numexpr as ne
-except ImportError:
-    print(
-        "Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. If you need it, install it."
-    )
-
 from geoips.errors import CoverageError
 from geoips.filenames.base_paths import PATHS as gpaths
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
+
+
+try:
+    import numexpr as ne
+except ImportError:
+    LOG.info(
+        "Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py."
+        "If you need it, install it."
+    )
+
 
 nprocs = 6
 
 try:
     ne.set_num_threads(nprocs)
 except Exception:
-    print(
-        "Failed numexpr.set_num_threads in {}. If numexpr is not installed and you need it, install it.".format(
-            __file__
-        )
+    LOG.info(
+        "Failed numexpr.set_num_threads in %s. If numexpr is not installed and you "
+        "need it, install it.",
+        __file__,
     )
 
 DONT_AUTOGEN_GEOLOCATION = False
@@ -84,8 +87,9 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
         except FileExistsError:
             pass
 
-    # In order to ensure consistency here, take a sha1 hash of the string representation of the dictionary values.
-    # hash is applied to the object itself, which appears to not be consistent from one Python 3 run to the next.
+    # In order to ensure consistency here, take a sha1 hash of the string representation
+    #  of the dictionary values. hash is applied to the object itself, which appears to
+    # not be consistent from one Python 3 run to the next.
     # The dictionary values themselves (sorted) SHOULD be consistent between runs.
     from hashlib import sha1
 
@@ -95,7 +99,8 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
             continue
         metadata_string += str(metadata[mkey])
     md_hash = sha1(metadata_string.encode("ascii"), usedforsecurity=False).hexdigest()
-    # md_hash = hash(frozenset((k, v) for k, v in metadata.items() if isinstance(v, Hashable)))
+    # md_hash = hash(frozenset((k, v) for k, v in metadata.items()
+    #                                                      if isinstance(v, Hashable)))
 
     fname = "{}_{}_{}x{}".format(
         pref,
@@ -110,8 +115,8 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
 
     if area_def:
         ad = area_def
-        log.info("Using area_definition information ")
-        log.info(
+        LOG.info("Using area_definition information ")
+        LOG.info(
             "    Using area_definition information for hash: "
             + str(ad.proj_dict.items())
         )
@@ -184,9 +189,9 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
         except AutoGenError:
             return False
 
-        # Get lats, lons, and satellite zenith and azimuth angles for the required points
-        # This may not be entirely appropriate, especially if we want to do something better than
-        # nearest neighbor interpolation.
+        # Get lats, lons, and satellite zenith and azimuth angles for the required
+        # points. This may not be entirely appropriate, especially if we want to do
+        # something better than nearest neighbor interpolation.
         shape = area_def.shape
         index_mask = lines != -999
 
@@ -195,13 +200,13 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
         sat_zen = np.full(shape, -999.1)
         sat_azm = np.full(shape, -999.1)
 
-        log.info("GETGEO Pulling lons from inds for %s", adname)
+        LOG.info("GETGEO Pulling lons from inds for %s", adname)
         lons[index_mask] = fldk_lons[lines[index_mask], samples[index_mask]]
-        log.info("GETGEO Pulling lats from inds for %s", adname)
+        LOG.info("GETGEO Pulling lats from inds for %s", adname)
         lats[index_mask] = fldk_lats[lines[index_mask], samples[index_mask]]
-        log.info("GETGEO Pulling sat_zen from inds for %s", adname)
+        LOG.info("GETGEO Pulling sat_zen from inds for %s", adname)
         sat_zen[index_mask] = fldk_sat_zen[lines[index_mask], samples[index_mask]]
-        log.info("GETGEO Pulling sat_azm from inds for %s", adname)
+        LOG.info("GETGEO Pulling sat_azm from inds for %s", adname)
         sat_azm[index_mask] = fldk_sat_azm[lines[index_mask], samples[index_mask]]
 
     else:
@@ -211,9 +216,9 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
         sat_azm = fldk_sat_azm
 
     # Get generator for solar zenith and azimuth angles
-    log.info("GETGEO Must calculate solar zen/azm for sector %s", adname)
+    LOG.info("GETGEO Must calculate solar zen/azm for sector %s", adname)
     sun_zen, sun_azm = calculate_solar_angles(gmd, lats, lons, dt)
-    log.info("GETGEO Done calculating solar zen/azm for sector %s", adname)
+    LOG.info("GETGEO Done calculating solar zen/azm for sector %s", adname)
     sun_zen = np.ma.masked_less_equal(sun_zen, -999.1)
     sun_azm = np.ma.masked_less_equal(sun_azm, -999.1)
 
@@ -251,10 +256,10 @@ def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
                 "GETGEO Requested NO AUTOGEN GEOLOCATION. "
                 + "Could not create sat_file for ad {}: {}"
             ).format(metadata["scene"], fname)
-            log.error(msg)
+            LOG.error(msg)
             raise AutoGenError(msg)
 
-        log.info("Calculating satellite zenith and azimuth angles.")
+        LOG.info("Calculating satellite zenith and azimuth angles.")
         pi = np.pi
         deg2rad = pi / 180.0  # NOQA
         rad2deg = 180.0 / pi  # NOQA
@@ -265,15 +270,14 @@ def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
         num_samples = metadata["num_samples"]  # NOQA
 
         # Convert lats / lons to radians from sub point
-        log.debug("Calculating beta")
-        beta = ne.evaluate(
-            "arccos(cos(deg2rad * (lats - sub_lat)) * cos(deg2rad * (lons - sub_lon)))"
-        )  # NOQA
-
+        LOG.debug("Calculating beta")
+        # fmt: off
+        beta = ne.evaluate("arccos(cos(deg2rad * (lats - sub_lat)) * cos(deg2rad * (lons - sub_lon)))")  # NOQA
+        # fmt: on
         bad = lats == BADVALS["Off_Of_Disk"]
 
         # Calculate satellite zenith angle
-        log.debug("Calculating satellite zenith angle")
+        LOG.debug("Calculating satellite zenith angle")
         zen = ne.evaluate("alt * sin(beta) / sqrt(1.808e9 - 5.3725e8 * cos(beta))")
         # Where statements take the place of np.clip(zen, - 1.0, 1.0)
         ne.evaluate(
@@ -283,7 +287,7 @@ def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
         zen[bad] = BADVALS["Off_Of_Disk"]
 
         # Sat azimuth
-        log.debug("Calculating satellite azimuth angle")
+        LOG.debug("Calculating satellite azimuth angle")
         azm = ne.evaluate("sin(deg2rad * (lons - sub_lon)) / sin(beta)")
         ne.evaluate(
             "rad2deg * arcsin(where(azm < -1.0, -1.0, where(azm > 1.0, 1.0, azm)))",
@@ -293,7 +297,7 @@ def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
         ne.evaluate("where(azm < 0.0, 360.0 + azm, azm)", out=azm)
         azm[bad] = BADVALS["Off_Of_Disk"]
 
-        log.info("Done calculating satellite zenith and azimuth angles")
+        LOG.info("Done calculating satellite zenith and azimuth angles")
 
         with open(fname, "w") as df:
             zen.tofile(df)
@@ -306,7 +310,7 @@ def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
     # Nothing will be read until explicitly requested
     # We are mapping this here so that the lats and lons are available when
     # calculating satlelite angles
-    log.info(
+    LOG.info(
         "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["scene"])
     )
 
@@ -332,20 +336,20 @@ def get_indexes(metadata, lats, lons, area_def):
     # The get_neighbor_info function returns three four arrays:
     #    valid_input_index: a 1D boolean array indicating where the source lats and lons
     #                       are valid values (not masked)
-    #    valid_output_index: a 1D boolean array indicating where the sector lats and lons
-    #                        are valid values (always true everywhere)
-    #    index_array: a 1D array of ints indicating which indicies in the flattened inputs
-    #                 should be used to fit the sector lats and lons
+    #    valid_output_index: a 1D boolean array indicating where the sector lats and
+    #                        lons are valid values (always true everywhere)
+    #    index_array: a 1D array of ints indicating which indicies in the flattened
+    #                 inputs should be used to fit the sector lats and lons
     #    distance_array: Distances from the source point for each found point.
     #
     # What we do here is feed our data lats/lons to get_neighbour_info.
-    # We then reshape valid_input_index to fit our lats/lons and find the 2D indicies where
-    #   the input lats and lons were good.
-    # We then subset the "good" indicies with index_array to retrieve the required indicies for
-    #   the sector.
+    # We then reshape valid_input_index to fit our lats/lons and find the 2D indicies
+    #   where the input lats and lons were good.
+    # We then subset the "good" indicies with index_array to retrieve the required
+    #   indicies for the sector.
     # This is complicated because get_neighbour_info does not report the indicies of the
-    #   input data, but instead reports the indicies of the flattened data where valid_input_index
-    #   is True
+    #   input data, but instead reports the indicies of the flattened data where
+    #   valid_input_index is True
 
     # Get filename for sector indicies
 
@@ -364,15 +368,15 @@ def get_indexes(metadata, lats, lons, area_def):
                 "GETGEO Requested NO AUTOGEN GEOLOCATION. "
                 + "Could not create inds_file {} for {}"
             ).format(fname, area_def.area_id)
-            log.error(msg)
+            LOG.error(msg)
             raise AutoGenError(msg)
 
         # Allocate the full disk area definition
-        log.info("    GETGEOINDS Masking longitudes")
+        LOG.info("    GETGEOINDS Masking longitudes")
         lons = np.ma.masked_less(lons, -999.1)
-        log.info("    GETGEOINDS Wrapping longitudes, pyresample expects -180 to 180")
+        LOG.info("    GETGEOINDS Wrapping longitudes, pyresample expects -180 to 180")
         lons = utils.wrap_longitudes(lons)
-        log.info(
+        LOG.info(
             "    GETGEOINDS Creating full disk swath definition for {}".format(
                 area_def.area_id
             )
@@ -382,11 +386,11 @@ def get_indexes(metadata, lats, lons, area_def):
         )
         ad = area_def
 
-        # Radius of influence will be 10 times the nominal spatial resolution of the data
-        #   in meters
+        # Radius of influence will be 10 times the nominal spatial resolution of the
+        #   data in meters
         # This uses the only piece of information available concerning resolution
         # in the metadata
-        log.info(
+        LOG.info(
             "    GETGEOINDS Calculating radius of influence {}".format(area_def.area_id)
         )
         if "res_km" not in metadata.keys():
@@ -414,8 +418,9 @@ def get_indexes(metadata, lats, lons, area_def):
         roi = (
             metadata["roi_factor"] * 1000.0 * metadata["res_km"]
         )  # roi_factor * resolution in meters
-        log.info(
-            "    GETGEOINDS Running get_neighbour_info %s roi %s res_km %s roi_factor %s",
+        LOG.info(
+            "    GETGEOINDS Running get_neighbour_info %s roi %s res_km %s "
+            "roi_factor %s",
             area_def.area_id,
             roi,
             metadata["res_km"],
@@ -429,7 +434,7 @@ def get_indexes(metadata, lats, lons, area_def):
         ) = get_neighbour_info(
             fldk_ad, ad, radius_of_influence=roi, neighbours=1, nprocs=nprocs
         )
-        log.info(
+        LOG.info(
             "    GETGEOINDS Getting good lines and samples {}".format(area_def.area_id)
         )
         good_lines, good_samples = np.where(valid_input_index.reshape(lats.shape))
@@ -437,12 +442,12 @@ def get_indexes(metadata, lats, lons, area_def):
             raise CoverageError(
                 "NO GOOD DATA AVAILABLE, can not read geostationary dataset"
             )
-        log.info(
+        LOG.info(
             "    GETGEOINDS Reshaping lines and samples {}".format(area_def.area_id)
         )
         # When get_neighbour_info does not find a good value for a specific location it
-        #   fills index_array with the maximum index + 1.  So, just throw away all of the
-        #   out of range indexes.
+        #   fills index_array with the maximum index + 1.  So, just throw away all of
+        #   the out of range indexes.
         index_mask = index_array == len(good_lines)
         # good_index_array = index_array[np.where(index_array != len(good_lines))]
         lines = np.empty(ad.size, dtype=np.int64)
@@ -452,7 +457,7 @@ def get_indexes(metadata, lats, lons, area_def):
         samples[index_mask] = -999.1
         samples[~index_mask] = good_samples[index_array[~index_mask]]
 
-        log.info(
+        LOG.info(
             "    GETGEOINDS Writing to {} : inds_file for {}".format(
                 fname, area_def.area_id
             )
@@ -468,18 +473,19 @@ def get_indexes(metadata, lats, lons, area_def):
 
     # Create a memmap to the lat/lon file
     # Nothing will be read until explicitly requested
-    # We are mapping this here so that the lats and lons are available when calculating satlelite angles
-    # log.info('GETGEO memmap to %s : inds file for %s, roi_factor %s, res_km %s',
+    # We are mapping this here so that the lats and lons are available when calculating
+    # satlelite angles.
+    # LOG.info('GETGEO memmap to %s : inds file for %s, roi_factor %s, res_km %s',
     #          fname, metadata['scene'], metadata['roi_factor'], metadata['res_km'])
-    # log.info('GETGEO memmap to %s : lat/lon file for %s, roi_factor %s, res_km %s',
+    # LOG.info('GETGEO memmap to %s : lat/lon file for %s, roi_factor %s, res_km %s',
     #          fname, metadata['scene'], metadata['roi_factor'], metadata['res_km'])
-    log.info(
+    LOG.info(
         "GETGEO memmap to %s : inds file for %s, roi_factor %s",
         fname,
         metadata["scene"],
         metadata["roi_factor"],
     )
-    log.info(
+    LOG.info(
         "GETGEO memmap to %s : lat/lon file for %s, roi_factor %s",
         fname,
         metadata["scene"],
@@ -488,14 +494,14 @@ def get_indexes(metadata, lats, lons, area_def):
     try:
         shape = area_def.shape
         offset = 8 * shape[0] * shape[1]
-        log.info(
+        LOG.info(
             "GETGEO memmap from %s : lines for %s, shape %s",
             fname,
             metadata["scene"],
             shape,
         )
         lines = np.memmap(fname, mode="r", dtype=np.int64, offset=0, shape=shape)
-        log.info(
+        LOG.info(
             "GETGEO memmap from %s : samples for %s, offset %s",
             fname,
             metadata["scene"],
@@ -503,8 +509,9 @@ def get_indexes(metadata, lats, lons, area_def):
         )
         samples = np.memmap(fname, mode="r", dtype=np.int64, offset=offset, shape=shape)
     except ValueError as resp:
-        log.warning(
-            "Mismatched geolocation file size (Empty?  No coverage?  Or old sector of different shape?"
+        LOG.warning(
+            "Mismatched geolocation file size (Empty?  No coverage?  Or old sector of "
+            "different shape?"
         )
         raise IndexError(resp)
     # Possible switch to xarray based geolocation files, but we lose memmapping.
@@ -522,7 +529,7 @@ def calculate_solar_angles(metadata, lats, lons, dt):
     # will result in some results being overwritten when no longer needed.
     debug = False
 
-    log.info("Calculating solar zenith and azimuth angles.")
+    LOG.info("Calculating solar zenith and azimuth angles.")
 
     # Getting good value mask
     # good = lats > -999
@@ -546,16 +553,16 @@ def calculate_solar_angles(metadata, lats, lons, dt):
     et = -7.67825 * np.sin(a1) - 10.09176 * np.sin(a2)  # NOQA
 
     # Solar declination radians
-    log.debug("Calculating delta")
+    LOG.debug("Calculating delta")
     delta = deg2rad * 23.4856 * np.sin(np.deg2rad(0.9683 * jday - 78.00878))  # NOQA
 
     # Pre-generate sin and cos of latitude
-    log.debug("Calculating sin and cos")
+    LOG.debug("Calculating sin and cos")
     sin_lat = ne.evaluate("sin(deg2rad * lats)")  # NOQA
     cos_lat = ne.evaluate("cos(deg2rad * lats)")  # NOQA
 
     # Hour angle
-    log.debug("Initializing hour angle")
+    LOG.debug("Initializing hour angle")
     solar_time = dt.hour + dt.minute / 60.0 + dt.second / 3600.0  # NOQA
     h_ang = ne.evaluate(
         "deg2rad * ((solar_time + lons / 15.0 + et / 60.0 - 12.0) * 15.0)"
@@ -563,19 +570,19 @@ def calculate_solar_angles(metadata, lats, lons, dt):
 
     # Pre-allocate all required arrays
     # This avoids having to allocate them again every time the generator is accessed
-    log.debug("Allocating arrays")
+    LOG.debug("Allocating arrays")
     sun_elev = np.empty_like(h_ang)
 
     # Hour angle at all points in radians
-    log.debug("Calculating hour angle")
+    LOG.debug("Calculating hour angle")
 
     # Sun elevation
-    log.debug("Calculating sun elevation angle using sin and cos")
+    LOG.debug("Calculating sun elevation angle using sin and cos")
     ne.evaluate(
         "arcsin(sin_lat * sin(delta) + cos_lat * cos(delta) * cos(h_ang))", out=sun_elev
     )  # NOQA
 
-    log.debug("Calculating caz")
+    LOG.debug("Calculating caz")
     # No longer need sin_lat and this saves 3.7GB
     if not debug:
         caz = sin_lat
@@ -586,7 +593,7 @@ def calculate_solar_angles(metadata, lats, lons, dt):
         out=caz,
     )  # NOQA
 
-    log.debug("Calculating az")
+    LOG.debug("Calculating az")
     # No longer need h_ang and this saves 3.7GB
     if not debug:
         az = h_ang
@@ -602,7 +609,7 @@ def calculate_solar_angles(metadata, lats, lons, dt):
         "where(az <= -1, -pi / 2.0, where(az > 1, pi / 2.0, arcsin(az)))", out=sun_azm
     )
 
-    log.debug("Calculating solar zenith angle")
+    LOG.debug("Calculating solar zenith angle")
     # No longer need sun_elev and this saves 3.7GB RAM
     if not debug:
         sun_zen = sun_elev
@@ -610,7 +617,7 @@ def calculate_solar_angles(metadata, lats, lons, dt):
         sun_zen = np.empty_like(sun_elev)
     ne.evaluate("90.0 - rad2deg * sun_elev", out=sun_zen)
 
-    log.debug("Calculating solar azimuth angle")
+    LOG.debug("Calculating solar azimuth angle")
     ne.evaluate(
         "where(caz <= 0, pi - sun_azm, where(az <= 0, 2.0 * pi + sun_azm, sun_azm))",
         out=sun_azm,
@@ -618,8 +625,9 @@ def calculate_solar_angles(metadata, lats, lons, dt):
     sun_azm += pi
     ne.evaluate("where(sun_azm > 2.0 * pi, sun_azm - 2.0 * pi, sun_azm)", out=sun_azm)
     # ne.evaluate('where(caz <= 0, pi - sun_azm, sun_azm) + pi', out=sun_azm)
-    # ne.evaluate('rad2deg * where(sun_azm < 0, sun_azm + pi2, where(sun_azm >= pi2, sun_azm - pi2, sun_azm))',
-    #             out=sun_azm)
-    log.info("Done calculating solar zenith and azimuth angles")
+    # ne.evaluate('rad2deg * where(sun_azm < 0, sun_azm + pi2, where(sun_azm >= pi2,
+    #                                                         sun_azm - pi2, sun_azm))',
+    #                                                                       out=sun_azm)
+    LOG.info("Done calculating solar zenith and azimuth angles")
 
     return sun_zen, sun_azm

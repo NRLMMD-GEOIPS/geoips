@@ -50,8 +50,8 @@ import h5py
 import numpy as np
 import matplotlib
 
+
 matplotlib.use("agg")
-import matplotlib.pyplot as plt
 
 LOG = logging.getLogger(__name__)
 
@@ -98,10 +98,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         for GeoIPS-formatted xarray Datasets.
     """
     from datetime import datetime, timedelta
-    import pandas as pd
     import xarray as xr
 
-    # from IPython import embed as shell
     fname = fnames[0]
 
     LOG.info("Reading file %s", fname)

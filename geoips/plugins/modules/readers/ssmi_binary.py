@@ -70,16 +70,18 @@ SSMI input data info::
 import logging
 from os.path import basename
 
-LOG = logging.getLogger(__name__)
 import matplotlib
 
 matplotlib.use("agg")
-import matplotlib.pyplot as plt
-from numpy import datetime64
+
+LOG = logging.getLogger(__name__)
 
 interface = "readers"
 family = "standard"
 name = "ssmi_binary"
+
+# NOTE: Anytime you see a # NOQA comment, this is for flake8 formatting. Unused
+# variables are needed in this for moving through the binary file correctly.
 
 
 def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=False):
@@ -135,13 +137,13 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
     if data_name != "def":
-        print("Warning: wrong SSMI SDR data type:  data_type={0}".format(data_name))
+        LOG.info("Warning: wrong SSMI SDR data type:  data_type={0}".format(data_name))
         raise
 
     if "cfnoc" in os.path.basename(fname) and "sdrmi" in os.path.basename(fname):
-        print("found a SSMI SDR file")
+        LOG.info("found a SSMI SDR file")
     else:
-        print("not a SSMI SDR file: skip it")
+        LOG.info("not a SSMI SDR file: skip it")
         raise IOError("Not an SSMI SDR file: skip it")
 
     """    ------  Notes  ------
@@ -154,12 +156,14 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
            xarray.Dataset with required Variables and Attributes:
                Variables:
                         LORES Channels:
-                          'latitude', 'longitude', '19V', '19H', '22V', '37V','37H','time_scan'
+                          'latitude', 'longitude', '19V', '19H',
+                          '22V', '37V','37H','time_scan'
                         HIRES Channels (combined A-B scans):
                           'latitude', 'longitude', '85V', '85H', 'sfcType', 'time_scan'
                Attibutes:
                         'source_name', 'platform_name', 'data_provider',
-                        'interpolation_radius_of_influence','start_datetime', 'end_datetime'
+                        'interpolation_radius_of_influence',
+                        'start_datetime', 'end_datetime'
                Optional Attrs:
                         'source_file_names', 'source_file_datetimes'
     """
@@ -278,24 +282,24 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     LORES = 64  # pixels per lo-res scan
     HIRES = 128  # pixels per gi-res scan
     MAXSCANS = 3000  # max lo-res scans per file
-    SCANTIME = 3.798  # approximate A-B scan interval
+    # SCANTIME = 3.798  # approximate A-B scan interval
 
-    TRUE = 1
-    FALSE = 0
-    BUFSIZE = 4444
-    FRAMESIZE = 12798
-    FILLER = 0xA5
+    # TRUE = 1
+    # FALSE = 0
+    # BUFSIZE = 4444
+    # FRAMESIZE = 12798
+    # FILLER = 0xA5
     EOF_LEN = 6
 
     # Return Codes
-    OK = 0
-    BAD_HDRS = 3
-    BAD_EOF = 4
+    # OK = 0
+    # BAD_HDRS = 3
+    # BAD_EOF = 4
     BAD_LEN = 5
-    WRITE_ERR = 6
-    END_FILE = 7
-    FATAL_ERR = 8
-    CANT_OPEN = 9
+    # WRITE_ERR = 6
+    # END_FILE = 7
+    # FATAL_ERR = 8
+    # CANT_OPEN = 9
 
     # Header Info
     blocks = {
@@ -326,14 +330,14 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     buf = np.frombuffer(f1.read(blocks["ProdID"]), dtype="uint8")
     satid0 = 10 * (V1(18) - 48) + V1(19) - 48
     fcyr = V2(20)  # date of this input file createed
-    fcmon = V1(22)
-    fcday = V1(23)
-    fchr = V1(24)
-    fcmin = V1(25)
+    # fcmon = V1(22)
+    # fcday = V1(23)
+    # fchr = V1(24)
+    # fcmin = V1(25)
 
     #    Data Sequence Block
     buf = np.frombuffer(f1.read(blocks["DataSeq"]), dtype="uint8")
-    scans = V2(14)  # number of total scans of this orbital file
+    # scans = V2(14)  # number of total scans of this orbital file
 
     #    Data Description Blocks
     buf = np.frombuffer(f1.read(blocks["RevHdrDD"]), dtype="uint8")
@@ -342,21 +346,21 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
 
     #     Rev Header Block
     buf = np.frombuffer(f1.read(blocks["RevHdr"]), dtype="uint8")
-    scid = V4(4)  # spcaecraft ID, i.e., 15 for F15
-    rev = V4(8)
-    bjld = V2(12)  # start date info: juliadn day
-    bhr = V1(14)  #                  hour
+    # scid = V4(4)  # spcaecraft ID, i.e., 15 for F15
+    # rev = V4(8)
+    bjld = V2(12)  # start date info: julian day
+    bhr = V1(14)  # -                 hour
     bmin = V1(15)
-    bsec = V1(16)
+    # bsec = V1(16)
     ejld = V2(17)  # end date info: Julian day
     ehr = V1(19)
     emin = V1(20)
-    esec = V1(21)
-    ajld = V2(22)  # julian day for ascending node
-    ahr = V1(24)
-    amin = V1(25)
-    asec = V1(26)
-    lsat = V1(27)  # logical satellite ID
+    # esec = V1(21)
+    # ajld = V2(22)  # julian day for ascending node
+    # ahr = V1(24)
+    # amin = V1(25)
+    # asec = V1(26)
+    # lsat = V1(27)  # logical satellite ID
 
     # setup year and julian day for this input file
     year_info = str(fcyr)
@@ -387,16 +391,16 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         buf = np.append([0, 0], buf0)  # shift two bytes so buf will have "length" bytes
 
         if length == BAD_LEN:
-            print("fatal error:  Ban_length")
+            LOG.info("fatal error:  Ban_length")
             raise  # fatal error stop
         elif length == EOF_LEN or length == 0:
             break
         elif length != blocks["ScanHdr"]:
-            print("block length= {0} {1}".format(blocks["ScanHdr"], length))
+            LOG.info("block length= {0} {1}".format(blocks["ScanHdr"], length))
             continue  # unexpected block length, go to next block
 
         # extraction of parameters from scan header block
-        scann = V2(4)  # not used      (first scan, i.e., scan header)
+        # scann = V2(4)  # not used      (first scan, i.e., scan header)
         bst = V4(6)  # B-scan start time (sec): second of the day
 
         # conver time to seconds from beggining of 1987 (do we need this info?)
@@ -409,7 +413,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
 
         scan_yr = date_info.year
         scan_mon = date_info.month
-        scan_day = date_info.day
+        # scan_day = date_info.day
 
         # set up time info for each B scan  (will set: A scantime = B scantime later)
         year[scan_read] = scan_yr
@@ -444,12 +448,12 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         elif length == EOF_LEN or length == 0:
             break
         elif length != blocks["Scan"]:
-            print("block length= {0} {1}".format(blocks["Scan"], length))
+            LOG.info("block length= {0} {1}".format(blocks["Scan"], length))
             continue  # unexpected block lengthi, go to next block
 
         # check of max scans
         if scan_read > MAXSCANS:
-            print("Reached max scans, break!")
+            LOG.info("Reached max scans, break!")
             break
 
         # extract parameters from the scan block
@@ -463,7 +467,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
 
     LOG.info("Making full dataframe")
 
-    bad_value = -999
+    # bad_value = -999
 
     # initilization of variables
     lat_lo = np.zeros((scan_read, 64))  # LORES channels: lat
@@ -476,16 +480,16 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     time_scan_lo = np.zeros((scan_read, 64))  # same for every pixel of this scan
 
     lat_hia = np.zeros((scan_read, 128))  # A scan HIRES channels: lat
-    lon_hia = np.zeros((scan_read, 128))  #                        lon
+    lon_hia = np.zeros((scan_read, 128))  # -                      lon
     lat_hib = np.zeros((scan_read, 128))  # B scan HIRES channels: lat
-    lon_hib = np.zeros((scan_read, 128))  #                        lon
+    lon_hib = np.zeros((scan_read, 128))  # -                      lon
     V85a = np.zeros((scan_read, 128))
     V85b = np.zeros((scan_read, 128))
     H85a = np.zeros((scan_read, 128))
     H85b = np.zeros((scan_read, 128))
 
     lat_ab = np.zeros((scan_read * 2, 128))  # combined A-B scans: lat
-    lon_ab = np.zeros((scan_read * 2, 128))  #                     lon
+    lon_ab = np.zeros((scan_read * 2, 128))  # -                   lon
     V85 = np.zeros((scan_read * 2, 128))
     H85 = np.zeros((scan_read * 2, 128))
     sfcType = np.zeros((scan_read * 2, 128))
@@ -512,8 +516,8 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
                     hour[ii],
                     minute[ii],
                 )
-            except:
-                print(
+            except KeyError:
+                LOG.info(
                     "Failed setting arrays in LORES channels {0} {1} {2}".format(
                         ii, jj, jj2
                     )
@@ -551,21 +555,21 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
                 time_scan[ii2 + 1][jj] = time_scan[ii2][
                     jj
                 ]  # same time for A and B scan
-            except:
-                print("Failed setting arrays in HIRES channels")
+            except KeyError:
+                LOG.info("Failed setting arrays in HIRES channels")
 
     #          ------  setup xarray variables   ------
-    namelist_lores = [
-        "latitude",
-        "longitude",
-        "V19",
-        "H19",
-        "V22",
-        "V37",
-        "H37",
-        "time_scan_lo",
-    ]
-    namelist_85ab = ["latitude", "longitude", "V85", "H85", "sfcType", "time"]
+    # namelist_lores = [
+    #     "latitude",
+    #     "longitude",
+    #     "V19",
+    #     "H19",
+    #     "V22",
+    #     "V37",
+    #     "H37",
+    #     "time_scan_lo",
+    # ]
+    # namelist_85ab = ["latitude", "longitude", "V85", "H85", "sfcType", "time"]
 
     # for LORES channels
     xarray_lores = xr.Dataset()

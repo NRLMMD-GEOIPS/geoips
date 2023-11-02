@@ -14,6 +14,7 @@
 
 import logging
 from os.path import basename
+from glob import glob
 
 LOG = logging.getLogger(__name__)
 
@@ -104,7 +105,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
 
         LOG.info(
-            "Read data %s start_dt %s source %s platform %s data_provider %s roi %s native resolution",
+            "Read data %s start_dt %s source %s platform %s data_provider %s roi "
+            "%s native resolution",
             wind_xarray.attrs["start_datetime"],
             wind_xarray.attrs["source_name"],
             wind_xarray.attrs["platform_name"],
@@ -116,3 +118,18 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     wind_xarrays["METADATA"] = wind_xarray[[]]
 
     return wind_xarrays
+
+
+def get_test_files(test_data_dir):
+    """Generate test xarray from test files for unit testing."""
+    filepath = test_data_dir + "/test_data_smap/data/*.nc"
+    filelist = glob(filepath)
+    tmp_xr = call(filelist)
+    if len(filelist) == 0:
+        raise NameError("No files found")
+    return tmp_xr
+
+
+def get_test_parameters():
+    """Generate test data key for unit testing."""
+    return {"data_key": "WINDSPEED_1", "data_var": "wind_speed_kts"}
