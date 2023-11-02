@@ -87,7 +87,7 @@ def load_all_yaml_plugins():
             )
         # This will include all plugins, including schemas, yaml_based,
         # and module_based plugins.
-        registered_plugins = json.load(open(pkg_plug_path, "r"))  # nosec
+        registered_plugins = json.load(open(pkg_plug_path, "r"))
         # Only pull the "yaml_based" plugins here.
         try:
             for interface in registered_plugins["yaml_based"]:

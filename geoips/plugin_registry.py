@@ -86,7 +86,7 @@ class PluginRegistry:
                 if self._is_test:
                     pkg_plugins = yaml.safe_load(open(reg_path, "r"))
                 else:
-                    pkg_plugins = json.load(open(reg_path, "r"))  # nosec
+                    pkg_plugins = json.load(open(reg_path, "r"))
                     self.validate_registry(pkg_plugins, reg_path)
                 try:
                     for plugin_type in pkg_plugins:
