@@ -23,6 +23,7 @@ if [[ "$1" == "" || "$2" == "" ]]; then
     echo "    "`basename $0`" black $GEOIPS_PACKAGES_DIR/geoips"
     echo "    "`basename $0`" flake8 $GEOIPS_PACKAGES_DIR/geoips"
     echo "    "`basename $0`" bandit $GEOIPS_PACKAGES_DIR/geoips"
+    echo "    "`basename $0`" pytest --cov geoips $GEOIPS_PACKAGES_DIR/geoips/tests"
     echo "    "`basename $0`" all $GEOIPS_PACKAGES_DIR/geoips"
     echo ""
     echo "Returns 0 if all checks pass"
@@ -40,6 +41,8 @@ elif [[ "$1" == "flake8" ]]; then
     test="flake8"
 elif [[ "$1" == "bandit" ]]; then
     test="bandit"
+elif [[ "$1" == "pytest" ]]; then
+    test="pytest"
 elif [[ "$1" == "interfaces" ]]; then
     test="interfaces"
 elif [[ "$1" == "all" ]]; then
@@ -52,6 +55,7 @@ else
     echo "    black"
     echo "    flake8"
     echo "    bandit"
+    echo "    pytest"
     echo ""
     exit 1
 fi
@@ -133,6 +137,17 @@ if [[ "$test" == "bandit" || "$test" == "all" ]]; then
     echo "TEST COMPLETE bandit"
     retval=$((bandit_retval+retval))
 fi
+if [[ "$test" == "pytest" || "$test" == "all" ]]; then
+    echo ""
+    echo "CALLING TEST:"
+    echo "pytest --cov geoips -c $CONFIG_PATH/pytest.ini \
+     $GEOIPS_PACKAGES_DIR/geoips/tests"
+    pytest --cov geoips -c $CONFIG_PATH/pytest.ini \
+     $GEOIPS_PACKAGES_DIR/geoips/tests
+    pytest_retval=$?
+    echo "TEST COMPLETE pytest"
+    retval=$((pytest_retval+retval))
+fi
 if [[ "$test" == "interfaces" || "$test" == "all" ]]; then
     if [[ "$GEOIPS_DISABLE_SHARED_CODE_CHECKS" == "True" ]]; then
         echo ""
@@ -154,6 +169,7 @@ echo ""
 echo "  black return: $black_retval"
 echo "  flake8 return: $flake8_retval"
 echo "  bandit return: $bandit_retval"
+echo "  pytest return: $pytest_retval"
 echo "  interfaces return: $interfaces_retval"
 echo ""
 echo "Overall `basename $0` return: $retval"
