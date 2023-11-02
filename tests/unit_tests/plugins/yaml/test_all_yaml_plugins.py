@@ -34,7 +34,7 @@ def yield_plugins():
 
 
 def gen_label(val):
-    """Generate the yaml name."""
+    """Generate the yaml name for pytest ids."""
     return val.name
 
 

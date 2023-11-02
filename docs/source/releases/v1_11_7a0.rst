@@ -28,6 +28,7 @@ Version 1.11.7a0 (2023-10-26)
 * Attached unit tests to output checker plugins
 * Do not fail if setup_logging is called twice
 * Add text plugins to package registries
+* Added unit testing configuration file
 
 Enhancements
 ============
@@ -303,6 +304,20 @@ the future. We need to modify this process to include text based plugins.
 ::
 
     modified: geoips/geoips/create_plugin_registries.py
+
+Standardized Unit testing
+--------------------------------------
+
+Created a pytest configuration file to standardize outputs,diagnostics, and 
+command line arguments. Modified yaml based unit tests to generate informative
+identifiers for pytest output. Included coverage reporting for the pytest output, 
+currently only printing coverage results on the commandline.
+
+::
+
+    modified: tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py
+    modified: tests/unit_tests/plugins/yaml/sectors/test_sectors.py
+    created: .config/pytest.ini
 
 Efficiency Improvements
 =======================
