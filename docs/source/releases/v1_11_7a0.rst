@@ -30,6 +30,7 @@ Version 1.11.7a0 (2023-10-26)
 * Do not fail if setup_logging is called twice
 * Add text plugins to package registries
 * Create PluginRegistry Class
+* Bug fix: include full path to remss_reader import
 
 Enhancements
 ============
@@ -109,6 +110,17 @@ threshold values ["lenient" (10%), "medium" (5%), "strict" (0%)].
 
 Bug Fixes
 =========
+
+Include full path to remss_reader import
+----------------------------------------
+
+pytest errored due to ambiguous relative import, so update to use full path
+to geoips.plugins.modules.readers.utils.remss_reader utility within the
+amsr2_remss_winds_netcdf reader.
+
+::
+
+  modified: geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
 
 Do not fail if setup_logging is called twice
 --------------------------------------------
