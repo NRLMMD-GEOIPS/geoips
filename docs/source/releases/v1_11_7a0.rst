@@ -319,6 +319,10 @@ registered_plugins.json.
 
 Unit tests were also added to test to the plugin registry within this PR.
 
+Also bug fix in interface name for tc_sector_file_parser.py
+
+Also updated path to pytest in full_test.sh (will eventually move to check_code.sh)
+
 ::
 
     modified: geoips/geoips/create_plugin_registries.py
@@ -328,9 +332,12 @@ Unit tests were also added to test to the plugin registry within this PR.
     modified: geoips/geoips/interfaces/module_based/filename_formatters.py
     modified: geoips/geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
     modified: geoips/geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
+    modified: plugins/modules/sector_metadata_generators/tc_sector_file_parser.py
+    modified: tests/integration_tests/full_test.sh
     added: geoips/geoips/plugin_registry.py
     added: geoips/tests/unit_tests/plugin_registries/test_plugin_registries.py
-    added: geoips/tests/unit_tests/plugin_registries/files/*
+    added: geoips/tests/unit_tests/plugin_registries/files/bad/*
+    added: geoips/tests/unit_tests/plugin_registries/files/good/*
 
 Testing Updates
 ===============
