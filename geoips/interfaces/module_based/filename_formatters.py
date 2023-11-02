@@ -29,6 +29,7 @@ class FilenameFormattersInterface(BaseModuleInterface):
         "xarray_metadata_to_filename": ["xarray_obj"],
         "data": ["area_def", "xarray_obj", "product_names"],
         "standard_metadata": ["area_def", "xarray_obj", "product_filename"],
+        "xarray_area_product_to_filename": ["xarray_obj", "area_def", "product_name"],
     }
     required_kwargs = {
         "standard": [
@@ -51,6 +52,7 @@ class FilenameFormattersInterface(BaseModuleInterface):
             "basedir",
         ],
         "standard_metadata": ["metadata_dir", "metadata_type", "basedir"],
+        "xarray_area_product_to_filename": ["output_type", "basedir", "extra_field"],
     }
 
     # The functions below were commented out as they included errors, and were not used

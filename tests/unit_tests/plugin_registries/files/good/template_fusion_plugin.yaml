@@ -1,0 +1,22 @@
+module_based: {}
+text_based: {}
+yaml_based:
+  products:
+    my_layered_source:
+      My-Layered-Winds:
+        docstring: 'Layered winds product using default 2 colorbar placement.
+
+
+          This example layered image includes default colorbar placement
+
+          for both windspeed and ir products, and no colorbar for windbarbs.
+
+          '
+        family: null
+        interface: products
+        package: my_fusion_package
+        plugin_type: yaml_based
+        product_defaults: Layered-Winds-Horizontal-Adjust
+        relpath: plugins/yaml/products/my_layered.yaml
+        source_names:
+        - my_layered_source
