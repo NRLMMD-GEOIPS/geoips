@@ -15,7 +15,7 @@ import logging
 from geoips.commandline.log_setup import setup_logging
 import geoips.interfaces
 from geoips.errors import PluginRegistryError
-import pickle  # nosec
+import json
 
 LOG = logging.getLogger(__name__)
 
@@ -63,7 +63,7 @@ def registry_sanity_check(plugin_packages, save_type):
         GeoIPS package --> ie.
         [EntryPoint(name='geoips', value='geoips', group='geoips.plugin_packages'), ...]
     save_type: str
-        The file format to save to [pickle, yaml]
+        The file format to save to [json, yaml]
     """
     for comp_idx, comp_pkg in enumerate(plugin_packages):
         # comp_pkg is the package being compared against. This package is compared
@@ -73,8 +73,8 @@ def registry_sanity_check(plugin_packages, save_type):
                 open(resources.files(comp_pkg.value) / "registered_plugins.yaml")
             )
         else:
-            comp_registry = pickle.load(  # nosec
-                open(resources.files(comp_pkg.value) / "registered_plugins", "rb")
+            comp_registry = json.load(
+                open(resources.files(comp_pkg.value) / "registered_plugins.json", "r")
             )
         for pkg_idx, pkg in enumerate(plugin_packages):
             # pkg is the package being compared against comp_pkg. For example, if
@@ -93,8 +93,8 @@ def registry_sanity_check(plugin_packages, save_type):
                     open(resources.files(pkg.value) / "registered_plugins.yaml")
                 )
             else:
-                pkg_registry = pickle.load(  # nosec
-                    open(resources.files(pkg.value) / "registered_plugins", "rb")
+                pkg_registry = json.load(
+                    open(resources.files(pkg.value) / "registered_plugins.json", "r")
                 )
             for plugin_type in list(pkg_registry.keys()):
                 # check the pkg's registry for both yaml-based and module-based plugins
@@ -210,7 +210,7 @@ def write_registered_plugins(pkg_dir, plugins, save_type):
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
     save_type: str
-        The file format to save to [pickle, yaml]
+        The file format to save to [json, yaml]
     """
     if save_type == "yaml":
         reg_plug_abspath = os.path.join(pkg_dir, "registered_plugins.yaml")
@@ -218,10 +218,10 @@ def write_registered_plugins(pkg_dir, plugins, save_type):
             LOG.interactive("Writing %s", reg_plug_abspath)
             yaml.safe_dump(plugins, plugin_registry, default_flow_style=False)
     else:
-        reg_plug_abspath = os.path.join(pkg_dir, "registered_plugins")
-        with open(reg_plug_abspath, "wb") as plugin_registry:
+        reg_plug_abspath = os.path.join(pkg_dir, "registered_plugins.json")
+        with open(reg_plug_abspath, "w") as plugin_registry:
             LOG.interactive("Writing %s", reg_plug_abspath)
-            pickle.dump(plugins, plugin_registry)
+            json.dump(plugins, plugin_registry)
 
 
 def create_plugin_registries(plugin_packages, save_type):
@@ -239,7 +239,7 @@ def create_plugin_registries(plugin_packages, save_type):
         GeoIPS package --> ie.
         [EntryPoint(name='geoips', value='geoips', group='geoips.plugin_packages'), ...]
     save_type: str
-        The file format to save to [pickle, yaml]
+        The file format to save to [json, yaml]
     """
     for pkg in plugin_packages:
         plugins = {
@@ -526,7 +526,7 @@ def main():
     args: list
         List of strings representing the arguments provided via command line.
     """
-    save_type = "pickle"
+    save_type = "json"
     if len(sys.argv) > 1 and sys.argv[1].lower() == "yaml":
         save_type = "yaml"
     LOG = setup_logging(logging_level="INTERACTIVE")

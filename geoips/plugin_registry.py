@@ -13,7 +13,7 @@ import logging
 from geoips.errors import PluginRegistryError
 import pytest
 import yaml
-import pickle  # nosec
+import json
 
 LOG = logging.getLogger(__name__)
 
@@ -39,7 +39,7 @@ class PluginRegistry:
             self.registry_files = []  # Collect the paths to the registry files here
             for pkg in get_entry_point_group("geoips.plugin_packages"):
                 self.registry_files.append(
-                    str(resources.files(pkg.value) / "registered_plugins")
+                    str(resources.files(pkg.value) / "registered_plugins.json")
                 )
 
     @property
@@ -86,7 +86,7 @@ class PluginRegistry:
                 if self._is_test:
                     pkg_plugins = yaml.safe_load(open(reg_path, "r"))
                 else:
-                    pkg_plugins = pickle.load(open(reg_path, "rb"))  # nosec
+                    pkg_plugins = json.load(open(reg_path, "r"))  # nosec
                     self.validate_registry(pkg_plugins, reg_path)
                 try:
                     for plugin_type in pkg_plugins:
