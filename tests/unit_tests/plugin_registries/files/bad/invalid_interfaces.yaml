@@ -1,0 +1,27 @@
+yaml_based:
+  products:
+    abi:
+      Infrared:
+        docstring: I am a docstring
+        family: null
+        interface: products
+        plugin_type: yaml_based
+        product_defaults: TheBigOne
+        source_names:
+          - abi
+          - ahi
+  spicy_sectors:
+    denver:
+      docstring: This is Denver
+      family: area_definition_static
+      package: geoips
+      relpath: /somewhere/in/geoips/denver.yaml
+module_based:
+  big_ol_algorithms:
+    the_best_alg:
+      docstring: I am an algorithm that is the best
+      family: list_numpy_to_numpy
+      interface: algorithms
+      plugin_type: module_based
+      relpath: /somewhere/in/geoips/the_best_alg.py
+text_based: {}

@@ -1,0 +1,63 @@
+module_based:
+  algorithms:
+    pmw_89test:
+      docstring: 'Sample algorithm plugin, duplicate of "89pct".
+
+
+        Duplicate of Passive Microwave 89 GHz Polarization Corrected Temperature.
+
+        Data manipulation steps for the "89test" product, duplicate of "89pct".
+
+        This algorithm expects Brightness Temperatures in units of degrees Kelvin
+
+        '
+      family: xarray_to_xarray
+      interface: algorithms
+      package: my_package
+      plugin_type: module_based
+      relpath: plugins/modules/algorithms/pmw_89test.py
+      signature: (xobj, variables, product_name, output_data_range, min_outbounds='crop',
+        max_outbounds='mask', norm=False, inverse=False)
+text_based: {}
+yaml_based:
+  product_defaults:
+    89-PCT-Test:
+      docstring: 'The default product_defaults_source_name plugin configuration.
+
+        '
+      family: interpolator_algorithm_colormapper
+      interface: product_defaults
+      package: my_package
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/89_PCT_Test.yaml
+  products:
+    amsr2:
+      89-PCT-Fully-Specified:
+        docstring: 'The amsr2_fully_specified implementation of 89 MHz Polarization
+          Corrected
+
+          Brightness Temperature.
+
+          '
+        family: interpolator_algorithm_colormapper
+        interface: products
+        package: my_package
+        plugin_type: yaml_based
+        product_defaults: null
+        relpath: plugins/yaml/products/amsr2_fully_specified.yaml
+        source_names:
+        - amsr2
+      89-PCT-Using-Product-Defaults:
+        docstring: '89 MHz Polarization Corrected Brightness Temperature implementation
+
+          using the 89-PCT-Test product defaults in the product definition.
+
+          '
+        family: null
+        interface: products
+        package: my_package
+        plugin_type: yaml_based
+        product_defaults: 89-PCT-Test
+        relpath: plugins/yaml/products/amsr2_using_product_defaults.yaml
+        source_names:
+        - amsr2

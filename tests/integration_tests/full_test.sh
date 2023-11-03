@@ -59,12 +59,12 @@ echo ""
 # "call" used in test_all_run.sh
 for call in \
   "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath" \
+  "$geoips_repopath/tests/utils/check_code.sh all $recenter_tc_repopath" \
   "$geoips_repopath/docs/build_docs.sh $geoips_repopath $geoips_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $recenter_tc_repopath $recenter_tc_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $data_fusion_repopath $data_fusion_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $template_basic_plugin_repopath $template_basic_plugin_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $template_fusion_plugin_repopath $template_fusion_plugin_pkgname html_only" \
-  "pytest $geoips_repopath/tests/test_pytest" \
   "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
   "test_interfaces" \
   "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh" \
