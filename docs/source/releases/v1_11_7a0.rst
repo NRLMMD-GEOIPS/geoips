@@ -28,6 +28,7 @@ Version 1.11.7a0 (2023-10-26)
 * Attached unit tests to output checker plugins
 * Do not fail if setup_logging is called twice
 * Add text plugins to package registries
+* Added documentation for create_plugin_registries and PluginRegistry Class
 
 Enhancements
 ============
@@ -215,6 +216,20 @@ command line arguments in the check_code.sh
    new: .config/black
    new: .config/flake8
    modified: tests/utils/check_code.sh
+
+Added Documentation for create_plugin_registries and PluginRegistry Class
+-------------------------------------------------------------------------
+
+With the addition of create_plugin_registries and the new PluginRegistry Class, we have
+a need to add documentation describing what these do, how they are used, and the
+benefits that come from adding them to the main GeoIPS code. This branch does exactly
+that, and adds a section under 'UserGuide' describing what these pieces of code actually
+do.
+
+::
+
+    modified: geoips/docs/source/userguide/index.rst
+    added: geops/docs/source/userguide/plugin_registries.rst
 
 Refactoring Updates
 ===================

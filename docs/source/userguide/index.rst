@@ -21,3 +21,4 @@ User Guide
    command_line
    function_list
    plugin_extend
+   plugin_registries
