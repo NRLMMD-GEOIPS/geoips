@@ -393,13 +393,21 @@ Standardized Unit testing
 
 Created a pytest configuration file to standardize outputs,diagnostics, and 
 command line arguments. Modified yaml based unit tests to generate informative
-identifiers for pytest output. Included coverage reporting for the pytest output, 
-currently only printing coverage results on the commandline.
+identifiers for pytest output. Included coverage reporting for the pytest output,
+but --cov argument must be passed in command line.
+
+Added pytest call to tests/utils/check_code.sh - calls pytest on both the
+geoips repo and the current repo that is being tested (since base tests for all
+installed plugin packages are called from the geoips repo).
+
+Added recenter_tc check_code.sh call to full_test.sh
 
 ::
 
     modified: tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py
     modified: tests/unit_tests/plugins/yaml/sectors/test_sectors.py
+    modified: tests/utils/check_code.sh
+    modified: tests/integration_tests/full_test.sh
     created: .config/pytest.ini
 
 Efficiency Improvements
