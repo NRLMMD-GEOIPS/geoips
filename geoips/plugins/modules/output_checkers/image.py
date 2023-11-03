@@ -132,8 +132,9 @@ def outputs_match(plugin, output_product, compare_product, threshold=0.05):
     # If shapes of arrays do not match, pixel diff can not be performed.
     # Print the names of the two images and associated shapes, and return False.
     else:
-        log_with_emphasis(LOG.interactive,
-                          "BAD Images NOT match exactly, different sizes")
+        log_with_emphasis(
+            LOG.interactive, "BAD Images NOT match exactly, different sizes"
+        )
         message = f"output_product: {np.array(out_img).shape} {output_product}"
         log_with_emphasis(LOG.interactive, message)
         message = f"compare_product: {np.array(comp_img).shape} {compare_product}"
@@ -163,8 +164,9 @@ def outputs_match(plugin, output_product, compare_product, threshold=0.05):
         message = f"{thresholded_retval} mismatched pixels "
         message += f"exceeding threshold {threshold}"
         log_with_emphasis(LOG.interactive, message)
-        log_with_emphasis(LOG.interactive,
-                          f"{len(diff_arr[bad_inds])} mismatched exact")
+        log_with_emphasis(
+            LOG.interactive, f"{len(diff_arr[bad_inds])} mismatched exact"
+        )
         log_with_emphasis(LOG.interactive, f"np.where(diff_arr != 0): {bad_inds}")
         log_with_emphasis(LOG.interactive, f"diff_arr[bad_inds]: {diff_arr[bad_inds]}")
         log_with_emphasis(LOG.interactive, f"output_product: {output_product}")
