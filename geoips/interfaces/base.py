@@ -15,20 +15,22 @@
 import yaml
 import inspect
 import logging
-from copy import deepcopy
+from os.path import exists
 
 from importlib.resources import files
+from importlib import util
 from pathlib import Path
 import jsonschema
 import referencing
 from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
-from geoips.errors import EntryPointError, PluginError
+from geoips.errors import EntryPointError, PluginError, PluginRegistryError
+
 from geoips.geoips_utils import (
     find_entry_point,
-    get_all_entry_points,
-    load_all_yaml_plugins,
+    # get_all_entry_points,
+    # load_all_yaml_plugins,
 )
 
 # from geoips.interfaces import product_defaults
@@ -295,6 +297,10 @@ class BaseInterface:
     the GeoIPS algorithm plugins.
     """
 
+    from geoips.plugin_registry import plugin_registry
+
+    plugin_registry = plugin_registry
+
     def __new__(cls):
         """Plugin interface new method."""
         if not hasattr(cls, "name") or not cls.name:
@@ -331,9 +337,15 @@ class BaseYamlInterface(BaseInterface):
 
     def __init__(self):
         """YAML plugin interface init method."""
-        self._unvalidated_plugins = self._create_unvalidated_plugins_cache(
-            load_all_yaml_plugins()
-        )
+        pass
+
+    def _create_registered_plugin_names(self, yaml_plugin):
+        """Create a plugin name for plugin registry.
+
+        Some interfaces need to override this (e.g. products) because they
+        need a more complex name for retrieval.
+        """
+        return [yaml_plugin["name"]]
 
     @classmethod
     def _plugin_yaml_to_obj(cls, name, yaml_plugin, obj_attrs={}):
@@ -362,10 +374,10 @@ class BaseYamlInterface(BaseInterface):
         obj_attrs["yaml"] = yaml_plugin
 
         missing = []
+
         for attr in [
             "package",
             "relpath",
-            "abspath",
             "interface",
             "family",
             "name",
@@ -375,7 +387,6 @@ class BaseYamlInterface(BaseInterface):
                 obj_attrs[attr] = yaml_plugin[attr]
             except KeyError:
                 missing.append(attr)
-
         if missing:
             raise PluginError(
                 f"Plugin '{yaml_plugin['name']}' is missing the following required "
@@ -390,63 +401,7 @@ class BaseYamlInterface(BaseInterface):
         plugin_base_class = BaseYamlPlugin
         if hasattr(cls, "plugin_class") and cls.plugin_class:
             plugin_base_class = cls.plugin_class
-
         return type(plugin_type, (plugin_base_class,), obj_attrs)(yaml_plugin)
-
-    def _create_unvalidated_plugins_cache(self, yaml_plugins):
-        """Create a cache of unvalidated plugin yamls.
-
-        These will be validated when they are actually used.
-        """
-        cache = {}
-        # If this is a list, split out all of the subs and store them all
-        # If this is any other family, just store it
-        for yaml_plg in yaml_plugins[self.name]:
-            if yaml_plg["family"] == "list":
-                try:
-                    yaml_plg = self.validator.validate(yaml_plg)
-                except ValidationError as resp:
-                    LOG.warning(
-                        f"{resp}: from plugin '{yaml_plg.get('name')}',"
-                        f"\nin package '{yaml_plg.get('package')}',"
-                        f"\nlocated at '{yaml_plg.get('abspath')}' "
-                    )
-                    # raise ValidationError(
-                    #     f"{resp}: from plugin '{yaml_plg.get('name')}',"
-                    #     f"\nin package '{yaml_plg.get('package')}',"
-                    #     f"\nlocated at '{yaml_plg.get('abspath')}' "
-                    # ) from resp
-                plg_list = self._plugin_yaml_to_obj(yaml_plg["name"], yaml_plg)
-                yaml_subplgs = {}
-                for yaml_subplg in plg_list["spec"][self.name]:
-                    try:
-                        subplg_names = self._create_plugin_cache_names(yaml_subplg)
-                        for subplg_name in subplg_names:
-                            yaml_subplgs[subplg_name] = deepcopy(yaml_subplg)
-                            yaml_subplgs[subplg_name]["interface"] = self.name
-                            yaml_subplgs[subplg_name]["package"] = yaml_plg["package"]
-                            yaml_subplgs[subplg_name]["relpath"] = yaml_plg["relpath"]
-                            yaml_subplgs[subplg_name]["abspath"] = yaml_plg["abspath"]
-                    except KeyError as resp:
-                        LOG.warning(
-                            f"{resp}: from plugin '{yaml_plg.get('name')}',"
-                            f"\nin package '{yaml_plg.get('package')}',"
-                            f"\nlocated at '{yaml_plg.get('abspath')}' "
-                            f"\nMismatched schema and YAML?"
-                        )
-                cache.update(yaml_subplgs)
-            else:
-                cache[yaml_plg["name"]] = yaml_plg
-        return cache
-
-    @staticmethod
-    def _create_plugin_cache_name(yaml_plugin):
-        """Create a plugin name for cache storage.
-
-        Some interfaces need to override this (e.g. products) because they need a more
-        complex name for retrieval.
-        """
-        return [yaml_plugin["name"]]
 
     def __repr__(self):
         """Plugin interface repr method."""
@@ -460,10 +415,60 @@ class BaseYamlInterface(BaseInterface):
         ProductsInterface which uses a tuple containing 'source_name' and
         'name'.
         """
-        try:
-            validated = self.validator.validate(self._unvalidated_plugins[name])
-        except KeyError:
-            raise PluginError(f"Plugin '{name}' not found for '{self.name}' interface.")
+        from importlib.resources import files
+
+        if not self.plugin_registry.registered_plugins:
+            raise PluginRegistryError(
+                "Plugin registries not found, please run 'create_plugin_registries'"
+            )
+        if isinstance(name, tuple):
+            # These are stored in the yaml as str(name),
+            # ie "('viirs', 'Infrared')"
+            try:
+                relpath = self.plugin_registry.registered_plugins["yaml_based"][
+                    self.name
+                ][name[0]][name[1]]["relpath"]
+                package = self.plugin_registry.registered_plugins["yaml_based"][
+                    self.name
+                ][name[0]][name[1]]["package"]
+            except KeyError:
+                raise PluginError(
+                    f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
+                )
+            abspath = str(files(package) / relpath)
+            plugin = yaml.safe_load(open(abspath, "r"))
+            plugin_found = False
+            for product in plugin["spec"]["products"]:
+                if product["name"] == name[1] and name[0] in product["source_names"]:
+                    plugin_found = True
+                    plugin = product
+                    break
+            if not plugin_found:
+                raise PluginError(
+                    "There is no plugin that has " + name[1] + " included in it."
+                )
+            plugin["interface"] = "products"
+            plugin["package"] = package
+            plugin["abspath"] = abspath
+            plugin["relpath"] = relpath
+        else:
+            try:
+                relpath = self.plugin_registry.registered_plugins["yaml_based"][
+                    self.name
+                ][name]["relpath"]
+                package = self.plugin_registry.registered_plugins["yaml_based"][
+                    self.name
+                ][name]["package"]
+            except KeyError:
+                raise PluginError(
+                    f"Plugin [{name}] doesn't exist under interface [{self.name}]"
+                )
+            abspath = str(files(package) / relpath)
+            plugin = yaml.safe_load(open(abspath, "r"))
+            plugin["package"] = package
+            plugin["abspath"] = abspath
+            plugin["relpath"] = relpath
+        validated = self.validator.validate(plugin)
         # Store "name" as the product's "id"
         # This is helpful when an interfaces uses something other than just "name" to
         # find its plugins as is the case with ProductsInterface
@@ -472,7 +477,13 @@ class BaseYamlInterface(BaseInterface):
     def get_plugins(self):
         """Retrieve a plugin by name."""
         plugins = []
-        for name in self._unvalidated_plugins.keys():
+        if not self.plugin_registry.registered_plugins:
+            raise PluginRegistryError(
+                "Plugin registries not found, please run 'create_plugin_registries'"
+            )
+        for name in self.plugin_registry.registered_plugins["yaml_based"][
+            self.name
+        ].keys():
             plugins.append(self.get_plugin(name))
         return plugins
 
@@ -551,6 +562,10 @@ class BaseModuleInterface(BaseInterface):
     #             f"match the name of its interface as specified by entry_points."
     #         )
     #     return obj
+
+    def __init__(self):
+        """Initialize module plugin interface."""
+        pass
 
     @classmethod
     def _plugin_module_to_obj(cls, name, module, obj_attrs={}):
@@ -654,7 +669,20 @@ class BaseModuleInterface(BaseInterface):
         """
         # Find the plugin module
         try:
-            module = find_entry_point(self.name, name)
+            if exists(name):
+                module = find_entry_point(self.name, name)
+            else:
+                package = self.plugin_registry.registered_plugins["module_based"][
+                    self.name
+                ][name]["package"]
+                relpath = self.plugin_registry.registered_plugins["module_based"][
+                    self.name
+                ][name]["relpath"]
+                abspath = files(package) / relpath
+                spec = util.spec_from_file_location(name, abspath)
+                module = util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+            # module = find_entry_point(self.name, name)
         except EntryPointError as resp:
             raise PluginError(
                 f"{resp}:\nPlugin '{name}' not found for '{self.name}' interface. "
@@ -672,13 +700,17 @@ class BaseModuleInterface(BaseInterface):
     def get_plugins(self):
         """Get a list of plugins for this interface."""
         plugins = []
-        for ep in get_all_entry_points(self.name):
+        # for ep in get_all_entry_points(self.name):
+        for plugin_name in self.plugin_registry.registered_plugins["module_based"][
+            self.name
+        ]:
             try:
-                plugins.append(self._plugin_module_to_obj(ep.name, ep))
+                plugins.append(self.get_plugin(plugin_name))
             except AttributeError as resp:
                 raise PluginError(
-                    f"Plugin '{ep.__name__}' is missing the 'name' attribute, "
-                    f"\nfrom '{ep.__module__}' module,"
+                    f"Plugin '{plugin_name}' is missing the 'name' attribute, "
+                    f"\nfrom package '{plugin_name['package']},' "
+                    f"'{plugin_name['relpath']}' module,"
                 ) from resp
         return plugins
 

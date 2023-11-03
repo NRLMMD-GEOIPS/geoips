@@ -1,0 +1,82 @@
+module_based:
+  algorithms:
+    single_channel_test:
+      docstring: '
+
+        Data manipulation steps for "89H" product.
+
+
+        This algorithm expects Brightness Temperatures in units of degrees Kelvin
+
+        '
+      family: list_numpy_to_numpy
+      interface: algorithms
+      package: geoips_plugin_example
+      plugin_type: module_based
+      relpath: plugins/modules/algorithms/single_channel_test.py
+      signature: (arrays, output_data_range, input_units=None, output_units=None,
+        min_outbounds='crop', max_outbounds='crop', norm=False, inverse=False, sun_zen_correction=False,
+        mask_night=False, min_day_zen=None, mask_day=False, max_night_zen=None, gamma_list=None,
+        scale_factor=None)
+  colormappers:
+    Infrared_Test:
+      docstring: Module containing Infrared algorithm colormapper.
+      family: matplotlib
+      interface: colormappers
+      package: geoips_plugin_example
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/visir/Infrared_Test.py
+      signature: (data_range=[-90, 30])
+  filename_formatters:
+    test_fname:
+      docstring: Standard geoips filename production.
+      family: standard
+      interface: filename_formatters
+      package: geoips_plugin_example
+      plugin_type: module_based
+      relpath: plugins/modules/filename_formatters/test_fname.py
+      signature: (area_def, xarray_obj, product_name, coverage=None, output_type='png',
+        output_type_dir=None, product_dir=None, product_subdir=None, source_dir=None,
+        basedir='/home/evrose54/geoips/geoips_packages/outdirs/preprocessed/annotated_imagery')
+  interpolators:
+    interp_gauss_test:
+      docstring: Xarray wrapper for driving the interpolation routines.
+      family: 2d
+      interface: interpolators
+      package: geoips_plugin_example
+      plugin_type: module_based
+      relpath: plugins/modules/interpolators/pyresample_wrappers/interp_gauss_test.py
+      signature: (area_def, input_xarray, output_xarray, varlist, array_num=None,
+        sigmaval=None)
+  output_formatters:
+    imagery_test:
+      docstring: Test image output procedure.
+      family: image
+      interface: output_formatters
+      package: geoips_plugin_example
+      plugin_type: module_based
+      relpath: plugins/modules/output_formatters/imagery_test.py
+      signature: (area_def, xarray_obj, product_name, output_fnames, product_name_title=None,
+        mpl_colors_info=None, existing_image=None, remove_duplicate_minrange=None)
+text_based: {}
+yaml_based:
+  product_defaults:
+    Infrared-Test:
+      docstring: The Infrared test product_defaults configuration
+      family: interpolator_algorithm_colormapper
+      interface: product_defaults
+      package: geoips_plugin_example
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/visir/Infrared-Test.yaml
+  products:
+    abi:
+      Infrared-Test:
+        docstring: Infrared test product
+        family: null
+        interface: products
+        package: geoips_plugin_example
+        plugin_type: yaml_based
+        product_defaults: Infrared-Test
+        relpath: plugins/yaml/products/abi.yaml
+        source_names:
+        - abi
