@@ -165,7 +165,7 @@ if [[ "$test" == "pytest" || "$test" == "all" ]]; then
             retval=$((pytest_pkg_retval+retval))
         fi
     else
-        pytest_pkg_retval="Not tested"
+        pytest_pkg_retval="Not re-tested"
     fi
     echo "TEST COMPLETE pytest"
     # Now add in the geoips pytest retval
