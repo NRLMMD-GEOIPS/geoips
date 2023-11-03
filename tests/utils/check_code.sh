@@ -23,6 +23,7 @@ if [[ "$1" == "" || "$2" == "" ]]; then
     echo "    "`basename $0`" black $GEOIPS_PACKAGES_DIR/geoips"
     echo "    "`basename $0`" flake8 $GEOIPS_PACKAGES_DIR/geoips"
     echo "    "`basename $0`" bandit $GEOIPS_PACKAGES_DIR/geoips"
+    echo "    "`basename $0`" pytest $GEOIPS_PACKAGES_DIR/geoips"
     echo "    "`basename $0`" all $GEOIPS_PACKAGES_DIR/geoips"
     echo ""
     echo "Returns 0 if all checks pass"
@@ -40,6 +41,8 @@ elif [[ "$1" == "flake8" ]]; then
     test="flake8"
 elif [[ "$1" == "bandit" ]]; then
     test="bandit"
+elif [[ "$1" == "pytest" ]]; then
+    test="pytest"
 elif [[ "$1" == "interfaces" ]]; then
     test="interfaces"
 elif [[ "$1" == "all" ]]; then
@@ -52,11 +55,13 @@ else
     echo "    black"
     echo "    flake8"
     echo "    bandit"
+    echo "    pytest"
     echo ""
     exit 1
 fi
 
 path=$2
+pkgname=`basename $path`
 CONFIG_PATH=`dirname $0`/../../.config
 extra_args=$3
 
@@ -133,6 +138,39 @@ if [[ "$test" == "bandit" || "$test" == "all" ]]; then
     echo "TEST COMPLETE bandit"
     retval=$((bandit_retval+retval))
 fi
+if [[ "$test" == "pytest" || "$test" == "all" ]]; then
+    echo ""
+    echo "CALLING TEST:"
+
+    # First test the geoips package pytests - these include pytests of any other
+    # installed plugin packages, so always test geoips repo pytests.
+    echo "pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests"
+    pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests
+    pytest_geoips_retval=$?
+
+    # Only test the current path if it is NOT geoips.  Don't test geoips twice.
+    if [[ "$pkgname" != "geoips" ]]; then
+        echo "pytest --cov=$pkgname -c $CONFIG_PATH/pytest.ini $path/tests"
+        pytest --cov=$pkgname -c $CONFIG_PATH/pytest.ini $path/tests
+        pytest_pkg_retval=$?
+
+        # Return value of 5 indicates that no tests were run.
+        # https://docs.pytest.org/en/7.1.x/reference/exit-codes.html
+        # If no tests were run, still return 0.  Not all packages have
+        # individual pytests defined, and we don't want a failure due to that.
+        if [[ "$pytest_pkg_retval" == "5" ]]; then
+            pytest_pkg_retval="No tests found"
+        else
+            # Add in the pkg pytest retval
+            retval=$((pytest_pkg_retval+retval))
+        fi
+    else
+        pytest_pkg_retval="Not re-tested"
+    fi
+    echo "TEST COMPLETE pytest"
+    # Now add in the geoips pytest retval
+    retval=$((pytest_geoips_retval+retval))
+fi
 if [[ "$test" == "interfaces" || "$test" == "all" ]]; then
     if [[ "$GEOIPS_DISABLE_SHARED_CODE_CHECKS" == "True" ]]; then
         echo ""
@@ -154,6 +192,8 @@ echo ""
 echo "  black return: $black_retval"
 echo "  flake8 return: $flake8_retval"
 echo "  bandit return: $bandit_retval"
+echo "  pytest geoips return: $pytest_geoips_retval"
+echo "  pytest $pkgname return: $pytest_pkg_retval"
 echo "  interfaces return: $interfaces_retval"
 echo ""
 echo "Overall `basename $0` return: $retval"
