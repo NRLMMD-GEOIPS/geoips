@@ -1,0 +1,21 @@
+interface: feature_annotators
+name: glm
+family: cartopy
+docstring: |
+  The glm feature_annotators plugin. All line types enabled. All colored black.
+  2px coastlines, 1px countries, 0.5px states borders, and 0px rivers.
+spec:
+  coastline:
+    enabled: true
+    edgecolor: black
+    linewidth: 2
+  borders:
+    enabled: true
+    edgecolor: black
+    linewidth: 1
+  states:
+    enabled: true
+    edgecolor: black
+    linewidth: 0.5
+  rivers:
+    enabled: false

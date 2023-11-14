@@ -1,0 +1,38 @@
+interface: products
+family: list
+name: glm
+docstring: |
+  The Global Lighting Mapper (GLM) products specification. Used for GOES-18 data which
+  collects GLM suited data.
+spec:
+  products:
+    - name: glm_area
+      source_names: [glm]
+      docstring: |
+        Test product for displaying GLM-based data.
+      family: algorithm_interpolator_colormapper
+      spec:
+        algorithm:
+          plugin:
+            name: glm_alg
+            arguments:
+              # output_data_range: [0, 100000000]
+              output_data_range: [0, 25]
+              scale_factor: 1
+              min_outbounds: mask
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        interpolator:
+          plugin:
+            name: interp_nearest
+            arguments: {}
+        colormapper:
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              # data_range: [0, 100000000]
+              data_range: [0, 25]
+              cmap_name: copper_r
+              cbar_label: Group Area Radius (km)
+        variables: [group_area]
