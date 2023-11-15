@@ -772,3 +772,66 @@ def create_colorbar(fig, mpl_colors_info):
         cbar.set_label(cbar_label, **set_label_kwargs)
 
     return cbar
+
+
+def add_shape_patches(main_ax, data_dict, mapobj, shape_type, cmap):
+    """
+    Add patches via data_dict in the form of shape_type to the matplotlib "main_ax".
+
+    Parameters
+    ----------
+    main_ax : Axes
+        matplotlib Axes object for plotting data and overlays
+    data : dict
+        Dict of numpy arrays to plot. Keys:
+        {"latitude": data, "longitude": data, "product_name": data}
+    mapobj : Map Object
+        Basemap or Cartopy CRS instance
+    shape_type : str
+        Specifies matplotlib Colors parameters for use in both plotting and colorbar
+    cmap: Matplotlib Colormap
+        Specificies the colormap to be used when coloring patches
+
+    See Also
+    --------
+    geoips.image_utils.mpl_utils.create_colorbar
+        for field descriptions for mpl_colors_info
+    """
+    import cartopy.crs as ccrs
+    import inspect
+    import numpy as np
+
+    available_patches = []
+
+    for patch_class in inspect.getmembers(matplotlib.patches, inspect.isclass):
+        if ("matplotlib.patches." in str(patch_class[1])
+            and "Style" not in str(patch_class[0])
+        ):
+            available_patches.append(patch_class[0])
+
+    shape_type = shape_type.title().replace("_", "")
+    if shape_type not in available_patches:
+        raise TypeError(
+            f"Error {shape_type} isn't in the list of valid patches {available_patches}"
+        )
+
+    LOG.info(f"{shape_type} Matplotlib Patches being applied.")
+
+    patch = getattr(matplotlib.patches, shape_type)
+    crs = ccrs.CRS(mapobj)
+    val_idxs = np.argwhere(~np.isnan(data_dict["product"]["data"]))
+    # cmap = matplotlib.cm.jet
+    norm = matplotlib.colors.Normalize(vmin=0, vmax=25)
+    for idx in val_idxs:
+        lat = data_dict["latitude"][idx[0]][idx[1]]
+        lon = data_dict["longitude"][idx[0]][idx[1]]
+        radius = data_dict["product"]["data"][idx[0]][idx[1]]
+        shape = patch(
+            crs.transform_point(lon, lat, mapobj.source_crs),
+            radius * 5000,
+            transform=mapobj,
+            color=cmap(norm(radius)),
+            alpha=0.5,
+        )
+        main_ax.add_patch(shape)
+    return main_ax

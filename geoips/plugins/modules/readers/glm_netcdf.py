@@ -52,22 +52,21 @@ def merge_xarray_data(curr_ds, new_ds):
             )
         else:
             merged_data_array = xarray.DataArray(new_ds.variables[var_name])
-        if var_name == "latitude":
+        if var_name == "group_lat":
             group_lat = merged_data_array
-        elif var_name == "longitude":
+        elif var_name == "group_lon":
             group_lon = merged_data_array
-        elif var_name == "group_area":
-            group_area = merged_data_array
+        elif var_name == "glm_area":
+            glm_area = merged_data_array
             # group_area = merged_data_array
         elif var_name == "group_quality_flag":
             group_quality_flag = merged_data_array
     ds = xarray.Dataset(
         data_vars=dict(
-            latitude=group_lat,
-            longitude=group_lon,
-            group_area=group_area,
+            group_lat=group_lat,
+            group_lon=group_lon,
             group_quality_flag=group_quality_flag,
-            glm_area=group_area,
+            glm_area=glm_area,
         ),
         attrs=curr_ds.attrs,
     )
@@ -109,7 +108,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         for GeoIPS-formatted xarray Datasets.
     """
     all_xobj = xarray.Dataset()
-    # ds_list = []
     for idx, fname in enumerate(fnames):
         xobj = xarray.open_dataset(fname)
         # Grab the start datetime, this assumes the files are listed in temporal order
@@ -126,7 +124,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # add that dataset to the dataset list. Created as a xarray.Dataset(), with
         # underlying DataArray variables and attributes
         if not metadata_only:
-            # latitude = xarray.DataArray(xobj.variables["group_lat"])
             group_lat = xarray.DataArray(xobj.variables["group_lat"])
             group_lon = xarray.DataArray(xobj.variables["group_lon"])
             group_area = xarray.DataArray(xobj.variables["group_area"])
@@ -135,9 +132,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             )
             ds = xarray.Dataset(
                 data_vars=dict(
-                    latitude=group_lat,
-                    longitude=group_lon,
-                    group_area=np.sqrt(group_area/ np.pi) / 1000.0,
+                    group_lat=group_lat,
+                    group_lon=group_lon,
+                    glm_area=np.sqrt(group_area/ np.pi) / 1000.0,
                     group_quality_flag=group_quality_flag,
                 ),
                 attrs=dict(
@@ -152,7 +149,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             all_xobj.attrs["file" + str(idx)] = {
                 "start_datetime": ds.attrs["start_datetime"],
                 "end_datetime": ds.attrs["end_datetime"],
-                "num_samples": len(ds.variables["group_area"]),
+                "num_samples": len(ds.variables["glm_area"]),
             }
     all_xobj.attrs["data_provider"] = "gov.nesdis.noaa"
     all_xobj.attrs["platform_name"] = "GOES-18"

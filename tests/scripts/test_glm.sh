@@ -21,7 +21,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_glm/raw/*.nc \
              --procflow single_source \
              --reader_name glm_netcdf \
              --product_name glm_area \
-             --output_formatter imagery_annotated \
+             --output_formatter shape_patches \
              --filename_formatter geoips_fname \
              --logging_level info \
              --sector_list goes_east \

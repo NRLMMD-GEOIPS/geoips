@@ -33,6 +33,6 @@ spec:
             arguments:
               # data_range: [0, 100000000]
               data_range: [0, 25]
-              cmap_name: copper_r
+              cmap_name: gist_heat_r
               cbar_label: Group Area Radius (km)
-        variables: [group_area]
+        variables: [glm_area]

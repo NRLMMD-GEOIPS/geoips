@@ -207,6 +207,7 @@ metadata_default = "geoips.plugins.modules.output_formatters.metadata_default"
 metadata_tc = "geoips.plugins.modules.output_formatters.metadata_tc"
 netcdf_geoips = "geoips.plugins.modules.output_formatters.netcdf_geoips"
 netcdf_xarray = "geoips.plugins.modules.output_formatters.netcdf_xarray"
+shape_patches = "geoips.plugins.modules.output_formatters.shape_patches"
 text_winds = "geoips.plugins.modules.output_formatters.text_winds"
 unprojected_image = "geoips.plugins.modules.output_formatters.unprojected_image"
 

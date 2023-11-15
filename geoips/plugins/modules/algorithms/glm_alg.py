@@ -78,9 +78,8 @@ def call(
 
     final_xarray = xarray.Dataset(
         data_vars=dict(
-            longitude=xarray_dict["GLM"]["longitude"],
-            latitude=xarray_dict["GLM"]["latitude"],
-            group_area=xarray_dict["GLM"]["group_area"],
+            longitude=xarray_dict["GLM"]["group_lon"],
+            latitude=xarray_dict["GLM"]["group_lat"],
             group_quality_flag=xarray_dict["GLM"]["group_quality_flag"],
             glm_area=xarray_dict["GLM"]["glm_area"],
         ),
