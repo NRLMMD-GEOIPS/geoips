@@ -1030,9 +1030,7 @@ def get_alg_xarray(
             LOG.interactive(
                 "  Interpolating data with interpolator '%s'...", interp_plugin.name
             )
-            final_xarray = interp_plugin(
-                area_def, alg_xarray, alg_xarray, **interp_args
-            )
+            final_xarray = interp_plugin(area_def, alg_xarray, None, **interp_args)
 
         # Ensure we have the "adjustment"id" in the filename appropriately
         if "adjustment_id" in area_def.sector_info:

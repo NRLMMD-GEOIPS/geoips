@@ -32,6 +32,7 @@ Version 1.11.7a0 (2023-10-26)
 * Added unit test configuration file
 * Create PluginRegistry Class
 * Bug fix: include full path to remss_reader import
+* Bug fix: modify algorithm_interpolator_colormapper to only provide input xarray
 
 Enhancements
 ============
@@ -175,6 +176,22 @@ the registries are removed until one of the duplicates is renamed.
 ::
 
     modified: geoips/geoips/create_plugin_registries.py
+
+algorithm_interpolator_colormapper incorrectly interpolates data
+----------------------------------------------------------------
+
+This was found during the development for the GLM reader. Apparently, at line 1033 of
+single_source.py procflow, when trying to interpolate data under the
+algorithm_interpolator_colormapper family, we call 'interp_plugin' with the same
+input and output xarray. This makes no sense, and needs to be fixed. It wasn't changing
+the data in this format. To fix it, we leave input_xarray as 'alg_xarray', and set
+output_xarray to 'None'. This is handled properly in the interpolator, and will modify
+coordinate arrays to fit the shape of the interpolated data. I've checked config_based,
+and this doesn't occur for that procflow.
+
+::
+
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
 
 Enhancements
 ============
@@ -391,7 +408,7 @@ the future. We need to modify this process to include text based plugins.
 Standardized Unit testing
 --------------------------------------
 
-Created a pytest configuration file to standardize outputs,diagnostics, and 
+Created a pytest configuration file to standardize outputs,diagnostics, and
 command line arguments. Modified yaml based unit tests to generate informative
 identifiers for pytest output. Included coverage reporting for the pytest output,
 but --cov argument must be passed in command line.
