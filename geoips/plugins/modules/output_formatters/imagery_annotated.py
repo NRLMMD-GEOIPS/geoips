@@ -59,7 +59,6 @@ def call(
         save_image,
         plot_overlays,
         create_colorbar,
-        add_glm_circles,
     )
     from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
 
@@ -101,6 +100,7 @@ def call(
         noborder=False,
     )
 
+    # Plot the actual data on a map
     plot_image(main_ax, plot_data, mapobj, mpl_colors_info=mpl_colors_info)
 
     if bg_data is not None and (
