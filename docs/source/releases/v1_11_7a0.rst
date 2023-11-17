@@ -32,6 +32,7 @@ Version 1.11.7a0 (2023-10-26)
 * Added unit test configuration file
 * Create PluginRegistry Class
 * Bug fix: include full path to remss_reader import
+* Create GLM reader for GeoIPS
 
 Enhancements
 ============
@@ -108,6 +109,27 @@ threshold values ["lenient" (10%), "medium" (5%), "strict" (0%)].
     modified: geoips/plugins/modules/output_checkers/text.py
     modified: geoips/plugins/modules/procflows/config_based.py
     modified: geoips/plugins/modules/single_source.py
+
+Create GLM reader for GeoIPS
+----------------------------
+
+Kyle Hilburn works with GLM data, and has requested that we build a reader for that data
+so he can implement his routines in GeoIPS. This branch has not only created that
+reader, but also includes products, a feature_annotator, output_formatter, and a basic
+algorithm to visualize GLM area products. We also modified mpl_utils.py to include a
+patch adder, which adds patches to the appropriate figure in the correct Coordinate
+Reference System (CRS), with the appropriate colormap applied.
+
+::
+
+    modified: geoips/geoips/image_utils/mpl_utils.py
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
+    modified: geoips/pyproject.toml
+    added: geoips/geoips/plugins/modules/algorithms/glm_alg.py
+    added: geoips/geoips/plugins/modules/output_formatters/shape_patches.py
+    added: geoips/geoips/plugins/modules/readers/glm_netcdf.py
+    added: geoips/geoips/plugins/yaml/products/glm.yaml
+    added: geoips/tests/scripts/test_glm.sh
 
 Bug Fixes
 =========
@@ -391,7 +413,7 @@ the future. We need to modify this process to include text based plugins.
 Standardized Unit testing
 --------------------------------------
 
-Created a pytest configuration file to standardize outputs,diagnostics, and 
+Created a pytest configuration file to standardize outputs,diagnostics, and
 command line arguments. Modified yaml based unit tests to generate informative
 identifiers for pytest output. Included coverage reporting for the pytest output,
 but --cov argument must be passed in command line.
