@@ -76,13 +76,20 @@ def call(
     """
     import xarray
 
+    chan = "group_area"
+    for var_name in xarray_dict["GLM"].variables.keys():
+        if "area" in var_name:
+            chan = var_name
+
+    channel_vars = {
+        "longitude": xarray_dict["GLM"]["lon"],
+        "latitude": xarray_dict["GLM"]["lat"],
+        "quality_flag": xarray_dict["GLM"]["quality_flag"],
+        f"{chan}": xarray_dict["GLM"][f"{chan}"],
+    }
+
     final_xarray = xarray.Dataset(
-        data_vars=dict(
-            longitude=xarray_dict["GLM"]["group_lon"],
-            latitude=xarray_dict["GLM"]["group_lat"],
-            group_quality_flag=xarray_dict["GLM"]["group_quality_flag"],
-            glm_area=xarray_dict["GLM"]["glm_area"],
-        ),
+        data_vars=channel_vars,
         coords=xarray_dict["GLM"].coords,
         attrs=xarray_dict["METADATA"].attrs,
     )

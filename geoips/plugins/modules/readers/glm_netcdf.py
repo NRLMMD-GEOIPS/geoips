@@ -23,7 +23,7 @@ family = "standard"
 name = "glm_netcdf"
 
 
-def merge_xarray_data(curr_ds, new_ds):
+def merge_xarray_data(chan, curr_ds, new_ds):
     """Merge variables from new_ds into curr_ds as it is a series of continuous data.
 
     Since we are working with GLM data, we should merge data collected in each file into
@@ -46,28 +46,33 @@ def merge_xarray_data(curr_ds, new_ds):
         if var_name in curr_ds.variables.keys():
             curr_ds_data = curr_ds.variables[var_name]
             new_ds_data = new_ds.variables[var_name]
+            dim_name = "number_of_"
+            if chan == "flash":
+                dim_name += "flashes"
+            else:
+                dim_name += f"{chan}s"
             merged_data_array = xarray.DataArray(
                 data=np.concatenate([curr_ds_data, new_ds_data]),
-                dims=["number_of_groups"]
+                dims=[dim_name],
             )
         else:
             merged_data_array = xarray.DataArray(new_ds.variables[var_name])
-        if var_name == "group_lat":
-            group_lat = merged_data_array
-        elif var_name == "group_lon":
-            group_lon = merged_data_array
-        elif var_name == "glm_area":
-            glm_area = merged_data_array
-            # group_area = merged_data_array
-        elif var_name == "group_quality_flag":
-            group_quality_flag = merged_data_array
+        if var_name == "lat":
+            lat = merged_data_array
+        elif var_name == "lon":
+            lon = merged_data_array
+        elif var_name == f"{chan}_area":
+            area = merged_data_array
+        elif var_name == "quality_flag":
+            quality_flag = merged_data_array
+    channel_vars = {
+        "lat": lat,
+        "lon": lon,
+        "quality_flag": quality_flag,
+        f"{chan}_area": area,
+    }
     ds = xarray.Dataset(
-        data_vars=dict(
-            group_lat=group_lat,
-            group_lon=group_lon,
-            group_quality_flag=group_quality_flag,
-            glm_area=glm_area,
-        ),
+        data_vars=channel_vars,
         attrs=curr_ds.attrs,
     )
     return ds
@@ -108,6 +113,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         for GeoIPS-formatted xarray Datasets.
     """
     all_xobj = xarray.Dataset()
+    if chans:
+        chan = chans[0].replace("_area", "")
+    else:
+        chan = "flash"
     for idx, fname in enumerate(fnames):
         xobj = xarray.open_dataset(fname)
         # Grab the start datetime, this assumes the files are listed in temporal order
@@ -124,32 +133,31 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # add that dataset to the dataset list. Created as a xarray.Dataset(), with
         # underlying DataArray variables and attributes
         if not metadata_only:
-            group_lat = xarray.DataArray(xobj.variables["group_lat"])
-            group_lon = xarray.DataArray(xobj.variables["group_lon"])
-            group_area = xarray.DataArray(xobj.variables["group_area"])
-            group_quality_flag = xarray.DataArray(
-                    xobj.variables["group_quality_flag"]
+            lat = xarray.DataArray(xobj.variables[f"{chan}_lat"])
+            lon = xarray.DataArray(xobj.variables[f"{chan}_lon"])
+            area = xarray.DataArray(xobj.variables[f"{chan}_area"])
+            quality_flag = xarray.DataArray(
+                    xobj.variables[f"{chan}_quality_flag"]
             )
+            channel_vars = {
+                "lat": lat,
+                "lon": lon,
+                "quality_flag": quality_flag,
+                f"{chan}_area": np.sqrt(area / np.pi) / 1000.0,
+            }
             ds = xarray.Dataset(
-                data_vars=dict(
-                    group_lat=group_lat,
-                    group_lon=group_lon,
-                    glm_area=np.sqrt(group_area/ np.pi) / 1000.0,
-                    group_quality_flag=group_quality_flag,
-                ),
+                data_vars=channel_vars,
                 attrs=dict(
                     start_datetime=xobj.attrs["time_coverage_start"],
                     end_datetime=xobj.attrs["time_coverage_end"],
                     source_name="glm"
                 ),
-                # coords=dict(latitude=(["x"], group_lat.data),
-                #             longitude=(["y"], group_lon.data))
             )
-            all_xobj = merge_xarray_data(all_xobj, ds)
+            all_xobj = merge_xarray_data(chan, all_xobj, ds)
             all_xobj.attrs["file" + str(idx)] = {
                 "start_datetime": ds.attrs["start_datetime"],
                 "end_datetime": ds.attrs["end_datetime"],
-                "num_samples": len(ds.variables["glm_area"]),
+                "num_samples": len(ds.variables[f"{chan}_area"]),
             }
     all_xobj.attrs["data_provider"] = "gov.nesdis.noaa"
     all_xobj.attrs["platform_name"] = "GOES-18"

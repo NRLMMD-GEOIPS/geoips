@@ -6,33 +6,51 @@ docstring: |
   collects GLM suited data.
 spec:
   products:
-    - name: glm_area
+    - name: group_area
       source_names: [glm]
       docstring: |
-        Test product for displaying GLM-based data.
-      family: algorithm_interpolator_colormapper
+        GLM Product for displaying group area data.
+      family: algorithm_colormapper
       spec:
         algorithm:
           plugin:
             name: glm_alg
             arguments:
-              # output_data_range: [0, 100000000]
               output_data_range: [0, 25]
               scale_factor: 1
               min_outbounds: mask
               max_outbounds: crop
               norm: null
               inverse: null
-        interpolator:
-          plugin:
-            name: interp_nearest
-            arguments: {}
         colormapper:
           plugin:
             name: matplotlib_linear_norm
             arguments:
-              # data_range: [0, 100000000]
               data_range: [0, 25]
               cmap_name: gist_heat_r
               cbar_label: Group Area Radius (km)
-        variables: [glm_area]
+        variables: [group_area]
+    - name: flash_area
+      source_names: [glm]
+      docstring: |
+        GLM Product for displaying flash area data.
+      family: algorithm_colormapper
+      spec:
+        algorithm:
+          plugin:
+            name: glm_alg
+            arguments:
+              output_data_range: [0, 25]
+              scale_factor: 1
+              min_outbounds: mask
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        colormapper:
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              data_range: [0, 25]
+              cmap_name: gist_heat_r
+              cbar_label: Flash Area Radius (km)
+        variables: [flash_area]

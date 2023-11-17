@@ -17,6 +17,18 @@ import logging
 from geoips.interfaces import products
 from geoips.errors import PluginError
 from jsonschema.exceptions import ValidationError
+import numpy as np
+from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
+from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
+from geoips.image_utils.mpl_utils import (
+    plot_image,
+    save_image,
+    plot_overlays,
+    create_colorbar,
+    add_shape_patches,
+)
+import matplotlib
+from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
 
 LOG = logging.getLogger(__name__)
 
@@ -50,16 +62,7 @@ def call(
 
     success_outputs = []
     plot_data = xarray_obj[product_name].to_masked_array()
-    from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
-    from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
-    from geoips.image_utils.mpl_utils import (
-        plot_image,
-        save_image,
-        plot_overlays,
-        create_colorbar,
-        add_shape_patches,
-    )
-    from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
+
 
     if not mpl_colors_info:
         # Create the matplotlib color info dict - the fields in this dictionary
@@ -80,21 +83,24 @@ def call(
         existing_mapobj=mapobj,
         noborder=False,
     )
+    LOG.info(matplotlib.get_backend())
+
+    # Plot the actual data on a map
+    # empty_data = np.zeros([area_def.x_size, area_def.y_size])
+    empty_data = np.zeros([1, 1])
+    plot_image(main_ax, empty_data, mapobj, mpl_colors_info=mpl_colors_info)
 
     main_ax = add_shape_patches(
         main_ax,
         {
             "latitude": xarray_obj["latitude"].data,
             "longitude": xarray_obj["longitude"].data,
-            "product": {"name": product_name, "data": xarray_obj[product_name].data},
+            "product": xarray_obj[product_name].data,
         },
         mapobj,
         shape_type,
         mpl_colors_info["cmap"],
     )
-
-    # Plot the actual data on a map
-    plot_image(main_ax, plot_data, mapobj, mpl_colors_info=mpl_colors_info)
 
     # Set the title for final image
     title_string = get_title_string_from_objects(
@@ -122,28 +128,6 @@ def call(
         feature_annotator=feature_annotator,
         gridline_annotator=gridline_annotator,
     )
-    prod_plugin = None
-    try:
-        prod_plugin = products.get_plugin(
-            xarray_obj.source_name,
-            product_name,
-            output_dict.get("product_spec_override"),
-        )
-    except (PluginError, ValidationError):
-        LOG.warning(
-            "SKIPPING products.get_plugin: Invalid product specification %s / %s",
-            product_name,
-            xarray_obj.source_name,
-        )
-    if prod_plugin and "coverage_checker" in prod_plugin:
-        from geoips.dev.product import get_covg_from_product
-        from importlib import import_module
-        from geoips.dev.product import get_covg_args_from_product
-
-        covg_func = get_covg_from_product(prod_plugin)
-        covg_args = get_covg_args_from_product(prod_plugin)
-        plot_covg_func = getattr(import_module(covg_func.__module__), "plot_coverage")
-        plot_covg_func(main_ax, area_def, covg_args)
 
     if output_fnames is not None:
         for annotated_fname in output_fnames:

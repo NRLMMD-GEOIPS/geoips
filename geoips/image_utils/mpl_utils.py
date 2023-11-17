@@ -179,6 +179,7 @@ def save_image(
     rc_params = matplotlib.rcParams
     from os.path import dirname, exists as pathexists
     from geoips.filenames.base_paths import make_dirs
+    matplotlib.use("agg")
 
     if savefig_kwargs is None:
         savefig_kwargs = {}
@@ -799,7 +800,6 @@ def add_shape_patches(main_ax, data_dict, mapobj, shape_type, cmap):
     """
     import cartopy.crs as ccrs
     import inspect
-    import numpy as np
 
     available_patches = []
 
@@ -819,16 +819,17 @@ def add_shape_patches(main_ax, data_dict, mapobj, shape_type, cmap):
 
     patch = getattr(matplotlib.patches, shape_type)
     crs = ccrs.CRS(mapobj)
-    val_idxs = np.argwhere(~np.isnan(data_dict["product"]["data"]))
-    # cmap = matplotlib.cm.jet
     norm = matplotlib.colors.Normalize(vmin=0, vmax=25)
-    for idx in val_idxs:
-        lat = data_dict["latitude"][idx[0]][idx[1]]
-        lon = data_dict["longitude"][idx[0]][idx[1]]
-        radius = data_dict["product"]["data"][idx[0]][idx[1]]
+    LOG.info(f"Latitude size = {data_dict['latitude'].size}")
+    LOG.info(f"Longitude size = {data_dict['longitude'].size}")
+    LOG.info(f"Product size = {data_dict['product'].size}")
+    for idx in range(data_dict["latitude"].size):
+        lat = data_dict["latitude"][idx]
+        lon = data_dict["longitude"][idx]
+        radius = data_dict["product"][idx]
         shape = patch(
             crs.transform_point(lon, lat, mapobj.source_crs),
-            radius * 5000,
+            radius * 8000,
             transform=mapobj,
             color=cmap(norm(radius)),
             alpha=0.5,
