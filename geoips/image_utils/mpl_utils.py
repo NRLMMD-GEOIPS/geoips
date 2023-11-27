@@ -829,7 +829,14 @@ def add_shape_patches(main_ax, data_dict, mapobj, shape_type, cmap):
         lon = data_dict["longitude"][idx]
         product_val = data_dict["product"][idx]
         shape = add_patch(
-            lat, lon, product_val, patch, crs, cmap, norm, mapobj,
+            lat,
+            lon,
+            product_val,
+            patch,
+            crs,
+            cmap,
+            norm,
+            mapobj,
         )
         main_ax.add_patch(shape)
     return main_ax
@@ -885,7 +892,5 @@ def add_patch(lat, lon, product_val, patch, crs, cmap, norm, mapobj):
             alpha=0.5,
         )
     else:
-        raise TypeError(
-            f"Patch: {patch.__name__} is not supported yet."
-        )
+        raise TypeError(f"Patch: {patch.__name__} is not supported yet.")
     return shape
