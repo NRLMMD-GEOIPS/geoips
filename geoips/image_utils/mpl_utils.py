@@ -827,13 +827,65 @@ def add_shape_patches(main_ax, data_dict, mapobj, shape_type, cmap):
     for idx in range(data_dict["latitude"].size):
         lat = data_dict["latitude"][idx]
         lon = data_dict["longitude"][idx]
-        radius = data_dict["product"][idx]
-        shape = patch(
-            crs.transform_point(lon, lat, mapobj.source_crs),
-            radius * 8000,
-            transform=mapobj,
-            color=cmap(norm(radius)),
-            alpha=0.5,
+        product_val = data_dict["product"][idx]
+        shape = add_patch(
+            lat, lon, product_val, patch, crs, cmap, norm, mapobj,
         )
         main_ax.add_patch(shape)
     return main_ax
+
+
+def add_patch(lat, lon, product_val, patch, crs, cmap, norm, mapobj):
+    """
+    Create and Return a Matplotlib Patch.
+
+    This patch is created at the corresponding crs(lon, lat) location with corresponding
+    radius.
+
+    Parameters
+    ----------
+    lat: float
+        Corresponding latitude value for where the patch should be added
+    lon: float
+        Corresponding longitude value for where the patch should be added
+    product_val: float
+        Corresponding radius/width/height of the patch to be created
+    patch: Matplotlib Patch Class
+        The corresponding Matplotlib Patch Class
+    crs: Cartopy Coordinate Reference System Object
+        The correspondinbg Coordinate Reference System (crs) from Cartopy in which the
+        data should be placed into
+    cmap: Matplotlib Colormap
+        The colormap to be applied to the patch
+    norm: Matplotlib.colors.Normalize
+        Function to normalize the radius value to a corresponding color from cmap
+    mapobj: cartopy Map Object
+        The corresponding mapobj which data should be transformed into
+
+    Returns
+    -------
+    shape: Matplotlib Patch Object
+        The patch to be added to the main axis
+    """
+    if str(patch.__name__) == "Circle":
+        shape = patch(
+            crs.transform_point(lon, lat, mapobj.source_crs),
+            product_val * 8000,
+            transform=mapobj,
+            color=cmap(norm(product_val)),
+            alpha=0.5,
+        )
+    elif str(patch.__name__) == "Rectangle":
+        shape = patch(
+            xy=crs.transform_point(lon, lat, mapobj.source_crs),
+            width=product_val * 8000,
+            height=product_val * 8000,
+            transform=mapobj,
+            color=cmap(norm(product_val)),
+            alpha=0.5,
+        )
+    else:
+        raise TypeError(
+            f"Patch: {patch.__name__} is not supported yet."
+        )
+    return shape

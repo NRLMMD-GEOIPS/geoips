@@ -31,3 +31,6 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_glm/raw/*.nc \
 retval=$?
 
 exit $retval
+
+
+# --output_formatter_kwargs '{"shape_type": "rectangle"}' \
