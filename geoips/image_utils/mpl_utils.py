@@ -179,6 +179,7 @@ def save_image(
     rc_params = matplotlib.rcParams
     from os.path import dirname, exists as pathexists
     from geoips.filenames.base_paths import make_dirs
+
     matplotlib.use("agg")
 
     if savefig_kwargs is None:
@@ -804,8 +805,8 @@ def add_shape_patches(main_ax, data_dict, mapobj, shape_type, cmap):
     available_patches = []
 
     for patch_class in inspect.getmembers(matplotlib.patches, inspect.isclass):
-        if ("matplotlib.patches." in str(patch_class[1])
-            and "Style" not in str(patch_class[0])
+        if "matplotlib.patches." in str(patch_class[1]) and "Style" not in str(
+            patch_class[0]
         ):
             available_patches.append(patch_class[0])
 

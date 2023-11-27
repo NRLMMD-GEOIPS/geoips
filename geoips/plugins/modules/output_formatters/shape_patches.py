@@ -13,10 +13,6 @@
 """Matplot-lib based annotated image output."""
 
 import logging
-
-from geoips.interfaces import products
-from geoips.errors import PluginError
-from jsonschema.exceptions import ValidationError
 import numpy as np
 from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
 from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
@@ -63,7 +59,6 @@ def call(
     success_outputs = []
     plot_data = xarray_obj[product_name].to_masked_array()
 
-
     if not mpl_colors_info:
         # Create the matplotlib color info dict - the fields in this dictionary
         # (cmap, norm, features, etc) will be used in plot_image to ensure the image
@@ -85,8 +80,8 @@ def call(
     )
     LOG.info(matplotlib.get_backend())
 
-    # Plot the actual data on a map
-    # empty_data = np.zeros([area_def.x_size, area_def.y_size])
+    # Plot the actual data on a map. This shouldn't be necessary, however when we remove
+    # this we get a blank image. Not too sure why, probably best to open an issue for it
     empty_data = np.zeros([1, 1])
     plot_image(main_ax, empty_data, mapobj, mpl_colors_info=mpl_colors_info)
 

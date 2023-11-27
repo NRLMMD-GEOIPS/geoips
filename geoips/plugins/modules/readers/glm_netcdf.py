@@ -136,9 +136,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             lat = xarray.DataArray(xobj.variables[f"{chan}_lat"])
             lon = xarray.DataArray(xobj.variables[f"{chan}_lon"])
             area = xarray.DataArray(xobj.variables[f"{chan}_area"])
-            quality_flag = xarray.DataArray(
-                    xobj.variables[f"{chan}_quality_flag"]
-            )
+            quality_flag = xarray.DataArray(xobj.variables[f"{chan}_quality_flag"])
             channel_vars = {
                 "lat": lat,
                 "lon": lon,
@@ -150,7 +148,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 attrs=dict(
                     start_datetime=xobj.attrs["time_coverage_start"],
                     end_datetime=xobj.attrs["time_coverage_end"],
-                    source_name="glm"
+                    source_name="glm",
                 ),
             )
             all_xobj = merge_xarray_data(chan, all_xobj, ds)
@@ -171,4 +169,3 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     LOG.info("Full xarray object requested, returning corresponding variables.")
 
     return {"GLM": all_xobj, "METADATA": all_xobj[[]]}
-

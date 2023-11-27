@@ -25,9 +25,9 @@ name = "glm_alg"
 
 
 def call(
-    xarray_dict, # Dictionary containing xarray dictionaries
-    output_data_range=[0, 10000],  # Range of values that your algorithm will output
-    scale_factor=1,  # Adding a scale factor here for use in converting input meters to output kilometers
+    xarray_dict,
+    output_data_range=[0, 10000],
+    scale_factor=1,
     min_outbounds="crop",
     max_outbounds="crop",
     norm=False,
@@ -70,6 +70,7 @@ def call(
 
             * If True, returned data will be inverted
             * If False, returned data will not be inverted
+
     Returns
     -------
     xarray.Dataset.
