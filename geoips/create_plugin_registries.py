@@ -16,6 +16,7 @@ from geoips.commandline.log_setup import setup_logging
 import geoips.interfaces
 from geoips.errors import PluginRegistryError
 import json
+from argparse import ArgumentParser
 
 LOG = logging.getLogger(__name__)
 
@@ -535,9 +536,20 @@ def main():
     args: list
         List of strings representing the arguments provided via command line.
     """
-    save_type = "json"
-    if len(sys.argv) > 1 and sys.argv[1].lower() == "yaml":
-        save_type = "yaml"
+    argparser = ArgumentParser(
+        prog="create_plugin_registries",
+        description="Creates Plugin Registries for available GeoIPS packages.",
+    )
+    argparser.add_argument(
+        '-s',
+        '--save_type',
+        type=str.lower,
+        default="json",
+        choices=["json", "yaml"]
+    )
+    ARGS = argparser.parse_args()
+    save_type = ARGS.save_type
+
     LOG = setup_logging(logging_level="INTERACTIVE")
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
     LOG.debug(plugin_packages)
