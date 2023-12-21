@@ -541,11 +541,7 @@ def main():
         description="Creates Plugin Registries for available GeoIPS packages.",
     )
     argparser.add_argument(
-        '-s',
-        '--save_type',
-        type=str.lower,
-        default="json",
-        choices=["json", "yaml"]
+        "-s", "--save_type", type=str.lower, default="json", choices=["json", "yaml"]
     )
     ARGS = argparser.parse_args()
     save_type = ARGS.save_type
