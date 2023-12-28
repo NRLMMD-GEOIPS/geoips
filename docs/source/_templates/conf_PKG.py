@@ -140,6 +140,7 @@ html_theme = "pydata_sphinx_theme"
 # documentation.
 html_theme_options = {
     "external_links": [],
+    "navigation_with_keys": False,
     "footer_end": ["geoips_footer"],
     "github_url": "https://github.com/NRLMMD-GEOIPS/PKGNAME",
     "navbar_end": ["theme-switcher", "navbar-icon-links"],

@@ -19,6 +19,8 @@ LOG = logging.getLogger(__name__)
 MS_TO_KTS = 1.94384
 DEG_TO_KM = 111.321
 
+interface = None
+
 
 def read_remss_data(wind_xarray, data_type):
     """

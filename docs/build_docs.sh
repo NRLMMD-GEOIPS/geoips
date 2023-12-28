@@ -50,6 +50,7 @@ fi
 echo "passed path=$1"
 repopath=`realpath $1`
 docbasepath=$repopath
+geoipsdocpath="$GEOIPS_PACKAGES_DIR/geoips/docs"
 if [[ ! -d "$docbasepath" ]]; then
     echo "***************************************************************************"
     echo "ERROR: Repository 'realpath' does not exist:"
@@ -137,6 +138,7 @@ echo ""
 echo "Building documentation for package: $pkgname"
 echo "docbasepath: $docbasepath"
 echo "buildfrom_docpath: $buildfrom_docpath"
+echo "geoipsdocpath: $geoipsdocpath"
 echo ""
 
 # build package conf.py and index.rst, and set PDF name
@@ -150,15 +152,16 @@ if [[ "$pkgname" != "geoips" ]]; then
     startidx=""
     devguideidx=""
 fi
+echo "sed \"s/PKGNAME/${pkgname}/g\" $geoipsdocpath/source/_templates/conf_PKG.py > $buildfrom_docpath/source/conf.py"
 sed "s/PKGNAME/${pkgname}/g" \
-    $GEOIPS_PACKAGES_DIR/geoips/docs/source/_templates/conf_PKG.py > \
+    $geoipsdocpath/source/_templates/conf_PKG.py > \
     $buildfrom_docpath/source/conf.py
 if [[ "$pkgname" != "geoips" ]]; then
     # need temporary copy of static, contact, format, and foooter for build
-    cp -R $GEOIPS_PACKAGES_DIR/geoips/docs/source/_static $buildfrom_docpath/source
-    cp -R $GEOIPS_PACKAGES_DIR/geoips/docs/source/contact $buildfrom_docpath/source
-    cp $GEOIPS_PACKAGES_DIR/geoips/docs/source/fancyhf.sty $buildfrom_docpath/source
-    cp $GEOIPS_PACKAGES_DIR/geoips/docs/source/_templates/geoips_footer.html  \
+    cp -R $geoipsdocpath/source/_static $buildfrom_docpath/source
+    cp -R $geoipsdocpath/source/contact $buildfrom_docpath/source
+    cp $geoipsdocpath/source/fancyhf.sty $buildfrom_docpath/source
+    cp $geoipsdocpath/source/_templates/geoips_footer.html  \
         $buildfrom_docpath/source/_templates
 fi
 
@@ -197,7 +200,7 @@ if [[ "$pdf_required" == "True" ]]; then
     releasidx=""
     sed "s/PKGNAME/${pkgname}/g; s/STARTERIDX/${startidx}/g; \
         s/DEVIDX/${devguideidx}/g; s/RELEASEIDX/${releasidx}/g;" \
-        $GEOIPS_PACKAGES_DIR/geoips/docs/source/_templates/index_PKG.html > \
+        $geoipsdocpath/docs/source/_templates/index_PKG.html > \
         $buildfrom_docpath/source/_templates/indexrst.html
     echo "***"
     echo "building sphinx PDF documentation"
@@ -236,7 +239,7 @@ if [[ "$html_required" == "True" ]]; then
     releasidx="releases\/index"
     sed "s/PKGNAME/${pkgname}/g; s/STARTERIDX/${startidx}/g; \
         s/DEVIDX/${devguideidx}/g; s/RELEASEIDX/${releasidx}/g;" \
-        $GEOIPS_PACKAGES_DIR/geoips/docs/source/_templates/index_PKG.html > \
+        $geoipsdocpath/source/_templates/index_PKG.html > \
         $buildfrom_docpath/source/_templates/indexrst.html
     echo "***"
     echo "building sphinx html documentation"

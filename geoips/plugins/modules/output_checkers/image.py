@@ -88,7 +88,7 @@ def correct_file_format(fname):
     bool
         True if it is an image file, False otherwise.
     """
-    if splitext(fname)[-1] in [".png", ".jpg", ".jpeg", ".jif"]:
+    if splitext(fname)[-1] in [".png", ".jpg", ".jpeg"]:
         return True
     return False
 

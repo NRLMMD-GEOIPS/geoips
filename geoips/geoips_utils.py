@@ -29,10 +29,16 @@ NAMESPACE_PREFIX = "geoips"
 
 def get_entry_point_group(group):
     """Get entry point group."""
+    # NOTE: When there is a .egg-info directory in the plugin package top
+    # level (ie, from setuptools pip install -e), it seems to return that
+    # package twice in this list.  For now, just use the full list with
+    # duplicates.
     if sys.version_info[:3] >= (3, 10, 0):
-        return metadata.entry_points(group=group)
+        eps = metadata.entry_points(group=group)
     else:
-        return metadata.entry_points()[group]
+        eps = metadata.entry_points()[group]
+
+    return eps
 
 
 def find_ascii_palette(name):
@@ -109,6 +115,11 @@ def find_entry_point(namespace, name, default=None):
     """Find object matching 'name' using GEOIPS entry point namespace 'namespace'.
 
     Automatically add 'geoips' prefix to namespace for disambiguation.
+
+    This is used in geoips.interfaces.base.get_plugin when "name" exists.
+    In that case, default is passed in as the full path, and is likely just
+    returned as the full path.  So the entry points in here probably are not
+    actually used, but the function is still required.
 
     Parameters
     ----------
@@ -283,6 +294,41 @@ def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
             )
         else:
             LOG.info("    MISSING Process Time %s: %s", job_str, process_name)
+
+
+def replace_geoips_paths_in_list(
+    replace_list, replace_paths=None, base_paths=None, curly_braces=False
+):
+    """Replace geoips paths for every path-based element in a list."""
+    newlist = []
+    # Go through each element in the list
+    for val in replace_list:
+        # If this element is a str, and contains "/", it's probably a path,
+        # and we can replace the geoips paths.
+        if isinstance(val, str) and "/" in val:
+            newlist += [replace_geoips_paths(val)]
+        # Otherwise, just put the current element back
+        else:
+            newlist += [val]
+    return newlist
+
+
+def replace_geoips_paths_in_dict(
+    replace_dict, replace_paths=None, base_paths=None, curly_braces=False
+):
+    """Replace geoips paths in every path-based element within a dictionary."""
+    dump_dict = replace_dict.copy()
+    for key in replace_dict:
+        # If this is a string, and it contains "/", replace the geoips paths.
+        if isinstance(replace_dict[key], str) and "/" in replace_dict[key]:
+            dump_dict[key] = replace_geoips_paths(replace_dict[key])
+        # If this is a list, go through each element and replace geoips paths if
+        # applicable.
+        if isinstance(replace_dict[key], list):
+            dump_dict[key] = replace_geoips_paths_in_list(
+                replace_dict[key], replace_paths, base_paths, curly_braces
+            )
+    return dump_dict
 
 
 def replace_geoips_paths(
