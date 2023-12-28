@@ -4,8 +4,6 @@ defaults:
   run:
     shell: bash
 
-# run run_geoips.sh script on your gh runner server
-# script runs geoips/tests/utils/check_code.sh
 on:
   # Triggers the workflow when pull request created and updated
   pull_request:
