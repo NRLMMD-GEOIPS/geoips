@@ -40,7 +40,7 @@ You can change your installation location by changing the value of
 
     # GeoIPS Default Locations
     export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS  # Point to base URL for git clone commands
-    export GEOIPS_PACKAGES_DIR=$HOME/geoips
+    export GEOIPS_PACKAGES_DIR=$HOME/geoips_packages
     export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
     export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
 
