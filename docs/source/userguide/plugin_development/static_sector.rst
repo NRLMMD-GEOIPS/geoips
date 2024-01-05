@@ -1,3 +1,15 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
 .. _create-a-static_sector:
 
 **************************************
@@ -6,7 +18,8 @@ Extend GeoIPS with a new Static Sector
 
 Static Sectors are plugins which tell GeoIPS where the data will be plotted. Static
 Sectors, as their name implies, define a single area and are not generated during
-runtime. They information about their `projection type <https://proj.org/en/9.3/operations/projections/index.html>`_
+runtime. They information about their
+`projection type <https://proj.org/en/9.3/operations/projections/index.html>`_
 (Stereographic, Equal Area Cylindrical, etc.), the resolution of the data in meters, the
 shape of the sector in pixels, and also include a metadata section which gives users
 more information about the sector they are using.
@@ -58,12 +71,11 @@ Creating Your Static Sector
       center: [0, 0]  # The center x/y point of your sector. Almost always [0, 0]
 
 If this is your first time creating a plugin, it's good to know what the top level
-properties actually do for a plugin. Here is some information on ``interface``,
-``family``, and ``docstring``.
+attributes actually do for a plugin.
 
-.. include:: ../plugin_extend.rst
-   :start-line: 62
-   :end-line: 86
+Please see documentation for
+:ref:`additional info on GeoIPS required attributes<required-attributes>`,
+``interface``, ``family``, and ``docstring``.
 
 Note: while you can leave the metadata untouched, it is very helpful to
 have additional information about the sector being displayed, not only for the backend

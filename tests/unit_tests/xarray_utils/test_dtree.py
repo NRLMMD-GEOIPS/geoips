@@ -51,6 +51,7 @@ def test_xarray_to_datatree(load_testfiles):
     -------
     None
     """
+    metadata_copy = load_testfiles["METADATA"].copy()
     xarray_datatree = xr_to_dtree.xarray_to_datatree(load_testfiles)
-    assert xarray_datatree == load_testfiles
+    assert xarray_datatree.attrs == metadata_copy.attrs
     assert xarray_datatree.keys() == load_testfiles.keys()

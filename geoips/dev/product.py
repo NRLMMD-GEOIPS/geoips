@@ -145,7 +145,8 @@ def get_data_range(prod_plugin, output_dict=None):
             f"Product {prod_plugin.name} does not define 'output_data_range' for its "
             f"algorithm."
         )
-    return alg_args["output_data_range"]
+    # Add .copy() so we aren't returning the ACTUAL list attached to the args
+    return alg_args["output_data_range"].copy()
 
 
 def get_product_display_name(prod_plugin, output_dict=None):
@@ -262,9 +263,11 @@ def get_covg_args_from_product(prod_plugin, output_dict=None, covg_field=None):
         additional information on colormapper types, arguments, and return values
     """
     prod_spec = prod_plugin["spec"]
+    # Add .copy() to coverage args so we aren't passing the ACTUAL coverage
+    # args attached to the product plugin.
     if covg_field in prod_spec:
-        return prod_spec[covg_field]["plugin"]["arguments"]
+        return prod_spec[covg_field]["plugin"]["arguments"].copy()
     elif "coverage_checker" in prod_spec:
-        return prod_spec["coverage_checker"]["plugin"]["arguments"]
+        return prod_spec["coverage_checker"]["plugin"]["arguments"].copy()
     else:
         return {}
