@@ -19,6 +19,8 @@ from pyresample import kd_tree
 
 LOG = logging.getLogger(__name__)
 
+interface = None
+
 
 def get_data_box_definition(source_name, lons, lats):
     """Obtain pyresample geometry definitions.

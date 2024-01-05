@@ -23,7 +23,8 @@ if [[ "$1" == "" || "$2" == "" ]]; then
     echo "    "`basename $0`" black $GEOIPS_PACKAGES_DIR/geoips"
     echo "    "`basename $0`" flake8 $GEOIPS_PACKAGES_DIR/geoips"
     echo "    "`basename $0`" bandit $GEOIPS_PACKAGES_DIR/geoips"
-    echo "    "`basename $0`" pytest $GEOIPS_PACKAGES_DIR/geoips"
+    echo "    "`basename $0`" pytest_short $GEOIPS_PACKAGES_DIR/geoips"
+    echo "    "`basename $0`" pytest_long $GEOIPS_PACKAGES_DIR/geoips"
     echo "    "`basename $0`" all $GEOIPS_PACKAGES_DIR/geoips"
     echo ""
     echo "Returns 0 if all checks pass"
@@ -41,8 +42,10 @@ elif [[ "$1" == "flake8" ]]; then
     test="flake8"
 elif [[ "$1" == "bandit" ]]; then
     test="bandit"
-elif [[ "$1" == "pytest" ]]; then
-    test="pytest"
+elif [[ "$1" == "pytest_short" ]]; then
+    test="pytest_short"
+elif [[ "$1" == "pytest_long" ]]; then
+    test="pytest_long"
 elif [[ "$1" == "interfaces" ]]; then
     test="interfaces"
 elif [[ "$1" == "all" ]]; then
@@ -55,14 +58,17 @@ else
     echo "    black"
     echo "    flake8"
     echo "    bandit"
-    echo "    pytest"
+    echo "    pytest_short"
+    echo "    pytest_long"
     echo ""
     exit 1
 fi
 
-path=$2
+# Get the full path, not just relative
+path="$( cd $2 && pwd)"
 pkgname=`basename $path`
-CONFIG_PATH=`dirname $0`/../../.config
+# Get the full path to the geoips .config directory, pwd removes the relative paths
+CONFIG_PATH="$( cd "$( dirname "$0")/../../.config" && pwd)"
 extra_args=$3
 
 retval=0
@@ -113,7 +119,7 @@ if [[ "$test" == "flake8" || "$test" == "all" ]]; then
     if [[ "$extra_args" == *"no_flake8"* ]]; then
         echo ""
         echo "no_flake8 requested, skipping flake8"
-        flake8_retval="Not tested"
+        flake8_retval="Not tested, flake8 not requested"
     else
         # NOTE: flake8 matches subdirectories or filenames exactly.
         #       So, do not include "/" in the extend-exclude, since it is
@@ -138,21 +144,28 @@ if [[ "$test" == "bandit" || "$test" == "all" ]]; then
     echo "TEST COMPLETE bandit"
     retval=$((bandit_retval+retval))
 fi
-if [[ "$test" == "pytest" || "$test" == "all" ]]; then
+if [[ "$test" == "pytest_short" || "$test" == "all" ]]; then
     echo ""
     echo "CALLING TEST:"
 
-    # First test the geoips package pytests - these include pytests of any other
-    # installed plugin packages, so always test geoips repo pytests.
-    echo "pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests"
-    pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests
-    pytest_geoips_retval=$?
+    if [[ "$GEOIPS_DISABLE_SHARED_CODE_CHECKS" == "True" ]]; then
+        echo ""
+        echo "GEOIPS_DISABLE_SHARED_CODE_CHECKS=True, skipping geoips pytests"
+        pytest_short_geoips_retval="Not tested, GEOIPS_DISABLE_SHARED_CODE_CHECKS True"
+    else
+        # First test the geoips package pytests - these include pytests of any other
+        # installed plugin packages, so always test geoips repo pytests.
+        echo "pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests/unit_tests"
+        pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests/unit_tests
+        pytest_short_geoips_retval=$?
+        retval=$((pytest_short_geoips_retval+retval))
+    fi
 
     # Only test the current path if it is NOT geoips.  Don't test geoips twice.
-    if [[ "$pkgname" != "geoips" ]]; then
-        echo "pytest --cov=$pkgname -c $CONFIG_PATH/pytest.ini $path/tests"
-        pytest --cov=$pkgname -c $CONFIG_PATH/pytest.ini $path/tests
-        pytest_pkg_retval=$?
+    if [[ "$pkgname" != "geoips" && -d $path/tests/unit_tests ]]; then
+        echo "pytest --cov=$pkgname -c $CONFIG_PATH/pytest.ini $path/tests/unit_tests"
+        pytest --cov=$pkgname -c $CONFIG_PATH/pytest.ini $path/tests/unit_tests
+        pytest_short_pkg_retval=$?
 
         # Return value of 5 indicates that no tests were run.
         # https://docs.pytest.org/en/7.1.x/reference/exit-codes.html
@@ -162,20 +175,60 @@ if [[ "$test" == "pytest" || "$test" == "all" ]]; then
             pytest_pkg_retval="No tests found"
         else
             # Add in the pkg pytest retval
-            retval=$((pytest_pkg_retval+retval))
+            retval=$((pytest_short_pkg_retval+retval))
         fi
+    elif [[ ! -d $path/tests/unit_tests ]]; then
+        pytest_pkg_retval="No tests/unit_tests directory found"
     else
         pytest_pkg_retval="Not re-tested"
     fi
-    echo "TEST COMPLETE pytest"
-    # Now add in the geoips pytest retval
-    retval=$((pytest_geoips_retval+retval))
+    echo "TEST COMPLETE pytest_short"
+fi
+if [[ "$test" == "pytest_long" || "$test" == "all" ]]; then
+    echo ""
+    echo "CALLING TEST:"
+
+    if [[ "$GEOIPS_DISABLE_SHARED_CODE_CHECKS" == "True" ]]; then
+        echo ""
+        echo "GEOIPS_DISABLE_SHARED_CODE_CHECKS=True, skipping geoips pytests"
+        pytest_long_geoips_retval="Not tested, GEOIPS_DISABLE_SHARED_CODE_CHECKS True"
+    else
+        # First test the geoips package pytests - these include pytests of any other
+        # installed plugin packages, so always test geoips repo pytests.
+        echo "pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests/unit_tests_long"
+        pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests/unit_tests_long
+        pytest_long_geoips_retval=$?
+        retval=$((pytest_long_geoips_retval+retval))
+    fi
+
+    # Only test the current path if it is NOT geoips.  Don't test geoips twice.
+    if [[ "$pkgname" != "geoips" && -d "$path/tests/unit_tests_long" ]]; then
+        echo "pytest --cov=$pkgname -c $CONFIG_PATH/pytest.ini $path/tests/unit_tests_long"
+        pytest --cov=$pkgname -c $CONFIG_PATH/pytest.ini $path/tests/unit_tests_long
+        pytest_long_pkg_retval=$?
+
+        # Return value of 5 indicates that no tests were run.
+        # https://docs.pytest.org/en/7.1.x/reference/exit-codes.html
+        # If no tests were run, still return 0.  Not all packages have
+        # individual pytests defined, and we don't want a failure due to that.
+        if [[ "$pytest_pkg_retval" == "5" ]]; then
+            pytest_pkg_retval="No tests found"
+        else
+            # Add in the pkg pytest retval
+            retval=$((pytest_long_pkg_retval+retval))
+        fi
+    elif [[ ! -d $path/tests/unit_tests_long ]]; then
+        pytest_pkg_retval="No tests/unit_tests_long directory found"
+    else
+        pytest_pkg_retval="Not re-tested"
+    fi
+    echo "TEST COMPLETE pytest_long"
 fi
 if [[ "$test" == "interfaces" || "$test" == "all" ]]; then
     if [[ "$GEOIPS_DISABLE_SHARED_CODE_CHECKS" == "True" ]]; then
         echo ""
         echo "GEOIPS_DISABLE_SHARED_CODE_CHECKS=True, skipping test_interfaces"
-        interfaces_retval="Not tested"
+        interfaces_retval="Not tested, GEOIPS_DISABLE_SHARED_CODE_CHECKS True"
     else
         echo ""
         echo "CALLING TEST interfaces:"
@@ -192,8 +245,10 @@ echo ""
 echo "  black return: $black_retval"
 echo "  flake8 return: $flake8_retval"
 echo "  bandit return: $bandit_retval"
-echo "  pytest geoips return: $pytest_geoips_retval"
-echo "  pytest $pkgname return: $pytest_pkg_retval"
+echo "  pytest_short geoips return: $pytest_short_geoips_retval"
+echo "  pytest_long geoips return: $pytest_long_geoips_retval"
+echo "  pytest_short $pkgname return: $pytest_short_pkg_retval"
+echo "  pytest_long $pkgname return: $pytest_long_pkg_retval"
 echo "  interfaces return: $interfaces_retval"
 echo ""
 echo "Overall `basename $0` return: $retval"

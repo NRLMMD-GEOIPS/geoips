@@ -58,7 +58,7 @@ def area_def_to_yamlfile(area_def, out_fname):
     return write_yamldict(yamldict, out_fname=out_fname)
 
 
-def write_yamldict(yamldict, out_fname, force=False):
+def write_yamldict(yamldict, out_fname, force=False, replace_geoips_paths=False):
     """Write yamldict to out_fname.
 
     Parameters
@@ -69,6 +69,8 @@ def write_yamldict(yamldict, out_fname, force=False):
         Output filename to write YAML dict to
     force : bool, default=False
         If True, overwrite existing file.
+    replace_geoips_paths: bool, default=False
+        If True, replace full path with appropriate environment variable in YAML output
 
     Returns
     -------
@@ -76,14 +78,21 @@ def write_yamldict(yamldict, out_fname, force=False):
         Path to output file if successfully produced
     """
     from geoips.filenames.base_paths import make_dirs
+    from geoips.geoips_utils import replace_geoips_paths_in_dict
     from os.path import dirname, exists
     import yaml
+
+    if replace_geoips_paths:
+        dump_yamldict = replace_geoips_paths_in_dict(yamldict)
+    # If we aren't replacing the geoips paths, just use the original yaml dict.
+    else:
+        dump_yamldict = yamldict
 
     make_dirs(dirname(out_fname))
     if not exists(out_fname) or force:
         with open(out_fname, "w") as fobj:
             LOG.info("SUCCESS Writing out yaml file %s", out_fname)
-            yaml.safe_dump(yamldict, fobj, default_flow_style=False)
+            yaml.safe_dump(dump_yamldict, fobj, default_flow_style=False)
             return [out_fname]
     else:
         LOG.info(

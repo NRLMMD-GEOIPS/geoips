@@ -12,6 +12,12 @@
 
 """Utils to handle time stamp information within xarray objects."""
 
+import calendar
+from datetime import datetime
+from itertools import starmap
+import numpy as np
+from cftime import num2pydate
+
 
 def get_posix_from_datetime(dt):
     """Return the POSIX timestamp in seconds.
@@ -26,8 +32,6 @@ def get_posix_from_datetime(dt):
     long
         representing seconds since 1 January 1970 at 00Z (epoch seconds)
     """
-    import calendar
-
     return calendar.timegm(dt.timetuple())
 
 
@@ -51,7 +55,6 @@ def get_datetime_from_datetime64(dt64):
     scale = 1e-9
     if "[ns]" in dt64.dtype.name:
         scale = 1e-9
-    from datetime import datetime
 
     return datetime.utcfromtimestamp(dt64.astype(int) * scale)
 
@@ -75,9 +78,7 @@ def get_min_from_xarray_time(xarray_obj, varname):
     minval = xarray_obj[varname].min().to_dict()["data"]
     # Hack to get around bug in most recent version of numpy
     if minval is None:
-        import numpy
-
-        goodinds = numpy.ma.where(xarray_obj[varname].to_masked_array())
+        goodinds = np.ma.where(xarray_obj[varname].to_masked_array())
         minval = get_datetime_from_datetime64(
             xarray_obj[varname].to_masked_array()[goodinds].min()
         )
@@ -103,10 +104,44 @@ def get_max_from_xarray_time(xarray_obj, varname):
     maxval = xarray_obj[varname].max().to_dict()["data"]
     # Hack to get around bug in most recent version of numpy
     if maxval is None:
-        import numpy
-
-        goodinds = numpy.ma.where(xarray_obj[varname].to_masked_array())
+        goodinds = np.ma.where(xarray_obj[varname].to_masked_array())
         maxval = get_datetime_from_datetime64(
             xarray_obj[varname].to_masked_array()[goodinds].max()
         )
     return maxval
+
+
+def fix_datetime(inxr):
+    """Masks the input xarray that has improper datetimes (negatives).
+
+    Parameters
+    ----------
+    inxr : xarray.Dataset
+        Input xarray with datetimes in raw float64 value
+
+    Returns
+    -------
+    xarray.Dataset
+        Xarray with times reformatted as datetimes
+
+    Notes
+    -----
+    Depreciated versions of xarray cast this as a functional NaT value
+    """
+    tmp_mask = np.where(inxr.time.values < 0, np.nan, inxr.time.values)
+    refactor_date = list(starmap(xarray_to_time, zip(tmp_mask, np.isnan(tmp_mask))))
+    inxr.time.values = np.asarray(refactor_date)
+
+    return inxr
+
+
+def xarray_to_time(inarr, mask):
+    """Convert a input array (inarr) with a bool mask (mask) to datetime.
+
+    Notes
+    -----
+    Uses a nan mask on the array to convert real values.
+    """
+    dt64_arr = np.full(inarr.shape, np.datetime64("nat"), dtype="datetime64[ns]")
+    dt64_arr[~mask] = num2pydate(inarr[~mask], "seconds since 1990-01-01 00:00:00")
+    return dt64_arr

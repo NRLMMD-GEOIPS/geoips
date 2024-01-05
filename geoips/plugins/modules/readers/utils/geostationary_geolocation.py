@@ -24,6 +24,8 @@ from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
+interface = None
+
 
 try:
     import numexpr as ne

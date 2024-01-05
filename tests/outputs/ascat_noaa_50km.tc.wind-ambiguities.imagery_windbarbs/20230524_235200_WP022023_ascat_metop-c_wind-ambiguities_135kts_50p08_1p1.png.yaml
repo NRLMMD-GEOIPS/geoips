@@ -18,7 +18,7 @@ final_storm_name: MAWAR
 invest_number: 97
 parser_name: bdeck_parser
 pressure: 924.0
-product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2023/WP/WP022023/png/windbarbs/metop-c/20230524_235200_WP022023_ascat_metop-c_windbarbs_135kts_50p08_1p1.png
+product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2023/WP/WP022023/png/wind-ambiguities/metop-c/20230524_235200_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png
 sector_type: tc
 source_file_names:
 - L2OVW50kmASCAT_v1r1_m03_s202305242348000_e202305242350560_c202305250147573.nc
