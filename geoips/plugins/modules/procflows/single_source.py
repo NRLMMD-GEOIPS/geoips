@@ -349,7 +349,10 @@ def process_xarray_dict_to_output_format(
 def print_area_def(area_def, print_str):
     """Print area def."""
     emphasis_str = "*" * 84
-    LOG.info(f"\n\n{emphasis_str}" f"\n***{print_str}\n{area_def}")
+    LOG.info(
+        f"\n\n{emphasis_str}"
+        f"\n***{print_str}\n{area_def}"
+    )
     for key, value in area_def.sector_info.items():
         LOG.info(f"{key}: {value}")
     LOG.info(emphasis_str)
