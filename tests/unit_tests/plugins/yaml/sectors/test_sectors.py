@@ -22,7 +22,12 @@ def test_get_all_sectors():
     interfaces.sectors.get_plugins()
 
 
-@pytest.mark.parametrize("sector", interfaces.sectors.get_plugins())
+def gen_ids(sector_dict):
+    """Generate ids from the name key in each sector."""
+    return sector_dict["name"]
+
+
+@pytest.mark.parametrize("sector", interfaces.sectors.get_plugins(), ids=gen_ids)
 def test_sector(sector):
     """Ensure that a sector has the correct attributes."""
     assert isinstance(sector, SectorPluginBase)

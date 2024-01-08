@@ -509,6 +509,10 @@ def process_unsectored_data_outputs(
                             product_name,
                             output_dict.get("product_spec_override"),
                         )
+                        LOG.interactive(
+                            "Processing 'xarray_dict_to_output_format' product '%s'",
+                            product_name,
+                        )
                         out = process_xarray_dict_to_output_format(
                             xobjs, variables, prod_plugin, output_dict
                         )
@@ -856,14 +860,31 @@ def call(fnames, command_line_args=None):
         reader_kwargs = config_dict.get("reader_kwargs")
     if not reader_kwargs:
         reader_kwargs = {}
-    if command_line_args.get("no_presectoring") is not None:
+    if command_line_args.get("no_presectoring"):
         presector_data = not command_line_args["no_presectoring"]
+    elif "no_presectoring" in config_dict:
+        presector_data = not bool(config_dict["no_presectoring"])
     else:
         presector_data = True
     if command_line_args.get("output_checker_kwargs") is not None:
         output_checker_kwargs = command_line_args["output_checker_kwargs"]
     else:
         output_checker_kwargs = {}
+
+    # Allow pulling command line arguments from either command line or YAML config.
+    # Command line arguments override YAML config
+
+    window_start_time = None
+    window_end_time = None
+    if command_line_args.get("window_start_time") is not None:
+        window_start_time = command_line_args["window_start_time"]
+    elif "window_start_time" in config_dict:
+        window_start_time = config_dict["window_start_time"]
+
+    if command_line_args.get("window_end_time") is not None:
+        window_end_time = command_line_args["window_end_time"]
+    elif "window_end_time" in config_dict:
+        window_end_time = config_dict["window_end_time"]
 
     # Allow pulling command line arguments from either command line or YAML config.
     # Command line arguments override YAML config
@@ -1008,7 +1029,9 @@ def call(fnames, command_line_args=None):
 
     list_area_defs = get_area_def_list_from_dict(area_defs)
 
-    LOG.interactive("\n\n\n\nNEXT Processing any sectored data outputs...\n\n")
+    LOG.interactive(
+        "\n\n\n\nNEXT Processing %s sectored data outputs...\n\n", len(area_defs)
+    )
     area_def_num = 0
     # Loop through each template - register the data once for each template/area_def
     for area_def_id in area_defs:
@@ -1549,6 +1572,7 @@ def call(fnames, command_line_args=None):
                                 pad_sect_xarrays,
                                 pad_area_def,
                                 prod_plugin,
+                                resector=presector_data,
                                 resampled_read=resampled_read,
                                 variable_names=product_variables,
                                 window_start_time=window_start_time,
@@ -1574,6 +1598,7 @@ def call(fnames, command_line_args=None):
                                 sect_xarrays,
                                 area_def,
                                 prod_plugin,
+                                resector=presector_data,
                                 resampled_read=resampled_read,
                                 variable_names=product_variables,
                                 window_start_time=window_start_time,
@@ -1589,9 +1614,22 @@ def call(fnames, command_line_args=None):
                         prod_plugin,
                         covg_field="image_production_coverage_checker",
                     )
-                    covg = covg_plugin(
-                        alg_xarray, prod_plugin.name, area_def, **covg_args
-                    )
+
+                    # Set variable_name to prod_plugin.name if not defined.
+                    # Always use variable_name if it is defined.
+                    # Remove from args so there is not a duplicate are when passing
+                    # (since we are passing covg_varname explicitly).
+                    # Note get_covg_args_from_product was updated to return a copy of
+                    # covg_args, so this does not impact future uses of the product.
+                    covg_varname = covg_args.pop("variable_name", prod_plugin.name)
+                    # Note variables can be specified as DATASET:VARIABLE,
+                    # since this is a preprocessed alg_xarray, and not a
+                    # dictionary of datasets, just use the variable name
+                    # (we expect the correct variable will exist in this
+                    # final processed array)
+                    if ":" in covg_varname:
+                        covg_varname = covg_varname.split(":")[1]
+                    covg = covg_plugin(alg_xarray, covg_varname, area_def, **covg_args)
 
                     fname_covg_plugin = get_covg_from_product(
                         prod_plugin,
@@ -1601,8 +1639,25 @@ def call(fnames, command_line_args=None):
                         prod_plugin,
                         covg_field="filename_coverage_checker",
                     )
+
+                    # Set variable_name to prod_plugin.name if not defined.
+                    # Always use variable_name if it is defined.
+                    # Remove from args so there is not a duplicate are when passing
+                    # (since we are passing covg_varname explicitly).
+                    # Note get_covg_args_from_product was updated to return a copy of
+                    # covg_args, so this does not impact future uses of the product.
+                    covg_varname = fname_covg_args.pop(
+                        "variable_name", prod_plugin.name
+                    )
+                    # Note variables can be specified as DATASET:VARIABLE,
+                    # since this is a preprocessed alg_xarray, and not a
+                    # dictionary of datasets, just use the variable name
+                    # (we expect the correct variable will exist in this
+                    # final processed array)
+                    if ":" in covg_varname:
+                        covg_varname = covg_varname.split(":")[1]
                     fname_covg = fname_covg_plugin(
-                        alg_xarray, prod_plugin.name, area_def, **fname_covg_args
+                        alg_xarray, covg_varname, area_def, **fname_covg_args
                     )
 
                     minimum_coverage = 10
@@ -1614,10 +1669,14 @@ def call(fnames, command_line_args=None):
                     if config_minimum_coverage is not None:
                         minimum_coverage = config_minimum_coverage
                     LOG.interactive(
-                        "Required coverage %s for product %s, actual coverage %s",
+                        "Required coverage %s for product %s, actual coverage %s "
+                        "using %s checker, filename covg %s using %s",
                         minimum_coverage,
                         product_name,
                         covg,
+                        covg_plugin.name,
+                        fname_covg,
+                        fname_covg_plugin.name,
                     )
                     if covg < minimum_coverage and fname_covg < minimum_coverage:
                         LOG.interactive(
@@ -1654,7 +1713,10 @@ def call(fnames, command_line_args=None):
                         plot_data_kwargs,
                     )
 
-                    final_products[cpath]["files"] += list(curr_products.keys())
+                    if curr_products:
+                        final_products[cpath]["files"] += list(curr_products.keys())
+                    else:
+                        continue
 
                     if product_db:
                         for fprod in curr_products.keys():

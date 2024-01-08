@@ -15,8 +15,10 @@
 import yaml
 import inspect
 import logging
+from os.path import exists, splitext
 
 from importlib.resources import files
+from importlib import util
 from pathlib import Path
 import jsonschema
 import referencing
@@ -24,10 +26,11 @@ from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
 from geoips.errors import EntryPointError, PluginError, PluginRegistryError
+
 from geoips.geoips_utils import (
     find_entry_point,
-    get_all_entry_points,
-    load_all_yaml_plugins,
+    # get_all_entry_points,
+    # load_all_yaml_plugins,
 )
 
 # from geoips.interfaces import product_defaults
@@ -150,8 +153,27 @@ class YamlPluginValidator:
     _schema_path = SCHEMA_PATH
     _validator = getattr(jsonschema, f"Draft{JSONSCHEMA_DRAFT}Validator")
 
-    schemas = get_schemas(_schema_path, _validator)
-    validators = get_validators(schemas, _validator)
+    @property
+    def schemas(self):
+        """Return a list of jsonschema schemas for GeoIPS.
+
+        This performs a lazy-load for the schema to avoid loading them if not
+        needed. This reduces the import time for geoips.interfaces.
+        """
+        if not hasattr(self, "_schemas"):
+            self._schemas = get_schemas(self._schema_path, self._validator)
+        return self._schemas
+
+    @property
+    def validators(self):
+        """Return schema validators.
+
+        This performs a lazy-load for the validators to avoid loading them if not
+        needed. This reduces the import time for geoips.interfaces.
+        """
+        if not hasattr(self, "_validators"):
+            self._validators = get_validators(self.schemas, self._validator)
+        return self._validators
 
     def validate(self, plugin, validator_id=None):
         """Validate a YAML plugin against the relevant schema.
@@ -294,6 +316,10 @@ class BaseInterface:
     the GeoIPS algorithm plugins.
     """
 
+    from geoips.plugin_registry import plugin_registry
+
+    plugin_registry = plugin_registry
+
     def __new__(cls):
         """Plugin interface new method."""
         if not hasattr(cls, "name") or not cls.name:
@@ -306,6 +332,42 @@ class BaseInterface:
         # cls.__doc__ += interface_attrs_doc causes duplication warnings
 
         return super(BaseInterface, cls).__new__(cls)
+
+    @property
+    def registered_module_based_plugins(self):
+        """Return a dictionary of registered module-based plugins.
+
+        This property provides centeralized error handling for missing plugin
+        registries.
+        """
+        if not hasattr(self, "_registered_module_based_plugins"):
+            try:
+                self._registered_module_based_plugins = (
+                    self.plugin_registry.registered_plugins["module_based"]
+                )
+            except (AttributeError, KeyError):
+                raise PluginRegistryError(
+                    "Plugin registries not found, please run 'create_plugin_registries'"
+                )
+        return self._registered_module_based_plugins
+
+    @property
+    def registered_yaml_based_plugins(self):
+        """Return a dictionary of registered yaml-based plugins.
+
+        This property provides centeralized error handling for missing plugin
+        registries.
+        """
+        if not hasattr(self, "_registered_module_based_plugins"):
+            try:
+                self._registered_yaml_based_plugins = (
+                    self.plugin_registry.registered_plugins["yaml_based"]
+                )
+            except (AttributeError, KeyError):
+                raise PluginRegistryError(
+                    "Plugin registries not found, please run 'create_plugin_registries'"
+                )
+        return self._registered_yaml_based_plugins
 
 
 class BaseYamlInterface(BaseInterface):
@@ -330,10 +392,7 @@ class BaseYamlInterface(BaseInterface):
 
     def __init__(self):
         """YAML plugin interface init method."""
-        try:
-            self._unvalidated_plugins = load_all_yaml_plugins()
-        except PluginRegistryError:
-            self._unvalidated_plugins = {}
+        pass
 
     def _create_registered_plugin_names(self, yaml_plugin):
         """Create a plugin name for plugin registry.
@@ -413,18 +472,16 @@ class BaseYamlInterface(BaseInterface):
         """
         from importlib.resources import files
 
-        if not self._unvalidated_plugins:
-            raise PluginRegistryError(
-                "Plugin registries not found, please run 'create_plugin_registries'"
-            )
+        registered_yaml_plugins = self.registered_yaml_based_plugins
+
         if isinstance(name, tuple):
             # These are stored in the yaml as str(name),
             # ie "('viirs', 'Infrared')"
             try:
-                relpath = self._unvalidated_plugins[self.name][name[0]][name[1]][
+                relpath = registered_yaml_plugins[self.name][name[0]][name[1]][
                     "relpath"
                 ]
-                package = self._unvalidated_plugins[self.name][name[0]][name[1]][
+                package = registered_yaml_plugins[self.name][name[0]][name[1]][
                     "package"
                 ]
             except KeyError:
@@ -449,8 +506,8 @@ class BaseYamlInterface(BaseInterface):
             plugin["relpath"] = relpath
         else:
             try:
-                relpath = self._unvalidated_plugins[self.name][name]["relpath"]
-                package = self._unvalidated_plugins[self.name][name]["package"]
+                relpath = registered_yaml_plugins[self.name][name]["relpath"]
+                package = registered_yaml_plugins[self.name][name]["package"]
             except KeyError:
                 raise PluginError(
                     f"Plugin [{name}] doesn't exist under interface [{self.name}]"
@@ -469,11 +526,8 @@ class BaseYamlInterface(BaseInterface):
     def get_plugins(self):
         """Retrieve a plugin by name."""
         plugins = []
-        if not self._unvalidated_plugins:
-            raise PluginRegistryError(
-                "Plugin registries not found, please run 'create_plugin_registries'"
-            )
-        for name in self._unvalidated_plugins[self.name].keys():
+        registered_yaml_plugins = self.registered_yaml_based_plugins
+        for name in registered_yaml_plugins[self.name].keys():
             plugins.append(self.get_plugin(name))
         return plugins
 
@@ -553,6 +607,10 @@ class BaseModuleInterface(BaseInterface):
     #         )
     #     return obj
 
+    def __init__(self):
+        """Initialize module plugin interface."""
+        pass
+
     @classmethod
     def _plugin_module_to_obj(cls, name, module, obj_attrs={}):
         """Convert a module plugin to an object.
@@ -603,8 +661,8 @@ class BaseModuleInterface(BaseInterface):
 
         if missing:
             raise PluginError(
-                f"Plugin '{module.__name__}' is missing the following required global "
-                f"attributes: '{missing}'."
+                f"Plugin '{module.__name__}' from '{module.__file__}' is missing the "
+                f"following required global attributes: '{missing}'."
             )
 
         if module.__doc__:
@@ -655,7 +713,20 @@ class BaseModuleInterface(BaseInterface):
         """
         # Find the plugin module
         try:
-            module = find_entry_point(self.name, name)
+            if exists(name):
+                # This is used! For output checkers at least.
+                module = find_entry_point(self.name, name)
+            else:
+                registered_module_plugins = self.registered_module_based_plugins
+                package = registered_module_plugins[self.name][name]["package"]
+                relpath = registered_module_plugins[self.name][name]["relpath"]
+                module_path = splitext(relpath.replace("/", "."))[0]
+                module_path = f"{package}.{module_path}"
+                abspath = files(package) / relpath
+                spec = util.spec_from_file_location(module_path, abspath)
+                module = util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+            # module = find_entry_point(self.name, name)
         except EntryPointError as resp:
             raise PluginError(
                 f"{resp}:\nPlugin '{name}' not found for '{self.name}' interface. "
@@ -673,13 +744,31 @@ class BaseModuleInterface(BaseInterface):
     def get_plugins(self):
         """Get a list of plugins for this interface."""
         plugins = []
-        for ep in get_all_entry_points(self.name):
+        # All plugin interfaces are explicitly imported in
+        # geoips/interfaces/__init__.py
+        # self.name comes explicitly from one of the interfaces that are
+        # found by default on geoips.interfaces.
+        # If there is a defined interface with no plugins available in the current
+        # geoips installation (in any currently installed plugin package),
+        # then there will NOT be an entry within registered plugins
+        # for that interface, and a KeyError will be raised in the for loop
+        # below.
+        # Check if the current interface (self.name) is found in the
+        # registered_plugins dictionary - if it is not, that means there
+        # are no plugins for that interface, so return an empty list.
+        registered_module_plugins = self.registered_module_based_plugins
+        if self.name not in registered_module_plugins:
+            LOG.debug("No plugins found for '%s' interface.", self.name)
+            return plugins
+
+        for plugin_name in registered_module_plugins[self.name]:
             try:
-                plugins.append(self._plugin_module_to_obj(ep.name, ep))
+                plugins.append(self.get_plugin(plugin_name))
             except AttributeError as resp:
                 raise PluginError(
-                    f"Plugin '{ep.__name__}' is missing the 'name' attribute, "
-                    f"\nfrom '{ep.__module__}' module,"
+                    f"Plugin '{plugin_name}' is missing the 'name' attribute, "
+                    f"\nfrom package '{plugin_name['package']},' "
+                    f"'{plugin_name['relpath']}' module,"
                 ) from resp
         return plugins
 
@@ -707,6 +796,7 @@ class BaseModuleInterface(BaseInterface):
                 f"\nfor '{self.name}' interface,"
                 f"\nfound in '{plugin.name}' plugin,"
                 f"\nin '{plugin.module.__name__}' module"
+                f"\nat '{plugin.module.__file__}'\n"
             )
         if plugin.family not in self.required_kwargs:
             raise PluginError(
@@ -714,6 +804,7 @@ class BaseModuleInterface(BaseInterface):
                 f"\nfor '{self.name}' interface,"
                 f"\nfound in '{plugin.name}' plugin,"
                 f"\nin '{plugin.module.__name__}' module"
+                f"\nat '{plugin.module.__file__}'\n"
             )
         expected_args = self.required_args[plugin.family]
         expected_kwargs = self.required_kwargs[plugin.family]
@@ -739,6 +830,7 @@ class BaseModuleInterface(BaseInterface):
                     f"\nfor '{self.name}' interface,"
                     f"\nfound in '{plugin.name}' plugin,"
                     f"\nin '{plugin.module.__name__}' module"
+                    f"\nat '{plugin.module.__file__}'\n"
                 )
         for expected_kwarg in expected_kwargs:
             # If expected_kwarg is a tuple, first item is kwarg, second default value
@@ -749,6 +841,7 @@ class BaseModuleInterface(BaseInterface):
                         f"\nfor '{self.name}' interface,"
                         f"\nfound in '{plugin.name}' plugin,"
                         f"\nin '{plugin.module.__name__}' module"
+                        f"\nat '{plugin.module.__file__}'\n"
                     )
             elif expected_kwarg not in kwarg_list:
                 raise PluginError(
@@ -756,6 +849,7 @@ class BaseModuleInterface(BaseInterface):
                     f"\nfor '{self.name}' interface,"
                     f"\nfound in '{plugin.name}' plugin,"
                     f"\nin '{plugin.module.__name__}' module"
+                    f"\nat '{plugin.module.__file__}'\n"
                 )
 
         return True

@@ -1,0 +1,54 @@
+name: Black Pull Request
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  # Triggers the workflow when pull request created and updated
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+  # Allows run of this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  check_code_black:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "pypy-3.9"
+          check-latest: true
+      - name: Checkout plugin current branch
+        uses: actions/checkout@master
+      - name: Update pip
+        run: pip install --upgrade pip
+      - name: Install black
+        run: pip install black
+      - name: Checkout plugin current branch
+        uses: actions/checkout@v3
+      - name: Checkout geoips default branch
+        uses: actions/checkout@v3
+        with:
+          repository: NRLMMD-GEOIPS/geoips
+          ref: main
+          token: ${{ secrets.GEOIPS_TOKEN }}
+          path: geoips_dev_utils
+          sparse-checkout: |
+            tests/utils
+      - name: Run code check script black
+        shell: bash -l {0}
+        run: |
+          echo "::group::black_analysis"
+          echo "BLACK analysis of code"
+          ./geoips_dev_utils/tests/utils/check_code.sh black .
+          ret=$?
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::due to black violations, return code ${ret}"
+            exit 1
+          fi

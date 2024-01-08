@@ -1,0 +1,94 @@
+name: Build Sphinx html docs
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  CONDA_ENV: github_actions_build_docs
+
+# Can not use variables in the list of branches,
+# GitHub Actions will not recognize, and workflow will not run.
+on:
+  # Triggers the workflow when pull request created and updated
+  # pull_request:
+  #   branches:
+  #     - main
+  # Allows run of this workflow manually from the Actions tab
+  # Must be merged before it will be available to manually run.
+  workflow_dispatch:
+
+# conda command to install all the required libraries for installing geoips
+# and geoips dependencies
+#   openblas required for scipy
+#   gcc/gxx required for akima/recenter_tc
+#   latexcodec required for build_docs.sh
+# conda create -y -n github_actions -c conda-forge gcc gxx openblas git latexcodec
+jobs:
+  build_sphinx_html:
+    runs-on: ${{ vars.RUNNER }}
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4 # v4is the latest for setup-python
+        with:
+          python-version: "pypy-3.10"  # I believe 3.10 is the latest for actions
+          check-latest: true
+      - name: Update pip
+        run: pip install --upgrade pip
+      - name: Checkout geoips default branch for dev utils
+        uses: actions/checkout@v3 # v3 is the latest for checkout
+        with:
+          fetch-depth: 0
+          repository: ${{ vars.ORGANIZATION }}/geoips
+          ref: ${{ vars.DEFAULT_BRANCH }}
+          token: ${{ secrets.GEOIPS_TOKEN }}
+          path: geoips_dev_utils
+      - name: pip install -e geoips_dev_utils[test]
+        run: |
+          echo "which pip"
+          which pip
+          echo "pip install -e $PWD/geoips_dev_utils[doc]"
+          pip install -e $PWD/geoips_dev_utils[doc]
+          ret=$?
+          echo "${ret}"
+      - name: Checkout current repo default branch
+        uses: actions/checkout@v3 # v3 is the latest for checkout
+        with:
+          fetch-depth: 0
+          path: geoips_plugin_repo
+      - name: pip install -e geoips plugin repo
+        run: |
+          echo "which pip"
+          which pip
+          echo "pip uninstall -y geoips"
+          pip uninstall -y geoips
+          echo "pip install -e $PWD/geoips_plugin_repo"
+          pip install -e $PWD/geoips_plugin_repo
+          ret=$?
+          echo "${ret}"
+      - name: create_plugin_registries
+        run: |
+          echo "which create_plugin_registries"
+          which create_plugin_registries
+          echo "create_plugin_registries"
+          create_plugin_registries
+          ret=$?
+          echo "${ret}"
+      - name: Run build html
+        run: |
+          echo "Build html docs"
+          echo "$GITHUB_REPOSITORY"
+          echo "${GITHUB_REPOSITORY}"
+          echo "${{ github.repository }}"
+          echo "$GITHUB_REPOSITORY_OWNER"
+          echo "${GITHUB_REPOSITORY_OWNER}"
+          echo "${{ github.repository_owner }}"
+          # Ie, get 'recenter_tc' out of 'NRLMMD-GEOIPS/recenter_tc'
+          curr_repo=`echo "$GITHUB_REPOSITORY" | sed "s,$GITHUB_REPOSITORY_OWNER/,,"`
+          echo "./geoips_dev_utils/docs/build_docs.sh ./geoips_dev_utils $curr_repo"
+          ./geoips_dev_utils/docs/build_docs.sh ./geoips_dev_utils $curr_repo
+          ret=$?
+          if [[ "${ret##*:}" != *"0"* ]]; then
+            echo "::error::Building html docs ${ret##*:}"
+            exit 1
+          fi

@@ -1,0 +1,168 @@
+module_based:
+  algorithms:
+    georing_3d:
+      docstring: 'Data manipulation steps for standard "georing_3d" algorithm.
+
+
+        Generalized algorithm to apply data manipulation steps in a standard order
+
+        to apply corrections to a single channel output product.
+
+        '
+      family: xarray_dict_to_xarray
+      interface: algorithms
+      package: overcast_package
+      plugin_type: module_based
+      relpath: plugins/modules/algorithms/georing_3d.py
+      signature: (xarray_dict, output_data_range=None, input_units=None, output_units=None,
+        min_outbounds='crop', max_outbounds='crop', norm=False, inverse=False, alg_type='cloud_type',
+        level=35)
+  colormappers:
+    cloud_type:
+      docstring: Module containing colormap for cloud_type products.
+      family: matplotlib
+      interface: colormappers
+      package: overcast_package
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/cloud_type.py
+      signature: (data_range=[1, 4], cbar_label='Cloud-Type')
+    overcast_cldHeight:
+      docstring: Module containing colormap for cloud Height product.
+      family: matplotlib
+      interface: colormappers
+      package: overcast_package
+      plugin_type: module_based
+      relpath: plugins/modules/colormappers/overcast_cldHeight.py
+      signature: (data_range=[0, 20])
+  readers:
+    georing_3d_netcdf:
+      docstring: GEOring_3D NetCDF reader.
+      family: standard
+      interface: readers
+      package: overcast_package
+      plugin_type: module_based
+      relpath: plugins/modules/readers/georing_3d_netcdf.py
+      signature: (fnames, metadata_only=False, chans=None, area_def=None, self_register=False)
+  title_formatters:
+    georing_3d_cloud_type:
+      docstring: GEOring_3d static title production.
+      family: standard
+      interface: title_formatters
+      package: overcast_package
+      plugin_type: module_based
+      relpath: plugins/modules/title_formatters/georing_3d_cloud_type.py
+      signature: (area_def, xarray_obj, product_name_title, level=23, product_datatype_title=None,
+        bg_xarray=None, bg_product_name_title=None, bg_datatype_title=None, title_copyright=None)
+text_based: {}
+yaml_based:
+  product_defaults:
+    Binary_Cloud_Mask:
+      docstring: 'The Binary_Cloud-Mask product_defaults configuration.
+
+        '
+      family: algorithm_interpolator_colormapper
+      interface: product_defaults
+      package: overcast_package
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/georing_3d/Binary_Cloud_Mask.yaml
+    Cloud_Base_Height:
+      docstring: 'The Cloud_Base_Height product_defaults GEOring_3d configuration.
+
+        '
+      family: algorithm_interpolator_colormapper
+      interface: product_defaults
+      package: overcast_package
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/georing_3d/Cloud_Base_Height.yaml
+    Cloud_Top_Height:
+      docstring: 'The Cloud_Top_Height product_defaults GEOring_3d configuration.
+
+        '
+      family: algorithm_interpolator_colormapper
+      interface: product_defaults
+      package: overcast_package
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/georing_3d/Cloud_Top_Height.yaml
+    Cloud_Type:
+      docstring: 'The Cloud_Type product_defaults configuration.
+
+        '
+      family: algorithm_interpolator_colormapper
+      interface: product_defaults
+      package: overcast_package
+      plugin_type: yaml_based
+      relpath: plugins/yaml/product_defaults/georing_3d/Cloud_Type.yaml
+  products:
+    georing_3d:
+      Binary_Cloud_Mask:
+        docstring: 'The Binary_Cloud_Mask products configuration for georing_3d product.
+
+          '
+        family: null
+        interface: products
+        package: overcast_package
+        plugin_type: yaml_based
+        product_defaults: Binary_Cloud_Mask
+        relpath: plugins/yaml/products/georing_3d.yaml
+        source_names:
+        - georing_3d
+      Cloud_Base_Height:
+        docstring: 'The Cloud_Base_Height products configuration for georing_3d product.
+
+          '
+        family: null
+        interface: products
+        package: overcast_package
+        plugin_type: yaml_based
+        product_defaults: Cloud_Base_Height
+        relpath: plugins/yaml/products/georing_3d.yaml
+        source_names:
+        - georing_3d
+      Cloud_Depth:
+        docstring: 'The Cloud_Depth products configuration for georing_3d product.
+
+          '
+        family: null
+        interface: products
+        package: overcast_package
+        plugin_type: yaml_based
+        product_defaults: Cloud_Top_Height
+        relpath: plugins/yaml/products/georing_3d.yaml
+        source_names:
+        - georing_3d
+      Cloud_Layers:
+        docstring: 'The Cloud_Layers products configuration for georing_3d product.
+
+          '
+        family: null
+        interface: products
+        package: overcast_package
+        plugin_type: yaml_based
+        product_defaults: Cloud_Top_Height
+        relpath: plugins/yaml/products/georing_3d.yaml
+        source_names:
+        - georing_3d
+      Cloud_Top_Height:
+        docstring: 'The Cloud_Top_Height products configuration for georing_3d product.
+
+          '
+        family: null
+        interface: products
+        package: overcast_package
+        plugin_type: yaml_based
+        product_defaults: Cloud_Top_Height
+        relpath: plugins/yaml/products/georing_3d.yaml
+        source_names:
+        - georing_3d
+      Cloud_Type:
+        docstring: 'The Cloud_Type products configuration for georing_3d product.
+
+          '
+        family: null
+        interface: products
+        package: overcast_package
+        plugin_type: yaml_based
+        product_defaults: Cloud_Type
+        relpath: plugins/yaml/products/georing_3d.yaml
+        source_names:
+        - georing_3d
