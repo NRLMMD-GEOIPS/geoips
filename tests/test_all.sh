@@ -42,7 +42,7 @@ for call in \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh" \
-  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/atms.tc.165H.netcdf_geoips.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ewsg.static.Infrared.imagery_clean.sh" \
@@ -67,4 +67,4 @@ do
   . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_run.sh
 done
 
-. $GEOIPS_PACKAGES_DIR/tests/utils/test_all_post.sh
+. $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_post.sh

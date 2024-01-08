@@ -47,6 +47,14 @@ class TestOutputCheckers:
     def test_plugins(self, tmp_path, checker_name):
         """Test all output_checkers that are ready for testing."""
         plugin = output_checkers.get_plugin(checker_name)
+        # Note "long" running output checkers unit tests are not currently
+        # supported.  For now, xfail if we come across a "long" unit test.
+        # We will eventually implement "long" running unit tests, but for
+        # not just xfail.
+        if hasattr(plugin.module, "get_test_files_long") or not hasattr(
+            plugin.module, "perform_test_comparisons_long"
+        ):
+            pytest.xfail(checker_name + " should be run with the long unit tests.")
         if not hasattr(plugin.module, "get_test_files") or not hasattr(
             plugin.module, "perform_test_comparisons"
         ):

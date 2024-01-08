@@ -12,11 +12,11 @@
 
 #!/bin/bash
 
-out_path=$GEOIPS_PACKAGES_DIR/geoips/tests/outputs
+run_procflow \
+  $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/goes17_20210718_0150/OR_ABI-L1b*.nc \
+  --procflow config_based \
+  --output_config $GEOIPS_PACKAGES_DIR/geoips/tests/yaml_configs/abi_test_low_memory.yaml
+config_retval=$?
 
-# Ensure netcdf output files are gunzipped
-    date -u
-    if ls $out_path/*/*.gz >& /dev/null; then
-        echo "gunzip output files $out_path/*/*.gz"
-        gunzip -f $out_path/*/*.gz
-    fi
+# Produce an overall return value, sum of all 3
+exit $((config_retval))

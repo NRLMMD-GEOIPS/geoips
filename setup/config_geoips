@@ -8,7 +8,8 @@ else
     CURRENT_CONFIGPATH="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd)"
     # Used in qsub.py
     export GEOIPS_RCFILE=$CURRENT_CONFIGPATH/"$(basename "${BASH_SOURCE[0]}")"
-    export GEOIPS_VERS=`git -C $CURRENT_CONFIGPATH/.. tag | grep -v osr | tail -n 1`
+    # Sort geoips tags by creator date to grab the latest version
+    export GEOIPS_VERS=`git -C $CURRENT_CONFIGPATH/.. tag --sort=-creatordate | grep -v osr | head -n 1`
 fi
 
 export GEOIPS_BASEDIR=`dirname $CURRENT_CONFIGPATH`
