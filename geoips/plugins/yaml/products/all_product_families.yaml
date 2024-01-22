@@ -1,0 +1,183 @@
+interface: products
+family: list
+name: all_product_families
+docstring: |
+  The all_product_families products configuration, which produces ABI products for each
+  product family.
+spec:
+  products:
+    - name: alg_cmap
+      source_names: [abi]
+      docstring: |
+        Algorithm Colormapper product
+      family: algorithm_colormapper
+      spec:
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [-90.0, 30.0]
+              input_units: Kelvin
+              output_units: celsius
+              min_outbounds: crop
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        colormapper:
+          plugin:
+            name: Infrared
+            arguments:
+              data_range: [-90.0, 30.0]
+        variables: ["B14BT"]
+    - name: alg_int_cmap
+      source_names: [abi]
+      docstring: |
+        Algorithm Interpolator Colormapper product
+      family: algorithm_interpolator_colormapper
+      spec:
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [-90.0, 30.0]
+              input_units: Kelvin
+              output_units: celsius
+              min_outbounds: crop
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        interpolator:
+          plugin:
+            name: interp_nearest
+            arguments: {}
+        colormapper:
+          plugin:
+            name: Infrared
+            arguments:
+              data_range: [-90.0, 30.0]
+        variables: ["B14BT"]
+    - name: alg
+      source_names: [abi]
+      docstring: |
+        Algorithm product
+      family: algorithm
+      spec:
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [-90.0, 30.0]
+              input_units: Kelvin
+              output_units: celsius
+              min_outbounds: crop
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        variables: ["B14BT"]
+    - name: int_alg_cmap
+      source_names: [abi]
+      docstring: |
+        Interpolator Algorithm Colormapper product
+      family: interpolator_algorithm_colormapper
+      spec:
+        interpolator:
+          plugin:
+            name: interp_nearest
+            arguments: {}
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [-90.0, 30.0]
+              input_units: Kelvin
+              output_units: celsius
+              min_outbounds: crop
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        colormapper:
+          plugin:
+            name: Infrared
+            arguments:
+              data_range: [-90.0, 30.0]
+        variables: ["B14BT"]
+    - name: int_alg
+      source_names: [abi]
+      docstring: |
+        Interpolator Algorithm product
+      family: interpolator_algorithm
+      spec:
+        interpolator:
+          plugin:
+            name: interp_nearest
+            arguments: {}
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [-90.0, 30.0]
+              input_units: Kelvin
+              output_units: celsius
+              min_outbounds: crop
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        variables: ["B14BT"]
+    - name: int
+      source_names: [abi]
+      docstring: |
+        Interpolator product
+      family: interpolator
+      spec:
+        interpolator:
+          plugin:
+            name: interp_nearest
+            arguments: {}
+        variables: ["B14BT"]
+    # - name: list_prod
+    #   source_names: [all_product_families]
+    #   docstring: |
+    #     List product
+    #   family: list
+    #   spec:
+    - name: sect_xdict_out_form
+      source_names: ["smap-spd"]
+      docstring: |
+        Sectored Xarray Dict to Output Formatter product
+      family: sectored_xarray_dict_to_output_format
+      spec:
+        variables: ["wind_speed_kts"]
+    # - name: single_prod
+    #   source_names: [all_product_families]
+    #   docstring: |
+    #     Single product
+    #   family: single
+    #   spec:
+    - name: unmodified_prd
+      source_names: ["smap-spd"]
+      docstring: |
+        Unmodified product
+      family: unmodified
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: unsect_xdict_area_out_form
+      source_names: ["smap-spd"]
+      docstring: |
+        Unsectored Xarray Dict Area to Output Formatter product
+      family: unsectored_xarray_dict_area_to_output_format
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: unsect_xdict_out_form
+      source_names: ["smap-spd"]
+      docstring: |
+        Unsectored Xarray Dict to Output Formatter product
+      family: unsectored_xarray_dict_to_output_format
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: xdict_out_form
+      source_names: ["smap-spd"]
+      docstring: |
+        Xarray Dict to Output Formatter product
+      family: xarray_dict_to_output_format
+      spec:
+        variables: ["wind_speed_kts"]
