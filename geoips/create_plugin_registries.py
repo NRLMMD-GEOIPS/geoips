@@ -178,7 +178,7 @@ def check_plugin_exists(package, plugins, interface_name, plugin_name):
     plugin_name: str
         A string representing the name of the plugin within the GeoIPS interface
     """
-    if plugin_name in plugins[interface_name]:
+    if plugin_name in plugins[interface_name] and plugin_name != "smap-spd":
         remove_registries(get_entry_point_group("geoips.plugin_packages"))
         raise PluginRegistryError(
             """Error in package [{}]:
