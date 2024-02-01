@@ -32,19 +32,23 @@ def area_def_to_yamldict(area_def):
         sector_start_datetime=area_def.sector_start_datetime,
         info_dict=dict(area_def.sector_info),
     )
-    yamldict = add_projection_to_yamldict(
-        yamldict,
-        sectorname,
-        area_def.proj_dict["proj"],
-        area_def.proj_dict["lat_0"],
-        area_def.proj_dict["lon_0"],
-        center_x=0,
-        center_y=0,
-        pix_x=area_def.x_size,
-        pix_y=area_def.y_size,
-        pix_width_m=area_def.pixel_size_x,
-        pix_height_m=area_def.pixel_size_y,
-    )
+
+    # The section below was commented out as it is not used by GeoIPS at this time, and
+    # the function didn't work since it included errors. 9/27/23
+
+    # yamldict = add_projection_to_yamldict(
+    #     yamldict,
+    #     sectorname,
+    #     area_def.proj_dict["proj"],
+    #     area_def.proj_dict["lat_0"],
+    #     area_def.proj_dict["lon_0"],
+    #     center_x=0,
+    #     center_y=0,
+    #     pix_x=area_def.x_size,
+    #     pix_y=area_def.y_size,
+    #     pix_width_m=area_def.pixel_size_x,
+    #     pix_height_m=area_def.pixel_size_y,
+    # )
     return yamldict
 
 
@@ -54,7 +58,7 @@ def area_def_to_yamlfile(area_def, out_fname):
     return write_yamldict(yamldict, out_fname=out_fname)
 
 
-def write_yamldict(yamldict, out_fname, force=False):
+def write_yamldict(yamldict, out_fname, force=False, replace_geoips_paths=False):
     """Write yamldict to out_fname.
 
     Parameters
@@ -65,6 +69,8 @@ def write_yamldict(yamldict, out_fname, force=False):
         Output filename to write YAML dict to
     force : bool, default=False
         If True, overwrite existing file.
+    replace_geoips_paths: bool, default=False
+        If True, replace full path with appropriate environment variable in YAML output
 
     Returns
     -------
@@ -72,14 +78,21 @@ def write_yamldict(yamldict, out_fname, force=False):
         Path to output file if successfully produced
     """
     from geoips.filenames.base_paths import make_dirs
+    from geoips.geoips_utils import replace_geoips_paths_in_dict
     from os.path import dirname, exists
     import yaml
+
+    if replace_geoips_paths:
+        dump_yamldict = replace_geoips_paths_in_dict(yamldict)
+    # If we aren't replacing the geoips paths, just use the original yaml dict.
+    else:
+        dump_yamldict = yamldict
 
     make_dirs(dirname(out_fname))
     if not exists(out_fname) or force:
         with open(out_fname, "w") as fobj:
             LOG.info("SUCCESS Writing out yaml file %s", out_fname)
-            yaml.safe_dump(yamldict, fobj, default_flow_style=False)
+            yaml.safe_dump(dump_yamldict, fobj, default_flow_style=False)
             return [out_fname]
     else:
         LOG.info(
@@ -130,41 +143,42 @@ def add_sectorinfo_to_yamldict(yaml_dict, sectorname, sector_info_dict):
     return yaml_dict
 
 
-def add_projection_to_yamldict(
-    yaml_dict,
-    sectorname,
-    center_lat,
-    center_lon,
-    center_x=0,
-    center_y=0,
-    template_yaml=None,
-):
-    """Add projection information to YAML dictionary."""
-    LOG.info("add_projection_to_yamldict - update to template_yaml")
-    from IPython import embed as shell
+# The function below were commented out as they included errors, and were not used
+# by GeoIPS at this time. 9/27/23
 
-    shell()
-    yaml_dict[sectorname]["projection"] = {}
-    yaml_dict[sectorname]["projection"]["proj"] = proj
-    yaml_dict[sectorname]["projection"]["a"] = 6371228.0
-    yaml_dict[sectorname]["projection"]["units"] = "m"
-    yaml_dict[sectorname]["projection"]["lat_0"] = center_lat
-    yaml_dict[sectorname]["projection"]["lon_0"] = center_lon
-    yaml_dict[sectorname]["center"] = [center_x, center_y]
-    yaml_dict[sectorname]["resolution"] = [pix_width_m, pix_height_m]
-    # yaml_dict[sectorname]['shape'] = [pix_x, pix_y]
-    yaml_dict[sectorname]["shape"] = {}
-    yaml_dict[sectorname]["shape"]["width"] = pix_x
-    yaml_dict[sectorname]["shape"]["height"] = pix_y
-    # This only works because it is square!!
-    yaml_dict[sectorname]["area_extent"] = {
-        "lower_left_xy": [
-            center_x - (pix_x * pix_width_m / 2),
-            center_y - (pix_y * pix_height_m / 2),
-        ],
-        "upper_right_xy": [
-            center_x + (pix_x * pix_width_m / 2),
-            center_y + (pix_y * pix_height_m / 2),
-        ],
-    }
-    return yaml_dict
+# def add_projection_to_yamldict(
+#     yaml_dict,
+#     sectorname,
+#     center_lat,
+#     center_lon,
+#     center_x=0,
+#     center_y=0,
+#     template_yaml=None,
+# ):
+#     """Add projection information to YAML dictionary."""
+#     LOG.info("add_projection_to_yamldict - update to template_yaml")
+
+#     yaml_dict[sectorname]["projection"] = {}
+#     yaml_dict[sectorname]["projection"]["proj"] = proj
+#     yaml_dict[sectorname]["projection"]["a"] = 6371228.0
+#     yaml_dict[sectorname]["projection"]["units"] = "m"
+#     yaml_dict[sectorname]["projection"]["lat_0"] = center_lat
+#     yaml_dict[sectorname]["projection"]["lon_0"] = center_lon
+#     yaml_dict[sectorname]["center"] = [center_x, center_y]
+#     yaml_dict[sectorname]["resolution"] = [pix_width_m, pix_height_m]
+#     # yaml_dict[sectorname]['shape'] = [pix_x, pix_y]
+#     yaml_dict[sectorname]["shape"] = {}
+#     yaml_dict[sectorname]["shape"]["width"] = pix_x
+#     yaml_dict[sectorname]["shape"]["height"] = pix_y
+#     # This only works because it is square!!
+#     yaml_dict[sectorname]["area_extent"] = {
+#         "lower_left_xy": [
+#             center_x - (pix_x * pix_width_m / 2),
+#             center_y - (pix_y * pix_height_m / 2),
+#         ],
+#         "upper_right_xy": [
+#             center_x + (pix_x * pix_width_m / 2),
+#             center_y + (pix_y * pix_height_m / 2),
+#         ],
+#     }
+#     return yaml_dict

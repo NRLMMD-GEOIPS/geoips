@@ -14,41 +14,61 @@
 
 from geoips.interfaces.module_based.algorithms import algorithms
 from geoips.interfaces.module_based.colormappers import colormappers
+from geoips.interfaces.module_based.output_checkers import output_checkers
 from geoips.interfaces.module_based.coverage_checkers import coverage_checkers
 from geoips.interfaces.module_based.filename_formatters import filename_formatters
 from geoips.interfaces.module_based.interpolators import interpolators
-from geoips.interfaces.module_based.output_formatters import output_formatters
+from geoips.interfaces.module_based.output_formatters import (
+    output_formatters,
+)
 from geoips.interfaces.module_based.procflows import procflows
 from geoips.interfaces.module_based.readers import readers
-from geoips.interfaces.module_based.sector_adjusters import sector_adjusters
+from geoips.interfaces.module_based.sector_adjusters import (
+    sector_adjusters,
+)
 from geoips.interfaces.module_based.sector_metadata_generators import (
     sector_metadata_generators,
 )
-from geoips.interfaces.module_based.sector_spec_generators import sector_spec_generators
-from geoips.interfaces.module_based.title_formatters import title_formatters
+from geoips.interfaces.module_based.sector_spec_generators import (
+    sector_spec_generators,
+)
+from geoips.interfaces.module_based.title_formatters import (
+    title_formatters,
+)
 
-from geoips.interfaces.yaml_based.feature_annotators import feature_annotators
-from geoips.interfaces.yaml_based.gridline_annotators import gridline_annotators
+from geoips.interfaces.yaml_based.feature_annotators import (
+    feature_annotators,
+)
+from geoips.interfaces.yaml_based.gridline_annotators import (
+    gridline_annotators,
+)
 from geoips.interfaces.yaml_based.product_defaults import product_defaults
 from geoips.interfaces.yaml_based.products import products
 from geoips.interfaces.yaml_based.sectors import sectors
 
-__all__ = [
+# These lists are the "master" lists of the interface names.
+# These are used in validating the plugins (ie, so we will catch a typo
+# in an interface name)
+module_based_interfaces = [
     "algorithms",
     "colormappers",
     "coverage_checkers",
-    "feature_annotators",
     "filename_formatters",
-    "gridline_annotators",
     "interpolators",
+    "output_checkers",
     "output_formatters",
     "procflows",
-    "product_defaults",
-    "products",
     "readers",
     "sector_adjusters",
     "sector_metadata_generators",
     "sector_spec_generators",
-    "sectors",
     "title_formatters",
 ]
+yaml_based_interfaces = [
+    "feature_annotators",
+    "gridline_annotators",
+    "product_defaults",
+    "products",
+    "sectors",
+]
+__all__ = module_based_interfaces + yaml_based_interfaces

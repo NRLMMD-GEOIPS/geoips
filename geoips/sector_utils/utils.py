@@ -347,7 +347,6 @@ def get_trackfile_area_defs(
     """
     area_defs = []
     final_area_defs = []
-    from datetime import timedelta
     from geoips.sector_utils.tc_tracks import trackfile_to_area_defs
 
     for trackfile in trackfiles:
@@ -410,13 +409,15 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorlist):
     ):
         if xarray_obj.area_definition.area_id in sectorlist:
             LOG.info(
-                "%s area_id in sectorlist and in xarray_obj.area_definition, adding area_def",
+                "%s area_id in sectorlist and in xarray_obj.area_definition, adding "
+                "area_def",
                 xarray_obj.area_definition.area_id,
             )
             area_defs = [xarray_obj.area_definition]
         else:
             LOG.info(
-                "%s area_id NOT in sectorlist and set on xarray_obj.area_definition, SKIPPING area_def",
+                "%s area_id NOT in sectorlist and set on xarray_obj.area_definition, "
+                "SKIPPING area_def",
                 xarray_obj.area_definition.area_id,
             )
     elif sectorlist is not None:
@@ -573,7 +574,8 @@ def remove_duplicate_storm_positions(area_defs, aid_type=None):
                 ):
                     kept_one = True
                     LOG.info(
-                        "Including area_def %s in return list, NOT including %s, invest_storm_id defined",
+                        "Including area_def %s in return list, NOT including %s, "
+                        "invest_storm_id defined",
                         other_area_def.name,
                         area_def.name,
                     )
@@ -643,7 +645,8 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
 #                                    area_def,
 #                                    varlist=[var_for_coverage],
 #                                    verbose=False)
-#             if sects and abs(sects[0].start_datetime - area_def.sector_start_datetime) < abs(old_sect.start_datetime - old_area_def.sector_start_datetime):
+#             if sects and abs(sects[0].start_datetime - area_def.sector_start_datetime)
+#                   < abs(old_sect.start_datetime - old_area_def.sector_start_datetime):
 #
 #                 LOG.info('AREA_DEF LIST REPLACING %s with area_def %s',
 #                          ret_area_def_ids[area_def.area_id].name,
@@ -652,7 +655,8 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
 #                 ret_area_def_sects[area_def.area_id] = sects[0]
 #
 #         else:
-#             LOG.warning('AREA_DEF LIST REPLACING Multiple identical sectors - using latest %s', area_def.name)
+#             LOG.warning('AREA_DEF LIST REPLACING Multiple identical sectors - using
+#                         latest %s', area_def.name)
 #             ret_area_def_ids[area_def.area_id] = area_def
 #
 #     return ret_area_def_ids.values()
@@ -675,6 +679,8 @@ def get_sectors_from_yamls(sector_list):
         entries added as attributes to each area def (this is to allow specifying
         "sector_info" metadata dictionary within the YAML file)
     """
+    from importlib.resources import files
+
     area_defs = []
     for sector_name in sector_list:
         try:
@@ -686,7 +692,8 @@ def get_sectors_from_yamls(sector_list):
                 f"\nCheck plugin directories for sector plugin named "
                 f"{sector_name}"
             )
-        area_def = load_area(sector_plugin.abspath, "spec")
+        abspath = str(files(sector_plugin.package) / sector_plugin.relpath)
+        area_def = load_area(abspath, "spec")
         area_def.__setattr__("sector_info", sector_plugin["metadata"])
         area_def.__setattr__("sector_type", sector_plugin["family"])
         area_defs += [area_def]
@@ -770,7 +777,8 @@ def is_sector_type(area_def, sector_type_str):
         # Need to decide if this is necessary.
         # for attr in SECTOR_INFO_ATTRS[sector_type_str]:
         #     if attr not in area_def.sector_info.keys():
-        #         LOG.warning('attr %s not in area_def.sector_info.keys(), not of type %s', attr, sector_type_str)
+        #         LOG.warning('attr %s not in area_def.sector_info.keys(), not of type
+        #                     %s', attr, sector_type_str)
         #         return False
         return True
     return False

@@ -134,9 +134,22 @@ def update_sector_info_with_coverage(
             prod_plugin,
             covg_field=coverage_checker_plugin_name,
         )
+        # Set variable_name to prod_plugin.name if not defined.
+        # Always use variable_name if it is defined.
+        # Remove from args so there is not a duplicate are when passing
+        # (since we are passing covg_varname explicitly).
+        # Note get_covg_args_from_product was updated to return a copy of
+        # covg_args, so this does not impact future uses of the product.
+        covg_varname = covg_args[covg_func_type].pop("variable_name", prod_plugin.name)
+        # Note variables can be specified as DATASET:VARIABLE, since this is a
+        # preprocessed alg_xarray, and not a dictionary of datasets, just use the
+        # variable name (we expect the correct variable will exist in this final
+        # processed array)
+        if ":" in covg_varname:
+            covg_varname = covg_varname.split(":")[1]
         try:
             covgs[covg_func_type] = covg_funcs[covg_func_type](
-                xarray_obj, prod_plugin.name, area_def, **covg_args[covg_func_type]
+                xarray_obj, covg_varname, area_def, **covg_args[covg_func_type]
             )
         except KeyError:
             LOG.warning(
@@ -157,7 +170,7 @@ def update_sector_info_with_coverage(
         sector_info["covg_info"][covg_func_type + "_covg"] = covgs[covg_func_type]
 
     if covgs.keys() and not set(covg_func_types).issubset(set(covgs.keys())):
-        sector_info["covg_info"]["default_covg_func"] = default_covg_funcs.name
+        sector_info["covg_info"]["default_covg_func"] = default_covgs.name
         sector_info["covg_info"]["default_covg_args"] = default_covg_args
         sector_info["covg_info"]["default_covg"] = default_covgs
 
@@ -212,7 +225,9 @@ def output_tc_metadata_yaml(
         xarray_obj,
     )
 
-    returns = write_yamldict(sector_info, metadata_fname, force=True)
+    returns = write_yamldict(
+        sector_info, metadata_fname, force=True, replace_geoips_paths=True
+    )
     if returns:
         LOG.info("METADATASUCCESS Writing %s", metadata_fname)
     return returns

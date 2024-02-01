@@ -15,10 +15,6 @@
 # Python Standard Libraries
 import logging
 
-from os.path import join as pathjoin
-
-from geoips.filenames.base_paths import PATHS as gpaths
-
 LOG = logging.getLogger(__name__)
 
 interface = "title_formatters"
@@ -45,7 +41,8 @@ def call(
             bg_product_name_title,
             bg_xarray.start_datetime.strftime("%Y-%m-%d %H:%M:%S"),
         )
-        # title_string = f'{title_line1}\n{title_line2}\n{title_line3}\n{title_copyright}'
+        # title_string = f'{title_line1}\n{title_line2}\n{title_line3}\n
+        #                                                             {title_copyright}'
         title_string = f"{title_line1}\n{title_line2} {title_copyright}\n{title_line3}"
     else:
         # title_string = f'{title_line1}\n{title_line2}\n{title_copyright}'

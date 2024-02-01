@@ -30,35 +30,34 @@ The MOD03 and MOD14 files have the geolocation (lat/lon) and sensor geoometry
 infomation, while other files have values at each channels.
 """
 # Python Standard Libraries
-from datetime import datetime
 from os.path import basename
-import subprocess
 import logging
 
-LOG = logging.getLogger(__name__)
 
 # Installed Libraries
 import numpy as np
 import xarray as xr
 
+LOG = logging.getLogger(__name__)
+
 try:
     from pyhdf.HDF import ishdf
 except ImportError:
-    print(
+    LOG.info(
         "Failed import pyhdf in /readers/modis_hdf4.py. "
         + "If you need it, install it."
     )
 try:
     from pyhdf.SD import SD, SDC
 except ImportError:
-    print(
+    LOG.info(
         "Failed import pyhdf in /readers/modis_hdf4.py. "
         + "If you need it, install it."
     )
 try:
     from pyhdf.error import HDF4Error
 except ImportError:
-    print(
+    LOG.info(
         "Failed import pyhdf in /readers/modis_hdf4_reader.py. "
         + "If you need it, install it."
     )
@@ -111,7 +110,7 @@ def parse_core_metadata(metadata, metadatastr):
         # Skip anything that does not fit that format
         try:
             [typ, field] = [piece.strip() for piece in line.split("=")]
-        except:
+        except ValueError:
             ii += 1
             continue
         for currval in [
@@ -163,8 +162,9 @@ def parse_archive_metadata(metadata, metadatastr):
 
 def add_to_xarray(varname, nparr, xobj, cumulative_mask, data_type):
     """Add variable to xarray Dataset."""
-    # cumulative_mask is not the best name for this variable.  It is used for mask info of field 'varname'
-    # so that is not actually a comulative mask.  It should be a mask for each variable.
+    # cumulative_mask is not the best name for this variable. It is used for mask info
+    # of field 'varname' so that is not actually a comulative mask. It should be a mask
+    # for each variable.
     LOG.info("ADDING %s to xobj", varname)
     if varname not in xobj.variables:
         xobj[varname] = xr.DataArray(nparr)
@@ -285,7 +285,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     from datetime import datetime
     import numpy as np
-    import pandas as pd
     import xarray as xr
 
     # from pyhdf.SD import SD, SDC
@@ -293,7 +292,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     # fnames=['MYD021KM.A2021004.2005.061.NRT.hdf','MYD03.A2021004.2005.061.NRT.hdf']
     # fnames=['MYD14.A2021004.2005.006.NRT.hdf']
-    # fnames=['MYD021KM.A2021004.2005.061.NRT.hdf','MYD03.A2021004.2005.061.NRT.hdf','MYD14.A2021004.2005.006.NRT.hdf']
+    # fnames=['MYD021KM.A2021004.2005.061.NRT.hdf','MYD03.A2021004.2005.061.NRT.hdf',
+    #         'MYD14.A2021004.2005.006.NRT.hdf']
 
     # process of reading the data
     xarrays = {}
@@ -485,7 +485,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     attrs = select_data.attributes()  # get attributes of this field
                     data = select_data.get()  # get the all data of this field
 
-                    # for datasettag in dataset_info.keys():                        # loop the data_type
+                    # for datasettag in dataset_info.keys():  # loop the data_type
                     # Checking if we need this resolution based on requested
                     # channels
                     if not chans or list(set(chans) & set(dataset_info[datasettag])):
@@ -514,7 +514,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                         from scipy.interpolate import RectBivariateSpline
 
                         # x, y: 1-D array of coordinate in strickly ascending order
-                        # kx, ky (integer,optional): degrees of the bivariate Spline.  Default is 3
+                        # kx, ky (integer,optional): degrees of the bivariate Spline.
+                        #                                                   Default is 3
                         # s (float, optional): positive smoothing facter defined for
                         #                     estimation condition. Deault is 0
                         newKernel = RectBivariateSpline(x, y, data, kx=2, ky=2)

@@ -20,7 +20,7 @@ from datetime import datetime, timedelta
 import numpy as np
 from IPython import embed as shell
 
-from scipy.ndimage.interpolation import zoom
+from scipy.ndimage import zoom
 
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
@@ -29,24 +29,27 @@ from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
 )
 
 
+LOG = logging.getLogger(__name__)
 # np.seterr(all='raise')
 
 # Installed Libraries
 
 try:
-    # If this reader is not installed on the system, don't fail alltogether, just skip this import.  This reader
-    # will not work if the import fails and the package will have to be
-    # installed to process data of this type.
+    # If this reader is not installed on the system, don't fail alltogether, just skip
+    # this import.  This reader will not work if the import fails and the package will
+    # have to be installed to process data of this type.
     import netCDF4 as ncdf
 except ImportError:
-    print(
-        "Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. If you need it, install it."
+    LOG.info(
+        "Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. If you need it,"
+        " install it."
+        ""
     )
 
 try:
     import numexpr as ne
 except ImportError:
-    print(
+    LOG.info(
         "Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. "
         "If you need it, install it."
     )
@@ -55,16 +58,15 @@ interface = "readers"
 family = "standard"
 name = "abi_netcdf"
 
-log = logging.getLogger(__name__)
 
 nprocs = 6
 
 try:
     ne.set_num_threads(nprocs)
 except Exception:
-    print(
+    LOG.info(
         f"Failed numexpr.set_num_threads in {__file__}. "
-        f"If numexpr is not installed and you need it, install it."
+        "If numexpr is not installed and you need it, install it."
     )
 
 DONT_AUTOGEN_GEOLOCATION = False
@@ -193,7 +195,7 @@ def _check_file_consistency(metadata):
             [metadata[fname]["file_info"][name] for fname in metadata.keys()]
         )
         if len(check_set) != 1:
-            log.debug("Failed on {0}. Found: {1}".format(name, check_set))
+            LOG.debug("Failed on {0}. Found: {1}".format(name, check_set))
             return False
     return True
 
@@ -239,7 +241,7 @@ def _get_file_metadata(df):
             else:
                 metadata[name] = getattr(df, metadata_dict[name])
         except AttributeError:
-            log.info("Warning! File-level metadata field missing: {0}".format(name))
+            LOG.info("Warning! File-level metadata field missing: {0}".format(name))
     return metadata
 
 
@@ -286,7 +288,7 @@ def _get_variable_metadata(df):
             if metadata[name].size == 1:
                 metadata[name] = metadata[name][()]
         except KeyError:
-            log.info("Warning! Variable-level metadata field missing: {0}".format(name))
+            LOG.info("Warning! Variable-level metadata field missing: {0}".format(name))
     metadata["num_lines"] = metadata["y"].size
     metadata["num_samples"] = metadata["x"].size
     return metadata
@@ -312,7 +314,7 @@ def _get_lat_lon_extent_metadata(df):
             if metadata[name].size == 1:
                 metadata[name] = metadata[name][()]
         except AttributeError:
-            log.info("Warning! Lat lon extent metadata field missing: {0}".format(name))
+            LOG.info("Warning! Lat lon extent metadata field missing: {0}".format(name))
     return metadata
 
 
@@ -334,7 +336,7 @@ def _get_imager_projection(df):
             if metadata[name].size == 1:
                 metadata[name] = metadata[name][()]
         except AttributeError:
-            log.info("Warning! Lat lon extent metadata field missing: {0}".format(name))
+            LOG.info("Warning! Lat lon extent metadata field missing: {0}".format(name))
     metadata["grid_mapping"] = getattr(gip, "grid_mapping_name")
     return metadata
 
@@ -385,10 +387,10 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
                 f"GETGEO Requested NO AUTOGEN GEOLOCATION. "
                 f"Could not create latlonfile for ad {metadata['scene']}: {fname}"
             )
-            log.error(msg)
+            LOG.error(msg)
             raise AutoGenError(msg)
 
-        log.debug("Calculating latitudes and longitudes.")
+        LOG.debug("Calculating latitudes and longitudes.")
 
         r2d = 180.0 / np.pi  # NOQA
 
@@ -412,7 +414,7 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         else:
             y = np.float64(metadata["y"])
 
-        log.info("      Making {0} by {1} grid.".format(x.size, y.size))
+        LOG.info("      Making {0} by {1} grid.".format(x.size, y.size))
         # Need to transpose the latline, then repeat lonsize times
         yT = y[np.newaxis].T
         y = np.hstack([yT for num in range(x.size)])
@@ -437,7 +439,7 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         lats = rs
         lons = sz
 
-        log.info("      Calculating intermediate steps")
+        LOG.info("      Calculating intermediate steps")
         Rrat = Re**2 / Rp**2  # NOQA
         ne.evaluate("cos(x)", out=cosx)  # NOQA
         ne.evaluate("cos(y)", out=cosy)  # NOQA
@@ -452,13 +454,13 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         ne.evaluate("rs * cosx * siny", out=sz)  # NOQA
         ne.evaluate("rs * sinx", out=sy)  # NOQA
 
-        log.info("Calculating Latitudes")
+        LOG.info("Calculating Latitudes")
         ne.evaluate("r2d * arctan(Rrat * sz / sqrt((H - sx)**2 + sy**2))", out=lats)
-        log.info("Calculating Longitudes")
+        LOG.info("Calculating Longitudes")
         lons = ne.evaluate("r2d * (lambda0 + arctan(sy / (H - sx)))", out=lons)
         lats[~good_mask] = BADVALS["Off_Of_Disk"]
         lons[~good_mask] = BADVALS["Off_Of_Disk"]
-        log.info("Done calculating latitudes and longitudes")
+        LOG.info("Done calculating latitudes and longitudes")
 
         with open(fname, "w") as df:
             lats.tofile(df)
@@ -476,7 +478,7 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
     # Nothing will be read until explicitly requested
     # We are mapping this here so that the lats and lons are available when
     # calculating satlelite angles
-    log.info(
+    LOG.info(
         "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["scene"])
     )
 
@@ -638,17 +640,17 @@ def call_single_time(
                 if currchan in fname:
                     gotone = True
             if not gotone:
-                log.info(
+                LOG.info(
                     "SKIPPING file %s, not needed from channel list %s", fname, chans
                 )
                 continue
         try:
             all_metadata[fname] = _get_metadata(ncdf.Dataset(str(fname), "r"), fname)
         except IOError as resp:
-            log.exception("BAD FILE %s skipping", resp)
+            LOG.exception("BAD FILE %s skipping", resp)
             continue
         if metadata_only:
-            log.info("Only need metadata from first file, returning")
+            LOG.info("Only need metadata from first file, returning")
             break
 
     if not _check_file_consistency(all_metadata):
@@ -727,7 +729,7 @@ def call_single_time(
     adname = xarray_obj.attrs["area_id"]
 
     if metadata_only:
-        log.info("Only need metadata from first file, returning")
+        LOG.info("Only need metadata from first file, returning")
         return {"METADATA": xarray_obj}
 
     # Create list of all possible channels for the case where no channels were requested
@@ -771,8 +773,8 @@ def call_single_time(
     # This save us from having very slightly different solar angles for each channel.
     # Loop over resolutions and get metadata as needed
     if self_register:
-        log.info("")
-        log.info(
+        LOG.info("")
+        LOG.info(
             "Getting geolocation information for resolution {} for {}.".format(
                 self_register, adname
             )
@@ -786,7 +788,7 @@ def call_single_time(
             sdt, standard_metadata[adname], fldk_lats, fldk_lons, BADVALS, area_def
         )
         if not gvars[adname]:
-            log.error(
+            LOG.error(
                 f"GEOLOCATION FAILED for adname {adname} DONT_AUTOGEN_GEOLOCATION "
                 f"is: {DONT_AUTOGEN_GEOLOCATION}"
             )
@@ -807,7 +809,7 @@ def call_single_time(
                     sdt, standard_metadata[res], fldk_lats, fldk_lons, BADVALS, area_def
                 )
             except ValueError as resp:
-                log.error(
+                LOG.error(
                     "{} GEOLOCATION FAILED FOR {} resolution {}. Skipping.".format(
                         resp, adname, res
                     )
@@ -818,14 +820,14 @@ def call_single_time(
             # MLS I think this may be necessary to avoid catastrophic failure if
             # geolocation has not been autogenerated.  I'll see.
             # if not gvars[res]:
-            #     log.error(
+            #     LOG.error(
             #         f"GEOLOCATION FAILED for {adname} resolution {res} "
             #         f"DONT_AUTOGEN_GEOLOCATION is: {DONT_AUTOGEN_GEOLOCATION}"
             #     )
             #     gvars[res] = {}
 
-    log.interactive("Done with geolocation for {}".format(adname))
-    log.info("")
+    LOG.interactive("Done with geolocation for {}".format(adname))
+    LOG.info("")
 
     # Read the data
     # Will read all data if sector_definition is None
@@ -834,7 +836,7 @@ def call_single_time(
         # If we didn't pass all the channel data, skip non-existent data types
         if chan not in file_info:
             continue
-        log.info("Reading {}".format(chan))
+        LOG.info("Reading {}".format(chan))
         chan_md = file_info[chan]
         for res, res_chans in DATASET_INFO.items():
             if chan in res_chans:
@@ -842,7 +844,7 @@ def call_single_time(
         if (not self_register) and (
             res not in gvars.keys() or not gvars[res] or "latitude" not in gvars[res]
         ):
-            log.info(
+            LOG.info(
                 f"We don't have geolocation information for {res} for {adname} "
                 f"skipping {chan}."
             )
@@ -884,7 +886,7 @@ def call_single_time(
     #       to correct dataset and drop extra datasets
     if self_register:
         # Determine which resolution has geolocation
-        log.info("Registering to {}".format(self_register))
+        LOG.info("Registering to {}".format(self_register))
         if self_register == "HIGH":
             datavars[adname] = datavars.pop("HIGH")
             for varname, var in datavars["LOW"].items():
@@ -957,19 +959,19 @@ def call_single_time(
             roi = max(
                 xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
             )
-            log.info("Trying area_def roi %s", roi)
+            LOG.info("Trying area_def roi %s", roi)
         for curr_res in standard_metadata.keys():
             if standard_metadata[curr_res]["res_km"] * 1000.0 > roi:
                 roi = standard_metadata[curr_res]["res_km"] * 1000.0
-                log.info("Trying standard_metadata[%s] %s", curr_res, roi)
+                LOG.info("Trying standard_metadata[%s] %s", curr_res, roi)
         xobj.attrs["interpolation_radius_of_influence"] = roi
         xarray_objs[dsname] = xobj
         # At some point we may need to deconflict, but for now just use any of the
         # dataset attributes as the METADATA dataset
         xarray_objs["METADATA"] = xobj[[]]
 
-    log.info("Done reading ABI data for %s", adname)
-    log.info("")
+    LOG.info("Done reading ABI data for %s", adname)
+    LOG.info("")
     return xarray_objs
 
 
@@ -1062,7 +1064,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
                     "This section of code needs to be reexamined."
                 )
             # Perform the actual subsampling
-            log.info("Before zoom")
+            LOG.info("Before zoom")
             zoom_factor = zoom_factor.astype(np.int)
 
             # NOTE: Strides are broken for netCDF4 library version < 4.6.2.
@@ -1078,7 +1080,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
             #     df.variables['Rad'][::zoom_factor[0], ::zoom_factor[0]]
             # )
             # qf = df.variables['DQF'][::zoom_factor[0], ::zoom_factor[0]]
-            log.info("After zoom")
+            LOG.info("After zoom")
         else:
             raise ValueError(
                 "Zoom factor cannot be computed.  "

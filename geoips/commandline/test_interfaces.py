@@ -10,47 +10,115 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Simple test script to run "test_<interface>_interface" for each interface.
-
-This includes both dev and stable interfaces.
-Note this will be deprecated with v2.0 - replaced with a new class-based
-interface implementation.
-"""
-import pprint
+"""Simple test script to run "test_interface" for each interface."""
+from pprint import pformat
 import traceback
-from geoips import interfaces
+import json
+from geoips import interfaces, plugin_registry
 from geoips.interfaces.base import BaseInterface
-import sys
+from geoips.commandline.log_setup import setup_logging
+from geoips.commandline.args import get_argparser, check_command_line_args
+
+FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
+FAILED_INTERFACE_HEADER_POST = "interface:"
 
 FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
 FAILED_INTERFACE_HEADER_POST = "interface:"
 
 
 def main():
-    """Script to test all dev and stable interfaces."""
+    """Script to test all plugins in all interfaces."""
+    supported_args = ["logging_level"]
+
+    # Use standard GeoIPS argparser - use standard formatting for standard args.
+    parser = get_argparser(
+        arglist=supported_args,
+        description="Test all interfaces within the current geoips instantiation.",
+    )
+    # Add our specific "interfaces" argument.
+    parser.add_argument(
+        "interfaces",
+        nargs="*",
+        default=None,
+        help="""List of interfaces to include.  If None, include all interfaces.""",
+    )
+
+    # Get the dictionary of command line args.
+    COMMAND_LINE_ARGS = parser.parse_args().__dict__
+    # Check included arguments for appropriate formatting / type.
+    check_command_line_args(supported_args, COMMAND_LINE_ARGS)
+
+    # Setup logging at the requested logging level.
+    LOG = setup_logging(logging_level=COMMAND_LINE_ARGS["logging_level"])
+
     failed_interfaces = []
     failed_plugins = []
+    failed_registries = []
+
     successful_interfaces = []
     successful_plugins = []
-    failed_plugins_errors = []
-    failed_plugins_tracebacks = []
+    successful_registries = []
 
-    curr_interfaces = interfaces.__dict__.values()
-    if len(sys.argv) > 1:
-        curr_interfaces = []
-        for curr_interface in sys.argv[1:]:
-            curr_interfaces += [interfaces.__dict__[curr_interface]]
+    failed_errors = []
+    failed_tracebacks = []
+
+    # If "interfaces" is not specified command line, then include plugins for
+    # all interfaces.
+    if not COMMAND_LINE_ARGS["interfaces"]:
+        curr_interfaces = interfaces.__dict__.values()
+    else:
+        curr_interfaces = [
+            interfaces.__dict__[curr_interface]
+            for curr_interface in COMMAND_LINE_ARGS["interfaces"]
+        ]
 
     out_dicts = {}
 
+    # Plugin registry was previously being tested during runtime.
+    # We want to avoid catastrophic failure at runtime for a single
+    # bad plugin, so ensure these are validated in testing, and allow
+    # bad plugins to get through at runtime.
+    plg_reg = plugin_registry.PluginRegistry()
+    try:
+        LOG.interactive("Testing all registries...")
+        plg_reg.validate_all_registries()
+        successful_registries += ["all"]
+    except plugin_registry.PluginRegistryError as resp:
+        failed_registries += ["all"]
+        failed_tracebacks += [
+            f"\n\n\n{FAILED_INTERFACE_HEADER_PRE}\n\n{traceback.format_exc()}"
+        ]
+        failed_errors += [f"\n\n\n{FAILED_INTERFACE_HEADER_PRE}\n\n {str(resp)}"]
+
+    # Now test each registry file individually.
+    for reg_path in plg_reg.registry_files:
+        pkg_plugins = json.load(open(reg_path, "r"))
+        LOG.interactive(f"Testing registry: {reg_path}...")
+        try:
+            plg_reg.validate_registry(pkg_plugins, reg_path)
+            successful_registries += [reg_path]
+        except plugin_registry.PluginRegistryError as resp:
+            failed_registries += [reg_path]
+            failed_tracebacks += [
+                f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{reg_path}'\n\n"
+                f"{traceback.format_exc()}"
+            ]
+            failed_errors += [
+                f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{reg_path}'\n\n{str(resp)}"
+            ]
+
+    # Loop through all requested interfaces, fully testing all plugins in each.
+    # Collect output in lists, so we can fully print everything at the end before
+    # raising an exception on error.
     for curr_interface in curr_interfaces:
+        # Do not test "BaseInterface"
         if (type(curr_interface) is BaseInterface) or not isinstance(
             curr_interface, BaseInterface
         ):
             continue
 
-        print("")
-        print(f"Testing {curr_interface.name}...")
+        LOG.info("")
+        LOG.interactive(f"Testing {curr_interface.name}...")
 
         # Open all the interfaces (not just checking call signatures)
         # This returns a dictionary of all sorts of stuff.
@@ -58,23 +126,24 @@ def main():
             out_dict = curr_interface.test_interface()
             out_dicts[curr_interface.name] = out_dict
         except Exception as resp:
-            print(traceback.format_exc())
+            LOG.info(traceback.format_exc())
             failed_plugins += [curr_interface.name]
-            failed_plugins_tracebacks += [
+            # Collect tracebacks and errors in lists, will print everything at the end
+            # prior to raising the exception.
+            failed_tracebacks += [
                 f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{curr_interface.name}' "
                 f"{FAILED_INTERFACE_HEADER_POST}\n\n"
                 f"{traceback.format_exc()}"
             ]
-            failed_plugins_errors += [
+            failed_errors += [
                 f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{curr_interface.name}' "
                 f"{FAILED_INTERFACE_HEADER_POST}\n\n"
                 f"{str(resp)}"
             ]
 
-    ppprinter = pprint.PrettyPrinter(indent=2)
-
+    # Collect lists of the successful and failed plugins (without actual errors)
     for intname in out_dicts:
-        ppprinter.pprint(out_dict)
+        LOG.info("%s", pformat(out_dict))
         out_dict = out_dicts[intname]
         if out_dict["all_valid"] is True:
             successful_interfaces += [intname]
@@ -86,38 +155,64 @@ def main():
             else:
                 successful_plugins += [f"{intname} on {modname}"]
 
-    for failed_plugins_traceback in failed_plugins_tracebacks:
-        print(failed_plugins_traceback)
-        print("")
+    # Print all failed plugin tracebacks to interactive log level.
+    for failed_traceback in failed_tracebacks:
+        LOG.interactive(failed_traceback)
+        LOG.interactive("")
 
+    # Only include full list of successful plugins at LOG.info level, not interactive.
     for curr_plugin in successful_plugins:
-        print(f"SUCCESSFUL PLUGIN {curr_plugin}")
+        LOG.info(f"SUCCESSFUL PLUGIN {curr_plugin}")
 
+    # Print successful registries to interactive log level.
+    for curr_successful in successful_registries:
+        LOG.interactive(f"SUCCESSFUL REGISTRY {curr_successful}")
+
+    # Print successful interfaces to interactive log level.
     for curr_successful in successful_interfaces:
-        print(f"SUCCESSFUL INTERFACE {curr_successful}")
+        LOG.interactive(f"SUCCESSFUL INTERFACE {curr_successful}")
 
+    # Print failed plugins to interactive log level.
     for curr_failed in failed_plugins:
-        print(f"FAILED PLUGIN IN {curr_failed}")
+        LOG.interactive(f"FAILED PLUGIN IN {curr_failed}")
 
+    # Print failed registries to interactive log level.
+    for curr_failed in failed_registries:
+        LOG.interactive(f"FAILED REGISTRY IN {curr_failed}")
+
+    # Print failed interfaces to interactive log level.
     for curr_failed in failed_interfaces:
-        print(f"FAILED INTERFACE VALIDITY CHECK DICT {curr_failed}")
+        LOG.interactive(f"FAILED INTERFACE VALIDITY CHECK DICT {curr_failed}")
 
-    for failed_plugins_error in failed_plugins_errors:
-        print(failed_plugins_error)
-        print("")
+    # Print actual failed plugin errors to interactive log level.
+    for failed_error in failed_errors:
+        LOG.interactive(failed_error)
+        LOG.interactive("")
 
-    if len(failed_interfaces) > 0 or len(failed_plugins) > 0:
-        failed_plugin_headers = ""
+    # Now, after reporting all errors individually, raise an exception if there were
+    # any failed interfaces/plugins.  Include list of interfaces/plugins that had
+    # failures within the exception string.
+    if (
+        len(failed_interfaces) > 0
+        or len(failed_plugins) > 0
+        or len(failed_registries) > 0
+    ):
+        failed_headers = ""
         for failed_plugin in failed_plugins:
-            failed_plugin_headers += (
+            failed_headers += (
                 f"\n  {FAILED_INTERFACE_HEADER_PRE} '{failed_plugin}' "
                 f"{FAILED_INTERFACE_HEADER_POST}"
             )
+        for failed_registry in failed_registries:
+            failed_headers += f"\n  {FAILED_INTERFACE_HEADER_PRE} '{failed_registry}' "
         raise TypeError(
-            f"Failed validity check on interfaces {failed_plugins}."
+            f"Failed validity checks on registries:\n"
+            f"{pformat(failed_registries)}.\n"
+            f"Failed validity checks on plugins:\n"
+            f"{pformat(failed_plugins)}.\n"
             "\nAdditional information on these errors can be found above, "
-            "under headers:"
-            f"{failed_plugin_headers}"
+            "under headers:\n"
+            f"{failed_headers}"
         )
 
 

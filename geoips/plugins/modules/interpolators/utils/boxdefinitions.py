@@ -37,6 +37,8 @@ from pyresample.geometry import SwathDefinition, CoordinateDefinition
 
 log = logging.getLogger(__name__)
 
+interface = None
+
 EPSILON = 0.0000001
 
 
@@ -94,7 +96,10 @@ class MaskedCornersSwathDefinition(SwathDefinition):
                 % self.__class__.__name__
             )
 
-        if type(lons) != type(lats):
+        lats_type = type(lats)
+        lons_type = type(lons)
+
+        if lats_type != lons_type:
             raise TypeError("lons and lats must be of same type")
         elif lons is not None:
             if lons.shape != lats.shape:
@@ -446,7 +451,10 @@ class PlanarPolygonDefinition(CoordinateDefinition):
                 % self.__class__.__name__
             )
 
-        if type(lons) != type(lats):
+        lats_type = type(lats)
+        lons_type = type(lons)
+
+        if lons_type != lats_type:
             raise TypeError("lons and lats must be of same type")
         elif lons is not None:
             if lons.shape != lats.shape:

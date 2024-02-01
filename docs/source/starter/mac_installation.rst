@@ -10,6 +10,8 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+.. _mac-installation:
+
 ********************************
 Conda-based Installation for Mac
 ********************************
@@ -156,3 +158,4 @@ look something like below, indicating that none of the tests failed:
     Total run time: 82 seconds
     Number data types run: 3
     Number data types failed: 0
+

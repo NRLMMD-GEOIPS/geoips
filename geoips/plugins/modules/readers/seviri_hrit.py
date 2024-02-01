@@ -28,28 +28,30 @@ Notes
 import os
 import logging
 import numpy as np
-from .utils.hrit_reader import HritFile, HritError
+from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
 
 # Installed Libraries
 
 # GeoIPS Libraries
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+from .utils.geostationary_geolocation import (
     get_geolocation,
 )
+
+LOG = logging.getLogger(__name__)
+
 
 try:
     import numexpr as ne
 except ImportError:
-    print("Failed numexpr import in satnav.py. If you need it, install it.")
+    LOG.info("Failed numexpr import in satnav.py. If you need it, install it.")
 
 try:
     NPROC = 6
     ne.set_num_threads(NPROC)
 except NameError:
-    print("Failed ne.set_num_threads in satnav.py. If you need numexpr, install it.")
+    LOG.info("Failed ne.set_num_threads in satnav.py. If you need numexpr, install it.")
 
-LOG = logging.getLogger(__name__)
 
 # These should be added to the data file object
 BADVALS = {
@@ -146,13 +148,12 @@ def calculate_chebyshev_polynomial(coefs, start_dt, end_dt, dt):
     # T_k_minus_3 = 1
     # T_k_minus_2 = t
     # T_k_minus_1 = t2*T_k_minus_2 - T_k_minus_3
-    ## remaining terms recursively defined
+    # remaining terms recursively defined
     # for xcoef in coefs[3:]:
     #    f = f + xcoef * T_k_minus_1
     #    T_k_minus_3 = T_k_minus_2
     #    T_k_minus_2 = T_k_minus_1
     #    T_k_minus_1 = t2*T_k_minus_2 - T_k_minus_3
-    ##from IPython import embed as shell; shell()
 
     return d
 
@@ -232,16 +233,21 @@ def get_top_level_metadata(fnames, sect):
 
 def get_latitude_longitude(gmd, BADVALS, area_def):
     """Generate full-disk latitudes and longitudes."""
+    # Anywhere you see NOQA or noqa: F841, this is added since the variables are used
+    # however they are not recognized by flake8 linter under numexpr.evaluate()
     # Constants
     pi = np.pi
-    rad2deg = 180.0 / pi
+    # Must include rad2deg variable, because it is used within the
+    # numexpr command below.  flake8 does not recognize it as being
+    # used, so must include # NOQA flag
+    rad2deg = 180.0 / pi  # NOQA
     deg2rad = pi / 180.0
-    Rs = 42164  # Satellite altitude (km)
+    Rs = 42164  # Satellite altitude (km)  # noqa: F841
     Re = 6378.1690  # Earth equatorial radius (km)
     Rp = 6356.5838  # Earth polar radius (km)
-    r3 = Re**2 / Rp**2
-    sd_coeff = 1737122264  # If there is a problem for MSG use 1737121856
-    lon0 = gmd["lon0"]
+    r3 = Re**2 / Rp**2  # noqa: F841
+    sd_coeff = 1737122264  # If there is a problem for MSG use 1737121856  # noqa: F841
+    lon0 = gmd["lon0"]  # noqa: F841
 
     deg2rad = np.pi / 180.0
     x, y = np.meshgrid(
@@ -253,9 +259,9 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
     y = deg2rad * (y - gmd["line_offset"]) / (2**-16 * gmd["line_scale"])
 
     cos_x = np.cos(x)
-    sin_x = np.sin(x)
+    sin_x = np.sin(x)  # noqa: F841
     cos_y = np.cos(y)
-    sin_y = np.sin(y)
+    sin_y = np.sin(y)  # noqa: F841
 
     sd = ne.evaluate("(Rs * cos_x * cos_y)**2 - (cos_y**2 + r3 * sin_y**2) * sd_coeff")
     bad_mask = sd < 0.0
@@ -272,8 +278,8 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
     s1 = cos_x
     ne.evaluate("Rs - (sn * cos_x * cos_y)", out=s1)
 
-    # Nothing unneed, no inplace
-    s2 = ne.evaluate("sn * sin_x * cos_y")
+    # Nothing unneed
+    s2 = ne.evaluate("sn * sin_x * cos_y")  # noqa: F841
 
     # sin_y no longer needed
     s3 = cos_y
@@ -344,10 +350,11 @@ def radToRef(rad, sun_zen, platform, band):
     ref = np.full_like(rad, -999.0)
     # 0 to 1 rather than 0 to 100
     ref[rad > 0] = rad[rad > 0] / irrad
-    # DO NOT REMOVE THIS STEP ALTOGETHER!!!!  Just take out the solar zenith correction part.
-    # Previously, solar zenith correction was being applied twice, then we were off by factor of pi/irrad
-    # Now we should be good!
-    # ref[rad > 0] = np.pi * rad[rad > 0] / (irrad * np.cos((np.pi / 180) * sun_zen[rad > 0]))
+    # DO NOT REMOVE THIS STEP ALTOGETHER!!!!  Just take out the solar zenith correction
+    # part. Previously, solar zenith correction was being applied twice, then we were
+    # off by factor of pi/irrad. Now we should be good!
+    # ref[rad > 0] = np.pi * rad[rad > 0] /
+    #                                 (irrad * np.cos((np.pi / 180) * sun_zen[rad > 0]))
     ref[rad > 0] = np.pi * rad[rad > 0] / irrad
     ref[ref < 0] = 0
     ref[ref > 1] = 1
@@ -583,8 +590,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     xarray_obj.attrs["satECF_m"]["x"] = x * 1000
                     xarray_obj.attrs["satECF_m"]["y"] = y * 1000
                     xarray_obj.attrs["satECF_m"]["z"] = z * 1000
-
-                    # from IPython import embed as shell; shell()
 
         # Get epilogue
         elif df.file_type == "epilogue":

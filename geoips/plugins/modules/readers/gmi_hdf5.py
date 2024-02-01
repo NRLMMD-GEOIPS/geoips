@@ -39,17 +39,15 @@ Dataset information::
 """
 # Python Standard Libraries
 from os.path import basename
-
+from glob import glob
 import h5py
 import numpy as np
-
 import logging
-
-LOG = logging.getLogger(__name__)
 import matplotlib
 
 matplotlib.use("agg")
-import matplotlib.pyplot as plt
+
+LOG = logging.getLogger(__name__)
 
 interface = "readers"
 family = "standard"
@@ -115,8 +113,8 @@ def read_gmi_file(fname, xarray_gmi):
 
     #          ------  setup xarray variables   ------
 
-    # namelist_gmi  = ['latitude', 'longitude', 'V10', 'H10', 'V19','H19','V23', 'V37', 'H37', 'V89' ,'H89',
-    #                   'V166', 'H166', 'V183-3','V183-7', 'time']
+    # namelist_gmi  = ['latitude', 'longitude', 'V10', 'H10', 'V19','H19','V23', 'V37',
+    #                  'H37', 'V89' ,'H89', 'V166', 'H166', 'V183-3','V183-7', 'time']
 
     final_xarray = xr.Dataset()
     if "latitude" not in xarray_gmi.variables.keys():
@@ -240,12 +238,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
     import xarray as xr
-
-    # from IPython import embed as shell
 
     # fname='data_gmi/20200518.203639.gpm.gmi.gpm_pps.x.gmi.TB2016.x.TB2016_1b_v05a.h5'
 
@@ -258,7 +251,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         xarray_gmi = read_gmi_file(fname, xarray_gmi)
 
     # setup attributors
-    from geoips.xarray_utils.time import get_datetime_from_datetime64
     from geoips.xarray_utils.time import (
         get_max_from_xarray_time,
         get_min_from_xarray_time,
@@ -277,3 +269,18 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_gmi.attrs["interpolation_radius_of_influence"] = 12500
 
     return {"GMI": xarray_gmi, "METADATA": xarray_gmi[[]]}
+
+
+def get_test_files(test_data_dir):
+    """Yeilds unit files and test xarray for unit testing."""
+    filepath = test_data_dir + "/test_data_gpm/data/1B*.RT-H5"
+    filelist = glob(filepath)
+    tmp_xr = call(filelist)
+    if len(filelist) == 0:
+        raise NameError("No files found")
+    return tmp_xr
+
+
+def get_test_parameters():
+    """Yeilds data key for unit testing."""
+    return {"data_key": "GMI", "data_var": "V10"}

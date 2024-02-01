@@ -25,8 +25,9 @@ from datetime import datetime, timedelta
 from pyPublicDecompWT import xRITDecompress
 import numpy as np
 
-
 log = logging.getLogger(__name__)
+
+interface = None
 
 
 class HritDtype(object):
@@ -251,7 +252,8 @@ class HritFile(object):
     # def full_disk_geolocation_metadata(self):
     #     if not hasattr(self, '_full_disk_geolocation_metadata'):
     #         geomet = {}
-    #         geomet['ob_area'] = re.sub(r'\W+', '', self.metadata['block_2']['projection'])
+    #         geomet['ob_area'] = re.sub(r'\W+', '',
+    #                                            self.metadata['block_2']['projection'])
     #         geomet['num_lines'] = self.metadata['block_1']['num_lines']
     #         geomet['num_samples'] = self.metadata['block_1']['num_samples']
     #         geomet['line_scale'] = self.metadata['block_2']['line_scale']
@@ -262,7 +264,8 @@ class HritFile(object):
     #         geomet['start_datetime'] = self.start_datetime
     #         # Grabs the sub point longitude from the projection in the form
     #         #   proj(sublon)
-    #         geomet['sublon'] = float(re.search(r"\((.+)\)", self.metadata['block_2']['projection']).group(1))
+    #         geomet['sublon'] = float(re.search(r"\((.+)\)",
+    #                                  self.metadata['block_2']['projection']).group(1))
     #         self._full_disk_geolocation_metadata = geomet
     #     return self._full_disk_geolocation_metadata
 
@@ -884,12 +887,15 @@ class HritFile(object):
         epoch = datetime(1958, 1, 1, 0, 0, 0)
         days = self.__rf(">u2")
         millisec = self.__rf(">u4")
+        # Must read in nanosec, even though it is never used.
+        # Otherwise data will be out of sync from missing bytes in
+        # the binary read.
         if expanded:
             microsec = self.__rf(">u2")
-            nanosec = self.__rf(">u2")
+            nanosec = self.__rf(">u2")  # NOQA
         else:
             microsec = 0
-            nanosec = 0
+            nanosec = 0  # NOQA
         time = epoch + timedelta(
             days=int(days), milliseconds=int(millisec), microseconds=int(microsec)
         )

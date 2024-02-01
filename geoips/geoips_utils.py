@@ -15,13 +15,12 @@
 import os
 from copy import deepcopy
 import sys
-import yaml
+
+# import yaml
 import logging
-from glob import glob
 from importlib import metadata, resources
 
-from geoips.errors import EntryPointError, PluginError
-from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.errors import EntryPointError, PluginRegistryError
 
 LOG = logging.getLogger(__name__)
 
@@ -30,10 +29,16 @@ NAMESPACE_PREFIX = "geoips"
 
 def get_entry_point_group(group):
     """Get entry point group."""
+    # NOTE: When there is a .egg-info directory in the plugin package top
+    # level (ie, from setuptools pip install -e), it seems to return that
+    # package twice in this list.  For now, just use the full list with
+    # duplicates.
     if sys.version_info[:3] >= (3, 10, 0):
-        return metadata.entry_points(group=group)
+        eps = metadata.entry_points(group=group)
     else:
-        return metadata.entry_points()[group]
+        eps = metadata.entry_points()[group]
+
+    return eps
 
 
 def find_ascii_palette(name):
@@ -75,92 +80,46 @@ def load_all_yaml_plugins():
     in ``.yaml``. Read each plugin file
     """
     # Load all entry points for plugin packages
+    import json
+
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
-
-    # Loop over the plugin packages and load all of their yaml plugins
-    plugins = {}
+    yaml_plugins = {}
     for pkg in plugin_packages:
-        pkg_plugin_path = resources.files(pkg.value) / "plugins"
-        yaml_files = pkg_plugin_path.rglob("*.yaml")
-
-        # Loop over the yaml files from one package
-        for yaml_file in yaml_files:
-            # Load
-            yaml_plugin = yaml.safe_load(open(yaml_file, "r"))
-
-            # Set some additional information on the YAML plugin
-            # The name of the package the plugin comes from
-            yaml_plugin["package"] = pkg.value
-            # The relative path to the plugin within the package
-            yaml_plugin["relpath"] = str(yaml_file.relative_to(pkg_plugin_path))
-            # Absolute path to the plugin
-            yaml_plugin["abspath"] = str(yaml_file)
-
-            if "interface" not in yaml_plugin:
-                raise PluginError(
-                    f"YAML file encountered without 'interface' property: {yaml_file}"
-                )
-            if yaml_plugin["interface"] not in plugins:
-                plugins[yaml_plugin["interface"]] = [yaml_plugin]
-            else:
-                plugins[yaml_plugin["interface"]].append(yaml_plugin)
-    return plugins
-
-
-def find_config(subpackage_name, config_basename, txt_suffix=".yaml"):
-    """Find matching config file within GEOIPS packages.
-
-    Given 'subpackage_name', 'config_basename', and txt_suffix, find matching
-    text file within GEOIPS packages.
-
-    Parameters
-    ----------
-    subpackage_name : str
-        subdirectory under GEOIPS package to look for text file
-        ie text_fname = geoips/<subpackage_name>/<config_basename><txt_suffix>
-    config_basename : str
-        text basename to look for,
-        ie text_fname = geoips/<subpackage_name>/<config_basename><txt_suffix>
-    txt_suffix : str
-        suffix to look for on config file, defaults to ".yaml"
-        ie text_fname = geoips/<subpackage_name>/<config_basename><txt_suffix>
-
-    Returns
-    -------
-    text_fname : str
-        Full path to text filename
-    """
-    text_fname = None
-
-    for package_name in gpaths["GEOIPS_PACKAGES"]:
-        fname = os.path.join(
-            os.getenv("GEOIPS_PACKAGES_DIR"),
-            package_name,
-            subpackage_name,
-            config_basename + txt_suffix,
-        )
-        # LOG.info('Trying %s', fname)
-        if os.path.exists(fname):
-            LOG.info("FOUND %s", fname)
-            text_fname = fname
-        fname = os.path.join(
-            os.getenv("GEOIPS_PACKAGES_DIR"),
-            package_name,
-            package_name,
-            subpackage_name,
-            config_basename + txt_suffix,
-        )
-        # LOG.info('Trying %s', fname)
-        if os.path.exists(fname):
-            LOG.info("FOUND %s", fname)
-            text_fname = fname
-    return text_fname
+        pkg_plug_path = str(resources.files(pkg.value) / "registered_plugins")
+        if not os.path.exists(pkg_plug_path):
+            raise PluginRegistryError(
+                f"Plugin registry {pkg_plug_path} did not exist, "
+                "please run 'create_plugin_registries'"
+            )
+        # This will include all plugins, including schemas, yaml_based,
+        # and module_based plugins.
+        registered_plugins = json.load(open(pkg_plug_path, "r"))
+        # Only pull the "yaml_based" plugins here.
+        try:
+            for interface in registered_plugins["yaml_based"]:
+                if interface not in yaml_plugins:
+                    yaml_plugins[interface] = registered_plugins["yaml_based"][
+                        interface
+                    ]
+                else:
+                    merge_nested_dicts(
+                        yaml_plugins[interface],
+                        registered_plugins["yaml_based"][interface],
+                    )
+        except TypeError:
+            raise PluginRegistryError(f"Failed reading {pkg_plug_path}.")
+    return yaml_plugins
 
 
 def find_entry_point(namespace, name, default=None):
     """Find object matching 'name' using GEOIPS entry point namespace 'namespace'.
 
     Automatically add 'geoips' prefix to namespace for disambiguation.
+
+    This is used in geoips.interfaces.base.get_plugin when "name" exists.
+    In that case, default is passed in as the full path, and is likely just
+    returned as the full path.  So the entry points in here probably are not
+    actually used, but the function is still required.
 
     Parameters
     ----------
@@ -337,6 +296,41 @@ def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
             LOG.info("    MISSING Process Time %s: %s", job_str, process_name)
 
 
+def replace_geoips_paths_in_list(
+    replace_list, replace_paths=None, base_paths=None, curly_braces=False
+):
+    """Replace geoips paths for every path-based element in a list."""
+    newlist = []
+    # Go through each element in the list
+    for val in replace_list:
+        # If this element is a str, and contains "/", it's probably a path,
+        # and we can replace the geoips paths.
+        if isinstance(val, str) and "/" in val:
+            newlist += [replace_geoips_paths(val)]
+        # Otherwise, just put the current element back
+        else:
+            newlist += [val]
+    return newlist
+
+
+def replace_geoips_paths_in_dict(
+    replace_dict, replace_paths=None, base_paths=None, curly_braces=False
+):
+    """Replace geoips paths in every path-based element within a dictionary."""
+    dump_dict = replace_dict.copy()
+    for key in replace_dict:
+        # If this is a string, and it contains "/", replace the geoips paths.
+        if isinstance(replace_dict[key], str) and "/" in replace_dict[key]:
+            dump_dict[key] = replace_geoips_paths(replace_dict[key])
+        # If this is a list, go through each element and replace geoips paths if
+        # applicable.
+        if isinstance(replace_dict[key], list):
+            dump_dict[key] = replace_geoips_paths_in_list(
+                replace_dict[key], replace_paths, base_paths, curly_braces
+            )
+    return dump_dict
+
+
 def replace_geoips_paths(
     fname,
     replace_paths=None,
@@ -425,70 +419,6 @@ def get_required_geoips_xarray_attrs():
         "end_datetime",
     ]
     return required_xarray_attrs
-
-
-def list_product_specs_dict_yamls():
-    """List all YAML files containing product params in all geoips packages.
-
-    Returns
-    -------
-    list
-        List of all product params dict YAMLs in all geoips packages
-    """
-    all_files = []
-    for package_name in gpaths["GEOIPS_PACKAGES"]:
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/*/yaml_configs/product_params/*/*.yaml"
-        )
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/yaml_configs/product_params/*/*.yaml"
-        )
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/*/yaml_configs/product_params/*.yaml"
-        )
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/yaml_configs/product_params/*.yaml"
-        )
-    return [fname for fname in all_files if "__init__" not in fname]
-
-
-def list_product_source_dict_yamls():
-    """List all YAML files containing product source specifications.
-
-    Search in all geoips packages.
-
-    Returns
-    -------
-    list
-        List of all product source dict YAMLs in all geoips packages
-    """
-    all_files = []
-    for package_name in gpaths["GEOIPS_PACKAGES"]:
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/*/yaml_configs/product_inputs/*.yaml"
-        )
-        all_files += glob(
-            gpaths["GEOIPS_PACKAGES_DIR"]
-            + "/"
-            + package_name
-            + "/yaml_configs/product_inputs/*.yaml"
-        )
-    return [fname for fname in all_files if "__init__" not in fname]
 
 
 def merge_nested_dicts(dest, src, in_place=True):

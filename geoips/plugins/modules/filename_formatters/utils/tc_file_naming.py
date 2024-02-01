@@ -21,6 +21,8 @@ from geoips.interfaces import products
 
 LOG = logging.getLogger(__name__)
 
+interface = None
+
 
 def get_storm_subdir(
     basin_path, base_tc_stormname, tc_stormnum, output_dict, sector_info

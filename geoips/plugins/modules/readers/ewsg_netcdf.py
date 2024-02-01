@@ -49,25 +49,25 @@ import os
 import numpy as np
 import xarray as xr
 import calendar
-import pandas as pd
 
 
-# If this reader is not installed on the system, don't fail altogether, just skip this import. This reader will
-# not work if the import fails, and the package will have to be installed
-# to process data of this type.
-
-try:
-    import netCDF4 as ncdf
-except:
-    print("Failed import netCDF4. If you need it, install it.")
-
-
-# @staticmethod                                     # not sure where it is uwas used?
+# If this reader is not installed on the system, don't fail altogether, just skip this
+# import. This reader will not work if the import fails, and the package will have to be
+# installed to process data of this type.
 
 LOG = logging.getLogger(__name__)
 
-# gvar_ch6 has only half scanlines of other channels (1,2,4),we temporally do not read the ch6 in.
-#   we will modify this reader if gvar_ch6 is needed in the future.
+
+try:
+    import netCDF4 as ncdf
+except ImportError:
+    LOG.info("Failed import netCDF4. If you need it, install it.")
+
+
+# @staticmethod                                     # not sure where it is was used?
+
+# gvar_ch6 has only half scanlines of other channels (1,2,4), we temporally do not read
+# the ch6 in. We will modify this reader if gvar_ch6 is needed in the future.
 VARLIST = [
     "gvar_ch1",
     "gvar_ch2",
@@ -129,8 +129,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    # from IPython import embed as shell
-    from datetime import datetime
     import pandas as pd
 
     # --------------- loop input files ---------------
@@ -144,7 +142,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
         if data_name != "nc":
-            print("Warning: EWS-G data type:  data_type=", data_name)
+            LOG.info("Warning: EWS-G data type:  data_type=", data_name)
             raise
 
         # open the paired input files
@@ -152,9 +150,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         LOG.info("    Trying file %s", fname)
 
         if ncdf_file.satellite == "goes-13":
-            print("found a NOAA EWS-G data file")
+            LOG.info("found a NOAA EWS-G data file")
         else:
-            print("not a NOAA EWS-G data file: skip it")
+            LOG.info("not a NOAA EWS-G data file: skip it")
             raise
 
         # *************** input VIRRS variables  and output xarray required by geo
@@ -185,11 +183,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         # setup attributes
         # use fname to get an initial info of  year, month, day
-        # test hour/minute/second of "start_datetime" info from start_time (second of the day)
-        # add scan_time info to determine the "end_datetime". scan_time has time of scans for
-        #     this input data file(one obs).  If end_time of this data >24 hr, modify value of "day"
-        # from fname.  Note: scan_time units are seconds from (start_time +
-        # time_adjust)
+        # test hour/minute/second of "start_datetime" info from start_time (second of
+        # the day). add scan_time info to determine the "end_datetime". scan_time has
+        # time of scans for this input data file(one obs).  If end_time of this data >24
+        # hr, modify value of "day" from fname.  Note: scan_time units are seconds from
+        # (start_time + time_adjust)
 
         # date info from fname
         #        1  2  3  4  5  6  7  8  9  10 11 12
@@ -202,8 +200,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         yr = int(data_name.split(".")[0])
         mo = int(data_name.split(".")[1][0:2])
         dy = int(data_name.split(".")[1][2:4])
-        hr = int(data_name.split(".")[2][0:2])
-        mm = int(data_name.split(".")[2][2:4])
+        # hr = int(data_name.split(".")[2][0:2])
+        # mm = int(data_name.split(".")[2][2:4])
 
         # determine a Leap Year?
         if calendar.isleap(yr):
@@ -233,14 +231,14 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         ss_e = int(end_time - (hr_e * 3600 + mm_e * 60))
 
         if hr_s >= 24:
-            dy_s_ = dy + 1  # forward to the next date
+            # dy_s_ = dy + 1  # forward to the next date
             hr_s = hr_s - 24
             if dy_s > days:  # move to next mon
                 mo_s = mo + 1
                 if mo_s > 12:  # move to near year
                     yr_s = yr + 1
         if hr_e >= 24:
-            dy_e_ = dy + 1  # forward to the next date
+            # dy_e_ = dy + 1  # forward to the next date
             hr_e = hr_e - 24
             if dy_e > days:  # move to next mon
                 mo_e = mo + 1

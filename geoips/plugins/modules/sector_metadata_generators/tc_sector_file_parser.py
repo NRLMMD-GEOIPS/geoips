@@ -24,7 +24,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-interface = "sector_metadata_parser"
+interface = "sector_metadata_generators"
 family = "tc"
 name = "tc_sector_file_parser"
 

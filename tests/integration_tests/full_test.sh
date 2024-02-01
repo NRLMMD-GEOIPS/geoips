@@ -32,6 +32,7 @@ echo ""
 # Used for clarity, and to differentiate potentially multiple "test_all.sh" scripts in
 # the same repo.
 
+# For clarity, make the last directory "geoips"
 geoips_repopath=`dirname $0`/../../
 geoips_pkgname=geoips
 
@@ -58,15 +59,18 @@ geoips_clavrx_pkgname=geoips_clavrx
 echo ""
 # "call" used in test_all_run.sh
 for call in \
-  "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath flake8_docstring_only" \
+  "export GEOIPS_DISABLE_SHARED_CODE_CHECKS=False" \
+  "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath" \
+  "export GEOIPS_DISABLE_SHARED_CODE_CHECKS=True" \
+  "$geoips_repopath/tests/utils/check_code.sh all $recenter_tc_repopath" \
   "$geoips_repopath/docs/build_docs.sh $geoips_repopath $geoips_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $recenter_tc_repopath $recenter_tc_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $data_fusion_repopath $data_fusion_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $template_basic_plugin_repopath $template_basic_plugin_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $template_fusion_plugin_repopath $template_fusion_plugin_pkgname html_only" \
-  "pytest $geoips_repopath/tests/test_pytest" \
   "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
-  "test_interfaces" \
+  "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh" \
+  "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh" \
   "$geoips_repopath/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/abi.config_based_output_low_memory.sh" \
   "$geoips_repopath/tests/scripts/abi.config_based_output.sh" \
@@ -79,8 +83,11 @@ for call in \
   "$geoips_repopath/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh" \
   "$geoips_repopath/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh" \
   "$geoips_repopath/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh" \
-  "$geoips_repopath/tests/scripts/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh" \
   "$geoips_repopath/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh" \
+  "$geoips_repopath/tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh" \
+  "$geoips_repopath/tests/scripts/ascat_uhr.tc.windspeed.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/gmi.tc.89pct.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh" \

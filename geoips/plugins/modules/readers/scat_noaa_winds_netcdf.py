@@ -15,6 +15,7 @@
 import logging
 from os.path import basename
 from copy import deepcopy
+from glob import glob
 
 LOG = logging.getLogger(__name__)
 
@@ -113,6 +114,23 @@ def read_noaa_data(wind_xarray):
         wind_xarray["rain_flag"] = xarray.DataArray(
             rf.astype(int), coords=wind_xarray.coords, dims=data_dims
         )
+
+    # Create rain flag for ambiguity products
+    # The rain_flag variable is only 2D. We need to
+    # create a rain_flag_ambiguity variable that has
+    # the same dimensions as "wind_speed_ambiguity_kts"
+    ambs = wind_xarray["wind_speed_ambiguity_kts"]
+    # Create data_dims dictionary for ambiguity variable
+    data_dims = {x: wind_xarray.dims[x] for x in ambs.dims}
+    # Create 3D rain flag by stacking 2D rain_flag by number of ambiguities
+    rf_amb = numpy.dstack([rf] * data_dims["MaxAmbiguity"])
+    # Set 3D rain flag values to NaN where ambiguities are NaN
+    nan_ambs = numpy.isnan(ambs.data)
+    rf_amb[nan_ambs] = numpy.nan
+    # Store to xarray dataset
+    wind_xarray["rain_flag_ambiguity"] = xarray.DataArray(
+        rf_amb.astype(int), coords=wind_xarray.coords, dims=data_dims
+    )
 
     wind_xarray = wind_xarray.set_coords(["time"])
     return wind_xarray, geoips_metadata
@@ -219,7 +237,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
 
         LOG.info(
-            "Read data %s start_dt %s source %s platform %s data_provider %s roi %s native resolution",
+            "Read data %s start_dt %s source %s platform %s data_provider %s roi "
+            "%s native resolution",
             wind_xarray.attrs["start_datetime"],
             wind_xarray.attrs["source_name"],
             wind_xarray.attrs["platform_name"],
@@ -231,3 +250,23 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     final_wind_xarrays["METADATA"] = wind_xarray[[]]
 
     return final_wind_xarrays
+
+
+def get_test_files(test_data_dir):
+    """Generate test xarray from test files for unit testing."""
+    filepath = (
+        test_data_dir
+        + "/test_data_scat/data/20230524_metopc_"
+        + "noaa_class_tc2023wp02mawar/L2OVW25kmASCAT_v1r1_m03_s202305242348000*.nc"
+    )
+    filelist = glob(filepath)[:2]
+
+    tmp_xr = call(filelist)
+    if len(filelist) == 0:
+        raise NameError("No files found")
+    return tmp_xr
+
+
+def get_test_parameters():
+    """Generate test data key for unit testing."""
+    return {"data_key": "WINDSPEED", "data_var": "wind_speed_kts"}

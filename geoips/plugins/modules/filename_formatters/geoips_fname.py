@@ -186,7 +186,7 @@ def assemble_geoips_fname(
         product_dir = product_name
     if source_dir is None:
         source_dir = source_name
-    print(basedir)
+    LOG.info(basedir)
     path = pathjoin(
         basedir,
         "{0}-{1}-{2}".format(continent, country, area),

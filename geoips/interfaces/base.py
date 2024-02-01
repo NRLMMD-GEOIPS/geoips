@@ -15,20 +15,22 @@
 import yaml
 import inspect
 import logging
-from copy import deepcopy
+from os.path import exists, splitext
 
 from importlib.resources import files
+from importlib import util
 from pathlib import Path
 import jsonschema
 import referencing
 from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
-from geoips.errors import EntryPointError, PluginError
+from geoips.errors import EntryPointError, PluginError, PluginRegistryError
+
 from geoips.geoips_utils import (
     find_entry_point,
-    get_all_entry_points,
-    load_all_yaml_plugins,
+    # get_all_entry_points,
+    # load_all_yaml_plugins,
 )
 
 # from geoips.interfaces import product_defaults
@@ -151,8 +153,27 @@ class YamlPluginValidator:
     _schema_path = SCHEMA_PATH
     _validator = getattr(jsonschema, f"Draft{JSONSCHEMA_DRAFT}Validator")
 
-    schemas = get_schemas(_schema_path, _validator)
-    validators = get_validators(schemas, _validator)
+    @property
+    def schemas(self):
+        """Return a list of jsonschema schemas for GeoIPS.
+
+        This performs a lazy-load for the schema to avoid loading them if not
+        needed. This reduces the import time for geoips.interfaces.
+        """
+        if not hasattr(self, "_schemas"):
+            self._schemas = get_schemas(self._schema_path, self._validator)
+        return self._schemas
+
+    @property
+    def validators(self):
+        """Return schema validators.
+
+        This performs a lazy-load for the validators to avoid loading them if not
+        needed. This reduces the import time for geoips.interfaces.
+        """
+        if not hasattr(self, "_validators"):
+            self._validators = get_validators(self.schemas, self._validator)
+        return self._validators
 
     def validate(self, plugin, validator_id=None):
         """Validate a YAML plugin against the relevant schema.
@@ -254,83 +275,6 @@ def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
-def plugin_module_to_obj(name, module, obj_attrs={}):
-    """Convert a module plugin to an object.
-
-    Convert the passed module plugin into an object and return it. The returned
-    object will be derrived from a class named ``<interface>Plugin`` where
-    interface is the interface specified by the plugin. This class is derrived
-    from ``BasePlugin``.
-
-    This function is used instead of predefined classes to allow setting ``__doc__`` and
-    ``__call__`` on a plugin-by-plugin basis. This allows collecting ``__doc__`` and
-    ``__call__`` from the plugin modules and using them in the objects.
-
-    For a module to be converted into an object it must meet the following requirements:
-
-    - The module must define a docstring. This will be used as the docstring for the
-      plugin class as well as the docstring for the plugin when requested on the
-      command line.  The first line will be used as a "short" description, and the
-      full docstring will be used as a more detailed discussion of the plugin.
-    - The following global attributes must be defined in the module:
-      - interface: The name of the interface that the plugin belongs to.
-      - family: The family of plugins that the plugin belongs to within the interface.
-      - name: The name of the plugin which must be unique within the interface.
-    - A callable named `call` that will be called when the plugin is used.
-
-    Parameters
-    ----------
-    module : module
-      The imported plugin module.
-    obj_attrs : dict, optional
-      Additional attributes to be assigned to the plugin object.
-
-    Returns
-    -------
-    An object of type ``<interface>InterfacePlugin`` where ``<interface>`` is the name
-    of the interface that the desired plugin belongs to.
-    """
-    obj_attrs["id"] = name
-    obj_attrs["module"] = module
-
-    missing = []
-    for attr in ["interface", "family", "name"]:
-        try:
-            obj_attrs[attr] = getattr(module, attr)
-        except AttributeError:
-            missing.append(attr)
-
-    if missing:
-        raise PluginError(
-            f"Plugin '{module.__name__}' is missing the following required global "
-            f"attributes: '{missing}'."
-        )
-
-    if module.__doc__:
-        obj_attrs["__doc__"] = module.__doc__
-    else:
-        raise PluginError(
-            f"Plugin modules must have a docstring. "
-            f"No docstring found in '{module.__name__}'."
-        )
-    obj_attrs["docstring"] = module.__doc__
-
-    # Collect the callable and assign to __call__
-    try:
-        obj_attrs["__call__"] = staticmethod(getattr(module, "call"))
-    except AttributeError as err:
-        raise PluginError(
-            f"Plugin modules must contain a callable name 'call'. This is missing in "
-            f"plugin module '{module.__name__}'"
-        ) from err
-
-    plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
-    plugin_type = f"{plugin_interface_name}Plugin"
-
-    # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
-    return type(plugin_type, (BaseModulePlugin,), obj_attrs)()
-
-
 class BaseYamlPlugin(dict):
     """Base class for GeoIPS plugins."""
 
@@ -372,6 +316,10 @@ class BaseInterface:
     the GeoIPS algorithm plugins.
     """
 
+    from geoips.plugin_registry import plugin_registry
+
+    plugin_registry = plugin_registry
+
     def __new__(cls):
         """Plugin interface new method."""
         if not hasattr(cls, "name") or not cls.name:
@@ -384,6 +332,42 @@ class BaseInterface:
         # cls.__doc__ += interface_attrs_doc causes duplication warnings
 
         return super(BaseInterface, cls).__new__(cls)
+
+    @property
+    def registered_module_based_plugins(self):
+        """Return a dictionary of registered module-based plugins.
+
+        This property provides centeralized error handling for missing plugin
+        registries.
+        """
+        if not hasattr(self, "_registered_module_based_plugins"):
+            try:
+                self._registered_module_based_plugins = (
+                    self.plugin_registry.registered_plugins["module_based"]
+                )
+            except (AttributeError, KeyError):
+                raise PluginRegistryError(
+                    "Plugin registries not found, please run 'create_plugin_registries'"
+                )
+        return self._registered_module_based_plugins
+
+    @property
+    def registered_yaml_based_plugins(self):
+        """Return a dictionary of registered yaml-based plugins.
+
+        This property provides centeralized error handling for missing plugin
+        registries.
+        """
+        if not hasattr(self, "_registered_module_based_plugins"):
+            try:
+                self._registered_yaml_based_plugins = (
+                    self.plugin_registry.registered_plugins["yaml_based"]
+                )
+            except (AttributeError, KeyError):
+                raise PluginRegistryError(
+                    "Plugin registries not found, please run 'create_plugin_registries'"
+                )
+        return self._registered_yaml_based_plugins
 
 
 class BaseYamlInterface(BaseInterface):
@@ -408,9 +392,15 @@ class BaseYamlInterface(BaseInterface):
 
     def __init__(self):
         """YAML plugin interface init method."""
-        self._unvalidated_plugins = self._create_unvalidated_plugins_cache(
-            load_all_yaml_plugins()
-        )
+        pass
+
+    def _create_registered_plugin_names(self, yaml_plugin):
+        """Create a plugin name for plugin registry.
+
+        Some interfaces need to override this (e.g. products) because they
+        need a more complex name for retrieval.
+        """
+        return [yaml_plugin["name"]]
 
     @classmethod
     def _plugin_yaml_to_obj(cls, name, yaml_plugin, obj_attrs={}):
@@ -439,10 +429,10 @@ class BaseYamlInterface(BaseInterface):
         obj_attrs["yaml"] = yaml_plugin
 
         missing = []
+
         for attr in [
             "package",
             "relpath",
-            "abspath",
             "interface",
             "family",
             "name",
@@ -452,7 +442,6 @@ class BaseYamlInterface(BaseInterface):
                 obj_attrs[attr] = yaml_plugin[attr]
             except KeyError:
                 missing.append(attr)
-
         if missing:
             raise PluginError(
                 f"Plugin '{yaml_plugin['name']}' is missing the following required "
@@ -467,63 +456,7 @@ class BaseYamlInterface(BaseInterface):
         plugin_base_class = BaseYamlPlugin
         if hasattr(cls, "plugin_class") and cls.plugin_class:
             plugin_base_class = cls.plugin_class
-
         return type(plugin_type, (plugin_base_class,), obj_attrs)(yaml_plugin)
-
-    def _create_unvalidated_plugins_cache(self, yaml_plugins):
-        """Create a cache of unvalidated plugin yamls.
-
-        These will be validated when they are actually used.
-        """
-        cache = {}
-        # If this is a list, split out all of the subs and store them all
-        # If this is any other family, just store it
-        for yaml_plg in yaml_plugins[self.name]:
-            if yaml_plg["family"] == "list":
-                try:
-                    yaml_plg = self.validator.validate(yaml_plg)
-                except ValidationError as resp:
-                    LOG.warning(
-                        f"{resp}: from plugin '{yaml_plg.get('name')}',"
-                        f"\nin package '{yaml_plg.get('package')}',"
-                        f"\nlocated at '{yaml_plg.get('abspath')}' "
-                    )
-                    # raise ValidationError(
-                    #     f"{resp}: from plugin '{yaml_plg.get('name')}',"
-                    #     f"\nin package '{yaml_plg.get('package')}',"
-                    #     f"\nlocated at '{yaml_plg.get('abspath')}' "
-                    # ) from resp
-                plg_list = self._plugin_yaml_to_obj(yaml_plg["name"], yaml_plg)
-                yaml_subplgs = {}
-                for yaml_subplg in plg_list["spec"][self.name]:
-                    try:
-                        subplg_names = self._create_plugin_cache_names(yaml_subplg)
-                        for subplg_name in subplg_names:
-                            yaml_subplgs[subplg_name] = deepcopy(yaml_subplg)
-                            yaml_subplgs[subplg_name]["interface"] = self.name
-                            yaml_subplgs[subplg_name]["package"] = yaml_plg["package"]
-                            yaml_subplgs[subplg_name]["relpath"] = yaml_plg["relpath"]
-                            yaml_subplgs[subplg_name]["abspath"] = yaml_plg["abspath"]
-                    except KeyError as resp:
-                        LOG.warning(
-                            f"{resp}: from plugin '{yaml_plg.get('name')}',"
-                            f"\nin package '{yaml_plg.get('package')}',"
-                            f"\nlocated at '{yaml_plg.get('abspath')}' "
-                            f"\nMismatched schema and YAML?"
-                        )
-                cache.update(yaml_subplgs)
-            else:
-                cache[yaml_plg["name"]] = yaml_plg
-        return cache
-
-    @staticmethod
-    def _create_plugin_cache_name(yaml_plugin):
-        """Create a plugin name for cache storage.
-
-        Some interfaces need to override this (e.g. products) because they need a more
-        complex name for retrieval.
-        """
-        return [yaml_plugin["name"]]
 
     def __repr__(self):
         """Plugin interface repr method."""
@@ -537,10 +470,54 @@ class BaseYamlInterface(BaseInterface):
         ProductsInterface which uses a tuple containing 'source_name' and
         'name'.
         """
-        try:
-            validated = self.validator.validate(self._unvalidated_plugins[name])
-        except KeyError:
-            raise PluginError(f"Plugin '{name}' not found for '{self.name}' interface.")
+        from importlib.resources import files
+
+        registered_yaml_plugins = self.registered_yaml_based_plugins
+
+        if isinstance(name, tuple):
+            # These are stored in the yaml as str(name),
+            # ie "('viirs', 'Infrared')"
+            try:
+                relpath = registered_yaml_plugins[self.name][name[0]][name[1]][
+                    "relpath"
+                ]
+                package = registered_yaml_plugins[self.name][name[0]][name[1]][
+                    "package"
+                ]
+            except KeyError:
+                raise PluginError(
+                    f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
+                )
+            abspath = str(files(package) / relpath)
+            plugin = yaml.safe_load(open(abspath, "r"))
+            plugin_found = False
+            for product in plugin["spec"]["products"]:
+                if product["name"] == name[1] and name[0] in product["source_names"]:
+                    plugin_found = True
+                    plugin = product
+                    break
+            if not plugin_found:
+                raise PluginError(
+                    "There is no plugin that has " + name[1] + " included in it."
+                )
+            plugin["interface"] = "products"
+            plugin["package"] = package
+            plugin["abspath"] = abspath
+            plugin["relpath"] = relpath
+        else:
+            try:
+                relpath = registered_yaml_plugins[self.name][name]["relpath"]
+                package = registered_yaml_plugins[self.name][name]["package"]
+            except KeyError:
+                raise PluginError(
+                    f"Plugin [{name}] doesn't exist under interface [{self.name}]"
+                )
+            abspath = str(files(package) / relpath)
+            plugin = yaml.safe_load(open(abspath, "r"))
+            plugin["package"] = package
+            plugin["abspath"] = abspath
+            plugin["relpath"] = relpath
+        validated = self.validator.validate(plugin)
         # Store "name" as the product's "id"
         # This is helpful when an interfaces uses something other than just "name" to
         # find its plugins as is the case with ProductsInterface
@@ -549,7 +526,8 @@ class BaseYamlInterface(BaseInterface):
     def get_plugins(self):
         """Retrieve a plugin by name."""
         plugins = []
-        for name in self._unvalidated_plugins.keys():
+        registered_yaml_plugins = self.registered_yaml_based_plugins
+        for name in registered_yaml_plugins[self.name].keys():
             plugins.append(self.get_plugin(name))
         return plugins
 
@@ -614,20 +592,106 @@ class BaseModuleInterface(BaseInterface):
         """Plugin interface repr method."""
         return f"{self.__class__.__name__}()"
 
-    def _plugin_module_to_obj(self, module, module_call_func="call", obj_attrs={}):
-        """Convert a plugin module into an object.
+    # def _plugin_module_to_obj(self, module, module_call_func="call", obj_attrs={}):
+    #     """Convert a plugin module into an object.
 
-        Convert the passed module into an object of type.
+    #     Convert the passed module into an object of type.
+    #     """
+    #     obj = plugin_module_to_obj(
+    #         module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
+    #     )
+    #     if obj.interface != self.name:
+    #         raise PluginError(
+    #             f"Plugin 'interface' attribute on '{obj.name}' plugin does not "
+    #             f"match the name of its interface as specified by entry_points."
+    #         )
+    #     return obj
+
+    def __init__(self):
+        """Initialize module plugin interface."""
+        pass
+
+    @classmethod
+    def _plugin_module_to_obj(cls, name, module, obj_attrs={}):
+        """Convert a module plugin to an object.
+
+        Convert the passed module plugin into an object and return it. The returned
+        object will be derrived from a class named ``<interface>Plugin`` where
+        interface is the interface specified by the plugin. This class is derrived
+        from ``BasePlugin``.
+
+        This function is used instead of predefined classes to allow setting ``__doc__``
+        and ``__call__`` on a plugin-by-plugin basis. This allows collecting ``__doc__``
+        and ``__call__`` from the plugin modules and using them in the objects.
+
+        For a module to be converted into an object it must meet the following
+        requirements:
+
+        - The module must define a docstring. This will be used as the docstring for the
+          plugin class as well as the docstring for the plugin when requested on the
+          command line.  The first line will be used as a "short" description, and the
+          full docstring will be used as a more detailed discussion of the plugin.
+        - The following global attributes must be defined in the module:
+        - interface: The name of the interface that the plugin belongs to.
+        - family: The family of plugins that the plugin belongs to within the interface.
+        - name: The name of the plugin which must be unique within the interface.
+        - A callable named `call` that will be called when the plugin is used.
+
+        Parameters
+        ----------
+        module : module
+        The imported plugin module.
+        obj_attrs : dict, optional
+        Additional attributes to be assigned to the plugin object.
+
+        Returns
+        -------
+        An object of type ``<interface>InterfacePlugin`` where ``<interface>`` is the
+        name of the interface that the desired plugin belongs to.
         """
-        obj = plugin_module_to_obj(
-            module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
-        )
-        if obj.interface != self.name:
+        obj_attrs["id"] = name
+        obj_attrs["module"] = module
+
+        missing = []
+        for attr in ["interface", "family", "name"]:
+            try:
+                obj_attrs[attr] = getattr(module, attr)
+            except AttributeError:
+                missing.append(attr)
+
+        if missing:
             raise PluginError(
-                f"Plugin 'interface' attribute on '{obj.name}' plugin does not "
-                f"match the name of its interface as specified by entry_points."
+                f"Plugin '{module.__name__}' from '{module.__file__}' is missing the "
+                f"following required global attributes: '{missing}'."
             )
-        return obj
+
+        if module.__doc__:
+            obj_attrs["__doc__"] = module.__doc__
+        else:
+            raise PluginError(
+                f"Plugin modules must have a docstring. "
+                f"No docstring found in '{module.__name__}'."
+            )
+        obj_attrs["docstring"] = module.__doc__
+
+        # Collect the callable and assign to __call__
+        try:
+            obj_attrs["__call__"] = staticmethod(getattr(module, "call"))
+        except AttributeError as err:
+            raise PluginError(
+                f"Plugin modules must contain a callable name 'call'. This is missing "
+                f"in plugin module '{module.__name__}'"
+            ) from err
+
+        plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
+        plugin_type = f"{plugin_interface_name}Plugin"
+
+        plugin_base_class = BaseModulePlugin
+        if hasattr(cls, "plugin_class") and cls.plugin_class:
+            plugin_base_class = cls.plugin_class
+
+        # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
+        return type(plugin_type, (plugin_base_class,), obj_attrs)()
 
     def get_plugin(self, name):
         """Retrieve a plugin from this interface by name.
@@ -649,7 +713,20 @@ class BaseModuleInterface(BaseInterface):
         """
         # Find the plugin module
         try:
-            module = find_entry_point(self.name, name)
+            if exists(name):
+                # This is used! For output checkers at least.
+                module = find_entry_point(self.name, name)
+            else:
+                registered_module_plugins = self.registered_module_based_plugins
+                package = registered_module_plugins[self.name][name]["package"]
+                relpath = registered_module_plugins[self.name][name]["relpath"]
+                module_path = splitext(relpath.replace("/", "."))[0]
+                module_path = f"{package}.{module_path}"
+                abspath = files(package) / relpath
+                spec = util.spec_from_file_location(module_path, abspath)
+                module = util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+            # module = find_entry_point(self.name, name)
         except EntryPointError as resp:
             raise PluginError(
                 f"{resp}:\nPlugin '{name}' not found for '{self.name}' interface. "
@@ -662,18 +739,36 @@ class BaseModuleInterface(BaseInterface):
                 f" attempting to access the correct plugin name)"
             ) from resp
         # Convert the module into an object
-        return plugin_module_to_obj(name, module)
+        return self._plugin_module_to_obj(name, module)
 
     def get_plugins(self):
         """Get a list of plugins for this interface."""
         plugins = []
-        for ep in get_all_entry_points(self.name):
+        # All plugin interfaces are explicitly imported in
+        # geoips/interfaces/__init__.py
+        # self.name comes explicitly from one of the interfaces that are
+        # found by default on geoips.interfaces.
+        # If there is a defined interface with no plugins available in the current
+        # geoips installation (in any currently installed plugin package),
+        # then there will NOT be an entry within registered plugins
+        # for that interface, and a KeyError will be raised in the for loop
+        # below.
+        # Check if the current interface (self.name) is found in the
+        # registered_plugins dictionary - if it is not, that means there
+        # are no plugins for that interface, so return an empty list.
+        registered_module_plugins = self.registered_module_based_plugins
+        if self.name not in registered_module_plugins:
+            LOG.debug("No plugins found for '%s' interface.", self.name)
+            return plugins
+
+        for plugin_name in registered_module_plugins[self.name]:
             try:
-                plugins.append(plugin_module_to_obj(ep.name, ep))
+                plugins.append(self.get_plugin(plugin_name))
             except AttributeError as resp:
                 raise PluginError(
-                    f"Plugin '{ep.__name__}' is missing the 'name' attribute, "
-                    f"\nfrom '{ep.__module__}' module,"
+                    f"Plugin '{plugin_name}' is missing the 'name' attribute, "
+                    f"\nfrom package '{plugin_name['package']},' "
+                    f"'{plugin_name['relpath']}' module,"
                 ) from resp
         return plugins
 
@@ -701,6 +796,7 @@ class BaseModuleInterface(BaseInterface):
                 f"\nfor '{self.name}' interface,"
                 f"\nfound in '{plugin.name}' plugin,"
                 f"\nin '{plugin.module.__name__}' module"
+                f"\nat '{plugin.module.__file__}'\n"
             )
         if plugin.family not in self.required_kwargs:
             raise PluginError(
@@ -708,6 +804,7 @@ class BaseModuleInterface(BaseInterface):
                 f"\nfor '{self.name}' interface,"
                 f"\nfound in '{plugin.name}' plugin,"
                 f"\nin '{plugin.module.__name__}' module"
+                f"\nat '{plugin.module.__file__}'\n"
             )
         expected_args = self.required_args[plugin.family]
         expected_kwargs = self.required_kwargs[plugin.family]
@@ -733,6 +830,7 @@ class BaseModuleInterface(BaseInterface):
                     f"\nfor '{self.name}' interface,"
                     f"\nfound in '{plugin.name}' plugin,"
                     f"\nin '{plugin.module.__name__}' module"
+                    f"\nat '{plugin.module.__file__}'\n"
                 )
         for expected_kwarg in expected_kwargs:
             # If expected_kwarg is a tuple, first item is kwarg, second default value
@@ -743,6 +841,7 @@ class BaseModuleInterface(BaseInterface):
                         f"\nfor '{self.name}' interface,"
                         f"\nfound in '{plugin.name}' plugin,"
                         f"\nin '{plugin.module.__name__}' module"
+                        f"\nat '{plugin.module.__file__}'\n"
                     )
             elif expected_kwarg not in kwarg_list:
                 raise PluginError(
@@ -750,6 +849,7 @@ class BaseModuleInterface(BaseInterface):
                     f"\nfor '{self.name}' interface,"
                     f"\nfound in '{plugin.name}' plugin,"
                     f"\nin '{plugin.module.__name__}' module"
+                    f"\nat '{plugin.module.__file__}'\n"
                 )
 
         return True

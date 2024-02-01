@@ -10,11 +10,13 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+.. _expert-installation:
+
 ****************************************************
 Expert User Installation (Administrative privileges)
 ****************************************************
 
-The `Complete Local conda-based GeoIPS Installation <./installation.rst>`
+The :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`
 is the easiest way to get GeoIPS up and running, but if you have administrative
 privileges on your system, and are confident you can install all the required
 system dependencies yourself, you can install GeoIPS by setting a few environment
@@ -26,12 +28,12 @@ Expert User GeoIPS Installation
 System Dependencies
 -------------------
 
-**Use the** `Complete Local conda-based GeoIPS Installation <./installation.rst>`
+**Use the** :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`
 **for the fully supported installation, which includes all
 dependencies**
 
 Required (**included in**
-`Complete Local conda-based GeoIPS Installation <./installation.rst>`)
+:ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`)
 
 * wget (Miniconda installation)
 * git >= 2.19.1 (git -C commands in complete installation)
@@ -51,7 +53,7 @@ Optional
 Minimal install
 ---------------
 
-**Use the** `Complete Local conda-based GeoIPS Installation <./installation.rst>`.
+**Use the** :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`.
 **for the fully supported installation, which includes all
 dependencies**
 
@@ -61,7 +63,7 @@ installation process (which includes conda, rclone, test data, etc),
 you can clone the geoips repo and pip install from your local copy.
 
 **For the fully supported installation, please use the**
-`Complete Local conda-based GeoIPS Installation <./installation.rst>`.
+:ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`.
 
 .. code:: bash
 

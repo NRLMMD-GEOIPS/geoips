@@ -140,6 +140,7 @@ html_theme = "pydata_sphinx_theme"
 # documentation.
 html_theme_options = {
     "external_links": [],
+    "navigation_with_keys": False,
     "footer_end": ["geoips_footer"],
     "github_url": "https://github.com/NRLMMD-GEOIPS/PKGNAME",
     "navbar_end": ["theme-switcher", "navbar-icon-links"],
@@ -261,7 +262,7 @@ latex_elements = {
 pkgnamelatex = "PKGNAME".split("_")
 if len(pkgnamelatex) > 1:
     # set up latex escape
-    pkgnamelatex = "\_".join(pkgnamelatex)
+    pkgnamelatex = r"\_".join(pkgnamelatex)
 latex_documents = [
     (
         master_doc,

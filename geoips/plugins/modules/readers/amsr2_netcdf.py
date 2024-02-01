@@ -14,6 +14,7 @@
 
 import logging
 from os.path import basename
+from glob import glob
 
 LOG = logging.getLogger(__name__)
 
@@ -132,8 +133,9 @@ def read_amsr_winds(wind_xarray):
                 *tuple([xx for xx in scan_time.values])
             )
         ]
-    # Have to set it on the actual xarray so it becomes a xarray format time series (otherwise if you set it
-    # directly to ts, it is a pandas format time series, and expand_dims doesn't exist).
+    # Have to set it on the actual xarray so it becomes a xarray format time series
+    # (otherwise if you set it directly to ts, it is a pandas format time series, and
+    # expand_dims doesn't exist).
     time_array = pandas.to_datetime(
         dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
     ).tolist()
@@ -190,8 +192,8 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
     sub_xarray.attrs["interpolation_radius_of_influence"] = 10000
     for dim in sub_xarray.dims.keys():
         if "low_rez" in dim:
-            # MTIFs need to be "prettier" for PMW products, so 2km resolution for all channels
-            # sub_xarray.attrs['sample_distance_km'] = 7.0
+            # MTIFs need to be "prettier" for PMW products, so 2km resolution for all
+            # channels. sub_xarray.attrs['sample_distance_km'] = 7.0
             sub_xarray.attrs["sample_distance_km"] = 2.0
             sub_xarray.attrs["interpolation_radius_of_influence"] = 20000
 
@@ -215,9 +217,9 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
                     *tuple([xx for xx in scan_time.values])
                 )
             ]
-        # Have to set it on the actual xarray so it becomes a xarray format time series (otherwise if you set it
-        # directly to ts, it is a pandas format time series, and expand_dims
-        # doesn't exist).
+        # Have to set it on the actual xarray so it becomes a xarray format time series
+        # (otherwise if you set it directly to ts, it is a pandas format time series,
+        # and expand_dims doesn't exist).
         curr_time_array = pandas.to_datetime(
             dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
         ).tolist()
@@ -285,7 +287,14 @@ def read_amsr_data(full_xarray, chans):
     return xarrays
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    test_arg="AMSR2 Default Test Arg",
+):
     """
     Read AMSR2 netcdf data products.
 
@@ -322,6 +331,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         for GeoIPS-formatted xarray Datasets.
     """
     import xarray
+
+    LOG.interactive("AMSR2 reader test_arg: %s", test_arg)
 
     ingested = []
     for fname in fnames:
@@ -380,3 +391,17 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         )
     final_xarrays["METADATA"] = list(final_xarrays.values())[0][[]]
     return final_xarrays
+
+
+def get_test_files(test_data_dir):
+    """Generate test files for unit testing reader."""
+    filepath = test_data_dir + "/test_data_amsr2/data/AMSR2-MBT*.nc"
+    filelist = glob(filepath)
+    tmp_xr = call(filelist)
+
+    return tmp_xr
+
+
+def get_test_parameters():
+    """Generate a data key for unit testing."""
+    return {"data_key": "Brightness_Temperature_10_GHzH", "data_var": "tb10h"}
