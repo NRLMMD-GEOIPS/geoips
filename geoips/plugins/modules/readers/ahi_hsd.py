@@ -948,7 +948,55 @@ def sort_by_band_and_seg(metadata):
     return "{0:02d}_{1:02d}".format(band_number, segment_number)
 
 
-def call(
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+    if metadata_only:
+        return call_single_time([fnames[0]], metadata_only=metadata_only)
+    all_metadata = [
+          call_single_time([x], metadata_only=True)["METADATA"] for x in fnames
+    ]
+    start_times = [x.start_datetime for x in all_metadata]
+    times = list(set(start_times))
+    import collections
+    ingested_xarrays = collections.defaultdict(list)
+    for time in times:
+        scan_time_files = [x.start_datetime == time for x in all_metadata]
+        data_dict = call_single_time(
+            np.array(fnames)[scan_time_files],
+            metadata_only=metadata_only,
+            chans=chans,
+            area_def=area_def,
+            self_register=self_register,
+        )
+        for dname, dset, in data_dict.items():
+            ingested_xarrays[dname].append(dset)
+
+    if len(times) == 1:
+        # No need to stack if we are only reading in one scan time
+        # This is likely temporary to maintain backwards compatibility
+        return data_dict
+
+    import xarray
+    # merged_dset = xarray.Dataset()
+    # Now that we've ingested all scan times, stack along time dimension
+    dict_xarrays = {}
+    for dname, list_xarrays in ingested_xarrays.items():
+        if dname == "METADATA":
+            continue
+        merged_dset = xarray.concat(list_xarrays, dim="time_dim")
+        merged_dset.attrs["start_datetime"] = min(times)
+        merged_dset.attrs["end_datetime"] = max(times)
+        merged_dset = merged_dset.assign_coords({"time_dim": times})
+        dict_xarrays[dname] = merged_dset
+
+    metadata = data_dict["METADATA"]
+    metadata.attrs["start_datetime"] = min(times)
+    metadata.attrs["end_datetime"] = max(times)
+    dict_xarrays["METADATA"] = metadata
+    return dict_xarrays
+
+
+
+def call_single_time(
     fnames,
     metadata_only=False,
     chans=None,
