@@ -24,6 +24,7 @@ import numpy as np
 import xarray
 from scipy.ndimage import zoom
 
+# GeoIPS Libraries
 from geoips.utils.memusg import print_mem_usage
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
