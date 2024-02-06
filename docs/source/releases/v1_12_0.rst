@@ -20,6 +20,7 @@ Version 1.12.0 (2023-12-07)
   * Fix GEOIPS_VERS in config_geoips setup file
   * Check for unit_tests directory before running pytest in check_code.sh
   * Fix build_docs.sh geoips template paths
+  * Fix product source_name duplicate entries bug
 * Testing updates
 
   * Add extensive YAML procflow config, including many options
@@ -29,6 +30,7 @@ Version 1.12.0 (2023-12-07)
   * Remove long running unit tests from output checkers
   * Separate long and short running unit tests in check_code.sh
   * Use explicit list of valid interfaces for validating plugin_registries.
+  * Added all_product_families.yaml to test all available product families
 * Enhancements
 
   * Rename JPSS-01/02 platform name to noaa-20/21 in ATMS reader
@@ -237,6 +239,38 @@ Sort tags by creation date to identify latest version
 
     modified: setup/config_geoips
 
+Fix product sub-plugins duplicate source name error
+---------------------------------------------------
+
+*From GEOIPS#428: 2024-2-6, source_name duplicate bug*
+
+Currently, when the plugin registry is built, the key names associated with the
+sub-products contained in a yaml file (for instance lets say smap-spd.yaml), are
+gathered via the sub-products source name rather than the name of the product plugin
+they reside in. In this case, all product plugins under the key name smap-spd, are
+placed in that location because of their source name, not the attribute name, found
+at the top level of smap-spd.yaml. This could cause issues with other products, as
+found in issue *GEOIPS#423: 2024-1-17, create products for each possible product family*
+
+This updates fixes this bug by changing the naming convention of product plugins stored
+within the plugin registry. Instead of products -- <source_name> -- sub_product_name,
+the keys are now formatted products -- <source_name>.<sub_product_name>, and duplicates
+are checked on that level.
+
+Files modified (excluding files which were modified for black formatting):
+
+::
+
+    modified: geoips/create_plugin_registries.py
+    modified: geoips/interfaces/base.py
+    modified: geoips/interfaces/yaml_based/products.py
+    modified: geoips/dev/output_config.py
+    modified: geoips/plugins/modules/filename_formatters/tc_file_naming.py
+    modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+    modified: geoips/plugins/modules/output_formatters/metadata_tc.py
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: geoips/plugins/modules/procflows/single_source.py
+
 Testing Updates
 ===============
 
@@ -442,6 +476,28 @@ I think this was renamed 8 Nov, then attrs updated 30 Nov.
 
   renamed:    tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.J01.165H_latitude_longitude.tc2021ep11kevin.nc -> tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
   modified: tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
+
+Create products for each possible product family handled by single_source procflow
+----------------------------------------------------------------------------------
+
+*From GEOIPS#423: 2024-1-17, Create products for each possible product family*
+
+This update adds a new product ``all_product_families.yaml`` to the products interface.
+This file provides every possible product family to test against ``single_source.py``
+procflow plugin, as we need to understand which families work, and the process these
+families follow throughout that code in order to implement a new procflow down the road,
+called ``order_based.py`` procflow. By understanding the paths that these families take,
+we set ourselves up for success in implementing that new procflow.
+
+Files Added:
+
+::
+
+    added: geoips/plugins/yaml/products/all_product_families.yaml
+    added: tests/scripts/infrared_all_product_families.sh
+
+Note: See Bux Fix for duplicate source_names in product registry *GEOIPS#428*, for more
+information on bug fixes made on this branch as well.
 
 GitHub Actions
 ==============
