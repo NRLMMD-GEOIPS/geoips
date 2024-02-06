@@ -31,7 +31,7 @@ jobs:
       - name: Checkout plugin current branch
         uses: actions/checkout@v3
       - name: Checkout geoips active branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: NRLMMD-GEOIPS/geoips
           ref: ${{ vars.GEOIPS_ACTIVE_BRANCH }}
