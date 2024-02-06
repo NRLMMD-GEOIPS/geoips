@@ -94,13 +94,6 @@ spec:
             name: interp_gauss
             arguments:
               sigmaval: 10000
-    - name: 89HNearest
-      source_names: [amsr-e]
-      docstring: |
-        The 89HNearest product_defaults for amsr-e product.
-      product_defaults: 89HNearest
-      spec:
-        variables: ["H89"]
     - name: 89H-Physical
       source_names: [amsr-e]
       docstring: |

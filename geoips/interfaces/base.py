@@ -474,49 +474,50 @@ class BaseYamlInterface(BaseInterface):
 
         registered_yaml_plugins = self.registered_yaml_based_plugins
 
-        if isinstance(name, tuple):
-            # These are stored in the yaml as str(name),
-            # ie "('viirs', 'Infrared')"
-            try:
-                relpath = registered_yaml_plugins[self.name][name[0]][name[1]][
-                    "relpath"
-                ]
-                package = registered_yaml_plugins[self.name][name[0]][name[1]][
-                    "package"
-                ]
-            except KeyError:
-                raise PluginError(
-                    f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
-                )
-            abspath = str(files(package) / relpath)
-            plugin = yaml.safe_load(open(abspath, "r"))
-            plugin_found = False
-            for product in plugin["spec"]["products"]:
-                if product["name"] == name[1] and name[0] in product["source_names"]:
-                    plugin_found = True
-                    plugin = product
-                    break
-            if not plugin_found:
-                raise PluginError(
-                    "There is no plugin that has " + name[1] + " included in it."
-                )
-            plugin["interface"] = "products"
-            plugin["package"] = package
-            plugin["abspath"] = abspath
-            plugin["relpath"] = relpath
-        else:
-            try:
-                relpath = registered_yaml_plugins[self.name][name]["relpath"]
-                package = registered_yaml_plugins[self.name][name]["package"]
-            except KeyError:
-                raise PluginError(
-                    f"Plugin [{name}] doesn't exist under interface [{self.name}]"
-                )
-            abspath = str(files(package) / relpath)
-            plugin = yaml.safe_load(open(abspath, "r"))
-            plugin["package"] = package
-            plugin["abspath"] = abspath
-            plugin["relpath"] = relpath
+        # if isinstance(name, tuple):
+        #     # These are stored in the yaml as str(name),
+        #     # ie "('viirs', 'Infrared')"
+        #     try:
+        #         relpath = registered_yaml_plugins[self.name][name[0]][name[1]][
+        #             "relpath"
+        #         ]
+        #         package = registered_yaml_plugins[self.name][name[0]][name[1]][
+        #             "package"
+        #         ]
+        #     except KeyError:
+        #         raise PluginError(
+        #             f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
+        #         )
+        #     abspath = str(files(package) / relpath)
+        #     plugin = yaml.safe_load(open(abspath, "r"))
+        #     plugin_found = False
+        #     for product in plugin["spec"]["products"]:
+        #         if product["name"] == name[1] and name[0] in product["source_names"]:
+        #             plugin_found = True
+        #             plugin = product
+        #             break
+        #     if not plugin_found:
+        #         raise PluginError(
+        #             "There is no plugin that has " + name[1] + " included in it."
+        #         )
+        #     plugin["interface"] = "products"
+        #     plugin["package"] = package
+        #     plugin["abspath"] = abspath
+        #     plugin["relpath"] = relpath
+        # else:
+        try:
+            relpath = registered_yaml_plugins[self.name][name]["relpath"]
+            package = registered_yaml_plugins[self.name][name]["package"]
+        except KeyError:
+            raise PluginError(
+                f"Plugin [{name}] doesn't exist under interface [{self.name}]"
+            )
+        abspath = str(files(package) / relpath)
+        plugin = yaml.safe_load(open(abspath, "r"))
+        plugin["interface"] = self.name
+        plugin["package"] = package
+        plugin["abspath"] = abspath
+        plugin["relpath"] = relpath
         validated = self.validator.validate(plugin)
         # Store "name" as the product's "id"
         # This is helpful when an interfaces uses something other than just "name" to
