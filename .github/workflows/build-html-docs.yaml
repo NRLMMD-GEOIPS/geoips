@@ -4,26 +4,17 @@ defaults:
   run:
     shell: bash
 
-env:
-  CONDA_ENV: github_actions_build_docs
-
 # Can not use variables in the list of branches,
 # GitHub Actions will not recognize, and workflow will not run.
 on:
   # Triggers the workflow when pull request created and updated
-  # pull_request:
-  #   branches:
-  #     - main
+  pull_request:
+    branches:
+      - main
   # Allows run of this workflow manually from the Actions tab
   # Must be merged before it will be available to manually run.
   workflow_dispatch:
 
-# conda command to install all the required libraries for installing geoips
-# and geoips dependencies
-#   openblas required for scipy
-#   gcc/gxx required for akima/recenter_tc
-#   latexcodec required for build_docs.sh
-# conda create -y -n github_actions -c conda-forge gcc gxx openblas git latexcodec
 jobs:
   build_sphinx_html:
     runs-on: ${{ vars.RUNNER }}
@@ -35,12 +26,12 @@ jobs:
           check-latest: true
       - name: Update pip
         run: pip install --upgrade pip
-      - name: Checkout geoips default branch for dev utils
+      - name: Checkout geoips active branch for dev utils
         uses: actions/checkout@v3 # v3 is the latest for checkout
         with:
           fetch-depth: 0
           repository: ${{ vars.ORGANIZATION }}/geoips
-          ref: ${{ vars.DEFAULT_BRANCH }}
+          ref: ${{ vars.GEOIPS_ACTIVE_BRANCH }}
           token: ${{ secrets.GEOIPS_TOKEN }}
           path: geoips_dev_utils
       - name: pip install -e geoips_dev_utils[test]
