@@ -537,7 +537,11 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
             # access.
             for subplg_name in subplg_names:
                 subplg_exists_error = check_plugin_exists(
-                    package, plugins, interface_name, subplg_name, plugin["relpath"],
+                    package,
+                    plugins,
+                    interface_name,
+                    subplg_name,
+                    plugin["relpath"],
                 )
                 error_message += subplg_exists_error
                 if subplg_exists_error == "":

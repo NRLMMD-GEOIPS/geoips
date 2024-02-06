@@ -170,7 +170,7 @@ def update_extra_field(
         for source_name in xarray_obj.source_names:
             try:
                 prod_plugin = products.get_plugin(
-                    source_name, product_name, prod_spec_override
+                    f"{source_name}.{product_name}", prod_spec_override
                 )
                 covg_args = get_covg_args_from_product(
                     prod_plugin,
@@ -180,8 +180,7 @@ def update_extra_field(
                 continue
     else:
         prod_plugin = products.get_plugin(
-            xarray_obj.source_name,
-            product_name,
+            f"{xarray_obj.source_name}.{product_name}",
             prod_spec_override,
         )
         covg_args = get_covg_args_from_product(

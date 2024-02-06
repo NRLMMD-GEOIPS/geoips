@@ -788,9 +788,9 @@ def sector_xarrays(
                 sect_xarray.attrs["start_datetime"] = covg_xarray.start_datetime
                 sect_xarray.attrs["end_datetime"] = covg_xarray.end_datetime
 
-        sect_xarray.attrs["area_definition"] = (
-            area_def  # add name of this sector to sector attribute
-        )
+        sect_xarray.attrs[
+            "area_definition"
+        ] = area_def  # add name of this sector to sector attribute
         if hasattr(sect_xarray, "time"):
             from geoips.xarray_utils.time import get_min_from_xarray_time
             from geoips.xarray_utils.time import get_max_from_xarray_time

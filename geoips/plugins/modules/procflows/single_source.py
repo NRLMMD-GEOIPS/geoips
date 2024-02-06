@@ -232,9 +232,9 @@ def combine_filename_extra_fields(source_xarray, dest_xarray):
         for field in source_xarray.filename_extra_fields:
             if "filename_extra_fields" not in dest_xarray.attrs:
                 dest_xarray.attrs["filename_extra_fields"] = {}
-            dest_xarray.attrs["filename_extra_fields"][field] = (
-                source_xarray.filename_extra_fields[field]
-            )
+            dest_xarray.attrs["filename_extra_fields"][
+                field
+            ] = source_xarray.filename_extra_fields[field]
     return dest_xarray
 
 
@@ -1076,9 +1076,7 @@ def get_alg_xarray(
             LOG.interactive(
                 "  Interpolating data with interpolator '%s'...", interp_plugin.name
             )
-            final_xarray = interp_plugin(
-                area_def, alg_xarray, None, **interp_args
-            )
+            final_xarray = interp_plugin(area_def, alg_xarray, None, **interp_args)
 
         # Ensure we have the "adjustment"id" in the filename appropriately
         if "adjustment_id" in area_def.sector_info:
@@ -1461,7 +1459,7 @@ def call(fnames, command_line_args=None):
     print_mem_usage("MEMUSG", verbose=False)
 
     prod_plugin = products.get_plugin(
-        source_name, product_name, command_line_args["product_spec_override"]
+        f"{source_name}.{product_name}", command_line_args["product_spec_override"]
     )
 
     variables = get_required_variables(prod_plugin)
@@ -1703,9 +1701,9 @@ def call(fnames, command_line_args=None):
             # These will be added to the alg_xarray
             # new_attrs['area_definition'] = area_def
             if "adjustment_id" in area_def.sector_info:
-                new_attrs["filename_extra_fields"]["adjustment_id"] = (
-                    area_def.sector_info["adjustment_id"]
-                )
+                new_attrs["filename_extra_fields"][
+                    "adjustment_id"
+                ] = area_def.sector_info["adjustment_id"]
 
         print_mem_usage("MEMUSG", verbose=False)
         all_vars = []

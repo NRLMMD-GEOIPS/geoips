@@ -104,7 +104,8 @@ def update_sector_info_with_coverage(
     covgs = {}
 
     prod_plugin = products.get_plugin(
-        xarray_obj.source_name, product_name, output_dict.get("product_spec_override")
+        f"{xarray_obj.source_name}.{product_name}",
+        output_dict.get("product_spec_override"),
     )
 
     default_covg_plugin = get_covg_from_product(

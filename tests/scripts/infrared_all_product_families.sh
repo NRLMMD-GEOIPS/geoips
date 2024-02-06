@@ -16,12 +16,13 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_smap/data/RSS_smap_wind_daily_2021_09_26_NRT_v01.0.nc \
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
              --procflow single_source \
-             --reader_name smap_remss_winds_netcdf \
-             --product_name xdict_out_form \
-             --output_formatter text_winds \
-             --filename_formatter text_winds_full_fname \
+             --reader_name abi_netcdf \
+             --product_name alg_int_cmap \
+             --output_formatter imagery_annotated \
+             --filename_formatter geoips_fname \
+             --resampled_read \
              --sector_list goes_east
 retval=$?
 
@@ -33,3 +34,12 @@ exit $retval
 # --resampled_read
 # --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
 # run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+
+
+# run_procflow $GEOIPS_TESTDATA_DIR/test_data_smap/data/RSS_smap_wind_daily_2021_09_26_NRT_v01.0.nc \
+#              --procflow single_source \
+#              --reader_name smap_remss_winds_netcdf \
+#              --product_name xdict_out_form \
+#              --output_formatter text_winds \
+#              --filename_formatter text_winds_full_fname \
+#              --sector_list goes_east
