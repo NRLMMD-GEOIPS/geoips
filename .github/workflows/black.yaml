@@ -39,6 +39,7 @@ jobs:
           path: geoips_dev_utils
           sparse-checkout: |
             tests/utils
+            .config
       - name: Run code check script black
         shell: bash -l {0}
         run: |
