@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: NRLMMD-GEOIPS/geoips
-          ref: "$GEOIPS_ACTIVE_BRANCH"
+          ref: "${{ vars.GEOIPS_ACTIVE_BRANCH }}"
           token: ${{ secrets.GEOIPS_TOKEN }}
           path: geoips_dev_utils
           sparse-checkout: |
