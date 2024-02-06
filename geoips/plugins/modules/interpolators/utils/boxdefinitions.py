@@ -37,6 +37,8 @@ from pyresample.geometry import SwathDefinition, CoordinateDefinition
 
 log = logging.getLogger(__name__)
 
+interface = None
+
 EPSILON = 0.0000001
 
 

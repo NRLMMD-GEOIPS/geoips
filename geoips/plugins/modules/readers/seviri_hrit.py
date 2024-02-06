@@ -28,13 +28,13 @@ Notes
 import os
 import logging
 import numpy as np
-from .utils.hrit_reader import HritFile, HritError
+from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
 
 # Installed Libraries
 
 # GeoIPS Libraries
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+from .utils.geostationary_geolocation import (
     get_geolocation,
 )
 
@@ -237,7 +237,10 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
     # however they are not recognized by flake8 linter under numexpr.evaluate()
     # Constants
     pi = np.pi
-    # rad2deg = 180.0 / pi
+    # Must include rad2deg variable, because it is used within the
+    # numexpr command below.  flake8 does not recognize it as being
+    # used, so must include # NOQA flag
+    rad2deg = 180.0 / pi  # NOQA
     deg2rad = pi / 180.0
     Rs = 42164  # Satellite altitude (km)  # noqa: F841
     Re = 6378.1690  # Earth equatorial radius (km)
@@ -587,8 +590,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     xarray_obj.attrs["satECF_m"]["x"] = x * 1000
                     xarray_obj.attrs["satECF_m"]["y"] = y * 1000
                     xarray_obj.attrs["satECF_m"]["z"] = z * 1000
-
-                    # from IPython import embed as shell; shell()
 
         # Get epilogue
         elif df.file_type == "epilogue":

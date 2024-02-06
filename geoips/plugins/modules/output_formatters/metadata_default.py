@@ -159,7 +159,9 @@ def output_metadata_yaml(
         area_def, xarray_obj, **sector_info_kwargs
     )
 
-    returns = write_yamldict(sector_info, metadata_fname, force=True)
+    returns = write_yamldict(
+        sector_info, metadata_fname, force=True, replace_geoips_paths=True
+    )
     if returns:
         LOG.info("METADATASUCCESS Writing %s", metadata_fname)
     return returns

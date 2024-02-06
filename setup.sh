@@ -418,15 +418,18 @@ elif [[ "$1" =~ "install_plugin" ]]; then
     installed_plugins_path=$GEOIPS_PACKAGES_DIR/installed_geoips_plugins.txt
     echo ""
     echo "**Installing plugin $plugin"
-    # First check if setup_<package>.sh exists
-    if [[ -f $GEOIPS_PACKAGES_DIR/$2/setup_$2.sh ]]; then
-        echo "**Found setup_$2.sh: Running $2/setup_$2.sh install_$2"
-        $GEOIPS_PACKAGES_DIR/$2/setup_$2.sh install_$2
-        retval=$?
-    # Next check if setup.sh exists
-    elif [[ -f $GEOIPS_PACKAGES_DIR/$2/setup.sh ]]; then
+    # Check if setup.sh exists
+    # NOTE if setup.sh exists, MUST include "install" (which may just be
+    # pip install -e .) in order for plugin package to install using
+    # 'geoips/setup.sh install_plugin'.
+    if [[ -f $GEOIPS_PACKAGES_DIR/$2/setup.sh ]]; then
         echo "**Found setup.sh: Running $2/setup.sh install"
         $GEOIPS_PACKAGES_DIR/$2/setup.sh install
+        retval=$?
+    # Next check if pyproject.toml exists
+    elif [[ -f $GEOIPS_PACKAGES_DIR/$2/pyproject.toml ]]; then
+        echo "**Found pyproject.toml: pip installing plugin $2"
+        pip install -e $GEOIPS_PACKAGES_DIR/$2
         retval=$?
     # Next check if setup.py exists
     elif [[ -f $GEOIPS_PACKAGES_DIR/$2/setup.py ]]; then
@@ -436,8 +439,8 @@ elif [[ "$1" =~ "install_plugin" ]]; then
     fi
     if [[ $retval != 0 ]]; then
         echo "**Failed installing plugin $2, skipping! Must include one of the following setup options:"
-        echo "**1. setup_$2.sh install_$2"
-        echo "**2. setup.sh install"
+        echo "**1. setup.sh install (if setup.sh exists, MUST include 'install' command)"
+        echo "**2. pyproject.toml -> Installed via 'pip install -e $GEOIPS_PACKAGES_DIR/$2"
         echo "**3. setup.py -> Installed via 'pip install -e $GEOIPS_PACKAGES_DIR/$2'"
     elif [[ -f $installed_plugins_path ]]; then
         echo ""

@@ -51,6 +51,10 @@ def read_knmi_data(wind_xarray):
     elif wind_xarray.source == "ScatSat-1 OSCAT":
         geoips_metadata["source_name"] = "oscat"
         geoips_metadata["platform_name"] = "scatsat-1"
+    elif wind_xarray.source == "HY-2D HSCAT":
+        geoips_metadata["source_name"] = "hscat"
+        geoips_metadata["platform_name"] = "hy-2d"
+        # geoips_metadata['data_provider'] = 'Copyright-2021-EUMETSAT'
     elif wind_xarray.source == "HY-2C HSCAT":
         geoips_metadata["source_name"] = "hscat"
         geoips_metadata["platform_name"] = "hy-2c"
@@ -153,13 +157,21 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     from geoips.xarray_utils.time import (
         get_min_from_xarray_time,
         get_max_from_xarray_time,
+        fix_datetime,
     )
     import xarray
 
     final_wind_xarrays = {}
     ingested = []
     for fname in fnames:
-        wind_xarray = xarray.open_dataset(str(fname))
+        try:
+            wind_xarray = xarray.open_dataset(str(fname))
+        except ValueError:
+            # <=2023.08 versions of xarray would filter bad dates
+            # current versions >=2023.9 raise Value Errors now
+            wind_xarray = xarray.open_dataset(str(fname), decode_times=False)
+            # filters out negative dates, converting them to NaT
+            wind_xarray = fix_datetime(wind_xarray)
 
         LOG.info("Read data from %s", fname)
 
