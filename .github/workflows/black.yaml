@@ -15,7 +15,7 @@ on:
 
 jobs:
   check_code_black:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER }}
     steps:
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -33,7 +33,7 @@ jobs:
       - name: Checkout geoips active branch
         uses: actions/checkout@v3
         with:
-          repository: NRLMMD-GEOIPS/geoips
+          repository: ${{ vars.ORGANIZATION }}/geoips
           ref: ${{ vars.GEOIPS_ACTIVE_BRANCH }}
           token: ${{ secrets.GEOIPS_TOKEN }}
           path: geoips_dev_utils
