@@ -30,11 +30,11 @@ jobs:
         run: pip install black
       - name: Checkout plugin current branch
         uses: actions/checkout@v3
-      - name: Checkout geoips default branch
+      - name: Checkout geoips active branch
         uses: actions/checkout@v3
         with:
           repository: NRLMMD-GEOIPS/geoips
-          ref: main
+          ref: ${{ variables.GEOIPS_ACTIVE_BRANCH }}
           token: ${{ secrets.GEOIPS_TOKEN }}
           path: geoips_dev_utils
           sparse-checkout: |
