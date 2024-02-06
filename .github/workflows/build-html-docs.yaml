@@ -8,9 +8,9 @@ defaults:
 # GitHub Actions will not recognize, and workflow will not run.
 on:
   # Triggers the workflow when pull request created and updated
-  pull_request:
-    branches:
-      - main
+  # pull_request:
+  #   branches:
+  #     - main
   # Allows run of this workflow manually from the Actions tab
   # Must be merged before it will be available to manually run.
   workflow_dispatch:
