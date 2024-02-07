@@ -39,4 +39,4 @@ ss_retval=$?
 exit $((ss_retval))
 
             #  --self_register_dataset 'DNB' \
-            #  --self_register_source viirs \
+#  --self_register_source viirs \

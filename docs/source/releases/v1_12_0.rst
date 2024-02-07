@@ -20,6 +20,7 @@ Version 1.12.0 (2023-12-07)
   * Fix GEOIPS_VERS in config_geoips setup file
   * Check for unit_tests directory before running pytest in check_code.sh
   * Fix build_docs.sh geoips template paths
+  * Fix polar data not showing up in imagery
 * Testing updates
 
   * Add extensive YAML procflow config, including many options
@@ -236,6 +237,27 @@ Sort tags by creation date to identify latest version
 ::
 
     modified: setup/config_geoips
+
+Fix polar data not showing up in imagery
+----------------------------------------
+
+*From GEOIPS#431: 2024-02-06, Look into polar projections in pyresample wrappers*
+
+Currently products with polar projection sectors do not plot. Initial investigations
+indicate pre-sectoring the data does not work well with data over the poles. It seems
+passing ``--no-presectoring`` option at the command line helps - but there may be
+additional issues with polar projections.
+
+So far, we've yet to discover what exactly is occuring that prevents polar data from
+being shown in imagery. It seems that the data is being interpolated into a manner that
+cannot be plotted by MatPlotLib. To work around this, we can provide
+``--no-presectoring``, which mitigates these problems for the time being.
+
+::
+
+    added: geoips/plugins/yaml/gridline_annotators/north_pole.yaml
+    added: tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.imagery_annotated.sh
+    modified: geoips/plugins/yaml/sectors/static/north_pole.yaml
 
 Testing Updates
 ===============
