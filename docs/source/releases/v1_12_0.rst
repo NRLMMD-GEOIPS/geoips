@@ -262,6 +262,7 @@ Files modified (excluding files which were modified for black formatting):
 ::
 
     modified: geoips/create_plugin_registries.py
+    modified: geoips/plugin_registry.py
     modified: geoips/interfaces/base.py
     modified: geoips/interfaces/yaml_based/products.py
     modified: geoips/dev/output_config.py
