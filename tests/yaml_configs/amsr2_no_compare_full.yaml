@@ -1,0 +1,187 @@
+reader_name: amsr2_netcdf
+fuse_product: Infrared-Gray
+sectored_read: False
+
+available_sectors:
+  tcweb_bdeck:
+    tc_spec_template: tc_web
+
+  tcweb_bdeck_recenter:
+    tc_spec_template: tc_web
+    sector_adjuster: recenter_tc
+    adjust_variables: ["tb89hA", "tb89vA", "tc36h", "tb36v", "akima"]
+
+  unprojected:
+    self_register_dataset: Brightness_Temperature_89_GHz_AH
+    self_register_source: amsr2
+
+  global:
+    sector_list:
+      - global
+
+outputs:
+  unprojected:
+    requested_sector_type: unprojected
+    output_formatter: unprojected_image
+    output_formatter_kwargs:
+      x_size: 500
+    filename_formatters: ["geoips_fname"]
+    remove_duplicates: False
+    product_names:
+      - 89pct
+
+  global_overlay:
+    requested_sector_type: global
+    minimum_coverage: 10
+    produce_times:
+      required_minutes: [0, 20, 40]
+    output_formatter: imagery_annotated
+    filename_formatters: ["geoips_fname"]
+    product_names:
+      - 89pct
+      - 37pct
+    background_products:
+      config_names: ["abi", "ahi", "seviri"]
+      product_names: ["Visible", "Infrared-Gray"]
+
+  image_clean:
+    requested_sector_type: tcweb_bdeck
+    output_formatter: imagery_clean
+    output_formatter_kwargs:
+      title_formatter: tc_copyright
+      title_copyright: "Data copyright ME, Imagery YOU"
+    filename_formatters: ["tc_clean_fname"]
+    filename_formatters_kwargs:
+      all:
+        basedir: !ENV ${GEOIPS_OUTDIRS}/scratch
+    file_path_modifications:
+      unique_invest_dirs: true
+      existing_invest_dirs_allowable_time_diff: 6
+    metadata_filename_formatters:
+      all: metadata_default_fname
+    metadata_output_formatter: metadata_tc
+    remove_duplicates: True
+    product_names:
+      - 89H
+      - 89H-Physical
+      - 89V
+      - 89pct
+      - 37H
+      - 37V
+      - 37pct
+      - color37
+      - color89
+    fuse_product: None
+    product_spec_override:
+      all:
+        filename_coverage_checker:
+          plugin:
+            name: center_radius
+            arguments:
+              radius_km: 200
+        full_coverage_checker:
+          plugin:
+            name: masked_arrays
+            arguments: {}
+        image_production_coverage_checker:
+          plugin:
+            name: masked_arrays
+            arguments: {}
+      color37:
+        filename_coverage_checker:
+          plugin:
+            name: center_radius_rgba
+            arguments:
+              radius_km: 200
+        full_coverage_checker:
+          plugin:
+            name: rgba
+            arguments: {}
+        image_production_coverage_checker:
+          plugin:
+            name: rgba
+            arguments: {}
+      color89:
+        filename_coverage_checker:
+          plugin:
+            name: center_radius_rgba
+            arguments:
+              radius_km: 200
+        full_coverage_checker:
+          plugin:
+            name: rgba
+            arguments: {}
+        image_production_coverage_checker:
+          plugin:
+            name: rgba
+            arguments: {}
+
+  image_overlay:
+    requested_sector_type: tcweb_bdeck_recenter
+    output_formatter: imagery_annotated
+    filename_formatters: ["tc_fname"]
+    file_path_modifications:
+      unique_invest_dirs: true
+      existing_invest_dirs_allowable_time_diff: 6
+    metadata_filename_formatters:
+      all: metadata_default_fname
+    metadata_output_formatter: metadata_tc
+    remove_duplicates: True
+    product_names:
+      - 89H
+      - 89H-Physical
+      - 89V
+      - 89pct
+      - 37H
+      - 37V
+      - 37pct
+      - color37
+      - color89
+    boundaries_params: tc_pmw
+    gridlines_params: tc_pmw
+    background_products:
+      config_names: ["abi", "ahi", "seviri"]
+      product_names: ["Visible", "Infrared-Gray"]
+    product_spec_override:
+      all:
+        filename_coverage_checker:
+          plugin:
+            name: center_radius
+            arguments:
+              radius_km: 200
+        full_coverage_checker:
+          plugin:
+            name: masked_arrays
+            arguments: {}
+        image_production_coverage_checker:
+          plugin:
+            name: masked_arrays
+            arguments: {}
+      color37:
+        filename_coverage_checker:
+          plugin:
+            name: center_radius_rgba
+            arguments:
+              radius_km: 200
+        full_coverage_checker:
+          plugin:
+            name: rgba
+            arguments: {}
+        image_production_coverage_checker:
+          plugin:
+            name: rgba
+            arguments: {}
+      color89:
+        filename_coverage_checker:
+          plugin:
+            name: center_radius_rgba
+            arguments:
+              radius_km: 200
+        full_coverage_checker:
+          plugin:
+            name: rgba
+            arguments: {}
+        image_production_coverage_checker:
+          plugin:
+            name: rgba
+            arguments: {}

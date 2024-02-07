@@ -232,9 +232,9 @@ def combine_filename_extra_fields(source_xarray, dest_xarray):
         for field in source_xarray.filename_extra_fields:
             if "filename_extra_fields" not in dest_xarray.attrs:
                 dest_xarray.attrs["filename_extra_fields"] = {}
-            dest_xarray.attrs["filename_extra_fields"][
-                field
-            ] = source_xarray.filename_extra_fields[field]
+            dest_xarray.attrs["filename_extra_fields"][field] = (
+                source_xarray.filename_extra_fields[field]
+            )
     return dest_xarray
 
 
@@ -288,6 +288,15 @@ def process_xarray_dict_to_output_format(
             area_def=area_def,
             supported_filenamer_types=supported_filenamer_types,
         )
+        LOG.interactive(
+            "Output filenames for family %s: %s",
+            output_plugin.family,
+            output_fnames,
+        )
+    else:
+        LOG.interactive(
+            "No output filenames required for family %s", output_plugin.family
+        )
 
     if "output_dict" not in output_formatter_kwargs:
         output_formatter_kwargs["output_dict"] = output_dict
@@ -295,6 +304,7 @@ def process_xarray_dict_to_output_format(
         output_plugin, output_formatter_kwargs
     )
 
+    LOG.interactive("Running output plugin of family %s", output_plugin.family)
     if output_plugin.family == "xrdict_varlist_outfnames_to_outlist":
         curr_products = output_plugin(
             xobjs, variables, list(output_fnames.keys()), **output_formatter_kwargs
@@ -335,6 +345,9 @@ def process_xarray_dict_to_output_format(
     # We only pre-generated metadata filenames if we also pre-generated output
     # product filenames
     if output_plugin.family in OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG:
+        LOG.interactive(
+            "Writing out all metadata for products of family %s", output_plugin.family
+        )
         final_products = output_all_metadata(
             output_dict,
             output_fnames,
@@ -447,6 +460,10 @@ def get_filename(
         )
         # Set variable_name to prod_plugin.name if not defined.
         # Always use variable_name if it is defined.
+        # Remove from args so there is not a duplicate are when passing
+        # (since we are passing covg_varname explicitly).
+        # Note get_covg_args_from_product was updated to return a copy of
+        # covg_args, so this does not impact future uses of the product.
         covg_varname = covg_args.pop("variable_name", prod_plugin.name)
         # Note variables can be specified as DATASET:VARIABLE, since this is a
         # preprocessed alg_xarray, and not a dictionary of datasets, just use the
@@ -503,6 +520,27 @@ def plot_data(
     output_kwargs["output_dict"] = output_dict
     output_formatter = get_output_formatter(output_dict)
     output_plugin = output_formatters.get_plugin(output_formatter)
+    exclude_platforms = prod_plugin["spec"].get("exclude_platforms")
+    include_platforms = prod_plugin["spec"].get("include_platforms")
+    if exclude_platforms and alg_xarray.platform_name in exclude_platforms:
+        LOG.interactive(
+            "SKIPPING Platform %s not requested for product '%s'"
+            "Excluded platforms: '%s'...",
+            alg_xarray.platform_name,
+            prod_plugin.name,
+            exclude_platforms,
+        )
+        return {}
+    if include_platforms and (alg_xarray.platform_name not in include_platforms):
+        LOG.interactive(
+            "SKIPPING Platform %s not requested for product '%s' "
+            "Only included platforms: '%s'...",
+            alg_xarray.platform_name,
+            prod_plugin.name,
+            include_platforms,
+        )
+        return {}
+
     LOG.interactive(
         "Producing product '%s' final outputs as type '%s'...",
         prod_plugin.name,
@@ -698,20 +736,28 @@ def get_area_defs_from_command_line_args(
             setattr(area_def, "description", area_def.name)
 
         area_defs += [area_def]
+    LOG.interactive("Getting all area defs from command line args:")
     if "sector_list" in command_line_args:
         sector_list = command_line_args["sector_list"]
+        LOG.interactive("  sector_list: %s", tcdb_sector_list)
     if "tcdb_sector_list" in command_line_args:
         tcdb_sector_list = command_line_args["tcdb_sector_list"]
+        LOG.interactive("  tcdb_sector_list: %s", tcdb_sector_list)
     if "tcdb" in command_line_args:
         tcdb = command_line_args["tcdb"]
+        LOG.interactive("  tcdb: %s", tcdb)
     if "trackfile_sector_list" in command_line_args:
         trackfile_sector_list = command_line_args["trackfile_sector_list"]
+        LOG.interactive("  trackfile_sector_list: %s", trackfile_sector_list)
     if "trackfiles" in command_line_args:
         trackfiles = command_line_args["trackfiles"]
+        LOG.interactive("  trackfiles: %s", trackfiles)
     if "trackfile_parser" in command_line_args:
         trackfile_parser = command_line_args["trackfile_parser"]
+        LOG.interactive("  trackfile_parser: %s", trackfile_parser)
     if "tc_spec_template" in command_line_args:
         tc_spec_template = command_line_args["tc_spec_template"]
+        LOG.interactive("  tc_spec_template: %s", tc_spec_template)
 
     # This indicates that the "area_definition" will be the definition for one
     # of the native datasets
@@ -1395,9 +1441,9 @@ def call(fnames, command_line_args=None):
     output_checker_kwargs = command_line_args["output_checker_kwargs"]
 
     if product_db:
-        from geoips_db.dev.postgres_database import get_db_writer
+        from geoips_db.interfaces.databases import get_plugin
 
-        db_writer = get_db_writer(product_db_writer)
+        db_writer = get_plugin(product_db_writer)
         if not getenv("G2DB_USER") or not getenv("G2DB_PASS"):
             raise ValueError("Need to set both $G2DB_USER and $G2DB_PASS")
 
@@ -1530,7 +1576,7 @@ def call(fnames, command_line_args=None):
             pad_sect_xarrays = xobjs
         else:
             if presector_data:
-                LOG.interactive("Sectoring xarrays...")
+                LOG.interactive("Sectoring xarrays, variables %s...", variables)
                 # Note window start/end time overrides hours before/after sector time
                 pad_sect_xarrays = sector_xarrays(
                     xobjs,
@@ -1657,9 +1703,9 @@ def call(fnames, command_line_args=None):
             # These will be added to the alg_xarray
             # new_attrs['area_definition'] = area_def
             if "adjustment_id" in area_def.sector_info:
-                new_attrs["filename_extra_fields"][
-                    "adjustment_id"
-                ] = area_def.sector_info["adjustment_id"]
+                new_attrs["filename_extra_fields"]["adjustment_id"] = (
+                    area_def.sector_info["adjustment_id"]
+                )
 
         print_mem_usage("MEMUSG", verbose=False)
         all_vars = []
@@ -1720,6 +1766,10 @@ def call(fnames, command_line_args=None):
             )
             # Set variable_name to prod_plugin.name if not defined.
             # Always use variable_name if it is defined.
+            # Remove from args so there is not a duplicate are when passing
+            # (since we are passing covg_varname explicitly).
+            # Note get_covg_args_from_product was updated to return a copy of
+            # covg_args, so this does not impact future uses of the product.
             covg_varname = covg_args.pop("variable_name", prod_plugin.name)
             # Note variables can be specified as DATASET:VARIABLE, since this is a
             # preprocessed alg_xarray, and not a dictionary of datasets, just use the
@@ -1744,6 +1794,10 @@ def call(fnames, command_line_args=None):
             )
             # Set variable_name to prod_plugin.name if not defined.
             # Always use variable_name if it is defined.
+            # Remove from args so there is not a duplicate are when passing
+            # (since we are passing covg_varname explicitly).
+            # Note get_covg_args_from_product was updated to return a copy of
+            # covg_args, so this does not impact future uses of the product.
             fname_covg_varname = fname_covg_args.pop("variable_name", prod_plugin.name)
             # Note variables can be specified as DATASET:VARIABLE, since this is a
             # preprocessed alg_xarray, and not a dictionary of datasets, just use the
@@ -1805,6 +1859,8 @@ def call(fnames, command_line_args=None):
                 prod_plugin,
                 output_formatter_kwargs,
             )
+            if not curr_products:
+                continue
 
             print_mem_usage("MEMUSG", verbose=False)
             final_products += curr_products

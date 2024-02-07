@@ -23,7 +23,7 @@ family = "standard"
 name = "geotiff"
 
 
-def get_test_files(test_data_dir):
+def get_test_files_long(test_data_dir):
     """Return a Series of GeoTIFF paths, randomly modified from compare."""
     import rasterio
     import shutil
@@ -74,7 +74,7 @@ def get_test_files(test_data_dir):
     return compare_file, [matched_file, close_mismatch_file, bad_mismatch_file]
 
 
-def perform_test_comparisons(plugin, compare_file, test_files):
+def perform_test_comparisons_long(plugin, compare_file, test_files):
     """Test the comparison of two GeoTIFF files with the GeoTIFF Output Checker."""
     for path_idx in range(len(test_files)):
         retval = plugin.module.outputs_match(

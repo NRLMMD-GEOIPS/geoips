@@ -123,10 +123,12 @@ def call(
     )
     radius_pixels = 1.0 * radius_km / res_km
     LOG.info(
-        "Using %s km radius, %s pixels radius, %s km resolution, area_def %s",
+        "Using %s km radius, %s pixels radius, "
+        "%s km resolution, variable %s, area_def %s",
         radius_km,
         radius_pixels,
         res_km,
+        variable_name,
         area_def,
     )
 
