@@ -237,7 +237,7 @@ def sector_xarray_temporal(
 
 def sector_xarray_spatial(
     full_xarray,
-    extent_lonlat,
+    area_def,
     varnames,
     lon_pad=3,
     lat_pad=0,
@@ -250,8 +250,9 @@ def sector_xarray_spatial(
     ----------
     full_xarray : xarray.Dataset
         xarray object to sector spatially
-    extent_lonlat : list of float
-        Area to sector: [MINLON, MINLAT, MAXLON, MAXLAT]
+    area_def: pyresample.AreaDefinition
+        The requested region to sector spatially from the full_xarray.
+        If None, no spatial sectoring required.
     varnames : list of str
         list of variable names that should be sectored based on 'time'
     drop : bool
@@ -281,20 +282,43 @@ def sector_xarray_spatial(
 
     if verbose:
         LOG.info("    Padding longitudes")
-    # convert extent longitude to be within 0-360 range
-    min_lon = utils.wrap_longitudes(extent_lonlat[0]) - lon_pad
-    max_lon = utils.wrap_longitudes(extent_lonlat[2]) + lon_pad
-    if min_lon > max_lon and max_lon < 0:
-        max_lon = max_lon + 360
-    min_lat = extent_lonlat[1] - lat_pad
-    max_lat = extent_lonlat[3] + lat_pad
     if verbose:
         LOG.info("    Padding latitudes")
-    # Make sure we don't extend latitudes beyond -90 / +90
-    if min_lat < -90.0:
-        min_lat = -90.0
-    if max_lat > 90.0:
-        max_lat = 90.0
+    extent_lonlat = list(area_def.area_extent_ll) # [min_lon, min_lat, max_lon, max_lat]
+    min_lon, max_lon = -180, 180
+
+    # Check if the area_def includes either North or South Pole. If it does, we have to
+    # manually adjust the lat_lon extent to reflect the correct extent for both lat/lon.
+    # Otherwise go about business as usual.
+    try:
+        LOG.info("Checking if area_def includes the North Pole.")
+        area_def.get_array_indices_from_lonlat(0, 90)
+        LOG.info("North Pole exists within area_def.")
+        min_lat = extent_lonlat[1] - lat_pad
+        max_lat = 90
+    except ValueError:
+        LOG.info("North Pole not in area_def, checking South Pole.")
+        try:
+            area_def.get_array_indices_from_lonlat(0, -90)
+            LOG.info("South Pole exists within area_def.")
+            min_lat = -90
+            max_lat = extent_lonlat[3] + lat_pad
+        except ValueError:
+            LOG.info(
+                "Neither North or South Pole are in area def, using custom bounds.",
+            )
+            # convert extent longitude to be within 0-360 range
+            min_lon = utils.wrap_longitudes(extent_lonlat[0]) - lon_pad
+            max_lon = utils.wrap_longitudes(extent_lonlat[2]) + lon_pad
+            if min_lon > max_lon and max_lon < 0:
+                max_lon = max_lon + 360
+            min_lat = extent_lonlat[1] - lat_pad
+            max_lat = extent_lonlat[3] + lat_pad
+            # Make sure we don't extend latitudes beyond -90 / +90
+            if min_lat < -90.0:
+                min_lat = -90.0
+            if max_lat > 90.0:
+                max_lat = 90.0
 
     if verbose:
         LOG.info("    Wrapping longitudes")
@@ -516,10 +540,9 @@ def sector_xarray_dataset(
             # we care about is spatial coverage.
             time_xarray = full_xarray.copy()
 
-        extent_lonlat = list(area_def.area_extent_ll)
         sector_xarray = sector_xarray_spatial(
             time_xarray,
-            extent_lonlat,
+            area_def,
             varnames,
             lon_pad,
             lat_pad,

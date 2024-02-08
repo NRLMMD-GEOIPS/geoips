@@ -7,9 +7,9 @@ docstring: |
 spec:
   labels:
     top: true
-    bottom: false
+    bottom: true
     left: true
-    right: false
+    right: true
   lines:
     color: black
     linestyle: [4, 2]
