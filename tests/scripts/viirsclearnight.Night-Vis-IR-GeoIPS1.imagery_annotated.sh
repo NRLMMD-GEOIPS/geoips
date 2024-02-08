@@ -31,7 +31,6 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20240117/172400/VNP02
              --sector_list north_pole \
              --gridline_annotator north_pole \
              --minimum_coverage 0 \
-             --no_presectoring \
              --logging_level info
 
 ss_retval=$?
