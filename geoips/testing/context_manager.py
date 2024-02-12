@@ -1,3 +1,6 @@
+"""Module for handling optional dependencies throughout GeoIPS."""
+
+
 import logging
 from contextlib import contextmanager
 
