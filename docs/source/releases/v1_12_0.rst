@@ -547,6 +547,7 @@ dependencies with a new method that keeps things clean.
 
 ::
 
+    modified: geoips/plugins/modules/procflows/config_based.py
     modified: geoips/plugins/modules/readers/abi_netcdf.py
     modified: geoips/plugins/modules/readers/ahi_hsd.py
     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
