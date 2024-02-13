@@ -21,6 +21,8 @@ import numpy
 
 LOG = logging.getLogger(__name__)
 
+interface = None
+
 
 def interp_gaussian_kde(data_lons, data_lats, target_lons, target_lats, vw_method=None):
     """

@@ -1,3 +1,14 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 .. _create-a-product:
 
@@ -19,12 +30,12 @@ We will now go hands on in creating a product for CLAVR-x Cloud-Top-Height.
         cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
 
 #. Now, create a file called ``my_clavrx_products.yaml``, which we'll fill in soon.
-   Before we add any code let's discuss some of the top level properties that are
-   required in any GeoIPS plugin.
+   Before we add any code let's discuss some of the top level attributes that are
+   required in any GeoIPS plugin:
+   ``interface``, ``family``, and ``docstring``.
 
-.. include:: ../plugin_extend.rst
-   :start-line: 62
-   :end-line: 86
+Please see documentation for
+:ref:`additional info on these GeoIPS required attributes<required-attributes>`
 
 Creating a GeoIPS Product Plugin
 --------------------------------

@@ -20,14 +20,14 @@
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230524_metopc_noaa_class_tc2023wp02mawar/L2OVW50kmASCAT_v1r1_m03_*.nc \
           --procflow single_source \
           --reader_name scat_noaa_winds_netcdf \
-          --product_name windbarbs \
+          --product_name wind-ambiguities \
           --filename_formatter tc_fname \
           --output_formatter imagery_windbarbs \
           --metadata_filename_formatter metadata_default_fname \
           --metadata_output_formatter metadata_default \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022023.dat \
-          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs" \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs" \
           --tc_spec_template tc_web_ascat_50km_barbs \
           --product_spec_override '{}' \
           --output_formatter_kwargs '{}' \

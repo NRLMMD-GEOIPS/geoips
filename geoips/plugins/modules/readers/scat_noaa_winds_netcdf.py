@@ -115,6 +115,23 @@ def read_noaa_data(wind_xarray):
             rf.astype(int), coords=wind_xarray.coords, dims=data_dims
         )
 
+    # Create rain flag for ambiguity products
+    # The rain_flag variable is only 2D. We need to
+    # create a rain_flag_ambiguity variable that has
+    # the same dimensions as "wind_speed_ambiguity_kts"
+    ambs = wind_xarray["wind_speed_ambiguity_kts"]
+    # Create data_dims dictionary for ambiguity variable
+    data_dims = {x: wind_xarray.dims[x] for x in ambs.dims}
+    # Create 3D rain flag by stacking 2D rain_flag by number of ambiguities
+    rf_amb = numpy.dstack([rf] * data_dims["MaxAmbiguity"])
+    # Set 3D rain flag values to NaN where ambiguities are NaN
+    nan_ambs = numpy.isnan(ambs.data)
+    rf_amb[nan_ambs] = numpy.nan
+    # Store to xarray dataset
+    wind_xarray["rain_flag_ambiguity"] = xarray.DataArray(
+        rf_amb.astype(int), coords=wind_xarray.coords, dims=data_dims
+    )
+
     wind_xarray = wind_xarray.set_coords(["time"])
     return wind_xarray, geoips_metadata
 

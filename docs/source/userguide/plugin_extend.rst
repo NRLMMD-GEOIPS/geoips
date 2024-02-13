@@ -1,3 +1,15 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
  .. dropdown:: Distribution Statement
 
    | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
@@ -34,6 +46,8 @@ An example repository `Template Basic Plugin <https://github.com/NRLMMD-GEOIPS/t
 is provided that can guide you through the process of creating a new plugin package
 containing one or more custom plugins.
 
+.. _plugin-vocabulary:
+
 GeoIPS Plugin Vocabulary
 ========================
 
@@ -44,7 +58,8 @@ new functionality. Whether a plugin is a Python module or a YAML file is determi
 its interface.
 
 Plugins are stored in installable Python packages that register their payload with
-GeoIPS through the use of `entrypoints <https://packaging.python.org/en/latest/specifications/entry-points/>`_.
+GeoIPS through the use of
+`entrypoints <https://packaging.python.org/en/latest/specifications/entry-points/>`_.
 
 Module-based Plugin
 -------------------
@@ -61,6 +76,8 @@ YAML-based Plugin
 A YAML-based plugin is a plugin that extends GeoIPS by adding a new set of
 static configuration options for GeoIPS.  Examples of YAML-based plugins include
 ``sectors``, ``products``, and ``feature-annotators``.
+
+.. _required-attributes:
 
 Interface
 ---------

@@ -25,8 +25,9 @@ from datetime import datetime, timedelta
 from pyPublicDecompWT import xRITDecompress
 import numpy as np
 
-
 log = logging.getLogger(__name__)
+
+interface = None
 
 
 class HritDtype(object):
@@ -886,12 +887,15 @@ class HritFile(object):
         epoch = datetime(1958, 1, 1, 0, 0, 0)
         days = self.__rf(">u2")
         millisec = self.__rf(">u4")
+        # Must read in nanosec, even though it is never used.
+        # Otherwise data will be out of sync from missing bytes in
+        # the binary read.
         if expanded:
             microsec = self.__rf(">u2")
-            # nanosec = self.__rf(">u2")
+            nanosec = self.__rf(">u2")  # NOQA
         else:
             microsec = 0
-            # nanosec = 0
+            nanosec = 0  # NOQA
         time = epoch + timedelta(
             days=int(days), milliseconds=int(millisec), microseconds=int(microsec)
         )

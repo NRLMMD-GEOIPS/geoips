@@ -1,3 +1,15 @@
+# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # #
+# # # Author:
+# # # Naval Research Laboratory, Marine Meteorology Division
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
+# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
 """PluginRegistry class to interface with the JSON plugin registries.
 
 The "create_plugin_registries" utility generates a JSON file at the top
@@ -14,15 +26,31 @@ more effectively cache plugins across all interfaces, and avoid reading
 in all plugins multiple times.
 """
 
-from importlib import resources
+from importlib import resources, metadata, import_module
+import sys
 import os
 import logging
+from pprint import pformat
 from geoips.errors import PluginRegistryError
 import pytest
 import yaml
 import json
 
 LOG = logging.getLogger(__name__)
+
+
+def get_entry_point_group(group):
+    """Get entry point group."""
+    # NOTE: When there is a .egg-info directory in the plugin package top
+    # level (ie, from setuptools pip install -e), it seems to return that
+    # package twice in this list.  For now, just use the full list with
+    # duplicates.
+    if sys.version_info[:3] >= (3, 10, 0):
+        eps = metadata.entry_points(group=group)
+    else:
+        eps = metadata.entry_points()[group]
+
+    return eps
 
 
 class PluginRegistry:
@@ -40,14 +68,23 @@ class PluginRegistry:
             self._is_test = True
         # Use this for normal operation and collect the registry files
         else:
-            from geoips.geoips_utils import get_entry_point_group
-
             self._is_test = False
             self.registry_files = []  # Collect the paths to the registry files here
             for pkg in get_entry_point_group("geoips.plugin_packages"):
-                self.registry_files.append(
-                    str(resources.files(pkg.value) / "registered_plugins.json")
-                )
+                try:
+                    self.registry_files.append(
+                        str(resources.files(pkg.value) / "registered_plugins.json")
+                    )
+                except TypeError:
+                    raise PluginRegistryError(
+                        f"resources.files('{pkg.value}') failed\n"
+                        f"pkg {pkg}\n"
+                        "Potentially missing __init__.py file? Try:\n"
+                        f"    touch {pkg.value}/__init__.py\n"
+                        "and try again.\n"
+                        "Note you will need to add a docstring to "
+                        f"{pkg.value}/__init__.py in order for all tests to pass"
+                    )
 
     @property
     def registered_plugins(self):
@@ -84,17 +121,19 @@ class PluginRegistry:
             self._interface_mapping = {}
             for reg_path in self.registry_files:
                 if not os.path.exists(reg_path):
-                    raise PluginRegistryError(
+                    LOG.error(
                         f"Plugin registry {reg_path} did not exist, "
                         "please run 'create_plugin_registries'"
                     )
+                    continue
                 # This will include all plugins, including schemas, yaml_based,
                 # and module_based plugins.
                 if self._is_test:
                     pkg_plugins = yaml.safe_load(open(reg_path, "r"))
                 else:
                     pkg_plugins = json.load(open(reg_path, "r"))
-                    self.validate_registry(pkg_plugins, reg_path)
+                    # Do not validate ALL plugins at runtime.
+                    # self.validate_registry(pkg_plugins, reg_path)
                 try:
                     for plugin_type in pkg_plugins:
                         if plugin_type not in self._registered_plugins:
@@ -114,11 +153,15 @@ class PluginRegistry:
                                 )
                 except TypeError:
                     raise PluginRegistryError(f"Failed reading {reg_path}.")
-            if not self._is_test:
-                self.validate_registry(
-                    self._registered_plugins,
-                    "all_registered_plugins",
-                )
+            # Let's test this separately, not at runtime (see validate_all_registries).
+            # Assume it was tested up front, and no longer needs testing at
+            # runtime, so we don't fail catastrophically for a single bad
+            # plugin that may not even be used.
+            # if not self._is_test:
+            #     self.validate_registry(
+            #         self._registered_plugins,
+            #         "all_registered_plugins",
+            #     )
         return self._registered_plugins
 
     def get_plugin_info(self, interface, plugin_name):
@@ -182,18 +225,35 @@ class PluginRegistry:
                 error_str += f" wasn't. This was in file '{reg_path}'."
                 raise PluginRegistryError(error_str)
 
+    def validate_all_registries(self):
+        """Validate all registries in the current installation.
+
+        This should be run during testing, but not at runtime.
+        Ensure we do not fail catastrophically for a single bad plugin
+        at runtime, so test up front to test validity.
+        """
+        for reg_path in self.registry_files:
+            pkg_plugins = json.load(open(reg_path, "r"))
+            self.validate_registry(pkg_plugins, reg_path)
+
     def validate_registry(self, current_registry, fpath):
         """Test all plugins found in registered plugins for their validity."""
         try:
             self.validate_plugin_types_exist(current_registry, fpath)
         except PluginRegistryError as e:
-            print(e)
-            pytest.xfail(str(e))
+            # xfail if this is a test, otherwise just raise PluginRegistryError
+            if self._is_test:
+                pytest.xfail(str(e))
+            else:
+                raise PluginRegistryError(e)
         try:
             self.validate_registry_interfaces(current_registry)
         except PluginRegistryError as e:
-            print(e)
-            pytest.xfail(str(e))
+            # xfail if this is a test, otherwise just raise PluginRegistryError
+            if self._is_test:
+                pytest.xfail(str(e))
+            else:
+                raise PluginRegistryError(e)
         for plugin_type in current_registry:
             for interface in current_registry[plugin_type]:
                 for plugin in current_registry[plugin_type][interface]:
@@ -218,8 +278,12 @@ class PluginRegistry:
                                 current_registry[plugin_type][interface][plugin],
                             )
                     except PluginRegistryError as e:
-                        print(e)
-                        pytest.xfail(str(e))
+                        # xfail if this is a test,
+                        # otherwise just raise PluginRegistryError
+                        if self._is_test:
+                            pytest.xfail(str(e))
+                        else:
+                            raise PluginRegistryError(e)
 
     def validate_plugin_attrs(self, plugin_type, interface, name, plugin):
         """Test non-product plugin for all required attributes."""
@@ -267,17 +331,27 @@ class PluginRegistry:
 
     def validate_registry_interfaces(self, current_registry):
         """Test Plugin Registry interfaces validity."""
-        from geoips import interfaces
-        import inspect
+        yaml_interfaces = []
+        module_interfaces = []
 
-        yaml_interfaces = [
-            str(info[0])
-            for info in inspect.getmembers(interfaces.yaml_based, inspect.ismodule)
-        ]
-        module_interfaces = [
-            str(info[0])
-            for info in inspect.getmembers(interfaces.module_based, inspect.ismodule)
-        ]
+        # NOTE: all <pkg>/interfaces/__init__.py files MUST
+        # contain a "module_based_interfaces" list and a
+        # "yaml_based_interfaces" list - this is how we
+        # identify the valid interface names.
+        # We must avoid actually importing the interfaces within
+        # the geoips repo - or we will end up with a circular import
+        # due to BaseInterface.
+        for pkg in get_entry_point_group("geoips.plugin_packages"):
+            try:
+                mod = import_module(f"{pkg.value}.interfaces")
+            except ModuleNotFoundError as resp:
+                if f"No module named '{pkg.value}.interfaces'" in str(resp):
+                    continue
+                else:
+                    raise ModuleNotFoundError(resp)
+            module_interfaces += mod.module_based_interfaces
+            yaml_interfaces += mod.yaml_based_interfaces
+
         bad_interfaces = []
         for plugin_type in ["module_based", "yaml_based"]:
             for interface in current_registry[plugin_type]:
@@ -285,13 +359,17 @@ class PluginRegistry:
                     interface not in module_interfaces
                     and interface not in yaml_interfaces
                 ):
-                    error_str = f"Plugin type '{plugin_type}' does not allow interface "
-                    error_str += f"'{interface}'. Here is a list of valid interfaces: "
+                    error_str = f"\nPlugin type '{plugin_type}' does not allow "
+                    error_str += f"interface '{interface}'.\n"
+                    error_str += "\nValid interfaces: "
                     if plugin_type == "module_based":
                         interface_list = module_interfaces
                     else:
                         interface_list = yaml_interfaces
                     error_str += f"\n{interface_list}\n"
+                    error_str += "\nPlease update the following plugins "
+                    error_str += "to use a valid interface:\n"
+                    error_str += pformat(current_registry[plugin_type][interface])
                     bad_interfaces.append(error_str)
         if bad_interfaces:
             error_str = "The following interfaces were not valid:\n"

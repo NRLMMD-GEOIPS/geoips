@@ -21,7 +21,7 @@ by setting appropriate environment variables.
 
 # Python Standard Libraries
 import logging
-from os import getenv, listdir
+from os import getenv
 from os.path import exists, dirname, join as pathjoin
 import socket
 
@@ -47,13 +47,10 @@ else:
 
 if getenv("GEOIPS_PACKAGES_DIR") and exists(getenv("GEOIPS_PACKAGES_DIR")):
     PATHS["GEOIPS_PACKAGES_DIR"] = getenv("GEOIPS_PACKAGES_DIR").rstrip("/")
-    PATHS["GEOIPS_PACKAGES"] = listdir(getenv("GEOIPS_PACKAGES_DIR"))
 elif getenv("GEOIPS_PACKAGES_DIR"):
     PATHS["GEOIPS_PACKAGES_DIR"] = getenv("GEOIPS_PACKAGES_DIR").rstrip("/")
-    PATHS["GEOIPS_PACKAGES"] = ["geoips"]
 else:
-    PATHS["GEOIPS_PACKAGES_DIR"] = None
-    PATHS["GEOIPS_PACKAGES"] = ["geoips"]
+    PATHS["GEOIPS_PACKAGES_DIR"] = pathjoin(PATHS["BASE_PATH"], "..", "..")
 
 if not getenv("GEOIPS_BASEDIR"):
     PATHS["GEOIPS_BASEDIR"] = pathjoin(PATHS["GEOIPS_PACKAGES_DIR"], "..")

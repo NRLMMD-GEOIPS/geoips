@@ -147,7 +147,7 @@ def call(trackfile_name):
     # print tcyear
 
     flatsf_lines = open(trackfile_name).readlines()
-    final_storm_name = get_final_storm_name_bdeck(flatsf_lines, tc_year)
+    final_storm_name = get_final_storm_name_bdeck(flatsf_lines, tc_year, trackfile_name)
     invest_number = get_invest_number_bdeck(flatsf_lines)
 
     # This just pulls the time of the first entry in the deck file
@@ -254,8 +254,12 @@ def parse_bdeck_line(
     # parts = line.split(',', 40)
     parts = [part.strip() for part in line.split(",")]
     if len(parts) != 38 and len(parts) != 30 and len(parts) != 40 and len(parts) != 42:
+        LOG.interactive(source_filename)
+        LOG.interactive(line)
         raise ValueError(
-            "Incorrectly formatted deck file - must have either 30 or 38 or 42 fields"
+            "Incorrectly formatted deck file - "
+            "must have either 30 or 38 or 42 fields, "
+            f"had {len(parts)}",
         )
     fields = {}
     fields["deck_line"] = line.strip()
@@ -377,12 +381,17 @@ def get_stormyear_from_bdeck_filename(bdeck_filename):
     return int(os.path.basename(bdeck_filename)[5:9])
 
 
-def get_final_storm_name_bdeck(deck_lines, tcyear):
+def get_final_storm_name_bdeck(deck_lines, tcyear, trackfile_name=None):
     """Get final storm name from full bdeck file."""
     final_storm_name = "INVEST"
     for line in deck_lines:
         # curr_fields = parse_bdeck_line(line, tcyear, finalstormname)
-        curr_fields = parse_bdeck_line(line, tcyear, final_storm_name)
+        curr_fields = parse_bdeck_line(
+            line,
+            storm_year=tcyear,
+            final_storm_name=final_storm_name,
+            source_filename=trackfile_name,
+        )
         # if curr_fields['storm_name']:
         if curr_fields["storm_name"] and curr_fields["storm_name"] != "INVEST":
             LOG.debug("UPDATING final_storm_name to %s", curr_fields["storm_name"])
