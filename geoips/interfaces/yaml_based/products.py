@@ -106,7 +106,7 @@ class ProductsInterface(BaseYamlInterface):
             names += [f"{source_name}.{yaml_plugin['name']}"]
         return names
 
-    def get_plugin(self, plugin_name, product_spec_override=None):
+    def get_plugin(self, source_name, plugin_name, product_spec_override=None):
         """Retrieve a Product plugin by source_name, name, and product_spec_override.
 
         If product_spec_override dict is passed, values contained within
@@ -119,16 +119,26 @@ class ProductsInterface(BaseYamlInterface):
         Additionall, if the special key product_spec_override["all"] is included,
         it will apply to all products not specified by name within the dictionary.
         """
-        prod_plugin = super().get_plugin(plugin_name)
+        prod_plugin = super().get_plugin(f"{source_name}.{plugin_name}")
         if product_spec_override is not None:
             # Default to no override arguments
             override_args = {}
-            # If available, use the current product's override values
-            if plugin_name in product_spec_override:
-                override_args = product_spec_override[plugin_name]
-            # Otherwise, if "all" specified, use those override values
-            elif "all" in product_spec_override:
-                override_args = product_spec_override["all"]
+            if source_name in product_spec_override:
+                # This applies for config_based procflows, which can list more than one
+                # product of different sensor types
+                # If available, use the current product's override values
+                if plugin_name in product_spec_override[source_name]:
+                    override_args = product_spec_override[source_name][plugin_name]
+                # Otherwise, if "all" specified, use those override values
+                elif "all" in product_spec_override[source_name]:
+                    override_args = product_spec_override["all"]
+            else:
+                # If available, use the current product's override values
+                if plugin_name in product_spec_override:
+                    override_args = product_spec_override[plugin_name]
+                # Otherwise, if "all" specified, use those override values
+                elif "all" in product_spec_override:
+                    override_args = product_spec_override["all"]
             prod_plugin["spec"] = merge_nested_dicts(
                 prod_plugin["spec"], override_args, in_place=False
             )
@@ -138,16 +148,18 @@ class ProductsInterface(BaseYamlInterface):
     def get_plugins(self):
         """Retrieve a plugin by name."""
         plugins = []
-        for plugin_name in self.plugin_registry.registered_plugins["yaml_based"][
+        for product_name in self.plugin_registry.registered_plugins["yaml_based"][
             self.name
         ].keys():
-            plugins.append(self.get_plugin(plugin_name))
+            source_name, plugin_name = product_name.split(".")
+            plugins.append(self.get_plugin(source_name, plugin_name))
         return plugins
 
-    def plugin_is_valid(self, plugin_name):
+    def plugin_is_valid(self, product_name):
         """Test that the named plugin is valid."""
         try:
-            self.get_plugin(plugin_name)
+            source_name, plugin_name = product_name.split(".")
+            self.get_plugin(source_name, plugin_name)
             return True
         except ValidationError:
             return False

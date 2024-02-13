@@ -1459,7 +1459,7 @@ def call(fnames, command_line_args=None):
     print_mem_usage("MEMUSG", verbose=False)
 
     prod_plugin = products.get_plugin(
-        f"{source_name}.{product_name}", command_line_args["product_spec_override"]
+        source_name, product_name, command_line_args["product_spec_override"]
     )
 
     variables = get_required_variables(prod_plugin)
