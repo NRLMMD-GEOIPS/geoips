@@ -18,7 +18,6 @@ import os
 from glob import glob
 from datetime import datetime, timedelta
 import numpy as np
-from IPython import embed as shell
 
 from scipy.ndimage import zoom
 
