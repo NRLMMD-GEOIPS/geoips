@@ -23,7 +23,7 @@ jobs:
           python-version: "pypy-3.9"
           check-latest: true
       - name: Checkout plugin current branch
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
       - name: Update pip
         run: pip install --upgrade pip
       - name: Install flake8
@@ -34,15 +34,16 @@ jobs:
         run: pip install flake8-rst-docstrings
       - name: Checkout plugin current branch
         uses: actions/checkout@v3
-      - name: Checkout geoips default branch
+      - name: Checkout geoips active branch
         uses: actions/checkout@v3
         with:
           repository: NRLMMD-GEOIPS/geoips
-          ref: main
+          ref: ${{ vars.GEOIPS_ACTIVE_BRANCH }}
           token: ${{ secrets.GEOIPS_TOKEN }}
           path: geoips_dev_utils
           sparse-checkout: |
             tests/utils
+            .config
       - name: Run code check script flake8
         shell: bash -l {0}
         run: |
