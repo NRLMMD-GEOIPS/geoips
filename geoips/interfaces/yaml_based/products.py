@@ -174,8 +174,8 @@ class ProductsInterface(BaseYamlInterface):
         }
         for curr_family in plugin_ids:
             for curr_id in plugin_ids[curr_family]:
-                output["validity_check"][curr_id] = self.plugin_is_valid(*curr_id)
-                output["func"][curr_id] = self.get_plugin(*curr_id)
+                output["validity_check"][curr_id] = self.plugin_is_valid(curr_id)
+                output["func"][curr_id] = self.get_plugin(curr_id)
                 output["family"][curr_id] = curr_family
                 output["docstring"][curr_id] = output["func"][curr_id].docstring
         return output
