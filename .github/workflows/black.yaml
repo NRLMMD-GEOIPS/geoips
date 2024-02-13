@@ -15,7 +15,7 @@ on:
 
 jobs:
   check_code_black:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER }}
     steps:
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -30,15 +30,16 @@ jobs:
         run: pip install black
       - name: Checkout plugin current branch
         uses: actions/checkout@v3
-      - name: Checkout geoips default branch
+      - name: Checkout geoips active branch
         uses: actions/checkout@v3
         with:
-          repository: NRLMMD-GEOIPS/geoips
-          ref: main
+          repository: ${{ vars.ORGANIZATION }}/geoips
+          ref: ${{ vars.GEOIPS_ACTIVE_BRANCH }}
           token: ${{ secrets.GEOIPS_TOKEN }}
           path: geoips_dev_utils
           sparse-checkout: |
             tests/utils
+            .config
       - name: Run code check script black
         shell: bash -l {0}
         run: |

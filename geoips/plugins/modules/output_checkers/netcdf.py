@@ -132,19 +132,16 @@ def outputs_match(plugin, output_product, compare_product):
     compare_xobj = xarray.open_dataset(compare_product)
 
     if out_xobj.attrs != compare_xobj.attrs:
-<<<<<<< HEAD
         message = "BAD GeoIPS NetCDF file attributes do NOT match exactly"
         log_with_emphasis(LOG.interactive, message)
         log_with_emphasis(LOG.interactive, f"output_product: {output_product}")
         log_with_emphasis(LOG.interactive, f"compare_product: {compare_product}")
-=======
         LOG.interactive("    ****************************************************")
         LOG.interactive(
             "    *** BAD GeoIPS NetCDF file attributes do NOT match exactly ***"
         )
         LOG.interactive("    ***   output_product: %s ***", output_product)
         LOG.interactive("    ***   compare_product: %s ***", compare_product)
->>>>>>> origin/v1.12.0-release
         for attr in out_xobj.attrs.keys():
             if attr not in compare_xobj.attrs:
                 diffstr = (
@@ -191,19 +188,16 @@ def outputs_match(plugin, output_product, compare_product):
     try:
         xarray.testing.assert_allclose(compare_xobj, out_xobj)
     except AssertionError as resp:
-<<<<<<< HEAD
         message = "BAD GeoIPS NetCDF files do not match within tolerance"
         log_with_emphasis(LOG.interactive, message)
         log_with_emphasis(LOG.interactive, f"output_product: {output_product}")
         log_with_emphasis(LOG.interactive, f"compare_product: {compare_product}")
-=======
         LOG.interactive("    ****************************************************")
         LOG.interactive(
             "    *** BAD GeoIPS NetCDF files do not match within tolerance *****"
         )
         LOG.interactive("    ***   output_product: %s ***", output_product)
         LOG.interactive("    ***   compare_product: %s ***", compare_product)
->>>>>>> origin/v1.12.0-release
         for line in str(resp).split("\n"):
             LOG.interactive(f"    *** {line} ***")
         diffout += [
