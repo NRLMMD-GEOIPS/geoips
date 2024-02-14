@@ -160,7 +160,8 @@ def call(
     prod_plugin = None
     try:
         prod_plugin = products.get_plugin(
-            xarray_obj.source_name, product_name,
+            xarray_obj.source_name,
+            product_name,
             output_dict.get("product_spec_override"),
         )
     except (PluginError, ValidationError):

@@ -155,10 +155,9 @@ class ProductsInterface(BaseYamlInterface):
             plugins.append(self.get_plugin(source_name, plugin_name))
         return plugins
 
-    def plugin_is_valid(self, product_name):
+    def plugin_is_valid(self, source_name, plugin_name):
         """Test that the named plugin is valid."""
         try:
-            source_name, plugin_name = product_name.split(".")
             self.get_plugin(source_name, plugin_name)
             return True
         except ValidationError:
@@ -186,8 +185,12 @@ class ProductsInterface(BaseYamlInterface):
         }
         for curr_family in plugin_ids:
             for curr_id in plugin_ids[curr_family]:
-                output["validity_check"][curr_id] = self.plugin_is_valid(curr_id)
-                output["func"][curr_id] = self.get_plugin(curr_id)
+                source_name, plugin_name = curr_id.split(".")
+                output["validity_check"][curr_id] = self.plugin_is_valid(
+                    source_name,
+                    plugin_name,
+                )
+                output["func"][curr_id] = self.get_plugin(source_name, plugin_name)
                 output["family"][curr_id] = curr_family
                 output["docstring"][curr_id] = output["func"][curr_id].docstring
         return output

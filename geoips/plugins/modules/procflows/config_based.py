@@ -505,7 +505,8 @@ def process_unsectored_data_outputs(
                         # This actually produces all the required output files for the
                         # current produsct
                         prod_plugin = products.get_plugin(
-                            xobjs['METADATA'].source_name, product_name,
+                            xobjs["METADATA"].source_name,
+                            product_name,
                             output_dict.get("product_spec_override"),
                         )
                         LOG.interactive(
@@ -671,7 +672,8 @@ def get_variables_from_available_outputs_dict(
                 # Add all required variables for the current product and source to the
                 # list
                 prod_plugin = products.get_plugin(
-                    source_name, product_name,
+                    source_name,
+                    product_name,
                     available_outputs_dict[output_type].get("product_spec_override"),
                 )
                 variables += get_required_variables(prod_plugin)
@@ -959,7 +961,8 @@ def call(fnames, command_line_args=None):
         )
         bg_xobjs = bg_reader_plugin(bg_files, metadata_only=True, **bg_reader_kwargs)
         prod_plugin = products.get_plugin(
-            bg_xobjs['METADATA'].source_name, bg_product_name,
+            bg_xobjs["METADATA"].source_name,
+            bg_product_name,
         )
         bg_variables = get_required_variables(prod_plugin)
 
@@ -1250,7 +1253,8 @@ def call(fnames, command_line_args=None):
                     # Only attempt to get bg xarrays if they weren't sectored away to
                     # nothing.
                     bg_prod_plugin = products.get_plugin(
-                        bg_xobjs['METADATA'].source_name, bg_product_name,
+                        bg_xobjs["METADATA"].source_name,
+                        bg_product_name,
                     )
                     if bg_pad_sect_xarrays:
                         bg_alg_xarrays[sector_type] = get_bg_xarray(
@@ -1465,7 +1469,8 @@ def call(fnames, command_line_args=None):
                 for product_name in output_dict["product_names"]:
                     product_num = product_num + 1
                     prod_plugin = products.get_plugin(
-                        pad_sect_xarrays['METADATA'].source_name, product_name,
+                        pad_sect_xarrays["METADATA"].source_name,
+                        product_name,
                         output_dict.get("product_spec_override"),
                     )
                     LOG.info("\n\n\n\nAll area_def_ids: %s", area_defs.keys())
