@@ -26,9 +26,21 @@ def log_with_emphasis(LOG, message):
     message: str
         The message to be logged with emphasis
     """
-    LOG("    " + "*" * (len(message) + 8))
-    LOG("    " + "*** " + message + " ***")
-    LOG("    " + "*" * (len(message) + 8))
+    max_message_len = 88
+    prefix = "    *** "
+    postfix = " ***"
+    if len(message) > max_message_len:
+        LOG("    " + "*" * (max_message_len + 8))
+        for split in range(0, len(message), max_message_len):
+            if split + max_message_len > len(message):
+                LOG(prefix + message[split:] + postfix)
+            else:
+                LOG(prefix + message[split: split + max_message_len] + postfix)
+        LOG("    " + "*" * (max_message_len + 8))
+    else:
+        LOG("    " + "*" * (len(message) + 8))
+        LOG(prefix + message + postfix)
+        LOG("    " + "*" * (len(message) + 8))
 
 
 def add_logging_level(levelName, levelNum, methodName=None):
