@@ -284,7 +284,9 @@ def sector_xarray_spatial(
         LOG.info("    Padding longitudes")
     if verbose:
         LOG.info("    Padding latitudes")
-    extent_lonlat = list(area_def.area_extent_ll) # [min_lon, min_lat, max_lon, max_lat]
+    extent_lonlat = list(
+        area_def.area_extent_ll
+    )  # [min_lon, min_lat, max_lon, max_lat]
     min_lon, max_lon = -180, 180
 
     # Check if the area_def includes either North or South Pole. If it does, we have to
