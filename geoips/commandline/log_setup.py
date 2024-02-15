@@ -26,11 +26,11 @@ def log_with_emphasis(LOG, messages):
     message: str
         The message to be logged with emphasis
     """
-    max_message_len = 72
-    LOG("    " + "*" * (max_message_len + 8))
+    max_message_len = min(80, max([len(message) for message in messages]))
+    LOG("    " + "*" * (max_message_len))
     for message in messages:
         LOG("    " + message)
-    LOG("    " + "*" * (max_message_len + 8))
+    LOG("    " + "*" * (max_message_len))
     LOG("\n")
 
 
