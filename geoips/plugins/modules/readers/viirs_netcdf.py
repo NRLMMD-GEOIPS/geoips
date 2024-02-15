@@ -617,9 +617,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                         nparr.mask,
                     )
                     for attrname in ncvar.ncattrs():
-                        xarrays[geo_target_data_type][xvarname].attrs[attrname] = (
-                            ncvar.getncattr(attrname)
-                        )
+                        xarrays[geo_target_data_type][xvarname].attrs[
+                            attrname
+                        ] = ncvar.getncattr(attrname)
 
         # close the files
 

@@ -133,12 +133,17 @@ def outputs_match(plugin, output_product, compare_product):
 
     # subimg_retval = subprocess.call(call_list)
     if retval != 0:
-        log_with_emphasis(LOG.interactive, "BAD geotiffs do NOT match exactly")
-        log_with_emphasis(LOG.interactive, f"output_product: {output_product}")
-        log_with_emphasis(LOG.interactive, f"compare_product: {compare_product}")
+        log_with_emphasis(
+            LOG.interactive,
+            [
+                "BAD geotiffs do NOT match exactly",
+                f"output_product: {output_product}",
+                f"compare_product: {compare_product}",
+            ],
+        )
         return False
 
-    log_with_emphasis(LOG.info, "GOOD geotiffs match")
+    log_with_emphasis(LOG.info, ["GOOD geotiffs match"])
     return True
 
 

@@ -138,16 +138,21 @@ def outputs_match(plugin, output_product, compare_product):
     )
     LOG.debug(ret.stdout)
     if ret.returncode == 0:
-        log_with_emphasis(LOG.info, "GOOD Text files match")
+        log_with_emphasis(LOG.info, ["GOOD Text files match"])
         return True
 
     out_difftxt = plugin.get_out_diff_fname(compare_product, output_product)
     with open(out_difftxt, "w") as fobj:
         subprocess.call(["diff", output_product, compare_product], stdout=fobj)
-    log_with_emphasis(LOG.interactive, "BAD Text files do NOT match exactly")
-    log_with_emphasis(LOG.interactive, f"output_product: {output_product}")
-    log_with_emphasis(LOG.interactive, f"compare_product: {compare_product}")
-    log_with_emphasis(LOG.interactive, f"out_difftxt: {out_difftxt}")
+    log_with_emphasis(
+        LOG.interactive,
+        [
+            "BAD Text files do NOT match exactly",
+            f"output_product: {output_product}",
+            f"compare_product: {compare_product}",
+            f"out_difftxt: {out_difftxt}",
+        ],
+    )
     return False
 
 

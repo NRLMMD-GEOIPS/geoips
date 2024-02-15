@@ -232,9 +232,9 @@ def combine_filename_extra_fields(source_xarray, dest_xarray):
         for field in source_xarray.filename_extra_fields:
             if "filename_extra_fields" not in dest_xarray.attrs:
                 dest_xarray.attrs["filename_extra_fields"] = {}
-            dest_xarray.attrs["filename_extra_fields"][field] = (
-                source_xarray.filename_extra_fields[field]
-            )
+            dest_xarray.attrs["filename_extra_fields"][
+                field
+            ] = source_xarray.filename_extra_fields[field]
     return dest_xarray
 
 
@@ -362,10 +362,7 @@ def process_xarray_dict_to_output_format(
 def print_area_def(area_def, print_str):
     """Print area def."""
     emphasis_str = "*" * 84
-    LOG.info(
-        f"\n\n{emphasis_str}"
-        f"\n***{print_str}\n{area_def}"
-    )
+    LOG.info(f"\n\n{emphasis_str}" f"\n***{print_str}\n{area_def}")
     for key, value in area_def.sector_info.items():
         LOG.info(f"{key}: {value}")
     LOG.info(emphasis_str)
@@ -1700,9 +1697,9 @@ def call(fnames, command_line_args=None):
             # These will be added to the alg_xarray
             # new_attrs['area_definition'] = area_def
             if "adjustment_id" in area_def.sector_info:
-                new_attrs["filename_extra_fields"]["adjustment_id"] = (
-                    area_def.sector_info["adjustment_id"]
-                )
+                new_attrs["filename_extra_fields"][
+                    "adjustment_id"
+                ] = area_def.sector_info["adjustment_id"]
 
         print_mem_usage("MEMUSG", verbose=False)
         all_vars = []

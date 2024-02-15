@@ -133,9 +133,14 @@ def outputs_match(plugin, output_product, compare_product):
 
     if out_xobj.attrs != compare_xobj.attrs:
         message = "BAD GeoIPS NetCDF file attributes do NOT match exactly"
-        log_with_emphasis(LOG.interactive, message)
-        log_with_emphasis(LOG.interactive, f"output_product: {output_product}")
-        log_with_emphasis(LOG.interactive, f"compare_product: {compare_product}")
+        log_with_emphasis(
+            LOG.interactive,
+            [
+                message,
+                f"output_product: {output_product}",
+                f"compare_product: {compare_product}",
+            ],
+        )
         LOG.interactive("    ****************************************************")
         LOG.interactive(
             "    *** BAD GeoIPS NetCDF file attributes do NOT match exactly ***"
@@ -189,9 +194,14 @@ def outputs_match(plugin, output_product, compare_product):
         xarray.testing.assert_allclose(compare_xobj, out_xobj)
     except AssertionError as resp:
         message = "BAD GeoIPS NetCDF files do not match within tolerance"
-        log_with_emphasis(LOG.interactive, message)
-        log_with_emphasis(LOG.interactive, f"output_product: {output_product}")
-        log_with_emphasis(LOG.interactive, f"compare_product: {compare_product}")
+        log_with_emphasis(
+            LOG.interactive,
+            [
+                message,
+                f"output_product: {output_product}",
+                f"compare_product: {compare_product}",
+            ],
+        )
         LOG.interactive("    ****************************************************")
         LOG.interactive(
             "    *** BAD GeoIPS NetCDF files do not match within tolerance *****"
@@ -225,7 +235,7 @@ def outputs_match(plugin, output_product, compare_product):
     try:
         xarray.testing.assert_identical(compare_xobj, out_xobj)
     except AssertionError as resp:
-        log_with_emphasis(LOG.info, "INFORMATIONAL ONLY assert_identical differences")
+        log_with_emphasis(LOG.info, ["INFORMATIONAL ONLY assert_identical differences"])
         for line in str(resp).split("\n"):
             LOG.info(f"    *** {line} ***")
         for varname in compare_xobj.variables:

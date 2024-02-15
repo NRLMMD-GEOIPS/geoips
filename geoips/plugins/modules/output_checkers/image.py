@@ -132,12 +132,14 @@ def outputs_match(plugin, output_product, compare_product, threshold=0.05):
     # If shapes of arrays do not match, pixel diff can not be performed.
     # Print the names of the two images and associated shapes, and return False.
     else:
-        log_with_emphasis(LOG.interactive,
-                          "BAD Images NOT match exactly, different sizes")
+        log_with_emphasis(
+            LOG.interactive,
+            ["BAD Images NOT match exactly, different sizes"],
+        )
         message = f"output_product: {np.array(out_img).shape} {output_product}"
-        log_with_emphasis(LOG.interactive, message)
+        log_with_emphasis(LOG.interactive, [message])
         message = f"compare_product: {np.array(comp_img).shape} {compare_product}"
-        log_with_emphasis(LOG.interactive, message)
+        log_with_emphasis(LOG.interactive, [message])
         return False
     # Determine the number of pixels that are mismatched
     LOG.info("Using threshold %s", threshold)
@@ -159,17 +161,21 @@ def outputs_match(plugin, output_product, compare_product, threshold=0.05):
     # and exact diff image to log, for easy viewing.  Return False.
     if thresholded_retval != 0:
         bad_inds = np.where(diff_arr != 0)
-        log_with_emphasis(LOG.interactive, "BAD Images do NOT match within tolerance")
+        log_with_emphasis(LOG.interactive, ["BAD Images do NOT match within tolerance"])
         message = f"{thresholded_retval} mismatched pixels "
         message += f"exceeding threshold {threshold}"
-        log_with_emphasis(LOG.interactive, message)
-        log_with_emphasis(LOG.interactive,
-                          f"{len(diff_arr[bad_inds])} mismatched exact")
-        log_with_emphasis(LOG.interactive, f"np.where(diff_arr != 0): {bad_inds}")
-        log_with_emphasis(LOG.interactive, f"diff_arr[bad_inds]: {diff_arr[bad_inds]}")
-        log_with_emphasis(LOG.interactive, f"output_product: {output_product}")
-        log_with_emphasis(LOG.interactive, f"compare_product: {compare_product}")
-        log_with_emphasis(LOG.interactive, f"exact diff image: {exact_out_diffimg}")
+        log_with_emphasis(
+            LOG.interactive,
+            [
+                message,
+                f"{len(diff_arr[bad_inds])} mismatched exact",
+                f"np.where(diff_arr != 0): {bad_inds}",
+                f"diff_arr[bad_inds]: {diff_arr[bad_inds]}",
+                f"output_product: {output_product}",
+                f"compare_product: {compare_product}",
+                f"exact diff image: {exact_out_diffimg}",
+            ],
+        )
         return False
 
     # If the images match exactly, just output to GOOD comparison log to info level
@@ -177,12 +183,16 @@ def outputs_match(plugin, output_product, compare_product, threshold=0.05):
     if fullimg_retval != 0:
         if thresholded_retval == 0:
             bad_inds = np.where(diff_arr != 0)
-        log_with_emphasis(LOG.interactive, "GOOD Images match within tolerance")
         message = f"{len(diff_arr[bad_inds])} mismatched pixels from exact comparison"
-        log_with_emphasis(LOG.interactive, message)
-        LOG.interactive("    " + "*" * 42)
+        log_with_emphasis(
+            LOG.interactive,
+            [
+                "GOOD Images match within tolerance",
+                message,
+            ],
+        )
     else:
-        log_with_emphasis(LOG.info, "GOOD Images match exactly")
+        log_with_emphasis(LOG.info, ["GOOD Images match exactly"])
 
     return True
 
