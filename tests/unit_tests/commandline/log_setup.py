@@ -9,7 +9,7 @@ LOG = logging.getLogger(__name__)
 
 def generate_random_string(length):
     """Generate a random string of length :param length."""
-    return ''.join(random.choices(string.ascii_letters, k=length))
+    return "".join(random.choices(string.ascii_letters, k=length))
 
 
 def generate_random_messages():
@@ -28,4 +28,3 @@ def test_log_with_emphasis(message, caplog):
     assert "    " + message in caplog.text
     assert "    " + "*" * max_message_len in caplog.text
     assert "\n" in caplog.text
-
