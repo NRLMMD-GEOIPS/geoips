@@ -73,6 +73,7 @@ yaml_based_interfaces = [
 ]
 __all__ = module_based_interfaces + yaml_based_interfaces
 
+
 def list_available_interfaces():
     """Collect and return every available interface for each interface 'family'."""
     import inspect
@@ -86,8 +87,10 @@ def list_available_interfaces():
     for interface_type in ["module", "text", "yaml"]:
         try:
             available_interfaces = [
-                str(mod_info[0]) for mod_info in inspect.getmembers(
-                    getattr(interfaces, f"{interface_type}_based"), inspect.ismodule,
+                str(mod_info[0])
+                for mod_info in inspect.getmembers(
+                    getattr(interfaces, f"{interface_type}_based"),
+                    inspect.ismodule,
                 )
             ]
             all_interfaces[f"{interface_type}_based"] = available_interfaces
