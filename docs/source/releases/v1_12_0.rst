@@ -542,6 +542,7 @@ All geoips_db plugins now accessed through class-based geoips_db interface.
   modified: geoips/plugins/modules/procflows/single_source.py
 
 Make JSON Plugin Registries Readable
+------------------------------------
 
 *From GEOIPS#429: 2024-02-02, Plugin Registries Should Be Readable*
 
