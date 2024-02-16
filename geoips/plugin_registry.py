@@ -214,4 +214,5 @@ class PluginRegistry:
             )
         return plugin_type
 
+
 plugin_registry = PluginRegistry()

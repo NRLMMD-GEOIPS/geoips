@@ -10,7 +10,7 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Test PluginRegistry Class."""
+"""TestPluginRegistry Class used for Unit Testing the Plugin Registries."""
 
 from glob import glob
 from importlib import import_module
@@ -27,13 +27,12 @@ from geoips.errors import PluginRegistryError
 LOG = logging.getLogger(__name__)
 
 
-class PluginRegistryValidator:
+class PluginRegistryValidator(PluginRegistry):
     """Subclass of PluginRegistry which adds functionality for unit testing."""
 
     def __init__(self, fpaths=None):
         """Initialize TestPluginRegistry Class."""
-        self._plugin_registry = PluginRegistry(fpaths)
-        self.fpaths = fpaths
+        super().__init__(fpaths)
 
     def validate_plugin_types_exist(self, reg_dict, reg_path):
         """Test that all top level plugin types exist in each registry file."""
@@ -51,7 +50,7 @@ class PluginRegistryValidator:
         Ensure we do not fail catastrophically for a single bad plugin
         at runtime, so test up front to test validity.
         """
-        for reg_path in self._plugin_registry.registry_files:
+        for reg_path in self.registry_files:
             pkg_plugins = json.load(open(reg_path, "r"))
             self.validate_registry(pkg_plugins, reg_path)
 
@@ -61,7 +60,7 @@ class PluginRegistryValidator:
             self.validate_plugin_types_exist(current_registry, fpath)
         except PluginRegistryError as e:
             # xfail if this is a test, otherwise just raise PluginRegistryError
-            if self._plugin_registry._is_test:
+            if self._is_test:
                 pytest.xfail(str(e))
             else:
                 raise PluginRegistryError(e)
@@ -69,7 +68,7 @@ class PluginRegistryValidator:
             self.validate_registry_interfaces(current_registry)
         except PluginRegistryError as e:
             # xfail if this is a test, otherwise just raise PluginRegistryError
-            if self._plugin_registry._is_test:
+            if self._is_test:
                 pytest.xfail(str(e))
             else:
                 raise PluginRegistryError(e)
@@ -99,7 +98,7 @@ class PluginRegistryValidator:
                     except PluginRegistryError as e:
                         # xfail if this is a test,
                         # otherwise just raise PluginRegistryError
-                        if self._plugin_registry._is_test:
+                        if self._is_test:
                             pytest.xfail(str(e))
                         else:
                             raise PluginRegistryError(e)
@@ -198,7 +197,13 @@ class PluginRegistryValidator:
 
 
 class TestPluginRegistry:
-    """Pytest-based Unit Test for the PluginRegistry Class."""
+    """
+    Pytest-based Unit Test for the PluginRegistry Class.
+
+    Note: Since we are not able to initlialize this class due to restrictions placed by
+    Pytest, if you want to change the test files used, simply replace the location below
+    with the location of your new test files.
+    """
 
     _default_fpaths = glob(
         str(__file__).replace("test_plugin_registries.py", "files/**/*.yaml"),
@@ -206,7 +211,6 @@ class TestPluginRegistry:
     )
 
     _pr_validator = PluginRegistryValidator(_default_fpaths)
-    _plugin_registry = _pr_validator._plugin_registry
 
     # Couldn't implement this class via inheritance because PyTest Raised this error:
     # PytestCollectionWarning: cannot collect test class 'TestPluginRegistry' because
@@ -224,24 +228,24 @@ class TestPluginRegistry:
 
     def test_registered_plugin_property(self):
         """Ensure registered_plugins is valid in its nature."""
-        print(self._plugin_registry.registered_plugins)
-        assert isinstance(self._plugin_registry.registered_plugins, dict)
-        assert "yaml_based" in self._plugin_registry.registered_plugins
-        assert "module_based" in self._plugin_registry.registered_plugins
-        assert "text_based" in self._plugin_registry.registered_plugins
+        print(self._pr_validator.registered_plugins)
+        assert isinstance(self._pr_validator.registered_plugins, dict)
+        assert "yaml_based" in self._pr_validator.registered_plugins
+        assert "module_based" in self._pr_validator.registered_plugins
+        assert "text_based" in self._pr_validator.registered_plugins
 
     def test_interface_mapping_property(self):
         """Ensure interface_mapping is valid in its nature."""
-        print(self._plugin_registry.interface_mapping)
-        assert isinstance(self._plugin_registry.interface_mapping, dict)
-        assert "yaml_based" in self._plugin_registry.interface_mapping
-        assert "module_based" in self._plugin_registry.interface_mapping
-        assert "text_based" in self._plugin_registry.interface_mapping
-        assert isinstance(self._plugin_registry.interface_mapping["yaml_based"], list)
-        assert isinstance(self._plugin_registry.interface_mapping["module_based"], list)
-        assert isinstance(self._plugin_registry.interface_mapping["text_based"], list)
+        print(self._pr_validator.interface_mapping)
+        assert isinstance(self._pr_validator.interface_mapping, dict)
+        assert "yaml_based" in self._pr_validator.interface_mapping
+        assert "module_based" in self._pr_validator.interface_mapping
+        assert "text_based" in self._pr_validator.interface_mapping
+        assert isinstance(self._pr_validator.interface_mapping["yaml_based"], list)
+        assert isinstance(self._pr_validator.interface_mapping["module_based"], list)
+        assert isinstance(self._pr_validator.interface_mapping["text_based"], list)
 
-    @pytest.mark.parametrize("fpath", _plugin_registry.registry_files, ids=generate_id)
+    @pytest.mark.parametrize("fpath", _pr_validator.registry_files, ids=generate_id)
     def test_all_registries(self, fpath):
         """Test all available yaml registries."""
         current_registry = yaml.safe_load(open(fpath, "r"))

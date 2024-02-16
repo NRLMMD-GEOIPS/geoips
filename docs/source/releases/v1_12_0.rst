@@ -29,6 +29,7 @@ Version 1.12.0 (2023-12-07)
   * Remove long running unit tests from output checkers
   * Separate long and short running unit tests in check_code.sh
   * Use explicit list of valid interfaces for validating plugin_registries.
+  * Move pytest validation from plugin_registry.py to unit tests.
 * Enhancements
 
   * Rename JPSS-01/02 platform name to noaa-20/21 in ATMS reader
@@ -442,6 +443,27 @@ I think this was renamed 8 Nov, then attrs updated 30 Nov.
 
   renamed:    tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.J01.165H_latitude_longitude.tc2021ep11kevin.nc -> tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
   modified: tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
+
+Move PyTest Validation from plugin_registry.py to Unit tests
+------------------------------------------------------------
+*From GEOIPS#426: 2024-02-02, GeoIPS won't run pip install . w/out [test] target*
+
+GeoIPS currently fails to run if installed by simply calling ``pip install .``. It must,
+instead, be installed with pip install .[test]. This is because pytest is used in
+geoips/plugin_registry.py but is not included in the base GeoIPS installation
+requirements.
+
+To remediate this, we've since moved the pytest validation functionality off of the
+PluginRegistry class itself, and moved it into unit tests at
+``tests/unit_tests/plugin_registries/test_plugin_registries.py``, under class
+PluginRegistryValidator. This removes the need for PyTest to be a GeoIPS dependency,
+and is now a Unit Test dependency. If users want to validate their plugin registry, they
+will have to manually install pytest to validate from now on.
+
+::
+
+    modified: geoips/plugin_registry.py
+    modified: tests/unit_tests/plugin_registries/test_plugin_registries.py
 
 GitHub Actions
 ==============
