@@ -62,7 +62,13 @@ class CLI:
         ]
 
     def run(self, args):
-        """Run the provided GeoIPS command."""
+        """Run the provided GeoIPS command.
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The argument namespace to parse through
+        """
         pkg_name = args.pkg_name
         script_name = args.script_name
         script_path = str(resources.files(pkg_name) / "../tests/scripts" / script_name)
@@ -76,9 +82,6 @@ class CLI:
         ----------
         args: Namespace()
             - The argument namespace to parse through
-        interface_name: str
-            - The name of the interface to list. If name == "interfaces" list all available
-            interfaces and their plugin names.
         """
         # Variable below will be used to list scripts available in a certain package,
         # Full product definitions, call signatures, etc.
@@ -95,7 +98,13 @@ class CLI:
             self.list_interface(to_be_listed)
 
     def list_package_scripts(self, package_name):
-        """List all of the available scripts held under <package_name>."""
+        """List all of the available scripts held under <package_name>.
+
+        Parameters
+        ----------
+        package_name: str
+            - The GeoIPS Package name whose scripts you want to list.
+        """
         script_names = sorted(
             [
                 basename(fpath) for fpath in
@@ -110,7 +119,14 @@ class CLI:
         LOG.interactive(f"{script_names}\n")
 
     def list_interface(self, interface_name):
-        """List the available interface[s] and their corresponding plugin names."""
+        """List the available interface[s] and their corresponding plugin names.
+
+        Parameters
+        ----------
+        interface_name: str
+            - The name of the interface to list. If name == "interfaces" list all available
+            interfaces and their plugin names.
+        """
         if interface_name != "interfaces":
             interfaces_to_list = [getattr(interfaces, interface_name)]
         else:
