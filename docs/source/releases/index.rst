@@ -16,6 +16,7 @@
 Release Notes
 *************
 
+
 Version 1.12
 ------------
 
@@ -23,6 +24,7 @@ Version 1.12
    :maxdepth: 1
 
    v1_12_0
+   v1_12_2a0
 
 
 Version 1.11

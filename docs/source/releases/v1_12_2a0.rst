@@ -1,0 +1,46 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.12.2a0 (2024-02-19)
+***************************
+
+* Enhancements
+
+  * Began Developing the GeoIPS CLI
+  * ...
+* <Other_Types_Of_Modification>
+
+Enhancements
+============
+
+Began Developing the GeoIPS CLI
+-------------------------------
+
+*From GEOIPS#37: 2022-08-11, Create a useful CLI for GeoIPS.*
+
+GeoIPS currently runs off of a few command scripts scattered throughout the code. The
+only way a user could discover this is by reading the documentation, or looking through
+the pyproject.toml to discover what scripts/commands are executable at the commandline.
+
+To fix this, we are beginning to implement a new GeoIPS CLI, which will be called valid
+``geoips <command> <sub-command>``. This will allow the user to easily query and/or
+execute geoips without having extensive knowledge of the lower-level implementations of
+GeoIPS.
+
+.. code-block:: bash
+
+    geoips list interfaces
+    # All Interfaces GeoIPS and other GeoIPS Packages will be listed including all of
+    # The plugin names that exist in that type of interface
+    geoips run "<geoips_package_name> <script_name>.sh"
+    # Will run the script under <script_name>.sh as it would execute ./<script_name>.sh
+    # run_procflow command in the corresponding tests/scripts directory
