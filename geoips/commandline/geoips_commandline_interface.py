@@ -11,6 +11,8 @@ from geoips.commandline.log_setup import setup_logging
 from geoips.geoips_utils import get_entry_point_group
 from importlib import resources
 from subprocess import call
+from glob import glob
+from os.path import basename
 
 setup_logging()
 LOG = logging.getLogger(__name__)
@@ -26,11 +28,14 @@ class CLI:
         self._parser_list.set_defaults(exe_command=self.list)
         # Parser for list commands. What should we be able to list?
         # Ideas: All Interfaces, all plugins within an interface, ...
+        available_list_options = interfaces.__all__ + ["interfaces"] + [
+            str(pkg_name) for pkg_name in self.plugin_packages
+        ]
         self._parser_list.add_argument(
             "list_options",
             type=str.lower,
             default="interfaces",
-            choices=interfaces.__all__ + ["interfaces"],
+            choices=available_list_options,
         )
         # Parser for the run commands. Currently we implement:
         # `geoips run <pkg_name> <script_name.sh>`
@@ -47,8 +52,7 @@ class CLI:
             type=str,
             default="abi.static.Visible.imagery_annotated.sh",
         )
-        GEOIPS_ARGS = self._parser.parse_args()
-        GEOIPS_ARGS.exe_command(GEOIPS_ARGS)
+        self.GEOIPS_ARGS = self._parser.parse_args()
 
     @property
     def plugin_packages(self):
@@ -81,9 +85,32 @@ class CLI:
         # We will need to create sub classes that implement list_interfaces,
         # list_scripts, ..., same needs to be done for "run" function
 
-        # to_be_listed = args.list_options
+        to_be_listed = args.list_options
         # interface_name is the interface to list off, or all of the interfaces to list
-        interface_name = args.list_options
+        # interface_name = args.list_options
+        if to_be_listed in self.plugin_packages:
+            # If the first command is a package name, this will be used to list scripts
+            self.list_package_scripts(to_be_listed)
+        else:
+            self.list_interface(to_be_listed)
+
+    def list_package_scripts(self, package_name):
+        """List all of the available scripts held under <package_name>."""
+        script_names = sorted(
+            [
+                basename(fpath) for fpath in
+                    glob(
+                        str(resources.files(package_name) / "../tests/scripts" / "*.sh")
+                    )
+            ]
+        )
+        LOG.interactive("-" * len(f"{package_name.title()} Available Scripts"))
+        LOG.interactive(f"{package_name.title()} Available Scripts")
+        LOG.interactive("-" * len(f"{package_name.title()} Available Scripts"))
+        LOG.interactive(f"{script_names}\n")
+
+    def list_interface(self, interface_name):
+        """List the available interface[s] and their corresponding plugin names."""
         if interface_name != "interfaces":
             interfaces_to_list = [getattr(interfaces, interface_name)]
         else:
@@ -104,9 +131,16 @@ class CLI:
             LOG.interactive("-" * len(curr_interface.name))
             LOG.interactive(", ".join(sorted(interface_registry.keys())) + "\n")
 
+    def execute_command(self):
+        """Execute the given command."""
+        self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)
+
+
 def main():
     """Entry point for GeoIPS command line interface (CLI)."""
-    CLI()
+    geoips_cli = CLI()
+    geoips_cli.execute_command()
+
 
 if __name__ == "__main__":
     main()
