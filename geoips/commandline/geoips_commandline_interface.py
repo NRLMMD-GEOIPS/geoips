@@ -17,49 +17,121 @@ from os.path import basename
 setup_logging()
 LOG = logging.getLogger(__name__)
 
-class CLI:
-    """GeoIPS Command Line Interface."""
+
+class GeoipsArgParser:
+    """GeoIPS Argument Parser Class for the CLI."""
 
     def __init__(self):
-        """Entry point for GeoIPS command line interface (CLI)."""
-        self._parser = argparse.ArgumentParser()
-        self._subparser = self._parser.add_subparsers(help="sub-parser help")
-        self._parser_list = self._subparser.add_parser("list", help="list instructions")
-        self._parser_list.set_defaults(exe_command=self.list)
+        """Initialize the GeoIPS Argument Parser."""
+        # List of every installed GeoIPS package
+        self._plugin_packages = self.plugin_packages
+        self._available_list_options = self.available_list_options
+        # Parser to handle commands
+        self._parser = self.parser
+        self._subparser = self.subparser
         # Parser for list commands. What should we be able to list?
         # Ideas: All Interfaces, all plugins within an interface, ...
-        available_list_options = interfaces.__all__ + ["interfaces"] + [
-            str(pkg_name) for pkg_name in self.plugin_packages
-        ]
-        self._parser_list.add_argument(
-            "list_options",
-            type=str.lower,
-            default="interfaces",
-            choices=available_list_options,
-        )
+        self._parser_list = self.parser_list
         # Parser for the run commands. Currently we implement:
         # `geoips run <pkg_name> <script_name.sh>`
-        self._parser_run = self._subparser.add_parser("run", help="run instructions")
-        self._parser_run.set_defaults(exe_command=self.run)
-        self._parser_run.add_argument(
-            "pkg_name",
-            type=str.lower,
-            default="geoips",
-            choices=self.plugin_packages,
-        )
-        self._parser_run.add_argument(
-            "script_name",
-            type=str,
-            default="abi.static.Visible.imagery_annotated.sh",
-        )
-        self.GEOIPS_ARGS = self._parser.parse_args()
+        self._parser_run = self.parser_run
 
     @property
     def plugin_packages(self):
         """Plugin Packages property of the CLI."""
-        return [
-            ep.value for ep in get_entry_point_group("geoips.plugin_packages")
-        ]
+        if not hasattr(self, "_plugin_packages"):
+            return [
+                ep.value for ep in get_entry_point_group("geoips.plugin_packages")
+            ]
+        else:
+            return self._plugin_packages
+
+    @property
+    def available_list_options(self):
+        """List of available Lower-Level GeoIPS Software that can be listed off."""
+        if not hasattr(self, "_available_list_options"):
+            return interfaces.__all__ + ["interfaces"] + [
+                str(pkg_name) for pkg_name in self.plugin_packages
+            ]
+        else:
+            return self._available_list_options
+
+    @property
+    def parser(self):
+        """The Main ArgumentParser Instance for the CLI."""
+        if not hasattr(self, "_parser"):
+            return argparse.ArgumentParser()
+        else:
+            return self._parser
+
+    @property
+    def subparser(self):
+        """The Argparse Subparser Instance for the CLI."""
+        if not hasattr(self, "_subparser"):
+            self._subparser = self.parser.add_subparsers(help="sub-parser help")
+            return self._subparser
+        else:
+            return self._subparser
+
+    @property
+    def parser_list(self):
+        """The List Subparser Instance for the CLI."""
+        if not hasattr(self, "_parser_list"):
+            self._parser_list = self.subparser.add_parser(
+                "list", help="list instructions"
+            )
+            self._parser_list.add_argument(
+                "list_options",
+                type=str.lower,
+                default="interfaces",
+                choices=self._available_list_options,
+                help="GeoIPS lower level plugins/interfaces/scripts to list off."
+            )
+            self._parser_list.add_argument(
+                "--verbose",
+                "-v",
+                default=False,
+                action="store_true",
+                help="List in a verbose fashion.",
+            )
+            return self._parser_list
+        else:
+            return self._parser_list
+
+    @property
+    def parser_run(self):
+        """The Run Subparser Instance for the CLI."""
+        if not hasattr(self, "_parser_run"):
+            self._parser_run = self.subparser.add_parser(
+                "run", help="run instructions"
+            )
+            self._parser_run.add_argument(
+                "pkg_name",
+                type=str.lower,
+                default="geoips",
+                choices=self.plugin_packages,
+                help="GeoIPS Package to run a script from."
+            )
+            self._parser_run.add_argument(
+                "script_name",
+                type=str,
+                default="abi.static.Visible.imagery_annotated.sh",
+                help="Script to run from previously selected package."
+            )
+            return self._parser_run
+        else:
+            return self._parser_run
+
+
+class CLI(GeoipsArgParser):
+    """GeoIPS Command Line Interface."""
+
+    def __init__(self):
+        """Entry point for GeoIPS command line interface (CLI)."""
+        super().__init__()
+        self.parser_list.set_defaults(exe_command=self.list)
+        self.parser_run.set_defaults(exe_command=self.run)
+        self.GEOIPS_ARGS = self.parser.parse_args()
 
     def run(self, args):
         """Run the provided GeoIPS command.
@@ -89,21 +161,21 @@ class CLI:
         # list_scripts, ..., same needs to be done for "run" function
 
         to_be_listed = args.list_options
-        # interface_name is the interface to list off, or all of the interfaces to list
-        # interface_name = args.list_options
         if to_be_listed in self.plugin_packages:
             # If the first command is a package name, this will be used to list scripts
-            self.list_package_scripts(to_be_listed)
+            self.list_package_scripts(to_be_listed, args.verbose)
         else:
-            self.list_interface(to_be_listed)
+            self.list_interface(to_be_listed, args.verbose)
 
-    def list_package_scripts(self, package_name):
+    def list_package_scripts(self, package_name, verbose=False):
         """List all of the available scripts held under <package_name>.
 
         Parameters
         ----------
         package_name: str
             - The GeoIPS Package name whose scripts you want to list.
+        verbose: bool
+            - Flag which denotes whether or not we should list verbosely (add. info).
         """
         script_names = sorted(
             [
@@ -118,18 +190,23 @@ class CLI:
         LOG.interactive("-" * len(f"{package_name.title()} Available Scripts"))
         LOG.interactive(f"{script_names}\n")
 
-    def list_interface(self, interface_name):
+    def list_interface(self, interface_name, verbose=False):
         """List the available interface[s] and their corresponding plugin names.
 
         Parameters
         ----------
         interface_name: str
-            - The name of the interface to list. If name == "interfaces" list all available
-            interfaces and their plugin names.
+            - The name of the interface to list. If name == "interfaces" list all
+              available interfaces and their plugin names.
+        verbose: bool
+            - Flag which denotes whether or not we should list verbosely (add. info).
         """
         if interface_name != "interfaces":
+            # if the provided name != interfaces, this means we have been given a single
+            # interface. Grab that interface and move on.
             interfaces_to_list = [getattr(interfaces, interface_name)]
         else:
+            # List of every available interface
             interfaces_to_list = [
                 getattr(interfaces, name) for name in sorted(interfaces.__all__)
             ]
@@ -145,7 +222,49 @@ class CLI:
             LOG.interactive("-" * len(curr_interface.name))
             LOG.interactive(curr_interface.name)
             LOG.interactive("-" * len(curr_interface.name))
-            LOG.interactive(", ".join(sorted(interface_registry.keys())) + "\n")
+            if not verbose:
+                # LOG.interactive(f"{sorted(interface_registry.keys())}\n")
+                LOG.interactive(", ".join(sorted(interface_registry.keys())) + "\n")
+            else:
+                self.list_interface_verbosely(
+                    curr_interface, interface_registry, plugin_type
+                )
+
+    def list_interface_verbosely(self, curr_interface, interface_registry, p_type):
+        """List the Provided Interface Verbosely, based on the type of interface.
+
+        Parameters
+        ----------
+        curr_interface: GeoIPS BaseYamlInterface / BaseModuleInterface
+            - The current interface to list verbosely.
+        interface_registry: dict
+            - The plugin registry dictionary associated with the current interface.
+        p_type: str
+            - The Plugin Type of the Interface ("module_based" or "yaml_based")
+        """
+        for plugin_name in sorted(interface_registry.keys()):
+            # Products have a different implementation currently, so we need to handle
+            # those plugins differently when listing them off.
+            if curr_interface.name != "products":
+                plugin_dict = {
+                    "interface": curr_interface.name,
+                    "family": interface_registry[plugin_name]["family"],
+                    "docstring": interface_registry[plugin_name]["docstring"],
+                }
+                if p_type == "module_based":
+                    plugin_dict["signature"] = interface_registry[plugin_name][
+                        "signature"
+                    ]
+            else:
+                # This is how products are verbosely handled. We will need to modify
+                # this portion when PR "423 Test All Product Families" is merged in,
+                # as that branch stores product plugins in a format of
+                # <source_name>.<subplg_name>
+                plugin_dict = {
+                    "source_name": plugin_name,
+                    "subplugin_names": sorted(interface_registry[plugin_name].keys()),
+                }
+            LOG.interactive(f"{plugin_name}: {plugin_dict}")
 
     def execute_command(self):
         """Execute the given command."""
