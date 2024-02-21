@@ -1,0 +1,41 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.12.2a0 (2024-02-21)
+*****************************
+
+* Enhancements
+
+  * Added log with emphasis function
+
+Enhancements
+============
+
+Added Log with Emphasis function
+--------------------------------
+
+Scattered throughout GeoIPS (and other packages too), are many Log statements that use
+'***********************...' to emphasize the content in between them. While this is
+easy to see in the Log output, it's extremely cluttered in the actual code. For this
+reason, I've added a 'log_with_emphasis' function to handle this. All you need to do now
+is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you.
+
+::
+
+    modified: geoips/geoips/commandline/log_setup.py
+    modified: geoips/geoips/interfaces/module_based/output_checkers.py
+    modified: geoips/geoips/plugins/modules/output_checkers/geotiff.py
+    modified: geoips/geoips/plugins/modules/output_checkers/image.py
+    modified: geoips/geoips/plugins/modules/output_checkers/netcdf.py
+    modified: geoips/geoips/plugins/modules/output_checkers/text.py
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
+    added: geoips/tests/unit_tests/commandline/log_setup.py

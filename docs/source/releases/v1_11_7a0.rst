@@ -24,7 +24,6 @@ Version 1.11.7a0 (2023-10-26)
 * Create "output_checker_kwargs" commandline argument
 * Convert base.py: plugin_module_to_obj to class-based method
 * Fixed from scipy.ndimage.interpolation import zoom deprecation warning
-* Added Log with emphasis function
 * Raise error when two plugins have the same name
 * Added unit test for image output checker
 * Attached unit tests to output checker plugins
@@ -109,26 +108,6 @@ threshold values ["lenient" (10%), "medium" (5%), "strict" (0%)].
     modified: geoips/plugins/modules/output_checkers/text.py
     modified: geoips/plugins/modules/procflows/config_based.py
     modified: geoips/plugins/modules/single_source.py
-
-Added Log with Emphasis function
---------------------------------
-
-Scattered throughout GeoIPS (and other packages too), are many Log statements that use
-'***********************...' to emphasize the content in between them. While this is
-easy to see in the Log output, it's extremely cluttered in the actual code. For this
-reason, I've added a 'log_with_emphasis' function to handle this. All you need to do now
-is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you.
-
-::
-
-    modified: geoips/geoips/commandline/log_setup.py
-    modified: geoips/geoips/interfaces/module_based/output_checkers.py
-    modified: geoips/geoips/plugins/modules/output_checkers/geotiff.py
-    modified: geoips/geoips/plugins/modules/output_checkers/image.py
-    modified: geoips/geoips/plugins/modules/output_checkers/netcdf.py
-    modified: geoips/geoips/plugins/modules/output_checkers/text.py
-    modified: geoips/geoips/plugins/modules/procflows/single_source.py
-    added: geoips/tests/unit_tests/commandline/log_setup.py
 
 Bug Fixes
 =========
