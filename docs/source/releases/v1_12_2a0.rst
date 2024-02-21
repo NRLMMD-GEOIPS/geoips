@@ -15,7 +15,8 @@ Version 1.12.2a0 (2024-02-21)
 
 * Bug fixes
 
-  * Ensure that log.interactive works from plugins when imported independently
+  * Ensure that log.interactive works from plugins when imported independently.
+  * Make add_log_level a callable class to fix AttributeErrors.
 
 * Refactor
 
@@ -27,11 +28,17 @@ Bug Fixes
 =========
 
 *From GEOIPS#446: 2024-02-21, Move addition of interactive log level into __init__*
+*From GEOIPS#446: 2024-02-21, Make add_log_level a callable class to fix AttributeErrors*
 
 Remove call to ``add_log_level()`` from ``setup_logging()`` and into ``geoips/__init__.py``.
 This makes ``log.interactive()`` available to all components of GeoIPS, regardless of how
 they are accessed. Previously, if a plugin was used without the rest of GeoIPS (e.g. a
 reader) it would raise an ``AttributeError`` if it called ``log.interactive()``.
+
+This additionally makes add_log_level into a callable class called LogLevelAdder which must
+be instantiated prior to use. This fixes a problem where AttributeErrors were raised from
+time to time. The way that they occurred required them to be ignored, even when they were
+useful. Now, only useful AttributeErrors should be raised.
 
 ::
 
