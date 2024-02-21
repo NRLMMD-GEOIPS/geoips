@@ -76,8 +76,8 @@ class LogLevelAdder:
             if getattr(logging, level_name) != level_num:
                 raise AttributeError(
                     f"{level_name} level already defined in logging module and its "
-                    f"value ({getattr(logging, level_name)}) differs from the requested "
-                    f"value ({level_num})."
+                    f"value ({getattr(logging, level_name)}) differs from the "
+                    f"requested value ({level_num})."
                 )
         else:
             logging.addLevelName(level_num, level_name)
