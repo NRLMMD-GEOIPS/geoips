@@ -42,7 +42,7 @@ jobs:
               ${COMMIT_INTO} -- $PWD/geoips_plugin_repo/docs/source/releases/v*.rst)
           echo "Current release note: $current_release_note"
           echo "Release note files modified this PR:"
-          for $file in ${ret[@]}; do
+          for file in ${ret[@]}; do
               echo "    $file"
           done
           if [[ "${ret}" != *"$current_release_note"* ]]; then
@@ -51,3 +51,4 @@ jobs:
               exit 1
           else
               echo "PASSED"
+          fi
