@@ -1,0 +1,42 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.12.2a0 (2024-02-21)
+*****************************
+
+* Testing Updates
+
+  * Move pytest validation from plugin_registry.py to unit tests.
+
+Testing Updates
+===============
+
+Move PyTest Validation from plugin_registry.py to Unit tests
+------------------------------------------------------------
+*From GEOIPS#426: 2024-02-02, GeoIPS won't run pip install . w/out [test] target*
+
+GeoIPS currently fails to run if installed by simply calling ``pip install .``. It must,
+instead, be installed with pip install .[test]. This is because pytest is used in
+geoips/plugin_registry.py but is not included in the base GeoIPS installation
+requirements.
+
+To remediate this, we've since moved the pytest validation functionality off of the
+PluginRegistry class itself, and moved it into unit tests at
+``tests/unit_tests/plugin_registries/test_plugin_registries.py``, under class
+PluginRegistryValidator. This removes the need for PyTest to be a GeoIPS dependency,
+and is now a Unit Test dependency. If users want to validate their plugin registry, they
+will have to manually install pytest to validate from now on.
+
+::
+
+    modified: geoips/plugin_registry.py
+    modified: tests/unit_tests/plugin_registries/test_plugin_registries.py
