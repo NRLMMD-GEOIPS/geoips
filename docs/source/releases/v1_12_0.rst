@@ -533,30 +533,6 @@ the release note specified in this file.
 Refactor
 ========
 
-Refactor optional imports in readers to use context manager function
---------------------------------------------------------------------
-
-*From GEOIPS#338: 2023-07-19, Clean up optional dependencies*
-
-Some GeoIPS readers include optional dependency statements that are required to read
-certain file formats. While keeping these imports as optional is ok, we should clean up
-the manner in which this is implemented. To do so, we've created a separate
-``geoips.testing.context_manager.py`` script which can handle optional imports scattered
-throughout the GeoIPS codebase. This is essentially replacing our old manner of optional
-dependencies with a new method that keeps things clean.
-
-::
-
-    modified: geoips/plugins/modules/procflows/config_based.py
-    modified: geoips/plugins/modules/readers/abi_netcdf.py
-    modified: geoips/plugins/modules/readers/ahi_hsd.py
-    modified: geoips/plugins/modules/readers/ewsg_netcdf.py
-    modified: geoips/plugins/modules/readers/modis_hdf4.py
-    modified: geoips/plugins/modules/readers/seviri_hrit.py
-    modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
-    modified: geoips/plugins/modules/readers/viirs_netcdf.py
-    added: geoips/testing.context_manager.py
-
 Update imports related to geoips database modules
 -------------------------------------------------
 
