@@ -294,7 +294,7 @@ def write_registered_plugins(pkg_dir, plugins, save_type):
         reg_plug_abspath = osjoin(pkg_dir, "registered_plugins.json")
         with open(reg_plug_abspath, "w") as plugin_registry:
             LOG.interactive("Writing %s", reg_plug_abspath)
-            json.dump(plugins, plugin_registry)
+            json.dump(plugins, plugin_registry, indent=4)
 
 
 def create_plugin_registries(plugin_packages, save_type):
