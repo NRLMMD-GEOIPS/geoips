@@ -863,8 +863,12 @@ def main():
         description=description,
     )
     argparser.add_argument(
-        "-s", "--save_type", type=str.lower, default="json", choices=["json", "yaml"],
-        help="Format to write registries to. This will also be the file extension."
+        "-s",
+        "--save_type",
+        type=str.lower,
+        default="json",
+        choices=["json", "yaml"],
+        help="Format to write registries to. This will also be the file extension.",
     )
     ARGS = argparser.parse_args()
     save_type = ARGS.save_type
