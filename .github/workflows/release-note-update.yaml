@@ -19,13 +19,25 @@ jobs:
   release_v_change_detection:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v3
+      - name: Checkout geoips repo default branch
+        uses: actions/checkout@v3 # v3 is the latest for checkout
         with:
           fetch-depth: 0
+          repository: ${{ vars.ORGANIZATION }}/geoips
+          ref: ${{ vars.DEFAULT_BRANCH }}
+          token: ${{ secrets.GEOIPS_TOKEN }}
+          path: geoips_default_branch
+      - name: Checkout current repo default branch
+        uses: actions/checkout@v3 # v3 is the latest for checkout
+        with:
+          fetch-depth: 0
+          path: geoips_plugin_repo
       - name: Detect new and modified release files
         run: |
-          current_release_note=`cat update_this_release_note`
+          echo "cat $PWD/geoips_default_branch/update_this_release_note"
+          ls -l $PWD/geoips_default_branch/update_this_release_note
+          current_release_note=`cat $PWD/geoips_default_branch/update_this_release_note`
+          echo "Current release note: $current_release_note"
           ret=$(git diff --name-only --diff-filter=AM \
               ${COMMIT_INTO} -- docs/source/releases/v*.rst)
           if [[ "${ret}" != *"$current_release_note"* ]]; then
