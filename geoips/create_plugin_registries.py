@@ -849,12 +849,21 @@ def main():
     args: list
         List of strings representing the arguments provided via command line.
     """
+    description = (
+        "Creates Plugin Registries for all installed GeoIPS packages. "
+        "The registries will be written to the root directory of each installed "
+        "package. The registries will be named either 'registered_plugins.json' "
+        "or 'registered_plugins.yaml' depending on which format is chosen. "
+        "For additional information on GeoIPS plugin registries please refer to "
+        "the GeoIPS documentation."
+
     argparser = ArgumentParser(
         prog="create_plugin_registries",
-        description="Creates Plugin Registries for available GeoIPS packages.",
+        description=description,
     )
     argparser.add_argument(
-        "-s", "--save_type", type=str.lower, default="json", choices=["json", "yaml"]
+        "-s", "--save_type", type=str.lower, default="json", choices=["json", "yaml"],
+        help="Format to write registries to. This will also be the file extension."
     )
     ARGS = argparser.parse_args()
     save_type = ARGS.save_type
