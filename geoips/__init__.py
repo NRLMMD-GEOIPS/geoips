@@ -33,6 +33,12 @@ from geoips import utils
 from geoips import xarray_utils
 from ._version import __version__, __version_tuple__
 
+import logging  # noqa
+from geoips.commandline.log_setup import add_logging_level
+
+
+add_logging_level("INTERACTIVE", 35)
+
 __all__ = [
     "interfaces",
     "errors",
