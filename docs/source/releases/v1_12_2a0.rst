@@ -27,6 +27,9 @@ Version 1.12.2a0 (2024-02-21)
 Bug Fixes
 =========
 
+Make add_log_level a callable class, ensure log.interactive works consistently
+------------------------------------------------------------------------------
+
 *From GEOIPS#446: 2024-02-21, Move addition of interactive log level into __init__*
 *From GEOIPS#446: 2024-02-21, Make add_log_level a callable class to fix AttributeErrors*
 
