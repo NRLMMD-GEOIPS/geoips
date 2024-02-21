@@ -46,7 +46,6 @@ Version 1.12.0 (2023-12-07)
 * Refactor
 
   * Update imports related to geoips database modules
-  * Refactor optional imports in readers to use a context manager function
 
 Enhancements
 ============
