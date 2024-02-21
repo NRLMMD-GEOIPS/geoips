@@ -1,0 +1,56 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.12.0 (2023-12-07)
+***************************
+
+* Bug fixes
+
+  * Ensure that log.interactive works from plugins when imported independently
+
+* Refactor
+
+  * Update imports related to geoips database modules
+
+
+Bug Fixes
+=========
+
+*From GEOIPS#446: 2024-02-21, Move addition of interactive log level into __init__*
+
+Remove call to `add_log_level()` from `setup_logging()` and into `geoips/__init__.py`.
+This makes `log.interactive()` available to all components of GeoIPS, regardless of how
+they are accessed. Previously, if a plugin was used without the rest of GeoIPS (e.g. a
+reader) it would raise an `AttributeError` if it called `log.interactive()`.
+
+::
+
+    modified: geoips/__init__.py
+    modified: geoips/commandline/log_setup.py
+
+
+Refactor
+========
+
+Make JSON Plugin Registries Readable
+------------------------------------
+
+*From GEOIPS#429: 2024-02-02, Plugin Registries Should Be Readable*
+
+Currently, the JSON output of the plugin registries is a hodge-podge full of text. We
+should refactor the way in which these plugin registries are outputted, so that they are
+in a human readable, interpretable format. To do so, we need to add the argument
+``indent=4`` to the ``json.dump`` call in ``write_plugin_registries``.
+
+::
+
+    modified: geoips/create_plugin_registries.py
