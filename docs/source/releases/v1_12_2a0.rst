@@ -27,15 +27,16 @@ Bug Fixes
 
 *From GEOIPS#446: 2024-02-21, Move addition of interactive log level into __init__*
 
-Remove call to `add_log_level()` from `setup_logging()` and into `geoips/__init__.py`.
-This makes `log.interactive()` available to all components of GeoIPS, regardless of how
+Remove call to ``add_log_level()`` from ``setup_logging()`` and into ``geoips/__init__.py``.
+This makes ``log.interactive()`` available to all components of GeoIPS, regardless of how
 they are accessed. Previously, if a plugin was used without the rest of GeoIPS (e.g. a
-reader) it would raise an `AttributeError` if it called `log.interactive()`.
+reader) it would raise an ``AttributeError`` if it called ``log.interactive()``.
 
 ::
 
     modified: geoips/__init__.py
     modified: geoips/commandline/log_setup.py
+    added: tests/unit_tests/commandline/log_setup.py
 
 
 Refactor
