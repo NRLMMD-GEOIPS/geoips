@@ -34,7 +34,6 @@ Version 1.12.0 (2023-12-07)
   * Rename JPSS-01/02 platform name to noaa-20/21 in ATMS reader
   * Add hy-2d platform to scat knmi winds reader
   * Allow filtering products based on platform name
-  * Add function to list all available interfaces for each interface 'family'
 * Release updates
 
   * Update 'update_this_release_note'
@@ -130,20 +129,6 @@ reader. Maps internal attributes to GeoIPS platform and source name.
 ::
 
   geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
-
-Add function to list all available interfaces for each interface 'family'
--------------------------------------------------------------------------
-
-*From GEOIPS#397: 2023-11-02, Add function to geoips.interfaces to list all interfaces of each type*
-
-Added a function which lists all interfaces found for each interface family. Rather than
-referring to a hard-coded list of interfaces that currently exist, we make assumptions
-on the directory structure of the geoips package and list the corresponding interface
-modules via the members of 'geoips.interfaces'.
-
-::
-
-    modified: geoips/interfaces/__init__.py
 
 Bug Fixes
 =========
