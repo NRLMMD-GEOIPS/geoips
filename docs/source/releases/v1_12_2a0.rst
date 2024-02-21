@@ -19,7 +19,8 @@ Version 1.12.2a0 (2024-02-21)
 
 * Refactor
 
-  * Update imports related to geoips database modules
+  * Make JSON Plugin Registries Readable
+
 
 
 Bug Fixes
