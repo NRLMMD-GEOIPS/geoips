@@ -32,7 +32,6 @@ Version 1.11.7a0 (2023-10-26)
 * Added unit test configuration file
 * Create PluginRegistry Class
 * Bug fix: include full path to remss_reader import
-* Refactor: modify create_plugin_registries to use argparse instead of sys.argv
 
 Enhancements
 ============
@@ -340,20 +339,6 @@ Also updated path to pytest in full_test.sh (will eventually move to check_code.
     added: geoips/tests/unit_tests/plugin_registries/test_plugin_registries.py
     added: geoips/tests/unit_tests/plugin_registries/files/bad/*
     added: geoips/tests/unit_tests/plugin_registries/files/good/*
-
-Modify create_plugin_registries to use argparse
------------------------------------------------
-
-*From issue GEOIPS#416: 2023-12-21, Replace create_plugin_registries 'sys.argv' calls with 'argparse' library'*
-
-Currently create_plugin_registries.py uses sys.argv calls to generate its arguments
-rather than argparse. This doesn't follow GeoIPS conventions nor that of the CLI that
-will soon be updated. We should replace these calls with argparse architecture, so that
-this code follows current conventions, as does other GeoIPS code.
-
-::
-
-    modified: geoips/geoips/create_plugin_registries.py
 
 Testing Updates
 ===============
