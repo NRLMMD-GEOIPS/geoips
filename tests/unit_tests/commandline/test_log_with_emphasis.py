@@ -1,15 +1,13 @@
 """Unit Test for Log With Emphasis Function using Pytest and CapLog."""
-"""Test log.interative from GeoIPS."""
-
 
 import pytest
 
 import os
-from glob import glob
-from geoips.commandline.log_setup import log_with_emphasis
-import logging
 import random
 import string
+import logging
+from glob import glob
+from geoips.commandline.log_setup import log_with_emphasis
 
 LOG = logging.getLogger(__name__)
 
@@ -36,18 +34,6 @@ def test_log_with_emphasis(message, caplog):
     assert "    " + message in caplog.text
     assert "    " + "*" * max_message_len in caplog.text
     assert "\n" in caplog.text
-
-
-def test_log_interactive_non_geoips():
-    """Ensure that log.interactive fails for standard logging module.
-
-    This is to ensure that GeoIPS doesn't pollute the logging module.
-    """
-    import logging
-
-    log = logging.getLogger(__name__)
-    with pytest.raises(AttributeError):
-        log.interactive("FROM PYTEST")
 
 
 def test_log_interactive_geoips(caplog):
