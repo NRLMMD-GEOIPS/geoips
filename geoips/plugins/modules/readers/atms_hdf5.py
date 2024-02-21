@@ -323,9 +323,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # MTIFs need to be "prettier" for PMW products, so 2km resolution for
         # final image
         xarray_atms.attrs["sample_distance_km"] = 2
-        xarray_atms.attrs[
-            "interpolation_radius_of_influence"
-        ] = 30000  # could be tuned if needed
+        xarray_atms.attrs["interpolation_radius_of_influence"] = (
+            30000  # could be tuned if needed
+        )
         fileobj.close()
     else:  # if 'metadata_only= False', it is for the second time to read-in datafiles
         xarray_atms = final_xarray  # avoid read the data the second time
