@@ -76,7 +76,7 @@ Files Added:
 ::
 
     added: geoips/plugins/yaml/products/all_product_families.yaml
-    added: tests/scripts/infrared_all_product_families.sh
+    added: tests/scripts/order_based_all_product_families/*.sh
 
 Note: See Bux Fix for duplicate source_names in product registry *GEOIPS#428*, for more
 information on bug fixes made on this branch as well.

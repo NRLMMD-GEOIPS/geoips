@@ -2,8 +2,8 @@ interface: products
 family: list
 name: all_product_families
 docstring: |
-  The all_product_families products configuration, which produces ABI products for each
-  product family.
+  The all_product_families products configuration, which produces ABI / smap-spd
+  products for each product family.
 spec:
   products:
     - name: alg_cmap
