@@ -74,10 +74,6 @@ def setup_logging(logging_level="INTERACTIVE", verbose=True):
     LOG = logging.getLogger(__name__)
     """
     log = logging.getLogger()
-    # try:
-    #     add_logging_level("INTERACTIVE", 35)
-    # except AttributeError:
-    #     pass
     log.setLevel(getattr(logging, logging_level))
     fmt = logging.Formatter(
         "%(asctime)s %(module)12s.py:%(lineno)-4d %(levelname)7s: %(message)s",
