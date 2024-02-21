@@ -17,14 +17,35 @@ import sys
 
 
 class LogLevelAdder:
-    """Create a callable that can add a new logging level."""
+    """Create a callable that can add a new logging level.
 
-    def __call__(self, levelName, levelNum, methodName=None):
-        """
-        Comprehensively adds a new logging level to the `logging` module.
+    Initialize simply as `add_log_level = LogLevelAdder()` and add a new level by
+    calling `add_log_level` with the name of the new log level and its level number.
 
-        Comprehensively adds a new logging level to the `logging` module
-        and the currently configured logging class.
+    For further call information, see the docstring for LogLevelAdder.__call__()."""
+
+    def __call__(self, levelName, levelNum):
+        """Comprehensively adds a new logging level to the `logging` module.
+
+        Comprehensively adds a new logging level named `levelName` to the `logging`
+        module and the currently configured logging class. The new logging level's
+        precidence is set by `levelNum`. For example, a levelNum of `15` would create a
+        logging level that falls between `logging.DEBUG` and `logging.INFO` whose
+        levelNum are `10` and `20`, respectively.
+
+        Calling this function will add the following to the logging class:
+        - A new log level named `logging.{levelName}`
+        - A new logging function called `logging.{levelName.lower()]}`
+
+        To avoid conflicts between the log level attribute and the logging function,
+        `levelName` must not be entirely lowercase.
+
+        Parameters
+        ----------
+        levelName : str
+            Name for the new log level. This must not be completely lowercase.
+        levelNum : int
+            Numeric precidence of the new log level.
 
         `levelName` becomes an attribute of the `logging` module with the value
         `levelNum`. `methodName` becomes a convenience method for both `logging`
@@ -38,6 +59,7 @@ class LogLevelAdder:
 
         Example
         -------
+        >>> add_logging_level = LogLevelAdder()
         >>> add_logging_level('TRACE', logging.DEBUG - 5)
         >>> logging.getLogger(__name__).setLevel("TRACE")
         >>> logging.getLogger(__name__).trace('that worked')
@@ -46,8 +68,7 @@ class LogLevelAdder:
         5
 
         """
-        if not methodName:
-            methodName = levelName.lower()
+        methodName = levelName.lower()
 
         # Add the log level
         if hasattr(logging, levelName):
@@ -61,6 +82,7 @@ class LogLevelAdder:
             logging.addLevelName(levelNum, levelName)
             setattr(logging, levelName, levelNum)
 
+        # Add the logging method to the current root logger
         logToRoot = self._get_logToRoot(levelNum)
         if hasattr(logging, methodName):
             if getattr(logging, methodName) != logToRoot:
@@ -71,6 +93,8 @@ class LogLevelAdder:
         else:
             setattr(logging, methodName, logToRoot)
 
+        # Add the logging method to the logger class so it gets attached to new logger
+        # instances moving forward
         loggerClass = logging.getLoggerClass()
         logForLevel = self._get_logForLevel(levelNum)
         if hasattr(loggerClass, methodName):
@@ -112,11 +136,26 @@ add_logging_level = LogLevelAdder()
 
 
 def setup_logging(logging_level="INTERACTIVE", verbose=True):
-    """Set up logging handler.
+    """Get a new logger instance for GeoIPS.
 
-    If you do this the first time with no argument, it sets up the logging
-    for all submodules. Subsequently, in submodules, you can just do
-    LOG = logging.getLogger(__name__)
+    Get a new logger instance for GeoIPS. This will set the logger's logging level, its
+    formatter, and add a `StreamHandler` pointing to `sys.stdout`.
+
+    This is most often used at the top-level of an applcation to set up the root logger
+    for the application (e.g. in a command line script). Once configured, the root
+    logger's properties will be inherited by lower-level logger instances. So, to use
+    the same logging configuration in submodules, simply instantiate a new logger
+    instance via `LOG = logging.getLogger(__name__)` and it will behave the same as the
+    root logger.
+
+    Parameters
+    ----------
+    logging_level : str, default="INTERACTIVE"
+        Sets the minimum log level for which log output will be written to stdout.
+    verbose : bool, default=True
+        Determines which log formatter will be used. If `True`, a longer format will be
+        used, providing more information, but also cluttering the screen. If `False`, a
+        shorter format will be used.
     """
     log = logging.getLogger()
     log.setLevel(getattr(logging, logging_level))
