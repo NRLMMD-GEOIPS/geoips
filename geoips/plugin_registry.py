@@ -258,19 +258,7 @@ class PluginRegistry:
             for interface in current_registry[plugin_type]:
                 for plugin in current_registry[plugin_type][interface]:
                     try:
-                        if interface == "products":
-                            for subplg in current_registry[plugin_type][interface][
-                                plugin
-                            ]:
-                                self.validate_plugin_attrs(
-                                    plugin_type,
-                                    interface,
-                                    (plugin, subplg),
-                                    current_registry[plugin_type][interface][plugin][
-                                        subplg
-                                    ],
-                                )
-                        elif plugin_type != "text_based":
+                        if plugin_type != "text_based":
                             self.validate_plugin_attrs(
                                 plugin_type,
                                 interface,
