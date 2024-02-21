@@ -38,8 +38,9 @@ jobs:
           ls -l $PWD/geoips_default_branch/update_this_release_note
           current_release_note=`cat $PWD/geoips_default_branch/update_this_release_note`
           echo "Current release note: $current_release_note"
-          ret=$(git diff --name-only --diff-filter=AM \
-              ${COMMIT_INTO} -- docs/source/releases/v*.rst)
+          git -C $PWD/geoips_plugin_repo diff --name-only --diff-filter=AM ${COMMIT_INTO} -- $PWD/geoips_plugin_repo/docs/source/releases/v*.rst
+          ret=$(git -C $PWD/geoips_plugin_repo diff --name-only --diff-filter=AM \
+              ${COMMIT_INTO} -- $PWD/geoips_plugin_repo/docs/source/releases/v*.rst)
           if [[ "${ret}" != *"$current_release_note"* ]]; then
               echo "No release note changes detected"
               echo "Please enter change logs in docs/source/releases"
