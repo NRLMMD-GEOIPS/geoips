@@ -25,9 +25,10 @@ jobs:
           fetch-depth: 0
       - name: Detect new and modified release files
         run: |
+          current_release_note=`cat update_this_release_note`
           ret=$(git diff --name-only --diff-filter=AM \
               ${COMMIT_INTO} -- docs/source/releases/v*.rst)
-          if [[ "${ret}" != *"docs/source/releases/v"* ]]; then
+          if [[ "${ret}" != *"$current_release_note"* ]]; then
               echo "No release note changes detected"
               echo "Please enter change logs in docs/source/releases"
               exit 1
