@@ -63,16 +63,16 @@ import os
 import numpy
 import xarray as xr
 
+from geoips.testing.context_manager import import_optional_dependences
+
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
 # installed to process data of this type.
 LOG = logging.getLogger(__name__)
 
-
-try:
+with import_optional_dependences(__file__):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     import netCDF4 as ncdf
-except ImportError:
-    LOG.info("Failed import netCDF4. If you need it, install it.")
 
 
 # @staticmethod                                     # not sure where it is uwas used?

@@ -25,6 +25,7 @@ import xarray
 from scipy.ndimage import zoom
 
 from geoips.utils.memusg import print_mem_usage
+from geoips.testing.context_manager import import_optional_dependences
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
@@ -32,14 +33,9 @@ from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
 
 LOG = logging.getLogger(__name__)
 
-
-try:
+with import_optional_dependences(__file__):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     import numexpr as ne
-except Exception:
-    LOG.info(
-        "Failed numexpr import in scifile/readers/ahi_hsd_reader_new.py. If you need"
-        " it, install it."
-    )
 
 try:
     nprocs = 6

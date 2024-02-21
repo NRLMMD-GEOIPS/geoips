@@ -28,15 +28,15 @@ from geoips.dev.product import (
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.filenames.duplicate_files import remove_duplicates
 from geoips.geoips_utils import replace_geoips_paths
+from geoips.testing.context_manager import import_optional_dependences
 
-try:
+with import_optional_dependences(__file__):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     from geoips_db.utils.database_writes import (
         write_to_database,
         flag_product_as_deleted,
         write_stats_to_database,
     )
-except ImportError:
-    pass
 
 # Old interfaces (YAML, will migrate to new soon)
 from geoips.dev.output_config import (

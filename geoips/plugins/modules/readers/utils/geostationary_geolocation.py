@@ -21,19 +21,15 @@ from pyresample.kd_tree import get_neighbour_info  # , get_sample_from_neighbour
 
 from geoips.errors import CoverageError
 from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.testing.context_manager import import_optional_dependences
 
 LOG = logging.getLogger(__name__)
 
 interface = None
 
-
-try:
+with import_optional_dependences(__file__):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     import numexpr as ne
-except ImportError:
-    LOG.info(
-        "Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py."
-        "If you need it, install it."
-    )
 
 
 nprocs = 6
