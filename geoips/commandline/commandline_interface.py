@@ -98,7 +98,7 @@ class GeoipsArgParser:
                 "list_options",
                 type=str.lower,
                 default="interfaces",
-                choices=self._available_list_options,
+                choices=self.available_list_options,
                 help="GeoIPS lower level plugins/interfaces/scripts to list off."
             )
             self._parser_list.add_argument(
@@ -204,7 +204,7 @@ class CLI(GeoipsArgParser):
             tabulate(
                 script_names,
                 headers=["GeoIPS Package", "Package Path"],
-                tablefmt="simple_grid",
+                tablefmt="rounded_grid",
             )
         )
         # print(f"{script_names}\n")
@@ -234,7 +234,7 @@ class CLI(GeoipsArgParser):
             tabulate(
                 script_names,
                 headers=["GeoIPS Package", "Filename"],
-                tablefmt="simple_grid",
+                tablefmt="rounded_grid",
             )
         )
         # print(f"{script_names}\n")
@@ -282,6 +282,7 @@ class CLI(GeoipsArgParser):
                     if curr_interface.name == "products":
                         plugin_entry.insert(0, "Not Implemented")
                         plugin_entry.insert(2, "list")
+                        plugin_entry.append("Not Implemented")
                     else:
                         plugin_entry.insert(
                             0, interface_registry[plugin_key]["package"]
@@ -289,13 +290,20 @@ class CLI(GeoipsArgParser):
                         plugin_entry.insert(
                             2, interface_registry[plugin_key]["family"]
                         )
+                        plugin_entry.append(
+                            interface_registry[plugin_key]["relpath"]
+                        )
                 print(
                     tabulate(
                         table_data,
                         headers=[
-                            "GeoIPS Package", "Interface", "Family", "Plugin Name"
+                            "GeoIPS Package",
+                            "Interface",
+                            "Family",
+                            "Plugin Name",
+                            "Relative Path",
                         ],
-                        tablefmt="simple_grid",
+                        tablefmt="rounded_grid",
                     )
                 )
                 # print(", ".join(sorted(interface_registry.keys())) + "\n")
