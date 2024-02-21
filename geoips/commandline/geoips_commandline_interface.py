@@ -89,7 +89,22 @@ class GeoipsArgParser:
 
     @property
     def parser_list(self):
-        """The List Subparser Instance for the CLI."""
+        """Subparser for the 'List' Command.
+
+        'List' Capabilities
+        -------------------
+            - geoips list packages
+                - lists all available GeoIPS Packages
+            - geoips list interfaces
+                - lists all available GeoIPS Interfaces
+            - geoips list plugins
+                - list all available plugins from every interface of every package
+            - geoips list scripts
+            - geoips list <interface_name>
+                - Lists all plugins under a certain interface (ie. algorithms)
+            - geoips list <what_to_list> -p <package_name>
+                - Lists <what_to_list> out of GeoIPS Package <package_name>
+        """
         if not hasattr(self, "_parser_list"):
             self._parser_list = self.subparser.add_parser(
                 "list", help="list instructions"
@@ -107,6 +122,12 @@ class GeoipsArgParser:
                 default=False,
                 action="store_true",
                 help="List in a verbose fashion.",
+            )
+            self._parser_list.add_argument(
+                "--package",
+                "-p",
+                choices=self.plugin_packages,
+                help="The GeoIPS package to list from.",
             )
             return self._parser_list
         else:
