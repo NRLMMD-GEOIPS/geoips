@@ -41,7 +41,10 @@ jobs:
           ret=$(git -C $PWD/geoips_plugin_repo diff --name-only --diff-filter=AM \
               ${COMMIT_INTO} -- $PWD/geoips_plugin_repo/docs/source/releases/v*.rst)
           echo "Current release note: $current_release_note"
-          echo "Release note files modified this PR: $ret"
+          echo "Release note files modified this PR:"
+          for f in ${ret[@]}; do
+              echo "    $f"
+          done
           if [[ "${ret}" != *"$current_release_note"* ]]; then
               echo "No release note changes detected"
               echo "Please enter change logs in docs/source/releases"
