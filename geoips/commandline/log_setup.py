@@ -17,6 +17,8 @@ import sys
 
 
 class LogLevelAdder:
+    """Create a callable that can add a new logging level."""
+
     def __call__(self, levelName, levelNum, methodName=None):
         """
         Comprehensively adds a new logging level to the `logging` module.
@@ -51,26 +53,26 @@ class LogLevelAdder:
         if hasattr(logging, levelName):
             if getattr(logging, levelName) != levelNum:
                 raise AttributeError(
-                    f"{levelName} level already defined in logging module and its value "
-                    f"({getattr(logging, levelName)}) differs from the requested value "
-                    f"({levelNum})."
+                    f"{levelName} level already defined in logging module and its "
+                    f"value ({getattr(logging, levelName)}) differs from the requested "
+                    f"value ({levelNum})."
                 )
         else:
             logging.addLevelName(levelNum, levelName)
             setattr(logging, levelName, levelNum)
 
-        logToRoot = self.get_logToRoot(levelNum)
+        logToRoot = self._get_logToRoot(levelNum)
         if hasattr(logging, methodName):
             if getattr(logging, methodName) != logToRoot:
                 raise AttributeError(
-                    f"{methodName} method already defined in logging module and differs "
-                    f"from the requested method."
+                    f"{methodName} method already defined in logging module and "
+                    f"differs from the requested method."
                 )
         else:
             setattr(logging, methodName, logToRoot)
 
         loggerClass = logging.getLoggerClass()
-        logForLevel = self.get_logForLevel(levelNum)
+        logForLevel = self._get_logForLevel(levelNum)
         if hasattr(loggerClass, methodName):
             if getattr(loggerClass, methodName) != logForLevel:
                 raise AttributeError(
@@ -80,11 +82,11 @@ class LogLevelAdder:
         else:
             setattr(loggerClass, methodName, logForLevel)
 
-    def get_logForLevel(self, levelNum):
+    def _get_logForLevel(self, levelNum):
         if not hasattr(self, "_logForLevel_funcs"):
             self._logForLevel_funcs = {}
 
-        if not levelNum in self._logForLevel_funcs:
+        if levelNum not in self._logForLevel_funcs:
 
             def logForLevel(self, message, *args, **kwargs):
                 if self.isEnabledFor(levelNum):
@@ -93,11 +95,11 @@ class LogLevelAdder:
             self._logForLevel_funcs[levelNum] = logForLevel
         return self._logForLevel_funcs[levelNum]
 
-    def get_logToRoot(self, levelNum):
+    def _get_logToRoot(self, levelNum):
         if not hasattr(self, "_logToRoot_funcs"):
             self._logToRoot_funcs = {}
 
-        if not levelNum in self._logToRoot_funcs:
+        if levelNum not in self._logToRoot_funcs:
 
             def logToRoot(message, *args, **kwargs):
                 logging.log(levelNum, message, *args, **kwargs)
