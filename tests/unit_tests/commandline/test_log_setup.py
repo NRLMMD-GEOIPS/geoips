@@ -1,11 +1,16 @@
-"""Unit Test for Log With Emphasis Function using Pytest and CapLog."""
+"""Unit tests for geoips/commandline/log_setup.py.
+
+Tests the following functions:
+- log_with_emphasis
+- add_log_level (by importing geoips.logging)
+"""
 
 import pytest
 
 import os
 import random
 import string
-import logging
+from geoips import logging
 from glob import glob
 from geoips.commandline.log_setup import log_with_emphasis
 
@@ -38,9 +43,7 @@ def test_log_with_emphasis(message, caplog):
 
 def test_log_interactive_geoips(caplog):
     """Test log.interactive using logging from geoips."""
-    from geoips.__init__ import logging as gi_logging
-
-    log = gi_logging.getLogger(__name__)
+    log = logging.getLogger(__name__)
 
     log.interactive("FROM PYTEST")
     assert "FROM PYTEST" in caplog.text
