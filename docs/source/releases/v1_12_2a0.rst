@@ -1,0 +1,37 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.12.2a0 (2024-02-21)
+*****************************
+
+* Bug Fixes
+
+  * Modify algorithm_interpolator_colormapper to only provide input xarray
+
+Bug Fixes
+=========
+
+algorithm_interpolator_colormapper incorrectly interpolates data
+----------------------------------------------------------------
+
+This was found during the development for the GLM reader. Apparently, at line 1033 of
+single_source.py procflow, when trying to interpolate data under the
+algorithm_interpolator_colormapper family, we call 'interp_plugin' with the same
+input and output xarray. This makes no sense, and needs to be fixed. It wasn't changing
+the data in this format. To fix it, we leave input_xarray as 'alg_xarray', and set
+output_xarray to 'None'. This is handled properly in the interpolator, and will modify
+coordinate arrays to fit the shape of the interpolated data. I've checked config_based,
+and this doesn't occur for that procflow.
+
+::
+
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
