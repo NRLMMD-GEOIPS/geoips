@@ -540,3 +540,18 @@ All geoips_db plugins now accessed through class-based geoips_db interface.
 ::
 
   modified: geoips/plugins/modules/procflows/single_source.py
+
+Make JSON Plugin Registries Readable
+------------------------------------
+
+*From GEOIPS#429: 2024-02-02, Plugin Registries Should Be Readable*
+
+Currently, the JSON output of the plugin registries is a hodge-podge full of text. We
+should refactor the way in which these plugin registries are outputted, so that they are
+in a human readable, interpretable format. To do so, we need to add the argument
+``indent=4`` to the ``json.dump`` call in ``write_plugin_registries``.
+
+::
+
+    modified: geoips/create_plugin_registries.py
+

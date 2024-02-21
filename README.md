@@ -74,3 +74,9 @@ See [GeoIPS LICENSE](https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE) 
 more information.
 
 * https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE
+
+Documentation
+------------------------------
+The documentation can be found at:
+
+https://nrlmmd-geoips.github.io/geoips/ 
