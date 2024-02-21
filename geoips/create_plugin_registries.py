@@ -856,6 +856,7 @@ def main():
         "or 'registered_plugins.yaml' depending on which format is chosen. "
         "For additional information on GeoIPS plugin registries please refer to "
         "the GeoIPS documentation."
+    )
 
     argparser = ArgumentParser(
         prog="create_plugin_registries",
