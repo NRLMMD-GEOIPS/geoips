@@ -21,7 +21,7 @@ import numpy as np
 
 from scipy.ndimage import zoom
 
-from geoips.testing.context_manager import import_optional_dependences
+from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
@@ -34,7 +34,7 @@ LOG = logging.getLogger(__name__)
 
 # Installed Libraries
 
-with import_optional_dependences(__file__):
+with import_optional_dependencies(loglevel="info"):
     """Attempt to import a package and print to LOG.info if the import fails."""
     # If this reader is not installed on the system, don't fail alltogether, just skip
     # this import.  This reader will not work if the import fails and the package will

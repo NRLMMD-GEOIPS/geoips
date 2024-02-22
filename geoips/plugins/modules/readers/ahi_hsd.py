@@ -25,7 +25,7 @@ import xarray
 from scipy.ndimage import zoom
 
 from geoips.utils.memusg import print_mem_usage
-from geoips.testing.context_manager import import_optional_dependences
+from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
@@ -33,7 +33,7 @@ from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
 
 LOG = logging.getLogger(__name__)
 
-with import_optional_dependences(__file__):
+with import_optional_dependencies(loglevel="info"):
     """Attempt to import a package and print to LOG.info if the import fails."""
     import numexpr as ne
 

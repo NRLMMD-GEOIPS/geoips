@@ -28,9 +28,9 @@ from geoips.dev.product import (
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.filenames.duplicate_files import remove_duplicates
 from geoips.geoips_utils import replace_geoips_paths
-from geoips.testing.context_manager import import_optional_dependences
+from geoips.utils.context_managers import import_optional_dependencies
 
-with import_optional_dependences(__file__):
+with import_optional_dependencies(loglevel="info"):
     """Attempt to import a package and print to LOG.info if the import fails."""
     from geoips_db.utils.database_writes import (
         write_to_database,

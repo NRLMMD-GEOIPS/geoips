@@ -34,14 +34,14 @@ from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
 
 # GeoIPS Libraries
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.testing.context_manager import import_optional_dependences
+from geoips.utils.context_managers import import_optional_dependencies
 from .utils.geostationary_geolocation import (
     get_geolocation,
 )
 
 LOG = logging.getLogger(__name__)
 
-with import_optional_dependences(__file__):
+with import_optional_dependencies(loglevel="info"):
     """Attempt to import a package and print to LOG.info if the import fails."""
     import numexpr as ne
 

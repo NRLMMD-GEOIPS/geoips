@@ -21,13 +21,13 @@ from pyresample.kd_tree import get_neighbour_info  # , get_sample_from_neighbour
 
 from geoips.errors import CoverageError
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.testing.context_manager import import_optional_dependences
+from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
 
 interface = None
 
-with import_optional_dependences(__file__):
+with import_optional_dependencies(loglevel="info"):
     """Attempt to import a package and print to LOG.info if the import fails."""
     import numexpr as ne
 

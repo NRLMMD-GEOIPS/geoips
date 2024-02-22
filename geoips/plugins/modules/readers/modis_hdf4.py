@@ -38,11 +38,11 @@ import logging
 import numpy as np
 import xarray as xr
 
-from geoips.testing.context_manager import import_optional_dependences
+from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
 
-with import_optional_dependences(__file__):
+with import_optional_dependencies(loglevel="info"):
     """Attempt to import a package and print to LOG.info if the import fails."""
     from pyhdf.HDF import ishdf
     from pyhdf.SD import SD, SDC

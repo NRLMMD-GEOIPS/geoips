@@ -50,7 +50,7 @@ import numpy as np
 import xarray as xr
 import calendar
 
-from geoips.testing.context_manager import import_optional_dependences
+from geoips.utils.context_managers import import_optional_dependencies
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
@@ -58,7 +58,7 @@ from geoips.testing.context_manager import import_optional_dependences
 
 LOG = logging.getLogger(__name__)
 
-with import_optional_dependences(__file__):
+with import_optional_dependencies(loglevel="info"):
     """Attempt to import a package and print to LOG.info if the import fails."""
     import netCDF4 as ncdf
 
