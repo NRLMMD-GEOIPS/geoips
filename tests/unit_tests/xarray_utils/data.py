@@ -12,6 +12,11 @@ LOG = logging.getLogger(__name__)
 
 
 class XarrayDataUtils:
+    """Class for testing functions out of xarray_utils/data.py.
+
+    Currently tests get_minmax_latlon_from_area_def and point_in_area_def from the
+    aforementioned file.
+    """
 
     def __init__(self):
         """Initialize the XarrayDataUtils Class.
@@ -40,8 +45,8 @@ class XarrayDataUtils:
                 if plg_family == "area_definition_static":
                     self._sector_abspaths.append(
                         str(
-                            resources.files(self.sector_plugins[plg_name]["package"]) /
-                            self.sector_plugins[plg_name]["relpath"]
+                            resources.files(self.sector_plugins[plg_name]["package"])
+                            / self.sector_plugins[plg_name]["relpath"]
                         )
                     )
             return sorted(self._sector_abspaths)
@@ -60,7 +65,9 @@ class XarrayDataUtils:
         """Generate and Return an id for the provided PyResample AreaDefinition()."""
         return f"{area_def.area_id.title()}"
 
+
 xdu = XarrayDataUtils()
+
 
 @pytest.mark.parametrize("area_def", xdu.area_defs, ids=xdu.generate_id)
 def test_get_minmax_latlon_from_area_def(area_def):
@@ -83,6 +90,7 @@ def test_get_minmax_latlon_from_area_def(area_def):
     else:
         assert -180 <= min_lon <= max_lon < 360
         assert -90 <= min_lat <= max_lat <= 90
+
 
 @pytest.mark.parametrize("area_def", xdu.area_defs, ids=xdu.generate_id)
 def test_point_in_area_def(area_def):
