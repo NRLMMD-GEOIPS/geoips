@@ -28,7 +28,7 @@ Refactor optional imports in readers to use context manager function
 Some GeoIPS readers include optional dependency statements that are required to read
 certain file formats. While keeping these imports as optional is ok, we should clean up
 the manner in which this is implemented. To do so, we've created a separate
-``geoips.testing.context_manager.py`` script which can handle optional imports scattered
+``geoips.utils.context_managers.py`` script which can handle optional imports scattered
 throughout the GeoIPS codebase. This is essentially replacing our old manner of optional
 dependencies with a new method that keeps things clean.
 
