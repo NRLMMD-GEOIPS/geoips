@@ -46,7 +46,10 @@ necessary, we fix the problem of missing data for polar imagery.
 
     added: geoips/plugins/yaml/gridline_annotators/north_pole.yaml
     added: tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.imagery_annotated.sh
+    added: tests/unit_tests/xarray_utils/data.py
+    modified: geoips/plugins/yaml/sectors/static/abu_dhabi.yaml
     modified: geoips/plugins/yaml/sectors/static/north_pole.yaml
+    modified: geoips/plugins/yaml/sectors/static/south_pole.yaml
     modified: geoips/plugins/modules/procflows/single_source.py
     modified: geoips/xarray_utils/data.py
 

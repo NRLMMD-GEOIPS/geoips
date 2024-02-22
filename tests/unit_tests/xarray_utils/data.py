@@ -52,7 +52,7 @@ class XarrayDataUtils:
     def area_defs(self):
         """Available (static) PyResample AreaDefinition()'s for testing."""
         if not hasattr(self, "_area_defs"):
-            return [load_area(abspath, "spec") for abspath in self._sector_abspaths]
+            return [load_area(abspath, "spec") for abspath in self.sector_abspaths]
         else:
             return self._area_defs
 
@@ -69,7 +69,6 @@ def test_get_minmax_latlon_from_area_def(area_def):
     This test will only be applied to static sectors, as dynamic sectors do not have
     enough information in the yamls to create an area definition initially.
     """
-    # area_def = load_area(abspath, "spec")
     min_lon, min_lat, max_lon, max_lat = get_minmax_latlon_from_area_def(area_def, 0, 0)
     pole = False
     if max_lat == 90:
