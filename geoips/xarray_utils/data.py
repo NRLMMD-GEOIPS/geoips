@@ -16,6 +16,9 @@
 import logging
 
 # Third Party Installed Libraries
+import numpy
+from pyresample import utils
+import xarray
 
 LOG = logging.getLogger(__name__)
 
@@ -272,55 +275,17 @@ def sector_xarray_spatial(
             )
         return None
 
-    import xarray
-
     sector_xarray = xarray.Dataset()
     sector_xarray.attrs = full_xarray.attrs.copy()
-
-    import numpy
-    from pyresample import utils
 
     if verbose:
         LOG.info("    Padding longitudes")
     if verbose:
         LOG.info("    Padding latitudes")
-    extent_lonlat = list(
-        area_def.area_extent_ll
-    )  # [min_lon, min_lat, max_lon, max_lat]
-    min_lon, max_lon = -180, 180
 
-    # Check if the area_def includes either North or South Pole. If it does, we have to
-    # manually adjust the lat_lon extent to reflect the correct extent for both lat/lon.
-    # Otherwise go about business as usual.
-    try:
-        LOG.info("Checking if area_def includes the North Pole.")
-        area_def.get_array_indices_from_lonlat(0, 90)
-        LOG.info("North Pole exists within area_def.")
-        min_lat = extent_lonlat[1] - lat_pad
-        max_lat = 90
-    except ValueError:
-        LOG.info("North Pole not in area_def, checking South Pole.")
-        try:
-            area_def.get_array_indices_from_lonlat(0, -90)
-            LOG.info("South Pole exists within area_def.")
-            min_lat = -90
-            max_lat = extent_lonlat[3] + lat_pad
-        except ValueError:
-            LOG.info(
-                "Neither North or South Pole are in area def, using custom bounds.",
-            )
-            # convert extent longitude to be within 0-360 range
-            min_lon = utils.wrap_longitudes(extent_lonlat[0]) - lon_pad
-            max_lon = utils.wrap_longitudes(extent_lonlat[2]) + lon_pad
-            if min_lon > max_lon and max_lon < 0:
-                max_lon = max_lon + 360
-            min_lat = extent_lonlat[1] - lat_pad
-            max_lat = extent_lonlat[3] + lat_pad
-            # Make sure we don't extend latitudes beyond -90 / +90
-            if min_lat < -90.0:
-                min_lat = -90.0
-            if max_lat > 90.0:
-                max_lat = 90.0
+    min_lon, min_lat, max_lon, max_lat = get_minmax_latlon_from_area_def(
+        area_def, lon_pad, lat_pad
+    )
 
     if verbose:
         LOG.info("    Wrapping longitudes")
@@ -440,6 +405,98 @@ def sector_xarray_spatial(
     # extent_lonlat[0], extent_lonlat[2], extent_lonlat[1], extent_lonlat[3],
     # final_good_points)
     return sector_xarray
+
+
+def get_minmax_latlon_from_area_def(area_def, lon_pad, lat_pad):
+    """Retrieve the Min/Max Lat/Lon from the provided area_def.
+
+    Given a PyResample AreaDefinition Object, retrieve the minimum and maximum
+    latitude and longitude values that should be used to sector the xarray efficiently.
+
+    If the provided area def encapsulates either of the poles, set the min/max latitude
+    value to -90/90 degrees accordingly, and match the other latitude value to what was
+    provided in the area_def bounds.
+
+    For longitudes, if the sector doesn't contain a pole, wrap them to ensure they exist
+    in the 0-360 range, otherwise set to -180, 180.
+
+    Parameters
+    ----------
+    area_def: PyResample AreaDefinition()
+        - The area_definition that defines the bounds of the data we will be sectoring.
+    lon_pad: float
+        - The amount (in degrees) of padding to be added to the longitude bounds.
+    lat_pad: float
+        - The amount (in degrees) of padding to be added to the latitude bounds.
+
+    Returns
+    -------
+    min_lon, min_lat, max_lon, max_lat: float
+        - These degree (float) values will be returned in the order listed above.
+    """
+    extent_lonlat = list(
+        area_def.area_extent_ll
+    )  # [min_lon, min_lat, max_lon, max_lat]
+    min_lon, max_lon = -180, 180
+
+    # Check if the area_def includes either North or South Pole. If it does, we have to
+    # manually adjust the lat_lon extent to reflect the correct extent for both lat/lon.
+    # Otherwise go about business as usual.
+    LOG.info("Checking if area_def includes the North Pole.")
+    if point_in_area_def(area_def, 0, 90):
+        LOG.info("North Pole exists within area_def.")
+        min_lat = extent_lonlat[1] - lat_pad
+        max_lat = 90
+        return min_lon, min_lat, max_lon, max_lat
+
+    LOG.info("North Pole not in area_def, checking South Pole.")
+    if point_in_area_def(area_def, 0, -90):
+        LOG.info("South Pole exists within area_def.")
+        min_lat = -90
+        max_lat = extent_lonlat[3] + lat_pad
+        return min_lon, min_lat, max_lon, max_lat
+
+    LOG.info(
+        "Neither North or South Pole are in area def, using custom bounds.",
+    )
+    # Area Definition doesn't include a pole, get the natural bounds from the area_def.
+    # convert extent longitude to be within [-180, 180] range
+    min_lon = utils.wrap_longitudes(extent_lonlat[0]) - lon_pad
+    max_lon = utils.wrap_longitudes(extent_lonlat[2]) + lon_pad
+    if min_lon > max_lon and max_lon < 0:
+        max_lon = max_lon + 360
+    min_lat = extent_lonlat[1] - lat_pad
+    max_lat = extent_lonlat[3] + lat_pad
+    # Make sure we don't extend latitudes beyond -90 / +90
+    if min_lat < -90.0:
+        min_lat = -90.0
+    if max_lat > 90.0:
+        max_lat = 90.0
+    return min_lon, min_lat, max_lon, max_lat
+
+
+def point_in_area_def(area_def, lon, lat):
+    """Determine whether or not the provided point (in degrees) is within area_def.
+
+    Parameters
+    ----------
+    area_def: PyResample AreaDefinition()
+        - The area_definition that defines the bounds of the data we will be sectoring.
+    lon: float
+        - The longitude value in degrees.
+    lat: float
+        - The latitude value in degrees.
+
+    Returns
+    -------
+    bool:
+        - Whether or not the point is contained in the area definition.
+    """
+    try:
+        area_def.get_array_indices_from_lonlat(lon, lat)
+        return True
+    except ValueError:
+        return False
 
 
 def sector_xarray_dataset(
