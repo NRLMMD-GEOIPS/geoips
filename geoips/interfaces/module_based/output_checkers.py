@@ -754,7 +754,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                 remove_temp_files += [output_product_for_comparison]
 
             log_with_emphasis(
-                LOG.info, ["COMPARE {basename(output_product_for_comparison)}"]
+                LOG.info, ["*** COMPARE {basename(output_product_for_comparison)}"]
             )
             found_one = False
             for compare_product in compare_products:
@@ -825,7 +825,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         int
             Binary code: 0 if all comparisons were completed successfully.
         """
-        log_with_emphasis(LOG.info, [f"COMPARISONS OF KNOWN OUTPUTS IN {compare_path}"])
+        log_with_emphasis(LOG.info, [f"*** COMPARISONS OF KNOWN OUTPUTS IN {compare_path}"])
         # We gunzip comparison files to a temporary location, so keep track of
         # all the temporary files so we can remove them at the end.
         remove_temp_files = []
@@ -854,7 +854,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         remove_temp_files += curr_remove_temp_files
         log_with_emphasis(
             LOG.info,
-            [f"DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN {compare_path}"],
+            [f"*** DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN {compare_path}"],
         )
 
         # Identify all missing products based on the list of output products
