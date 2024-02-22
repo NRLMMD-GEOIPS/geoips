@@ -15,7 +15,7 @@ Version 1.12.2a0 (2024-02-21)
 
 * Bug Fixes
 
-  * Fix polar data not showin gup in imagery
+  * Fix polar data not showing up in imagery
 
 Bug Fixes
 =========
