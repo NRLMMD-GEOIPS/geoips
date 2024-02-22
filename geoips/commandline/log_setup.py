@@ -16,6 +16,24 @@ import logging
 import sys
 
 
+def log_with_emphasis(LOG, messages):
+    """Log the given message with emphasis provided a certain log type.
+
+    Parameters
+    ----------
+    LOG: logging function
+        Can be of any type [debug, info, interactive...]
+    message: str
+        The message to be logged with emphasis
+    """
+    max_message_len = min(80, max([len(message) for message in messages]))
+    LOG("    " + "*" * (max_message_len))
+    for message in messages:
+        LOG("    " + message)
+    LOG("    " + "*" * (max_message_len))
+    LOG("\n")
+
+
 class LogLevelAdder:
     """Create a callable that can add a new logging level.
 

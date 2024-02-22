@@ -121,6 +121,8 @@ def outputs_match(plugin, output_product, compare_product):
     bool
         Return True if products match, False if they differ
     """
+    from geoips.commandline.log_setup import log_with_emphasis
+
     out_difftxt = plugin.get_out_diff_fname(compare_product, output_product)
     diffout = []
     retval = True
@@ -130,6 +132,15 @@ def outputs_match(plugin, output_product, compare_product):
     compare_xobj = xarray.open_dataset(compare_product)
 
     if out_xobj.attrs != compare_xobj.attrs:
+        message = "BAD GeoIPS NetCDF file attributes do NOT match exactly"
+        log_with_emphasis(
+            LOG.interactive,
+            [
+                message,
+                f"output_product: {output_product}",
+                f"compare_product: {compare_product}",
+            ],
+        )
         LOG.interactive("    ****************************************************")
         LOG.interactive(
             "    *** BAD GeoIPS NetCDF file attributes do NOT match exactly ***"
@@ -182,6 +193,15 @@ def outputs_match(plugin, output_product, compare_product):
     try:
         xarray.testing.assert_allclose(compare_xobj, out_xobj)
     except AssertionError as resp:
+        message = "BAD GeoIPS NetCDF files do not match within tolerance"
+        log_with_emphasis(
+            LOG.interactive,
+            [
+                message,
+                f"output_product: {output_product}",
+                f"compare_product: {compare_product}",
+            ],
+        )
         LOG.interactive("    ****************************************************")
         LOG.interactive(
             "    *** BAD GeoIPS NetCDF files do not match within tolerance *****"
@@ -209,14 +229,13 @@ def outputs_match(plugin, output_product, compare_product):
             if meandiff != 0:
                 LOG.interactive(f"    *** meandiff {varname}: {meandiff} ***")
                 diffout += [f"meandiff {varname}: {meandiff}\n"]
-        LOG.info("    ****************************************************************")
+        LOG.info("    " + "*" * 64)
         retval = False
 
     try:
         xarray.testing.assert_identical(compare_xobj, out_xobj)
     except AssertionError as resp:
-        LOG.info("    ****************************************************************")
-        LOG.info("    *** INFORMATIONAL ONLY assert_identical differences *****")
+        log_with_emphasis(LOG.info, ["INFORMATIONAL ONLY assert_identical differences"])
         for line in str(resp).split("\n"):
             LOG.info(f"    *** {line} ***")
         for varname in compare_xobj.variables:
@@ -229,7 +248,7 @@ def outputs_match(plugin, output_product, compare_product):
                 LOG.info(f"    *** maxdiff {varname}: {maxdiff} ***")
             if meandiff != 0:
                 LOG.info(f"    *** meandiff {varname}: {meandiff} ***")
-        LOG.info("    ****************************************************************")
+        LOG.info("    " + "*" * 64)
 
     if retval is False:
         with open(out_difftxt, "w") as fobj:
