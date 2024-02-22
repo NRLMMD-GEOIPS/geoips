@@ -214,7 +214,7 @@ class CLI(GeoipsArgParser):
         else:
             # List plugins within all / the provided interface name within [a] given
             # GeoIPS package[s]
-            self.list_interface(to_be_listed, args.package, args.verbose)
+            self.list_plugins(to_be_listed, args.package, args.verbose)
 
     def list_packages(self, verbose=False):
         """List all of the available GeoIPS Packages.
@@ -317,7 +317,7 @@ class CLI(GeoipsArgParser):
                 )
             )
 
-    def list_interface(self, interface_name, package_name="all", verbose=False):
+    def list_plugins(self, interface_name, package_name="all", verbose=False):
         """List the available interface[s] and their corresponding plugin names.
 
         Parameters
@@ -345,34 +345,66 @@ class CLI(GeoipsArgParser):
                 plugin_type = "module_based"
             else:
                 plugin_type = "yaml_based"
-            interface_registry = curr_interface.plugin_registry.registered_plugins[
-                plugin_type
-            ][curr_interface.name]
+            if package_name == "all":
+                interface_registry = curr_interface.plugin_registry.registered_plugins[
+                    plugin_type
+                ][curr_interface.name]
+            else:
+                interface_registry = json.load(
+                    open(resources.files(package_name) / "registered_plugins.json", "r")
+                )
+                if curr_interface.name in interface_registry[plugin_type]:
+                    interface_registry = interface_registry[plugin_type][
+                        curr_interface.name
+                    ]
+                else:
+                    continue
             print("-" * len(curr_interface.name))
             print(curr_interface.name)
             print("-" * len(curr_interface.name))
             if not verbose:
                 # print(f"{sorted(interface_registry.keys())}\n")
-                table_data = [
-                    [curr_interface.name, plugin_key] \
-                    for plugin_key in sorted(interface_registry.keys())
-                ]
-                for plugin_entry in table_data:
-                    plugin_key = plugin_entry[1]
+                # table_data = [
+                #     [curr_interface.name, plugin_key] \
+                #     for plugin_key in sorted(interface_registry.keys())
+                # ]
+                table_data = []
+                for plugin_key in sorted(interface_registry.keys()):
+                    # plugin_entry = []
                     if curr_interface.name == "products":
-                        plugin_entry.insert(0, "Not Implemented")
-                        plugin_entry.insert(2, "list")
-                        plugin_entry.append("Not Implemented")
+                        plugin_entry = [
+                            "Not Implemented", # Package
+                            curr_interface.name, # Interface
+                            "list", # Family
+                            plugin_key, # Plugin Name
+                            "Not Implemented", # Relpath
+                        ]
                     else:
-                        plugin_entry.insert(
-                            0, interface_registry[plugin_key]["package"]
-                        )
-                        plugin_entry.insert(
-                            2, interface_registry[plugin_key]["family"]
-                        )
-                        plugin_entry.append(
-                            interface_registry[plugin_key]["relpath"]
-                        )
+                        plugin_entry = [
+                            interface_registry[plugin_key]["package"],
+                            curr_interface.name,
+                            interface_registry[plugin_key]["family"],
+                            plugin_key,
+                            interface_registry[plugin_key]["relpath"],
+                        ]
+                    table_data.append(plugin_entry)
+
+                # for plugin_entry in table_data:
+                #     plugin_key = plugin_entry[1]
+                #     if curr_interface.name == "products":
+                #         plugin_entry.insert(0, "Not Implemented")
+                #         plugin_entry.insert(2, "list")
+                #         plugin_entry.append("Not Implemented")
+                #     else:
+                #         plugin_entry.insert(
+                #             0, interface_registry[plugin_key]["package"]
+                #         )
+                #         plugin_entry.insert(
+                #             2, interface_registry[plugin_key]["family"]
+                #         )
+                #         plugin_entry.append(
+                #             interface_registry[plugin_key]["relpath"]
+                #         )
                 print(
                     tabulate(
                         table_data,
