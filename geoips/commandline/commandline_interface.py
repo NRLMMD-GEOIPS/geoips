@@ -331,7 +331,7 @@ class CLI(GeoipsArgParser):
             - Flag which denotes whether or not we should list verbosely (add. info).
         """
         if interface_name != "plugins":
-            # if the provided name != interfaces, this means we have been given a single
+            # if the provided name != "plugins", this means we have been given a single
             # interface. Grab that interface and move on.
             interfaces_to_list = [getattr(interfaces, interface_name)]
         else:
@@ -341,83 +341,18 @@ class CLI(GeoipsArgParser):
             ]
 
         for curr_interface in interfaces_to_list:
-            if curr_interface.name in interfaces.module_based_interfaces:
-                plugin_type = "module_based"
-            else:
-                plugin_type = "yaml_based"
-            if package_name == "all":
-                interface_registry = curr_interface.plugin_registry.registered_plugins[
-                    plugin_type
-                ][curr_interface.name]
-            else:
-                interface_registry = json.load(
-                    open(resources.files(package_name) / "registered_plugins.json", "r")
-                )
-                if curr_interface.name in interface_registry[plugin_type]:
-                    interface_registry = interface_registry[plugin_type][
-                        curr_interface.name
-                    ]
-                else:
-                    continue
+            interface_registry, plugin_type = self._get_registry_by_interface_and_package( # noqa
+                curr_interface, package_name
+            )
+            # Interface Registry can be None if we are looking through a specific
+            # package whose registry doesn't contain that certain interface.
+            if interface_registry is None:
+                continue
             print("-" * len(curr_interface.name))
             print(curr_interface.name)
             print("-" * len(curr_interface.name))
             if not verbose:
-                # print(f"{sorted(interface_registry.keys())}\n")
-                # table_data = [
-                #     [curr_interface.name, plugin_key] \
-                #     for plugin_key in sorted(interface_registry.keys())
-                # ]
-                table_data = []
-                for plugin_key in sorted(interface_registry.keys()):
-                    # plugin_entry = []
-                    if curr_interface.name == "products":
-                        plugin_entry = [
-                            "Not Implemented", # Package
-                            curr_interface.name, # Interface
-                            "list", # Family
-                            plugin_key, # Plugin Name
-                            "Not Implemented", # Relpath
-                        ]
-                    else:
-                        plugin_entry = [
-                            interface_registry[plugin_key]["package"],
-                            curr_interface.name,
-                            interface_registry[plugin_key]["family"],
-                            plugin_key,
-                            interface_registry[plugin_key]["relpath"],
-                        ]
-                    table_data.append(plugin_entry)
-
-                # for plugin_entry in table_data:
-                #     plugin_key = plugin_entry[1]
-                #     if curr_interface.name == "products":
-                #         plugin_entry.insert(0, "Not Implemented")
-                #         plugin_entry.insert(2, "list")
-                #         plugin_entry.append("Not Implemented")
-                #     else:
-                #         plugin_entry.insert(
-                #             0, interface_registry[plugin_key]["package"]
-                #         )
-                #         plugin_entry.insert(
-                #             2, interface_registry[plugin_key]["family"]
-                #         )
-                #         plugin_entry.append(
-                #             interface_registry[plugin_key]["relpath"]
-                #         )
-                print(
-                    tabulate(
-                        table_data,
-                        headers=[
-                            "GeoIPS Package",
-                            "Interface",
-                            "Family",
-                            "Plugin Name",
-                            "Relative Path",
-                        ],
-                        tablefmt="rounded_grid",
-                    )
-                )
+                self._print_plugins_short_format(curr_interface, interface_registry)
                 # print(", ".join(sorted(interface_registry.keys())) + "\n")
             else:
                 self.list_interface_verbosely(
@@ -459,6 +394,99 @@ class CLI(GeoipsArgParser):
                     "subplugin_names": sorted(interface_registry[plugin_name].keys()),
                 }
             print(f"{plugin_name}: {plugin_dict}")
+
+    def _get_registry_by_interface_and_package(self, curr_interface, package_name):
+        """Retrieve the correct plugin registry given interface and package name.
+
+        Given a GeoIPS Interface and a package name, load in the correct plugin
+        registry. This could be the global plugin registry which each interface has
+        access to, or it could be the correct interface entry of a certain plugin
+        package's "registered_plugins.json", if we are just searching through a
+        single package (which occurs when -p <package_name> is given).
+
+        Parameters
+        ----------
+        curr_interface: geoips.interfaces.<interface_type>
+            - The interface we will be parsing and displaying.
+        package_name: str
+            - The name of the package to retrive the appropriate interfaces from:
+              If name is "all", just use the plugin registry that's on all interfaces.
+
+        Returns
+        -------
+        interface_registry: dict
+            - The plugin registry associated with the given interface. If the provided
+              interface doesn't exist in a certain package's plugin registry, then None
+              is returned instead.
+        interface_type: str
+            - The type of interface we are dealing with:
+              ("module_based", "yaml_based", "text_based")
+        """
+        if curr_interface.name in interfaces.module_based_interfaces:
+            plugin_type = "module_based"
+        else:
+            plugin_type = "yaml_based"
+        if package_name == "all":
+            interface_registry = curr_interface.plugin_registry.registered_plugins[
+                plugin_type
+            ][curr_interface.name]
+        else:
+            interface_registry = json.load(
+                open(resources.files(package_name) / "registered_plugins.json", "r")
+            )
+            if curr_interface.name in interface_registry[plugin_type]:
+                interface_registry = interface_registry[plugin_type][
+                    curr_interface.name
+                ]
+            else:
+                return None, plugin_type
+        return interface_registry, plugin_type
+
+    def _print_plugins_short_format(self, curr_interface, interface_registry):
+        """Print the plugins under a certain interface in alongside minimal info.
+
+        "Short Format" includes these pieces of information:
+            [GeoIPS Package, Interface, Plugin Family, Plugin Name, Relpath]
+
+        Parameters
+        ----------
+        curr_interface: geoips.interfaces.<interface_type>
+            - The interface we will be parsing and displaying.
+        interface_registry: dict
+            - The plugin registry associated with the given interface.
+        """
+        table_data = []
+        for plugin_key in sorted(interface_registry.keys()):
+            if curr_interface.name == "products":
+                plugin_entry = [
+                    "Not Implemented", # Package
+                    curr_interface.name, # Interface
+                    "list", # Family
+                    plugin_key, # Plugin Name
+                    "Not Implemented", # Relpath
+                ]
+            else:
+                plugin_entry = [
+                    interface_registry[plugin_key]["package"],
+                    curr_interface.name,
+                    interface_registry[plugin_key]["family"],
+                    plugin_key,
+                    interface_registry[plugin_key]["relpath"],
+                ]
+            table_data.append(plugin_entry)
+        print(
+            tabulate(
+                table_data,
+                headers=[
+                    "GeoIPS Package",
+                    "Interface",
+                    "Family",
+                    "Plugin Name",
+                    "Relative Path",
+                ],
+                tablefmt="rounded_grid",
+            )
+        )
 
     def execute_command(self):
         """Execute the given command."""
