@@ -39,6 +39,9 @@ class GeoipsArgParser:
         # Parser for the run commands. Currently we implement:
         # `geoips run <pkg_name> <script_name.sh>`
         self._parser_run = self.parser_run
+        # Parser for the get commands. Not implemented at the time of writing this:
+        # 2024-02-23
+        self._parser_get = self.parser_get
 
     @property
     def plugin_package_paths(self):
@@ -120,13 +123,13 @@ class GeoipsArgParser:
                 choices=self.available_list_options,
                 help="GeoIPS lower level plugins/interfaces/scripts to list off."
             )
-            self._parser_list.add_argument(
-                "--verbose",
-                "-v",
-                default=False,
-                action="store_true",
-                help="List in a verbose fashion.",
-            )
+            # self._parser_list.add_argument(
+            #     "--verbose",
+            #     "-v",
+            #     default=False,
+            #     action="store_true",
+            #     help="List in a verbose fashion.",
+            # )
             self._parser_list.add_argument(
                 "--package",
                 "-p",
@@ -162,6 +165,30 @@ class GeoipsArgParser:
             return self._parser_run
         else:
             return self._parser_run
+
+    @property
+    def parser_get(self):
+        """The Get Subparser Instance for the CLI."""
+        if not hasattr(self, "_parser_get"):
+            self._parser_run = self.subparser.add_parser(
+                "get", help="get instructions"
+            )
+            self._parser_get.add_argument(
+                "interface_name",
+                type=str.lower,
+                default="algorithms",
+                choices=interfaces.__all__,
+                help="GeoIPS Interface to select a plugin from."
+            )
+            self._parser_get.add_argument(
+                "plugin_name",
+                type=str,
+                default="algorithms",
+                help="GeoIPS Plugin to select from the provided interface."
+            )
+            return self._parser_get
+        else:
+            return self._parser_get
 
 
 class CLI(GeoipsArgParser):
@@ -204,19 +231,19 @@ class CLI(GeoipsArgParser):
         to_be_listed = args.list_options
         if to_be_listed == "packages":
             # List the availabe GeoIPS packages and the paths to each package
-            self.list_packages(args.verbose)
+            self.list_packages() # args.verbose)
         elif to_be_listed == "scripts":
             # If the first command is a package name, this will be used to list scripts
-            self.list_scripts(args.package, args.verbose)
+            self.list_scripts(args.package) # , args.verbose)
         elif to_be_listed == "interfaces":
             # List the Available Interfaces within [a] given GeoIPS Package[s]
-            self.list_interfaces(args.package, args.verbose)
+            self.list_interfaces(args.package) # , args.verbose)
         else:
             # List plugins within all / the provided interface name within [a] given
             # GeoIPS package[s]
-            self.list_plugins(to_be_listed, args.package, args.verbose)
+            self.list_plugins(to_be_listed, args.package) # , args.verbose)
 
-    def list_packages(self, verbose=False):
+    def list_packages(self): # , verbose=False):
         """List all of the available GeoIPS Packages.
 
         Parameters
@@ -242,7 +269,7 @@ class CLI(GeoipsArgParser):
         )
         # print(f"{script_names}\n")
 
-    def list_scripts(self, package_name="all", verbose=False):
+    def list_scripts(self, package_name="all"): #, verbose=False):
         """List all of the available scripts held under <package_name>.
 
         Parameters
@@ -279,7 +306,7 @@ class CLI(GeoipsArgParser):
             )
         # print(f"{script_names}\n")
 
-    def list_interfaces(self, package_name="all", verbose=False):
+    def list_interfaces(self, package_name="all"): #, verbose=False):
         """List the available interface[s] within [a] GeoIPS Package[s]".
 
         Parameters
@@ -317,7 +344,7 @@ class CLI(GeoipsArgParser):
                 )
             )
 
-    def list_plugins(self, interface_name, package_name="all", verbose=False):
+    def list_plugins(self, interface_name, package_name="all"): #, verbose=False):
         """List the available interface[s] and their corresponding plugin names.
 
         Parameters
@@ -351,49 +378,91 @@ class CLI(GeoipsArgParser):
             print("-" * len(curr_interface.name))
             print(curr_interface.name)
             print("-" * len(curr_interface.name))
-            if not verbose:
-                self._print_plugins_short_format(curr_interface, interface_registry)
+            # if not verbose:
+            self._print_plugins_short_format(curr_interface, interface_registry)
                 # print(", ".join(sorted(interface_registry.keys())) + "\n")
-            else:
-                self.list_interface_verbosely(
-                    curr_interface, interface_registry, plugin_type
-                )
+            # else:
+            #     self.list_interface_verbosely(
+            #         curr_interface, interface_registry, plugin_type
+            #     )
 
-    def list_interface_verbosely(self, curr_interface, interface_registry, p_type):
-        """List the Provided Interface Verbosely, based on the type of interface.
+    # Deprecated as of right now. Might be implemented at a later point.
+    # def list_interface_verbosely(self, curr_interface, interface_registry, p_type):
+    #     """List the Provided Interface Verbosely, based on the type of interface.
 
-        Parameters
-        ----------
-        curr_interface: GeoIPS BaseYamlInterface / BaseModuleInterface
-            - The current interface to list verbosely.
-        interface_registry: dict
-            - The plugin registry dictionary associated with the current interface.
-        p_type: str
-            - The Plugin Type of the Interface ("module_based" or "yaml_based")
-        """
-        for plugin_name in sorted(interface_registry.keys()):
-            # Products have a different implementation currently, so we need to handle
-            # those plugins differently when listing them off.
-            if curr_interface.name != "products":
-                plugin_dict = {
-                    "interface": curr_interface.name,
-                    "family": interface_registry[plugin_name]["family"],
-                    "docstring": interface_registry[plugin_name]["docstring"],
-                }
-                if p_type == "module_based":
-                    plugin_dict["signature"] = interface_registry[plugin_name][
-                        "signature"
-                    ]
-            else:
-                # This is how products are verbosely handled. We will need to modify
-                # this portion when PR "423 Test All Product Families" is merged in,
-                # as that branch stores product plugins in a format of
-                # <source_name>.<subplg_name>
-                plugin_dict = {
-                    "source_name": plugin_name,
-                    "subplugin_names": sorted(interface_registry[plugin_name].keys()),
-                }
-            print(f"{plugin_name}: {plugin_dict}")
+    #     Parameters
+    #     ----------
+    #     curr_interface: GeoIPS BaseYamlInterface / BaseModuleInterface
+    #         - The current interface to list verbosely.
+    #     interface_registry: dict
+    #         - The plugin registry dictionary associated with the current interface.
+    #     p_type: str
+    #         - The Plugin Type of the Interface:
+    #           ("module_based", "yaml_based", "text_based")
+    #     """
+    #     verbose_data = []
+    #     for plugin_name in sorted(interface_registry.keys()):
+    #         # Products have a different implementation currently, so we need to handle
+    #         # those plugins differently when listing them off.
+    #         if curr_interface.name != "products":
+    #             plugin_entry = [
+    #                 interface_registry[plugin_name]["package"], # package
+    #                 curr_interface.name, # interface
+    #                 interface_registry[plugin_name]["family"], # family
+    #                 plugin_name, # plugin_name
+    #                 interface_registry[plugin_name]["docstring"], # docstring
+    #                 interface_registry[plugin_name]["relpath"], # relpath
+    #                 "Not Applicable", # Sub-Plugin Names
+    #             ]
+    #             # plugin_dict = {
+    #             #     "interface": curr_interface.name,
+    #             #     "family": interface_registry[plugin_name]["family"],
+    #             #     "docstring": interface_registry[plugin_name]["docstring"],
+    #             # }
+    #             if p_type == "module_based":
+    #                 plugin_entry.append(
+    #                     interface_registry[plugin_name]["signature"]
+    #                 ) # Signature
+    #                 # plugin_dict["signature"] = interface_registry[plugin_name][
+    #                 #     "signature"
+    #                 # ]
+    #         else:
+    #             # This is how products are verbosely handled. We will need to modify
+    #             # this portion when PR "423 Test All Product Families" is merged in,
+    #             # as that branch stores product plugins in a format of
+    #             # <source_name>.<subplg_name>
+    #             # plugin_dict = {
+    #             #     "source_name": plugin_name,
+    #             #     "subplugin_names": sorted(interface_registry[plugin_name].keys()),
+    #             # }
+    #             plugin_entry = [
+    #                 "Not Implemented", # package
+    #                 curr_interface.name, # interface
+    #                 "list", # family
+    #                 plugin_name, # plugin_name
+    #                 "Not Implemented", # docstring
+    #                 "Not Implemented", # relpath
+    #                 sorted(interface_registry[plugin_name].keys()), # Sub-Plugin Names
+    #                 "Not Applicable", # Signature
+    #             ]
+    #         verbose_data.append(plugin_entry)
+    #         # print(f"{plugin_name}: {plugin_dict}")
+    #     print(
+    #         tabulate(
+    #             verbose_data,
+    #             headers=[
+    #                 "GeoIPS Package",
+    #                 "Interface",
+    #                 "Family",
+    #                 "Plugin Name",
+    #                 "Docstring",
+    #                 "Relative Path",
+    #                 "Sub-Plugin Names",
+    #                 "Signature,"
+    #             ],
+    #             tablefmt="rounded_grid",
+    #         )
+    #     )
 
     def _get_registry_by_interface_and_package(self, curr_interface, package_name):
         """Retrieve the correct plugin registry given interface and package name.
