@@ -2,9 +2,7 @@
 
 Retrieves the appropriate plugin/interface based on the arguments provided.
 """
-from glob import glob
 from importlib import resources
-from os.path import basename
 
 from geoips.commandline.cli_v2 import GeoipsCommand
 from geoips import interfaces
@@ -57,30 +55,19 @@ class GeoipsGetInterface(GeoipsCommand):
         interface_name = args.interface_name
         interface = getattr(interfaces, interface_name)
 
-        if interface.name in interfaces.module_based_interfaces:
-            interface_type = "module_based"
-        else:
-            interface_type = "yaml_based"
         geoips_pkg_path = resources.files("geoips")
-        if interface_type == "module_based":
-            supported_families = list(interface.required_args.keys())
-        else:
-            supported_families = [
-                basename(fname).split(".")[0] for fname in sorted(
-                    glob(str(geoips_pkg_path / f"schema/{interface.name}/*.yaml"))
-                )
-            ]
         interface_path = str(
-            geoips_pkg_path / f"interfaces/{interface_type}/{interface.name}.py"
+            geoips_pkg_path /
+            f"interfaces/{interface.interface_type}/{interface.name}.py"
         )
         interface_entry = {
             "interface": interface.name,
-            "interface_type": interface_type,
+            "interface_type": interface.interface_type,
             "docstring": interface.__doc__,
             "abspath": interface_path,
-            "supported_families": supported_families,
+            "supported_families": interface.supported_families,
         }
-        self.output_dictionary_highlighted(interface_entry)
+        self._output_dictionary_highlighted(interface_entry)
 
 
 class GeoipsGetPlugin(GeoipsCommand):
@@ -139,25 +126,20 @@ class GeoipsGetPlugin(GeoipsCommand):
         interface_name = args.interface_name
         plugin_name = args.plugin_name
         interface = getattr(interfaces, interface_name)
-
-        if interface.name in interfaces.module_based_interfaces:
-            interface_type = "module_based"
-        else:
-            interface_type = "yaml_based"
         # If plugin_name is not None, then the user has requested a plugin within
         # an interface, rather than the interface itself
         interface_registry = interface.plugin_registry.registered_plugins[
-            interface_type
+            interface.interface_type
         ][interface.name]
         # Ensure the provided plugin exists within the interface's plugin registry
         self.ensure_plugin_exists(interface.name, interface_registry, plugin_name)
         if interface.name == "products":
             source_name, plugin_name = plugin_name.split(".", 1)
             plugin_entry = interface_registry[source_name][plugin_name]
-            self.output_dictionary_highlighted(plugin_entry)
+            self._output_dictionary_highlighted(plugin_entry)
         else:
             plugin_entry = interface_registry[plugin_name]
-            self.output_dictionary_highlighted(plugin_entry)
+            self._output_dictionary_highlighted(plugin_entry)
 
     def ensure_plugin_exists(self, interface_name, interface_registry, plugin_name):
         """Ensure that the given plugin exists within an interface's plugin registry.

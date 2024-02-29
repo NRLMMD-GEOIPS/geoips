@@ -15,8 +15,8 @@
 import yaml
 import inspect
 import logging
-from os.path import exists, splitext
-
+from os.path import basename, exists, splitext
+from glob import glob
 from importlib.resources import files
 from importlib import util
 from pathlib import Path
@@ -383,6 +383,8 @@ class BaseYamlInterface(BaseInterface):
     """
 
     validator = YamlPluginValidator()
+    interface_type = "yaml_based"
+    name = "BaseYamlInterface"
 
     def __new__(cls):
         """YAML plugin interface new method."""
@@ -392,7 +394,11 @@ class BaseYamlInterface(BaseInterface):
 
     def __init__(self):
         """YAML plugin interface init method."""
-        pass
+        self.supported_families = [
+            basename(fname).split(".")[0] for fname in sorted(
+                glob(str(files("geoips") / f"schema/{self.name}/*.yaml"))
+            )
+        ]
 
     def _create_registered_plugin_names(self, yaml_plugin):
         """Create a plugin name for plugin registry.
@@ -588,6 +594,9 @@ class BaseModuleInterface(BaseInterface):
     the GeoIPS algorithm plugins.
     """
 
+    interface_type = "module_based"
+    required_args = {}
+
     def __repr__(self):
         """Plugin interface repr method."""
         return f"{self.__class__.__name__}()"
@@ -609,7 +618,7 @@ class BaseModuleInterface(BaseInterface):
 
     def __init__(self):
         """Initialize module plugin interface."""
-        pass
+        self.supported_families = list(self.required_args.keys())
 
     @classmethod
     def _plugin_module_to_obj(cls, name, module, obj_attrs={}):
