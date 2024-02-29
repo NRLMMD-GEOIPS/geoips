@@ -2,7 +2,7 @@
 from importlib import resources
 from subprocess import call
 
-from geoips.commandline.cli_v2 import GeoipsCommand
+from geoips.commandline.commandline_interface import GeoipsCommand
 
 class GeoipsRun(GeoipsCommand):
     """GeoipsRun Sub-Command for running process-workflows (procflows)."""

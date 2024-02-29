@@ -4,7 +4,7 @@ Retrieves the appropriate plugin/interface based on the arguments provided.
 """
 from importlib import resources
 
-from geoips.commandline.cli_v2 import GeoipsCommand
+from geoips.commandline.commandline_interface import GeoipsCommand
 from geoips import interfaces
 
 

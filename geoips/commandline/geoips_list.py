@@ -5,7 +5,7 @@ import json
 from os.path import basename
 from tabulate import tabulate
 
-from geoips.commandline.cli_v2 import GeoipsCommand
+from geoips.commandline.commandline_interface import GeoipsCommand
 from geoips import interfaces
 
 
