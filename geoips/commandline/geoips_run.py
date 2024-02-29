@@ -7,6 +7,7 @@ from geoips.commandline.cli_v2 import GeoipsCommand
 class GeoipsRun(GeoipsCommand):
     """GeoipsRun Sub-Command for running process-workflows (procflows)."""
     subcommand_name = "run"
+    subcommand_classes = []
 
     def add_arguments(self):
         self.subcommand_parser.add_argument(

@@ -2,19 +2,30 @@
 
 Retrieves the appropriate plugin/interface based on the arguments provided.
 """
-from colorama import Fore, Style
 from glob import glob
 from importlib import resources
 from os.path import basename
-import yaml
 
 from geoips.commandline.cli_v2 import GeoipsCommand
 from geoips import interfaces
 
 
-class GeoipsGet(GeoipsCommand):
-    """GeoipsGet Sub-Command for retrieving package plugins."""
-    subcommand_name = "get"
+class GeoipsGetInterface(GeoipsCommand):
+    """GeoipsGetInterface Class which implements retrieving GeoIPS Interfaces.
+
+    This is called via `geoips get interface <interface_name>`. Data included when
+    calling this command is shown below, outputted in a yaml-based format.
+
+    Data Output
+    -----------
+    yaml-based-output: dict
+        - includes the following info : [
+            interface_name, interface_type, supported_families,
+            docstring, abspath, doc_link,
+        ]
+    """
+    subcommand_name = "get-interface"
+    subcommand_classes = []
 
     def add_arguments(self):
         self.subcommand_parser.add_argument(
@@ -22,40 +33,10 @@ class GeoipsGet(GeoipsCommand):
             type=str.lower,
             default="algorithms",
             choices=interfaces.__all__,
-            help="GeoIPS Interface to select a plugin from."
-        )
-        self.subcommand_parser.add_argument(
-            "plugin_name",
-            type=str,
-            default=None,
-            nargs="?",
-            help="GeoIPS Plugin to select from the provided interface."
+            help="GeoIPS Interface to retrieve."
         )
 
-    def get(self, args):
-        """Retrieve the appropriate Plugin/Interface given the provided arguments.
-
-        Retrieve the appropriate Plugin/Interface based on the arguments provided. This
-        acts similar to <geoips_interface>.get_plugin(), but uses the plugin registry
-        or the interface itself to get information instead.
-        """
-        interface_name = args.interface_name
-        plugin_name = args.plugin_name
-
-        interface = getattr(interfaces, interface_name)
-
-        if interface.name in interfaces.module_based_interfaces:
-            interface_type = "module_based"
-        else:
-            interface_type = "yaml_based"
-
-        if plugin_name:
-            self.get_plugin(interface, interface_type, plugin_name)
-        else:
-            # User just requested the interface, retrieve that now.
-            self.get_interface(interface, interface_type)
-
-    def get_interface(self, interface, interface_type):
+    def get_interface(self, args):
         """CLI 'geoips get interface <interface_name>' command.
 
         This occurs when a user has requested a interface in the manner shown above.
@@ -73,6 +54,13 @@ class GeoipsGet(GeoipsCommand):
         interface_type: str
             - The type of interface provided ["module_based", "yaml_based"]
         """
+        interface_name = args.interface_name
+        interface = getattr(interfaces, interface_name)
+
+        if interface.name in interfaces.module_based_interfaces:
+            interface_type = "module_based"
+        else:
+            interface_type = "yaml_based"
         geoips_pkg_path = resources.files("geoips")
         if interface_type == "module_based":
             supported_families = list(interface.required_args.keys())
@@ -94,7 +82,41 @@ class GeoipsGet(GeoipsCommand):
         }
         self.output_dictionary_highlighted(interface_entry)
 
-    def get_plugin(self, interface, interface_type, plugin_name):
+
+class GeoipsGetPlugin(GeoipsCommand):
+    """GeoipsGetPlugin Class which implements retrieving GeoIPS Plugins.
+
+    This is called via `geoips get plugin <interface_name> <plugin_name>`. Data included
+    when calling this command is shown below, outputted in a yaml-based format.
+
+    Data Output
+    -----------
+    yaml-based-output: dict
+        - includes the following info : [
+            package, interface_name, interface_type, family, call_sig/avail_overrides,
+            docstring, filepath, documentation_link
+        ]
+    """
+    subcommand_name = "get-plugin"
+    subcommand_classes = []
+
+    def add_arguments(self):
+        self.subcommand_parser.add_argument(
+            "interface_name",
+            type=str.lower,
+            default="algorithms",
+            choices=interfaces.__all__,
+            help="GeoIPS Interface to retrieve."
+        )
+        self.subcommand_parser.add_argument(
+            "plugin_name",
+            type=str,
+            default=None,
+            nargs="?",
+            help="GeoIPS Plugin to select from the provided interface."
+        )
+
+    def get_plugin(self, args):
         """CLI 'geoips get plugin <interface_name> <plugin_name>' command.
 
         This occurs when a user has requested a plugin in the manner shown above.
@@ -114,8 +136,14 @@ class GeoipsGet(GeoipsCommand):
         plugin_name: str
             - The name of the plugin from the selected interface
         """
+        interface_name = args.interface_name
+        plugin_name = args.plugin_name
+        interface = getattr(interfaces, interface_name)
 
-
+        if interface.name in interfaces.module_based_interfaces:
+            interface_type = "module_based"
+        else:
+            interface_type = "yaml_based"
         # If plugin_name is not None, then the user has requested a plugin within
         # an interface, rather than the interface itself
         interface_registry = interface.plugin_registry.registered_plugins[
@@ -162,26 +190,19 @@ class GeoipsGet(GeoipsCommand):
                 f"{plugin_name} doesn't exist within Interface {interface_name}."
             )
 
-    def output_dictionary_highlighted(self, dict_entry):
-        """Print to terminal the yaml-dumped dictionary of a certain interface/plugin.
+class GeoipsGet(GeoipsCommand):
+    """GeoipsGet Sub-Command for retrieving package plugins."""
+    subcommand_name = "get"
+    subcommand_classes = [GeoipsGetInterface, GeoipsGetPlugin]
 
-        Color the key, value pairs cyan, yellow to highlight the text in a human
-        readable manner. This is done for every `geoips get ...` command.
+    def add_arguments(self):
+        pass
 
-        Parameters
-        ----------
-        plugin_entry: dict
-            - The dictionary of info for a certain plugin in the plugin registry.
+    def get(self, args):
+        """Retrieve the appropriate Plugin/Interface given the provided arguments.
+
+        Retrieve the appropriate Plugin/Interface based on the arguments provided. This
+        acts similar to <geoips_interface>.get_plugin(), but uses the plugin registry
+        or the interface itself to get information instead.
         """
-        yaml_text = yaml.dump(dict_entry, default_flow_style=False)
-        print()
-        for line in yaml_text.split('\n'):
-            # Color the keys in cyan and values in yellow
-            if ':' in line:
-                key, value = line.split(':', 1)
-                formatted_line = Fore.CYAN + key + ':' + Style.RESET_ALL
-                formatted_line += Fore.YELLOW + value + Style.RESET_ALL
-                print(formatted_line)
-            else:
-                formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
-                print(formatted_line)
+        pass

@@ -12,6 +12,7 @@ from geoips import interfaces
 class GeoipsList(GeoipsCommand):
     """GeoipsList Sub-Command for listing packages/scripts/interfaces/plugins."""
     subcommand_name = "list"
+    subcommand_classes = []
 
     @property
     def available_list_options(self):

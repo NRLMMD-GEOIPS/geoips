@@ -6,11 +6,14 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 
 import abc
 import argparse
+from colorama import Fore, Style
 import logging
-from geoips.commandline.log_setup import setup_logging
-from geoips.geoips_utils import get_entry_point_group
 from importlib import resources
 from os.path import dirname
+import yaml
+
+from geoips.commandline.log_setup import setup_logging
+from geoips.geoips_utils import get_entry_point_group
 
 setup_logging()
 LOG = logging.getLogger(__name__)
@@ -38,20 +41,22 @@ class GeoipsCommand(abc.ABC):
             self.subcommand_parser = argparse.ArgumentParser()
         self.add_arguments()
         self.subcommand_parser.set_defaults(
-            exe_command=getattr(self, self.subcommand_name),
+            exe_command=getattr(self, self.subcommand_name.replace("-", "_")),
         )
+        for subcmd_cls in self.subcommand_classes:
+            subcmd_cls(parent=parent)
 
     @abc.abstractproperty
     def subcommand_name(self):
         pass
 
+    @abc.abstractproperty
+    def subcommand_classes(self):
+        pass
+
     @abc.abstractmethod
     def add_arguments(self):
         pass
-
-    # @abc.abstractmethod
-    # def add_subparsers(self):
-    #     pass
 
     @property
     def plugin_packages(self):
@@ -76,6 +81,30 @@ class GeoipsCommand(abc.ABC):
         else:
             return self._plugin_package_paths
 
+    def output_dictionary_highlighted(self, dict_entry):
+        """Print to terminal the yaml-dumped dictionary of a certain interface/plugin.
+
+        Color the key, value pairs cyan, yellow to highlight the text in a human
+        readable manner. This is done for every `geoips get ...` command.
+
+        Parameters
+        ----------
+        plugin_entry: dict
+            - The dictionary of info for a certain plugin in the plugin registry.
+        """
+        yaml_text = yaml.dump(dict_entry, default_flow_style=False)
+        print()
+        for line in yaml_text.split('\n'):
+            # Color the keys in cyan and values in yellow
+            if ':' in line:
+                key, value = line.split(':', 1)
+                formatted_line = Fore.CYAN + key + ':' + Style.RESET_ALL
+                formatted_line += Fore.YELLOW + value + Style.RESET_ALL
+                print(formatted_line)
+            else:
+                formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
+                print(formatted_line)
+
 
 class GeoipsCLI:
     """Top-Level Class for the GeoIPS Commandline Interface (CLI).
@@ -88,15 +117,15 @@ class GeoipsCLI:
     from geoips.commandline.geoips_list import GeoipsList
     from geoips.commandline.geoips_run import GeoipsRun
 
-    geoips_subcommand_classes = [GeoipsGet, GeoipsList, GeoipsRun]
+    subcommand_classes = [GeoipsGet, GeoipsList, GeoipsRun]
 
     def __init__(self):
         """Initialize the GeoipsCLI and each of it's sub-command classes."""
         self.parser = argparse.ArgumentParser()
         self.subparsers = self.parser.add_subparsers(help="sub-parser help")
 
-        for subcommand_cls in self.geoips_subcommand_classes:
-            subcommand_cls(parent=self)
+        for subcmd_cls in self.subcommand_classes:
+            subcmd_cls(parent=self)
 
         self.GEOIPS_ARGS = self.parser.parse_args()
 
