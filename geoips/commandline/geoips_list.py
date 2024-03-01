@@ -29,8 +29,8 @@ class GeoipsListInterfaces(GeoipsCommand):
         self.subcommand_parser.add_argument(
             "--implemented",
             "-i",
-            type=bool,
             default=False,
+            action="store_true",
             help=str(
                 "Flag to list what's implemented in each package, " +
                 "rather than what's available."
@@ -373,7 +373,7 @@ class GeoipsList(GeoipsCommand):
     def list(self, args):
         """List all elements of the selected list option.
 
-        Selected list option is args.to_be_listed, where to_be_listed can be any of:
+        Selected list option is args.interface_name, where interface_name can be any of:
             - any geoips.interface
         Where any of those options can be GeoIPS Package specific or from any package.
 

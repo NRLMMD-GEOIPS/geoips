@@ -3,7 +3,6 @@
 Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips list' and 'geoips run'
 """
-
 import abc
 import argparse
 from colorama import Fore, Style
@@ -37,7 +36,8 @@ class GeoipsCommand(abc.ABC):
         if parent:
             self.subcommand_parser = parent.subparsers.add_parser(
                 self.subcommand_name,
-                help=f"{self.subcommand_name} instructions",
+                help=self.cmd_instructions[self.subcommand_name]["help_str"],
+                usage=self.cmd_instructions[self.subcommand_name]["usage_str"],
             )
         else:
             self.subcommand_parser = argparse.ArgumentParser()
@@ -61,15 +61,36 @@ class GeoipsCommand(abc.ABC):
         pass
 
     @property
+    def cmd_instructions(self):
+        """Dictionary of Instructions for each command, obtained by a yaml file.
+
+        For more information on what's available, see:
+            geoips/commandline/ancillary_info/cmd_instructions.yaml
+        """
+        if not hasattr(self, "_cmd_instructions"):
+            cmd_yaml = yaml.safe_load(
+                open(
+                    str(dirname(__file__)) + "/ancillary_info/cmd_instructions.yaml",
+                    "r",
+                )
+            )
+            self._cmd_instructions = {}
+            for cmd_entry in cmd_yaml["instructions"]:
+                self._cmd_instructions[cmd_entry["cmd_name"]] = {
+                    "help_str": cmd_entry["help_str"],
+                    "usage_str": cmd_entry["usage_str"],
+                    "output_info": cmd_entry["output_info"],
+                }
+        return self._cmd_instructions
+
+    @property
     def plugin_packages(self):
         """Plugin Packages property of the CLI."""
         if not hasattr(self, "_plugin_packages"):
             self._plugin_packages = [
                 ep.value for ep in get_entry_point_group("geoips.plugin_packages")
             ]
-            return self._plugin_packages
-        else:
-            return self._plugin_packages
+        return self._plugin_packages
 
     @property
     def plugin_package_paths(self):
@@ -79,9 +100,7 @@ class GeoipsCommand(abc.ABC):
                 dirname(resources.files(ep.value)) \
                     for ep in get_entry_point_group("geoips.plugin_packages")
             ]
-            return self._plugin_package_paths
-        else:
-            return self._plugin_package_paths
+        return self._plugin_package_paths
 
     def _output_dictionary_highlighted(self, dict_entry):
         """Print to terminal the yaml-dumped dictionary of a certain interface/plugin.
