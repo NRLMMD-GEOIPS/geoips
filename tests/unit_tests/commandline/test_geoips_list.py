@@ -19,11 +19,6 @@ class TestGeoipsList(BaseCliTest):
         """Check every possible call signature for the GeoipsList command.
 
         This includes failing cases as well.
-
-        Parameters
-        ----------
-        base_args: list of str
-            - ["geoips", "list"] occurs for this case
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
@@ -78,12 +73,12 @@ def test_all_command_combinations(args):
     assert len(output) or len(error) # assert that some output was created
     prc.terminate()
     if "usage: To use, type" in error:
-        check_list_error(args, error)
+        check_error(args, error)
     else:
-        check_list_output(args, output)
+        check_output(args, output)
 
 
-def check_list_error(args, error):
+def check_error(args, error):
     """Ensure that the 'geoips list ...' error output is correct.
 
     Parameters
@@ -105,7 +100,7 @@ def check_list_error(args, error):
         assert usg_str in error
 
 
-def check_list_output(args, output):
+def check_output(args, output):
     """Ensure that the 'geoips list ...' successful output is correct.
 
     Parameters

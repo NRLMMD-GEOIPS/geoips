@@ -1,5 +1,7 @@
 """Semi-Abstract CLI Test Class implementing attributes shared by sub-commands."""
 import abc
+import pytest
+import subprocess
 
 from geoips.geoips_utils import get_entry_point_group
 
@@ -34,7 +36,7 @@ class BaseCliTest(abc.ABC):
 
     @abc.abstractproperty
     def all_possible_subcommand_combinations(self):
-        """Every possible sub-command combination for each CLI command call.
+        """Every possible sub-command combination for a CLI command call.
 
         Ie. if we were testing 'geoips list', this property would be every possible
         combination of strings used to call 'geoips list'. This would take the form of:

@@ -13,14 +13,9 @@ class TestGeoipsListPackages(BaseCliTest):
 
     @property
     def all_possible_subcommand_combinations(self):
-        """Check every possible call signature for the GeoipsListPackages command.
+        """A list of every possible call signature for the GeoipsListPackages command.
 
         This includes failing cases as well.
-
-        Parameters
-        ----------
-        base_args: list of str
-            - ["geoips", "list"] occurs for this case
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = [self._list_packages_args]
@@ -50,7 +45,7 @@ def test_all_command_combinations(args):
     Parameters
     ----------
     args: 2D array of str
-        - List of arguments to call the CLI with (ie. ['geoips', 'list', 'algorithms'])
+        - List of arguments to call the CLI with (ie. ['geoips', 'list-packages'])
     """
     print(f"Calling args: {args}")
     # Call the CLI via the provided commands with subprocess.Popen
@@ -66,12 +61,12 @@ def test_all_command_combinations(args):
     assert len(output) or len(error) # assert that some output was created
     prc.terminate()
     if len(error):
-        check_list_error(args, error)
+        check_error(args, error)
     else:
-        check_list_output(args, output)
+        check_output(args, output)
 
 
-def check_list_error(args, error):
+def check_error(args, error):
     """Ensure that the 'geoips list-packages ...' error output is correct.
 
     Parameters
@@ -87,7 +82,7 @@ def check_list_error(args, error):
     assert usg_str in error
 
 
-def check_list_output(args, output):
+def check_output(args, output):
     """Ensure that the 'geoips list-packages ...' successful output is correct.
 
     Parameters
