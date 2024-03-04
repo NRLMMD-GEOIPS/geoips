@@ -10,6 +10,7 @@ import logging
 from importlib import resources
 import json
 from os.path import dirname
+import sys
 from tabulate import tabulate
 import yaml
 
@@ -233,7 +234,15 @@ class GeoipsCLI:
     subcommand_classes = [GeoipsGet, GeoipsList, GeoipsRun]
 
     def __init__(self):
-        """Initialize the GeoipsCLI and each of it's sub-command classes."""
+        """Initialize the GeoipsCLI and each of it's sub-command classes.
+
+        The CLI contains a single top-level argparse.ArgumentParser() which contains
+        subparsers related to each subcommand. This ensures that each command has a
+        unique set of arguments stemming from command -> subcommand -> sub-subcommand,
+        and so on. For example, the GeoipsList Command Class' arguments are inherited
+        by all subcommand class of itself, which carry that trend so on until no more
+        subcommand classes remain.
+        """
         self.parser = argparse.ArgumentParser()
         self.subparsers = self.parser.add_subparsers(help="sub-parser help")
 

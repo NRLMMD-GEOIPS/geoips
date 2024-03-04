@@ -172,6 +172,7 @@ class GeoipsGetPlugin(GeoipsCommand):
                 f"{plugin_name} doesn't exist within Interface {interface_name}."
             )
 
+
 class GeoipsGet(GeoipsCommand):
     """GeoipsGet Sub-Command for retrieving package plugins."""
     subcommand_name = "get"

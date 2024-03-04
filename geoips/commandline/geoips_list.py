@@ -1,8 +1,12 @@
+"""GeoIPS CLI "list" command.
 
+Lists the appropriate plugins/interfaces based on the arguments provided.
+"""
 from glob import glob
 from importlib import resources, import_module
 import json
 from os.path import basename
+import sys
 from tabulate import tabulate
 
 from geoips.commandline.commandline_interface import GeoipsCommand
