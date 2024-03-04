@@ -1,4 +1,4 @@
-"""Unit test for GeoIPS CLI `list` commands.
+"""Unit test for GeoIPS CLI `list` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
@@ -12,11 +12,11 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsList(BaseCliTest):
-    """Unit Testing Class for GeoipsList Commands."""
+    """Unit Testing Class for GeoipsList Command."""
 
     @property
     def all_possible_subcommand_combinations(self):
-        """Check every possible call signature for the GeoIPS List command.
+        """Check every possible call signature for the GeoipsList command.
 
         This includes failing cases as well.
 
@@ -43,11 +43,16 @@ class TestGeoipsList(BaseCliTest):
             )
         return self._cmd_list
 
-tgl = TestGeoipsList()
-plugin_packages = tgl.plugin_packages
 
-@pytest.mark.parametrize("args", tgl.all_possible_subcommand_combinations)
-def test_all_list_commands(args):
+test_sub_cmd = TestGeoipsList()
+plugin_packages = test_sub_cmd.plugin_packages
+
+@pytest.mark.parametrize(
+        "args",
+        test_sub_cmd.all_possible_subcommand_combinations,
+        ids=test_sub_cmd.generate_id,
+)
+def test_all_command_combinations(args):
     """Test all 'geoips list ...' commands.
 
     This test covers every valid combination of commands for the 'geoips list' command.
