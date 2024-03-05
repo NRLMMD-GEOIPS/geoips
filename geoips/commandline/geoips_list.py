@@ -69,7 +69,13 @@ class GeoipsListInterfaces(GeoipsCommand):
         # Flag representing whether or not we want to list what's implemented or
         # what's available.
         implemented = args.implemented
-        if implemented:
+        if not implemented and package_name != "all":
+            err_str = "You cannot use the `-p` flag without the `-i` flag. "
+            err_str += "Please try again."
+            self.subcommand_parser.error(
+                err_str
+            )
+        if implemented and package_name:
             self.list_implemented_interfaces(package_name)
         else:
             self.list_available_interfaces()

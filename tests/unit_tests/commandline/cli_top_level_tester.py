@@ -1,6 +1,5 @@
 """Semi-Abstract CLI Test Class implementing attributes shared by sub-commands."""
 import abc
-import pytest
 import subprocess
 
 from geoips.geoips_utils import get_entry_point_group
@@ -48,7 +47,7 @@ class BaseCliTest(abc.ABC):
                 ...
                 ["geoips", "list", <interface_name>, "-p", <pkg_name>],
                 ["geoips", "list", <interface_name>],
-                ["geoips", "list", <invalid_interface_name>]
+                ["geoips", "list", <invalid_interface_name>],
                 ["geoips", "list", <interface_name>, "-p", <invalid_pkg_name>],
                 ...
             ]

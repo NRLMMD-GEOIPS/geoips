@@ -36,7 +36,7 @@ class TestGeoipsListPackages(BaseCliTest):
         error: str
             - Multiline str representing the error output of the CLI call
         """
-        # bad command has been provided, check the contents of the error message provided
+        # bad command has been provided, check the contents of the error message
         assert args != ["geoips", "list-packages"]
         usg_str = "usage: geoips [-h]"
         assert usg_str in error
