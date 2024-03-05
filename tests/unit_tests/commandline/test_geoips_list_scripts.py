@@ -37,8 +37,67 @@ class TestGeoipsList(BaseCliTest):
             )
         return self._cmd_list
 
+    def check_error(self, args, error):
+        """Ensure that the 'geoips list-scripts ...' error output is correct.
+
+        Parameters
+        ----------
+        args: 2D list of str
+            - The arguments used to call the CLI (expected to fail)
+        error: str
+            - Multiline str representing the error output of the CLI call
+        """
+        # An error occurred using args. Assert that args is not valid and check the output
+        # of the error.
+        assert args != ["geoips", "list-scripts"]
+        for pkg_name in self.plugin_packages:
+            assert args != ["geoips", "list-scripts", "-p", pkg_name]
+        assert "usage: To use, type `geoips list-scripts`" in error
+
+
+    def check_output(self, args, output):
+        """Ensure that the 'geoips list-scripts ...' successful output is correct.
+
+        Parameters
+        ----------
+        args: 2D list of str
+            - The arguments used to call the CLI
+        output: str
+            - Multiline str representing the output of the CLI call
+        """
+        # The args provided are valid, so test that the output is actually correct
+        if "-h" in args:
+            assert "usage: To use, type `geoips list-scripts`" in output
+        else:
+            # Checking tabular output from the list-scripts command
+            if "-p" in args:
+                # A certain package was requested, generate a list of all scripts from that
+                # package.
+                pkg_names = [args[-1]]
+            else:
+                # no `-p` flag, check all packages instead.
+                pkg_names = self.plugin_packages
+            script_names = []
+            for pkg_name in pkg_names:
+                script_names += sorted(
+                        [
+                            basename(fpath) for fpath in
+                                glob(
+                                    str(
+                                        resources.files(pkg_name) /
+                                        "../tests/scripts" / "*.sh"
+                                    )
+                                )
+                        ]
+                    )
+            for script_name in script_names:
+                assert script_name in output
+            # Assert that the correct headers exist in the CLI output
+            headers = ["GeoIPS Package", "Filename"]
+            for header in headers:
+                assert header in output
+
 test_sub_cmd = TestGeoipsList()
-plugin_packages = test_sub_cmd.plugin_packages
 
 @pytest.mark.parametrize(
         "args",
@@ -57,81 +116,4 @@ def test_all_command_combinations(args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'list-scripts'])
     """
-    print(f"Calling args: {args}")
-    # Call the CLI via the provided commands with subprocess.Popen
-    prc = subprocess.Popen(
-        args,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    # Capture the output using subprocess.PIPE, then decode it.
-    output, error = prc.communicate()
-    output, error = output.decode(), error.decode()
-    print(output)
-    assert len(output) or len(error) # assert that some output was created
-    prc.terminate()
-    if "usage: To use, type" in error:
-        check_error(args, error)
-    else:
-        check_output(args, output)
-
-
-def check_error(args, error):
-    """Ensure that the 'geoips list-scripts ...' error output is correct.
-
-    Parameters
-    ----------
-    args: 2D list of str
-        - The arguments used to call the CLI (expected to fail)
-    error: str
-        - Multiline str representing the error output of the CLI call
-    """
-    # An error occurred using args. Assert that args is not valid and check the output
-    # of the error.
-    assert args != ["geoips", "list-scripts"]
-    for pkg_name in plugin_packages:
-        assert args != ["geoips", "list-scripts", "-p", pkg_name]
-    assert "usage: To use, type `geoips list-scripts`" in error
-
-
-def check_output(args, output):
-    """Ensure that the 'geoips list-scripts ...' successful output is correct.
-
-    Parameters
-    ----------
-    args: 2D list of str
-        - The arguments used to call the CLI
-    output: str
-        - Multiline str representing the output of the CLI call
-    """
-    # The args provided are valid, so test that the output is actually correct
-    if "-h" in args:
-        assert "usage: To use, type `geoips list-scripts`" in output
-    else:
-        # Checking tabular output from the list-scripts command
-        if "-p" in args:
-            # A certain package was requested, generate a list of all scripts from that
-            # package.
-            pkg_names = [args[-1]]
-        else:
-            # no `-p` flag, check all packages instead.
-            pkg_names = plugin_packages
-        script_names = []
-        for pkg_name in pkg_names:
-            script_names += sorted(
-                    [
-                        basename(fpath) for fpath in
-                            glob(
-                                str(
-                                    resources.files(pkg_name) /
-                                    "../tests/scripts" / "*.sh"
-                                )
-                            )
-                    ]
-                )
-        for script_name in script_names:
-            assert script_name in output
-        # Assert that the correct headers exist in the CLI output
-        headers = ["GeoIPS Package", "Filename"]
-        for header in headers:
-            assert header in output
+    test_sub_cmd.test_all_command_combinations(args)

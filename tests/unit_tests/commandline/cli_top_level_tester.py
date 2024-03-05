@@ -34,7 +34,8 @@ class BaseCliTest(abc.ABC):
             ]
         return self._plugin_packages
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def all_possible_subcommand_combinations(self):
         """Every possible sub-command combination for a CLI command call.
 
@@ -53,3 +54,62 @@ class BaseCliTest(abc.ABC):
             ]
         """
         pass
+
+    @abc.abstractmethod
+    def check_error(self, args, error):
+        """Ensure that the 'geoips list-packages ...' error output is correct.
+
+        Parameters
+        ----------
+        args: 2D list of str
+            - The arguments used to call the CLI (expected to fail)
+        error: str
+            - Multiline str representing the error output of the CLI call
+        """
+        pass
+
+    @abc.abstractmethod
+    def check_output(self, args, output):
+        """Ensure that the 'geoips list-packages ...' successful output is correct.
+
+        Parameters
+        ----------
+        args: 2D list of str
+            - The arguments used to call the CLI
+        output: str
+            - Multiline str representing the output of the CLI call
+        """
+        pass
+
+    def test_all_command_combinations(self, args=None):
+        """Test all 'geoips list ...' commands.
+
+        This test covers every valid combination of commands for the 'geoips list' command.
+        We also test invalid commands, to ensure that the proper help documentation is
+        provided for those using the command incorrectly.
+
+        Parameters
+        ----------
+        args: 2D array of str
+            - List of arguments to call the CLI with (ie. ['geoips', 'list-packages'])
+        """
+        if args is None:
+            return
+        print(f"Calling args: {args}")
+        # Call the CLI via the provided commands with subprocess.Popen
+        prc = subprocess.Popen(
+            args,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        # Capture the output using subprocess.PIPE, then decode it.
+        output, error = prc.communicate()
+        output, error = output.decode(), error.decode()
+        assert len(output) or len(error) # assert that some output was created
+        prc.terminate()
+        if len(error):
+            print(error)
+            self.check_error(args, error)
+        else:
+            print(output)
+            self.check_output(args, output)
