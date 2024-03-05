@@ -57,7 +57,7 @@ class BaseCliTest(abc.ABC):
 
     @abc.abstractmethod
     def check_error(self, args, error):
-        """Ensure that the 'geoips list-packages ...' error output is correct.
+        """Ensure that the 'geoips list <sub-cmd> ...' error output is correct.
 
         Parameters
         ----------
@@ -70,7 +70,7 @@ class BaseCliTest(abc.ABC):
 
     @abc.abstractmethod
     def check_output(self, args, output):
-        """Ensure that the 'geoips list-packages ...' successful output is correct.
+        """Ensure that the 'geoips list <sub-cmd> ...' successful output is correct.
 
         Parameters
         ----------
@@ -82,16 +82,17 @@ class BaseCliTest(abc.ABC):
         pass
 
     def test_all_command_combinations(self, args=None):
-        """Test all 'geoips list ...' commands.
+        """Test all 'geoips list <sub-cmd> ...' commands.
 
-        This test covers every valid combination of commands for the 'geoips list' command.
-        We also test invalid commands, to ensure that the proper help documentation is
-        provided for those using the command incorrectly.
+        This test covers every valid combination of commands for the
+        'geoips list <sub-cmd> ...' command. We also test invalid commands, to ensure
+        that the proper help documentation is provided for those using the command
+        incorrectly.
 
         Parameters
         ----------
         args: 2D array of str
-            - List of arguments to call the CLI with (ie. ['geoips', 'list-packages'])
+            - List of arguments to call the CLI with (ie. ['geoips', 'list <sub-cmd>'])
         """
         if args is None:
             return
