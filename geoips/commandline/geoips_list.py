@@ -6,7 +6,6 @@ from glob import glob
 from importlib import resources, import_module
 import json
 from os.path import basename
-import sys
 from tabulate import tabulate
 
 from geoips.commandline.commandline_interface import GeoipsCommand
@@ -363,7 +362,6 @@ class GeoipsList(GeoipsCommand):
             <package_name> is any GeoIPS package that is installed and recognized by the
               GeoIPS Libarary
         """
-        # pass
         self.subcommand_parser.add_argument(
             "interface_name",
             type=str.lower,
