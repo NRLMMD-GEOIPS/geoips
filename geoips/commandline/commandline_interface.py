@@ -272,7 +272,6 @@ class GeoipsCLI:
     # from geoips.commandline.geoips_validate import GeoipsValidate
 
     subcommand_classes = [GeoipsGet, GeoipsList, GeoipsRun] #, GeoipsValidate]
-    # subcommand_classes = [GeoipsGet, GeoipsList]
 
     def __init__(self):
         """Initialize the GeoipsCLI and each of it's sub-command classes.
