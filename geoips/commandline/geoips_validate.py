@@ -25,11 +25,11 @@ class GeoipsValidate(GeoipsCommand):
         )
 
     def validate(self, args):
-        """Retrieve the appropriate Plugin/Interface given the provided arguments.
+        """Validate the appropriate Plugin given the provided arguments.
 
-        Retrieve the appropriate Plugin/Interface based on the arguments provided. This
-        acts similar to <geoips_interface>.get_plugin(), but uses the plugin registry
-        or the interface itself to get information instead.
+        Validate the appropriate Plugin based on the arguments provided. This
+        acts similar to <geoips_interface>.plugin_is_valid(), but uses the file_path and
+        associated interface from the plugin to validate at runtime.
         """
         fpath = args.file_path
         err_str = f"Plugin found at {fpath} doesn't have `interface` and/or `plugin` "
@@ -63,6 +63,7 @@ class GeoipsValidate(GeoipsCommand):
             print(f"Plugin `{plugin_name}` found at {fpath} is valid.")
 
     def load_module_from_file(self, file_path, module_name=None):
+        """Load in a given python module provied a file_path and an optional name."""
         if module_name is None:
             # Generate a unique module name if not provided
             module_name = 'module_from_' + file_path.replace('/', '_').replace('.', '_')
