@@ -25,15 +25,15 @@ class TestGeoipsListPlugins(BaseCliTest):
                     self._list_plugins_args + ["-p", pkg_name]
                 )
             # Add argument list which invokes the help message for this command
-            self._cmd_list.append(["geoips", "list-plugins", "-h"])
+            self._cmd_list.append(["geoips", "list", "plugins", "-h"])
             # Add argument list with a non-existent package name
             self._cmd_list.append(
-                ["geoips", "list-plugins", "-p", "non_existent_package"]
+                ["geoips", "list", "plugins", "-p", "non_existent_package"]
             )
         return self._cmd_list
 
     def check_error(self, args, error):
-        """Ensure that the 'geoips list-plugins ...' error output is correct.
+        """Ensure that the 'geoips list plugins ...' error output is correct.
 
         Parameters
         ----------
@@ -43,11 +43,11 @@ class TestGeoipsListPlugins(BaseCliTest):
             - Multiline str representing the error output of the CLI call
         """
         # bad command has been provided, check the contents of the error message
-        assert args != ["geoips", "list-plugins"]
-        assert "usage: To use, type `geoips list-plugins`" in error
+        assert args != ["geoips", "list", "plugins"]
+        assert "usage: To use, type `geoips list plugins`" in error
 
     def check_output(self, args, output):
-        """Ensure that the 'geoips list-plugins ...' successful output is correct.
+        """Ensure that the 'geoips list plugins ...' successful output is correct.
 
         Parameters
         ----------
@@ -58,12 +58,12 @@ class TestGeoipsListPlugins(BaseCliTest):
         """
         if "usage: To use, type" in output:
             # -h has been called, check help message contents for this command
-            assert args == ["geoips", "list-plugins", "-h"]
-            assert "To use, type `geoips list-plugins`" in output
+            assert args == ["geoips", "list", "plugins", "-h"]
+            assert "To use, type `geoips list plugins`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
             headers = [
-                "GeoIPS Package", "Interface", "Interface_type",
+                "GeoIPS Package", "Interface", "Interface Type",
                 "Family", "Plugin Name", "Relative Path",
             ]
             # Assert that the correct headers exist in the CLI output
@@ -105,15 +105,15 @@ test_sub_cmd = TestGeoipsListPlugins()
         ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
-    """Test all 'geoips list-plugins ...' commands.
+    """Test all 'geoips list plugins ...' commands.
 
     This test covers every valid combination of commands for the
-    'geoips list-plugins' command. We also test invalid commands, to ensure that
+    'geoips list plugins' command. We also test invalid commands, to ensure that
     the proper help documentation  is provided for those using the command incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
-        - List of arguments to call the CLI with (ie. ['geoips', 'list-plugins'])
+        - List of arguments to call the CLI with (ie. ['geoips', 'list', 'plugins'])
     """
     test_sub_cmd.test_all_command_combinations(args)

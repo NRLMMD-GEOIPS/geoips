@@ -23,10 +23,10 @@ class TestGeoipsListInterfaces(BaseCliTest):
                     self._list_interfaces_args + ["-i", "-p", pkg_name]
                 )
             # Add argument list which invokes the help message for this command
-            self._cmd_list.append(["geoips", "list-interfaces", "-h"])
+            self._cmd_list.append(["geoips", "list", "interfaces", "-h"])
             # Add argument list with an invalid command call ("-p" w/out "-i")
             self._cmd_list.append(
-                ["geoips", "list-interfaces", "-p", "geoips"]
+                ["geoips", "list", "interfaces", "-p", "geoips"]
             )
         return self._cmd_list
 
@@ -41,13 +41,13 @@ class TestGeoipsListInterfaces(BaseCliTest):
             - Multiline str representing the error output of the CLI call
         """
         # bad command has been provided, check the contents of the error message
-        assert args != ["geoips", "list-interfaces"]
-        assert args != ["geoips", "list-interfaces", "-i"]
-        assert "usage: To use, type `geoips list-interfaces`" in error
+        assert args != ["geoips", "list", "interfaces"]
+        assert args != ["geoips", "list", "interfaces", "-i"]
+        assert "usage: To use, type `geoips list interfaces`" in error
         assert "You cannot use the `-p` flag without the `-i` flag." in error
 
     def check_output(self, args, output):
-        """Ensure that the 'geoips list-interfaces ...' successful output is correct.
+        """Ensure that the 'geoips list interfaces ...' successful output is correct.
 
         Parameters
         ----------
@@ -58,8 +58,8 @@ class TestGeoipsListInterfaces(BaseCliTest):
         """
         if "usage: To use, type" in output:
             # -h has been called, check help message contents for this command
-            assert args == ["geoips", "list-interfaces", "-h"]
-            assert "To use, type `geoips list-interfaces`" in output
+            assert args == ["geoips", "list", "interfaces", "-h"]
+            assert "To use, type `geoips list interfaces`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
             if "-p" in args:
@@ -71,8 +71,8 @@ class TestGeoipsListInterfaces(BaseCliTest):
             else:
                 # `geoips list-interfaces` was called, check for the correct headers
                 headers = [
-                    "Package", "Interface Type", "Interface Name",
-                    "Supported Families", "Docstring", "Abspath",
+                    "GeoIPS Package", "Interface Type", "Interface Name",
+                    "Supported Families", "Docstring", "Absolute Path",
                 ]
             # Assert that the correct headers exist in the CLI output
             for header in headers:
@@ -86,15 +86,15 @@ test_sub_cmd = TestGeoipsListInterfaces()
         ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
-    """Test all 'geoips list-interfaces ...' commands.
+    """Test all 'geoips list interfaces ...' commands.
 
     This test covers every valid combination of commands for the
-    'geoips list-interfaces' command. We also test invalid commands, to ensure that
+    'geoips list interfaces' command. We also test invalid commands, to ensure that
     the proper help documentation  is provided for those using the command incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
-        - List of arguments to call the CLI with (ie. ['geoips', 'list-interfaces'])
+        - List of arguments to call the CLI with (ie. ['geoips', 'list', 'interfaces'])
     """
     test_sub_cmd.test_all_command_combinations(args)

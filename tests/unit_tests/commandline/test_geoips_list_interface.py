@@ -1,4 +1,4 @@
-"""Unit test for GeoIPS CLI `list` command.
+"""Unit test for GeoIPS CLI `list interface` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
@@ -10,12 +10,12 @@ from geoips import interfaces
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
-class TestGeoipsList(BaseCliTest):
-    """Unit Testing Class for GeoipsList Command."""
+class TestGeoipsListInterface(BaseCliTest):
+    """Unit Testing Class for GeoipsListInterface Command."""
 
     @property
     def all_possible_subcommand_combinations(self):
-        """Check every possible call signature for the GeoipsList command.
+        """Check every possible call signature for the GeoipsListInterface command.
 
         This includes failing cases as well.
         """
@@ -38,7 +38,7 @@ class TestGeoipsList(BaseCliTest):
         return self._cmd_list
 
     def check_error(self, args, error):
-        """Ensure that the 'geoips list ...' error output is correct.
+        """Ensure that the 'geoips list interface...' error output is correct.
 
         Parameters
         ----------
@@ -47,19 +47,19 @@ class TestGeoipsList(BaseCliTest):
         error: str
             - Multiline str representing the error output of the CLI call
         """
-        if args[2] in interfaces.__all__:
+        if args[3] in interfaces.__all__:
             # interface exists, so check that the package name is incorrect
             assert args[-1] not in self.plugin_packages
-            usg_str = "geoips list: error: argument --package/-p: invalid choice: "
-            usg_str += f"'{args[-1]}' (choose from"
+            usg_str = "error: argument --package/-p: invalid "
+            usg_str += f"choice: '{args[-1]}' (choose from"
             assert usg_str in error
         else:
-            usg_str = "geoips list: error: argument interface_name: invalid choice: "
-            usg_str += f"'{args[2]}' (choose from"
+            usg_str = "error: argument interface_name: invalid "
+            usg_str += f"choice: '{args[3]}' (choose from"
             assert usg_str in error
 
     def check_output(self, args, output):
-        """Ensure that the 'geoips list ...' successful output is correct.
+        """Ensure that the 'geoips list interface ...' successful output is correct.
 
         Parameters
         ----------
@@ -69,7 +69,7 @@ class TestGeoipsList(BaseCliTest):
             - Multiline str representing the output of the CLI call
         """
         # The args provided are valid, so test that the output is actually correct
-        interface = getattr(interfaces, args[2])
+        interface = getattr(interfaces, args[3])
         interface_type = interface.interface_type
         if "No plugins found under" in output and "-p" in args:
             # No plugins were found under the selected interface, within a
@@ -85,14 +85,14 @@ class TestGeoipsList(BaseCliTest):
         else:
             # Assert that the correct headers exist in the CLI output
             headers = [
-                "GeoIPS Package", "Interface", "Interface_type", "Family",
+                "GeoIPS Package", "Interface", "Interface Type", "Family",
                 "Plugin Name", "Relative Path",
             ]
             for header in headers:
                 assert header in output
 
 
-test_sub_cmd = TestGeoipsList()
+test_sub_cmd = TestGeoipsListInterface()
 
 @pytest.mark.parametrize(
         "args",
@@ -100,15 +100,16 @@ test_sub_cmd = TestGeoipsList()
         ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
-    """Test all 'geoips list ...' commands.
+    """Test all 'geoips list interface ...' commands.
 
-    This test covers every valid combination of commands for the 'geoips list' command.
-    We also test invalid commands, to ensure that the proper help documentation is
-    provided for those using the command incorrectly.
+    This test covers every valid combination of commands for the 'geoips list interface'
+    command. We also test invalid commands, to ensure that the proper help documentation
+    is provided for those using the command incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
-        - List of arguments to call the CLI with (ie. ['geoips', 'list', 'algorithms'])
+        - List of arguments to call the CLI with
+          (ie. ['geoips', 'list', 'interface', 'algorithms'])
     """
     test_sub_cmd.test_all_command_combinations(args)

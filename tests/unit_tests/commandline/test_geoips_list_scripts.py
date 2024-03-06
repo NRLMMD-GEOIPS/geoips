@@ -38,7 +38,7 @@ class TestGeoipsList(BaseCliTest):
         return self._cmd_list
 
     def check_error(self, args, error):
-        """Ensure that the 'geoips list-scripts ...' error output is correct.
+        """Ensure that the 'geoips list scripts ...' error output is correct.
 
         Parameters
         ----------
@@ -49,14 +49,14 @@ class TestGeoipsList(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the output
         # of the error.
-        assert args != ["geoips", "list-scripts"]
+        assert args != ["geoips", "list", "scripts"]
         for pkg_name in self.plugin_packages:
-            assert args != ["geoips", "list-scripts", "-p", pkg_name]
-        assert "usage: To use, type `geoips list-scripts`" in error
+            assert args != ["geoips", "list", "scripts", "-p", pkg_name]
+        assert "usage: To use, type `geoips list scripts`" in error
 
 
     def check_output(self, args, output):
-        """Ensure that the 'geoips list-scripts ...' successful output is correct.
+        """Ensure that the 'geoips list scripts ...' successful output is correct.
 
         Parameters
         ----------
@@ -67,7 +67,7 @@ class TestGeoipsList(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            assert "usage: To use, type `geoips list-scripts`" in output
+            assert "usage: To use, type `geoips list scripts`" in output
         else:
             # Checking tabular output from the list-scripts command
             if "-p" in args:
@@ -105,15 +105,15 @@ test_sub_cmd = TestGeoipsList()
         ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
-    """Test all 'geoips list-scripts ...' commands.
+    """Test all 'geoips list scripts ...' commands.
 
-    This test covers every valid combination of commands for the 'geoips list-scripts'
+    This test covers every valid combination of commands for the 'geoips list scripts'
     command. We also test invalid commands, to ensure that the proper help documentation
     is provided for those using the command incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
-        - List of arguments to call the CLI with (ie. ['geoips', 'list-scripts'])
+        - List of arguments to call the CLI with (ie. ['geoips', 'list', 'scripts'])
     """
     test_sub_cmd.test_all_command_combinations(args)

@@ -35,19 +35,25 @@ class GeoipsCommand(abc.ABC):
         function to call if that subcommand has been called.
         """
         if parent:
-            self.subcommand_parser = parent.subparsers.add_parser(
+            if parent.subcommand_name == "cli":
+                combined_name = self.subcommand_name
+            else:
+                combined_name = f"{parent.subcommand_name} {self.subcommand_name}"
+            self.subcommand_parser = getattr(
+                parent, f"{parent.subcommand_name}_subparsers"
+            ).add_parser(
                 self.subcommand_name,
-                help=self.cmd_instructions[self.subcommand_name]["help_str"],
-                usage=self.cmd_instructions[self.subcommand_name]["usage_str"],
+                help=self.cmd_instructions[combined_name]["help_str"],
+                usage=self.cmd_instructions[combined_name]["usage_str"],
             )
         else:
             self.subcommand_parser = argparse.ArgumentParser()
+            combined_name = self.subcommand_name
+        self.add_subparsers()
         self.add_arguments()
         self.subcommand_parser.set_defaults(
-            exe_command=getattr(self, self.subcommand_name.replace("-", "_")),
+            exe_command=getattr(self, combined_name.replace(" ", "_")),
         )
-        for subcmd_cls in self.subcommand_classes:
-            subcmd_cls(parent=parent)
 
     @abc.abstractproperty
     def subcommand_name(self):
@@ -59,6 +65,10 @@ class GeoipsCommand(abc.ABC):
 
     @abc.abstractmethod
     def add_arguments(self):
+        pass
+
+    @abc.abstractmethod
+    def add_subparsers(self):
         pass
 
     @property
@@ -210,7 +220,7 @@ class GeoipsCommand(abc.ABC):
                 headers=[
                     "GeoIPS Package",
                     "Interface",
-                    "Interface_type",
+                    "Interface Type",
                     "Family",
                     "Plugin Name",
                     "Relative Path",
@@ -227,12 +237,13 @@ class GeoipsCLI:
     functionality of the CLI. This includes [GeoipsGet, GeoipsList, GeoipsRun] as of
     right now.
     """
-    from geoips.commandline.geoips_get import GeoipsGet
+    # from geoips.commandline.geoips_get import GeoipsGet
     from geoips.commandline.geoips_list import GeoipsList
-    from geoips.commandline.geoips_run import GeoipsRun
+    # from geoips.commandline.geoips_run import GeoipsRun
     # from geoips.commandline.geoips_validate import GeoipsValidate
 
-    subcommand_classes = [GeoipsGet, GeoipsList, GeoipsRun] #, GeoipsValidate]
+    # subcommand_classes = [GeoipsGet, GeoipsList, GeoipsRun] #, GeoipsValidate]
+    subcommand_classes = [GeoipsList]
 
     def __init__(self):
         """Initialize the GeoipsCLI and each of it's sub-command classes.
@@ -244,8 +255,9 @@ class GeoipsCLI:
         by all subcommand class of itself, which carry that trend so on until no more
         subcommand classes remain.
         """
+        self.subcommand_name = "cli"
         self.parser = argparse.ArgumentParser()
-        self.subparsers = self.parser.add_subparsers(help="sub-parser help")
+        self.cli_subparsers = self.parser.add_subparsers(help="sub-parser help")
 
         for subcmd_cls in self.subcommand_classes:
             subcmd_cls(parent=self)

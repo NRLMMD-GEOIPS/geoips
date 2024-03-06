@@ -15,7 +15,7 @@ from geoips import interfaces
 class GeoipsListInterfaces(GeoipsCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
-    Called via `geoips list-interfaces`. Outputs the following data in a tabular format.
+    Called via `geoips list interfaces`. Outputs the following data in a tabular format.
 
     Data Output
     -----------
@@ -25,8 +25,11 @@ class GeoipsListInterfaces(GeoipsCommand):
             short_docstring, filepath, documentation_link
         ]
     """
-    subcommand_name = "list-interfaces"
+    subcommand_name = "interfaces"
     subcommand_classes = []
+
+    def add_subparsers(self):
+        pass
 
     def add_arguments(self):
         self.subcommand_parser.add_argument(
@@ -113,8 +116,8 @@ class GeoipsListInterfaces(GeoipsCommand):
             tabulate(
                 interface_data,
                 headers=[
-                    "Package", "Interface Type", "Interface Name",
-                    "Supported Families", "Docstring", "Abspath",
+                    "GeoIPS Package", "Interface Type", "Interface Name",
+                    "Supported Families", "Docstring", "Absolute Path",
                 ],
                 tablefmt="rounded_grid",
             )
@@ -171,7 +174,7 @@ class GeoipsListInterfaces(GeoipsCommand):
 class GeoipsListPackages(GeoipsCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
-    Called via `geoips list-interfaces`. Outputs the following data in a tabular format.
+    Called via `geoips list packages`. Outputs the following data in a tabular format.
 
     Data Output
     -----------
@@ -181,8 +184,11 @@ class GeoipsListPackages(GeoipsCommand):
             short_docstring, filepath, documentation_link
         ]
     """
-    subcommand_name = "list-packages"
+    subcommand_name = "packages"
     subcommand_classes = []
+
+    def add_subparsers(self):
+        pass
 
     def add_arguments(self):
         pass
@@ -232,7 +238,7 @@ class GeoipsListPackages(GeoipsCommand):
 class GeoipsListPlugins(GeoipsCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
-    Called via `geoips list-interfaces`. Outputs the following data in a tabular format.
+    Called via `geoips list plugins`. Outputs the following data in a tabular format.
 
     Data Output
     -----------
@@ -242,8 +248,11 @@ class GeoipsListPlugins(GeoipsCommand):
             short_docstring, filepath, documentation_link
         ]
     """
-    subcommand_name = "list-plugins"
+    subcommand_name = "plugins"
     subcommand_classes = []
+
+    def add_subparsers(self):
+        pass
 
     def add_arguments(self):
         self.subcommand_parser.add_argument(
@@ -283,84 +292,23 @@ class GeoipsListPlugins(GeoipsCommand):
             self._print_plugins_short_format(curr_interface, interface_registry)
 
 
-class GeoipsListScripts(GeoipsCommand):
-    """GeoipsListInterfaces Sub-Command Class.
-
-    Called via `geoips list-interfaces`. Outputs the following data in a tabular format.
-
-    Data Output
-    -----------
-    out_array: 2D Array of Data
-        - [
-            package, interface_name, interface_type, supported_families,
-            short_docstring, filepath, documentation_link
-        ]
-    """
-    subcommand_name = "list-scripts"
+class GeoipsListSingleInterface(GeoipsCommand):
+    """GeoipsList Sub-Command for listing packages/scripts/interfaces/plugins."""
+    subcommand_name = "interface"
     subcommand_classes = []
 
-    def add_arguments(self):
-        self.subcommand_parser.add_argument(
-            "--package",
-            "-p",
-            type=str,
-            default="all",
-            choices=self.plugin_packages,
-            help="The GeoIPS package to list from.",
-        )
-
-    def list_scripts(self, args):
-        """List all of the available scripts held under <package_name>.
-
-        Parameters
-        ----------
-        args: Namespace()
-            - The list argument namespace to parse through
-        """
-        package_name = args.package
-        if package_name == "all":
-            plugin_packages = self.plugin_packages
-        else:
-            plugin_packages = [package_name]
-        for plugin_package_name in plugin_packages:
-            script_names = sorted(
-                [
-                    [plugin_package_name, basename(fpath)] for fpath in
-                        glob(
-                            str(
-                                resources.files(plugin_package_name) /
-                                "../tests/scripts" / "*.sh"
-                            )
-                        )
-                ]
-            )
-            print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
-            print(f"{plugin_package_name.title()} Available Scripts")
-            print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
-            print(
-                tabulate(
-                    script_names,
-                    headers=["GeoIPS Package", "Filename"],
-                    tablefmt="rounded_grid",
-                )
-            )
-
-class GeoipsList(GeoipsCommand):
-    """GeoipsList Sub-Command for listing packages/scripts/interfaces/plugins."""
-    subcommand_name = "list"
-    subcommand_classes = [
-        GeoipsListInterfaces, GeoipsListPackages, GeoipsListPlugins, GeoipsListScripts
-    ]
+    def add_subparsers(self):
+        None
 
     def add_arguments(self):
         """Instantiate the valid arguments that are supported for the list command.
 
-        Currently the "geoips list" command supports this format:
-            - geoips list <to_be_listed> -p <package_name>
+        Currently the "geoips list interface" command supports this format:
+            - geoips list interface <interface_name> -p <package_name>
         Where:
-            <to_be_listed> is any of the strings in self.available_list_options
+            <interface_name> is any of the GeoIPS Interfaces' Name
             <package_name> is any GeoIPS package that is installed and recognized by the
-              GeoIPS Libarary
+              GeoIPS Library
         """
         self.subcommand_parser.add_argument(
             "interface_name",
@@ -378,7 +326,7 @@ class GeoipsList(GeoipsCommand):
             help="The GeoIPS package to list from.",
         )
 
-    def list(self, args):
+    def list_interface(self, args):
         """List all elements of the selected list option.
 
         Selected list option is args.interface_name, where interface_name can be any of:
@@ -407,3 +355,103 @@ class GeoipsList(GeoipsCommand):
             print(interface_name)
             print("-" * len(interface_name))
             self._print_plugins_short_format(interface, interface_registry)
+
+
+class GeoipsListScripts(GeoipsCommand):
+    """GeoipsListInterfaces Sub-Command Class.
+
+    Called via `geoips list scripts`. Outputs the following data in a tabular format.
+
+    Data Output
+    -----------
+    out_array: 2D Array of Data
+        - [
+            package, interface_name, interface_type, supported_families,
+            short_docstring, filepath, documentation_link
+        ]
+    """
+    subcommand_name = "scripts"
+    subcommand_classes = []
+
+    def add_subparsers(self):
+        pass
+
+    def add_arguments(self):
+        self.subcommand_parser.add_argument(
+            "--package",
+            "-p",
+            type=str,
+            default="all",
+            choices=self.plugin_packages,
+            help="The GeoIPS package to list from.",
+        )
+
+    def list_scripts(self, args):
+        """List all of the available scripts held under <package_name>.
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The list argument namespace to parse through
+        """
+        package_name = args.package
+        if package_name == "all":
+            # list scripts found throughout all packages.
+            plugin_packages = self.plugin_packages
+        else:
+            # list scripts from a certain package.
+            plugin_packages = [package_name]
+        for plugin_package_name in plugin_packages:
+            script_names = sorted(
+                [
+                    [plugin_package_name, basename(fpath)] for fpath in
+                        glob(
+                            str(
+                                resources.files(plugin_package_name) /
+                                "../tests/scripts" / "*.sh"
+                            )
+                        )
+                ]
+            )
+            print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
+            print(f"{plugin_package_name.title()} Available Scripts")
+            print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
+            print(
+                tabulate(
+                    script_names,
+                    headers=["GeoIPS Package", "Filename"],
+                    tablefmt="rounded_grid",
+                )
+            )
+
+
+class GeoipsList(GeoipsCommand):
+    """GeoipsList Sub-Command for listing packages/scripts/interfaces/plugins."""
+    subcommand_name = "list"
+    subcommand_classes = [
+        GeoipsListSingleInterface,
+        GeoipsListInterfaces,
+        GeoipsListPackages,
+        GeoipsListPlugins,
+        GeoipsListScripts,
+    ]
+
+    def add_subparsers(self):
+        self.list_subparsers = self.subcommand_parser.add_subparsers(
+            help="list command help"
+        )
+        for subcmd_cls in self.subcommand_classes:
+            subcmd_cls(parent=self)
+
+    def add_arguments(self):
+        """
+        No arguments to add. These will be added recursively throughout sub-classes.
+        """
+        pass
+
+    def list(self, args):
+        """
+        Required for each subcommand class. Since this class is just a parent to
+        all other list sub-command classes, we don't do anything here.
+        """
+        pass

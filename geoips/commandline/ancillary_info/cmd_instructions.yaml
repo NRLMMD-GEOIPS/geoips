@@ -12,7 +12,7 @@ instructions:
       Retrieve the appropriate GeoIPS Interface alongside descriptive information of
       that interface. See output_info for each datum provided when this command is
       called. For a listing of available GeoIPS interfaces, run:
-      `geoips list-interfaces`.
+      `geoips list interfaces`.
     usage_str: |
       To use, type `geoips get-interface <interface_name>`, where <interface_name> is a
       valid GeoIPS Interface.
@@ -28,7 +28,7 @@ instructions:
       Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
       that plugin. See output_info for each datum provided when this command is
       called. For a listing of available GeoIPS Plugins, run:
-      `geoips list-plugins`.
+      `geoips list plugins`.
     usage_str: |
       To use, type `geoips get-plugin <interface_name> <plugin_name>`, where
       <interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin
@@ -43,17 +43,24 @@ instructions:
       - Plugin Specific Info (signature / source_names / available overrides)
   - cmd_name: list
     help_str: |
+      Not Implemented
+    usage_str: |
+      Not Implemented
+    output_info:
+      - Not Applicable
+  - cmd_name: list interface
+    help_str: |
       List off plugins found under a certain interface. This is useful for seeing what
       plugins have been implemented through all, or a certain, GeoIPS Package. This
       information can then be used with
       `geoips get-plugin <interface_name> <plugin_name>` to get more information about a
       certain plugin.
     usage_str: |
-      To use, type `geoips list <interface_name>`. Optionally includes `-p` flag for
-      seeing what plugins are in a certain package (-p). For example, to see what
-      plugins under a certain interface have been created in a single package,
-      run `geoips list <interface_name> -p <pkg_name>`, or you can remove the `-p` flag
-      to see what's been created in every package.
+      To use, type `geoips list interface <interface_name>`. Optionally includes `-p`
+      flag for seeing what plugins are in a certain package (-p). For example, to see
+      what plugins under a certain interface have been created in a single package,
+      run `geoips list interface <interface_name> -p <pkg_name>`, or you can remove the
+      `-p` flag to see what's been created in every package.
     output_info:
       - Family
       - Interface Name
@@ -61,7 +68,7 @@ instructions:
       - Package
       - Plugin Name
       - Relative Path
-  - cmd_name: list-interfaces
+  - cmd_name: list interfaces
     help_str: |
       List off every GeoIPS Interface. This is useful for seeing what is
       available throughout GeoIPS, but can also be extended to see what interfaces have
@@ -69,10 +76,10 @@ instructions:
       information can then be used with `geoips get-interface <interface_name>` to get
       more information about a certain interface.
     usage_str: |
-      To use, type `geoips list-interfaces`. Optionally includes `-i` and `-p` flags for
+      To use, type `geoips list interfaces`. Optionally includes `-i` and `-p` flags for
       seeing what has been implemented (-i) in a certain package (-p), or all packages.
       For example, to see what interfaces have been implemented in a certain package,
-      run `geoips list-interfaces -i -p <pkg_name>`, or you can remove the `-p` flag to
+      run `geoips list interfaces -i -p <pkg_name>`, or you can remove the `-p` flag to
       see what's been implemented in every package.
     output_info:
       - Absolute Path
@@ -82,16 +89,16 @@ instructions:
       - Interface Type
       - Package
       - Supported Families
-  - cmd_name: list-plugins
+  - cmd_name: list plugins
     help_str: |
       List off plugins found under all, or a specified GeoIPS package. This information
       can then be used with `geoips get-plugin <interface_name> <plugin_name>` to get
       more information about a certain plugin.
     usage_str: |
-      To use, type `geoips list-plugins`. Optionally includes `-p` flag for
+      To use, type `geoips list plugins`. Optionally includes `-p` flag for
       seeing what plugins are in a certain package (-p). For example, to see what
       plugins have been created in a single package, run
-      `geoips list-plugins -p <pkg_name>`, or you can remove the `-p` flag to see what's
+      `geoips list plugins -p <pkg_name>`, or you can remove the `-p` flag to see what's
       been created in every package.
     output_info:
       - Family
@@ -100,27 +107,27 @@ instructions:
       - Package
       - Plugin Name
       - Relative Path
-  - cmd_name: list-packages
+  - cmd_name: list packages
     help_str: |
       List off packages found under the GeoIPS Namespace, alongside their path and
       top-level docstring. This command will list every  GeoIPS Package found, provided
       it has already been installed.
     usage_str: |
-      To use, type `geoips list-packages`.
+      To use, type `geoips list packages`.
     output_info:
       - Docstring
       - Package
       - Relative Path
-  - cmd_name: list-scripts
+  - cmd_name: list scripts
     help_str: |
       List off scripts found under all, or a specified GeoIPS package. This information
       can then be used with `geoips run <package_name> <script_name>` to run a certain
       process workflow, defined in a bash script.
     usage_str: |
-      To use, type `geoips list-scripts`. Optionally includes `-p` flag for
+      To use, type `geoips list scripts`. Optionally includes `-p` flag for
       seeing what scripts are in a certain package (-p). For example, to see what
       scripts have been created in a single package, run
-      `geoips list-scripts -p <pkg_name>`, or you can remove the `-p` flag to see what's
+      `geoips list scripts -p <pkg_name>`, or you can remove the `-p` flag to see what's
       been created in every package.
     output_info:
       - Package
