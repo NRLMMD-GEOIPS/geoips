@@ -1,11 +1,100 @@
 """GeoIPS CLI "get" command.
 
-Retrieves the appropriate plugin/interface based on the arguments provided.
+Retrieves the appropriate family/interface/package/plugin based on the args provided.
 """
-from importlib import resources
+from importlib import resources, import_module
+import yaml
 
 from geoips.commandline.commandline_interface import GeoipsCommand
 from geoips import interfaces
+
+
+class GeoipsGetFamily(GeoipsCommand):
+    """GeoipsGetFamily Class which implements retrieving GeoIPS Families.
+
+    This is called via `geoips get family <interface_name> <family_name>`. Data included
+    when calling this command is shown below, outputted in a yaml-based format.
+
+    Data Output
+    -----------
+    yaml-based-output: dict
+        - includes the following info : [
+            interface_name, interface_type, family, required fam_args/schema,
+            docstring, filepath, documentation_link
+        ]
+    """
+    subcommand_name = "family"
+    subcommand_classes = []
+
+    def add_arguments(self):
+        self.subcommand_parser.add_argument(
+            "interface_name",
+            type=str.lower,
+            default="algorithms",
+            choices=interfaces.__all__,
+            help="GeoIPS Interface to retrieve."
+        )
+        self.subcommand_parser.add_argument(
+            "family_name",
+            type=str,
+            help="GeoIPS Plugin to select from the provided interface."
+        )
+
+    def get_family(self, args):
+        """CLI 'geoips get family <interface_name> <family_name>' command.
+
+        This occurs when a user has requested a family in the manner shown above.
+        Outputs to the teriminal the following data in a dictionary format if available.
+
+        [
+            interface_name, interface_type, family, required fam_args/schema,
+            docstring, filepath, documentation_link
+        ]
+
+        Parameters
+        ----------
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
+        """
+        interface_name = args.interface_name
+        family_name = args.family_name
+        interface = getattr(interfaces, interface_name)
+        interface_type = interface.interface_type
+        supported_families = interface.supported_families
+        if family_name not in supported_families:
+            # If the family name is not one of the interface's supported family
+            # members, raise an error
+            err_str = f"Error: Family: `{family_name}` is not within Interface: "
+            err_str += f"`{interface_name}` supported families: `{supported_families}`"
+            self.subcommand_parser.error(
+                err_str
+            )
+        if interface_type == "module_based":
+            docstring = "Not Implemented."
+            family_path = str(
+                resources.files("geoips") /
+                f"interfaces/{interface_type}/{interface_name}.py"
+            )
+            family_args_or_schema = interface.required_args[family_name]
+        else:
+            family_path = str(
+                resources.files("geoips") /
+                f"schema/{interface_name}/{family_name}.yaml"
+            )
+            family_args_or_schema = yaml.safe_load(open(family_path, "r"))
+            if "description" in list(family_args_or_schema.keys()):
+                docstring = family_args_or_schema["description"]
+            else:
+                docstring = "Not Implemented."
+        family_entry = {
+            "Interface Name": interface_name,
+            "Interface Type": interface_type,
+            "Family Name": family_name,
+            "Required Args / Schema": family_args_or_schema,
+            "Docstring": docstring,
+            "Family Path": family_path,
+        }
+        self._output_dictionary_highlighted(family_entry)
 
 
 class GeoipsGetInterface(GeoipsCommand):
@@ -47,10 +136,8 @@ class GeoipsGetInterface(GeoipsCommand):
 
         Parameters
         ----------
-        interface: GeoIPS Interface Class
-            - The corresponding interface to get the plugin info from
-        interface_type: str
-            - The type of interface provided ["module_based", "yaml_based"]
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
         """
         interface_name = args.interface_name
         interface = getattr(interfaces, interface_name)
@@ -68,6 +155,59 @@ class GeoipsGetInterface(GeoipsCommand):
             "supported_families": interface.supported_families,
         }
         self._output_dictionary_highlighted(interface_entry)
+
+
+class GeoipsGetPackage(GeoipsCommand):
+    """GeoipsGetPackage Class which implements retrieving GeoIPS Packages.
+
+    This is called via `geoips get package <interface_name>`. Data included when
+    calling this command is shown below, outputted in a yaml-based format.
+
+    Data Output
+    -----------
+    yaml-based-output: dict
+        - includes the following info : [
+            package name, docstring, package_path, documentation_link
+        ]
+    """
+    subcommand_name = "package"
+    subcommand_classes = []
+
+    def add_arguments(self):
+        self.subcommand_parser.add_argument(
+            "package_name",
+            type=str.lower,
+            default="geoips",
+            choices=self.plugin_packages,
+            help="GeoIPS Package to retrieve."
+        )
+
+    def get_package(self, args):
+        """CLI 'geoips get package <package_name>' command.
+
+        This occurs when a user has requested a package in the manner shown above.
+        Outputs to the teriminal the following data in a dictionary format if available.
+
+        [
+             package name, docstring, package_path, documentation_link
+        ]
+
+        Parameters
+        ----------
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
+        """
+        package_name = args.package_name
+        package_path = str(resources.files(package_name))
+
+        docstring = import_module(package_name).__doc__
+        package_entry = {
+            "GeoIPS Package": package_name,
+            "Docstring": docstring,
+            "Package Path": package_path,
+            "Documentation Link": f"{self.nrl_url}{package_name}",
+        }
+        self._output_dictionary_highlighted(package_entry)
 
 
 class GeoipsGetPlugin(GeoipsCommand):
@@ -116,12 +256,8 @@ class GeoipsGetPlugin(GeoipsCommand):
 
         Parameters
         ----------
-        interface: GeoIPS Interface Class
-            - The corresponding interface to get the plugin info from
-        interface_type: str
-            - The type of interface provided ["module_based", "yaml_based"]
-        plugin_name: str
-            - The name of the plugin from the selected interface
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
         """
         interface_name = args.interface_name
         plugin_name = args.plugin_name
@@ -176,7 +312,12 @@ class GeoipsGetPlugin(GeoipsCommand):
 class GeoipsGet(GeoipsCommand):
     """GeoipsGet Sub-Command for retrieving package plugins."""
     subcommand_name = "get"
-    subcommand_classes = [GeoipsGetInterface, GeoipsGetPlugin]
+    subcommand_classes = [
+        GeoipsGetFamily,
+        GeoipsGetInterface,
+        GeoipsGetPackage,
+        GeoipsGetPlugin,
+    ]
 
     def add_arguments(self):
         pass

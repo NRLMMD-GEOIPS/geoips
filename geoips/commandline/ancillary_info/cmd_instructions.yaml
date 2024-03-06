@@ -7,6 +7,23 @@ instructions:
       Not Implemented
     output_info:
       - Not Applicable
+  - cmd_name: get family
+    help_str: |
+      Retrieve the appropriate GeoIPS Family alongside descriptive information of
+      that family. See output_info for each datum provided when this command is
+      called. For a listing of available GeoIPS families, run:
+      `geoips list interfaces`.
+    usage_str: |
+      To use, type `geoips get family <interface_name> <family_name>`, where
+      <interface_name> is a valid GeoIPS Interface and <family_name> is a supported
+      family member of that interface.
+    output_info:
+      - Docstring
+      - Family Name
+      - Family Path
+      - Interface Name
+      - Interface Type
+      - Required Args / Schema
   - cmd_name: get interface
     help_str: |
       Retrieve the appropriate GeoIPS Interface alongside descriptive information of
@@ -23,6 +40,20 @@ instructions:
       - Interface Name
       - Interface Type
       - Supported Families
+  - cmd_name: get package
+    help_str: |
+      Retrieve the appropriate GeoIPS Package alongside descriptive information of
+      that package. See output_info for each datum provided when this command is
+      called. For a listing of available GeoIPS packages, run:
+      `geoips list packages`.
+    usage_str: |
+      To use, type `geoips get package <package_name>`, where <package_name> is a
+      valid GeoIPS Package.
+    output_info:
+      - GeoIPS Package
+      - Docstring
+      - Package Path
+      - Documentation Link
   - cmd_name: get plugin
     help_str: |
       Retrieve the appropriate GeoIPS Plugin alongside descriptive information of

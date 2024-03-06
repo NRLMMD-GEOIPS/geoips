@@ -10,7 +10,6 @@ import logging
 from importlib import resources
 import json
 from os.path import dirname
-import sys
 from tabulate import tabulate
 import yaml
 
@@ -34,6 +33,7 @@ class GeoipsCommand(abc.ABC):
         each subcommand class with a parser and point towards the correct default
         function to call if that subcommand has been called.
         """
+        self.nrl_url = "https://github.com/NRLMMD-GEOIPS/"
         if parent:
             if parent.subcommand_name == "cli":
                 combined_name = self.subcommand_name
