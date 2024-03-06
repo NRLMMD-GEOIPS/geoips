@@ -1,6 +1,6 @@
 """GeoIPS CLI "list" command.
 
-Lists the appropriate plugins/interfaces based on the arguments provided.
+Lists the appropriate interfaces/packages/plugins based on the arguments provided.
 """
 from glob import glob
 from importlib import resources, import_module

@@ -174,3 +174,12 @@ instructions:
       To use, type `geoips run <package_name> <script_name>`.
     output_info:
       - Log Output of the Process Workflow (Procflow)
+  - cmd_name: validate
+    help_str: |
+      Validate a GeoIPS Plugin found at <file_path>. While this is done under the hood via
+      GeoIPS, this is an easy way to test whether or not the plugin you are developing
+      is valid.
+    usage_str: |
+      To use, type `geoips validate <file_path>`.
+    output_info:
+      - A message telling you if the plugin is valid or not and why.
