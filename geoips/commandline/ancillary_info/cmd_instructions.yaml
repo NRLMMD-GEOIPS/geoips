@@ -6,15 +6,15 @@ instructions:
     usage_str: |
       Not Implemented
     output_info:
-      - Not Implemented
-  - cmd_name: get-interface
+      - Not Applicable
+  - cmd_name: get interface
     help_str: |
       Retrieve the appropriate GeoIPS Interface alongside descriptive information of
       that interface. See output_info for each datum provided when this command is
       called. For a listing of available GeoIPS interfaces, run:
       `geoips list interfaces`.
     usage_str: |
-      To use, type `geoips get-interface <interface_name>`, where <interface_name> is a
+      To use, type `geoips get interface <interface_name>`, where <interface_name> is a
       valid GeoIPS Interface.
     output_info:
       - Absolute Path
@@ -23,14 +23,14 @@ instructions:
       - Interface Name
       - Interface Type
       - Supported Families
-  - cmd_name: get-plugin
+  - cmd_name: get plugin
     help_str: |
       Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
       that plugin. See output_info for each datum provided when this command is
       called. For a listing of available GeoIPS Plugins, run:
       `geoips list plugins`.
     usage_str: |
-      To use, type `geoips get-plugin <interface_name> <plugin_name>`, where
+      To use, type `geoips get plugin <interface_name> <plugin_name>`, where
       <interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin
       identifier that has been implemented in any installed GeoIPS package.
     output_info:

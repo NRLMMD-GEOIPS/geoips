@@ -22,8 +22,11 @@ class GeoipsGetInterface(GeoipsCommand):
             docstring, abspath, doc_link,
         ]
     """
-    subcommand_name = "get-interface"
+    subcommand_name = "interface"
     subcommand_classes = []
+
+    def add_subparsers(self):
+        pass
 
     def add_arguments(self):
         self.subcommand_parser.add_argument(
@@ -84,8 +87,11 @@ class GeoipsGetPlugin(GeoipsCommand):
             docstring, filepath, documentation_link
         ]
     """
-    subcommand_name = "get-plugin"
+    subcommand_name = "plugin"
     subcommand_classes = []
+
+    def add_subparsers(self):
+        pass
 
     def add_arguments(self):
         self.subcommand_parser.add_argument(
@@ -177,6 +183,13 @@ class GeoipsGet(GeoipsCommand):
     """GeoipsGet Sub-Command for retrieving package plugins."""
     subcommand_name = "get"
     subcommand_classes = [GeoipsGetInterface, GeoipsGetPlugin]
+
+    # def add_subparsers(self):
+    #     self.get_subparsers = self.subcommand_parser.add_subparsers(
+    #         help="Get instructions."
+    #     )
+    #     for subcmd_cls in self.subcommand_classes:
+    #         subcmd_cls(parent=self)
 
     def add_arguments(self):
         pass

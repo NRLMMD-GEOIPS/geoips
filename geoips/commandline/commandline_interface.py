@@ -57,19 +57,48 @@ class GeoipsCommand(abc.ABC):
 
     @abc.abstractproperty
     def subcommand_name(self):
+        """Name of the subcommand_class."""
         pass
 
     @abc.abstractproperty
     def subcommand_classes(self):
+        """List of subcommand_classes related to the top level command.
+
+        For example, if the class provided was GeoipsList, subcommand_classes would
+        be the list of available subcommand_classes that "geoips list" implements.
+        """
         pass
 
     @abc.abstractmethod
     def add_arguments(self):
+        """Add arguments related to the sub-command class.
+
+        This is an abstract method because we don't know which arguments need to be
+        added for each class at this moment.
+        """
         pass
 
-    @abc.abstractmethod
     def add_subparsers(self):
-        pass
+        """Add subparsers for each sub-command class.
+
+        This is done so we can limit the scope of what arguments are accepted for each
+        geoips <cmd> sub-command. This is only done for the top-level command, such as
+        "list", "run", "get", etc.
+
+        For example, if this were the GeoipsList Command Sub-Class, we would create a
+        self.list_subparsers attribute, which we then add individual parsers for each
+        sub-command, as in interfaces, plugins, packages, scripts, etc.
+        """
+        if len(self.subcommand_classes):
+            setattr(
+                self,
+                f"{self.subcommand_name}_subparsers",
+                self.subcommand_parser.add_subparsers(
+                    help=f"{self.subcommand_name} instructions."
+                )
+            )
+            for subcmd_cls in self.subcommand_classes:
+                subcmd_cls(parent=self)
 
     @property
     def cmd_instructions(self):
@@ -237,13 +266,13 @@ class GeoipsCLI:
     functionality of the CLI. This includes [GeoipsGet, GeoipsList, GeoipsRun] as of
     right now.
     """
-    # from geoips.commandline.geoips_get import GeoipsGet
+    from geoips.commandline.geoips_get import GeoipsGet
     from geoips.commandline.geoips_list import GeoipsList
-    # from geoips.commandline.geoips_run import GeoipsRun
+    from geoips.commandline.geoips_run import GeoipsRun
     # from geoips.commandline.geoips_validate import GeoipsValidate
 
-    # subcommand_classes = [GeoipsGet, GeoipsList, GeoipsRun] #, GeoipsValidate]
-    subcommand_classes = [GeoipsList]
+    subcommand_classes = [GeoipsGet, GeoipsList, GeoipsRun] #, GeoipsValidate]
+    # subcommand_classes = [GeoipsGet, GeoipsList]
 
     def __init__(self):
         """Initialize the GeoipsCLI and each of it's sub-command classes.

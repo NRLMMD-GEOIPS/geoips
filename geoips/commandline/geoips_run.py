@@ -9,6 +9,9 @@ class GeoipsRun(GeoipsCommand):
     subcommand_name = "run"
     subcommand_classes = []
 
+    # def add_subparsers(self):
+    #     pass
+
     def add_arguments(self):
         self.subcommand_parser.add_argument(
             "pkg_name",

@@ -28,8 +28,8 @@ class GeoipsListInterfaces(GeoipsCommand):
     subcommand_name = "interfaces"
     subcommand_classes = []
 
-    def add_subparsers(self):
-        pass
+    # def add_subparsers(self):
+    #     pass
 
     def add_arguments(self):
         self.subcommand_parser.add_argument(
@@ -187,8 +187,8 @@ class GeoipsListPackages(GeoipsCommand):
     subcommand_name = "packages"
     subcommand_classes = []
 
-    def add_subparsers(self):
-        pass
+    # def add_subparsers(self):
+    #     pass
 
     def add_arguments(self):
         pass
@@ -251,8 +251,8 @@ class GeoipsListPlugins(GeoipsCommand):
     subcommand_name = "plugins"
     subcommand_classes = []
 
-    def add_subparsers(self):
-        pass
+    # def add_subparsers(self):
+    #     pass
 
     def add_arguments(self):
         self.subcommand_parser.add_argument(
@@ -297,8 +297,8 @@ class GeoipsListSingleInterface(GeoipsCommand):
     subcommand_name = "interface"
     subcommand_classes = []
 
-    def add_subparsers(self):
-        None
+    # def add_subparsers(self):
+    #     pass
 
     def add_arguments(self):
         """Instantiate the valid arguments that are supported for the list command.
@@ -373,8 +373,8 @@ class GeoipsListScripts(GeoipsCommand):
     subcommand_name = "scripts"
     subcommand_classes = []
 
-    def add_subparsers(self):
-        pass
+    # def add_subparsers(self):
+    #     pass
 
     def add_arguments(self):
         self.subcommand_parser.add_argument(
@@ -436,12 +436,12 @@ class GeoipsList(GeoipsCommand):
         GeoipsListScripts,
     ]
 
-    def add_subparsers(self):
-        self.list_subparsers = self.subcommand_parser.add_subparsers(
-            help="list command help"
-        )
-        for subcmd_cls in self.subcommand_classes:
-            subcmd_cls(parent=self)
+    # def add_subparsers(self):
+    #     self.list_subparsers = self.subcommand_parser.add_subparsers(
+    #         help="list command help"
+    #     )
+    #     for subcmd_cls in self.subcommand_classes:
+    #         subcmd_cls(parent=self)
 
     def add_arguments(self):
         """
