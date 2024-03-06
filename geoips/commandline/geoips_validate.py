@@ -48,7 +48,7 @@ class GeoipsValidate(GeoipsCommand):
                 plugin_name = plugin.name
             else:
                 interface_name = plugin["interface"]
-
+                plugin_name = plugin["name"]
         except AttributeError or KeyError:
             self.subcommand_parser.error(
                 err_str
