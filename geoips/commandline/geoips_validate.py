@@ -135,6 +135,6 @@ class GeoipsValidate(GeoipsExecutableCommand):
             err_str += "Missing either 'spec' or 'spec['products']' key."
             self.subcommand_parser.error(err_str)
         for subplg in product_list:
-            if not interface.plugin_is_valid(plugin["name"], subplg["name"]):
+            if not interface.plugin_is_valid(subplg["source_names"][0], subplg["name"]):
                 return False
         return True

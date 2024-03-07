@@ -12,12 +12,14 @@ class BaseCliTest(abc.ABC):
     _list_plugins_args = ["geoips", "list", "plugins"]
     _list_packages_args = ["geoips", "list", "packages"]
     _list_scripts_args = ["geoips", "list", "scripts"]
+    _validate_args = ["geoips", "validate"]
     arg_list = [
         _list_args,
         _list_interfaces_args,
         _list_plugins_args,
         _list_packages_args,
         _list_scripts_args,
+        _validate_args,
     ]
 
     def generate_id(self, args):

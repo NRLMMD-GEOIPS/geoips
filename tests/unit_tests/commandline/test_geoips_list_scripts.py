@@ -6,12 +6,11 @@ from glob import glob
 from importlib import resources
 from os.path import basename
 import pytest
-import subprocess
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
-class TestGeoipsList(BaseCliTest):
+class TestGeoipsListScripts(BaseCliTest):
     """Unit Testing Class for GeoipsListScripts Command."""
 
     @property
@@ -97,7 +96,7 @@ class TestGeoipsList(BaseCliTest):
             for header in headers:
                 assert header in output
 
-test_sub_cmd = TestGeoipsList()
+test_sub_cmd = TestGeoipsListScripts()
 
 @pytest.mark.parametrize(
         "args",
