@@ -42,21 +42,14 @@ class GeoipsCommand(abc.ABC):
             self.subcommand_parser = argparse.ArgumentParser()
             combined_name = self.subcommand_name
         self.add_subparsers()
-        self.add_arguments()
-        self.subcommand_parser.set_defaults(
-            exe_command=getattr(self, "__call__"),
-        )
-
-    @abc.abstractmethod
-    def __call__(self, args):
-        """The actual functionaly of the command being called.
-
-        Parameters
-        ----------
-        args: argparse Namespace()
-            - The namespace of the arguments of a specific CLI Command.
-        """
-        pass
+        if hasattr(self, "__call__"):
+            # If the subcommand class is exectuable (ie. not the cli, top-level list...)
+            # Then add available arguments for that command and set that function to
+            # the commands executable function (__call__) if that command is called.
+            self.add_arguments()
+            self.subcommand_parser.set_defaults(
+                exe_command=self.__call__,
+            )
 
     @property
     @abc.abstractmethod
@@ -71,15 +64,6 @@ class GeoipsCommand(abc.ABC):
 
         For example, if the class provided was GeoipsList, subcommand_classes would
         be the list of available subcommand_classes that "geoips list" implements.
-        """
-        pass
-
-    @abc.abstractmethod
-    def add_arguments(self):
-        """Add arguments related to the sub-command class.
-
-        This is an abstract method because we don't know which arguments need to be
-        added for each class at this moment.
         """
         pass
 
@@ -142,6 +126,34 @@ class GeoipsCommand(abc.ABC):
                     for ep in get_entry_point_group("geoips.plugin_packages")
             ]
         return self._plugin_package_paths
+
+
+class GeoipsExecutableCommand(GeoipsCommand):
+    """GeoipsExecutableCommand Abstract Base Class.
+
+    This class is a blueprint of what each executable GeoIPS Sub-Command Classes
+    can implement.
+    """
+
+    @abc.abstractmethod
+    def add_arguments(self):
+        """Add arguments related to the sub-command class.
+
+        This is an abstract method because we don't know which arguments need to be
+        added for each class at this moment.
+        """
+        pass
+
+    @abc.abstractmethod
+    def __call__(self, args):
+        """The actual functionaly of the command being called.
+
+        Parameters
+        ----------
+        args: argparse Namespace()
+            - The namespace of the arguments of a specific CLI Command.
+        """
+        pass
 
     def _output_dictionary_highlighted(self, dict_entry):
         """Print to terminal the yaml-dumped dictionary of a certain interface/plugin.

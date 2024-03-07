@@ -9,11 +9,11 @@ from importlib.util import (
 )
 import yaml
 
-from geoips.commandline.commandline_interface import GeoipsCommand
+from geoips.commandline.geoips_command import GeoipsExecutableCommand
 from geoips import interfaces
 
 
-class GeoipsValidate(GeoipsCommand):
+class GeoipsValidate(GeoipsExecutableCommand):
     """GeoipsValidate Sub-Command for validating package plugins."""
     subcommand_name = "validate"
     subcommand_classes = []

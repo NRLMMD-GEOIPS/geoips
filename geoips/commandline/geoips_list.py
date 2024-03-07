@@ -8,11 +8,11 @@ import json
 from os.path import basename
 from tabulate import tabulate
 
-from geoips.commandline.commandline_interface import GeoipsCommand
+from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips import interfaces
 
 
-class GeoipsListInterfaces(GeoipsCommand):
+class GeoipsListInterfaces(GeoipsExecutableCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
     Called via `geoips list interfaces`. Outputs the following data in a tabular format.
@@ -168,7 +168,7 @@ class GeoipsListInterfaces(GeoipsCommand):
             )
 
 
-class GeoipsListPackages(GeoipsCommand):
+class GeoipsListPackages(GeoipsExecutableCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
     Called via `geoips list packages`. Outputs the following data in a tabular format.
@@ -229,7 +229,7 @@ class GeoipsListPackages(GeoipsCommand):
         )
 
 
-class GeoipsListPlugins(GeoipsCommand):
+class GeoipsListPlugins(GeoipsExecutableCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
     Called via `geoips list plugins`. Outputs the following data in a tabular format.
@@ -283,7 +283,7 @@ class GeoipsListPlugins(GeoipsCommand):
             self._print_plugins_short_format(curr_interface, interface_registry)
 
 
-class GeoipsListSingleInterface(GeoipsCommand):
+class GeoipsListSingleInterface(GeoipsExecutableCommand):
     """GeoipsList Sub-Command for listing packages/scripts/interfaces/plugins."""
     subcommand_name = "interface"
     subcommand_classes = []
@@ -345,7 +345,7 @@ class GeoipsListSingleInterface(GeoipsCommand):
             self._print_plugins_short_format(interface, interface_registry)
 
 
-class GeoipsListScripts(GeoipsCommand):
+class GeoipsListScripts(GeoipsExecutableCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
     Called via `geoips list scripts`. Outputs the following data in a tabular format.
@@ -421,15 +421,3 @@ class GeoipsList(GeoipsCommand):
         GeoipsListScripts,
     ]
 
-    def add_arguments(self):
-        """
-        No arguments to add. These will be added recursively throughout sub-classes.
-        """
-        pass
-
-    def __call__(self, args):
-        """
-        Required for each subcommand class. Since this class is just a parent to
-        all other list sub-command classes, we don't do anything here.
-        """
-        pass

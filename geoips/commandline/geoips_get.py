@@ -5,11 +5,11 @@ Retrieves the appropriate family/interface/package/plugin based on the args prov
 from importlib import resources, import_module
 import yaml
 
-from geoips.commandline.commandline_interface import GeoipsCommand
+from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips import interfaces
 
 
-class GeoipsGetFamily(GeoipsCommand):
+class GeoipsGetFamily(GeoipsExecutableCommand):
     """GeoipsGetFamily Class which implements retrieving GeoIPS Families.
 
     This is called via `geoips get family <interface_name> <family_name>`. Data included
@@ -97,7 +97,7 @@ class GeoipsGetFamily(GeoipsCommand):
         self._output_dictionary_highlighted(family_entry)
 
 
-class GeoipsGetInterface(GeoipsCommand):
+class GeoipsGetInterface(GeoipsExecutableCommand):
     """GeoipsGetInterface Class which implements retrieving GeoIPS Interfaces.
 
     This is called via `geoips get interface <interface_name>`. Data included when
@@ -157,7 +157,7 @@ class GeoipsGetInterface(GeoipsCommand):
         self._output_dictionary_highlighted(interface_entry)
 
 
-class GeoipsGetPackage(GeoipsCommand):
+class GeoipsGetPackage(GeoipsExecutableCommand):
     """GeoipsGetPackage Class which implements retrieving GeoIPS Packages.
 
     This is called via `geoips get package <interface_name>`. Data included when
@@ -210,7 +210,7 @@ class GeoipsGetPackage(GeoipsCommand):
         self._output_dictionary_highlighted(package_entry)
 
 
-class GeoipsGetPlugin(GeoipsCommand):
+class GeoipsGetPlugin(GeoipsExecutableCommand):
     """GeoipsGetPlugin Class which implements retrieving GeoIPS Plugins.
 
     This is called via `geoips get plugin <interface_name> <plugin_name>`. Data included
@@ -319,14 +319,3 @@ class GeoipsGet(GeoipsCommand):
         GeoipsGetPlugin,
     ]
 
-    def add_arguments(self):
-        pass
-
-    def __call__(self, args):
-        """Retrieve the appropriate Plugin/Interface given the provided arguments.
-
-        Retrieve the appropriate Plugin/Interface based on the arguments provided. This
-        acts similar to <geoips_interface>.get_plugin(), but uses the plugin registry
-        or the interface itself to get information instead.
-        """
-        pass

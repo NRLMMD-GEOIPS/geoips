@@ -44,12 +44,6 @@ class GeoipsCLI(GeoipsCommand):
     def subcommand_name(self):
         return self._subcommand_name
 
-    def __call__(self):
-        pass
-
-    def add_arguments(self):
-        pass
-
     def execute_command(self):
         """Execute the given command."""
         self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)
