@@ -33,10 +33,41 @@ class GeoipsValidate(GeoipsExecutableCommand):
         associated interface from the plugin to validate at runtime.
         """
         fpath = args.file_path
+        interface, plugin, plugin_name = self._get_interface_and_plugin(fpath)
+        if interface.name == "products":
+            is_valid = self._validate_sub_products(interface, fpath, plugin)
+        else:
+            is_valid = interface.plugin_is_valid(plugin_name)
+        if not is_valid:
+            # if it's not valid, report that to the user
+            self.subcommand_parser.error(
+                f"Plugin '{plugin_name}' found at {fpath} is invalid."
+            )
+        else:
+            # otherwise let them know they're good to go
+            print(f"Plugin '{plugin_name}' found at {fpath} is valid.")
+
+    def _get_interface_and_plugin(self, fpath):
+        """Retrieve the interface and plugin associated with the file path given.
+
+        Parameters
+        ----------
+        fpath: str
+            - The file path of the plugin requested to be validated.
+
+        Returns
+        -------
+        interface: GeoIPS Interface Class
+            - The interface associated with the provided plugin.
+        plugin: Python Module or Yaml Dictionary
+            - The plugin "definition" associated with the file path provided.
+        plugin_name: str
+            - The name of the plugin
+        """
         if ".py" == fpath[-3:]:
             # module-based plugin
             interface_type = "module_based"
-            plugin = self.load_module_from_file(fpath)
+            plugin = self._load_module_from_file(fpath)
         elif ".yaml" == fpath[-5:]:
             # yaml-based plugin
             interface_type = "yaml_based"
@@ -61,19 +92,11 @@ class GeoipsValidate(GeoipsExecutableCommand):
             self.subcommand_parser.error(
                 err_str
             )
-        # get the correct interface and validate the plugin based on its name
+        # get the correct geoips interface associated with the plugin
         interface = getattr(interfaces, interface_name)
-        is_valid = interface.plugin_is_valid(plugin_name)
-        if not is_valid:
-            # if it's not valid, report that to the user
-            self.subcommand_parser.error(
-                f"Plugin '{plugin_name}' found at {fpath} is invalid."
-            )
-        else:
-            # otherwise let them know they're good to go
-            print(f"Plugin '{plugin_name}' found at {fpath} is valid.")
+        return interface, plugin, plugin_name
 
-    def load_module_from_file(self, file_path, module_name=None):
+    def _load_module_from_file(self, file_path, module_name=None):
         """Load in a given python module provied a file_path and an optional name."""
         if module_name is None:
             # Generate a unique module name if not provided
@@ -83,3 +106,35 @@ class GeoipsValidate(GeoipsExecutableCommand):
         module = module_from_spec(spec)
         spec.loader.exec_module(module)
         return module
+
+    def _validate_sub_products(self, interface, fpath, plugin):
+        """Validate each sub-product plugin found within a products yaml definition.
+
+        If the corresponding interface was found to be a "products" interface, validate
+        each sub-product plugin found within the provided yaml products plugin.
+
+        Parameters
+        ----------
+        interface: GeoIPS Interface Class
+            - GeoIPS Products Interface used for validation
+        fpath: str
+            - The file path of the products plugin to be validated
+        plugin: dict
+            - Dictionary representing the Products' yaml file provided.
+
+        Returns
+        -------
+        bool:
+            - True or False, where True means that every sub-plugin is valid and False
+              means that at least a single sub-plugin was invalid.
+        """
+        try:
+            product_list = plugin["spec"]["products"]
+        except KeyError:
+            err_str = f"Plugin '{plugin['name']} found at {fpath} is invalid. "
+            err_str += "Missing either 'spec' or 'spec['products']' key."
+            self.subcommand_parser.error(err_str)
+        for subplg in product_list:
+            if not interface.plugin_is_valid(plugin["name"], subplg["name"]):
+                return False
+        return True
