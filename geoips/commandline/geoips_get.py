@@ -40,7 +40,7 @@ class GeoipsGetFamily(GeoipsCommand):
             help="GeoIPS Plugin to select from the provided interface."
         )
 
-    def get_family(self, args):
+    def __call__(self, args):
         """CLI 'geoips get family <interface_name> <family_name>' command.
 
         This occurs when a user has requested a family in the manner shown above.
@@ -123,7 +123,7 @@ class GeoipsGetInterface(GeoipsCommand):
             help="GeoIPS Interface to retrieve."
         )
 
-    def get_interface(self, args):
+    def __call__(self, args):
         """CLI 'geoips get interface <interface_name>' command.
 
         This occurs when a user has requested a interface in the manner shown above.
@@ -182,7 +182,7 @@ class GeoipsGetPackage(GeoipsCommand):
             help="GeoIPS Package to retrieve."
         )
 
-    def get_package(self, args):
+    def __call__(self, args):
         """CLI 'geoips get package <package_name>' command.
 
         This occurs when a user has requested a package in the manner shown above.
@@ -243,7 +243,7 @@ class GeoipsGetPlugin(GeoipsCommand):
             help="GeoIPS Plugin to select from the provided interface."
         )
 
-    def get_plugin(self, args):
+    def __call__(self, args):
         """CLI 'geoips get plugin <interface_name> <plugin_name>' command.
 
         This occurs when a user has requested a plugin in the manner shown above.
@@ -322,7 +322,7 @@ class GeoipsGet(GeoipsCommand):
     def add_arguments(self):
         pass
 
-    def get(self, args):
+    def __call__(self, args):
         """Retrieve the appropriate Plugin/Interface given the provided arguments.
 
         Retrieve the appropriate Plugin/Interface based on the arguments provided. This

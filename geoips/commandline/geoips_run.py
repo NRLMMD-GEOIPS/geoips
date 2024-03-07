@@ -24,7 +24,7 @@ class GeoipsRun(GeoipsCommand):
             help="Script to run from previously selected package."
         )
 
-    def run(self, args):
+    def __call__(self, args):
         """Run the provided GeoIPS command.
 
         Parameters

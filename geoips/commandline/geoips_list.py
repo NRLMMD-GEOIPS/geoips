@@ -48,7 +48,7 @@ class GeoipsListInterfaces(GeoipsCommand):
             help="The GeoIPS package to list from, defaults to all packages",
         )
 
-    def list_interfaces(self, args):
+    def __call__(self, args):
         """List the available interface[s] within [a] GeoIPS Package[s]".
 
         Data Output
@@ -187,7 +187,7 @@ class GeoipsListPackages(GeoipsCommand):
     def add_arguments(self):
         pass
 
-    def list_packages(self, args):
+    def __call__(self, args):
         """List all of the available GeoIPS Packages.
 
         Only installed packages will be listed. Ie, if geoips_clavrx, or another
@@ -255,7 +255,7 @@ class GeoipsListPlugins(GeoipsCommand):
             help="The GeoIPS package to list from, defaults to all packages",
         )
 
-    def list_plugins(self, args):
+    def __call__(self, args):
         """List the available interface[s] and their corresponding plugin names.
 
         Parameters
@@ -314,7 +314,7 @@ class GeoipsListSingleInterface(GeoipsCommand):
             help="The GeoIPS package to list from.",
         )
 
-    def list_interface(self, args):
+    def __call__(self, args):
         """List all elements of the selected list option.
 
         Selected list option is args.interface_name, where interface_name can be any of:
@@ -371,7 +371,7 @@ class GeoipsListScripts(GeoipsCommand):
             help="The GeoIPS package to list from.",
         )
 
-    def list_scripts(self, args):
+    def __call__(self, args):
         """List all of the available scripts held under <package_name>.
 
         Parameters
@@ -427,7 +427,7 @@ class GeoipsList(GeoipsCommand):
         """
         pass
 
-    def list(self, args):
+    def __call__(self, args):
         """
         Required for each subcommand class. Since this class is just a parent to
         all other list sub-command classes, we don't do anything here.

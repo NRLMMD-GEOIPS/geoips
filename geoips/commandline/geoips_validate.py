@@ -1,6 +1,7 @@
 """GeoIPS CLI "validate" command.
 
-Retrieves the appropriate plugin/interface based on the arguments provided.
+Validates the appropriate plugin based on the arguments provided using the associated
+interface's validation mechaninism (interface.plugin_is_valid(plugin_name)).
 """
 from importlib.util import (
     spec_from_file_location,
@@ -24,7 +25,7 @@ class GeoipsValidate(GeoipsCommand):
             help="File path which represents a GeoIPS Plugin that we want to validate."
         )
 
-    def validate(self, args):
+    def __call__(self, args):
         """Validate the appropriate Plugin given the provided arguments.
 
         Validate the appropriate Plugin based on the arguments provided. This
