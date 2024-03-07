@@ -7,6 +7,10 @@ from geoips.geoips_utils import get_entry_point_group
 class BaseCliTest(abc.ABC):
     """Top-Level CLI Test Class which implements shared attributes for sub-commands."""
 
+    _get_family_args = ["geoips", "get", "family"]
+    _get_interface_args = ["geoips", "get", "interface"]
+    _get_package_args = ["geoips", "get", "package"]
+    _get_plugin_args = ["geoips", "get", "plugin"]
     _list_args = ["geoips", "list", "interface"]
     _list_interfaces_args = ["geoips", "list", "interfaces"]
     _list_plugins_args = ["geoips", "list", "plugins"]

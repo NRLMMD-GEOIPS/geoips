@@ -58,7 +58,12 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
         """
         interface_name = args.interface_name
         family_name = args.family_name
-        interface = getattr(interfaces, interface_name)
+        try:
+            interface = getattr(interfaces, interface_name)
+        except AttributeError:
+            self.subcommand_parser.error(
+                f"Interface: {interface_name} doesn't exist. Provide a valid interface."
+            )
         interface_type = interface.interface_type
         supported_families = interface.supported_families
         if family_name not in supported_families:
@@ -140,7 +145,12 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
             - The list argument namespace to parse through
         """
         interface_name = args.interface_name
-        interface = getattr(interfaces, interface_name)
+        try:
+            interface = getattr(interfaces, interface_name)
+        except AttributeError:
+            self.subcommand_parser.error(
+                f"Interface: {interface_name} doesn't exist. Provide a valid interface."
+            )
 
         geoips_pkg_path = resources.files("geoips")
         interface_path = str(
@@ -261,7 +271,12 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
         """
         interface_name = args.interface_name
         plugin_name = args.plugin_name
-        interface = getattr(interfaces, interface_name)
+        try:
+            interface = getattr(interfaces, interface_name)
+        except AttributeError:
+            self.subcommand_parser.error(
+                f"Interface: {interface_name} doesn't exist. Provide a valid interface."
+            )
         # If plugin_name is not None, then the user has requested a plugin within
         # an interface, rather than the interface itself
         interface_registry = interface.plugin_registry.registered_plugins[
@@ -304,7 +319,7 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
                     f"{plugin_name} not found under Products {source_name} entry."
                 )
         elif plugin_name not in interface_registry.keys():
-            raise KeyError(
+            self.subcommand_parser.error(
                 f"{plugin_name} doesn't exist within Interface {interface_name}."
             )
 

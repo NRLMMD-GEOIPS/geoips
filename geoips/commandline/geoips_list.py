@@ -328,7 +328,12 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
         """
         interface_name = args.interface_name
         package_name = args.package
-        interface = getattr(interfaces, interface_name)
+        try:
+            interface = getattr(interfaces, interface_name)
+        except AttributeError:
+            self.subcommand_parser.error(
+                f"Interface: {interface_name} doesn't exist. Provide a valid interface."
+            )
         interface_registry= self._get_registry_by_interface_and_package(
             interface, package_name
         )
