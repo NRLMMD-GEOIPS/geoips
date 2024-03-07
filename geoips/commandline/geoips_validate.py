@@ -32,16 +32,18 @@ class GeoipsValidate(GeoipsCommand):
         associated interface from the plugin to validate at runtime.
         """
         fpath = args.file_path
-        err_str = f"Plugin found at {fpath} doesn't have `interface` and/or `plugin` "
-        err_str += "attribute[s]. This plugin is invalid."
         if ".py" == fpath[-3:]:
             # module-based plugin
             interface_type = "module_based"
             plugin = self.load_module_from_file(fpath)
-        else:
+        elif ".yaml" == fpath[-5:]:
             # yaml-based plugin
             interface_type = "yaml_based"
             plugin = yaml.safe_load(open(fpath, "r"))
+        else:
+            self.subcommand_parser.error(
+                f"Only '.py' and '.yaml' files are accepted at this time. Try again."
+            )
         try:
             # if the module / yaml plugin is missing either interface or name, it's
             # invalid and we need to report the error appropriately
@@ -53,6 +55,8 @@ class GeoipsValidate(GeoipsCommand):
                 plugin_name = plugin["name"]
         except AttributeError or KeyError:
             # Report such error.
+            err_str = f"Plugin found at {fpath} doesn't have 'interface' and/or "
+            err_str += "'name' attribute[s]. This plugin is invalid."
             self.subcommand_parser.error(
                 err_str
             )
@@ -62,11 +66,11 @@ class GeoipsValidate(GeoipsCommand):
         if not is_valid:
             # if it's not valid, report that to the user
             self.subcommand_parser.error(
-                f"Plugin `{plugin_name}` found at {fpath} is invalid."
+                f"Plugin '{plugin_name}' found at {fpath} is invalid."
             )
         else:
             # otherwise let them know they're good to go
-            print(f"Plugin `{plugin_name}` found at {fpath} is valid.")
+            print(f"Plugin '{plugin_name}' found at {fpath} is valid.")
 
     def load_module_from_file(self, file_path, module_name=None):
         """Load in a given python module provied a file_path and an optional name."""
