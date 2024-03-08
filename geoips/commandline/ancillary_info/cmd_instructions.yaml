@@ -1,12 +1,30 @@
 name: geoips_cmd_instructions
 instructions:
-  - cmd_name: get
+  - cmd_name: config
     help_str: |
-      Not Implemented
+      Various configuration-based commands for setting up your geoips environment.
+      Currently supports `geoips config install <test_dataset_name>` command.
     usage_str: |
-      Not Implemented
+      To use, type `geoips config <sub-cmd> <sub-sub-command> ...`
+    output_info:
+      - Output related to config process that was run.
+  - cmd_name: config install
+    help_str: |
+      Install the appropriate test dataset and/or package based on the arguments
+      provided. To see a list of available test datasets for install, run
+      `geoips list test-datasets`.
+    usage_str: |
+      To use, type `geoips config install <test_dataset_name>`.
     output_info:
       - Not Applicable
+  - cmd_name: get
+    help_str: |
+      Retrieve an appropriate GeoIPS artifact. Currently supported `get` calls are:
+      ["family", "interface", "package", "plugin"]
+    usage_str: |
+      To use, type `geoips get <sub-cmd> <sub-sub-cmd> ...`.
+    output_info:
+      - Information related to the artifact that was retrieved.
   - cmd_name: get family
     help_str: |
       Retrieve the appropriate GeoIPS Family alongside descriptive information of
@@ -74,11 +92,13 @@ instructions:
       - Plugin Specific Info (signature / source_names / available overrides)
   - cmd_name: list
     help_str: |
-      Not Implemented
+      List off available GeoIPS artifacts provided further commands. Current artifacts
+      available for listing are: ["interface", "interfaces", "packages", "plugins",
+      "scripts", "test-datasets"].
     usage_str: |
-      Not Implemented
+      To use, type `geoips list <sub-cmd> <sub-sub-cmd>`.
     output_info:
-      - Not Applicable
+      - Additional info related to the artifact[s] being listed.
   - cmd_name: list interface
     help_str: |
       List off plugins found under a certain interface. This is useful for seeing what
@@ -163,6 +183,15 @@ instructions:
     output_info:
       - Package
       - Script Name
+  - cmd_name: list test-datasets
+    help_str: |
+      List off test-datasets used for testing GeoIPS and other GeoIPS Packages.
+      This data is used for running tests via `geoips run <pkg_name> <script_name>`.
+    usage_str: |
+      To use, type `geoips list test-datasets`.
+    output_info:
+      - Data Host
+      - Dataset Name
   - cmd_name: run
     help_str: |
       Run a geoips process workflow (procflow), given a GeoIPS package and a script

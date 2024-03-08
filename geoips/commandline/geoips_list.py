@@ -12,6 +12,49 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 from geoips import interfaces
 
 
+class GeoipsListTestDatasets(GeoipsExecutableCommand):
+    """GeoipsListTestDatsets Sub-Command Class.
+
+    Called via `geoips list test-datasets`. Outputs the following in a tabular format.
+
+    Data Output
+    -----------
+    out_array: 2D Array of Data
+        - [
+            package, interface_name, interface_type, supported_families,
+            short_docstring, filepath, documentation_link
+        ]
+    """
+    subcommand_name = "test-datasets"
+    subcommand_classes = []
+
+    def add_arguments(self):
+        pass
+
+    def __call__(self, args):
+        """List all of the available scripts held under <package_name>.
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The list argument namespace to parse through
+        """
+        dataset_info = []
+        for test_dataset_name in list(self.test_dataset_dict.keys()):
+            print(f"Dataset Name: {test_dataset_name}")
+            dataset_info.append(["io.cira.colostate.edu", test_dataset_name])
+        print("-" * len("Available Test Datasets"))
+        print("Available Test Datasets")
+        print("-" * len("Available Test Datasets"))
+        print(
+            tabulate(
+                dataset_info,
+                headers=["Data Host", "Dataset Name"],
+                tablefmt="rounded_grid",
+            )
+        )
+
+
 class GeoipsListInterfaces(GeoipsExecutableCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
@@ -424,5 +467,6 @@ class GeoipsList(GeoipsCommand):
         GeoipsListPackages,
         GeoipsListPlugins,
         GeoipsListScripts,
+        GeoipsListTestDatasets,
     ]
 
