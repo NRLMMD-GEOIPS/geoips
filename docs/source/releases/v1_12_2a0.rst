@@ -15,14 +15,14 @@ Version 1.12.2a0 (2024-02-19)
 
 * Enhancements
 
-  * Began Developing the GeoIPS CLI
+  * Initial Stage of the GeoIPS CLI
   * ...
 * <Other_Types_Of_Modification>
 
 Enhancements
 ============
 
-Began Developing the GeoIPS CLI
+Initial Stage of the GeoIPS CLI
 -------------------------------
 
 *From GEOIPS#37: 2022-08-11, Create a useful CLI for GeoIPS.*
@@ -31,16 +31,60 @@ GeoIPS currently runs off of a few command scripts scattered throughout the code
 only way a user could discover this is by reading the documentation, or looking through
 the pyproject.toml to discover what scripts/commands are executable at the commandline.
 
-To fix this, we are beginning to implement a new GeoIPS CLI, which will be called valid
+To fix this, we are beginning to implement a new GeoIPS CLI, which will be called via
 ``geoips <command> <sub-command>``. This will allow the user to easily query and/or
 execute geoips without having extensive knowledge of the lower-level implementations of
 GeoIPS.
 
+Currently, the GeoIPS CLI implements config, get, list, run, and validate commands. We
+expect that we will change how ``run`` works, as well as add additional commands such as
+``test``.
+
+You can find more detailed information about each command at
+``geoips/geoips/commandline/ancillary_info/cmd_instructions.yaml``. Below, we'll detail
+to a minimal extent what each command does.
+
+``geoips config`` implements configuration commands which are used to modify and/or
+set up your GeoIPS environment. Currently, we implement installation methods for
+downloading and decompressing test datasets. This is called via
+``geoips config install <test_dataset_name>``.
+
+``geoips get`` implements a variety of commands which retrieve additional information
+about GeoIPS artifacts. Artifacts are a high level term for software pieces implemented
+throughout GeoIPS. This includes individual plugins, interfaces, families, and top-level
+packages.
+
+``geoips list`` implements a variety of list methods which are used to detail what
+artifacts exist throughout the GeoIPS Environment, or at a package specific level. We
+currently support listing an individual interface, available interfaces, implemented
+interfaces in a certain/all package[s], packages, scripts, and test-datasets.
+
+``geoips run`` is an easy way to run a certain test script contained within a GeoIPS
+package. These scripts must be placed in the ``<pkg_name>/tests/scripts`` directory and
+be implemented via a ``*.sh`` bash script. This is an easier method to run your test
+scripts opposed to traversing to the explicit directory and running the bash script
+manually. We expect this command will change greatly as we continue to develop the CLI
+and implement the order based procflow.
+
+``geoips validate`` implements a simple method of validating a certain plugin found
+at the specified filepath. We expect this command will do more in the future, but for
+the meantime, this command will validate the plugin using the associated interface
+defined in the aforementioned plugin.
+
+For an example of how to run the GeoIPS CLI, see the code section below.
 .. code-block:: bash
 
-    geoips list interfaces
+    # Install the test_data_clavrx Test Dataset from CIRA's Nextcloud Instance
+    geoips config install test_data_clavrx
     # All Interfaces GeoIPS and other GeoIPS Packages will be listed including all of
     # The plugin names that exist in that type of interface
-    geoips run "<geoips_package_name> <script_name>.sh"
+    geoips list interface algorithms
+    # Retrieve the 'single_channel' algorithm plugin and output information related
+    # to it
+    geoips get plugin algorithms single_channel
     # Will run the script under <script_name>.sh as it would execute ./<script_name>.sh
     # run_procflow command in the corresponding tests/scripts directory
+    geoips run geoips abi.static.Infrared.imagery_annotated.sh
+    # Example of how to validate a specific plugin
+    geoips validate /home/evan/geoips/geoips_packages/geoips/geoips/plugins/yaml/products/abi.yaml
+
