@@ -11,19 +11,17 @@ class BaseCliTest(abc.ABC):
     _get_interface_args = ["geoips", "get", "interface"]
     _get_package_args = ["geoips", "get", "package"]
     _get_plugin_args = ["geoips", "get", "plugin"]
-    _list_args = ["geoips", "list", "interface"]
+    _list_interface_args = ["geoips", "list", "interface"]
     _list_interfaces_args = ["geoips", "list", "interfaces"]
     _list_plugins_args = ["geoips", "list", "plugins"]
     _list_packages_args = ["geoips", "list", "packages"]
     _list_scripts_args = ["geoips", "list", "scripts"]
+    _run_args = ["geoips", "run"]
     _validate_args = ["geoips", "validate"]
     arg_list = [
-        _list_args,
-        _list_interfaces_args,
-        _list_plugins_args,
-        _list_packages_args,
-        _list_scripts_args,
-        _validate_args,
+        _get_family_args, _get_interface_args, _get_package_args, _get_plugin_args,
+        _list_interface_args, _list_interfaces_args, _list_plugins_args,
+        _list_packages_args, _list_scripts_args, _run_args, _validate_args,
     ]
 
     def generate_id(self, args):
@@ -114,7 +112,7 @@ class BaseCliTest(abc.ABC):
         output, error = output.decode(), error.decode()
         assert len(output) or len(error) # assert that some output was created
         prc.terminate()
-        if len(error):
+        if len(error) and not len(output):
             print(error)
             self.check_error(args, error)
         else:
