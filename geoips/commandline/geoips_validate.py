@@ -3,6 +3,7 @@
 Validates the appropriate plugin based on the arguments provided using the associated
 interface's validation mechaninism (interface.plugin_is_valid(plugin_name)).
 """
+
 from importlib.util import (
     spec_from_file_location,
     module_from_spec,
@@ -15,14 +16,16 @@ from geoips import interfaces
 
 class GeoipsValidate(GeoipsExecutableCommand):
     """GeoipsValidate Sub-Command for validating package plugins."""
+
     subcommand_name = "validate"
     subcommand_classes = []
 
     def add_arguments(self):
+        """Add arguments to the validate-subparser fot the Validate Command."""
         self.subcommand_parser.add_argument(
             "file_path",
             type=str,
-            help="File path which represents a GeoIPS Plugin that we want to validate."
+            help="File path which represents a GeoIPS Plugin that we want to validate.",
         )
 
     def __call__(self, args):
@@ -74,7 +77,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
             plugin = yaml.safe_load(open(fpath, "r"))
         else:
             self.subcommand_parser.error(
-                f"Only '.py' and '.yaml' files are accepted at this time. Try again."
+                "Only '.py' and '.yaml' files are accepted at this time. Try again."
             )
         try:
             # if the module / yaml plugin is missing either interface or name, it's
@@ -89,9 +92,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
             # Report such error.
             err_str = f"Plugin found at {fpath} doesn't have 'interface' and/or "
             err_str += "'name' attribute[s]. This plugin is invalid."
-            self.subcommand_parser.error(
-                err_str
-            )
+            self.subcommand_parser.error(err_str)
         # get the correct geoips interface associated with the plugin
         interface = getattr(interfaces, interface_name)
         return interface, plugin, plugin_name
@@ -100,7 +101,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
         """Load in a given python module provied a file_path and an optional name."""
         if module_name is None:
             # Generate a unique module name if not provided
-            module_name = 'module_from_' + file_path.replace('/', '_').replace('.', '_')
+            module_name = "module_from_" + file_path.replace("/", "_").replace(".", "_")
 
         spec = spec_from_file_location(module_name, file_path)
         module = module_from_spec(spec)

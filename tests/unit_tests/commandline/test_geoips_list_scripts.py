@@ -2,6 +2,7 @@
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
+
 from glob import glob
 from importlib import resources
 from os.path import basename
@@ -31,9 +32,7 @@ class TestGeoipsListScripts(BaseCliTest):
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with a non-existent package
-            self._cmd_list.append(
-                base_args + ["-p", "non_existent_package"]
-            )
+            self._cmd_list.append(base_args + ["-p", "non_existent_package"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -46,13 +45,12 @@ class TestGeoipsListScripts(BaseCliTest):
         error: str
             - Multiline str representing the error output of the CLI call
         """
-        # An error occurred using args. Assert that args is not valid and check the output
-        # of the error.
+        # An error occurred using args. Assert that args is not valid and check the
+        # output of the error.
         assert args != ["geoips", "list", "scripts"]
         for pkg_name in self.plugin_packages:
             assert args != ["geoips", "list", "scripts", "-p", pkg_name]
         assert "usage: To use, type `geoips list scripts`" in error
-
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list scripts ...' successful output is correct.
@@ -70,8 +68,8 @@ class TestGeoipsListScripts(BaseCliTest):
         else:
             # Checking tabular output from the list-scripts command
             if "-p" in args:
-                # A certain package was requested, generate a list of all scripts from that
-                # package.
+                # A certain package was requested, generate a list of all scripts from
+                # that package.
                 pkg_names = [args[-1]]
             else:
                 # no `-p` flag, check all packages instead.
@@ -79,16 +77,13 @@ class TestGeoipsListScripts(BaseCliTest):
             script_names = []
             for pkg_name in pkg_names:
                 script_names += sorted(
-                        [
-                            basename(fpath) for fpath in
-                                glob(
-                                    str(
-                                        resources.files(pkg_name) /
-                                        "../tests/scripts" / "*.sh"
-                                    )
-                                )
-                        ]
-                    )
+                    [
+                        basename(fpath)
+                        for fpath in glob(
+                            str(resources.files(pkg_name) / "../tests/scripts" / "*.sh")
+                        )
+                    ]
+                )
             for script_name in script_names:
                 assert script_name in output
             # Assert that the correct headers exist in the CLI output
@@ -96,12 +91,14 @@ class TestGeoipsListScripts(BaseCliTest):
             for header in headers:
                 assert header in output
 
+
 test_sub_cmd = TestGeoipsListScripts()
 
+
 @pytest.mark.parametrize(
-        "args",
-        test_sub_cmd.all_possible_subcommand_combinations,
-        ids=test_sub_cmd.generate_id,
+    "args",
+    test_sub_cmd.all_possible_subcommand_combinations,
+    ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
     """Test all 'geoips list scripts ...' commands.

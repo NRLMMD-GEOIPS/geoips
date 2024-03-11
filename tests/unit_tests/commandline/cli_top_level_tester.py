@@ -1,8 +1,10 @@
 """Semi-Abstract CLI Test Class implementing attributes shared by sub-commands."""
+
 import abc
 import subprocess
 
 from geoips.geoips_utils import get_entry_point_group
+
 
 class BaseCliTest(abc.ABC):
     """Top-Level CLI Test Class which implements shared attributes for sub-commands."""
@@ -17,13 +19,21 @@ class BaseCliTest(abc.ABC):
     _list_plugins_args = ["geoips", "list", "plugins"]
     _list_packages_args = ["geoips", "list", "packages"]
     _list_scripts_args = ["geoips", "list", "scripts"]
+    _list_test_datasets_args = ["geoips", "list", "test-datasets"]
     _run_args = ["geoips", "run"]
     _validate_args = ["geoips", "validate"]
     arg_list = [
         _config_install_args,
-        _get_family_args, _get_interface_args, _get_package_args, _get_plugin_args,
-        _list_interface_args, _list_interfaces_args, _list_plugins_args,
-        _list_packages_args, _list_scripts_args,
+        _get_family_args,
+        _get_interface_args,
+        _get_package_args,
+        _get_plugin_args,
+        _list_interface_args,
+        _list_interfaces_args,
+        _list_plugins_args,
+        _list_packages_args,
+        _list_scripts_args,
+        _list_test_datasets_args,
         _run_args,
         _validate_args,
     ]
@@ -42,6 +52,23 @@ class BaseCliTest(abc.ABC):
         return self._plugin_packages
 
     @property
+    def test_datasets(self):
+        """List of every available GeoIPS test dataset name."""
+        if not hasattr(self, "_test_datasets"):
+            self._test_datasets = [
+                "test_data_amsr2",
+                "test_data_clavrx",
+                "test_data_fusion",
+                "test_data_gpm",
+                "test_data_noaa_aws",
+                "test_data_sar",
+                "test_data_scat",
+                "test_data_smap",
+                "test_data_viirs",
+            ]
+        return self._test_datasets
+
+    @property
     @abc.abstractmethod
     def all_possible_subcommand_combinations(self):
         """Every possible sub-command combination for a CLI command call.
@@ -49,17 +76,18 @@ class BaseCliTest(abc.ABC):
         Ie. if we were testing 'geoips list interface', this property would be every
         possible combination of strings used to call 'geoips list interface'.
         This would take the form of:
-            - [
-                ["geoips", "list", "interface", "algorithms", "-p", "data_fusion"],
-                ["geoips", "list", "interface", "algorithms", "-p", "geoips"],
-                ["geoips", "list", "interface", "algorithms", "-p", "geoips_clavrx"],
-                ...
-                ["geoips", "list", "interface", <interface_name>, "-p", <pkg_name>],
-                ["geoips", "list", "interface", <interface_name>],
-                ["geoips", "list", "interface", <invalid_interface_name>],
-                ["geoips", "list", "interface", <interface_name>, "-p", <bad_pkg_name>],
-                ...
-            ]
+
+        - [
+            - ["geoips", "list", "interface", "algorithms", "-p", "data_fusion"],
+            - ["geoips", "list", "interface", "algorithms", "-p", "geoips"],
+            - ["geoips", "list", "interface", "algorithms", "-p", "geoips_clavrx"],
+            - ...
+            - ["geoips", "list", "interface", <interface_name>, "-p", <pkg_name>],
+            - ["geoips", "list", "interface", <interface_name>],
+            - ["geoips", "list", "interface", <invalid_interface_name>],
+            - ["geoips", "list", "interface", <interface_name>, "-p", <bad_pkg_name>],
+            - ...
+        - ]
         """
         pass
 
@@ -114,7 +142,7 @@ class BaseCliTest(abc.ABC):
         # Capture the output using subprocess.PIPE, then decode it.
         output, error = prc.communicate()
         output, error = output.decode(), error.decode()
-        assert len(output) or len(error) # assert that some output was created
+        assert len(output) or len(error)  # assert that some output was created
         prc.terminate()
         if len(error) and not len(output):
             print(error)

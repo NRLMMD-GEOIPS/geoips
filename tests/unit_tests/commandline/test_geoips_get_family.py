@@ -2,6 +2,7 @@
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
+
 import pytest
 
 from geoips import interfaces
@@ -24,9 +25,7 @@ class TestGeoipsGetFamily(BaseCliTest):
             for interface_name in interfaces.__all__:
                 interface = getattr(interfaces, interface_name)
                 for family_name in interface.supported_families:
-                    self._cmd_list.append(
-                        base_args + [interface_name, family_name]
-                    )
+                    self._cmd_list.append(base_args + [interface_name, family_name])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non_existent_interface
@@ -50,7 +49,6 @@ class TestGeoipsGetFamily(BaseCliTest):
         err_str = "usage: To use, type `geoips get family <interface_name> "
         err_str += "<family_name>`"
         assert err_str in error
-
 
     def check_output(self, args, output):
         """Ensure that the 'geoips get family ...' successful output is correct.
@@ -80,12 +78,14 @@ class TestGeoipsGetFamily(BaseCliTest):
             for output_item in expected_outputs:
                 assert f"{output_item}:" in output
 
+
 test_sub_cmd = TestGeoipsGetFamily()
 
+
 @pytest.mark.parametrize(
-        "args",
-        test_sub_cmd.all_possible_subcommand_combinations,
-        ids=test_sub_cmd.generate_id,
+    "args",
+    test_sub_cmd.all_possible_subcommand_combinations,
+    ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
     """Test all 'geoips get family ...' commands.

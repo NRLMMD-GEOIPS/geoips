@@ -3,6 +3,7 @@
 Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips list' and 'geoips run'
 """
+
 import logging
 
 from geoips.commandline.log_setup import setup_logging
@@ -24,7 +25,14 @@ class GeoipsCLI(GeoipsCommand):
     functionality of the CLI. This includes [GeoipsGet, GeoipsList, GeoipsRun] as of
     right now.
     """
-    subcommand_classes = [GeoipsConfig, GeoipsGet, GeoipsList, GeoipsRun, GeoipsValidate]
+
+    subcommand_classes = [
+        GeoipsConfig,
+        GeoipsGet,
+        GeoipsList,
+        GeoipsRun,
+        GeoipsValidate,
+    ]
 
     def __init__(self):
         """Initialize the GeoipsCLI and each of it's sub-command classes.
@@ -43,6 +51,7 @@ class GeoipsCLI(GeoipsCommand):
 
     @property
     def subcommand_name(self):
+        """The Name of the Subcommand."""
         return self._subcommand_name
 
     def execute_command(self):

@@ -2,6 +2,7 @@
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
+
 import json
 from importlib import resources
 import pytest
@@ -75,9 +76,7 @@ class TestGeoipsListInterface(BaseCliTest):
             # No plugins were found under the selected interface, within a
             # certain package; ensure that is correct.
             plugin_registry = json.load(
-                open(
-                    str(resources.files(args[-1]) / "registered_plugins.json"), "r"
-                )
+                open(str(resources.files(args[-1]) / "registered_plugins.json"), "r")
             )
             # assert that the provided interface doesn't exist within that package's
             # plugin registry
@@ -85,8 +84,12 @@ class TestGeoipsListInterface(BaseCliTest):
         else:
             # Assert that the correct headers exist in the CLI output
             headers = [
-                "GeoIPS Package", "Interface", "Interface Type", "Family",
-                "Plugin Name", "Relative Path",
+                "GeoIPS Package",
+                "Interface",
+                "Interface Type",
+                "Family",
+                "Plugin Name",
+                "Relative Path",
             ]
             for header in headers:
                 assert header in output
@@ -94,10 +97,11 @@ class TestGeoipsListInterface(BaseCliTest):
 
 test_sub_cmd = TestGeoipsListInterface()
 
+
 @pytest.mark.parametrize(
-        "args",
-        test_sub_cmd.all_possible_subcommand_combinations,
-        ids=test_sub_cmd.generate_id,
+    "args",
+    test_sub_cmd.all_possible_subcommand_combinations,
+    ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
     """Test all 'geoips list interface ...' commands.

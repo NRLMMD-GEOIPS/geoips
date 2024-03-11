@@ -395,7 +395,8 @@ class BaseYamlInterface(BaseInterface):
     def __init__(self):
         """YAML plugin interface init method."""
         self.supported_families = [
-            basename(fname).split(".")[0] for fname in sorted(
+            basename(fname).split(".")[0]
+            for fname in sorted(
                 glob(str(files("geoips") / f"schema/{self.name}/*.yaml"))
             )
         ]

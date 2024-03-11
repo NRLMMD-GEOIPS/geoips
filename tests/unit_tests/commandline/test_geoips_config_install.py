@@ -2,10 +2,7 @@
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
-from glob import glob
-from importlib import resources
-from os import listdir, environ
-from os.path import basename
+
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
@@ -24,18 +21,7 @@ class TestGeoipsConfigInstall(BaseCliTest):
             self._cmd_list = []
             base_args = self._config_install_args
             # add argument lists to install available test datasets
-            available_test_datasets = [
-                "test_data_amsr2",
-                "test_data_clavrx",
-                "test_data_fusion",
-                "test_data_gpm",
-                "test_data_noaa_aws",
-                "test_data_sar",
-                "test_data_scat",
-                "test_data_smap",
-                "test_data_viirs",
-            ]
-            for test_dataset_name in available_test_datasets:
+            for test_dataset_name in self.test_datasets:
                 self._cmd_list.append(base_args + [test_dataset_name])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
@@ -77,12 +63,14 @@ class TestGeoipsConfigInstall(BaseCliTest):
             # Assert that the data already exists or was installed successfully
             assert dataset_exists in output or dataset_installed in output
 
+
 test_sub_cmd = TestGeoipsConfigInstall()
 
+
 @pytest.mark.parametrize(
-        "args",
-        test_sub_cmd.all_possible_subcommand_combinations,
-        ids=test_sub_cmd.generate_id,
+    "args",
+    test_sub_cmd.all_possible_subcommand_combinations,
+    ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
     """Test all 'geoips config install ...' commands.

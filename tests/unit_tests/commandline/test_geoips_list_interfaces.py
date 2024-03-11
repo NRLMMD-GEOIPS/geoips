@@ -2,6 +2,7 @@
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
+
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
@@ -25,9 +26,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
             # Add argument list which invokes the help message for this command
             self._cmd_list.append(["geoips", "list", "interfaces", "-h"])
             # Add argument list with an invalid command call ("-p" w/out "-i")
-            self._cmd_list.append(
-                ["geoips", "list", "interfaces", "-p", "geoips"]
-            )
+            self._cmd_list.append(["geoips", "list", "interfaces", "-p", "geoips"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -71,19 +70,25 @@ class TestGeoipsListInterfaces(BaseCliTest):
             else:
                 # `geoips list-interfaces` was called, check for the correct headers
                 headers = [
-                    "GeoIPS Package", "Interface Type", "Interface Name",
-                    "Supported Families", "Docstring", "Absolute Path",
+                    "GeoIPS Package",
+                    "Interface Type",
+                    "Interface Name",
+                    "Supported Families",
+                    "Docstring",
+                    "Absolute Path",
                 ]
             # Assert that the correct headers exist in the CLI output
             for header in headers:
                 assert header in output
 
+
 test_sub_cmd = TestGeoipsListInterfaces()
 
+
 @pytest.mark.parametrize(
-        "args",
-        test_sub_cmd.all_possible_subcommand_combinations,
-        ids=test_sub_cmd.generate_id,
+    "args",
+    test_sub_cmd.all_possible_subcommand_combinations,
+    ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
     """Test all 'geoips list interfaces ...' commands.

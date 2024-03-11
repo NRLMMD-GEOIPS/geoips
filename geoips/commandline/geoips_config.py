@@ -2,6 +2,7 @@
 
 Various configuration-based commands for setting up your geoips environment.
 """
+
 from importlib import resources
 from os import listdir, environ
 from subprocess import call
@@ -15,15 +16,17 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
     Supports installation of packages and test data needed for testing and/or running
     your GeoIPS environment.
     """
+
     subcommand_name = "install"
     subcommand_classes = []
 
     def add_arguments(self):
+        """Add arguments to the list-subparser for the Config Command."""
         self.subcommand_parser.add_argument(
             "test_dataset_name",
             type=str.lower,
             choices=list(self.test_dataset_dict.keys()),
-            help="GeoIPS Test Dataset to Install."
+            help="GeoIPS Test Dataset to Install.",
         )
 
     def __call__(self, args):
@@ -59,5 +62,6 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
 class GeoipsConfig(GeoipsCommand):
     """GeoipsConfig Sub-Command for configuring your GeoIPS environment."""
+
     subcommand_name = "config"
     subcommand_classes = [GeoipsConfigInstall]

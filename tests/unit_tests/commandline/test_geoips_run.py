@@ -2,6 +2,7 @@
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
+
 from glob import glob
 from importlib import resources
 from numpy.random import rand
@@ -28,25 +29,26 @@ class TestGeoipsRun(BaseCliTest):
             for pkg_name in self.plugin_packages:
                 script_names = sorted(
                     [
-                        basename(script_path) for script_path in \
-                            glob(
-                                str(resources.files(pkg_name) / "../tests/scripts/*.sh")
-                            )
+                        basename(script_path)
+                        for script_path in glob(
+                            str(resources.files(pkg_name) / "../tests/scripts/*.sh")
+                        )
                     ]
                 )
                 for script_name in script_names:
                     do_geoips_run = rand() < 0.15
-                    test_data_found = f"test_data_{script_name.split('.', 1)[0]}" in \
-                        listdir(str(environ["GEOIPS_TESTDATA_DIR"]))
+                    test_data_found = (
+                        f"test_data_{script_name.split('.', 1)[0]}"
+                        in listdir(str(environ["GEOIPS_TESTDATA_DIR"]))
+                    )
                     if do_geoips_run and test_data_found and len(self._cmd_list) < 4:
                         self._cmd_list.append(base_args + [pkg_name, script_name])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non existent package
             self._cmd_list.append(
-                base_args + [
-                    "non_existent_package", "abi.static.Infrared.imagery_annotated.sh"
-                ]
+                base_args
+                + ["non_existent_package", "abi.static.Infrared.imagery_annotated.sh"]
             )
             # Add argument list with non existent script name
             self._cmd_list.append(base_args + ["geoips", "non_existent_script_name"])
@@ -83,12 +85,14 @@ class TestGeoipsRun(BaseCliTest):
             # Checking that output from geoips run command reports succeeds
             assert "Return value: 0" in output
 
+
 test_sub_cmd = TestGeoipsRun()
 
+
 @pytest.mark.parametrize(
-        "args",
-        test_sub_cmd.all_possible_subcommand_combinations,
-        ids=test_sub_cmd.generate_id,
+    "args",
+    test_sub_cmd.all_possible_subcommand_combinations,
+    ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
     """Test all 'geoips run ...' commands.

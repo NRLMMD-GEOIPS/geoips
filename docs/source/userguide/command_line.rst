@@ -1,14 +1,16 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+ .. dropdown:: Distribution Statement
+
+   | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+   | # # #
+   | # # # Author:
+   | # # # Naval Research Laboratory, Marine Meteorology Division
+   | # # #
+   | # # # This program is free software: you can redistribute it and/or modify it under
+   | # # # the terms of the NRLMMD License included with this program. This program is
+   | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+   | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+   | # # # for more details. If you did not receive the license, for more information see:
+   | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 .. _command_line:
 
@@ -27,7 +29,7 @@ GeoIPS Environment.
 
 The CLI is split up into two groups as of right now. CLI commands which
 :ref:`retrieve information<information_retrieval>` from GeoIPS and CLI commands which
-:ref:`perform processes<process_performing>` via GeoIPS. We'll dive into each of those
+:ref:`perform processes<performing_processes>` via GeoIPS. We'll dive into each of those
 sections now.
 
 CLI Use Cases
@@ -229,4 +231,117 @@ test scripts from a certain GeoIPS package.
     geoips list scripts
     geoips list scripts -p _package_name_
 
-.. _process_performing:
+``list test-datasets`` is a list sub-command which retrieves a listing of test datasets
+used for testing GeoIPS process workflows. Currently, we rely on the test-datasets shown
+below to properly test GeoIPS.
+
+List of test-datasets needed for testing GeoIPS:
+
+    * test_data_amsr2
+    * test_data_clavrx
+    * test_data_fusion
+    * test_data_gpm
+    * test_data_noaa_aws
+    * test_data_sar
+    * test_data_scat
+    * test_data_smap
+    * test_data_viirs
+
+Information included when calling this command is:
+
+    * Data Host
+    * Dataset Name
+
+For an example of how to run this command, see below.
+::
+
+    geoips list test-datasets
+
+.. _performing_processes:
+
+Performing Processes
+====================
+
+The other use case of the GeoIPS CLI is for performing GeoIPS processes. This will be
+largely updated as we continue to develop the CLI, but for the time being we implement
+3 processes that can be completed via the CLI. This includes plugin validation,
+running test scripts, and installing test datasets used by GeoIPS.
+
+We envision this type of CLI usage to eventually implement running ``process workflows``
+as ``run_procflow`` currently does. For example, we eventually want ``geoips run`` to
+mimic what ``run_procflow`` does under the hood right now.
+
+Shown below are three types of GeoIPS Commands which will invoke processes related to
+the command provided.
+
+Config Command
+--------------
+
+Currently, GeoIPS relies on test datasets to perform testing on the process workflows
+which we've created. These test datasets are installed via a bash script before any
+testing can be done. To make this process easier and more configurable, we've
+implemented a ``geoips config`` command, which encapsulates configuration settings that
+we can implement via the CLI.
+
+We currently only implement the ``geoips config install _test_dataset_name_`` command
+for installing test datasets, though we'll support other config commands as we continue
+to develop the GeoIPS CLI.
+
+``config install`` installs test datasets hosted on CIRA's NextCloud instance for
+testing implemented process workflows. For a listing of test datasets available for
+installation, run this command ``geoips list test-datasets``.
+
+To install a specific test dataset, run the command below.
+
+::
+
+    geoips config install _test_dataset_name_
+
+Run Command
+-----------
+
+Currently, GeoIPS creates all outputs defined by products via a process workflow
+(procflow). These process workflows are defined via a bash script, which tells GeoIPS
+what plugins will be used, and how they will be processed. While this works for the time
+being, we are largely refactoring the way in which outputs will be produced by using an
+order-based procflow. We eventually want to specify the order in which this procflow
+runs using the ``geoips run`` command.
+
+To start the development of this type of command, we've implemented simple functionality
+which will run a procflow bash script. While this isn't what we envision for the future,
+it provides the user an easy command to run any bash script created for producing
+specific product outputs.
+
+``run`` follows the procflow defined by a bash script and produces the same output of
+such bash script if it were ran ``./_script_name_``. For a listing of available scripts
+that are able to be ran, run ``geoips list scripts -p _package_name``, where ``-p`` is
+an optional flag representing the package we want to list scripts from.
+
+To run such a script, enter the command shown below.
+
+::
+
+    geoips run _package_name_ _script_name_
+
+Validate Command
+----------------
+
+GeoIPS runs off of plugins. While you can search the documentation and/or schemas
+defined for these plugins, this is not an easy way of telling whether or not the plugin
+you've created adheres to the GeoIPS protocols defined for each plugin. Every GeoIPS
+interface implements validation functionality for ensuring that the plugins that
+inherit from such interface work correctly. We make use of this validation functionality
+from the command line, so users can easily check whether or not the plugin they've
+created is valid.
+
+``validate`` follows the interface defined validation-protocol for a certain plugin.
+To get a listing of plugins available for validation, run the command
+``geoips list plugins -p _package_name_``, where ``-p`` is an optional flag representing
+the package we want to list plugins from.
+
+To validate a plugin we will need the full path to the plugin you want validated. See
+an example of this shown below.
+
+::
+
+    geoips validate /full/path/to/plugin.<ext>

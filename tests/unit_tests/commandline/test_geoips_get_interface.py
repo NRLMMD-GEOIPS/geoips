@@ -2,6 +2,7 @@
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
+
 import pytest
 
 from geoips import interfaces
@@ -22,9 +23,7 @@ class TestGeoipsGetInterface(BaseCliTest):
             base_args = self._get_interface_args
             # add arguments for retrieving each GeoIPS Interface
             for interface_name in interfaces.__all__:
-                self._cmd_list.append(
-                    base_args + [interface_name]
-                )
+                self._cmd_list.append(base_args + [interface_name])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non_existent_interface
@@ -45,7 +44,6 @@ class TestGeoipsGetInterface(BaseCliTest):
         # output of the error.
         err_str = "usage: To use, type `geoips get interface <interface_name>`"
         assert err_str in error
-
 
     def check_output(self, args, output):
         """Ensure that the 'geoips get interface ...' successful output is correct.
@@ -68,17 +66,19 @@ class TestGeoipsGetInterface(BaseCliTest):
                 "docstring",
                 "interface",
                 "interface_type",
-                "supported_families"
+                "supported_families",
             ]
             for output_item in expected_outputs:
                 assert f"{output_item}:" in output
 
+
 test_sub_cmd = TestGeoipsGetInterface()
 
+
 @pytest.mark.parametrize(
-        "args",
-        test_sub_cmd.all_possible_subcommand_combinations,
-        ids=test_sub_cmd.generate_id,
+    "args",
+    test_sub_cmd.all_possible_subcommand_combinations,
+    ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
     """Test all 'geoips get interface ...' commands.

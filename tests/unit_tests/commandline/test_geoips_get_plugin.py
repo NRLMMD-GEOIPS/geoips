@@ -2,6 +2,7 @@
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
+
 from numpy.random import rand
 import pytest
 
@@ -70,7 +71,6 @@ class TestGeoipsGetPlugin(BaseCliTest):
         err_str += "<plugin_name>`"
         assert err_str in error
 
-
     def check_output(self, args, output):
         """Ensure that the 'geoips get plugin ...' successful output is correct.
 
@@ -104,12 +104,14 @@ class TestGeoipsGetPlugin(BaseCliTest):
             for output_item in expected_outputs:
                 assert f"{output_item}:" in output
 
+
 test_sub_cmd = TestGeoipsGetPlugin()
 
+
 @pytest.mark.parametrize(
-        "args",
-        test_sub_cmd.all_possible_subcommand_combinations,
-        ids=test_sub_cmd.generate_id,
+    "args",
+    test_sub_cmd.all_possible_subcommand_combinations,
+    ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
     """Test all 'geoips get plugin ...' commands.

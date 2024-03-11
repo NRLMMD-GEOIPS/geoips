@@ -2,6 +2,7 @@
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
+
 from glob import glob
 from importlib import resources
 import pytest
@@ -50,7 +51,6 @@ class TestGeoipsValidate(BaseCliTest):
         assert "usage: To use, type `geoips validate <file_path>`" in error
         assert "is invalid." in error
 
-
     def check_output(self, args, output):
         """Ensure that the 'geoips validate ...' successful output is correct.
 
@@ -68,12 +68,14 @@ class TestGeoipsValidate(BaseCliTest):
             # Checking that output from geoips validate command reports valid
             assert "is valid." in output
 
+
 test_sub_cmd = TestGeoipsValidate()
 
+
 @pytest.mark.parametrize(
-        "args",
-        test_sub_cmd.all_possible_subcommand_combinations,
-        ids=test_sub_cmd.generate_id,
+    "args",
+    test_sub_cmd.all_possible_subcommand_combinations,
+    ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
     """Test all 'geoips validate ...' commands.

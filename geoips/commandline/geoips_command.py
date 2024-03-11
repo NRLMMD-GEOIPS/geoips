@@ -3,16 +3,18 @@
 Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips get', 'geoips list', 'geoips run', and 'geoips validate'.
 """
+
 import abc
 import argparse
 from colorama import Fore, Style
 from importlib import resources
 import json
-from os.path import basename, dirname
+from os.path import dirname
 from tabulate import tabulate
 import yaml
 
 from geoips.geoips_utils import get_entry_point_group
+
 
 class GeoipsCommand(abc.ABC):
     """GeoipsCommand Abstract Base Class.
@@ -121,9 +123,9 @@ class GeoipsCommand(abc.ABC):
     def plugin_package_paths(self):
         """Plugin Package Paths property of the CLI."""
         if not hasattr(self, "_plugin_package_paths"):
-            self._plugin_package_paths =  [
-                dirname(resources.files(ep.value)) \
-                    for ep in get_entry_point_group("geoips.plugin_packages")
+            self._plugin_package_paths = [
+                dirname(resources.files(ep.value))
+                for ep in get_entry_point_group("geoips.plugin_packages")
             ]
         return self._plugin_package_paths
 
@@ -143,15 +145,15 @@ class GeoipsExecutableCommand(GeoipsCommand):
         """
         if not hasattr(self, "_test_dataset_urls"):
             self._test_dataset_dict = {
-                "test_data_viirs": "https://io.cira.colostate.edu/s/mQ2HbE2Js4E9rba/download/test_data_viirs.tgz", # noqa
-                "test_data_smap": "https://io.cira.colostate.edu/s/CezXWwXg4qR2b94/download/test_data_smap.tgz", # noqa
-                "test_data_scat": "https://io.cira.colostate.edu/s/HyHLZ9F8bnfcTcd/download/test_data_scat.tgz", # noqa
-                "test_data_sar": "https://io.cira.colostate.edu/s/snxx8S5sQL3AL7f/download/test_data_sar.tgz", # noqa
-                "test_data_noaa_aws": "https://io.cira.colostate.edu/s/fkiPS3jyrQGqgPN/download/test_data_noaa_aws.tgz", # noqa
-                "test_data_gpm": "https://io.cira.colostate.edu/s/LT92NiFSA8ZSNDP/download/test_data_gpm.tgz", # noqa
-                "test_data_fusion": "https://io.cira.colostate.edu/s/DSz2nZsiPMDeLEP/download/test_data_fusion.tgz", # noqa
-                "test_data_clavrx": "https://io.cira.colostate.edu/s/ACLKdS2Cpgd2qkc/download/test_data_clavrx.tgz", # noqa
-                "test_data_amsr2": "https://io.cira.colostate.edu/s/FmWwX2ft7KDQ8N9/download/test_data_amsr2.tgz", # noqa
+                "test_data_viirs": "https://io.cira.colostate.edu/s/mQ2HbE2Js4E9rba/download/test_data_viirs.tgz",  # noqa
+                "test_data_smap": "https://io.cira.colostate.edu/s/CezXWwXg4qR2b94/download/test_data_smap.tgz",  # noqa
+                "test_data_scat": "https://io.cira.colostate.edu/s/HyHLZ9F8bnfcTcd/download/test_data_scat.tgz",  # noqa
+                "test_data_sar": "https://io.cira.colostate.edu/s/snxx8S5sQL3AL7f/download/test_data_sar.tgz",  # noqa
+                "test_data_noaa_aws": "https://io.cira.colostate.edu/s/fkiPS3jyrQGqgPN/download/test_data_noaa_aws.tgz",  # noqa
+                "test_data_gpm": "https://io.cira.colostate.edu/s/LT92NiFSA8ZSNDP/download/test_data_gpm.tgz",  # noqa
+                "test_data_fusion": "https://io.cira.colostate.edu/s/DSz2nZsiPMDeLEP/download/test_data_fusion.tgz",  # noqa
+                "test_data_clavrx": "https://io.cira.colostate.edu/s/ACLKdS2Cpgd2qkc/download/test_data_clavrx.tgz",  # noqa
+                "test_data_amsr2": "https://io.cira.colostate.edu/s/FmWwX2ft7KDQ8N9/download/test_data_amsr2.tgz",  # noqa
             }
         return self._test_dataset_dict
 
@@ -166,7 +168,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
 
     @abc.abstractmethod
     def __call__(self, args):
-        """The actual functionaly of the command being called.
+        """Functionality to execute the command being called.
 
         Parameters
         ----------
@@ -188,11 +190,11 @@ class GeoipsExecutableCommand(GeoipsCommand):
         """
         yaml_text = yaml.dump(dict_entry, default_flow_style=False)
         print()
-        for line in yaml_text.split('\n'):
+        for line in yaml_text.split("\n"):
             # Color the keys in cyan and values in yellow
-            if ':' in line:
-                key, value = line.split(':', 1)
-                formatted_line = Fore.CYAN + key + ':' + Style.RESET_ALL
+            if ":" in line:
+                key, value = line.split(":", 1)
+                formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
                 formatted_line += Fore.YELLOW + value + Style.RESET_ALL
                 print(formatted_line)
             else:
@@ -259,12 +261,12 @@ class GeoipsExecutableCommand(GeoipsCommand):
         for plugin_key in sorted(interface_registry.keys()):
             if interface.name == "products":
                 plugin_entry = [
-                    "Not Implemented", # Package
-                    interface.name, # Interface
-                    interface.interface_type, # Interface Type
-                    "list", # Family
-                    plugin_key, # Plugin Name
-                    "Not Implemented", # Relpath
+                    "Not Implemented",  # Package
+                    interface.name,  # Interface
+                    interface.interface_type,  # Interface Type
+                    "list",  # Family
+                    plugin_key,  # Plugin Name
+                    "Not Implemented",  # Relpath
                 ]
             else:
                 plugin_entry = [

@@ -2,6 +2,7 @@
 
 Retrieves the appropriate family/interface/package/plugin based on the args provided.
 """
+
 from importlib import resources, import_module
 import yaml
 
@@ -25,21 +26,23 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
         - filepath
         - documentation_link
     """
+
     subcommand_name = "family"
     subcommand_classes = []
 
     def add_arguments(self):
+        """Add arguments to the get-subparser for the Get Family Command."""
         self.subcommand_parser.add_argument(
             "interface_name",
             type=str.lower,
             default="algorithms",
             choices=interfaces.__all__,
-            help="GeoIPS Interface to retrieve."
+            help="GeoIPS Interface to retrieve.",
         )
         self.subcommand_parser.add_argument(
             "family_name",
             type=str,
-            help="GeoIPS Plugin to select from the provided interface."
+            help="GeoIPS Plugin to select from the provided interface.",
         )
 
     def __call__(self, args):
@@ -48,10 +51,16 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
         This occurs when a user has requested a family in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        [
-            interface_name, interface_type, family, required fam_args/schema,
-            docstring, filepath, documentation_link
-        ]
+        Data Output
+        -----------
+        yaml-based output: dict
+            - interface_name
+            - interface_type
+            - family
+            - required fam_args/schema
+            - docstring
+            - filepath
+            - documentation_link
 
         Parameters
         ----------
@@ -73,20 +82,18 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
             # members, raise an error
             err_str = f"Error: Family: `{family_name}` is not within Interface: "
             err_str += f"`{interface_name}` supported families: `{supported_families}`"
-            self.subcommand_parser.error(
-                err_str
-            )
+            self.subcommand_parser.error(err_str)
         if interface_type == "module_based":
             docstring = "Not Implemented."
             family_path = str(
-                resources.files("geoips") /
-                f"interfaces/{interface_type}/{interface_name}.py"
+                resources.files("geoips")
+                / f"interfaces/{interface_type}/{interface_name}.py"
             )
             family_args_or_schema = interface.required_args[family_name]
         else:
             family_path = str(
-                resources.files("geoips") /
-                f"schema/{interface_name}/{family_name}.yaml"
+                resources.files("geoips")
+                / f"schema/{interface_name}/{family_name}.yaml"
             )
             family_args_or_schema = yaml.safe_load(open(family_path, "r"))
             if "description" in list(family_args_or_schema.keys()):
@@ -120,16 +127,18 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         - abspath
         - doc_link
     """
+
     subcommand_name = "interface"
     subcommand_classes = []
 
     def add_arguments(self):
+        """Add arguments to the get-subparser for the Get Interface Command."""
         self.subcommand_parser.add_argument(
             "interface_name",
             type=str.lower,
             default="algorithms",
             choices=interfaces.__all__,
-            help="GeoIPS Interface to retrieve."
+            help="GeoIPS Interface to retrieve.",
         )
 
     def __call__(self, args):
@@ -138,10 +147,15 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         This occurs when a user has requested a interface in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        [
-            interface_name, interface_type, list_of_supported_families, docstring,
-            filepath, documentation_link
-        ]
+        Data Output
+        -----------
+        yaml-based output: dict
+            - interface_name
+            - interface_type
+            - list_of_supported_families
+            - docstring,
+            - filepath
+            - documentation_link
 
         Parameters
         ----------
@@ -158,8 +172,8 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
 
         geoips_pkg_path = resources.files("geoips")
         interface_path = str(
-            geoips_pkg_path /
-            f"interfaces/{interface.interface_type}/{interface.name}.py"
+            geoips_pkg_path
+            / f"interfaces/{interface.interface_type}/{interface.name}.py"
         )
         interface_entry = {
             "interface": interface.name,
@@ -185,16 +199,18 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
         - package_path
         - documentation_link
     """
+
     subcommand_name = "package"
     subcommand_classes = []
 
     def add_arguments(self):
+        """Add arguments to the get-subparser for the Get Package Command."""
         self.subcommand_parser.add_argument(
             "package_name",
             type=str.lower,
             default="geoips",
             choices=self.plugin_packages,
-            help="GeoIPS Package to retrieve."
+            help="GeoIPS Package to retrieve.",
         )
 
     def __call__(self, args):
@@ -203,9 +219,13 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
         This occurs when a user has requested a package in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        [
-             package name, docstring, package_path, documentation_link
-        ]
+        Data Output
+        -----------
+        yaml-based output: dict
+            - package name
+            - docstring
+            - package_path
+            - documentation_link
 
         Parameters
         ----------
@@ -243,23 +263,25 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
         - filepath
         - documentation_link
     """
+
     subcommand_name = "plugin"
     subcommand_classes = []
 
     def add_arguments(self):
+        """Add arguments to the get-subparser for the Get Plugin Command."""
         self.subcommand_parser.add_argument(
             "interface_name",
             type=str.lower,
             default="algorithms",
             choices=interfaces.__all__,
-            help="GeoIPS Interface to retrieve."
+            help="GeoIPS Interface to retrieve.",
         )
         self.subcommand_parser.add_argument(
             "plugin_name",
             type=str,
             default=None,
             nargs="?",
-            help="GeoIPS Plugin to select from the provided interface."
+            help="GeoIPS Plugin to select from the provided interface.",
         )
 
     def __call__(self, args):
@@ -268,10 +290,17 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
         This occurs when a user has requested a plugin in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        [
-            package, interface_name, interface_type, family, call_sig/avail_overrides,
-            docstring, filepath, documentation_link
-        ]
+        Data Output
+        -----------
+        yaml-based output: dict
+            - package
+            - interface_name
+            - interface_type
+            - family
+            - call_sig/avail_overrides,
+            - docstring
+            - filepath
+            - documentation_link
 
         Parameters
         ----------
@@ -335,6 +364,7 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
 
 class GeoipsGet(GeoipsCommand):
     """GeoipsGet Sub-Command for retrieving package plugins."""
+
     subcommand_name = "get"
     subcommand_classes = [
         GeoipsGetFamily,
@@ -342,4 +372,3 @@ class GeoipsGet(GeoipsCommand):
         GeoipsGetPackage,
         GeoipsGetPlugin,
     ]
-

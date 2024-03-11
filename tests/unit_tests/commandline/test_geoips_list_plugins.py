@@ -2,6 +2,7 @@
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
+
 from importlib import resources
 import json
 import pytest
@@ -21,9 +22,7 @@ class TestGeoipsListPlugins(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = [self._list_plugins_args]
             for pkg_name in self.plugin_packages:
-                self._cmd_list.append(
-                    self._list_plugins_args + ["-p", pkg_name]
-                )
+                self._cmd_list.append(self._list_plugins_args + ["-p", pkg_name])
             # Add argument list which invokes the help message for this command
             self._cmd_list.append(["geoips", "list", "plugins", "-h"])
             # Add argument list with a non-existent package name
@@ -63,8 +62,12 @@ class TestGeoipsListPlugins(BaseCliTest):
         else:
             # The args provided are valid, so test that the output is actually correct
             headers = [
-                "GeoIPS Package", "Interface", "Interface Type",
-                "Family", "Plugin Name", "Relative Path",
+                "GeoIPS Package",
+                "Interface",
+                "Interface Type",
+                "Family",
+                "Plugin Name",
+                "Relative Path",
             ]
             # Assert that the correct headers exist in the CLI output
             for header in headers:
@@ -91,18 +94,20 @@ class TestGeoipsListPlugins(BaseCliTest):
                             # search the interface's portion of the registry and assert
                             # that each plugin found within it has been reported in the
                             # CLI"s output
-                            interface_registry = plugin_registry[
-                                interface_type
-                            ][interface_name]
+                            interface_registry = plugin_registry[interface_type][
+                                interface_name
+                            ]
                             for plugin_name in interface_registry:
                                 assert plugin_name in list(interface_registry.keys())
 
+
 test_sub_cmd = TestGeoipsListPlugins()
 
+
 @pytest.mark.parametrize(
-        "args",
-        test_sub_cmd.all_possible_subcommand_combinations,
-        ids=test_sub_cmd.generate_id,
+    "args",
+    test_sub_cmd.all_possible_subcommand_combinations,
+    ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
     """Test all 'geoips list plugins ...' commands.

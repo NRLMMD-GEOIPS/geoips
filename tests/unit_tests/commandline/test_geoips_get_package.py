@@ -2,6 +2,7 @@
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
+
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
@@ -21,9 +22,7 @@ class TestGeoipsGetPackage(BaseCliTest):
             base_args = self._get_package_args
             # add arguments for retrieving each package
             for pkg_name in self.plugin_packages:
-                self._cmd_list.append(
-                    base_args + [pkg_name]
-                )
+                self._cmd_list.append(base_args + [pkg_name])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non_existent_package
@@ -44,7 +43,6 @@ class TestGeoipsGetPackage(BaseCliTest):
         # output of the error.
         err_str = "usage: To use, type `geoips get package <package_name>`"
         assert err_str in error
-
 
     def check_output(self, args, output):
         """Ensure that the 'geoips get package ...' successful output is correct.
@@ -71,12 +69,14 @@ class TestGeoipsGetPackage(BaseCliTest):
             for output_item in expected_outputs:
                 assert f"{output_item}:" in output
 
+
 test_sub_cmd = TestGeoipsGetPackage()
 
+
 @pytest.mark.parametrize(
-        "args",
-        test_sub_cmd.all_possible_subcommand_combinations,
-        ids=test_sub_cmd.generate_id,
+    "args",
+    test_sub_cmd.all_possible_subcommand_combinations,
+    ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
     """Test all 'geoips get package ...' commands.
