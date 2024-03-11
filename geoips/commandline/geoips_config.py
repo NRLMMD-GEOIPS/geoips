@@ -3,7 +3,7 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 from importlib import resources
-from os import environ
+from os import listdir, environ
 from subprocess import call
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
@@ -38,14 +38,23 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         test_dataset_url = self.test_dataset_dict[test_dataset_name]
         script_dir = str(resources.files("geoips") / "../setup")
         GEOIPS_TESTDATA_DIR = str(environ["GEOIPS_TESTDATA_DIR"])
-        command = f"python {script_dir}/download_test_data.py {test_dataset_url} "
-        command += f"| tar -xz -C {GEOIPS_TESTDATA_DIR}"
-        print(f"Installing {test_dataset_name} test data. This may take a while...")
-        output = call(command, shell=True)
-        out_str = f"Test Data {test_dataset_name} has been installed under "
-        out_str += f"{GEOIPS_TESTDATA_DIR}/{test_dataset_name}/"
-        print(out_str)
-        return output
+        if test_dataset_name in listdir(GEOIPS_TESTDATA_DIR):
+            out_str = f"Test dataset '{test_dataset_name}' already exists under "
+            out_str += f"'{GEOIPS_TESTDATA_DIR}'. See that location for the contents "
+            out_str += "of the test dataset."
+            print(out_str)
+        else:
+            command = f"python {script_dir}/download_test_data.py {test_dataset_url} "
+            command += f"| tar -xz -C {GEOIPS_TESTDATA_DIR}"
+            print(
+                f"Installing {test_dataset_name} test dataset. This may take a while..."
+            )
+            call(command, shell=True)
+            # output = call(command, shell=True)
+            out_str = f"Test dataset '{test_dataset_name}' has been installed under "
+            out_str += f"{GEOIPS_TESTDATA_DIR}/{test_dataset_name}/"
+            print(out_str)
+            # return output
 
 
 class GeoipsConfig(GeoipsCommand):

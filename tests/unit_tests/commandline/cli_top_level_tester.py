@@ -7,6 +7,7 @@ from geoips.geoips_utils import get_entry_point_group
 class BaseCliTest(abc.ABC):
     """Top-Level CLI Test Class which implements shared attributes for sub-commands."""
 
+    _config_install_args = ["geoips", "config", "install"]
     _get_family_args = ["geoips", "get", "family"]
     _get_interface_args = ["geoips", "get", "interface"]
     _get_package_args = ["geoips", "get", "package"]
@@ -19,9 +20,12 @@ class BaseCliTest(abc.ABC):
     _run_args = ["geoips", "run"]
     _validate_args = ["geoips", "validate"]
     arg_list = [
+        _config_install_args,
         _get_family_args, _get_interface_args, _get_package_args, _get_plugin_args,
         _list_interface_args, _list_interfaces_args, _list_plugins_args,
-        _list_packages_args, _list_scripts_args, _run_args, _validate_args,
+        _list_packages_args, _list_scripts_args,
+        _run_args,
+        _validate_args,
     ]
 
     def generate_id(self, args):
