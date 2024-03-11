@@ -20,10 +20,13 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
     Data Output
     -----------
     out_array: 2D Array of Data
-        - [
-            package, interface_name, interface_type, supported_families,
-            short_docstring, filepath, documentation_link
-        ]
+        - package
+        - interface_name
+        - interface_type
+        - supported_families
+        - short_docstring
+        - filepath
+        - documentation_link
     """
     subcommand_name = "test-datasets"
     subcommand_classes = []
@@ -63,10 +66,13 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
     Data Output
     -----------
     out_array: 2D Array of Data
-        - [
-            package, interface_name, interface_type, supported_families,
-            short_docstring, filepath, documentation_link
-        ]
+        - package
+        - interface_name
+        - interface_type
+        - supported_families
+        - short_docstring
+        - filepath
+        - documentation_link
     """
     subcommand_name = "interfaces"
     subcommand_classes = []
@@ -97,10 +103,13 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         Data Output
         -----------
         out_array: 2D Array of Data
-            - [
-                package, interface_name, interface_type, supported_families,
-                short_docstring, filepath, documentation_link
-            ]
+            - package
+            - interface_name
+            - interface_type
+            - supported_families
+            - short_docstring
+            - filepath
+            - documentation_link
 
         Parameters
         ----------
@@ -128,10 +137,13 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         Data Output
         -----------
         out_array: 2D Array of Data
-            - [
-                package, interface_name, interface_type, supported_families,
-                short_docstring, filepath, documentation_link
-            ]
+            - package
+            - interface_name
+            - interface_type
+            - supported_families
+            - short_docstring
+            - filepath
+            - documentation_link
         """
         interface_data = []
         for interface_name in interfaces.__all__:
@@ -172,10 +184,13 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         Data Output
         -----------
         out_array: 2D Array of Data
-            - [
-                package, interface_name, interface_type, supported_families,
-                short_docstring, filepath, documentation_link
-            ]
+            - package
+            - interface_name
+            - interface_type
+            - supported_families
+            - short_docstring
+            - filepath
+            - documentation_link
 
         Parameters
         ----------
@@ -219,10 +234,13 @@ class GeoipsListPackages(GeoipsExecutableCommand):
     Data Output
     -----------
     out_array: 2D Array of Data
-        - [
-            package, interface_name, interface_type, supported_families,
-            short_docstring, filepath, documentation_link
-        ]
+        - package
+        - interface_name
+        - interface_type
+        - supported_families,
+        - short_docstring
+        - filepath
+        - documentation_link
     """
     subcommand_name = "packages"
     subcommand_classes = []
@@ -239,9 +257,10 @@ class GeoipsListPackages(GeoipsExecutableCommand):
         Data Output
         -----------
         output_array: 2D Array
-            - [
-                package, docstring, filepath, documentation_link
-            ]
+            - package
+            - docstring
+            - filepath
+            - documentation_link
 
         Parameters
         ----------
@@ -280,10 +299,13 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
     Data Output
     -----------
     out_array: 2D Array of Data
-        - [
-            package, interface_name, interface_type, supported_families,
-            short_docstring, filepath, documentation_link
-        ]
+        - package
+        - interface_name
+        - interface_type
+        - supported_families,
+        - short_docstring
+        - filepath
+        - documentation_link
     """
     subcommand_name = "plugins"
     subcommand_classes = []
@@ -337,9 +359,9 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
         Currently the "geoips list interface" command supports this format:
             - geoips list interface <interface_name> -p <package_name>
         Where:
-            <interface_name> is any of the GeoIPS Interfaces' Name
-            <package_name> is any GeoIPS package that is installed and recognized by the
-              GeoIPS Library
+            - <interface_name> is any of the GeoIPS Interfaces' Name
+            - <package_name> is any GeoIPS package that is installed and recognized by
+              the GeoIPS Library
         """
         self.subcommand_parser.add_argument(
             "interface_name",
@@ -401,10 +423,13 @@ class GeoipsListScripts(GeoipsExecutableCommand):
     Data Output
     -----------
     out_array: 2D Array of Data
-        - [
-            package, interface_name, interface_type, supported_families,
-            short_docstring, filepath, documentation_link
-        ]
+        - package
+        - interface_name
+        - interface_type
+        - supported_families
+        - short_docstring
+        - filepath
+        - documentation_link
     """
     subcommand_name = "scripts"
     subcommand_classes = []

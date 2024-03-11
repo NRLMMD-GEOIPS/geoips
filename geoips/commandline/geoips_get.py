@@ -18,10 +18,12 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
     Data Output
     -----------
     yaml-based-output: dict
-        - includes the following info : [
-            interface_name, interface_type, family, required fam_args/schema,
-            docstring, filepath, documentation_link
-        ]
+        - interface_name
+        - family
+        - required fam_args/schema
+        - docstring
+        - filepath
+        - documentation_link
     """
     subcommand_name = "family"
     subcommand_classes = []
@@ -111,10 +113,12 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
     Data Output
     -----------
     yaml-based-output: dict
-        - includes the following info : [
-            interface_name, interface_type, supported_families,
-            docstring, abspath, doc_link,
-        ]
+        - interface_name
+        - interface_type
+        - supported_families
+        - docstring
+        - abspath
+        - doc_link
     """
     subcommand_name = "interface"
     subcommand_classes = []
@@ -176,9 +180,10 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
     Data Output
     -----------
     yaml-based-output: dict
-        - includes the following info : [
-            package name, docstring, package_path, documentation_link
-        ]
+        - package name
+        - docstring
+        - package_path
+        - documentation_link
     """
     subcommand_name = "package"
     subcommand_classes = []
@@ -229,10 +234,14 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
     Data Output
     -----------
     yaml-based-output: dict
-        - includes the following info : [
-            package, interface_name, interface_type, family, call_sig/avail_overrides,
-            docstring, filepath, documentation_link
-        ]
+        - package
+        - interface_name
+        - interface_type
+        - family
+        - call_sig/avail_overrides
+        - docstring
+        - filepath
+        - documentation_link
     """
     subcommand_name = "plugin"
     subcommand_classes = []
