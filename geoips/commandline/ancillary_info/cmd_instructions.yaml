@@ -238,7 +238,7 @@ instructions:
       package.
     usage_str: |
       To use, type
-      `geoips test unit-test -p <package_name> <unit_test_dir_name> <--n> <script_name>`
+      `geoips test unit-test -p <package_name> <directory_name> <-n> <script_name>`
     output_info:
       - Output of the Unit Test Being Ran
   - cmd_name: validate
