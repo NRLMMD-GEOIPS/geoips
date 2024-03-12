@@ -127,15 +127,11 @@ Benefits of a Plugin Registry
 
 The efficiency of the new plugin registries is a twenty-fold reduction in GeoIPS startup
 time. In practice, this resulted in a reduction from >10 seconds to 0.5 seconds when
-importing GeoIPS. Largely, this is attributable to efficient json loading and only
-instantiating the plugin registry when a user requests a plugin. Before, we dynamically
-created the yaml-registry for each yaml interface (5 in total), which was often
-unnecessary and took much longer for a single call than it does for creating a plugin
-registry with our new methods.
-
-..
-    what was the instantiation like before reducing instantiation? also: work on that
-    sentance
+importing GeoIPS. Largely, this is attributable to efficient json loading and waiting to
+instantiate the plugin registry until a user requests a plugin. Before, we dynamically
+created the yaml-registry for each yaml interface (5 in total) by searching entry points,
+which was slower than creating a comprehensive plugin registry for all plugins (per-plugin
+call vs entire cache generation).
 
 Another benefit is the easily accessible information stored in the plugin registry. We
 can search through the registry for every plugin of each package and find a
