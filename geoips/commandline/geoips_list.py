@@ -17,17 +17,6 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
     """GeoipsListTestDatsets Sub-Command Class.
 
     Called via `geoips list test-datasets`. Outputs the following in a tabular format.
-
-    Data Output
-    -----------
-    out_array: 2D Array of Data
-        - package
-        - interface_name
-        - interface_type
-        - supported_families
-        - short_docstring
-        - filepath
-        - documentation_link
     """
 
     subcommand_name = "test-datasets"
@@ -39,6 +28,12 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
 
     def __call__(self, args):
         """List all of the available scripts held under <package_name>.
+
+        Data Output
+        -----------
+        out_array: 2D Array of Strings
+            - Data Host
+            - Dataset Name
 
         Parameters
         ----------
@@ -65,17 +60,6 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
     Called via `geoips list interfaces`. Outputs the following data in a tabular format.
-
-    Data Output
-    -----------
-    out_array: 2D Array of Data
-        - package
-        - interface_name
-        - interface_type
-        - supported_families
-        - short_docstring
-        - filepath
-        - documentation_link
     """
 
     subcommand_name = "interfaces"
@@ -105,16 +89,19 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
     def __call__(self, args):
         """List the available interface[s] within [a] GeoIPS Package[s]".
 
-        Data Output
-        -----------
-        out_array: 2D Array of Data
-            - package
-            - interface_name
-            - interface_type
-            - supported_families
-            - short_docstring
-            - filepath
-            - documentation_link
+        Data Output (either available or implemented)
+        ---------------------------------------------
+        available_out_array: 2D Array of Strings
+            - Absolute Path
+            - Docstring
+            - GeoIPS Package
+            - Interface Type
+            - Interface Name
+            - Supported Families
+        implemented_out_array: 2D Array of Strings
+            - GeoIPS Package
+            - Interface Type
+            - Interface Name
 
         Parameters
         ----------
@@ -139,14 +126,13 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
 
         Data Output
         -----------
-        out_array: 2D Array of Data
-            - package
-            - interface_name
-            - interface_type
-            - supported_families
-            - short_docstring
-            - filepath
-            - documentation_link
+        out_array: 2D Array of Strings
+            - Absolute Path
+            - Docstring
+            - GeoIPS Package
+            - Interface Type
+            - Interface Name
+            - Supported Families
         """
         interface_data = []
         for interface_name in interfaces.__all__:
@@ -190,14 +176,10 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
 
         Data Output
         -----------
-        out_array: 2D Array of Data
-            - package
-            - interface_name
-            - interface_type
-            - supported_families
-            - short_docstring
-            - filepath
-            - documentation_link
+        out_array: 2D Array of Strings
+            - GeoIPS Package
+            - Interface Type
+            - Interface Name
 
         Parameters
         ----------
@@ -238,17 +220,6 @@ class GeoipsListPackages(GeoipsExecutableCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
     Called via `geoips list packages`. Outputs the following data in a tabular format.
-
-    Data Output
-    -----------
-    out_array: 2D Array of Data
-        - package
-        - interface_name
-        - interface_type
-        - supported_families,
-        - short_docstring
-        - filepath
-        - documentation_link
     """
 
     subcommand_name = "packages"
@@ -266,11 +237,10 @@ class GeoipsListPackages(GeoipsExecutableCommand):
 
         Data Output
         -----------
-        output_array: 2D Array
-            - package
-            - docstring
-            - filepath
-            - documentation_link
+        out_array: 2D Array of Strings
+            - Docstring
+            - GeoIPS Package
+            - Package Path
 
         Parameters
         ----------
@@ -306,17 +276,6 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
     Called via `geoips list plugins`. Outputs the following data in a tabular format.
-
-    Data Output
-    -----------
-    out_array: 2D Array of Data
-        - package
-        - interface_name
-        - interface_type
-        - supported_families,
-        - short_docstring
-        - filepath
-        - documentation_link
     """
 
     subcommand_name = "plugins"
@@ -335,6 +294,16 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
 
     def __call__(self, args):
         """List the available interface[s] and their corresponding plugin names.
+
+        Data Output
+        -----------
+        out_array: 2D Array of Strings
+            - Family Name
+            - GeoIPS Package
+            - Interface Name
+            - Interface Type
+            - Plugin Name
+            - Relative Path
 
         Parameters
         ----------
@@ -362,7 +331,7 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
 
 
 class GeoipsListSingleInterface(GeoipsExecutableCommand):
-    """GeoipsList Sub-Command for listing packages/scripts/interfaces/plugins."""
+    """GeoipsList Sub-Command for listing plugins of a single interface."""
 
     subcommand_name = "interface"
     subcommand_classes = []
@@ -401,6 +370,16 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
 
         Where any of those options can be GeoIPS Package specific or from any package.
 
+        Data Output
+        -----------
+        out_array: 2D array of Strings
+            - Family Name
+            - GeoIPS Package
+            - Interface Name
+            - Interface Type
+            - Plugin Name
+            - Relative Path
+
         Parameters
         ----------
         args: Namespace()
@@ -434,17 +413,6 @@ class GeoipsListScripts(GeoipsExecutableCommand):
     """GeoipsListInterfaces Sub-Command Class.
 
     Called via `geoips list scripts`. Outputs the following data in a tabular format.
-
-    Data Output
-    -----------
-    out_array: 2D Array of Data
-        - package
-        - interface_name
-        - interface_type
-        - supported_families
-        - short_docstring
-        - filepath
-        - documentation_link
     """
 
     subcommand_name = "scripts"
@@ -463,6 +431,12 @@ class GeoipsListScripts(GeoipsExecutableCommand):
 
     def __call__(self, args):
         """List all of the available scripts held under <package_name>.
+
+        Data Output
+        -----------
+        out_array: 2D Array of Strings
+            - GeoIPS Package
+            - Script Name
 
         Parameters
         ----------

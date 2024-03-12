@@ -15,16 +15,6 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
 
     This is called via `geoips get family <interface_name> <family_name>`. Data included
     when calling this command is shown below, outputted in a yaml-based format.
-
-    Data Output
-    -----------
-    yaml-based-output: dict
-        - interface_name
-        - family
-        - required fam_args/schema
-        - docstring
-        - filepath
-        - documentation_link
     """
 
     subcommand_name = "family"
@@ -54,13 +44,12 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
         Data Output
         -----------
         yaml-based output: dict
-            - interface_name
-            - interface_type
-            - family
-            - required fam_args/schema
-            - docstring
-            - filepath
-            - documentation_link
+            - Docstring
+            - Family Name
+            - Family Path
+            - Interface Name
+            - Interface Type
+            - Required Arguments / Schema
 
         Parameters
         ----------
@@ -116,16 +105,6 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
 
     This is called via `geoips get interface <interface_name>`. Data included when
     calling this command is shown below, outputted in a yaml-based format.
-
-    Data Output
-    -----------
-    yaml-based-output: dict
-        - interface_name
-        - interface_type
-        - supported_families
-        - docstring
-        - abspath
-        - doc_link
     """
 
     subcommand_name = "interface"
@@ -150,12 +129,11 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         Data Output
         -----------
         yaml-based output: dict
-            - interface_name
-            - interface_type
-            - list_of_supported_families
-            - docstring,
-            - filepath
-            - documentation_link
+            - Absolute Path
+            - Docstring
+            - Interface Name
+            - Interface Type
+            - Supported Families
 
         Parameters
         ----------
@@ -190,14 +168,6 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
 
     This is called via `geoips get package <interface_name>`. Data included when
     calling this command is shown below, outputted in a yaml-based format.
-
-    Data Output
-    -----------
-    yaml-based-output: dict
-        - package name
-        - docstring
-        - package_path
-        - documentation_link
     """
 
     subcommand_name = "package"
@@ -222,10 +192,10 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
         Data Output
         -----------
         yaml-based output: dict
-            - package name
-            - docstring
-            - package_path
-            - documentation_link
+            - Docstring
+            - Documentation Link
+            - GeoIPS Package
+            - Package Path
 
         Parameters
         ----------
@@ -250,18 +220,6 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
 
     This is called via `geoips get plugin <interface_name> <plugin_name>`. Data included
     when calling this command is shown below, outputted in a yaml-based format.
-
-    Data Output
-    -----------
-    yaml-based-output: dict
-        - package
-        - interface_name
-        - interface_type
-        - family
-        - call_sig/avail_overrides
-        - docstring
-        - filepath
-        - documentation_link
     """
 
     subcommand_name = "plugin"
@@ -293,14 +251,13 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
         Data Output
         -----------
         yaml-based output: dict
-            - package
-            - interface_name
-            - interface_type
-            - family
-            - call_sig/avail_overrides,
-            - docstring
-            - filepath
-            - documentation_link
+            - Docstring
+            - Family Name
+            - GeoIPS Package
+            - Interface Name
+            - Plugin Type
+            - call_sig / source_names / Product Defaults (dependent on Plugin Type)
+            - Relative Path
 
         Parameters
         ----------
