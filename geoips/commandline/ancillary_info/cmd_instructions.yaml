@@ -200,9 +200,47 @@ instructions:
       you can run `geoips list-scripts <-p>`, where `-p` can be used alongside a GeoIPS
       Package name if you want scripts from a single package.
     usage_str: |
-      To use, type `geoips run <package_name> <script_name>`.
+      To use, type `geoips run -p <package_name> <script_name>`.
     output_info:
       - Log Output of the Process Workflow (Procflow)
+  - cmd_name: test
+    help_str: |
+      Run tests implemented in GeoIPS or a separate GeoIPS Package. This could be
+      running a set of linters on a specific package, running a certain integration or
+      normal test script, or running unit tests.
+    usage_str: |
+      To use, type `geoips test <sub-cmd> <sub-sub-cmd>`.
+    output_info:
+      - Output of the Test Being Ran
+  - cmd_name: test linting
+    help_str: |
+      Run all GeoIPS linters on a specific GeoIPS Package. This will test whether or not
+      the code you wrote adheres to the specified coding conventions set up by GeoIPS.
+      Defaults to the 'geoips' package.
+    usage_str: |
+      To use, type `geoips test linting -[ <package_name>`.
+    output_info:
+      - Output of the Linters
+  - cmd_name: test script
+    help_str: |
+      Runs a specific test script (integration-based or normal), found within a certain
+      GeoIPS package. If this is specified as an integration test, this will only work
+      using the 'geoips' package. Use '-i' or '--integration' to specify that the script
+      is integration-based. Defaults to the 'geoips' package.
+    usage_str: |
+      To use, type `geoips test script -p <package_name> <-i>`.
+    output_info:
+      - Output of the Script Being Ran
+  - cmd_name: test unit-test
+    help_str: |
+      Run tests unit-test[s] implemented in a certain GeoIPS package. This command
+      expects that the unit tests implemented are pytest-based. Defaults to the 'geoips'
+      package.
+    usage_str: |
+      To use, type
+      `geoips test unit-test -p <package_name> <unit_test_dir_name> <--n> <script_name>`
+    output_info:
+      - Output of the Unit Test Being Ran
   - cmd_name: validate
     help_str: |
       Validate a GeoIPS Plugin found at <file_path>. While this is done under the hood via

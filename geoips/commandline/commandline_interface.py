@@ -12,6 +12,7 @@ from geoips.commandline.geoips_config import GeoipsConfig
 from geoips.commandline.geoips_get import GeoipsGet
 from geoips.commandline.geoips_list import GeoipsList
 from geoips.commandline.geoips_run import GeoipsRun
+from geoips.commandline.geoips_test import GeoipsTest
 from geoips.commandline.geoips_validate import GeoipsValidate
 
 setup_logging()
@@ -31,6 +32,7 @@ class GeoipsCLI(GeoipsCommand):
         GeoipsGet,
         GeoipsList,
         GeoipsRun,
+        GeoipsTest,
         GeoipsValidate,
     ]
 

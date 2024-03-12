@@ -20,8 +20,9 @@ class GeoipsRun(GeoipsExecutableCommand):
     def add_arguments(self):
         """Add arguments to the run-subparser for the Run Command."""
         self.subcommand_parser.add_argument(
-            "pkg_name",
-            type=str.lower,
+            "--package_name",
+            "-p",
+            type=str,
             default="geoips",
             choices=self.plugin_packages,
             help="GeoIPS Package to run a script from.",
@@ -41,9 +42,9 @@ class GeoipsRun(GeoipsExecutableCommand):
         args: Namespace()
             - The argument namespace to parse through
         """
-        pkg_name = args.pkg_name
+        package_name = args.package_name
         script_name = args.script_name
-        script_dir = str(resources.files(pkg_name) / "../tests/scripts")
+        script_dir = str(resources.files(package_name) / "../tests/scripts")
         available_scripts = sorted(
             [basename(script_path) for script_path in glob(f"{script_dir}/*.sh")]
         )
@@ -54,5 +55,6 @@ class GeoipsRun(GeoipsExecutableCommand):
             err_str += f"scripts instead: \n {available_scripts}"
             self.subcommand_parser.error(err_str)
         script_path = f"{script_dir}/{script_name}"
-        output = call(script_path, shell=True)
-        return output
+        call(script_path, shell=True)
+        # output = call(script_path, shell=True)
+        # return output

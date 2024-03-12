@@ -42,16 +42,22 @@ class TestGeoipsRun(BaseCliTest):
                         in listdir(str(environ["GEOIPS_TESTDATA_DIR"]))
                     )
                     if do_geoips_run and test_data_found and len(self._cmd_list) < 4:
-                        self._cmd_list.append(base_args + [pkg_name, script_name])
+                        self._cmd_list.append(base_args + ["-p", pkg_name, script_name])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non existent package
             self._cmd_list.append(
                 base_args
-                + ["non_existent_package", "abi.static.Infrared.imagery_annotated.sh"]
+                + [
+                    "-p",
+                   "non_existent_package",
+                   "abi.static.Infrared.imagery_annotated.sh"
+                ]
             )
-            # Add argument list with non existent script name
-            self._cmd_list.append(base_args + ["geoips", "non_existent_script_name"])
+            # Add argument list with non existent script name in default geoips pkg
+            self._cmd_list.append(
+                base_args + ["non_existent_script_name"]
+            )
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -66,7 +72,7 @@ class TestGeoipsRun(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        assert "To use, type `geoips run <package_name> <script_name>`" in error
+        assert "To use, type `geoips run -p <package_name> <script_name>`" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips run ...' successful output is correct.
@@ -80,7 +86,7 @@ class TestGeoipsRun(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            assert "To use, type `geoips run <package_name> <script_name>`" in output
+            assert "To use, type `geoips run -p <package_name> <script_name>`" in output
         else:
             # Checking that output from geoips run command reports succeeds
             assert "Return value: 0" in output
