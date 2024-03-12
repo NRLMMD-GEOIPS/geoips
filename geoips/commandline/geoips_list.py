@@ -42,7 +42,6 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
         """
         dataset_info = []
         for test_dataset_name in list(self.test_dataset_dict.keys()):
-            print(f"Dataset Name: {test_dataset_name}")
             dataset_info.append(["io.cira.colostate.edu", test_dataset_name])
         print("-" * len("Available Test Datasets"))
         print("Available Test Datasets")
@@ -142,7 +141,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
                     "geoips",
                     interface.interface_type,
                     interface_name,
-                    interface.supported_families,
+                    ",\n".join(interface.supported_families),
                     interface.__doc__.split("\n")[0],
                     str(
                         resources.files("geoips")
@@ -165,6 +164,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
                     "Absolute Path",
                 ],
                 tablefmt="rounded_grid",
+                maxcolwidths=self.terminal_width // 5,
             )
         )
 
@@ -268,6 +268,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
                 pkg_data,
                 headers=["GeoIPS Package", "Docstring", "Package Path"],
                 tablefmt="rounded_grid",
+                maxcolwidths=self.terminal_width // 2,
             )
         )
 

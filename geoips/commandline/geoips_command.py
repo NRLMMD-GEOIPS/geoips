@@ -9,6 +9,7 @@ import argparse
 from colorama import Fore, Style
 from importlib import resources
 import json
+from os import get_terminal_size
 from os.path import dirname
 from tabulate import tabulate
 import yaml
@@ -136,6 +137,12 @@ class GeoipsExecutableCommand(GeoipsCommand):
     This class is a blueprint of what each executable GeoIPS Sub-Command Classes
     can implement.
     """
+
+    @property
+    def terminal_width(self):
+        if not hasattr(self, "_terminal_width"):
+            self._terminal_width = get_terminal_size().columns
+        return self._terminal_width
 
     @property
     def test_dataset_dict(self):
@@ -290,5 +297,8 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     "Relative Path",
                 ],
                 tablefmt="rounded_grid",
+                # maxcolwidth set from terminal size and adjusted based off expected
+                # width of each column, None says no Max Width for that Column
+                maxcolwidths=[self.terminal_width // 6] * 5 + [None],
             )
         )
