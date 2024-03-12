@@ -140,6 +140,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
 
     @property
     def terminal_width(self):
+        """The Width in ANSI-Characters of the User's Terminal."""
         if not hasattr(self, "_terminal_width"):
             self._terminal_width = get_terminal_size().columns
         return self._terminal_width
