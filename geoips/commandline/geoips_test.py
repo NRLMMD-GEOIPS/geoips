@@ -55,7 +55,7 @@ class GeoipsTestUnitTest(GeoipsExecutableCommand):
         dir_name = args.directory_name
         package_name = args.package_name
         script_name = args.name_of_script
-        unit_test_dir = str(resources.files(package_name) / f"../tests/unit_tests")
+        unit_test_dir = str(resources.files(package_name) / "../tests/unit_tests")
         if dir_name not in listdir(unit_test_dir):
             # The specified unit test directory does not exist at the specified location
             # raise an error specifying that
@@ -84,7 +84,7 @@ class GeoipsTestUnitTest(GeoipsExecutableCommand):
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):
-    """GeoipsTest Sub-Command for running GeoIPS Tests."""
+    """GeoipsTest Sub-Command for running GeoIPS Test Scripts."""
 
     subcommand_name = "script"
     subcommand_classes = []

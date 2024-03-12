@@ -50,14 +50,12 @@ class TestGeoipsRun(BaseCliTest):
                 base_args
                 + [
                     "-p",
-                   "non_existent_package",
-                   "abi.static.Infrared.imagery_annotated.sh"
+                    "non_existent_package",
+                    "abi.static.Infrared.imagery_annotated.sh",
                 ]
             )
             # Add argument list with non existent script name in default geoips pkg
-            self._cmd_list.append(
-                base_args + ["non_existent_script_name"]
-            )
+            self._cmd_list.append(base_args + ["non_existent_script_name"])
         return self._cmd_list
 
     def check_error(self, args, error):
