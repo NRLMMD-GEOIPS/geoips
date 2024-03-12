@@ -56,12 +56,20 @@ class GeoipsTestUnitTest(GeoipsExecutableCommand):
         package_name = args.package_name
         script_name = args.name_of_script
         unit_test_dir = str(resources.files(package_name) / "../tests/unit_tests")
+        try:
+            # Try listing the expected unit test directory. If it fails, raise an
+            # argparse error which states such package doesn't have a unit tests
+            # directory
+            listdir(unit_test_dir)
+        except FileNotFoundError:
+            err_str = f"No unit tests directory found for package '{package_name}'."
+            self.subcommand_parser.error(err_str)
         if dir_name not in listdir(unit_test_dir):
             # The specified unit test directory does not exist at the specified location
             # raise an error specifying that
             err_str = f"Directory '{dir_name}' not found under {package_name}'s unit "
             err_str += f"tests directory '{unit_test_dir}'. Please select one of the "
-            err_str += f"following unit tests:\n {listdir(unit_test_dir)}"
+            err_str += f"following unit test directories:\n {listdir(unit_test_dir)}"
             self.subcommand_parser.error(err_str)
         elif script_name is not None:
             # We've specified a specific Unit Test to run out of

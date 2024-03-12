@@ -9,8 +9,8 @@ import argparse
 from colorama import Fore, Style
 from importlib import resources
 import json
-from os import get_terminal_size
 from os.path import dirname
+from shutil import get_terminal_size
 from tabulate import tabulate
 import yaml
 
