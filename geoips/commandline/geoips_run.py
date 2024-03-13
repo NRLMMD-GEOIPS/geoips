@@ -54,7 +54,6 @@ class GeoipsRun(GeoipsExecutableCommand):
             err_str += "If you want to try again with this package, try one of these "
             err_str += f"scripts instead: \n {available_scripts}"
             self.subcommand_parser.error(err_str)
+        # Otherwise call the appropriate bash script.
         script_path = f"{script_dir}/{script_name}"
-        call(script_path, shell=True)
-        # output = call(script_path, shell=True)
-        # return output
+        call(["bash", script_path], shell=False)

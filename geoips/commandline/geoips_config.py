@@ -51,8 +51,8 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         test_dataset_url = self.test_dataset_dict[test_dataset_name]
         if test_dataset_name in listdir(self.geoips_testdata_dir):
             out_str = f"Test dataset '{test_dataset_name}' already exists under "
-            out_str += f"'{self.geoips_testdata_dir}'. See that location for the contents "
-            out_str += "of the test dataset."
+            out_str += f"'{self.geoips_testdata_dir}'. See that location for the "
+            out_str += "contents of the test dataset."
             print(out_str)
         else:
             print(
@@ -101,9 +101,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             # Validate and extract each member of the archive
             for m in tar:
                 if not abspath(join(download_dir, m.name)).startswith(download_dir):
-                    raise SystemExit(
-                        "Found unsafe filepath in tar, exiting now."
-                    )
+                    raise SystemExit("Found unsafe filepath in tar, exiting now.")
                 tar.extract(m, path=download_dir)
 
 

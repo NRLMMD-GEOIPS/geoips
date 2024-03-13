@@ -88,7 +88,7 @@ class GeoipsTestUnitTest(GeoipsExecutableCommand):
             # <package_name>/tests/unit_tests/<dir_name>
             script_name = "."
         test_path = str(f"{unit_test_dir}/{dir_name}/{script_name}")
-        call(f"pytest -v {test_path}", shell=True)
+        call(["pytest", "-v", test_path], shell=False)
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):
@@ -167,7 +167,7 @@ class GeoipsTestScript(GeoipsExecutableCommand):
             self.subcommand_parser.error(err_str)
         script_path = f"{test_dir}/{script_name}"
         # Run the corresponding test
-        call(script_path, shell=True)
+        call(["bash", script_path], shell=False)
 
 
 class GeoipsTestLinting(GeoipsExecutableCommand):
@@ -193,7 +193,7 @@ class GeoipsTestLinting(GeoipsExecutableCommand):
         lint_path = str(resources.files("geoips") / "../tests/utils/check_code.sh")
         package_path = str(resources.files(package_name) / "../.")
         for linter in ["bandit", "black", "flake8"]:
-            call(f"{lint_path} {linter} {package_path}", shell=True)
+            call(["bash", lint_path, linter, package_path], shell=False)
 
 
 class GeoipsTest(GeoipsCommand):
