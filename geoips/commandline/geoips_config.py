@@ -3,8 +3,9 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 
-from importlib import resources
+from importlib.resources import files
 from os import listdir
+from os.path import abspath, join
 import requests
 import tarfile
 
@@ -20,6 +21,13 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
     subcommand_name = "install"
     subcommand_classes = []
+
+    @property
+    def geoips_packages_dir(self):
+        """String path to GEOIPS_PACKAGES_DIR."""
+        if not hasattr(self, "_geoips_packages_dir"):
+            self._geoips_packages_dir = "/".join(str(files("geoips")).split("/")[:-2])
+        return self._geoips_packages_dir
 
     def add_arguments(self):
         """Add arguments to the list-subparser for the Config Command."""
@@ -40,8 +48,8 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         """
         test_dataset_name = args.test_dataset_name
         test_dataset_url = self.test_dataset_dict[test_dataset_name]
-        script_dir = str(resources.files("geoips") / "../setup")
-        GEOIPS_TESTDATA_DIR = str(resources.files("geoips") / "../../test_data")
+        script_dir = self.geoips_packages_dir + "/geoips/setup"
+        GEOIPS_TESTDATA_DIR = self.geoips_packages_dir + "/test_data"
         if test_dataset_name in listdir(GEOIPS_TESTDATA_DIR):
             out_str = f"Test dataset '{test_dataset_name}' already exists under "
             out_str += f"'{GEOIPS_TESTDATA_DIR}'. See that location for the contents "
@@ -73,12 +81,33 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         """
         resp = requests.get(url, stream=True, timeout=15)
         if resp.status_code == 200:
-            with tarfile.open(fileobj=resp.raw, mode="r|gz") as tar:
-                tar.extractall(path=download_dir)
+            self.extract_data_cautiously(resp, download_dir)
         else:
             self.subcommand_parser.error(
                 f"Error retrieving data from {url}; Status Code {resp.status_code}."
             )
+
+    def extract_data_cautiously(self, response, download_dir):
+        """Extract the GET Response cautiously and skip any dangerous members.
+
+        Iterate through a Response and check that each member is not dangerous to
+        extract to your machine. If it is, skip it.
+
+        Parameters
+        ----------
+        response: Requests Response Object
+            - The GET Response from retrieving the data url
+        download_dir: str
+            - The directory in which to download and extract the data into
+        """
+        with tarfile.open(fileobj=response.raw, mode="r|gz") as tar:
+            # Validate and extract each member of the archive
+            for m in tar:
+                if not abspath(join(download_dir, m.name)).startswith(download_dir):
+                    raise SystemExit(
+                        "Found unsafe filepath in tar, exiting now."
+                    )
+                tar.extract(m, path=download_dir)
 
 
 class GeoipsConfig(GeoipsCommand):
