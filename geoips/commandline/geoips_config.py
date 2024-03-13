@@ -23,11 +23,12 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
     subcommand_classes = []
 
     @property
-    def geoips_packages_dir(self):
-        """String path to GEOIPS_PACKAGES_DIR."""
-        if not hasattr(self, "_geoips_packages_dir"):
-            self._geoips_packages_dir = "/".join(str(files("geoips")).split("/")[:-2])
-        return self._geoips_packages_dir
+    def geoips_testdata_dir(self):
+        """String path to GEOIPS_TESTDATA_DIR."""
+        if not hasattr(self, "_geoips_testdata_dir"):
+            self._geoips_testdata_dir = "/".join(str(files("geoips")).split("/")[:-2])
+            self._geoips_testdata_dir += "/test_data"
+        return self._geoips_testdata_dir
 
     def add_arguments(self):
         """Add arguments to the list-subparser for the Config Command."""
@@ -48,22 +49,18 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         """
         test_dataset_name = args.test_dataset_name
         test_dataset_url = self.test_dataset_dict[test_dataset_name]
-        script_dir = self.geoips_packages_dir + "/geoips/setup"
-        GEOIPS_TESTDATA_DIR = self.geoips_packages_dir + "/test_data"
-        if test_dataset_name in listdir(GEOIPS_TESTDATA_DIR):
+        if test_dataset_name in listdir(self.geoips_testdata_dir):
             out_str = f"Test dataset '{test_dataset_name}' already exists under "
-            out_str += f"'{GEOIPS_TESTDATA_DIR}'. See that location for the contents "
+            out_str += f"'{self.geoips_testdata_dir}'. See that location for the contents "
             out_str += "of the test dataset."
             print(out_str)
         else:
-            command = f"python {script_dir}/download_test_data.py {test_dataset_url} "
-            command += f"| tar -xz -C {GEOIPS_TESTDATA_DIR}"
             print(
                 f"Installing {test_dataset_name} test dataset. This may take a while..."
             )
-            self.download_extract_test_data(test_dataset_url, GEOIPS_TESTDATA_DIR)
+            self.download_extract_test_data(test_dataset_url, self.geoips_testdata_dir)
             out_str = f"Test dataset '{test_dataset_name}' has been installed under "
-            out_str += f"{GEOIPS_TESTDATA_DIR}/{test_dataset_name}/"
+            out_str += f"{self.geoips_testdata_dir}/{test_dataset_name}/"
             print(out_str)
 
     def download_extract_test_data(self, url, download_dir):
