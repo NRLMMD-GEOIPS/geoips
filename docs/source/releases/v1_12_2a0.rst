@@ -131,6 +131,12 @@ scripts opposed to traversing to the explicit directory and running the bash scr
 manually. We expect this command will change greatly as we continue to develop the CLI
 and implement the order based procflow.
 
+``geoips test`` implements a few methods to run testing scattered throughout GeoIPS
+and other GeoIPS packages. It functions similar to run, but instead of being limited
+to just executing normal test scripts, we can also run integration tests, liniting,
+and unit tests. Since we expect ``geoips run`` to change in the future, we've
+implemented this command to execute testing protocols for the foreseeable future.
+
 ``geoips validate`` implements a simple method of validating a certain plugin found
 at the specified filepath. We expect this command will do more in the future, but for
 the meantime, this command will validate the plugin using the associated interface
