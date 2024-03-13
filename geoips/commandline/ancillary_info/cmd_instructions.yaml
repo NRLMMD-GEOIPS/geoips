@@ -94,7 +94,7 @@ instructions:
     help_str: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
       available for listing are: ["interface", "interfaces", "packages", "plugins",
-      "scripts", "test-datasets"].
+      "scripts", "test-datasets", "unit-tests"].
     usage_str: |
       To use, type `geoips list <sub-cmd> <sub-sub-cmd>`.
     output_info:
@@ -217,7 +217,8 @@ instructions:
     help_str: |
       Run tests implemented in GeoIPS or a separate GeoIPS Package. This could be
       running a set of linters on a specific package, running a certain integration or
-      normal test script, or running unit tests.
+      normal test script, or running unit tests. Current options are ["linting",
+      "script", "unit-test"].
     usage_str: |
       To use, type `geoips test <sub-cmd> <sub-sub-cmd>`.
     output_info:

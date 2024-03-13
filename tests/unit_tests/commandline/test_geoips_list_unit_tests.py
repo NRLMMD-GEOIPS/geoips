@@ -89,16 +89,16 @@ test_sub_cmd = TestGeoipsListUnitTests()
     ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
-    """Test all 'geoips list test-datasets ...' commands.
+    """Test all 'geoips list unit-tests ...' commands.
 
     This test covers every valid combination of commands for the
-    'geoips list test-datasets' command. We also test invalid commands, to ensure that
+    'geoips list unit-tests' command. We also test invalid commands, to ensure that
     the proper help documentation is provided for those using the command incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
         - List of arguments to call the CLI with
-          (ie. ['geoips', 'list', 'test-datasets'])
+          (ie. ['geoips', 'list', 'unit-tests'])
     """
     test_sub_cmd.test_all_command_combinations(args)
