@@ -20,6 +20,7 @@ class BaseCliTest(abc.ABC):
     _list_packages_args = ["geoips", "list", "packages"]
     _list_scripts_args = ["geoips", "list", "scripts"]
     _list_test_datasets_args = ["geoips", "list", "test-datasets"]
+    _list_unit_tests_args = ["geoips", "list", "unit-tests"]
     _run_args = ["geoips", "run"]
     _validate_args = ["geoips", "validate"]
     arg_list = [
@@ -34,6 +35,7 @@ class BaseCliTest(abc.ABC):
         _list_packages_args,
         _list_scripts_args,
         _list_test_datasets_args,
+        _list_unit_tests_args,
         _run_args,
         _validate_args,
     ]
