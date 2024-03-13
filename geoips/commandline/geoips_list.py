@@ -6,11 +6,71 @@ Lists the appropriate interfaces/packages/plugins based on the arguments provide
 from glob import glob
 from importlib import resources, import_module
 import json
+from os import listdir
 from os.path import basename
 from tabulate import tabulate
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips import interfaces
+
+
+class GeoipsListUnitTests(GeoipsExecutableCommand):
+    """GeoipsListUnitTests Sub-Command Class.
+
+    Called via `geoips list unit-tests`. Outputs the following in a tabular format.
+    """
+
+    subcommand_name = "unit-tests"
+    subcommand_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the list-subparser for the List Unit Tests Command."""
+        self.subcommand_parser.add_argument(
+            "--package_name",
+            "-p",
+            type=str,
+            default="geoips",
+            choices=self.plugin_packages,
+            help="The GeoIPS package to list unit tests from, defaults to geoips.",
+        )
+
+    def __call__(self, args):
+        """List all of the available unit-tests held under <package_name>.
+
+        Data Output
+        -----------
+        out_array: 2D Array of Strings
+            - Data Host
+            - Dataset Name
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The list argument namespace to parse through
+        """
+        package_name = args.package_name
+        unit_test_info = []
+        unit_test_dir = str(resources.files(package_name) / "../tests/unit_tests")
+        try:
+            listdir(unit_test_dir)
+        except FileNotFoundError:
+            err_str = f"No unit test directory found under {package_name}. "
+            err_str += "Please create a tests/unit_tests folder for that package if you"
+            err_str += " want to continue."
+            self.subcommand_parser.error(err_str)
+        for subdir_name in listdir(unit_test_dir):
+            for unit_test in sorted(glob(f"{unit_test_dir}/{subdir_name}/*.py")):
+                unit_test_info.append([package_name, subdir_name, basename(unit_test)])
+        print("-" * len("Available Unit Tests"))
+        print("Available Unit Tests")
+        print("-" * len("Available Unit Tests"))
+        print(
+            tabulate(
+                unit_test_info,
+                headers=["GeoIPS Package", "Unit Test Directory", "Unit Test Name"],
+                tablefmt="rounded_grid",
+            )
+        )
 
 
 class GeoipsListTestDatasets(GeoipsExecutableCommand):
@@ -27,7 +87,7 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
         pass
 
     def __call__(self, args):
-        """List all of the available scripts held under <package_name>.
+        """List all of the test datasets used by GeoIPS.
 
         Data Output
         -----------
@@ -77,7 +137,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             ),
         )
         self.subcommand_parser.add_argument(
-            "--package",
+            "--package_name",
             "-p",
             type=str,
             default="all",
@@ -107,7 +167,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The Argument Namespace for GeoipsListInterfaces Sub-Command
         """
-        package_name = args.package
+        package_name = args.package_name
         # Flag representing whether or not we want to list what's implemented or
         # what's available.
         implemented = args.implemented
@@ -487,4 +547,5 @@ class GeoipsList(GeoipsCommand):
         GeoipsListPlugins,
         GeoipsListScripts,
         GeoipsListTestDatasets,
+        GeoipsListUnitTests,
     ]

@@ -192,6 +192,16 @@ instructions:
     output_info:
       - Data Host
       - Dataset Name
+  - cmd_name: list unit-tests
+    help_str: |
+      List off unit-tests used in a certain GeoIPS Package.
+      This data can be used to run unit tests via `geoips test unit-test ...`.
+    usage_str: |
+      To use, type `geoips list unit-tests -p <package_name>`.
+    output_info:
+      - GeoIPS Package
+      - Unit Test Directory
+      - Unit Test Name
   - cmd_name: run
     help_str: |
       Run a geoips process workflow (procflow), given a GeoIPS package and a script
