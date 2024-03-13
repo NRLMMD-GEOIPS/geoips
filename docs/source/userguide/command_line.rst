@@ -72,6 +72,7 @@ which will include a column representing the supported families of each interfac
 ::
 
     geoips get family algorithms single_channel
+    geoips get family <interface_name> <family_name>
 
 ``get interface`` is a get sub-command which retrieves information specific to a GeoIPS
 interface. Information included when calling this command is:
@@ -88,6 +89,7 @@ what GeoIPS Interfaces are available, run the command ``geoips list interfaces``
 ::
 
     geoips get interface algorithms
+    geoips get interface <interface_name>
 
 ``get package`` is a get sub-command which retrieves information specific to a GeoIPS
 Package. Information included when calling this command is:
@@ -103,6 +105,7 @@ what GeoIPS Packages are available, run the command ``geoips list packages``.
 ::
 
     geoips get package recenter_tc
+    geoips get package <package_name>
 
 ``get plugin`` is a get sub-command which retrieves information specific to a GeoIPS
 Plugin. Information included when calling this command is:
@@ -120,6 +123,7 @@ what plugins are available, run the command ``geoips list plugins``.
 ::
 
     geoips get plugin algorithms single_channel
+    geoips get plugin <interface_name> <plugin_name>
 
 List Command
 ------------
@@ -150,7 +154,7 @@ to a specific packages. To see which packages are available, run
 ::
 
     geoips list interface algorithms
-    geoips list interface algorithms -p _package_name_
+    geoips list interface <interface_name> -p <package_name>
 
 ``list interfaces`` is a list sub-command which retrieves a listing of GeoIPS
 interfaces. This command has two modes; ``implemented`` and ``general``. Implemented
@@ -179,7 +183,7 @@ Implemented Mode Options
 ::
 
     geoips list interfaces -i
-    geoips list interfafes -i -p _package_name_
+    geoips list interfaces -i -p <package_name>
 
 General Mode
 ::
@@ -213,7 +217,7 @@ plugins from a certain GeoIPS package.
 ::
 
     geoips list plugins
-    geoips list plugins -p _package_name_
+    geoips list plugins -p <package_name>
 
 ``list scripts`` is a list sub-command which retrieves a listing of test scripts from
 all, or a certain GeoIPS Package. For this command to find your test script, you must
@@ -229,7 +233,7 @@ test scripts from a certain GeoIPS package.
 ::
 
     geoips list scripts
-    geoips list scripts -p _package_name_
+    geoips list scripts -p <package_name>
 
 ``list test-datasets`` is a list sub-command which retrieves a listing of test datasets
 used for testing GeoIPS process workflows. Currently, we rely on the test-datasets shown
@@ -295,7 +299,8 @@ To install a specific test dataset, run the command below.
 
 ::
 
-    geoips config install _test_dataset_name_
+    geoips config install test_data_clavrx
+    geoips config install <test_dataset_name>
 
 Run Command
 -----------
@@ -321,7 +326,60 @@ To run such a script, enter the command shown below.
 
 ::
 
-    geoips run _package_name_ _script_name_
+    geoips run abi.static.Infrared.imagery_annotated.sh
+    geoips run -p geoips_clavrx ahi.Cloud-Top-Height.imagery_clean.sh
+    geoips run -p <package_name> <script_name>
+
+Test Command
+------------
+
+GeoIPS, and other GeoIPS packages currently implement tests to ensure that they
+integrate together correctly, and that they each operate correctly at an atomic level.
+While more tests are needed to ensure that every piece of GeoIPS is working fine, we
+are able to get a general sense as to whether or not things are working or are broken,
+and where / why that is happening.
+
+These tests are a very useful feature, however are not that easy to run in the current
+status of our codebase. To alleviate that issue, we've created a ``geoips test`` command
+which can execute linting, integration, scripts, and unit testing. Together, these
+testing protocols ensure that our environment is working as expected.
+
+Shown below, we'll demonstrate how to test each of these protocols so that the user can
+easily ensure that what they're developing is working as expected. We recommend trying
+to develop in a test-driven-development (TDD) manner, so that you can check that your
+code is working as you develop it on the fly.
+
+To test that your code adheres to GeoIPS Linting protocols, run the command below.
+
+::
+
+    geoips test linting -p <package_name>
+
+To run a test (bash) script, or run your integration tests, you must first place your
+integration / normal test scripts in the following file locations.
+
+    * Normal Test scripts: ``<package_name>/tests/scripts/<script_name>``
+    * Integration Tests: ``<package_name>/tests/integration_tests/<script_name>``
+
+Once you've created your script in the appropriate location, follow the command below.
+
+::
+
+    geoips test script -p <package_name> <script_name>
+    geoips test script -i -p <package_name> <script_name>
+
+To run your (python) unit tests, you must create those tests in a specific file
+location, similar to the scripts command shown above. Unit tests must be located in this
+format: ``<package_name>/tests/unit_tests/<unit_test_dir_name>/*.py``.
+
+Once those tests have been placed in the appropriate location, follow the command below.
+
+::
+
+    geoips test unit-test command_line
+    geoips test unit-test command_line -n test_geoips_list_packages.py
+    geoips test unit-test -p <package_name> <unit_test_dir_name>
+    geoips test unit-test -p <package_name> <unit_test_dir_name> -n <script_name>
 
 Validate Command
 ----------------
