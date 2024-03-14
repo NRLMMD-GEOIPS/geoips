@@ -61,14 +61,16 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
         for subdir_name in listdir(unit_test_dir):
             for unit_test in sorted(glob(f"{unit_test_dir}/{subdir_name}/*.py")):
                 unit_test_info.append([package_name, subdir_name, basename(unit_test)])
+        headers = ["GeoIPS Package", "Unit Test Directory", "Unit Test Name"]
         print("-" * len("Available Unit Tests"))
         print("Available Unit Tests")
         print("-" * len("Available Unit Tests"))
         print(
             tabulate(
                 unit_test_info,
-                headers=["GeoIPS Package", "Unit Test Directory", "Unit Test Name"],
+                headers=headers,
                 tablefmt="rounded_grid",
+                maxcolwidths= self.terminal_width // len(headers),
             )
         )
 
@@ -103,14 +105,16 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
         dataset_info = []
         for test_dataset_name in list(self.test_dataset_dict.keys()):
             dataset_info.append(["io.cira.colostate.edu", test_dataset_name])
+        headers = ["Data Host", "Dataset Name"]
         print("-" * len("Available Test Datasets"))
         print("Available Test Datasets")
         print("-" * len("Available Test Datasets"))
         print(
             tabulate(
                 dataset_info,
-                headers=["Data Host", "Dataset Name"],
+                headers=headers,
                 tablefmt="rounded_grid",
+                maxcolwidths= self.terminal_width // len(headers),
             )
         )
 
@@ -196,35 +200,31 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         interface_data = []
         for interface_name in interfaces.__all__:
             interface = getattr(interfaces, interface_name)
-            interface_data.append(
-                [
-                    "geoips",
-                    interface.interface_type,
-                    interface_name,
-                    ",\n".join(interface.supported_families),
-                    interface.__doc__.split("\n")[0],
-                    str(
-                        resources.files("geoips")
-                        / f"interfaces/{interface.interface_type}/{interface.name}.py"
-                    ),
-                ],
-            )
+            interface_entry = [
+                "geoips",
+                interface.interface_type,
+                interface_name,
+                ",\n".join(interface.supported_families),
+                interface.__doc__.split("\n")[0],
+                str(
+                    resources.files("geoips")
+                    / f"interfaces/{interface.interface_type}/{interface.name}.py"
+                ),
+            ]
+            interface_data.append(interface_entry)
+        headers = [
+            "GeoIPS Package", "Interface Type", "Interface Name",
+            "Supported Families", "Docstring","Absolute Path",
+        ]
         print("-" * len("GeoIPS Interfaces"))
         print("GeoIPS Interfaces")
         print("-" * len("GeoIPS Interfaces"))
         print(
             tabulate(
                 interface_data,
-                headers=[
-                    "GeoIPS Package",
-                    "Interface Type",
-                    "Interface Name",
-                    "Supported Families",
-                    "Docstring",
-                    "Absolute Path",
-                ],
+                headers=headers,
                 tablefmt="rounded_grid",
-                maxcolwidths=self.terminal_width // 5,
+                maxcolwidths= self.terminal_width // len(headers),
             )
         )
 
@@ -264,14 +264,16 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
                     interface_data.append(
                         [plugin_package_name, interface_type, interface_name]
                     )
+            headers = ["GeoIPS Package", "Interface Type", "Interface Name"]
             print("-" * len(f"{plugin_package_name.title()} Interfaces"))
             print(f"{plugin_package_name.title()} Interfaces")
             print("-" * len(f"{plugin_package_name.title()} Interfaces"))
             print(
                 tabulate(
                     interface_data,
-                    headers=["GeoIPS Package", "Interface Type", "Interface Name"],
+                    headers=headers,
                     tablefmt="rounded_grid",
+                    maxcolwidths= self.terminal_width // len(headers),
                 )
             )
 
@@ -313,22 +315,18 @@ class GeoipsListPackages(GeoipsExecutableCommand):
         ):
 
             docstring = import_module(package_name).__doc__
-            pkg_data.append(
-                [
-                    package_name,
-                    docstring,
-                    package_path,
-                ],
-            )
+            pkg_data.append([package_name, docstring, package_path])
+
+        headers = ["GeoIPS Package", "Docstring", "Package Path"]
         print("-" * len("GeoIPS Packages"))
         print("GeoIPS Packages")
         print("-" * len("GeoIPS Packages"))
         print(
             tabulate(
                 pkg_data,
-                headers=["GeoIPS Package", "Docstring", "Package Path"],
+                headers=headers,
                 tablefmt="rounded_grid",
-                maxcolwidths=self.terminal_width // 2,
+                maxcolwidths= self.terminal_width // len(headers),
             )
         )
 
@@ -524,14 +522,16 @@ class GeoipsListScripts(GeoipsExecutableCommand):
                     )
                 ]
             )
+            headers = ["GeoIPS Package", "Filename"],
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
             print(f"{plugin_package_name.title()} Available Scripts")
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
             print(
                 tabulate(
                     script_names,
-                    headers=["GeoIPS Package", "Filename"],
+                    headers=headers,
                     tablefmt="rounded_grid",
+                    maxcolwidths= self.terminal_width // len(headers)
                 )
             )
 

@@ -140,10 +140,11 @@ class GeoipsExecutableCommand(GeoipsCommand):
 
     @property
     def terminal_width(self):
-        """The Width in ANSI-Characters of the User's Terminal."""
-        if not hasattr(self, "_terminal_width"):
-            self._terminal_width = get_terminal_size().columns
-        return self._terminal_width
+        """The Width in ANSI-Characters of the User's Terminal.
+
+        Generate this every time as the screen width may change during usage.
+        """
+        return get_terminal_size().columns
 
     @property
     def test_dataset_dict(self):
@@ -268,14 +269,19 @@ class GeoipsExecutableCommand(GeoipsCommand):
         table_data = []
         for plugin_key in sorted(interface_registry.keys()):
             if interface.name == "products":
-                plugin_entry = [
-                    "Not Implemented",  # Package
-                    interface.name,  # Interface
-                    interface.interface_type,  # Interface Type
-                    "list",  # Family
-                    plugin_key,  # Plugin Name
-                    "Not Implemented",  # Relpath
-                ]
+                product_dict = interface_registry[plugin_key]
+                for subplg_name in sorted(product_dict.keys()):
+                    plugin_entry = [
+                        product_dict[subplg_name]["package"],  # Package
+                        interface.name,  # Interface
+                        interface.interface_type,  # Interface Type
+                        "N/A",  # Family
+                        subplg_name,  # Plugin Name
+                        product_dict[subplg_name]["source_names"], # Source Names
+                        product_dict[subplg_name]["relpath"],  # Relpath
+                    ]
+                    # table_data.append(self.format_entry_for_table(plugin_entry))
+                    table_data.append(plugin_entry)
             else:
                 plugin_entry = [
                     interface_registry[plugin_key]["package"],
@@ -283,23 +289,19 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     interface.interface_type,
                     interface_registry[plugin_key]["family"],
                     plugin_key,
+                    "N/A",
                     interface_registry[plugin_key]["relpath"],
                 ]
-            table_data.append(plugin_entry)
+                table_data.append(plugin_entry)
+        headers = [
+            "GeoIPS Package", "Interface", "Interface Type",
+            "Family", "Plugin Name", "Source Names", "Relative Path",
+        ]
         print(
             tabulate(
                 table_data,
-                headers=[
-                    "GeoIPS Package",
-                    "Interface",
-                    "Interface Type",
-                    "Family",
-                    "Plugin Name",
-                    "Relative Path",
-                ],
+                headers=headers,
                 tablefmt="rounded_grid",
-                # maxcolwidth set from terminal size and adjusted based off expected
-                # width of each column, None says no Max Width for that Column
-                maxcolwidths=[self.terminal_width // 6] * 5 + [None],
+                maxcolwidths= self.terminal_width // len(headers),
             )
         )
