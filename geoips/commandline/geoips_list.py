@@ -70,7 +70,7 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
                 unit_test_info,
                 headers=headers,
                 tablefmt="rounded_grid",
-                maxcolwidths= self.terminal_width // len(headers),
+                maxcolwidths=self.terminal_width // len(headers),
             )
         )
 
@@ -114,7 +114,7 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
                 dataset_info,
                 headers=headers,
                 tablefmt="rounded_grid",
-                maxcolwidths= self.terminal_width // len(headers),
+                maxcolwidths=self.terminal_width // len(headers),
             )
         )
 
@@ -213,8 +213,12 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             ]
             interface_data.append(interface_entry)
         headers = [
-            "GeoIPS Package", "Interface Type", "Interface Name",
-            "Supported Families", "Docstring","Absolute Path",
+            "GeoIPS Package",
+            "Interface Type",
+            "Interface Name",
+            "Supported Families",
+            "Docstring",
+            "Absolute Path",
         ]
         print("-" * len("GeoIPS Interfaces"))
         print("GeoIPS Interfaces")
@@ -224,7 +228,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
                 interface_data,
                 headers=headers,
                 tablefmt="rounded_grid",
-                maxcolwidths= self.terminal_width // len(headers),
+                maxcolwidths=self.terminal_width // len(headers),
             )
         )
 
@@ -273,7 +277,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
                     interface_data,
                     headers=headers,
                     tablefmt="rounded_grid",
-                    maxcolwidths= self.terminal_width // len(headers),
+                    maxcolwidths=self.terminal_width // len(headers),
                 )
             )
 
@@ -326,7 +330,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
                 pkg_data,
                 headers=headers,
                 tablefmt="rounded_grid",
-                maxcolwidths= self.terminal_width // len(headers),
+                maxcolwidths=self.terminal_width // len(headers),
             )
         )
 
@@ -522,7 +526,7 @@ class GeoipsListScripts(GeoipsExecutableCommand):
                     )
                 ]
             )
-            headers = ["GeoIPS Package", "Filename"],
+            headers = (["GeoIPS Package", "Filename"],)
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
             print(f"{plugin_package_name.title()} Available Scripts")
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
@@ -531,7 +535,7 @@ class GeoipsListScripts(GeoipsExecutableCommand):
                     script_names,
                     headers=headers,
                     tablefmt="rounded_grid",
-                    maxcolwidths= self.terminal_width // len(headers)
+                    maxcolwidths=self.terminal_width // len(headers),
                 )
             )
 

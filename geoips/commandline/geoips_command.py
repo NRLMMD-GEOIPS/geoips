@@ -277,10 +277,9 @@ class GeoipsExecutableCommand(GeoipsCommand):
                         interface.interface_type,  # Interface Type
                         "N/A",  # Family
                         subplg_name,  # Plugin Name
-                        product_dict[subplg_name]["source_names"], # Source Names
+                        product_dict[subplg_name]["source_names"],  # Source Names
                         product_dict[subplg_name]["relpath"],  # Relpath
                     ]
-                    # table_data.append(self.format_entry_for_table(plugin_entry))
                     table_data.append(plugin_entry)
             else:
                 plugin_entry = [
@@ -294,14 +293,19 @@ class GeoipsExecutableCommand(GeoipsCommand):
                 ]
                 table_data.append(plugin_entry)
         headers = [
-            "GeoIPS Package", "Interface", "Interface Type",
-            "Family", "Plugin Name", "Source Names", "Relative Path",
+            "GeoIPS Package",
+            "Interface",
+            "Interface Type",
+            "Family",
+            "Plugin Name",
+            "Source Names",
+            "Relative Path",
         ]
         print(
             tabulate(
                 table_data,
                 headers=headers,
                 tablefmt="rounded_grid",
-                maxcolwidths= self.terminal_width // len(headers),
+                maxcolwidths=self.terminal_width // len(headers),
             )
         )

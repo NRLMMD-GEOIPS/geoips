@@ -6,7 +6,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 from glob import glob
 from importlib import resources
 from numpy.random import rand
-from os import listdir, environ
+from os import listdir
 from os.path import basename
 import pytest
 
@@ -25,9 +25,7 @@ class TestGeoipsRun(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = self._run_args
-            test_data_dir = str(
-                resources.files("geoips") / "../../test_data"
-            )
+            test_data_dir = str(resources.files("geoips") / "../../test_data")
             # select a small random amount of tests to call via geoips run
             for pkg_name in self.plugin_packages:
                 script_paths = sorted(

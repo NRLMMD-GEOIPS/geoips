@@ -229,7 +229,7 @@ instructions:
       the code you wrote adheres to the specified coding conventions set up by GeoIPS.
       Defaults to the 'geoips' package.
     usage_str: |
-      To use, type `geoips test linting -[ <package_name>`.
+      To use, type `geoips test linting -p <package_name>`.
     output_info:
       - Output of the Linters
   - cmd_name: test script
