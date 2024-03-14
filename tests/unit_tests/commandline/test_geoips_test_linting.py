@@ -72,15 +72,15 @@ test_sub_cmd = TestGeoipsTestLinting()
     ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
-    """Test all 'geoips run ...' commands.
+    """Test all 'geoips test linting ...' commands.
 
-    This test covers every valid combination of commands for the 'geoips run'
+    This test covers every valid combination of commands for the 'geoips test linting'
     command. We also test invalid commands, to ensure that the proper help documentation
     is provided for those using the command incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
-        - List of arguments to call the CLI with (ie. ['geoips', 'run'])
+        - List of arguments to call the CLI with (ie. ['geoips', 'test', 'linting'])
     """
     test_sub_cmd.test_all_command_combinations(args)
