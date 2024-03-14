@@ -22,7 +22,7 @@ RUN apt-get update \
 # When we update this to use debian:bookworm we should begin installing proj via `apt-get install proj-bin`
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --fix-missing --no-install-recommends \
-        software-properties-common build-essential ca-certificates cmake wget unzip \
+        imagemagick software-properties-common build-essential ca-certificates cmake wget unzip \
         zlib1g-dev libsqlite3-dev sqlite3 libcurl4-gnutls-dev libtiff5-dev
 # There are two URLs for proj here because osgeo.org sometimes goes down
 # The || means, if the first command failed, try the second command
@@ -62,10 +62,14 @@ WORKDIR $GEOIPS_PACKAGES_DIR
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        imagemagick wget libsqlite3-0 libtiff5 libcurl4 libcurl3-gnutls libgeos-3.9.0 libgeos-dev \
+        wget libsqlite3-0 libtiff5 libcurl4 libcurl3-gnutls libgeos-3.9.0 libgeos-dev \
         python3 python3-pip git git-lfs \
     && ln -s /usr/bin/python3 /usr/bin/python \
     && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository -y ppa:ubuntugis/ppa
+RUN apt-get install -y gdal-bin libgdal-dev
+RUN pip install -U pip && pip install rasterio
 
 ARG USER=geoips_user
 # ARG GROUP=${USER}
