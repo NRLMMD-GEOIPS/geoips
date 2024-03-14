@@ -25,24 +25,37 @@ class TestGeoipsRun(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = self._run_args
+            test_data_dir = str(
+                resources.files("geoips") / "../../test_data"
+            )
             # select a small random amount of tests to call via geoips run
             for pkg_name in self.plugin_packages:
-                script_names = sorted(
+                script_paths = sorted(
                     [
-                        basename(script_path)
+                        script_path
                         for script_path in glob(
                             str(resources.files(pkg_name) / "../tests/scripts/*.sh")
                         )
                     ]
                 )
-                for script_name in script_names:
+                for script_path in script_paths:
                     do_geoips_run = rand() < 0.15
-                    test_data_found = (
-                        f"test_data_{script_name.split('.', 1)[0]}"
-                        in listdir(str(environ["GEOIPS_TESTDATA_DIR"]))
-                    )
+                    test_data_found = False
+                    if do_geoips_run:
+                        # This script has been randomly selected. Check it's contents
+                        # to make sure that the test data for the script actually exists
+                        with open(script_path, "r") as f:
+                            for line in f.readlines():
+                                if "run_procflow" in line:
+                                    for dir_name in listdir(test_data_dir):
+                                        if dir_name in line:
+                                            test_data_found = True
+                                            break
+                                    break
                     if do_geoips_run and test_data_found and len(self._cmd_list) < 4:
-                        self._cmd_list.append(base_args + ["-p", pkg_name, script_name])
+                        self._cmd_list.append(
+                            base_args + ["-p", pkg_name, basename(script_path)]
+                        )
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non existent package
