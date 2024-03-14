@@ -19,6 +19,7 @@ Version 1.12.2a0 (2024-02-21)
   * Ensure that log.interactive works from plugins when imported independently.
   * Make add_log_level a callable class to fix AttributeErrors.
   * Modify algorithm_interpolator_colormapper to only provide input xarray
+  * Update Dockerfile to properly install rasterio
 
 
 * Refactor
@@ -66,6 +67,17 @@ useful. Now, only useful AttributeErrors should be raised.
     modified: geoips/__init__.py
     modified: geoips/commandline/log_setup.py
     added: tests/unit_tests/commandline/log_setup.py
+
+Update Dockerfile to install rasterio properly
+----------------------------------------------
+
+..
+    *From GEOIPS#NN: 2024-03-XX, TODO*
+
+Previously puilding the provided Dockerfile did not build a working image. It failed on the last step (installation of geoips) and hangs on installing rasterio. This fix updates the Dockerfile to install rasterio dependancies (``gdal-bin`` and ``libgdal-dev``) and additionally installs software-properties-common for access to add-apt-repository to aid in gdal installation.
+
+::
+    modified: Dockerfile
 
 
 Refactor
