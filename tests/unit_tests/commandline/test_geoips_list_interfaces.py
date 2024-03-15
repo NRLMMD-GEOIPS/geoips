@@ -1,4 +1,4 @@
-"""Unit test for GeoIPS CLI `list-interfaces` command.
+"""Unit test for GeoIPS CLI `list interfaces` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
@@ -30,7 +30,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
         return self._cmd_list
 
     def check_error(self, args, error):
-        """Ensure that the 'geoips list-interfaces ...' error output is correct.
+        """Ensure that the 'geoips list interfaces ...' error output is correct.
 
         Parameters
         ----------

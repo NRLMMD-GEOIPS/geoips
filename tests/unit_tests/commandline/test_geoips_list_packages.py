@@ -1,4 +1,4 @@
-"""Unit test for GeoIPS CLI `list-packages` command.
+"""Unit test for GeoIPS CLI `list packages` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
@@ -26,7 +26,7 @@ class TestGeoipsListPackages(BaseCliTest):
         return self._cmd_list
 
     def check_error(self, args, error):
-        """Ensure that the 'geoips list-packages ...' error output is correct.
+        """Ensure that the 'geoips list packages ...' error output is correct.
 
         Parameters
         ----------

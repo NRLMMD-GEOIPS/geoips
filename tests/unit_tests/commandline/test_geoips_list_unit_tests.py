@@ -98,7 +98,6 @@ def test_all_command_combinations(args):
     Parameters
     ----------
     args: 2D array of str
-        - List of arguments to call the CLI with
-          (ie. ['geoips', 'list', 'unit-tests'])
+        - List of arguments to call the CLI with (ie. ['geoips', 'list', 'unit-tests'])
     """
     test_sub_cmd.test_all_command_combinations(args)

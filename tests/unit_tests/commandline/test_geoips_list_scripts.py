@@ -1,4 +1,4 @@
-"""Unit test for GeoIPS CLI `list` command.
+"""Unit test for GeoIPS CLI `list scripts` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """

@@ -1,4 +1,4 @@
-"""Unit test for GeoIPS CLI `run` command.
+"""Unit test for GeoIPS CLI `config install` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """

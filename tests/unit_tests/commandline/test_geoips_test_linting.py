@@ -44,7 +44,7 @@ class TestGeoipsTestLinting(BaseCliTest):
         assert "To use, type `geoips test linting -p <package_name>`" in error
 
     def check_output(self, args, output):
-        """Ensure that the 'geoips run ...' successful output is correct.
+        """Ensure that the 'geoips test linting ...' successful output is correct.
 
         Parameters
         ----------
@@ -57,7 +57,7 @@ class TestGeoipsTestLinting(BaseCliTest):
         if "-h" in args:
             assert "To use, type `geoips test linting -p <package_name>`" in output
         else:
-            # Checking that output from geoips run command reports succeeds
+            # Checking that output from geoips test linting command reports succeeds
             for linter in ["bandit", "black", "flake8"]:
                 assert f"CALLING TEST:\n{linter}" in output
                 assert f"TEST COMPLETE {linter}" in output

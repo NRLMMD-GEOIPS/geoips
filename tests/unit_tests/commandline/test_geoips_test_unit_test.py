@@ -18,7 +18,7 @@ class TestGeoipsTestUnitTest(BaseCliTest):
 
     @property
     def all_possible_subcommand_combinations(self):
-        """A list of every possible call signature for the GeoipsTestLinting command.
+        """A list of every possible call signature for the GeoipsTestUnitTest command.
 
         This includes failing cases as well.
         """
@@ -27,7 +27,7 @@ class TestGeoipsTestUnitTest(BaseCliTest):
             self._cmd_list = [
                 base_args + ["commandline", "-n", "test_geoips_list_packages.py"]
             ]
-            # select a small random amount of tests to call via geoips run
+            # select a small random amount of tests to call via geoips test unit-test
             for pkg_name in self.plugin_packages:
                 unit_test_dir = str(files(pkg_name) / "../tests/unit_tests")
                 try:
@@ -82,7 +82,7 @@ class TestGeoipsTestUnitTest(BaseCliTest):
             help_str += "<directory_name> <-n> <script_name>`"
             assert help_str in output
         else:
-            # Checking that output from geoips run command reports succeeds
+            # Checking that output from geoips unit-test command reports succeeds
             assert "test session starts" in output
             assert "pytest" in output
 
