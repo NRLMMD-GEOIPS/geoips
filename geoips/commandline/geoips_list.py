@@ -59,7 +59,7 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
             err_str += " want to continue."
             self.subcommand_parser.error(err_str)
         for subdir_name in listdir(unit_test_dir):
-            for unit_test in sorted(glob(f"{unit_test_dir}/{subdir_name}/*.py")):
+            for unit_test in sorted(glob(f"{unit_test_dir}/{subdir_name}/test*.py")):
                 unit_test_info.append([package_name, subdir_name, basename(unit_test)])
         headers = ["GeoIPS Package", "Unit Test Directory", "Unit Test Name"]
         print("-" * len("Available Unit Tests"))
@@ -70,7 +70,7 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
                 unit_test_info,
                 headers=headers,
                 tablefmt="rounded_grid",
-                maxcolwidths=self.terminal_width // len(headers),
+                # maxcolwidths=self.terminal_width // len(headers),
             )
         )
 
