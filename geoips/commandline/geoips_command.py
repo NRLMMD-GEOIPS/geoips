@@ -31,20 +31,34 @@ class GeoipsCommand(abc.ABC):
         function to call if that subcommand has been called.
         """
         self.nrl_url = "https://github.com/NRLMMD-GEOIPS/"
-        if parent:
-            if parent.subcommand_name == "cli":
+        self.parent = parent
+        if self.parent:
+            if self.parent.subcommand_name == "cli":
                 combined_name = self.subcommand_name
+                parent_parsers = []
             else:
-                combined_name = f"{parent.subcommand_name} {self.subcommand_name}"
-            self.subcommand_parser = parent.subparsers.add_parser(
-                self.subcommand_name,
+                combined_name = f"{self.parent.subcommand_name} {self.subcommand_name}"
+                # We need to create a Geoips<cmd>Common Class for arguments
+                # that are shared between common commands. For example, we've created
+                # a 'GeoipsListCommon' class which adds arguments that will be shared
+                # by each GeoipsList<sub-cmd> class. Ie. if GeoipsListCommon has
+                # arguments --package, --columns, etc., and all of those arguments
+                # would be inherited by each GeoipsList<sub-cmd>
+                if "list" in combined_name:
+                    parent_parsers = [GeoipsListCommon().subcommand_parser]
+                else:
+                    parent_parsers = []
+            self.subcommand_parser = self.parent.subparsers.add_parser(
+                name=self.subcommand_name,
+                description=self.cmd_instructions[combined_name]["help_str"],
                 help=self.cmd_instructions[combined_name]["help_str"],
                 usage=self.cmd_instructions[combined_name]["usage_str"],
+                parents=parent_parsers,
+                conflict_handler="resolve",
             )
         else:
             self.subcommand_parser = argparse.ArgumentParser()
             combined_name = self.subcommand_name
-        self.add_subparsers()
         if hasattr(self, "__call__"):
             # If the subcommand class is exectuable (ie. not the cli, top-level list...)
             # Then add available arguments for that command and set that function to
@@ -53,6 +67,7 @@ class GeoipsCommand(abc.ABC):
             self.subcommand_parser.set_defaults(
                 exe_command=self.__call__,
             )
+        self.add_subparsers()
 
     @property
     @abc.abstractmethod
@@ -83,8 +98,11 @@ class GeoipsCommand(abc.ABC):
         """
         if len(self.subcommand_classes):
             self.subparsers = self.subcommand_parser.add_subparsers(
-                help=f"{self.subcommand_name} instructions."
+                help=f"{self.subcommand_name} instructions.",
+                # title=f"{self.subcommand_name} actions.",
             )
+            # self.subparsers.required = True
+            # self.subparsers.dest = self.subcommand_name
             for subcmd_cls in self.subcommand_classes:
                 subcmd_cls(parent=self)
 
@@ -183,6 +201,13 @@ class GeoipsExecutableCommand(GeoipsCommand):
         ----------
         args: argparse Namespace()
             - The namespace of the arguments of a specific CLI Command.
+        """
+        pass
+
+    def get_corresponding_headers(self, columns, subcommand_name):
+        """Retrieve the appropriate headers given a list of headers and command name.
+
+        This function is only applied to the list command.
         """
         pass
 
@@ -309,3 +334,45 @@ class GeoipsExecutableCommand(GeoipsCommand):
                 maxcolwidths=self.terminal_width // len(headers),
             )
         )
+
+
+class GeoipsListCommon(GeoipsExecutableCommand):
+    """Class containing common optional arguments shared between list commands."""
+
+    subcommand_name = "list"
+    subcommand_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the list-subparser for the List Command."""
+        self.subcommand_parser.add_argument(
+            "--package_name",
+            "-p",
+            type=str,
+            default="all",
+            choices=self.plugin_packages,
+            help="The GeoIPS package to list from.",
+        )
+        self.subcommand_parser.add_argument(
+            "--columns",
+            "-c",
+            type=list,
+            default=None,
+            help="Specific Headers of Data you'd like to see listed.",
+        )
+        self.subcommand_parser.add_argument(
+            "--short",
+            "-s",
+            default=False,
+            action="store_true",
+            help="Flag representing the 'short' listing of a certain command.",
+        )
+        self.subcommand_parser.add_argument(
+            "--long",
+            "-l",
+            default=True,
+            action="store_true",
+            help="Flag representing the 'long' listing of a certain command.",
+        )
+
+    def __call__(self, args):
+        pass

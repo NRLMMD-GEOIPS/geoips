@@ -99,6 +99,14 @@ instructions:
       To use, type `geoips list <sub-cmd> <sub-sub-cmd>`.
     output_info:
       - Additional info related to the artifact[s] being listed.
+  - cmd_name: list common
+    help_str: |
+      Common optional arguments shared between list commands.
+    usage_str: |
+      This cannot be used by itself. It is just a framework to share arguments amongst
+      similar commands.
+    output_info:
+      - N/A
   - cmd_name: list interface
     help_str: |
       List off plugins found under a certain interface. This is useful for seeing what

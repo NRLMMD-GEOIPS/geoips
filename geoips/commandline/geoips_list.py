@@ -3,6 +3,7 @@
 Lists the appropriate interfaces/packages/plugins based on the arguments provided.
 """
 
+import argparse
 from glob import glob
 from importlib import resources, import_module
 import json
@@ -25,14 +26,7 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the list-subparser for the List Unit Tests Command."""
-        self.subcommand_parser.add_argument(
-            "--package_name",
-            "-p",
-            type=str,
-            default="geoips",
-            choices=self.plugin_packages,
-            help="The GeoIPS package to list unit tests from, defaults to geoips.",
-        )
+        pass
 
     def __call__(self, args):
         """List all of the available unit-tests held under <package_name>.
@@ -49,30 +43,39 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
             - The list argument namespace to parse through
         """
         package_name = args.package_name
-        unit_test_info = []
-        unit_test_dir = str(resources.files(package_name) / "../tests/unit_tests")
-        try:
-            listdir(unit_test_dir)
-        except FileNotFoundError:
-            err_str = f"No unit test directory found under {package_name}. "
-            err_str += "Please create a tests/unit_tests folder for that package if you"
-            err_str += " want to continue."
-            self.subcommand_parser.error(err_str)
-        for subdir_name in listdir(unit_test_dir):
-            for unit_test in sorted(glob(f"{unit_test_dir}/{subdir_name}/test*.py")):
-                unit_test_info.append([package_name, subdir_name, basename(unit_test)])
-        headers = ["GeoIPS Package", "Unit Test Directory", "Unit Test Name"]
-        print("-" * len("Available Unit Tests"))
-        print("Available Unit Tests")
-        print("-" * len("Available Unit Tests"))
-        print(
-            tabulate(
-                unit_test_info,
-                headers=headers,
-                tablefmt="rounded_grid",
-                # maxcolwidths=self.terminal_width // len(headers),
+        if package_name == "all":
+            package_names = self.plugin_packages
+        else:
+            package_names = [package_name]
+        for pkg_name in package_names:
+            unit_test_info = []
+            unit_test_dir = str(resources.files(pkg_name) / "../tests/unit_tests")
+            try:
+                listdir(unit_test_dir)
+            except FileNotFoundError:
+                if len(package_names) == 1:
+                    err_str = f"No unit test directory found under {pkg_name}. "
+                    err_str += "Please create a tests/unit_tests folder for that "
+                    err_str += "package if you want to continue."
+                    self.subcommand_parser.error(err_str)
+                else:
+                    print(f"No unit tests found in '{pkg_name}', continuing.")
+                    continue
+            for subdir_name in listdir(unit_test_dir):
+                for unit_test in sorted(glob(f"{unit_test_dir}/{subdir_name}/test*.py")):
+                    unit_test_info.append([pkg_name, subdir_name, basename(unit_test)])
+            headers = ["GeoIPS Package", "Unit Test Directory", "Unit Test Name"]
+            print("-" * len(f"'{pkg_name}' Unit Tests"))
+            print(f"'{pkg_name}' Unit Tests")
+            print("-" * len(f"'{pkg_name}' Unit Tests"))
+            print(
+                tabulate(
+                    unit_test_info,
+                    headers=headers,
+                    tablefmt="rounded_grid",
+                    # maxcolwidths=self.terminal_width // len(headers),
+                )
             )
-        )
 
 
 class GeoipsListTestDatasets(GeoipsExecutableCommand):
@@ -139,14 +142,6 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
                 "Flag to list what's implemented in each package, "
                 + "rather than what's available."
             ),
-        )
-        self.subcommand_parser.add_argument(
-            "--package_name",
-            "-p",
-            type=str,
-            default="all",
-            choices=self.plugin_packages,
-            help="The GeoIPS package to list from, defaults to all packages",
         )
 
     def __call__(self, args):
@@ -346,14 +341,7 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the list-subparser for the List Plugins Command."""
-        self.subcommand_parser.add_argument(
-            "--package",
-            "-p",
-            type=str,
-            default="all",
-            choices=self.plugin_packages,
-            help="The GeoIPS package to list from, defaults to all packages",
-        )
+        pass
 
     def __call__(self, args):
         """List the available interface[s] and their corresponding plugin names.
@@ -373,7 +361,7 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The list argument namespace to parse through
         """
-        package_name = args.package
+        package_name = args.package_name
         # List of every available interface
         interfaces_to_list = [
             getattr(interfaces, name) for name in sorted(interfaces.__all__)
@@ -416,14 +404,6 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
             choices=interfaces.__all__,
             help="GeoIPS Interfaces to list plugins_from",
         )
-        self.subcommand_parser.add_argument(
-            "--package",
-            "-p",
-            type=str,
-            default="all",
-            choices=self.plugin_packages,
-            help="The GeoIPS package to list from.",
-        )
 
     def __call__(self, args):
         """List all elements of the selected list option.
@@ -449,7 +429,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
             - The list argument namespace to parse through
         """
         interface_name = args.interface_name
-        package_name = args.package
+        package_name = args.package_name
         try:
             interface = getattr(interfaces, interface_name)
         except AttributeError:
@@ -483,14 +463,7 @@ class GeoipsListScripts(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the list-subparser for the List Scripts Command."""
-        self.subcommand_parser.add_argument(
-            "--package",
-            "-p",
-            type=str,
-            default="all",
-            choices=self.plugin_packages,
-            help="The GeoIPS package to list from.",
-        )
+        pass
 
     def __call__(self, args):
         """List all of the available scripts held under <package_name>.
@@ -506,7 +479,8 @@ class GeoipsListScripts(GeoipsExecutableCommand):
         args: Namespace()
             - The list argument namespace to parse through
         """
-        package_name = args.package
+        package_name = args.package_name
+        # columns = args.columns
         if package_name == "all":
             # list scripts found throughout all packages.
             plugin_packages = self.plugin_packages
@@ -526,7 +500,7 @@ class GeoipsListScripts(GeoipsExecutableCommand):
                     )
                 ]
             )
-            headers = (["GeoIPS Package", "Filename"],)
+            headers = ["GeoIPS Package", "Filename"]
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
             print(f"{plugin_package_name.title()} Available Scripts")
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
