@@ -47,6 +47,12 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
             package_names = self.plugin_packages
         else:
             package_names = [package_name]
+        default_headers = {
+            "package": "GeoIPS Package",
+            "unit_test_dir": "Unit Test Directory",
+            "unit_test_name": "Unit Test Name",
+        }
+        headers = self._get_headers_by_command(args, default_headers)
         for pkg_name in package_names:
             unit_test_info = []
             unit_test_dir = str(resources.files(pkg_name) / "../tests/unit_tests")
@@ -62,16 +68,23 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
                     print(f"No unit tests found in '{pkg_name}', continuing.")
                     continue
             for subdir_name in listdir(unit_test_dir):
-                for unit_test in sorted(glob(f"{unit_test_dir}/{subdir_name}/test*.py")):
-                    unit_test_info.append([pkg_name, subdir_name, basename(unit_test)])
-            headers = ["GeoIPS Package", "Unit Test Directory", "Unit Test Name"]
+                for unit_test in sorted(glob(f"{unit_test_dir}/{subdir_name}/test*.py")):  # noqa
+                    unit_test_entry = []
+                    for header in list(headers.keys()):
+                        if header == "package":
+                            unit_test_entry.append(pkg_name)
+                        elif header == "unit_test_dir":
+                            unit_test_entry.append(subdir_name)
+                        elif header == "unit_test_name":
+                            unit_test_entry.append(basename(unit_test))
+                    unit_test_info.append(unit_test_entry)
             print("-" * len(f"'{pkg_name}' Unit Tests"))
             print(f"'{pkg_name}' Unit Tests")
             print("-" * len(f"'{pkg_name}' Unit Tests"))
             print(
                 tabulate(
                     unit_test_info,
-                    headers=headers,
+                    headers=headers.values(),
                     tablefmt="rounded_grid",
                     # maxcolwidths=self.terminal_width // len(headers),
                 )
@@ -106,16 +119,23 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
             - The list argument namespace to parse through
         """
         dataset_info = []
+        default_headers = {"data_host": "Data Host", "dataset_name": "Dataset Name"}
+        headers = self._get_headers_by_command(args, default_headers)
         for test_dataset_name in list(self.test_dataset_dict.keys()):
-            dataset_info.append(["io.cira.colostate.edu", test_dataset_name])
-        headers = ["Data Host", "Dataset Name"]
+            dataset_entry = []
+            for header in list(headers.keys()):
+                if header == "data_host":
+                    dataset_entry.append("io.cira.colostate.edu")
+                elif header == "dataset_name":
+                    dataset_entry.append(test_dataset_name)
+            dataset_info.append(dataset_entry)
         print("-" * len("Available Test Datasets"))
         print("Available Test Datasets")
         print("-" * len("Available Test Datasets"))
         print(
             tabulate(
                 dataset_info,
-                headers=headers,
+                headers=headers.values(),
                 tablefmt="rounded_grid",
                 maxcolwidths=self.terminal_width // len(headers),
             )
@@ -175,11 +195,11 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             err_str += "Please try again."
             self.subcommand_parser.error(err_str)
         if implemented and package_name:
-            self.list_implemented_interfaces(package_name)
+            self.list_implemented_interfaces(package_name, args)
         else:
-            self.list_available_interfaces()
+            self.list_available_interfaces(args)
 
-    def list_available_interfaces(self):
+    def list_available_interfaces(self, args):
         """List the available interface[s] within [a] GeoIPS Package[s]".
 
         Data Output
@@ -191,43 +211,58 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             - Interface Type
             - Interface Name
             - Supported Families
+
+        Parameters
+        ----------
+        args: argparse Argument Namespace
+            - The arguments provided to a certain list command
         """
         interface_data = []
+        default_headers = {
+            "package": "GeoIPS Package",
+            "plugin_type": "Interface Type",
+            "interface": "Interface Name",
+            "supported_families": "Supported Families",
+            "docstring": "Docstring",
+            "abspath": "Absolute Path",
+        }
+        headers = self._get_headers_by_command(args, default_headers)
         for interface_name in interfaces.__all__:
             interface = getattr(interfaces, interface_name)
-            interface_entry = [
-                "geoips",
-                interface.interface_type,
-                interface_name,
-                ",\n".join(interface.supported_families),
-                interface.__doc__.split("\n")[0],
-                str(
-                    resources.files("geoips")
-                    / f"interfaces/{interface.interface_type}/{interface.name}.py"
-                ),
-            ]
+            interface_entry = []
+            for header in list(headers.keys()):
+                if header == "package":
+                    interface_entry.append("geoips")
+                elif header == "plugin_type":
+                    interface_entry.append(interface.interface_type)
+                elif header == "interface":
+                    interface_entry.append(interface_name)
+                elif header == "supported_families":
+                    interface_entry.append(",\n".join(interface.supported_families))
+                elif header == "docstring":
+                    interface_entry.append(interface.__doc__.split("\n")[0])
+                elif header == "abspath":
+                    interface_entry.append(
+                        str(
+                            resources.files("geoips")
+                            / f"interfaces/{interface.interface_type}/{interface.name}.py"  # noqa
+                        ),
+                    )
             interface_data.append(interface_entry)
-        headers = [
-            "GeoIPS Package",
-            "Interface Type",
-            "Interface Name",
-            "Supported Families",
-            "Docstring",
-            "Absolute Path",
-        ]
+
         print("-" * len("GeoIPS Interfaces"))
         print("GeoIPS Interfaces")
         print("-" * len("GeoIPS Interfaces"))
         print(
             tabulate(
                 interface_data,
-                headers=headers,
+                headers=headers.values(),
                 tablefmt="rounded_grid",
                 maxcolwidths=self.terminal_width // len(headers),
             )
         )
 
-    def list_implemented_interfaces(self, package_name):
+    def list_implemented_interfaces(self, package_name, args):
         """List the implemented interface[s] within [a] GeoIPS Package[s].
 
         Ie. search through all, or an individual package and list off what has been
@@ -244,7 +279,15 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         ----------
         package_name: str
             - The GeoIPS Package name whose scripts you want to list.
+        args: argparse Argument Namespace
+            - The arguments provided to a certain list command
         """
+        default_headers = {
+            "package": "GeoIPS Package",
+            "plugin_type": "Interface Type",
+            "interface": "Interface Name",
+        }
+        headers = self._get_headers_by_command(args, default_headers)
         for plugin_package_name, pkg_path in zip(
             self.plugin_packages, self.plugin_package_paths
         ):
@@ -260,17 +303,22 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             interface_data = []
             for interface_type in pkg_registry.keys():
                 for interface_name in pkg_registry[interface_type].keys():
-                    interface_data.append(
-                        [plugin_package_name, interface_type, interface_name]
-                    )
-            headers = ["GeoIPS Package", "Interface Type", "Interface Name"]
+                    interface_entry = []
+                    for header in list(headers.keys()):
+                        if header == "package":
+                            interface_entry.append(plugin_package_name)
+                        elif header == "plugin_type":
+                            interface_entry.append(interface_type)
+                        elif header == "interface":
+                            interface_entry.append(interface_name)
+                    interface_data.append(interface_entry)
             print("-" * len(f"{plugin_package_name.title()} Interfaces"))
             print(f"{plugin_package_name.title()} Interfaces")
             print("-" * len(f"{plugin_package_name.title()} Interfaces"))
             print(
                 tabulate(
                     interface_data,
-                    headers=headers,
+                    headers=headers.values(),
                     tablefmt="rounded_grid",
                     maxcolwidths=self.terminal_width // len(headers),
                 )
@@ -309,21 +357,34 @@ class GeoipsListPackages(GeoipsExecutableCommand):
             - The Argument Namespace for GeoipsListPackages Sub-Command
         """
         pkg_data = []
+        default_headers = {
+            "package": "GeoIPS Package",
+            "docstring": "Docstring",
+            "package_path": "Package Path",
+        }
+        headers = self._get_headers_by_command(args, default_headers)
         for package_name, package_path in zip(
             self.plugin_packages, self.plugin_package_paths
         ):
 
+            pkg_entry = []
             docstring = import_module(package_name).__doc__
-            pkg_data.append([package_name, docstring, package_path])
+            for header in default_headers:
+                if "package" == header:
+                    pkg_entry.append(package_name)
+                elif "docstring" == header:
+                    pkg_entry.append(docstring)
+                elif "package_path" == header:
+                    pkg_entry.append(package_path)
+            pkg_data.append(pkg_entry)
 
-        headers = ["GeoIPS Package", "Docstring", "Package Path"]
         print("-" * len("GeoIPS Packages"))
         print("GeoIPS Packages")
         print("-" * len("GeoIPS Packages"))
         print(
             tabulate(
                 pkg_data,
-                headers=headers,
+                headers=headers.values(),
                 tablefmt="rounded_grid",
                 maxcolwidths=self.terminal_width // len(headers),
             )
@@ -362,7 +423,6 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
             - The list argument namespace to parse through
         """
         package_name = args.package_name
-        columns = args.columns
         # List of every available interface
         interfaces_to_list = [
             getattr(interfaces, name) for name in sorted(interfaces.__all__)
@@ -379,9 +439,7 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
             print("-" * len(curr_interface.name))
             print(curr_interface.name)
             print("-" * len(curr_interface.name))
-            self._print_plugins_short_format(
-                curr_interface, interface_registry, columns,
-            )
+            self._print_plugins(curr_interface, interface_registry, args)
 
 
 class GeoipsListSingleInterface(GeoipsExecutableCommand):
@@ -433,7 +491,6 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
         """
         interface_name = args.interface_name
         package_name = args.package_name
-        columns = args.columns
         try:
             interface = getattr(interfaces, interface_name)
         except AttributeError:
@@ -453,7 +510,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
             print("-" * len(interface_name))
             print(interface_name)
             print("-" * len(interface_name))
-            self._print_plugins_short_format(interface, interface_registry, columns)
+            self._print_plugins(interface, interface_registry, args)
 
 
 class GeoipsListScripts(GeoipsExecutableCommand):
@@ -491,6 +548,8 @@ class GeoipsListScripts(GeoipsExecutableCommand):
         else:
             # list scripts from a certain package.
             plugin_packages = [package_name]
+        default_headers = {"package": "GeoIPS Package", "filename": "Filename"}
+        headers = self._get_headers_by_command(args, default_headers)
         for plugin_package_name in plugin_packages:
             script_names = sorted(
                 [
@@ -504,14 +563,19 @@ class GeoipsListScripts(GeoipsExecutableCommand):
                     )
                 ]
             )
-            headers = ["GeoIPS Package", "Filename"]
+            if headers != default_headers:
+                for script_idx in range(len(script_names)):
+                    if list(headers.keys())[0] == "package":
+                        script_names[script_idx] = [script_names[script_idx][0]]
+                    else:
+                        script_names[script_idx] = [script_names[script_idx][1]]
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
             print(f"{plugin_package_name.title()} Available Scripts")
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
             print(
                 tabulate(
                     script_names,
-                    headers=headers,
+                    headers=headers.values(),
                     tablefmt="rounded_grid",
                     maxcolwidths=self.terminal_width // len(headers),
                 )

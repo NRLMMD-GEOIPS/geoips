@@ -271,32 +271,26 @@ class GeoipsExecutableCommand(GeoipsCommand):
                 return None
         return interface_registry
 
-    def _print_plugins_short_format(self, interface, interface_registry, columns=None):
-        """Print the plugins under a certain interface in alongside minimal info.
+    def _get_headers_by_command(self, args, default_headers):
+        """Retrieve the appropriate headers from a list command with the given args.
 
-        "Short Format" includes these pieces of information:
-            [GeoIPS Package, Interface, Plugin Family, Plugin Name, Relpath]
+        Headers are the top-row of the tabular output from 'list' commands. These are
+        customizable via optional args [--column, --short, --long] and we retrieve
+        the appropriate headers based on those optional arguments and the 'list' command
+        provided.
 
         Parameters
         ----------
-        interface: geoips.interfaces.<interface_type>
-            - The interface we will be parsing and displaying.
-        interface_registry: dict
-            - The plugin registry associated with the given interface.
-        columns: list of str
-            - List of strings representing the headers we'd like to output. Defaults
-              to None, which means all headers will be shown.
+        args: argparse Argument Namespace
+            - The arguments provided to a certain list command
+
+        Returns
+        -------
+        headers: list of str
+            - The list of column headers that will be outputted
         """
-        default_headers = {
-            "package": "GeoIPS Package",
-            "interface": "Interface Name",
-            "plugin_type": "Interface Type",
-            "family": "Family",
-            "plugin_name": "Plugin Name",
-            "source_names": "Source Names",
-            "relpath": "Relative Path",
-        }
-        if columns is not None:
+        columns = args.columns
+        if columns:
             headers = {}
             for col in columns:
                 if col not in list(default_headers.keys()):
@@ -307,8 +301,41 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     self.subcommand_parser.error(err_str)
                 headers[col] = default_headers[col]
         else:
+            # long has been set or was defaulted to; use the default headers
             headers = default_headers
+        return headers
 
+    def _print_plugins(self, interface, interface_registry, args):
+        """Print the plugins under a certain interface in alongside minimal info.
+
+        "Long Format" includes these pieces of information:
+            - GeoIPS Package
+            - Interface Name
+            - Interface Type
+            - Family
+            - Plugin Name
+            - Source Names
+            - Relpath
+
+        Parameters
+        ----------
+        interface: geoips.interfaces.<interface_type>
+            - The interface we will be parsing and displaying.
+        interface_registry: dict
+            - The plugin registry associated with the given interface.
+        args: argparse Argument Namespace
+            - The arguments provided to a certain list command
+        """
+        default_headers = {
+            "package": "GeoIPS Package",
+            "interface": "Interface Name",
+            "plugin_type": "Interface Type",
+            "family": "Family",
+            "plugin_name": "Plugin Name",
+            "source_names": "Source Names",
+            "relpath": "Relative Path",
+        }
+        headers = self._get_headers_by_command(args, default_headers)
         table_data = self._generate_table_data_by_interface(
             interface, interface_registry, headers,
         )
@@ -410,13 +437,6 @@ class GeoipsListCommon(GeoipsExecutableCommand):
             help="The GeoIPS package to list from.",
         )
         mutex_group = self.subcommand_parser.add_mutually_exclusive_group()
-        mutex_group.add_argument(
-            "--short",
-            "-s",
-            default=False,
-            action="store_true",
-            help="Flag representing the 'short' listing of a certain command.",
-        )
         mutex_group.add_argument(
             "--long",
             "-l",
