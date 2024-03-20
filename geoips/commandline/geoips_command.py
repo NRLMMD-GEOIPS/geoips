@@ -295,7 +295,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
             for col in columns:
                 if col not in list(default_headers.keys()):
                     err_str = f"Column header '{col}', is not a valid header. Please "
-                    err_str += f"select one or more of the following keys, which "
+                    err_str += "select one or more of the following keys, which "
                     err_str += "correspond to the appropriate value:\n"
                     err_str += f"{default_headers}"
                     self.subcommand_parser.error(err_str)
@@ -337,7 +337,9 @@ class GeoipsExecutableCommand(GeoipsCommand):
         }
         headers = self._get_headers_by_command(args, default_headers)
         table_data = self._generate_table_data_by_interface(
-            interface, interface_registry, headers,
+            interface,
+            interface_registry,
+            headers,
         )
         print(
             tabulate(
@@ -402,13 +404,13 @@ class GeoipsExecutableCommand(GeoipsCommand):
             plugin_entry = []
             for header in list(headers.keys()):
                 if (
-                    header == "source_names" and
-                    plugin_dict[plugin_key]["interface"] != "products"
+                    header == "source_names"
+                    and plugin_dict[plugin_key]["interface"] != "products"
                 ):
                     plugin_entry.append("N/A")
                 elif (
-                    header == "family" and
-                    plugin_dict[plugin_key]["interface"] == "products"
+                    header == "family"
+                    and plugin_dict[plugin_key]["interface"] == "products"
                 ):
                     plugin_entry.append("N/A")
                 elif header == "plugin_name":
@@ -417,6 +419,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     plugin_entry.append(plugin_dict[plugin_key][header])
             table_data.append(plugin_entry)
         return table_data
+
 
 class GeoipsListCommon(GeoipsExecutableCommand):
     """Class containing common optional arguments shared between list commands."""
@@ -446,10 +449,11 @@ class GeoipsListCommon(GeoipsExecutableCommand):
             "--columns",
             "-c",
             type=str,
-            nargs='+',
+            nargs="+",
             default=None,
             help="Specific Headers of Data you'd like to see listed.",
         )
 
     def __call__(self, args):
+        """Exectutable function for GeoipsListCommon Class. Not implemented."""
         pass

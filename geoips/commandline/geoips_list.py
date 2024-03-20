@@ -3,7 +3,6 @@
 Lists the appropriate interfaces/packages/plugins based on the arguments provided.
 """
 
-import argparse
 from glob import glob
 from importlib import resources, import_module
 import json
@@ -68,7 +67,9 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
                     print(f"No unit tests found in '{pkg_name}', continuing.")
                     continue
             for subdir_name in listdir(unit_test_dir):
-                for unit_test in sorted(glob(f"{unit_test_dir}/{subdir_name}/test*.py")):  # noqa
+                for unit_test in sorted(
+                    glob(f"{unit_test_dir}/{subdir_name}/test*.py")
+                ):  # noqa
                     unit_test_entry = []
                     for header in list(headers.keys()):
                         if header == "package":
