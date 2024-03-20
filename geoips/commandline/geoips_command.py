@@ -403,7 +403,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
             for header in list(headers.keys()):
                 if (
                     header == "source_names" and
-                    plugin_dict[plugin_key]["plugin_type"] == "module_based"
+                    plugin_dict[plugin_key]["interface"] != "products"
                 ):
                     plugin_entry.append("N/A")
                 elif (
@@ -414,9 +414,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
                 elif header == "plugin_name":
                     plugin_entry.append(plugin_key)
                 else:
-                    plugin_entry.append(
-                        plugin_dict[plugin_key][header]
-                        )
+                    plugin_entry.append(plugin_dict[plugin_key][header])
             table_data.append(plugin_entry)
         return table_data
 
