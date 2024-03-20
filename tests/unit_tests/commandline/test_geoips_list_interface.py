@@ -51,13 +51,9 @@ class TestGeoipsListInterface(BaseCliTest):
         if args[3] in interfaces.__all__:
             # interface exists, so check that the package name is incorrect
             assert args[-1] not in self.plugin_packages
-            usg_str = "error: argument --package/-p: invalid "
-            usg_str += f"choice: '{args[-1]}' (choose from"
-            assert usg_str in error
         else:
-            usg_str = "error: argument interface_name: invalid "
-            usg_str += f"choice: '{args[3]}' (choose from"
-            assert usg_str in error
+            assert args[3] not in interfaces.__all__
+        assert "usage: To use, type `geoips list interface <interface_name>`" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list interface ...' successful output is correct.

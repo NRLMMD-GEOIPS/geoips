@@ -119,6 +119,10 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
         args: Namespace()
             - The list argument namespace to parse through
         """
+        if args.package_name != "all":
+            self.subcommand_parser.error(
+                "Error: '-p' flag is not supported for this command"
+            )
         dataset_info = []
         default_headers = {"data_host": "Data Host", "dataset_name": "Dataset Name"}
         headers = self._get_headers_by_command(args, default_headers)
@@ -357,6 +361,12 @@ class GeoipsListPackages(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The Argument Namespace for GeoipsListPackages Sub-Command
         """
+        if args.package_name != "all":
+            # 'all' is the default for package name. We don't support the -p argument
+            # for this command so we need to raise an error
+            self.subcommand_parser.error(
+                "Error: '-p' flag is not supported for this command"
+            )
         pkg_data = []
         default_headers = {
             "package": "GeoIPS Package",

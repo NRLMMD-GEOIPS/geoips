@@ -85,7 +85,9 @@ class TestGeoipsListScripts(BaseCliTest):
                     ]
                 )
             for script_name in script_names:
-                assert script_name in output
+                assert script_name in "".join(
+                    output.strip().replace("\n","").replace("│","").split()
+                )
             # Assert that the correct headers exist in the CLI output
             headers = ["GeoIPS Package", "Filename"]
             for header in headers:

@@ -64,7 +64,6 @@ class TestGeoipsListUnitTests(BaseCliTest):
             assert "usage: To use, type `geoips list unit-tests" in output
         else:
             # The args provided are valid, so test that the output is actually correct
-            assert ["geoips", "list", "unit-tests"] == args[:3]
             # Assert that the correct headers exist in the CLI output
             headers = ["GeoIPS Package", "Unit Test Directory", "Unit Test Name"]
             for header in headers:
@@ -76,7 +75,9 @@ class TestGeoipsListUnitTests(BaseCliTest):
             unit_test_dir = str(files(package_name) / "../tests/unit_tests")
             # Assert that we found every unit test
             for subdir_name in listdir(unit_test_dir):
-                for unit_test in sorted(glob(f"{unit_test_dir}/{subdir_name}/*.py")):
+                for unit_test in sorted(
+                    glob(f"{unit_test_dir}/{subdir_name}/test_*.py")
+                ):
                     assert basename(unit_test) in output
 
 

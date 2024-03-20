@@ -37,8 +37,8 @@ class TestGeoipsListPackages(BaseCliTest):
         """
         # bad command has been provided, check the contents of the error message
         assert args != ["geoips", "list", "packages"]
-        usg_str = "usage: geoips [-h]"
-        assert usg_str in error
+        assert "usage: To use, type `geoips list packages`" in error
+        assert "Error: '-p' flag is not supported for this command" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list packages ...' successful output is correct.
