@@ -204,13 +204,6 @@ class GeoipsExecutableCommand(GeoipsCommand):
         """
         pass
 
-    def get_corresponding_headers(self, columns, subcommand_name):
-        """Retrieve the appropriate headers given a list of headers and command name.
-
-        This function is only applied to the list command.
-        """
-        pass
-
     def _output_dictionary_highlighted(self, dict_entry):
         """Print to terminal the yaml-dumped dictionary of a certain interface/plugin.
 
@@ -278,7 +271,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
                 return None
         return interface_registry
 
-    def _print_plugins_short_format(self, interface, interface_registry):
+    def _print_plugins_short_format(self, interface, interface_registry, columns=None):
         """Print the plugins under a certain interface in alongside minimal info.
 
         "Short Format" includes these pieces of information:
@@ -290,51 +283,115 @@ class GeoipsExecutableCommand(GeoipsCommand):
             - The interface we will be parsing and displaying.
         interface_registry: dict
             - The plugin registry associated with the given interface.
+        columns: list of str
+            - List of strings representing the headers we'd like to output. Defaults
+              to None, which means all headers will be shown.
         """
-        table_data = []
-        for plugin_key in sorted(interface_registry.keys()):
-            if interface.name == "products":
-                product_dict = interface_registry[plugin_key]
-                for subplg_name in sorted(product_dict.keys()):
-                    plugin_entry = [
-                        product_dict[subplg_name]["package"],  # Package
-                        interface.name,  # Interface
-                        interface.interface_type,  # Interface Type
-                        "N/A",  # Family
-                        subplg_name,  # Plugin Name
-                        product_dict[subplg_name]["source_names"],  # Source Names
-                        product_dict[subplg_name]["relpath"],  # Relpath
-                    ]
-                    table_data.append(plugin_entry)
-            else:
-                plugin_entry = [
-                    interface_registry[plugin_key]["package"],
-                    interface.name,
-                    interface.interface_type,
-                    interface_registry[plugin_key]["family"],
-                    plugin_key,
-                    "N/A",
-                    interface_registry[plugin_key]["relpath"],
-                ]
-                table_data.append(plugin_entry)
-        headers = [
-            "GeoIPS Package",
-            "Interface",
-            "Interface Type",
-            "Family",
-            "Plugin Name",
-            "Source Names",
-            "Relative Path",
-        ]
+        default_headers = {
+            "package": "GeoIPS Package",
+            "interface": "Interface Name",
+            "plugin_type": "Interface Type",
+            "family": "Family",
+            "plugin_name": "Plugin Name",
+            "source_names": "Source Names",
+            "relpath": "Relative Path",
+        }
+        if columns is not None:
+            headers = {}
+            for col in columns:
+                if col not in list(default_headers.keys()):
+                    err_str = f"Column header '{col}', is not a valid header. Please "
+                    err_str += f"select one or more of the following keys, which "
+                    err_str += "correspond to the appropriate value:\n"
+                    err_str += f"{default_headers}"
+                    self.subcommand_parser.error(err_str)
+                headers[col] = default_headers[col]
+        else:
+            headers = default_headers
+
+        table_data = self._generate_table_data_by_interface(
+            interface, interface_registry, headers,
+        )
         print(
             tabulate(
                 table_data,
-                headers=headers,
+                headers=headers.values(),
                 tablefmt="rounded_grid",
                 maxcolwidths=self.terminal_width // len(headers),
             )
         )
 
+    def _generate_table_data_by_interface(self, interface, interface_registry, headers):
+        """Generate the table data needed for output in '_print_plugins_short_format.
+
+        Given a certain interface and a list of headers, generate a list of table data
+        used for outputting information used by 'geoips list interface' and
+        'geoips list plugins'.
+
+        Parameters
+        ----------
+        interface: geoips.interfaces.<interface_type>
+            - The interface object we will be gathering data from.
+        interface_registry: dict
+            - The plugin registry associated with the given interface.
+        headers: dict
+            - Dictionary of strings representing the key-value mapping of the
+              headers we'd like to output.
+
+        Returns
+        -------
+        table_data: 2D List of Strings
+            - The corresponding data we will output, where each sub-list is ordered
+              by headers.
+        """
+        table_data = []
+        if interface.name == "products":
+            for plugin_key in sorted(interface_registry.keys()):
+                product_dict = interface_registry[plugin_key]
+                table_data += self._get_entry(product_dict, headers)
+        else:
+            table_data += self._get_entry(interface_registry, headers)
+        return table_data
+
+    def _get_entry(self, plugin_dict, headers):
+        """Retrieve the appropriate plugin entry given a list of valid headers.
+
+        Parameters
+        ----------
+        plugin_dict: dict
+            - The portion of the plugin_registry needed to access the appropriate plugin
+        headers: dict
+            - Dictionary of strings representing the key-value mapping of the
+              headers we'd like to output.
+
+        Returns
+        -------
+        plugin_entry: list of str
+            - A list of strings containing information about a plugin listed in the
+              order of headers.keys()
+        """
+        table_data = []
+        for plugin_key in list(plugin_dict.keys()):
+            plugin_entry = []
+            for header in list(headers.keys()):
+                if (
+                    header == "source_names" and
+                    plugin_dict[plugin_key]["plugin_type"] == "module_based"
+                ):
+                    plugin_entry.append("N/A")
+                elif (
+                    header == "family" and
+                    plugin_dict[plugin_key]["interface"] == "products"
+                ):
+                    plugin_entry.append("N/A")
+                elif header == "plugin_name":
+                    plugin_entry.append(plugin_key)
+                else:
+                    plugin_entry.append(
+                        plugin_dict[plugin_key][header]
+                        )
+            table_data.append(plugin_entry)
+        return table_data
 
 class GeoipsListCommon(GeoipsExecutableCommand):
     """Class containing common optional arguments shared between list commands."""
@@ -352,26 +409,28 @@ class GeoipsListCommon(GeoipsExecutableCommand):
             choices=self.plugin_packages,
             help="The GeoIPS package to list from.",
         )
-        self.subcommand_parser.add_argument(
-            "--columns",
-            "-c",
-            type=list,
-            default=None,
-            help="Specific Headers of Data you'd like to see listed.",
-        )
-        self.subcommand_parser.add_argument(
+        mutex_group = self.subcommand_parser.add_mutually_exclusive_group()
+        mutex_group.add_argument(
             "--short",
             "-s",
             default=False,
             action="store_true",
             help="Flag representing the 'short' listing of a certain command.",
         )
-        self.subcommand_parser.add_argument(
+        mutex_group.add_argument(
             "--long",
             "-l",
             default=True,
             action="store_true",
             help="Flag representing the 'long' listing of a certain command.",
+        )
+        mutex_group.add_argument(
+            "--columns",
+            "-c",
+            type=str,
+            nargs='+',
+            default=None,
+            help="Specific Headers of Data you'd like to see listed.",
         )
 
     def __call__(self, args):

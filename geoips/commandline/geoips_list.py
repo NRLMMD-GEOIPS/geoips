@@ -362,6 +362,7 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
             - The list argument namespace to parse through
         """
         package_name = args.package_name
+        columns = args.columns
         # List of every available interface
         interfaces_to_list = [
             getattr(interfaces, name) for name in sorted(interfaces.__all__)
@@ -378,7 +379,9 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
             print("-" * len(curr_interface.name))
             print(curr_interface.name)
             print("-" * len(curr_interface.name))
-            self._print_plugins_short_format(curr_interface, interface_registry)
+            self._print_plugins_short_format(
+                curr_interface, interface_registry, columns,
+            )
 
 
 class GeoipsListSingleInterface(GeoipsExecutableCommand):
@@ -430,6 +433,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
         """
         interface_name = args.interface_name
         package_name = args.package_name
+        columns = args.columns
         try:
             interface = getattr(interfaces, interface_name)
         except AttributeError:
@@ -449,7 +453,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
             print("-" * len(interface_name))
             print(interface_name)
             print("-" * len(interface_name))
-            self._print_plugins_short_format(interface, interface_registry)
+            self._print_plugins_short_format(interface, interface_registry, columns)
 
 
 class GeoipsListScripts(GeoipsExecutableCommand):
