@@ -159,7 +159,8 @@ def check_command_line_args(arglist, argdict):
 
 
 def get_argparser(
-    arglist=None, description=None, add_args_func=None, check_args_func=None
+    arglist=None, description=None, add_args_func=None,
+    check_args_func=None, parser=None,
 ):
     """Get argparse.ArgumentParser with all standard arguments added.
 
@@ -186,14 +187,15 @@ def get_argparser(
         add_args_func = add_args
     if check_args_func is None:
         check_args_func = check_command_line_args
-
-    parser = argparse.ArgumentParser(description=description)
+    if parser is None:
+        parser = argparse.ArgumentParser(description=description)
     add_args_func(parser, arglist)
     return parser
 
 
 def get_command_line_args(
-    arglist=None, description=None, add_args_func=None, check_args_func=None
+    arglist=None, description=None, add_args_func=None,
+    check_args_func=None, parser=None,
 ):
     """Parse command line arguments specified by the requested list of arguments.
 
@@ -216,7 +218,7 @@ def get_command_line_args(
     dict
         Dictionary of command line arguments
     """
-    parser = get_argparser(arglist, description, add_args_func, check_args_func)
+    parser = get_argparser(arglist, description, add_args_func, check_args_func, parser)
     argdict = parser.parse_args()
     if arglist and "filenames" in arglist and "procflow" in arglist:
         check_args_func(["filenames", "procflow"], argdict.__dict__)
