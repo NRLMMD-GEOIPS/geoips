@@ -25,7 +25,7 @@ Version 1.12.2a0 (2024-02-21)
 * Refactor
 
   * Make JSON Plugin Registries Readable
-
+  * Modify create_plugin_registries to use argparse instead of sys.argv
 
 Bug Fixes
 =========
@@ -104,6 +104,20 @@ the expert installation instructions. It was added.
 
 Refactor
 ========
+
+Modify create_plugin_registries to use argparse
+-----------------------------------------------
+
+*From issue GEOIPS#416: 2023-12-21, Replace create_plugin_registries 'sys.argv' calls with 'argparse' library'*
+
+Currently create_plugin_registries.py uses sys.argv calls to generate its arguments
+rather than argparse. This doesn't follow GeoIPS conventions nor that of the CLI that
+will soon be updated. We should replace these calls with argparse architecture, so that
+this code follows current conventions, as does other GeoIPS code.
+
+::
+
+    modified: geoips/geoips/create_plugin_registries.py
 
 Make JSON Plugin Registries Readable
 ------------------------------------
