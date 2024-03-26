@@ -1,7 +1,8 @@
 """Code to implement GeoipsCommand Abstract Base Class for the CLI.
 
 Will implement a plethora of commands, but for the meantime, we'll work on
-'geoips get', 'geoips list', 'geoips run', and 'geoips validate'.
+'geoips config','geoips get', 'geoips list', 'geoips run', 'geoips test', and
+'geoips validate'.
 """
 
 import abc
@@ -18,9 +19,11 @@ from geoips.geoips_utils import get_entry_point_group
 
 
 class GeoipsCommand(abc.ABC):
-    """GeoipsCommand Abstract Base Class.
+    """Abstract Base Class for top-level GeoIPS Command Classes, such as get or list.
 
-    This class is a blueprint of what each GeoIPS Sub-Command Classes should implement.
+    This class is a blueprint of what each top-level GeoIPS Command Classes should
+    implement. Includes shared attributes and an ``add_suparsers`` function which is
+    used for initializing sub-command classes of a certain GeoIPS Command.
     """
 
     def __init__(self, parent=None):
@@ -32,18 +35,25 @@ class GeoipsCommand(abc.ABC):
         """
         self.nrl_url = "https://github.com/NRLMMD-GEOIPS/"
         if parent:
+            # Parent Command has been passed. Check if this was the CLI or a top-level
+            # command such as List or Get. If it's not cli, set their combined name to
+            # '<top-level-command_name> <sub-command-name>', and add a parser for that
+            # sub command
             if parent.subcommand_name == "cli":
                 combined_name = self.subcommand_name
             else:
                 combined_name = f"{parent.subcommand_name} {self.subcommand_name}"
+
             self.subcommand_parser = parent.subparsers.add_parser(
                 self.subcommand_name,
                 help=self.cmd_instructions[combined_name]["help_str"],
                 usage=self.cmd_instructions[combined_name]["usage_str"],
             )
         else:
+            # otherwise initialize a top-level parser for this command.
             self.subcommand_parser = argparse.ArgumentParser()
             combined_name = self.subcommand_name
+
         self.add_subparsers()
         if hasattr(self, "__call__"):
             # If the subcommand class is exectuable (ie. not the cli, top-level list...)
@@ -132,7 +142,7 @@ class GeoipsCommand(abc.ABC):
 
 
 class GeoipsExecutableCommand(GeoipsCommand):
-    """GeoipsExecutableCommand Abstract Base Class.
+    """Abstract Base Class for executable CLI commands, inheriting from GeoipsCommand.
 
     This class is a blueprint of what each executable GeoIPS Sub-Command Classes
     can implement.

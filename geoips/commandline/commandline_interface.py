@@ -23,8 +23,8 @@ class GeoipsCLI(GeoipsCommand):
     """Top-Level Class for the GeoIPS Commandline Interface (CLI).
 
     This class includes a list of Sub-Command Classes, which will implement the core
-    functionality of the CLI. This includes [GeoipsGet, GeoipsList, GeoipsRun] as of
-    right now.
+    functionality of the CLI. This includes the following as of right now:
+    - [GeoipsConfig, GeoipsGet, GeoipsList, GeoipsRun, GeoipsTest, GeoipsValidate]
     """
 
     subcommand_classes = [

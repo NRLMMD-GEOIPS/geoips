@@ -13,7 +13,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 
 
 class GeoipsTestUnitTest(GeoipsExecutableCommand):
-    """GeoipsTest Sub-Command for running GeoIPS Tests."""
+    """Test Sub-Command for running GeoIPS Unit Tests."""
 
     subcommand_name = "unit-test"
     subcommand_classes = []
@@ -92,7 +92,7 @@ class GeoipsTestUnitTest(GeoipsExecutableCommand):
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):
-    """GeoipsTest Sub-Command for running GeoIPS Test Scripts."""
+    """Test Sub-Command for running GeoIPS Test Scripts."""
 
     subcommand_name = "script"
     subcommand_classes = []
@@ -171,7 +171,7 @@ class GeoipsTestScript(GeoipsExecutableCommand):
 
 
 class GeoipsTestLinting(GeoipsExecutableCommand):
-    """GeoipsTest Sub-Command for running GeoIPS Tests."""
+    """Test Sub-Command for running GeoIPS Linting Services."""
 
     subcommand_name = "linting"
     subcommand_classes = []
@@ -197,7 +197,7 @@ class GeoipsTestLinting(GeoipsExecutableCommand):
 
 
 class GeoipsTest(GeoipsCommand):
-    """GeoipsTest Sub-Command for running GeoIPS Tests."""
+    """Top-Level Test Command for testing GeoIPS and its corresponding Packages."""
 
     subcommand_name = "test"
     subcommand_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestUnitTest]

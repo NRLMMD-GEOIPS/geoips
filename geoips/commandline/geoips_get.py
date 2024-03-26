@@ -11,7 +11,7 @@ from geoips import interfaces
 
 
 class GeoipsGetFamily(GeoipsExecutableCommand):
-    """GeoipsGetFamily Class which implements retrieving GeoIPS Families.
+    """Get Sub-Command which retrieves and outputs information about a GeoIPS Family.
 
     This is called via `geoips get family <interface_name> <family_name>`. Data included
     when calling this command is shown below, outputted in a yaml-based format.
@@ -101,7 +101,7 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
 
 
 class GeoipsGetInterface(GeoipsExecutableCommand):
-    """GeoipsGetInterface Class which implements retrieving GeoIPS Interfaces.
+    """Get Sub-Command which retrieves information about a GeoIPS Interface.
 
     This is called via `geoips get interface <interface_name>`. Data included when
     calling this command is shown below, outputted in a yaml-based format.
@@ -164,7 +164,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
 
 
 class GeoipsGetPackage(GeoipsExecutableCommand):
-    """GeoipsGetPackage Class which implements retrieving GeoIPS Packages.
+    """Get Sub-Command which retrieves information about a certain GeoIPS Package.
 
     This is called via `geoips get package <interface_name>`. Data included when
     calling this command is shown below, outputted in a yaml-based format.
@@ -216,7 +216,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
 
 
 class GeoipsGetPlugin(GeoipsExecutableCommand):
-    """GeoipsGetPlugin Class which implements retrieving GeoIPS Plugins.
+    """Get Sub-Command which retrieves information about a certain GeoIPS Plugin.
 
     This is called via `geoips get plugin <interface_name> <plugin_name>`. Data included
     when calling this command is shown below, outputted in a yaml-based format.
@@ -320,7 +320,7 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
 
 
 class GeoipsGet(GeoipsCommand):
-    """GeoipsGet Sub-Command for retrieving package plugins."""
+    """Top-Level Get Command Class for retrieving information about GeoIPS Artifacts."""
 
     subcommand_name = "get"
     subcommand_classes = [

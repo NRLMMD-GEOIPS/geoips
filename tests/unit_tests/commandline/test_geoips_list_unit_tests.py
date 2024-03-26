@@ -13,7 +13,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListUnitTests(BaseCliTest):
-    """Unit Testing Class for GeoipsListUnitTests Command."""
+    """Unit Testing Class for List Unit Tests Sub-Command."""
 
     @property
     def all_possible_subcommand_combinations(self):

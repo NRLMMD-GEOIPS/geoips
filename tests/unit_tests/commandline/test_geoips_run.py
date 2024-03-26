@@ -14,11 +14,11 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsRun(BaseCliTest):
-    """Unit Testing Class for GeoipsRun Command."""
+    """Unit Testing Class for 'geoips run' Command."""
 
     @property
     def all_possible_subcommand_combinations(self):
-        """A list of every possible call signature for the GeoipsRun command.
+        """A stochastic list of commands used by the GeoipsRun command.
 
         This includes failing cases as well.
         """
