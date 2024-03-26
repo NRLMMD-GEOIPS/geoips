@@ -1,7 +1,7 @@
 FROM python:3.10-slim-bullseye
 
 RUN apt-get update && apt-get -y upgrade
-RUN apt-get install -y wget git libopenblas-dev imagemagick g++ make imagemagick
+RUN apt-get install -y wget git libopenblas-dev imagemagick g++ make
 
 RUN apt-get update && apt-get install -y software-properties-common
 RUN add-apt-repository -y ppa:ubuntugis/ppa
