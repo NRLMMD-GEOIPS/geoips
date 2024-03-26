@@ -297,7 +297,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
     subcommand_classes = []
 
     def add_arguments(self):
-        """Add arguments to the list-subparser for the List Packages Command."""
+        """No arguments for the list-subparser for the List Packages Command."""
         pass
 
     def __call__(self, args):
