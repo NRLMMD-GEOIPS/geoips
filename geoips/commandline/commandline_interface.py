@@ -46,7 +46,7 @@ class GeoipsCLI(GeoipsCommand):
         by all subcommand child classes, which recursively can have their own child
         subcommand classes.
         """
-        self._subcommand_name = "cli" # What is this for?
+        self._subcommand_name = "cli"  # Needed since we inherit from GeoipsCommand
         super().__init__()
 
         self.GEOIPS_ARGS = self.subcommand_parser.parse_args()

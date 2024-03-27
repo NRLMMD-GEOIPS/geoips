@@ -70,7 +70,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
         plugin_name: str
             - The name of the plugin
         """
-        if fpath.suffix == ".py" :
+        if fpath.suffix == ".py":
             # module-based plugin
             interface_type = "module_based"
             plugin = self._load_module_from_file(fpath)
@@ -105,9 +105,9 @@ class GeoipsValidate(GeoipsExecutableCommand):
         if module_name is None:
             # Generate a unique module name if not provided
             module_name = "module_from_"
-            module_name += str(
-                file_path
-            ).replace("/", "_").replace(".", "_").replace("\\", "_")
+            module_name += (
+                str(file_path).replace("/", "_").replace(".", "_").replace("\\", "_")
+            )
 
         spec = spec_from_file_location(module_name, file_path)
         module = module_from_spec(spec)
