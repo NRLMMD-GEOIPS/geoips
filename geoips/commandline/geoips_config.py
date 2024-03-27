@@ -3,8 +3,7 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 
-from importlib.resources import files
-from os import listdir
+from os import listdir, environ
 from os.path import abspath, join
 import requests
 import tarfile
@@ -26,8 +25,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
     def geoips_testdata_dir(self):
         """String path to GEOIPS_TESTDATA_DIR."""
         if not hasattr(self, "_geoips_testdata_dir"):
-            self._geoips_testdata_dir = "/".join(str(files("geoips")).split("/")[:-2])
-            self._geoips_testdata_dir += "/test_data"
+            self._geoips_testdata_dir = environ["GEOIPS_TESTDATA_DIR"]
         return self._geoips_testdata_dir
 
     def add_arguments(self):
