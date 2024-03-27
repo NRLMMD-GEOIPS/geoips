@@ -18,6 +18,31 @@ import yaml
 from geoips.geoips_utils import get_entry_point_group
 
 
+"""Dictionary of Instructions for each command, obtained by a yaml file.
+
+This has been placed as a module attribute so we don't perform this process for every
+CLI sub-command. It was taking too long to initialize the CLI and this was a large part
+of that. See https://github.com/NRLMMD-GEOIPS/geoips/pull/444#discussion_r1541864672 for
+more information.
+
+For more information on what's available, see:
+    geoips/commandline/ancillary_info/cmd_instructions.yaml
+"""
+ancillary_dirname = str(dirname(__file__)) + "/ancillary_info"
+if not exists(f"{ancillary_dirname}/cmd_instructions.json"):
+    cmd_yaml = yaml.safe_load(
+        open(
+            f"{ancillary_dirname}/cmd_instructions.yaml",
+            "r",
+        )
+    )
+    with open(f"{ancillary_dirname}/cmd_instructions.json", "w") as jfile:
+        json.dump(cmd_yaml, jfile, indent=4)
+cmd_instructions = json.load(
+    open(f"{ancillary_dirname}/cmd_instructions.json", "r")
+)
+
+
 class GeoipsCommand(abc.ABC):
     """Abstract Base Class for top-level GeoIPS Command Classes, such as get or list.
 
@@ -46,8 +71,8 @@ class GeoipsCommand(abc.ABC):
 
             self.subcommand_parser = parent.subparsers.add_parser(
                 self.subcommand_name,
-                help=self.cmd_instructions["instructions"][combined_name]["help_str"],
-                usage=self.cmd_instructions["instructions"][combined_name]["usage_str"],
+                help=cmd_instructions["instructions"][combined_name]["help_str"],
+                usage=cmd_instructions["instructions"][combined_name]["usage_str"],
             )
         else:
             # otherwise initialize a top-level parser for this command.
@@ -97,29 +122,6 @@ class GeoipsCommand(abc.ABC):
             )
             for subcmd_cls in self.subcommand_classes:
                 subcmd_cls(parent=self)
-
-    @property
-    def cmd_instructions(self):
-        """Dictionary of Instructions for each command, obtained by a yaml file.
-
-        For more information on what's available, see:
-            geoips/commandline/ancillary_info/cmd_instructions.yaml
-        """
-        if not hasattr(self, "_cmd_instructions"):
-            ancillary_dirname = str(dirname(__file__)) + "/ancillary_info"
-            if not exists(f"{ancillary_dirname}/cmd_instructions.json"):
-                cmd_yaml = yaml.safe_load(
-                    open(
-                        f"{ancillary_dirname}/cmd_instructions.yaml",
-                        "r",
-                    )
-                )
-                with open(f"{ancillary_dirname}/cmd_instructions.json", "w") as jfile:
-                    json.dump(cmd_yaml, jfile, indent=4)
-            self._cmd_instructions = json.load(
-                open(f"{ancillary_dirname}/cmd_instructions.json", "r")
-            )
-        return self._cmd_instructions
 
     @property
     def plugin_packages(self):
