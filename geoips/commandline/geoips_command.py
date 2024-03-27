@@ -10,7 +10,7 @@ import argparse
 from colorama import Fore, Style
 from importlib import resources
 import json
-from os.path import dirname
+from os.path import dirname, exists
 from shutil import get_terminal_size
 from tabulate import tabulate
 import yaml
@@ -46,8 +46,8 @@ class GeoipsCommand(abc.ABC):
 
             self.subcommand_parser = parent.subparsers.add_parser(
                 self.subcommand_name,
-                help=self.cmd_instructions[combined_name]["help_str"],
-                usage=self.cmd_instructions[combined_name]["usage_str"],
+                help=self.cmd_instructions["instructions"][combined_name]["help_str"],
+                usage=self.cmd_instructions["instructions"][combined_name]["usage_str"],
             )
         else:
             # otherwise initialize a top-level parser for this command.
@@ -106,19 +106,19 @@ class GeoipsCommand(abc.ABC):
             geoips/commandline/ancillary_info/cmd_instructions.yaml
         """
         if not hasattr(self, "_cmd_instructions"):
-            cmd_yaml = yaml.safe_load(
-                open(
-                    str(dirname(__file__)) + "/ancillary_info/cmd_instructions.yaml",
-                    "r",
+            ancillary_dirname = str(dirname(__file__)) + "/ancillary_info"
+            if not exists(f"{ancillary_dirname}/cmd_instructions.json"):
+                cmd_yaml = yaml.safe_load(
+                    open(
+                        f"{ancillary_dirname}/cmd_instructions.yaml",
+                        "r",
+                    )
                 )
+                with open(f"{ancillary_dirname}/cmd_instructions.json", "w") as jfile:
+                    json.dump(cmd_yaml, jfile, indent=4)
+            self._cmd_instructions = json.load(
+                open(f"{ancillary_dirname}/cmd_instructions.json", "r")
             )
-            self._cmd_instructions = {}
-            for cmd_entry in cmd_yaml["instructions"]:
-                self._cmd_instructions[cmd_entry["cmd_name"]] = {
-                    "help_str": cmd_entry["help_str"],
-                    "usage_str": cmd_entry["usage_str"],
-                    "output_info": cmd_entry["output_info"],
-                }
         return self._cmd_instructions
 
     @property
