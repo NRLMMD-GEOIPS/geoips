@@ -38,9 +38,7 @@ if not exists(f"{ancillary_dirname}/cmd_instructions.json"):
     )
     with open(f"{ancillary_dirname}/cmd_instructions.json", "w") as jfile:
         json.dump(cmd_yaml, jfile, indent=4)
-cmd_instructions = json.load(
-    open(f"{ancillary_dirname}/cmd_instructions.json", "r")
-)
+cmd_instructions = json.load(open(f"{ancillary_dirname}/cmd_instructions.json", "r"))
 
 
 class GeoipsCommand(abc.ABC):
