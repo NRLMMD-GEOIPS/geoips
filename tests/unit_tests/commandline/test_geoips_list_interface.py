@@ -5,6 +5,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 
 import json
 from importlib import resources
+from pathlib import Path
 import pytest
 
 from geoips import interfaces
@@ -76,11 +77,14 @@ class TestGeoipsListInterface(BaseCliTest):
             # No plugins were found under the selected interface, within a
             # certain package; ensure that is correct.
             plugin_registry = json.load(
-                open(str(resources.files(args[-1]) / "registered_plugins.json"), "r")
+                open(
+                    Path(resources.files(args[-1]).joinpath("registered_plugins.json")),
+                    "r",
+                ),
             )
             # assert that the provided interface doesn't exist within that package's
             # plugin registry
-            assert interface.name not in list(plugin_registry[interface_type].keys())
+            assert interface.name not in plugin_registry[interface_type].keys()
         else:
             # Assert that the correct headers exist in the CLI output
             headers = [

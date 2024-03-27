@@ -18,7 +18,7 @@ class TestGeoipsTestUnitTest(BaseCliTest):
 
     @property
     def all_possible_subcommand_combinations(self):
-        """A list of every possible call signature for the GeoipsTestUnitTest command.
+        """A stochastic list of commands used by the GeoipsTestUnitTest command.
 
         This includes failing cases as well.
         """

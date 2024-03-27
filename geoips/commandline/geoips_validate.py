@@ -4,10 +4,9 @@ Validates the appropriate plugin based on the arguments provided using the assoc
 interface's validation mechaninism (interface.plugin_is_valid(plugin_name)).
 """
 
-from importlib.util import (
-    spec_from_file_location,
-    module_from_spec,
-)
+from importlib.util import spec_from_file_location, module_from_spec
+from os.path import exists
+from pathlib import Path
 import yaml
 
 from geoips.commandline.geoips_command import GeoipsExecutableCommand
@@ -35,10 +34,14 @@ class GeoipsValidate(GeoipsExecutableCommand):
         acts similar to <geoips_interface>.plugin_is_valid(), but uses the file_path and
         associated interface from the plugin to validate at runtime.
         """
-        fpath = args.file_path
-        interface, plugin, plugin_name = self._get_interface_and_plugin(fpath)
+        fpath = Path(args.file_path)
+        if not exists(fpath):
+            self.subcommand_parser.error(
+                f"Provided filepath '{fpath}' doesn't exist. Provide a valid path.",
+            )
+        interface, plugin, plugin_name = self.get_interface_and_plugin(fpath)
         if interface.name == "products":
-            is_valid = self._validate_sub_products(interface, fpath, plugin)
+            is_valid = self.validate_sub_products(interface, fpath, plugin)
         else:
             is_valid = interface.plugin_is_valid(plugin_name)
         if not is_valid:
@@ -50,7 +53,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
             # otherwise let them know they're good to go
             print(f"Plugin '{plugin_name}' found at {fpath} is valid.")
 
-    def _get_interface_and_plugin(self, fpath):
+    def get_interface_and_plugin(self, fpath):
         """Retrieve the interface and plugin associated with the file path given.
 
         Parameters
@@ -67,11 +70,11 @@ class GeoipsValidate(GeoipsExecutableCommand):
         plugin_name: str
             - The name of the plugin
         """
-        if ".py" == fpath[-3:]:
+        if fpath.suffix == ".py" :
             # module-based plugin
             interface_type = "module_based"
             plugin = self._load_module_from_file(fpath)
-        elif ".yaml" == fpath[-5:]:
+        elif fpath.suffix == ".yaml":
             # yaml-based plugin
             interface_type = "yaml_based"
             plugin = yaml.safe_load(open(fpath, "r"))
@@ -101,14 +104,17 @@ class GeoipsValidate(GeoipsExecutableCommand):
         """Load in a given python module provied a file_path and an optional name."""
         if module_name is None:
             # Generate a unique module name if not provided
-            module_name = "module_from_" + file_path.replace("/", "_").replace(".", "_")
+            module_name = "module_from_"
+            module_name += str(
+                file_path
+            ).replace("/", "_").replace(".", "_").replace("\\", "_")
 
         spec = spec_from_file_location(module_name, file_path)
         module = module_from_spec(spec)
         spec.loader.exec_module(module)
         return module
 
-    def _validate_sub_products(self, interface, fpath, plugin):
+    def validate_sub_products(self, interface, fpath, plugin):
         """Validate each sub-product plugin found within a products yaml definition.
 
         If the corresponding interface was found to be a "products" interface, validate
@@ -134,7 +140,9 @@ class GeoipsValidate(GeoipsExecutableCommand):
         except KeyError:
             err_str = f"Plugin '{plugin['name']} found at {fpath} is invalid. "
             err_str += "Missing either 'spec' or 'spec['products']' key."
-            self.subcommand_parser.error(err_str)
+            print(err_str)
+            return False
+
         for subplg in product_list:
             if not interface.plugin_is_valid(subplg["source_names"][0], subplg["name"]):
                 return False

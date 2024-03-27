@@ -22,7 +22,12 @@ class TestGeoipsTestScript(BaseCliTest):
             self._cmd_list = []
             base_args = self._test_script_args
             for arg_list in TestGeoipsRun().all_possible_subcommand_combinations:
+                # Replacing 'run' with 'test', as they currently are the same command
+                # We'll need to strip TestGeoipsRun._cmd_list and place that here
+                # once we've changed 'run' to implement 'run_procflow'
                 arg_list[1] = "test"
+                # Inserting 'script' as this command is called via 'geoips test script',
+                # instead of what's currently called via 'geoips run <script_name>'
                 arg_list.insert(2, "script")
                 self._cmd_list.append(arg_list)
             # Add arg lists to run base integration tests

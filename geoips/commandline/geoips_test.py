@@ -7,6 +7,7 @@ from glob import glob
 from importlib import resources
 from os import listdir
 from os.path import basename
+from pytest import main as invoke_pytest
 from subprocess import call
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
@@ -22,12 +23,13 @@ class GeoipsTestUnitTest(GeoipsExecutableCommand):
         """Instantiate the arguments that are supported for the test unit-test command.
 
         Currently the "geoips test unit-test" command supports this format:
-            - geoips test unit-test <package_name> <script_name> -i
+            - geoips test unit-test dir_name <-p> <package_name> <-n> <test_name>
         Where:
+            - dir_name is the name of the folder containing the unit-test[s] you want to
+              run
             - <package_name> is any GeoIPS package that is installed and recognized by
               the GeoIPS Library
-            - <script_name> is the name of the bash script being tested
-            - '-i' represents whether or not this script is an 'integration' test
+            - <test_name> is the name of the unit test being ran
         """
         self.subcommand_parser.add_argument(
             "directory_name",
@@ -43,7 +45,7 @@ class GeoipsTestUnitTest(GeoipsExecutableCommand):
             help="GeoIPS Package containing the unit-tests to be ran.",
         )
         self.subcommand_parser.add_argument(
-            "--name_of_script",
+            "--name_of_test",
             "-n",
             type=str,
             default=None,
@@ -54,8 +56,9 @@ class GeoipsTestUnitTest(GeoipsExecutableCommand):
         """Run the provided unit tests based on the arguments provided."""
         dir_name = args.directory_name
         package_name = args.package_name
-        script_name = args.name_of_script
+        test_name = args.name_of_test
         unit_test_dir = str(resources.files(package_name) / "../tests/unit_tests")
+
         try:
             # Try listing the expected unit test directory. If it fails, raise an
             # argparse error which states such package doesn't have a unit tests
@@ -64,6 +67,7 @@ class GeoipsTestUnitTest(GeoipsExecutableCommand):
         except FileNotFoundError:
             err_str = f"No unit tests directory found for package '{package_name}'."
             self.subcommand_parser.error(err_str)
+
         if dir_name not in listdir(unit_test_dir):
             # The specified unit test directory does not exist at the specified location
             # raise an error specifying that
@@ -71,24 +75,25 @@ class GeoipsTestUnitTest(GeoipsExecutableCommand):
             err_str += f"tests directory '{unit_test_dir}'. Please select one of the "
             err_str += f"following unit test directories:\n {listdir(unit_test_dir)}"
             self.subcommand_parser.error(err_str)
-        elif script_name is not None:
+        elif test_name is not None:
             # We've specified a specific Unit Test to run out of
             # <package_name>/tests/unit_tests/<dir_name>/<script_name>, ensure that
             # file actually exists
             fnames = [
                 basename(fpath) for fpath in glob(f"{unit_test_dir}/{dir_name}/*.py")
             ]
-            if script_name not in fnames:
-                err_str = f"Unit Test '{script_name}' not found under the directory "
+            if test_name not in fnames:
+                err_str = f"Unit Test '{test_name}' not found under the directory "
                 err_str += f"'{unit_test_dir}', please select one of the options shown "
                 err_str += f"below.\ns {fnames}"
                 self.subcommand_parser.error(err_str)
         else:
             # script name wasn't specified, run all unit tests found under
             # <package_name>/tests/unit_tests/<dir_name>
-            script_name = "."
-        test_path = str(f"{unit_test_dir}/{dir_name}/{script_name}")
-        call(["pytest", "-v", test_path], shell=False)
+            test_name = "."
+
+        test_path = str(f"{unit_test_dir}/{dir_name}/{test_name}")
+        invoke_pytest(["-v", test_path])
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):
@@ -101,12 +106,12 @@ class GeoipsTestScript(GeoipsExecutableCommand):
         """Instantiate the arguments that are supported for the test script command.
 
         Currently the "geoips test script" command supports this format:
-            - geoips test script -p <package_name> <script_name> -i
+            - geoips test script <-p> <package_name> <script_name> <--integration>
         Where:
             - <package_name> is any GeoIPS package that is installed and recognized by
               the GeoIPS Library
             - <script_name> is the name of the bash script being tested
-            - '-i' represents whether or not this script is an 'integration' test
+            - '--integration' represents whether or not this is an 'integration' test
         """
         self.subcommand_parser.add_argument(
             "script_name",
@@ -123,7 +128,6 @@ class GeoipsTestScript(GeoipsExecutableCommand):
         )
         self.subcommand_parser.add_argument(
             "--integration",
-            "-i",
             default=False,
             action="store_true",
             help="Whether or not the script is an integration test.",
@@ -145,6 +149,7 @@ class GeoipsTestScript(GeoipsExecutableCommand):
         package_name = args.package_name
         script_name = args.script_name
         is_integration_test = args.integration
+
         if is_integration_test:
             if package_name != "geoips":
                 # Raise an argparse error which states only geoips supports integration
@@ -155,8 +160,10 @@ class GeoipsTestScript(GeoipsExecutableCommand):
             dir_name = "integration_tests"
         else:
             dir_name = "scripts"
+
         test_dir = str(resources.files(package_name) / f"../tests/{dir_name}")
         fnames = [basename(fpath) for fpath in glob(f"{test_dir}/*.sh")]
+
         if script_name not in fnames:
             # Raise an argparse error which states that file doesn't exist within the
             # specified directory
@@ -165,6 +172,7 @@ class GeoipsTestScript(GeoipsExecutableCommand):
             err_str += "Please select a valid script from this directory listing:\n"
             err_str += str_fnames
             self.subcommand_parser.error(err_str)
+
         script_path = f"{test_dir}/{script_name}"
         # Run the corresponding test
         call(["bash", script_path], shell=False)
