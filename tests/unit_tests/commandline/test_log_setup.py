@@ -32,12 +32,12 @@ def generate_random_messages():
 def test_log_with_emphasis(message, caplog):
     """Pytest function for testing the output of 'log_with_emphasis'."""
     caplog.set_level(logging.INFO)
-    max_message_len = min(80, len(message))
-    assert max_message_len <= 80, "Max emphasis in '*' is longer than 80 chars."
-    log_with_emphasis(LOG.info, [message])
-    assert "    " + "*" * max_message_len in caplog.text
-    assert "    " + message in caplog.text
-    assert "    " + "*" * max_message_len in caplog.text
+    max_message_len = min(80, len(message)) + 6
+    assert max_message_len <= 86, "Max emphasis in '*' is longer than 80 chars."
+    log_with_emphasis(LOG.info, message)
+    assert "*" * max_message_len in caplog.text
+    assert "** " + message in caplog.text
+    assert "*" * max_message_len in caplog.text
     assert "\n" in caplog.text
 
 
