@@ -16,21 +16,23 @@ import logging
 import sys
 
 
-def log_with_emphasis(LOG, messages):
+def log_with_emphasis(LOG, *messages):
     """Log the given message with emphasis provided a certain log type.
 
     Parameters
     ----------
     LOG: logging function
         Can be of any type [debug, info, interactive...]
-    message: str
-        The message to be logged with emphasis
+    messages: 1 or more Strings
+        The messages to be logged with emphasis
     """
-    max_message_len = min(80, max([len(message) for message in messages]))
-    LOG("    " + "*" * (max_message_len))
+    max_message_len = min(80, max([len(message) for message in messages])) + 6
+    LOG("*" * (max_message_len))
     for message in messages:
-        LOG("    " + message)
-    LOG("    " + "*" * (max_message_len))
+        if len(message) < max_message_len - 6:
+            message = message + " " * (max_message_len - 6 - len(message))
+        LOG(f"** {message} **")
+    LOG("*" * (max_message_len))
     LOG("\n")
 
 

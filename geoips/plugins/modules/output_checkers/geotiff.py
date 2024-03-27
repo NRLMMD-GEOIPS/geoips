@@ -135,15 +135,13 @@ def outputs_match(plugin, output_product, compare_product):
     if retval != 0:
         log_with_emphasis(
             LOG.interactive,
-            [
-                "BAD geotiffs do NOT match exactly",
-                f"output_product: {output_product}",
-                f"compare_product: {compare_product}",
-            ],
+            "BAD geotiffs do NOT match exactly",
+            f"output_product: {output_product}",
+            f"compare_product: {compare_product}",
         )
         return False
 
-    log_with_emphasis(LOG.info, ["GOOD geotiffs match"])
+    log_with_emphasis(LOG.info, "GOOD geotiffs match")
     return True
 
 
