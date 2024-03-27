@@ -76,7 +76,9 @@ class TestGeoipsListUnitTests(BaseCliTest):
             unit_test_dir = str(files(pkg_name) / "../tests/unit_tests")
             # Assert that we found every unit test
             for subdir_name in listdir(unit_test_dir):
-                for unit_test in sorted(glob(f"{unit_test_dir}/{subdir_name}/*.py")):
+                for unit_test in sorted(
+                    glob(f"{unit_test_dir}/{subdir_name}/test*.py")
+                ):
                     assert basename(unit_test) in output
 
 
