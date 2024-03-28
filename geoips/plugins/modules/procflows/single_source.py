@@ -27,6 +27,7 @@ from geoips.utils.memusg import print_mem_usage
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.sector_utils.utils import filter_area_defs_actual_time, is_dynamic_sector
 from geoips.geoips_utils import replace_geoips_paths
+from geoips.commandline.log_setup import log_with_emphasis
 
 # Old interfaces (YAML, not updated to classes yet!)
 from geoips.dev.product import (
@@ -361,12 +362,10 @@ def process_xarray_dict_to_output_format(
 
 def print_area_def(area_def, print_str):
     """Print area def."""
-    emphasis_str = "*" * 84
-    LOG.info(f"\n\n{emphasis_str}" f"\n***{print_str}\n{area_def}")
+    message = [f"{print_str}\n{area_def}"]
     for key, value in area_def.sector_info.items():
-        LOG.info(f"{key}: {value}")
-    LOG.info(emphasis_str)
-
+        message.append(f"{key}: {value}")
+    log_with_emphasis(LOG.info, message)
 
 def pad_area_definition(
     area_def, source_name=None, force_pad=False, x_scale_factor=1.5, y_scale_factor=1.5

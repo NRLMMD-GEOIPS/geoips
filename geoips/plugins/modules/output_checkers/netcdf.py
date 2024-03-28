@@ -14,6 +14,8 @@
 
 import logging
 
+from geoips.commandline.log_setup import log_with_emphasis
+
 LOG = logging.getLogger(__name__)
 
 interface = "output_checkers"
@@ -191,8 +193,7 @@ def outputs_match(plugin, output_product, compare_product):
             f"output_product: {output_product}",
             f"compare_product: {compare_product}",
         )
-        for line in str(resp).split("\n"):
-            LOG.interactive(f"    *** {line} ***")
+        log_with_emphasis(LOG.interactive, [line in str(resp).split("\n")])
         diffout += [
             "\nxarray objects do not match between current output and comparison\n"
         ]
@@ -204,15 +205,14 @@ def outputs_match(plugin, output_product, compare_product):
             mindiff = (compare_xobj[varname] - out_xobj[varname]).min()
             meandiff = (compare_xobj[varname] - out_xobj[varname]).mean()
             if mindiff != 0:
-                LOG.interactive(f"    *** mindiff {varname}: {mindiff} ***")
+                log_with_emphasis(LOG.interactive, "mindiff {varname}: {mindiff}")
                 diffout += [f"mindiff {varname}: {mindiff}\n"]
             if maxdiff != 0:
-                LOG.interactive(f"    *** maxdiff {varname}: {maxdiff} ***")
+                log_with_emphasis(LOG.interactive, "mindiff {varname}: {maxdiff}")
                 diffout += [f"maxdiff {varname}: {maxdiff}\n"]
             if meandiff != 0:
-                LOG.interactive(f"    *** meandiff {varname}: {meandiff} ***")
+                log_with_emphasis(LOG.interactive, "mindiff {varname}: {meandiff}")
                 diffout += [f"meandiff {varname}: {meandiff}\n"]
-        LOG.info("    " + "*" * 64)
         retval = False
 
     try:
@@ -220,18 +220,17 @@ def outputs_match(plugin, output_product, compare_product):
     except AssertionError as resp:
         log_with_emphasis(LOG.info, "INFORMATIONAL ONLY assert_identical differences")
         for line in str(resp).split("\n"):
-            LOG.info(f"    *** {line} ***")
+            log_with_emphasis(LOG.info, line)
         for varname in compare_xobj.variables:
             maxdiff = (compare_xobj[varname] - out_xobj[varname]).max()
             mindiff = (compare_xobj[varname] - out_xobj[varname]).min()
             meandiff = (compare_xobj[varname] - out_xobj[varname]).mean()
             if mindiff != 0:
-                LOG.info(f"    *** mindiff {varname}: {mindiff} ***")
+                log_with_emphasis(LOG.info, "mindiff {varname}: {mindiff}")
             if maxdiff != 0:
-                LOG.info(f"    *** maxdiff {varname}: {maxdiff} ***")
+                log_with_emphasis(LOG.info, "mindiff {varname}: {maxdiff}")
             if meandiff != 0:
-                LOG.info(f"    *** meandiff {varname}: {meandiff} ***")
-        LOG.info("    " + "*" * 64)
+                log_with_emphasis(LOG.info, "mindiff {varname}: {meandiff}")
 
     if retval is False:
         with open(out_difftxt, "w") as fobj:
