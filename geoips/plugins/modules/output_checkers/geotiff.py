@@ -16,6 +16,8 @@ import subprocess
 import logging
 from os.path import splitext
 
+from geoips.commandline.log_setup import log_with_emphasis
+
 LOG = logging.getLogger(__name__)
 
 interface = "output_checkers"
