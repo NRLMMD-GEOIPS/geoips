@@ -14,6 +14,7 @@
 
 import logging
 import sys
+from textwrap import wrap
 
 
 def log_with_emphasis(LOG, *messages):
@@ -23,16 +24,23 @@ def log_with_emphasis(LOG, *messages):
     ----------
     LOG: logging function
         Can be of any type [debug, info, interactive...]
+        Or just the print function itself
     messages: 1 or more Strings
         The messages to be logged with emphasis
     """
-    max_message_len = min(80, max([len(message) for message in messages])) + 6
-    LOG("*" * (max_message_len))
+    wrapped_messages = []
     for message in messages:
-        if len(message) < max_message_len - 6:
-            message = message + " " * (max_message_len - 6 - len(message))
-        LOG(f"** {message} **")
-    LOG("*" * (max_message_len))
+        # wrap the message to a specified length
+        wrapped_messages += wrap(message, width=74)
+    max_message_len = min(74, max([len(wmessage) for wmessage in wrapped_messages]))
+    # adding +6 to max_message_len as we add '** ' and ' **' pre/post-fixes (6 chars)
+    LOG("*" * (max_message_len + 6))
+    for wrapped_message in wrapped_messages:
+        # for each of the wrapped messages, if the length of such message is less
+        # than max message length, add some whitespace to make some things match,
+        # this is what the 'ljust(len)' function does
+        LOG(f"** {wrapped_message.ljust(max_message_len)} **")
+    LOG("*" * (max_message_len + 6))
     LOG("\n")
 
 

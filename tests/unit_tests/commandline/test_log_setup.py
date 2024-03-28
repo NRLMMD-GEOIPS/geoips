@@ -10,6 +10,7 @@ import pytest
 import os
 import random
 import string
+from textwrap import wrap
 from geoips import logging
 from glob import glob
 from geoips.commandline.log_setup import log_with_emphasis
@@ -32,12 +33,13 @@ def generate_random_messages():
 def test_log_with_emphasis(message, caplog):
     """Pytest function for testing the output of 'log_with_emphasis'."""
     caplog.set_level(logging.INFO)
-    max_message_len = min(80, len(message)) + 6
-    assert max_message_len <= 86, "Max emphasis in '*' is longer than 80 chars."
+    max_message_len = min(74, len(message))
+    assert max_message_len <= 80, "Max emphasis in '*' is longer than 80 chars."
     log_with_emphasis(LOG.info, message)
-    assert "*" * max_message_len in caplog.text
-    assert "** " + message in caplog.text
-    assert "*" * max_message_len in caplog.text
+    assert "*" * (max_message_len + 6) in caplog.text
+    for wmessage in wrap(message, width=74):
+        assert "** " + wmessage in caplog.text
+    assert "*" * (max_message_len + 6) in caplog.text
     assert "\n" in caplog.text
 
 
