@@ -139,12 +139,6 @@ def outputs_match(plugin, output_product, compare_product):
             f"output_product: {output_product}",
             f"compare_product: {compare_product}",
         )
-        LOG.interactive("    ****************************************************")
-        LOG.interactive(
-            "    *** BAD GeoIPS NetCDF file attributes do NOT match exactly ***"
-        )
-        LOG.interactive("    ***   output_product: %s ***", output_product)
-        LOG.interactive("    ***   compare_product: %s ***", compare_product)
         for attr in out_xobj.attrs.keys():
             if attr not in compare_xobj.attrs:
                 diffstr = (
@@ -179,7 +173,6 @@ def outputs_match(plugin, output_product, compare_product):
                 )
                 diffout += [diffstr]
                 LOG.interactive(diffstr)
-        LOG.interactive("    ****************************************************")
         diffout += ["\n"]
         retval = False
 
@@ -198,12 +191,6 @@ def outputs_match(plugin, output_product, compare_product):
             f"output_product: {output_product}",
             f"compare_product: {compare_product}",
         )
-        LOG.interactive("    ****************************************************")
-        LOG.interactive(
-            "    *** BAD GeoIPS NetCDF files do not match within tolerance *****"
-        )
-        LOG.interactive("    ***   output_product: %s ***", output_product)
-        LOG.interactive("    ***   compare_product: %s ***", compare_product)
         for line in str(resp).split("\n"):
             LOG.interactive(f"    *** {line} ***")
         diffout += [
