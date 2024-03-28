@@ -531,7 +531,7 @@ class GeoipsListScripts(GeoipsExecutableCommand):
                     )
                 ]
             )
-            headers = (["GeoIPS Package", "Filename"],)
+            headers = ["GeoIPS Package", "Filename"]
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
             print(f"{plugin_package_name.title()} Available Scripts")
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))

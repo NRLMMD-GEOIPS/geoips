@@ -258,6 +258,6 @@ instructions:
       GeoIPS, this is an easy way to test whether or not the plugin you are developing
       is valid.
     usage_str: |
-      To use, type `geoips validate <file_path>`.
+      To use, type `geoips validate <file_path>`. Do it man. NOW.
     output_info:
       - A message telling you if the plugin is valid or not and why.

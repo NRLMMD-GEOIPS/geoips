@@ -184,7 +184,7 @@
         },
         "validate": {
             "help_str": "Validate a GeoIPS Plugin found at <file_path>. While this is done under the hood via\nGeoIPS, this is an easy way to test whether or not the plugin you are developing\nis valid.\n",
-            "usage_str": "To use, type `geoips validate <file_path>`.\n",
+            "usage_str": "To use, type `geoips validate <file_path>`. Do it man. NOW.\n",
             "output_info": [
                 "A message telling you if the plugin is valid or not and why."
             ]
