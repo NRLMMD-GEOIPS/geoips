@@ -1,6 +1,11 @@
 $id: products.xarray_dict_to_output_format
 $ref: bases.top
 type: object
+description: |
+  The default products xarray_dict_to_output_format configuration. Requires spec, which defines the structure
+  of the xarray_dict_to_output_format. Has additional properties family and source_name, which define the 
+  family in which the xarray_dict_to_output_format resides, and the source_name of where the 
+  xarray_dict_to_output_format is derived from.
 required:
   - spec
 properties:

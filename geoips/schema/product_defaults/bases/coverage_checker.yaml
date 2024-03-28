@@ -1,5 +1,10 @@
 $id: product_defaults.bases.coverage_checker
 title: "Coverage Checker"
+description: |
+  The default product_defaults coverage_checker configuration. A coverage_checker 
+  is a plugin which specifies the name of the coverage_checker and the arguments 
+  that the coverage checker needs. This can be a radius, bounds, or different argument,
+  depending on the coverage_checker defined.
 unevaluatedProperties: false
 required:
   - plugin

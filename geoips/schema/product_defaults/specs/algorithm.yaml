@@ -1,5 +1,9 @@
 $id: product_defaults.specs.algorithm
 type: object
+description: |
+  The default product_defaults algorithm configuration. Requires algorithm plugin. It's properties are sub-plugins 
+  which define the algorithm to be applied to the data. For more information, view each sub-plugin's description. 
+  Defined in geoips/schema/product_defaults/bases.
 required:
   - algorithm
 properties:

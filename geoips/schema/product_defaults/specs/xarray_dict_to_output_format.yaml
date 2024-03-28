@@ -1,3 +1,5 @@
 $id: product_defaults.specs.xarray_dict_to_output_format
 type: object
+description: |
+  The default product_defaults xarray_dict_to_output_format configuration.
 unevaluatedProperties: true

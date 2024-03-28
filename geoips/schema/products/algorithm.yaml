@@ -1,6 +1,11 @@
 $id: products.algorithm
 $ref: bases.top
 type: object
+description: |
+  The default products algorithm configuration. Requires spec, which defines the structure
+  of the algorithm. Has additional properties family and source_name, which define the 
+  family in which the algorithm resides, and the source_name of where the algorithm
+  is derived from.
 required:
   - spec
 properties:
