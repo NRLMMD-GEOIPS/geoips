@@ -17,7 +17,7 @@
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP02DNB.A2022042.1312.001.2022042183606.nc \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP02DNB.A2022042.1312.001.2022042183606.nc \
              $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP02IMG.A2022042.1312.001.2022042183606.nc \
              $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP02MOD.A2022042.1312.001.2022042183606.nc \
              $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP03DNB.A2022042.1312.001.2022042182240.nc \

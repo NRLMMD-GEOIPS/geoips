@@ -16,7 +16,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_tpw/data/coarse/comp20210723.000000.nc \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_tpw/data/coarse/comp20210723.000000.nc \
           --procflow single_source \
           --reader_name mimic_netcdf \
           --product_name TPW-CIMSS \

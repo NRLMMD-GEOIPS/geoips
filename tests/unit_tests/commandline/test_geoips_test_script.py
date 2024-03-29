@@ -3,6 +3,11 @@
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
 
+from glob import glob
+from importlib import resources
+from numpy.random import rand
+from os import listdir
+from os.path import basename
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
@@ -21,21 +26,54 @@ class TestGeoipsTestScript(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = self._test_script_args
-            for arg_list in TestGeoipsRun().all_possible_subcommand_combinations:
-                # Replacing 'run' with 'test', as they currently are the same command
-                # We'll need to strip TestGeoipsRun._cmd_list and place that here
-                # once we've changed 'run' to implement 'run_procflow'
-                arg_list[1] = "test"
-                # Inserting 'script' as this command is called via 'geoips test script',
-                # instead of what's currently called via 'geoips run <script_name>'
-                arg_list.insert(2, "script")
-                self._cmd_list.append(arg_list)
+            test_data_dir = str(resources.files("geoips") / "../../test_data")
+            # select a small random amount of tests to call via geoips run
+            for pkg_name in self.plugin_packages:
+                script_paths = sorted(
+                    [
+                        script_path
+                        for script_path in glob(
+                            str(resources.files(pkg_name) / "../tests/scripts/*.sh")
+                        )
+                    ]
+                )
+                for script_path in script_paths:
+                    do_geoips_run = rand() < 0.15
+                    test_data_found = False
+                    if do_geoips_run:
+                        # This script has been randomly selected. Check it's contents
+                        # to make sure that the test data for the script actually exists
+                        with open(script_path, "r") as f:
+                            for line in f.readlines():
+                                if "run_procflow" in line:
+                                    for dir_name in listdir(test_data_dir):
+                                        if dir_name in line:
+                                            test_data_found = True
+                                            break
+                                    break
+                    if do_geoips_run and test_data_found and len(self._cmd_list) < 4:
+                        self._cmd_list.append(
+                            base_args + ["-p", pkg_name, basename(script_path)]
+                        )
+            # Add argument list to retrieve help message
+            self._cmd_list.append(base_args + ["-h"])
+            # Add argument list with non existent package
+            self._cmd_list.append(
+                base_args
+                + [
+                    "-p",
+                    "non_existent_package",
+                    "abi.static.Infrared.imagery_annotated.sh",
+                ]
+            )
+            # Add argument list with non existent script name in default geoips pkg
+            self._cmd_list.append(base_args + ["non_existent_script_name"])
             # Add arg lists to run base integration tests
-            self._cmd_list.append(base_args + ["-i", "base_install.sh"])
-            self._cmd_list.append(base_args + ["-i", "base_test.sh"])
+            self._cmd_list.append(base_args + ["--integration", "base_install.sh"])
+            self._cmd_list.append(base_args + ["--integration", "base_test.sh"])
             # Add arg list to run integration tests from another package (will fail)
             self._cmd_list.append(
-                base_args + ["-p", "data_fusion", "-i", "base_test.sh"]
+                base_args + ["-p", "data_fusion", "--integration", "base_test.sh"]
             )
         return self._cmd_list
 

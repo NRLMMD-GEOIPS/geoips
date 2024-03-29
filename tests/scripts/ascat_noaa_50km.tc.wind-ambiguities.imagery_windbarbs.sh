@@ -17,7 +17,7 @@
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230524_metopc_noaa_class_tc2023wp02mawar/L2OVW50kmASCAT_v1r1_m03_*.nc \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230524_metopc_noaa_class_tc2023wp02mawar/L2OVW50kmASCAT_v1r1_m03_*.nc \
           --procflow single_source \
           --reader_name scat_noaa_winds_netcdf \
           --product_name wind-ambiguities \

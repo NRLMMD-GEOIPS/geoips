@@ -12,7 +12,7 @@
 
 #!/bin/bash
 
-run_procflow --procflow config_based \
+geoips run --procflow config_based \
              --output_config $GEOIPS_PACKAGES_DIR/geoips/tests/yaml_configs/abi_test_low_memory.yaml
 config_retval=$?
 

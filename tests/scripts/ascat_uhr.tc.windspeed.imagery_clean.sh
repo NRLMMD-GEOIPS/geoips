@@ -17,7 +17,7 @@
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230912_metopc_byu_uhr_tc2023al13lee/LEE_20230912_25146_C_A-cmod5h-scaled_v2.nc \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230912_metopc_byu_uhr_tc2023al13lee/LEE_20230912_25146_C_A-cmod5h-scaled_v2.nc \
           --procflow single_source \
           --reader_name ascat_uhr_netcdf \
           --product_name windspeed \

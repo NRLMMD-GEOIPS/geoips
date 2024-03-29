@@ -17,7 +17,7 @@
 ### This script:
 ###     * runs the commands,
 ###     * copies the resulting imagery into the available_functionality image directory
-###     * Checks that the return from both the run_procflow and cp commands were 0
+###     * Checks that the return from both the geoips run and cp commands were 0
 ###         * exit entire script with return code 1 upon any non-zero return code
 #######################################################################################################################
 
@@ -87,7 +87,7 @@ check_returns $retval $output_image
 # 1.3.1 HY-2 Reader, hy2b
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_080644_hy_2b__15571_o_250_2204_ovw_l2.nc \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_080644_hy_2b__15571_o_250_2204_ovw_l2.nc \
              --procflow single_source \
              --reader_name scat_knmi_winds_netcdf \
              --product_name windspeed \
@@ -113,7 +113,7 @@ check_returns $retval $output_image
 # ABI Reader - GOES-17
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/goes17_20210718_0150/OR_ABI-L1b-RadF-M6C14_G17_s20211990150319_e20211990159386_c20211990159442.nc \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/goes17_20210718_0150/OR_ABI-L1b-RadF-M6C14_G17_s20211990150319_e20211990159386_c20211990159442.nc \
              --procflow single_source \
              --reader_name abi_netcdf \
              --product_name Infrared-Gray \
@@ -135,7 +135,7 @@ check_returns $retval $output_image
 # ABI Reader - GOES-16
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc \
              --procflow single_source \
              --reader_name abi_netcdf \
              --product_name Infrared-Gray \
@@ -157,7 +157,7 @@ check_returns $retval $output_image
 # AHI Reader
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0110.DAT \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0110.DAT \
              $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0210.DAT \
              $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0310.DAT \
              $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0410.DAT \
@@ -188,7 +188,7 @@ check_returns $retval $output_image
 # EWS-G Reader
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312.goes-13.gvar.nc \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312.goes-13.gvar.nc \
              --procflow single_source \
              --reader_name ewsg_netcdf \
              --product_name Infrared-Gray \
@@ -210,7 +210,7 @@ check_returns $retval $output_image
 # SEVIRI HRIT Reader - MSG-1
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-_________-EPI______-202004040800-__ \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-_________-EPI______-202004040800-__ \
              $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-_________-PRO______-202004040800-__ \
              $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-IR_108___-000001___-202004040800-C_ \
              $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-IR_108___-000002___-202004040800-C_ \
@@ -241,7 +241,7 @@ check_returns $retval $output_image
 # SEVIRI HRIT Reader - MSG-4
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-_________-EPI______-202202092200-__ \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-_________-EPI______-202202092200-__ \
              $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-IR_108___-000001___-202202092200-C_ \
              $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-IR_108___-000002___-202202092200-C_ \
              $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-IR_108___-000003___-202202092200-C_ \
@@ -276,7 +276,7 @@ check_returns $retval $output_image
 # MODIS Reader - Aqua
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD021KM.A2021004.2005.061.NRT.hdf \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD021KM.A2021004.2005.061.NRT.hdf \
              $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD03.A2021004.2005.061.NRT.hdf \
              $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/201000/MYD021KM.A2021004.2010.061.NRT.hdf \
              $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/201000/MYD03.A2021004.2010.061.NRT.hdf \
@@ -303,7 +303,7 @@ check_returns $retval $output_image
 # MODIS Reader - Terra
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_modis/data/terra/170500/MOD021KM.A2021004.1705.061.NRT.hdf \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_modis/data/terra/170500/MOD021KM.A2021004.1705.061.NRT.hdf \
              $GEOIPS_TESTDATA_DIR/test_data_modis/data/terra/170500/MOD03.A2021004.1705.061.NRT.hdf \
              $GEOIPS_TESTDATA_DIR/test_data_modis/data/terra/170500/MOD14.A2021004.1705.006.NRT.hdf \
              --procflow single_source \
@@ -327,7 +327,7 @@ check_returns $retval $output_image
 # VIIRS Reader - JPSS
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ102IMG.A2021040.0736.002.2021040145245.nc \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ102IMG.A2021040.0736.002.2021040145245.nc \
              $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ103IMG.A2021040.0736.002.2021040142228.nc \
              $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ102IMG.A2021040.0742.002.2021040143010.nc \
              $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ103IMG.A2021040.0742.002.2021040140938.nc \
@@ -352,7 +352,7 @@ check_returns $retval $output_image
 # VIIRS Reader - NPP
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP02DNB.A2021036.0806.001.2021036140558.nc \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP02DNB.A2021036.0806.001.2021036140558.nc \
              $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP02IMG.A2021036.0806.001.2021036140558.nc \
              $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP02MOD.A2021036.0806.001.2021036140558.nc \
              $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP03DNB.A2021036.0806.001.2021036135524.nc \
@@ -395,7 +395,7 @@ check_returns $retval $output_image
 # GMI Reader
 ####################################################################
 
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S171519-E172017.V05A.RT-H5 \
+geoips run $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S171519-E172017.V05A.RT-H5 \
              $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S172019-E172517.V05A.RT-H5 \
              $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S172519-E173017.V05A.RT-H5 \
              --procflow single_source \
