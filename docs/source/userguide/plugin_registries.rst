@@ -81,8 +81,10 @@ characteristics and location, as illustrated in the following example:
     abspath: /local/home/user/geoips/geoips_packages/geoips/geoips/plugins/yaml/sectors/static/denver.yaml
     package: geoips
 
-Using this information, we would create an entry in the registry that looks like this.
-In the case shown below, this is a yaml-based plugin registry for the GeoIPS package.
+Using this information, we've created the sector-plugin 'denver' as shown above.
+When 'create_plugin_registries' is ran, an entry representing sector-plugin 'denver' 
+will be generated in the registry, following the structured path that is reflected 
+by the plugin's interface type, interface name, and own name. Such an entry can be seen below.
 
 ..
     the relevance of this example it obvious to the developer, but needs to be
