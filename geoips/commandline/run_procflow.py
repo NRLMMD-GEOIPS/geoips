@@ -43,7 +43,8 @@ def main(get_command_line_args_func=None, ARGS=None):
     # arglist=None allows all possible arguments.
     if ARGS is None:
         ARGS = get_command_line_args_func(
-            arglist=None, description="Run data file processing",
+            arglist=None,
+            description="Run data file processing",
         )
 
     COMMAND_LINE_ARGS = ARGS.__dict__
