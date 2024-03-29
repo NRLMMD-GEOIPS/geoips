@@ -16,18 +16,18 @@ Version 1.12.2a0 (2024-02-21)
 * Enhancements
 
   * Added log with emphasis function
-
 * Bug fixes
 
   * Ensure that log.interactive works from plugins when imported independently.
   * Make add_log_level a callable class to fix AttributeErrors.
   * Remove inconsistent unit test test_log_interactive_non_geoips
-
+  * Modify algorithm_interpolator_colormapper to only provide input xarray
+  * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
 * Refactor
 
   * Make JSON Plugin Registries Readable
-
-
+  * Modify create_plugin_registries to use argparse instead of sys.argv
+  
 Enhancements
 ============
 
@@ -52,9 +52,24 @@ is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you
     removed: geoips/tests/unit_tests/commandline/log_setup.py
     added: geoips/tests/unit_tests/commandline/test_log_setup.py
 
-
 Bug Fixes
 =========
+
+algorithm_interpolator_colormapper incorrectly interpolates data
+----------------------------------------------------------------
+
+This was found during the development for the GLM reader. Apparently, at line 1033 of
+single_source.py procflow, when trying to interpolate data under the
+algorithm_interpolator_colormapper family, we call 'interp_plugin' with the same
+input and output xarray. This makes no sense, and needs to be fixed. It wasn't changing
+the data in this format. To fix it, we leave input_xarray as 'alg_xarray', and set
+output_xarray to 'None'. This is handled properly in the interpolator, and will modify
+coordinate arrays to fit the shape of the interpolated data. I've checked config_based,
+and this doesn't occur for that procflow.
+
+::
+
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
 
 Make add_log_level a callable class, ensure log.interactive works consistently
 ------------------------------------------------------------------------------
@@ -90,9 +105,57 @@ without impacting existing functionality. It appears safe to allow this pollutio
 ::
 
     modified: tests/unit_tests/commandline/log_setup.py
+   
+Remove unnessesary checks for and mentions of imagemagick
+---------------------------------------------------------
+..
+  *From NRLMMD-GEOIPS/geoips#: YYYY-MM-DD, Removed unnecessary requirement for imagemagick*
+
+In v1.11.3a0 imagemagick functionality was replaced with other libraries. As such,
+imagemagick was no longder a dependancy. However, the installation docs, Dockerfile, 
+and setup scripts were not updated to reflect this change at the time. This fixes a 
+bug during installation where the user is forced to install imagemagick to pass tests
+despite it no longer being used. It also updates the documentation accordingly.
+
+::
+
+    modified: Dockerfile
+    modified: setup.sh
+    modified: setup/check_system_requirements.sh
+    modified: docs/source/starter/expert_installation.rst
+    modified: docs/source/starter/mac_installation.rst
+
+
+Add make to expert installation dependencies
+--------------------------------------------
+..
+  *From NRLMMD-GEOIPS/geoips#454: 2024-03-15, Add make to expert installation dependencies*
+
+
+`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`. 
+To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on 
+the expert installation instructions. It was added.
+
+::
+
+    modified: docs/source/starter/expert_installation.rst
 
 Refactor
 ========
+
+Modify create_plugin_registries to use argparse
+-----------------------------------------------
+
+*From issue GEOIPS#416: 2023-12-21, Replace create_plugin_registries 'sys.argv' calls with 'argparse' library'*
+
+Currently create_plugin_registries.py uses sys.argv calls to generate its arguments
+rather than argparse. This doesn't follow GeoIPS conventions nor that of the CLI that
+will soon be updated. We should replace these calls with argparse architecture, so that
+this code follows current conventions, as does other GeoIPS code.
+
+::
+
+    modified: geoips/geoips/create_plugin_registries.py
 
 Make JSON Plugin Registries Readable
 ------------------------------------
