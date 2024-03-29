@@ -55,7 +55,6 @@ test_data_urls=(
 
 # Requirements to run base geoips tests
 if [[ "$1" == "geoips_base" ]]; then
-    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh python
 fi
@@ -66,19 +65,6 @@ if [[ "$1" == "geoips_full" ]]; then
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gcc
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh g++
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
-fi
-
-# Required for image comparisons
-if [[ "$1" == "imagemagick" ]]; then
-    compare --version >> $install_log 2>&1
-    retval=$?
-    if [[ "$retval" != "0" ]]; then
-        echo "WARNING: 'compare --version' failed, please install imagemagick before proceeding"
-        exit 1
-    else
-        echo "SUCCESS: 'imagemagick' appears to be installed successfully"
-        echo "    "`which compare`
-    fi
 fi
 
 # Required for using the -C option since some people apparently have git older than
@@ -238,16 +224,9 @@ if [[ "$1" == "source_repo" ]]; then
     repo_dir=$GEOIPS_PACKAGES_DIR/$repo_name
     repo_url=$GEOIPS_REPO_URL/${repo_name}.git
     data_path="$repo_dir/tests/*"
-    gz_data_path="$repo_dir/tests/outputs/*/*.gz"
-    bz2_data_path="$repo_dir/tests/outputs/*/*/*.gz"
-    uncompress_script=$GEOIPS_PACKAGES_DIR/$repo_name/tests/uncompress_test_data.sh
 
     ls $data_path >> $install_log 2>&1
     retval=$?
-    ls $gz_data_path >> $install_log 2>&1
-    retval_gz=$?
-    ls $bz2_data_path >> $install_log 2>&1
-    retval_bz2=$?
     if [[ "$retval" != "0" ]]; then
         if [[ "$exit_on_missing" == "true" ]]; then
             echo "FAILED: Missing $repo_name_string"
@@ -261,43 +240,14 @@ if [[ "$1" == "source_repo" ]]; then
         echo "git clone $repo_url $repo_dir" >> $install_log 2>&1
         git clone $repo_url $repo_dir >> $install_log 2>&1
         clone_retval=$?
-        uncompress_retval=0
-        if [[ -f $uncompress_script ]]; then
-            echo "$uncompress_script" >> $install_log 2>&1
-            $uncompress_script >> $install_log 2>&1
-            uncompress_retval=$?
-        fi
         pip_retval=0
         echo "pip install -e $repo_dir" >> $install_log 2>&1
         pip install -e $repo_dir >> $install_log 2>&1
         pip_retval=$?
-        if [[ "$clone_retval" == "0" && "$uncompress_retval" == "0" && "$pip_retval" == "0" ]]; then
-            echo "SUCCESS: Cloned, installed, and uncompressed $repo_name_string"
+        if [[ "$clone_retval" == "0" && "$pip_retval" == "0" ]]; then
+            echo "SUCCESS: Cloned and installed $repo_name_string"
         else
-            echo "FAILED: $repo_name_string clone, install, or uncompress returned non-zero"
-            echo "        try deleting directory and re-running"
-            exit 1
-        fi
-    elif [[ "$retval_gz" == "0" || "$retval_bz2" == "0" ]]; then
-        if [[ "$exit_on_missing" == "true" ]]; then
-            echo "FAILED: Compressed data still in $repo_name_string"
-            echo "        Please run install script, then rerun test script. "
-            echo "        $install_script"
-            echo "        $test_script"
-            exit 1
-        fi
-        echo "Uncompressing data in ${repo_name_string}."
-        echo "  ls $repo_dir/data/*.gz/bz2/tgz"
-        uncompress_retval=0
-        if [[ -f $uncompress_script ]]; then
-            echo "$uncompress_script" >> $install_log 2>&1
-            $uncompress_script >> $install_log 2>&1
-            uncompress_retval=$?
-        fi
-        if [[ "$uncompress_retval" == "0" ]]; then
-            echo "SUCCESS: Uncompressed $repo_name_string"
-        else
-            echo "FAILED: $repo_name_string setup returned non-zero"
+            echo "FAILED: $repo_name_string clone or install returned non-zero"
             echo "        try deleting directory and re-running"
             exit 1
         fi

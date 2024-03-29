@@ -5,6 +5,7 @@ defaults:
     shell: bash
 
 env:
+
   COMMIT_INTO: remotes/origin/main
 
 on:

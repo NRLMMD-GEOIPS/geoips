@@ -61,7 +61,8 @@ import logging
 
 # library for hdf files
 from pyhdf.SD import SD, SDC
-from pyhdf import HDF, HC
+from pyhdf.VS import HC
+from pyhdf.HDF import HDF
 
 # from pyhdf.VS import *
 import matplotlib
@@ -117,8 +118,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     import numpy as np
     import pandas as pd
     import xarray as xr
-
-    # from IPython import embed as shell
 
     # fname='NPR.MHOP.NP.D20154.S1406.E1553.B5833031.NS'
     fname = fnames[0]

@@ -21,6 +21,10 @@ outputs:
     remove_duplicates: null
     product_names:
       - Infrared
+    product_spec_override:
+      all:
+        exclude_platforms:
+          - goes-17
     minimum_coverage: 25
     compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_annotated
   tc:
@@ -34,6 +38,13 @@ outputs:
     product_names:
       - IR-BD
       - Infrared
+    product_spec_override:
+      IR_BD:
+        exclude_platforms:
+          - goes-17
+      Infrared:
+        include_platforms:
+          - goes-16
     minimum_coverages:
       all: 100
       IR-BD: 0

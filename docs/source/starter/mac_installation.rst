@@ -10,6 +10,8 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+.. _mac-installation:
+
 ********************************
 Conda-based Installation for Mac
 ********************************
@@ -94,11 +96,10 @@ but this command will ensure that for everyone.
 
 .. code:: bash
 
-    # imagemagick required for image comparisons
     # git required for pulling from git and for -C commands
     # pyhdf and pykdtree don't have wheels for mac and don't build cleanly
     #   best to install via conda
-    conda create -y -n geoips -c conda-forge python=3.10 openblas imagemagick git pyhdf pykdtree
+    conda create -y -n geoips -c conda-forge python=3.10 openblas git pyhdf pykdtree
     conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
 **Note:** You will need to run ``conda activate geoips`` every time you want to

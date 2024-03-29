@@ -21,3 +21,12 @@ User Guide
    command_line
    function_list
    plugin_extend
+   plugin_development/algorithm
+   plugin_development/static_sector
+   plugin_development/product
+   plugin_development/product_default
+   plugin_development/feature_annotator
+   plugin_development/gridline_annotator
+   plugin_development/colormapper
+   plugin_development/output_formatter
+   plugin_development/reader

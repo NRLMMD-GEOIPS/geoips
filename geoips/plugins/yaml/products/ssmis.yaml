@@ -189,6 +189,8 @@ spec:
             name: interp_gauss
             arguments:
               sigmaval: 10000
+        exclude_platforms:
+          - F18
     - name: 183-1H
       source_names: [ssmis]
       docstring: |

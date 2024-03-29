@@ -10,6 +10,8 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+.. _expert-installation:
+
 ****************************************************
 Expert User Installation (Administrative privileges)
 ****************************************************
@@ -35,8 +37,8 @@ Required (**included in**
 
 * wget (Miniconda installation)
 * git >= 2.19.1 (git -C commands in complete installation)
-* imagemagick (required for test output comparisons)
 * openblas (required for scipy pip install)
+* make (required for pypublicdecompwt)
 * Python >= 3.9 (3.9 required for entry points)
 * Test data repos contained in $GEOIPS_TESTDATA_DIR
   (required for tests to pass)
