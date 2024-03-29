@@ -17,15 +17,19 @@ import sys
 from textwrap import wrap
 
 
-def log_with_emphasis(LOG, *messages):
-    """Log the given message with emphasis provided a certain log type.
+def log_with_emphasis(print_func, *messages):
+    """Print messages boxed in asterisks using the specified print function.
+
+    Print one or more messages using the specified print function. The messages 
+    will be surrounded in asterisks. Long messages will be word wrapped to fit 
+    within a maximum width of 74 characters.
 
     Parameters
     ----------
-    LOG: logging function
-        Can be of any type [debug, info, interactive...]
-        Or just the print function itself
-    messages: 1 or more Strings
+    print_func: func
+        An instance of a function that prints (e.g. ``logging.debug``, ``logging.info``, 
+        etc, or the ``print`` function itself).
+    messages: one or more strings
         The messages to be logged with emphasis
     """
     wrapped_messages = []
