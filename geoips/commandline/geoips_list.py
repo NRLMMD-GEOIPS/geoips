@@ -15,7 +15,7 @@ from geoips import interfaces
 
 
 class GeoipsListUnitTests(GeoipsExecutableCommand):
-    """GeoipsListUnitTests Sub-Command Class.
+    """List Sub-Command for listing out available unit tests.
 
     Called via `geoips list unit-tests`. Outputs the following in a tabular format.
     """
@@ -93,7 +93,7 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
 
 
 class GeoipsListTestDatasets(GeoipsExecutableCommand):
-    """GeoipsListTestDatsets Sub-Command Class.
+    """List Sub-Command for listing off available test-datasets used by GeoIPS.
 
     Called via `geoips list test-datasets`. Outputs the following in a tabular format.
     """
@@ -148,7 +148,12 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
 
 
 class GeoipsListInterfaces(GeoipsExecutableCommand):
-    """GeoipsListInterfaces Sub-Command Class.
+    """List Sub-Command for listing interfaces and interface-specific plugins.
+
+    Will either list information about available GeoIPS interfaces (done via
+    `geoips list interfaces`), or list information about implemented interface-specific
+    plugins implemented in all, or a certain package (done via
+    'geoips list interfaces -i <-p> <package_name>').
 
     Called via `geoips list interfaces`. Outputs the following data in a tabular format.
     """
@@ -331,7 +336,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
 
 
 class GeoipsListPackages(GeoipsExecutableCommand):
-    """GeoipsListInterfaces Sub-Command Class.
+    """List Sub-Command for listing off installed GeoIPS Packages.
 
     Called via `geoips list packages`. Outputs the following data in a tabular format.
     """
@@ -340,7 +345,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
     subcommand_classes = []
 
     def add_arguments(self):
-        """Add arguments to the list-subparser for the List Packages Command."""
+        """No arguments for the list-subparser for the List Packages Command."""
         pass
 
     def __call__(self, args):
@@ -403,7 +408,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
 
 
 class GeoipsListPlugins(GeoipsExecutableCommand):
-    """GeoipsListInterfaces Sub-Command Class.
+    """List Sub-Command for listing off plugins in all, or a certain GeoIPS Package.
 
     Called via `geoips list plugins`. Outputs the following data in a tabular format.
     """
@@ -454,7 +459,7 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
 
 
 class GeoipsListSingleInterface(GeoipsExecutableCommand):
-    """GeoipsList Sub-Command for listing plugins of a single interface."""
+    """List Sub-Command for listing plugins of a single interface."""
 
     subcommand_name = "interface"
     subcommand_classes = []
@@ -525,7 +530,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
 
 
 class GeoipsListScripts(GeoipsExecutableCommand):
-    """GeoipsListInterfaces Sub-Command Class.
+    """List Sub-Command for listing test scripts from all, or a certain GeoIPS Package.
 
     Called via `geoips list scripts`. Outputs the following data in a tabular format.
     """
@@ -594,7 +599,7 @@ class GeoipsListScripts(GeoipsExecutableCommand):
 
 
 class GeoipsList(GeoipsCommand):
-    """GeoipsList Sub-Command for listing packages/scripts/interfaces/plugins."""
+    """Top-Level List Command for listing off GeoIPS Artifacts."""
 
     subcommand_name = "list"
     subcommand_classes = [

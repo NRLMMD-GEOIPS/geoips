@@ -11,13 +11,13 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsGetPlugin(BaseCliTest):
-    """Unit Testing Class for GeoipsGetPlugin Command."""
+    """Unit Testing Class for Get Plugin Sub-Command."""
 
     rand_threshold = 0.10
 
     @property
     def all_possible_subcommand_combinations(self):
-        """A list of every possible call signature for the GeoipsGetPlugin command.
+        """A stochastic list of commands used for the GeoipsGetPlugin command.
 
         This includes failing cases as well.
         """

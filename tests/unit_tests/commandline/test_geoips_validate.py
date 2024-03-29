@@ -11,7 +11,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsValidate(BaseCliTest):
-    """Unit Testing Class for GeoipsValidate Command."""
+    """Unit Testing Class for 'geoips validate' Command."""
 
     @property
     def all_possible_subcommand_combinations(self):

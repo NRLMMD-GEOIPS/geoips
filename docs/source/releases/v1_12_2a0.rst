@@ -21,9 +21,11 @@ Version 1.12.2a0 (2024-02-19)
   * Ensure that log.interactive works from plugins when imported independently.
   * Make add_log_level a callable class to fix AttributeErrors.
   * Modify algorithm_interpolator_colormapper to only provide input xarray
+  * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
 * Refactor
 
   * Make JSON Plugin Registries Readable
+  * Modify create_plugin_registries to use argparse instead of sys.argv
 
 Bug Fixes
 =========
@@ -72,8 +74,8 @@ Remove unnessesary checks for and mentions of imagemagick
   *From NRLMMD-GEOIPS/geoips#: YYYY-MM-DD, Removed unnecessary requirement for imagemagick*
 
 In v1.11.3a0 imagemagick functionality was replaced with other libraries. As such,
-imagemagick was no longder a dependancy. However, the installation docs, Dockerfile, 
-and setup scripts were not updated to reflect this change at the time. This fixes a 
+imagemagick was no longder a dependancy. However, the installation docs, Dockerfile,
+and setup scripts were not updated to reflect this change at the time. This fixes a
 bug during installation where the user is forced to install imagemagick to pass tests
 despite it no longer being used. It also updates the documentation accordingly.
 
@@ -85,8 +87,37 @@ despite it no longer being used. It also updates the documentation accordingly.
     modified: docs/source/starter/expert_installation.rst
     modified: docs/source/starter/mac_installation.rst
 
+
+Add make to expert installation dependencies
+--------------------------------------------
+..
+  *From NRLMMD-GEOIPS/geoips#454: 2024-03-15, Add make to expert installation dependencies*
+
+
+`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`.
+To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on
+the expert installation instructions. It was added.
+
+::
+
+    modified: docs/source/starter/expert_installation.rst
+
 Refactor
 ========
+
+Modify create_plugin_registries to use argparse
+-----------------------------------------------
+
+*From issue GEOIPS#416: 2023-12-21, Replace create_plugin_registries 'sys.argv' calls with 'argparse' library'*
+
+Currently create_plugin_registries.py uses sys.argv calls to generate its arguments
+rather than argparse. This doesn't follow GeoIPS conventions nor that of the CLI that
+will soon be updated. We should replace these calls with argparse architecture, so that
+this code follows current conventions, as does other GeoIPS code.
+
+::
+
+    modified: geoips/geoips/create_plugin_registries.py
 
 Make JSON Plugin Registries Readable
 ------------------------------------
@@ -176,3 +207,37 @@ For an example of how to run the GeoIPS CLI, see the code section below.
     geoips run geoips abi.static.Infrared.imagery_annotated.sh
     # Example of how to validate a specific plugin
     geoips validate /home/evan/geoips/geoips_packages/geoips/geoips/plugins/yaml/products/abi.yaml
+
+::
+
+    modified: geoips/geoips/interfaces/base.py
+    modified: geoips/pyproject.toml
+    added: geoips/docs/source/userguide/command_line.rst
+    added: geoips/geoips/commandline/ancillary_info/cmd_instructions.json
+    added: geoips/geoips/commandline/ancillary_info/cmd_instructions.yaml
+    added: geoips/geoips/commandline/commandline_interface.py
+    added: geoips/geoips/commandline/geoips_command.py
+    added: geoips/geoips/commandline/geoips_config.py
+    added: geoips/geoips/commandline/geoips_get.py
+    added: geoips/geoips/commandline/geoips_list.py
+    added: geoips/geoips/commandline/geoips_run.py
+    added: geoips/geoips/commandline/geoips_test.py
+    added: geoips/geoips/commandline/geoips_validate.py
+    added: geoips/tests/unit_tests/commandline/cli_top_level_tester.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_config_install.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_get_family.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_get_interface.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_get_package.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_get_plugin.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_interface.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_interfaces.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_packages.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_plugins.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_scripts.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_test_datasets.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_unit_tests.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_run.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_test_linting.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_test_script.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_test_unit_test.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_test_validate.py

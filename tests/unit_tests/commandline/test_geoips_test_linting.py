@@ -9,7 +9,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsTestLinting(BaseCliTest):
-    """Unit Testing Class for GeoipsTestLinting Command."""
+    """Unit Testing Class for Test Linting Sub-Command."""
 
     @property
     def all_possible_subcommand_combinations(self):

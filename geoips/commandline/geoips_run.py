@@ -14,7 +14,7 @@ from geoips.commandline.geoips_command import GeoipsExecutableCommand
 
 
 class GeoipsRun(GeoipsExecutableCommand):
-    """GeoipsRun Sub-Command for running process-workflows (procflows)."""
+    """Run Sub-Command for running process-workflows (procflows)."""
 
     subcommand_name = "run"
     subcommand_classes = []

@@ -1,7 +1,8 @@
 """Code to implement GeoipsCommand Abstract Base Class for the CLI.
 
 Will implement a plethora of commands, but for the meantime, we'll work on
-'geoips get', 'geoips list', 'geoips run', and 'geoips validate'.
+'geoips config','geoips get', 'geoips list', 'geoips run', 'geoips test', and
+'geoips validate'.
 """
 
 import abc
@@ -9,7 +10,7 @@ import argparse
 from colorama import Fore, Style
 from importlib import resources
 import json
-from os.path import dirname
+from os.path import dirname, exists, getmtime
 from shutil import get_terminal_size
 from tabulate import tabulate
 import yaml
@@ -17,10 +18,61 @@ import yaml
 from geoips.geoips_utils import get_entry_point_group
 
 
-class GeoipsCommand(abc.ABC):
-    """GeoipsCommand Abstract Base Class.
+def cmd_instructions_modified():
+    """Check whether or not cmd_instructions.yaml has been modified.
 
-    This class is a blueprint of what each GeoIPS Sub-Command Classes should implement.
+    This uses os.path.getmtime(fname) determine whether or not the YAML command help
+    instructions have been modified more recently than when we last generated our JSON
+    instructions file. Return the truth value to whether or not cmd_instructions.yaml
+    has been modified more recently than cmd_instructions.json
+    """
+    json_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.json")
+    yaml_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.yaml")
+    if yaml_mtime > json_mtime:
+        # yaml file was modified more recently than json_mtime
+        return True
+    return False
+
+
+"""Dictionary of Instructions for each command, obtained by a yaml file.
+
+This has been placed as a module attribute so we don't perform this process for every
+CLI sub-command. It was taking too long to initialize the CLI and this was a large part
+of that. See https://github.com/NRLMMD-GEOIPS/geoips/pull/444#discussion_r1541864672 for
+more information.
+
+For more information on what's available, see:
+    geoips/commandline/ancillary_info/cmd_instructions.yaml
+"""
+ancillary_dirname = str(dirname(__file__)) + "/ancillary_info"
+if (
+    not exists(f"{ancillary_dirname}/cmd_instructions.json")
+    or cmd_instructions_modified()
+):
+    # JSON Command Instructions don't exist yet or yaml instructions were recently
+    # modified; load in the YAML Command Instructions and dump those to a JSON File,
+    # but just assign the instructions to what we loaded from the yaml file since they
+    # already exist in memory
+    with open(
+        f"{ancillary_dirname}/cmd_instructions.yaml",
+        "r",
+    ) as yml_instruct, open(f"{ancillary_dirname}/cmd_instructions.json", "w") as jfile:
+        cmd_yaml = yaml.safe_load(yml_instruct)
+        json.dump(cmd_yaml, jfile, indent=4)
+        cmd_instructions = cmd_yaml
+else:
+    # Otherwise load in the JSON file as it's much quicker.
+    cmd_instructions = json.load(
+        open(f"{ancillary_dirname}/cmd_instructions.json", "r")
+    )
+
+
+class GeoipsCommand(abc.ABC):
+    """Abstract Base Class for top-level GeoIPS Command Classes, such as get or list.
+
+    This class is a blueprint of what each top-level GeoIPS Command Classes should
+    implement. Includes shared attributes and an ``add_suparsers`` function which is
+    used for initializing sub-command classes of a certain GeoIPS Command.
     """
 
     def __init__(self, parent=None):
@@ -50,13 +102,14 @@ class GeoipsCommand(abc.ABC):
                     parent_parsers = []
             self.subcommand_parser = self.parent.subparsers.add_parser(
                 name=self.subcommand_name,
-                description=self.cmd_instructions[combined_name]["help_str"],
-                help=self.cmd_instructions[combined_name]["help_str"],
-                usage=self.cmd_instructions[combined_name]["usage_str"],
+                description=cmd_instructions["instructions"][combined_name]["help_str"],
+                help=cmd_instructions["instructions"][combined_name]["help_str"],
+                usage=cmd_instructions["instructions"][combined_name]["usage_str"],
                 parents=parent_parsers,
                 conflict_handler="resolve",
             )
         else:
+            # otherwise initialize a top-level parser for this command.
             self.subcommand_parser = argparse.ArgumentParser()
             combined_name = self.subcommand_name
         if hasattr(self, "__call__"):
@@ -107,29 +160,6 @@ class GeoipsCommand(abc.ABC):
                 subcmd_cls(parent=self)
 
     @property
-    def cmd_instructions(self):
-        """Dictionary of Instructions for each command, obtained by a yaml file.
-
-        For more information on what's available, see:
-            geoips/commandline/ancillary_info/cmd_instructions.yaml
-        """
-        if not hasattr(self, "_cmd_instructions"):
-            cmd_yaml = yaml.safe_load(
-                open(
-                    str(dirname(__file__)) + "/ancillary_info/cmd_instructions.yaml",
-                    "r",
-                )
-            )
-            self._cmd_instructions = {}
-            for cmd_entry in cmd_yaml["instructions"]:
-                self._cmd_instructions[cmd_entry["cmd_name"]] = {
-                    "help_str": cmd_entry["help_str"],
-                    "usage_str": cmd_entry["usage_str"],
-                    "output_info": cmd_entry["output_info"],
-                }
-        return self._cmd_instructions
-
-    @property
     def plugin_packages(self):
         """Plugin Packages property of the CLI."""
         if not hasattr(self, "_plugin_packages"):
@@ -150,7 +180,7 @@ class GeoipsCommand(abc.ABC):
 
 
 class GeoipsExecutableCommand(GeoipsCommand):
-    """GeoipsExecutableCommand Abstract Base Class.
+    """Abstract Base Class for executable CLI commands, inheriting from GeoipsCommand.
 
     This class is a blueprint of what each executable GeoIPS Sub-Command Classes
     can implement.

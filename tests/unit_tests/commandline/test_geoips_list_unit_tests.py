@@ -13,7 +13,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListUnitTests(BaseCliTest):
-    """Unit Testing Class for GeoipsListUnitTests Command."""
+    """Unit Testing Class for List Unit Tests Sub-Command."""
 
     @property
     def all_possible_subcommand_combinations(self):
@@ -69,10 +69,10 @@ class TestGeoipsListUnitTests(BaseCliTest):
             for header in headers:
                 assert header in output
             if "-p" in args:
-                package_name = args[-1]
+                pkg_name = args[-1]
             else:
-                package_name = "geoips"
-            unit_test_dir = str(files(package_name) / "../tests/unit_tests")
+                pkg_name = "geoips"
+            unit_test_dir = str(files(pkg_name) / "../tests/unit_tests")
             # Assert that we found every unit test
             for subdir_name in listdir(unit_test_dir):
                 for unit_test in sorted(
