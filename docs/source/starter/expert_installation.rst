@@ -38,6 +38,7 @@ Required (**included in**
 * wget (Miniconda installation)
 * git >= 2.19.1 (git -C commands in complete installation)
 * openblas (required for scipy pip install)
+* make (required for pypublicdecompwt)
 * Python >= 3.9 (3.9 required for entry points)
 * Test data repos contained in $GEOIPS_TESTDATA_DIR
   (required for tests to pass)
