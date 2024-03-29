@@ -125,8 +125,6 @@ def outputs_match(plugin, output_product, compare_product):
     bool
         Return True if images match, False if they differ
     """
-    from geoips.commandline.log_setup import log_with_emphasis
-
     # out_diffimg = get_out_diff_fname(compare_product, output_product)
 
     call_list = ["diff", output_product, compare_product]

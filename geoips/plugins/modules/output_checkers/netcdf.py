@@ -123,8 +123,6 @@ def outputs_match(plugin, output_product, compare_product):
     bool
         Return True if products match, False if they differ
     """
-    from geoips.commandline.log_setup import log_with_emphasis
-
     out_difftxt = plugin.get_out_diff_fname(compare_product, output_product)
     diffout = []
     retval = True
@@ -193,7 +191,7 @@ def outputs_match(plugin, output_product, compare_product):
             f"output_product: {output_product}",
             f"compare_product: {compare_product}",
         )
-        log_with_emphasis(LOG.interactive, [line in str(resp).split("\n")])
+        log_with_emphasis(LOG.interactive, *[line for line in str(resp).split("\n")])
         diffout += [
             "\nxarray objects do not match between current output and comparison\n"
         ]
