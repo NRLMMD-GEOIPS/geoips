@@ -5,6 +5,8 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 """
 
 import logging
+from os.path import basename
+import sys
 
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.geoips_command import GeoipsCommand
@@ -61,8 +63,33 @@ class GeoipsCLI(GeoipsCommand):
         self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)
 
 
+def support_legacy_procflows():
+    """Run a series of checks on sys.argv to support legacy calls to run_procflow.
+
+    The new GeoIPS CLI has changed how we run our process workflows from now on. Instead
+    of calling 'run_procflow' or 'data_fusion_procflow', we now call
+    'geoips run single_source' or 'geoips run data_fusion'. This function parses through
+    sys.argv and performs the necessary translations to match our current format so that
+    the CLI's argparser can call the appropriate functionality.
+    """
+    defined_procflow = None
+    if "run_procflow" == basename(sys.argv[0]):
+        entrypoint = "run_procflow"
+        defined_procflow = "single_source"
+    elif "data_fusion_procflow" == basename(sys.argv[0]):
+        entrypoint = "data_fusion_procflow"
+        defined_procflow = "data_fusion"
+    if defined_procflow:
+        # Either 'run_procflow' or 'data_fusion_procflow' was called, make the
+        # appropriate translations in sys.argv so the CLI's parser can call the correct
+        # functionality
+        sys.argv[0] = sys.argv[0].replace(entrypoint, "geoips")
+        sys.argv.insert(1, "run")
+        sys.argv.insert(2, defined_procflow)
+
 def main():
     """Entry point for GeoIPS command line interface (CLI)."""
+    support_legacy_procflows()
     geoips_cli = GeoipsCLI()
     geoips_cli.execute_command()
 

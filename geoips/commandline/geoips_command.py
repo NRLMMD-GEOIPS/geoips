@@ -152,10 +152,7 @@ class GeoipsCommand(abc.ABC):
         if len(self.subcommand_classes):
             self.subparsers = self.subcommand_parser.add_subparsers(
                 help=f"{self.subcommand_name} instructions.",
-                # title=f"{self.subcommand_name} actions.",
             )
-            # self.subparsers.required = True
-            # self.subparsers.dest = self.subcommand_name
             for subcmd_cls in self.subcommand_classes:
                 subcmd_cls(parent=self)
 

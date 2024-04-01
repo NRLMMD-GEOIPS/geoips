@@ -212,15 +212,32 @@ instructions:
       - Unit Test Name
   run:
     help_str: |
-      Run a geoips process workflow (procflow), given a GeoIPS package and a script
-      name. This will do the exact same thing as being in the directory of a certain
-      script, and running it via `./<script_name>`. To see what scripts are available,
-      you can run `geoips list-scripts <-p>`, where `-p` can be used alongside a GeoIPS
-      Package name if you want scripts from a single package.
+      Run a specified geoips process workflow (procflow) plugin. See
+      'geoips run single_source' or 'geoips run data_fusion' for more information of
+      what arguments to providel
     usage_str: |
-      To use, type `geoips run -p <package_name> <script_name>`.
+      To use, type `geoips run <procflow_name> **<procflow_arguments>`.
     output_info:
-      - Log Output of the Process Workflow (Procflow)
+      - Log output of the specified procflow ran over certain products.
+  run data_fusion:
+    help_str: |
+      Run the data fusion process workflow. This process workflow is built on top of the
+      native 'single_source' procflow with extra arguments. For more information of the
+      arguments available, either run 'geoips run data_fusion -h', or view the arguments
+      set up in data_fusion.commandline.args:add_args
+    usage_str: |
+      To use, type `geoips run data_fusion **<data_fusion_args>`.
+    output_info:
+      - Log Output of the Data Fusion Process Workflow (Procflow)
+  run single_source:
+    help_str: |
+      Run the native geoips single source process workflow. For more information of the
+      arguments available, either run 'geoips run single_source -h', or view the
+      arguments set up in geoips.commandline.args:add_args
+    usage_str: |
+      To use, type `geoips run single_source **<single_source_args>`.
+    output_info:
+      - Log Output of the Single Source Process Workflow (Procflow)
   test:
     help_str: |
       Run tests implemented in GeoIPS or a separate GeoIPS Package. This could be
