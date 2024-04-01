@@ -4,6 +4,10 @@
 # auto-downloaded test datasets
 tests/data/**
 
+# directory for profiling outputs
+profiling/
+*.pstats
+
 ####################################################
 # GeoIPS Environment specific .gitignore options:
 
