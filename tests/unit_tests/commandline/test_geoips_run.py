@@ -3,11 +3,7 @@
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
 
-from glob import glob
 from importlib import resources
-from numpy.random import rand
-from os import listdir
-from os.path import basename
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
@@ -15,6 +11,73 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 class TestGeoipsRun(BaseCliTest):
     """Unit Testing Class for 'geoips run' Command."""
+
+    amsr2_config_based_args = [
+        "run_procflow",
+        "${GEOIPS_TESTDATA_DIR}/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc", # noqa
+            "--procflow", "config_based",
+            "--output_config",
+            "${GEOIPS_PACKAGES_DIR}/geoips/tests/yaml_configs/amsr2_test_no_compare.yaml",
+            "--reader_kwargs",
+            '{"test_arg": "Command line config-based amsr2 test arg"}',
+            "--fuse_files",
+            "${GEOIPS_TESTDATA_DIR}/test_data_amsr2/bg_data/ahi_20200518_0740/*",
+            "--fuse_reader", "ahi_hsd",
+            "--fuse_reader_kwargs",
+            '{"test_arg": "Command line config-based ahi test arg"}',
+            "--fuse_product", "Infrared-Gray",
+            "--fuse_resampled_read", "True",
+    ]
+    new_amsr2_config_based_args = [arg for arg in amsr2_config_based_args]
+    new_amsr2_config_based_args[0] = "geoips"
+    new_amsr2_config_based_args.insert(1, "run")
+    new_amsr2_config_based_args.insert(2, "config_based")
+
+    abi_static_infrared_args = [
+        "run_procflow",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+        "--reader_name", "abi_netcdf",
+        "--product_name", "Infrared",
+        "--compare_path", "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated", # noqa
+        "--output_formatter", "imagery_annotated",
+        "--filename_formatter", "geoips_fname",
+        "--resampled_read", "--logging_level", "info",
+        "--sector_list", "goes_east",
+    ]
+    new_abi_static_infrared_args = [arg for arg in abi_static_infrared_args]
+    new_abi_static_infrared_args[0] = "geoips"
+    new_abi_static_infrared_args.insert(1, "run")
+    new_abi_static_infrared_args.insert(2, "single_source")
+
+    geo_args = [
+        "data_fusion_procflow",
+        "--compare_path", "$GEOIPS_PACKAGES_DIR/data_fusion/tests/outputs/${curr_product}_image", # noqa
+        "--filename_formatter", "geoips_fname",
+        "--sector_list", "global",
+        "--fusion_final_output_formatter", "imagery_annotated",
+        "--fusion_final_product_name", "Blended-Infrared-Gray",
+        "--fusion_final_source_name", "stitched",
+        "--fusion_final_platform_name", "geo",
+        "--fuse_files", "$GEOIPS_TESTDATA_DIR/test_data_fusion/data/goes16_20210929.0000/*", # noqa
+            "--fuse_reader_name", "abi_netcdf",
+            "--fuse_product_name", "${curr_product}",
+            "--fuse_dataset_name", "goes16",
+            "--fuse_order", "0",
+        "--fuse_files", "$GEOIPS_TESTDATA_DIR/test_data_fusion/data/goes17_20210929.0000/*", # noqa
+            "--fuse_reader_name", "abi_netcdf",
+            "--fuse_product_name", "${curr_product}",
+            "--fuse_dataset_name", "goes17",
+            "--fuse_order", "1",
+        "--fuse_files", "$GEOIPS_TESTDATA_DIR/test_data_fusion/data/himawari8_20210929.0000/*", # noqa
+            "--fuse_reader_name", "ahi_hsd",
+            "--fuse_product_name", "${curr_product}",
+            "--fuse_dataset_name", "ahi",
+            "--fuse_order", "2",
+    ]
+    new_geo_args = [arg for arg in geo_args]
+    new_geo_args[0] = "geoips"
+    new_geo_args.insert(1, "run")
+    new_geo_args.insert(2, "data_fusion")
 
     @property
     def all_possible_subcommand_combinations(self):
@@ -25,48 +88,33 @@ class TestGeoipsRun(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = self._run_args
-            test_data_dir = str(resources.files("geoips") / "../../test_data")
-            # select a small random amount of tests to call via geoips run
-            for pkg_name in self.plugin_packages:
-                script_paths = sorted(
-                    [
-                        script_path
-                        for script_path in glob(
-                            str(resources.files(pkg_name) / "../tests/scripts/*.sh")
-                        )
-                    ]
-                )
-                for script_path in script_paths:
-                    do_geoips_run = rand() < 0.15
-                    test_data_found = False
-                    if do_geoips_run:
-                        # This script has been randomly selected. Check it's contents
-                        # to make sure that the test data for the script actually exists
-                        with open(script_path, "r") as f:
-                            for line in f.readlines():
-                                if "run_procflow" in line:
-                                    for dir_name in listdir(test_data_dir):
-                                        if dir_name in line:
-                                            test_data_found = True
-                                            break
-                                    break
-                    if do_geoips_run and test_data_found and len(self._cmd_list) < 4:
-                        self._cmd_list.append(
-                            base_args + ["-p", pkg_name, basename(script_path)]
-                        )
+            # add argument lists for legacy calls 'run_procflow' and
+            # 'data_fusion_procflow'
+            # additionally add argument lists for 'geoips run single_source' and
+            # 'geoips run data_fusion'
+
+            self._cmd_list.append(self.amsr2_config_based_args)
+            self._cmd_list.append(self.new_amsr2_config_based_args)
+            self._cmd_list.append(self.abi_static_infrared_args)
+            self._cmd_list.append(self.new_abi_static_infrared_args)
+            self._cmd_list.append(self.geo_args)
+            self._cmd_list.append(self.new_geo_args)
+
             # Add argument list to retrieve help message
-            self._cmd_list.append(base_args + ["-h"])
-            # Add argument list with non existent package
+            self._cmd_list.append(["run_procflow", "-h"])
+            self._cmd_list.append(base_args + ["single_source", "-h"])
+            self._cmd_list.append(["data_fusion_procflow", "-h"])
+            self._cmd_list.append(base_args + ["data_fusion", "-h"])
+            # Add argument list with non existent arguments
             self._cmd_list.append(
                 base_args
                 + [
-                    "-p",
+                    "single_source"
+                    "--package",
                     "non_existent_package",
                     "abi.static.Infrared.imagery_annotated.sh",
                 ]
             )
-            # Add argument list with non existent script name in default geoips pkg
-            self._cmd_list.append(base_args + ["non_existent_script_name"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -81,7 +129,7 @@ class TestGeoipsRun(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        assert "To use, type `geoips run -p <package_name> <script_name>`" in error
+        assert "To use, type `geoips run" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips run ...' successful output is correct.
@@ -94,11 +142,14 @@ class TestGeoipsRun(BaseCliTest):
             - Multiline str representing the output of the CLI call
         """
         # The args provided are valid, so test that the output is actually correct
-        if "-h" in args:
-            assert "To use, type `geoips run -p <package_name> <script_name>`" in output
+        if "-h" in args and len(args) <= 4:
+            assert "To use, type `geoips run" in output
         else:
             # Checking that output from geoips run command reports succeeds
-            assert "Return value: 0" in output
+            if "single_source" in args:
+                assert "Starting single_source procflow..." in output
+            elif "data_fusion" in args:
+                assert "Starting data_fusion procflow..." in output
 
 
 test_sub_cmd = TestGeoipsRun()

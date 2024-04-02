@@ -7,7 +7,7 @@ from glob import glob
 from importlib import resources
 from numpy.random import rand
 from os import listdir
-from os.path import basename
+from os.path import basename, exists
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
@@ -45,11 +45,18 @@ class TestGeoipsTestScript(BaseCliTest):
                         # to make sure that the test data for the script actually exists
                         with open(script_path, "r") as f:
                             for line in f.readlines():
-                                if "run_procflow" in line:
+                                if "geoips run" in line:
                                     for dir_name in listdir(test_data_dir):
                                         if dir_name in line:
-                                            test_data_found = True
-                                            break
+                                            for string in line.split():
+                                                if dir_name in string:
+                                                    data_path = string.replace(
+                                                        "$GEOIPS_TESTDATA_DIR",
+                                                        test_data_dir,
+                                                    )
+                                                    if exists(data_path):
+                                                        test_data_found = True
+                                                        break
                                     break
                     if do_geoips_run and test_data_found and len(self._cmd_list) < 4:
                         self._cmd_list.append(
@@ -104,7 +111,7 @@ class TestGeoipsTestScript(BaseCliTest):
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
             assert "geoips test script -p <package_name> <-i> <script_name>`" in output
-        elif "-i" in args:
+        elif "--integration" in args:
             checklists = {
                 "dependencies": ["git", "python"],
                 "test_data_names": ["test_data_amsr2", "test_data_noaa_aws"],
