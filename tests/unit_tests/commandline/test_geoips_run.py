@@ -148,6 +148,8 @@ class TestGeoipsRun(BaseCliTest):
             # Checking that output from geoips run command reports succeeds
             if "single_source" in args:
                 assert "Starting single_source procflow..." in output
+            elif "config_based" in args:
+                assert "Starting config_based procflow..."
             elif "data_fusion" in args:
                 assert "Starting data_fusion procflow..." in output
 
