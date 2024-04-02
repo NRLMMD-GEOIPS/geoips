@@ -217,7 +217,7 @@ def outputs_match(plugin, output_product, compare_product):
             fobj.writelines(diffout)
         return False
 
-    return Trueages
+    return True
 
 
 def log_object_diff_values(object1, object2, compare_key):
