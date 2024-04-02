@@ -100,4 +100,3 @@ class GeoipsRun(GeoipsCommand):
         GeoipsRunDataFusion,
         GeoipsRunConfigBased,
     ]
-

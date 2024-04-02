@@ -11,7 +11,6 @@ from os.path import basename, exists
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
-from tests.unit_tests.commandline.test_geoips_run import TestGeoipsRun
 
 
 class TestGeoipsTestScript(BaseCliTest):

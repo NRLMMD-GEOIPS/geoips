@@ -104,6 +104,7 @@ def support_legacy_procflows():
         sys.argv.insert(1, "run")
         sys.argv.insert(2, defined_procflow)
 
+
 def main():
     """Entry point for GeoIPS command line interface (CLI)."""
     support_legacy_procflows()

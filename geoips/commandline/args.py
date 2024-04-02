@@ -524,7 +524,7 @@ def add_args(parser, arglist=None):
             "--procflow",
             default=None,
             help=argparse.SUPPRESS,
-            # help="""Specify procflow that should be followed for this file, located in:
+            # help="""Specify procflow that should be followed for this file, located in
             #                 geoips*.plugins.modules.procflows.
             #                     myprocflowname.myprocflowname,
             #                 The procflow string should be the procflow module
