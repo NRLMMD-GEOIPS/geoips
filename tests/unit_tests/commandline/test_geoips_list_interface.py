@@ -33,9 +33,25 @@ class TestGeoipsListInterface(BaseCliTest):
                     self._cmd_list.append(args)
             # Add argument list with a non-existent interface
             self._cmd_list.append(base_args + ["non_existent_interface"])
+            # Add argument list that utilizes the --column optional arg
+            self._cmd_list.append(
+                base_args
+                + [
+                    "algorithms",
+                    "--columns",
+                    "package",
+                    "interface",
+                    "plugin_type",
+                    "relpath",
+                ]
+            )
             # Add argument list with an existing interface but non-existent package
             self._cmd_list.append(
                 base_args + ["algorithms", "-p", "non_existent_package"]
+            )
+            # Add argument list with an existing interface but w/ conflicting opt args
+            self._cmd_list.append(
+                base_args + ["readers", "--long", "--columns", "package", "interface"]
             )
         return self._cmd_list
 
@@ -55,6 +71,11 @@ class TestGeoipsListInterface(BaseCliTest):
         else:
             assert args[3] not in interfaces.__all__
         assert "usage: To use, type `geoips list interface <interface_name>`" in error
+        if "--columns" in args and "--long" in args:
+            assert (
+                "error: argument --columns/-c: not allowed with argument --long/-l"
+                in error
+            )
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list interface ...' successful output is correct.
@@ -83,16 +104,31 @@ class TestGeoipsListInterface(BaseCliTest):
             assert interface.name not in plugin_registry[interface_type].keys()
         else:
             # Assert that the correct headers exist in the CLI output
-            headers = [
-                "GeoIPS Package",
-                "Interface",
-                "Interface Type",
-                "Family",
-                "Plugin Name",
-                "Relative Path",
-            ]
+            selected_cols = None
+            if "--columns" in args:
+                start_idx = None
+                for idx, arg in enumerate(args):
+                    if arg == "--columns":
+                        start_idx = idx + 1
+                        break
+                if start_idx is None or start_idx >= len(args):
+                    usage_str = "geoips list interface -h for more information."
+                    pytest.fail(
+                        f"Unexpected usage of --columns arg. Please run {usage_str}"
+                    )
+                selected_cols = args[start_idx:]
+            headers = {
+                "GeoIPS Package": "package",
+                "Interface Name": "interface",
+                "Interface Type": "plugin_type",
+                "Family": "family",
+                "Plugin Name": "plugin_name",
+                "Source Names": "source_name",
+                "Relative Path": "relpath",
+            }
             for header in headers:
-                assert header in output
+                if selected_cols is None or headers[header] in selected_cols:
+                    assert header in output
 
 
 test_sub_cmd = TestGeoipsListInterface()

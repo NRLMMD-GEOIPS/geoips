@@ -478,7 +478,10 @@ class GeoipsListCommon(GeoipsExecutableCommand):
             type=str,
             nargs="+",
             default=None,
-            help="Specific Headers of Data you'd like to see listed.",
+            help="""Specific Headers of Data you'd like to see listed.
+                    For more in formation on headers available, run
+                    'geoips list <sub-cmd> <positional_args> --columns help'.
+                    """,
         )
 
     def __call__(self, args):

@@ -84,7 +84,9 @@ def support_legacy_procflows():
             # NOTE: If --procflow is not defined in the arguments and you are trying to
             # run a 'config_based' procflow, this will not work correctly. Since we have
             # no method of determining what procflow was specfied to run via
-            # 'run_procflow' without the '--procflow' flag.
+            # 'run_procflow' without the '--procflow' flag. We currently default to
+            # 'single_source' procflow if '--procflow' is not defined using
+            # 'run_procflow'.
 
             # Please either specify '--procflow config_based' if using 'run_procflow' or
             # just use the newly created 'geoips run config_based' to ensure your
