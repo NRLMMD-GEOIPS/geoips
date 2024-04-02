@@ -221,9 +221,8 @@ def outputs_match(plugin, output_product, compare_product):
 
 
 def log_object_diff_values(object1, object2, compare_key):
-    """
-    Log differences of a specified key's value between two objects and returns
-    messages detailing these differences.
+    r"""
+    Log differences two objects via key and returns messages detailing differences.
 
     Computes the maximum, minimum, and mean differences for the values associated
     with a specified key in two objects. Generates messages for any non-zero
