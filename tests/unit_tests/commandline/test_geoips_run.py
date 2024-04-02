@@ -90,8 +90,8 @@ class TestGeoipsRun(BaseCliTest):
             base_args = self._run_args
             # add argument lists for legacy calls 'run_procflow' and
             # 'data_fusion_procflow'
-            # additionally add argument lists for 'geoips run single_source' and
-            # 'geoips run data_fusion'
+            # additionally add argument lists for 'geoips run config_based',
+            # 'geoips run data_fusion', and 'geoips run single_source'
 
             self._cmd_list.append(self.amsr2_config_based_args)
             self._cmd_list.append(self.new_amsr2_config_based_args)
@@ -102,6 +102,7 @@ class TestGeoipsRun(BaseCliTest):
 
             # Add argument list to retrieve help message
             self._cmd_list.append(["run_procflow", "-h"])
+            self._cmd_list.append(base_args + ["config_based", "-h"])
             self._cmd_list.append(base_args + ["single_source", "-h"])
             self._cmd_list.append(["data_fusion_procflow", "-h"])
             self._cmd_list.append(base_args + ["data_fusion", "-h"])
