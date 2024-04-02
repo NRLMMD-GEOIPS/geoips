@@ -16,7 +16,6 @@
 FROM python:3.10-slim-bullseye as gdal
 
 # First stage installs gdal
-
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get install -y apt-file software-properties-common # wget git libopenblas-dev g++ make
@@ -95,3 +94,4 @@ FROM env_setup as prod
 # Install wheels (includes GeoIPS)
 RUN --mount=type=bind,from=install,source=/wheels,target=/wheels \
     pip install --no-cache /wheels/*
+
