@@ -523,11 +523,12 @@ def add_args(parser, arglist=None):
         procflow_group.add_argument(
             "--procflow",
             default=None,
-            help="""Specify procflow that should be followed for this file, located in:
-                            geoips*.plugins.modules.procflows.
-                                myprocflowname.myprocflowname,
-                            The procflow string should be the procflow module
-                            name (no .py)""",
+            help=argparse.SUPPRESS,
+            # help="""Specify procflow that should be followed for this file, located in:
+            #                 geoips*.plugins.modules.procflows.
+            #                     myprocflowname.myprocflowname,
+            #                 The procflow string should be the procflow module
+            #                 name (no .py)""",
         )
 
     if arglist is None or "filename_formatter" in arglist:

@@ -219,6 +219,15 @@ instructions:
       To use, type `geoips run <procflow_name> **<procflow_arguments>`.
     output_info:
       - Log output of the specified procflow ran over certain products.
+  run config_based:
+    help_str: |
+      Run the config based process workflow. For more information of the
+      arguments available, either run 'geoips run config_basd -h', or view the arguments
+      set up in geoips.commandline.args:add_args
+    usage_str: |
+      To use, type `geoips run data_fusion **<data_fusion_args>`.
+    output_info:
+      - Log Output of the Data Fusion Process Workflow (Procflow)
   run data_fusion:
     help_str: |
       Run the data fusion process workflow. This process workflow is built on top of the
