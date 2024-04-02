@@ -6,7 +6,7 @@ RUN apt-get install -y wget git libopenblas-dev imagemagick g++ make
 RUN apt-get update && apt-get install -y software-properties-common
 RUN add-apt-repository -y ppa:ubuntugis/ppa
 RUN apt-get install -y gdal-bin libgdal-dev
-RUN pip install -U pip 
+RUN pip install -U pip
 
 # could install the rest of geoips dependancies here
 RUN pip install rasterio
@@ -46,4 +46,5 @@ COPY --chown=${USER_ID}:${GROUP_ID} . ${GEOIPS_PACKAGES_DIR}/geoips
 
 WORKDIR ${GEOIPS_PACKAGES_DIR}/geoips
 RUN cd ${GEOIPS_PACKAGES_DIR}/geoips \
-    && pip install --no-cache . #".[doc,lint,test,debug]"
+    && pip install --no-cache . #".[doc,lint,test,debug]" \
+    && create_plugin_registry
