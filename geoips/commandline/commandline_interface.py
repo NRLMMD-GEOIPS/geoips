@@ -76,6 +76,17 @@ def support_legacy_procflows():
     if "run_procflow" == basename(sys.argv[0]):
         entrypoint = "run_procflow"
         defined_procflow = "single_source"
+        if "--procflow" in sys.argv:
+            # If '--procflow' was found in the command line arguments, loop through the
+            # arguments and grab the correct procflow.
+            # NOTE: If --procflow is not defined in the arguments and you are trying to
+            # run a 'config_based' procflow, this will not work correctly. Please either
+            # specify '--procflow config_based' if using 'run_procflow' or just use the
+            # newly created 'geoips run config_based' to ensure your procflow works
+            # correctly
+            for idx, arg in enumerate(sys.argv):
+                if arg == "--procflow" and len(sys.argv) > idx + 1:
+                    defined_procflow = sys.argv[idx + 1]
     elif "data_fusion_procflow" == basename(sys.argv[0]):
         entrypoint = "data_fusion_procflow"
         defined_procflow = "data_fusion"
