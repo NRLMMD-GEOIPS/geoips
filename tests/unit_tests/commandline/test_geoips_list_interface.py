@@ -104,19 +104,7 @@ class TestGeoipsListInterface(BaseCliTest):
             assert interface.name not in plugin_registry[interface_type].keys()
         else:
             # Assert that the correct headers exist in the CLI output
-            selected_cols = None
-            if "--columns" in args:
-                start_idx = None
-                for idx, arg in enumerate(args):
-                    if arg == "--columns":
-                        start_idx = idx + 1
-                        break
-                if start_idx is None or start_idx >= len(args):
-                    usage_str = "geoips list interface -h for more information."
-                    pytest.fail(
-                        f"Unexpected usage of --columns arg. Please run {usage_str}"
-                    )
-                selected_cols = args[start_idx:]
+            selected_cols = self.retrieve_selected_columns_from_list_command(args)
             headers = {
                 "GeoIPS Package": "package",
                 "Interface Name": "interface",
@@ -126,9 +114,7 @@ class TestGeoipsListInterface(BaseCliTest):
                 "Source Names": "source_name",
                 "Relative Path": "relpath",
             }
-            for header in headers:
-                if selected_cols is None or headers[header] in selected_cols:
-                    assert header in output
+            self.assert_correct_headers_in_output(output, headers, selected_cols)
 
 
 test_sub_cmd = TestGeoipsListInterface()

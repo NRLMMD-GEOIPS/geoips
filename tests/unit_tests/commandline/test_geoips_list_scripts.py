@@ -21,14 +21,18 @@ class TestGeoipsListScripts(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            self._cmd_list = []
             base_args = self._list_scripts_args
+            self._cmd_list = []
             for pkg_name in self.plugin_packages + ["all"]:
                 if pkg_name != "all":
                     args = base_args + ["-p", pkg_name]
                 else:
                     args = base_args
                 self._cmd_list.append(args)
+            # Add argument list which invokes the --columns flag
+            self._cmd_list.append(base_args + ["--columns", "package", "filename"])
+            self._cmd_list.append(base_args + ["--columns", "filename"])
+            self._cmd_list.append(base_args + ["--columns", "package"])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with a non-existent package
@@ -84,14 +88,16 @@ class TestGeoipsListScripts(BaseCliTest):
                         )
                     ]
                 )
-            for script_name in script_names:
-                assert script_name in "".join(
-                    output.strip().replace("\n", "").replace("│", "").split()
-                )
+            if "--columns" not in args or "filenames" in args:
+                # ensure that filenames have been outputted if we are going to test this
+                for script_name in script_names:
+                    assert script_name in "".join(
+                        output.strip().replace("\n", "").replace("│", "").split()
+                    )
+            selected_cols = self.retrieve_selected_columns_from_list_command(args)
             # Assert that the correct headers exist in the CLI output
-            headers = ["GeoIPS Package", "Filename"]
-            for header in headers:
-                assert header in output
+            headers = {"GeoIPS Package": "package", "Filename": "filename"}
+            self.assert_correct_headers_in_output(output, headers, selected_cols)
 
 
 test_sub_cmd = TestGeoipsListScripts()

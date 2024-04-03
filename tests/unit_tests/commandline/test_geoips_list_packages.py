@@ -18,11 +18,21 @@ class TestGeoipsListPackages(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            self._cmd_list = [self._list_packages_args]
+            base_args = self._list_packages_args
+            self._cmd_list = [base_args]
+            # Add argument list invoking the --columns flag
+            self._cmd_list.append(base_args + ["--columns", "package", "package_path"])
+            self._cmd_list.append(base_args + ["--columns", "docstring", "package"])
+            self._cmd_list.append(
+                base_args + ["--columns", "docstring", "package_path"]
+            )
+            self._cmd_list.append(
+                base_args + ["--columns", "package", "docstring", "package_path"]
+            )
             # Add argument list which invokes the help message for this command
-            self._cmd_list.append(["geoips", "list", "packages", "-h"])
+            self._cmd_list.append(base_args + ["-h"])
             # Add argument list with a non-existent command call ("-p")
-            self._cmd_list.append(["geoips", "list", "packages", "-p", "geoips"])
+            self._cmd_list.append(base_args + ["-p", "geoips"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -56,11 +66,16 @@ class TestGeoipsListPackages(BaseCliTest):
             assert "type `geoips list packages`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
-            assert args == ["geoips", "list", "packages"]
+            for arg in ["geoips", "list", "packages"]:
+                assert arg in args
             # Assert that the correct headers exist in the CLI output
-            headers = ["GeoIPS Package", "Docstring", "Package Path"]
-            for header in headers:
-                assert header in output
+            headers = {
+                "GeoIPS Package": "package",
+                "Docstring": "docstring",
+                "Package Path": "package_path",
+            }
+            selected_cols = self.retrieve_selected_columns_from_list_command(args)
+            self.assert_correct_headers_in_output(output, headers, selected_cols)
             # Assert that we found every installed package
             for pkg_name in self.plugin_packages:
                 assert pkg_name in output

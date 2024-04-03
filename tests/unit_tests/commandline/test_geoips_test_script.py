@@ -116,7 +116,7 @@ class TestGeoipsTestScript(BaseCliTest):
                 "geoips test script -p <package_name> <--integration> <script_name>`"
                 in output
             )
-        elif "-i" in args:
+        elif "--integration" in args:
             checklists = {
                 "dependencies": ["git", "python"],
                 "test_data_names": ["test_data_amsr2", "test_data_noaa_aws"],

@@ -20,15 +20,19 @@ class TestGeoipsListPlugins(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            self._cmd_list = [self._list_plugins_args]
+            base_args = self._list_plugins_args
+            self._cmd_list = [base_args]
             for pkg_name in self.plugin_packages:
-                self._cmd_list.append(self._list_plugins_args + ["-p", pkg_name])
+                self._cmd_list.append(base_args + ["-p", pkg_name])
+            # Add argument list invoking the --columns flag
+            self._cmd_list.append(base_args + ["--columns", "package", "interface"])
+            self._cmd_list.append(base_args + ["--columns", "plugin_type", "family"])
+            self._cmd_list.append(base_args + ["--columns", "relpath", "source_names"])
+            self._cmd_list.append(base_args + ["--columns", "plugin_name", "relpath"])
             # Add argument list which invokes the help message for this command
-            self._cmd_list.append(["geoips", "list", "plugins", "-h"])
+            self._cmd_list.append(base_args + ["-h"])
             # Add argument list with a non-existent package name
-            self._cmd_list.append(
-                ["geoips", "list", "plugins", "-p", "non_existent_package"]
-            )
+            self._cmd_list.append(base_args + ["-p", "non_existent_package"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -61,17 +65,17 @@ class TestGeoipsListPlugins(BaseCliTest):
             assert "To use, type `geoips list plugins`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
-            headers = [
-                "GeoIPS Package",
-                "Interface",
-                "Interface Type",
-                "Family",
-                "Plugin Name",
-                "Relative Path",
-            ]
+            selected_cols = self.retrieve_selected_columns_from_list_command(args)
+            headers = {
+                "GeoIPS Package": "package",
+                "Interface Name": "interface",
+                "Interface Type": "plugin_type",
+                "Family": "family",
+                "Plugin Name": "plugin_name",
+                "Relative Path": "relpath",
+            }
             # Assert that the correct headers exist in the CLI output
-            for header in headers:
-                assert header in output
+            self.assert_correct_headers_in_output(output, headers, selected_cols)
 
             if "-p" in args:
                 # certain package has been selected, ensure we found every pkg-plugin

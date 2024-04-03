@@ -1,6 +1,7 @@
 """Semi-Abstract CLI Test Class implementing attributes shared by sub-commands."""
 
 import abc
+import pytest
 import subprocess
 
 from geoips.geoips_utils import get_entry_point_group
@@ -75,6 +76,61 @@ class BaseCliTest(abc.ABC):
                 "test_data_viirs",
             ]
         return self._test_datasets
+
+    def retrieve_selected_columns_from_list_command(self, args):
+        """If --columns was used for a 'list' command, retrieve the list of columns.
+
+        Only used for commands that invoke 'list'. We've added a '--columns' option
+        for list commands, and this function will retrieve the selected list of
+        columns so we can assert that they, and nothing else, are listed correctly
+        in the output of the list command.
+
+        Parameters
+        ----------
+        args: list of strings
+            - Essentially <command_sent_to_cli>.split(" ")
+            - ie. "geoips list interface algorithms --columns package interface relpath"
+              would become:
+                    [
+                        "geoips", "list", "interface", "algorithms",
+                        "--columns", "package", "interface", "relpath"
+                    ]
+        """
+        selected_cols = None
+        if "--columns" in args:
+            start_idx = None
+            for idx, arg in enumerate(args):
+                if arg == "--columns":
+                    start_idx = idx + 1
+                    break
+            if start_idx is None or start_idx >= len(args):
+                usage_str = f"{' '.join(args[:3])} -h for more information."
+                pytest.fail(
+                    f"Unexpected usage of --columns arg. Please run {usage_str}"
+                )
+            selected_cols = args[start_idx:]
+        return selected_cols
+
+    def assert_correct_headers_in_output(self, output, headers, selected_cols):
+        """Ensure that all selected columns are in the corresponding 'list' output.
+
+        This is only applied to list commands, as they produce tabular output with
+        headers. Given output, a list of headers, and selected columns, check that
+        each corresponding header to each selected column is in the provided output.
+
+        Parameters
+        ----------
+        output: multiline str
+            - The caputured output of the terminal
+        headers: dict of strings
+            - The Corresponding Header, column_val dict to parse through
+        selected_columns: list of strings or None
+            - If None, asser that every Header key is in the output. Otherwise check
+              that the corresponding Header key, column_val is in the output
+        """
+        for header in headers:
+            if selected_cols is None or headers[header] in selected_cols:
+                assert header in output
 
     @property
     @abc.abstractmethod
