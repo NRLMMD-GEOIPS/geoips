@@ -21,12 +21,11 @@ class TestGeoipsListInterfaces(BaseCliTest):
             base_args = self._list_interfaces_args
             self._cmd_list = [base_args]
             for pkg_name in self.plugin_packages:
-                self._cmd_list.append(
-                    base_args + ["-i", "-p", pkg_name]
-                )
+                self._cmd_list.append(base_args + ["-i", "-p", pkg_name])
             # Add argument list which selects certain columns for generic interfaces
             self._cmd_list.append(
-                base_args + [
+                base_args
+                + [
                     "--columns",
                     "package",
                     "interface",
@@ -36,7 +35,8 @@ class TestGeoipsListInterfaces(BaseCliTest):
             )
             # Add argument list which selects certain columns for implemented interfaces
             self._cmd_list.append(
-                base_args + [
+                base_args
+                + [
                     "-i",
                     "-p",
                     "geoips",
@@ -74,7 +74,6 @@ class TestGeoipsListInterfaces(BaseCliTest):
             )
         elif "-p" in args and "-i" not in args:
             assert "You cannot use the `-p` flag without the `-i` flag." in error
-
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list interfaces ...' successful output is correct.

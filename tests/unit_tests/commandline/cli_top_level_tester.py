@@ -91,10 +91,8 @@ class BaseCliTest(abc.ABC):
             - Essentially <command_sent_to_cli>.split(" ")
             - ie. "geoips list interface algorithms --columns package interface relpath"
               would become:
-                    [
-                        "geoips", "list", "interface", "algorithms",
-                        "--columns", "package", "interface", "relpath"
-                    ]
+              ["geoips", "list", "interface", "algorithms",
+              "--columns", "package", "interface", "relpath"]
         """
         selected_cols = None
         if "--columns" in args:
