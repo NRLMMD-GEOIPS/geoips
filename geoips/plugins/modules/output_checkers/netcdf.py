@@ -268,13 +268,10 @@ def log_object_diff_values(object1, object2, compare_key):
     mindiff = (object2[compare_key] - object1[compare_key]).min()
     meandiff = (object2[compare_key] - object1[compare_key]).mean()
     messages = []
-    if mindiff != 0:
-        messages.append(f"mindiff {compare_key}: {mindiff}\n")
-    if maxdiff != 0:
-        messages.append(f"maxdiff {compare_key}: {maxdiff}\n")
-    if meandiff != 0:
-        messages.append(f"meandiff {compare_key}: {meandiff}\n")
-    log_with_emphasis(LOG.info, messages)
+    messages.append(f"mindiff {compare_key}: {mindiff}\n")
+    messages.append(f"maxdiff {compare_key}: {maxdiff}\n")
+    messages.append(f"meandiff {compare_key}: {meandiff}\n")
+    log_with_emphasis(LOG.info, *messages)
     return messages
 
 
