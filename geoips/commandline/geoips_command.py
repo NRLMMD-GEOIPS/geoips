@@ -85,7 +85,7 @@ class PluginPackages:
         get_plugin_packages() and get_plugin_package_paths() functions.
         """
         self.entrypoints = [
-            ep for ep in get_entry_point_group("geoips.plugin_packages")
+            ep.value for ep in get_entry_point_group("geoips.plugin_packages")
         ]
         self.paths = [
             dirname(resources.files(ep.value))
