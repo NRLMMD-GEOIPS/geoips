@@ -31,11 +31,11 @@ class TestGeoipsTestScript(BaseCliTest):
                 arg_list.insert(2, "script")
                 self._cmd_list.append(arg_list)
             # Add arg lists to run base integration tests
-            self._cmd_list.append(base_args + ["-i", "base_install.sh"])
-            self._cmd_list.append(base_args + ["-i", "base_test.sh"])
+            self._cmd_list.append(base_args + ["--integration", "base_install.sh"])
+            self._cmd_list.append(base_args + ["--integration", "base_test.sh"])
             # Add arg list to run integration tests from another package (will fail)
             self._cmd_list.append(
-                base_args + ["-p", "data_fusion", "-i", "base_test.sh"]
+                base_args + ["-p", "data_fusion", "--integration", "base_test.sh"]
             )
         return self._cmd_list
 
@@ -51,8 +51,10 @@ class TestGeoipsTestScript(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        assert "geoips test script -p <package_name> <-i> <script_name>`" in error
-
+        assert (
+            "geoips test script -p <package_name> <--integration> <script_name>`"
+            in error
+        )
     def check_output(self, args, output):
         """Ensure that the 'geoips test script ...' successful output is correct.
 
@@ -65,7 +67,10 @@ class TestGeoipsTestScript(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            assert "geoips test script -p <package_name> <-i> <script_name>`" in output
+            assert (
+                "geoips test script -p <package_name> <--integration> <script_name>`"
+                in output
+            )
         elif "-i" in args:
             checklists = {
                 "dependencies": ["git", "python"],
