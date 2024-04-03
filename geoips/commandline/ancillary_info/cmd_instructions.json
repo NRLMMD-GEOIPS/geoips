@@ -197,8 +197,8 @@
             ]
         },
         "test script": {
-            "help_str": "Runs a specific test script (integration-based or normal), found within a certain\nGeoIPS package. If this is specified as an integration test, this will only work\nusing the 'geoips' package. Use '-i' or '--integration' to specify that the script\nis integration-based. Defaults to the 'geoips' package.\n",
-            "usage_str": "To use, type `geoips test script -p <package_name> <-i> <script_name>`.\n",
+            "help_str": "Runs a specific test script (integration-based or normal), found within a certain\nGeoIPS package. If this is specified as an integration test, this will only work\nusing the 'geoips' package. Use '--integration' to specify that the script\nis integration-based. Defaults to the 'geoips' package.\n",
+            "usage_str": "To use, type `geoips test script -p <package_name> <--integration> <script_name>`.\n",
             "output_info": [
                 "Output of the Script Being Ran"
             ]

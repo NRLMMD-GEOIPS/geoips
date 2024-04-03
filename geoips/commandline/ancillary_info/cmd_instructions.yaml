@@ -270,10 +270,10 @@ instructions:
     help_str: |
       Runs a specific test script (integration-based or normal), found within a certain
       GeoIPS package. If this is specified as an integration test, this will only work
-      using the 'geoips' package. Use '-i' or '--integration' to specify that the script
+      using the 'geoips' package. Use '--integration' to specify that the script
       is integration-based. Defaults to the 'geoips' package.
     usage_str: |
-      To use, type `geoips test script -p <package_name> <-i> <script_name>`.
+      To use, type `geoips test script -p <package_name> <--integration> <script_name>`.
     output_info:
       - Output of the Script Being Ran
   test unit-test:
