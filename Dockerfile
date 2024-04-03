@@ -46,5 +46,5 @@ COPY --chown=${USER_ID}:${GROUP_ID} . ${GEOIPS_PACKAGES_DIR}/geoips
 
 WORKDIR ${GEOIPS_PACKAGES_DIR}/geoips
 RUN cd ${GEOIPS_PACKAGES_DIR}/geoips \
-    && pip install --no-cache . geoips[test] \
+    && pip install -e "$GEOIPS_PACKAGES_DIR/geoips[test]" \
     && create_plugin_registries
