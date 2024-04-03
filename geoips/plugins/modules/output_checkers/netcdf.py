@@ -199,7 +199,9 @@ def outputs_match(plugin, output_product, compare_product):
         diffout += [f"\nCompare: {compare_xobj}\n"]
         diffout += [f"\n{resp}\n"]
         for varname in compare_xobj.variables:
-            logged_messages = log_object_diff_values(out_xobj, compare_xobj, varname)
+            logged_messages = log_object_diff_values(
+                out_xobj, compare_xobj, varname, log_function=LOG.warning
+            )
             diffout.extend([[m] for m in logged_messages])
         retval = False
 
@@ -210,7 +212,9 @@ def outputs_match(plugin, output_product, compare_product):
         for line in str(resp).split("\n"):
             log_with_emphasis(LOG.info, line)
         for varname in compare_xobj.variables:
-            log_object_diff_values(out_xobj, compare_xobj, varname)
+            log_object_diff_values(
+                out_xobj, compare_xobj, varname, log_function=LOG.info
+            )
 
     if retval is False:
         with open(out_difftxt, "w") as fobj:
@@ -220,14 +224,18 @@ def outputs_match(plugin, output_product, compare_product):
     return True
 
 
-def log_object_diff_values(object1, object2, compare_key):
+def log_object_diff_values(object1, object2, compare_key, log_function=LOG.info):
     r"""
     Log differences two objects via key and returns messages detailing differences.
 
     Computes the maximum, minimum, and mean differences for the values associated
     with a specified key in two objects. Generates messages for any non-zero
     differences and logs these messages. The messages are also returned as a list
-    of strings for further use.
+    of strings for further use. Takes in an optional custom logging function,
+    defaults to info logging.
+
+    Objects must expose a min, max, and mean function after the difference
+    between them is computed.
 
     Parameters
     ----------
@@ -239,6 +247,9 @@ def log_object_diff_values(object1, object2, compare_key):
         compare key and arithmetic operations.
     compare_key : str
         The key for the values to be compared between `object1` and `object2`.
+    log_func : func, optional
+        The function to be used for logging, must take in a list of strings of min
+        length 0.
 
     Returns
     -------
@@ -267,14 +278,12 @@ def log_object_diff_values(object1, object2, compare_key):
     maxdiff = (object2[compare_key] - object1[compare_key]).max()
     mindiff = (object2[compare_key] - object1[compare_key]).min()
     meandiff = (object2[compare_key] - object1[compare_key]).mean()
-    messages = []
-    if mindiff != 0:
-        messages.append(f"mindiff {compare_key}: {mindiff}\n")
-    if maxdiff != 0:
-        messages.append(f"maxdiff {compare_key}: {maxdiff}\n")
-    if meandiff != 0:
-        messages.append(f"meandiff {compare_key}: {meandiff}\n")
-    log_with_emphasis(LOG.info, messages)
+    messages = [
+        f"mindiff {compare_key}: {mindiff}\n",
+        f"maxdiff {compare_key}: {maxdiff}\n",
+        f"meandiff {compare_key}: {meandiff}\n",
+    ]
+    log_with_emphasis(log_function, messages)
     return messages
 
 
