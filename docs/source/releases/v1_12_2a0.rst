@@ -27,7 +27,31 @@ Version 1.12.2a0 (2024-02-21)
 
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
-  
+
+Enhancements
+============
+
+Added Log with Emphasis function
+--------------------------------
+
+Scattered throughout GeoIPS (and other packages too), are many Log statements that use
+'***********************...' to emphasize the content in between them. While this is
+easy to see in the Log output, it's extremely cluttered in the actual code. For this
+reason, I've added a 'log_with_emphasis' function to handle this. All you need to do now
+is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you.
+
+::
+
+    modified: geoips/geoips/commandline/log_setup.py
+    modified: geoips/geoips/interfaces/module_based/output_checkers.py
+    modified: geoips/geoips/plugins/modules/output_checkers/geotiff.py
+    modified: geoips/geoips/plugins/modules/output_checkers/image.py
+    modified: geoips/geoips/plugins/modules/output_checkers/netcdf.py
+    modified: geoips/geoips/plugins/modules/output_checkers/text.py
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
+    removed: geoips/tests/unit_tests/commandline/log_setup.py
+    added: geoips/tests/unit_tests/commandline/test_log_setup.py
+
 Enhancements
 ============
 
@@ -105,15 +129,15 @@ without impacting existing functionality. It appears safe to allow this pollutio
 ::
 
     modified: tests/unit_tests/commandline/log_setup.py
-   
+
 Remove unnessesary checks for and mentions of imagemagick
 ---------------------------------------------------------
 ..
   *From NRLMMD-GEOIPS/geoips#: YYYY-MM-DD, Removed unnecessary requirement for imagemagick*
 
 In v1.11.3a0 imagemagick functionality was replaced with other libraries. As such,
-imagemagick was no longder a dependancy. However, the installation docs, Dockerfile, 
-and setup scripts were not updated to reflect this change at the time. This fixes a 
+imagemagick was no longder a dependancy. However, the installation docs, Dockerfile,
+and setup scripts were not updated to reflect this change at the time. This fixes a
 bug during installation where the user is forced to install imagemagick to pass tests
 despite it no longer being used. It also updates the documentation accordingly.
 
@@ -132,8 +156,8 @@ Add make to expert installation dependencies
   *From NRLMMD-GEOIPS/geoips#454: 2024-03-15, Add make to expert installation dependencies*
 
 
-`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`. 
-To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on 
+`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`.
+To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on
 the expert installation instructions. It was added.
 
 ::

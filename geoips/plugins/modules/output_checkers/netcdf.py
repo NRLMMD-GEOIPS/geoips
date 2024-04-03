@@ -123,6 +123,8 @@ def outputs_match(plugin, output_product, compare_product):
     bool
         Return True if products match, False if they differ
     """
+    from geoips.commandline.log_setup import log_with_emphasis
+
     out_difftxt = plugin.get_out_diff_fname(compare_product, output_product)
     diffout = []
     retval = True
