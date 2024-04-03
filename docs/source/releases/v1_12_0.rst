@@ -554,4 +554,3 @@ in a human readable, interpretable format. To do so, we need to add the argument
 ::
 
     modified: geoips/create_plugin_registries.py
-
