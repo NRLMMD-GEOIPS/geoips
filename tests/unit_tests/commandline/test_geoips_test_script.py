@@ -55,6 +55,7 @@ class TestGeoipsTestScript(BaseCliTest):
             "geoips test script -p <package_name> <--integration> <script_name>`"
             in error
         )
+
     def check_output(self, args, output):
         """Ensure that the 'geoips test script ...' successful output is correct.
 
