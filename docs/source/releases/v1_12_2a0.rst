@@ -51,6 +51,8 @@ is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you
     modified: geoips/geoips/plugins/modules/procflows/single_source.py
     removed: geoips/tests/unit_tests/commandline/log_setup.py
     added: geoips/tests/unit_tests/commandline/test_log_setup.py
+    added: tests/scripts/abi.static.Infrared.netcdf_geoips.sh
+    added: tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-16.Infrared_latitude_longitude.denver.nc
 
 Bug Fixes
 =========
@@ -112,8 +114,8 @@ Remove unnessesary checks for and mentions of imagemagick
   *From NRLMMD-GEOIPS/geoips#: YYYY-MM-DD, Removed unnecessary requirement for imagemagick*
 
 In v1.11.3a0 imagemagick functionality was replaced with other libraries. As such,
-imagemagick was no longder a dependancy. However, the installation docs, Dockerfile, 
-and setup scripts were not updated to reflect this change at the time. This fixes a 
+imagemagick was no longder a dependancy. However, the installation docs, Dockerfile,
+and setup scripts were not updated to reflect this change at the time. This fixes a
 bug during installation where the user is forced to install imagemagick to pass tests
 despite it no longer being used. It also updates the documentation accordingly.
 
@@ -132,8 +134,8 @@ Add make to expert installation dependencies
   *From NRLMMD-GEOIPS/geoips#454: 2024-03-15, Add make to expert installation dependencies*
 
 
-`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`. 
-To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on 
+`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`.
+To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on
 the expert installation instructions. It was added.
 
 ::

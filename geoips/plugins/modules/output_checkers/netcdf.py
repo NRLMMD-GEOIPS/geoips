@@ -283,7 +283,7 @@ def log_object_diff_values(object1, object2, compare_key, log_function=LOG.info)
         f"maxdiff {compare_key}: {maxdiff}\n",
         f"meandiff {compare_key}: {meandiff}\n",
     ]
-    log_with_emphasis(log_function, messages)
+    log_with_emphasis(log_function, *messages)
     return messages
 
 
