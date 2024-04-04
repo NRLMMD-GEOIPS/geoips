@@ -41,6 +41,8 @@ def test_log_with_emphasis(message, caplog):
         assert "** " + wmessage in caplog.text
     assert "*" * (max_message_len + 6) in caplog.text
     assert "\n" in caplog.text
+    with pytest.raises(ValueError):
+        log_with_emphasis(LOG.info, "")
 
 
 def test_log_interactive_geoips(caplog):
