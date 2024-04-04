@@ -104,13 +104,14 @@ class GeoipsCommand(abc.ABC):
     used for initializing sub-command classes of a certain GeoIPS Command.
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, legacy=False):
         """Initialize GeoipsCommand with a subparser and default to the command func.
 
         Do this for each GeoipsCLI.geoips_subcommand_classes. This will instantiate
         each subcommand class with a parser and point towards the correct default
         function to call if that subcommand has been called.
         """
+        self.legacy = legacy
         self.nrl_url = "https://github.com/NRLMMD-GEOIPS/"
         self.parent = parent
         if self.parent:
@@ -183,7 +184,7 @@ class GeoipsCommand(abc.ABC):
                 help=f"{self.subcommand_name} instructions.",
             )
             for subcmd_cls in self.subcommand_classes:
-                subcmd_cls(parent=self)
+                subcmd_cls(parent=self, legacy=self.legacy)
 
     @property
     def plugin_packages(self):

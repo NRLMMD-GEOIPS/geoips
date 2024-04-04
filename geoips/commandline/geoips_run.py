@@ -17,7 +17,7 @@ class GeoipsRunConfigBased(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run config_based' Command."""
-        add_args(parser=self.subcommand_parser)
+        add_args(parser=self.subcommand_parser, legacy=self.legacy)
 
     def __call__(self, args):
         """Run the provided GeoIPS command.
@@ -27,11 +27,16 @@ class GeoipsRunConfigBased(GeoipsExecutableCommand):
         args: Namespace()
             - The argument namespace to parse through
         """
-        if args.procflow is None:
-            # If None, set to config_based. We don't want users to have to specify
-            # what procflow will be used as it is specified in 'geoips run config_based'
-            # However, if a user has implemented legacy 'run_procflow', we want to
-            # allow them to manually specify it so their procflow works correctly
+        if args.procflow is None and self.legacy:
+            err_str = "Deprecated, Legacy 'run_procflow' call was used and --procflow "
+            err_str += "flag wasn't specified. Please either specify which procflow is "
+            err_str += "being executed via '--procflow <procflow_name>' or use the "
+            err_str += "supported procflow call 'geoips run <procflow_name>'"
+            self.subcommand_parser.error(err_str)
+        elif args.procflow is None:
+            # If None, set to 'config_based'. We don't want users to have to specify
+            # what procflow will be used as it is specified in
+            # 'geoips run config_based'.
             args.procflow = "config_based"
         main(ARGS=args)
 
@@ -44,7 +49,7 @@ class GeoipsRunDataFusion(GeoipsCommand):
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run data_fusion' Command."""
-        data_fusion_add_args(parser=self.subcommand_parser)
+        data_fusion_add_args(parser=self.subcommand_parser, legacy=self.legacy)
 
     def __call__(self, args):
         """Run the provided GeoIPS command.
@@ -54,11 +59,16 @@ class GeoipsRunDataFusion(GeoipsCommand):
         args: Namespace()
             - The argument namespace to parse through
         """
-        if args.procflow is None:
-            # If None, set to data_fusion. We don't want users to have to specify
-            # what procflow will be used as it is specified in 'geoips run data_fusion'
-            # However, if a user has implemented legacy 'run_procflow', we want to
-            # allow them to manually specify it so their procflow works correctly
+        if args.procflow is None and self.legacy:
+            err_str = "Deprecated, Legacy 'data_fusion_procflow' call was used and "
+            err_str += "--procflow flag wasn't specified. Please either specify which "
+            err_str += "procflow is being executed via '--procflow <procflow_name>' or "
+            err_str += "use the supported procflow call 'geoips run <procflow_name>'"
+            self.subcommand_parser.error(err_str)
+        elif args.procflow is None:
+            # If None, set to 'data_fusion'. We don't want users to have to specify
+            # what procflow will be used as it is specified in
+            # 'geoips run data_fusion'.
             args.procflow = "data_fusion"
         main(ARGS=args)
 
@@ -71,7 +81,7 @@ class GeoipsRunSingleSource(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run single_source' Command."""
-        add_args(parser=self.subcommand_parser)
+        add_args(parser=self.subcommand_parser, legacy=self.legacy)
 
     def __call__(self, args):
         """Run the provided GeoIPS command.
@@ -81,12 +91,16 @@ class GeoipsRunSingleSource(GeoipsExecutableCommand):
         args: Namespace()
             - The argument namespace to parse through
         """
-        if args.procflow is None:
-            # If None, set to single_source. We don't want users to have to specify
+        if args.procflow is None and self.legacy:
+            err_str = "Deprecated, Legacy 'run_procflow' call was used and --procflow "
+            err_str += "flag wasn't specified. Please either specify which procflow is "
+            err_str += "being executed via '--procflow <procflow_name>' or use the "
+            err_str += "supported procflow call 'geoips run <procflow_name>'"
+            self.subcommand_parser.error(err_str)
+        elif args.procflow is None:
+            # If None, set to 'single_source'. We don't want users to have to specify
             # what procflow will be used as it is specified in
             # 'geoips run single_source'.
-            # However, if a user has implemented legacy 'run_procflow', we want to
-            # allow them to manually specify it so their procflow works correctly
             args.procflow = "single_source"
         main(ARGS=args)
 

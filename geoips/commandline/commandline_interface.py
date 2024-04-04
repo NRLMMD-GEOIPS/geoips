@@ -38,7 +38,7 @@ class GeoipsCLI(GeoipsCommand):
         GeoipsValidate,
     ]
 
-    def __init__(self):
+    def __init__(self, legacy=False):
         """Initialize the GeoipsCLI and each of it's sub-command classes.
 
         The CLI contains a single top-level argparse.ArgumentParser() which contains
@@ -49,7 +49,7 @@ class GeoipsCLI(GeoipsCommand):
         subcommand classes.
         """
         self._subcommand_name = "cli"  # Needed since we inherit from GeoipsCommand
-        super().__init__()
+        super().__init__(legacy=legacy)
 
         self.GEOIPS_ARGS = self.subcommand_parser.parse_args()
 
@@ -71,29 +71,17 @@ def support_legacy_procflows():
     'geoips run single_source' or 'geoips run data_fusion'. This function parses through
     sys.argv and performs the necessary translations to match our current format so that
     the CLI's argparser can call the appropriate functionality.
+
+    Returns
+    -------
+    legacy: bool
+        - The truth value as to whether or not a legacy procflow call was used
     """
     defined_procflow = None
     if "run_procflow" == basename(sys.argv[0]):
         entrypoint = "run_procflow"
         defined_procflow = "single_source"
 
-        if "--procflow" in sys.argv:
-            # If '--procflow' was found in the command line arguments, loop through the
-            # arguments and grab the correct procflow.
-
-            # NOTE: If --procflow is not defined in the arguments and you are trying to
-            # run a 'config_based' procflow, this will not work correctly. Since we have
-            # no method of determining what procflow was specfied to run via
-            # 'run_procflow' without the '--procflow' flag. We currently default to
-            # 'single_source' procflow if '--procflow' is not defined using
-            # 'run_procflow'.
-
-            # Please either specify '--procflow config_based' if using 'run_procflow' or
-            # just use the newly created 'geoips run config_based' to ensure your
-            # procflow works correctly.
-            for idx, arg in enumerate(sys.argv):
-                if arg == "--procflow" and len(sys.argv) > idx + 1:
-                    defined_procflow = sys.argv[idx + 1]
     elif "data_fusion_procflow" == basename(sys.argv[0]):
         entrypoint = "data_fusion_procflow"
         defined_procflow = "data_fusion"
@@ -102,15 +90,23 @@ def support_legacy_procflows():
         # Either 'run_procflow' or 'data_fusion_procflow' was called, make the
         # appropriate translations in sys.argv so the CLI's parser can call the correct
         # functionality
+        if "--procflow" in sys.argv:
+            # If '--procflow' was found in the command line arguments, loop through the
+            # arguments and grab the correct procflow.
+            for idx, arg in enumerate(sys.argv):
+                if arg == "--procflow" and len(sys.argv) > idx + 1:
+                    defined_procflow = sys.argv[idx + 1]
         sys.argv[0] = sys.argv[0].replace(entrypoint, "geoips")
         sys.argv.insert(1, "run")
         sys.argv.insert(2, defined_procflow)
+        return True
+    return False
 
 
 def main():
     """Entry point for GeoIPS command line interface (CLI)."""
-    support_legacy_procflows()
-    geoips_cli = GeoipsCLI()
+    legacy = support_legacy_procflows()
+    geoips_cli = GeoipsCLI(legacy)
     geoips_cli.execute_command()
 
 
