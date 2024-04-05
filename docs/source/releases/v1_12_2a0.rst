@@ -23,6 +23,7 @@ Version 1.12.2a0 (2024-02-21)
   * Remove inconsistent unit test test_log_interactive_non_geoips
   * Modify algorithm_interpolator_colormapper to only provide input xarray
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
+  * Fix bad filename wrapping with log_with_emphasis
 * Refactor
 
   * Make JSON Plugin Registries Readable
@@ -149,6 +150,15 @@ the expert installation instructions. It was added.
 ::
 
     modified: docs/source/starter/expert_installation.rst
+
+Fix bad filename wrapping with log_with_emphasis
+------------------------------------------------
+
+*From issue GEOIPS#468*
+
+Fixes poor wrapping for long filenames when logged with emphasis. Now does not auto-wrap
+long filenames and prints as is. Additionally, any word logged over 74 chars will not be 
+broken.
 
 Refactor
 ========
