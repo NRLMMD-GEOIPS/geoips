@@ -1,10 +1,10 @@
 $id: sectors.generated
 $ref: bases.top
 description: |
-  The default sectors generated configuration. Requires spec, which defines the structure
-  of the generated sector. This includes which sector_spec_generator generated this sector,
-  as well as arguments to provide the sector_spec_generator to appropriately generate the 
-  correct sector.
+  The default sectors generated configuration. Requires spec, which defines the
+  structure of the generated sector. This includes which sector_spec_generator generated
+  this sector, as well as arguments to provide the sector_spec_generator to
+  appropriately generate the correct sector.
 required:
   - spec
 properties:

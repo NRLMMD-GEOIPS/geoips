@@ -1,5 +1,9 @@
 $id: sectors.metadata_families.atmosriver
 type: object
+description: |
+  Metadata which defines an atmosriver sector plugin. Needs numeric information for
+  min_lat, min_lon, max_lat, max_lon, box_resolution_km, to define the sector's metadata
+  appropriately.
 properties:
   min_lat:
     type: number

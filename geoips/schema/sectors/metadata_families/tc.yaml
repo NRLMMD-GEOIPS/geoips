@@ -1,5 +1,12 @@
 $id: sectors.metadata_families.tc
 type: object
+description: |
+  Metadata which defines a Tropical Cyclone (tc) sector plugin. Needs numeric
+  information for pressure, vmax, clat, clon (center lat/lon), integer-based information
+  for storm_num, storm_year, string-based information for aid_type, storm_name,
+  storm_basin, source_file, final_storm_name, and object-based information for
+  synoptic_time and deck_line to propertly define this tc sector's metadata
+  appropriately.
 properties:
   pressure:
     type: number
