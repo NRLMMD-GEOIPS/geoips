@@ -95,6 +95,17 @@ useful. Now, only useful AttributeErrors should be raised.
     modified: geoips/commandline/log_setup.py
     added: tests/unit_tests/commandline/log_setup.py
 
+Update Dockerfile to install rasterio properly
+----------------------------------------------
+
+..
+    *From GEOIPS#NN: 2024-03-XX, TODO*
+
+Previously puilding the provided Dockerfile did not build a working image. It failed on the last step (installation of geoips) and hangs on installing rasterio. This fix updates the Dockerfile to install rasterio dependancies (``gdal-bin`` and ``libgdal-dev``) and additionally installs software-properties-common for access to add-apt-repository to aid in gdal installation.
+
+::
+    modified: Dockerfile
+
 Remove inconsistent unit test test_log_interactive_non_geoips
 -------------------------------------------------------------
 
