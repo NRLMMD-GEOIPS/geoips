@@ -6,7 +6,7 @@ required:
   # - spec
 unevaluatedProperties: false
 properties:
-  source_name:
+  source_names:
     description: |
       A string representing where the data is sourced from. This refers
       to the atmospheric product which created the data to be used.

@@ -1,8 +1,8 @@
 $id: products.list
 $ref: bases.top
 description: |
-  The default products list configuration. Requires spec which defines the structure of the
-  list. A list is an array which contains product plugins.
+  The default products list configuration. Requires spec which defines the structure of
+  the list. A list is an array which contains product plugins.
 required:
   - spec
 properties:

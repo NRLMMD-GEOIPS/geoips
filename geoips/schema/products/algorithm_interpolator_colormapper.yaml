@@ -2,10 +2,11 @@ $id: products.algorithm_interpolator_colormapper
 $ref: bases.top
 type: object
 description: |
-  The default products algorithm_interpolator_colormap configuration. Requires spec, which defines the structure
-  of the algorithm_interpolator_colormap. Has additional properties family and source_name, which define the 
-  family in which the algorithm_interpolator_colormap resides, and the source_name of where the 
-  algorithm_interpolator_colormap is derived from.
+  The default products algorithm_interpolator_colormapper product configuration.
+  Requires spec, which defines the structure of the algorithm_interpolator_colormapper
+  product plugins. Has additional properties such as source_name, which defines the
+  source_name of where the product using the algorithm_interpolator_colormapper family
+  is derived from.
 required:
   - spec
 properties:
