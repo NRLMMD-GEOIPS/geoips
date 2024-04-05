@@ -13,40 +13,19 @@
 Version 1.12.2a0 (2024-02-21)
 *****************************
 
-* Documentation
-
-  * Added documentation for create_plugin_registries and PluginRegistry Class
-
-Documentation
-=============
-
-Added Documentation for create_plugin_registries and PluginRegistry Class
--------------------------------------------------------------------------
-
-With the addition of create_plugin_registries and the new PluginRegistry Class, we have
-a need to add documentation describing what these do, how they are used, and the
-benefits that come from adding them to the main GeoIPS code. This branch does exactly
-that, and adds a section under 'UserGuide' describing what these pieces of code actually
-do.
-
-::
-
-    modified: geoips/docs/source/userguide/index.rst
-    added: geops/docs/source/userguide/plugin_registries.rst
-=======
-
 * Bug fixes
 
   * Ensure that log.interactive works from plugins when imported independently.
   * Make add_log_level a callable class to fix AttributeErrors.
   * Modify algorithm_interpolator_colormapper to only provide input xarray
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
-
-
 * Refactor
 
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
+* Documentation
+
+  * Added documentation for create_plugin_registries and PluginRegistry Class
 
 Bug Fixes
 =========
@@ -153,3 +132,20 @@ in a human readable, interpretable format. To do so, we need to add the argument
 ::
 
     modified: geoips/create_plugin_registries.py
+
+Documentation
+=============
+
+Added Documentation for create_plugin_registries and PluginRegistry Class
+-------------------------------------------------------------------------
+
+With the addition of create_plugin_registries and the new PluginRegistry Class, we have
+a need to add documentation describing what these do, how they are used, and the
+benefits that come from adding them to the main GeoIPS code. This branch does exactly
+that, and adds a section under 'UserGuide' describing what these pieces of code actually
+do.
+
+::
+
+    modified: geoips/docs/source/userguide/index.rst
+    added: geops/docs/source/userguide/plugin_registries.rst
