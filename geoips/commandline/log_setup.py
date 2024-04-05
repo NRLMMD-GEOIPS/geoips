@@ -14,6 +14,7 @@
 
 import logging
 import sys
+import re
 from textwrap import wrap
 
 
@@ -22,7 +23,8 @@ def log_with_emphasis(print_func, *messages):
 
     Print one or more messages using the specified print function. The messages
     will be surrounded in asterisks. Long messages will be word wrapped to fit
-    within a maximum width of 74 characters.
+    within a maximum width of 74 characters, save for any individual words that
+    are over 74 characters which will not be broken.
 
     Parameters
     ----------
@@ -35,7 +37,7 @@ def log_with_emphasis(print_func, *messages):
     wrapped_messages = []
     for message in messages:
         # wrap the message to a specified length
-        wrapped_messages += wrap(message, width=74)
+        wrapped_messages += wrap(message, width=74, break_long_words=False)
     max_message_len = min(74, max([len(wmessage) for wmessage in wrapped_messages]))
     # adding +6 to max_message_len as we add '** ' and ' **' pre/post-fixes (6 chars)
     print_func("*" * (max_message_len + 6))
