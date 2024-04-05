@@ -4,7 +4,8 @@ type: object
 description: |
   The default product_defaults algorithm configuration. An algorithm is a plugin which
   defines the name of the algorithm, as well as the arguments of the algorithm.
-  Arguments can include the data range, normalization requirements, and more. Can be empty.
+  Arguments can include the data range, normalization requirements, and more. Can be
+  empty.
 unevaluatedProperties: false
 required:
   - plugin

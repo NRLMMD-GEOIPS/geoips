@@ -2,10 +2,10 @@ $id: product_defaults.bases.windbarb_plotter
 title: "Windbarb Plotter"
 type: object
 description: |
-  The default product_defaults windbarb plotter configuration. This is a plugin which must
-  define the name of the windbarb plotter and the arguments for the windbarb plotter. Requires
-  arguments [thinning, length, width, sizes_dict, rain_size], which define the constraints for
-  the windbarb plotter to display with.
+  The default product_defaults windbarb plotter configuration. This is a plugin which
+  must define the name of the windbarb plotter and the arguments for the windbarb
+  plotter. Requires arguments [thinning, length, width, sizes_dict, rain_size], which
+  define the constraints for the windbarb plotter to display with.
 unevaluatedProperties: false
 required:
   - plugin

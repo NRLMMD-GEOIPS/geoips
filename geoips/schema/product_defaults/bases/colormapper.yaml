@@ -2,9 +2,9 @@ $id: product_defaults.bases.colormapper
 title: "Colormap"
 type: object
 description: |
-  The default product_defaults colormap configuration. A colormap is a plugin which defines
-  the name of the colormap and its arguments. This includes the data range of the colormap,
-  the source or path, labeling constraints, and more.
+  The default product_defaults colormap configuration. A colormap is a plugin which
+  defines the name of the colormap and its arguments. This includes the data range of
+  the colormap, the source or path, labeling constraints, and more.
 unevaluatedProperties: false
 required:
   - plugin

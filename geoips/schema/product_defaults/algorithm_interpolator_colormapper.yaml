@@ -2,8 +2,11 @@ $id: product_defaults.algorithm_interpolator_colormapper
 $ref: bases.top
 type: object
 description: |
-  The default product_defaults algorithm_interpolator_colormap configuration. Requires spec, which specifies
-  the algorithm_interpolator_colormap structure. This includes the algorithm type, colormap, interpolator, display_name, and more.
+  The default product_defaults algorithm_interpolator_colormapper configuration.
+  Requires spec, which specifies the algorithm_interpolator_colormapper structure. This
+  includes the algorithm type, colormapper, interpolator, display_name, and more. See
+  schema/product_defaults/specs/algorithm_interpolator_colormapper.yaml for more
+  information.
 required:
   - spec
 properties:

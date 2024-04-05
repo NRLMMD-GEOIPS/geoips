@@ -1,6 +1,11 @@
 $id: product_defaults.interpolator
 $ref: bases.top
 type: object
+description: |
+  The default product_defaults interpolator configuration. Requires spec,
+  which specifies the interpolator structure. This includes the interpolator,
+  display_name, coverage_checker, and more. See
+  schema/product_defaults/specs/interpolator.yaml for more information.
 required:
   - spec
 properties:

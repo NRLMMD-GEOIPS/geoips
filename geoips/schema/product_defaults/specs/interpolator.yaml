@@ -1,5 +1,10 @@
 $id: product_defaults.specs.interpolator
 type: object
+description: |
+  The default product_defaults interpolator configuration. Requires interpolator plugin.
+  It's properties are sub-plugins which define the interpolator to be applied to the
+  data. For more information, view each sub-plugin's description. Defined in
+  geoips/schema/product_defaults/bases.
 required:
   - interpolator
 properties:

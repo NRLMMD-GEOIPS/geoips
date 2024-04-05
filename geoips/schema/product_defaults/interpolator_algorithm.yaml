@@ -2,8 +2,10 @@ $id: product_defaults.interpolator_algorithm
 $ref: bases.top
 type: object
 description: |
-  The default product_defaults interpolator_algorithm configuration. Requires spec, which specifies
-  the interpolator_algorithm structure. This includes the algorithm type, interpolator, display_name, and more.
+  The default product_defaults interpolator_algorithm configuration. Requires spec,
+  which specifies the interpolator_algorithm structure. This includes the algorithm
+  type, interpolator, display_name, and more. See
+  schema/product_defaults/specs/interpolator_algorithm.yaml for more information.
 required:
   - spec
 properties:

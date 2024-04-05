@@ -3,7 +3,8 @@ $ref: bases.top
 type: object
 description: |
   The default product_defaults algorithm configuration. Requires spec, which specifies
-  the algorithm structure. This includes the algorithm type, display_name, and more.
+  the algorithm structure. This includes the algorithm type, display_name, and more. See
+  schema/product_defaults/specs/algorithm.yaml for more information.
 required:
   - spec
 properties:
