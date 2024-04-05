@@ -23,9 +23,7 @@ def generate_random_string(length):
 
 
 def insert_word_like_spaces_to_string(str):
-    """
-    Modify the input string by inserting spaces at random locations to make
-    "words" of length 2-8.
+    """Modify the input string by inserting spaces to make "words" of length 2-8.
 
     Parameters:
     - str (str): The input string to be modified.
