@@ -27,6 +27,10 @@ Version 1.12.2a0 (2024-02-21)
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
 
+* Documentation
+
+  * Update Schema Descriptions
+
 Bug Fixes
 =========
 
@@ -74,8 +78,8 @@ Remove unnessesary checks for and mentions of imagemagick
   *From NRLMMD-GEOIPS/geoips#: YYYY-MM-DD, Removed unnecessary requirement for imagemagick*
 
 In v1.11.3a0 imagemagick functionality was replaced with other libraries. As such,
-imagemagick was no longder a dependancy. However, the installation docs, Dockerfile, 
-and setup scripts were not updated to reflect this change at the time. This fixes a 
+imagemagick was no longder a dependancy. However, the installation docs, Dockerfile,
+and setup scripts were not updated to reflect this change at the time. This fixes a
 bug during installation where the user is forced to install imagemagick to pass tests
 despite it no longer being used. It also updates the documentation accordingly.
 
@@ -94,8 +98,8 @@ Add make to expert installation dependencies
   *From NRLMMD-GEOIPS/geoips#454: 2024-03-15, Add make to expert installation dependencies*
 
 
-`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`. 
-To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on 
+`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`.
+To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on
 the expert installation instructions. It was added.
 
 ::
@@ -132,3 +136,74 @@ in a human readable, interpretable format. To do so, we need to add the argument
 ::
 
     modified: geoips/create_plugin_registries.py
+
+Documentation
+=============
+
+Update Schema Descriptions
+--------------------------
+
+*From GEOIPS#233: 2023-06-15, Provide Descriptions for Schema YAML Files*
+
+Currently GeoIPS Schema Files have essentially no documentation on what these schemas
+actually accomplish. There are some comments scattered throughout the code, but largely
+these files have gone undocumented, leaving users without the proper knowledge of what
+the plugin / family does as a whole, and the properties they encompass. This branch
+adds top-level descriptions to each schema yaml file to provide the user with general
+knowledge of what the schema accomplishes. A later PR will document every property
+within the schema so that yaml files can be completely self-documenting.
+
+Files Modified:
+
+::
+
+    modified: geoips/schema/bases/top.yaml
+    modified: geoips/schema/product_defaults/algorithm.yaml
+    modified: geoips/schema/product_defaults/algorithm_colormapper.yaml
+    modified: geoips/schema/product_defaults/algorithm_interpolator_colormapper.yaml
+    modified: geoips/schema/product_defaults/bases/algorithm.yaml
+    modified: geoips/schema/product_defaults/bases/colormapper.yaml
+    modified: geoips/schema/product_defaults/bases/coverage_checker.yaml
+    modified: geoips/schema/product_defaults/bases/interpolator.yaml
+    modified: geoips/schema/product_defaults/bases/unvalidated.yaml
+    modified: geoips/schema/product_defaults/bases/windbarb_plotter.yaml
+    modified: geoips/schema/product_defaults/interpolator.yaml
+    modified: geoips/schema/product_defaults/interpolator_algorithm.yaml
+    modified: geoips/schema/product_defaults/interpolator_algorithm_colormapper.yaml
+    modified: geoips/schema/product_defaults/sectored_xarray_dict_to_output_format.yaml
+    modified: geoips/schema/product_defaults/specs/algorithm.yaml
+    modified: geoips/schema/product_defaults/specs/algorithm_colormapper.yaml
+    modified: geoips/schema/product_defaults/specs/algorithm_interpolator_colormapper.yaml
+    modified: geoips/schema/product_defaults/specs/interpolator.yaml
+    modified: geoips/schema/product_defaults/specs/interpolator_algorithm.yaml
+    modified: geoips/schema/product_defaults/specs/interpolator_algorithm_colormapper.yaml
+    modified: geoips/schema/product_defaults/specs/xarray_dict_to_output_format.yaml
+    modified: geoips/schema/product_defaults/unmodified.yaml
+    modified: geoips/schema/product_defaults/unsectored_xarray_dict_area_to_output_format.yaml
+    modified: geoips/schema/product_defaults/unsectored_xarray_dict_to_output_format.yaml
+    modified: geoips/schema/product_defaults/xarray_dict_to_output_format.yaml
+    modified: geoips/schema/products/algorithm.yaml
+    modified: geoips/schema/products/algorithm_colormapper.yaml
+    modified: geoips/schema/products/algorithm_interpolator_colormapper.yaml
+    modified: geoips/schema/products/bases/product.yaml
+    modified: geoips/schema/products/interpolator.yaml
+    modified: geoips/schema/products/interpolator_algorithm.yaml
+    modified: geoips/schema/products/interpolator_algorithm_colormapper.yaml
+    modified: geoips/schema/products/list.yaml
+    modified: geoips/schema/products/sectored_xarray_dict_area_to_output_format.yaml
+    modified: geoips/schema/products/sectored_xarray_dict_to_output_format.yaml
+    modified: geoips/schema/products/single.yaml
+    modified: geoips/schema/products/unmodified.yaml
+    modified: geoips/schema/products/unsectored_xarray_dict_area_to_output_format.yaml
+    modified: geoips/schema/products/unsectored_xarray_dict_to_output_format.yaml
+    modified: geoips/schema/products/xarray_dict_to_output_format.yaml
+    modified: geoips/schema/sectors/generated.yaml
+    modified: geoips/schema/sectors/metadata_families/atmosriver.yaml
+    modified: geoips/schema/sectors/metadata_families/pyrocb.yaml
+    modified: geoips/schema/sectors/metadata_families/static.yaml
+    modified: geoips/schema/sectors/metadata_families/stitched.yaml
+    modified: geoips/schema/sectors/metadata_families/tc.yaml
+    modified: geoips/schema/sectors/metadata_families/volcano.yaml
+    modified: geoips/schema/sectors/specs/area_definition.yaml
+    modified: geoips/schema/sectors/specs/center.yaml
+    modified: geoips/schema/sectors/static.yaml
