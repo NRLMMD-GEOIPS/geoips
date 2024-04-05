@@ -14,7 +14,6 @@
 
 import logging
 import sys
-import re
 from textwrap import wrap
 
 
