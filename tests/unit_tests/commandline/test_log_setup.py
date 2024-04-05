@@ -10,7 +10,6 @@ import pytest
 import os
 import random
 import string
-from textwrap import wrap
 from geoips import logging
 from glob import glob
 from geoips.commandline.log_setup import log_with_emphasis
@@ -23,7 +22,21 @@ def generate_random_string(length):
     return "".join(random.choices(string.ascii_letters, k=length))
 
 
-def insert_word_like_space_to_string(str):
+def insert_word_like_spaces_to_string(str):
+    """
+    Modify the input string by inserting spaces at random locations to make
+    "words" of length 2-8.
+
+    Parameters:
+    - str (str): The input string to be modified.
+
+    Returns:
+    - str: The modified string with spaces inserted at random locations.
+
+    Example:
+    >>> insert_word_like_spaces_to_string("HelloWorld")
+    'He lloW or ld'
+    """
     loc = random.randint(2, 3)
     while loc < len(str):
         str = str[:loc] + " " + str[loc + 1 :]
@@ -35,7 +48,9 @@ def generate_random_messages():
     """Generate a random amount of messages with random length."""
     num_messages = 20
     messages = [
-        insert_word_like_space_to_string(generate_random_string(random.randint(5, 110)))
+        insert_word_like_spaces_to_string(
+            generate_random_string(random.randint(5, 110))
+        )
         for _ in range(num_messages)
     ]
     return messages
@@ -45,7 +60,6 @@ def generate_random_messages():
 def test_log_with_emphasis(message, caplog):
     """Pytest function for testing the output of 'log_with_emphasis'."""
     caplog.set_level(logging.INFO)
-    max_message_len = min(74, len(message))
     log_with_emphasis(LOG.info, message)
     assert (  # top/bottom of box is formmated correctly
         "*" * 9  # three for boarders, and min of 5 for string length
