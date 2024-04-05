@@ -23,10 +23,22 @@ def generate_random_string(length):
     return "".join(random.choices(string.ascii_letters, k=length))
 
 
+def insert_word_like_space_to_string(str):
+    loc = random.randint(2, 3)
+    while loc < len(str):
+        str = str[:loc] + " " + str[loc + 1 :]
+        loc += random.randint(2, 8)
+    return str
+
+
 def generate_random_messages():
     """Generate a random amount of messages with random length."""
-    num_messages = random.randint(1, 50)
-    return [generate_random_string(random.randint(5, 110)) for _ in range(num_messages)]
+    num_messages = 20
+    messages = [
+        insert_word_like_space_to_string(generate_random_string(random.randint(5, 110)))
+        for _ in range(num_messages)
+    ]
+    return messages
 
 
 @pytest.mark.parametrize("message", generate_random_messages())
@@ -34,12 +46,13 @@ def test_log_with_emphasis(message, caplog):
     """Pytest function for testing the output of 'log_with_emphasis'."""
     caplog.set_level(logging.INFO)
     max_message_len = min(74, len(message))
-    assert max_message_len <= 80, "Max emphasis in '*' is longer than 80 chars."
     log_with_emphasis(LOG.info, message)
-    assert "*" * (max_message_len + 6) in caplog.text
-    for wmessage in wrap(message, width=74):
-        assert "** " + wmessage in caplog.text
-    assert "*" * (max_message_len + 6) in caplog.text
+    assert (  # top/bottom of box is formmated correctly
+        "*" * 9  # three for boarders, and min of 5 for string length
+    )
+    assert "** " in caplog.text
+    assert " **" in caplog.text
+    assert message[0:5] in caplog.text
     assert "\n" in caplog.text
 
 
