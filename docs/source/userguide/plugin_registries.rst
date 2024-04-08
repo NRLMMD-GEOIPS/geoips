@@ -127,7 +127,7 @@ during runtime to use their functionality.
 Benefits of a Plugin Registry
 -----------------------------
 
-The efficiency of the new plugin registries is a twenty-fold reduction in GeoIPS startup
+The high efficiency of the new plugin registries led to a twenty-fold reduction in startup
 time. In practice, this resulted in a reduction from >10 seconds to 0.5 seconds when
 importing GeoIPS. Largely, this is attributable to efficient json loading and waiting to
 instantiate the plugin registry until a user requests a plugin. Before, we dynamically
@@ -149,7 +149,7 @@ error that explains the discrepancy.
 Module_based plugins now use plugin registries instead of entry points. Previously,
 module plugins were accessed via their entry-point contained in a ``pyproject.toml``
 file. Thanks to the information stored in the plugin registries, this functionality has
-been surpplanted.  This is favourable because it enables standardized accessing of
+been supplanted.  This is favourable because it enables standardized accessing of
 plugins in a manner similar to that currently used to access yaml_based plugins.
 
 For more information about plugin registries, feel free to look at the source code for
