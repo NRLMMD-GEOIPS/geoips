@@ -22,7 +22,7 @@ def generate_random_string(length):
     return "".join(random.choices(string.ascii_letters, k=length))
 
 
-def insert_word_like_spaces_to_string(str):
+def insert_word_like_spaces_to_string(string):
     """Modify the input string by inserting spaces to make "words" of length 2-8.
 
     Parameters
@@ -40,10 +40,10 @@ def insert_word_like_spaces_to_string(str):
     'He lloW or ld'
     """
     loc = random.randint(2, 3)
-    while loc < len(str):
-        str = str[:loc] + " " + str[loc + 1 :]
+    while loc < len(string):
+        string = string[:loc] + " " + string[loc + 1 :]
         loc += random.randint(2, 8)
-    return str
+    return string
 
 
 def generate_random_messages():
