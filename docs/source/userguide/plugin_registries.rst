@@ -53,8 +53,8 @@ Creating a Plugin Registry
 
 To create a plugin registry, we first must define what needs to be in each registry.
 At its top level, a plugin registry defines three keys:
-*{module_based, yaml_based, text_based}*. These keys encapsulate the three plugin types
-used in GeoIPS. For example, a module_based plugin can be an algorithm, reader, etc.
+*{module_based, yaml_based, text_based}*. These keys represent the three available plugin 
+types used in GeoIPS. For example, a module_based plugin can be an algorithm, reader, etc.
 A text_based plugin (while not many exist), defines a custom ASCII palette used by
 some plugins. A yaml_based plugin, as its name implies, is a yaml file which defines
 properties for a certain plugin. This can be a product, product_default, sector, etc.
