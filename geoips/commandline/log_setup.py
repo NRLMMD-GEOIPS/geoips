@@ -12,9 +12,110 @@
 
 """Geoips module for setting up logging handlers with a specified verbosity."""
 
+from colorama import Back, Fore, Style
 import logging
 import sys
 from textwrap import wrap
+from types import SimpleNamespace
+
+
+def parse_color_kwargs(kwargs):
+    """Parse through the color kwargs, assigning default values where needed.
+
+    If any of the key, value pairs have not been listed in kwargs, set them to a default
+    value and return. Otherwise grab the associated values and send those back instead.
+
+    Parameters
+    ----------
+    kwargs: dict
+        A dictionary specifying the font, format, and color of the output to be logged.
+        Available options listed below:
+            {
+                "title": <title_text>,
+                "footer": <footer_text>,
+                "background_color": <colorama_color_name>,
+                "title_color": <colorama_color_name>,
+                "message_color": <colorama_color_name>,
+                "footer_color": <colorama_color_name>,
+                "font_size": <font_size_int>,
+                "font": <font_name>,
+                "emphasized": <bool>,
+            }
+
+    Returns
+    -------
+    color_kwargs: SimpleNamespace
+        A namespace of keyword args, vals in the format as what is shown above.
+    """
+    color_kwarg_defaults = {
+        "title": None,
+        "footer": None,
+        "background_color": "black",
+        "title_color": "green",
+        "message_color": "cyan",
+        "footer_color": "red",
+        "font_size": 12,
+        "font": "DejaVuSansMono.ttf",
+        "emphasized": False,
+    }
+    for key in color_kwarg_defaults.keys():
+        if key in kwargs:
+            color_kwarg_defaults[key] = kwargs[key]
+        if "_color" in key:
+            if "background_color" == key:
+                color_position = Back
+            else:
+                color_position = Fore
+            color_kwarg_defaults[key] = getattr(
+                color_position, color_kwarg_defaults[key].upper()
+            )
+    return SimpleNamespace(**color_kwarg_defaults)
+
+
+def color_log_output(print_func, *messages, **kwargs):
+    """Print to terminal the yaml-dumped dictionary of a certain interface/plugin.
+
+    Color the key, value pairs cyan, yellow to highlight the text in a human
+    readable manner. This is done for every `geoips get ...` command.
+
+    Parameters
+    ----------
+    print_func: func
+        An instance of a function that prints (e.g. ``logging.debug``, ``logging.info``,
+        etc, or the ``print`` function itself).
+    messages: one or more strings
+        The messages to be logged with color
+    kwargs: dict
+        A dictionary specifying the font, format, and color of the output to be logged.
+        Available options listed below:
+            {
+                "title": <title_text>,
+                "footer": <footer_text>,
+                "background_color": <colorama_color_name>,
+                "title_color": <colorama_color_name>,
+                "message_color": <colorama_color_name>,
+                "footer_color": <colorama_color_name>,
+                "font_size": <font_size_int>,
+                "font": <font_name>,
+                "emphasized": <bool>,
+            }
+    """
+    color_kwargs = parse_color_kwargs(kwargs) # returns Namespace for easier access
+    bkgrnd_clr = color_kwargs.background_color
+    reset = Style.RESET_ALL
+    if color_kwargs.title:
+        title_clr = color_kwargs.title_color
+        # print_func(f"{title_color}{color_kwargs['title']}{Style.RESET_ALL}")
+        print_func(f"{bkgrnd_clr}{title_clr}{color_kwargs.title}{reset}")
+    message_clr = color_kwargs.message_color
+    for message in messages:
+        # print_func(f"{message_color}{message}{Style.RESET_ALL}")
+        print_func(f"{bkgrnd_clr}{message_clr}{message}{reset}")
+    if color_kwargs.footer:
+        footer_clr = color_kwargs.footer_color
+        # print_func(f"{title_color}{color_kwargs['footer']}{Style.RESET_ALL}")
+        print_func(f"{bkgrnd_clr}{footer_clr}{color_kwargs.footer}{reset}")
+
 
 
 def log_with_emphasis(print_func, *messages):
