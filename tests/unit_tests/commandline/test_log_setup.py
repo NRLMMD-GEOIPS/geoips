@@ -64,7 +64,7 @@ def test_log_with_emphasis(message, caplog):
     caplog.set_level(logging.INFO)
     log_with_emphasis(LOG.info, message)
     assert (  # top/bottom of box is formmated correctly
-        "*" * 9  # three for boarders, and min of 5 for string length
+        "*" * 9  # three for borders, and min of 5 for string length
     )
     assert "** " in caplog.text
     assert " **" in caplog.text
