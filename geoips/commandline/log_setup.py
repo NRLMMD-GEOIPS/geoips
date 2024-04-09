@@ -101,21 +101,19 @@ def color_log_output(print_func, *messages, **kwargs):
             }
     """
     color_kwargs = parse_color_kwargs(kwargs) # returns Namespace for easier access
-    bkgrnd_clr = color_kwargs.background_color
+    bg_clr = color_kwargs.background_color
     reset = Style.RESET_ALL
     if color_kwargs.title:
         title_clr = color_kwargs.title_color
-        # print_func(f"{title_color}{color_kwargs['title']}{Style.RESET_ALL}")
-        print_func(f"{bkgrnd_clr}{title_clr}{color_kwargs.title}{reset}")
+        print_func(f"{bg_clr}{title_clr}{color_kwargs.title}{reset}")
+
     message_clr = color_kwargs.message_color
     for message in messages:
-        # print_func(f"{message_color}{message}{Style.RESET_ALL}")
-        print_func(f"{bkgrnd_clr}{message_clr}{message}{reset}")
+        print_func(f"{bg_clr}{message_clr}{message}{reset}")
+
     if color_kwargs.footer:
         footer_clr = color_kwargs.footer_color
-        # print_func(f"{title_color}{color_kwargs['footer']}{Style.RESET_ALL}")
-        print_func(f"{bkgrnd_clr}{footer_clr}{color_kwargs.footer}{reset}")
-
+        print_func(f"{bg_clr}{footer_clr}{color_kwargs.footer}{reset}")
 
 
 def log_with_emphasis(print_func, *messages):
