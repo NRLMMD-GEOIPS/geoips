@@ -46,7 +46,32 @@ def insert_word_like_spaces_to_string(string):
     return string
 
 
-def generate_random_messages():
+def insert_random_string_randomly(s, length):
+    """Inserts a randomly generated string of a given length at a random position
+
+    Parameters
+    ----------
+    s : str
+        The original string into which the random string will be inserted.
+    length : int
+        The length of the random string to be generated and inserted.
+
+    Returns
+    -------
+    str
+        The modified string with a randomly generated string of length `length`
+        inserted at a random position.
+
+    Examples
+    --------
+    >>> insert_random_string_randomly("hello", 3)
+    'helXyZlo'
+    """
+    position = random.randint(0, len(s) - 1)
+    return s[position:] + generate_random_string(length) + s[position:]
+
+
+def generate_random_messages(add_long_word=False):
     """Generate a random amount of messages with random length."""
     num_messages = 20
     messages = [
@@ -55,21 +80,79 @@ def generate_random_messages():
         )
         for _ in range(num_messages)
     ]
-    return messages
+    if add_long_word:
+        f = lambda s: insert_random_string_randomly(
+            s, 88
+        )  # insert string 88 chars long
+        return map(f, messages)
+    else:
+        return messages
 
 
 @pytest.mark.parametrize("message", generate_random_messages())
-def test_log_with_emphasis(message, caplog):
-    """Pytest function for testing the output of 'log_with_emphasis'."""
+def test_log_with_emphasis(message, caplog, test_all_lines_same_length=True):
+    """Pytest function for testing the output of 'log_with_emphasis'.
+
+    The expected output of log_with_emphasis looks similar to this:
+
+    ***************
+    ** hello     **
+    ** howdy     **
+    ** what's up **
+    ***************
+    """
     caplog.set_level(logging.INFO)
     log_with_emphasis(LOG.info, message)
     assert (  # top/bottom of box is formmated correctly
-        "*" * 9  # three for borders, and min of 5 for string length
+        "*" * 9 in caplog.text  # three for borders, and min of 5 for string length
     )
-    assert "** " in caplog.text
-    assert " **" in caplog.text
-    assert message[0:5] in caplog.text
-    assert "\n" in caplog.text
+    assert message[0:5] in caplog.text  # test for first section of text
+    assert "\n" in caplog.text  # assert log output is multi-lined
+
+    assert "** " in caplog.text  # test for left side of box
+    assert " **" in caplog.text  # test for right side of box
+
+    if test_all_lines_same_length:
+        assert (
+            len(set(map(len, caplog.text.split("\n"))))
+            == 3  # why 3 ???????
+            # 2 makes sense . maybe a blank line . but why 3? 2 are > len()== 0
+        )  # all logged lines are the same length
+
+
+@pytest.mark.parametrize("message", generate_random_messages(add_long_word=True))
+def test_log_with_emphasis_long_word(message, caplog):
+    """Pytest function for testing the output of 'log_with_emphasis'.
+
+    The expected output of log_with_emphasis looks like this:
+
+    ***************
+    ** hello     **
+    ** howdy     **
+    ** what's up **
+    ***************
+
+    However, by default we don't wrap long words. If a "long word" (string of chars
+    surrounded by spaces of length >74) is present, the expected output of
+    log_with_emphasis looks like this:
+
+    ***********************************************************************************
+    ** hello                                                                         **
+    ** howdy                                                                         **
+    ** what's up                                                                     **
+    ** this is a very long string that we are not going to match at the top or bottom because it really is too long ok I think this is long enough **
+    ***********************************************************************************
+    """
+    caplog.set_level(logging.INFO)
+    log_with_emphasis(LOG.info, message)
+    log_lines = caplog.text.split("\n")[1 : len(caplog.text) - 1]
+
+    assert not (
+        len(set(map(len, log_lines))) == 1
+    )  # all logged lines are NOT the same length (because we didn't wrap)
+
+    # find at least one line that is longer than 80 chars (aka not wrapped)
+    assert any(map(lambda line: len(line) > 80, log_lines))
 
 
 def test_log_interactive_geoips(caplog):
