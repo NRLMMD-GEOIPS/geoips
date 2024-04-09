@@ -23,6 +23,7 @@ Version 1.12.2a0 (2024-02-21)
   * Remove inconsistent unit test test_log_interactive_non_geoips
   * Modify algorithm_interpolator_colormapper to only provide input xarray
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
+  * Fix log_with_emphasis to deal with empty strings gracefully
 * Refactor
 
   * Make JSON Plugin Registries Readable
@@ -122,8 +123,8 @@ Remove unnessesary checks for and mentions of imagemagick
   *From NRLMMD-GEOIPS/geoips#: YYYY-MM-DD, Removed unnecessary requirement for imagemagick*
 
 In v1.11.3a0 imagemagick functionality was replaced with other libraries. As such,
-imagemagick was no longder a dependancy. However, the installation docs, Dockerfile, 
-and setup scripts were not updated to reflect this change at the time. This fixes a 
+imagemagick was no longder a dependancy. However, the installation docs, Dockerfile,
+and setup scripts were not updated to reflect this change at the time. This fixes a
 bug during installation where the user is forced to install imagemagick to pass tests
 despite it no longer being used. It also updates the documentation accordingly.
 
@@ -142,13 +143,20 @@ Add make to expert installation dependencies
   *From NRLMMD-GEOIPS/geoips#454: 2024-03-15, Add make to expert installation dependencies*
 
 
-`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`. 
-To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on 
+`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`.
+To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on
 the expert installation instructions. It was added.
 
 ::
 
     modified: docs/source/starter/expert_installation.rst
+
+Update log_with_emphasis to deal with empty strings
+---------------------------------------------------
+
+Previously, when calling log_with_emphasis(log, "test", "") an error is thrown.
+This is a problem if you're logging out a message that ends with "" for any reason,
+and log_with_emphasis has now been updated to gracefully deal with this case.
 
 Refactor
 ========
