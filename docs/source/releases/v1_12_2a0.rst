@@ -23,6 +23,7 @@ Version 1.12.2a0 (2024-02-21)
   * Remove inconsistent unit test test_log_interactive_non_geoips
   * Modify algorithm_interpolator_colormapper to only provide input xarray
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
+  * Fix log_with_emphasis to deal with empty strings gracefully
 * Refactor
 
   * Make JSON Plugin Registries Readable
@@ -174,6 +175,13 @@ the expert installation instructions. It was added.
 ::
 
     modified: docs/source/starter/expert_installation.rst
+
+Update log_with_emphasis to deal with empty strings
+---------------------------------------------------
+
+Previously, when calling log_with_emphasis(log, "test", "") an error is thrown.
+This is a problem if you're logging out a message that ends with "" for any reason,
+and log_with_emphasis has now been updated to gracefully deal with this case.
 
 Refactor
 ========
