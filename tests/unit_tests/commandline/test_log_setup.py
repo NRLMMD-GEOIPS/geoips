@@ -103,20 +103,19 @@ def test_log_with_emphasis(message, caplog, test_all_lines_same_length=True):
     """
     caplog.set_level(logging.INFO)
     log_with_emphasis(LOG.info, message)
-    assert (  # top/bottom of box is formmated correctly
-        "*" * 9 in caplog.text  # three for borders, and min of 5 for string length
+    assert (  # top of box is formmated correctly
+        "*" * 9
+        in caplog.messages[0]  # three for borders, and min of 5 for string length
     )
     assert message[0:5] in caplog.text  # test for first section of text
     assert "\n" in caplog.text  # assert log output is multi-lined
 
-    assert "** " in caplog.text  # test for left side of box
-    assert " **" in caplog.text  # test for right side of box
+    assert caplog.messages[1].startswith("** ")  # test for left side of box
+    assert caplog.messages[1].endswith(" **")  # test for left side of box
 
     if test_all_lines_same_length:
         assert (
-            len(set(map(len, caplog.text.split("\n"))))
-            == 3  # why 3 ???????
-            # 2 makes sense . maybe a blank line . but why 3? 2 are > len()== 0
+            len(set(map(len, caplog.messages[:-1]))) == 1  # last line is blank
         )  # all logged lines are the same length
 
 
@@ -124,7 +123,7 @@ def test_log_with_emphasis(message, caplog, test_all_lines_same_length=True):
 def test_log_with_emphasis_long_word(message, caplog):
     """Pytest function for testing the output of 'log_with_emphasis'.
 
-    The expected output of log_with_emphasis looks like this:
+    The expected output of log_with_emphasis usually looks like this:
 
     ***************
     ** hello     **
@@ -145,11 +144,10 @@ def test_log_with_emphasis_long_word(message, caplog):
     """
     caplog.set_level(logging.INFO)
     log_with_emphasis(LOG.info, message)
-    log_lines = caplog.text.split("\n")[1 : len(caplog.text) - 1]
+    log_lines = caplog.messages[1 : len(caplog.text) - 1]
 
-    assert not (
-        len(set(map(len, log_lines))) == 1
-    )  # all logged lines are NOT the same length (because we didn't wrap)
+    # all logged lines are NOT the same length (because we didn't wrap)
+    assert not (len(set(map(len, log_lines[:-1]))) == 1)
 
     # find at least one line that is longer than 80 chars (aka not wrapped)
     assert any(map(lambda line: len(line) > 80, log_lines))
