@@ -35,7 +35,8 @@ def insert_word_like_spaces_to_string(string):
     str (str):
         The modified string with spaces inserted at random locations.
 
-    Example:
+    Example
+    -------
     >>> insert_word_like_spaces_to_string("HelloWorld")
     'He lloW or ld'
     """
@@ -47,7 +48,7 @@ def insert_word_like_spaces_to_string(string):
 
 
 def insert_random_string_randomly(s, length):
-    """Inserts a randomly generated string of a given length at a random position
+    """Insert a randomly generated string of a given length at a random position.
 
     Parameters
     ----------
@@ -62,7 +63,7 @@ def insert_random_string_randomly(s, length):
         The modified string with a randomly generated string of length `length`
         inserted at a random position.
 
-    Examples
+    Example
     --------
     >>> insert_random_string_randomly("hello", 3)
     'helXyZlo'
@@ -81,9 +82,10 @@ def generate_random_messages(add_long_word=False):
         for _ in range(num_messages)
     ]
     if add_long_word:
-        f = lambda s: insert_random_string_randomly(
-            s, 88
-        )  # insert string 88 chars long
+
+        def f(s):
+            insert_random_string_randomly(s, 88)  # insert string 88 chars long
+
         return map(f, messages)
     else:
         return messages
@@ -145,7 +147,7 @@ def test_log_with_emphasis_long_word(message, caplog):
     ** what's up                                                                     **
     ** this is a very long string that we are not going to match at the top or bottom because it really is too long ok I think this is long enough **
     ***********************************************************************************
-    """
+    """  # noqa: E501
     caplog.set_level(logging.INFO)
     log_with_emphasis(LOG.info, message)
     log_lines = caplog.messages[1 : len(caplog.text) - 1]
