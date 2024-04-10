@@ -33,6 +33,56 @@ Version 1.12.2a0 (2024-02-19)
 * Testing Updates
 
   * Added all_product_families.yaml to test all available product families
+* Breaking Changes
+
+  * Updated GeoIPS CLI to fix breaking changes introduced by all_product_families
+
+Breaking Changes
+================
+
+*From GEOIPS#474: 2024-04-08, Incoming Breaking Changes to the CLI*
+
+While no breaking changes have been introduced yet, Branch #423, PR #433 Test All
+Product Families introduced changes to how product plugins are stored in the registry,
+which would break some portions of the CLI. Specifically, product plugins are no longer
+registered via a (source_name, product_name) tuple combination. They are still accessed
+via products.get_plugin(source_name, product_name), however under the hood they are
+registered as unique names via ``source_name.product_name``. This was added to prevent
+errors that possibly could occur if different products refered to the same source_name
+in different files. This broke some functionality of the CLI in ``geoips_command.py``
+and ``geiops_get.py``.
+
+Files Modified for Updating the CLI:
+
+::
+
+    modified: geoips/commandline/geoips_command.py
+    modified: geoips/commandline/geoips_get.py
+
+Files Added / Modified for Branch 423-test-all-product-families
+
+::
+
+    modified:   geoips/create_plugin_registries.py
+    modified:   geoips/interfaces/base.py
+    modified:   geoips/interfaces/yaml_based/products.py
+    modified:   geoips/plugin_registry.py
+    modified:   geoips/plugins/modules/output_formatters/imagery_annotated.py
+    modified:   geoips/plugins/modules/output_formatters/metadata_tc.py
+    modified:   geoips/plugins/modules/procflows/config_based.py
+    new file:   geoips/plugins/yaml/products/all_product_families.yaml
+    modified:   geoips/plugins/yaml/products/amsr-e.yaml
+    new file:   tests/scripts/order_based_all_product_families/alg.abi.infrared.sh
+    new file:   tests/scripts/order_based_all_product_families/alg_cmap.abi.infrared.sh
+    new file:   tests/scripts/order_based_all_product_families/alg_int_cmap.abi.infrared.sh
+    new file:   tests/scripts/order_based_all_product_families/int.abi.infrared.sh
+    new file:   tests/scripts/order_based_all_product_families/int_alg.abi.infrared.sh
+    new file:   tests/scripts/order_based_all_product_families/int_alg_cmap.abi.infrared.sh
+    new file:   tests/scripts/order_based_all_product_families/sect_xdict_out_form.smap-spd.wind.sh
+    new file:   tests/scripts/order_based_all_product_families/unmodified_prd.smap-spd.winds.sh
+    new file:   tests/scripts/order_based_all_product_families/unsect_xdict_area_out_form.smap-spd.winds.sh
+    new file:   tests/scripts/order_based_all_product_families/unsect_xdict_out_form.smap-spd.winds.sh
+    new file:   tests/scripts/order_based_all_product_families/xdict_out_form.smap-spd.winds.sh
 
 Bug Fixes
 =========
