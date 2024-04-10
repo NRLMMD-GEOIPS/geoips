@@ -143,7 +143,9 @@ def test_log_with_emphasis_long_word(message, caplog):
     ** what's up                                                                     **
     ** this is a very long string that we are not going to match at the top or bottom because it really is too long ok I think this is long enough **
     ***********************************************************************************
-    """  # noqa: E501
+    """  # noqa: E501,RST212
+    # ignoring line length check, and the section underline check because
+    # flake8 flags the codeblocks as underlines
     caplog.set_level(logging.INFO)
     log_with_emphasis(LOG.info, message)
     log_lines = caplog.messages[1 : len(caplog.text) - 1]
