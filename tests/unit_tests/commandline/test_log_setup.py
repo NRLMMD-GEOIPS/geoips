@@ -101,7 +101,7 @@ def test_log_with_emphasis(message, caplog, test_all_lines_same_length=True):
     ** howdy     **
     ** what's up **
     ***************
-    """
+    """  # noqa RST212
     caplog.set_level(logging.INFO)
     log_with_emphasis(LOG.info, message)
 
