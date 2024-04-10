@@ -103,6 +103,7 @@ def test_log_with_emphasis(message, caplog, test_all_lines_same_length=True):
     """
     caplog.set_level(logging.INFO)
     log_with_emphasis(LOG.info, message)
+    
     assert (  # top of box is formmated correctly
         "*" * 9
         in caplog.messages[0]  # three for borders, and min of 5 for string length
@@ -117,6 +118,9 @@ def test_log_with_emphasis(message, caplog, test_all_lines_same_length=True):
         assert (
             len(set(map(len, caplog.messages[:-1]))) == 1  # last line is blank
         )  # all logged lines are the same length
+        
+    with pytest.raises(ValueError):
+        log_with_emphasis(LOG.info, "")
 
 
 @pytest.mark.parametrize("message", generate_random_messages(add_long_word=True))
@@ -151,6 +155,7 @@ def test_log_with_emphasis_long_word(message, caplog):
 
     # find at least one line that is longer than 80 chars (aka not wrapped)
     assert any(map(lambda line: len(line) > 80, log_lines))
+    
 
 
 def test_log_interactive_geoips(caplog):
