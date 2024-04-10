@@ -40,6 +40,9 @@ Version 1.12.2a0 (2024-02-19)
 Breaking Changes
 ================
 
+Updated GeoIPS CLI to fix breaking changes introduced by all_product_families
+-----------------------------------------------------------------------------
+
 *From GEOIPS#474: 2024-04-08, Incoming Breaking Changes to the CLI*
 
 While no breaking changes have been introduced yet, Branch #423, PR #433 Test All
