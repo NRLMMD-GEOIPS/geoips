@@ -96,7 +96,6 @@ def test_log_with_emphasis(message, caplog, test_all_lines_same_length=True):
     """Pytest function for testing the output of 'log_with_emphasis'.
 
     The expected output of log_with_emphasis looks similar to this:
-
     ***************
     ** hello     **
     ** howdy     **
@@ -130,17 +129,14 @@ def test_log_with_emphasis_long_word(message, caplog):
     """Pytest function for testing the output of 'log_with_emphasis'.
 
     The expected output of log_with_emphasis usually looks like this:
-
     ***************
     ** hello     **
     ** howdy     **
     ** what's up **
     ***************
-
     However, by default we don't wrap long words. If a "long word" (string of chars
     surrounded by spaces of length >74) is present, the expected output of
     log_with_emphasis looks like this:
-
     ***********************************************************************************
     ** hello                                                                         **
     ** howdy                                                                         **
