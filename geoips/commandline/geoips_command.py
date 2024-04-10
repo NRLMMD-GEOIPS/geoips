@@ -384,11 +384,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
             "relpath": "Relative Path",
         }
         headers = self._get_headers_by_command(args, default_headers)
-        table_data = self._generate_table_data_by_interface(
-            interface,
-            interface_registry,
-            headers,
-        )
+        table_data = self._generate_table_data_by_interface(interface_registry, headers)
         print(
             tabulate(
                 table_data,
@@ -398,7 +394,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
             )
         )
 
-    def _generate_table_data_by_interface(self, interface, interface_registry, headers):
+    def _generate_table_data_by_interface(self, interface_registry, headers):
         """Generate the table data needed for output in '_print_plugins_short_format.
 
         Given a certain interface and a list of headers, generate a list of table data
@@ -407,8 +403,6 @@ class GeoipsExecutableCommand(GeoipsCommand):
 
         Parameters
         ----------
-        interface: geoips.interfaces.<interface_type>
-            - The interface object we will be gathering data from.
         interface_registry: dict
             - The plugin registry associated with the given interface.
         headers: dict
@@ -421,13 +415,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
             - The corresponding data we will output, where each sub-list is ordered
               by headers.
         """
-        table_data = []
-        if interface.name == "products":
-            for plugin_key in sorted(interface_registry.keys()):
-                product_dict = interface_registry[plugin_key]
-                table_data += self._get_entry(product_dict, headers)
-        else:
-            table_data += self._get_entry(interface_registry, headers)
+        table_data = self._get_entry(interface_registry, headers)
         return table_data
 
     def _get_entry(self, plugin_dict, headers):

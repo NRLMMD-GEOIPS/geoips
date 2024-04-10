@@ -1253,7 +1253,8 @@ def call(fnames, command_line_args=None):
                     # Only attempt to get bg xarrays if they weren't sectored away to
                     # nothing.
                     bg_prod_plugin = products.get_plugin(
-                        bg_xobjs["METADATA"].source_name, bg_product_name
+                        bg_xobjs["METADATA"].source_name,
+                        bg_product_name,
                     )
                     if bg_pad_sect_xarrays:
                         bg_alg_xarrays[sector_type] = get_bg_xarray(

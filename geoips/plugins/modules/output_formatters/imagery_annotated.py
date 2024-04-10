@@ -166,9 +166,9 @@ def call(
         )
     except (PluginError, ValidationError):
         LOG.warning(
-            "SKIPPING products.get_plugin: Invalid product specification %s / %s",
-            product_name,
+            "SKIPPING products.get_plugin: Invalid product specification %s.%s",
             xarray_obj.source_name,
+            product_name,
         )
     if prod_plugin and "coverage_checker" in prod_plugin:
         from geoips.dev.product import get_covg_from_product

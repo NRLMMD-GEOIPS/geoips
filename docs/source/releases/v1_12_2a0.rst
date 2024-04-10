@@ -25,13 +25,49 @@ Version 1.12.2a0 (2024-02-19)
   * Remove inconsistent unit test test_log_interactive_non_geoips
   * Modify algorithm_interpolator_colormapper to only provide input xarray
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
+  * Fix product source_name duplicate entries bug
 * Refactor
 
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
+* Testing Updates
+
+  * Added all_product_families.yaml to test all available product families
 
 Bug Fixes
 =========
+
+Fix product sub-plugins duplicate source name error
+---------------------------------------------------
+
+*From GEOIPS#428: 2024-2-6, source_name duplicate bug*
+
+Currently, when the plugin registry is built, the key names associated with the
+sub-products contained in a yaml file (for instance lets say smap-spd.yaml), are
+gathered via the sub-products source name rather than the name of the product plugin
+they reside in. In this case, all product plugins under the key name smap-spd, are
+placed in that location because of their source name, not the attribute name, found
+at the top level of smap-spd.yaml. This could cause issues with other products, as
+found in issue *GEOIPS#423: 2024-1-17, create products for each possible product family*
+
+This updates fixes this bug by changing the naming convention of product plugins stored
+within the plugin registry. Instead of products -- <source_name> -- sub_product_name,
+the keys are now formatted products -- <source_name>.<sub_product_name>, and duplicates
+are checked on that level.
+
+Files modified (excluding files which were modified for black formatting):
+
+::
+
+    modified: geoips/create_plugin_registries.py
+    modified: geoips/interfaces/base.py
+    modified: geoips/interfaces/yaml_based/products.py
+    modified: geoips/dev/output_config.py
+    modified: geoips/plugins/modules/filename_formatters/tc_file_naming.py
+    modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+    modified: geoips/plugins/modules/output_formatters/metadata_tc.py
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: geoips/plugins/modules/procflows/single_source.py
 
 algorithm_interpolator_colormapper incorrectly interpolates data
 ----------------------------------------------------------------
@@ -144,10 +180,6 @@ Currently, the JSON output of the plugin registries is a hodge-podge full of tex
 should refactor the way in which these plugin registries are outputted, so that they are
 in a human readable, interpretable format. To do so, we need to add the argument
 ``indent=4`` to the ``json.dump`` call in ``write_plugin_registries``.
-
-::
-
-    modified: geoips/create_plugin_registries.py
 
 Enhancements
 ============
@@ -387,3 +419,29 @@ Modified Files
     modified: tests/unit_tests/commandline/test_geoips_list_unit_tests.py
     modified: tests/unit_tests/commandline/test_geoips_run.py
     modified: tests/unit_tests/commandline/test_geoips_test_script.py
+    modified: geoips/plugin_registry.py
+
+Testing Updates
+===============
+
+Create products for each possible product family handled by single_source procflow
+----------------------------------------------------------------------------------
+
+*From GEOIPS#423: 2024-1-17, Create products for each possible product family*
+
+This update adds a new product ``all_product_families.yaml`` to the products interface.
+This file provides every possible product family to test against ``single_source.py``
+procflow plugin, as we need to understand which families work, and the process these
+families follow throughout that code in order to implement a new procflow down the road,
+called ``order_based.py`` procflow. By understanding the paths that these families take,
+we set ourselves up for success in implementing that new procflow.
+
+Files Added:
+
+::
+
+    added: geoips/plugins/yaml/products/all_product_families.yaml
+    added: tests/scripts/order_based_all_product_families/*.sh
+
+Note: See Bux Fix for duplicate source_names in product registry *GEOIPS#428*, for more
+information on bug fixes made on this branch as well.
