@@ -55,9 +55,10 @@ will have to manually install pytest to validate from now on.
 
 Unit-Test validation of the plugin registry is performed to ensure it's in the correct
 state. This was initially automatically done when it was created, but since it invoked
-pytest and that's not a required dependency, We had to move this to a unit-test module
-instead. All in all, the user doesn't really need to validate their own registry. It
-should not be created if an error occurs (duplicate plugin names under the same
+pytest and that's only a required dependency in the ``test`` extra, we have decided 
+to move this to a unit-test module so that end-users don't need to install pytest.
+All in all, the user doesn't really need to validate their own registry. It
+should not be created if an error occurs (eg. duplicate plugin names under the same
 interface, poorly formatted plugin, etc.), however as developers we wanted the ability
 to unit test the PluginRegistry to make sure everything was being done as expected.
 
