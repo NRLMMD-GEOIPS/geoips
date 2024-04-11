@@ -1,14 +1,16 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+ .. dropdown:: Distribution Statement
+
+   | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+   | # # #
+   | # # # Author:
+   | # # # Naval Research Laboratory, Marine Meteorology Division
+   | # # #
+   | # # # This program is free software: you can redistribute it and/or modify it under
+   | # # # the terms of the NRLMMD License included with this program. This program is
+   | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+   | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+   | # # # for more details. If you did not receive the license, for more information see:
+   | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 .. _describe-readers:
 
@@ -19,7 +21,7 @@ Learn More about GeoIPS Readers
 GeoIPS readers are module-based plugins that create a method of reading in many types of
 satellite derived data. This doesn't mean you cannot create other types of data readers
 too, such as .csv, .xls, etc. GeoIPS is primarly used as a package for Geo-informational
-data, however if you purpose in a plugin that reads different types of data, the world
+data, however if your purpose is a plugin that reads different types of data, the world
 is your oyster.
 
 GeoIPS readers return a dictionary of xarrays minimally containing the following

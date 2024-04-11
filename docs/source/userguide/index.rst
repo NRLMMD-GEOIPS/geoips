@@ -30,3 +30,4 @@ User Guide
    plugin_development/colormapper
    plugin_development/output_formatter
    plugin_development/reader
+   plugin_development/procflow
