@@ -216,6 +216,9 @@ class TestPluginRegistry:
     # PytestCollectionWarning: cannot collect test class 'TestPluginRegistry' because
     # it has a __init__ constructor (from: test_plugin_registries.py)
 
+    # This isn't a problem though, as we can just set it as a class attribute and move
+    # forward as usual. Pytest is just picky about having __init__ in Test Classes.
+
     # def __init__(self, fpaths=default_fpaths):
     #     super().__init__(fpaths)
 
