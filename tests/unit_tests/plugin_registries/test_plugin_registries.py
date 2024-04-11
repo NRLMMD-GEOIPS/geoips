@@ -205,18 +205,18 @@ class TestPluginRegistry:
     with the location of your new test files.
     """
 
-    _default_fpaths = glob(
+    default_fpaths = glob(
         str(__file__).replace("test_plugin_registries.py", "files/**/*.yaml"),
         recursive=True,
     )
 
-    _pr_validator = PluginRegistryValidator(_default_fpaths)
+    pr_validator = PluginRegistryValidator(default_fpaths)
 
     # Couldn't implement this class via inheritance because PyTest Raised this error:
     # PytestCollectionWarning: cannot collect test class 'TestPluginRegistry' because
     # it has a __init__ constructor (from: test_plugin_registries.py)
 
-    # def __init__(self, fpaths=_default_fpaths):
+    # def __init__(self, fpaths=default_fpaths):
     #     super().__init__(fpaths)
 
     def generate_id(fpath):
@@ -228,25 +228,25 @@ class TestPluginRegistry:
 
     def test_registered_plugin_property(self):
         """Ensure registered_plugins is valid in its nature."""
-        print(self._pr_validator.registered_plugins)
-        assert isinstance(self._pr_validator.registered_plugins, dict)
-        assert "yaml_based" in self._pr_validator.registered_plugins
-        assert "module_based" in self._pr_validator.registered_plugins
-        assert "text_based" in self._pr_validator.registered_plugins
+        print(self.pr_validator.registered_plugins)
+        assert isinstance(self.pr_validator.registered_plugins, dict)
+        assert "yaml_based" in self.pr_validator.registered_plugins
+        assert "module_based" in self.pr_validator.registered_plugins
+        assert "text_based" in self.pr_validator.registered_plugins
 
     def test_interface_mapping_property(self):
         """Ensure interface_mapping is valid in its nature."""
-        print(self._pr_validator.interface_mapping)
-        assert isinstance(self._pr_validator.interface_mapping, dict)
-        assert "yaml_based" in self._pr_validator.interface_mapping
-        assert "module_based" in self._pr_validator.interface_mapping
-        assert "text_based" in self._pr_validator.interface_mapping
-        assert isinstance(self._pr_validator.interface_mapping["yaml_based"], list)
-        assert isinstance(self._pr_validator.interface_mapping["module_based"], list)
-        assert isinstance(self._pr_validator.interface_mapping["text_based"], list)
+        print(self.pr_validator.interface_mapping)
+        assert isinstance(self.pr_validator.interface_mapping, dict)
+        assert "yaml_based" in self.pr_validator.interface_mapping
+        assert "module_based" in self.pr_validator.interface_mapping
+        assert "text_based" in self.pr_validator.interface_mapping
+        assert isinstance(self.pr_validator.interface_mapping["yaml_based"], list)
+        assert isinstance(self.pr_validator.interface_mapping["module_based"], list)
+        assert isinstance(self.pr_validator.interface_mapping["text_based"], list)
 
-    @pytest.mark.parametrize("fpath", _pr_validator.registry_files, ids=generate_id)
+    @pytest.mark.parametrize("fpath", pr_validator.registry_files, ids=generate_id)
     def test_all_registries(self, fpath):
         """Test all available yaml registries."""
         current_registry = yaml.safe_load(open(fpath, "r"))
-        self._pr_validator.validate_registry(current_registry, fpath)
+        self.pr_validator.validate_registry(current_registry, fpath)
