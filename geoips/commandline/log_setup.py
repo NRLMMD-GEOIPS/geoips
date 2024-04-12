@@ -14,6 +14,46 @@
 
 import logging
 import sys
+from textwrap import wrap
+
+
+def log_with_emphasis(print_func, *messages):
+    """Print messages boxed in asterisks using the specified print function.
+
+    Print one or more messages using the specified print function. The messages
+    will be surrounded in asterisks. Long messages will be word wrapped to fit
+    within a maximum width of 74 characters, save for any individual words that
+    are over 74 characters which will not be broken.
+
+    Parameters
+    ----------
+    print_func: func
+        An instance of a function that prints (e.g. ``logging.debug``, ``logging.info``,
+        etc, or the ``print`` function itself).
+    messages: one or more strings
+        The messages to be logged with emphasis
+    """
+    wrapped_messages = []
+    messages = filter(lambda s: len(s) > 0, messages)
+    for message in messages:
+        # wrap the message to a specified length
+        wrapped_messages += wrap(message, width=74, break_long_words=False)
+    try:
+        max_message_len = min(74, max([len(wmessage) for wmessage in wrapped_messages]))
+    except ValueError as e:
+        raise ValueError(
+            "No proper messages were provided for logging.\n"
+            + "Make sure the messages are not all empty strings."
+        ) from e
+    # adding +6 to max_message_len as we add '** ' and ' **' pre/post-fixes (6 chars)
+    print_func("*" * (max_message_len + 6))
+    for wrapped_message in wrapped_messages:
+        # for each of the wrapped messages, if the length of such message is less
+        # than max message length, add some whitespace to make some things match,
+        # this is what the 'ljust(len)' function does
+        print_func(f"** {wrapped_message.ljust(max_message_len)} **")
+    print_func("*" * (max_message_len + 6))
+    print_func("\n")
 
 
 class LogLevelAdder:
