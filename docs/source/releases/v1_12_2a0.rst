@@ -27,12 +27,12 @@ Version 1.12.2a0 (2024-02-21)
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
   * Fix bad filename wrapping with log_with_emphasis
   * Fix log_with_emphasis to deal with empty strings gracefully
-  
+
 * Refactor
 
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
-  
+
 * Documentation
 
   * Added documentation for create_plugin_registries and PluginRegistry Class
@@ -174,7 +174,7 @@ Fix bad filename wrapping with log_with_emphasis
 *From issue GEOIPS#468*
 
 Fixes poor wrapping for long filenames when logged with emphasis. Now does not auto-wrap
-long filenames and prints as is. Additionally, any word logged over 74 chars will not be 
+long filenames and prints as is. Additionally, any word logged over 74 chars will not be
 broken.
 
 Update log_with_emphasis to deal with empty strings
@@ -225,9 +225,14 @@ With the addition of create_plugin_registries and the new PluginRegistry Class, 
 a need to add documentation describing what these do, how they are used, and the
 benefits that come from adding them to the main GeoIPS code. This branch does exactly
 that, and adds a section under 'UserGuide' describing what these pieces of code actually
-do.
+do. To support automatically adding usage information to the documentation
+we've also added a dependency on sphinxcontrib-autoprogram and enabled it in
+the sphinx configuration file.
 
 ::
 
+    modified: geoips/docs/source/_templates/conf_PKG.py
     modified: geoips/docs/source/userguide/index.rst
     added: geops/docs/source/userguide/plugin_registries.rst
+    modified: geiops/create_plugin_registries.py
+    modified: pyproject.toml
