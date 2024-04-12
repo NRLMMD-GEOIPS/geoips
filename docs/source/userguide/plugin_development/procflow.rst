@@ -275,3 +275,20 @@ the code structure shown below.
             name: pmw_37H
             arguments:
                data_range: [125, 300]
+
+The order based module would take on something similar to what is shown below.
+
+.. code-block:: python
+
+   from geoips import interfaces
+
+   def call(product_name, args):
+      """Run the current process workflow (procflow) to create a specified output."""
+      yaml_prod = interfaces.products.get_plugin(product_name)
+      for step, plugin_type in enumerate(yaml_prod["steps"]):
+         # retrieve the corresponding plugin name from the current step to apply
+         plugin_name = yaml_prod["steps"][step]["plugin"]["name"]
+         # get the plugin using the retrieved name
+         plugin = getattr(interfaces, plugin_type).get_plugin(plugin_name)
+         # call the plugin with its corresponding arguments
+         plugin(args[plugin_name])
