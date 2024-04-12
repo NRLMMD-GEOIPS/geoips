@@ -13,15 +13,57 @@
 Version 1.12.2a0 (2024-02-21)
 *****************************
 
-* Bug Fixes
+* Enhancements
+
+  * Added log with emphasis function
+  * Introduced a documentation for coding standards within the build/dev directory.
+* Bug fixes
 
   * Fix polar data not showing up in imagery
   * Ensure that log.interactive works from plugins when imported independently.
   * Make add_log_level a callable class to fix AttributeErrors.
-
+  * Remove inconsistent unit test test_log_interactive_non_geoips
+  * Modify algorithm_interpolator_colormapper to only provide input xarray
+  * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
+  * Fix bad filename wrapping with log_with_emphasis
+  * Fix log_with_emphasis to deal with empty strings gracefully
+  
 * Refactor
 
   * Make JSON Plugin Registries Readable
+  * Modify create_plugin_registries to use argparse instead of sys.argv
+
+Enhancements
+============
+
+Documentation Scaffold for Coding Standards
+-------------------------------------------
+This update introduces a scaffold for the documentation of coding standards
+for the project, aiming to ultimately enhance code consistency and quality. It
+outlines the anticipated content and structure for these standards, providing
+a clear framework for future contributions. The new documentation file is
+located in the build/dev directory so that it is exempt from sphinx builds.
+
+
+Added Log with Emphasis function
+--------------------------------
+
+Scattered throughout GeoIPS (and other packages too), are many Log statements that use
+'***********************...' to emphasize the content in between them. While this is
+easy to see in the Log output, it's extremely cluttered in the actual code. For this
+reason, I've added a 'log_with_emphasis' function to handle this. All you need to do now
+is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you.
+
+::
+
+    modified: geoips/geoips/commandline/log_setup.py
+    modified: geoips/geoips/interfaces/module_based/output_checkers.py
+    modified: geoips/geoips/plugins/modules/output_checkers/geotiff.py
+    modified: geoips/geoips/plugins/modules/output_checkers/image.py
+    modified: geoips/geoips/plugins/modules/output_checkers/netcdf.py
+    modified: geoips/geoips/plugins/modules/output_checkers/text.py
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
+    added: geoips/tests/unit_tests/commandline/log_setup.py
 
 Bug Fixes
 =========
@@ -59,6 +101,22 @@ necessary, we fix the problem of missing data for polar imagery.
     modified: geoips/plugins/modules/procflows/single_source.py
     modified: geoips/xarray_utils/data.py
 
+algorithm_interpolator_colormapper incorrectly interpolates data
+----------------------------------------------------------------
+
+This was found during the development for the GLM reader. Apparently, at line 1033 of
+single_source.py procflow, when trying to interpolate data under the
+algorithm_interpolator_colormapper family, we call 'interp_plugin' with the same
+input and output xarray. This makes no sense, and needs to be fixed. It wasn't changing
+the data in this format. To fix it, we leave input_xarray as 'alg_xarray', and set
+output_xarray to 'None'. This is handled properly in the interpolator, and will modify
+coordinate arrays to fit the shape of the interpolated data. I've checked config_based,
+and this doesn't occur for that procflow.
+
+::
+
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
+
 Make add_log_level a callable class, ensure log.interactive works consistently
 ------------------------------------------------------------------------------
 
@@ -81,8 +139,96 @@ useful. Now, only useful AttributeErrors should be raised.
     modified: geoips/commandline/log_setup.py
     added: tests/unit_tests/commandline/log_setup.py
 
+Update Dockerfile to install rasterio properly
+----------------------------------------------
+
+..
+    *From GEOIPS#NN: 2024-03-XX, TODO*
+
+Previously puilding the provided Dockerfile did not build a working image. It failed on the last step (installation of geoips) and hangs on installing rasterio. This fix updates the Dockerfile to install rasterio dependancies (``gdal-bin`` and ``libgdal-dev``) and additionally installs software-properties-common for access to add-apt-repository to aid in gdal installation.
+
+::
+    modified: Dockerfile
+
+Remove inconsistent unit test test_log_interactive_non_geoips
+-------------------------------------------------------------
+
+The recently added ``test_log_interactive_non_geoips`` unit test is inconsistent. It
+sometimes successfully raises an ``AttributeError`` but not always. This is due to
+GeoIPS polluting the ``logging`` class when adding new logging levels. The polluted
+``logging`` class does not appear to be a problem, though, since it adds functionality
+without impacting existing functionality. It appears safe to allow this pollution.
+
+::
+
+    modified: tests/unit_tests/commandline/log_setup.py
+
+Remove unnessesary checks for and mentions of imagemagick
+---------------------------------------------------------
+..
+  *From NRLMMD-GEOIPS/geoips#: YYYY-MM-DD, Removed unnecessary requirement for imagemagick*
+
+In v1.11.3a0 imagemagick functionality was replaced with other libraries. As such,
+imagemagick was no longder a dependancy. However, the installation docs, Dockerfile,
+and setup scripts were not updated to reflect this change at the time. This fixes a
+bug during installation where the user is forced to install imagemagick to pass tests
+despite it no longer being used. It also updates the documentation accordingly.
+
+::
+
+    modified: Dockerfile
+    modified: setup.sh
+    modified: setup/check_system_requirements.sh
+    modified: docs/source/starter/expert_installation.rst
+    modified: docs/source/starter/mac_installation.rst
+
+
+Add make to expert installation dependencies
+--------------------------------------------
+..
+  *From NRLMMD-GEOIPS/geoips#454: 2024-03-15, Add make to expert installation dependencies*
+
+
+`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`.
+To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on
+the expert installation instructions. It was added.
+
+::
+
+    modified: docs/source/starter/expert_installation.rst
+
+Fix bad filename wrapping with log_with_emphasis
+------------------------------------------------
+
+*From issue GEOIPS#468*
+
+Fixes poor wrapping for long filenames when logged with emphasis. Now does not auto-wrap
+long filenames and prints as is. Additionally, any word logged over 74 chars will not be 
+broken.
+
+Update log_with_emphasis to deal with empty strings
+---------------------------------------------------
+
+Previously, when calling log_with_emphasis(log, "test", "") an error is thrown.
+This is a problem if you're logging out a message that ends with "" for any reason,
+and log_with_emphasis has now been updated to gracefully deal with this case.
+
 Refactor
 ========
+
+Modify create_plugin_registries to use argparse
+-----------------------------------------------
+
+*From issue GEOIPS#416: 2023-12-21, Replace create_plugin_registries 'sys.argv' calls with 'argparse' library'*
+
+Currently create_plugin_registries.py uses sys.argv calls to generate its arguments
+rather than argparse. This doesn't follow GeoIPS conventions nor that of the CLI that
+will soon be updated. We should replace these calls with argparse architecture, so that
+this code follows current conventions, as does other GeoIPS code.
+
+::
+
+    modified: geoips/geoips/create_plugin_registries.py
 
 Make JSON Plugin Registries Readable
 ------------------------------------

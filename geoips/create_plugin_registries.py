@@ -40,6 +40,7 @@ from geoips.commandline.log_setup import setup_logging
 import geoips.interfaces
 from geoips.errors import PluginRegistryError
 import json
+from argparse import ArgumentParser
 
 LOG = logging.getLogger(__name__)
 
@@ -848,9 +849,30 @@ def main():
     args: list
         List of strings representing the arguments provided via command line.
     """
-    save_type = "json"
-    if len(sys.argv) > 1 and sys.argv[1].lower() == "yaml":
-        save_type = "yaml"
+    description = (
+        "Creates Plugin Registries for all installed GeoIPS packages. "
+        "The registries will be written to the root directory of each installed "
+        "package. The registries will be named either 'registered_plugins.json' "
+        "or 'registered_plugins.yaml' depending on which format is chosen. "
+        "For additional information on GeoIPS plugin registries please refer to "
+        "the GeoIPS documentation."
+    )
+
+    argparser = ArgumentParser(
+        prog="create_plugin_registries",
+        description=description,
+    )
+    argparser.add_argument(
+        "-s",
+        "--save_type",
+        type=str.lower,
+        default="json",
+        choices=["json", "yaml"],
+        help="Format to write registries to. This will also be the file extension.",
+    )
+    ARGS = argparser.parse_args()
+    save_type = ARGS.save_type
+
     LOG = setup_logging(logging_level="INTERACTIVE")
     # Note: Python 3.9 appears to return duplicates when installed with setuptools.
     # These are filtered within the create_plugin_registries function.

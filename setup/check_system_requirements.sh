@@ -55,7 +55,6 @@ test_data_urls=(
 
 # Requirements to run base geoips tests
 if [[ "$1" == "geoips_base" ]]; then
-    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh python
 fi
@@ -66,19 +65,6 @@ if [[ "$1" == "geoips_full" ]]; then
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gcc
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh g++
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
-fi
-
-# Required for image comparisons
-if [[ "$1" == "imagemagick" ]]; then
-    compare --version >> $install_log 2>&1
-    retval=$?
-    if [[ "$retval" != "0" ]]; then
-        echo "WARNING: 'compare --version' failed, please install imagemagick before proceeding"
-        exit 1
-    else
-        echo "SUCCESS: 'imagemagick' appears to be installed successfully"
-        echo "    "`which compare`
-    fi
 fi
 
 # Required for using the -C option since some people apparently have git older than
