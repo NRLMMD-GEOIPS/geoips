@@ -36,6 +36,11 @@ occurs:
 * A plugin package is uninstalled
 * An individual plugin is added, edited, or removed
 
+.. note::
+    We hope to automate the process of creating/updating the plugin registries
+    in the future to avoid requiring the user to directly call
+    ``create_plugin_registries``.
+
 How to Create/Update the Plugin Registries
 ------------------------------------------
 ``create_plugin_registries`` executable can be called to create or update the
@@ -135,6 +140,7 @@ With this information, we have accessible intel to locate, load, and process the
 without multiple calls. Having this registry cached for all of GeoIPS is extremely
 impactful on startup time, as we no longer need to dynamically locate these plugins
 during runtime to use their functionality.
+
 In-depth Motivation for Plugin Registries
 -----------------------------------------
 
