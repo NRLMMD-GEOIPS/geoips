@@ -18,6 +18,7 @@ Version 1.12.2a0 (2024-02-21)
   * Added log with emphasis function
   * Introduced a documentation for coding standards within the build/dev directory.
   * Introduced documentation for coding standards for module imports.
+  * Added documentation for current linters and configuration.
 * Bug fixes
 
   * Ensure that log.interactive works from plugins when imported independently.
@@ -71,6 +72,16 @@ Introduced documentation for coding standards for module imports.
 Throughout GeoIPS, we have inconsistent module imports. These new standards (added to
 our documentation) will help us be more intentional in how we import modules going
 forward.
+
+::
+    modified: docs/dev/coding_standards.rst
+
+Added documentation for current linters and configuration.
+----------------------------------------------------------
+
+GeoIPS makes use of a number of different linters and linter plugins. This
+documentation lists and briefly describes each linter and gives configuration
+information.
 
 ::
     modified: docs/dev/coding_standards.rst
