@@ -11,18 +11,14 @@
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
 Please see
-``$GEOIPS_PACKAGES_DIR/geoips/CHANGELOG_TEMPLATE.rst``
-for instructions on updating CHANGELOG appropriately
+https://github.com/NRLMMD-GEOIPS/geoips/blob/main/CHANGELOG_TEMPLATE.rst
+for instructions on updating release notes appropriately
 with each PR.
 
 The release note that is currently, actively being updated in
-all geoips plugin repositories can be found in the file
-``$GEOIPS_PACKAGES_DIR/geoips/update_this_release_note``.
+all geoips plugin repositories is referenced in the file:
 
-You can either:
+* https://github.com/NRLMMD-GEOIPS/geoips/blob/main/update_this_release_note
 
-* update the appropriate release note in this repo directly.
-* or update this ``CHANGELOG.rst`` file with your release
-  notes, for simplicity (your notes will be moved to the
-  appropriate release note in ``docs/source/releases``
-  during the PR process)
+* Please add all release notes for the current PR in the file referenced
+  within ``update_this_release note``.

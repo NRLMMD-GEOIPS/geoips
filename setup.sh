@@ -154,7 +154,6 @@ elif [[ "$1" == "create_geoips_conda_env" ]]; then
     # cartopy >= 0.22 no longer requires geos.
     # openblas/gcc required for recenter_tc / akima build.
     # gcc<10 required for seviri wavelet transform build
-    # imagemagick required for image comparisons
     # git required for -C commands
     # rclone required for NOAA AWS ABI/AHI downloads
     if [[ "$2" == "conda_defaults_channel" ]]; then
