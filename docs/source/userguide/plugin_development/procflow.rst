@@ -161,8 +161,12 @@ what each procflow argument does.
 The above example is one, of many thousands of argument combinations that can be
 used to produce a certain output. To see more examples of different types of procflow
 definitions, please see ``geoips/tests/scripts``. For more information about what
-procflow arguments exist and what they do, see
-``geoips/geoips/commandline/args:add_args``.
+procflow arguments exist and what they do, see below.
+
+.. admonition:: Usage: run_procflow
+
+    .. autoprogram:: geoips.commandline.args:get_argparser()
+        :prog: run_procflow
 
 Tracking data though a procflow
 -------------------------------
