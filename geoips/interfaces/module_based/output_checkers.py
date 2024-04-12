@@ -19,6 +19,9 @@ from geoips.interfaces.base import (
 )
 import logging
 from geoips.errors import PluginError
+
+# import subprocess
+from geoips.commandline.log_setup import log_with_emphasis
 import gzip
 from glob import glob
 from os.path import exists, splitext, basename, dirname, isdir, join
@@ -426,33 +429,6 @@ def write_good_comparisons_to_file(goodcomps, compare_strings, diffdir):
     return 0
 
 
-def log_with_emphasis(log_command, log_lines):
-    """Surround log output with extra emphasis.
-
-    This will eventually be consolidated in a logging utility.
-    For now, include here.
-
-    Parameters
-    ----------
-    log_command : callable
-        ie, LOG.info
-    log_lines : list
-        list of lines to pass to log_command.
-        ie, ["log output line 1", "log output line 2"]
-
-    Returns
-    -------
-    No return values.
-    """
-    log_command("**********************************************")
-    log_command("**********************************************")
-    for log_line in log_lines:
-        log_command(log_line)
-    log_command("**********************************************")
-    log_command("**********************************************")
-    log_command("\n")
-
-
 def get_missing_products(output_products_for_comparison, compare_products):
     """Get list of missing products from compare_products_dictionary.
 
@@ -778,7 +754,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                 remove_temp_files += [output_product_for_comparison]
 
             log_with_emphasis(
-                LOG.info, ["*** COMPARE {basename(output_product_for_comparison)}"]
+                LOG.info, "COMPARE {basename(output_product_for_comparison)}"
             )
             found_one = False
             for compare_product in compare_products:
@@ -849,9 +825,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         int
             Binary code: 0 if all comparisons were completed successfully.
         """
-        log_with_emphasis(
-            LOG.info, [f"*** COMPARISONS OF KNOWN OUTPUTS IN {compare_path}"]
-        )
+        log_with_emphasis(LOG.info, f"COMPARISONS OF KNOWN OUTPUTS IN {compare_path}")
         # We gunzip comparison files to a temporary location, so keep track of
         # all the temporary files so we can remove them at the end.
         remove_temp_files = []
@@ -880,7 +854,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         remove_temp_files += curr_remove_temp_files
         log_with_emphasis(
             LOG.info,
-            [f"*** DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN {compare_path}"],
+            f"DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN {compare_path}",
         )
 
         # Identify all missing products based on the list of output products

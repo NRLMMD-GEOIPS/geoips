@@ -391,7 +391,7 @@ the future. We need to modify this process to include text based plugins.
 Standardized Unit testing
 --------------------------------------
 
-Created a pytest configuration file to standardize outputs,diagnostics, and 
+Created a pytest configuration file to standardize outputs,diagnostics, and
 command line arguments. Modified yaml based unit tests to generate informative
 identifiers for pytest output. Included coverage reporting for the pytest output,
 but --cov argument must be passed in command line.
