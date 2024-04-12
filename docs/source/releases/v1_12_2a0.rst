@@ -19,6 +19,7 @@ Version 1.12.2a0 (2024-02-21)
   * Introduced a documentation for coding standards within the build/dev directory.
 * Bug fixes
 
+  * Fix polar data not showing up in imagery
   * Ensure that log.interactive works from plugins when imported independently.
   * Make add_log_level a callable class to fix AttributeErrors.
   * Remove inconsistent unit test test_log_interactive_non_geoips
@@ -66,6 +67,39 @@ is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you
 
 Bug Fixes
 =========
+
+Fix polar data not showing up in imagery
+----------------------------------------
+
+*From GEOIPS#431: 2024-02-06, Look into polar projections in pyresample wrappers*
+
+Currently products with polar projection sectors do not plot. Initial investigations
+indicate pre-sectoring the data does not work well with data over the poles. It seems
+passing ``--no-presectoring`` option at the command line helps - but there may be
+additional issues with polar projections.
+
+It was found that we are misinterpreting how pyresample's AreaDefinition attribute
+``area_extent_ll`` is formulated. For polar sectors, when looking at such attribute,
+it has been found that ``min_lat`` and ``max_lat`` values are extremely close to each
+other, if not equal. While internally the AreaDefinition includes data from min_lat to
+max_lat over the poles, we are interpretting those values as a line or a very small
+swath, which usually misses some, if not all of the data you're attempting to plot.
+
+We've added additional checks within ``geoips/xarray_utils/data.py`` --
+``sector_xarray_spatial``, to modify the area_extent_ll to reflect the actual bounds
+we want to include in our sectored data. While it may capture a greater area than
+necessary, we fix the problem of missing data for polar imagery.
+
+::
+
+    added: geoips/plugins/yaml/gridline_annotators/north_pole.yaml
+    added: tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.imagery_annotated.sh
+    added: tests/unit_tests/xarray_utils/data.py
+    modified: geoips/plugins/yaml/sectors/static/abu_dhabi.yaml
+    modified: geoips/plugins/yaml/sectors/static/north_pole.yaml
+    modified: geoips/plugins/yaml/sectors/static/south_pole.yaml
+    modified: geoips/plugins/modules/procflows/single_source.py
+    modified: geoips/xarray_utils/data.py
 
 algorithm_interpolator_colormapper incorrectly interpolates data
 ----------------------------------------------------------------
