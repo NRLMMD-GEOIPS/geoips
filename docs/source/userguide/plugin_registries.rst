@@ -17,57 +17,70 @@
 GeoIPS Plugin Registries
 **********************************
 
-In summary, the plugin registry is a cached ledger of all available plugins within every
-geoips package, that can be used for all GeoIPS functionality. When new plugins are
-added, users need to run ``create_plugin_registries``, to update the cached registry
-to include your new plugins. Moving from the legacy dynamic system to the current
-pre-built plugin registry cache reduced the start up time of GeoIPS twenty-fold.
+GeoIPS makes use of plugin registries to reduce start up time. The process of
+locating, loading, and validating all of the plugins in GeoIPS is slow. To
+mitigate that slowness, plugin registries are used to cache information about
+each available plugin in the GeoIPS environment. The registries are then used
+by the CLI and other parts of GeoIPS to quickly access information about the
+available plugins as well as locate and load individual plugins.  Moving from
+the legacy dynamic system to the current pre-built plugin registry cache
+reduced startup time for the GeoIPS CLI twenty-fold.
 
-Defining a Plugin Registry
---------------------------
+When to Create/Update Plugin Registries
+----------------------------------------
+The plugin registries must be created/updated any time one of the following
+occurs:
 
-Plugin Registries are crucial for processing with GeoIPS. Essentially,
-they are large dictionaries that store information about plugins across
-all GeoIPS packages. They also provide the backend of GeoIPS with functionality
-to locate and validate each plugin at runtime.
+* GeoIPS is installed or reinstalled
+* A new plugin package is installed or reinstalled
+* A plugin package is uninstalled
+* An individual plugin is added, edited, or removed
 
-There are two methods to create Plugin Registries: one prioritizes readability
-(YAML-based), and the other efficiency (JSON-based). The motivation for
-Plugin Registries stemmed from the inefficiencies observed in the
-`geoips/geoips/geoips_utils.py:load_all_yaml_plugins` function. This function was
-responsible for locating all YAML-based plugins in the GeoIPS packages and merging
-them into a single, nested dictionary for access by the YAML-based interfaces. Despite
-its good intentions, it was called multiple times (5 times, one for each interface),
-significantly impacting GeoIPS performance.
+How to Create/Update the Plugin Registries
+------------------------------------------
+``create_plugin_registries`` executable can be called to create or update the
+plugin registries.
 
-To address this, the new `PluginRegistry` class was introduced, utilizing the
-`create_plugin_registries.py` script for its creation. It significantly improves
-efficiency, requiring only a single load operation for any GeoIPS import statement.
-This efficiency is achieved by integrating it as a top-level property, inherited across
-all interface types.
+This executable will create a separate registry for each installed GeoIPS
+plugin package. Each registry will contain a dictionary of all available
+plugins provided by that package. The registry will be written in the
+top-level directory of the installed plugin package and will, by default, be
+written in JSON and named ``registered_plugins.json``.
 
+The executable can be called with the ``-s yaml`` option to specify the output
+format as YAML rather than JSON. This is useful for debugging since YAML is,
+arguably, easier to read than JSON. The YAML registries will be ignored by
+GeoIPS, though, because they are significantly slower to load than JSON.
 
+.. admonition:: Usage: create_plugin_registries
 
-Creating a Plugin Registry
---------------------------
+    .. autoprogram:: geoips.create_plugin_registries:get_parser()
+        :prog: create_plugin_registries
 
-To create a plugin registry, we first must define what needs to be in each registry.
-At its top level, a plugin registry defines three keys:
-*{module_based, yaml_based, text_based}*. These keys represent the three available plugin 
-types used in GeoIPS. For example, a module_based plugin can be an algorithm, reader, etc.
-A text_based plugin (while not many exist), defines a custom ASCII palette used by
-some plugins. A yaml_based plugin, as its name implies, is a yaml file which defines
-properties for a certain plugin. This can be a product, product_default, sector, etc.
+Plugin Registry Contents
+------------------------
 
-The organization within the plugin registry is further refined by categorizing plugins
-under their corresponding interfaces, facilitating one-call access to plugins based
-on their operational context. This structure allows for efficient plugin locating,
-loading, and processing, serving as a comprehensive catalog of all plugins across
-the GeoIPS packages.
+Each plugin registry contains a dictionary describing each plugin provided by
+the registry's plugin package. The registry dictionary is organized into a
+four-level structure where the levels are as follows:
 
-For instance, to access a YAML plugin named ``denver``, one
-would navigate through the registry using a structured path that reflects the plugin's
-characteristics and location, as illustrated in the following example:
+1. Plugin Interface Type (i.e. module_based, yaml_based, text_based)
+2. Interface Name (i.e. algorithms, products, sectors, etc.)
+3. Plugin Name
+4. Plugin Attributes (e.g. relpath, package, docstring, etc.)
+
+.. note::
+    The registry adds a fifth level in the case of compound plugins such as
+    product plugins whose family is ``list``. In this case, the fourth level
+    is the name of each sub-plugin in the compound plugin and the plugin
+    attributes are moved to the fifth level.
+
+This structure allows for efficient plugin locating, loading, and processing,
+serving as a comprehensive catalog of all plugins across the GeoIPS packages.
+For instance, to access a YAML plugin named ``denver``, one would navigate
+through the registry using a structured path that reflects the plugin's
+characteristics and location. For example, given the following sector
+definition for ``denver``
 
 .. code-block:: yaml
 
@@ -81,10 +94,9 @@ characteristics and location, as illustrated in the following example:
     abspath: /local/home/user/geoips/geoips_packages/geoips/geoips/plugins/yaml/sectors/static/denver.yaml
     package: geoips
 
-Using this information, we've created the sector-plugin 'denver' as shown above.
-When 'create_plugin_registries' is ran, an entry representing sector-plugin 'denver' 
-will be generated in the registry, following the structured path that is reflected 
-by the plugin's interface type, interface name, and own name. Such an entry can be seen below.
+when 'create_plugin_registries' is ran, an entry representing sector-plugin
+'denver' will be added to the registry at the path ``"yaml_based/sectors/denver"``
+as shown below:
 
 ..
     the relevance of this example it obvious to the developer, but needs to be
@@ -123,17 +135,34 @@ With this information, we have accessible intel to locate, load, and process the
 without multiple calls. Having this registry cached for all of GeoIPS is extremely
 impactful on startup time, as we no longer need to dynamically locate these plugins
 during runtime to use their functionality.
+In-depth Motivation for Plugin Registries
+-----------------------------------------
+
+The motivation for Plugin Registries stemmed from the inefficiencies observed
+in the `geoips/geoips/geoips_utils.py:load_all_yaml_plugins` function. This
+function was responsible for locating all YAML-based plugins in the GeoIPS
+packages and merging them into a single, nested dictionary for access by the
+YAML-based interfaces. Despite its good intentions, it was called multiple
+times (5 times, one for each interface), significantly impacting GeoIPS
+performance.
+
+To address this, the new `PluginRegistry` class was introduced, utilizing the
+`create_plugin_registries.py` script for its creation. It significantly
+improves efficiency, requiring only a single load operation for any GeoIPS
+import statement.  This efficiency is achieved by integrating it as a top-level
+property, inherited across all interface types.
 
 Benefits of a Plugin Registry
 -----------------------------
 
-The high efficiency of the new plugin registries led to a twenty-fold reduction in startup
-time. In practice, this resulted in a reduction from >10 seconds to 0.5 seconds when
-importing GeoIPS. Largely, this is attributable to efficient json loading and waiting to
-instantiate the plugin registry until a user requests a plugin. Before, we dynamically
-created the yaml-registry for each yaml interface (5 in total) by searching entry points,
-which was slower than creating a comprehensive plugin registry for all plugins (per-plugin
-call vs entire cache generation).
+The high efficiency of the new plugin registries led to a twenty-fold reduction
+in startup time. In practice, this resulted in a reduction from >10 seconds to
+0.5 seconds when importing GeoIPS or calling the CLI. Largely, this is
+attributable to efficient json loading and waiting to instantiate the plugin
+registry until a user requests a plugin. Before, we dynamically created the
+yaml-registry for each yaml interface (5 in total) by searching entry points,
+which was slower than creating a comprehensive plugin registry for all plugins
+(per-plugin call vs entire cache generation).
 
 Another benefit is the easily accessible information stored in the plugin registry. We
 can search through the registry for every plugin of each package and find a
@@ -154,12 +183,13 @@ plugins in a manner similar to that currently used to access yaml_based plugins.
 
 For more information about plugin registries, feel free to look at the source code for
 their related scripts:
- * Creating the plugin registry can be found `in the create_plugin_registries.py file
-   <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/create_plugin_registries.py>`_.
- * The PluginRegistry Class, which makes use of the plugin registries created by the
-   script above, can be found `in the plugin_registry.py file
-   <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugin_registry.py>`_.
- * Finally, the unit tests that ensure the correct functionality of plugin registries,
-   can be found `in the test_plugin_registries.py file
-   <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/unit_tests/plugin_registries/test_plugin_registries.py>`_.
+
+* Creating the plugin registry can be found `in the create_plugin_registries.py file
+  <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/create_plugin_registries.py>`_.
+* The PluginRegistry Class, which makes use of the plugin registries created by the
+  script above, can be found `in the plugin_registry.py file
+  <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugin_registry.py>`_.
+* Finally, the unit tests that ensure the correct functionality of plugin registries,
+  can be found `in the test_plugin_registries.py file
+  <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/unit_tests/plugin_registries/test_plugin_registries.py>`_.
 
