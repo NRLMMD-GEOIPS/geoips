@@ -75,7 +75,13 @@ __all__ = module_based_interfaces + yaml_based_interfaces
 
 
 def list_available_interfaces():
-    """Collect and return every available interface for each interface 'family'."""
+    """Return a dictionary of available interfaces.
+
+    Collect and return a dictionary whose keys are the interface types (i.e.
+    module_based, yaml_based, and text_based) and whose values are lists of the
+    available interfaces for each interface type.
+    """
+    # These are buried to avoid polluting the interface module's namespace
     import inspect
     from geoips import interfaces
 
