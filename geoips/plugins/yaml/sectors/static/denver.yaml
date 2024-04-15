@@ -20,9 +20,9 @@ spec:
     proj: eqc
     units: m
   resolution:
-    - 500
-    - 500
+    - 250
+    - 250
   shape:
-    height: 400
-    width: 400
+    height: 200
+    width: 200
   center: [0, 0]
