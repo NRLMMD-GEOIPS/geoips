@@ -37,7 +37,10 @@ Version 1.12.2a0 (2024-02-21)
 * Testing Updates
 
   * Move pytest validation from plugin_registry.py to unit tests.
+* Documentation
 
+  * Add documentation about optional pdflatex dependency
+  
 Testing Updates
 ===============
 
@@ -349,3 +352,14 @@ in a human readable, interpretable format. To do so, we need to add the argument
 ::
 
     modified: geoips/create_plugin_registries.py
+
+Documentation
+=============
+
+Added documentation about optional pdflatex dependency to docs building script
+as well as the expert installation instructions.
+
+::
+
+    modified: docs/build_docs.sh
+    modified: docs/source/starter/expert_installation.rst
