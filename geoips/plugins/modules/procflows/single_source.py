@@ -27,7 +27,6 @@ from geoips.utils.memusg import print_mem_usage
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.sector_utils.utils import filter_area_defs_actual_time, is_dynamic_sector
 from geoips.geoips_utils import replace_geoips_paths
-from geoips.commandline.log_setup import log_with_emphasis
 
 # Old interfaces (YAML, not updated to classes yet!)
 from geoips.dev.product import (
