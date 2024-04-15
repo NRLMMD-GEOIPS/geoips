@@ -78,7 +78,10 @@ is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you
     modified: geoips/geoips/plugins/modules/output_checkers/netcdf.py
     modified: geoips/geoips/plugins/modules/output_checkers/text.py
     modified: geoips/geoips/plugins/modules/procflows/single_source.py
-    added: geoips/tests/unit_tests/commandline/log_setup.py
+    removed: geoips/tests/unit_tests/commandline/log_setup.py
+    added: geoips/tests/unit_tests/commandline/test_log_setup.py
+    added: tests/scripts/abi.static.Infrared.netcdf_geoips.sh
+    added: tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-16.Infrared_latitude_longitude.denver.nc
 
 Introduced documentation for coding standards for module imports.
 -----------------------------------------------------------------
