@@ -4,9 +4,6 @@ defaults:
   run:
     shell: bash
 
-env:
-  CONDA_ENV: github_actions_pytest
-
 # Can not use variables in the list of branches,
 # GitHub Actions will not recognize, and workflow will not run.
 on:
