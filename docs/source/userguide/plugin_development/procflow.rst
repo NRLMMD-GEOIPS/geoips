@@ -1,4 +1,4 @@
- .. dropdown:: Distribution Statement
+.. dropdown:: Distribution Statement
 
    | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
    | # # #
