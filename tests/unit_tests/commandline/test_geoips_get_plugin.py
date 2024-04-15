@@ -24,9 +24,16 @@ class TestGeoipsGetPlugin(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = self._get_plugin_args
-            # validate all plugins from package geoips_clavrx
+            # validate all plugins from all packages
             for interface_name in interfaces.__all__:
                 interface = getattr(interfaces, interface_name)
+                # If there happen to be no plugins for a given
+                # interface, just skip, do not fail catastrophically.
+                # This allows defining interfaces in the geoips repo,
+                # even if there are no plugins of that interface
+                # directly in the main geoips repo.
+                if interface_name not in interface.plugin_registry.registered_plugins[interface.interface_type]:
+                    continue
                 interface_registry = interface.plugin_registry.registered_plugins[
                     interface.interface_type
                 ][interface_name]

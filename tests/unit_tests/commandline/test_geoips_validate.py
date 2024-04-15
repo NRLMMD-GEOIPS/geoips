@@ -22,18 +22,19 @@ class TestGeoipsValidate(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = self._validate_args
-            pkg_path = str(resources.files("geoips_clavrx") / "plugins")
-            # validate all plugins from package geoips_clavrx
-            for plugin_type in ["modules", "yaml"]:
-                if plugin_type == "modules":
-                    plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.py"
-                else:
-                    plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.yaml"
-                plugin_paths = sorted(glob(plugin_path_str, recursive=True))
-                for plugin_path in plugin_paths:
-                    self._cmd_list.append(base_args + [plugin_path])
-            # Add argument list to retrieve help message
-            self._cmd_list.append(base_args + ["-h"])
+            for plugin_package in self.plugin_packages:
+                pkg_path = str(resources.files(plugin_package) / "plugins")
+                # validate all plugins from package geoips_clavrx
+                for plugin_type in ["modules", "yaml"]:
+                    if plugin_type == "modules":
+                        plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.py"
+                    else:
+                        plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.yaml"
+                    plugin_paths = sorted(glob(plugin_path_str, recursive=True))
+                    for plugin_path in plugin_paths:
+                        self._cmd_list.append(base_args + [plugin_path])
+                # Add argument list to retrieve help message
+                self._cmd_list.append(base_args + ["-h"])
         return self._cmd_list
 
     def check_error(self, args, error):
