@@ -733,7 +733,7 @@ def get_area_defs_from_command_line_args(
     LOG.interactive("Getting all area defs from command line args:")
     if "sector_list" in command_line_args:
         sector_list = command_line_args["sector_list"]
-        LOG.interactive("  sector_list: %s", tcdb_sector_list)
+        LOG.interactive("  sector_list: %s", sector_list)
     if "tcdb_sector_list" in command_line_args:
         tcdb_sector_list = command_line_args["tcdb_sector_list"]
         LOG.interactive("  tcdb_sector_list: %s", tcdb_sector_list)
