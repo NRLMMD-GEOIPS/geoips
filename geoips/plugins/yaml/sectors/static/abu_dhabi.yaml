@@ -11,7 +11,7 @@ metadata:
     state: AbuDhabi
     city: AbuDhabi
 spec:
-  area_id: abu_dhabit
+  area_id: abu_dhabi
   description: City of Abu Dhabi
   projection:
     a: 6371228.0
