@@ -17,6 +17,8 @@ Version 1.12.2a0 (2024-02-21)
 
   * Added log with emphasis function
   * Introduced a documentation for coding standards within the build/dev directory.
+  * Introduced documentation for coding standards for module imports.
+  * Added documentation for current linters and configuration.
 * Bug fixes
 
   * Fix polar data not showing up in imagery
@@ -27,7 +29,7 @@ Version 1.12.2a0 (2024-02-21)
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
   * Fix bad filename wrapping with log_with_emphasis
   * Fix log_with_emphasis to deal with empty strings gracefully
-  
+
 * Refactor
 
   * Make JSON Plugin Registries Readable
@@ -64,6 +66,26 @@ is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you
     modified: geoips/geoips/plugins/modules/output_checkers/text.py
     modified: geoips/geoips/plugins/modules/procflows/single_source.py
     added: geoips/tests/unit_tests/commandline/log_setup.py
+
+Introduced documentation for coding standards for module imports.
+-----------------------------------------------------------------
+
+Throughout GeoIPS, we have inconsistent module imports. These new standards (added to
+our documentation) will help us be more intentional in how we import modules going
+forward.
+
+::
+    modified: docs/dev/coding_standards.rst
+
+Added documentation for current linters and configuration.
+----------------------------------------------------------
+
+GeoIPS makes use of a number of different linters and linter plugins. This
+documentation lists and briefly describes each linter and gives configuration
+information.
+
+::
+    modified: docs/dev/coding_standards.rst
 
 Bug Fixes
 =========
@@ -145,7 +167,11 @@ Update Dockerfile to install rasterio properly
 ..
     *From GEOIPS#NN: 2024-03-XX, TODO*
 
-Previously puilding the provided Dockerfile did not build a working image. It failed on the last step (installation of geoips) and hangs on installing rasterio. This fix updates the Dockerfile to install rasterio dependancies (``gdal-bin`` and ``libgdal-dev``) and additionally installs software-properties-common for access to add-apt-repository to aid in gdal installation.
+Previously building the provided Dockerfile did not build a working image.
+It failed on the last step (installation of geoips) and hangs on installing rasterio.
+This fix updates the Dockerfile to install rasterio dependancies (``gdal-bin`` and
+``libgdal-dev``) and additionally installs software-properties-common for access to
+add-apt-repository to aid in gdal installation.
 
 ::
     modified: Dockerfile
@@ -203,7 +229,7 @@ Fix bad filename wrapping with log_with_emphasis
 *From issue GEOIPS#468*
 
 Fixes poor wrapping for long filenames when logged with emphasis. Now does not auto-wrap
-long filenames and prints as is. Additionally, any word logged over 74 chars will not be 
+long filenames and prints as is. Additionally, any word logged over 74 chars will not be
 broken.
 
 Update log_with_emphasis to deal with empty strings
@@ -219,7 +245,8 @@ Refactor
 Modify create_plugin_registries to use argparse
 -----------------------------------------------
 
-*From issue GEOIPS#416: 2023-12-21, Replace create_plugin_registries 'sys.argv' calls with 'argparse' library'*
+*From issue GEOIPS#416: 2023-12-21,
+Replace create_plugin_registries 'sys.argv' calls with 'argparse' library'*
 
 Currently create_plugin_registries.py uses sys.argv calls to generate its arguments
 rather than argparse. This doesn't follow GeoIPS conventions nor that of the CLI that
