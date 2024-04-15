@@ -15,8 +15,8 @@ spec:
   description: North Pole Region
   projection:
     a: 6371228.0
-    lat_0: 87.0
-    lon_0: 90.0
+    lat_0: 90.0
+    lon_0: 0.0
     proj: stere
     units: m
   resolution:
