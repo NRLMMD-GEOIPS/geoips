@@ -33,6 +33,9 @@ Version 1.12.2a0 (2024-02-21)
 * Refactor
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
+* Documentation
+
+  * Add documentation about optional pdflatex dependency
 
 Enhancements
 ============
@@ -312,3 +315,14 @@ in a human readable, interpretable format. To do so, we need to add the argument
 ::
 
     modified: geoips/create_plugin_registries.py
+
+Documentation
+=============
+
+Added documentation about optional pdflatex dependency to docs building script
+as well as the expert installation instructions.
+
+::
+
+    modified: docs/build_docs.sh
+    modified: docs/source/starter/expert_installation.rst
