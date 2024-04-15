@@ -29,13 +29,50 @@ Version 1.12.2a0 (2024-02-21)
   * Modify algorithm_interpolator_colormapper to only provide input xarray
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
   * Fix bad filename wrapping with log_with_emphasis
+  * Fix log_with_emphasis to deal with empty strings gracefully
   * Fix log_with_emphasis to deal with empty strings gracefully 
 * Refactor
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
+* Testing Updates
+
+  * Move pytest validation from plugin_registry.py to unit tests.
 * Documentation
 
   * Add documentation about optional pdflatex dependency
+  
+Testing Updates
+===============
+
+Move PyTest Validation from plugin_registry.py to Unit tests
+------------------------------------------------------------
+*From GEOIPS#426: 2024-02-02, GeoIPS won't run pip install . w/out [test] target*
+
+GeoIPS currently fails to run if installed by simply calling ``pip install .``. It must,
+instead, be installed with pip install .[test]. This is because pytest is used in
+geoips/plugin_registry.py but is not included in the base GeoIPS installation
+requirements.
+
+To remediate this, we've since moved the pytest validation functionality off of the
+PluginRegistry class itself, and moved it into unit tests at
+``tests/unit_tests/plugin_registries/test_plugin_registries.py``, under class
+PluginRegistryValidator. This removes the need for PyTest to be a GeoIPS dependency,
+and is now a Unit Test dependency. If users want to validate their plugin registry, they
+will have to manually install pytest to validate from now on.
+
+Unit-Test validation of the plugin registry is performed to ensure it's in the correct
+state. This was initially automatically done when it was created, but since it invoked
+pytest and that's only a required dependency in the ``test`` extra, we have decided 
+to move this to a unit-test module so that end-users don't need to install pytest.
+All in all, the user doesn't really need to validate their own registry. It
+should not be created if an error occurs (eg. duplicate plugin names under the same
+interface, poorly formatted plugin, etc.), however as developers we wanted the ability
+to unit test the PluginRegistry to make sure everything was being done as expected.
+
+::
+
+    modified: geoips/plugin_registry.py
+    modified: tests/unit_tests/plugin_registries/test_plugin_registries.py
 
 Enhancements
 ============
