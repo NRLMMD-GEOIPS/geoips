@@ -14,7 +14,7 @@ Version 1.12.2a0 (2024-02-21)
 *****************************
 
 * Enhancements
-
+  * Add function to list all available interfaces for each interface 'family'
   * Added log with emphasis function
   * Introduced a documentation for coding standards within the build/dev directory.
   * Introduced documentation for coding standards for module imports.
@@ -28,15 +28,27 @@ Version 1.12.2a0 (2024-02-21)
   * Modify algorithm_interpolator_colormapper to only provide input xarray
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
   * Fix bad filename wrapping with log_with_emphasis
-  * Fix log_with_emphasis to deal with empty strings gracefully
-
+  * Fix log_with_emphasis to deal with empty strings gracefully 
 * Refactor
-
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
 
 Enhancements
 ============
+
+Add function to list all available interfaces for each interface 'family'
+-------------------------------------------------------------------------
+
+*From GEOIPS#397: 2023-11-02, Add function to geoips.interfaces to list all interfaces of each type*
+
+Added a function which lists all interfaces found for each interface family. Rather than
+referring to a hard-coded list of interfaces that currently exist, we make assumptions
+on the directory structure of the geoips package and list the corresponding interface
+modules via the members of 'geoips.interfaces'.
+
+::
+
+    modified: geoips/interfaces/__init__.py
 
 Documentation Scaffold for Coding Standards
 -------------------------------------------
