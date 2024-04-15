@@ -360,14 +360,6 @@ def process_xarray_dict_to_output_format(
     return final_products
 
 
-def print_area_def(area_def, print_str):
-    """Print area def."""
-    messages = [f"{print_str}\n{area_def}"]
-    for key, value in area_def.sector_info.items():
-        messages.append(f"{key}: {value}")
-    log_with_emphasis(LOG.info, *messages)
-
-
 def pad_area_definition(
     area_def, source_name=None, force_pad=False, x_scale_factor=1.5, y_scale_factor=1.5
 ):
