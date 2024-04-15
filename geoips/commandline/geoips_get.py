@@ -279,13 +279,8 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
         ][interface.name]
         # Ensure the provided plugin exists within the interface's plugin registry
         self.ensure_plugin_exists(interface.name, interface_registry, plugin_name)
-        if interface.name == "products":
-            source_name, plugin_name = plugin_name.split(".", 1)
-            plugin_entry = interface_registry[source_name][plugin_name]
-            self._output_dictionary_highlighted(plugin_entry)
-        else:
-            plugin_entry = interface_registry[plugin_name]
-            self._output_dictionary_highlighted(plugin_entry)
+        plugin_entry = interface_registry[plugin_name]
+        self._output_dictionary_highlighted(plugin_entry)
 
     def ensure_plugin_exists(self, interface_name, interface_registry, plugin_name):
         """Ensure that the given plugin exists within an interface's plugin registry.
@@ -308,12 +303,7 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
                 err_str += f"<plugin_name>`. Requested {plugin_name} doesn't match"
                 err_str += "that."
                 raise KeyError(err_str)
-            source_name, plugin_name = plugin_name.split(".", 1)
-            if plugin_name not in interface_registry[source_name].keys():
-                raise KeyError(
-                    f"{plugin_name} not found under Products {source_name} entry."
-                )
-        elif plugin_name not in interface_registry.keys():
+        if plugin_name not in interface_registry.keys():
             self.subcommand_parser.error(
                 f"{plugin_name} doesn't exist within Interface {interface_name}."
             )

@@ -537,10 +537,17 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
             # Give each one its own entry in the plugin registry for easy
             # access.
             for subplg_name in subplg_names:
-                subplg_source = str(subplg_name[0])
-                subplg_product = str(subplg_name[1])
-                if subplg_source not in plugins[interface_name]:
-                    plugins[interface_name][subplg_source] = {}
+                subplg_exists_error = check_plugin_exists(
+                    package,
+                    plugins,
+                    interface_name,
+                    subplg_name,
+                    plugin["relpath"],
+                )
+                error_message += subplg_exists_error
+                if subplg_exists_error == "":
+                    # "" Returned means subplg_name not found in current interface
+                    plugins[interface_name][subplg_name] = {}
                 # since we are dealing with sub-plugins of a product plugin,
                 # include a couple other pieces of information, such as
                 # product_defaults and source_names.
@@ -599,7 +606,7 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
                 #             docstring = plugins["product_defaults"][pd]["docstring"]
                 #         if not family:
                 #             family = plugins["product_defaults"][pd]["family"]
-                plugins[interface_name][subplg_source][subplg_product] = {
+                plugins[interface_name][subplg_name] = {
                     "docstring": docstring,
                     "family": family,
                     "interface": interface_module.name,
