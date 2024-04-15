@@ -13,6 +13,8 @@
 Version 1.12.2a0 (2024-02-21)
 *****************************
 
+* Refactor
+  * Refactor optional imports in readers to use a context manager function
 * Enhancements
   * Add function to list all available interfaces for each interface 'family'
   * Added log with emphasis function
@@ -20,7 +22,6 @@ Version 1.12.2a0 (2024-02-21)
   * Introduced documentation for coding standards for module imports.
   * Added documentation for current linters and configuration.
 * Bug fixes
-
   * Fix polar data not showing up in imagery
   * Ensure that log.interactive works from plugins when imported independently.
   * Make add_log_level a callable class to fix AttributeErrors.
@@ -114,7 +115,10 @@ is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you
     modified: geoips/geoips/plugins/modules/output_checkers/netcdf.py
     modified: geoips/geoips/plugins/modules/output_checkers/text.py
     modified: geoips/geoips/plugins/modules/procflows/single_source.py
-    added: geoips/tests/unit_tests/commandline/log_setup.py
+    removed: geoips/tests/unit_tests/commandline/log_setup.py
+    added: geoips/tests/unit_tests/commandline/test_log_setup.py
+    added: tests/scripts/abi.static.Infrared.netcdf_geoips.sh
+    added: tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-16.Infrared_latitude_longitude.denver.nc
 
 Introduced documentation for coding standards for module imports.
 -----------------------------------------------------------------
@@ -290,6 +294,32 @@ and log_with_emphasis has now been updated to gracefully deal with this case.
 
 Refactor
 ========
+
+Refactor optional imports in readers to use context manager function
+--------------------------------------------------------------------
+
+*From GEOIPS#338: 2023-07-19, Clean up optional dependencies*
+
+Some GeoIPS readers include optional dependency statements that are required to read
+certain file formats. While keeping these imports as optional is ok, we should clean up
+the manner in which this is implemented. To do so, we've created a separate
+``geoips.utils.context_managers.py`` script which can handle optional imports scattered
+throughout the GeoIPS codebase. This is essentially replacing our old manner of optional
+dependencies with a new method that keeps things clean.
+
+::
+
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: geoips/plugins/modules/readers/abi_netcdf.py
+    modified: geoips/plugins/modules/readers/ahi_hsd.py
+    modified: geoips/plugins/modules/readers/ewsg_netcdf.py
+    modified: geoips/plugins/modules/readers/modis_hdf4.py
+    modified: geoips/plugins/modules/readers/seviri_hrit.py
+    modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+    modified: geoips/plugins/modules/readers/viirs_netcdf.py
+    modified: geoips/utils/memusg.py
+    added: geoips/utils/context_managers.py
+    added: tests/unit_tests/utils/context_managers.py
 
 Modify create_plugin_registries to use argparse
 -----------------------------------------------
