@@ -294,9 +294,18 @@ class GeoipsExecutableCommand(GeoipsCommand):
               ("module_based", "yaml_based", "text_based")
         """
         if package_name == "all":
-            interface_registry = interface.plugin_registry.registered_plugins[
-                interface.interface_type
-            ][interface.name]
+            # If there are no plugins of current interface,
+            # just return None, do not fail catastrophically.
+            # This will fail on "sector_adjusters" interface
+            # during "geoips list plugins" if only geoips
+            # repo is installed (since there are no "sector_adjuster"
+            # plugins in the geoips repo)
+            if interface.name in interface.plugin_registry.registered_plugins[interface.interface_type]:
+                interface_registry = interface.plugin_registry.registered_plugins[
+                    interface.interface_type
+                ][interface.name]
+            else:
+                return None
         else:
             interface_registry = json.load(
                 open(resources.files(package_name) / "registered_plugins.json", "r")
