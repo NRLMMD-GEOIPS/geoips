@@ -219,6 +219,10 @@ Filename formatters
 Interpolators
 -------------
 
+Output Checkers
+---------------
+:ref:`GeoIPS Output Checkers<learn-about-output-checkers>`
+
 Output Formatters
 -----------------
 

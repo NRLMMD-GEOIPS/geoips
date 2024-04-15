@@ -28,6 +28,7 @@ User Guide
    plugin_development/feature_annotator
    plugin_development/gridline_annotator
    plugin_development/colormapper
+   plugin_development/output_checker
    plugin_development/output_formatter
    plugin_development/reader
    plugin_development/procflow
