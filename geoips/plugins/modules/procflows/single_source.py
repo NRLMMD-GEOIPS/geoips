@@ -361,17 +361,11 @@ def process_xarray_dict_to_output_format(
 
 def print_area_def(area_def, print_str):
     """Print area def."""
-    LOG.info(
-        "\n\n*************************************************************************"
-        "***********"
-        f"\n***{print_str}\n{area_def}"
-    )
+    emphasis_str = "*" * 84
+    LOG.info(f"\n\n{emphasis_str}" f"\n***{print_str}\n{area_def}")
     for key, value in area_def.sector_info.items():
         LOG.info(f"{key}: {value}")
-    LOG.info(
-        "*****************************************************************************"
-        "*******"
-    )
+    LOG.info(emphasis_str)
 
 
 def pad_area_definition(
@@ -739,7 +733,7 @@ def get_area_defs_from_command_line_args(
     LOG.interactive("Getting all area defs from command line args:")
     if "sector_list" in command_line_args:
         sector_list = command_line_args["sector_list"]
-        LOG.interactive("  sector_list: %s", tcdb_sector_list)
+        LOG.interactive("  sector_list: %s", sector_list)
     if "tcdb_sector_list" in command_line_args:
         tcdb_sector_list = command_line_args["tcdb_sector_list"]
         LOG.interactive("  tcdb_sector_list: %s", tcdb_sector_list)
@@ -1076,9 +1070,7 @@ def get_alg_xarray(
             LOG.interactive(
                 "  Interpolating data with interpolator '%s'...", interp_plugin.name
             )
-            final_xarray = interp_plugin(
-                area_def, alg_xarray, alg_xarray, **interp_args
-            )
+            final_xarray = interp_plugin(area_def, alg_xarray, None, **interp_args)
 
         # Ensure we have the "adjustment"id" in the filename appropriately
         if "adjustment_id" in area_def.sector_info:
