@@ -5,6 +5,11 @@
 # and the list of if-statements.
 $id: sectors.static
 $ref: bases.top
+description: |
+  The static sector configuration. Defines the static area in which the sector
+  encompasses. This is done by providing metadata to descibe the area
+  alongside PROJ Projection information which defines the spatial extent of the sector.
+  See schema/sectors/metadata_families/static.yaml for more information.
 required:
   - spec
   - metadata

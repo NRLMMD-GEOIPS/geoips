@@ -1,6 +1,11 @@
 $id: products.algorithm_colormapper
 $ref: bases.top
 type: object
+description: |
+  The default products algorithm_colormapper product configuration. Requires spec,
+  which defines the structure of the algorithm_colormapper product plugins. Has
+  additional properties such as source_name, which defines the source_name of where the
+  product using the algorithm_colormapper family is derived from.
 required:
   - spec
 properties:

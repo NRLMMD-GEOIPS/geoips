@@ -1,5 +1,8 @@
 $id: product_defaults.bases.unvalidated
 type: object
+description: |
+  The default product_defaults unvalidated configuration. This defines a YAML file 
+  that has yet to be validated by GeoIPS software.
 required:
   - spec
 properties:

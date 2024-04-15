@@ -1,6 +1,11 @@
 $id: product_defaults.algorithm_colormapper
 $ref: bases.top
 type: object
+description: |
+  The default product_defaults algorithm_colormapper configuration. Requires spec,
+  which specifies the algorithm_colormapper structure. This includes the algorithm type,
+  colormapper, display_name, and more. See
+  schema/product_defaults/specs/algorithm_colormapper.yaml for more information.
 required:
   - spec
 properties:

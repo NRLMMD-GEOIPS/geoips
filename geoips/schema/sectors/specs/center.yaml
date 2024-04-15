@@ -1,5 +1,13 @@
 $id: sectors.specs.center
 type: object
+description: |
+  The center sector configuration. Defines the area in which the sector
+  encompasses. This is done by providing metadata to descibe the sector's area
+  alongside PROJ Projection information which defines the spatial extent of the sector.
+  The difference between this sector versus area_definition is that area_definition
+  defines the sector via it's area_extent, whereas center sector defines the sector
+  via a center point and a width/height shape in pixels. See
+  schema/sectors/metadata_families/*.yaml for more information.
 required:
   - projection
   - center

@@ -1,5 +1,11 @@
 $id: sectors.specs.area_definition
 type: object
+description: |
+  The area_definition sector configuration. Defines the area in which the sector
+  encompasses. This is done by providing metadata to descibe the area_definition
+  alongside PROJ Projection information which defines the spatial extent of the sector.
+  Can either be a dynamically generated sector or a static sector. See
+  schema/sectors/metadata_families/*.yaml for more information.
 required:
   - area_id
 properties:

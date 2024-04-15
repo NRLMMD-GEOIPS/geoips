@@ -1,5 +1,10 @@
 $id: product_defaults.bases.interpolator
 title: "Interpolator"
+description: |
+  The default product_defaults interpolator configuration. An interpolator is a 
+  plugin which must define the name of the interpolator and the arguments for the
+  interpolator. The name defines the type of interpolation that will be applied, 
+  and the arguments specifies the parameters to the interpolator function.
 unevaluatedProperties: false
 required:
   - plugin

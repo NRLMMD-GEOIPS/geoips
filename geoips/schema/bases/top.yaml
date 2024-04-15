@@ -1,5 +1,6 @@
 $id: bases.top
 type: object
+description: "The required elements for a GeoIPS schema YAML file."
 required:
   - interface
   - family

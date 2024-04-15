@@ -1,5 +1,9 @@
 $id: sectors.metadata_families.volcano
 type: object
+description: |
+  Metadata which defines a volcanic sector plugin. Needs numeric information for
+  summit_elevation, plume_height, wind_speed, wind_dir, clat, clon (center lat/lon) to
+  define the sector's metadata appropriately.
 properties:
   summit_elevation:
     type: number

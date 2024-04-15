@@ -1,6 +1,12 @@
 $id: products.sectored_xarray_dict_area_to_output_format
 $ref: bases.top
 type: object
+description: |
+  The default products sectored_xarray_dict_area_to_output_format product configuration.
+  Requires spec which defines the structure of the
+  sectored_xarray_dict_area_to_output_format product, and has properties family and
+  source_name, which define the family the sectored_xarray_dict_area_to_output_format
+  product resides under (static) and the source from which it's derived from.
 required:
   - spec
 properties:
