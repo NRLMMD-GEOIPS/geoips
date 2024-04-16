@@ -10,61 +10,13 @@ import argparse
 from colorama import Fore, Style
 from importlib import resources
 import json
-from os.path import dirname, exists, getmtime
+from os.path import dirname
 from shutil import get_terminal_size
 from tabulate import tabulate
 import yaml
 
+from geoips.commandline.ancillary_info import cmd_instructions
 from geoips.geoips_utils import get_entry_point_group
-
-
-def cmd_instructions_modified():
-    """Check whether or not cmd_instructions.yaml has been modified.
-
-    This uses os.path.getmtime(fname) determine whether or not the YAML command help
-    instructions have been modified more recently than when we last generated our JSON
-    instructions file. Return the truth value to whether or not cmd_instructions.yaml
-    has been modified more recently than cmd_instructions.json
-    """
-    json_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.json")
-    yaml_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.yaml")
-    if yaml_mtime > json_mtime:
-        # yaml file was modified more recently than json_mtime
-        return True
-    return False
-
-
-"""Dictionary of Instructions for each command, obtained by a yaml file.
-
-This has been placed as a module attribute so we don't perform this process for every
-CLI sub-command. It was taking too long to initialize the CLI and this was a large part
-of that. See https://github.com/NRLMMD-GEOIPS/geoips/pull/444#discussion_r1541864672 for
-more information.
-
-For more information on what's available, see:
-    geoips/commandline/ancillary_info/cmd_instructions.yaml
-"""
-ancillary_dirname = str(dirname(__file__)) + "/ancillary_info"
-if (
-    not exists(f"{ancillary_dirname}/cmd_instructions.json")
-    or cmd_instructions_modified()
-):
-    # JSON Command Instructions don't exist yet or yaml instructions were recently
-    # modified; load in the YAML Command Instructions and dump those to a JSON File,
-    # but just assign the instructions to what we loaded from the yaml file since they
-    # already exist in memory
-    with open(
-        f"{ancillary_dirname}/cmd_instructions.yaml",
-        "r",
-    ) as yml_instruct, open(f"{ancillary_dirname}/cmd_instructions.json", "w") as jfile:
-        cmd_yaml = yaml.safe_load(yml_instruct)
-        json.dump(cmd_yaml, jfile, indent=4)
-        cmd_instructions = cmd_yaml
-else:
-    # Otherwise load in the JSON file as it's much quicker.
-    cmd_instructions = json.load(
-        open(f"{ancillary_dirname}/cmd_instructions.json", "r")
-    )
 
 
 class PluginPackages:
