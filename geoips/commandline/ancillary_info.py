@@ -26,8 +26,16 @@ def cmd_instructions_modified(ancillary_dirname):
         - The truth value as to whether or not the yaml cmd_instructions were modified
           more recently than the json cmd_instructions
     """
+
     json_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.json")
-    yaml_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.yaml")
+    # don't need to check that json exists as this function wouldn't be called if it was
+    # missing
+    try:
+        yaml_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.yaml")
+    except FileNotFoundError:
+        err_str = f"File {ancillary_dirname}/cmd_instructions.yaml is missing, please "
+        err_str += "create that file at the specified location in order to use the CLI."
+        raise(err_str)
     yaml_recently_modified = False
     if yaml_mtime > json_mtime:
         # yaml file was modified more recently than json_mtime
@@ -35,7 +43,7 @@ def cmd_instructions_modified(ancillary_dirname):
     return yaml_recently_modified
 
 
-def get_cmd_instructions():
+def get_cmd_instructions(ancillary_dirname=None):
     """Dictionary of Instructions for each command, obtained by a yaml file.
 
     This has been placed as a module attribute so we don't perform this process for
@@ -46,8 +54,21 @@ def get_cmd_instructions():
 
     For more information on what's available, see:
         geoips/commandline/ancillary_info/cmd_instructions.yaml
+
+    Parameters
+    ----------
+    ancillary_dirname: str
+        - The path to the folder which contains the help instructions for the CLI.
+          Defaults to None in case a user wants to supply a different path for testing
+          purposes
+
+    Returns
+    -------
+    cmd_instructions: dict
+        - Dictionary of help instructions for every CLI sub-command
     """
-    ancillary_dirname = str(dirname(__file__)) + "/ancillary_info"
+    if ancillary_dirname is None or not isinstance(ancillary_dirname, str):
+        ancillary_dirname = str(dirname(__file__)) + "/ancillary_info"
     if (
         not exists(f"{ancillary_dirname}/cmd_instructions.json")
         or cmd_instructions_modified(ancillary_dirname)
