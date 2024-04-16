@@ -84,9 +84,9 @@ def generate_random_messages(add_long_word=False):
     if add_long_word:
 
         def f(s):
-            insert_random_string_randomly(s, 88)  # insert string 88 chars long
+            return insert_random_string_randomly(s, 88)  # insert string 88 chars long
 
-        return map(f, messages)
+        return list(map(f, messages))
     else:
         return messages
 
@@ -151,6 +151,7 @@ def test_log_with_emphasis_long_word(message, caplog):
     log_with_emphasis(LOG.info, message)
     log_lines = caplog.messages[1 : len(caplog.text) - 1]
 
+    print(f"LOG LINES = {log_lines}")
     # all logged lines are NOT the same length (because we didn't wrap)
     assert not (len(set(map(len, log_lines[:-1]))) == 1)
 
