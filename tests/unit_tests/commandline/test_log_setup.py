@@ -151,7 +151,6 @@ def test_log_with_emphasis_long_word(message, caplog):
     log_with_emphasis(LOG.info, message)
     log_lines = caplog.messages[1 : len(caplog.text) - 1]
 
-    print(f"LOG LINES = {log_lines}")
     # all logged lines are NOT the same length (because we didn't wrap)
     assert not (len(set(map(len, log_lines[:-1]))) == 1)
 
