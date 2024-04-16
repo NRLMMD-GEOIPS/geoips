@@ -72,13 +72,21 @@ class GeoipsCommand(abc.ABC):
             if parent.subcommand_name == "cli":
                 combined_name = self.subcommand_name
             else:
-                combined_name = f"{parent.subcommand_name} {self.subcommand_name}"
-
-            self.subcommand_parser = parent.subparsers.add_parser(
-                self.subcommand_name,
-                help=cmd_instructions["instructions"][combined_name]["help_str"],
-                usage=cmd_instructions["instructions"][combined_name]["usage_str"],
-            )
+                combined_name = f"{parent.subcommand_name}_{self.subcommand_name}"
+            try:
+                # attempt to create a sepate sub-parser for the specific sub-command
+                # class being initialized
+                # So we can separate the commands arguments in a tree-like structure
+                self.subcommand_parser = parent.subparsers.add_parser(
+                    self.subcommand_name,
+                    help=cmd_instructions["instructions"][combined_name]["help_str"],
+                    usage=cmd_instructions["instructions"][combined_name]["usage_str"],
+                )
+            except KeyError:
+                err_str = "Error, the supplied command line instructions are improperly"
+                err_str += " formatted. You need an 'instructions' entry that contains "
+                err_str += f"a '{combined_name}' key."
+                raise KeyError(err_str)
         else:
             # otherwise initialize a top-level parser for this command.
             self.subcommand_parser = argparse.ArgumentParser()
