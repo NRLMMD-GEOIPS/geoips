@@ -193,7 +193,9 @@ if [[ "$pdf_required" == "True" ]]; then
     which_latex=`which latex`
     if [[ "$which_latex" == "" ]]; then
         echo "ERROR: latex must be installed in order to create pdf documentation."
-        echo "  try 'module load latex'"
+        echo "  try 'conda install latexcodec' if in anaconda"
+        echo "  or re-run with html_only to only build"
+        echo "  html documentation."
         exit 1
     fi
     # do not include release notes in the PDF
