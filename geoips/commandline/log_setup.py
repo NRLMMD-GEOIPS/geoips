@@ -34,8 +34,12 @@ def log_with_emphasis(print_func, *messages):
         The messages to be logged with emphasis
     """
     wrapped_messages = []
-    # Cast as a string just in case something other than a string exists in messages
-    messages = filter(lambda s: len(s) > 0 or len(str(s)) > 0, messages)
+    # Handle potential typeerror by casting as a string
+    try:
+        messages = filter(lambda s: len(s) > 0, messages)
+    except TypeError:
+        messages = filter(lambda s: len(str(s)) > 0, messages)
+
     for message in messages:
         # wrap the message to a specified length
         wrapped_messages += wrap(message, width=74, break_long_words=False)
