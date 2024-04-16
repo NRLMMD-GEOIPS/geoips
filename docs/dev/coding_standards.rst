@@ -29,7 +29,35 @@ External Style Standards
 Internal Style Standards
 -------------------------
 
-Imports Shouldn't Be Buried Without a Reason
+Bring code to standard in a dedicated PR
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We want to separate formatting/standardizing and functional changes to the code so
+reviewing code is less painful. Please, if you're improving the functionality of code
+and need to bring it to standard:
+
+1. Make a new branch (branch1)
+2. Bring the code to standard
+3. Open a PR and make a new branch (branch2)
+4. Make improvements to the functionality of the code on branch 2
+5. Open a second PR for branch 2
+
+If easier, you can make the improvement before bringing the code to standard.
+
+If you touch code, it should meet standards
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We strongly recommend you update any functions you work on
+if they do not meet the standard. At CIRA, this is a requirement for
+PRs to be merged. For others, it's just a strong recommendation -
+however, we don't want the burden of updating code to prevent you from contributing.
+Please don't spend hours updating a 100,000 line module because you fixed a typo.
+use discretion on when updates are needed.
+
+A good rule of thumb is that if you edit something and it doesn't have a docstring,
+add it. If you edit more than 20% of a function/class/module, please edit the rest.
+
+Imports shouldn't be buried without a reason
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If an import needs to be buried for efficiency reasons or namespace conflicts,
@@ -65,7 +93,7 @@ standards for GeoIPS code. Plugins used include:
 - `flake8-rst <https://github.com/flake8-docs/flake8-rst>` runs flake8 on code
   snippets in reStructuredText files to ensure proper formatting in
   documentation.
-  
+
 We modify the default behavior of flake8 slightly to make it work well with Black,
 ignore specific errors, and configure plugins. GeoIPS specific settings for
 flake8 include the following:
