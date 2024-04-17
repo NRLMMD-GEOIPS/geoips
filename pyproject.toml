@@ -81,8 +81,8 @@ rasterio = "*"         # GEOTIFF output
 referencing = "*"
 satpy = "*"            # efficiency improvements >= 0.33.1
 scikit-image = "*"     # Radius based center coverage checks
-colorama = "*"         # Needed for 'geoips get' output
-tabulate = "*"         # Needed for 'geoips list' output
+tabulate = "*"         # Tables for the CLI
+colorama = "*"         # Easy terminal color codes
 
 # Optional dependencies
 # To add a new optional dependency it must be added both here and in one of the "extra"
