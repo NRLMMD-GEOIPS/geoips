@@ -73,14 +73,25 @@ class GeoipsCommand(abc.ABC):
                 combined_name = self.subcommand_name
             else:
                 combined_name = f"{parent.subcommand_name}_{self.subcommand_name}"
+            if parent.cmd_instructions:
+                # this is used for testing purposes to ensure failure for invalid
+                # help information
+                self.cmd_instructions = parent.cmd_instructions
+            else:
+                self.cmd_instructions = cmd_instructions
             try:
+
                 # attempt to create a sepate sub-parser for the specific sub-command
                 # class being initialized
                 # So we can separate the commands arguments in a tree-like structure
                 self.subcommand_parser = parent.subparsers.add_parser(
                     self.subcommand_name,
-                    help=cmd_instructions["instructions"][combined_name]["help_str"],
-                    usage=cmd_instructions["instructions"][combined_name]["usage_str"],
+                    help=self.cmd_instructions["instructions"][combined_name][
+                        "help_str"
+                    ],
+                    usage=self.cmd_instructions["instructions"][combined_name][
+                        "usage_str"
+                    ],
                 )
             except KeyError:
                 err_str = "Error, the supplied command line instructions are improperly"
@@ -254,9 +265,21 @@ class GeoipsExecutableCommand(GeoipsCommand):
               ("module_based", "yaml_based", "text_based")
         """
         if package_name == "all":
-            interface_registry = interface.plugin_registry.registered_plugins[
-                interface.interface_type
-            ][interface.name]
+            # If there are no plugins of current interface, just return None, do not
+            # fail catastrophically. This will fail on "sector_adjusters" interface
+            # during "geoips list plugins" if only geoips repo is installed (since there
+            # are no "sector_adjuster" plugins in the geoips repo)
+            if (
+                interface.name
+                in interface.plugin_registry.registered_plugins[
+                    interface.interface_type
+                ]
+            ):
+                interface_registry = interface.plugin_registry.registered_plugins[
+                    interface.interface_type
+                ][interface.name]
+            else:
+                interface_registry = None
         else:
             interface_registry = json.load(
                 open(resources.files(package_name) / "registered_plugins.json", "r")
@@ -266,11 +289,11 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     interface.name
                 ]
             else:
-                return None
+                interface_registry = None
         return interface_registry
 
     def _print_plugins_short_format(self, interface, interface_registry):
-        """Print the plugins under a certain interface in alongside minimal info.
+        """Print the plugins under a certain interface alongside ancillary information.
 
         "Short Format" includes these pieces of information:
             [GeoIPS Package, Interface, Plugin Family, Plugin Name, Relpath]

@@ -2,6 +2,7 @@
 
 Used to dynamically load and apply help information to all 'geoips' commands.
 """
+
 import json
 from os.path import dirname, exists, getmtime
 import yaml
@@ -26,16 +27,8 @@ def cmd_instructions_modified(ancillary_dirname):
         - The truth value as to whether or not the yaml cmd_instructions were modified
           more recently than the json cmd_instructions
     """
-
     json_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.json")
-    # don't need to check that json exists as this function wouldn't be called if it was
-    # missing
-    try:
-        yaml_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.yaml")
-    except FileNotFoundError:
-        err_str = f"File {ancillary_dirname}/cmd_instructions.yaml is missing, please "
-        err_str += "create that file at the specified location in order to use the CLI."
-        raise(err_str)
+    yaml_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.yaml")
     yaml_recently_modified = False
     if yaml_mtime > json_mtime:
         # yaml file was modified more recently than json_mtime
@@ -44,7 +37,7 @@ def cmd_instructions_modified(ancillary_dirname):
 
 
 def get_cmd_instructions(ancillary_dirname=None):
-    """Dictionary of Instructions for each command, obtained by a yaml file.
+    """Return a dictionary of instructions for each command, obtained by a yaml file.
 
     This has been placed as a module attribute so we don't perform this process for
     every CLI sub-command. It was taking too long to initialize the CLI and this was a
@@ -68,19 +61,25 @@ def get_cmd_instructions(ancillary_dirname=None):
         - Dictionary of help instructions for every CLI sub-command
     """
     if ancillary_dirname is None or not isinstance(ancillary_dirname, str):
+        # use the default command instructions
         ancillary_dirname = str(dirname(__file__)) + "/ancillary_info"
-    if (
-        not exists(f"{ancillary_dirname}/cmd_instructions.json")
-        or cmd_instructions_modified(ancillary_dirname)
-    ):
+    if not exists(f"{ancillary_dirname}/cmd_instructions.yaml"):
+        err_str = f"File {ancillary_dirname}/cmd_instructions.yaml is missing, please "
+        err_str += "create that file at the specified location in order to use the CLI."
+        raise FileNotFoundError(err_str)
+    if not exists(
+        f"{ancillary_dirname}/cmd_instructions.json"
+    ) or cmd_instructions_modified(ancillary_dirname):
         # JSON Command Instructions don't exist yet or yaml instructions were recently
         # modified; load in the YAML Command Instructions and dump those to a JSON File,
         # but just assign the instructions to what we loaded from the yaml file since
         # they already exist in memory
         with open(
-            f"{ancillary_dirname}/cmd_instructions.yaml", "r",
+            f"{ancillary_dirname}/cmd_instructions.yaml",
+            "r",
         ) as yml_instruct, open(
-            f"{ancillary_dirname}/cmd_instructions.json", "w",
+            f"{ancillary_dirname}/cmd_instructions.json",
+            "w",
         ) as jfile:
             cmd_yaml = yaml.safe_load(yml_instruct)
             json.dump(cmd_yaml, jfile, indent=4)
@@ -91,5 +90,6 @@ def get_cmd_instructions(ancillary_dirname=None):
             open(f"{ancillary_dirname}/cmd_instructions.json", "r")
         )
     return cmd_instructions
+
 
 cmd_instructions = get_cmd_instructions()
