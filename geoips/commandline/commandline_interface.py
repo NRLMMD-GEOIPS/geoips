@@ -8,6 +8,7 @@ import logging
 from os.path import basename
 import sys
 
+from geoips.commandline.ancillary_info import get_cmd_instructions
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
@@ -38,7 +39,7 @@ class GeoipsCLI(GeoipsCommand):
         GeoipsValidate,
     ]
 
-    def __init__(self, legacy=False):
+    def __init__(self, instructions_dir=None, legacy=False):
         """Initialize the GeoipsCLI and each of it's sub-command classes.
 
         The CLI contains a single top-level argparse.ArgumentParser() which contains
@@ -49,6 +50,10 @@ class GeoipsCLI(GeoipsCommand):
         subcommand classes.
         """
         self._subcommand_name = "cli"  # Needed since we inherit from GeoipsCommand
+        if instructions_dir:
+            self.cmd_instructions = get_cmd_instructions(instructions_dir)
+        else:
+            self.cmd_instructions = None
         super().__init__(legacy=legacy)
 
         self.GEOIPS_ARGS = self.subcommand_parser.parse_args()

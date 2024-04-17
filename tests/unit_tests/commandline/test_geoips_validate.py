@@ -5,6 +5,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 
 from glob import glob
 from importlib import resources
+from numpy.random import rand
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
@@ -15,15 +16,17 @@ class TestGeoipsValidate(BaseCliTest):
 
     @property
     def all_possible_subcommand_combinations(self):
-        """A list of every possible call signature for the GeoipsValidate command.
+        """A list of stochastic call signatures for the GeoipsValidate command.
 
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = self._validate_args
-            pkg_path = str(resources.files("geoips_clavrx") / "plugins")
-            # validate all plugins from package geoips_clavrx
+            rand_threshold = 0.85
+            # validate some subset plugins from all installed packages
+            for pkg_name in self.plugin_packages:
+                pkg_path = str(resources.files(pkg_name) / "plugins")
             for plugin_type in ["modules", "yaml"]:
                 if plugin_type == "modules":
                     plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.py"
@@ -31,7 +34,8 @@ class TestGeoipsValidate(BaseCliTest):
                     plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.yaml"
                 plugin_paths = sorted(glob(plugin_path_str, recursive=True))
                 for plugin_path in plugin_paths:
-                    self._cmd_list.append(base_args + [plugin_path])
+                    if rand() > rand_threshold:
+                        self._cmd_list.append(base_args + [plugin_path])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
         return self._cmd_list

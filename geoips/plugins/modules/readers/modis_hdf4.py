@@ -38,29 +38,15 @@ import logging
 import numpy as np
 import xarray as xr
 
+from geoips.utils.context_managers import import_optional_dependencies
+
 LOG = logging.getLogger(__name__)
 
-try:
+with import_optional_dependencies(loglevel="info"):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     from pyhdf.HDF import ishdf
-except ImportError:
-    LOG.info(
-        "Failed import pyhdf in /readers/modis_hdf4.py. "
-        + "If you need it, install it."
-    )
-try:
     from pyhdf.SD import SD, SDC
-except ImportError:
-    LOG.info(
-        "Failed import pyhdf in /readers/modis_hdf4.py. "
-        + "If you need it, install it."
-    )
-try:
     from pyhdf.error import HDF4Error
-except ImportError:
-    LOG.info(
-        "Failed import pyhdf in /readers/modis_hdf4_reader.py. "
-        + "If you need it, install it."
-    )
 
 LOG.info("info on imported functions")
 

@@ -10,61 +10,13 @@ import argparse
 from colorama import Fore, Style
 from importlib import resources
 import json
-from os.path import dirname, exists, getmtime
+from os.path import dirname
 from shutil import get_terminal_size
 from tabulate import tabulate
 import yaml
 
+from geoips.commandline.ancillary_info import cmd_instructions
 from geoips.geoips_utils import get_entry_point_group
-
-
-def cmd_instructions_modified():
-    """Check whether or not cmd_instructions.yaml has been modified.
-
-    This uses os.path.getmtime(fname) determine whether or not the YAML command help
-    instructions have been modified more recently than when we last generated our JSON
-    instructions file. Return the truth value to whether or not cmd_instructions.yaml
-    has been modified more recently than cmd_instructions.json
-    """
-    json_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.json")
-    yaml_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.yaml")
-    if yaml_mtime > json_mtime:
-        # yaml file was modified more recently than json_mtime
-        return True
-    return False
-
-
-"""Dictionary of Instructions for each command, obtained by a yaml file.
-
-This has been placed as a module attribute so we don't perform this process for every
-CLI sub-command. It was taking too long to initialize the CLI and this was a large part
-of that. See https://github.com/NRLMMD-GEOIPS/geoips/pull/444#discussion_r1541864672 for
-more information.
-
-For more information on what's available, see:
-    geoips/commandline/ancillary_info/cmd_instructions.yaml
-"""
-ancillary_dirname = str(dirname(__file__)) + "/ancillary_info"
-if (
-    not exists(f"{ancillary_dirname}/cmd_instructions.json")
-    or cmd_instructions_modified()
-):
-    # JSON Command Instructions don't exist yet or yaml instructions were recently
-    # modified; load in the YAML Command Instructions and dump those to a JSON File,
-    # but just assign the instructions to what we loaded from the yaml file since they
-    # already exist in memory
-    with open(
-        f"{ancillary_dirname}/cmd_instructions.yaml",
-        "r",
-    ) as yml_instruct, open(f"{ancillary_dirname}/cmd_instructions.json", "w") as jfile:
-        cmd_yaml = yaml.safe_load(yml_instruct)
-        json.dump(cmd_yaml, jfile, indent=4)
-        cmd_instructions = cmd_yaml
-else:
-    # Otherwise load in the JSON file as it's much quicker.
-    cmd_instructions = json.load(
-        open(f"{ancillary_dirname}/cmd_instructions.json", "r")
-    )
 
 
 class PluginPackages:
@@ -119,7 +71,7 @@ class GeoipsCommand(abc.ABC):
                 combined_name = self.subcommand_name
                 parent_parsers = []
             else:
-                combined_name = f"{self.parent.subcommand_name} {self.subcommand_name}"
+                combined_name = f"{self.parent.subcommand_name}_{self.subcommand_name}"
                 # We need to create a Geoips<cmd>Common Class for arguments
                 # that are shared between common commands. For example, we've created
                 # a 'GeoipsListCommon' class which adds arguments that will be shared
@@ -130,14 +82,35 @@ class GeoipsCommand(abc.ABC):
                     parent_parsers = [GeoipsListCommon().subcommand_parser]
                 else:
                     parent_parsers = []
-            self.subcommand_parser = self.parent.subparsers.add_parser(
-                name=self.subcommand_name,
-                description=cmd_instructions["instructions"][combined_name]["help_str"],
-                help=cmd_instructions["instructions"][combined_name]["help_str"],
-                usage=cmd_instructions["instructions"][combined_name]["usage_str"],
-                parents=parent_parsers,
-                conflict_handler="resolve",
-            )
+            if parent.cmd_instructions:
+                # this is used for testing purposes to ensure failure for invalid
+                # help information
+                self.cmd_instructions = parent.cmd_instructions
+            else:
+                self.cmd_instructions = cmd_instructions
+            try:
+                # attempt to create a sepate sub-parser for the specific sub-command
+                # class being initialized
+                # So we can separate the commands arguments in a tree-like structure
+                self.subcommand_parser = parent.subparsers.add_parser(
+                    self.subcommand_name,
+                    description=self.cmd_instructions["instructions"][combined_name][
+                        "help_str"
+                    ],
+                    help=self.cmd_instructions["instructions"][combined_name][
+                        "help_str"
+                    ],
+                    usage=self.cmd_instructions["instructions"][combined_name][
+                        "usage_str"
+                    ],
+                    parents=parent_parsers,
+                    conflict_handler="resolve",
+                )
+            except KeyError:
+                err_str = "Error, the supplied command line instructions are improperly"
+                err_str += " formatted. You need an 'instructions' entry that contains "
+                err_str += f"a '{combined_name}' key."
+                raise KeyError(err_str)
         else:
             # otherwise initialize a top-level parser for this command.
             self.subcommand_parser = argparse.ArgumentParser()
@@ -304,9 +277,21 @@ class GeoipsExecutableCommand(GeoipsCommand):
               ("module_based", "yaml_based", "text_based")
         """
         if package_name == "all":
-            interface_registry = interface.plugin_registry.registered_plugins[
-                interface.interface_type
-            ][interface.name]
+            # If there are no plugins of current interface, just return None, do not
+            # fail catastrophically. This will fail on "sector_adjusters" interface
+            # during "geoips list plugins" if only geoips repo is installed (since there
+            # are no "sector_adjuster" plugins in the geoips repo)
+            if (
+                interface.name
+                in interface.plugin_registry.registered_plugins[
+                    interface.interface_type
+                ]
+            ):
+                interface_registry = interface.plugin_registry.registered_plugins[
+                    interface.interface_type
+                ][interface.name]
+            else:
+                interface_registry = None
         else:
             interface_registry = json.load(
                 open(resources.files(package_name) / "registered_plugins.json", "r")
@@ -316,7 +301,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     interface.name
                 ]
             else:
-                return None
+                interface_registry = None
         return interface_registry
 
     def _get_headers_by_command(self, args, default_headers):
