@@ -32,7 +32,6 @@ Version 1.12.2a0 (2024-02-19)
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
   * Fix bad filename wrapping with log_with_emphasis
   * Fix log_with_emphasis to deal with empty strings gracefully
-  * Fix log_with_emphasis to deal with empty strings gracefully
 * Refactor
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv

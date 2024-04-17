@@ -76,14 +76,14 @@
                 "Additional info related to the artifact[s] being listed."
             ]
         },
-        "list common": {
+        "list_common": {
             "help_str": "Common optional arguments shared between list commands.\n",
             "usage_str": "This cannot be used by itself. It is just a framework to share arguments amongst\nsimilar commands.\n",
             "output_info": [
                 "N/A"
             ]
         },
-        "list interface": {
+        "list_interface": {
             "help_str": "List off plugins found under a certain interface. This is useful for seeing what\nplugins have been implemented through all, or a certain, GeoIPS Package. This\ninformation can then be used with\n`geoips get-plugin <interface_name> <plugin_name>` to get more information about a\ncertain plugin.\n",
             "usage_str": "To use, type `geoips list interface <interface_name>`. Optionally includes `-p`\nflag for seeing what plugins are in a certain package (-p). For example, to see\nwhat plugins under a certain interface have been created in a single package,\nrun `geoips list interface <interface_name> -p <pkg_name>`, or you can remove the\n`-p` flag to see what's been created in every package.\n",
             "output_info": [
@@ -161,21 +161,21 @@
                 "Log output of the specified procflow ran over certain products."
             ]
         },
-        "run config_based": {
+        "run_config_based": {
             "help_str": "Run the config based process workflow. For more information of the\narguments available, either run 'geoips run config_basd -h', or view the arguments\nset up in geoips.commandline.args:add_args\n",
             "usage_str": "To use, type `geoips run data_fusion **<data_fusion_args>`.\n",
             "output_info": [
                 "Log Output of the Data Fusion Process Workflow (Procflow)"
             ]
         },
-        "run data_fusion": {
+        "run_data_fusion": {
             "help_str": "Run the data fusion process workflow. This process workflow is built on top of the\nnative 'single_source' procflow with extra arguments. For more information of the\narguments available, either run 'geoips run data_fusion -h', or view the arguments\nset up in data_fusion.commandline.args:add_args\n",
             "usage_str": "To use, type `geoips run data_fusion **<data_fusion_args>`.\n",
             "output_info": [
                 "Log Output of the Data Fusion Process Workflow (Procflow)"
             ]
         },
-        "run single_source": {
+        "run_single_source": {
             "help_str": "Run the native geoips single source process workflow. For more information of the\narguments available, either run 'geoips run single_source -h', or view the\narguments set up in geoips.commandline.args:add_args\n",
             "usage_str": "To use, type `geoips run single_source **<single_source_args>`.\n",
             "output_info": [
