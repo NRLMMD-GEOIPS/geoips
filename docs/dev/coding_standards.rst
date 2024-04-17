@@ -38,7 +38,7 @@ and need to bring it to standard:
 
 1. Make a new branch (branch1)
 2. Bring the code to standard
-3. Open a PR and make a new branch (branch2)
+3. Open a PR and make a new branch from branch1 (branch2)
 4. Make improvements to the functionality of the code on branch 2
 5. Open a second PR for branch 2
 
