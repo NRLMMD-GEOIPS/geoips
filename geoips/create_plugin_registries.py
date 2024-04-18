@@ -26,8 +26,6 @@ from importlib import metadata, resources, util
 from inspect import signature
 from os.path import (
     basename,
-    dirname,
-    split,
     splitext,
     exists,
     join as osjoin,
@@ -38,7 +36,8 @@ import sys
 import logging
 from geoips.commandline.log_setup import setup_logging
 import geoips.interfaces
-from geoips.errors import PluginRegistryError
+from geoips.interfaces.text_based import get_required_attrs
+from geoips.errors import PluginError, PluginRegistryError
 import json
 from argparse import ArgumentParser
 
@@ -460,7 +459,7 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
             # all the errors at once.
             elif plugin_type == "text":
                 error_message += add_text_plugin(
-                    package, relpath, plugins["text_based"]
+                    filepath, relpath, package, plugins["text_based"]
                 )
             # Potentially support schema in the future.
             # elif plugin_type == "schemas":  # schema based yamls
@@ -630,15 +629,17 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
     return error_message
 
 
-def add_text_plugin(package, relpath, plugins):
+def add_text_plugin(filepath, relpath, package, plugins):
     """Add all txt plugins into plugin registries.
 
     Parameters
     ----------
-    package: str
-        The current GeoIPS package being parsed
+    filepath: str
+        The path of the plugin derived from resouces.files(package) / plugin
     relpath: str
         The relpath path to the module plugin
+    package: str
+        The current GeoIPS package being parsed
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
 
@@ -657,16 +658,25 @@ def add_text_plugin(package, relpath, plugins):
     # of the attributes included in the comments at the beginning of the text
     # file. Note I added these comments to the current ascii_palettes, though
     # they are not yet used.
+    try:
+        plugin_attrs = get_required_attrs(filepath)
+        interface_name = plugin_attrs["interface"]
+        family_name = plugin_attrs["family"]
+        plugin_name = plugin_attrs["name"]
+    except PluginError as e:
+        return str(e)
 
-    # For now, use the basename of the filename as the "name"
-    text_name = splitext(basename(relpath))[0]
-
-    # For now, use the last directory name as the interface name.
-    interface_name = split(dirname(relpath))[-1]
-    error_message = ""
     if interface_name not in plugins:
         plugins[interface_name] = {}
-    plugins[interface_name][text_name] = {"package": package, "relpath": relpath}
+
+    error_message = check_plugin_exists(
+        package, plugins, interface_name, plugin_name, relpath
+    )
+    plugins[interface_name][plugin_name] = {
+        "family": family_name,
+        "package": package,
+        "relpath": relpath,
+    }
     # For now we have no error messages for text plugins, it will always be
     # an empty string.  But return it anyway.
     return error_message

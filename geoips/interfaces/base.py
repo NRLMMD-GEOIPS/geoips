@@ -920,3 +920,324 @@ class BaseModuleInterface(BaseInterface):
                 output["family"][curr_id] = curr_family
                 output["docstring"][curr_id] = output["func"][curr_id].docstring
         return output
+
+
+class BaseTextInterface(BaseInterface):
+    """Base Class for GeoIPS Text-Based Interfaces.
+
+    This class should not be instantiated directly. Instead, interfaces should be
+    accessed by importing them from ``geoips.interfaces``. For example:
+    ```
+    from geoips.interfaces import algorithms
+    ```
+    will retrieve an instance of ``AlgorithmsInterface`` which will provide access to
+    the GeoIPS algorithm plugins.
+    """
+
+    def __repr__(self):
+        """Plugin interface repr method."""
+        return f"{self.__class__.__name__}()"
+
+    # def _plugin_module_to_obj(self, module, module_call_func="call", obj_attrs={}):
+    #     """Convert a plugin module into an object.
+
+    #     Convert the passed module into an object of type.
+    #     """
+    #     obj = plugin_module_to_obj(
+    #         module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
+    #     )
+    #     if obj.interface != self.name:
+    #         raise PluginError(
+    #             f"Plugin 'interface' attribute on '{obj.name}' plugin does not "
+    #             f"match the name of its interface as specified by entry_points."
+    #         )
+    #     return obj
+
+    def __init__(self):
+        """Initialize module plugin interface."""
+        pass
+
+    @classmethod
+    def _plugin_module_to_obj(cls, name, text_file, obj_attrs={}):
+        """Convert a text plugin to an object.
+
+        Convert the passed module plugin into an object and return it. The returned
+        object will be derrived from a class named ``<interface>Plugin`` where
+        interface is the interface specified by the plugin. This class is derrived
+        from ``BasePlugin``.
+
+        This function is used instead of predefined classes to allow setting ``__doc__``
+        and ``__call__`` on a plugin-by-plugin basis. This allows collecting ``__doc__``
+        and ``__call__`` from the plugin modules and using them in the objects.
+
+        For a module to be converted into an object it must meet the following
+        requirements:
+
+        - The module must define a docstring. This will be used as the docstring for the
+          plugin class as well as the docstring for the plugin when requested on the
+          command line.  The first line will be used as a "short" description, and the
+          full docstring will be used as a more detailed discussion of the plugin.
+        - The following global attributes must be defined in the module:
+        - interface: The name of the interface that the plugin belongs to.
+        - family: The family of plugins that the plugin belongs to within the interface.
+        - name: The name of the plugin which must be unique within the interface.
+        - A callable named `call` that will be called when the plugin is used.
+
+        Parameters
+        ----------
+        module : module
+        The imported plugin module.
+        obj_attrs : dict, optional
+        Additional attributes to be assigned to the plugin object.
+
+        Returns
+        -------
+        An object of type ``<interface>InterfacePlugin`` where ``<interface>`` is the
+        name of the interface that the desired plugin belongs to.
+        """
+        obj_attrs["id"] = name
+        obj_attrs["module"] = module
+
+        missing = []
+        for attr in ["interface", "family", "name"]:
+            try:
+                obj_attrs[attr] = getattr(module, attr)
+            except AttributeError:
+                missing.append(attr)
+
+        if missing:
+            raise PluginError(
+                f"Plugin '{module.__name__}' from '{module.__file__}' is missing the "
+                f"following required global attributes: '{missing}'."
+            )
+
+        if module.__doc__:
+            obj_attrs["__doc__"] = module.__doc__
+        else:
+            raise PluginError(
+                f"Plugin modules must have a docstring. "
+                f"No docstring found in '{module.__name__}'."
+            )
+        obj_attrs["docstring"] = module.__doc__
+
+        # Collect the callable and assign to __call__
+        try:
+            obj_attrs["__call__"] = staticmethod(getattr(module, "call"))
+        except AttributeError as err:
+            raise PluginError(
+                f"Plugin modules must contain a callable name 'call'. This is missing "
+                f"in plugin module '{module.__name__}'"
+            ) from err
+
+        plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
+        plugin_type = f"{plugin_interface_name}Plugin"
+
+        plugin_base_class = BaseModulePlugin
+        if hasattr(cls, "plugin_class") and cls.plugin_class:
+            plugin_base_class = cls.plugin_class
+
+        # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
+        return type(plugin_type, (plugin_base_class,), obj_attrs)()
+
+    def get_plugin(self, name):
+        """Retrieve a plugin from this interface by name.
+
+        Parameters
+        ----------
+        name : str
+          The name the desired plugin.
+
+        Returns
+        -------
+        An object of type ``<interface>Plugin`` where ``<interface>`` is the name of
+        this interface.
+
+        Raises
+        ------
+        PluginError
+          If the specified plugin isn't found within the interface.
+        """
+        # Find the plugin module
+
+        # Convert the module into an object
+        return self._plugin_module_to_obj(name, module)
+
+    def get_plugins(self):
+        """Get a list of plugins for this interface."""
+        plugins = []
+        # All plugin interfaces are explicitly imported in
+        # geoips/interfaces/__init__.py
+        # self.name comes explicitly from one of the interfaces that are
+        # found by default on geoips.interfaces.
+        # If there is a defined interface with no plugins available in the current
+        # geoips installation (in any currently installed plugin package),
+        # then there will NOT be an entry within registered plugins
+        # for that interface, and a KeyError will be raised in the for loop
+        # below.
+        # Check if the current interface (self.name) is found in the
+        # registered_plugins dictionary - if it is not, that means there
+        # are no plugins for that interface, so return an empty list.
+        registered_module_plugins = self.registered_module_based_plugins
+        if self.name not in registered_module_plugins:
+            LOG.debug("No plugins found for '%s' interface.", self.name)
+            return plugins
+
+        for plugin_name in registered_module_plugins[self.name]:
+            try:
+                plugins.append(self.get_plugin(plugin_name))
+            except AttributeError as resp:
+                raise PluginError(
+                    f"Plugin '{plugin_name}' is missing the 'name' attribute, "
+                    f"\nfrom package '{plugin_name['package']},' "
+                    f"'{plugin_name['relpath']}' module,"
+                ) from resp
+        return plugins
+
+    def plugin_is_valid(self, name):
+        """Check that an interface is valid.
+
+        Check that the requested interface function has the correct call signature.
+        Return values should be as specified below, but are not programmatically
+        verified.
+
+        Parameters
+        ----------
+        name : str
+          Name of the interface to be validated
+
+        Returns
+        -------
+        bool
+          True if valid, False if invalid
+        """
+        plugin = self.get_plugin(name)
+        if plugin.family not in self.required_args:
+            raise PluginError(
+                f"'{plugin.family}' must be added to required args list"
+                f"\nfor '{self.name}' interface,"
+                f"\nfound in '{plugin.name}' plugin,"
+                f"\nin '{plugin.module.__name__}' module"
+                f"\nat '{plugin.module.__file__}'\n"
+            )
+        if plugin.family not in self.required_kwargs:
+            raise PluginError(
+                f"'{plugin.family}' must be added to required kwargs list"
+                f"\nfor '{self.name}' interface,"
+                f"\nfound in '{plugin.name}' plugin,"
+                f"\nin '{plugin.module.__name__}' module"
+                f"\nat '{plugin.module.__file__}'\n"
+            )
+        expected_args = self.required_args[plugin.family]
+        expected_kwargs = self.required_kwargs[plugin.family]
+
+        sig = inspect.signature(plugin.__call__)
+        arg_list = []
+        kwarg_list = []
+        kwarg_defaults_list = []
+        for param in sig.parameters.values():
+            # kwargs are identified by a default value - parameter will include "="
+            if "=" in str(param):
+                kwarg, default_value = str(param).split("=")
+                kwarg_list += [kwarg]
+                kwarg_defaults_list += [default_value]
+            # If there is no "=", then it is a positional parameter
+            else:
+                arg_list += [str(param)]
+
+        for expected_arg in expected_args:
+            if expected_arg not in arg_list:
+                raise PluginError(
+                    f"MISSING expected arg '{expected_arg}' in '{plugin.name}'"
+                    f"\nfor '{self.name}' interface,"
+                    f"\nfound in '{plugin.name}' plugin,"
+                    f"\nin '{plugin.module.__name__}' module"
+                    f"\nat '{plugin.module.__file__}'\n"
+                )
+        for expected_kwarg in expected_kwargs:
+            # If expected_kwarg is a tuple, first item is kwarg, second default value
+            if isinstance(expected_kwarg, tuple):
+                if expected_kwarg[0] not in kwarg_list:
+                    raise PluginError(
+                        f"MISSING expected kwarg '{expected_kwarg}' in '{plugin.name}'"
+                        f"\nfor '{self.name}' interface,"
+                        f"\nfound in '{plugin.name}' plugin,"
+                        f"\nin '{plugin.module.__name__}' module"
+                        f"\nat '{plugin.module.__file__}'\n"
+                    )
+            elif expected_kwarg not in kwarg_list:
+                raise PluginError(
+                    f"MISSING expected kwarg '{expected_kwarg}' in '{plugin.name}'"
+                    f"\nfor '{self.name}' interface,"
+                    f"\nfound in '{plugin.name}' plugin,"
+                    f"\nin '{plugin.module.__name__}' module"
+                    f"\nat '{plugin.module.__file__}'\n"
+                )
+
+        return True
+
+    def plugins_all_valid(self):
+        """Test the current interface by validating every Plugin.
+
+        Returns
+        -------
+            True if all plugins are valid, False if any plugin is invalid.
+        """
+        plugins = self.get_plugins()
+        for plugin in plugins:
+            if not self.plugin_is_valid(plugin.name):
+                return False
+        return True
+
+    def test_interface(self):
+        """Test the current interface by validating each Plugin and testing each method.
+
+        Test this interface by opening every Plugin available to the interface,
+        and validating each plugin by calling `plugin_is_valid` for each.
+        Additionally, ensure all methods of this interface work as expected:
+
+        * get_plugins
+        * get_plugin
+        * plugin_is_valid
+        * plugins_all_valid
+
+        Returns
+        -------
+            A dictionary containing three keys:
+            'by_family', 'validity_check', 'func', and 'family'. The value for each
+            of these keys is a dictionary whose keys are the names of the Plugins.
+
+            - 'by_family' contains a dictionary of plugin names sorted by family.
+            - 'validity_check' contains a dict whose keys are plugin names and whose
+              values are bools where `True` indicates that the Plugin's function is
+              valid according to `plugin_is_valid`.
+            - 'func' contains a dict whose keys are plugin names and whose values are
+              the function for each Plugin.
+            - 'family' contains a dict whose keys are plugin names and whose vlaues
+              are the contents of the 'family' attribute for each Plugin.
+        """
+        # plugin_names = self.get_plugins(sort_by="family")
+        plugins = self.get_plugins()
+        all_valid = self.plugins_all_valid()
+        family_list = []
+        plugin_ids = {}
+        for plugin in plugins:
+            if plugin.family not in family_list:
+                family_list.append(plugin.family)
+                plugin_ids[plugin.family] = []
+            plugin_ids[plugin.family].append(plugin.id)
+
+        output = {
+            "all_valid": all_valid,
+            "by_family": plugin_ids,
+            "validity_check": {},
+            "family": {},
+            "func": {},
+            "docstring": {},
+        }
+        for curr_family in plugin_ids:
+            for curr_id in plugin_ids[curr_family]:
+                output["validity_check"][curr_id] = self.plugin_is_valid(curr_id)
+                output["func"][curr_id] = self.get_plugin(curr_id)
+                output["family"][curr_id] = curr_family
+                output["docstring"][curr_id] = output["func"][curr_id].docstring
+        return output

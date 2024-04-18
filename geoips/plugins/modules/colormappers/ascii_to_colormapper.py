@@ -1,0 +1,1 @@
+"""Colormapper module which transforms a text-based ascii palette into a colormapper."""
