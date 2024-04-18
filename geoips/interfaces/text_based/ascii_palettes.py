@@ -1,5 +1,6 @@
 """Ascii Palette Module implementing a class used in producing colormapped products."""
 
+from importlib import util
 from importlib.resources import files
 from matplotlib import colors
 import numpy
@@ -8,7 +9,7 @@ from os.path import basename
 from geoips.interfaces.base import BaseTextInterface
 
 
-class AsciiPaletteToColormap:
+class AsciiPaletteColormap:
     """Class representing an Ascii Palette Used to Construct a GeoIPS Colormapper."""
 
     def __init__(self, plugin_name):
@@ -19,11 +20,10 @@ class AsciiPaletteToColormap:
         plugin_name: str
             - The name of the text-based ascii palette contained in the Plugin Registry.
         """
-        self.plugin_entry = BaseTextInterface().plugin_registry.registered_plugins[
-            "text_based"
-        ]["ascii_palettes"][plugin_name]
+        self.plugin_entry = AsciiPaletteInterface().text_registry[
+            "ascii_palettes"
+        ][plugin_name]
         self.plugin_entry["colormap"] = self.colormap
-        return self.plugin_entry
 
     @property
     def colormap(self):
@@ -36,7 +36,7 @@ class AsciiPaletteToColormap:
         """
         if not hasattr(self, "_colormap"):
             path_to_ascii = str(
-                files(self.plugin_entry["package"] / self.plugin_entry["relpath"])
+                files(self.plugin_entry["package"]) / self.plugin_entry["relpath"]
             )
             self._colormap = self.from_ascii(path_to_ascii)
         return self._colormap
@@ -101,8 +101,20 @@ class AsciiPaletteInterface(BaseTextInterface):
     name = "ascii_palettes"
     required_args = {"standard": {}}
     required_kwargs = {"standard": {}}
-    plugin_class = None
-    enhancing_classes  = {"ascii_to_colormap": AsciiPaletteToColormap}
+    plugin_class = AsciiPaletteColormap
+
+    @property
+    def ascii_colormap_module(self):
+        """Module containing the call function we use to apply our ascii palette."""
+        if not hasattr(self, "_ascii_colormap_module"):
+            module_path = f"geoips.plugins.modules.colormappers.ascii_to_colormapper"
+            abspath = str(
+                files("geoips") / "plugins/modules/colormappers/ascii_to_colormapper.py"
+            )
+            spec = util.spec_from_file_location(module_path, abspath)
+            self._ascii_colormap_module = util.module_from_spec(spec)
+            spec.loader.exec_module(self._ascii_colormap_module)
+        return self._ascii_colormap_module
 
 
 ascii_palettes = AsciiPaletteInterface()

@@ -28,11 +28,12 @@ def get_required_attrs(fpath):
     -------
     attrs: dict
         - A dictionary of attributes required to define a text plugin
-        - Includes ['interface', 'name', 'family'] as its keys.
+        - Includes ['interface', 'name', 'family', 'doc'] as its keys.
     """
     interface = None
     name = None
     family = None
+    doc = None
     with open(fpath, "r") as tfile:
         for line in tfile.readlines():
             if line.strip()[0] == "#":
@@ -48,13 +49,20 @@ def get_required_attrs(fpath):
                     name = poss_attr.replace("name=", "")
                 elif poss_attr.startswith("family="):
                     family = poss_attr.replace("family=", "")
+                else:
+                    if doc is None:
+                        doc = []
+                    doc.append(line)
             if interface and name and family:
                 break
             else:
                 continue
-    if not (interface and name and family):
+    if not (interface and name and family and doc):
         err_str = f"Text Plugin found at {fpath} is missing 1+ of ['interface', "
         err_str += "'name', 'family']. Please make sure to set those attributes in "
         err_str += "your text plugin before using it."
         raise PluginError(err_str)
-    return {"interface": interface, "name": name, "family": family}
+    else:
+        # Convert docstring list to a multiline string.
+        doc = "\n".join(doc)
+    return {"interface": interface, "name": name, "family": family, "doc": doc}

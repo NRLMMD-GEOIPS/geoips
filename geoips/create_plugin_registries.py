@@ -663,6 +663,7 @@ def add_text_plugin(filepath, relpath, package, plugins):
         interface_name = plugin_attrs["interface"]
         family_name = plugin_attrs["family"]
         plugin_name = plugin_attrs["name"]
+        docstring = plugin_attrs["doc"]
     except PluginError as e:
         return str(e)
 
@@ -673,9 +674,11 @@ def add_text_plugin(filepath, relpath, package, plugins):
         package, plugins, interface_name, plugin_name, relpath
     )
     plugins[interface_name][plugin_name] = {
+        "interface": interface_name,
         "family": family_name,
         "package": package,
         "relpath": relpath,
+        "docstring": docstring,
     }
     # For now we have no error messages for text plugins, it will always be
     # an empty string.  But return it anyway.
