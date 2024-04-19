@@ -21,6 +21,7 @@ Version 1.12.2a0 (2024-02-21)
   * Introduced a documentation for coding standards within the build/dev directory.
   * Introduced documentation for coding standards for module imports.
   * Added documentation for current linters and configuration.
+  * Created Interface for Text-Based Plugins
 * Bug fixes
   * Fix polar data not showing up in imagery
   * Ensure that log.interactive works from plugins when imported independently.
@@ -30,17 +31,15 @@ Version 1.12.2a0 (2024-02-21)
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
   * Fix bad filename wrapping with log_with_emphasis
   * Fix log_with_emphasis to deal with empty strings gracefully
-  * Fix log_with_emphasis to deal with empty strings gracefully 
+  * Fix log_with_emphasis to deal with empty strings gracefully
 * Refactor
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
 * Testing Updates
-
   * Move pytest validation from plugin_registry.py to unit tests.
 * Documentation
-
   * Add documentation about optional pdflatex dependency
-  
+
 Testing Updates
 ===============
 
@@ -62,7 +61,7 @@ will have to manually install pytest to validate from now on.
 
 Unit-Test validation of the plugin registry is performed to ensure it's in the correct
 state. This was initially automatically done when it was created, but since it invoked
-pytest and that's only a required dependency in the ``test`` extra, we have decided 
+pytest and that's only a required dependency in the ``test`` extra, we have decided
 to move this to a unit-test module so that end-users don't need to install pytest.
 All in all, the user doesn't really need to validate their own registry. It
 should not be created if an error occurs (eg. duplicate plugin names under the same
@@ -142,6 +141,48 @@ information.
 
 ::
     modified: docs/dev/coding_standards.rst
+
+Added Interface for Text-Based Plugins
+--------------------------------------
+
+*From GEOIPS#492: 2024-04-12, Need to Address Text-Based Plugins*
+
+While there are not many, GeoIPS has some text-based plugins which currently do not have
+a supporting interface. Currently, we only have ascii palettes implemented as text based
+plugins, and in truth, we do not treat them as we do other GeoIPS Plugins. Instead, the
+ascii palettes defined in these plugins are used in tandom alongside GeoIPS Colormappers
+to correctly get and apply the palette.
+
+To prepare GeoIPS to be able to handle other types of text based plugins, we've decided
+to create a Text-Based Interface which can handle text plugins. This Interface acts
+similarly to both Yaml and Module based interfaces, and has functionality such as
+``get_plugin`` and ``_plugin_<type>_to_obj``. This PR only supports ``ascii palette``
+text plugins, but was structured in a manner that could support other types of text
+plugins in the future.
+
+``ascii_palette`` plugins have a ``colormap`` attrubute, which is a
+``Matplotlib.colors.ListedColormap`` which was created based on the ascii palette
+defined in the plugins source file. This ``colormap`` attribute can then be used
+alongside a colormapper to correctly apply the ascii palette to a certain output.
+
+::
+
+    modified: geoips/create_plugin_registries.py
+    modified: geoips/interfaces/__init__.py
+    modified: geoips/interfaces/base.py
+    modified: geoips/interfaces/module_based/colormappers.py
+    modified: pyproject.toml
+    modified: geoips/plugins/txt/ascii_palettes/tpw_purple.txt
+    modified: geoips/schema/product_defaults/bases/colormapper.yaml
+    added: geoips/interfaces/text_based/__init__.py
+    added: geoips/interfaces/text_based/ascii_palettes.py
+    added: geoips/plugins/modules/colormappers/ascii_to_colormapper.py
+    added: geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_cimss.yaml
+    added: geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_purple.yaml
+    added: geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_pwat.yaml
+    added: geoips/plugins/yaml/products/test_ascii.yaml
+    added: tests/scripts/mimic_coarse.static.ascii_tpw_cimss.imagery_annotated.sh
+    added: tests/scripts/mimic_fine.tc.ascii_tpw_pwat.imagery_annotated.sh
 
 Bug Fixes
 =========

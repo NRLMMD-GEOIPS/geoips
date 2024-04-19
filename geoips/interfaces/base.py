@@ -965,7 +965,7 @@ class BaseTextInterface(BaseInterface):
         ]
 
     @classmethod
-    def _plugin_module_to_obj(cls, name, plugin_entry, module, obj_attrs={}):
+    def _plugin_text_to_obj(cls, name, plugin_entry, module, obj_attrs={}):
         """Convert a text plugin to an object.
 
         Convert the passed module plugin into an object and return it. The returned
@@ -1052,7 +1052,7 @@ class BaseTextInterface(BaseInterface):
             # read from the associated file
             plugin_entry = self.plugin_class(name).plugin_entry
             # Convert the module into an object
-            return self._plugin_module_to_obj(
+            return self._plugin_text_to_obj(
                 name,
                 plugin_entry,
                 self.ascii_colormap_module,
