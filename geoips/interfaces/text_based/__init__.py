@@ -14,6 +14,7 @@
 
 from geoips.errors import PluginError
 
+
 def get_required_attrs(fpath):
     """Get the required attributes needed for any GeoIPS Plugin.
 
@@ -39,10 +40,15 @@ def get_required_attrs(fpath):
             if line.strip()[0] == "#":
                 # Line starting with # denotes the comment section which should
                 # contain the required attributes
-                poss_attr = line.strip().replace(
-                    " ",
-                    "",
-                ).replace("\t", "").replace("#", "")
+                poss_attr = (
+                    line.strip()
+                    .replace(
+                        " ",
+                        "",
+                    )
+                    .replace("\t", "")
+                    .replace("#", "")
+                )
                 if poss_attr.startswith("interface="):
                     interface = poss_attr.replace("interface=", "")
                 elif poss_attr.startswith("name="):
@@ -70,5 +76,5 @@ def get_required_attrs(fpath):
         "name": name,
         "family": family,
         "doc": doc,
-        "plugin_type": "text_based"
+        "plugin_type": "text_based",
     }

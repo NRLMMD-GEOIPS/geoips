@@ -303,6 +303,7 @@ class BaseModulePlugin:
 
     pass
 
+
 class BaseTextPlugin:
     """Base class for Text-Based GeoIPS plugins."""
 
@@ -945,9 +946,7 @@ class BaseTextInterface(BaseInterface):
 
     def __init__(self):
         """Initialize module plugin interface."""
-        self.text_registry = self.plugin_registry.registered_plugins[
-            "text_based"
-        ]
+        self.text_registry = self.plugin_registry.registered_plugins["text_based"]
 
     @classmethod
     def _plugin_text_to_obj(cls, name, plugin_entry, module, obj_attrs={}):
@@ -981,9 +980,10 @@ class BaseTextInterface(BaseInterface):
             - The name of the plugin we are converting
         plugin_entry: dict
             - The entry in plugin registry for the associated text plugin under 'name'
-        module : module
-        obj_attrs : dict, optional
-        Additional attributes to be assigned to the plugin object.
+        module: Python Module
+            - The ascii_to_colormapper module attached to Ascii Palette Plugins
+        obj_attrs: dict, optional
+            - Dictionary of optional attributes to attach to the Plugin Object
 
         Returns
         -------

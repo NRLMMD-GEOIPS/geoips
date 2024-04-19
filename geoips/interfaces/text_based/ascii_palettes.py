@@ -20,14 +20,14 @@ class AsciiPaletteColormap:
         plugin_name: str
             - The name of the text-based ascii palette contained in the Plugin Registry.
         """
-        self.plugin_entry = AsciiPaletteInterface().text_registry[
-            "ascii_palettes"
-        ][plugin_name]
+        self.plugin_entry = AsciiPaletteInterface().text_registry["ascii_palettes"][
+            plugin_name
+        ]
         self.plugin_entry["colormap"] = self.colormap
 
     @property
     def colormap(self):
-        """Ascii Palette derived from 'self.plugin_entry'
+        """Ascii Palette derived from 'self.plugin_entry'.
 
         Returns
         -------
@@ -63,7 +63,7 @@ class AsciiPaletteColormap:
         -----
         * Lines preceded by '#' are ignored.
         * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0
-        for matplotlib usage)
+          for matplotlib usage)
         * One white space delimited RGB value per line
         """
         # Read data from ascii file into an NLines by 3 float array, skipping
@@ -107,7 +107,7 @@ class AsciiPaletteInterface(BaseTextInterface):
     def ascii_colormap_module(self):
         """Module containing the call function we use to apply our ascii palette."""
         if not hasattr(self, "_ascii_colormap_module"):
-            module_path = f"geoips.plugins.modules.colormappers.ascii_to_colormapper"
+            module_path = "geoips.plugins.modules.colormappers.ascii_to_colormapper"
             abspath = str(
                 files("geoips") / "plugins/modules/colormappers/ascii_to_colormapper.py"
             )
