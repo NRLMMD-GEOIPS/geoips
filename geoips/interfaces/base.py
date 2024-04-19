@@ -943,21 +943,6 @@ class BaseTextInterface(BaseInterface):
         """Plugin interface repr method."""
         return f"{self.__class__.__name__}()"
 
-    # def _plugin_module_to_obj(self, module, module_call_func="call", obj_attrs={}):
-    #     """Convert a plugin module into an object.
-
-    #     Convert the passed module into an object of type.
-    #     """
-    #     obj = plugin_module_to_obj(
-    #         module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
-    #     )
-    #     if obj.interface != self.name:
-    #         raise PluginError(
-    #             f"Plugin 'interface' attribute on '{obj.name}' plugin does not "
-    #             f"match the name of its interface as specified by entry_points."
-    #         )
-    #     return obj
-
     def __init__(self):
         """Initialize module plugin interface."""
         self.text_registry = self.plugin_registry.registered_plugins[
@@ -1062,33 +1047,32 @@ class BaseTextInterface(BaseInterface):
                 f"We haven't implemented plugins for '{self.name}' interface."
             )
 
-    # def get_plugins(self):
-    #     """Get a list of plugins for this interface."""
-    #     plugins = []
-    #     # All plugin interfaces are explicitly imported in
-    #     # geoips/interfaces/__init__.py
-    #     # self.name comes explicitly from one of the interfaces that are
-    #     # found by default on geoips.interfaces.
-    #     # If there is a defined interface with no plugins available in the current
-    #     # geoips installation (in any currently installed plugin package),
-    #     # then there will NOT be an entry within registered plugins
-    #     # for that interface, and a KeyError will be raised in the for loop
-    #     # below.
-    #     # Check if the current interface (self.name) is found in the
-    #     # registered_plugins dictionary - if it is not, that means there
-    #     # are no plugins for that interface, so return an empty list.
-    #     registered_module_plugins = self.registered_module_based_plugins
-    #     if self.name not in registered_module_plugins:
-    #         LOG.debug("No plugins found for '%s' interface.", self.name)
-    #         return plugins
+    def get_plugins(self):
+        """Get a list of plugins for this interface."""
+        plugins = []
+        # All plugin interfaces are explicitly imported in
+        # geoips/interfaces/__init__.py
+        # self.name comes explicitly from one of the interfaces that are
+        # found by default on geoips.interfaces.
+        # If there is a defined interface with no plugins available in the current
+        # geoips installation (in any currently installed plugin package),
+        # then there will NOT be an entry within registered plugins
+        # for that interface, and a KeyError will be raised in the for loop
+        # below.
+        # Check if the current interface (self.name) is found in the
+        # registered_plugins dictionary - if it is not, that means there
+        # are no plugins for that interface, so return an empty list.
+        if self.name not in self.text_registry:
+            LOG.debug("No plugins found for '%s' interface.", self.name)
+            return plugins
 
-    #     for plugin_name in registered_module_plugins[self.name]:
-    #         try:
-    #             plugins.append(self.get_plugin(plugin_name))
-    #         except AttributeError as resp:
-    #             raise PluginError(
-    #                 f"Plugin '{plugin_name}' is missing the 'name' attribute, "
-    #                 f"\nfrom package '{plugin_name['package']},' "
-    #                 f"'{plugin_name['relpath']}' module,"
-    #             ) from resp
-    #     return plugins
+        for plugin_name in self.text_registry[self.name]:
+            try:
+                plugins.append(self.get_plugin(plugin_name))
+            except AttributeError as resp:
+                raise PluginError(
+                    f"Plugin '{plugin_name}' is missing the 'name' attribute, "
+                    f"\nfrom package '{plugin_name['package']},' "
+                    f"'{plugin_name['relpath']}' module,"
+                ) from resp
+        return plugins
