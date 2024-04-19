@@ -13,6 +13,12 @@
 """GeoIPS error module."""
 
 
+class AsciiPaletteError(Exception):
+    """Exception to be raised when encountering an invalid ascii palette text file."""
+
+    pass
+
+
 class EntryPointError(Exception):
     """Exception to be raised when an entry-point cannot be found."""
 

@@ -6,6 +6,7 @@ from matplotlib import colors
 import numpy
 from os.path import basename
 
+from geoips.errors import AsciiPaletteError
 from geoips.interfaces.base import BaseTextInterface
 
 
@@ -74,9 +75,26 @@ class AsciiPaletteColormap:
                 if line.strip()[0] != "#":
                     lines += [line]
 
+        if len(lines) == 0:
+            # missing the ascii palette completely, raise an error reporting this.
+            raise AsciiPaletteError(
+                f"Missing Ascii Palette in {fpath}.\n Please define the ascii palette "
+                "before continuing."
+            )
         carray = numpy.zeros([len(lines), 3])
         for num, line in enumerate(lines):
-            carray[num, :] = [float(val) for val in line.strip().split()]
+            color_nums = line.strip().split()
+            if len(color_nums) != 3:
+                raise AsciiPaletteError(
+                    f"One or more lines of the ascii palette in {fpath} are missing "
+                    "one or more values of the 'rgb' triplet. Please fix."
+                )
+            try:
+                carray[num, :] = [float(val) for val in line.strip().split()]
+            except ValueError as e:
+                raise AsciiPaletteError(
+                    f"Invalid ascii palette found in {fpath}. See resulting error: {e}."
+                )
 
         # Normalize from 0-255 to 0.0-1.0
         if carray.max() > 1.0:
@@ -84,7 +102,7 @@ class AsciiPaletteColormap:
 
         # Test to be sure all color array values are between 0.0 and 1.0
         if not (carray.min() >= 0.0 and carray.max() <= 1.0):
-            raise ValueError("All values in carray must be between 0.0 and 1.0.")
+            raise AsciiPaletteError("All values in carray must be between 0.0 and 1.0.")
 
         if reverse is True:
             carray = numpy.flipud(carray)

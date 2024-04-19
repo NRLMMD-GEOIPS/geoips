@@ -14,6 +14,11 @@
 # Installed Libraries
 import logging
 import ast
+import numpy
+from matplotlib import colors
+from os.path import basename
+
+from geoips.errors import AsciiPaletteError
 
 LOG = logging.getLogger(__name__)
 
@@ -161,7 +166,7 @@ def set_mpl_colors_info_dict(
     return mpl_colors_info
 
 
-def from_ascii(fname, cmap_name=None, reverse=False):
+def from_ascii(fpath, cmap_name=None, reverse=False):
     """Create a ListedColormap instance from an ASCII file of RGB values.
 
     Parameters
@@ -181,24 +186,39 @@ def from_ascii(fname, cmap_name=None, reverse=False):
 
     Notes
     -----
-     * Lines preceded by '#' are ignored.
-     * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0
-       for matplotlib usage)
-     * One white space delimited RGB value per line
+    * Lines preceded by '#' are ignored.
+    * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0
+        for matplotlib usage)
+    * One white space delimited RGB value per line
     """
     # Read data from ascii file into an NLines by 3 float array, skipping
     # lines preceded by "#"
     lines = []
-    with open(fname) as palette:
+    with open(fpath) as palette:
         for line in palette.readlines():
             if line.strip()[0] != "#":
                 lines += [line]
 
-    import numpy
-
+    if len(lines) == 0:
+        # missing the ascii palette completely, raise an error reporting this.
+        raise AsciiPaletteError(
+            f"Missing Ascii Palette in {fpath}.\n Please define the ascii palette "
+            "before continuing."
+        )
     carray = numpy.zeros([len(lines), 3])
     for num, line in enumerate(lines):
-        carray[num, :] = [float(val) for val in line.strip().split()]
+        color_nums = line.strip().split()
+        if len(color_nums) != 3:
+            raise AsciiPaletteError(
+                f"One or more lines of the ascii palette in {fpath} are missing "
+                "one or more values of the 'rgb' triplet. Please fix."
+            )
+        try:
+            carray[num, :] = [float(val) for val in line.strip().split()]
+        except ValueError as e:
+            raise AsciiPaletteError(
+                f"Invalid ascii palette found in {fpath}. See resulting error: {e}."
+            )
 
     # Normalize from 0-255 to 0.0-1.0
     if carray.max() > 1.0:
@@ -206,16 +226,13 @@ def from_ascii(fname, cmap_name=None, reverse=False):
 
     # Test to be sure all color array values are between 0.0 and 1.0
     if not (carray.min() >= 0.0 and carray.max() <= 1.0):
-        raise ValueError("All values in carray must be between 0.0 and 1.0.")
+        raise AsciiPaletteError("All values in carray must be between 0.0 and 1.0.")
 
     if reverse is True:
         carray = numpy.flipud(carray)
 
-    from matplotlib import colors
-    from os.path import basename as pathbasename
-
     if cmap_name is not None:
-        cmap_name = pathbasename(fname)
+        cmap_name = basename(fpath)
     cmap = colors.ListedColormap(carray, name=cmap_name)
     return cmap
 
