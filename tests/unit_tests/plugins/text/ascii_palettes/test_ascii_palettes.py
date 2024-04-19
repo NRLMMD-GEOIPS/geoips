@@ -16,7 +16,7 @@ def generate_id(artifact):
 
 @pytest.mark.parametrize("plugin", ascii_palettes.get_plugins(), ids=generate_id)
 def test_ascii_palette_plugin(plugin):
-    """Perform unit tests on all ascii palette plugins
+    """Perform unit tests on all ascii palette plugins.
 
     Parameters
     ----------
