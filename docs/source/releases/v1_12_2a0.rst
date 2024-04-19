@@ -182,6 +182,7 @@ alongside a colormapper to correctly apply the ascii palette to a certain output
     added: geoips/plugins/yaml/products/test_ascii.yaml
     added: tests/scripts/mimic_coarse.static.ascii_tpw_cimss.imagery_annotated.sh
     added: tests/scripts/mimic_fine.tc.ascii_tpw_pwat.imagery_annotated.sh
+    added: tests/unit_tests/plugins/text/ascii_palettes/test_ascii_palettes.py
 
 Bug Fixes
 =========
