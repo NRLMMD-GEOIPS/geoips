@@ -1,0 +1,31 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: ascii_tpw_cimss
+docstring: |
+  The ascii_tpw_cimss product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [5, 65.0]
+        min_outbounds: mask
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  colormapper:
+    plugin:
+      name: ascii_to_colormapper
+      arguments:
+        ascii_name: tpw_cimss
+        data_range: [5, 65]
+        cbar_ticks: [5, 15, 25, 35, 45, 55, 65]
+        cbar_label: TPW (mm)
+        cbar_spacing: proportional
+        create_colorbar: True
+        cbar_full_width: True
+  interpolator:
+    plugin:
+      name: interp_gauss
+      arguments:
+        sigmaval: 10000

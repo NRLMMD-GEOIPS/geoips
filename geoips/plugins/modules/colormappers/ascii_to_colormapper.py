@@ -4,6 +4,7 @@ import logging
 
 from matplotlib.colors import Normalize
 
+from geoips.errors import PluginError
 from geoips.interfaces import ascii_palettes
 
 LOG = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ name = "ascii_to_colormapper"
 
 
 def call(
-    ascii_name,
+    ascii_name="tpw_cimss",
     data_range=None,
     create_colorbar=True,
     cbar_label=None,
@@ -33,7 +34,7 @@ def call(
 
     Parameters
     ----------
-    ascii_name : str, default="Greys"
+    ascii_name : str, default="tpw_cimss"
         * Specify the name of the resulting matplotlib colormap.
         * If no ascii_path specified, will use builtin matplotlib
           colormap of name cmap_name.
@@ -82,9 +83,9 @@ def call(
         max_val = data_range[1]
     try:
         mpl_cmap = ascii_palettes.get_plugin(ascii_name).colormap
-    except ValueError:
-        raise ValueError(
-            "Colormap {cmap_name} not found in source {cmap_source}"
+    except PluginError:
+        raise PluginError(
+            f"No plugin named {ascii_name} was found in the plugin registry. Exiting."
         )
 
     LOG.info("Setting norm")

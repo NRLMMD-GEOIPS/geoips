@@ -41,6 +41,7 @@ class ColormappersInterface(BaseModuleInterface):
             "colorbar_kwargs",
             "set_ticks_kwargs",
             "set_label_kwargs",
+            "ascii_name",
         ]
     }
 

@@ -64,5 +64,11 @@ def get_required_attrs(fpath):
         raise PluginError(err_str)
     else:
         # Convert docstring list to a multiline string.
-        doc = "\n".join(doc)
-    return {"interface": interface, "name": name, "family": family, "doc": doc}
+        doc = "".join(doc)
+    return {
+        "interface": interface,
+        "name": name,
+        "family": family,
+        "doc": doc,
+        "plugin_type": "text_based"
+    }
