@@ -6,6 +6,7 @@ from os.path import basename
 import pytest
 
 from geoips.errors import AsciiPaletteError, PluginError
+
 # Using from_ascii rather than geoips.interfaces.ascii_palettes.AsciiPaletteColormap
 # because that requires the corresponding ascii_palette to be in the plugin registry,
 # which we don't want. They do the exact same thing currently.
