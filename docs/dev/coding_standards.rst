@@ -26,6 +26,81 @@ right in the case of a conflict with this document.
 External Style Standards
 ------------------------
 
+
+Numpy Docstrings
+^^^^^^^^^^^^^^^^
+
+Full information here: `Docstring Standard <https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard>`_
+
+Common mishaps:
+"""""""""""""""
+
+The first docstring line should be a "one-line summary that **does not use variable
+names or the function name**"
+
+Classes
+"""""""
+
+Example:
+.. code-block:: python
+
+    # This is a simple documentation example
+
+Sections:
+
+#. `Short summary <https://numpydoc.readthedocs.io/en/latest/format.html#short-summary>`_
+#. `Deprecation warning (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#deprecation-warning>`_
+#. `Extended Summary <https://numpydoc.readthedocs.io/en/latest/format.html#extended-summary>`_
+#. `Parameters (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#parameters>`_
+#. `Other Parameters (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#other-parameters>`_
+#. `Raises (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#raises>`_
+#. `See Also (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#see-also>`_
+#. `Notes (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#notes>`_
+#. `References (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#references>`_
+#. `Examples <https://numpydoc.readthedocs.io/en/latest/format.html#examples>`_
+
+Methods
+"""""""
+
+Example:
+.. code-block:: python
+
+    # This is a simple documentation example
+
+Sections:
+
+#. `Short summary <https://numpydoc.readthedocs.io/en/latest/format.html#short-summary>`_
+#. `Deprecation warning (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#deprecation-warning>`_
+#. `Extended Summary <https://numpydoc.readthedocs.io/en/latest/format.html#extended-summary>`_
+#. `Parameters (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#parameters>`_
+#. `Other Parameters (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#other-parameters>`_
+#. `Raises (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#raises>`_
+#. `See Also (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#see-also>`_
+#. `Notes (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#notes>`_
+#. `References (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#references>`_
+#. `Examples <https://numpydoc.readthedocs.io/en/latest/format.html#examples>`_
+
+
+More sections necessary for generators/etc. please see the original numpy standards 😄
+
+Modules
+"""""""
+
+Example:
+.. code-block:: python
+
+    # This is a simple documentation example
+
+Sections:
+
+#. `Short summary <https://numpydoc.readthedocs.io/en/latest/format.html#short-summary>`_
+#. `Extended summary (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#extended-summary>`_
+#. `Routine listings (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#routine-listings>`_
+#. `See also (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#see-also>`_
+#. `Notes (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#notes>`_
+#. `References (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#references>`_
+#. `Examples <https://numpydoc.readthedocs.io/en/latest/format.html#examples>`_
+
 `PEP 8 <https://peps.python.org/pep-0008/>`__
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
