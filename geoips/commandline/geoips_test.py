@@ -80,9 +80,8 @@ class GeoipsTestUnitTest(GeoipsExecutableCommand):
             # <package_name>/tests/unit_tests/<dir_name>/<script_name>, ensure that
             # file actually exists
             fnames = [
-                basename(fpath) for fpath in glob(
-                    f"{unit_test_dir}/{dir_name}/test_*.py"
-                )
+                basename(fpath)
+                for fpath in glob(f"{unit_test_dir}/{dir_name}/test_*.py")
             ]
             if test_name not in fnames:
                 err_str = f"Unit Test '{test_name}' not found under the directory "
