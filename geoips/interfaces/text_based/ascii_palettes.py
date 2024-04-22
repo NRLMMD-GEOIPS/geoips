@@ -140,6 +140,7 @@ class AsciiPaletteInterface(BaseTextInterface):
 
     def __call__(
         self,
+        ascii_name="tpw_cimss",
         data_range=None,
         create_colorbar=True,
         cbar_label=None,
@@ -205,7 +206,7 @@ class AsciiPaletteInterface(BaseTextInterface):
         if data_range is not None:
             min_val = data_range[0]
             max_val = data_range[1]
-        mpl_cmap = self.colormap
+        mpl_cmap = self.get_plugin(ascii_name).colormap
 
         LOG.info("Setting norm")
 
