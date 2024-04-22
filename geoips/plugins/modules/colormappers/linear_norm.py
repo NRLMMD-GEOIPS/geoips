@@ -14,17 +14,14 @@
 import logging
 
 from matplotlib.colors import Normalize
-from matplotlib import cm
 
-from geoips.image_utils.colormap_utils import from_ascii
-from geoips.geoips_utils import find_ascii_palette
-from geoips.interfaces import colormappers
+from geoips.image_utils.colormap_utils import get_color_palette
 
 LOG = logging.getLogger(__name__)
 
 interface = "colormappers"
 family = "matplotlib"
-name = "matplotlib_linear_norm"
+name = "linear_norm"
 
 
 def call(
@@ -101,31 +98,7 @@ def call(
         min_val = data_range[0]
         max_val = data_range[1]
 
-    if cmap_source == "matplotlib":
-        try:
-            mpl_cmap = cm.get_cmap(cmap_name)
-        except ValueError:
-            raise ValueError(f"Colormap {cmap_name} not found in source {cmap_source}")
-    elif cmap_source == "geoips":
-        cmap_plugin = colormappers.get_plugin(cmap_name)
-        # Just get the cmap out of mpl_colors_info to use here.
-        mpl_cmap = cmap_plugin()["cmap"]
-    elif cmap_source == "ascii":
-        if cmap_path is not None:
-            mpl_cmap = from_ascii(cmap_path, cmap_name=cmap_name)
-        else:
-            try:
-                ascii_path = find_ascii_palette(cmap_name)
-                mpl_cmap = from_ascii(ascii_path, cmap_name=cmap_name)
-            except ValueError:
-                raise ValueError(
-                    "Colormap {cmap_name} not found in source {cmap_source}"
-                )
-    else:
-        raise ValueError(
-            "Uknown colormap source {cmap_source}, must be one of "
-            "'matplotlib', 'geoips', or 'ascii'"
-        )
+    mpl_cmap = get_color_palette(cmap_source, cmap_name)
 
     LOG.info("Setting norm")
 

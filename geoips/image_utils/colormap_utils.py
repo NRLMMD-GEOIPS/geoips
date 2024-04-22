@@ -14,14 +14,65 @@
 # Installed Libraries
 import logging
 import ast
+from matplotlib import cm
 import numpy
 from matplotlib import colors
 from os.path import basename
 
 from geoips.errors import AsciiPaletteError
+from geoips.interfaces import ascii_palettes, colormappers
 
 LOG = logging.getLogger(__name__)
 
+
+def get_color_palette(source, name):
+    """Get the associated color-palette given a name and source name.
+
+    Where 'color-palette' is a colormap defined from a given source. This source name
+    can be one of ['matplotlib' / 'mpl', 'geoips', 'ascii'].
+
+    If matplotlib is the source name, then retrieve the appropriate matplotlib named
+    colormap.
+
+    If the source name is geoips, retrieve the appropriate GeoIPS Colormapper-plugin,
+    Colormap Attribute.
+
+    If the source name is ascii, retrieve the appropriate Matplotlib Colormap generated
+    from the ascii palette plugin.
+
+    Parameters
+    ----------
+    source: str
+        - The source name of the color palette one of:
+          ['matplotlib' / 'mpl', 'geoips', 'ascii']
+    name: str
+        - The name of the color palette we'd like to retrieve.
+
+    Returns
+    -------
+    cmap: Colormap
+        - Will either be a Matplotlib Named Colormap, GeoIPS Colormapper-Plugin Colormap
+          attribute, or a Matplotlib Colormap Derived from the ascii palette plugin.
+    """
+    if source == "matplotlib" or source == "mpl":
+        try:
+            cmap = cm.get_cmap(name)
+        except ValueError:
+            raise ValueError(f"Colormap {name} not found in source {source}")
+    elif source == "geoips":
+        cmap_plugin = colormappers.get_plugin(name)
+        # Just get the cmap out of mpl_colors_info to use here.
+        cmap = cmap_plugin()["cmap"]
+    elif source == "ascii":
+        ascii_plugin = ascii_palettes.get_plugin(name)
+        # Now get the colormap created from the defined ascii palette plugin
+        cmap = ascii_plugin.colormap
+    else:
+        raise ValueError(
+            f"Uknown colormap source '{source}'; must be one of "
+            "'matplotlib' / 'mpl', 'geoips', or 'ascii'"
+        )
+    return cmap
 
 def set_matplotlib_colors_rgb():
     """

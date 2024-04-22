@@ -12,6 +12,7 @@
 
 """Base classes for interfaces, plugins, and plugin validation machinery."""
 
+from abc import ABC, abstractmethod
 import yaml
 import inspect
 import logging
@@ -928,7 +929,7 @@ class BaseModuleInterface(BaseInterface):
         return output
 
 
-class BaseTextInterface(BaseInterface):
+class BaseTextInterface(ABC, BaseInterface):
     """Base Class for GeoIPS Text-Based Interfaces.
 
     This class should not be instantiated directly. Instead, interfaces should be
@@ -938,6 +939,11 @@ class BaseTextInterface(BaseInterface):
     ```
     will retrieve an instance of ``AlgorithmsInterface`` which will provide access to
     the GeoIPS algorithm plugins.
+
+    This Class inherits from Abstract Base Class (ABC) as some functionality cannot be
+    defined at this point. It is dependent on the child class which will define the
+    needed functionality. Also inherits from BaseInterface Class, as all other
+    Base<Type>Interface classes do.
     """
 
     def __repr__(self):
@@ -948,8 +954,23 @@ class BaseTextInterface(BaseInterface):
         """Initialize module plugin interface."""
         self.text_registry = self.plugin_registry.registered_plugins["text_based"]
 
+    @property
+    @abstractmethod
+    def __call__(self, **kwargs):
+        """An abstract call method used for the inheriting text-interface class.
+
+        This is what will be called when a text plugin of some type is actually invoked.
+
+        Parameters
+        ----------
+        kwargs: dict
+            - A dictionary of optional keyword arguments relative to the later-to-be
+              defined __call__ function.
+        """
+        pass
+
     @classmethod
-    def _plugin_text_to_obj(cls, name, plugin_entry, module, obj_attrs={}):
+    def _plugin_text_to_obj(cls, name, plugin_entry, call, obj_attrs={}):
         """Convert a text plugin to an object.
 
         Convert the passed module plugin into an object and return it. The returned
@@ -980,8 +1001,8 @@ class BaseTextInterface(BaseInterface):
             - The name of the plugin we are converting
         plugin_entry: dict
             - The entry in plugin registry for the associated text plugin under 'name'
-        module: Python Module
-            - The ascii_to_colormapper module attached to Ascii Palette Plugins
+        call: Callable Python Function
+            - The call function attached to a certain TextBasedInterface child
         obj_attrs: dict, optional
             - Dictionary of optional attributes to attach to the Plugin Object
 
@@ -995,11 +1016,11 @@ class BaseTextInterface(BaseInterface):
             obj_attrs[key] = plugin_entry[key]
         # Collect the callable and assign to __call__
         try:
-            obj_attrs["__call__"] = staticmethod(getattr(module, "call"))
+            obj_attrs["__call__"] = call
         except AttributeError as err:
             raise PluginError(
-                f"Plugin modules must contain a callable name 'call'. This is missing "
-                f"in plugin module '{module.__name__}'"
+                f"Text Interfaces must contain a method named 'call'. This is missing "
+                f"in Interface Class '{plugin_entry['interface']}'."
             ) from err
 
         plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
@@ -1040,7 +1061,7 @@ class BaseTextInterface(BaseInterface):
             return self._plugin_text_to_obj(
                 name,
                 plugin_entry,
-                self.ascii_colormap_module,
+                self.__call__,
             )
         else:
             raise PluginError(
