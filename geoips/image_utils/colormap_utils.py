@@ -44,29 +44,31 @@ def get_color_palette(source, name):
     ----------
     source: str
         - The source name of the color palette one of:
-          ['matplotlib' / 'mpl', 'geoips', 'ascii']
+          ['matplotlib' / 'mpl', 'ascii']
     name: str
         - The name of the color palette we'd like to retrieve.
 
     Returns
     -------
     cmap: Colormap
-        - Will either be a Matplotlib Named Colormap, GeoIPS Colormapper-Plugin Colormap
-          attribute, or a Matplotlib Colormap Derived from the ascii palette plugin.
+        - Will either be a Matplotlib Named Colormap or a Matplotlib Colormap Derived
+          from the ascii palette plugin.
     """
     if source == "matplotlib" or source == "mpl":
         try:
             cmap = cm.get_cmap(name)
         except ValueError:
             raise ValueError(f"Colormap {name} not found in source {source}")
-    elif source == "geoips":
-        cmap_plugin = colormappers.get_plugin(name)
-        # Just get the cmap out of mpl_colors_info to use here.
-        cmap = cmap_plugin()["cmap"]
     elif source == "ascii":
         ascii_plugin = ascii_palettes.get_plugin(name)
         # Now get the colormap created from the defined ascii palette plugin
         cmap = ascii_plugin.colormap
+    elif source == "geoips":
+        raise ValueError(
+            f"Source '{source}' is no longer supported. Please either use "
+            "'matplotlib' / 'mpl', or 'ascii', or consider using a different GeoIPS "
+            "Colormapper plugin."
+        )
     else:
         raise ValueError(
             f"Uknown colormap source '{source}'; must be one of "

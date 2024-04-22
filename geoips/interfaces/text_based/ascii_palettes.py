@@ -123,20 +123,6 @@ class AsciiPaletteInterface(BaseTextInterface):
     required_args = {"standard": {}}
     required_kwargs = {"standard": {}}
     plugin_class = AsciiPaletteColormap
-    id = "ascii_palettes"
-
-    @property
-    def ascii_colormap_module(self):
-        """Module containing the call function we use to apply our ascii palette."""
-        if not hasattr(self, "_ascii_colormap_module"):
-            module_path = "geoips.plugins.modules.colormappers.ascii_to_colormapper"
-            abspath = str(
-                files("geoips") / "plugins/modules/colormappers/ascii_to_colormapper.py"
-            )
-            spec = util.spec_from_file_location(module_path, abspath)
-            self._ascii_colormap_module = util.module_from_spec(spec)
-            spec.loader.exec_module(self._ascii_colormap_module)
-        return self._ascii_colormap_module
 
     def __call__(
         self,
