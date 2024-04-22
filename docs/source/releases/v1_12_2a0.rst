@@ -303,10 +303,11 @@ GeoIPS devs. This PR fixes those bugs and ensues that both the unit tests and ac
 scripts pass without failure. This fix changes a bug in test_log_setup.py where
 ``generate_random_messages(add_long_word=True)`` would return a ``map`` object rather
 than an iterable list of strings. ``map`` objects have no length attribute and caused
-failures within ``geoips/commandline/log_setup:log_with_emphasis``. We also added a new
-check in ``log_with_emphasis`` that raises a ``TypeError`` if one or more of the items
-in the unpacked list of ``*messages`` doesn't have a length attribute. Ie. None, map,
-etc.
+failures within ``geoips/commandline/log_setup:log_with_emphasis``. We also added a type
+cast in ``log_with_emphasis`` that prevents non-string objects from raising an error due
+to a ``len(object)`` call, where the object had no attribute length. Developers should
+think about what is sent to ``log_with_emphasis`` if they want to print something that
+is not a string.
 
 ::
 

@@ -34,11 +34,10 @@ def log_with_emphasis(print_func, *messages):
         The messages to be logged with emphasis
     """
     wrapped_messages = []
-    # Handle potential typeerror by casting as a string
-    try:
-        messages = filter(lambda s: len(s) > 0, messages)
-    except TypeError:
-        messages = filter(lambda s: len(str(s)) > 0, messages)
+    # Even though only strings should be passed here, we are going to allow any type of
+    # object to be passed for the time being. Best not to overthink the situation and
+    # just cast for the time being.
+    messages = filter(lambda s: len(str(s)) > 0, messages)
 
     for message in messages:
         # wrap the message to a specified length
