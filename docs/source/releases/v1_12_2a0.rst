@@ -19,6 +19,7 @@ Version 1.12.2a0 (2024-02-21)
   * Added log with emphasis function
   * Introduced a documentation for coding standards within the build/dev directory.
   * Introduced documentation for coding standards for module imports.
+  * Introduced documentation for PEP8 standards.
   * Added documentation for current linters and configuration.
 * Bug fixes
 
@@ -134,6 +135,16 @@ Introduced documentation for coding standards for module imports.
 Throughout GeoIPS, we have inconsistent module imports. These new standards (added to
 our documentation) will help us be more intentional in how we import modules going
 forward.
+
+::
+    modified: docs/dev/coding_standards.rst
+
+Introduced documentation for PEP8 standards.
+--------------------------------------------
+
+Throughout GeoIPS, we have inconsistent coding standards. PEP8 (added to
+our documentation) is an external standard we already use, and so we want
+that to be explicit in our documentation.
 
 ::
     modified: docs/dev/coding_standards.rst
