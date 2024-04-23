@@ -15,11 +15,7 @@
 import logging
 import ast
 from matplotlib import cm
-import numpy
-from matplotlib import colors
-from os.path import basename
 
-from geoips.errors import AsciiPaletteError
 from geoips.interfaces import ascii_palettes
 
 LOG = logging.getLogger(__name__)
