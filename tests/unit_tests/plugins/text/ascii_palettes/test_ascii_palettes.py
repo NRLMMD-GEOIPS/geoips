@@ -17,11 +17,8 @@ from geoips.interfaces.text_based import get_required_attrs
 
 def generate_id(artifact):
     """Generate an test ID for the provided GeoIPS Artifact."""
-    if hasattr(artifact, "id"):
-        # This is an ascii plugin
-        return str(artifact.id)
-    elif hasattr(artifact, "name"):
-        # This is the ascii palette interface
+    if hasattr(artifact, "name"):
+        # This is the ascii palette interface or an ascii palette plugin
         return str(artifact.name)
     else:
         # This is the path to an ascii_palette text file
@@ -37,14 +34,16 @@ def test_ascii_palette_plugin(plugin):
     plugin: AsciiPalettePlugin
         - A GeoIPS AsciiPalettePlugin generated from an ascii palette .txt file
     """
-    # check that the ascii palette plugin has an identifier
-    assert plugin.id
+    # check that the ascii palette plugin has a name
+    assert plugin.name
     # assert this plugin is in the registry
-    assert plugin.id in ascii_palettes.text_registry["ascii_palettes"]
+    assert plugin.name in ascii_palettes.text_registry["ascii_palettes"]
     # assert that this plugin's interface is the ascii palette interface
     assert plugin.interface == "ascii_palettes"
     # check that there has been a Matplotlib.colors.ListedColormap created the plugin
     assert isinstance(plugin.colormap, ListedColormap)
+    # make sure that the plugin has a __call__ method attached to it
+    assert hasattr(plugin, "__call__")
 
 
 @pytest.mark.parametrize("interface", [ascii_palettes], ids=generate_id)
@@ -56,11 +55,11 @@ def test_ascii_palette_interface(interface):
     interface: AsciiPaletteInterface
         - The ascii palette text-based interface that we want to test.
     """
-    assert "BaseTextInterface" in str(interface.__class__.__base__)
+    assert "BaseTextInterface" == str(interface.__class__.__base__.__name__)
     # make sure that every plugin is in the ascii_palettes portion of the plugin
     # registry
     for plugin in interface.get_plugins():
-        assert plugin.id in interface.text_registry["ascii_palettes"]
+        assert plugin.name in interface.text_registry["ascii_palettes"]
     with pytest.raises(KeyError):
         # assert that retrieving a plugin that doesn't exist causes an error
         interface.get_plugin("a_non_existent_plugin")

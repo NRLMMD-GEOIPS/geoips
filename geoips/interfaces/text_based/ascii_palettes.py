@@ -118,41 +118,16 @@ class AsciiPalettesPlugin(BaseTextPlugin):
         return cmap
 
     def __call__(self, **kwargs):
-        """Set the matplotlib colors information for matplotlib linear norm cmaps.
+        """Generate a dictionary of colormap information used for linear norm cmaps.
 
         This information used in both colorbar and image production throughout
         GeoIPS image output specifications.
 
         Parameters
         ----------
-        kwargs: dict of arguments, optionally including what is shown below.
-            * data_range : list, default=None
-                * [min_val, max_val],
-                matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)
-                * If data_range not specified, vmin and vmax both None.
-            * cbar_label : str, default=None
-                * Positional parameter passed to cbar.set_label
-                * If specified, use cbar_label string as colorbar label.
-            * create_colorbar : bool, default=True
-                * Specify whether the image should contain a colorbar or not.
-            * cbar_ticks : list, default=None
-                * Positional parameter passed to cbar.set_ticks
-                * Specify explicit list of ticks to include for colorbar.
-                * None indicates ticks at int(min) and int(max) values
-            * cbar_tick_labels : list, default=None
-                * "labels" argument to pass to cbar.set_ticks.
-                * can also specify directly within "set_ticks_kwargs"
-            * cbar_spacing : string, default="proportional"
-                * "spacing" argument to pass to fig.colorbar
-                * can also specify directly within "colorbar_kwargs"
-            * cbar_full_width : bool, default=True
-                * Extend the colorbar across the full width of the image.
-            * colorbar_kwargs : dict, default=None
-                * keyword arguments to pass through directly to "fig.colorbar"
-            * set_ticks_kwargs : dict, default=None
-                * keyword arguments to pass through directly to "cbar.set_ticks"
-            * set_label_kwargs : dict, default=None
-                * keyword arguments to pass through directly to "cbar.set_label"
+        kwargs: dict of arguments
+            - For a full list of arguments that will be provided to this function, see:
+              geoips.plugins.colormappers.ascii_based:call
 
         Returns
         -------
@@ -167,7 +142,7 @@ class AsciiPalettesPlugin(BaseTextPlugin):
         """
         min_val = None
         max_val = None
-        kwargs = SimpleNamespace(kwargs)
+        kwargs = SimpleNamespace(**kwargs)
         if kwargs.data_range is not None:
             min_val = kwargs.data_range[0]
             max_val = kwargs.data_range[1]

@@ -68,15 +68,16 @@ def call(
         See geoips.image_utils.mpl_utils.create_colorbar for field descriptions.
     """
     palette_plug = ascii_palettes.get_plugin(cmap_name)
-    return palette_plug(
-        data_range,
-        create_colorbar,
-        cbar_label,
-        cbar_ticks,
-        cbar_tick_labels,
-        cbar_spacing,
-        cbar_full_width,
-        colorbar_kwargs,
-        set_ticks_kwargs,
-        set_label_kwargs,
-    )
+    opt_args = {
+        "data_range": data_range,
+        "cbar_label": cbar_label,
+        "create_colorbar": create_colorbar,
+        "cbar_ticks": cbar_ticks,
+        "cbar_tick_labels": cbar_tick_labels,
+        "cbar_spacing": cbar_spacing,
+        "cbar_full_width": cbar_full_width,
+        "colorbar_kwargs": colorbar_kwargs,
+        "set_ticks_kwargs": set_ticks_kwargs,
+        "set_label_kwargs": set_label_kwargs,
+    }
+    return palette_plug(**opt_args)
