@@ -15,7 +15,7 @@ spec:
         inverse: null
   colormapper:
     plugin:
-      name: ascii_to_colormapper
+      name: linear_norm
       arguments:
         cmap_source: ascii
         cmap_name: tpw_pwat

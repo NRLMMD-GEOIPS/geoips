@@ -23,8 +23,6 @@ properties:
             maxItems: 2
             items:
               type: number
-          ascii_name:
-            type: string
           cmap_name:
             type: string
           cmap_source:
