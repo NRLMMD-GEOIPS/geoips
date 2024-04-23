@@ -20,7 +20,7 @@ from matplotlib import colors
 from os.path import basename
 
 from geoips.errors import AsciiPaletteError
-from geoips.interfaces import ascii_palettes, colormappers
+from geoips.interfaces import ascii_palettes
 
 LOG = logging.getLogger(__name__)
 
@@ -75,6 +75,7 @@ def get_color_palette(source, name):
             "'matplotlib' / 'mpl', 'geoips', or 'ascii'"
         )
     return cmap
+
 
 def set_matplotlib_colors_rgb():
     """

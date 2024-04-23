@@ -1,19 +1,18 @@
 """Ascii Palette Module implementing a class used in producing colormapped products."""
 
-from importlib import util
 from importlib.resources import files
 import logging
 from matplotlib import colors
 import numpy
 from os.path import basename
 
-from geoips.errors import AsciiPaletteError, PluginError
-from geoips.interfaces.base import BaseTextInterface
+from geoips.errors import AsciiPaletteError
+from geoips.interfaces.base import BaseTextInterface, BaseTextPlugin
 
 LOG = logging.getLogger(__name__)
 
 
-class AsciiPaletteColormap:
+class AsciiPalettesPlugin(BaseTextPlugin):
     """Class representing an Ascii Palette Used to Construct a GeoIPS Colormapper."""
 
     def __init__(self, plugin_name):
@@ -27,7 +26,9 @@ class AsciiPaletteColormap:
         self.plugin_entry = AsciiPaletteInterface().text_registry["ascii_palettes"][
             plugin_name
         ]
-        self.plugin_entry["colormap"] = self.colormap
+        self.name = plugin_name
+        for key in self.plugin_entry.keys():
+            setattr(self, key, self.plugin_entry[key])
 
     @property
     def colormap(self):
@@ -115,18 +116,8 @@ class AsciiPaletteColormap:
         cmap = colors.ListedColormap(carray, name=cmap_name)
         return cmap
 
-
-class AsciiPaletteInterface(BaseTextInterface):
-    """Interface for the Ascii Palette (kid of Colormapper) to apply to the product."""
-
-    name = "ascii_palettes"
-    required_args = {"standard": {}}
-    required_kwargs = {"standard": {}}
-    plugin_class = AsciiPaletteColormap
-
     def __call__(
         self,
-        ascii_name="tpw_cimss",
         data_range=None,
         create_colorbar=True,
         cbar_label=None,
@@ -148,9 +139,10 @@ class AsciiPaletteInterface(BaseTextInterface):
         ascii_name : str, default="tpw_cimss"
             * Specify the name of the resulting matplotlib colormap.
             * If no ascii_path specified, will use builtin matplotlib
-            colormap of name cmap_name.
+              colormap of name cmap_name.
         data_range : list, default=None
-            * [min_val, max_val], matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)
+            * [min_val, max_val],
+              matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)
             * If data_range not specified, vmin and vmax both None.
         cbar_label : str, default=None
             * Positional parameter passed to cbar.set_label
@@ -180,7 +172,7 @@ class AsciiPaletteInterface(BaseTextInterface):
         -------
         mpl_colors_info : dict
             * Specifies matplotlib Colors parameters for use in both plotting and
-            colorbar generation
+              colorbar generation
 
         See Also
         --------
@@ -192,7 +184,8 @@ class AsciiPaletteInterface(BaseTextInterface):
         if data_range is not None:
             min_val = data_range[0]
             max_val = data_range[1]
-        mpl_cmap = self.get_plugin(ascii_name).colormap
+
+        mpl_cmap = self.colormap
 
         LOG.info("Setting norm")
 
@@ -226,6 +219,19 @@ class AsciiPaletteInterface(BaseTextInterface):
         }
 
         return mpl_colors_info
+
+
+class AsciiPaletteInterface(BaseTextInterface):
+    """Interface for the Ascii Palette (kid of Colormapper) to apply to the product."""
+
+    name = "ascii_palettes"
+    required_args = {"standard": {}}
+    required_kwargs = {"standard": {}}
+
+    @property
+    def plugin_class(self):
+        """Class used to create the corresponding ascii-palette plugins."""
+        return AsciiPalettesPlugin
 
 
 ascii_palettes = AsciiPaletteInterface()
