@@ -13,7 +13,10 @@
 Version 1.12.2a0 (2024-02-21)
 *****************************
 
+* Refactor
+  * Refactor optional imports in readers to use a context manager function
 * Enhancements
+  * Add function to list all available interfaces for each interface 'family'
   * Added log with emphasis function
   * Introduced a documentation for coding standards within the build/dev directory.
   * Introduced documentation for coding standards for module imports.
@@ -32,9 +35,66 @@ Version 1.12.2a0 (2024-02-21)
   * Modify create_plugin_registries to use argparse instead of sys.argv
 * Documentation
   * Added documentation for create_plugin_registries and PluginRegistry Class
+  * Fix log_with_emphasis to deal with empty strings gracefully 
+* Refactor
+  * Make JSON Plugin Registries Readable
+  * Modify create_plugin_registries to use argparse instead of sys.argv
+* Testing Updates
+
+  * Move pytest validation from plugin_registry.py to unit tests.
+* Documentation
+
+  * Add documentation about optional pdflatex dependency
+  
+Testing Updates
+===============
+
+Move PyTest Validation from plugin_registry.py to Unit tests
+------------------------------------------------------------
+*From GEOIPS#426: 2024-02-02, GeoIPS won't run pip install . w/out [test] target*
+
+GeoIPS currently fails to run if installed by simply calling ``pip install .``. It must,
+instead, be installed with pip install .[test]. This is because pytest is used in
+geoips/plugin_registry.py but is not included in the base GeoIPS installation
+requirements.
+
+To remediate this, we've since moved the pytest validation functionality off of the
+PluginRegistry class itself, and moved it into unit tests at
+``tests/unit_tests/plugin_registries/test_plugin_registries.py``, under class
+PluginRegistryValidator. This removes the need for PyTest to be a GeoIPS dependency,
+and is now a Unit Test dependency. If users want to validate their plugin registry, they
+will have to manually install pytest to validate from now on.
+
+Unit-Test validation of the plugin registry is performed to ensure it's in the correct
+state. This was initially automatically done when it was created, but since it invoked
+pytest and that's only a required dependency in the ``test`` extra, we have decided 
+to move this to a unit-test module so that end-users don't need to install pytest.
+All in all, the user doesn't really need to validate their own registry. It
+should not be created if an error occurs (eg. duplicate plugin names under the same
+interface, poorly formatted plugin, etc.), however as developers we wanted the ability
+to unit test the PluginRegistry to make sure everything was being done as expected.
+
+::
+
+    modified: geoips/plugin_registry.py
+    modified: tests/unit_tests/plugin_registries/test_plugin_registries.py
 
 Enhancements
 ============
+
+Add function to list all available interfaces for each interface 'family'
+-------------------------------------------------------------------------
+
+*From GEOIPS#397: 2023-11-02, Add function to geoips.interfaces to list all interfaces of each type*
+
+Added a function which lists all interfaces found for each interface family. Rather than
+referring to a hard-coded list of interfaces that currently exist, we make assumptions
+on the directory structure of the geoips package and list the corresponding interface
+modules via the members of 'geoips.interfaces'.
+
+::
+
+    modified: geoips/interfaces/__init__.py
 
 Documentation Scaffold for Coding Standards
 -------------------------------------------
@@ -63,7 +123,10 @@ is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you
     modified: geoips/geoips/plugins/modules/output_checkers/netcdf.py
     modified: geoips/geoips/plugins/modules/output_checkers/text.py
     modified: geoips/geoips/plugins/modules/procflows/single_source.py
-    added: geoips/tests/unit_tests/commandline/log_setup.py
+    removed: geoips/tests/unit_tests/commandline/log_setup.py
+    added: geoips/tests/unit_tests/commandline/test_log_setup.py
+    added: tests/scripts/abi.static.Infrared.netcdf_geoips.sh
+    added: tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-16.Infrared_latitude_longitude.denver.nc
 
 Introduced documentation for coding standards for module imports.
 -----------------------------------------------------------------
@@ -240,6 +303,32 @@ and log_with_emphasis has now been updated to gracefully deal with this case.
 Refactor
 ========
 
+Refactor optional imports in readers to use context manager function
+--------------------------------------------------------------------
+
+*From GEOIPS#338: 2023-07-19, Clean up optional dependencies*
+
+Some GeoIPS readers include optional dependency statements that are required to read
+certain file formats. While keeping these imports as optional is ok, we should clean up
+the manner in which this is implemented. To do so, we've created a separate
+``geoips.utils.context_managers.py`` script which can handle optional imports scattered
+throughout the GeoIPS codebase. This is essentially replacing our old manner of optional
+dependencies with a new method that keeps things clean.
+
+::
+
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: geoips/plugins/modules/readers/abi_netcdf.py
+    modified: geoips/plugins/modules/readers/ahi_hsd.py
+    modified: geoips/plugins/modules/readers/ewsg_netcdf.py
+    modified: geoips/plugins/modules/readers/modis_hdf4.py
+    modified: geoips/plugins/modules/readers/seviri_hrit.py
+    modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+    modified: geoips/plugins/modules/readers/viirs_netcdf.py
+    modified: geoips/utils/memusg.py
+    added: geoips/utils/context_managers.py
+    added: tests/unit_tests/utils/context_managers.py
+
 Modify create_plugin_registries to use argparse
 -----------------------------------------------
 
@@ -290,3 +379,11 @@ the sphinx configuration file.
     added: geops/docs/source/userguide/plugin_registries.rst
     modified: geiops/create_plugin_registries.py
     modified: pyproject.toml
+
+Added documentation about optional pdflatex dependency to docs building script
+as well as the expert installation instructions.
+
+::
+
+    modified: docs/build_docs.sh
+    modified: docs/source/starter/expert_installation.rst

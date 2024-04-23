@@ -72,3 +72,35 @@ yaml_based_interfaces = [
     "sectors",
 ]
 __all__ = module_based_interfaces + yaml_based_interfaces
+
+
+def list_available_interfaces():
+    """Return a dictionary of available interfaces.
+
+    Collect and return a dictionary whose keys are the interface types (i.e.
+    module_based, yaml_based, and text_based) and whose values are lists of the
+    available interfaces for each interface type.
+    """
+    # These are buried to avoid polluting the interface module's namespace
+    import inspect
+    from geoips import interfaces
+
+    all_interfaces = {
+        "module_based": [],
+        "text_based": [],
+        "yaml_based": [],
+    }
+    for interface_type in ["module", "text", "yaml"]:
+        try:
+            available_interfaces = [
+                str(mod_info[0])
+                for mod_info in inspect.getmembers(
+                    getattr(interfaces, f"{interface_type}_based"),
+                    inspect.ismodule,
+                )
+            ]
+            all_interfaces[f"{interface_type}_based"] = available_interfaces
+        except AttributeError:
+            continue
+
+    return all_interfaces

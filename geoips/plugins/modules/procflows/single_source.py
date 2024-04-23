@@ -359,15 +359,6 @@ def process_xarray_dict_to_output_format(
     return final_products
 
 
-def print_area_def(area_def, print_str):
-    """Print area def."""
-    emphasis_str = "*" * 84
-    LOG.info(f"\n\n{emphasis_str}" f"\n***{print_str}\n{area_def}")
-    for key, value in area_def.sector_info.items():
-        LOG.info(f"{key}: {value}")
-    LOG.info(emphasis_str)
-
-
 def pad_area_definition(
     area_def, source_name=None, force_pad=False, x_scale_factor=1.5, y_scale_factor=1.5
 ):
