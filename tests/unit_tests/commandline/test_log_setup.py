@@ -84,9 +84,9 @@ def generate_random_messages(add_long_word=False):
     if add_long_word:
 
         def f(s):
-            insert_random_string_randomly(s, 88)  # insert string 88 chars long
+            return insert_random_string_randomly(s, 88)  # insert string 88 chars long
 
-        return map(f, messages)
+        return list(map(f, messages))
     else:
         return messages
 

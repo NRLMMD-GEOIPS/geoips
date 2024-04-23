@@ -32,6 +32,7 @@ Version 1.12.2a0 (2024-02-21)
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
   * Fix bad filename wrapping with log_with_emphasis
   * Fix log_with_emphasis to deal with empty strings gracefully
+  * Fixed broken unit test in test_log_setup.py
 * Documentation
 
   * Added documentation for create_plugin_registries and PluginRegistry Class
@@ -47,7 +48,7 @@ Version 1.12.2a0 (2024-02-21)
 * Documentation
 
   * Add documentation about optional pdflatex dependency
-  
+
 Testing Updates
 ===============
 
@@ -69,7 +70,7 @@ will have to manually install pytest to validate from now on.
 
 Unit-Test validation of the plugin registry is performed to ensure it's in the correct
 state. This was initially automatically done when it was created, but since it invoked
-pytest and that's only a required dependency in the ``test`` extra, we have decided 
+pytest and that's only a required dependency in the ``test`` extra, we have decided
 to move this to a unit-test module so that end-users don't need to install pytest.
 All in all, the user doesn't really need to validate their own registry. It
 should not be created if an error occurs (eg. duplicate plugin names under the same
@@ -320,6 +321,27 @@ Update log_with_emphasis to deal with empty strings
 Previously, when calling log_with_emphasis(log, "test", "") an error is thrown.
 This is a problem if you're logging out a message that ends with "" for any reason,
 and log_with_emphasis has now been updated to gracefully deal with this case.
+
+Fixed broken unit test in test_log_setup.py
+-------------------------------------------
+
+*Stems from GEOIPS#464, 2024-04-15: Finish log with emphasis function*
+
+*Finish log with emphasis PR (#464)* introduced a couple of bugs that weren't caught by
+GeoIPS devs. This PR fixes those bugs and ensues that both the unit tests and accociated
+scripts pass without failure. This fix changes a bug in test_log_setup.py where
+``generate_random_messages(add_long_word=True)`` would return a ``map`` object rather
+than an iterable list of strings. ``map`` objects have no length attribute and caused
+failures within ``geoips/commandline/log_setup:log_with_emphasis``. We also added a type
+cast in ``log_with_emphasis`` that prevents non-string objects from raising an error due
+to a ``len(object)`` call, where the object had no attribute length. Developers should
+think about what is sent to ``log_with_emphasis`` if they want to print something that
+is not a string.
+
+::
+
+    modified: geoips/commandline/log_setup.py
+    modified: tests/unit_tests/commandline/test_log_setup.py
 
 Refactor
 ========
