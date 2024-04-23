@@ -155,7 +155,7 @@ to correctly get and apply the palette.
 To prepare GeoIPS to be able to handle other types of text based plugins, we've decided
 to create a Text-Based Interface which can handle text plugins. This Interface acts
 similarly to both Yaml and Module based interfaces, and has functionality such as
-``get_plugin`` and ``_plugin_<type>_to_obj``. This PR only supports ``ascii palette``
+``get_plugin`` and ``get_plugins``. This PR only supports ``ascii palette``
 text plugins, but was structured in a manner that could support other types of text
 plugins in the future.
 
@@ -210,7 +210,6 @@ name was inaccurate, as that colormapper didn't just produce matplotlib-based co
     added: tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_docstring.txt
     added: tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_palette.txt
     added: tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_required_attr.txt
-    added: tests/unit_tests/plugins/text/ascii_palettes/test_ascii_palettes.py
     renamed: geoips/plugins/modules/colormappers/matplotlib_linear_norm.py -- linear_norm.py
 
 Bug Fixes
