@@ -63,6 +63,6 @@ spec:
         variables: ["M05Ref"] # Ocean Color Aerosol: VIIRS M05 0.673um
         colormapper: # This replaces the version found in product_params/visir/Visible.yaml
           plugin:
-            name: matplotlib_linear_norm
+            name: linear_norm
             arguments:
               cbar_label: "Reflectance, VIIRS M05 0.673um Band"

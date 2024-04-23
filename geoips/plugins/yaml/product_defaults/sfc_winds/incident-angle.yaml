@@ -21,7 +21,7 @@ spec:
   mtif_type: angles
   colormapper:
     plugin:
-      name: matplotlib_linear_norm
+      name: linear_norm
       arguments:
         data_range: [15, 70]
         cbar_label: "Incident angle array in degrees from nadir"

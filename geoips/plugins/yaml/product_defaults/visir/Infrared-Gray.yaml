@@ -18,7 +18,7 @@ spec:
   mtif_type: ir
   colormapper:
     plugin:
-      name: matplotlib_linear_norm
+      name: linear_norm
       arguments:
         data_range: [-100.0, 50.0]
         cmap_name: Greys

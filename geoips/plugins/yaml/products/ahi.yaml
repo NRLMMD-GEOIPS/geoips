@@ -60,7 +60,7 @@ spec:
         # VEG: B04 0.86um ahi (med res) and B03 0.86um abi (med), B02 0.81um seviri
         colormapper:
           plugin:
-            name: matplotlib_linear_norm
+            name: linear_norm
             arguments:
               cbar_label: "Reflectance, AHI B02 0.51um Green Band"
               data_range: [0.0, 120.0] # This replaces the default value found in product_params/Visible.yaml
@@ -84,6 +84,6 @@ spec:
         # VEG: B04 0.86um ahi (med res) and B03 0.86um abi (med), B02 0.81um seviri
         colormapper:
           plugin:
-            name: matplotlib_linear_norm
+            name: linear_norm
             arguments:
               cbar_label: "Normalized Channel Data, AHI B02 0.51um Green Band"

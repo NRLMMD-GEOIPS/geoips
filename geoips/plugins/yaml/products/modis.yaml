@@ -49,7 +49,7 @@ spec:
         variables: ["chan1.0Ref", "solar_zenith_angle"] # chan-1 is MODIS high res vis at 250m
         colormapper:
           plugin:
-            name: matplotlib_linear_norm
+            name: linear_norm
             arguments:
               cbar_label: "Reflectance, MODIS Channel 1 0.645um"
         algorithm:

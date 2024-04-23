@@ -22,7 +22,7 @@ spec:
         variables: ["wind_speed_kts", "wind_dir_deg_met", "rain_flag"]
         colormapper:
           plugin:
-            name: matplotlib_linear_norm
+            name: linear_norm
             arguments:
               data_range: [0, 200]
               cmap_name: "Greys_r"
