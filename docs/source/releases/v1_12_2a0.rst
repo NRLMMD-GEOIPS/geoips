@@ -19,6 +19,7 @@ Version 1.12.2a0 (2024-02-21)
   * Added log with emphasis function
   * Introduced a documentation for coding standards within the build/dev directory.
   * Introduced documentation for coding standards for module imports.
+  * Introduced documentation for coding standards for bringing code to standard.
   * Introduced documentation for PEP8 standards.
   * Added documentation for current linters and configuration.
 * Bug fixes
@@ -159,6 +160,15 @@ information.
 ::
     modified: docs/dev/coding_standards.rst
 
+Introduced documentation for coding standards on how/when to bring code to standard
+-----------------------------------------------------------------------------------
+
+Throughout GeoIPS, we have inconsistent coding practices. These new standards (added to
+our documentation) will help us be more intentional in how we bring old code 
+up to date going forward.
+
+::
+    modified: docs/dev/coding_standards.rst
 Bug Fixes
 =========
 
