@@ -13,15 +13,15 @@
 Version 1.12.2a0 (2024-02-21)
 *****************************
 
-* Refactor
-  * Refactor optional imports in readers to use a context manager function
 * Enhancements
+
   * Add function to list all available interfaces for each interface 'family'
   * Added log with emphasis function
   * Introduced a documentation for coding standards within the build/dev directory.
   * Introduced documentation for coding standards for module imports.
   * Added documentation for current linters and configuration.
 * Bug fixes
+
   * Fix polar data not showing up in imagery
   * Ensure that log.interactive works from plugins when imported independently.
   * Make add_log_level a callable class to fix AttributeErrors.
@@ -30,15 +30,15 @@ Version 1.12.2a0 (2024-02-21)
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
   * Fix bad filename wrapping with log_with_emphasis
   * Fix log_with_emphasis to deal with empty strings gracefully
-* Refactor
-  * Make JSON Plugin Registries Readable
-  * Modify create_plugin_registries to use argparse instead of sys.argv
 * Documentation
+
   * Added documentation for create_plugin_registries and PluginRegistry Class
   * Fix log_with_emphasis to deal with empty strings gracefully 
 * Refactor
+
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
+  * Refactor optional imports in readers to use a context manager function
 * Testing Updates
 
   * Move pytest validation from plugin_registry.py to unit tests.
