@@ -995,7 +995,11 @@ class BaseTextInterface(ABC, BaseInterface):
 
     def __init__(self):
         """Initialize module plugin interface."""
-        self.text_registry = self.plugin_registry.registered_plugins["text_based"]
+        try:
+            self.text_registry = self.plugin_registry.registered_plugins["text_based"]
+        except KeyError:
+            # Plugin Registry hasn't been created yet, just pass for now.
+            pass
 
     def get_plugin(self, name):
         """Retrieve a plugin from this interface by name.

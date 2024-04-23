@@ -89,7 +89,7 @@ def call():
         90,
     ]
 
-    from geoips.image_utils.colormap_utils import from_ascii
+    from geoips.interfaces.text_based.ascii_palettes import from_ascii
     from matplotlib.colors import BoundaryNorm
     from geoips.geoips_utils import find_ascii_palette
 
