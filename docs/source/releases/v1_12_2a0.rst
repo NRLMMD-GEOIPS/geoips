@@ -13,16 +13,17 @@
 Version 1.12.2a0 (2024-02-21)
 *****************************
 
-* Refactor
-  * Refactor optional imports in readers to use a context manager function
 * Enhancements
+
   * Add function to list all available interfaces for each interface 'family'
   * Added log with emphasis function
   * Introduced a documentation for coding standards within the build/dev directory.
   * Introduced documentation for coding standards for module imports.
   * Introduced documentation for coding standards for bringing code to standard.
+  * Introduced documentation for PEP8 standards.
   * Added documentation for current linters and configuration.
 * Bug fixes
+
   * Fix polar data not showing up in imagery
   * Ensure that log.interactive works from plugins when imported independently.
   * Make add_log_level a callable class to fix AttributeErrors.
@@ -31,10 +32,15 @@ Version 1.12.2a0 (2024-02-21)
   * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
   * Fix bad filename wrapping with log_with_emphasis
   * Fix log_with_emphasis to deal with empty strings gracefully
+* Documentation
+
+  * Added documentation for create_plugin_registries and PluginRegistry Class
   * Fix log_with_emphasis to deal with empty strings gracefully 
 * Refactor
+
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
+  * Refactor optional imports in readers to use a context manager function
 * Testing Updates
 
   * Move pytest validation from plugin_registry.py to unit tests.
@@ -130,6 +136,16 @@ Introduced documentation for coding standards for module imports.
 Throughout GeoIPS, we have inconsistent module imports. These new standards (added to
 our documentation) will help us be more intentional in how we import modules going
 forward.
+
+::
+    modified: docs/dev/coding_standards.rst
+
+Introduced documentation for PEP8 standards.
+--------------------------------------------
+
+Throughout GeoIPS, we have inconsistent coding standards. PEP8 (added to
+our documentation) is an external standard we already use, and so we want
+that to be explicit in our documentation.
 
 ::
     modified: docs/dev/coding_standards.rst
@@ -365,6 +381,25 @@ in a human readable, interpretable format. To do so, we need to add the argument
 
 Documentation
 =============
+
+Added Documentation for create_plugin_registries and PluginRegistry Class
+-------------------------------------------------------------------------
+
+With the addition of create_plugin_registries and the new PluginRegistry Class, we have
+a need to add documentation describing what these do, how they are used, and the
+benefits that come from adding them to the main GeoIPS code. This branch does exactly
+that, and adds a section under 'UserGuide' describing what these pieces of code actually
+do. To support automatically adding usage information to the documentation
+we've also added a dependency on sphinxcontrib-autoprogram and enabled it in
+the sphinx configuration file.
+
+::
+
+    modified: geoips/docs/source/_templates/conf_PKG.py
+    modified: geoips/docs/source/userguide/index.rst
+    added: geops/docs/source/userguide/plugin_registries.rst
+    modified: geiops/create_plugin_registries.py
+    modified: pyproject.toml
 
 Added documentation about optional pdflatex dependency to docs building script
 as well as the expert installation instructions.

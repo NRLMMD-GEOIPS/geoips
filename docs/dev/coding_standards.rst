@@ -26,6 +26,72 @@ right in the case of a conflict with this document.
 External Style Standards
 ------------------------
 
+`PEP 8 <https://peps.python.org/pep-0008/>`__
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A nice version of PEP8 can be found at: `PEP8.org <https://pep8.org/>`
+
+Some highlights below for reference.
+
+Function Names
+""""""""""""""
+
+Function names should be lowercase, with words separated by
+underscores as necessary to improve readability.
+
+`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
+
+Class Names
+"""""""""""
+
+Class names should normally use the CapWords convention.
+
+`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
+
+Exception Names
+"""""""""""""""
+
+Because exceptions should be classes, the class naming convention applies here.
+However, you should use the suffix "Error" on your exception names
+(if the exception actually is an error).
+
+`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
+
+Module Names
+""""""""""""
+
+Modules should have **short**, **all-lowercase names**.
+Underscores can be used in the module name if it improves readability.
+`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
+
+Imports
+^^^^^^^
+Imports should usually be on separate lines, e.g.:
+
+Yes:
+
+.. code-block:: python
+
+    import os
+    import sys
+
+No:
+
+.. code-block:: python
+
+    import os, sys
+
+It's okay to say this though:
+
+.. code-block:: python
+
+    from subprocess import Popen, PIPE
+
+Imports are always put at the top of the file, just after any module comments and
+docstrings, and before module globals and constants.
+
+`PEP8 Imports Standards <https://pep8.org/#imports>`__
+
 Internal Style Standards
 -------------------------
 
@@ -65,7 +131,7 @@ this should be documented in the docstrings.
 
 
 Linting/Formatting
--------------------
+^^^^^^^^^^^^^^^^^^
 
 The GeoIPS project makes use of several linting tools to help maintain code quality. The
 full suite of linters can be installed by installing the "test" dependencies via pip.
@@ -73,7 +139,8 @@ For example, if you installed GeoIPS using `pip install .` the linters can be in
 using `pip install .[test]` the following tools to ensure code quality:
 
 Black
-~~~~~
+^^^^^
+
 We use the `Black formatter <https://github.com/psf/black>`_ with its default
 settings. As stated in the Black documentation, it is an uncompromizing code
 formatter, but it has resulted in significantly more readable code. Applying it
@@ -81,7 +148,8 @@ automatically while writing code has also reduced development time since
 developers don't need to think about formatting.
 
 Flake8
-~~~~~~
+^^^^^^
+
 We use the `Flake8 linter <https://flake8.pycqa.org/en/latest/>`_ to enforce
 PEP8 code standards. We also add several plugins to Flake8 to enforce additional
 standards for GeoIPS code. Plugins used include:
@@ -117,14 +185,14 @@ Github Conventions
 ------------------
 
 Pull Request Workflow
-~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^
 
 `https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-pull-request-workflow <https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-pull-request-workflow>`__
 
 `https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-merge-pr-and-close-issue-workflow <https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-merge-pr-and-close-issue-workflow>`__
 
 Issue Workflow
-~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^
 
 `https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-issue-creation-workflow <https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-issue-creation-workflow>`__
 
