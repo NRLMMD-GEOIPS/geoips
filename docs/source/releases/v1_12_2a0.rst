@@ -194,7 +194,6 @@ name was inaccurate, as that colormapper didn't just produce matplotlib-based co
     modified: geoips/plugins/yaml/products/ascatuhr.yaml
     modified: geoips/plugins/yaml/products/modis.yaml
     modified: geoips/plugins/yaml/products/seviri.yaml
-    modified: geoips/plugins/yaml/products/test_ascii.yaml
     modified: geoips/plugins/yaml/products/viirs.yaml
     added: geoips/interfaces/text_based/__init__.py
     added: geoips/interfaces/text_based/ascii_palettes.py
