@@ -20,6 +20,7 @@ Developer Guide
    software_requirements_specification
    contributors
    dev_setup
+   dev_assisted_package_creation
    build_docs
    git_workflow
    documentation_strategy

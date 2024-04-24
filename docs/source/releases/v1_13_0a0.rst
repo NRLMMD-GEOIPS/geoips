@@ -1,0 +1,44 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.13.0a0 (2024-04-24)
+*****************************
+
+* Documentation
+
+    * Developer Assisted Package Creation
+
+Documentation
+=============
+
+Developer Asisted Package Creation
+----------------------------------
+
+*From GEOIPS#507: 2024-04-24, Documentation Guideline for Developer-Assisted Package Creation*
+
+The aforementioned issue illustrates the need for a guideline which documents why,
+when, and how developers should work alongside users and researchers to get their
+geospatial data processing routines integrated alongside GeoIPS. Namely, here at CIRA,
+this is a large task for GeoIPS developers. We are expected to work alongside
+researchers to get their routines integrated alongside GeoIPS, and having this
+documentation layed out should streamline this process.
+
+The created guideline illustrates why we do this, what use cases we'll support, and what
+information we as developers will need to generate a standalone package containing the
+researchers' geospatial data processing routines into a GeoIPS Package.
+
+::
+
+    modified: docs/source/releases/index.rst
+    modified: docs/source/devguide/index.rst
+    added: docs/source/releases/v1_13_0a0.rst
+    added: docs/source/devguide/dev_assisted_package_creation.rst
