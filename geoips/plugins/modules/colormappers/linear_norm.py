@@ -28,7 +28,6 @@ def call(
     data_range=None,
     cmap_name="Greys",
     cmap_source="matplotlib",
-    cmap_path=None,
     create_colorbar=True,
     cbar_label=None,
     cbar_ticks=None,

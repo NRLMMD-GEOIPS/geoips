@@ -177,6 +177,7 @@ name was inaccurate, as that colormapper didn't just produce matplotlib-based co
     modified: geoips/interfaces/base.py
     modified: geoips/interfaces/module_based/colormappers.py
     modified: pyproject.toml
+    modified: geoips/plugins/modules/colormappers/tpw/tpw_pwat.py
     modified: geoips/plugins/txt/ascii_palettes/tpw_purple.txt
     modified: geoips/plugins/yaml/product_defaults/Uncorrected-Channel.yaml
     modified: geoips/plugins/yaml/product_defaults/sfc_winds/incident-angle.yaml
