@@ -16,6 +16,14 @@
 Release Notes
 *************
 
+Version 1.13
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   v1_13_0a0
+
 Version 1.12
 ------------
 
