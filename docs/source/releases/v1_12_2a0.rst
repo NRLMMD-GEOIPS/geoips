@@ -22,7 +22,6 @@ Version 1.12.2a0 (2024-02-21)
   * Introduced documentation for coding standards for bringing code to standard.
   * Introduced documentation for PEP8 standards.
   * Added documentation for current linters and configuration.
-  * Created Interface for Text-Based Plugins
 * Bug fixes
 
   * Fix polar data not showing up in imagery
@@ -37,7 +36,7 @@ Version 1.12.2a0 (2024-02-21)
 * Documentation
 
   * Added documentation for create_plugin_registries and PluginRegistry Class
-  * Fix log_with_emphasis to deal with empty strings gracefully 
+  * Fix log_with_emphasis to deal with empty strings gracefully
 * Refactor
 
   * Make JSON Plugin Registries Readable
@@ -163,82 +162,11 @@ information.
 ::
     modified: docs/dev/coding_standards.rst
 
-Added Interface for Text-Based Plugins
---------------------------------------
-
-*From GEOIPS#492: 2024-04-12, Need to Address Text-Based Plugins*
-
-While there are not many, GeoIPS has some text-based plugins which currently do not have
-a supporting interface. Currently, we only have ascii palettes implemented as text based
-plugins, and in truth, we do not treat them as we do other GeoIPS Plugins. Instead, the
-ascii palettes defined in these plugins are used in tandom alongside GeoIPS Colormappers
-to correctly get and apply the palette.
-
-To prepare GeoIPS to be able to handle other types of text based plugins, we've decided
-to create a Text-Based Interface which can handle text plugins. This Interface acts
-similarly to both Yaml and Module based interfaces, and has functionality such as
-``get_plugin`` and ``get_plugins``. This PR only supports ``ascii palette``
-text plugins, but was structured in a manner that could support other types of text
-plugins in the future.
-
-``ascii_palette`` plugins have a ``colormap`` attrubute, which is a
-``Matplotlib.colors.ListedColormap`` which was created based on the ascii palette
-defined in the plugins source file. This ``colormap`` attribute can then be used
-alongside a colormapper to correctly apply the ascii palette to a certain output.
-
-A large number of the yaml files below were modified because we've renamed colormapper
-``matplotlib_linear_norm`` to ``linear_norm`` instead. We did this because the original
-name was inaccurate, as that colormapper didn't just produce matplotlib-based colormaps.
-
-::
-
-    modified: geoips/create_plugin_registries.py
-    modified: geoips/errors.py
-    modified: geoips/image_utils/colormap_utils.py
-    modified: geoips/interfaces/__init__.py
-    modified: geoips/interfaces/base.py
-    modified: geoips/interfaces/module_based/colormappers.py
-    modified: pyproject.toml
-    modified: geoips/plugins/modules/colormappers/tpw/tpw_pwat.py
-    modified: geoips/plugins/txt/ascii_palettes/tpw_purple.txt
-    modified: geoips/plugins/yaml/product_defaults/Uncorrected-Channel.yaml
-    modified: geoips/plugins/yaml/product_defaults/sfc_winds/incident-angle.yaml
-    modified: geoips/plugins/yaml/product_defaults/sfc_winds/nrcs.yaml
-    modified: geoips/plugins/yaml/product_defaults/tpw/TPW-CIMSS.yaml
-    modified: geoips/plugins/yaml/product_defaults/tpw/TPW-PURPLE.yaml
-    modified: geoips/plugins/yaml/product_defaults/visir/Infrared-Gray.yaml
-    modified: geoips/plugins/yaml/product_defaults/visir/Night-Vis-GeoIPS1.yaml
-    modified: geoips/plugins/yaml/product_defaults/visir/Night-Vis.yaml
-    modified: geoips/plugins/yaml/product_defaults/visir/Visible.yaml
-    modified: geoips/plugins/yaml/products/abi.yaml
-    modified: geoips/plugins/yaml/products/ahi.yaml
-    modified: geoips/plugins/yaml/products/ascat.yaml
-    modified: geoips/plugins/yaml/products/ascatuhr.yaml
-    modified: geoips/plugins/yaml/products/modis.yaml
-    modified: geoips/plugins/yaml/products/seviri.yaml
-    modified: geoips/plugins/yaml/products/viirs.yaml
-    added: geoips/interfaces/text_based/__init__.py
-    added: geoips/interfaces/text_based/ascii_palettes.py
-    added: geoips/plugins/modules/colormappers/ascii_based.py
-    added: geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_cimss.yaml
-    added: geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_purple.yaml
-    added: geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_pwat.yaml
-    added: geoips/plugins/yaml/products/test_ascii.yaml
-    added: tests/scripts/mimic_coarse.static.ascii_tpw_cimss.imagery_annotated.sh
-    added: tests/scripts/mimic_fine.tc.ascii_tpw_pwat.imagery_annotated.sh
-    added: tests/unit_tests/plugins/text/ascii_palettes/test_ascii_palettes.py
-    added: tests/unit_tests/plugins/text/ascii_palettes/example_palettes/good.txt
-    added: tests/unit_tests/plugins/text/ascii_palettes/example_palettes/invalid_palette.txt
-    added: tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_docstring.txt
-    added: tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_palette.txt
-    added: tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_required_attr.txt
-    renamed: geoips/plugins/modules/colormappers/matplotlib_linear_norm.py -- linear_norm.py
-
 Introduced documentation for coding standards on how/when to bring code to standard
 -----------------------------------------------------------------------------------
 
 Throughout GeoIPS, we have inconsistent coding practices. These new standards (added to
-our documentation) will help us be more intentional in how we bring old code 
+our documentation) will help us be more intentional in how we bring old code
 up to date going forward.
 
 ::
