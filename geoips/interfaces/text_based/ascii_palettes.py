@@ -7,7 +7,7 @@ import numpy
 from os.path import basename
 from types import SimpleNamespace
 
-from geoips.errors import AsciiPaletteError
+from geoips.errors import AsciiPaletteError, PluginRegistryError
 from geoips.interfaces.base import BaseTextInterface, BaseTextPlugin
 
 LOG = logging.getLogger(__name__)
@@ -95,9 +95,15 @@ class AsciiPalettesPlugin(BaseTextPlugin):
         plugin_name: str
             - The name of the text-based ascii palette contained in the Plugin Registry.
         """
-        self.plugin_entry = AsciiPaletteInterface().text_registry["ascii_palettes"][
-            plugin_name
-        ]
+        try:
+            self.plugin_entry = ascii_palettes.text_registry["ascii_palettes"][
+                plugin_name
+            ]
+        except KeyError:
+            raise PluginRegistryError(
+                f"There is no text-based ascii-palette plugin named '{plugin_name}' "
+                "found in the plugin registry"
+            )
         self.name = plugin_name
         for key in self.plugin_entry.keys():
             setattr(self, key, self.plugin_entry[key])
