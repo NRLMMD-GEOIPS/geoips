@@ -30,6 +30,7 @@ from geoips.errors import EntryPointError, PluginError, PluginRegistryError
 
 from geoips.geoips_utils import (
     find_entry_point,
+    split_camel_case,
     # get_all_entry_points,
     # load_all_yaml_plugins,
 )
@@ -380,6 +381,15 @@ class BaseInterface:
 
         return super(BaseInterface, cls).__new__(cls)
 
+    def __repr__(self):
+        """Base Interface Developer Representation."""
+        return f"{self.__class__.__name__}()"
+
+    def __str__(self):
+        """Base Interface Human Readable Representation."""
+        camel_split = split_camel_case(self.__class__.__name__)
+        return f"'{' '.join(camel_split)}' Object"
+
     @property
     def registered_module_based_plugins(self):
         """Return a dictionary of registered module-based plugins.
@@ -504,10 +514,6 @@ class BaseYamlInterface(BaseInterface):
         if hasattr(cls, "plugin_class") and cls.plugin_class:
             plugin_base_class = cls.plugin_class
         return type(plugin_type, (plugin_base_class,), obj_attrs)(yaml_plugin)
-
-    def __repr__(self):
-        """Plugin interface repr method."""
-        return f"{self.__class__.__name__}()"
 
     def get_plugin(self, name):
         """Get a plugin by its name.
@@ -634,10 +640,6 @@ class BaseModuleInterface(BaseInterface):
     will retrieve an instance of ``AlgorithmsInterface`` which will provide access to
     the GeoIPS algorithm plugins.
     """
-
-    def __repr__(self):
-        """Plugin interface repr method."""
-        return f"{self.__class__.__name__}()"
 
     # def _plugin_module_to_obj(self, module, module_call_func="call", obj_attrs={}):
     #     """Convert a plugin module into an object.

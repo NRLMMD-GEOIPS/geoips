@@ -14,6 +14,7 @@
 
 import os
 from copy import deepcopy
+import re
 import sys
 
 # import yaml
@@ -39,6 +40,24 @@ def get_entry_point_group(group):
         eps = metadata.entry_points()[group]
 
     return eps
+
+
+def split_camel_case(input_string):
+    """Use Regular Expression to split a string by camel case.
+
+    Parameters
+    ----------
+    input_string: str
+        - The String to split by camel case
+
+    Returns
+    -------
+    camel_split: list of str
+        - A list of strings, each starting with a capital letter
+        - Ex: split_camel_case('BaseTextInterface) --> ['Base', 'Text', 'Interface']
+    """
+    camel_split = re.findall(r'[A-Z](?:[a-z]+|[A-Z]*(?=[A-Z]|$))', input_string)
+    return camel_split
 
 
 def find_ascii_palette(name):
