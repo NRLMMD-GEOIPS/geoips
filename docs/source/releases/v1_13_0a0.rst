@@ -54,6 +54,7 @@ name was inaccurate, as that colormapper didn't just produce matplotlib-based co
 
     modified: geoips/create_plugin_registries.py
     modified: geoips/errors.py
+    modified: geoips/geoips_utils.py
     modified: geoips/image_utils/colormap_utils.py
     modified: geoips/interfaces/__init__.py
     modified: geoips/interfaces/base.py
