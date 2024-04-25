@@ -382,11 +382,11 @@ class BaseInterface:
         return super(BaseInterface, cls).__new__(cls)
 
     def __repr__(self):
-        """Base Interface Developer Representation."""
+        """Developer Representation for BaseInterface."""
         return f"{self.__class__.__name__}()"
 
     def __str__(self):
-        """Base Interface Human Readable Representation."""
+        """Human Readable Representation for BaseInterface."""
         camel_split = split_camel_case(self.__class__.__name__)
         return f"'{' '.join(camel_split)}' Object"
 

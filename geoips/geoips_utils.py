@@ -56,7 +56,7 @@ def split_camel_case(input_string):
         - A list of strings, each starting with a capital letter
         - Ex: split_camel_case('BaseTextInterface) --> ['Base', 'Text', 'Interface']
     """
-    camel_split = re.findall(r'[A-Z](?:[a-z]+|[A-Z]*(?=[A-Z]|$))', input_string)
+    camel_split = re.findall(r"[A-Z](?:[a-z]+|[A-Z]*(?=[A-Z]|$))", input_string)
     return camel_split
 
 
