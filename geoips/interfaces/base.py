@@ -315,7 +315,7 @@ class BaseTextPlugin(ABC):
     """Base class for Text-Based GeoIPS plugins."""
 
     def __init__(self, interface, plugin_name, **kwargs):
-        """An abstract intitialization method used for the inheriting text-plugin class.
+        """Abstract intitialization method used for the inheriting text-plugin class.
 
         Required to initialize the inheriting text plugin into an actual object..
 
@@ -333,7 +333,7 @@ class BaseTextPlugin(ABC):
 
     @abstractmethod
     def __call__(self, **kwargs):
-        """An abstract call method used for the inheriting text-plugin class.
+        """Abstract call method used for the inheriting text-plugin class.
 
         This is what will be called when a text plugin of some type is actually invoked.
 
@@ -394,6 +394,7 @@ class BaseTextPlugin(ABC):
                     "'create_plugin_registries' before continuing."
                 )
             setattr(self, attr, self.plugin_entry[attr])
+
 
 class BaseInterface(ABC):
     """Base class for GeoIPS interfaces.
@@ -606,12 +607,8 @@ class BaseYamlInterface(BaseInterface):
             # These are stored in the yaml as str(name),
             # ie "('viirs', 'Infrared')"
             try:
-                relpath = self.interface_registry[name[0]][name[1]][
-                    "relpath"
-                ]
-                package = self.interface_registry[name[0]][name[1]][
-                    "package"
-                ]
+                relpath = self.interface_registry[name[0]][name[1]]["relpath"]
+                package = self.interface_registry[name[0]][name[1]]["package"]
             except KeyError:
                 raise PluginError(
                     f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
