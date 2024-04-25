@@ -7,7 +7,7 @@ import numpy
 from os.path import basename
 from types import SimpleNamespace
 
-from geoips.errors import AsciiPaletteError, PluginRegistryError
+from geoips.errors import AsciiPaletteError
 from geoips.interfaces.base import BaseTextInterface, BaseTextPlugin
 
 LOG = logging.getLogger(__name__)
@@ -86,27 +86,6 @@ def from_ascii(fpath, cmap_name=None, reverse=False):
 
 class AsciiPalettesPlugin(BaseTextPlugin):
     """Class representing an Ascii Palette Used to Construct a GeoIPS Colormapper."""
-
-    def __init__(self, plugin_name):
-        """Initialize the ascii palette class from a text-based ascii palette plugin.
-
-        Parameters
-        ----------
-        plugin_name: str
-            - The name of the text-based ascii palette contained in the Plugin Registry.
-        """
-        try:
-            self.plugin_entry = ascii_palettes.text_registry["ascii_palettes"][
-                plugin_name
-            ]
-        except KeyError:
-            raise PluginRegistryError(
-                f"There is no text-based ascii-palette plugin named '{plugin_name}' "
-                "found in the plugin registry"
-            )
-        self.name = plugin_name
-        for key in self.plugin_entry.keys():
-            setattr(self, key, self.plugin_entry[key])
 
     @property
     def colormap(self):
@@ -196,11 +175,7 @@ class AsciiPaletteInterface(BaseTextInterface):
     name = "ascii_palettes"
     required_args = {"standard": {}}
     required_kwargs = {"standard": {}}
-
-    @property
-    def plugin_class(self):
-        """Class used to create the corresponding ascii-palette plugins."""
-        return AsciiPalettesPlugin
+    plugin_class = AsciiPalettesPlugin
 
 
 ascii_palettes = AsciiPaletteInterface()

@@ -37,6 +37,12 @@ class PluginRegistryError(Exception):
     pass
 
 
+class PluginValidationError(Exception):
+    """Exception to be raised when a plugin found in the registry is not valid."""
+
+    pass
+
+
 class CoverageError(Exception):
     """Raise exception on data coverage error."""
 
