@@ -98,7 +98,7 @@ GeoTIFF, or NetCDF / HDF5 file.
    c. What outputs it creates
    d. Why it's needed
 
-Once we have the aforementioned information, us developers will be able to venture
-forward in creating your standalone GeoIPS package based translated from your current
-geospatial processing routines. Once this package has been created, you'll be able to
-work alongside the GeoIPS environment to produce your personally tailored outputs.
+Once we have the aforementioned information, we'll be able to move foward in creating
+your standalone GeoIPS package, translated from your current geospatial processing
+routines. Once this package has been created, you'll be able to work alongside the
+GeoIPS environment to produce your personally tailored outputs.
