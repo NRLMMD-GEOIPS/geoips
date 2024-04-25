@@ -5,7 +5,12 @@ from matplotlib.colors import ListedColormap
 from os.path import basename
 import pytest
 
-from geoips.errors import AsciiPaletteError, PluginError
+from geoips.errors import (
+    AsciiPaletteError,
+    PluginError,
+    PluginRegistryError,
+    PluginValidationError,
+)
 from geoips.interfaces import ascii_palettes
 from geoips.interfaces.text_based import get_required_attrs
 from geoips.interfaces.text_based.ascii_palettes import from_ascii
@@ -33,13 +38,20 @@ def test_ascii_palette_plugin(plugin):
     # check that the ascii palette plugin has a name
     assert plugin.name
     # assert this plugin is in the registry
-    assert plugin.name in ascii_palettes.text_registry["ascii_palettes"]
+    assert plugin.name in ascii_palettes.registry
     # assert that this plugin's interface is the ascii palette interface
     assert plugin.interface == "ascii_palettes"
     # check that there has been a Matplotlib.colors.ListedColormap created the plugin
     assert isinstance(plugin.colormap, ListedColormap)
     # make sure that the plugin has a __call__ method attached to it
     assert hasattr(plugin, "__call__")
+    # manually call _validate on the plugin, but remove an key from it's entry so
+    # a PluginValidationError is thrown
+    fam = ascii_palettes.registry[plugin.name].pop("family")
+    with pytest.raises(PluginValidationError):
+        plugin._validate(ascii_palettes, plugin.name)
+    # Now add that key back so the registry is in a correct state
+    ascii_palettes.registry[plugin.name]["family"] = fam
 
 
 @pytest.mark.parametrize("interface", [ascii_palettes], ids=generate_id)
@@ -55,8 +67,8 @@ def test_ascii_palette_interface(interface):
     # make sure that every plugin is in the ascii_palettes portion of the plugin
     # registry
     for plugin in interface.get_plugins():
-        assert plugin.name in interface.text_registry["ascii_palettes"]
-    with pytest.raises(KeyError):
+        assert plugin.name in interface.registry
+    with pytest.raises(PluginRegistryError):
         # assert that retrieving a plugin that doesn't exist causes an error
         interface.get_plugin("a_non_existent_plugin")
     # make sure the interface is named ascii_palettes

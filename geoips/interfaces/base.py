@@ -384,8 +384,10 @@ class BaseTextPlugin(ABC):
             "docstring",
             "plugin_type",
         ]
-        self.plugin_entry = interface.interface_registry[plugin_name]
+        # Possibly throws a KeyError which we are ok with. Caught in BaseTextInterface
+        self.plugin_entry = interface.registry[plugin_name]
         self.name = plugin_name
+
         for attr in required_attrs:
             if attr not in self.plugin_entry:
                 raise PluginValidationError(
@@ -435,21 +437,21 @@ class BaseInterface(ABC):
         return f"'{' '.join(camel_split)}' Object"
 
     @property
-    def interface_registry(self):
+    def registry(self):
         """Subset of the plugin registry containing 'self.name' plugin entries.
 
         Where 'self.name' is the name of the interface accessing this attribute.
         """
-        if not hasattr(self, "_interface_registry"):
+        if not hasattr(self, "_registry"):
             try:
-                self._interface_registry = self.plugin_registry.registered_plugins[
+                self._registry = self.plugin_registry.registered_plugins[
                     self.interface_type
                 ][self.name]
             except KeyError:
                 raise PluginRegistryError(
                     f"No interface named '{self.name}' found in the plugin registry."
                 )
-        return self._interface_registry
+        return self._registry
 
     @property
     @abstractmethod
@@ -487,12 +489,12 @@ class BaseInterface(ABC):
         # registered_plugins dictionary - if it is not, that means there
         # are no plugins for that interface, so return an empty list.
         try:
-            self.interface_registry
+            self.registry
         except PluginRegistryError:
             LOG.debug("No plugins found for '%s' interface.", self.name)
             return plugins
 
-        for plugin_name in self.interface_registry:
+        for plugin_name in self.registry:
             try:
                 plugins.append(self.get_plugin(plugin_name))
             except AttributeError as resp:
@@ -607,8 +609,8 @@ class BaseYamlInterface(BaseInterface):
             # These are stored in the yaml as str(name),
             # ie "('viirs', 'Infrared')"
             try:
-                relpath = self.interface_registry[name[0]][name[1]]["relpath"]
-                package = self.interface_registry[name[0]][name[1]]["package"]
+                relpath = self.registry[name[0]][name[1]]["relpath"]
+                package = self.registry[name[0]][name[1]]["package"]
             except KeyError:
                 raise PluginError(
                     f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
@@ -631,8 +633,8 @@ class BaseYamlInterface(BaseInterface):
             plugin["relpath"] = relpath
         else:
             try:
-                relpath = self.interface_registry[name]["relpath"]
-                package = self.interface_registry[name]["package"]
+                relpath = self.registry[name]["relpath"]
+                package = self.registry[name]["package"]
             except KeyError:
                 raise PluginError(
                     f"Plugin [{name}] doesn't exist under interface [{self.name}]"
@@ -817,8 +819,8 @@ class BaseModuleInterface(BaseInterface):
                 # This is used! For output checkers at least.
                 module = find_entry_point(self.name, name)
             else:
-                package = self.interface_registry[name]["package"]
-                relpath = self.interface_registry[name]["relpath"]
+                package = self.registry[name]["package"]
+                relpath = self.registry[name]["relpath"]
                 module_path = splitext(relpath.replace("/", "."))[0]
                 module_path = f"{package}.{module_path}"
                 abspath = files(package) / relpath
