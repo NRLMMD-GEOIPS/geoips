@@ -43,6 +43,7 @@ researchers' geospatial data processing routines into a GeoIPS Package.
 ::
 
     modified: docs/source/devguide/index.rst
+    modified: docs/source/releases/v1_12_2a0.rst
     modified: docs/source/releases/v1_13_0a0.rst
     added: docs/source/devguide/dev_assisted_package_creation.rst
 
