@@ -989,10 +989,6 @@ class BaseTextInterface(ABC, BaseInterface):
         """The corresponding class that will be used to create the text-plugin."""
         pass
 
-    def __repr__(self):
-        """Plugin interface repr method."""
-        return f"{self.__class__.__name__}()"
-
     def __init__(self):
         """Initialize module plugin interface."""
         try:
