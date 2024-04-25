@@ -13,9 +13,13 @@
 Version 1.13.0a0 (2024-04-24)
 *****************************
 
+* Release Updates
+
+  * Update update_this_release_note
+  * Add v1_13_0a0.rst release note
 * Enhancements
 
-    * Created Interface for Text-Based Plugins
+  * Created Interface for Text-Based Plugins
 
 Enhancements
 ------------
@@ -94,3 +98,17 @@ name was inaccurate, as that colormapper didn't just produce matplotlib-based co
     added: tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_palette.txt
     added: tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_required_attr.txt
     renamed: geoips/plugins/modules/colormappers/matplotlib_linear_norm.py -- linear_norm.py
+
+Release Updates
+===============
+
+Update "update_this_release_note" to v1_13_0a0
+----------------------------------------------
+
+*From GEOIPS#506: 2024-04-24, update update_this_release_note to 1.13.0a0*
+
+::
+
+    modified: docs/source/releases/index.rst
+    new file: docs/source/releases/v1_13_0a0.rst
+    modified: update_this_release_note
