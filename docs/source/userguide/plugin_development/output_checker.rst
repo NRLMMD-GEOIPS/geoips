@@ -49,11 +49,11 @@ what we expect it to look like. This infrastructure requires two things:
 #. A pre-generated output that we know is correct
 #. Newly created GeoIPS output that should match that pre-generated output.
 
-This way, we can compare the newly created output to an output that already know is
+This way, we can compare the newly created output to an output that we already know is
 completely accurate.
 
 While it's not feasible to have a pre-generated output for everything GeoIPS and its
-associated  plugin packages can create, we can set up a fairly large suite of
+associated plugin packages can create, we can set up a fairly large suite of
 pre-generated outputs to ensure that each type of output is covered by a specific output
 checker plugin. Currently, GeoIPS has output_checker plugins for four types of outputs:
 
@@ -110,7 +110,7 @@ not two NetCDF files are identical, we assure that the metadata of the produced 
 and the data are *exactly* equal to that of the pre-generated NetCDF file.
 
 To see the actual implementation of all of these output checkers, see
-`GeoIPS Output Checkers.<https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/output_checkers>`_
+`GeoIPS Output Checkers <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/output_checkers>`_.
 
 How to use an Output Checker
 ----------------------------

@@ -17,6 +17,9 @@ Version 1.13.0a0 (2024-04-24)
 
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
+* Documentation
+
+  * Expand Documentation for 'Extending GeoIPS with Plugins'
 
 Release Updates
 ===============
@@ -31,3 +34,54 @@ Update "update_this_release_note" to v1_13_0a0
     modified: docs/source/releases/index.rst
     new file: docs/source/releases/v1_13_0a0.rst
     modified: update_this_release_note
+
+Documentation
+=============
+
+Expand Documentation for 'Extending GeoIPS with Plugins'
+--------------------------------------------------------
+
+*From GEOIPS#398: 2023-11-02, Expand Documentation for 'Extending GeoIPS with Plugins'*
+
+This update does exactly as the header expains, and expands the documentation for the
+'Extending GeoIPS with Plugin' section. Currently, we've only implemented documentation
+for a subset of interfaces which we use for our GeoIPS Tutorials. This includes:
+
+* Algorithms
+* Colormappers
+* Feature Annotators
+* Gridline Annotators
+* Output Formatters
+* Product defaults
+* Products
+* Readers
+* Static Sectors
+
+With this new update, we intend to create documentation for some, if not all, of the
+remaining interfaces that don't have documentation created. Currently, we've implemented
+documentation explaining these interfaces:
+
+* Output Checkers
+* Procflows
+
+We will update this release note as we add more documentation.
+
+::
+
+    modified: docs/source/userguide/index.rst
+    modified: docs/source/userguide/plugin_development/algorithm.rst
+    modified: docs/source/userguide/plugin_development/colormapper.rst
+    modified: docs/source/userguide/plugin_development/feature_annotator.rst
+    modified: docs/source/userguide/plugin_development/gridline_annotator.rst
+    modified: docs/source/userguide/plugin_development/output_formatter.rst
+    modified: docs/source/userguide/plugin_development/product.rst
+    modified: docs/source/userguide/plugin_development/product_default.rst
+    modified: docs/source/userguide/plugin_development/reader.rst
+    modified: docs/source/userguide/plugin_development/static_sector.rst
+    modified: docs/source/userguide/plugin_extend.rst
+    added: docs/source/images/command_line_examples/diff.png
+    added: docs/source/images/command_line_examples/pre-generated.png
+    added: docs/source/images/command_line_examples/produced.png
+    added: docs/source/userguide/plugin_development/output_checker.rst
+    added: docs/source/userguide/plugin_development/procflow.rst
+    added: docs/source/_templates/interface_doc_template.rst
