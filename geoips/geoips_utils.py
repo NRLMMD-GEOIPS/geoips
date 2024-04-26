@@ -20,7 +20,7 @@ import sys
 import logging
 from importlib import metadata, resources
 
-from geoips.errors import EntryPointError, PluginRegistryError
+from geoips.errors import EntryPointError, PluginRegistryError, NotSupportedError
 
 LOG = logging.getLogger(__name__)
 
@@ -36,8 +36,10 @@ def get_entry_point_group(group):
     if sys.version_info[:3] >= (3, 10, 0):
         eps = metadata.entry_points(group=group)
     else:
-        eps = metadata.entry_points()[group]
-
+        raise NotSupportedError(
+            "GeoIPS only supports python versions >= 3.10.0. Please upgrade your "
+            "Python Version to use GeoIPS."
+        )
     return eps
 
 

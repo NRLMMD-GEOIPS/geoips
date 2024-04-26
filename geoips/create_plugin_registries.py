@@ -22,7 +22,7 @@ created at the top level package directory for each plugin package.
 """
 
 import yaml
-from importlib import metadata, resources, util
+from importlib import resources, util
 from inspect import signature
 from os.path import (
     basename,
@@ -41,6 +41,8 @@ import geoips.interfaces
 from geoips.errors import PluginRegistryError
 import json
 from argparse import ArgumentParser
+
+from geoips.geoips_utils import get_entry_point_group
 
 LOG = logging.getLogger(__name__)
 
@@ -259,14 +261,6 @@ def check_plugin_exists(package, plugins, interface_name, plugin_name, relpath):
             relpath [{relpath}]
             """
     return ""
-
-
-def get_entry_point_group(group):
-    """Get entry point group."""
-    if sys.version_info[:3] >= (3, 10, 0):
-        return metadata.entry_points(group=group)
-    else:
-        return metadata.entry_points()[group]
 
 
 def write_registered_plugins(pkg_dir, plugins, save_type):

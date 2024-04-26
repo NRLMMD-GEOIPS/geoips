@@ -26,29 +26,16 @@ more effectively cache plugins across all interfaces, and avoid reading
 in all plugins multiple times.
 """
 
-from importlib import resources, metadata
-import sys
+from importlib import resources
 import os
 import logging
 from geoips.errors import PluginRegistryError
 import yaml
 import json
 
+from geoips.geoips_utils import get_entry_point_group
+
 LOG = logging.getLogger(__name__)
-
-
-def get_entry_point_group(group):
-    """Get entry point group."""
-    # NOTE: When there is a .egg-info directory in the plugin package top
-    # level (ie, from setuptools pip install -e), it seems to return that
-    # package twice in this list.  For now, just use the full list with
-    # duplicates.
-    if sys.version_info[:3] >= (3, 10, 0):
-        eps = metadata.entry_points(group=group)
-    else:
-        eps = metadata.entry_points()[group]
-
-    return eps
 
 
 class PluginRegistry:

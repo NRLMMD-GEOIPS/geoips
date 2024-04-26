@@ -35,3 +35,9 @@ class CoverageError(Exception):
     """Raise exception on data coverage error."""
 
     pass
+
+
+class NotSupportedError(Exception):
+    """Raise exception for situations in which we don't support in GeoIPS."""
+
+    pass
