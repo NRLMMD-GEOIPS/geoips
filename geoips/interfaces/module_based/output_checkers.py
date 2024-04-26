@@ -518,9 +518,9 @@ def gunzip_product(fname, is_comparison_product=False, clobber=False):
     elif glob(fname + ".gz"):
         gz_fname = fname + ".gz"
 
-    message = ["Gunzipping product for comparisons"]
-    message.append(f"gunzip {gz_fname}")
-    log_with_emphasis(LOG.info, message)
+    messages = ["Gunzipping product for comparisons"]
+    messages.append(f"gunzip {gz_fname}")
+    log_with_emphasis(LOG.info, *messages)
 
     if is_comparison_product:
         save_dir = join(

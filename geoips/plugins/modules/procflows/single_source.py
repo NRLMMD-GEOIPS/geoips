@@ -360,14 +360,6 @@ def process_xarray_dict_to_output_format(
     return final_products
 
 
-def print_area_def(area_def, print_str):
-    """Print area def."""
-    message = [f"{print_str}\n{area_def}"]
-    for key, value in area_def.sector_info.items():
-        message.append(f"{key}: {value}")
-    log_with_emphasis(LOG.info, message)
-
-
 def pad_area_definition(
     area_def, source_name=None, force_pad=False, x_scale_factor=1.5, y_scale_factor=1.5
 ):
@@ -733,7 +725,7 @@ def get_area_defs_from_command_line_args(
     LOG.interactive("Getting all area defs from command line args:")
     if "sector_list" in command_line_args:
         sector_list = command_line_args["sector_list"]
-        LOG.interactive("  sector_list: %s", tcdb_sector_list)
+        LOG.interactive("  sector_list: %s", sector_list)
     if "tcdb_sector_list" in command_line_args:
         tcdb_sector_list = command_line_args["tcdb_sector_list"]
         LOG.interactive("  tcdb_sector_list: %s", tcdb_sector_list)
