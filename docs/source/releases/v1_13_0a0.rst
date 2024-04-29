@@ -395,6 +395,18 @@ To reflect what this command does to a greater extent, we've decided to rename
 ``geoips get`` to ``geoips describe``. This is a refactoring change, but will not change
 any of the functionality that was implemented for ``geoips get``.
 
+NOTE: All renamed files were also modified to reference ``geoips describe`` rather than
+``geoips get``.
+
 ::
 
-    modified:
+    modified: geoips/commandline/ancillary_info/cmd_instructions.json
+    modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+    modified: geoips/commandline/commandline_interface.py
+    modified: geoips/commandline/geoips_command.py
+    modified: tests/unit_tests/commandline/cli_top_level_tester.py
+    renamed: geoips/commandline/geoips_get.py -- geoips/commandline/geoips_describe.py
+    renamed: tests/unit_tests/commandline/test_geoips_get_family.py -- tests/unit_tests/commandline/test_geoips_describe_family.py
+    renamed: tests/unit_tests/commandline/test_geoips_get_interface.py -- tests/unit_tests/commandline/test_geoips_describe_interface.py
+    renamed: tests/unit_tests/commandline/test_geoips_get_package.py -- tests/unit_tests/commandline/test_geoips_describe_package.py
+    renamed: tests/unit_tests/commandline/test_geoips_get_plugin.py -- tests/unit_tests/commandline/test_geoips_describe_plugin.py
