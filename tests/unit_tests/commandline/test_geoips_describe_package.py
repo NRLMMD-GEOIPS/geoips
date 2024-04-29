@@ -1,4 +1,4 @@
-"""Unit test for GeoIPS CLI `get package` command.
+"""Unit test for GeoIPS CLI `describe package` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
@@ -8,18 +8,18 @@ import pytest
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
-class TestGeoipsGetPackage(BaseCliTest):
-    """Unit Testing Class for Get Package Sub-Command."""
+class TestGeoipsDescribePackage(BaseCliTest):
+    """Unit Testing Class for Describe Package Sub-Command."""
 
     @property
     def all_possible_subcommand_combinations(self):
-        """A list of every possible call signature for the GeoipsGetPackage command.
+        """A list of every possible call signature for the GeoipsDescribePackage cmd.
 
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._get_package_args
+            base_args = self._describe_package_args
             # add arguments for retrieving each package
             for pkg_name in self.plugin_packages:
                 self._cmd_list.append(base_args + [pkg_name])
@@ -30,7 +30,7 @@ class TestGeoipsGetPackage(BaseCliTest):
         return self._cmd_list
 
     def check_error(self, args, error):
-        """Ensure that the 'geoips get package ...' error output is correct.
+        """Ensure that the 'geoips describe package ...' error output is correct.
 
         Parameters
         ----------
@@ -41,11 +41,11 @@ class TestGeoipsGetPackage(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        err_str = "usage: To use, type `geoips get package <package_name>`"
+        err_str = "usage: To use, type `geoips describe package <package_name>`"
         assert err_str in error
 
     def check_output(self, args, output):
-        """Ensure that the 'geoips get package ...' successful output is correct.
+        """Ensure that the 'geoips describe package ...' successful output is correct.
 
         Parameters
         ----------
@@ -56,10 +56,10 @@ class TestGeoipsGetPackage(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            usg_str = "usage: To use, type `geoips get package <package_name>`"
+            usg_str = "usage: To use, type `geoips describe package <package_name>`"
             assert usg_str in output
         else:
-            # Checking that output from geoips get package command is valid
+            # Checking that output from geoips describe package command is valid
             expected_outputs = [
                 "Docstring",
                 "Documentation Link",
@@ -70,7 +70,7 @@ class TestGeoipsGetPackage(BaseCliTest):
                 assert f"{output_item}:" in output
 
 
-test_sub_cmd = TestGeoipsGetPackage()
+test_sub_cmd = TestGeoipsDescribePackage()
 
 
 @pytest.mark.parametrize(
@@ -79,15 +79,15 @@ test_sub_cmd = TestGeoipsGetPackage()
     ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
-    """Test all 'geoips get package ...' commands.
+    """Test all 'geoips describe package ...' commands.
 
-    This test covers every valid combination of commands for the 'geoips get package'
-    command. We also test invalid commands, to ensure that the proper help documentation
-    is provided for those using the command incorrectly.
+    This test covers every valid combination of commands for the
+    'geoips describe package' command. We also test invalid commands, to ensure that the
+    proper help documentation is provided for those using the command incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
-        - List of arguments to call the CLI with (ie. ['geoips', 'get', 'package'])
+        - List of arguments to call the CLI with (ie. ['geoips', 'describe', 'package'])
     """
     test_sub_cmd.test_all_command_combinations(args)

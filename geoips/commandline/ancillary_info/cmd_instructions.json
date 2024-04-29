@@ -15,16 +15,16 @@
                 "Not Applicable"
             ]
         },
-        "get": {
-            "help_str": "Retrieve an appropriate GeoIPS artifact. Currently supported `get` calls are:\n[\"family\", \"interface\", \"package\", \"plugin\"]\n",
-            "usage_str": "To use, type `geoips get <sub-cmd> <sub-sub-cmd> ...`.\n",
+        "describe": {
+            "help_str": "Retrieve information about a specific GeoIPS artifact. Currently supported\n`describe` calls are: [\"family\", \"interface\", \"package\", \"plugin\"]\n",
+            "usage_str": "To use, type `geoips describe <sub-cmd> <sub-sub-cmd> ...`.\n",
             "output_info": [
                 "Information related to the artifact that was retrieved."
             ]
         },
-        "get family": {
+        "describe family": {
             "help_str": "Retrieve the appropriate GeoIPS Family alongside descriptive information of\nthat family. See output_info for each datum provided when this command is\ncalled. For a listing of available GeoIPS families, run:\n`geoips list interfaces`.\n",
-            "usage_str": "To use, type `geoips get family <interface_name> <family_name>`, where\n<interface_name> is a valid GeoIPS Interface and <family_name> is a supported\nfamily member of that interface.\n",
+            "usage_str": "To use, type `geoips describe family <interface_name> <family_name>`, where\n<interface_name> is a valid GeoIPS Interface and <family_name> is a supported\nfamily member of that interface.\n",
             "output_info": [
                 "Docstring",
                 "Family Name",
@@ -34,9 +34,9 @@
                 "Required Args / Schema"
             ]
         },
-        "get interface": {
+        "describe interface": {
             "help_str": "Retrieve the appropriate GeoIPS Interface alongside descriptive information of\nthat interface. See output_info for each datum provided when this command is\ncalled. For a listing of available GeoIPS interfaces, run:\n`geoips list interfaces`.\n",
-            "usage_str": "To use, type `geoips get interface <interface_name>`, where <interface_name> is a\nvalid GeoIPS Interface.\n",
+            "usage_str": "To use, type `geoips describe interface <interface_name>`, where <interface_name>\nis a valid GeoIPS Interface.\n",
             "output_info": [
                 "Absolute Path",
                 "Docstring",
@@ -46,9 +46,9 @@
                 "Supported Families"
             ]
         },
-        "get package": {
+        "describe package": {
             "help_str": "Retrieve the appropriate GeoIPS Package alongside descriptive information of\nthat package. See output_info for each datum provided when this command is\ncalled. For a listing of available GeoIPS packages, run:\n`geoips list packages`.\n",
-            "usage_str": "To use, type `geoips get package <package_name>`, where <package_name> is a\nvalid GeoIPS Package.\n",
+            "usage_str": "To use, type `geoips describe package <package_name>`, where <package_name> is a\nvalid GeoIPS Package.\n",
             "output_info": [
                 "GeoIPS Package",
                 "Docstring",
@@ -56,9 +56,9 @@
                 "Documentation Link"
             ]
         },
-        "get plugin": {
+        "describe plugin": {
             "help_str": "Retrieve the appropriate GeoIPS Plugin alongside descriptive information of\nthat plugin. See output_info for each datum provided when this command is\ncalled. For a listing of available GeoIPS Plugins, run:\n`geoips list plugins`.\n",
-            "usage_str": "To use, type `geoips get plugin <interface_name> <plugin_name>`, where\n<interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin\nidentifier that has been implemented in any installed GeoIPS package.\n",
+            "usage_str": "To use, type `geoips describe plugin <interface_name> <plugin_name>`, where\n<interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin\nidentifier that has been implemented in any installed GeoIPS package.\n",
             "output_info": [
                 "Docstring",
                 "Documentation Link (If applicable)",
@@ -84,7 +84,7 @@
             ]
         },
         "list interface": {
-            "help_str": "List off plugins found under a certain interface. This is useful for seeing what\nplugins have been implemented through all, or a certain, GeoIPS Package. This\ninformation can then be used with\n`geoips get-plugin <interface_name> <plugin_name>` to get more information about a\ncertain plugin.\n",
+            "help_str": "List off plugins found under a certain interface. This is useful for seeing what\nplugins have been implemented through all, or a certain, GeoIPS Package. This\ninformation can then be used with\n`geoips describe plugin <interface_name> <plugin_name>` to get more information\nabout a certain plugin.\n",
             "usage_str": "To use, type `geoips list interface <interface_name>`. Optionally includes `-p`\nflag for seeing what plugins are in a certain package (-p). For example, to see\nwhat plugins under a certain interface have been created in a single package,\nrun `geoips list interface <interface_name> -p <pkg_name>`, or you can remove the\n`-p` flag to see what's been created in every package.\n",
             "output_info": [
                 "Family",
@@ -96,7 +96,7 @@
             ]
         },
         "list interfaces": {
-            "help_str": "List off every GeoIPS Interface. This is useful for seeing what is\navailable throughout GeoIPS, but can also be extended to see what interfaces have\nbeen implemented in other geoips package, or just a certain package. This\ninformation can then be used with `geoips get-interface <interface_name>` to get\nmore information about a certain interface.\n",
+            "help_str": "List off every GeoIPS Interface. This is useful for seeing what is\navailable throughout GeoIPS, but can also be extended to see what interfaces have\nbeen implemented in other geoips package, or just a certain package. This\ninformation can then be used with `geoips describe interface <interface_name>` to\nget more information about a certain interface.\n",
             "usage_str": "To use, type `geoips list interfaces`. Optionally includes `-i` and `-p` flags for\nseeing what has been implemented (-i) in a certain package (-p), or all packages.\nFor example, to see what interfaces have been implemented in a certain package,\nrun `geoips list interfaces -i -p <pkg_name>`, or you can remove the `-p` flag to\nsee what's been implemented in every package.\n",
             "output_info": [
                 "Absolute Path",
@@ -109,7 +109,7 @@
             ]
         },
         "list plugins": {
-            "help_str": "List off plugins found under all, or a specified GeoIPS package. This information\ncan then be used with `geoips get-plugin <interface_name> <plugin_name>` to get\nmore information about a certain plugin.\n",
+            "help_str": "List off plugins found under all, or a specified GeoIPS package. This information\ncan then be used with `geoips describe plugin <interface_name> <plugin_name>` to\nget more information about a certain plugin.\n",
             "usage_str": "To use, type `geoips list plugins`. Optionally includes `-p` flag for\nseeing what plugins are in a certain package (-p). For example, to see what\nplugins have been created in a single package, run\n`geoips list plugins -p <pkg_name>`, or you can remove the `-p` flag to see what's\nbeen created in every package.\n",
             "output_info": [
                 "Family",

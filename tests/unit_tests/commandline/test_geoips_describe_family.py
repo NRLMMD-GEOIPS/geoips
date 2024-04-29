@@ -1,4 +1,4 @@
-"""Unit test for GeoIPS CLI `get interface` command.
+"""Unit test for GeoIPS CLI `describe family` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
@@ -9,29 +9,33 @@ from geoips import interfaces
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
-class TestGeoipsGetInterface(BaseCliTest):
-    """Unit Testing Class for Get Interface Sub-Command."""
+class TestGeoipsDescribeFamily(BaseCliTest):
+    """Unit Testing Class for Describe Family Sub-Command."""
 
     @property
     def all_possible_subcommand_combinations(self):
-        """A list of every possible call signature for the GeoipsGetInterface command.
+        """A list of every possible call signature for the GeoipsDescribeFamily command.
 
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._get_interface_args
-            # add arguments for retrieving each GeoIPS Interface
+            base_args = self._describe_family_args
+            # add each family argument from every interface to the command arg list
             for interface_name in interfaces.__all__:
-                self._cmd_list.append(base_args + [interface_name])
+                interface = getattr(interfaces, interface_name)
+                for family_name in interface.supported_families:
+                    self._cmd_list.append(base_args + [interface_name, family_name])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non_existent_interface
-            self._cmd_list.append(base_args + ["non_existent_interface"])
+            self._cmd_list.append(base_args + ["non_existent_interface", "standard"])
+            # Add argument list with non_existent_plugin
+            self._cmd_list.append(base_args + ["algorithms", "non_existent_family"])
         return self._cmd_list
 
     def check_error(self, args, error):
-        """Ensure that the 'geoips get interface ...' error output is correct.
+        """Ensure that the 'geoips describe family ...' error output is correct.
 
         Parameters
         ----------
@@ -42,11 +46,12 @@ class TestGeoipsGetInterface(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        err_str = "usage: To use, type `geoips get interface <interface_name>`"
+        err_str = "usage: To use, type `geoips describe family <interface_name> "
+        err_str += "<family_name>`"
         assert err_str in error
 
     def check_output(self, args, output):
-        """Ensure that the 'geoips get interface ...' successful output is correct.
+        """Ensure that the 'geoips describe family ...' successful output is correct.
 
         Parameters
         ----------
@@ -57,22 +62,24 @@ class TestGeoipsGetInterface(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            usg_str = "usage: To use, type `geoips get interface <interface_name>`"
+            usg_str = "usage: To use, type `geoips describe family <interface_name> "
+            usg_str += "<family_name>`"
             assert usg_str in output
         else:
-            # Checking that output from geoips get package command is valid
+            # Checking that output from geoips describe plugin command is valid
             expected_outputs = [
-                "abspath",
-                "docstring",
-                "interface",
-                "interface_type",
-                "supported_families",
+                "Docstring",
+                "Family Name",
+                "Family Path",
+                "Interface Name",
+                "Interface Type",
+                "Required Args / Schema",
             ]
             for output_item in expected_outputs:
                 assert f"{output_item}:" in output
 
 
-test_sub_cmd = TestGeoipsGetInterface()
+test_sub_cmd = TestGeoipsDescribeFamily()
 
 
 @pytest.mark.parametrize(
@@ -81,15 +88,15 @@ test_sub_cmd = TestGeoipsGetInterface()
     ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):
-    """Test all 'geoips get interface ...' commands.
+    """Test all 'geoips get family ...' commands.
 
-    This test covers every valid combination of commands for the 'geoips get interface'
+    This test covers every valid combination of commands for the 'geoips get family'
     command. We also test invalid commands, to ensure that the proper help documentation
     is provided for those using the command incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
-        - List of arguments to call the CLI with (ie. ['geoips', 'get', 'interface'])
+        - List of arguments to call the CLI with (ie. ['geoips', 'get', 'family'])
     """
     test_sub_cmd.test_all_command_combinations(args)

@@ -11,7 +11,7 @@ import sys
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
-from geoips.commandline.geoips_get import GeoipsGet
+from geoips.commandline.geoips_describe import GeoipsDescribe
 from geoips.commandline.geoips_list import GeoipsList
 from geoips.commandline.geoips_run import GeoipsRun
 from geoips.commandline.geoips_test import GeoipsTest
@@ -26,12 +26,12 @@ class GeoipsCLI(GeoipsCommand):
 
     This class includes a list of Sub-Command Classes, which will implement the core
     functionality of the CLI. This includes the following as of right now:
-    - [GeoipsConfig, GeoipsGet, GeoipsList, GeoipsRun, GeoipsTest, GeoipsValidate]
+    - [GeoipsConfig, GeoipsDescribe, GeoipsList, GeoipsRun, GeoipsTest, GeoipsValidate]
     """
 
     subcommand_classes = [
         GeoipsConfig,
-        GeoipsGet,
+        GeoipsDescribe,
         GeoipsList,
         GeoipsRun,
         GeoipsTest,

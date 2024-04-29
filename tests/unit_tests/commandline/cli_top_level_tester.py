@@ -11,10 +11,10 @@ class BaseCliTest(abc.ABC):
     """Top-Level CLI Test Class which implements shared attributes for sub-commands."""
 
     _config_install_args = ["geoips", "config", "install"]
-    _get_family_args = ["geoips", "get", "family"]
-    _get_interface_args = ["geoips", "get", "interface"]
-    _get_package_args = ["geoips", "get", "package"]
-    _get_plugin_args = ["geoips", "get", "plugin"]
+    _describe_family_args = ["geoips", "describe", "family"]
+    _describe_interface_args = ["geoips", "describe", "interface"]
+    _describe_package_args = ["geoips", "describe", "package"]
+    _describe_plugin_args = ["geoips", "describe", "plugin"]
     _list_interface_args = ["geoips", "list", "interface"]
     _list_interfaces_args = ["geoips", "list", "interfaces"]
     _list_plugins_args = ["geoips", "list", "plugins"]
@@ -29,10 +29,10 @@ class BaseCliTest(abc.ABC):
     _validate_args = ["geoips", "validate"]
     arg_list = [
         _config_install_args,
-        _get_family_args,
-        _get_interface_args,
-        _get_package_args,
-        _get_plugin_args,
+        _describe_family_args,
+        _describe_interface_args,
+        _describe_package_args,
+        _describe_plugin_args,
         _list_interface_args,
         _list_interfaces_args,
         _list_plugins_args,

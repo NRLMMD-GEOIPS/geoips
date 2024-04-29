@@ -1,4 +1,4 @@
-"""GeoIPS CLI "get" command.
+"""GeoIPS CLI "describe" command.
 
 Retrieves the appropriate family/interface/package/plugin based on the args provided.
 """
@@ -10,18 +10,18 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 from geoips import interfaces
 
 
-class GeoipsGetFamily(GeoipsExecutableCommand):
-    """Get Sub-Command which retrieves and outputs information about a GeoIPS Family.
+class GeoipsDescribeFamily(GeoipsExecutableCommand):
+    """Describe Sub-Command which retrieves and outputs info about a GeoIPS Family.
 
-    This is called via `geoips get family <interface_name> <family_name>`. Data included
-    when calling this command is shown below, outputted in a yaml-based format.
+    This is called via `geoips describe family <interface_name> <family_name>`. Data
+    included when calling this command is shown below, outputted in a yaml-based format.
     """
 
     subcommand_name = "family"
     subcommand_classes = []
 
     def add_arguments(self):
-        """Add arguments to the get-subparser for the Get Family Command."""
+        """Add arguments to the describe-subparser for the Describe Family Command."""
         self.subcommand_parser.add_argument(
             "interface_name",
             type=str.lower,
@@ -36,7 +36,7 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
         )
 
     def __call__(self, args):
-        """CLI 'geoips get family <interface_name> <family_name>' command.
+        """CLI 'geoips describe family <interface_name> <family_name>' command.
 
         This occurs when a user has requested a family in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
@@ -100,10 +100,10 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
         self._output_dictionary_highlighted(family_entry)
 
 
-class GeoipsGetInterface(GeoipsExecutableCommand):
-    """Get Sub-Command which retrieves information about a GeoIPS Interface.
+class GeoipsDescribeInterface(GeoipsExecutableCommand):
+    """Describe Sub-Command which retrieves information about a GeoIPS Interface.
 
-    This is called via `geoips get interface <interface_name>`. Data included when
+    This is called via `geoips describe interface <interface_name>`. Data included when
     calling this command is shown below, outputted in a yaml-based format.
     """
 
@@ -111,7 +111,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
     subcommand_classes = []
 
     def add_arguments(self):
-        """Add arguments to the get-subparser for the Get Interface Command."""
+        """Add arguments to the describe-subparser for the describe Interface Cmd."""
         self.subcommand_parser.add_argument(
             "interface_name",
             type=str.lower,
@@ -121,7 +121,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         )
 
     def __call__(self, args):
-        """CLI 'geoips get interface <interface_name>' command.
+        """CLI 'geoips describe interface <interface_name>' command.
 
         This occurs when a user has requested a interface in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
@@ -163,10 +163,10 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         self._output_dictionary_highlighted(interface_entry)
 
 
-class GeoipsGetPackage(GeoipsExecutableCommand):
-    """Get Sub-Command which retrieves information about a certain GeoIPS Package.
+class GeoipsDescribePackage(GeoipsExecutableCommand):
+    """Describe Sub-Command which retrieves information about a certain GeoIPS Package.
 
-    This is called via `geoips get package <interface_name>`. Data included when
+    This is called via `geoips describe package <interface_name>`. Data included when
     calling this command is shown below, outputted in a yaml-based format.
     """
 
@@ -174,7 +174,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
     subcommand_classes = []
 
     def add_arguments(self):
-        """Add arguments to the get-subparser for the Get Package Command."""
+        """Add arguments to the describe-subparser for the Describe Package Command."""
         self.subcommand_parser.add_argument(
             "package_name",
             type=str.lower,
@@ -184,7 +184,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
         )
 
     def __call__(self, args):
-        """CLI 'geoips get package <package_name>' command.
+        """CLI 'geoips describe package <package_name>' command.
 
         This occurs when a user has requested a package in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
@@ -215,18 +215,18 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
         self._output_dictionary_highlighted(package_entry)
 
 
-class GeoipsGetPlugin(GeoipsExecutableCommand):
-    """Get Sub-Command which retrieves information about a certain GeoIPS Plugin.
+class GeoipsDescribePlugin(GeoipsExecutableCommand):
+    """Describe Sub-Command which retrieves information about a certain GeoIPS Plugin.
 
-    This is called via `geoips get plugin <interface_name> <plugin_name>`. Data included
-    when calling this command is shown below, outputted in a yaml-based format.
+    This is called via `geoips describe plugin <interface_name> <plugin_name>`. Data
+    included when calling this command is shown below, outputted in a yaml-based format.
     """
 
     subcommand_name = "plugin"
     subcommand_classes = []
 
     def add_arguments(self):
-        """Add arguments to the get-subparser for the Get Plugin Command."""
+        """Add arguments to the describe-subparser for the Describe Plugin Command."""
         self.subcommand_parser.add_argument(
             "interface_name",
             type=str.lower,
@@ -243,7 +243,7 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
         )
 
     def __call__(self, args):
-        """CLI 'geoips get plugin <interface_name> <plugin_name>' command.
+        """CLI 'geoips describe plugin <interface_name> <plugin_name>' command.
 
         This occurs when a user has requested a plugin in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
@@ -309,13 +309,13 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
             )
 
 
-class GeoipsGet(GeoipsCommand):
-    """Top-Level Get Command Class for retrieving information about GeoIPS Artifacts."""
+class GeoipsDescribe(GeoipsCommand):
+    """Top-Level Describe Command Class for retrieving info about GeoIPS Artifacts."""
 
-    subcommand_name = "get"
+    subcommand_name = "describe"
     subcommand_classes = [
-        GeoipsGetFamily,
-        GeoipsGetInterface,
-        GeoipsGetPackage,
-        GeoipsGetPlugin,
+        GeoipsDescribeFamily,
+        GeoipsDescribeInterface,
+        GeoipsDescribePackage,
+        GeoipsDescribePlugin,
     ]

@@ -30,6 +30,9 @@ Version 1.13.0a0 (2024-04-24)
 
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
+* Refactor
+
+  * Change 'geoips get' to 'geoips describe'
 
 Release Updates
 ===============
@@ -374,3 +377,24 @@ Files Added:
 
 Note: See Bux Fix for duplicate source_names in product registry *GEOIPS#428*, for more
 information on bug fixes made on this branch as well.
+
+Refactor
+========
+
+Change 'geoips get' to 'geoips describe'
+----------------------------------------
+
+*From GEOIPS#495: 2024-04-15, Change CLI Command 'geoips get' to 'geoips describe'*
+
+Currently the CLI implements a command called ``geoips get``, which retrieves
+information about a certain geoips artifact. We've found that ``get`` is a bit
+ambiguous, as this command does not retrieve the artifact as an actual python object; it
+moreso ``describes`` what the artifact is and some ancillary information related to it.
+
+To reflect what this command does to a greater extent, we've decided to rename
+``geoips get`` to ``geoips describe``. This is a refactoring change, but will not change
+any of the functionality that was implemented for ``geoips get``.
+
+::
+
+    modified:
