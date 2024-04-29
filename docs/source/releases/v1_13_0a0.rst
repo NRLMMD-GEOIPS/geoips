@@ -17,6 +17,10 @@ Version 1.13.0a0 (2024-04-24)
 
   * Initial Stage of the GeoIPS CLI
   * CLI Stage Two - new implementation of 'geoips run' and more args for 'geiops list'
+* Release Updates
+
+  * Update update_this_release_note
+  * Add v1_13_0a0.rst release note
 
 Enhancements
 ============
@@ -236,3 +240,17 @@ Modified Files
     modified: tests/unit_tests/commandline/test_geoips_list_unit_tests.py
     modified: tests/unit_tests/commandline/test_geoips_run.py
     modified: tests/unit_tests/commandline/test_geoips_test_script.py
+
+Release Updates
+===============
+
+Update "update_this_release_note" to v1_13_0a0
+----------------------------------------------
+
+*From GEOIPS#506: 2024-04-24, update update_this_release_note to 1.13.0a0*
+
+::
+
+    modified: docs/source/releases/index.rst
+    new file: docs/source/releases/v1_13_0a0.rst
+    modified: update_this_release_note
