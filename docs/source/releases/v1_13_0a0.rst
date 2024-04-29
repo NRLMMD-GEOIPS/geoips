@@ -26,6 +26,24 @@ Version 1.13.0a0 (2024-04-24)
 * Breaking Changes
 
   * Updated GeoIPS CLI to fix breaking changes introduced by all_product_families
+* Release Updates
+
+  * Update update_this_release_note
+  * Add v1_13_0a0.rst release note
+
+Release Updates
+===============
+
+Update "update_this_release_note" to v1_13_0a0
+----------------------------------------------
+
+*From GEOIPS#506: 2024-04-24, update update_this_release_note to 1.13.0a0*
+
+::
+
+    modified: docs/source/releases/index.rst
+    new file: docs/source/releases/v1_13_0a0.rst
+    modified: update_this_release_note
 
 Breaking Changes
 ================

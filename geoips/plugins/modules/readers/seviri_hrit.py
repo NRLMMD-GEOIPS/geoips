@@ -34,23 +34,24 @@ from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
 
 # GeoIPS Libraries
 from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.utils.context_managers import import_optional_dependencies
 from .utils.geostationary_geolocation import (
     get_geolocation,
 )
 
 LOG = logging.getLogger(__name__)
 
-
-try:
+with import_optional_dependencies(loglevel="info"):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     import numexpr as ne
-except ImportError:
-    LOG.info("Failed numexpr import in satnav.py. If you need it, install it.")
 
 try:
     NPROC = 6
     ne.set_num_threads(NPROC)
 except NameError:
-    LOG.info("Failed ne.set_num_threads in satnav.py. If you need numexpr, install it.")
+    err_str = "Failed ne.set_num_threads in seviri_hrit.py. "
+    err_str += "If you need numexpr, install it."
+    LOG.info(err_str)
 
 
 # These should be added to the data file object
