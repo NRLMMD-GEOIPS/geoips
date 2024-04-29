@@ -16,6 +16,10 @@ Version 1.13.0a0 (2024-04-24)
 * Enhancements
 
   * Initial Stage of the GeoIPS CLI
+* Release Updates
+
+  * Update update_this_release_note
+  * Add v1_13_0a0.rst release note
 
 Enhancements
 ============
@@ -125,3 +129,17 @@ For an example of how to run the GeoIPS CLI, see the code section below.
     added: geoips/tests/unit_tests/commandline/test_geoips_test_script.py
     added: geoips/tests/unit_tests/commandline/test_geoips_test_unit_test.py
     added: geoips/tests/unit_tests/commandline/test_geoips_test_validate.py
+
+Release Updates
+===============
+
+Update "update_this_release_note" to v1_13_0a0
+----------------------------------------------
+
+*From GEOIPS#506: 2024-04-24, update update_this_release_note to 1.13.0a0*
+
+::
+
+    modified: docs/source/releases/index.rst
+    new file: docs/source/releases/v1_13_0a0.rst
+    modified: update_this_release_note

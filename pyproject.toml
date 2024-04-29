@@ -92,6 +92,7 @@ colorama = "*"         # Easy terminal color codes
 pydata-sphinx-theme = { version = "*", optional = true }
 sphinx = { version = "<7.2", optional = true }
 sphinx-design = { version = "*", optional = true }
+sphinxcontrib-autoprogram = { version = "*", optional = true }
 # Lint group
 bandit = { version = "*", optional = true }
 black = { version = "*", optional = true }
@@ -118,6 +119,7 @@ doc = [
     "pydata-sphinx-theme", # Required for building documentation
     "sphinx",              # Required for building documentation, v7.2 errors
     "sphinx-design",       # Required for building documentation
+    "sphinxcontrib-autoprogram", # Required for adding command line options to documentation
 ]
 lint = [
     "bandit",                # Syntax/security checking
