@@ -42,7 +42,9 @@ To use this new function, reinstall GeoIPS via ``pip install -e .``, and run the
 ::
 
     modified: pyproject.toml
+    modified: geoips/errors.py
     modified: geoips/geoips_utils.py
+    added: tests/unit_tests/commandline/test_expose.py
 
 Release Updates
 ===============
