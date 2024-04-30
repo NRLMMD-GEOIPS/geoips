@@ -14,7 +14,10 @@
 
 import os
 from copy import deepcopy
+from shutil import get_terminal_size
 import sys
+import toml
+from tabulate import tabulate
 
 # import yaml
 import logging
@@ -445,3 +448,37 @@ def merge_nested_dicts(dest, src, in_place=True):
         raise
     if not in_place:
         return final_dest
+
+
+def expose_geoips_commands():
+    """Expose a list of commands that operate in the GeoIPS environment.
+
+    Where, these commands are defined under 'pyproject.toml:[tool.poetry.scripts]'.
+    """
+    try:
+        toml_path = resources.files("geoips") / "../pyproject.toml"
+        with open(toml_path, "r") as toml_file:
+            pyproj = toml.load(toml_file)
+            scripts = pyproj.get("tool", {}).get("poetry", {}).get("scripts", {})
+            if scripts:
+                LOG.interactive("-" * len("Available GeoIPS Commands"))
+                LOG.interactive("Available GeoIPS Commands")
+                LOG.interactive("-" * len("Available GeoIPS Commands"))
+                table_data = []
+                for name, cmd in scripts.items():
+                    table_data.append([name, cmd])
+                print(
+                    tabulate(
+                        table_data,
+                        headers=["Command Name", "Command Path"],
+                        tablefmt="rounded_grid",
+                        maxcolwidths=get_terminal_size().columns // 2,
+                    )
+                )
+            else:
+                LOG.interactive("No GeoIPS Commands were found.")
+    except FileNotFoundError:
+        LOG.interactive(
+            f"No pyproject.toml file found at {toml_path}. Please create one to move "
+            "forward."
+        )

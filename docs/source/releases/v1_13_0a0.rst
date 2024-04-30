@@ -17,6 +17,32 @@ Version 1.13.0a0 (2024-04-24)
 
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
+* Enhancements
+
+  * Added 'expose' command
+
+Enhancements
+============
+
+Added 'expose' command
+----------------------
+
+*From GEOIPS#274: 2023-08-19, Add useage to setup.sh for command discovery*
+
+The aforementioned issue requested that we add functionality to expose all commands
+available in the GeoIPS environment. Rather than adding this functionality to setup.sh,
+I've decided to add another function to geoips_utils.py which will expose all GeoIPS
+commands in a tabular format. This will work for any new command added in the future as
+well. This function adds two new dependencies, ``toml`` and ``tabulate``, though
+``tabulate`` is added as a dependency to the CLI PRs anyways.
+
+To use this new function, reinstall GeoIPS via ``pip install -e .``, and run the command
+``expose``.
+
+::
+
+    modified: pyproject.toml
+    modified: geoips/geoips_utils.py
 
 Release Updates
 ===============
