@@ -471,7 +471,9 @@ def expose_geoips_commands(pkg_name=None, test_log=None):
         str(ep.value) for ep in get_entry_point_group("geoips.plugin_packages")
     ]
     if test_log:
-        LOG = test_log
+        log = test_log
+    else:
+        log = LOG
     if pkg_name is None:
         # This function was called via the command line.
         argparser = argparse.ArgumentParser("expose command")
@@ -500,13 +502,13 @@ def expose_geoips_commands(pkg_name=None, test_log=None):
             scripts = get_pyproj_scripts(pyproj)
             # If scripts were found in this package, expose them
             if scripts:
-                LOG.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
-                LOG.interactive(f"Available {pkg_name.title()} Commands")
-                LOG.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
+                log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
+                log.interactive(f"Available {pkg_name.title()} Commands")
+                log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
                 table_data = []
                 for name, cmd in scripts.items():
                     table_data.append([name, cmd])
-                LOG.interactive(
+                log.interactive(
                     tabulate(
                         table_data,
                         headers=["Command Name", "Command Path"],
@@ -517,10 +519,10 @@ def expose_geoips_commands(pkg_name=None, test_log=None):
             # Otherwise let the user know that there were not commands found for this
             # package.
             else:
-                LOG.interactive(f"No '{pkg_name.title()}' Commands were found.")
+                log.interactive(f"No '{pkg_name.title()}' Commands were found.")
 
     except FileNotFoundError:
-        LOG.interactive(
+        log.interactive(
             f"No pyproject.toml file found at {toml_path}. Please create one to move "
             "forward."
         )
