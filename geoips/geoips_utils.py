@@ -24,7 +24,7 @@ from tabulate import tabulate
 import logging
 from importlib import metadata, resources
 
-from geoips.errors import EntryPointError, PluginRegistryError
+from geoips.errors import EntryPointError, PluginRegistryError, PackageNotFoundError
 
 LOG = logging.getLogger(__name__)
 
@@ -451,27 +451,48 @@ def merge_nested_dicts(dest, src, in_place=True):
         return final_dest
 
 
-def expose_geoips_commands():
+def expose_geoips_commands(pkg_name=None, test_log=None):
     """Expose a list of commands that operate in the GeoIPS environment.
 
     Where, these commands are defined under 'pyproject.toml:[tool.poetry.scripts]',
     or 'pyproject.toml:[project.entry-points.console_scripts]'
-    """
-    argparser = argparse.ArgumentParser("expose command")
-    argparser.add_argument(
-        "--package_name",
-        "-p",
-        type=str.lower,
-        default="geoips",
-        choices=[
-            str(ep.value) for ep in get_entry_point_group("geoips.plugin_packages")
-        ],
-        help="GeoIPS Plugin package to expose.",
-    )
-    ARGS = argparser.parse_args()
 
-    try:
+    Parameters
+    ----------
+    pkg_name: str (default = None)
+        - The name of the GeoIPS Plugin Package whose command's will be exposed.
+        - If None, assume this was called via the commandline and retrieve package_name
+          via that manner. Otherwise use the supplied package_name.
+    test_log: logging.Logger (default = None)
+        - If provided, use this log so we can test the output of this function for
+          testing purposes
+    """
+    plugin_packages = [
+        str(ep.value) for ep in get_entry_point_group("geoips.plugin_packages")
+    ]
+    if test_log:
+        LOG = test_log
+    if pkg_name is None:
+        # This function was called via the command line.
+        argparser = argparse.ArgumentParser("expose command")
+        argparser.add_argument(
+            "--package_name",
+            "-p",
+            type=str.lower,
+            default="geoips",
+            choices=plugin_packages,
+            help="GeoIPS Plugin package to expose.",
+        )
+        ARGS = argparser.parse_args()
         pkg_name = ARGS.package_name
+    else:
+        # This function was called via python
+        if pkg_name not in plugin_packages:
+            raise PackageNotFoundError(
+                f"No such package named '{pkg_name}' found. Make sure that package is "
+                "installed via pip."
+            )
+    try:
         toml_path = resources.files(pkg_name) / "../pyproject.toml"
 
         with open(toml_path, "r") as toml_file:
@@ -485,7 +506,7 @@ def expose_geoips_commands():
                 table_data = []
                 for name, cmd in scripts.items():
                     table_data.append([name, cmd])
-                print(
+                LOG.interactive(
                     tabulate(
                         table_data,
                         headers=["Command Name", "Command Path"],
