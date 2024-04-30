@@ -454,7 +454,8 @@ def merge_nested_dicts(dest, src, in_place=True):
 def expose_geoips_commands():
     """Expose a list of commands that operate in the GeoIPS environment.
 
-    Where, these commands are defined under 'pyproject.toml:[tool.poetry.scripts]'.
+    Where, these commands are defined under 'pyproject.toml:[tool.poetry.scripts]',
+    or 'pyproject.toml:[project.entry-points.console_scripts]'
     """
     argparser = argparse.ArgumentParser("expose command")
     argparser.add_argument(
