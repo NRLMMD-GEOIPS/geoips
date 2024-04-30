@@ -97,7 +97,7 @@ def main():
         information.
         """
         from tests.unit_tests.plugin_registries.test_plugin_registries import (
-            PluginRegistryValidator
+            PluginRegistryValidator,
         )
         from geoips.errors import PluginRegistryError
 
