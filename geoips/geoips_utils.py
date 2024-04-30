@@ -12,6 +12,7 @@
 
 """General high level utilities for geoips processing."""
 
+import argparse
 import os
 from copy import deepcopy
 from shutil import get_terminal_size
@@ -455,15 +456,31 @@ def expose_geoips_commands():
 
     Where, these commands are defined under 'pyproject.toml:[tool.poetry.scripts]'.
     """
+    argparser = argparse.ArgumentParser("expose command")
+    argparser.add_argument(
+        "--package_name",
+        "-p",
+        type=str.lower,
+        default="geoips",
+        choices=[
+            str(ep.value) for ep in get_entry_point_group("geoips.plugin_packages")
+        ],
+        help="GeoIPS Plugin package to expose.",
+    )
+    ARGS = argparser.parse_args()
+
     try:
-        toml_path = resources.files("geoips") / "../pyproject.toml"
+        pkg_name = ARGS.package_name
+        toml_path = resources.files(pkg_name) / "../pyproject.toml"
+
         with open(toml_path, "r") as toml_file:
             pyproj = toml.load(toml_file)
-            scripts = pyproj.get("tool", {}).get("poetry", {}).get("scripts", {})
+            scripts = get_pyproj_scripts(pyproj)
+            # If scripts were found in this package, expose them
             if scripts:
-                LOG.interactive("-" * len("Available GeoIPS Commands"))
-                LOG.interactive("Available GeoIPS Commands")
-                LOG.interactive("-" * len("Available GeoIPS Commands"))
+                LOG.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
+                LOG.interactive(f"Available {pkg_name.title()} Commands")
+                LOG.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
                 table_data = []
                 for name, cmd in scripts.items():
                     table_data.append([name, cmd])
@@ -475,10 +492,35 @@ def expose_geoips_commands():
                         maxcolwidths=get_terminal_size().columns // 2,
                     )
                 )
+            # Otherwise let the user know that there were not commands found for this
+            # package.
             else:
-                LOG.interactive("No GeoIPS Commands were found.")
+                LOG.interactive(f"No '{pkg_name.title()}' Commands were found.")
+
     except FileNotFoundError:
         LOG.interactive(
             f"No pyproject.toml file found at {toml_path}. Please create one to move "
             "forward."
         )
+
+
+def get_pyproj_scripts(pyproj):
+    """Get command scripts out of the provided pyproject.toml file.
+
+    Parameters
+    ----------
+    pyproj: dict
+        - The pyproject.toml file represented as a dictionary.
+    """
+    try:
+        # Try to access the scripts via poetry's representation
+        scripts = pyproj["tool"]["poetry"]["scripts"]
+    except KeyError:
+        # If that didn't work, they don't exist or it's setuptools-based.
+        # Try to access scripts via setuptools representation.
+        try:
+            scripts = pyproj["project"]["entry-points"]["console_scripts"]
+        except KeyError:
+            # Scripts were not specified, return None
+            scripts = None
+    return scripts
