@@ -1,0 +1,32 @@
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+Version 1.13.0a0 (2024-04-24)
+*****************************
+
+* Release Updates
+
+  * Update update_this_release_note
+  * Add v1_13_0a0.rst release note
+
+Release Updates
+===============
+
+Update "update_this_release_note" to v1_13_0a0
+----------------------------------------------
+
+*From GEOIPS#506: 2024-04-24, update update_this_release_note to 1.13.0a0*
+
+::
+
+    modified: docs/source/releases/index.rst
+    new file: docs/source/releases/v1_13_0a0.rst
+    modified: update_this_release_note
