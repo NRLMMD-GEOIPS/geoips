@@ -48,18 +48,20 @@ def test_expose_pkg_cmds(pkg_name, caplog):
         with open(files(pkg_name) / "../pyproject.toml", "r") as toml_file:
             pyproj = toml.load(toml_file)
             scripts = _get_pyproj_scripts(pyproj)
+        # Replace calls are needed as we need to filter out the table chars
+        # if the table was split due to terminal size
+        replaced = str(
+            caplog.text.replace("\n", "")
+            .replace(" ", "")
+            .replace(
+                "-",
+                "",
+            )
+            .replace("│", "")
+        )
         for name, cmd in scripts.items():
-            # Replace calls are needed as we need to filter out the table chars
-            # if the table was split due to terminal size
-            assert name in caplog.text.replace("\n", "").replace(" ", "").replace(
-                "-",
-                "",
-            ).replace("│", "")
-            assert cmd in caplog.text.replace("\n", "").replace(" ", "").replace(
-                "-",
-                "",
-            ).replace("│", "")
-
+            assert name in replaced
+            assert cmd in replaced
     elif pkg_name in plugin_packages:
         # None of these packaes have commands
         expose_geoips_commands(pkg_name, LOG)
