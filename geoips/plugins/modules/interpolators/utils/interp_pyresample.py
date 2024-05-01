@@ -19,6 +19,11 @@ from pyresample import kd_tree
 
 LOG = logging.getLogger(__name__)
 
+# interface = None indicates to the GeoIPS interfaces that this is not a valid
+# plugin, and this module will not be added to the GeoIPS plugin registry.
+# This allows including python modules within the geoips/plugins directory
+# that provide helper or utility functions to the geoips plugins, but are
+# not full GeoIPS plugins on their own.
 interface = None
 
 
@@ -99,13 +104,17 @@ def interp_kd_tree(
     dstacked_arrays = numpy.ma.dstack(list_of_arrays)
 
     if interp_type == "nearest":
+        kw_args = {}
+        kw_args["fill_value"] = None
+        kw_args["radius_of_influence"] = radius_of_influence
+        if nprocs is not None:
+            kw_args["nprocs"] = nprocs
         LOG.info("Using interp_type %s", interp_type)
         dstacked_arrays = kd_tree.resample_nearest(
             data_box_definition,
             dstacked_arrays,
             area_definition,
-            radius_of_influence=radius_of_influence,
-            fill_value=None,
+            **kw_args,
         )
     elif interp_type == "gauss":
         kw_args = {}

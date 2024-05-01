@@ -37,6 +37,7 @@ def call(
     product_subdir=None,
     source_dir=None,
     basedir=gpaths["ANNOTATED_IMAGERY_PATH"],
+    output_dict=None,
 ):
     """Create GeoIPS standard filenames, sector-based subdirs.
 

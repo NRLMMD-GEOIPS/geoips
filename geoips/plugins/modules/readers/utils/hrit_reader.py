@@ -22,11 +22,32 @@ from functools import reduce
 from copy import copy
 from struct import unpack
 from datetime import datetime, timedelta
-from pyPublicDecompWT import xRITDecompress
+
+try:
+    from pyPublicDecompWT import xRITDecompress
+except ImportError:
+    print(
+        "Failed import pyPublicDeompWT "
+        "in /readers/utils/hrit_reader.py. "
+        "If you need it, install it."
+    )
 import numpy as np
 
 log = logging.getLogger(__name__)
 
+# interface = None indicates to the GeoIPS interfaces that this is not a valid
+# plugin, and this module will not be added to the GeoIPS plugin registry.
+# This allows including python modules within the geoips/plugins directory
+# that provide helper or utility functions to the geoips plugins, but are
+# not full GeoIPS plugins on their own.
+interface = None
+
+
+# interface = None indicates to the GeoIPS interfaces that this is not a valid
+# plugin, and this module will not be added to the GeoIPS plugin registry.
+# This allows including python modules within the geoips/plugins directory
+# that provide helper or utility functions to the geoips plugins, but are
+# not full GeoIPS plugins on their own.
 interface = None
 
 

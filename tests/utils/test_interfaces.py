@@ -14,7 +14,10 @@
 from pprint import pformat
 import traceback
 import json
-from geoips import interfaces, plugin_registry
+from geoips import interfaces, errors
+from tests.unit_tests.plugin_registries.test_plugin_registries import (
+    PluginRegistryValidator,
+)
 from geoips.interfaces.base import BaseInterface
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.args import get_argparser, check_command_line_args
@@ -78,12 +81,12 @@ def main():
     # We want to avoid catastrophic failure at runtime for a single
     # bad plugin, so ensure these are validated in testing, and allow
     # bad plugins to get through at runtime.
-    plg_reg = plugin_registry.PluginRegistry()
+    plg_reg = PluginRegistryValidator()
     try:
         LOG.interactive("Testing all registries...")
         plg_reg.validate_all_registries()
         successful_registries += ["all"]
-    except plugin_registry.PluginRegistryError as resp:
+    except errors.PluginRegistryError as resp:
         failed_registries += ["all"]
         failed_tracebacks += [
             f"\n\n\n{FAILED_INTERFACE_HEADER_PRE}\n\n{traceback.format_exc()}"
@@ -97,7 +100,7 @@ def main():
         try:
             plg_reg.validate_registry(pkg_plugins, reg_path)
             successful_registries += [reg_path]
-        except plugin_registry.PluginRegistryError as resp:
+        except errors.PluginRegistryError as resp:
             failed_registries += [reg_path]
             failed_tracebacks += [
                 f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{reg_path}'\n\n"

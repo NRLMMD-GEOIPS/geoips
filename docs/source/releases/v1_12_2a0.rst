@@ -36,7 +36,7 @@ Version 1.12.2a0 (2024-02-21)
 * Documentation
 
   * Added documentation for create_plugin_registries and PluginRegistry Class
-  * Fix log_with_emphasis to deal with empty strings gracefully 
+  * Fix log_with_emphasis to deal with empty strings gracefully
 * Refactor
 
   * Make JSON Plugin Registries Readable
@@ -165,11 +165,12 @@ Introduced documentation for coding standards on how/when to bring code to stand
 -----------------------------------------------------------------------------------
 
 Throughout GeoIPS, we have inconsistent coding practices. These new standards (added to
-our documentation) will help us be more intentional in how we bring old code 
+our documentation) will help us be more intentional in how we bring old code
 up to date going forward.
 
 ::
     modified: docs/dev/coding_standards.rst
+
 Bug Fixes
 =========
 

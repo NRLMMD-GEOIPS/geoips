@@ -283,4 +283,4 @@ def get_test_files(test_data_dir):
 
 def get_test_parameters():
     """Yeilds data key for unit testing."""
-    return {"data_key": "GMI", "data_var": "V10"}
+    return [{"data_key": "GMI", "data_var": "V10"}]
