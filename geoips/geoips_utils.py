@@ -467,39 +467,13 @@ def expose_geoips_commands(pkg_name=None, test_log=None):
         - If provided, use this log so we can test the output of this function for
           testing purposes
     """
-    plugin_packages = [
-        str(ep.value) for ep in get_entry_point_group("geoips.plugin_packages")
-    ]
-    if test_log:
-        log = test_log
-    else:
-        log = LOG
-    if pkg_name is None:
-        # This function was called via the command line.
-        argparser = argparse.ArgumentParser("expose command")
-        argparser.add_argument(
-            "--package_name",
-            "-p",
-            type=str.lower,
-            default="geoips",
-            choices=plugin_packages,
-            help="GeoIPS Plugin package to expose.",
-        )
-        ARGS = argparser.parse_args()
-        pkg_name = ARGS.package_name
-    else:
-        # This function was called via python
-        if pkg_name not in plugin_packages:
-            raise PackageNotFoundError(
-                f"No such package named '{pkg_name}' found. Make sure that package is "
-                "installed via pip."
-            )
+    pkg_name, log = _get_pkg_name_and_logger(pkg_name, test_log)
     try:
         toml_path = resources.files(pkg_name) / "../pyproject.toml"
 
         with open(toml_path, "r") as toml_file:
             pyproj = toml.load(toml_file)
-            scripts = get_pyproj_scripts(pyproj)
+            scripts = _get_pyproj_scripts(pyproj)
             # If scripts were found in this package, expose them
             if scripts:
                 log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
@@ -528,7 +502,7 @@ def expose_geoips_commands(pkg_name=None, test_log=None):
         )
 
 
-def get_pyproj_scripts(pyproj):
+def _get_pyproj_scripts(pyproj):
     """Get command scripts out of the provided pyproject.toml file.
 
     Parameters
@@ -548,3 +522,56 @@ def get_pyproj_scripts(pyproj):
             # Scripts were not specified, return None
             scripts = None
     return scripts
+
+
+def _get_pkg_name_and_logger(pkg_name, provided_log):
+    """Retrieve the Package Name and Logger from the provided variables.
+
+    If pkg_name is None, retrieve pkg_name from the commandline arguments
+    (defaults to 'geoips'). If log is None, set log to the LOG attribute found in this
+    module.
+
+    Parameters
+    ----------
+    pkg_name: str
+        - The name of the GeoIPS Plugin Package whose command's will be exposed.
+        - If None, assume this was called via the commandline and retrieve package_name
+          via that manner. Otherwise use the supplied package_name.
+    provided_log: logging.Logger
+        - If not None, use this log so we can test the output of this function for
+          testing purposes, otherwise retrieve the LOG attribute from this module.
+
+    Returns
+    -------
+    pkg_name, log: str, logging.Logger
+        - The name of the package to retrieve commands from and the logger used to
+          output it.
+    """
+    plugin_packages = [
+        str(ep.value) for ep in get_entry_point_group("geoips.plugin_packages")
+    ]
+    if provided_log:
+        log = provided_log
+    else:
+        log = LOG
+    if pkg_name is None:
+        # This function was called via the command line.
+        argparser = argparse.ArgumentParser("expose command")
+        argparser.add_argument(
+            "--package_name",
+            "-p",
+            type=str.lower,
+            default="geoips",
+            choices=plugin_packages,
+            help="GeoIPS Plugin package to expose.",
+        )
+        ARGS = argparser.parse_args()
+        pkg_name = ARGS.package_name
+    else:
+        # This function was called via python
+        if pkg_name not in plugin_packages:
+            raise PackageNotFoundError(
+                f"No such package named '{pkg_name}' found. Make sure that package is "
+                "installed via pip."
+            )
+    return pkg_name, log

@@ -8,7 +8,7 @@ import toml
 from geoips.errors import PackageNotFoundError
 from geoips.geoips_utils import (
     expose_geoips_commands,
-    get_pyproj_scripts,
+    _get_pyproj_scripts,
     get_entry_point_group,
 )
 
@@ -21,7 +21,7 @@ plugin_packages = [
 
 def generate_id(pkg_name):
     """Generate a test ID for the provided plugin package."""
-    return f"Expose {pkg_name}"
+    return f"expose {pkg_name}"
 
 
 @pytest.mark.parametrize(
@@ -47,7 +47,7 @@ def test_expose_pkg_cmds(pkg_name, caplog):
         assert f"Available {pkg_name.title()} Commands" in caplog.text
         with open(files(pkg_name) / "../pyproject.toml", "r") as toml_file:
             pyproj = toml.load(toml_file)
-            scripts = get_pyproj_scripts(pyproj)
+            scripts = _get_pyproj_scripts(pyproj)
         for name, cmd in scripts.items():
             # Replace calls are needed as we need to filter out the table chars
             # if the table was split due to terminal size
