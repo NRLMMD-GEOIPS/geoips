@@ -18,7 +18,6 @@ from geoips.interfaces.base import (
     ValidationError,
 )
 import logging
-from geoips.errors import PluginError
 
 # import subprocess
 from geoips.commandline.log_setup import log_with_emphasis
