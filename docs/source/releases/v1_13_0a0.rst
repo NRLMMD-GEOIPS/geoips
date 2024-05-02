@@ -32,9 +32,11 @@ Added 'expose' command
 The aforementioned issue requested that we add functionality to expose all commands
 available in the GeoIPS environment. Rather than adding this functionality to setup.sh,
 I've decided to add another function to geoips_utils.py which will expose all GeoIPS
-commands in a tabular format. This will work for any new command added in the future as
-well. This function adds two new dependencies, ``toml`` and ``tabulate``, though
-``tabulate`` is added as a dependency to the CLI PRs anyways.
+commands in a tabular format. We expose available commands in a certain GeoIPS plugin
+package to the terminal for easy perusal by the user. This will work for any new command
+added in the future as well. This function adds two new dependencies, ``toml`` and
+``tabulate``, though ``tabulate`` is added as a dependency to the CLI PRs anyways. We
+expect this might be refactored into the CLI in a future PR.
 
 To use this new function, reinstall GeoIPS via ``pip install -e .``, and run the command
 ``expose``.

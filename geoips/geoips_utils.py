@@ -464,8 +464,8 @@ def expose_geoips_commands(pkg_name=None, test_log=None):
         - If None, assume this was called via the commandline and retrieve package_name
           via that manner. Otherwise use the supplied package_name.
     test_log: logging.Logger (default = None)
-        - If provided, use this log so we can test the output of this function for
-          testing purposes
+        - If provided, use this logger instead. This is added as an optional argument
+          so we can check the output of this command for our Unit Tests.
     """
     pkg_name, log = _get_pkg_name_and_logger(pkg_name, test_log)
     try:
@@ -479,9 +479,10 @@ def expose_geoips_commands(pkg_name=None, test_log=None):
                 log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
                 log.interactive(f"Available {pkg_name.title()} Commands")
                 log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
-                table_data = []
-                for name, cmd in scripts.items():
-                    table_data.append([name, cmd])
+                table_data = [
+                    [cmd_name, cmd_path] for cmd_name, cmd_path in scripts.items()
+                ]
+                # Log the commands found in a tabular fashion
                 log.interactive(
                     tabulate(
                         table_data,
@@ -505,10 +506,20 @@ def expose_geoips_commands(pkg_name=None, test_log=None):
 def _get_pyproj_scripts(pyproj):
     """Get command scripts out of the provided pyproject.toml file.
 
+    Command scripts specified in pyproject.toml can either be poetry-based or
+    setuptools-based. The series of try-except statements below will try both methods,
+    and if both fail that means that this was not specified in pyproject.toml. This
+    means no commands exist for the provided pyproject.toml for the associated package.
+
     Parameters
     ----------
     pyproj: dict
         - The pyproject.toml file represented as a dictionary.
+
+    Returns
+    -------
+    scripts: dict (or None)
+        - Where scripts is a key-value matching of {'cmd1_name': 'cmd1_path', ...}
     """
     try:
         # Try to access the scripts via poetry's representation
@@ -525,11 +536,14 @@ def _get_pyproj_scripts(pyproj):
 
 
 def _get_pkg_name_and_logger(pkg_name, provided_log):
-    """Retrieve the Package Name and Logger from the provided variables.
+    """Return the corresponding package name and logger for exposing package commands.
 
     If pkg_name is None, retrieve pkg_name from the commandline arguments
-    (defaults to 'geoips'). If log is None, set log to the LOG attribute found in this
-    module.
+    (either -p <package_name> or default 'geoips'). If log is None, set log to the LOG
+    attribute found in this module.
+
+    If either variable isn't None, use what's provided instead. This is used for
+    unit testing primarily.
 
     Parameters
     ----------
@@ -537,9 +551,11 @@ def _get_pkg_name_and_logger(pkg_name, provided_log):
         - The name of the GeoIPS Plugin Package whose command's will be exposed.
         - If None, assume this was called via the commandline and retrieve package_name
           via that manner. Otherwise use the supplied package_name.
+        - If supplied, pkg_name must be one of pip installed 'geoips.plugin_packages'.
+          ie. 'recenter_tc', 'geoips_clavrx', 'data_fusion', <your_custom_pkg>, ...
     provided_log: logging.Logger
-        - If not None, use this log so we can test the output of this function for
-          testing purposes, otherwise retrieve the LOG attribute from this module.
+        - If None, retrieve the LOG attribute from this module, otherwise use the
+          provided logger so we can check the output of this function for unit tests.
 
     Returns
     -------
@@ -555,7 +571,7 @@ def _get_pkg_name_and_logger(pkg_name, provided_log):
     else:
         log = LOG
     if pkg_name is None:
-        # This function was called via the command line.
+        # This function was called via the command line or None was passed.
         argparser = argparse.ArgumentParser("expose command")
         argparser.add_argument(
             "--package_name",
