@@ -43,3 +43,5 @@ properties:
       borders: *line-args
       rivers: *line-args
       states: *line-args
+      background:
+        type: string

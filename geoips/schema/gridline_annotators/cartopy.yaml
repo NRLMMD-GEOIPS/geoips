@@ -69,3 +69,5 @@ properties:
               type: integer
           linewidth:
             type: number
+      background:
+        type: string

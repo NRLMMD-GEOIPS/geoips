@@ -525,7 +525,7 @@ def draw_features(mapobj, curr_ax, feature_annotator, zorder=None):
 
     for name, feature in feature_annotator["spec"].items():
         feat = deepcopy(feature)
-        if feat.pop("enabled"):
+        if name != "background" and feat.pop("enabled"):
             curr_ax.add_feature(getattr(cfeature, name.upper()), **feat, **extra_args)
 
 
