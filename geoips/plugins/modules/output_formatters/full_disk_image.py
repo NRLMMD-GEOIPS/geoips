@@ -76,7 +76,11 @@ def call(
         #                                   area_def.sector_info['clat'])
         mapobj = cartopy.crs.Geostationary(area_def.sector_info["clon"])
     fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-        x_size, y_size, area_def, existing_mapobj=mapobj, frame=frame_clr,
+        x_size,
+        y_size,
+        area_def,
+        existing_mapobj=mapobj,
+        frame=frame_clr,
     )
 
     # Plot the actual data on a map
