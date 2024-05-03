@@ -43,11 +43,14 @@ the same section to your feature_annotator.
 
     modified: geoips/image_utils/maps.py
     modified: geoips/image_utils/mpl_utils.py
+    modified: geoips/plugins/modules/output_formatters/full_disk_image.py
     modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+    modified: geoips/plugins/modules/output_formatters/imagery_windbarbs.py
     modified: geoips/schema/feature_annotators/cartopy.yaml
     modified: geoips/schema/gridline_annotators/cartopy.yaml
     added: geoips/plugins/yaml/feature_annotators/default_oldlace.yaml
     added: geoips/plugins/yaml/gridline_annotators/default_palegreen.yaml
+    added: tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh
 
 Release Updates
 ===============
