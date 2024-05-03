@@ -64,8 +64,12 @@ def call(
 
     if feature_annotator:
         bkgrnd_clr = feature_annotator.get("spec", {}).get("background")
+    else:
+        bkgrnd_clr = None
     if gridline_annotator:
         frame_clr = gridline_annotator.get("spec", {}).get("background")
+    else:
+        frame_clr = None
 
     if not mpl_colors_info:
         # Create the matplotlib color info dict - the fields in this dictionary

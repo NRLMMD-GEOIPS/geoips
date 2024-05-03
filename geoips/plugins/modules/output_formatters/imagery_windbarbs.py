@@ -275,6 +275,15 @@ def call(
 
     success_outputs = []
 
+    if feature_annotator:
+        bkgrnd_clr = feature_annotator.get("spec", {}).get("background")
+    else:
+        bkgrnd_clr = None
+    if gridline_annotator:
+        frame_clr = gridline_annotator.get("spec", {}).get("background")
+    else:
+        frame_clr = None
+
     # Plot windbarbs
 
     formatted_data_dict = format_windbarb_data(xarray_obj, product_name)
@@ -298,6 +307,7 @@ def call(
             area_def,
             existing_mapobj=None,
             noborder=False,
+            frame_clr=frame_clr,
         )
 
         if bg_data is not None:
@@ -309,7 +319,13 @@ def call(
                     create_colorbar=False,
                 )
             # Plot the background data on a map
-            plot_image(main_ax, bg_data, mapobj, mpl_colors_info=bg_mpl_colors_info)
+            plot_image(
+                main_ax,
+                bg_data,
+                mapobj,
+                mpl_colors_info=bg_mpl_colors_info,
+                bkgrnd_clr=bkgrnd_clr,
+            )
 
         plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict)
 
