@@ -17,6 +17,37 @@ Version 1.13.0a0 (2024-04-24)
 
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
+* Enhancements
+
+  * Update Plugins to Support Better Plotting Configurability
+
+Enhancements
+============
+
+Update Plugins to Support Better Plotting Configurability
+---------------------------------------------------------
+
+*From GEOIPS#259: 2023-08-11, Update product/product_default schemas to allow for greater plotting configurability*
+*From GEOIPS#147: 2023-04-05, Add support for label positioning*
+
+This enhancement updates feature / gridline -annotator yaml plugins and imagery-based
+module plugins to enhance the plotting configurability we can control as users within
+GeoIPS. It adds new functionality, such as controlling the background color for the
+map and frame in imagery, and also adds functionality which can control label
+positioning within your imagery. To change the background of a frame, all you need to
+do is add a ``background: <mpl_color_name>`` property within your gridline_annotator
+plugin. To modify the background color of the mapped portion of the image, you'll add
+the same section to your feature_annotator.
+
+::
+
+    modified: geoips/image_utils/maps.py
+    modified: geoips/image_utils/mpl_utils.py
+    modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+    modified: geoips/schema/feature_annotators/cartopy.yaml
+    modified: geoips/schema/gridline_annotators/cartopy.yaml
+    added: geoips/plugins/yaml/feature_annotators/default_oldlace.yaml
+    added: geoips/plugins/yaml/gridline_annotators/default_palegreen.yaml
 
 Release Updates
 ===============
