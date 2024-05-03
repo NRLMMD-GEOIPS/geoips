@@ -33,11 +33,19 @@ Update Plugins to Support Better Plotting Configurability
 This enhancement updates feature / gridline -annotator yaml plugins and imagery-based
 module plugins to enhance the plotting configurability we can control as users within
 GeoIPS. It adds new functionality, such as controlling the background color for the
-map and frame in imagery, and also adds functionality which can control label
-positioning within your imagery. To change the background of a frame, all you need to
-do is add a ``background: <mpl_color_name>`` property within your gridline_annotator
-plugin. To modify the background color of the mapped portion of the image, you'll add
-the same section to your feature_annotator.
+map and frame in imagery, and also adds functionality which can control label offset
+within your imagery. To change the background of a frame, all you need to do is add a
+``background: <mpl_color_name>`` property within your gridline_annotator plugin. To
+modify the background color of the mapped portion of the image, you'll add the same
+section to your feature_annotator.
+
+To change the offset of the labels for applicable imagery outputs, all you need to do is
+add an ``xpadding: <pixel_offset_int>`` and/or a ``ypadding: <pixel_offset_int>`` to the
+``labels`` portion of your gridline annotator. Using this information, we will adjust
+the offset of your tick labels to the desired position.
+
+For examples of these new features, look at ``feature_annotator: default_oldlace`` and
+``gridline_annotator: default_palegreen``.
 
 ::
 
@@ -50,6 +58,7 @@ the same section to your feature_annotator.
     modified: geoips/schema/gridline_annotators/cartopy.yaml
     added: geoips/plugins/yaml/feature_annotators/default_oldlace.yaml
     added: geoips/plugins/yaml/gridline_annotators/default_palegreen.yaml
+    added: tests/outputs/abi.static.Infrared.imagery_annotated_enhanced/20200918.195020.goes-16.abi.Infrared.goes_east.45p56.noaa.10p0.png
     added: tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh
 
 Release Updates
