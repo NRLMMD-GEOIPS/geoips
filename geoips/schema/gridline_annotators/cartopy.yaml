@@ -51,6 +51,10 @@ properties:
             type: boolean
           right:
             type: boolean
+          xpadding:
+            type: integer
+          ypadding:
+            type: integer
       lines:
         type: object
         required:

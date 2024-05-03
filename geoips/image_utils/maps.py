@@ -234,6 +234,8 @@ def check_gridline_annotator(gridline_annotator):
                     key, required_fields
                 )
             )
+        if key == 'xpadding' or key == 'ypadding':
+            continue
         for subkey in subkeys:
             if subkey not in gridline_annotator["spec"][key]:
                 LOG.info(gridline_annotator)
@@ -565,6 +567,12 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):
     LOG.info("    Plotting with cartopy")
 
     spec = gridline_annotator["spec"]
+    labels = spec["labels"]
+
+    if 'xpadding' in labels.keys():
+        extra_args['xpadding'] = labels['xpadding']
+    if 'ypadding' in labels.keys():
+        extra_args['ypadding'] = labels['ypadding']
 
     # Note: linestyle is specified by a tuple: (offset, (pixels_on,
     # pixels_off, pxon, pxoff)), etc
@@ -573,7 +581,6 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):
     glnr = curr_ax.gridlines(draw_labels=True, **lines, **extra_args)
 
     # Default to False, unless set in argument
-    labels = spec["labels"]
     glnr.top_labels = labels["top"]
     glnr.bottom_labels = labels["bottom"]
     glnr.left_labels = labels["left"]
