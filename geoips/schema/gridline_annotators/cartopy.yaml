@@ -52,11 +52,13 @@ properties:
           right:
             type: boolean
           # The amount of pixels to offset the x-axis (usually longitude) labels for
-          # imagery.
+          # imagery. If negative, this will shift the labels inside the map-portion of
+          # the imagery.
           xpadding:
             type: integer
           # The amount of pixels to offset the y-axis (usually latitude) labels for
-          # imagery.
+          # imagery. If negative, this will shift the labels inside the map-portion of
+          # the imagery.
           ypadding:
             type: integer
           # The family of the font to apply to the labels. If not provided, it will be
