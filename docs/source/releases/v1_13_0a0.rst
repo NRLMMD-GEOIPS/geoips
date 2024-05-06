@@ -40,7 +40,12 @@ output. This includes:
 * y label offset (gridline_annotator)
 * font family for labels (gridline_annotator)
 * font style for labels ('italic', 'bold', etc.) (gridline_annotator)
-* font size for labels (in pixels) (gridline_annotator)
+* font weight for lablels (a numeric value in range 0-1000, 'ultralight', 'light',
+  'normal', 'regular', 'book', 'medium', 'roman', 'semibold', 'demibold', 'demi',
+  'bold', 'heavy', 'extra bold', 'black') (gridline_annotator)
+* font size for labels (float or {'xx-small', 'x-small', 'small', 'medium', 'large',
+  'x-large', 'xx-large'. Defaults to matplotlib.pyplot.rcParams['font.size'])
+  (gridline_annotator)
 
 To change the background of a frame, all you need to do is add a
 ``background: <mpl_color_name>`` property within your gridline_annotator plugin. To
@@ -55,7 +60,8 @@ the offset of your tick labels to the desired position.
 To modify the font-based aspects of labels, you can do any of the following:
 * ``fontfamily: <font_name>``
 * ``fontstyle: <style_name>``
-* ``fontsize: <float>``
+* ``fontweight: <int_or_weight_name>``
+* ``fontsize: <float_or_size_name> ``
 
 For examples of these new features, look at ``feature_annotator: default_oldlace`` and
 ``gridline_annotator: default_palegreen``.

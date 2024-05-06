@@ -11,8 +11,8 @@ spec:
     bottom: false
     left: true
     right: false
-    xpadding: 25
-    ypadding: 25
+    xpadding: 50
+    ypadding: 50
     fontfamily: 'URW Bookman'
     fontstyle: oblique
     fontweight: demibold
