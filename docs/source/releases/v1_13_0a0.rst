@@ -32,9 +32,17 @@ Update Plugins to Support Better Plotting Configurability
 
 This enhancement updates feature / gridline -annotator yaml plugins and imagery-based
 module plugins to enhance the plotting configurability we can control as users within
-GeoIPS. It adds new functionality, such as controlling the background color for the
-map and frame in imagery, and also adds functionality which can control label offset
-within your imagery. To change the background of a frame, all you need to do is add a
+GeoIPS. It adds quite a few new attributes which we can use to control our plotting
+output. This includes:
+* Background color for data over the map-portion of the image (feature_annotator)
+* Background color for the frame-portion of the image (gridline_annotator)
+* x label offset (gridline_annotator)
+* y label offset (gridline_annotator)
+* font family for labels (gridline_annotator)
+* font style for labels ('italic', 'bold', etc.) (gridline_annotator)
+* font size for labels (in pixels) (gridline_annotator)
+
+To change the background of a frame, all you need to do is add a
 ``background: <mpl_color_name>`` property within your gridline_annotator plugin. To
 modify the background color of the mapped portion of the image, you'll add the same
 section to your feature_annotator.
@@ -43,6 +51,11 @@ To change the offset of the labels for applicable imagery outputs, all you need 
 add an ``xpadding: <pixel_offset_int>`` and/or a ``ypadding: <pixel_offset_int>`` to the
 ``labels`` portion of your gridline annotator. Using this information, we will adjust
 the offset of your tick labels to the desired position.
+
+To modify the font-based aspects of labels, you can do any of the following:
+* ``fontfamily: <font_name>``
+* ``fontstyle: <style_name>``
+* ``fontsize: <float>``
 
 For examples of these new features, look at ``feature_annotator: default_oldlace`` and
 ``gridline_annotator: default_palegreen``.
