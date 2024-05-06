@@ -13,6 +13,9 @@ spec:
     right: false
     xpadding: 50
     ypadding: 50
+    fontfamily: 'URW Bookman'
+    fontstyle: italic
+    fontsize: 50
   lines:
     color: black
     linestyle: [4, 2]

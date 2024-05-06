@@ -599,3 +599,9 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):
     glnr.yformatter = LATITUDE_FORMATTER
     glnr.xlabel_style = {"rotation": 0}
     glnr.ylabel_style = {"rotation": 0}
+    # The following are the list of supported attributes which we can define in our
+    # gridline annotator. If specified, add these attributes to the x / y style dicts.
+    for style_arg in ["fontfamily", "fontstyle", "fontsize"]:
+        if style_arg in labels.keys():
+            glnr.xlabel_style[style_arg] = labels[style_arg]
+            glnr.ylabel_style[style_arg] = labels[style_arg]

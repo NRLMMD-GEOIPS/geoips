@@ -52,13 +52,28 @@ properties:
           right:
             type: boolean
           # The amount of pixels to offset the x-axis (usually longitude) labels for
-          # imagery
+          # imagery.
           xpadding:
             type: integer
           # The amount of pixels to offset the y-axis (usually latitude) labels for
-          # imagery
+          # imagery.
           ypadding:
             type: integer
+          # The family of the font to apply to the labels. If not provided, it will be
+          # the default font that matplotlib uses. Otherwise, it should be a family
+          # supported by 'matplotlib.font_manager.get_font_names()'.
+          fontfamily:
+            type: string
+          # The style of the font to output. Defaults to normal, but can be either
+          # 'italic', 'bold', or any other style supported by matplotlib
+          # Axes.text.fontstyle.
+          fontstyle:
+            type: string
+          # The size of the font in pixels to output. Will use default matplotlib font
+          # size if not provided, otherwise it will use the float provided as the font
+          # size.
+          fontsize:
+            type: number
       lines:
         type: object
         required:
