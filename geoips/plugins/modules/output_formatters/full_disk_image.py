@@ -53,10 +53,11 @@ def call(
     )
     from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
 
+    frame_clr = None
+    # If a gridline_annotator plugin was supplied, attempt to get the frame background
+    # color. Otherwise, just keep it as None.
     if gridline_annotator:
         frame_clr = gridline_annotator.get("spec", {}).get("background")
-    else:
-        frame_clr = None
 
     if hasattr(area_def, "x_size"):
         x_size = area_def.x_size

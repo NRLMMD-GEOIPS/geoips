@@ -275,14 +275,16 @@ def call(
 
     success_outputs = []
 
+    bkgrnd_clr = None
+    frame_clr = None
+    # If a feature_annotator plugin was supplied, attempt to get the image background
+    # color. Otherwise, just keep it as None.
     if feature_annotator:
         bkgrnd_clr = feature_annotator.get("spec", {}).get("background")
-    else:
-        bkgrnd_clr = None
+    # If a gridline_annotator plugin was supplied, attempt to get the frame background
+    # color. Otherwise, just keep it as None.
     if gridline_annotator:
         frame_clr = gridline_annotator.get("spec", {}).get("background")
-    else:
-        frame_clr = None
 
     # Plot windbarbs
 

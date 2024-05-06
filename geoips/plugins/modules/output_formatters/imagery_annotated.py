@@ -62,14 +62,16 @@ def call(
     )
     from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
 
+    bkgrnd_clr = None
+    frame_clr = None
+    # If a feature_annotator plugin was supplied, attempt to get the image background
+    # color. Otherwise, just keep it as None.
     if feature_annotator:
         bkgrnd_clr = feature_annotator.get("spec", {}).get("background")
-    else:
-        bkgrnd_clr = None
+    # If a gridline_annotator plugin was supplied, attempt to get the frame background
+    # color. Otherwise, just keep it as None.
     if gridline_annotator:
         frame_clr = gridline_annotator.get("spec", {}).get("background")
-    else:
-        frame_clr = None
 
     if not mpl_colors_info:
         # Create the matplotlib color info dict - the fields in this dictionary
