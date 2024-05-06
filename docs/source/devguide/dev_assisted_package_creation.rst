@@ -35,7 +35,11 @@ example of a standalone package that implements GREMLIN and GLM
 
 If you don't have access to that, please feel free to view any of our
 `public repositories <https://github.com/orgs/NRLMMD-GEOIPS/repositories>`_ for a
-general idea of what we can help you with.
+general idea of what we can help you with. For any standalone package that we'll be
+developing for users who have requested assistance, we'll largely be following the
+structure of the `template_basic_plugin package <https://github.com/NRLMMD-GEOIPS/template_basic_plugin>`_.
+The aforementioned package is a template for creating separate plugin packages that can
+interact with GeoIPS seamlessly.
 
 The purpose of integrating software like this is to elevate GeoIPS as a package that can
 process nearly any type of satellite, in-situ, geo-located -derived data, and output it
