@@ -67,15 +67,24 @@ properties:
           fontfamily:
             type: string
           # The style of the font to output. Defaults to normal, but can be either
-          # 'italic', 'bold', or any other style supported by matplotlib
-          # Axes.text.fontstyle.
+          # 'italic', 'normal', or 'oblique'.
           fontstyle:
             type: string
-          # The size of the font in pixels to output. Will use default matplotlib font
-          # size if not provided, otherwise it will use the float provided as the font
-          # size.
+          # {a numeric value in range 0-1000, 'ultralight', 'light', 'normal',
+          # 'regular', 'book', 'medium', 'roman', 'semibold', 'demibold', 'demi',
+          # 'bold', 'heavy', 'extra bold', 'black'}
+          fontweight:
+            anyOf: [
+              type: integer,
+              type: string,
+            ]
+          # float or {'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large',
+          # 'xx-large'}. Defaults to matplotlib.pyplot.rcParams['font.size']
           fontsize:
-            type: number
+            anyOf: [
+              type: number,
+              type: string,
+            ]
       lines:
         type: object
         required:
