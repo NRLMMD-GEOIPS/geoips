@@ -517,8 +517,11 @@ def gunzip_product(fname, is_comparison_product=False, clobber=False):
     # Otherwise, see if the .gz version exists.
     elif glob(fname + ".gz"):
         gz_fname = fname + ".gz"
-    LOG.info("**** Gunzipping product for comparisons")
-    LOG.info("gunzip %s", gz_fname)
+
+    messages = ["Gunzipping product for comparisons"]
+    messages.append(f"gunzip {gz_fname}")
+    log_with_emphasis(LOG.info, *messages)
+
     if is_comparison_product:
         save_dir = join(
             getenv("GEOIPS_OUTDIRS"),

@@ -63,16 +63,16 @@ import os
 import numpy
 import xarray as xr
 
+from geoips.utils.context_managers import import_optional_dependencies
+
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
 # installed to process data of this type.
 LOG = logging.getLogger(__name__)
 
-
-try:
+with import_optional_dependencies(loglevel="info"):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     import netCDF4 as ncdf
-except ImportError:
-    LOG.info("Failed import netCDF4. If you need it, install it.")
 
 
 # @staticmethod                                     # not sure where it is uwas used?
@@ -638,7 +638,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         if "DNBRad" in list(xarrays[dtype].variables.keys()) and required_chan(
             chans, ["DNBRef"]
         ):
-            try:
+            with import_optional_dependencies(loglevel="info"):
+                """Attempt to import a package log to INFO if the import fails."""
                 from lunarref.lib.liblunarref import lunarref
 
                 lunarref_data = lunarref(
@@ -655,8 +656,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 xarrays["DNB"]["DNBRef"] = xr.DataArray(
                     lunarref_data, dims=xarrays["DNB"]["DNBRad"].dims
                 )
-            except ImportError:
-                LOG.info("Failed lunarref in viirs reader.  If you need it, build it")
         # This will not duplicate memory - reference
         xarray_returns[dtype] = xarrays[dtype]
 
