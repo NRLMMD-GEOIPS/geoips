@@ -43,7 +43,8 @@ The primary plugin interfaces include:
 * **processing workflows (procflows)** - drive a specific collection of steps for a particular type of processing
 * **static sectors** - specifications of domains of interest
 * **dynamic sectors** - specifications of dynamic domains of interest
-* **readers** - specifications for ingesting a specific data type, and storing in the GeoIPS xarray-based internal format
+* **readers** - specifications for ingesting a specific data type, and storing in the GeoIPS xarray-based internal
+  format
 * **products** - overall product specification, including interpolation routine,
   algorithm, colormaps, etc (see YAML-based interfaces)
 

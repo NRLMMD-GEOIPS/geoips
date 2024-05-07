@@ -42,8 +42,10 @@ Move gridlines to geoips/plugins/yaml/gridline_annotators
 ::
 
   renamed: geoips/plugins/yaml/gridlines/default.yaml -> geoips/plugins/yaml/gridline_annotators/default.yaml
-  renamed: geoips/plugins/yaml/gridlines/tc_0p25degree.yaml -> geoips/plugins/yaml/gridline_annotators/tc_0p25degree.yaml
+  renamed: geoips/plugins/yaml/gridlines/tc_0p25degree.yaml ->
+  geoips/plugins/yaml/gridline_annotators/tc_0p25degree.yaml
   renamed: geoips/plugins/yaml/gridlines/tc_pmw.yaml -> geoips/plugins/yaml/gridline_annotators/tc_pmw.yaml
   renamed: geoips/plugins/yaml/gridlines/tc_visir.yaml -> geoips/plugins/yaml/gridline_annotators/tc_visir.yaml
-  renamed: geoips/plugins/yaml/gridlines/tc_visir_3200km.yaml -> geoips/plugins/yaml/gridline_annotators/tc_visir_3200km.yaml
+  renamed: geoips/plugins/yaml/gridlines/tc_visir_3200km.yaml ->
+  geoips/plugins/yaml/gridline_annotators/tc_visir_3200km.yaml
   renamed: geoips/plugins/yaml/gridlines/tc_windspeed.yaml -> geoips/plugins/yaml/gridline_annotators/tc_windspeed.yaml

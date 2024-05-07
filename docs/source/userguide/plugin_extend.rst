@@ -214,7 +214,6 @@ Developing YAML-based plugin
 Example Module-based Plugins
 ============================
 
-
 Algorithms
 -----------
 

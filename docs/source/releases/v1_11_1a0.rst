@@ -89,8 +89,8 @@ Changed GeoIPS sector Metadata Implementation
 
 From NRLMMD-GEOIPS/geoips#248: 2023-08-02
 
-Currently, sector metadata is very constricting. It only allows you to specify the 
-region in which the sector lies. This new change not only allows for more data to 
+Currently, sector metadata is very constricting. It only allows you to specify the
+region in which the sector lies. This new change not only allows for more data to
 be contained in sector metadata, but also allows for different families of metadata.
 
 The families of metadata adhere to the different families of static sectors. This includes:
@@ -171,9 +171,9 @@ From NRLMMD-GEOIPS/geoips#226: 2023-05-09
 
 Previously, TPW colormappers selected the correct ascii palette by searching through
 the GeoIPS directory. This is inefficient and has the possibility to cause problems if
-the directory structure changes eventually. 
+the directory structure changes eventually.
 
-It was implemented using gpaths["BASE_PATH"] to find the TPW ascii palettes, but now 
+It was implemented using gpaths["BASE_PATH"] to find the TPW ascii palettes, but now
 uses the new "find_ascii_palettes" utility. Therefore changes to these files were required:
 
 ::

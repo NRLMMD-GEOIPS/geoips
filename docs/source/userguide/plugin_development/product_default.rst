@@ -29,8 +29,11 @@ GeoIPS has a number of product_defaults plugins defined to help you not reinvent
     * You can absolutely define all of the available options within your product plugin
 
 To give you a better idea of what we are talking about, feel free to view some files in these folders.
-    * `Pre-defined CLAVR-x product defaults <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/tree/main/geoips_clavrx/plugins/yaml/product_defaults>`_ (part of the CLAVR-x plugin)
-    * `Pre-defined GeoIPS product defaults <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/yaml/product_defaults>`_
+    * `Pre-defined CLAVR-x product defaults
+      <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/tree/main/geoips_clavrx/plugins/yaml/product_defaults>`_ (part of
+      the CLAVR-x plugin)
+    * `Pre-defined GeoIPS product defaults
+      <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/yaml/product_defaults>`_
 
 If you have product definition parameters that you want to reuse (i.e. if you're
 copy/pasting product definition parameters!), consider creating a product default for

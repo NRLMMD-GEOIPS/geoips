@@ -80,14 +80,14 @@ YAML-based plugin discovery without environment variables
     modified: pyproject.toml
     modified: tests/test_full_install.sh
     modified: yaml_interfaces.md
-    renamed: geoips/interfaces/title_formatters.py	geoips/interfaces/module_based/title_formatters.py
-    renamed: geoips/interfaces/interpolators.py	geoips/interfaces/module_based/interpolators.py
-    renamed: geoips/interfaces/colormaps.py	geoips/interfaces/module_based/colormaps.py
-    renamed: geoips/interfaces/readers.py	geoips/interfaces/module_based/readers.py
-    renamed: geoips/interfaces/procflows.py	geoips/interfaces/module_based/procflows.py
-    renamed: geoips/interfaces/algorithms.py	geoips/interfaces/module_based/algorithms.py
-    renamed: geoips/interfaces/filename_formatters.py	geoips/interfaces/module_based/filename_formatters.py
-    renamed: geoips/interfaces/output_formatters.py	geoips/interfaces/module_based/output_formatters.py
+    renamed: geoips/interfaces/title_formatters.py    geoips/interfaces/module_based/title_formatters.py
+    renamed: geoips/interfaces/interpolators.py    geoips/interfaces/module_based/interpolators.py
+    renamed: geoips/interfaces/colormaps.py    geoips/interfaces/module_based/colormaps.py
+    renamed: geoips/interfaces/readers.py    geoips/interfaces/module_based/readers.py
+    renamed: geoips/interfaces/procflows.py    geoips/interfaces/module_based/procflows.py
+    renamed: geoips/interfaces/algorithms.py    geoips/interfaces/module_based/algorithms.py
+    renamed: geoips/interfaces/filename_formatters.py    geoips/interfaces/module_based/filename_formatters.py
+    renamed: geoips/interfaces/output_formatters.py    geoips/interfaces/module_based/output_formatters.py
 
 Breaking Changes
 ================

@@ -40,7 +40,8 @@ Replace references to the area_definition family with area_definition_static
 ::
 
     M geoips/tests/test_pytest/test_plugin_schema/good/sectors/area_definition_static.yaml
-    R geoips/tests/test_pytest/test_plugin_schema/good/sectors/area_definition.yaml --> geoips/tests/test_pytest/test_plugin_schema/good/sectors/area_definition_static.yaml
+    R geoips/tests/test_pytest/test_plugin_schema/good/sectors/area_definition.yaml -->
+    geoips/tests/test_pytest/test_plugin_schema/good/sectors/area_definition_static.yaml
 
 Remove extra blank lines after docstrings
 -----------------------------------------
@@ -103,7 +104,6 @@ we have already preprocessed into a single alg_xarray, so the VARIABLE_NAME will
   modified: geoips/plugins/modules/coverage_checkers/windbarbs.py
   modified: geoips/plugins/modules/procflows/single_source.py
 
-
 Release Updates
 ===============
 
@@ -116,7 +116,6 @@ Add 1.11.1 release note
 
     new file: docs/source/releases/v1_11_1.rst
     modified: docs/source/releases/index.rst
-
 
 Refactoring Updates
 ===================

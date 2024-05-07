@@ -22,7 +22,6 @@ documentation (including this page), along with a **build_docs.sh** script that
 will setup sphinx and build complete documentation from the high level rst
 files as well as docstrings contained within the GeoIPS source code.
 
-
 GeoIPS Syntax and Style Checking
 ------------------------------------
 
@@ -36,7 +35,7 @@ enforce numpy docstring formatting.  Sphinx is used to validate the
 formatting and syntax within RST files themselves.
 
 Corresponding configuration files for both black and flake8 can be found
-in the geoips directory ``.config/``. 
+in the geoips directory ``.config/``.
 
 All branches must pass the ``geoips/tests/utils/check_code.sh`` script
 prior to any Pull Requests being approved and merged.  Please ensure this

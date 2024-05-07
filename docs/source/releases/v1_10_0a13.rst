@@ -133,7 +133,7 @@ rather than the old ``test_data_ahi_day`` directory.
 ::
 
     modified: tests/scripts/ahi.tc.WV.geotiff.sh
-    
+
 Add new tests for annotated imagery that do not perform comparison
 ------------------------------------------------------------------
 
@@ -204,7 +204,7 @@ Bug Fixes
 Add output_dict as kwd to geotiff_fname filename_formatter plugin
 -----------------------------------------------------------------
 
-The geotiff_fname filename_formatter was missing the output_dict keyword which 
+The geotiff_fname filename_formatter was missing the output_dict keyword which
 caused errors to occur when it was called.
 
 ::

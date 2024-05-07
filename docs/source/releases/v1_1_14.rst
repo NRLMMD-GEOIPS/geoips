@@ -34,4 +34,3 @@ Fix
 ===
 
 * Resolve errors when XRIT decompress software is missing
-

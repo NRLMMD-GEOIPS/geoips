@@ -340,4 +340,3 @@ SAPHIR Reader
 -------------
 
 * Replace h5\_dataset.value construct with h5\_dataset[...]
-

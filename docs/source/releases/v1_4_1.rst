@@ -39,16 +39,19 @@ Improvements
 
 * Add aerosol reader and fname as arg options
 * Add channel number as variable in AHI HSD reader
-* Adjust selection of variable for interpolation in single\_source.py if the same variable name is contained in multiple datasets 
+* Adjust selection of variable for interpolation in single\_source.py if the same variable name is contained in multiple
+  datasets
 
-    (ie, VIIRS geolocation variables - slightly different for each resolution dataset - caused issues with differing test outputs between single source and config\_based when multiple datasets are present)
+    (ie, VIIRS geolocation variables - slightly different for each resolution dataset - caused issues with differing
+    test outputs between single source and config\_based when multiple datasets are present)
 
     * Use variable from dataset that contains ALL required variables
     * Use variable from first dataset
 
 * config\_based procflow now always sector to the adjusted area\_def to ensure we get all of the data.
 
-    * Also must sector before adjusting the area\_def to ensure we have a consistent center time for determining new area\_def 
+    * Also must sector before adjusting the area\_def to ensure we have a consistent center time for determining new
+      area\_def
       (slightly different center times resulting from different sectoring can cause very slightly different recentering)
 
 Documentation Updates
@@ -61,6 +64,6 @@ Bug fixes
 =========
 
 * Correct typo in config\_based.py (product\_name in pad\_alg\_xarrays, not alg\_xarrays)
-* Update viirs\_netcdf.py to sort filenames prior to reading - intermittent failure if filenames are not sorted in advance
+* Update viirs\_netcdf.py to sort filenames prior to reading - intermittent failure if filenames are not sorted in
+  advance
 * No longer converting min/max value to int before normalizing in matplotlib\_linear\_norm colormap
-

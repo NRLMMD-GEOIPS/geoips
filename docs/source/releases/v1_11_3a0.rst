@@ -216,7 +216,6 @@ The following files required interactive log statements:
   modified:   geoips/plugins/modules/procflows/config_based.py
   modified:   geoips/plugins/modules/procflows/single_source.py
 
-
 The following files were modified to no longer include interactive logs:
 
 ::
@@ -233,7 +232,6 @@ The following files were modified to create a workflow for interactive logs:
 
   modified:   geoips/commandline/args.py
   modified:   geoips/commandline/log_setup.py
-
 
 Replace xRITDecompress with pyPublicDecompWT for seviri_hrit reader
 -------------------------------------------------------------------
@@ -290,7 +288,6 @@ Collect test data from CIRA's NextCloud instance
     modified: docs/source/starter/installation.rst
     modified: docs/source/starter/expert_installation.rst
     created: setup/download_test_data.py
-
 
 Add pyPublicDecompWT to dependencies and remove setup_seviri from setup script
 ------------------------------------------------------------------------------
@@ -438,6 +435,8 @@ data).
     modified: geoips/geoips/plugins/modules/procflows/singe_source.py
     modified: geoips/geoips/plugins/modules/procflows/config_based.py
     modified: geoips/geoips/commandline/args.py
-    renamed: 1720 -> tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png
-    modified: 1720 -> tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png.yaml
+    renamed: 1720 ->
+    tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png
+    modified: 1720 ->
+tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png.yaml
     modified: tests/scripts/gmi.tc.89pct.imagery_clean.sh

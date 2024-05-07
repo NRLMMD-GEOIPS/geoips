@@ -101,7 +101,6 @@ This will allow "test_interfaces" to complete successfully
 
     modified: geoips/dev/product.py
 
-
 Installation Updates
 ====================
 
@@ -163,7 +162,6 @@ to the `build_docs.sh` calls.
 
     modified: tests/test_all.sh
     modified: tests/test_full_install.sh
-
 
 Include more informative error messages for incorrectly formatted plugins
 -------------------------------------------------------------------------

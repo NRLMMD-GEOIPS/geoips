@@ -45,4 +45,3 @@ Bug fixes
 * Partially resolved RGB MTIF color issue (0 is bad val)
 * Corrected TC web output (was matching dictionary keys incorrectly)
 * Resolved multiple errors with MODIS global stitched processing.
-

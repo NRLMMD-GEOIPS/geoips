@@ -38,7 +38,6 @@ name to reflect the fact that it is a TC-based metadata parser.
 
   modified: pyproject.toml
 
-
 Move clat_clon_resolution_shape to center_coordinates
 -----------------------------------------------------
 
@@ -58,7 +57,8 @@ now to ensure tests will pass.
 ::
 
   modified: pyproject.toml
-  renamed: geoips/plugins/modules/sector_spec_generators/clat_clon_resolution_shape.py -> geoips/plugins/modules/sector_spec_generators/center_coordinates.py
+  renamed: geoips/plugins/modules/sector_spec_generators/clat_clon_resolution_shape.py ->
+  geoips/plugins/modules/sector_spec_generators/center_coordinates.py
   modified: geoips/plugins/modules/sector_spec_generators/center_coordinates.py
   modified: geoips/plugins/modules/procflows/single_source.py
   modified: geoips/sector_utils/utils.py
@@ -127,8 +127,10 @@ The YAML TC template plugins ARE currently used, so updated accordingly
 
   modified: sector_utils/tc_tracks.py
   modified: sector_utils/utils.py
-  renamed: geoips/plugins/modules/sector_loaders/dynamic/__init__.py -> geoips/plugins/modules/sector_spec_generators/__init__.py
-  renamed: geoips/plugins/modules/sector_loaders/dynamic/clat_clon_resolution_shape.py -> geoips/plugins/modules/sector_spec_generators/clat_clon_resolution_shape.py
+  renamed: geoips/plugins/modules/sector_loaders/dynamic/__init__.py ->
+  geoips/plugins/modules/sector_spec_generators/__init__.py
+  renamed: geoips/plugins/modules/sector_loaders/dynamic/clat_clon_resolution_shape.py ->
+  geoips/plugins/modules/sector_spec_generators/clat_clon_resolution_shape.py
   modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_1km_1024x1024.yaml
   modified: geoips/plugins/yaml/sectors/dynamic/tc_1024x1024/tc_2km_1024x1024.yaml
   modified: geoips/plugins/yaml/sectors/dynamic/tc_1400x1400/tc_1km_1400x1400.yaml
@@ -185,6 +187,9 @@ a separate PR.
   modified: geoips/commandline/args.py
   modified: geoips/sector_utils/tc_tracks.py
   modified: geoips/sector_utils/utils.py
-  renamed: geoips/plugins/modules/sector_loaders/trackfiles/__init__.py -> geoips/plugins/modules/sector_metadata_generators/__init__.py
-  renamed: geoips/plugins/modules/sector_loaders/trackfiles/bdeck_parser.py -> geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
-  renamed: geoips/plugins/modules/sector_loaders/trackfiles/flat_sectorfile_parser.py -> geoips/plugins/modules/sector_metadata_generators/flat_sectorfile_parser.py
+  renamed: geoips/plugins/modules/sector_loaders/trackfiles/__init__.py ->
+  geoips/plugins/modules/sector_metadata_generators/__init__.py
+  renamed: geoips/plugins/modules/sector_loaders/trackfiles/bdeck_parser.py ->
+  geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+  renamed: geoips/plugins/modules/sector_loaders/trackfiles/flat_sectorfile_parser.py ->
+  geoips/plugins/modules/sector_metadata_generators/flat_sectorfile_parser.py

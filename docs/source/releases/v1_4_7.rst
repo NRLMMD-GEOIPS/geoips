@@ -96,5 +96,5 @@ Real-time processing
 
 * config\_based.py
 
-    * Added two new calls to write_to_database function, that stores unsectored and sectored products to database (these were previously missed)
-
+    * Added two new calls to write_to_database function, that stores unsectored and sectored products to database (these
+      were previously missed)

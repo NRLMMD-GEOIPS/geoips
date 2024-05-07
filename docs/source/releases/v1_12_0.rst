@@ -66,7 +66,6 @@ product.
 
   modified: geoips/plugins/modules/procflows/single_source.py
 
-
 If `plot_data` does not return any products, then do not append to
 the final products list and continue.
 
@@ -415,7 +414,6 @@ longer required.
   removed: tests/uncompress_test_data.sh
   modified: setup/check_system_requirements.sh
 
-
 Update compare_outputs to print netcdf attr diffs to logs
 ---------------------------------------------------------
 
@@ -440,7 +438,8 @@ I think this was renamed 8 Nov, then attrs updated 30 Nov.
 
 ::
 
-  renamed:    tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.J01.165H_latitude_longitude.tc2021ep11kevin.nc -> tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
+  renamed:    tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.J01.165H_latitude_longitude.tc2021ep11kevin.nc ->
+  tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
   modified: tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
 
 GitHub Actions

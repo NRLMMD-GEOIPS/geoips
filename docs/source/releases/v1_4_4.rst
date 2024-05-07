@@ -80,7 +80,8 @@ Sectoring / Processing Order
     * Add "resector=False" get\_alg\_xarray option to config\_based
 
         * this enables alg\_interp\_cmap and alg\_cmap product types (no pre-interpolation).
-        * Currently "self\_register" and "reader\_defined" area\_def types lead to "resector=False" for get\_alg\_xarray.
+        * Currently "self\_register" and "reader\_defined" area\_def types lead to "resector=False" for
+          get\_alg\_xarray.
 
             * Skip ALL sectoring for reader\_defined and self\_register.
 
@@ -156,4 +157,3 @@ Error Checking
 
 * Added check in overpass\_predictor.py if sun.rise\_time exists
 * Added handling in amsub\_mirs reader for if there are bad ScanTime values
-
