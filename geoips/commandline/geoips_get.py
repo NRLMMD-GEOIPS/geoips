@@ -179,7 +179,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
             "package_name",
             type=str.lower,
             default="geoips",
-            choices=self.plugin_packages,
+            choices=self.plugin_package_names,
             help="GeoIPS Package to retrieve.",
         )
 

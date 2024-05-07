@@ -30,7 +30,7 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
             "-p",
             type=str,
             default="geoips",
-            choices=self.plugin_packages,
+            choices=self.plugin_package_names,
             help="The GeoIPS package to list unit tests from, defaults to geoips.",
         )
 
@@ -153,7 +153,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             "-p",
             type=str,
             default="all",
-            choices=self.plugin_packages,
+            choices=self.plugin_package_names,
             help="The GeoIPS package to list from, defaults to all packages",
         )
 
@@ -259,7 +259,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             - The GeoIPS Package name whose scripts you want to list.
         """
         for plugin_package_name, pkg_path in zip(
-            self.plugin_packages, self.plugin_package_paths
+            self.plugin_package_names, self.plugin_package_paths
         ):
 
             if package_name == "all" or package_name == plugin_package_name:
@@ -323,7 +323,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
         """
         pkg_data = []
         for package_name, package_path in zip(
-            self.plugin_packages, self.plugin_package_paths
+            self.plugin_package_names, self.plugin_package_paths
         ):
 
             docstring = import_module(package_name).__doc__
@@ -359,7 +359,7 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
             "-p",
             type=str,
             default="all",
-            choices=self.plugin_packages,
+            choices=self.plugin_package_names,
             help="The GeoIPS package to list from, defaults to all packages",
         )
 
@@ -429,7 +429,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
             "-p",
             type=str,
             default="all",
-            choices=self.plugin_packages,
+            choices=self.plugin_package_names,
             help="The GeoIPS package to list from.",
         )
 
@@ -496,7 +496,7 @@ class GeoipsListScripts(GeoipsExecutableCommand):
             "-p",
             type=str,
             default="all",
-            choices=self.plugin_packages,
+            choices=self.plugin_package_names,
             help="The GeoIPS package to list from.",
         )
 
@@ -517,11 +517,11 @@ class GeoipsListScripts(GeoipsExecutableCommand):
         package_name = args.package
         if package_name == "all":
             # list scripts found throughout all packages.
-            plugin_packages = self.plugin_packages
+            plugin_package_names = self.plugin_package_names
         else:
             # list scripts from a certain package.
-            plugin_packages = [package_name]
-        for plugin_package_name in plugin_packages:
+            plugin_package_names = [package_name]
+        for plugin_package_name in plugin_package_names:
             script_names = sorted(
                 [
                     [plugin_package_name, basename(fpath)]

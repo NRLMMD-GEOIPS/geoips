@@ -105,10 +105,11 @@ class GeoipsCommand(abc.ABC):
                     ],
                 )
             except KeyError:
-                err_str = "Error, the supplied command line instructions are improperly"
-                err_str += " formatted. You need an 'instructions' entry that contains "
-                err_str += f"a '{combined_name}' key."
-                raise KeyError(err_str)
+                raise KeyError(
+                    "Error, the supplied command line instructions are improperly "
+                    "formatted. You need an 'instructions' entry that contains a "
+                    f"'{combined_name}' key."
+                )
         else:
             # otherwise initialize a top-level parser for this command.
             self.subcommand_parser = argparse.ArgumentParser()
@@ -151,13 +152,13 @@ class GeoipsCommand(abc.ABC):
                 subcmd_cls(parent=self)
 
     @property
-    def plugin_packages(self):
-        """Plugin Packages property of the CLI."""
+    def plugin_packages_names(self):
+        """List of names of all installed Geoips Plugin Packages."""
         return plugin_packages.entrypoints
 
     @property
     def plugin_package_paths(self):
-        """Plugin Package Paths property of the CLI."""
+        """List of paths to all installed Geoips Plugin Packages."""
         return plugin_packages.paths
 
 

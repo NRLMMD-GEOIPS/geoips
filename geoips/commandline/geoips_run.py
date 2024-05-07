@@ -24,7 +24,7 @@ class GeoipsRun(GeoipsExecutableCommand):
             "-p",
             type=str,
             default="geoips",
-            choices=self.plugin_packages,
+            choices=self.plugin_package_names,
             help="GeoIPS Package to run a script from.",
         )
         self.subcommand_parser.add_argument(

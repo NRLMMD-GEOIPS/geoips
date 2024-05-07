@@ -43,7 +43,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 #             "-p",
 #             type=str,
 #             default="geoips",
-#             choices=self.plugin_packages,
+#             choices=self.plugin_package_names,
 #             help="GeoIPS Package containing the unit-tests to be ran.",
 #         )
 #         self.subcommand_parser.add_argument(
@@ -126,7 +126,7 @@ class GeoipsTestScript(GeoipsExecutableCommand):
             "-p",
             type=str,
             default="geoips",
-            choices=self.plugin_packages,
+            choices=self.plugin_package_names,
             help="GeoIPS Package containing the script to be tested",
         )
         self.subcommand_parser.add_argument(
@@ -194,7 +194,7 @@ class GeoipsTestLinting(GeoipsExecutableCommand):
             "-p",
             type=str,
             default="geoips",
-            choices=self.plugin_packages,
+            choices=self.plugin_package_names,
             help="GeoIPS Package that we want to run linting tests on.",
         )
 
