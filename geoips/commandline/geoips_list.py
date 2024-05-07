@@ -85,7 +85,10 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
     subcommand_classes = []
 
     def add_arguments(self):
-        """Add arguments to the list-subparser for the List Test Datasets Command."""
+        """Add arguments to the list-subparser for the List Test Datasets Command.
+
+        Since this command requires no additional arguments, we pass for the time being.
+        """
         pass
 
     def __call__(self, args):
@@ -180,13 +183,13 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         # Flag representing whether or not we want to list what's implemented or
         # what's available.
         implemented = args.implemented
-        if not implemented and package_name != "all":
-            err_str = "You cannot use the `-p` flag without the `-i` flag. "
-            err_str += "Please try again."
-            self.subcommand_parser.error(err_str)
-        if implemented and package_name:
+        if package_name != "all" or (implemented and package_name):
+            # If you're listing a certain package, implemented is implied. If it's
+            # 'all' packages, make sure implemented as added if we are going to list in
+            # that fasion.
             self.list_implemented_interfaces(package_name)
         else:
+            # Otherwise just list off available interfaces.
             self.list_available_interfaces()
 
     def list_available_interfaces(self):
