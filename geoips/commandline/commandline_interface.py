@@ -5,6 +5,7 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 """
 
 import logging
+import sys
 
 from geoips.commandline.ancillary_info import get_cmd_instructions
 from geoips.commandline.log_setup import setup_logging
@@ -63,7 +64,23 @@ class GeoipsCLI(GeoipsCommand):
 
     def execute_command(self):
         """Execute the given command."""
-        self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)
+        if hasattr(self.GEOIPS_ARGS, "exe_command"):
+            # The command called is executable (child of GeoipsExecutableCommand)
+            # so execute that command now.
+            self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)
+        else:
+            try:
+                cmd_name = sys.argv[1]
+                self.subcommand_parser.error(
+                    f"Cannot call 'geoips {cmd_name}' by itself. It's not an executable"
+                    f" function. To see how to use it, run 'geoips {cmd_name} -h'."
+                )
+            except IndexError:
+                self.subcommand_parser.error(
+                    "Cannot run the aforementioned command as it is not executable. Try"
+                    " running it with the '-h' option appended to it to get a usage "
+                    "statement."
+                )
 
 
 def main():
