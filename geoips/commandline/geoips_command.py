@@ -62,6 +62,14 @@ class GeoipsCommand(abc.ABC):
         Do this for each GeoipsCLI.geoips_subcommand_classes. This will instantiate
         each subcommand class with a parser and point towards the correct default
         function to call if that subcommand has been called.
+
+        Parameters
+        ----------
+        parent: optional - GeoipsCommand Class
+            - The parent command class that possibly is initializing it's child.
+              Ex. GeoipsList would invoke this init function for each of its subcommand
+              classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this
+              init, it supplies 'self' as an argument to follow the correct logic below.
         """
         self.nrl_url = "https://github.com/NRLMMD-GEOIPS/"
         if parent:
@@ -107,14 +115,6 @@ class GeoipsCommand(abc.ABC):
             combined_name = self.subcommand_name
 
         self.add_subparsers()
-        if hasattr(self, "__call__"):
-            # If the subcommand class is exectuable (ie. not the cli, top-level list...)
-            # Then add available arguments for that command and set that function to
-            # the commands executable function (__call__) if that command is called.
-            self.add_arguments()
-            self.subcommand_parser.set_defaults(
-                exe_command=self.__call__,
-            )
 
     @property
     @abc.abstractmethod
@@ -167,6 +167,33 @@ class GeoipsExecutableCommand(GeoipsCommand):
     This class is a blueprint of what each executable GeoIPS Sub-Command Classes
     can implement.
     """
+
+    def __init__(self, parent=None):
+        """Initialize GeoipsExecutableCommand.
+
+        This is a child of GeoipsCommand and will invoke the functionaly of
+        GeoipsCommand __init__ func alongside additional logic needed to set up
+        executable-based commands. This will instantiate each subcommand class with a
+        parser and point towards the correct default function to call if that subcommand
+        has been called.
+
+        Parameters
+        ----------
+        parent: optional - GeoipsCommand Class
+            - The parent command class that possibly is initializing it's child.
+              Ex. GeoipsList would invoke this init function for each of its subcommand
+              classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this
+              init, it supplies 'self' as an argument to follow the correct logic below.
+        """
+        super().__init__(parent=parent)
+        # Since this class is exectuable (ie. not the cli, top-level list...),
+        # add available arguments for that command and set that function to
+        # the commands executable function (__call__) if that command is called.
+        self.add_arguments()
+        self.subcommand_parser.set_defaults(
+            exe_command=self.__call__,
+        )
+
 
     @property
     def terminal_width(self):
