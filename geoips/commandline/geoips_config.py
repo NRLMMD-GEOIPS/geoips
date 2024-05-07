@@ -29,7 +29,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         return self._geoips_testdata_dir
 
     def add_arguments(self):
-        """Add arguments to the list-subparser for the Config Command."""
+        """Add arguments to the config-subparser for the Config Command."""
         self.subcommand_parser.add_argument(
             "test_dataset_name",
             type=str.lower,
@@ -48,10 +48,11 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         test_dataset_name = args.test_dataset_name
         test_dataset_url = self.test_dataset_dict[test_dataset_name]
         if test_dataset_name in listdir(self.geoips_testdata_dir):
-            out_str = f"Test dataset '{test_dataset_name}' already exists under "
-            out_str += f"'{self.geoips_testdata_dir}'. See that location for the "
-            out_str += "contents of the test dataset."
-            print(out_str)
+            print(
+                f"Test dataset '{test_dataset_name}' already exists under "
+                f"'{join(self.geoips_testdata_dir, test_dataset_name)}'. See that "
+                "location for the contents of the test dataset."
+            )
         else:
             print(
                 f"Installing {test_dataset_name} test dataset. This may take a while..."
@@ -87,6 +88,10 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
         Iterate through a Response and check that each member is not dangerous to
         extract to your machine. If it is, skip it.
+
+        Where 'dangerous' is a filepath that is not part of 'download_dir'. File path
+        maneuvering characters could be invoked ('../', ...), which we will not allow
+        when downloading test data.
 
         Parameters
         ----------
