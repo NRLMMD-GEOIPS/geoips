@@ -75,9 +75,12 @@ class GeoipsCommand(abc.ABC):
                 combined_name = f"{parent.subcommand_name}_{self.subcommand_name}"
             if parent.cmd_instructions:
                 # this is used for testing purposes to ensure failure for invalid
-                # help information
+                # help information. If the parent already has cmd_instructions set,
+                # use these instructions so we can test proper functionality of the CLI.
                 self.cmd_instructions = parent.cmd_instructions
             else:
+                # Otherwise use the default cmd_instructions which are used for normal
+                # invocation of the CLI.
                 self.cmd_instructions = cmd_instructions
             try:
 

@@ -47,11 +47,23 @@ class GeoipsCLI(GeoipsCommand):
         and so on. For example, the GeoipsList Command Class's arguments are inherited
         by all subcommand child classes, which recursively can have their own child
         subcommand classes.
+
+        Parameters
+        ----------
+        instructions_dir: str or Posix.Path
+            - The path to the directory which includes the commandline instructions.
+              This is only used for testing purposes so we can ensure the correct
+              functionality occurs for possibly missing / invalid instruction files.
         """
         self._subcommand_name = "cli"  # Needed since we inherit from GeoipsCommand
         if instructions_dir:
+            # Instructions dir has been provided, use the instructions found in that
+            # directory so we can test that the correct functionality occurs for any
+            # given instruction file state.
             self.cmd_instructions = get_cmd_instructions(instructions_dir)
         else:
+            # Otherwise use the default instructions which we know are correct
+            # (and if they're not, the appropriate error will be raised.)
             self.cmd_instructions = None
         super().__init__()
 
