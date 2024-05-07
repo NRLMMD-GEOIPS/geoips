@@ -152,7 +152,7 @@ class GeoipsCommand(abc.ABC):
                 subcmd_cls(parent=self)
 
     @property
-    def plugin_packages_names(self):
+    def plugin_package_names(self):
         """List of names of all installed Geoips Plugin Packages."""
         return plugin_packages.entrypoints
 
