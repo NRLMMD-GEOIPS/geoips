@@ -41,8 +41,8 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
         This occurs when a user has requested a family in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         yaml-based output: dict
             - Docstring
             - Family Name
@@ -126,8 +126,8 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         This occurs when a user has requested a interface in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         yaml-based output: dict
             - Absolute Path
             - Docstring
@@ -189,8 +189,8 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
         This occurs when a user has requested a package in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         yaml-based output: dict
             - Docstring
             - Documentation Link
@@ -248,8 +248,8 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
         This occurs when a user has requested a plugin in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         yaml-based output: dict
             - Docstring
             - Family Name

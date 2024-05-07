@@ -37,8 +37,8 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
     def __call__(self, args):
         """List all of the available unit-tests held under <package_name>.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         out_array: 2D Array of Strings
             - Data Host
             - Dataset Name
@@ -91,8 +91,8 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
     def __call__(self, args):
         """List all of the test datasets used by GeoIPS.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         out_array: 2D Array of Strings
             - Data Host
             - Dataset Name
@@ -157,8 +157,8 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
     def __call__(self, args):
         """List the available interface[s] within [a] GeoIPS Package[s]".
 
-        Data Output (either available or implemented)
-        ---------------------------------------------
+        Printed to Terminal (either available or implemented)
+        -----------------------------------------------------
         available_out_array: 2D Array of Strings
             - Absolute Path
             - Docstring
@@ -192,8 +192,8 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
     def list_available_interfaces(self):
         """List the available interface[s] within [a] GeoIPS Package[s]".
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         out_array: 2D Array of Strings
             - Absolute Path
             - Docstring
@@ -243,8 +243,8 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         Ie. search through all, or an individual package and list off what has been
         implemented in such package[s].
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         out_array: 2D Array of Strings
             - GeoIPS Package
             - Interface Type
@@ -306,8 +306,8 @@ class GeoipsListPackages(GeoipsExecutableCommand):
         Only installed packages will be listed. Ie, if geoips_clavrx, or another
         suitable package exists, but is not installed, it will not be listed.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         out_array: 2D Array of Strings
             - Docstring
             - GeoIPS Package
@@ -363,8 +363,8 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
     def __call__(self, args):
         """List the available interface[s] and their corresponding plugin names.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         out_array: 2D Array of Strings
             - Family Name
             - GeoIPS Package
@@ -438,8 +438,8 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
 
         Where any of those options can be GeoIPS Package specific or from any package.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         out_array: 2D array of Strings
             - Family Name
             - GeoIPS Package
@@ -500,8 +500,8 @@ class GeoipsListScripts(GeoipsExecutableCommand):
     def __call__(self, args):
         """List all of the available scripts held under <package_name>.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         out_array: 2D Array of Strings
             - GeoIPS Package
             - Script Name
