@@ -210,7 +210,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
             "GeoIPS Package": package_name,
             "Docstring": docstring,
             "Package Path": package_path,
-            "Documentation Link": f"{self.nrl_url}{package_name}",
+            "Documentation Link": f"{self.github_org_url}{package_name}",
         }
         self._output_dictionary_highlighted(package_entry)
 

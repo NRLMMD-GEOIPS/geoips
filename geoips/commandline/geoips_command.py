@@ -71,7 +71,7 @@ class GeoipsCommand(abc.ABC):
               classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this
               init, it supplies 'self' as an argument to follow the correct logic below.
         """
-        self.nrl_url = "https://github.com/NRLMMD-GEOIPS/"
+        self.github_org_url = "https://github.com/NRLMMD-GEOIPS/"
         if parent:
             # Parent Command has been passed. Check if this was the CLI or a top-level
             # command such as List or Get. If it's not cli, set their combined name to
@@ -188,7 +188,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
         super().__init__(parent=parent)
         # Since this class is exectuable (ie. not the cli, top-level list...),
         # add available arguments for that command and set that function to
-        # the commands executable function (__call__) if that command is called.
+        # the command's executable function (__call__) if that command is called.
         self.add_arguments()
         self.subcommand_parser.set_defaults(
             exe_command=self.__call__,
