@@ -194,7 +194,6 @@ class GeoipsExecutableCommand(GeoipsCommand):
             exe_command=self.__call__,
         )
 
-
     @property
     def terminal_width(self):
         """The Width in ANSI-Characters of the User's Terminal.
