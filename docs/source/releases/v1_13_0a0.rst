@@ -99,6 +99,7 @@ For an example of how to run the GeoIPS CLI, see the code section below.
 ::
 
     modified: geoips/geoips/interfaces/base.py
+    modified: geoips/.gitignore
     modified: geoips/pyproject.toml
     added: geoips/docs/source/userguide/command_line.rst
     added: geoips/geoips/commandline/ancillary_info/cmd_instructions.json
