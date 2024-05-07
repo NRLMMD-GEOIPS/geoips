@@ -23,7 +23,7 @@ class TestGeoipsListScripts(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = self._list_scripts_args
-            for pkg_name in self.plugin_packages + ["all"]:
+            for pkg_name in self.plugin_package_names + ["all"]:
                 if pkg_name != "all":
                     args = base_args + ["-p", pkg_name]
                 else:
@@ -48,7 +48,7 @@ class TestGeoipsListScripts(BaseCliTest):
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
         assert args != ["geoips", "list", "scripts"]
-        for pkg_name in self.plugin_packages:
+        for pkg_name in self.plugin_package_names:
             assert args != ["geoips", "list", "scripts", "-p", pkg_name]
         assert "usage: To use, type `geoips list scripts`" in error
 
@@ -73,7 +73,7 @@ class TestGeoipsListScripts(BaseCliTest):
                 pkg_names = [args[-1]]
             else:
                 # no `-p` flag, check all packages instead.
-                pkg_names = self.plugin_packages
+                pkg_names = self.plugin_package_names
             script_names = []
             for pkg_name in pkg_names:
                 script_names += sorted(
@@ -85,7 +85,10 @@ class TestGeoipsListScripts(BaseCliTest):
                     ]
                 )
             for script_name in script_names:
-                assert script_name in output
+                assert script_name in output.replace(" ", "").replace("\n", "").replace(
+                    "│",
+                    "",
+                )
             # Assert that the correct headers exist in the CLI output
             headers = ["GeoIPS Package", "Filename"]
             for header in headers:

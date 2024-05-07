@@ -62,7 +62,7 @@ class TestGeoipsListPackages(BaseCliTest):
             for header in headers:
                 assert header in output
             # Assert that we found every installed package
-            for pkg_name in self.plugin_packages:
+            for pkg_name in self.plugin_package_names:
                 assert pkg_name in output
 
 

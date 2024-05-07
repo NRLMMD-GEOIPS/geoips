@@ -21,7 +21,7 @@ class TestGeoipsListPlugins(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = [self._list_plugins_args]
-            for pkg_name in self.plugin_packages:
+            for pkg_name in self.plugin_package_names:
                 self._cmd_list.append(self._list_plugins_args + ["-p", pkg_name])
             # Add argument list which invokes the help message for this command
             self._cmd_list.append(["geoips", "list", "plugins", "-h"])
@@ -78,7 +78,7 @@ class TestGeoipsListPlugins(BaseCliTest):
                 pkg_names = [args[-1]]
             else:
                 # all packages selected, ensure that we found every plugin
-                pkg_names = self.plugin_packages
+                pkg_names = self.plugin_package_names
             for pkg_name in pkg_names:
                 plugin_registry = json.load(
                     open(

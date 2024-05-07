@@ -24,7 +24,7 @@ class TestGeoipsListUnitTests(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             base_args = self._list_unit_tests_args
             self._cmd_list = [base_args]
-            for pkg_name in self.plugin_packages:
+            for pkg_name in self.plugin_package_names:
                 self._cmd_list.append(base_args + ["-p", pkg_name])
             # Add argument list which invokes the help message for this command
             self._cmd_list.append(["geoips", "list", "unit-tests", "-h"])

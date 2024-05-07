@@ -28,7 +28,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 #                 base_args + ["commandline", "-n", "test_geoips_list_packages.py"]
 #             ]
 #             # select a small random amount of tests to call via geoips test unit-test
-#             for pkg_name in self.plugin_packages:
+#             for pkg_name in self.plugin_package_names:
 #                 unit_test_dir = str(files(pkg_name) / "../tests/unit_tests")
 #                 try:
 #                     listdir(unit_test_dir)

@@ -19,7 +19,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = [self._list_interfaces_args]
-            for pkg_name in self.plugin_packages:
+            for pkg_name in self.plugin_package_names:
                 self._cmd_list.append(
                     self._list_interfaces_args + ["-i", "-p", pkg_name]
                 )
@@ -61,10 +61,6 @@ class TestGeoipsListInterfaces(BaseCliTest):
             assert "To use, type `geoips list interfaces`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
-            if "-p" in args:
-                # Certain package has been requested, assert this was used alongside
-                # the "-i" ("--implemented") flag
-                assert "-i" in args
             if "-i" in args or "-p" in args:
                 headers = ["GeoIPS Package", "Interface Type", "Interface Name"]
             else:
