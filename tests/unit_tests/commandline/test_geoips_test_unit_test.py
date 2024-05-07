@@ -40,7 +40,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 #                         do_geoips_test = rand() < 0.05
 #                         if do_geoips_test:
 #                             self._cmd_list.append(
-#                                 base_args + ["-p", pkg_name, dir_name, "-n", test_name]
+#                                 base_args + ["-p", pkg_name, dir_name, "-n", test_name] # NOQA
 #                             )
 #             # Add argument list to retrieve help message
 #             self._cmd_list.append(base_args + ["-h"])
@@ -98,8 +98,8 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 # def test_all_command_combinations(args):
 #     """Test all 'geoips test unit-test ...' commands.
 
-#     This test covers every valid combination of commands for the 'geoips test unit-test'
-#     command. We also test invalid commands, to ensure that the proper help documentation
+#     This test covers every valid combination of commands for the 'geoips test unit-test' # NOQA
+#     command. We also test invalid commands, to ensure that the proper help documentation # NOQA
 #     is provided for those using the command incorrectly.
 
 #     Parameters

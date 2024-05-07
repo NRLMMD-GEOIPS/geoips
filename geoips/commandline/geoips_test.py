@@ -5,8 +5,10 @@ Runs the appropriate tests based on the arguments provided.
 
 from glob import glob
 from importlib import resources
+
 # from os import listdir
 from os.path import basename
+
 # from pytest import main as invoke_pytest
 from subprocess import call
 
@@ -20,12 +22,12 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 #     subcommand_classes = []
 
 #     def add_arguments(self):
-#         """Instantiate the arguments that are supported for the test unit-test command.
+#         """Instantiate the arguments that are supported for the test unit-test command. # NOQA
 
 #         Currently the "geoips test unit-test" command supports this format:
 #             - geoips test unit-test dir_name <-p> <package_name> <-n> <test_name>
 #         Where:
-#             - dir_name is the name of the folder containing the unit-test[s] you want to
+#             - dir_name is the name of the folder containing the unit-test[s] you want to # NOQA
 #               run
 #             - <package_name> is any GeoIPS package that is installed and recognized by
 #               the GeoIPS Library
@@ -34,7 +36,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 #         self.subcommand_parser.add_argument(
 #             "directory_name",
 #             type=str,
-#             help="GeoIPS Packages Unit Test Directory Name where unit tests are held.",
+#             help="GeoIPS Packages Unit Test Directory Name where unit tests are held.", # NOQA
 #         )
 #         self.subcommand_parser.add_argument(
 #             "--package_name",
@@ -69,7 +71,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 #             self.subcommand_parser.error(err_str)
 
 #         if dir_name not in listdir(unit_test_dir):
-#             # The specified unit test directory does not exist at the specified location
+#             # The specified unit test directory does not exist at the specified location # NOQA
 #             # raise an error specifying that
 #             err_str = f"Directory '{dir_name}' not found under {package_name}'s unit "
 #             err_str += f"tests directory '{unit_test_dir}'. Please select one of the "
@@ -85,7 +87,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 #             ]
 #             if test_name not in fnames:
 #                 err_str = f"Unit Test '{test_name}' not found under the directory "
-#                 err_str += f"'{unit_test_dir}', please select one of the options shown "
+#                 err_str += f"'{unit_test_dir}', please select one of the options shown " # NOQA
 #                 err_str += f"below.\ns {fnames}"
 #                 self.subcommand_parser.error(err_str)
 #         else:
