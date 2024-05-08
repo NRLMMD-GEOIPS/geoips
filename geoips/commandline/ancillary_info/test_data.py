@@ -17,7 +17,7 @@
 Mapping goes {"test_dataset_name": "test_dataset_url"}
 """
 
-interface = None # denotes that this is not a plugin module
+interface = None  # denotes that this is not a plugin module
 
 test_dataset_dict = {
     "test_data_viirs": "https://io.cira.colostate.edu/s/mQ2HbE2Js4E9rba/download/test_data_viirs.tgz",  # noqa
