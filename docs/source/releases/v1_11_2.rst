@@ -161,7 +161,7 @@ Add new test script that tests reader with updated ASCAT-UHR files.
     modified: geoips/plugins/modules/readers/ascat_uhr_netcdf.py
     modified: tests/integration_tests/full_test.sh
     new file:
-tests/outputs/ascat_uhr.tc.windspeed.imagery_clean/20230912_011802_AL132023_ascatuhr_metop-c_windspeed_100kts_51p44_1p0.png
+    tests/outputs/ascat_uhr.tc.windspeed.imagery_clean/20230912_011802_AL132023_ascatuhr_metop-c_windspeed_100kts_51p44_1p0.png
     new file: tests/scripts/ascat_uhr.tc.windspeed.imagery_clean.sh
     new file: tests/sectors/tc_bdecks/bal132023.dat
 
@@ -183,9 +183,9 @@ that require applied time offsets.
     modified: geoips/plugins/modules/readers/ascat_uhr_netcdf.py
     modified: tests/integration_tests/full_test.sh
     new file:
-tests/outputs/ascat_uhr.tc.nrcs.imagery_clean/20220911_132830_WP142022_ascatuhr_metop-b_nrcs_105kts_71p22_res1p0-cr300.png
+    tests/outputs/ascat_uhr.tc.nrcs.imagery_clean/20220911_132830_WP142022_ascatuhr_metop-b_nrcs_105kts_71p22_res1p0-cr300.png
     new file:
-tests/outputs/ascat_uhr.tc.windbarbs.imagery_windbarbs/20230722_234513_AL052023_ascatuhr_metop-b_windbarbs_65kts_63p79_1p0.png
+    tests/outputs/ascat_uhr.tc.windbarbs.imagery_windbarbs/20230722_234513_AL052023_ascatuhr_metop-b_windbarbs_65kts_63p79_1p0.png
     new file: tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh
     new file: tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh
     new file: tests/sectors/tc_bdecks/bal052023.dat
