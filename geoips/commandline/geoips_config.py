@@ -27,7 +27,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
         Mapping goes {"test_dataset_name": "test_dataset_url"}
         """
-        if not hasattr(self, "_test_dataset_urls"):
+        if not hasattr(self, "_test_dataset_dict"):
             self._test_dataset_dict = {
                 "test_data_viirs": "https://io.cira.colostate.edu/s/mQ2HbE2Js4E9rba/download/test_data_viirs.tgz",  # noqa
                 "test_data_smap": "https://io.cira.colostate.edu/s/CezXWwXg4qR2b94/download/test_data_smap.tgz",  # noqa
