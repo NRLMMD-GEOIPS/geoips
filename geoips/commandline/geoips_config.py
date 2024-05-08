@@ -22,6 +22,26 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
     subcommand_classes = []
 
     @property
+    def test_dataset_dict(self):
+        """Dictionary mapping of GeoIPS Test Datasets.
+
+        Mapping goes {"test_dataset_name": "test_dataset_url"}
+        """
+        if not hasattr(self, "_test_dataset_urls"):
+            self._test_dataset_dict = {
+                "test_data_viirs": "https://io.cira.colostate.edu/s/mQ2HbE2Js4E9rba/download/test_data_viirs.tgz",  # noqa
+                "test_data_smap": "https://io.cira.colostate.edu/s/CezXWwXg4qR2b94/download/test_data_smap.tgz",  # noqa
+                "test_data_scat": "https://io.cira.colostate.edu/s/HyHLZ9F8bnfcTcd/download/test_data_scat.tgz",  # noqa
+                "test_data_sar": "https://io.cira.colostate.edu/s/snxx8S5sQL3AL7f/download/test_data_sar.tgz",  # noqa
+                "test_data_noaa_aws": "https://io.cira.colostate.edu/s/fkiPS3jyrQGqgPN/download/test_data_noaa_aws.tgz",  # noqa
+                "test_data_gpm": "https://io.cira.colostate.edu/s/LT92NiFSA8ZSNDP/download/test_data_gpm.tgz",  # noqa
+                "test_data_fusion": "https://io.cira.colostate.edu/s/DSz2nZsiPMDeLEP/download/test_data_fusion.tgz",  # noqa
+                "test_data_clavrx": "https://io.cira.colostate.edu/s/ACLKdS2Cpgd2qkc/download/test_data_clavrx.tgz",  # noqa
+                "test_data_amsr2": "https://io.cira.colostate.edu/s/FmWwX2ft7KDQ8N9/download/test_data_amsr2.tgz",  # noqa
+            }
+        return self._test_dataset_dict
+
+    @property
     def geoips_testdata_dir(self):
         """String path to GEOIPS_TESTDATA_DIR."""
         if not hasattr(self, "_geoips_testdata_dir"):
