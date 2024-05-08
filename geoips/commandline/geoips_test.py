@@ -18,7 +18,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 # class GeoipsTestUnitTest(GeoipsExecutableCommand):
 #     """Test Sub-Command for running GeoIPS Unit Tests."""
 
-#     subcommand_name = "unit-test"
+#     command_name = "unit-test"
 #     subcommand_classes = []
 
 #     def add_arguments(self):
@@ -102,7 +102,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 class GeoipsTestScript(GeoipsExecutableCommand):
     """Test Sub-Command for running GeoIPS Test Scripts."""
 
-    subcommand_name = "script"
+    command_name = "script"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -184,7 +184,7 @@ class GeoipsTestScript(GeoipsExecutableCommand):
 class GeoipsTestLinting(GeoipsExecutableCommand):
     """Test Sub-Command for running GeoIPS Linting Services."""
 
-    subcommand_name = "linting"
+    command_name = "linting"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -210,6 +210,6 @@ class GeoipsTestLinting(GeoipsExecutableCommand):
 class GeoipsTest(GeoipsCommand):
     """Top-Level Test Command for testing GeoIPS and its corresponding Packages."""
 
-    subcommand_name = "test"
+    command_name = "test"
     subcommand_classes = [GeoipsTestLinting, GeoipsTestScript]
     # subcommand_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestUnitTest]

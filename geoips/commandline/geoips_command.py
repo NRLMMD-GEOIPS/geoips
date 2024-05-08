@@ -16,7 +16,7 @@ from colorama import Fore, Style
 from tabulate import tabulate
 import yaml
 
-from geoips.commandline.ancillary_info import cmd_instructions
+from geoips.commandline.cmd_instructions import cmd_instructions
 from geoips.geoips_utils import get_entry_point_group
 
 
@@ -74,14 +74,10 @@ class GeoipsCommand(abc.ABC):
         """
         self.github_org_url = "https://github.com/NRLMMD-GEOIPS/"
         if parent:
-            # Parent Command has been passed. Check if this was the CLI or a top-level
-            # command such as List or Get. If it's not cli, set their combined name to
-            # '<top-level-command_name> <sub-command-name>', and add a parser for that
-            # sub command
-            if parent.subcommand_name == "cli":
-                combined_name = self.subcommand_name
-            else:
-                combined_name = f"{parent.subcommand_name}_{self.subcommand_name}"
+            # Set the combined name of the provided object. For example, if this was the
+            # parent 'list' command, it would be 'geoips_list'. If it was a child of
+            # list, for example 'scripts', combined name would be 'geoips_list_scripts'
+            self.combined_name = f"{parent.combined_name}_{self.command_name}"
             if parent.cmd_instructions:
                 # this is used for testing purposes to ensure failure for invalid
                 # help information. If the parent already has cmd_instructions set,
@@ -97,11 +93,11 @@ class GeoipsCommand(abc.ABC):
                 # class being initialized
                 # So we can separate the commands arguments in a tree-like structure
                 self.subcommand_parser = parent.subparsers.add_parser(
-                    self.subcommand_name,
-                    help=self.cmd_instructions["instructions"][combined_name][
+                    self.command_name,
+                    help=self.cmd_instructions["instructions"][self.combined_name][
                         "help_str"
                     ],
-                    usage=self.cmd_instructions["instructions"][combined_name][
+                    usage=self.cmd_instructions["instructions"][self.combined_name][
                         "usage_str"
                     ],
                 )
@@ -109,19 +105,19 @@ class GeoipsCommand(abc.ABC):
                 raise KeyError(
                     "Error, the supplied command line instructions are improperly "
                     "formatted. You need an 'instructions' entry that contains a "
-                    f"'{combined_name}' key."
+                    f"'{self.combined_name}' key."
                 )
         else:
             # otherwise initialize a top-level parser for this command.
             self.subcommand_parser = argparse.ArgumentParser()
-            combined_name = self.subcommand_name
+            self.combined_name = self.command_name
 
         self.add_subparsers()
 
     @property
     @abc.abstractmethod
-    def subcommand_name(self):
-        """Name of the subcommand_class."""
+    def command_name(self):
+        """Name of the command class."""
         pass
 
     @property
@@ -147,7 +143,7 @@ class GeoipsCommand(abc.ABC):
         """
         if len(self.subcommand_classes):
             self.subparsers = self.subcommand_parser.add_subparsers(
-                help=f"{self.subcommand_name} instructions."
+                help=f"{self.command_name} instructions."
             )
             for subcmd_cls in self.subcommand_classes:
                 subcmd_cls(parent=self)

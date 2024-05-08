@@ -8,6 +8,7 @@ from os.path import abspath, join
 import requests
 import tarfile
 
+from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 
 
@@ -18,28 +19,8 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
     your GeoIPS environment.
     """
 
-    subcommand_name = "install"
+    command_name = "install"
     subcommand_classes = []
-
-    @property
-    def test_dataset_dict(self):
-        """Dictionary mapping of GeoIPS Test Datasets.
-
-        Mapping goes {"test_dataset_name": "test_dataset_url"}
-        """
-        if not hasattr(self, "_test_dataset_dict"):
-            self._test_dataset_dict = {
-                "test_data_viirs": "https://io.cira.colostate.edu/s/mQ2HbE2Js4E9rba/download/test_data_viirs.tgz",  # noqa
-                "test_data_smap": "https://io.cira.colostate.edu/s/CezXWwXg4qR2b94/download/test_data_smap.tgz",  # noqa
-                "test_data_scat": "https://io.cira.colostate.edu/s/HyHLZ9F8bnfcTcd/download/test_data_scat.tgz",  # noqa
-                "test_data_sar": "https://io.cira.colostate.edu/s/snxx8S5sQL3AL7f/download/test_data_sar.tgz",  # noqa
-                "test_data_noaa_aws": "https://io.cira.colostate.edu/s/fkiPS3jyrQGqgPN/download/test_data_noaa_aws.tgz",  # noqa
-                "test_data_gpm": "https://io.cira.colostate.edu/s/LT92NiFSA8ZSNDP/download/test_data_gpm.tgz",  # noqa
-                "test_data_fusion": "https://io.cira.colostate.edu/s/DSz2nZsiPMDeLEP/download/test_data_fusion.tgz",  # noqa
-                "test_data_clavrx": "https://io.cira.colostate.edu/s/ACLKdS2Cpgd2qkc/download/test_data_clavrx.tgz",  # noqa
-                "test_data_amsr2": "https://io.cira.colostate.edu/s/FmWwX2ft7KDQ8N9/download/test_data_amsr2.tgz",  # noqa
-            }
-        return self._test_dataset_dict
 
     @property
     def geoips_testdata_dir(self):
@@ -53,7 +34,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         self.subcommand_parser.add_argument(
             "test_dataset_name",
             type=str.lower,
-            choices=list(self.test_dataset_dict.keys()),
+            choices=list(test_dataset_dict.keys()),
             help="GeoIPS Test Dataset to Install.",
         )
 
@@ -66,7 +47,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             - The argument namespace to parse through
         """
         test_dataset_name = args.test_dataset_name
-        test_dataset_url = self.test_dataset_dict[test_dataset_name]
+        test_dataset_url = test_dataset_dict[test_dataset_name]
         if test_dataset_name in listdir(self.geoips_testdata_dir):
             print(
                 f"Test dataset '{test_dataset_name}' already exists under "
@@ -131,5 +112,5 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 class GeoipsConfig(GeoipsCommand):
     """Config top-level command for configuring your GeoIPS environment."""
 
-    subcommand_name = "config"
+    command_name = "config"
     subcommand_classes = [GeoipsConfigInstall]

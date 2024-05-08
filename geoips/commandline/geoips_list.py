@@ -11,6 +11,7 @@ from os.path import basename
 
 from tabulate import tabulate
 
+from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips import interfaces
 
@@ -21,7 +22,7 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
     Called via `geoips list unit-tests`. Outputs the following in a tabular format.
     """
 
-    subcommand_name = "unit-tests"
+    command_name = "unit-tests"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -82,7 +83,7 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
     Called via `geoips list test-datasets`. Outputs the following in a tabular format.
     """
 
-    subcommand_name = "test-datasets"
+    command_name = "test-datasets"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -107,7 +108,7 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
             - The list argument namespace to parse through
         """
         dataset_info = []
-        for test_dataset_name in list(self.test_dataset_dict.keys()):
+        for test_dataset_name in list(test_dataset_dict.keys()):
             dataset_info.append(["io.cira.colostate.edu", test_dataset_name])
         headers = ["Data Host", "Dataset Name"]
         print("-" * len("Available Test Datasets"))
@@ -134,7 +135,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
     Called via `geoips list interfaces`. Outputs the following data in a tabular format.
     """
 
-    subcommand_name = "interfaces"
+    command_name = "interfaces"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -297,7 +298,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
     Called via `geoips list packages`. Outputs the following data in a tabular format.
     """
 
-    subcommand_name = "packages"
+    command_name = "packages"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -350,7 +351,7 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
     Called via `geoips list plugins`. Outputs the following data in a tabular format.
     """
 
-    subcommand_name = "plugins"
+    command_name = "plugins"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -405,7 +406,7 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
 class GeoipsListSingleInterface(GeoipsExecutableCommand):
     """List Sub-Command for listing plugins of a single interface."""
 
-    subcommand_name = "interface"
+    command_name = "interface"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -487,7 +488,7 @@ class GeoipsListScripts(GeoipsExecutableCommand):
     Called via `geoips list scripts`. Outputs the following data in a tabular format.
     """
 
-    subcommand_name = "scripts"
+    command_name = "scripts"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -552,7 +553,7 @@ class GeoipsListScripts(GeoipsExecutableCommand):
 class GeoipsList(GeoipsCommand):
     """Top-Level List Command for listing off GeoIPS Artifacts."""
 
-    subcommand_name = "list"
+    command_name = "list"
     subcommand_classes = [
         GeoipsListSingleInterface,
         GeoipsListInterfaces,

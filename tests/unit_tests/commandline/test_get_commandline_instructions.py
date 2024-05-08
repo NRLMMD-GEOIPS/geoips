@@ -4,7 +4,7 @@ from os import listdir, remove
 from os.path import dirname, exists
 import pytest
 
-from geoips.commandline.ancillary_info import (
+from geoips.commandline.cmd_instructions import (
     get_cmd_instructions,
     cmd_instructions_modified,
 )

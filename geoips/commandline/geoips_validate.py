@@ -17,7 +17,7 @@ from geoips import interfaces
 class GeoipsValidate(GeoipsExecutableCommand):
     """Validate Sub-Command for validating package plugins."""
 
-    subcommand_name = "validate"
+    command_name = "validate"
     subcommand_classes = []
 
     def add_arguments(self):

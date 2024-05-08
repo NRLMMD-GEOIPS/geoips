@@ -18,7 +18,7 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
     when calling this command is shown below, outputted in a yaml-based format.
     """
 
-    subcommand_name = "family"
+    command_name = "family"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -108,7 +108,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
     calling this command is shown below, outputted in a yaml-based format.
     """
 
-    subcommand_name = "interface"
+    command_name = "interface"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -171,7 +171,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
     calling this command is shown below, outputted in a yaml-based format.
     """
 
-    subcommand_name = "package"
+    command_name = "package"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -223,7 +223,7 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
     when calling this command is shown below, outputted in a yaml-based format.
     """
 
-    subcommand_name = "plugin"
+    command_name = "plugin"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -323,7 +323,7 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
 class GeoipsGet(GeoipsCommand):
     """Top-Level Get Command Class for retrieving information about GeoIPS Artifacts."""
 
-    subcommand_name = "get"
+    command_name = "get"
     subcommand_classes = [
         GeoipsGetFamily,
         GeoipsGetInterface,

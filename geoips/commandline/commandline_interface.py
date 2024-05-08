@@ -7,7 +7,7 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 import logging
 import sys
 
-from geoips.commandline.ancillary_info import get_cmd_instructions
+from geoips.commandline.cmd_instructions import get_cmd_instructions
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
@@ -29,6 +29,7 @@ class GeoipsCLI(GeoipsCommand):
     - [GeoipsConfig, GeoipsGet, GeoipsList, GeoipsRun, GeoipsTest, GeoipsValidate]
     """
 
+    command_name = "geoips"  # Needed since we inherit from GeoipsCommand
     subcommand_classes = [
         GeoipsConfig,
         GeoipsGet,
@@ -55,7 +56,6 @@ class GeoipsCLI(GeoipsCommand):
               This is only used for testing purposes so we can ensure the correct
               functionality occurs for possibly missing / invalid instruction files.
         """
-        self._subcommand_name = "cli"  # Needed since we inherit from GeoipsCommand
         if instructions_dir:
             # Instructions dir has been provided, use the instructions found in that
             # directory so we can test that the correct functionality occurs for any
@@ -68,11 +68,6 @@ class GeoipsCLI(GeoipsCommand):
         super().__init__()
 
         self.GEOIPS_ARGS = self.subcommand_parser.parse_args()
-
-    @property
-    def subcommand_name(self):
-        """The Name of the Subcommand."""
-        return self._subcommand_name
 
     def execute_command(self):
         """Execute the given command."""
