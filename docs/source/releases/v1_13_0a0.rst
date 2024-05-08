@@ -44,6 +44,8 @@ Updated all ``.rst`` files to comply with doc8 standards
 
 *FROM GEOIPS#479*
 
+Updates are only formatting, no changes to content.
+
 ::
 
     modified: docs/source/releases/v1_10_0a13.rst
