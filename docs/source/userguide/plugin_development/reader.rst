@@ -107,7 +107,7 @@ See below for an example of all three functions signatures in action.
     def read_atms_file(fname, xarray_atms):  # Read Function
 
     # Call Function, with important kwargs
-    def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=None):  
+    def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=None):
 
 There are a few keypoints of the call function that should be talked about. First off,
 is the metadata required by GeoIPS that is associated with your data. Mainly, there are
