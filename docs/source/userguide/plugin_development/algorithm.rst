@@ -74,9 +74,9 @@ Copy and paste this code into your algorithm file (feel free to remove the comme
 
     def call(
         xobj, # Xarray dataset holding xarrays
-        variables, # list of required input variables for algorithm. 
+        variables, # list of required input variables for algorithm.
         # Note: Python lists are ordered, so you can count on
-        # your list of variables being in the order in which you 
+        # your list of variables being in the order in which you
         # define them in your product plugin variables
         product_name,
         output_data_range,  # Range of values that your algorithm will output
