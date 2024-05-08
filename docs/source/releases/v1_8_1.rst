@@ -190,10 +190,7 @@ because no titles/labels in the unsectored test output).
 
 ::
 
-    renamed:
-    tests/outputs/ssmis.color89.unprojected_image/20200519.084400.F16.ssmis.color89.self_register.100p00.DMSP.15p0.png
-    ->
-    tests/outputs/ssmis.color91.unprojected_image/20200519.084400.F16.ssmis.color91.self_register.100p00.DMSP.15p0.png
+    renamed: tests/outputs/ssmis.color89.unprojected_image/20200519.084400.F16.ssmis.color89.self_register.100p00.DMSP.15p0.png -> tests/outputs/ssmis.color91.unprojected_image/20200519.084400.F16.ssmis.color91.self_register.100p00.DMSP.15p0.png
     renamed: tests/scripts/ssmis.color89.unprojected_image.sh -> tests/scripts/ssmis.color91.unprojected_image.sh
 
 Documentation Updates

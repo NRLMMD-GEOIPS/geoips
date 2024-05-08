@@ -39,6 +39,7 @@ Add procflow overall resource usage statistics
 
       modified: geoips/utils/memusg.py
 
+
 Enhancements
 ============
 
@@ -50,6 +51,7 @@ Add start, end, and mid data times to TC YAML metadata output
 ::
 
    modified: geoips/interface_modules/output_formats/metadata_tc.py
+
 
 Bug fixes
 =========
@@ -78,6 +80,8 @@ Fix product family typo
 
     geoips/dev/output.py
 
+
+
 Add missing output family to required_kwargs
 --------------------------------------------
 
@@ -91,6 +95,7 @@ Add missing output family to required_kwargs
 ::
 
    modified: geoips/dev/output.py
+
 
 Use xobj.use_order in imagery_clean
 -----------------------------------
@@ -129,6 +134,7 @@ Return dict vs list of filenames in procflow
 ::
 
    modified: geoips/interface_modules/procflows/single_source.py
+
 
 Replace datetime.datetime docstring parameter type with “datetime”
 ------------------------------------------------------------------
@@ -186,6 +192,7 @@ Fix too-short underline for mpl_utils header in API reference
 
       docs/source/geoips_api/api_image_utils.rst
 
+
 Installation Updates
 ====================
 
@@ -202,6 +209,8 @@ Install all requirements by default
 ::
 
    modified: setup.py
+
+
 
 Code Formatting and Style Updates
 =================================
@@ -286,14 +295,11 @@ Add “data_times” to AMSR2 TC YAML metadata outputs
 
 ::
 
-      modified:
-      tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml
-      modified:
-      tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml
-      modified:
-      tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml
-      modified:
-      tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml
+      modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml
+      modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml
+      modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml
+      modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml
+
 
 Documentation Updates
 =====================
@@ -310,6 +316,7 @@ Update style requirements
 
    modified: docs/source/geoips_overview.rst
    modified: docs/source/documentation_strategy.rst
+
 
 Restructured text automodule API capability
 -------------------------------------------
@@ -343,6 +350,7 @@ Restructured text automodule API capability
       new: docs/source/geoips_api/api_utils.rst
       new: docs/source/geoips_api/api_xarray_utils.rst
       new: docs/source/geoips_api/index.rst
+
 
 Sphinx documentation automation
 -------------------------------
@@ -383,6 +391,7 @@ Sphinx documentation automation
       moved: docs/yaml -> docs/source
       removed: layout.html
       removed: style.css
+
 
 Release Updates
 ===============
