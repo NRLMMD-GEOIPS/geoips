@@ -7,11 +7,12 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 
 import abc
 import argparse
-from colorama import Fore, Style
 from importlib import resources
 import json
 from os.path import dirname
 from shutil import get_terminal_size
+
+from colorama import Fore, Style
 from tabulate import tabulate
 import yaml
 

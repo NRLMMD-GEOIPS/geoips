@@ -8,6 +8,7 @@ from importlib import resources, import_module
 import json
 from os import listdir
 from os.path import basename
+
 from tabulate import tabulate
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand

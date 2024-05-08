@@ -7,6 +7,7 @@ interface's validation mechaninism (interface.plugin_is_valid(plugin_name)).
 from importlib.util import spec_from_file_location, module_from_spec
 from os.path import exists
 from pathlib import Path
+
 import yaml
 
 from geoips.commandline.geoips_command import GeoipsExecutableCommand
