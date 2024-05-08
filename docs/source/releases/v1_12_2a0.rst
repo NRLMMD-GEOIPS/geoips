@@ -169,6 +169,7 @@ up to date going forward.
 
 ::
     modified: docs/dev/coding_standards.rst
+
 Bug Fixes
 =========
 
