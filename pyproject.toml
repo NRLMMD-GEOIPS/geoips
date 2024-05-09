@@ -64,7 +64,7 @@ pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
 scipy = ">1.2"         # Base requirement, requires openblas
-xarray = "*"           # Base requirement
+xarray = "<=2023.08"           # Base requirement; Pinned to <=2023.08 due to bug mentioned in #...
 astropy = "*"          # Used for accounting leap seconds when converting epoch timestamps
 cartopy = ">=0.22.0"   # No longer requires libgeos
 ephem = "*"            # Required for overpass predictor
