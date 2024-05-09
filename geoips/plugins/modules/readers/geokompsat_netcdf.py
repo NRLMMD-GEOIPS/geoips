@@ -879,7 +879,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 # Unit test functions
 def get_test_files(test_data_dir):
     """Generate testing xarray from test data."""
-    filepath = test_data_dir + "/test_data_geokompsat/data/20231208_0300_daytime/*.nc"
+    filepath = test_data_dir + "/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc"
     filelist = glob.glob(filepath)
     tmp_xr = call(filelist)
     if len(filelist) == 0:
