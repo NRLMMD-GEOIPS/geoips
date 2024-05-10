@@ -122,16 +122,15 @@ Refactor
 
 * **geoips/interface_modules/procflows/single_source.py**: update output format if statements for xarray_dict-based
 
-	* xarray_dict_data -> xrdict_varlist_outfnames_to_outlist
-	* xarray_dict -> xrdict_area_product_outfnames_to_outlist
-	* make product_name_title and mpl_colors_info optional for xrdic_area_product_outfnames_to_outlist family
+    * xarray_dict_data -> xrdict_varlist_outfnames_to_outlist
+    * xarray_dict -> xrdict_area_product_outfnames_to_outlist
+    * make product_name_title and mpl_colors_info optional for xrdic_area_product_outfnames_to_outlist family
 
 * **geoips/interface_modules/output_formats/text_winds.py**: Update for xarray_dict-based standards
 
-	* xarray_dict_data -> xrdict_varlist_outfnames_to_outlist
-	* xarray_objs -> xarray_dict
-	* product_names -> varlist
-
+    * xarray_dict_data -> xrdict_varlist_outfnames_to_outlist
+    * xarray_objs -> xarray_dict
+    * product_names -> varlist
 
 add "force_alt_varname" to coverage checks
 ==========================================
@@ -251,7 +250,8 @@ Documentation
 * **docs/git-workflow.rst**
 
     * Add non-member forking process
-    * Note under branching instructions that branching only applies to members of NRLMMD-GEOIPS, non-members must follow forking instructions
+    * Note under branching instructions that branching only applies to members of NRLMMD-GEOIPS, non-members must follow
+      forking instructions
 
 Update image_utils to numpy docstrings
 ======================================
@@ -409,7 +409,7 @@ Improvements
         * Allow passing "force_pad" for non-TC sectors
         * Allow passing x_scale_factor and y_scale_factor for different scaling factors
 
-    * **def plot_data**: Support xarray_dict output format type. 
+    * **def plot_data**: Support xarray_dict output format type.
     * **def get_alg_xarray**: Support data_fusion processing
 
         * If variable_names is passed, use it (impacts reader_defined and self_registered products)
@@ -423,7 +423,7 @@ Improvements
 * **geoips/dev/utils.py**
 
     * Add "force" option to copy_standard_metadata - allow NOT replacing existing fields.
-    * This will not impact existing functionality - default is force=True, and when force=True the original 
+    * This will not impact existing functionality - default is force=True, and when force=True the original
       if statement will always be used.
 
 * **geoips/geoips_utils.py**
@@ -536,7 +536,8 @@ Installation and Test
 ---------------------
 
 * **README.md** - Pass low_memory and low_bandwidth options to base_install_and_test.sh
-* **setup.sh** - Support low_bandwidth option for setup_abi_test_data (only download B14), and install (pip install minimum packages for tests)
+* **setup.sh** - Support low_bandwidth option for setup_abi_test_data (only download B14), and install (pip install
+  minimum packages for tests)
 * **base_install_and_test.sh** - Pass "low_bandwidth" option through to setup.sh
 
 NRLMMD-GEOIPS/geoips#27
@@ -731,4 +732,3 @@ README.md
 ^^^^^^^^^
 
 * Update github.com GEOIPS_ACTIVE_BRANCH from dev to main
-

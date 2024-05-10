@@ -18,6 +18,10 @@ Version 1.13.0a0 (2024-04-24)
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
 
+* Documentation
+
+  * Updated all ``.rst`` files to comply with doc8 standards
+
 Release Updates
 ===============
 
@@ -31,3 +35,87 @@ Update "update_this_release_note" to v1_13_0a0
     modified: docs/source/releases/index.rst
     new file: docs/source/releases/v1_13_0a0.rst
     modified: update_this_release_note
+
+Documentation
+=============
+
+Updated all ``.rst`` files to comply with doc8 standards
+--------------------------------------------------------
+
+*FROM GEOIPS#479*
+
+Updates are only formatting, no changes to content.
+
+::
+
+    modified: docs/source/releases/v1_10_0a13.rst
+    modified: docs/source/releases/v1_10_0a5.rst
+    modified: docs/source/releases/v1_10_0a6.rst
+    modified: docs/source/releases/v1_10_0a8.rst
+    modified: docs/source/releases/v1_10_0a9.rst
+    modified: docs/source/releases/v1_10_2.rst
+    modified: docs/source/releases/v1_10_3.rst
+    modified: docs/source/releases/v1_11_0.rst
+    modified: docs/source/releases/v1_11_1.rst
+    modified: docs/source/releases/v1_11_1a0.rst
+    modified: docs/source/releases/v1_11_2.rst
+    modified: docs/source/releases/v1_11_3a0.rst
+    modified: docs/source/releases/v1_11_5.rst
+    modified: docs/source/releases/v1_11_7.rst
+    modified: docs/source/releases/v1_11_7a0.rst
+    modified: docs/source/releases/v1_12_0.rst
+    modified: docs/source/releases/v1_12_2a0.rst
+    modified: docs/source/releases/v1_13_0a0.rst
+    modified: docs/source/releases/v1_1_13.rst
+    modified: docs/source/releases/v1_1_14.rst
+    modified: docs/source/releases/v1_1_15.rst
+    modified: docs/source/releases/v1_1_16.rst
+    modified: docs/source/releases/v1_1_17.rst
+    modified: docs/source/releases/v1_2_0.rst
+    modified: docs/source/releases/v1_2_1.rst
+    modified: docs/source/releases/v1_2_2.rst
+    modified: docs/source/releases/v1_2_3.rst
+    modified: docs/source/releases/v1_2_4.rst
+    modified: docs/source/releases/v1_2_5.rst
+    modified: docs/source/releases/v1_3_0.rst
+    modified: docs/source/releases/v1_3_1.rst
+    modified: docs/source/releases/v1_3_2.rst
+    modified: docs/source/releases/v1_4_0.rst
+    modified: docs/source/releases/v1_4_1.rst
+    modified: docs/source/releases/v1_4_2.rst
+    modified: docs/source/releases/v1_4_3.rst
+    modified: docs/source/releases/v1_4_4.rst
+    modified: docs/source/releases/v1_4_5.rst
+    modified: docs/source/releases/v1_4_6.rst
+    modified: docs/source/releases/v1_4_7.rst
+    modified: docs/source/releases/v1_4_8.rst
+    modified: docs/source/releases/v1_5_0.rst
+    modified: docs/source/releases/v1_5_1.rst
+    modified: docs/source/releases/v1_5_2.rst
+    modified: docs/source/releases/v1_5_3.rst
+    modified: docs/source/releases/v1_6_0.rst
+    modified: docs/source/releases/v1_6_1.rst
+    modified: docs/source/releases/v1_6_3.rst
+    modified: docs/source/releases/v1_7_0.rst
+    modified: docs/source/releases/v1_8_0.rst
+    modified: docs/source/releases/v1_8_1.rst
+    modified: docs/source/releases/v1_9_0.rst
+    modified: docs/source/releases/v1_9_1.rst
+    modified: docs/source/starter/extending.rst
+    modified: docs/source/starter/mac_installation.rst
+    modified: docs/source/starter/starter_examples.rst
+    modified: docs/source/starter/windows_installation.rst
+    modified: docs/source/userguide/command_line.rst
+    modified: docs/source/userguide/function_list.rst
+    modified: docs/source/userguide/geoips_structure.rst
+    modified: docs/source/userguide/plugin_development/algorithm.rst
+    modified: docs/source/userguide/plugin_development/colormapper.rst
+    modified: docs/source/userguide/plugin_development/feature_annotator.rst
+    modified: docs/source/userguide/plugin_development/gridline_annotator.rst
+    modified: docs/source/userguide/plugin_development/output_formatter.rst
+    modified: docs/source/userguide/plugin_development/product.rst
+    modified: docs/source/userguide/plugin_development/product_default.rst
+    modified: docs/source/userguide/plugin_development/reader.rst
+    modified: docs/source/userguide/plugin_development/static_sector.rst
+    modified: docs/source/userguide/plugin_extend.rst
+    modified: docs/source/userguide/plugin_registries.rst

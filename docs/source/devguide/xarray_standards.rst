@@ -23,7 +23,6 @@ Readers should return a dictionary of the resulting xarray Datasets,
 with human readable keys for the different datasets
 (no standard for dictionary key names).
 
-
 Xarray Standard Variables
 -------------------------
 
@@ -95,7 +94,6 @@ The following optional attributes can be used within processing if available.
     this allows producing minimal sized "clean" imagery for overlaying
     in external viewers (such as the Automated Tropical Cyclone
     Forecasting System)
-
 
 NetCDF CF Standards
 --------------------------

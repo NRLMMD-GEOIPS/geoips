@@ -22,7 +22,7 @@ Breaking Interface Changes
 
     * --atcfdb command line option with --tcdb
     * --get_atcf_area_defs_for_xarray -> get_tc_area_defs_for_xarray
-    * "atcf" -> "tc" sector_type 
+    * "atcf" -> "tc" sector_type
 
 * Removed support for GEOIPSFINAL, and GEOIPSTEMP environment variables / base_paths
 
@@ -70,4 +70,3 @@ Improvements
 
 * Updated tests README to include specific instructions for generating new test scripts
 * Added support for external compare_outputs module (to allow output type comparisons not specified within geoips)
-

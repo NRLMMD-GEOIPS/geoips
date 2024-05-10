@@ -36,7 +36,7 @@ Version 1.12.2a0 (2024-02-21)
 * Documentation
 
   * Added documentation for create_plugin_registries and PluginRegistry Class
-  * Fix log_with_emphasis to deal with empty strings gracefully 
+  * Fix log_with_emphasis to deal with empty strings gracefully
 * Refactor
 
   * Make JSON Plugin Registries Readable
@@ -107,7 +107,6 @@ outlines the anticipated content and structure for these standards, providing
 a clear framework for future contributions. The new documentation file is
 located in the build/dev directory so that it is exempt from sphinx builds.
 
-
 Added Log with Emphasis function
 --------------------------------
 
@@ -165,11 +164,12 @@ Introduced documentation for coding standards on how/when to bring code to stand
 -----------------------------------------------------------------------------------
 
 Throughout GeoIPS, we have inconsistent coding practices. These new standards (added to
-our documentation) will help us be more intentional in how we bring old code 
+our documentation) will help us be more intentional in how we bring old code
 up to date going forward.
 
 ::
     modified: docs/dev/coding_standards.rst
+
 Bug Fixes
 =========
 
@@ -291,12 +291,10 @@ despite it no longer being used. It also updates the documentation accordingly.
     modified: docs/source/starter/expert_installation.rst
     modified: docs/source/starter/mac_installation.rst
 
-
 Add make to expert installation dependencies
 --------------------------------------------
 ..
   *From NRLMMD-GEOIPS/geoips#454: 2024-03-15, Add make to expert installation dependencies*
-
 
 `pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`.
 To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on

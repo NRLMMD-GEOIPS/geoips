@@ -109,4 +109,3 @@ Bug fixes
     and gzip after copy for files that must be gzipped before comparisons.
 
 * **single_source and config_based**: Add newline to the end of "output_file_list", otherwise skipped during shell loop
-

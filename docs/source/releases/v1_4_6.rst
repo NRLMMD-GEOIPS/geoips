@@ -123,4 +123,3 @@ Bug fixes
 =========
 
 * Update cartopy map data pull to ensure v5.0.0 natural earth vector data (required for test outputs)
-

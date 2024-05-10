@@ -13,7 +13,6 @@
 Version 1.7.0 (2023-02-15)
 **************************************
 
-
 Regression Fixes
 ================
 
@@ -59,7 +58,6 @@ Fix minor issues during docs build
 * Remove import of ``IPython.embed`` from ``modis_hdf4`` reader.
 * Ignore GeoIPS.pdf in ``.gitignore``.
 
-
 Testing Updates
 ===============
 
@@ -79,7 +77,6 @@ impact any test outputs.
 
     geoips/yaml_configs/product_params/sfc_winds/incident-angle.yaml
 
-
 Documentation Updates
 =====================
 
@@ -93,7 +90,6 @@ Update all release note distro statements to use RST-formatting
 ::
 
     modified: docs/source/releases/*.rst
-
 
 Convert CHANGELOG from md to rst
 --------------------------------
@@ -289,7 +285,6 @@ Remove “2.0” from documentation
    modified:   source/devguide/software_requirements_specification.rst
    modified:   source/devguide/xarray_standards.rst
    modified:   source/introduction/geoips_overview.rst
-
 
 Release Updates
 ===============

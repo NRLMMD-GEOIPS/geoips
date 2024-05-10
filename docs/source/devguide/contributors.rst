@@ -22,7 +22,6 @@ you have no intention of resolving it yourself. And feel free to
 submit a Pull Request even if all tests are not complete - someone
 else may have time to finalize for approval even if you are unable.
 
-
 Contributions generally follow the process of:
 
 1. Submit a GitHub Issue for a bug fix or feature request. :ref:`create_issue`
@@ -37,4 +36,3 @@ Contributions generally follow the process of:
    * Documentation formatting/style tests
 
 5. Merge your changes into the main code base! :ref:`merge_pr_close`
-

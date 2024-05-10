@@ -58,10 +58,10 @@ Bug fixes
 
 * Update to log filename for test scripts
 
-    * command line arg now has ' ' and '/' replaced with '_' to get a single unique filename with no additional subdirectories
+    * command line arg now has ' ' and '/' replaced with '_' to get a single unique filename with no additional
+      subdirectories
 
 Deprecations
 ============
 
 * Removed basemap-based windbarb plotting commands (no longer functional)
-

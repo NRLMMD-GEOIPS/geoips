@@ -57,7 +57,7 @@ Bug fixes
 * Resolved sectoring issue, allowing complete center coverage
 
     * Previously when sectoring based on min/max lat/lon, any values outside the explicit
-        requested values would be masked, causing masked data on non-square datasets when 
+        requested values would be masked, causing masked data on non-square datasets when
         good data was actually available for the entire requested region. Only drop rows outside
         requested range, do not mask data.
 
@@ -66,4 +66,3 @@ Performance Upgrades
 
 * Initial config-based processing implementation, which will allow efficiently processing
     multiple output types in a single run.
-

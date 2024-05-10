@@ -122,7 +122,6 @@ so we return an empty list.
 
   geoips/interfaces/base.py
 
-
 Leave product_defaults-defined attributes as null in registry
 -------------------------------------------------------------
 

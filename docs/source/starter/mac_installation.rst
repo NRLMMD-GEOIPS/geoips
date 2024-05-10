@@ -65,9 +65,11 @@ If desired, the GeoIPS environment variables can be added to your
 .. code:: bash
 
     # Mamba for Intel chips
-    curl -L -o conda_install.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
+    curl -L -o conda_install.sh \
+      https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
     # Mamba for ARM (M1/M2) chips
-    curl -L -o conda_install.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+    curl -L -o conda_install.sh \
+      https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
     # Anaconda for Intel chips
     curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-x86_64.sh
     # Anaconda for ARM (M1/M2) chips
@@ -157,4 +159,3 @@ look something like below, indicating that none of the tests failed:
     Total run time: 82 seconds
     Number data types run: 3
     Number data types failed: 0
-

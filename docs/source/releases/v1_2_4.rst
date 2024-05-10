@@ -42,4 +42,3 @@ Improvements
 
     * Create base_install_and_test.sh script that handles complete consistent conda-based geoips installation
     * remove "active_branch" (assume dev)
-
