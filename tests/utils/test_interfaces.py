@@ -91,7 +91,7 @@ def main():
     # PluginRegistryValidator
 
     with import_optional_dependencies(loglevel="interactive"):
-        """Attempt to import the pytest-based PluginRegistryValidato.
+        """Attempt to import the pytest-based PluginRegistryValidator.
 
         If this import works, validate the registries for testing purposes. See
         'tests.unit_tests.plugin_registries.test_plugin_registries' for more
