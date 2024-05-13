@@ -14,10 +14,12 @@
 from pprint import pformat
 import traceback
 import json
-from geoips import interfaces, plugin_registry
+
+from geoips import interfaces
 from geoips.interfaces.base import BaseInterface
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.args import get_argparser, check_command_line_args
+from geoips.utils.context_managers import import_optional_dependencies
 
 FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
 FAILED_INTERFACE_HEADER_POST = "interface:"
@@ -78,34 +80,56 @@ def main():
     # We want to avoid catastrophic failure at runtime for a single
     # bad plugin, so ensure these are validated in testing, and allow
     # bad plugins to get through at runtime.
-    plg_reg = plugin_registry.PluginRegistry()
-    try:
-        LOG.interactive("Testing all registries...")
-        plg_reg.validate_all_registries()
-        successful_registries += ["all"]
-    except plugin_registry.PluginRegistryError as resp:
-        failed_registries += ["all"]
-        failed_tracebacks += [
-            f"\n\n\n{FAILED_INTERFACE_HEADER_PRE}\n\n{traceback.format_exc()}"
-        ]
-        failed_errors += [f"\n\n\n{FAILED_INTERFACE_HEADER_PRE}\n\n {str(resp)}"]
 
-    # Now test each registry file individually.
-    for reg_path in plg_reg.registry_files:
-        pkg_plugins = json.load(open(reg_path, "r"))
-        LOG.interactive(f"Testing registry: {reg_path}...")
+    # NOTE: The section below will only be used if the user has pytest installed. We
+    # still should figure out where and when we'd like to validate the plugin
+    # registries. Currently validation of the registires invokes pytest, which is not a
+    # required dependency of GeoIPS. Calls 'plg_reg.validate_all_registries()' and
+    # 'plg_reg.validate_registry(pkg_plugins, reg_path)' are no longer on the plugin
+    # registry class, rather, they can be found under
+    # 'geoips/tests/unit_tests/plugin_registries/test_plugin_registries.py' -->
+    # PluginRegistryValidator
+
+    with import_optional_dependencies(loglevel="interactive"):
+        """Attempt to import the pytest-based PluginRegistryValidator.
+
+        If this import works, validate the registries for testing purposes. See
+        'tests.unit_tests.plugin_registries.test_plugin_registries' for more
+        information.
+        """
+        from tests.unit_tests.plugin_registries.test_plugin_registries import (
+            PluginRegistryValidator,
+        )
+        from geoips.errors import PluginRegistryError
+
+        plg_reg = PluginRegistryValidator()
         try:
-            plg_reg.validate_registry(pkg_plugins, reg_path)
-            successful_registries += [reg_path]
-        except plugin_registry.PluginRegistryError as resp:
-            failed_registries += [reg_path]
+            LOG.interactive("Testing all registries...")
+            plg_reg.validate_all_registries()
+            successful_registries += ["all"]
+        except PluginRegistryError as resp:
+            failed_registries += ["all"]
             failed_tracebacks += [
-                f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{reg_path}'\n\n"
-                f"{traceback.format_exc()}"
+                f"\n\n\n{FAILED_INTERFACE_HEADER_PRE}\n\n{traceback.format_exc()}"
             ]
-            failed_errors += [
-                f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{reg_path}'\n\n{str(resp)}"
-            ]
+            failed_errors += [f"\n\n\n{FAILED_INTERFACE_HEADER_PRE}\n\n {str(resp)}"]
+
+        # Now test each registry file individually.
+        for reg_path in plg_reg.registry_files:
+            pkg_plugins = json.load(open(reg_path, "r"))
+            LOG.interactive(f"Testing registry: {reg_path}...")
+            try:
+                plg_reg.validate_registry(pkg_plugins, reg_path)
+                successful_registries += [reg_path]
+            except PluginRegistryError as resp:
+                failed_registries += [reg_path]
+                failed_tracebacks += [
+                    f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{reg_path}'\n\n"
+                    f"{traceback.format_exc()}"
+                ]
+                failed_errors += [
+                    f"\n\n\n{FAILED_INTERFACE_HEADER_PRE} '{reg_path}'\n\n{str(resp)}"
+                ]
 
     # Loop through all requested interfaces, fully testing all plugins in each.
     # Collect output in lists, so we can fully print everything at the end before

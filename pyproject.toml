@@ -29,7 +29,7 @@ metadata = false # don't include local-version hash; date doesn't appear by deaf
 style = "pep440" # pep440 is deafult; can rmeove later on; used for : keeping 0.0.8 as the default install until 0.0.9 is out
 #style = "semver"
 #tag-branch = "feature-poetry"
-strict = true
+strict = false
 pattern = "(?x)^((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)([-._]?((?P<stage>[a-zA-Z]+)[-._]?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"
 
 # NOTE: You must CREATE a _version.py file and commit it via git!
@@ -64,7 +64,7 @@ pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
 scipy = ">1.2"         # Base requirement, requires openblas
-xarray = "*"           # Base requirement
+xarray = "<2024.3"           # Base requirement; Pinned to <2024.3 due to bug mentioned in #558
 astropy = "*"          # Used for accounting leap seconds when converting epoch timestamps
 cartopy = ">=0.22.0"   # No longer requires libgeos
 ephem = "*"            # Required for overpass predictor
@@ -77,7 +77,7 @@ pyhdf = "*"            # hdf4 readers (MODIS)
 pyaml-env = "*"        # Reading YAML output config files, with paths
 pyorbital = "*"        # required by satpy
 pypublicdecompwt = "*" # Required to read SEVIRI data
-rasterio = "*"         # GEOTIFF output
+rasterio = "<1.3.10"         # GEOTIFF output; Pinned to <1.3.10 due to the bug mentioned in #...
 referencing = "*"
 satpy = "*"            # efficiency improvements >= 0.33.1
 scikit-image = "*"     # Radius based center coverage checks
@@ -151,7 +151,6 @@ convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
 create_sector_image = "geoips.commandline.create_sector_image:main"
 list_available_plugins = "geoips.commandline.list_available_plugins:main"
 run_procflow = "geoips.commandline.run_procflow:main"
-test_interfaces = "geoips.commandline.test_interfaces:main"
 update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
 create_plugin_registries = "geoips.create_plugin_registries:main"

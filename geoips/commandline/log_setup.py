@@ -41,7 +41,9 @@ def log_with_emphasis(print_func, *messages):
 
     for message in messages:
         # wrap the message to a specified length
-        wrapped_messages += wrap(message, width=74, break_long_words=False)
+        wrapped_messages += wrap(
+            message, width=74, break_long_words=False, break_on_hyphens=False
+        )
     try:
         max_message_len = min(74, max([len(wmessage) for wmessage in wrapped_messages]))
     except ValueError as e:
@@ -180,7 +182,7 @@ class LogLevelAdder:
 add_logging_level = LogLevelAdder()
 
 
-def setup_logging(logging_level="INTERACTIVE", verbose=True):
+def setup_logging(logging_level=None, verbose=True):
     """Get a new logger instance for GeoIPS.
 
     Get a new logger instance for GeoIPS. This will set the logger's logging level, its
@@ -195,14 +197,19 @@ def setup_logging(logging_level="INTERACTIVE", verbose=True):
 
     Parameters
     ----------
-    logging_level : str, default="INTERACTIVE"
+    logging_level : str, default=None
         Sets the minimum log level for which log output will be written to stdout.
+        If None, will default to "INTERACTIVE".  This allows using env var
+        GEOIPS_LOGGING_LEVEL to override default (applied in run_procflow).
     verbose : bool, default=True
         Determines which log formatter will be used. If `True`, a longer format will be
         used, providing more information, but also cluttering the screen. If `False`, a
         shorter format will be used.
     """
     log = logging.getLogger()
+    # If logging_level was not specified, default to INTERACTIVE here.
+    if not logging_level:
+        logging_level = "INTERACTIVE"
     log.setLevel(getattr(logging, logging_level))
     fmt = logging.Formatter(
         "%(asctime)s %(module)12s.py:%(lineno)-4d %(levelname)7s: %(message)s",
