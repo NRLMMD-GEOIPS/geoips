@@ -18,6 +18,20 @@ Version 1.13.0a0 (2024-04-24)
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
 
+* Documentation
+
+  * Add top level descriptions to minor releases
+
+Documentation
+=============
+
+Added summaries to the minor releases in the docs to make searching for 
+a specific change easier.
+
+::
+
+    modified: docs/source/releases/index.rst
+
 Release Updates
 ===============
 
