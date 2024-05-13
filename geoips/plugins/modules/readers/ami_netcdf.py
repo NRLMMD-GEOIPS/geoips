@@ -50,7 +50,7 @@ except Exception:
 
 interface = "readers"
 family = "standard"
-name = "geokompsat_netcdf"
+name = "ami_netcdf"
 
 # These should be added to the data file object
 BADVALS = {
@@ -626,7 +626,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     start_dt, end_dt = metadata_to_datetime(highest_md)
     xarray_obj.attrs["start_datetime"] = start_dt
     xarray_obj.attrs["end_datetime"] = end_dt
-    xarray_obj.attrs["source_name"] = "geokompsat"  # "ami"
+    xarray_obj.attrs["source_name"] = "ami"  # "ami"
     xarray_obj.attrs["data_provider"] = "nmsc"
     xarray_obj.attrs["platform_name"] = highest_md["global"]["general"][
         "satellite_name"
