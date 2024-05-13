@@ -18,13 +18,13 @@
 # set of arguments.
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc \
           --procflow single_source \
-          --reader_name geokompsat_netcdf \
+          --reader_name ami_netcdf \
           --product_name WV \
           --filename_formatter geotiff_fname \
           --output_formatter geotiff_standard \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_TESTDATA_DIR/test_data_geokompsat/sectors/bsh032024.dat \
-          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/geokompsat.tc.<product>.geotiff" \
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.tc.<product>.geotiff" \
           --resampled_read
 retval=$?
 

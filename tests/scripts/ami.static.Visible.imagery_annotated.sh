@@ -16,16 +16,13 @@
 # set of arguments.
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc \
              --procflow single_source \
-             --reader_name geokompsat_netcdf \
-             --reader_kwargs '{"self_register": "LOW"}' \
-             --product_name WV-Upper \
-             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/geokompsat.WV-Upper.unprojected_image" \
-             --output_formatter unprojected_image \
-             --output_formatter_kwargs '{"x_size": "1000", "y_size": "1000"}' \
+             --reader_name ami_netcdf \
+             --product_name Visible \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.<product>.imagery_annotated" \
+             --output_formatter imagery_annotated \
              --filename_formatter geoips_fname \
-             --logging_level info \
-             --self_register_dataset 'Full-Disk' \
-             --self_register_source geokompsat
+             --resampled_read \
+             --sector_list geokompsat
 retval=$?
 
 exit $retval

@@ -16,9 +16,9 @@
 # set of arguments.
 run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc \
              --procflow single_source \
-             --reader_name geokompsat_netcdf \
+             --reader_name ami_netcdf \
              --product_name Infrared \
-             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/geokompsat.static.<product>.imagery_annotated" \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.<product>.imagery_annotated" \
              --output_formatter imagery_annotated \
              --filename_formatter geoips_fname \
              --resampled_read \
