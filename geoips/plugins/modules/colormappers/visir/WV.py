@@ -57,7 +57,7 @@ def call(data_range=[-70.0, 0.0]):
         (-10, -0.1),
         (-0.1, max_tb),
     ]
-    LOG.info("inside util= ", max_tb)
+    # LOG.info("inside util= ", max_tb)
 
     # matching TerraScan Color scheme: noaa_bd_151
     transition_colors = [

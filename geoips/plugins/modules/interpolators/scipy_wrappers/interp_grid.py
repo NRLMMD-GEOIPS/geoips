@@ -45,8 +45,8 @@ def call(area_def, input_xarray, output_xarray, varlist, array_num=None, method=
         max_gridlon = area_def.area_extent_ll[2]
         min_gridlat = area_def.area_extent_ll[1]
         max_gridlat = area_def.area_extent_ll[3]
-        numx_grid = area_def.pixel_size_x
-        numy_grid = area_def.pixel_size_y
+        numx_grid = area_def.width
+        numy_grid = area_def.height
 
         interp_datas += [
             interp_griddata(

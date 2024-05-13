@@ -97,6 +97,10 @@ of these in further detail now.
       understandable by GeoIPS. This could be using ``np.meshgrid(lats, lons)`` to
       create a 2D array of latitude and longitude, or whatever else you envision.
 
+* Unit tests 
+    * Unit testing to help test conformity and validity of the reader and test data.
+      For more details see :ref:`unit_tests`.
+
 See below for an example of all three functions signatures in action.
 
 .. code-block:: python

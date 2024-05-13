@@ -17,40 +17,18 @@ echo "Requires docs/build_docs.sh run first"
 echo "Will create/update/push ghpages branch"
 echo "***"
 
-echo "GEOIPS_REPO_URL $GEOIPS_REPO_URL"
+echo "geoips_repo_url $geoips_repo_url"
 echo "GEOIPS_PACKAGES_DIR $GEOIPS_PACKAGES_DIR"
 
-if [[ "$1" == "" ]]; then
+if [[ "$1" == "" || "$2" == "" || "$3" == "" || "$4" == "" ]]; then
     echo "***************************************************************************"
-    echo "ERROR: Must call with repo path.  Ie"
-    echo "    $0 $GEOIPS_PACKAGES_DIR/geoips"
-    echo "    $0 $GEOIPS_PACKAGES_DIR/data_fusion"
-    echo "    $0 $GEOIPS_PACKAGES_DIR/template_basic_plugin"
-    echo "***************************************************************************"
-    exit 1
-fi
-
-if [[ -z "$GEOIPS_REPO_URL" ]]; then
-    echo ""
-    echo "***************************************************************************"
-    echo "Must define GEOIPS_REPO_URL environment variable prior to deploying pages"
-    echo "ie:"
-    echo ""
-    echo "  export GEOIPS_REPO_URL=https://github.com/NRLMMD-GEOIPS"
-    echo "***************************************************************************"
-    echo ""
-    exit 1
+    failed="true"
 fi
 if [[ ! -d "$1" ]]; then
     echo "***************************************************************************"
     echo "ERROR: Passed repository path does not exist."
     echo "       $1"
-    echo "ERROR: Must call with repo path.  Ie"
-    echo "    $0 $GEOIPS_PACKAGES_DIR/geoips"
-    echo "    $0 $GEOIPS_PACKAGES_DIR/data_fusion"
-    echo "    $0 $GEOIPS_PACKAGES_DIR/template_basic_plugin"
-    echo "***************************************************************************"
-    exit 1
+    failed="true"
 fi
 
 # Expected that build_docs.sh has already been run.
@@ -60,18 +38,21 @@ if [[ ! -d "$repopath" ]]; then
     echo "***************************************************************************"
     echo "ERROR: Repository 'realpath' does not exist:"
     echo "       $repopath"
-    echo "ERROR: Must call with repo path.  Ie"
-    echo "    $0 $GEOIPS_PACKAGES_DIR/geoips"
-    echo "    $0 $GEOIPS_PACKAGES_DIR/data_fusion"
-    echo "    $0 $GEOIPS_PACKAGES_DIR/template_basic_plugin"
+    failed="true"
+fi
+
+if [[ "$failed" == "true" ]]; then
+    echo "ERROR: Must call with repo path and geoips_repo_url and pages path.  Ie"
+    echo "    $0 $GEOIPS_PACKAGES_DIR/geoips https://github.com/NRLMMD-GEOIPS ./ghpages_geoips geoips"
+    echo "    $0 $GEOIPS_PACKAGES_DIR/data_fusion https://github.com/NRLMMD-GEOIPS ./ghpages_data_fusion data_fusion"
+    echo "    $0 $GEOIPS_PACKAGES_DIR/template_basic_plugin https://github.com/NRLMMD-GEOIPS ./ghpages_template_basic_plugin template_basic_plugin"
     echo "***************************************************************************"
     exit 1
 fi
+geoips_repo_url=$2
 docpath=$repopath/build/sphinx/html
 
 echo "docpath=$docpath"
-
-reponame=`basename $repopath`
 
 if [[ ! -d $docpath ]]; then
     echo ""
@@ -80,20 +61,29 @@ if [[ ! -d $docpath ]]; then
     echo "Ensure you successfully run build_docs.sh prior to deploy_pages.sh"
     echo ""
     echo "  $GEOIPS_PACKAGES_DIR/geoips/build_docs.sh $1 <package_name>"
-    echo "  $GEOIPS_PACKAGES_DIR/geoips/deploy_pages.sh $1"
+    echo "  $GEOIPS_PACKAGES_DIR/geoips/deploy_pages.sh $1 $2"
     echo "***************************************************************************"
     echo ""
     exit 1
 fi
 
-pagespath=$GEOIPS_PACKAGES_DIR/pages/$reponame
+pagespath=`realpath $3`
+reponame="$4"
+
+if [[ -d $pagespath ]]; then
+    echo "***********************************************************************"
+    echo "ERROR: $pagespath already exists.  Remove and try again."
+    echo "***********************************************************************"
+    exit 1
+fi
 
 if [[ ! -d $pagespath ]]; then
+    mkdir -p $pagespath
     echo "***"
     echo "Cloning $reponame repo"
-    echo "git clone $GEOIPS_REPO_URL/$reponame $pagespath"
+    echo "git clone $geoips_repo_url/$reponame $pagespath/ghpages_repo_clone"
     echo "***"
-    git clone $GEOIPS_REPO_URL/$reponame $pagespath
+    git clone $geoips_repo_url/$reponame $pagespath/ghpages_repo_clone
     clone_retval=$?
     if [[ "$clone_retval" != "0" ]]; then
         echo "***********************************************************************"
@@ -103,23 +93,23 @@ if [[ ! -d $pagespath ]]; then
     fi
 fi
 
-if [[ ! -d $pagespath ]]; then
+if [[ ! -d $pagespath/ghpages_repo_clone ]]; then
     echo "***************************************************************************"
-    echo "ERROR: ghpages directory does not exist!  Quitting."
+    echo "ERROR: ghpages directory was not successfully created!  Quitting."
     echo "***************************************************************************"
     exit 1
 fi
 
 echo "***"
 echo "Update to ghpages branch"
-echo "git -C $pagespath fetch --all -p"
-echo "git -C $pagespath checkout ghpages"
-echo "git -C $pagespath pull"
+echo "git -C $pagespath/ghpages_repo_clone fetch --all -p"
+echo "git -C $pagespath/ghpages_repo_clone checkout ghpages"
+echo "git -C $pagespath/ghpages_repo_clone pull"
 echo "***"
 
-git -C $pagespath fetch --all -p
+git -C $pagespath/ghpages_repo_clone fetch --all -p
 
-git -C $pagespath checkout ghpages
+git -C $pagespath/ghpages_repo_clone checkout ghpages
 checkout_retval=$?
 if [[ "$checkout_retval" != 0 ]]; then
     echo "***********************************************************************"
@@ -128,7 +118,7 @@ if [[ "$checkout_retval" != 0 ]]; then
     exit 1
 fi
 
-git -C $pagespath pull
+git -C $pagespath/ghpages_repo_clone pull
 pull_retval=$?
 if [[ "$pull_retval" != 0 ]]; then
     echo "***********************************************************************"
@@ -139,19 +129,19 @@ fi
 
 echo "***"
 echo "remove previously generated to clear discontinued modules"
-echo "rm -rf $pagespath/docs/*"
+echo "rm -rf $pagespath/ghpages_repo_clone/docs/*"
 echo "cp -R $docpath/*"
-echo "      $pagespath/docs"
+echo "      $pagespath/ghpages_repo_clone/docs"
 echo "***"
-rm -rf $pagespath/docs/*
-if [[ ! -d $pagespath/docs ]]; then
+rm -rf $pagespath/ghpages_repo_clone/docs/*
+if [[ ! -d $pagespath/ghpages_repo_clone/docs ]]; then
     echo "***"
-    echo "mkdir $pagespath/docs"
-    mkdir $pagespath/docs
+    echo "mkdir $pagespath/ghpages_repo_clone/docs"
+    mkdir $pagespath/ghpages_repo_clone/docs
     echo "***"
 fi
-cp -R $docpath/* $pagespath/docs
-if [[ ! -f $pagespath/docs/.nojekyll ]]; then
+cp -R $docpath/* $pagespath/ghpages_repo_clone/docs
+if [[ ! -f $pagespath/ghpages_repo_clone/docs/.nojekyll ]]; then
     # .nojekyll ensures github pages does not attempt to use jekyll themes for
     # rendering the html.  This file should already exist in the docs directory
     # (and not be deleted with the rm -rf docs/* above, since it is hidden), but
@@ -160,18 +150,18 @@ if [[ ! -f $pagespath/docs/.nojekyll ]]; then
     # so the html rendering is very ugly.
     echo "***"
     echo "Ensure .nojekyll file exists for proper github pages rendering"
-    echo "touch $pagespath/docs/.nojekyll"
-    touch $pagespath/docs/.nojekyll
+    echo "touch $pagespath/ghpages_repo_clone/docs/.nojekyll"
+    touch $pagespath/ghpages_repo_clone/docs/.nojekyll
     echo "***"
 fi
 
 echo "***"
 echo "Adding new/updated files"
-echo "git -C $pagespath add docs"
-echo "git -C $pagespath status"
+echo "git -C $pagespath/ghpages_repo_clone add docs"
+echo "git -C $pagespath/ghpages_repo_clone status"
 echo "***"
-git -C $pagespath add docs
-git -C $pagespath status
+git -C $pagespath/ghpages_repo_clone add docs
+git -C $pagespath/ghpages_repo_clone status
 
 echo "***"
 echo "Set git status for obtaining current branch"
@@ -182,11 +172,11 @@ echo "***"
 
 echo "***"
 echo "Commit/push new/updated sphinx html files to ghpages branch"
-echo "git -C $pagespath commit -m 'sphinx html for github pages from: ${gstatus[2]}'"
-echo "git -C $pagespath push origin ghpages"
+echo "git -C $pagespath/ghpages_repo_clone commit -m 'sphinx html for github pages from: ${gstatus[2]}'"
+echo "git -C $pagespath/ghpages_repo_clone push origin ghpages"
 echo "***"
 
-commit_output=`git -C $pagespath commit -m "sphinx html for github pages from: ${gstatus[2]}"`
+commit_output=`git -C $pagespath/ghpages_repo_clone commit -m "sphinx html for github pages from: ${gstatus[2]}"`
 commit_retval=$?
 echo $commit_output
 if [[ "$commit_retval" != 0 ]]; then
@@ -202,7 +192,7 @@ if [[ "$commit_retval" != 0 ]]; then
     fi
 fi
 
-git -C $pagespath push origin ghpages
+git -C $pagespath/ghpages_repo_clone push origin ghpages
 push_retval=$?
 if [[ "$push_retval" != 0 ]]; then
     echo "***********************************************************************"

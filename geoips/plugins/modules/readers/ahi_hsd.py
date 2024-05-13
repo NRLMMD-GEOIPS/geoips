@@ -1307,6 +1307,13 @@ def call(
         try:
             gvars[res].pop("Lines")
             gvars[res].pop("Samples")
+            for varname, var in gvars[res].items():
+                gvars[res][varname] = np.ma.array(
+                    var, mask=gvars[res]["satellite_zenith_angle"].mask
+                )
+                gvars[res][varname] = np.ma.masked_where(
+                    gvars[res]["satellite_zenith_angle"] > 85, gvars[res][varname]
+                )
         except KeyError:
             pass
     for ds in datavars.keys():

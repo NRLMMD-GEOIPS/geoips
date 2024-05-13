@@ -5,15 +5,15 @@ defaults:
     shell: bash
 
 env:
-  CONDA_ENV: github_actions_test_interfaces
+  CONDA_ENV: test-interfaces-${{ github.run_id }}-${{ github.run_attempt }}
 
 # Can not use variables in the list of branches,
 # GitHub Actions will not recognize, and workflow will not run.
 on:
   # Triggers the workflow when pull request created and updated
-  # pull_request:
-  #   branches:
-  #     - main
+  pull_request:
+    branches:
+      - main
   # Allows run of this workflow manually from the Actions tab
   # Must be merged to default before it will be available to manually run.
   workflow_dispatch:
@@ -34,22 +34,22 @@ jobs:
           check-latest: true
       - name: Update pip
         run: pip install --upgrade pip
-      - name: Checkout geoips default branch for dev utils
+      - name: Checkout geoips repo default branch
         uses: actions/checkout@v3 # v3 is the latest for checkout
         with:
           fetch-depth: 0
           repository: ${{ vars.ORGANIZATION }}/geoips
           ref: ${{ vars.DEFAULT_BRANCH }}
           token: ${{ secrets.GEOIPS_TOKEN }}
-          path: geoips_dev_utils
-      - name: pip install geoips_dev_utils[test]
+          path: geoips_default_branch
+      - name: pip install geoips_default_branch[test]
         run: |
           echo "which pip"
           which pip
           echo "pip uninstall -y geoips"
           pip uninstall -y geoips
-          echo "pip install $PWD/geoips_dev_utils[test]"
-          pip install $PWD/geoips_dev_utils[test]
+          echo "pip install $PWD/geoips_default_branch[test]"
+          pip install $PWD/geoips_default_branch[test]
           ret=$?
           echo "${ret}"
       - name: Checkout current repo default branch
@@ -78,7 +78,7 @@ jobs:
           echo "${ret}"
       - name: Run code check script interfaces
         run: |
-          $PWD/geoips_dev_utils/tests/utils/check_code.sh interfaces $PWD/geoips_plugin_repo
+          $PWD/geoips_default_branch/tests/utils/check_code.sh interfaces $PWD/geoips_plugin_repo
           ret=$?
           echo "::group::interface_analysis"
           echo "INTERFACES analysis of code"
