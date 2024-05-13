@@ -22,12 +22,26 @@ Version 1.12.2 (2024-04-24)
   * Do not wrap on hyphen for log_with_emphasis outputs
   * Revert ABI Visible static and AHI WV GEOTIFF images back to original
   * Rethnk implementation of Plugin Registry Validation
+  * Rename Geokompsat source name to AMI
+
 * GitHub Actions Bug Fixes
 
   * Update github actions workflows to ensure proper dependencies
 
 Bug fixes
 =========
+
+Rename Geokompsat source name to AMI
+------------------------------------
+
+Rename the source name "geokompsat" to "ami" to match convention.
+
+::
+
+    renamed: geoips/plugins/modules/readers/geokompsat_netcdf.py -> geoips/plugins/modules/readers/ami_netcdf.py
+    renamed: geoips/plugins/yaml_files/geokompsat_netcdf.yaml -> geoips/plugins/yaml_files/ami_netcdf.yaml
+    modified: geoips/plugins/modules/readers/ami_netcdf.py
+    modified: geoips/plugins/yaml_files/ami_netcdf.yaml
 
 Remove GEOIPS_PACKAGES_DIR from check_code.sh
 ---------------------------------------------
