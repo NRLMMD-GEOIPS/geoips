@@ -23,14 +23,15 @@ from copy import copy
 from struct import unpack
 from datetime import datetime, timedelta
 
-try:
+from geoips.utils.context_managers import import_optional_dependencies
+
+with import_optional_dependencies(loglevel="interactive"):
+    """Attempt to import xRITDecompress from pyPublicDecompWT.
+
+    Needed to decompress xRIT data types.
+    """
     from pyPublicDecompWT import xRITDecompress
-except ImportError:
-    print(
-        "Failed import pyPublicDeompWT "
-        "in /readers/utils/hrit_reader.py. "
-        "If you need it, install it."
-    )
+
 import numpy as np
 
 log = logging.getLogger(__name__)
