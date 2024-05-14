@@ -183,7 +183,7 @@ html_static_path = ["_static"]
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
-# html_last_updated_fmt = '%b %d, %Y'
+html_last_updated_fmt = "%b %d, %Y %H:%M:%S"
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
@@ -249,10 +249,10 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     # 'papersize': 'letterpaper',
     # The font size ('10pt', '11pt' or '12pt').
-    "pointsize": "12pt",
+    "pointsize": "10pt",
     # Additional stuff for the LaTeX preamble.
     # 'preamble': '',
-    "preamble": r"\usepackage{fancyhf}",
+    "preamble": r"\usepackage{fancyhf}\usepackage{enumitem}\setlistdepth{99}",
     # Latex figure (float) alignment
     "figure_align": "H",
 }

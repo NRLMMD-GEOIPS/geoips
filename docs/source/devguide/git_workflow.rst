@@ -67,6 +67,8 @@ FROM WEB: MEMBERS: Create Branch from Existing Issue
   * Click **"Create branch"**
   * Copy and paste the resulting "git fetch" and "git checkout" commands
 
+..
+
 FROM WEB: NON-MEMBERS: Create fork of repo
 ===================================================================
 * **NOTE: NRLMMD-GEOIPS members will branch following steps above,
@@ -108,22 +110,19 @@ FROM COMMAND LINE: Switch to new branch, Make changes as usual
 
 * Use enforced commit message format for all commits
 
-  * Please follow
-    `Commit Message Template <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.md>`_
+  * Please follow 
+    `Commit Message Template <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.rst>`_
   * Summary line <= 120 characters
   * Blank line (if commit message is more than one line)
   * OPTIONAL: additional details
   * Issue ID
 
-* Update CHANGELOG.md in each repository with changes related to this Issue
+* Update release notes in each repository with changes related to this Issue
 
   * Before pushing your final changes to GitHub and creating a pull request,
-    you MUST update CHANGELOG.md appropriately
-  * Please follow `CHANGELOG Template <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/CHANGELOG_TEMPLATE.rst>`_
-  * You will Copy and paste CHANGELOG modifications directly into the "Summary"
-    section of pull request.
-  * If CHANGELOG.md is not updated appropriately,
-    pull request will be rejected.
+    you MUST update the release notes with your current changes.
+  * Instructions found in `CHANGELOG.rst <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/CHANGELOG.rst>`_
+  * If release notes are not updated properly, pull request will not be approved.
 
 * Create test scripts and associated outputs for any new functionality
     * Ensure any new functionality is tested in:
@@ -173,7 +172,7 @@ Issue.
     <https://github.com/NRLMMD-GEOIPS/.github/blob/main/.github/pull_request_template.md>`_
   * **Important to follow template title and contents directions**
     **for ease of review**
-  * **Pull request will be denied if template is not followed appropriately**
+  * **Pull request will not be approved if template is not followed appropriately**
 * Ensure appropriate tags and attributes are set on the pull request
 
   * **Reviewers**: *Identify at least two Reviewers*
@@ -184,6 +183,28 @@ Issue.
 
   * Now wait for the automated emails from GitHub saying your changes have been
     approved and merged.
+
+.. _pr_review:
+
+********************************************************
+GeoIPS GitHub Pull Request Review and Approval workflow
+********************************************************
+
+FROM WEB: Wait for PR review and approval
+=========================================
+
+Once the PR is finalized, it will require review and approval by a GeoIPS organization
+member with write privileges on the repository who is tagged as a reviewer on your PR.
+Ensure you address/resolve any conversations or change requests made by the reviewers
+during the review process.
+
+Once all requests/conversations have been addressed, the PR will be approved and merged.
+
+Reviewers can approve the PR by:
+
+* clicking on the green "Review changes" button under the "Files changed" tab,
+* selecting "Approve", then
+* clicking the green "Submit review" button.
 
 .. _merge_pr_close:
 
