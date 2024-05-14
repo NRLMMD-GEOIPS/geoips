@@ -136,7 +136,6 @@ logging without catastrophic failure.
 
     geoips/commandline/log_setup.py
 
-
 Fix Upside Down Geotiff Error
 -----------------------------
 
@@ -208,7 +207,6 @@ Files Modified:
     docs/source/starter/extending.rst
     docs/source/starter/installation.rst
     docs/source/userguide/plugin_extend.rst
-
 
 Add windows installation instructions
 -------------------------------------
@@ -295,8 +293,10 @@ require changes to the output products as well.
     added: geoips/plugins/yaml/sectors/static/meteosat-africa.yaml
     added: geoips/plugins/yaml/sectors/static/meteosat-europe.yaml
     added: geoips/plugins/yaml/sectors/static/meteosat-indian-ocean.yaml
-    modified: tests/outputs/abi.static.Infrared.imagery_annotated/20200918.195020.goes-16.abi.Infrared.goes16.45p56.noaa.10p0.png
-    modified: tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes16.41p12.noaa.10p0.png
+    modified:
+    tests/outputs/abi.static.Infrared.imagery_annotated/20200918.195020.goes-16.abi.Infrared.goes16.45p56.noaa.10p0.png
+    modified:
+    tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes16.41p12.noaa.10p0.png
     modified: tests/scripts/abi.static.Infrared.imagery_annotated.sh
     modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
     modified: tests/yaml_configs/abi_test.yaml

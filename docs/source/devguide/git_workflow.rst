@@ -139,7 +139,6 @@ Push changes to github
   * Perform once for each repository with changes related to this Issue
   * git push
 
-
 .. _create_pull:
 
 *************************************
@@ -169,7 +168,8 @@ Issue.
   * Click green “Create pull request” button
 * Fill Auto-populated template with appropriate content:
 
-  * Generated from `Global Pull Request Template <https://github.com/NRLMMD-GEOIPS/.github/blob/main/.github/pull_request_template.md>`_
+  * Generated from `Global Pull Request Template
+    <https://github.com/NRLMMD-GEOIPS/.github/blob/main/.github/pull_request_template.md>`_
   * **Important to follow template title and contents directions**
     **for ease of review**
   * **Pull request will not be approved if template is not followed appropriately**
@@ -234,4 +234,3 @@ FROM WEB: Ensure all Issues and Pull Requests were successfully closed
 * Navigate to `GeoIPS Project <https://github.com/orgs/NRLMMD-GEOIPS/projects/1>`_
 * Ensure all related Issue and Pull Request cards were automatically
   moved to the "Done" column
-

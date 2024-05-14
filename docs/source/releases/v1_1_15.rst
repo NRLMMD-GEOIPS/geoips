@@ -31,4 +31,3 @@ Features
 
 * MODIS reader
 * Finalized stitched product output
-

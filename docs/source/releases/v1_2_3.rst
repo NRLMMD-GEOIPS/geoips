@@ -90,4 +90,3 @@ Bug fixes
 =========
 
 * Update all readers to include 'METADATA' field (now explicitly required)
-

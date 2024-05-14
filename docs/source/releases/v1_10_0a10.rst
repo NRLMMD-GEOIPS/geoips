@@ -84,7 +84,6 @@ pyresample_wrappers.interp -> interp
 ::
   modified:   geoips/plugins/modules/coverage_checkers/windbarbs.py
 
-
 Update code to use func.call vs func
 ------------------------------------
 

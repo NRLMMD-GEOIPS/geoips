@@ -107,7 +107,6 @@ outlines the anticipated content and structure for these standards, providing
 a clear framework for future contributions. The new documentation file is
 located in the build/dev directory so that it is exempt from sphinx builds.
 
-
 Added Log with Emphasis function
 --------------------------------
 
@@ -292,12 +291,10 @@ despite it no longer being used. It also updates the documentation accordingly.
     modified: docs/source/starter/expert_installation.rst
     modified: docs/source/starter/mac_installation.rst
 
-
 Add make to expert installation dependencies
 --------------------------------------------
 ..
   *From NRLMMD-GEOIPS/geoips#454: 2024-03-15, Add make to expert installation dependencies*
-
 
 `pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`.
 To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on

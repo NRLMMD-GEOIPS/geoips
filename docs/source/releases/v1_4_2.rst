@@ -36,12 +36,12 @@ Major New Functionality
 * "unprojected\_image" output\_format module
 
     * Plots the data with no resampling - no area\_def required
-    * Call signature: xarray\_obj, product\_name, output\_fnames, product\_name\_title=None, mpl\_colors\_info=None 
+    * Call signature: xarray\_obj, product\_name, output\_fnames, product\_name\_title=None, mpl\_colors\_info=None
                       x\_size=None, y\_size=None
 
 * "unprojected" outputter\_type
 
-    * Call signature: xarray\_obj, product\_name, output\_fnames, product\_name\_title=None, mpl\_colors\_info=None 
+    * Call signature: xarray\_obj, product\_name, output\_fnames, product\_name\_title=None, mpl\_colors\_info=None
 
 * Support <DATASET>:<VARNAME> variable requests in product\_inputs YAML config files
 
@@ -119,4 +119,3 @@ Bug fixes
     * if \<DATASET\_NAME>:\<VARIABLE\_NAME> construct used in product\_inputs YAML configs,
         we must assure resampled data is not limited to the native datasets,
         since they will no longer exist
-

@@ -33,4 +33,3 @@ Improvements
 
 * Add Software Requirements Specification to documentation
 * Update documentation with ABI test calls
-

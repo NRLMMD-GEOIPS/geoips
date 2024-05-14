@@ -137,4 +137,3 @@ Bug Fixes
 * Resolved bug with transparency behind titles / borders for cartopy plotting
 * Ensure metadata goes in _dev directory if product is in _dev directory
 * Use make_dirs for netcdf write (sets permissions) rather than os.makedirs()
-

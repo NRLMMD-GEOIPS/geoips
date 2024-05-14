@@ -23,4 +23,3 @@ drivers/autotest
 
 * Previously automated test scripts relied on specific autotest drivers for each sensor. Update
     to allow for generalized drivers, and shell scripts that drive for specific sensors.
-

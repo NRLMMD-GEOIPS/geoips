@@ -95,7 +95,7 @@ Add pad_area_definition to allowed schema properties
   geoips/schema/product_defaults/specs/interpolator.yaml
   geoips/schema/product_defaults/specs/interpolator_algorithm.yaml
   geoips/schema/product_defaults/specs/interpolator_algorithm_colormapper.yaml
-  
+
 Bug Fixes
 =========
 
@@ -117,7 +117,6 @@ Was incorrectly listed as cmap_37H_Physical - should be cmap_37H.
 ::
 
   modified: geoips/plugins/yaml/product_defaults/pmw_37/37VNearest.yaml
-
 
 Update base module interface class to raise PluginError when plugin_is_valid fails
 ----------------------------------------------------------------------------------

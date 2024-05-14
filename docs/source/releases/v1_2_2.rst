@@ -32,7 +32,8 @@ Breaking Test Repo Updates
 
 * Updated default padding amount from 2.5x to 1.5x
 
-    * caused slightly modified output times in titles for some data types (identical data output, slightly modified center time)
+    * caused slightly modified output times in titles for some data types (identical data output, slightly modified
+      center time)
 
         * test_data_ahi_day
         * test_data_amsr2
@@ -95,4 +96,3 @@ Resolved bug in AMSU-b start and end time
 
 * Previously pulled start/end time from filename - test datafile actually had incorrect time listed!
 * Updated to pull directly from the metadata.
-

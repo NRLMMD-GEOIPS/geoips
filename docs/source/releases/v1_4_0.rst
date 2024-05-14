@@ -89,7 +89,6 @@ Refactor
     (only includes test scripts with bundled test data)
 * Move "get\_bg\_xarray" from overlay procflow to config\_based procflow
 
-
 Major New Functionality
 =======================
 
@@ -157,4 +156,3 @@ Improvements
 
 * More informative log statement at the end of single\_source and config\_based procflows
 * During output comparisons, name diff directory "diff\_test\_output\_dir" and files "diff\_test\_output"
-

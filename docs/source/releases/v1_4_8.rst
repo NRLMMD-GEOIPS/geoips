@@ -46,4 +46,3 @@ Installation and test
 * Add "cd natural-earth-vector" prior to checking out v5.0.0 cartopy shapefiles
 
     * v5.0.0 required in order for test outputs to match.
-

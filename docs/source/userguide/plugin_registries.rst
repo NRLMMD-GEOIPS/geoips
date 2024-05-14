@@ -12,7 +12,6 @@
 
 .. _plugin-registries:
 
-
 **********************************
 GeoIPS Plugin Registries
 **********************************
@@ -198,4 +197,3 @@ their related scripts:
 * Finally, the unit tests that ensure the correct functionality of plugin registries,
   can be found `in the test_plugin_registries.py file
   <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/unit_tests/plugin_registries/test_plugin_registries.py>`_.
-

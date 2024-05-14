@@ -36,7 +36,6 @@ update source for black, bandit and numpy docstrings*
     modified: geoips/interface_modules/readers/utils/geostationary_geolocation.py
     modified: geoips/sector_utils/utils.py
 
-
 Major New Functionality
 =======================
 
@@ -106,7 +105,8 @@ Add output family: xrdict_area_product_to_outlist
 *From issue GEOIPS#2: 2022-12-06, update interface families*
 
 * xarray_dict, area_def, product_name args
-* NOTE: output_fnames is NOT included in argument list, which means resulting file list will NOT be checked for consistency.
+* NOTE: output_fnames is NOT included in argument list, which means resulting file list will NOT be checked for
+  consistency.
 
 ::
 
@@ -161,7 +161,6 @@ Replace numpy aliases
 
     geoips/image_utils/mpl_utils.py
 
-
 Remove numpy aliases to builtin types
 -------------------------------------
 
@@ -175,7 +174,6 @@ Remove numpy aliases to builtin types
 ::
 
     geoips/interface_modules/readers/ahi_hsd.py
-
 
 Fix file duplicate removal syntax
 ---------------------------------
@@ -209,7 +207,6 @@ Update YAML metadata storm_start_datetime
 
    tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean/20200518_073601_IO012020_amsr2_gcom-w1_windspeed_140kts_85p45_1p0-clean.png.yaml
 
-
 Code Formatting and Style Updates
 =================================
 
@@ -235,7 +232,6 @@ Standardize geoips packages variables
 
   * $GEOIPS is an optional environment variable.
 
-
 Standardize geoips test data variables
 --------------------------------------
 
@@ -245,7 +241,6 @@ Standardize geoips test data variables
 * Replacing all instances of GEOIPS BASEDIR/test_data with GEOIPS_TESTDATA_DIR
 * Remove tests/README.md
 * REMOVE tests/README.md - deprecated, info now included in template repos.
-
 
 Add capability to obtain and test all available functionality
 -------------------------------------------------------------
@@ -263,7 +258,6 @@ add capability to test all avaialble functionality*
     setup.sh
     tests/test_full_install.sh
 
-
 Use original AMSR2 filenames
 ----------------------------
 
@@ -278,14 +272,16 @@ Use original AMSR2 filenames
    modified: tests/scripts/amsr2.config_based_overlay_output_low_memory.sh
    modified: tests/scripts/amsr2.config_based_overlay_output.sh
    modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
-   modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml
-   modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml
-   modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml
-   modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml
-   modified: tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png.yaml
-
-
-
+   modified:
+   tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml
+   modified:
+   tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml
+   modified:
+   tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml
+   modified:
+   tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml
+   modified:
+   tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png.yaml
 
 Documentation Updates
 =====================
@@ -304,4 +300,3 @@ Simplify installation.rst
 
 * Slightly rearrange installation.rst - only include a single “Complete
   conda-based installation” section to avoid confusion.
-

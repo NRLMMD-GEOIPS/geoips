@@ -74,4 +74,3 @@ gmi.tc.89pct.imagery_clean.sh
 -----------------------------
 
 * Update gmi 89pct test to use tc\_clean\_fname rather than tc\_fname
-

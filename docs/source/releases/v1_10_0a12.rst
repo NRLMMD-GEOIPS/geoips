@@ -205,7 +205,6 @@ Remove old YAML discovery functions in geoips_utils
 
   geoips/geoips_utils.py
 
-
 Remove old YAML configs and old interfaces
 ------------------------------------------
 

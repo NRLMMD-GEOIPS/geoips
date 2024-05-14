@@ -131,4 +131,3 @@ Bug fixes
 
     * Call test\_base\_install.sh from test\_all.sh
     * Remove abi test calls from test\_all.sh, since they are included in test\_base\_install.sh
-

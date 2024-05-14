@@ -28,7 +28,7 @@ workaround of the normally difficult windows installation.
 ------------
 
 Follow directions on
-`Microsoft WSL Install <https://learn.microsoft.com/en-us/windows/wsl/install>`_ 
+`Microsoft WSL Install <https://learn.microsoft.com/en-us/windows/wsl/install>`_
 which installs WSL2 and Unbuntu by default.
 Note, this does require adminstrator privileges on
 the windows machine.
