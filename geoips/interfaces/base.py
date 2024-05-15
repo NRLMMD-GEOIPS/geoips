@@ -15,7 +15,7 @@
 import yaml
 import inspect
 import logging
-from os.path import basename, exists, splitext
+from os.path import basename, splitext
 from glob import glob
 
 from importlib.resources import files
