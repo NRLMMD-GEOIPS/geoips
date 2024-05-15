@@ -113,6 +113,10 @@ class GeoipsCommand(abc.ABC):
             self.combined_name = self.command_name
 
         self.add_subparsers()
+        self.subcommand_parser.set_defaults(
+            command=self.combined_name.replace("_", " "),
+            command_parser=self.subcommand_parser,
+        )
 
     @property
     @abc.abstractmethod
