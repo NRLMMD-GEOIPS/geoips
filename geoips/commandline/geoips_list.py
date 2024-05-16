@@ -540,14 +540,17 @@ class GeoipsListScripts(GeoipsExecutableCommand):
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
             print(f"{plugin_package_name.title()} Available Scripts")
             print("-" * len(f"{plugin_package_name.title()} Available Scripts"))
-            print(
-                tabulate(
-                    script_names,
-                    headers=headers,
-                    tablefmt="rounded_grid",
-                    maxcolwidths=self.terminal_width // len(headers),
+            if len(script_names) == 0:
+                print(f"Package '{plugin_package_name.title()}' has no scripts.")
+            else:
+                print(
+                    tabulate(
+                        script_names,
+                        headers=headers,
+                        tablefmt="rounded_grid",
+                        maxcolwidths=self.terminal_width // len(headers),
+                    )
                 )
-            )
 
 
 class GeoipsList(GeoipsCommand):

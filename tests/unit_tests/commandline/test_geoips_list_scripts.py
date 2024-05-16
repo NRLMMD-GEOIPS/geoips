@@ -92,7 +92,7 @@ class TestGeoipsListScripts(BaseCliTest):
             # Assert that the correct headers exist in the CLI output
             headers = ["GeoIPS Package", "Filename"]
             for header in headers:
-                assert header in output
+                assert header in output or 'has no scripts' in output
 
 
 test_sub_cmd = TestGeoipsListScripts()
