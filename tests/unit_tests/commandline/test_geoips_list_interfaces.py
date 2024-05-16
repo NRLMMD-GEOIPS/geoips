@@ -75,7 +75,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
                 ]
             # Assert that the correct headers exist in the CLI output
             for header in headers:
-                assert header in output
+                assert header in output or "has no interfaces" in output
 
 
 test_sub_cmd = TestGeoipsListInterfaces()

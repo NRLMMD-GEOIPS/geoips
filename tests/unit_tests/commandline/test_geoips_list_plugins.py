@@ -71,7 +71,7 @@ class TestGeoipsListPlugins(BaseCliTest):
             ]
             # Assert that the correct headers exist in the CLI output
             for header in headers:
-                assert header in output
+                assert header in output or "has no plugins" in output
 
             if "-p" in args:
                 # certain package has been selected, ensure we found every pkg-plugin

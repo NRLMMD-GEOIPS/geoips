@@ -282,14 +282,17 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             print("-" * len(f"{plugin_package_name.title()} Interfaces"))
             print(f"{plugin_package_name.title()} Interfaces")
             print("-" * len(f"{plugin_package_name.title()} Interfaces"))
-            print(
-                tabulate(
-                    interface_data,
-                    headers=headers,
-                    tablefmt="rounded_grid",
-                    maxcolwidths=self.terminal_width // len(headers),
+            if len(interface_data) == 0:
+                print(f"Package '{plugin_package_name.title()}' has no interfaces.")
+            else:
+                print(
+                    tabulate(
+                        interface_data,
+                        headers=headers,
+                        tablefmt="rounded_grid",
+                        maxcolwidths=self.terminal_width // len(headers),
+                    )
                 )
-            )
 
 
 class GeoipsListPackages(GeoipsExecutableCommand):
@@ -389,6 +392,7 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
             getattr(interfaces, name) for name in sorted(interfaces.__all__)
         ]
 
+        plugin_found = False
         for curr_interface in interfaces_to_list:
             interface_registry = self._get_registry_by_interface_and_package(
                 curr_interface, package_name
@@ -397,10 +401,14 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
             # package whose registry doesn't contain that certain interface.
             if interface_registry is None:
                 continue
+            else:
+                plugin_found = True
             print("-" * len(curr_interface.name))
             print(curr_interface.name)
             print("-" * len(curr_interface.name))
             self._print_plugins_short_format(curr_interface, interface_registry)
+        if not plugin_found:
+            print(f"Plugin package '{package_name.title()}' has no plugins.")
 
 
 class GeoipsListSingleInterface(GeoipsExecutableCommand):
