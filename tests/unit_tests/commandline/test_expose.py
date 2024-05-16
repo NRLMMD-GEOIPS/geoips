@@ -4,7 +4,7 @@ from importlib import metadata
 import logging
 import pytest
 
-from geoips.errors import PackageNotFoundError
+from geoips.errors import PluginPackageNotFoundError
 from geoips.geoips_utils import expose_geoips_commands, get_entry_point_group
 
 LOG = logging.getLogger(__name__)
@@ -67,6 +67,6 @@ def test_expose_pkg_cmds(pkg_name, caplog):
 
     else:
         # Calling this with a non-existent package should raise PackageNotFoundError
-        with pytest.raises(PackageNotFoundError):
+        with pytest.raises(PluginPackageNotFoundError):
             expose_geoips_commands(pkg_name, LOG)
     caplog.clear()

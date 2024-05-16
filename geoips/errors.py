@@ -37,7 +37,7 @@ class CoverageError(Exception):
     pass
 
 
-class PackageNotFoundError(Exception):
+class PluginPackageNotFoundError(Exception):
     """Raise exception stating a certain plugin package was not found."""
 
     pass

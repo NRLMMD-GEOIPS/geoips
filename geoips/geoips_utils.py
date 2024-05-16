@@ -23,7 +23,11 @@ from tabulate import tabulate
 import logging
 from importlib import metadata, resources
 
-from geoips.errors import EntryPointError, PluginRegistryError, PackageNotFoundError
+from geoips.errors import (
+    EntryPointError,
+    PluginRegistryError,
+    PluginPackageNotFoundError,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -545,7 +549,7 @@ def _get_pkg_name_and_logger(pkg_name, provided_log):
     else:
         # This function was called via python
         if pkg_name not in plugin_packages:
-            raise PackageNotFoundError(
+            raise PluginPackageNotFoundError(
                 f"No such package named '{pkg_name}' found. Make sure that package is "
                 "installed via pip."
             )
