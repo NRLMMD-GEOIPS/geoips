@@ -16,6 +16,8 @@ Version 1.13.0a0 (2024-04-24)
 * Enhancements
 
   * Initial Stage of the GeoIPS CLI
+  * Add doc8 runner
+
 * Release Updates
 
   * Update update_this_release_note
@@ -23,6 +25,13 @@ Version 1.13.0a0 (2024-04-24)
 
 Enhancements
 ============
+
+Add Doc8 Runner
+---------------
+
+GeoIPS uses reStructuredText (RST) for documentation. Doc8 helps us enforce 
+standards for how those RST files are formatted. This adds a check
+to all pull requests to make sure new additions meet the standards.
 
 Initial Stage of the GeoIPS CLI
 -------------------------------
