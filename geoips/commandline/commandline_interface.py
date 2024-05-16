@@ -7,7 +7,6 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 import logging
 import sys
 
-from geoips.errors import CliError
 from geoips.commandline.cmd_instructions import get_cmd_instructions
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.geoips_command import GeoipsCommand
