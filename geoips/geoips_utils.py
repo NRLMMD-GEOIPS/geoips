@@ -17,7 +17,6 @@ import os
 from copy import deepcopy
 from shutil import get_terminal_size
 import sys
-import toml
 from tabulate import tabulate
 
 # import yaml
@@ -468,71 +467,31 @@ def expose_geoips_commands(pkg_name=None, test_log=None):
           so we can check the output of this command for our Unit Tests.
     """
     pkg_name, log = _get_pkg_name_and_logger(pkg_name, test_log)
-    try:
-        toml_path = resources.files(pkg_name) / "../pyproject.toml"
-
-        with open(toml_path, "r") as toml_file:
-            pyproj = toml.load(toml_file)
-            scripts = _get_pyproj_scripts(pyproj)
-            # If scripts were found in this package, expose them
-            if scripts:
-                log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
-                log.interactive(f"Available {pkg_name.title()} Commands")
-                log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
-                table_data = [
-                    [cmd_name, cmd_path] for cmd_name, cmd_path in scripts.items()
-                ]
-                # Log the commands found in a tabular fashion
-                log.interactive(
-                    tabulate(
-                        table_data,
-                        headers=["Command Name", "Command Path"],
-                        tablefmt="rounded_grid",
-                        maxcolwidths=get_terminal_size().columns // 2,
-                    )
-                )
-            # Otherwise let the user know that there were not commands found for this
-            # package.
-            else:
-                log.interactive(f"No '{pkg_name.title()}' Commands were found.")
-
-    except FileNotFoundError:
-        log.interactive(
-            f"No pyproject.toml file found at {toml_path}. Please create one to move "
-            "forward."
+    # Get a list of console_script entrypoints specific to the provided package
+    eps = list(
+        filter(
+            lambda ep: pkg_name in ep.value,
+            metadata.entry_points().select(group="console_scripts"),
         )
-
-
-def _get_pyproj_scripts(pyproj):
-    """Get command scripts out of the provided pyproject.toml file.
-
-    Command scripts specified in pyproject.toml can either be poetry-based or
-    setuptools-based. The series of try-except statements below will try both methods,
-    and if both fail that means that this was not specified in pyproject.toml. This
-    means no commands exist for the provided pyproject.toml for the associated package.
-
-    Parameters
-    ----------
-    pyproj: dict
-        - The pyproject.toml file represented as a dictionary.
-
-    Returns
-    -------
-    scripts: dict (or None)
-        - Where scripts is a key-value matching of {'cmd1_name': 'cmd1_path', ...}
-    """
-    try:
-        # Try to access the scripts via poetry's representation
-        scripts = pyproj["tool"]["poetry"]["scripts"]
-    except KeyError:
-        # If that didn't work, they don't exist or it's setuptools-based.
-        # Try to access scripts via setuptools representation.
-        try:
-            scripts = pyproj["project"]["entry-points"]["console_scripts"]
-        except KeyError:
-            # Scripts were not specified, return None
-            scripts = None
-    return scripts
+    )
+    log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
+    log.interactive(f"Available {pkg_name.title()} Commands")
+    log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
+    if eps:
+        table_data = [[ep.name, ep.value] for ep in eps]
+        # Log the commands found in a tabular fashion
+        log.interactive(
+            tabulate(
+                table_data,
+                headers=["Command Name", "Command Path"],
+                tablefmt="rounded_grid",
+                maxcolwidths=get_terminal_size().columns // 2,
+            )
+        )
+        # Otherwise let the user know that there were not commands found for this
+        # package.
+    else:
+        log.interactive(f"No '{pkg_name.title()}' Commands were found.")
 
 
 def _get_pkg_name_and_logger(pkg_name, provided_log):

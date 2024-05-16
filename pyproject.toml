@@ -82,7 +82,6 @@ referencing = "*"
 satpy = "*"            # efficiency improvements >= 0.33.1
 scikit-image = "*"     # Radius based center coverage checks
 tabulate = "*"         # Needed for CLI and 'expose' command
-toml = "*"             # Needed for 'expose' command
 
 # Optional dependencies
 # To add a new optional dependency it must be added both here and in one of the "extra"

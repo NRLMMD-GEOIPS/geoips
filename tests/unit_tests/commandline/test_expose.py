@@ -1,16 +1,11 @@
 """Unit test asserting functionality for exposing plugin-package commands."""
 
-from importlib.resources import files
+from importlib import metadata
 import logging
 import pytest
-import toml
 
 from geoips.errors import PackageNotFoundError
-from geoips.geoips_utils import (
-    expose_geoips_commands,
-    _get_pyproj_scripts,
-    get_entry_point_group,
-)
+from geoips.geoips_utils import expose_geoips_commands, get_entry_point_group
 
 LOG = logging.getLogger(__name__)
 
@@ -45,9 +40,12 @@ def test_expose_pkg_cmds(pkg_name, caplog):
         # without an error being raised
         expose_geoips_commands(pkg_name, LOG)
         assert f"Available {pkg_name.title()} Commands" in caplog.text
-        with open(files(pkg_name) / "../pyproject.toml", "r") as toml_file:
-            pyproj = toml.load(toml_file)
-            scripts = _get_pyproj_scripts(pyproj)
+        eps = list(
+            filter(
+                lambda ep: pkg_name in ep.value,
+                metadata.entry_points().select(group="console_scripts"),
+            )
+        )
         # Replace calls are needed as we need to filter out the table chars
         # if the table was split due to terminal size
         replaced = str(
@@ -59,9 +57,9 @@ def test_expose_pkg_cmds(pkg_name, caplog):
             )
             .replace("│", "")
         )
-        for name, cmd in scripts.items():
-            assert name in replaced
-            assert cmd in replaced
+        for ep in eps:
+            assert ep.name in replaced  # name of the command
+            assert ep.value in replaced  # path to the command
     elif pkg_name in plugin_packages:
         # None of these packaes have commands
         expose_geoips_commands(pkg_name, LOG)
