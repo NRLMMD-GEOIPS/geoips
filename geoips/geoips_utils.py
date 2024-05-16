@@ -13,6 +13,7 @@
 """General high level utilities for geoips processing."""
 
 import argparse
+import inspect
 import os
 from copy import deepcopy
 from shutil import get_terminal_size
@@ -23,11 +24,7 @@ from tabulate import tabulate
 import logging
 from importlib import metadata, resources
 
-from geoips.errors import (
-    EntryPointError,
-    PluginRegistryError,
-    PluginPackageNotFoundError,
-)
+from geoips.errors import PluginRegistryError, PluginPackageNotFoundError
 
 LOG = logging.getLogger(__name__)
 
