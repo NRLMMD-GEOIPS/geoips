@@ -15,6 +15,7 @@
 # Standard libraries
 from datetime import timedelta
 import math
+from numpy import linspace
 
 # Installed libraries
 import ephem
@@ -212,13 +213,71 @@ def calculate_overpass(tle, observer_lat, observer_lon, date, satellite_name):
     return opass_info
 
 
+def create_sector_observers(ll_lon, ll_lat, ur_lon, ur_lat, spacing=50):
+    """Create multiple prediction points for large sectors.
+
+    Parameters
+    ----------
+    ll_lon : float
+        Lower left longitude of sector.
+    ll_lat : float
+        Lower left latitude of sector.
+    ur_lon : float
+        Upper right longtitude of sector.
+    ur_lat : float
+        Upper right latitude of sector.
+    spacing : int, optional
+        Spacing between latitude/longitude observer points (degrees), by default 50
+
+    Returns
+    -------
+    list
+        List of observer points for sector.
+    """
+    if ur_lon < ll_lon:
+        # Check if sector crosses dateline.
+        # Convert lons to 0 - 360 just to make things easier.
+        ur_lon = 360 + ur_lon
+    # Find how wide and tall the sector is
+    lon_delta = abs((ur_lon - spacing) - (ll_lon - spacing))
+    lat_delta = abs((ur_lat - spacing) - (ll_lat - spacing))
+    # Determine how many observers we'd expect for this sector.
+    n_lat_points = round(round(lat_delta) / spacing)
+    n_lon_points = round(round(lon_delta) / spacing)
+    # Create list of latitude observer points.
+    # Only try to create multiple observers if the expected
+    # number of observers is greater than one.
+    if n_lat_points > 1:
+        check_lats = linspace(ll_lat + spacing / 2, ur_lat - spacing / 2, n_lat_points)
+    else:
+        check_lats = [(ur_lat + ll_lat) / 2]
+    # Create list of longitude observer points.
+    # Only try to create multiple observers if the expected
+    # number of observers is greater than one.
+    if n_lon_points > 1:
+        check_lons = linspace(ll_lon + spacing / 2, ur_lon - spacing / 2, n_lon_points)
+        # Convert back to -180 - 180
+        check_lons[check_lons > 180] -= 360
+    else:
+        center_lon = (ur_lon + ll_lon) / 2
+        if center_lon > 180:
+            # Convert lons back to -180 - 180
+            center_lon -= 360
+        check_lons = [center_lon]
+    check_points = []
+    for clat in check_lats:
+        for clon in check_lons:
+            check_points.append([clat, clon])
+    return check_points
+
+
 def predict_satellite_overpass(
     tlefile,
     satellite_name,
     satellite_tle,
     area_def,
     start_datetime,
-    check_midpoints=False,
+    observer_spacing=50,
 ):
     """Estimate next satellite overpass information with ephem.
 
@@ -234,8 +293,9 @@ def predict_satellite_overpass(
         area definition
     start_datetime :datetime.datetime
         start time to find the next available overpass
-    check_midpoints :bool
-        check mid points of area definition for additional overpassses
+    observer_spacing : float
+        Spacing (degrees) between observer points in sector. If domain exceeds the
+        specified spacing, multiple observer are automatically added across the sector.
 
     Returns
     -------
@@ -244,21 +304,17 @@ def predict_satellite_overpass(
     """
     tle = ephem.readtle(tlefile, satellite_tle["line1"], satellite_tle["line2"])
     ll_lon, ll_lat, ur_lon, ur_lat = area_def.area_extent_ll
-    center_lon = (ll_lon + ur_lon) / 2.0
-    center_lat = (ll_lat + ur_lat) / 2.0
-    observers = [(center_lat, center_lon)]
-    if check_midpoints:
-        mid_lon_upper = (center_lon + ur_lon) / 2.0
-        mid_lon_lower = (center_lon + ll_lon) / 2.0
-        mid_lat_upper = (center_lat + ur_lat) / 2.0
-        mid_lat_lower = (center_lat + ll_lat) / 2.0
-        observers.append((mid_lat_upper, center_lon))
-        observers.append((mid_lat_lower, center_lon))
-        observers.append((center_lat, mid_lon_upper))
-        observers.append((center_lat, mid_lon_lower))
+    observers = create_sector_observers(
+        ll_lon, ll_lat, ur_lon, ur_lat, spacing=observer_spacing
+    )
+    total_observers = len(observers)
     overpasses = {}
-    rise_times = []
-    valid_overpasses = 0
+    LOG.info(
+        "Running %s overpass predictor for %s. Total observers: %s",
+        satellite_name,
+        area_def.area_id,
+        total_observers,
+    )
     for i, observer in enumerate(observers):
         observer_lat, observer_lon = observer
         opass_info = calculate_overpass(
@@ -267,26 +323,21 @@ def predict_satellite_overpass(
         if isinstance(opass_info, type(None)):
             # Either something went wrong in the predictor, or found a
             # geostationary satellite that does not overpass the sector, ever!
-            overpasses = None
             continue
-        if i < 1:
-            # Keep track of center rise set times
-            center_rise = opass_info["rise time"]
-            center_set = opass_info["set time"]
-            valid_overpasses += 1
-            overpasses["pass {0}".format(valid_overpasses)] = opass_info
-        # Only add if overpass does not intersect
-        # with the sector's center observer point
-        max_t = opass_info["max altitude time"]
-        if (max_t < center_rise) or (max_t > center_set):
-            rise_times.append(opass_info["rise time"])
-            valid_overpasses += 1
-            overpasses["pass {0}".format(valid_overpasses)] = opass_info
+        opass_key = "_".join(
+            [
+                satellite_name,
+                area_def.area_id,
+                opass_info["max altitude time"].strftime("%Y%m%dT%H%MZ"),
+            ]
+        )
+        if opass_key not in overpasses:
+            overpasses[opass_key] = opass_info
     return overpasses
 
 
 def predict_overpass_area_def(
-    tlefile, area_definition, satellite_list, start_datetime, check_midpoints=False
+    tlefile, area_definition, satellite_list, start_datetime, observer_spacing=50
 ):
     """Predict satellite overpass for an area_definition.
 
@@ -300,8 +351,9 @@ def predict_overpass_area_def(
         list of satellites to predict the overpass times
     start_datetime : datetime.datetime
         start time to find the next available overpass
-    check_midpoints : bool
-        check mid points of area definition for additional overpassses
+    observer_spacing : float
+        Spacing (degrees) between observer points in sector. If domain exceeds the
+        specified spacing, multiple observer are automatically added across the sector.
 
     Returns
     -------
@@ -320,7 +372,7 @@ def predict_overpass_area_def(
             sat_tle,
             area_definition,
             start_datetime,
-            check_midpoints=check_midpoints,
+            observer_spacing=observer_spacing,
         )
         if next_overpass:
             area_def_overpasses[satellite] = next_overpass
@@ -333,7 +385,7 @@ def predict_overpass_yaml(
     sector_list,
     satellite_list,
     start_datetime,
-    check_midpoints=False,
+    observer_spacing=50,
 ):
     """Predict satellite overpass for sectors from a given yaml sector file.
 
@@ -349,8 +401,9 @@ def predict_overpass_yaml(
         list of satellites to predict the overpass times
     start_datetime : datetime.datetime
         start time to find the next available overpass
-    check_midpoints : bool
-        check mid points of area definition for additional overpassses
+    observer_spacing : float
+        Spacing (degrees) between observer points in sector. If domain exceeds the
+        specified spacing, multiple observer are automatically added across the sector.
 
     Returns
     -------
@@ -370,7 +423,7 @@ def predict_overpass_yaml(
             sector_area_def,
             satellite_list,
             start_datetime,
-            check_midpoints=check_midpoints,
+            observer_spacing=observer_spacing,
         )
         sector_overpasses[yaml_sector] = overpasses
     return sector_overpasses
