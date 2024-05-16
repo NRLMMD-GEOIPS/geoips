@@ -42,8 +42,8 @@ jobs:
       - name: Run docs check via doc8
         shell: bash -l {0}
         run: |
-          echo "::group::black_analysis"
-          echo "DOC8 analysis of code"
+          echo "::group::doc8_analysis"
+          echo "Doc8 analysis of code"
           doc8 --max-line-length=120 ./docs/source
           ret=$?
           echo "Return code: ${ret}"
