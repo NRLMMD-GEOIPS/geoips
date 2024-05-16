@@ -29,3 +29,9 @@ class CoverageError(Exception):
     """Raise exception on data coverage error."""
 
     pass
+
+
+class PluginPackageNotFoundError(Exception):
+    """Raise exception stating a certain plugin package was not found."""
+
+    pass
