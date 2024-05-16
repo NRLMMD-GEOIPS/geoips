@@ -10,28 +10,4 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""GeoIPS error module."""
-
-
-class PluginError(Exception):
-    """Exception to be raised when there is an error in a GeoIPS plugin."""
-
-    pass
-
-
-class PluginRegistryError(Exception):
-    """Exception to be raised when there is an error in a plugin registry."""
-
-    pass
-
-
-class CoverageError(Exception):
-    """Raise exception on data coverage error."""
-
-    pass
-
-
-class CliError(Exception):
-    """Raise exception on command line interface error."""
-
-    pass
+"""geoips.commandline.ancillary_info init file."""
