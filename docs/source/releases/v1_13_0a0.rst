@@ -29,7 +29,7 @@ Enhancements
 Add Doc8 Runner
 ---------------
 
-GeoIPS uses reStructuredText (RST) for documentation. Doc8 helps us enforce 
+GeoIPS uses reStructuredText (RST) for documentation. Doc8 helps us enforce
 standards for how those RST files are formatted. This adds a check
 to all pull requests to make sure new additions meet the standards.
 
