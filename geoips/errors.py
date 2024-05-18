@@ -29,9 +29,3 @@ class CoverageError(Exception):
     """Raise exception on data coverage error."""
 
     pass
-
-
-class CliError(Exception):
-    """Raise exception on command line interface error."""
-
-    pass

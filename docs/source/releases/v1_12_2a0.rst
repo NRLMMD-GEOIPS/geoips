@@ -10,7 +10,7 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.12.2a0 (2024-02-19)
+Version 1.12.2a0 (2024-02-21)
 *****************************
 
 * Enhancements
@@ -37,8 +37,6 @@ Version 1.12.2a0 (2024-02-19)
 
   * Added documentation for create_plugin_registries and PluginRegistry Class
   * Fix log_with_emphasis to deal with empty strings gracefully
-  * Add documentation about optional pdflatex dependency
-
 * Refactor
 
   * Make JSON Plugin Registries Readable
@@ -47,6 +45,9 @@ Version 1.12.2a0 (2024-02-19)
 * Testing Updates
 
   * Move pytest validation from plugin_registry.py to unit tests.
+* Documentation
+
+  * Add documentation about optional pdflatex dependency
 
 Testing Updates
 ===============
