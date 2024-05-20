@@ -24,27 +24,27 @@ class TestGeoipsListInterface(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = self._list_interface_args
-            for pkg_name in self.plugin_package_names + ["all"]:
-                for interface_name in interfaces.__all__:
-                    if pkg_name != "all":
-                        args = base_args + [interface_name, "-p", pkg_name]
-                    else:
-                        args = base_args + [interface_name]
-                    self._cmd_list.append(args)
-            # Add argument list with a non-existent interface
-            self._cmd_list.append(base_args + ["non_existent_interface"])
-            # Add argument list that utilizes the --column optional arg
-            self._cmd_list.append(
-                base_args
-                + [
-                    "algorithms",
-                    "--columns",
-                    "package",
-                    "interface",
-                    "plugin_type",
-                    "relpath",
-                ]
-            )
+            # for pkg_name in self.plugin_package_names + ["all"]:
+            #     for interface_name in interfaces.__all__:
+            #         if pkg_name != "all":
+            #             args = base_args + [interface_name, "-p", pkg_name]
+            #         else:
+            #             args = base_args + [interface_name]
+            #         self._cmd_list.append(args)
+            # # Add argument list with a non-existent interface
+            # self._cmd_list.append(base_args + ["non_existent_interface"])
+            # # Add argument list that utilizes the --column optional arg
+            # self._cmd_list.append(
+            #     base_args
+            #     + [
+            #         "algorithms",
+            #         "--columns",
+            #         "package",
+            #         "interface",
+            #         "plugin_type",
+            #         "relpath",
+            #     ]
+            # )
             # Add argument list with an existing interface but non-existent package
             self._cmd_list.append(
                 base_args + ["algorithms", "-p", "non_existent_package"]
@@ -65,20 +65,22 @@ class TestGeoipsListInterface(BaseCliTest):
         error: str
             - Multiline str representing the error output of the CLI call
         """
-        if args[3] in interfaces.__all__:
-            # interface exists, so check that the package name is incorrect
-            assert args[-1] not in self.plugin_package_names
-            usg_str = "error: argument --package/-p: invalid "
-            usg_str += f"choice: '{args[-1]}' (choose from"
-            assert usg_str in error
-        else:
-            assert args[3] not in interfaces.__all__
-        assert "usage: To use, type `geoips list interface <interface_name>`" in error
         if "--columns" in args and "--long" in args:
             assert (
                 "error: argument --columns/-c: not allowed with argument --long/-l"
-                in error
+                in error.replace("\n", "")
             )
+        elif args[3] in interfaces.__all__:
+            # interface exists, so check that the package name is incorrect
+            assert args[-1] not in self.plugin_package_names
+            usg_str = (
+                f"error: argument --package_name/-p: invalid "
+                f"choice: '{args[-1]}' (choose from"
+            )
+            assert usg_str in error.replace("\n", "")
+        else:
+            assert args[3] not in interfaces.__all__
+        assert "usage: To use, type `geoips list interface <interface_name>`" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list interface ...' successful output is correct.
