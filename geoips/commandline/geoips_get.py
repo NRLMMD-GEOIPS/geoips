@@ -4,6 +4,7 @@ Retrieves the appropriate family/interface/package/plugin based on the args prov
 """
 
 from importlib import resources, import_module
+
 import yaml
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
@@ -17,7 +18,7 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
     when calling this command is shown below, outputted in a yaml-based format.
     """
 
-    subcommand_name = "family"
+    command_name = "family"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -41,8 +42,8 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
         This occurs when a user has requested a family in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         yaml-based output: dict
             - Docstring
             - Family Name
@@ -107,7 +108,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
     calling this command is shown below, outputted in a yaml-based format.
     """
 
-    subcommand_name = "interface"
+    command_name = "interface"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -126,8 +127,8 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         This occurs when a user has requested a interface in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         yaml-based output: dict
             - Absolute Path
             - Docstring
@@ -170,7 +171,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
     calling this command is shown below, outputted in a yaml-based format.
     """
 
-    subcommand_name = "package"
+    command_name = "package"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -179,7 +180,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
             "package_name",
             type=str.lower,
             default="geoips",
-            choices=self.plugin_packages,
+            choices=self.plugin_package_names,
             help="GeoIPS Package to retrieve.",
         )
 
@@ -189,8 +190,8 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
         This occurs when a user has requested a package in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         yaml-based output: dict
             - Docstring
             - Documentation Link
@@ -210,7 +211,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
             "GeoIPS Package": package_name,
             "Docstring": docstring,
             "Package Path": package_path,
-            "Documentation Link": f"{self.nrl_url}{package_name}",
+            "Documentation Link": f"{self.github_org_url}{package_name}",
         }
         self._output_dictionary_highlighted(package_entry)
 
@@ -222,7 +223,7 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
     when calling this command is shown below, outputted in a yaml-based format.
     """
 
-    subcommand_name = "plugin"
+    command_name = "plugin"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -248,8 +249,8 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
         This occurs when a user has requested a plugin in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
 
-        Data Output
-        -----------
+        Printed to Terminal
+        -------------------
         yaml-based output: dict
             - Docstring
             - Family Name
@@ -322,7 +323,7 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
 class GeoipsGet(GeoipsCommand):
     """Top-Level Get Command Class for retrieving information about GeoIPS Artifacts."""
 
-    subcommand_name = "get"
+    command_name = "get"
     subcommand_classes = [
         GeoipsGetFamily,
         GeoipsGetInterface,

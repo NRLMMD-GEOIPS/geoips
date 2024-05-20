@@ -48,7 +48,7 @@ def main(get_command_line_args_func=None, ARGS=None):
         )
 
     COMMAND_LINE_ARGS = ARGS.__dict__
-    if "logging_level" in COMMAND_LINE_ARGS.keys():
+    if COMMAND_LINE_ARGS.get("logging_level"):
         LOG = setup_logging(logging_level=COMMAND_LINE_ARGS["logging_level"])
     else:
         LOG = setup_logging()

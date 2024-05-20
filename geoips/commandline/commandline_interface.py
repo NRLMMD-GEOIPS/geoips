@@ -8,7 +8,7 @@ import logging
 from os.path import basename
 import sys
 
-from geoips.commandline.ancillary_info import get_cmd_instructions
+from geoips.commandline.cmd_instructions import get_cmd_instructions
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
@@ -30,6 +30,7 @@ class GeoipsCLI(GeoipsCommand):
     - [GeoipsConfig, GeoipsGet, GeoipsList, GeoipsRun, GeoipsTest, GeoipsValidate]
     """
 
+    command_name = "geoips"  # Needed since we inherit from GeoipsCommand
     subcommand_classes = [
         GeoipsConfig,
         GeoipsGet,
@@ -48,24 +49,39 @@ class GeoipsCLI(GeoipsCommand):
         and so on. For example, the GeoipsList Command Class's arguments are inherited
         by all subcommand child classes, which recursively can have their own child
         subcommand classes.
+
+        Parameters
+        ----------
+        instructions_dir: str or Posix.Path
+            - The path to the directory which includes the commandline instructions.
+              This is only used for testing purposes so we can ensure the correct
+              functionality occurs for possibly missing / invalid instruction files.
         """
-        self._subcommand_name = "cli"  # Needed since we inherit from GeoipsCommand
         if instructions_dir:
+            # Instructions dir has been provided, use the instructions found in that
+            # directory so we can test that the correct functionality occurs for any
+            # given instruction file state.
             self.cmd_instructions = get_cmd_instructions(instructions_dir)
         else:
+            # Otherwise use the default instructions which we know are correct
+            # (and if they're not, the appropriate error will be raised.)
             self.cmd_instructions = None
         super().__init__(legacy=legacy)
 
         self.GEOIPS_ARGS = self.subcommand_parser.parse_args()
 
-    @property
-    def subcommand_name(self):
-        """The Name of the Subcommand."""
-        return self._subcommand_name
-
     def execute_command(self):
         """Execute the given command."""
-        self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)
+        if hasattr(self.GEOIPS_ARGS, "exe_command"):
+            # The command called is executable (child of GeoipsExecutableCommand)
+            # so execute that command now.
+            self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)
+        else:
+            print(
+                # f'"{self.GEOIPS_ARGS.command}" command requires a subcommand.\n\n'
+                f"{self.GEOIPS_ARGS.command_parser.format_usage()}"
+            )
+            sys.exit(2)
 
 
 def support_legacy_procflows():

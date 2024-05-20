@@ -45,6 +45,8 @@ class TestGeoipsListInterfaces(BaseCliTest):
                     "plugin_type",
                 ]
             )
+            # Add argument list which invokes the help message for this command
+            self._cmd_list.append(["geoips", "list", "interfaces", "-h"])
             # Add argument list with an invalid command call ("-p" w/out "-i")
             self._cmd_list.append(base_args + ["-p", "geoips"])
             # Add argument list with an invalid command call ("--long" with "--columns")
@@ -92,10 +94,6 @@ class TestGeoipsListInterfaces(BaseCliTest):
         else:
             # The args provided are valid, so test that the output is actually correct
             selected_cols = self.retrieve_selected_columns_from_list_command(args)
-            if "-p" in args:
-                # Certain package has been requested, assert this was used alongside
-                # the "-i" ("--implemented") flag
-                assert "-i" in args
             if "-i" in args or "-p" in args:
                 headers = {
                     "GeoIPS Package": "package",

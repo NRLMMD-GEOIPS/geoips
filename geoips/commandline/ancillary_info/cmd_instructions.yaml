@@ -1,6 +1,6 @@
 name: geoips_cmd_instructions
 instructions:
-  config:
+  geoips_config:
     help_str: |
       Various configuration-based commands for setting up your geoips environment.
       Currently supports `geoips config install <test_dataset_name>` command.
@@ -8,7 +8,7 @@ instructions:
       To use, type `geoips config <sub-cmd> <sub-sub-command> ...`
     output_info:
       - Output related to config process that was run.
-  config_install:
+  geoips_config_install:
     help_str: |
       Install the appropriate test dataset and/or package based on the arguments
       provided. To see a list of available test datasets for install, run
@@ -17,7 +17,7 @@ instructions:
       To use, type `geoips config install <test_dataset_name>`.
     output_info:
       - Not Applicable
-  get:
+  geoips_get:
     help_str: |
       Retrieve an appropriate GeoIPS artifact. Currently supported `get` calls are:
       ["family", "interface", "package", "plugin"]
@@ -25,7 +25,7 @@ instructions:
       To use, type `geoips get <sub-cmd> <sub-sub-cmd> ...`.
     output_info:
       - Information related to the artifact that was retrieved.
-  get_family:
+  geoips_get_family:
     help_str: |
       Retrieve the appropriate GeoIPS Family alongside descriptive information of
       that family. See output_info for each datum provided when this command is
@@ -42,7 +42,7 @@ instructions:
       - Interface Name
       - Interface Type
       - Required Args / Schema
-  get_interface:
+  geoips_get_interface:
     help_str: |
       Retrieve the appropriate GeoIPS Interface alongside descriptive information of
       that interface. See output_info for each datum provided when this command is
@@ -58,7 +58,7 @@ instructions:
       - Interface Name
       - Interface Type
       - Supported Families
-  get_package:
+  geoips_get_package:
     help_str: |
       Retrieve the appropriate GeoIPS Package alongside descriptive information of
       that package. See output_info for each datum provided when this command is
@@ -72,7 +72,7 @@ instructions:
       - Docstring
       - Package Path
       - Documentation Link
-  get_plugin:
+  geoips_get_plugin:
     help_str: |
       Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
       that plugin. See output_info for each datum provided when this command is
@@ -90,7 +90,7 @@ instructions:
       - Package
       - Relative Path
       - Plugin Specific Info (signature / source_names / available overrides)
-  list:
+  geoips_list:
     help_str: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
       available for listing are: ["interface", "interfaces", "packages", "plugins",
@@ -99,7 +99,7 @@ instructions:
       To use, type `geoips list <sub-cmd> <sub-sub-cmd>`.
     output_info:
       - Additional info related to the artifact[s] being listed.
-  list_common:
+  geoips_list_common:
     help_str: |
       Common optional arguments shared between list commands.
     usage_str: |
@@ -108,6 +108,7 @@ instructions:
     output_info:
       - N/A
   list_interface:
+  geoips_list_interface:
     help_str: |
       List off plugins found under a certain interface. This is useful for seeing what
       plugins have been implemented through all, or a certain, GeoIPS Package. This
@@ -127,7 +128,7 @@ instructions:
       - Package
       - Plugin Name
       - Relative Path
-  list_interfaces:
+  geoips_list_interfaces:
     help_str: |
       List off every GeoIPS Interface. This is useful for seeing what is
       available throughout GeoIPS, but can also be extended to see what interfaces have
@@ -148,7 +149,7 @@ instructions:
       - Interface Type
       - Package
       - Supported Families
-  list_plugins:
+  geoips_list_plugins:
     help_str: |
       List off plugins found under all, or a specified GeoIPS package. This information
       can then be used with `geoips get-plugin <interface_name> <plugin_name>` to get
@@ -166,7 +167,7 @@ instructions:
       - Package
       - Plugin Name
       - Relative Path
-  list_packages:
+  geoips_list_packages:
     help_str: |
       List off packages found under the GeoIPS Namespace, alongside their path and
       top-level docstring. This command will list every  GeoIPS Package found, provided
@@ -177,7 +178,7 @@ instructions:
       - Docstring
       - Package
       - Relative Path
-  list_scripts:
+  geoips_list_scripts:
     help_str: |
       List off scripts found under all, or a specified GeoIPS package. This information
       can then be used with `geoips run <package_name> <script_name>` to run a certain
@@ -191,7 +192,7 @@ instructions:
     output_info:
       - Package
       - Script Name
-  list_test-datasets:
+  geoips_list_test-datasets:
     help_str: |
       List off test-datasets used for testing GeoIPS and other GeoIPS Packages.
       This data is used for running tests via `geoips run <pkg_name> <script_name>`.
@@ -200,7 +201,7 @@ instructions:
     output_info:
       - Data Host
       - Dataset Name
-  list_unit-tests:
+  geoips_list_unit-tests:
     help_str: |
       List off unit-tests used in a certain GeoIPS Package.
       This data can be used to run unit tests via `geoips test unit-test ...`.
@@ -210,7 +211,7 @@ instructions:
       - GeoIPS Package
       - Unit Test Directory
       - Unit Test Name
-  run:
+  geoips_run:
     help_str: |
       Run a specified geoips process workflow (procflow) plugin. See
       'geoips run single_source' or 'geoips run data_fusion' for more information of
@@ -219,7 +220,7 @@ instructions:
       To use, type `geoips run <procflow_name> **<procflow_arguments>`.
     output_info:
       - Log output of the specified procflow ran over certain products.
-  run_config_based:
+  geoips_run_config_based:
     help_str: |
       Run the config based process workflow. For more information of the
       arguments available, either run 'geoips run config_basd -h', or view the arguments
@@ -228,7 +229,7 @@ instructions:
       To use, type `geoips run data_fusion **<data_fusion_args>`.
     output_info:
       - Log Output of the Data Fusion Process Workflow (Procflow)
-  run_data_fusion:
+  geoips_run_data_fusion:
     help_str: |
       Run the data fusion process workflow. This process workflow is built on top of the
       native 'single_source' procflow with extra arguments. For more information of the
@@ -238,7 +239,7 @@ instructions:
       To use, type `geoips run data_fusion **<data_fusion_args>`.
     output_info:
       - Log Output of the Data Fusion Process Workflow (Procflow)
-  run_single_source:
+  geoips_run_single_source:
     help_str: |
       Run the native geoips single source process workflow. For more information of the
       arguments available, either run 'geoips run single_source -h', or view the
@@ -247,7 +248,7 @@ instructions:
       To use, type `geoips run single_source **<single_source_args>`.
     output_info:
       - Log Output of the Single Source Process Workflow (Procflow)
-  test:
+  geoips_test:
     help_str: |
       Run tests implemented in GeoIPS or a separate GeoIPS Package. This could be
       running a set of linters on a specific package, running a certain integration or
@@ -257,7 +258,7 @@ instructions:
       To use, type `geoips test <sub-cmd> <sub-sub-cmd>`.
     output_info:
       - Output of the Test Being Ran
-  test_linting:
+  geoips_test_linting:
     help_str: |
       Run all GeoIPS linters on a specific GeoIPS Package. This will test whether or not
       the code you wrote adheres to the specified coding conventions set up by GeoIPS.
@@ -266,7 +267,7 @@ instructions:
       To use, type `geoips test linting -p <package_name>`.
     output_info:
       - Output of the Linters
-  test_script:
+  geoips_test_script:
     help_str: |
       Runs a specific test script (integration-based or normal), found within a certain
       GeoIPS package. If this is specified as an integration test, this will only work
@@ -276,17 +277,17 @@ instructions:
       To use, type `geoips test script -p <package_name> <--integration> <script_name>`.
     output_info:
       - Output of the Script Being Ran
-  test_unit-test:
-    help_str: |
-      Run tests unit-test[s] implemented in a certain GeoIPS package. This command
-      expects that the unit tests implemented are pytest-based. Defaults to the 'geoips'
-      package.
-    usage_str: |
-      To use, type
-      `geoips test unit-test -p <package_name> <directory_name> <-n> <script_name>`
-    output_info:
-      - Output of the Unit Test Being Ran
-  validate:
+  # geoips_test_unit-test:
+  #   help_str: |
+  #     Run tests unit-test[s] implemented in a certain GeoIPS package. This command
+  #     expects that the unit tests implemented are pytest-based. Defaults to the 'geoips'
+  #     package.
+  #   usage_str: |
+  #     To use, type
+  #     `geoips test unit-test -p <package_name> <directory_name> <-n> <script_name>`
+  #   output_info:
+  #     - Output of the Unit Test Being Ran
+  geoips_validate:
     help_str: |
       Validate a GeoIPS Plugin found at <file_path>. While this is done under the hood via
       GeoIPS, this is an easy way to test whether or not the plugin you are developing

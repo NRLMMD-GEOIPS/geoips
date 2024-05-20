@@ -52,13 +52,13 @@ class BaseCliTest(abc.ABC):
         return " ".join(args)
 
     @property
-    def plugin_packages(self):
+    def plugin_package_names(self):
         """List of names of every installed GeoIPS package."""
-        if not hasattr(self, "_plugin_packages"):
-            self._plugin_packages = [
+        if not hasattr(self, "_plugin_package_names"):
+            self._plugin_package_names = [
                 ep.value for ep in get_entry_point_group("geoips.plugin_packages")
             ]
-        return self._plugin_packages
+        return self._plugin_package_names
 
     @property
     def test_datasets(self):

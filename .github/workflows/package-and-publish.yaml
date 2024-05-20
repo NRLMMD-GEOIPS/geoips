@@ -8,7 +8,7 @@ on:
 jobs:
   deploysdist:
     name: "Deploy to Pypi"
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER }}
 
     steps:
       - name: Checkout source

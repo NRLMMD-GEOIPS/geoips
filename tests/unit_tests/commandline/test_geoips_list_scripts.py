@@ -23,7 +23,7 @@ class TestGeoipsListScripts(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             base_args = self._list_scripts_args
             self._cmd_list = []
-            for pkg_name in self.plugin_packages + ["all"]:
+            for pkg_name in self.plugin_package_names + ["all"]:
                 if pkg_name != "all":
                     args = base_args + ["-p", pkg_name]
                 else:
@@ -52,7 +52,7 @@ class TestGeoipsListScripts(BaseCliTest):
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
         assert args != ["geoips", "list", "scripts"]
-        for pkg_name in self.plugin_packages:
+        for pkg_name in self.plugin_package_names:
             assert args != ["geoips", "list", "scripts", "-p", pkg_name]
         assert "usage: To use, type `geoips list scripts`" in error
 
@@ -77,7 +77,7 @@ class TestGeoipsListScripts(BaseCliTest):
                 pkg_names = [args[-1]]
             else:
                 # no `-p` flag, check all packages instead.
-                pkg_names = self.plugin_packages
+                pkg_names = self.plugin_package_names
             script_names = []
             for pkg_name in pkg_names:
                 script_names += sorted(

@@ -21,7 +21,7 @@ class TestGeoipsTestLinting(BaseCliTest):
             base_args = self._test_linting_args
             self._cmd_list = [base_args]
             # select a small random amount of tests to call via geoips run
-            for pkg_name in self.plugin_packages:
+            for pkg_name in self.plugin_package_names:
                 self._cmd_list.append(base_args + ["-p", pkg_name])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])

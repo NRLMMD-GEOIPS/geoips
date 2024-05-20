@@ -25,7 +25,7 @@ class TestGeoipsValidate(BaseCliTest):
             base_args = self._validate_args
             rand_threshold = 0.85
             # validate some subset plugins from all installed packages
-            for pkg_name in self.plugin_packages:
+            for pkg_name in self.plugin_package_names:
                 pkg_path = str(resources.files(pkg_name) / "plugins")
             for plugin_type in ["modules", "yaml"]:
                 if plugin_type == "modules":

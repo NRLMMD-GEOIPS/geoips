@@ -7,6 +7,7 @@ interface's validation mechaninism (interface.plugin_is_valid(plugin_name)).
 from importlib.util import spec_from_file_location, module_from_spec
 from os.path import exists
 from pathlib import Path
+
 import yaml
 
 from geoips.commandline.geoips_command import GeoipsExecutableCommand
@@ -16,7 +17,7 @@ from geoips import interfaces
 class GeoipsValidate(GeoipsExecutableCommand):
     """Validate Sub-Command for validating package plugins."""
 
-    subcommand_name = "validate"
+    command_name = "validate"
     subcommand_classes = []
 
     def add_arguments(self):

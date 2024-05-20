@@ -82,7 +82,7 @@ class TestGeoipsListPlugins(BaseCliTest):
                 pkg_names = [args[-1]]
             else:
                 # all packages selected, ensure that we found every plugin
-                pkg_names = self.plugin_packages
+                pkg_names = self.plugin_package_names
             for pkg_name in pkg_names:
                 plugin_registry = json.load(
                     open(

@@ -1,12 +1,12 @@
 interface: product_defaults
 family: interpolator_algorithm_colormapper
-name: Night-Vis-IR
+name: RGB-Default
 docstring: |
-  The Night-Vis-IR product_defaults configuration.
+  Default specifications for general RGB products.
 spec:
   algorithm:
     plugin:
-      name: Night_Vis_IR
+      name: RGB_Default
       arguments: {}
   mtif_type: rgb
   colormapper:

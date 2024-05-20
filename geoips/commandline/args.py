@@ -262,7 +262,8 @@ def add_args(parser, arglist=None, legacy=False):
             "-l",
             "--logging_level",
             choices=["INTERACTIVE", "INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"],
-            default="INTERACTIVE",
+            # Will default to $GEOIPS_LOGGING_LEVEL if set, else INTERACTIVE
+            default=getenv("GEOIPS_LOGGING_LEVEL"),
             help="""Specify logging config level for GeoIPS commands.""",
             type=str.upper,
         )
@@ -507,16 +508,6 @@ def add_args(parser, arglist=None, legacy=False):
                             YAML output config output_types as keys, and full directory
                             comparison output path as values.  Special key "all" will
                             pertain to all output types.""",
-        )
-
-    if arglist is None or "compare_outputs_module" in arglist:
-        comp_group.add_argument(
-            "--compare_outputs_module",
-            nargs="?",
-            default="compare_outputs",
-            help="""Specify module to use for comparing outputs.
-                            Defaults to geoips.compare_outputs
-                            internally if not specified.""",
         )
 
     procflow_group = parser.add_argument_group(
@@ -902,11 +893,31 @@ def add_args(parser, arglist=None, legacy=False):
                     (no .py)""",
         )
         prod_db_group.add_argument(
+            "--product_db_writer_kwargs",
+            default=None,
+            type=jloads,
+            help="""Provide the product db writer kwargs for the plugin passed under the
+                    product_db_writer flag. Should be formatted as a json dictionary
+                    string. Only provide one json dict str to this flag.""",
+        )
+        prod_db_group.add_argument(
             "--product_db_writer_override",
             nargs="?",
             default={},
             type=jloads,
             help="""Specify product database writer that should be used for each
                     available sector should be formatted as a json dictionary
+                    string.""",
+        )
+
+    composite_group = parser.add_argument_group(title="Image composite kwargs")
+    if arglist is None or "composite_output_kwargs_override" in arglist:
+        composite_group.add_argument(
+            "--composite_output_kwargs_override",
+            nargs="?",
+            default={},
+            type=jloads,
+            help="""Specify product composite kwargs that should be used for each
+                    available sector output. Should be formatted as a json dictionary
                     string.""",
         )

@@ -7,15 +7,16 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 
 import abc
 import argparse
-from colorama import Fore, Style
 from importlib import resources
 import json
 from os.path import dirname
 from shutil import get_terminal_size
+
+from colorama import Fore, Style
 from tabulate import tabulate
 import yaml
 
-from geoips.commandline.ancillary_info import cmd_instructions
+from geoips.commandline.cmd_instructions import cmd_instructions
 from geoips.geoips_utils import get_entry_point_group
 
 
@@ -37,11 +38,11 @@ class PluginPackages:
         get_plugin_packages() and get_plugin_package_paths() functions.
         """
         self.entrypoints = [
-            ep.value for ep in get_entry_point_group("geoips.plugin_packages")
+            ep.value for ep in sorted(get_entry_point_group("geoips.plugin_packages"))
         ]
         self.paths = [
             dirname(resources.files(ep.value))
-            for ep in get_entry_point_group("geoips.plugin_packages")
+            for ep in sorted(get_entry_point_group("geoips.plugin_packages"))
         ]
 
 
@@ -62,73 +63,83 @@ class GeoipsCommand(abc.ABC):
         Do this for each GeoipsCLI.geoips_subcommand_classes. This will instantiate
         each subcommand class with a parser and point towards the correct default
         function to call if that subcommand has been called.
+
+        Parameters
+        ----------
+        parent: optional - GeoipsCommand Class
+            - The parent command class that possibly is initializing it's child.
+              Ex. GeoipsList would invoke this init function for each of its subcommand
+              classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this
+              init, it supplies 'self' as an argument to follow the correct logic below.
         """
         self.legacy = legacy
         self.nrl_url = "https://github.com/NRLMMD-GEOIPS/"
         self.parent = parent
         if self.parent:
-            if self.parent.subcommand_name == "cli":
-                combined_name = self.subcommand_name
-                parent_parsers = []
+            # Set the combined name of the provided object. For example, if this was the
+            # parent 'list' command, it would be 'geoips_list'. If it was a child of
+            # list, for example 'scripts', combined name would be 'geoips_list_scripts'
+            self.combined_name = f"{parent.combined_name}_{self.command_name}"
+
+            # We need to create a Geoips<cmd>Common Class for arguments
+            # that are shared between common commands. For example, we've created
+            # a 'GeoipsListCommon' class which adds arguments that will be shared
+            # by each GeoipsList<sub-cmd> class. Ie. if GeoipsListCommon has
+            # arguments --package, --columns, etc., and all of those arguments
+            # would be inherited by each GeoipsList<sub-cmd>
+            if "list" in self.combined_name:
+                parent_parsers = [GeoipsListCommon().subcommand_parser]
             else:
-                combined_name = f"{self.parent.subcommand_name}_{self.subcommand_name}"
-                # We need to create a Geoips<cmd>Common Class for arguments
-                # that are shared between common commands. For example, we've created
-                # a 'GeoipsListCommon' class which adds arguments that will be shared
-                # by each GeoipsList<sub-cmd> class. Ie. if GeoipsListCommon has
-                # arguments --package, --columns, etc., and all of those arguments
-                # would be inherited by each GeoipsList<sub-cmd>
-                if "list" in combined_name:
-                    parent_parsers = [GeoipsListCommon().subcommand_parser]
-                else:
-                    parent_parsers = []
+                parent_parsers = []
+
             if parent.cmd_instructions:
                 # this is used for testing purposes to ensure failure for invalid
-                # help information
+                # help information. If the parent already has cmd_instructions set,
+                # use these instructions so we can test proper functionality of the CLI.
                 self.cmd_instructions = parent.cmd_instructions
             else:
+                # Otherwise use the default cmd_instructions which are used for normal
+                # invocation of the CLI.
                 self.cmd_instructions = cmd_instructions
             try:
                 # attempt to create a sepate sub-parser for the specific sub-command
                 # class being initialized
                 # So we can separate the commands arguments in a tree-like structure
                 self.subcommand_parser = parent.subparsers.add_parser(
-                    self.subcommand_name,
+                    self.command_name,
                     description=self.cmd_instructions["instructions"][combined_name][
                         "help_str"
                     ],
                     help=self.cmd_instructions["instructions"][combined_name][
                         "help_str"
                     ],
-                    usage=self.cmd_instructions["instructions"][combined_name][
+                    usage=self.cmd_instructions["instructions"][self.combined_name][
                         "usage_str"
                     ],
                     parents=parent_parsers,
                     conflict_handler="resolve",
                 )
             except KeyError:
-                err_str = "Error, the supplied command line instructions are improperly"
-                err_str += " formatted. You need an 'instructions' entry that contains "
-                err_str += f"a '{combined_name}' key."
-                raise KeyError(err_str)
+                raise KeyError(
+                    "Error, the supplied command line instructions are improperly "
+                    "formatted. You need an 'instructions' entry that contains a "
+                    f"'{self.combined_name}' key."
+                )
         else:
             # otherwise initialize a top-level parser for this command.
             self.subcommand_parser = argparse.ArgumentParser()
-            combined_name = self.subcommand_name
-        if hasattr(self, "__call__"):
-            # If the subcommand class is exectuable (ie. not the cli, top-level list...)
-            # Then add available arguments for that command and set that function to
-            # the commands executable function (__call__) if that command is called.
-            self.add_arguments()
-            self.subcommand_parser.set_defaults(
-                exe_command=self.__call__,
-            )
+            self.combined_name = self.command_name
+
         self.add_subparsers()
+        self.subcommand_parser.set_defaults(
+            command=self.combined_name.replace("_", " "),
+            command_parser=self.subcommand_parser,
+        )
 
     @property
     @abc.abstractmethod
-    def subcommand_name(self):
-        """Name of the subcommand_class."""
+    def command_name(self):
+        """Name of the command class."""
         pass
 
     @property
@@ -154,19 +165,19 @@ class GeoipsCommand(abc.ABC):
         """
         if len(self.subcommand_classes):
             self.subparsers = self.subcommand_parser.add_subparsers(
-                help=f"{self.subcommand_name} instructions.",
+                help=f"{self.command_name} instructions."
             )
             for subcmd_cls in self.subcommand_classes:
                 subcmd_cls(parent=self, legacy=self.legacy)
 
     @property
-    def plugin_packages(self):
-        """Plugin Packages property of the CLI."""
+    def plugin_package_names(self):
+        """List of names of all installed Geoips Plugin Packages."""
         return plugin_packages.entrypoints
 
     @property
     def plugin_package_paths(self):
-        """Plugin Package Paths property of the CLI."""
+        """List of paths to all installed Geoips Plugin Packages."""
         return plugin_packages.paths
 
 
@@ -177,33 +188,39 @@ class GeoipsExecutableCommand(GeoipsCommand):
     can implement.
     """
 
+    def __init__(self, parent=None):
+        """Initialize GeoipsExecutableCommand.
+
+        This is a child of GeoipsCommand and will invoke the functionaly of
+        GeoipsCommand __init__ func alongside additional logic needed to set up
+        executable-based commands. This will instantiate each subcommand class with a
+        parser and point towards the correct default function to call if that subcommand
+        has been called.
+
+        Parameters
+        ----------
+        parent: optional - GeoipsCommand Class
+            - The parent command class that possibly is initializing it's child.
+              Ex. GeoipsList would invoke this init function for each of its subcommand
+              classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this
+              init, it supplies 'self' as an argument to follow the correct logic below.
+        """
+        super().__init__(parent=parent)
+        # Since this class is exectuable (ie. not the cli, top-level list...),
+        # add available arguments for that command and set that function to
+        # the command's executable function (__call__) if that command is called.
+        self.add_arguments()
+        self.subcommand_parser.set_defaults(
+            exe_command=self.__call__,
+        )
+
     @property
     def terminal_width(self):
         """The Width in ANSI-Characters of the User's Terminal.
 
         Generate this every time as the screen width may change during usage.
         """
-        return get_terminal_size().columns
-
-    @property
-    def test_dataset_dict(self):
-        """Dictionary mapping of GeoIPS Test Datasets.
-
-        Mapping goes {"test_dataset_name": "test_dataset_url"}
-        """
-        if not hasattr(self, "_test_dataset_urls"):
-            self._test_dataset_dict = {
-                "test_data_viirs": "https://io.cira.colostate.edu/s/mQ2HbE2Js4E9rba/download/test_data_viirs.tgz",  # noqa
-                "test_data_smap": "https://io.cira.colostate.edu/s/CezXWwXg4qR2b94/download/test_data_smap.tgz",  # noqa
-                "test_data_scat": "https://io.cira.colostate.edu/s/HyHLZ9F8bnfcTcd/download/test_data_scat.tgz",  # noqa
-                "test_data_sar": "https://io.cira.colostate.edu/s/snxx8S5sQL3AL7f/download/test_data_sar.tgz",  # noqa
-                "test_data_noaa_aws": "https://io.cira.colostate.edu/s/fkiPS3jyrQGqgPN/download/test_data_noaa_aws.tgz",  # noqa
-                "test_data_gpm": "https://io.cira.colostate.edu/s/LT92NiFSA8ZSNDP/download/test_data_gpm.tgz",  # noqa
-                "test_data_fusion": "https://io.cira.colostate.edu/s/DSz2nZsiPMDeLEP/download/test_data_fusion.tgz",  # noqa
-                "test_data_clavrx": "https://io.cira.colostate.edu/s/ACLKdS2Cpgd2qkc/download/test_data_clavrx.tgz",  # noqa
-                "test_data_amsr2": "https://io.cira.colostate.edu/s/FmWwX2ft7KDQ8N9/download/test_data_amsr2.tgz",  # noqa
-            }
-        return self._test_dataset_dict
+        return get_terminal_size().columns - 1
 
     @abc.abstractmethod
     def add_arguments(self):

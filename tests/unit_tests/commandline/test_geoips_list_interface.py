@@ -24,7 +24,7 @@ class TestGeoipsListInterface(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = self._list_interface_args
-            for pkg_name in self.plugin_packages + ["all"]:
+            for pkg_name in self.plugin_package_names + ["all"]:
                 for interface_name in interfaces.__all__:
                     if pkg_name != "all":
                         args = base_args + [interface_name, "-p", pkg_name]
@@ -67,7 +67,10 @@ class TestGeoipsListInterface(BaseCliTest):
         """
         if args[3] in interfaces.__all__:
             # interface exists, so check that the package name is incorrect
-            assert args[-1] not in self.plugin_packages
+            assert args[-1] not in self.plugin_package_names
+            usg_str = "error: argument --package/-p: invalid "
+            usg_str += f"choice: '{args[-1]}' (choose from"
+            assert usg_str in error
         else:
             assert args[3] not in interfaces.__all__
         assert "usage: To use, type `geoips list interface <interface_name>`" in error
