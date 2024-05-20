@@ -20,7 +20,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: "pypy-3.10"
+          python-version: "3.10"
           check-latest: true
       - name: Update pip
         run: pip install --upgrade pip
@@ -45,7 +45,7 @@ jobs:
           echo "Return code: ${ret}"
           echo "::endgroup::"
           if [[ "${ret}" != *"0"* ]]; then
-            echo "::error::due to black violations, return code ${ret}"
+            echo "::error::return code ${ret}"
             exit 1
           fi
 h
