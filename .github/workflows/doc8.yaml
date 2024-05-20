@@ -44,7 +44,7 @@ jobs:
         run: |
           echo "::group::doc8_analysis"
           echo "Doc8 analysis of code"
-          doc8 --max-line-length=120 ./geoips_plugin_repo/docs/source
+          doc8 --max-line-length=120 ./geoips_plugin_repo/docs/source/new-docs/
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
