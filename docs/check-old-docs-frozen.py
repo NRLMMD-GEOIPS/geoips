@@ -7,6 +7,7 @@ any don't match.
 import hashlib
 import argparse
 import json
+import os
 
 hashes = """
 {
