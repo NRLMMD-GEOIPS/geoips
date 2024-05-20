@@ -1,13 +1,12 @@
-import os
-import hashlib
-import argparse
-import json
-
 """
 This takes in a dir, and hashes all of the files in it (recursively going through
 sub-dirs) It compares them all to the expected output, and raises an issue if
 any don't match.
 """
+
+import hashlib
+import argparse
+import json
 
 hashes = """
 {
@@ -221,7 +220,8 @@ def hash_directory(directory_path):
 
 
 def main():
-    """Main function when called via CLI"""
+    """Main function called via CLI."""
+
     parser = argparse.ArgumentParser(
         description="Hash all files in a directory recursively and print the directory "
         + "structure hash in JSON format."
