@@ -1,0 +1,54 @@
+name: doc8 Pull Request
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  # Triggers the workflow when pull request created and updated
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+  # Allows run of this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  check_code_doc8:
+    runs-on: ${{ vars.RUNNER }}
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "pypy-3.10"
+          check-latest: true
+      - name: Update pip
+        run: pip install --upgrade pip
+      - name: Install doc8
+        run: pip install doc8
+      - name: Checkout plugin current branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          path: geoips_plugin_repo
+      - name: Checkout geoips default branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          repository: ${{ vars.ORGANIZATION }}/geoips
+          ref: ${{ vars.DEFAULT_BRANCH }}
+          token: ${{ secrets.GEOIPS_TOKEN }}
+          path: geoips_default_branch
+      - name: Run docs check via doc8
+        shell: bash -l {0}
+        run: |
+          echo "::group::doc8_analysis"
+          echo "Doc8 analysis of code"
+          doc8 --max-line-length=120 ./geoips_plugin_repo/docs/source
+          ret=$?
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::due to doc8 violations, return code ${ret}"
+            exit 1
+          fi
