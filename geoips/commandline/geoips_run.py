@@ -28,10 +28,12 @@ class GeoipsRunConfigBased(GeoipsExecutableCommand):
             - The argument namespace to parse through
         """
         if args.procflow is None and self.legacy:
-            err_str = "Deprecated, Legacy 'run_procflow' call was used and --procflow "
-            err_str += "flag wasn't specified. Please either specify which procflow is "
-            err_str += "being executed via '--procflow <procflow_name>' or use the "
-            err_str += "supported procflow call 'geoips run <procflow_name>'"
+            err_str = (
+                "Deprecated, Legacy 'run_procflow' call was used and --procflow "
+                "flag wasn't specified. Please either specify which procflow is "
+                "being executed via '--procflow <procflow_name>' or use the "
+                "supported procflow call 'geoips run <procflow_name>'"
+            )
             self.subcommand_parser.error(err_str)
         elif args.procflow is None:
             # If None, set to 'config_based'. We don't want users to have to specify
@@ -41,7 +43,7 @@ class GeoipsRunConfigBased(GeoipsExecutableCommand):
         main(ARGS=args)
 
 
-class GeoipsRunDataFusion(GeoipsCommand):
+class GeoipsRunDataFusion(GeoipsExecutableCommand):
     """Run Sub-Command for executing the data fusion process-workflow (procflow)."""
 
     command_name = "data_fusion"
@@ -60,10 +62,12 @@ class GeoipsRunDataFusion(GeoipsCommand):
             - The argument namespace to parse through
         """
         if args.procflow is None and self.legacy:
-            err_str = "Deprecated, Legacy 'data_fusion_procflow' call was used and "
-            err_str += "--procflow flag wasn't specified. Please either specify which "
-            err_str += "procflow is being executed via '--procflow <procflow_name>' or "
-            err_str += "use the supported procflow call 'geoips run <procflow_name>'"
+            err_str = (
+                "Deprecated, Legacy 'data_fusion_procflow' call was used and "
+                "--procflow flag wasn't specified. Please either specify which "
+                "procflow is being executed via '--procflow <procflow_name>' or "
+                "use the supported procflow call 'geoips run <procflow_name>'"
+            )
             self.subcommand_parser.error(err_str)
         elif args.procflow is None:
             # If None, set to 'data_fusion'. We don't want users to have to specify
@@ -92,10 +96,12 @@ class GeoipsRunSingleSource(GeoipsExecutableCommand):
             - The argument namespace to parse through
         """
         if args.procflow is None and self.legacy:
-            err_str = "Deprecated, Legacy 'run_procflow' call was used and --procflow "
-            err_str += "flag wasn't specified. Please either specify which procflow is "
-            err_str += "being executed via '--procflow <procflow_name>' or use the "
-            err_str += "supported procflow call 'geoips run <procflow_name>'"
+            err_str = (
+                "Deprecated, Legacy 'run_procflow' call was used and --procflow "
+                "flag wasn't specified. Please either specify which procflow is "
+                "being executed via '--procflow <procflow_name>' or use the "
+                "supported procflow call 'geoips run <procflow_name>'"
+            )
             self.subcommand_parser.error(err_str)
         elif args.procflow is None:
             # If None, set to 'single_source'. We don't want users to have to specify

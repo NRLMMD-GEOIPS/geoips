@@ -24,27 +24,27 @@ class TestGeoipsListInterface(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = self._list_interface_args
-            # for pkg_name in self.plugin_package_names + ["all"]:
-            #     for interface_name in interfaces.__all__:
-            #         if pkg_name != "all":
-            #             args = base_args + [interface_name, "-p", pkg_name]
-            #         else:
-            #             args = base_args + [interface_name]
-            #         self._cmd_list.append(args)
-            # # Add argument list with a non-existent interface
-            # self._cmd_list.append(base_args + ["non_existent_interface"])
-            # # Add argument list that utilizes the --column optional arg
-            # self._cmd_list.append(
-            #     base_args
-            #     + [
-            #         "algorithms",
-            #         "--columns",
-            #         "package",
-            #         "interface",
-            #         "plugin_type",
-            #         "relpath",
-            #     ]
-            # )
+            for pkg_name in self.plugin_package_names + ["all"]:
+                for interface_name in interfaces.__all__:
+                    if pkg_name != "all":
+                        args = base_args + [interface_name, "-p", pkg_name]
+                    else:
+                        args = base_args + [interface_name]
+                    self._cmd_list.append(args)
+            # Add argument list with a non-existent interface
+            self._cmd_list.append(base_args + ["non_existent_interface"])
+            # Add argument list that utilizes the --column optional arg
+            self._cmd_list.append(
+                base_args
+                + [
+                    "algorithms",
+                    "--columns",
+                    "package",
+                    "interface",
+                    "plugin_type",
+                    "relpath",
+                ]
+            )
             # Add argument list with an existing interface but non-existent package
             self._cmd_list.append(
                 base_args + ["algorithms", "-p", "non_existent_package"]
