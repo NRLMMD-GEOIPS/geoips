@@ -179,7 +179,7 @@ hashes = """
     "yaml/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml": "d0321ab5302abcf6bbea06853ed99f6fe78970d0c97e7335c8bc62177a8749a3",
     "yaml/20200918_195020_AL202020_abi_goes-16_WV_110kts_100p00_1p0.png.yaml": "24dff6c0c27490f5f6ba6fb33a97e42d43109fb5c7efacdb74537a70aa07f7fb",
     "yaml/abi_test.yaml": "ad6df55b7500aba6f3d6fd4e78ae3ab8af670b933240a842b184c78c3c20b1ea",
-    "directory_hash": "1c8b3c260b9c60cdf39def188a3bb4968dd757079de0b101650bc4ad610efeeb"
+    "directory_hash": "a3a71b277ad2c1aa4d72f85fb056025a19053277ad9f412e986b55e529886057"
 }
 """
 
