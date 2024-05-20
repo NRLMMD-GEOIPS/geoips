@@ -101,7 +101,26 @@ def support_legacy_procflows():
         - The truth value as to whether or not a legacy procflow call was used
     """
     defined_procflow = None
-    if basename(sys.argv[0]) == "run_procflow":
+    supported_procflows = ["config_based", "data_fusion", "single_source"]
+    if (
+        basename(sys.argv[0]) == "geoips"
+        and sys.argv[1] == "run"
+        and (len(sys.argv) < 3 or sys.argv[2] not in supported_procflows)
+    ):
+        # Either a procflow was not specified or it was an invalid procflow. Notify the
+        # user of that with a 'NotImplementedError'.
+        if len(sys.argv) >= 3:
+            procflow_name = sys.argv[2]
+        else:
+            procflow_name = "No procflow supplied."
+        raise NotImplementedError(
+            f"'geoips run' was called alongside procflow: '{procflow_name}'.\nIf you "
+            "did not supply a procflow name, this is not supported currently.\n"
+            "Eventually, 'geoips run' will call the 'order_based' procflow, however "
+            "this is not at the current time of use.\nFor a list of supported "
+            f"procflows, choose one of the following: {supported_procflows}."
+        )
+    elif basename(sys.argv[0]) == "run_procflow":
         entrypoint = "run_procflow"
         defined_procflow = "single_source"
 
@@ -151,7 +170,7 @@ def main():
     geoips_cli = GeoipsCLI(legacy)
     # Execute the called command
     geoips_cli.execute_command()
-    # Notify that the user is in Beta development statuss right now.
+    # Notify that the user is in Beta development status right now.
     print_beta_warning()
 
 
