@@ -140,14 +140,7 @@ class TestGeoipsRun(BaseCliTest):
             self._cmd_list.append(["data_fusion_procflow", "-h"])
             self._cmd_list.append(base_args + ["data_fusion", "-h"])
             # Add argument list with non existent arguments
-            self._cmd_list.append(
-                base_args
-                + [
-                    "single_source" "--package",
-                    "non_existent_package",
-                    "abi.static.Infrared.imagery_annotated.sh",
-                ]
-            )
+            self._cmd_list.append(base_args + ["not_a_procflow"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -162,7 +155,10 @@ class TestGeoipsRun(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        assert "To use, type `geoips run" in error
+        assert (
+            "To use, type `geoips run" in error
+            or "'geoips run' was called alongside procflow:" in error
+        )
 
     def check_output(self, args, output):
         """Ensure that the 'geoips run ...' successful output is correct.
