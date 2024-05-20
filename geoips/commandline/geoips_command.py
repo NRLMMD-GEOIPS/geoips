@@ -107,10 +107,10 @@ class GeoipsCommand(abc.ABC):
                 # So we can separate the commands arguments in a tree-like structure
                 self.subcommand_parser = parent.subparsers.add_parser(
                     self.command_name,
-                    description=self.cmd_instructions["instructions"][combined_name][
-                        "help_str"
-                    ],
-                    help=self.cmd_instructions["instructions"][combined_name][
+                    description=self.cmd_instructions["instructions"][
+                        self.combined_name
+                    ]["help_str"],
+                    help=self.cmd_instructions["instructions"][self.combined_name][
                         "help_str"
                     ],
                     usage=self.cmd_instructions["instructions"][self.combined_name][
@@ -188,7 +188,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
     can implement.
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, legacy=False):
         """Initialize GeoipsExecutableCommand.
 
         This is a child of GeoipsCommand and will invoke the functionaly of
@@ -205,7 +205,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
               classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this
               init, it supplies 'self' as an argument to follow the correct logic below.
         """
-        super().__init__(parent=parent)
+        super().__init__(parent=parent, legacy=legacy)
         # Since this class is exectuable (ie. not the cli, top-level list...),
         # add available arguments for that command and set that function to
         # the command's executable function (__call__) if that command is called.
@@ -474,7 +474,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
 class GeoipsListCommon(GeoipsExecutableCommand):
     """Class containing common optional arguments shared between list commands."""
 
-    subcommand_name = "list"
+    command_name = "list_common"
     subcommand_classes = []
 
     def add_arguments(self):
@@ -484,7 +484,7 @@ class GeoipsListCommon(GeoipsExecutableCommand):
             "-p",
             type=str,
             default="all",
-            choices=self.plugin_packages,
+            choices=self.plugin_package_names,
             help="The GeoIPS package to list from.",
         )
         mutex_group = self.subcommand_parser.add_mutually_exclusive_group()

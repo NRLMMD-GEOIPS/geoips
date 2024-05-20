@@ -22,7 +22,7 @@ class TestGeoipsListPlugins(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             base_args = self._list_plugins_args
             self._cmd_list = [base_args]
-            for pkg_name in self.plugin_packages:
+            for pkg_name in self.plugin_package_names:
                 self._cmd_list.append(base_args + ["-p", pkg_name])
             # Add argument list invoking the --columns flag
             self._cmd_list.append(base_args + ["--columns", "package", "interface"])
