@@ -1,4 +1,6 @@
 """
+Check if old docs have been edited.
+
 This takes in a dir, and hashes all of the files in it (recursively going through
 sub-dirs) It compares them all to the expected output, and raises an issue if
 any don't match.
@@ -221,8 +223,7 @@ def hash_directory(directory_path):
 
 
 def main():
-    """Main function called via CLI."""
-
+    """Handle CLI usage."""
     parser = argparse.ArgumentParser(
         description="Hash all files in a directory recursively and print the directory "
         + "structure hash in JSON format."
