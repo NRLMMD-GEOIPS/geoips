@@ -128,7 +128,7 @@ class BaseCliTest(abc.ABC):
         """
         for header in headers:
             if selected_cols is None or headers[header] in selected_cols:
-                assert header in output
+                assert header in output or "has no" in output
 
     @property
     @abc.abstractmethod

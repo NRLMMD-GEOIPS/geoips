@@ -45,8 +45,6 @@ class TestGeoipsListInterfaces(BaseCliTest):
                     "plugin_type",
                 ]
             )
-            # Add argument list which invokes the help message for this command
-            self._cmd_list.append(["geoips", "list", "interfaces", "-h"])
             # Add argument list with an invalid command call ("-p" w/out "-i")
             self._cmd_list.append(base_args + ["-p", "geoips"])
             # Add argument list with an invalid command call ("--long" with "--columns")

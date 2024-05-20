@@ -210,10 +210,10 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             # If you're listing a certain package, implemented is implied. If it's
             # 'all' packages, make sure implemented as added if we are going to list in
             # that fasion.
-            self.list_implemented_interfaces(package_name)
+            self.list_implemented_interfaces(package_name, args)
         else:
             # Otherwise just list off available interfaces.
-            self.list_available_interfaces()
+            self.list_available_interfaces(args)
 
     def list_available_interfaces(self, args):
         """List the available interface[s] within [a] GeoIPS Package[s]".
