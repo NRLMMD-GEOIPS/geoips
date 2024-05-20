@@ -42,6 +42,7 @@ jobs:
         run: |
           echo "::group::frozen_analysis"
           python3 ./geoips_plugin_repo/docs/check-old-docs-frozen.py ./geoips_plugin_repo/docs/source
+          ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
           if [[ "${ret}" != *"0"* ]]; then
