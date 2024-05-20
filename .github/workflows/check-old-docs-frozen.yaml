@@ -1,0 +1,51 @@
+name: Black Pull Request
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  # Triggers the workflow when pull request created and updated
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+  # Allows run of this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  check_code_black:
+    runs-on: ${{ vars.RUNNER }}
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "pypy-3.10"
+          check-latest: true
+      - name: Update pip
+        run: pip install --upgrade pip
+      - name: Checkout plugin current branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          path: geoips_plugin_repo
+      - name: Checkout geoips default branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          repository: ${{ vars.ORGANIZATION }}/geoips
+          ref: ${{ vars.DEFAULT_BRANCH }}
+          token: ${{ secrets.GEOIPS_TOKEN }}
+          path: geoips_default_branch
+      - name: Check if docs frozen
+        shell: bash -l {0}
+        run: |
+          echo "::group::frozen analysis"
+          python3 ./geoips_plugin_repo/docs/check-old-docs-frozen.py ./geoips_plugin_repo/docs/source
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::due to black violations, return code ${ret}"
+            exit 1
+          fi
+h
