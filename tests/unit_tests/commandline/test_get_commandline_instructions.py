@@ -67,7 +67,7 @@ def test_instruction_cases(dir_name):
                 fpath = f"{cmd_dir}/cmd_instructions.yaml"
                 cmd_yaml = yaml.safe_load(open(fpath, "r"))
                 write_time = datetime.now(timezone.utc)
-                current_time_str = write_time.strftime('%Y-%m-%d_%H:%M:%S_%Z')
+                current_time_str = write_time.strftime("%Y-%m-%d_%H:%M:%S_%Z")
                 # replace 'name' with the current time so the yaml file is more
                 # recently modified.
                 cmd_yaml["name"] = current_time_str
