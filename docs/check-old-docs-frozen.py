@@ -180,11 +180,11 @@ hashes = """
     "yaml/20200918_195020_AL202020_abi_goes-16_WV_110kts_100p00_1p0.png.yaml": "24dff6c0c27490f5f6ba6fb33a97e42d43109fb5c7efacdb74537a70aa07f7fb",
     "yaml/abi_test.yaml": "ad6df55b7500aba6f3d6fd4e78ae3ab8af670b933240a842b184c78c3c20b1ea"
 }
-"""
+"""  # noqa: E501
 
 
 def hash_file(file_path):
-    """Returns the SHA-256 hash of the file at the given path."""
+    """Return the SHA-256 hash of the file at the given path."""
     sha256 = hashlib.sha256()
     with open(file_path, "rb") as f:
         for chunk in iter(lambda: f.read(4096), b""):
@@ -193,14 +193,14 @@ def hash_file(file_path):
 
 
 def hash_str(string):
-    """Returns the SHA-256 hash of the file at the given path."""
+    """Return the SHA-256 hash of the file at the given path."""
     sha256 = hashlib.sha256()
     sha256.update(string.encode("utf-8"))
     return sha256.hexdigest()
 
 
 def hash_directory(directory_path):
-    """Recursively hashes all dir files not in new-docs and returns hashes in a dict"""
+    """Recursively hash all dir files not in new-docs and return hashes in a dict."""
     file_hashes = []
     for root, _, files in os.walk(directory_path):
         for file in sorted(files):
@@ -221,6 +221,7 @@ def hash_directory(directory_path):
 
 
 def main():
+    """Main function when called via CLI"""
     parser = argparse.ArgumentParser(
         description="Hash all files in a directory recursively and print the directory "
         + "structure hash in JSON format."
