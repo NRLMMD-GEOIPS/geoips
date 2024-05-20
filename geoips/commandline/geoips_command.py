@@ -73,7 +73,7 @@ class GeoipsCommand(abc.ABC):
               init, it supplies 'self' as an argument to follow the correct logic below.
         """
         self.legacy = legacy
-        self.nrl_url = "https://github.com/NRLMMD-GEOIPS/"
+        self.github_org_url = "https://github.com/NRLMMD-GEOIPS/"
         self.parent = parent
         if self.parent:
             # Set the combined name of the provided object. For example, if this was the
