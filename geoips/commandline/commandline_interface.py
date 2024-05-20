@@ -164,10 +164,8 @@ def print_beta_warning():
 def main():
     """Entry point for GeoIPS command line interface (CLI)."""
     legacy = support_legacy_procflows()
-    # Notify that the user is in Beta development statuss right now.
-    print_beta_warning()
     # Initialize the CLI and all of its commands
-    geoips_cli = GeoipsCLI(legacy)
+    geoips_cli = GeoipsCLI(legacy=legacy)
     # Execute the called command
     geoips_cli.execute_command()
     # Notify that the user is in Beta development status right now.
