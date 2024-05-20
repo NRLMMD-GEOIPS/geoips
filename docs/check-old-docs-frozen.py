@@ -5,8 +5,8 @@ import json
 
 """
 This takes in a dir, and hashes all of the files in it (recursively going through
-sub-dirs) and concats them all. It then hashes the directory structure. It compares
-them all to the expected output, and raises an issue if any don't match.
+sub-dirs) It compares them all to the expected output, and raises an issue if
+any don't match.
 """
 
 hashes = """
@@ -222,7 +222,8 @@ def hash_directory(directory_path):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Hash all files in a directory recursively and print the directory structure hash in JSON format."
+        description="Hash all files in a directory recursively and print the directory "
+        + "structure hash in JSON format."
     )
     parser.add_argument("directory", type=str, help="Path to the directory to hash")
     args = parser.parse_args()
