@@ -395,11 +395,11 @@ class GeoipsListPackages(GeoipsExecutableCommand):
             pkg_entry = []
             docstring = import_module(package_name).__doc__
             for header in default_headers:
-                if "package" == header:
+                if header == "package":
                     pkg_entry.append(package_name)
-                elif "docstring" == header:
+                elif header == "docstring":
                     pkg_entry.append(docstring)
-                elif "package_path" == header:
+                elif header == "package_path":
                     pkg_entry.append(package_path)
             pkg_data.append(pkg_entry)
 

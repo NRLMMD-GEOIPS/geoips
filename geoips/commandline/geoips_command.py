@@ -71,6 +71,11 @@ class GeoipsCommand(abc.ABC):
               Ex. GeoipsList would invoke this init function for each of its subcommand
               classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this
               init, it supplies 'self' as an argument to follow the correct logic below.
+        legacy: optional - bool
+            - Whether or not the command supplied was called in legacy mode. This only
+              occurs for 'geoips run' commands, where instead of typing 'geoips run',
+              the user called 'run_procflow' or 'data_fusion_procflow'. This is used for
+              suppressing or displaying help information for '--procflow'.
         """
         self.legacy = legacy
         self.github_org_url = "https://github.com/NRLMMD-GEOIPS/"
@@ -204,6 +209,11 @@ class GeoipsExecutableCommand(GeoipsCommand):
               Ex. GeoipsList would invoke this init function for each of its subcommand
               classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this
               init, it supplies 'self' as an argument to follow the correct logic below.
+        legacy: optional - bool
+            - Whether or not the command supplied was called in legacy mode. This only
+              occurs for 'geoips run' commands, where instead of typing 'geoips run',
+              the user called 'run_procflow' or 'data_fusion_procflow'. This is used for
+              suppressing or displaying help information for '--procflow'.
         """
         super().__init__(parent=parent, legacy=legacy)
         # Since this class is exectuable (ie. not the cli, top-level list...),

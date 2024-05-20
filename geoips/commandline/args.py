@@ -515,11 +515,11 @@ def add_args(parser, arglist=None, legacy=False):
     )
     if arglist is None or "procflow" in arglist:
         if legacy:
-            help_str = """Specify procflow that should be followed for this file,
-                            located in geoips*.plugins.modules.procflows.
-                            myprocflowname.myprocflowname.
-                            The procflow string should be the procflow module
-                            name (no .py)"""
+            help_str = (
+                "Specify procflow that should be followed for this file, located in "
+                "geoips.plugins.modules.procflows.myprocflowname.name. The procflow "
+                "string should be the procflow module file name (excluding '.py' )."
+            )
         else:
             help_str = argparse.SUPPRESS
         procflow_group.add_argument(

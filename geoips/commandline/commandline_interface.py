@@ -99,11 +99,11 @@ def support_legacy_procflows():
         - The truth value as to whether or not a legacy procflow call was used
     """
     defined_procflow = None
-    if "run_procflow" == basename(sys.argv[0]):
+    if basename(sys.argv[0]) == "run_procflow":
         entrypoint = "run_procflow"
         defined_procflow = "single_source"
 
-    elif "data_fusion_procflow" == basename(sys.argv[0]):
+    elif basename(sys.argv[0]) == "data_fusion_procflow":
         entrypoint = "data_fusion_procflow"
         defined_procflow = "data_fusion"
 
