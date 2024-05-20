@@ -1,0 +1,4 @@
+:orphan:
+
+Scope of GeoIPS
+===============
