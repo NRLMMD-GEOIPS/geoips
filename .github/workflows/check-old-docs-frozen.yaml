@@ -40,7 +40,7 @@ jobs:
       - name: Check if docs frozen
         shell: bash -l {0}
         run: |
-          echo "::group::frozen analysis"
+          echo "::group::frozen_analysis"
           python3 ./geoips_plugin_repo/docs/check-old-docs-frozen.py ./geoips_plugin_repo/docs/source
           echo "Return code: ${ret}"
           echo "::endgroup::"
@@ -48,4 +48,3 @@ jobs:
             echo "::error::return code ${ret}"
             exit 1
           fi
-h
