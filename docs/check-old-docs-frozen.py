@@ -178,8 +178,7 @@ hashes = """
     "yaml/20200918.195020.goes-16.Visible_latitude_longitude.tc2020al20teddy.nc.yaml": "3c55450060c18d783d6507f6618d16f2126f916b56bc562a6d739824142dc726",
     "yaml/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml": "d0321ab5302abcf6bbea06853ed99f6fe78970d0c97e7335c8bc62177a8749a3",
     "yaml/20200918_195020_AL202020_abi_goes-16_WV_110kts_100p00_1p0.png.yaml": "24dff6c0c27490f5f6ba6fb33a97e42d43109fb5c7efacdb74537a70aa07f7fb",
-    "yaml/abi_test.yaml": "ad6df55b7500aba6f3d6fd4e78ae3ab8af670b933240a842b184c78c3c20b1ea",
-    "directory_hash": "a3a71b277ad2c1aa4d72f85fb056025a19053277ad9f412e986b55e529886057"
+    "yaml/abi_test.yaml": "ad6df55b7500aba6f3d6fd4e78ae3ab8af670b933240a842b184c78c3c20b1ea"
 }
 """
 
@@ -201,7 +200,7 @@ def hash_str(string):
 
 
 def hash_directory(directory_path):
-    """Recursively hashes all dir files not in new-docs and returns a hash of the directory structure."""
+    """Recursively hashes all dir files not in new-docs and returns hashes in a dict"""
     file_hashes = []
     for root, _, files in os.walk(directory_path):
         for file in sorted(files):
@@ -215,16 +214,8 @@ def hash_directory(directory_path):
     # Sort by file path to ensure consistent order
     file_hashes.sort()
 
-    # Concatenate all file hashes
-    concatenated_hashes = "".join(f"{path}:{hash}" for path, hash in file_hashes)
-
-    # Hash the concatenated hashes to get the directory hash
-    directory_str = str([x for x in os.walk(directory_path)])
-    directory_hash = hash_str(directory_str)
-
     # Prepare the output dictionary
     output = {path: hash for path, hash in file_hashes}
-    output["directory_hash"] = directory_hash
 
     return output
 
