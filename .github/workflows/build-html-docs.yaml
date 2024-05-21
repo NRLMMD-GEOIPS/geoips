@@ -49,6 +49,7 @@ jobs:
           which pip
           pip uninstall -y geoips
           # Include test dependencies to allow full documentation
+          pip install netcdf4 --prefer-binary
           pip install $PWD/geoips_default_branch[doc,test]
           ret=$?
           echo "${ret}"
