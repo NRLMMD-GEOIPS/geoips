@@ -47,9 +47,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
             is_valid = interface.plugin_is_valid(plugin_name)
         if not is_valid:
             # if it's not valid, report that to the user
-            self.parser.error(
-                f"Plugin '{plugin_name}' found at {fpath} is invalid."
-            )
+            self.parser.error(f"Plugin '{plugin_name}' found at {fpath} is invalid.")
         else:
             # otherwise let them know they're good to go
             print(f"Plugin '{plugin_name}' found at {fpath} is valid.")
