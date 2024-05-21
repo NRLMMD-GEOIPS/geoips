@@ -444,7 +444,16 @@ class GeoipsExecutableCommand(GeoipsCommand):
         return table_data
 
     def _get_entry(self, plugin_dict, headers):
-        """Retrieve the appropriate plugin entry given a list of valid headers.
+        """Generate a table of info based on the plugin and headers provided.
+
+        Where a table of info is a 2D list of strings that represents the
+        plugin x headers combination of data. Say, for product plugin yaml file
+        abi.yaml, we'd loop over every product in that file, add to that product
+        plugin's entry each header ('source_name', 'family', 'plugin_name', etc.) that
+        was selected, and return the 2D table where each 1D list represents the info
+        that corresponds to the product plugin.
+
+        Where
 
         Parameters
         ----------
@@ -456,8 +465,8 @@ class GeoipsExecutableCommand(GeoipsCommand):
 
         Returns
         -------
-        plugin_entry: list of str
-            - A list of strings containing information about a plugin listed in the
+        table: 2D list of str
+            - A 2D list of strings containing information about a plugin listed in the
               order of headers.keys()
         """
         table_data = []
