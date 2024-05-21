@@ -12,12 +12,12 @@ from data_fusion.commandline.args import add_args as data_fusion_add_args
 class GeoipsRunConfigBased(GeoipsExecutableCommand):
     """Run Sub-Command for executing the config based process-workflow (procflow)."""
 
-    command_name = "config_based"
-    subcommand_classes = []
+    name = "config_based"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run config_based' Command."""
-        add_args(parser=self.subcommand_parser, legacy=self.legacy)
+        add_args(parser=self.parser, legacy=self.legacy)
 
     def __call__(self, args):
         """Run the provided GeoIPS command.
@@ -34,7 +34,7 @@ class GeoipsRunConfigBased(GeoipsExecutableCommand):
                 "being executed via '--procflow <procflow_name>' or use the "
                 "supported procflow call 'geoips run <procflow_name>'"
             )
-            self.subcommand_parser.error(err_str)
+            self.parser.error(err_str)
         elif args.procflow is None:
             # If None, set to 'config_based'. We don't want users to have to specify
             # what procflow will be used as it is specified in
@@ -46,12 +46,12 @@ class GeoipsRunConfigBased(GeoipsExecutableCommand):
 class GeoipsRunDataFusion(GeoipsExecutableCommand):
     """Run Sub-Command for executing the data fusion process-workflow (procflow)."""
 
-    command_name = "data_fusion"
-    subcommand_classes = []
+    name = "data_fusion"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run data_fusion' Command."""
-        data_fusion_add_args(parser=self.subcommand_parser, legacy=self.legacy)
+        data_fusion_add_args(parser=self.parser, legacy=self.legacy)
 
     def __call__(self, args):
         """Run the provided GeoIPS command.
@@ -68,7 +68,7 @@ class GeoipsRunDataFusion(GeoipsExecutableCommand):
                 "procflow is being executed via '--procflow <procflow_name>' or "
                 "use the supported procflow call 'geoips run <procflow_name>'"
             )
-            self.subcommand_parser.error(err_str)
+            self.parser.error(err_str)
         elif args.procflow is None:
             # If None, set to 'data_fusion'. We don't want users to have to specify
             # what procflow will be used as it is specified in
@@ -80,12 +80,12 @@ class GeoipsRunDataFusion(GeoipsExecutableCommand):
 class GeoipsRunSingleSource(GeoipsExecutableCommand):
     """Run Sub-Command for executing the single source process-workflow (procflow)."""
 
-    command_name = "single_source"
-    subcommand_classes = []
+    name = "single_source"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run single_source' Command."""
-        add_args(parser=self.subcommand_parser, legacy=self.legacy)
+        add_args(parser=self.parser, legacy=self.legacy)
 
     def __call__(self, args):
         """Run the provided GeoIPS command.
@@ -102,7 +102,7 @@ class GeoipsRunSingleSource(GeoipsExecutableCommand):
                 "being executed via '--procflow <procflow_name>' or use the "
                 "supported procflow call 'geoips run <procflow_name>'"
             )
-            self.subcommand_parser.error(err_str)
+            self.parser.error(err_str)
         elif args.procflow is None:
             # If None, set to 'single_source'. We don't want users to have to specify
             # what procflow will be used as it is specified in
@@ -114,8 +114,8 @@ class GeoipsRunSingleSource(GeoipsExecutableCommand):
 class GeoipsRun(GeoipsCommand):
     """Run Sub-Command for running process-workflows (procflows)."""
 
-    command_name = "run"
-    subcommand_classes = [
+    name = "run"
+    command_classes = [
         GeoipsRunSingleSource,
         GeoipsRunDataFusion,
         GeoipsRunConfigBased,

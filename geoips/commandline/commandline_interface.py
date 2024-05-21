@@ -32,8 +32,8 @@ class GeoipsCLI(GeoipsCommand):
     - [GeoipsConfig, GeoipsGet, GeoipsList, GeoipsRun, GeoipsTest, GeoipsValidate]
     """
 
-    command_name = "geoips"  # Needed since we inherit from GeoipsCommand
-    subcommand_classes = [
+    name = "geoips"  # Needed since we inherit from GeoipsCommand
+    command_classes = [
         GeoipsConfig,
         GeoipsGet,
         GeoipsList,
@@ -70,7 +70,7 @@ class GeoipsCLI(GeoipsCommand):
             self.cmd_instructions = None
         super().__init__(legacy=legacy)
 
-        self.GEOIPS_ARGS = self.subcommand_parser.parse_args()
+        self.GEOIPS_ARGS = self.parser.parse_args()
 
     def execute_command(self):
         """Execute the given command."""

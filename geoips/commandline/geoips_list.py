@@ -22,8 +22,8 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
     Called via `geoips list unit-tests`. Outputs the following in a tabular format.
     """
 
-    command_name = "unit-tests"
-    subcommand_classes = []
+    name = "unit-tests"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the list-subparser for the List Unit Tests Command."""
@@ -65,7 +65,7 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
                     err_str = f"No unit test directory found under {pkg_name}. "
                     err_str += "Please create a tests/unit_tests folder for that "
                     err_str += "package if you want to continue."
-                    self.subcommand_parser.error(err_str)
+                    self.parser.error(err_str)
                 else:
                     print(f"No unit tests found in '{pkg_name}', continuing.")
                     continue
@@ -101,8 +101,8 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
     Called via `geoips list test-datasets`. Outputs the following in a tabular format.
     """
 
-    command_name = "test-datasets"
-    subcommand_classes = []
+    name = "test-datasets"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the list-subparser for the List Test Datasets Command.
@@ -126,7 +126,7 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
             - The list argument namespace to parse through
         """
         if args.package_name != "all":
-            self.subcommand_parser.error(
+            self.parser.error(
                 "Error: '-p' flag is not supported for this command"
             )
         dataset_info = []
@@ -164,12 +164,12 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
     Called via `geoips list interfaces`. Outputs the following data in a tabular format.
     """
 
-    command_name = "interfaces"
-    subcommand_classes = []
+    name = "interfaces"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the list-suparser for the List Interfaces Command."""
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "--implemented",
             "-i",
             default=False,
@@ -350,8 +350,8 @@ class GeoipsListPackages(GeoipsExecutableCommand):
     Called via `geoips list packages`. Outputs the following data in a tabular format.
     """
 
-    command_name = "packages"
-    subcommand_classes = []
+    name = "packages"
+    command_classes = []
 
     def add_arguments(self):
         """No arguments for the list-subparser for the List Packages Command."""
@@ -378,7 +378,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
         if args.package_name != "all":
             # 'all' is the default for package name. We don't support the -p argument
             # for this command so we need to raise an error
-            self.subcommand_parser.error(
+            self.parser.error(
                 "Error: '-p' flag is not supported for this command"
             )
         pkg_data = []
@@ -422,8 +422,8 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
     Called via `geoips list plugins`. Outputs the following data in a tabular format.
     """
 
-    command_name = "plugins"
-    subcommand_classes = []
+    name = "plugins"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the list-subparser for the List Plugins Command."""
@@ -475,8 +475,8 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
 class GeoipsListSingleInterface(GeoipsExecutableCommand):
     """List Sub-Command for listing plugins of a single interface."""
 
-    command_name = "interface"
-    subcommand_classes = []
+    name = "interface"
+    command_classes = []
 
     def add_arguments(self):
         """Instantiate the valid arguments that are supported for the list command.
@@ -488,7 +488,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
             - <package_name> is any GeoIPS package that is installed and recognized by
               the GeoIPS Library
         """
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "interface_name",
             type=str.lower,
             default="algorithms",
@@ -524,7 +524,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
         try:
             interface = getattr(interfaces, interface_name)
         except AttributeError:
-            self.subcommand_parser.error(
+            self.parser.error(
                 f"Interface: {interface_name} doesn't exist. Provide a valid interface."
             )
         interface_registry = self._get_registry_by_interface_and_package(
@@ -549,8 +549,8 @@ class GeoipsListScripts(GeoipsExecutableCommand):
     Called via `geoips list scripts`. Outputs the following data in a tabular format.
     """
 
-    command_name = "scripts"
-    subcommand_classes = []
+    name = "scripts"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the list-subparser for the List Scripts Command."""
@@ -618,8 +618,8 @@ class GeoipsListScripts(GeoipsExecutableCommand):
 class GeoipsList(GeoipsCommand):
     """Top-Level List Command for listing off GeoIPS Artifacts."""
 
-    command_name = "list"
-    subcommand_classes = [
+    name = "list"
+    command_classes = [
         GeoipsListSingleInterface,
         GeoipsListInterfaces,
         GeoipsListPackages,

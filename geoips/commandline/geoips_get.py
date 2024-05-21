@@ -18,19 +18,19 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
     when calling this command is shown below, outputted in a yaml-based format.
     """
 
-    command_name = "family"
-    subcommand_classes = []
+    name = "family"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the get-subparser for the Get Family Command."""
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "interface_name",
             type=str.lower,
             default="algorithms",
             choices=interfaces.__all__,
             help="GeoIPS Interface to retrieve.",
         )
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "family_name",
             type=str,
             help="GeoIPS Plugin to select from the provided interface.",
@@ -62,7 +62,7 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
         try:
             interface = getattr(interfaces, interface_name)
         except AttributeError:
-            self.subcommand_parser.error(
+            self.parser.error(
                 f"Interface: {interface_name} doesn't exist. Provide a valid interface."
             )
         interface_type = interface.interface_type
@@ -72,7 +72,7 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
             # members, raise an error
             err_str = f"Error: Family: `{family_name}` is not within Interface: "
             err_str += f"`{interface_name}` supported families: `{supported_families}`"
-            self.subcommand_parser.error(err_str)
+            self.parser.error(err_str)
         if interface_type == "module_based":
             docstring = "Not Implemented."
             family_path = str(
@@ -108,12 +108,12 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
     calling this command is shown below, outputted in a yaml-based format.
     """
 
-    command_name = "interface"
-    subcommand_classes = []
+    name = "interface"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the get-subparser for the Get Interface Command."""
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "interface_name",
             type=str.lower,
             default="algorithms",
@@ -145,7 +145,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         try:
             interface = getattr(interfaces, interface_name)
         except AttributeError:
-            self.subcommand_parser.error(
+            self.parser.error(
                 f"Interface: {interface_name} doesn't exist. Provide a valid interface."
             )
 
@@ -171,12 +171,12 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
     calling this command is shown below, outputted in a yaml-based format.
     """
 
-    command_name = "package"
-    subcommand_classes = []
+    name = "package"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the get-subparser for the Get Package Command."""
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "package_name",
             type=str.lower,
             default="geoips",
@@ -223,19 +223,19 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
     when calling this command is shown below, outputted in a yaml-based format.
     """
 
-    command_name = "plugin"
-    subcommand_classes = []
+    name = "plugin"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the get-subparser for the Get Plugin Command."""
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "interface_name",
             type=str.lower,
             default="algorithms",
             choices=interfaces.__all__,
             help="GeoIPS Interface to retrieve.",
         )
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "plugin_name",
             type=str,
             default=None,
@@ -270,7 +270,7 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
         try:
             interface = getattr(interfaces, interface_name)
         except AttributeError:
-            self.subcommand_parser.error(
+            self.parser.error(
                 f"Interface: {interface_name} doesn't exist. Provide a valid interface."
             )
         # If plugin_name is not None, then the user has requested a plugin within
@@ -315,7 +315,7 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
                     f"{plugin_name} not found under Products {source_name} entry."
                 )
         elif plugin_name not in interface_registry.keys():
-            self.subcommand_parser.error(
+            self.parser.error(
                 f"{plugin_name} doesn't exist within Interface {interface_name}."
             )
 
@@ -323,8 +323,8 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
 class GeoipsGet(GeoipsCommand):
     """Top-Level Get Command Class for retrieving information about GeoIPS Artifacts."""
 
-    command_name = "get"
-    subcommand_classes = [
+    name = "get"
+    command_classes = [
         GeoipsGetFamily,
         GeoipsGetInterface,
         GeoipsGetPackage,

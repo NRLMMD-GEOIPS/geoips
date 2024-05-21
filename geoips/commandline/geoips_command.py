@@ -60,7 +60,7 @@ class GeoipsCommand(abc.ABC):
     def __init__(self, parent=None, legacy=False):
         """Initialize GeoipsCommand with a subparser and default to the command func.
 
-        Do this for each GeoipsCLI.geoips_subcommand_classes. This will instantiate
+        Do this for each GeoipsCLI.geoips_command_classes. This will instantiate
         each subcommand class with a parser and point towards the correct default
         function to call if that subcommand has been called.
 
@@ -84,7 +84,7 @@ class GeoipsCommand(abc.ABC):
             # Set the combined name of the provided object. For example, if this was the
             # parent 'list' command, it would be 'geoips_list'. If it was a child of
             # list, for example 'scripts', combined name would be 'geoips_list_scripts'
-            self.combined_name = f"{parent.combined_name}_{self.command_name}"
+            self.combined_name = f"{parent.combined_name}_{self.name}"
 
             # We need to create a Geoips<cmd>Common Class for arguments
             # that are shared between common commands. For example, we've created
@@ -93,7 +93,7 @@ class GeoipsCommand(abc.ABC):
             # arguments --package, --columns, etc., and all of those arguments
             # would be inherited by each GeoipsList<sub-cmd>
             if "list" in self.combined_name:
-                parent_parsers = [GeoipsListCommon().subcommand_parser]
+                parent_parsers = [GeoipsListCommon().parser]
             else:
                 parent_parsers = []
 
@@ -110,8 +110,8 @@ class GeoipsCommand(abc.ABC):
                 # attempt to create a sepate sub-parser for the specific sub-command
                 # class being initialized
                 # So we can separate the commands arguments in a tree-like structure
-                self.subcommand_parser = parent.subparsers.add_parser(
-                    self.command_name,
+                self.parser = parent.subparsers.add_parser(
+                    self.name,
                     description=self.cmd_instructions["instructions"][
                         self.combined_name
                     ]["help_str"],
@@ -132,28 +132,28 @@ class GeoipsCommand(abc.ABC):
                 )
         else:
             # otherwise initialize a top-level parser for this command.
-            self.subcommand_parser = argparse.ArgumentParser()
-            self.combined_name = self.command_name
+            self.parser = argparse.ArgumentParser()
+            self.combined_name = self.name
 
         self.add_subparsers()
-        self.subcommand_parser.set_defaults(
+        self.parser.set_defaults(
             command=self.combined_name.replace("_", " "),
-            command_parser=self.subcommand_parser,
+            command_parser=self.parser,
         )
 
     @property
     @abc.abstractmethod
-    def command_name(self):
+    def name(self):
         """Name of the command class."""
         pass
 
     @property
     @abc.abstractmethod
-    def subcommand_classes(self):
-        """List of subcommand_classes related to the top level command.
+    def command_classes(self):
+        """List of command_classes related to the top level command.
 
-        For example, if the class provided was GeoipsList, subcommand_classes would
-        be the list of available subcommand_classes that "geoips list" implements.
+        For example, if the class provided was GeoipsList, command_classes would
+        be the list of available command_classes that "geoips list" implements.
         """
         pass
 
@@ -168,11 +168,11 @@ class GeoipsCommand(abc.ABC):
         self.list_subparsers attribute, which we then add individual parsers for each
         sub-command, as in interfaces, plugins, packages, scripts, etc.
         """
-        if len(self.subcommand_classes):
-            self.subparsers = self.subcommand_parser.add_subparsers(
-                help=f"{self.command_name} instructions."
+        if len(self.command_classes):
+            self.subparsers = self.parser.add_subparsers(
+                help=f"{self.name} instructions."
             )
-            for subcmd_cls in self.subcommand_classes:
+            for subcmd_cls in self.command_classes:
                 subcmd_cls(parent=self, legacy=self.legacy)
 
     @property
@@ -220,7 +220,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
         # add available arguments for that command and set that function to
         # the command's executable function (__call__) if that command is called.
         self.add_arguments()
-        self.subcommand_parser.set_defaults(
+        self.parser.set_defaults(
             exe_command=self.__call__,
         )
 
@@ -358,7 +358,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     err_str += "select one or more of the following keys, which "
                     err_str += "correspond to the appropriate value:\n"
                     err_str += f"{default_headers}"
-                    self.subcommand_parser.error(err_str)
+                    self.parser.error(err_str)
                 headers[col] = default_headers[col]
         else:
             # long has been set or was defaulted to; use the default headers
@@ -484,12 +484,12 @@ class GeoipsExecutableCommand(GeoipsCommand):
 class GeoipsListCommon(GeoipsExecutableCommand):
     """Class containing common optional arguments shared between list commands."""
 
-    command_name = "list_common"
-    subcommand_classes = []
+    name = "list_common"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the list-subparser for the List Command."""
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "--package_name",
             "-p",
             type=str,
@@ -497,7 +497,7 @@ class GeoipsListCommon(GeoipsExecutableCommand):
             choices=self.plugin_package_names,
             help="The GeoIPS package to list from.",
         )
-        mutex_group = self.subcommand_parser.add_mutually_exclusive_group()
+        mutex_group = self.parser.add_mutually_exclusive_group()
         mutex_group.add_argument(
             "--long",
             "-l",
