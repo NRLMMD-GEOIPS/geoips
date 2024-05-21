@@ -17,7 +17,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 #     """Unit Testing Class for Test Unit Test Sub-Command."""
 
 #     @property
-#     def all_possible_subcommand_combinations(self):
+#     def command_combinations(self):
 #         """A stochastic list of commands used by the GeoipsTestUnitTest command.
 
 #         This includes failing cases as well.
@@ -92,7 +92,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 
 # @pytest.mark.parametrize(
 #     "args",
-#     test_sub_cmd.all_possible_subcommand_combinations,
+#     test_sub_cmd.command_combinations,
 #     ids=test_sub_cmd.generate_id,
 # )
 # def test_all_command_combinations(args):

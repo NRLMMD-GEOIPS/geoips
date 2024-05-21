@@ -14,7 +14,7 @@ class TestGeoipsListPlugins(BaseCliTest):
     """Unit Testing Class for List Plugins Sub-Command."""
 
     @property
-    def all_possible_subcommand_combinations(self):
+    def command_combinations(self):
         """A list of every possible call signature for the GeoipsListPlugins command.
 
         This includes failing cases as well.
@@ -110,7 +110,7 @@ test_sub_cmd = TestGeoipsListPlugins()
 
 @pytest.mark.parametrize(
     "args",
-    test_sub_cmd.all_possible_subcommand_combinations,
+    test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):

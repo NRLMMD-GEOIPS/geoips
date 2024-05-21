@@ -113,7 +113,7 @@ class TestGeoipsRun(BaseCliTest):
     new_geo_args.insert(2, "data_fusion")
 
     @property
-    def all_possible_subcommand_combinations(self):
+    def command_combinations(self):
         """A stochastic list of commands used by the GeoipsRun command.
 
         This includes failing cases as well.
@@ -188,7 +188,7 @@ test_sub_cmd = TestGeoipsRun()
 
 @pytest.mark.parametrize(
     "args",
-    test_sub_cmd.all_possible_subcommand_combinations,
+    test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
 def test_all_command_combinations(args):

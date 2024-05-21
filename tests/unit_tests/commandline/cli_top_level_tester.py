@@ -132,11 +132,14 @@ class BaseCliTest(abc.ABC):
 
     @property
     @abc.abstractmethod
-    def all_possible_subcommand_combinations(self):
-        """Every possible sub-command combination for a CLI command call.
+    def command_combinations(self):
+        """A 2d List of command combinations for a CLI command call.
 
-        Ie. if we were testing 'geoips list interface', this property would be every
-        possible combination of strings used to call 'geoips list interface'.
+        This can cover every possible combination to call a command or it can be a
+        subset of commands if they take a while to run.
+
+        For a shorter command such as 'geoips list interface', this property would be
+        every possible combination of strings used to call 'geoips list interface'.
         This would take the form of:
 
         - [
@@ -150,6 +153,9 @@ class BaseCliTest(abc.ABC):
             - ["geoips", "list", "interface", <interface_name>, "-p", <bad_pkg_name>],
             - ...
         - ]
+
+        For a longer command such as 'geoips test script', we grab a stochastic subset
+        of the possible commands and use those to test instead.
         """
         pass
 
