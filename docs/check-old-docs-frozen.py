@@ -202,7 +202,9 @@ def hash_str(string):
 
 
 def hash_directory(directory_path):
-    """Recursively hash all dir files not in new-docs or releases and return hashes in a dict."""
+    """Recursively hash all dir files return hashes in a dict.
+
+    Ignores any files in docs/releases or docs/new-docs."""
     file_hashes = []
     for root, _, files in os.walk(directory_path):
         for file in sorted(files):
