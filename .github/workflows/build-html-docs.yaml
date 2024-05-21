@@ -48,6 +48,7 @@ jobs:
         run: |
           which pip
           pip uninstall -y geoips
+          sudo apt-get install -y libhdf5-serial-dev netcdf-bin libnetcdf-dev
           # Include test dependencies to allow full documentation
           pip install $PWD/geoips_default_branch[doc,test]
           ret=$?
