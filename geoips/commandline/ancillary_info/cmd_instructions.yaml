@@ -5,7 +5,7 @@ instructions:
       Various configuration-based commands for setting up your geoips environment.
       Currently supports `geoips config install <test_dataset_name>` command.
     usage_str: |
-      To use, type `geoips config <sub-cmd> <sub-sub-command> ...`
+      To use, type `geoips config <cmd> <sub-command> ...`
     output_info:
       - Output related to config process that was run.
   geoips_config_install:
@@ -22,7 +22,7 @@ instructions:
       Retrieve an appropriate GeoIPS artifact. Currently supported `get` calls are:
       ["family", "interface", "package", "plugin"]
     usage_str: |
-      To use, type `geoips get <sub-cmd> <sub-sub-cmd> ...`.
+      To use, type `geoips get <cmd> <sub-cmd> ...`.
     output_info:
       - Information related to the artifact that was retrieved.
   geoips_get_family:
@@ -96,7 +96,7 @@ instructions:
       available for listing are: ["interface", "interfaces", "packages", "plugins",
       "scripts", "test-datasets", "unit-tests"].
     usage_str: |
-      To use, type `geoips list <sub-cmd> <sub-sub-cmd>`.
+      To use, type `geoips list <cmd> <sub-cmd>`.
     output_info:
       - Additional info related to the artifact[s] being listed.
   geoips_list_common:
@@ -255,7 +255,7 @@ instructions:
       normal test script, or running unit tests. Current options are ["linting",
       "script", "unit-test"].
     usage_str: |
-      To use, type `geoips test <sub-cmd> <sub-sub-cmd>`.
+      To use, type `geoips test <cmd> <sub-cmd>`.
     output_info:
       - Output of the Test Being Ran
   geoips_test_linting:

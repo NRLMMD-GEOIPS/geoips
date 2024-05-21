@@ -13,7 +13,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 
 
 class GeoipsConfigInstall(GeoipsExecutableCommand):
-    """Config Sub-Command Class for installing packages/data.
+    """Config Command Class for installing packages/data.
 
     Supports installation of packages and test data needed for testing and/or running
     your GeoIPS environment.

@@ -12,7 +12,7 @@ from geoips import interfaces
 
 
 class GeoipsGetFamily(GeoipsExecutableCommand):
-    """Get Sub-Command which retrieves and outputs information about a GeoIPS Family.
+    """Get Command which retrieves and outputs information about a GeoIPS Family.
 
     This is called via `geoips get family <interface_name> <family_name>`. Data included
     when calling this command is shown below, outputted in a yaml-based format.
@@ -102,7 +102,7 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
 
 
 class GeoipsGetInterface(GeoipsExecutableCommand):
-    """Get Sub-Command which retrieves information about a GeoIPS Interface.
+    """Get Command which retrieves information about a GeoIPS Interface.
 
     This is called via `geoips get interface <interface_name>`. Data included when
     calling this command is shown below, outputted in a yaml-based format.
@@ -165,7 +165,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
 
 
 class GeoipsGetPackage(GeoipsExecutableCommand):
-    """Get Sub-Command which retrieves information about a certain GeoIPS Package.
+    """Get Command which retrieves information about a certain GeoIPS Package.
 
     This is called via `geoips get package <interface_name>`. Data included when
     calling this command is shown below, outputted in a yaml-based format.
@@ -217,7 +217,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
 
 
 class GeoipsGetPlugin(GeoipsExecutableCommand):
-    """Get Sub-Command which retrieves information about a certain GeoIPS Plugin.
+    """Get Command which retrieves information about a certain GeoIPS Plugin.
 
     This is called via `geoips get plugin <interface_name> <plugin_name>`. Data included
     when calling this command is shown below, outputted in a yaml-based format.

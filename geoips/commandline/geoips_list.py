@@ -17,7 +17,7 @@ from geoips import interfaces
 
 
 class GeoipsListUnitTests(GeoipsExecutableCommand):
-    """List Sub-Command for listing out available unit tests.
+    """List Command for listing out available unit tests.
 
     Called via `geoips list unit-tests`. Outputs the following in a tabular format.
     """
@@ -96,7 +96,7 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
 
 
 class GeoipsListTestDatasets(GeoipsExecutableCommand):
-    """List Sub-Command for listing off available test-datasets used by GeoIPS.
+    """List Command for listing off available test-datasets used by GeoIPS.
 
     Called via `geoips list test-datasets`. Outputs the following in a tabular format.
     """
@@ -152,7 +152,7 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
 
 
 class GeoipsListInterfaces(GeoipsExecutableCommand):
-    """List Sub-Command for listing interfaces and interface-specific plugins.
+    """List Command for listing interfaces and interface-specific plugins.
 
     Will either list information about available GeoIPS interfaces (done via
     `geoips list interfaces`), or list information about implemented interface-specific
@@ -198,7 +198,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         Parameters
         ----------
         args: Argparse Namespace()
-            - The Argument Namespace for GeoipsListInterfaces Sub-Command
+            - The Argument Namespace for GeoipsListInterfaces Command
         """
         package_name = args.package_name
         # Flag representing whether or not we want to list what's implemented or
@@ -343,7 +343,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
 
 
 class GeoipsListPackages(GeoipsExecutableCommand):
-    """List Sub-Command for listing off installed GeoIPS Packages.
+    """List Command for listing off installed GeoIPS Packages.
 
     Called via `geoips list packages`. Outputs the following data in a tabular format.
     """
@@ -371,7 +371,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
         Parameters
         ----------
         args: Argparse Namespace()
-            - The Argument Namespace for GeoipsListPackages Sub-Command
+            - The Argument Namespace for GeoipsListPackages Command
         """
         if args.package_name != "all":
             # 'all' is the default for package name. We don't support the -p argument
@@ -413,7 +413,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
 
 
 class GeoipsListPlugins(GeoipsExecutableCommand):
-    """List Sub-Command for listing off plugins in all, or a certain GeoIPS Package.
+    """List Command for listing off plugins in all, or a certain GeoIPS Package.
 
     Called via `geoips list plugins`. Outputs the following data in a tabular format.
     """
@@ -469,7 +469,7 @@ class GeoipsListPlugins(GeoipsExecutableCommand):
 
 
 class GeoipsListSingleInterface(GeoipsExecutableCommand):
-    """List Sub-Command for listing plugins of a single interface."""
+    """List Command for listing plugins of a single interface."""
 
     name = "interface"
     command_classes = []
@@ -540,7 +540,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
 
 
 class GeoipsListScripts(GeoipsExecutableCommand):
-    """List Sub-Command for listing test scripts from all, or a certain GeoIPS Package.
+    """List Command for listing test scripts from all, or a certain GeoIPS Package.
 
     Called via `geoips list scripts`. Outputs the following data in a tabular format.
     """

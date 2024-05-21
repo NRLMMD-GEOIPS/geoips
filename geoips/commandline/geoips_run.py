@@ -10,7 +10,7 @@ from data_fusion.commandline.args import add_args as data_fusion_add_args
 
 
 class GeoipsRunConfigBased(GeoipsExecutableCommand):
-    """Run Sub-Command for executing the config based process-workflow (procflow)."""
+    """Run Command for executing the config based process-workflow (procflow)."""
 
     name = "config_based"
     command_classes = []
@@ -44,7 +44,7 @@ class GeoipsRunConfigBased(GeoipsExecutableCommand):
 
 
 class GeoipsRunDataFusion(GeoipsExecutableCommand):
-    """Run Sub-Command for executing the data fusion process-workflow (procflow)."""
+    """Run Command for executing the data fusion process-workflow (procflow)."""
 
     name = "data_fusion"
     command_classes = []
@@ -78,7 +78,7 @@ class GeoipsRunDataFusion(GeoipsExecutableCommand):
 
 
 class GeoipsRunSingleSource(GeoipsExecutableCommand):
-    """Run Sub-Command for executing the single source process-workflow (procflow)."""
+    """Run Command for executing the single source process-workflow (procflow)."""
 
     name = "single_source"
     command_classes = []
@@ -112,7 +112,7 @@ class GeoipsRunSingleSource(GeoipsExecutableCommand):
 
 
 class GeoipsRun(GeoipsCommand):
-    """Run Sub-Command for running process-workflows (procflows)."""
+    """Run Command for running process-workflows (procflows)."""
 
     name = "run"
     command_classes = [

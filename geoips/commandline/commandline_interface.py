@@ -27,7 +27,7 @@ LOG = logging.getLogger(__name__)
 class GeoipsCLI(GeoipsCommand):
     """Top-Level Class for the GeoIPS Commandline Interface (CLI).
 
-    This class includes a list of Sub-Command Classes, which will implement the core
+    This class includes a list of Command Classes, which will implement the core
     functionality of the CLI. This includes the following as of right now:
     - [GeoipsConfig, GeoipsGet, GeoipsList, GeoipsRun, GeoipsTest, GeoipsValidate]
     """
@@ -43,11 +43,11 @@ class GeoipsCLI(GeoipsCommand):
     ]
 
     def __init__(self, instructions_dir=None, legacy=False):
-        """Initialize the GeoipsCLI and each of it's sub-command classes.
+        """Initialize the GeoipsCLI and each of it's command classes.
 
         The CLI contains a single top-level argparse.ArgumentParser() which contains
         subparsers related to each subcommand. This ensures that each command has a
-        unique set of arguments inheirted from command -> subcommand -> sub-subcommand,
+        unique set of arguments inheirted from command -> subcommand -> subcommand,
         and so on. For example, the GeoipsList Command Class's arguments are inherited
         by all subcommand child classes, which recursively can have their own child
         subcommand classes.

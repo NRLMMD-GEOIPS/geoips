@@ -54,7 +54,7 @@ class GeoipsCommand(abc.ABC):
 
     This class is a blueprint of what each top-level GeoIPS Command Classes should
     implement. Includes shared attributes and an ``add_suparsers`` function which is
-    used for initializing sub-command classes of a certain GeoIPS Command.
+    used for initializing command classes of a certain GeoIPS Command.
     """
 
     def __init__(self, parent=None, legacy=False):
@@ -89,9 +89,9 @@ class GeoipsCommand(abc.ABC):
             # We need to create a Geoips<cmd>Common Class for arguments
             # that are shared between common commands. For example, we've created
             # a 'GeoipsListCommon' class which adds arguments that will be shared
-            # by each GeoipsList<sub-cmd> class. Ie. if GeoipsListCommon has
+            # by each GeoipsList<cmd> class. Ie. if GeoipsListCommon has
             # arguments --package, --columns, etc., and all of those arguments
-            # would be inherited by each GeoipsList<sub-cmd>
+            # would be inherited by each GeoipsList<cmd>
             if "list" in self.combined_name:
                 parent_parsers = [GeoipsListCommon().parser]
             else:
@@ -107,7 +107,7 @@ class GeoipsCommand(abc.ABC):
                 # invocation of the CLI.
                 self.cmd_instructions = cmd_instructions
             try:
-                # attempt to create a sepate sub-parser for the specific sub-command
+                # attempt to create a sepate sub-parser for the specific command
                 # class being initialized
                 # So we can separate the commands arguments in a tree-like structure
                 self.parser = parent.subparsers.add_parser(
@@ -158,15 +158,15 @@ class GeoipsCommand(abc.ABC):
         pass
 
     def add_subparsers(self):
-        """Add subparsers for each sub-command class.
+        """Add subparsers for each command class.
 
         This is done so we can limit the scope of what arguments are accepted for each
-        geoips <cmd> sub-command. This is only done for the top-level command, such as
+        geoips <cmd> command. This is only done for the top-level command, such as
         "list", "run", "get", etc.
 
-        For example, if this were the GeoipsList Command Sub-Class, we would create a
+        For example, if this were the GeoipsList Command Class, we would create a
         self.list_subparsers attribute, which we then add individual parsers for each
-        sub-command, as in interfaces, plugins, packages, scripts, etc.
+        command, as in interfaces, plugins, packages, scripts, etc.
         """
         if len(self.command_classes):
             self.subparsers = self.parser.add_subparsers(
@@ -189,7 +189,7 @@ class GeoipsCommand(abc.ABC):
 class GeoipsExecutableCommand(GeoipsCommand):
     """Abstract Base Class for executable CLI commands, inheriting from GeoipsCommand.
 
-    This class is a blueprint of what each executable GeoIPS Sub-Command Classes
+    This class is a blueprint of what each executable GeoIPS Command Classes
     can implement.
     """
 
@@ -234,7 +234,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
 
     @abc.abstractmethod
     def add_arguments(self):
-        """Add arguments related to the sub-command class.
+        """Add arguments related to the command class.
 
         This is an abstract method because we don't know which arguments need to be
         added for each class at this moment.
@@ -354,10 +354,11 @@ class GeoipsExecutableCommand(GeoipsCommand):
             headers = {}
             for col in columns:
                 if col not in list(default_headers.keys()):
-                    err_str = f"Column header '{col}', is not a valid header. Please "
-                    err_str += "select one or more of the following keys, which "
-                    err_str += "correspond to the appropriate value:\n"
-                    err_str += f"{default_headers}"
+                    err_str = (
+                        f"Column header '{col}', is not a valid header. Please select "
+                        "one or more of the following keys, which correspond to the "
+                        f"appropriate value:\n{default_headers}"
+                    )
                     self.parser.error(err_str)
                 headers[col] = default_headers[col]
         else:
@@ -513,7 +514,7 @@ class GeoipsListCommon(GeoipsExecutableCommand):
             default=None,
             help="""Specific Headers of Data you'd like to see listed.
                     For more in formation on headers available, run
-                    'geoips list <sub-cmd> <positional_args> --columns help'.
+                    'geoips list <cmd> <positional_args> --columns help'.
                     """,
         )
 
