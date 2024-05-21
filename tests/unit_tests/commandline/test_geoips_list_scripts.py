@@ -12,7 +12,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListScripts(BaseCliTest):
-    """Unit Testing Class for List Scripts Sub-Command."""
+    """Unit Testing Class for List Scripts Command."""
 
     @property
     def command_combinations(self):
@@ -49,12 +49,14 @@ class TestGeoipsListScripts(BaseCliTest):
         error: str
             - Multiline str representing the error output of the CLI call
         """
-        # An error occurred using args. Assert that args is not valid and check the
-        # output of the error.
-        assert args != ["geoips", "list", "scripts"]
-        for pkg_name in self.plugin_package_names:
-            assert args != ["geoips", "list", "scripts", "-p", pkg_name]
-        assert "usage: To use, type `geoips list scripts`" in error
+        editable = self.assert_non_editable_error_or_wrong_package(args, error)
+        if editable:
+            # An error occurred using args. Assert that args is not valid and check the
+            # output of the error.
+            assert args != ["geoips", "list", "scripts"]
+            for pkg_name in self.plugin_package_names:
+                assert args != ["geoips", "list", "scripts", "-p", pkg_name]
+            assert "usage: To use, type `geoips list scripts`" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list scripts ...' successful output is correct.

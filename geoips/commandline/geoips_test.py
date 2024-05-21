@@ -13,6 +13,7 @@ from os.path import basename
 from subprocess import call
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.geoips_utils import is_editable
 
 
 # class GeoipsTestUnitTest(GeoipsExecutableCommand):
@@ -163,7 +164,15 @@ class GeoipsTestScript(GeoipsExecutableCommand):
             dir_name = "integration_tests"
         else:
             dir_name = "scripts"
-
+        if not is_editable(package_name):
+            # Package is installed in non-editable mode and we will not be able to
+            # access unit tests. Raise a runtime error reporting this.
+            raise RuntimeError(
+                f"Error: Package '{package_name}' is installed in non-editable mode and"
+                " we are not able to access it's unit tests. For this command to "
+                f"work, please install '{package_name}' in editable mode via: "
+                f"'pip install -e <path_to_{package_name}>'"
+            )
         test_dir = str(resources.files(package_name) / f"../tests/{dir_name}")
         fnames = [basename(fpath) for fpath in glob(f"{test_dir}/*.sh")]
 
@@ -201,6 +210,15 @@ class GeoipsTestLinting(GeoipsExecutableCommand):
     def __call__(self, args):
         """Run all GeoIPS Linting Tests on the provided package."""
         package_name = args.package_name
+        if not is_editable(package_name):
+            # Package is installed in non-editable mode and we will not be able to
+            # access unit tests. Raise a runtime error reporting this.
+            raise RuntimeError(
+                f"Error: Package '{package_name}' is installed in non-editable mode and"
+                " we are not able to access it's unit tests. For this command to "
+                f"work, please install '{package_name}' in editable mode via: "
+                f"'pip install -e <path_to_{package_name}>'"
+            )
         lint_path = str(resources.files("geoips") / "../tests/utils/check_code.sh")
         package_path = str(resources.files(package_name) / "../.")
         for linter in ["bandit", "black", "flake8"]:

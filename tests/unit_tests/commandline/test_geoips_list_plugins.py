@@ -11,7 +11,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListPlugins(BaseCliTest):
-    """Unit Testing Class for List Plugins Sub-Command."""
+    """Unit Testing Class for List Plugins Command."""
 
     @property
     def command_combinations(self):

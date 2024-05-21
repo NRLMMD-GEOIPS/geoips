@@ -9,7 +9,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListInterfaces(BaseCliTest):
-    """Unit Testing Class for List Interfaces Sub-Command."""
+    """Unit Testing Class for List Interfaces Command."""
 
     @property
     def command_combinations(self):

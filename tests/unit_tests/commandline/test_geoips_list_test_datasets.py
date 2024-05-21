@@ -9,7 +9,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListTestDatasets(BaseCliTest):
-    """Unit Testing Class for List Test Datasets Sub-Command."""
+    """Unit Testing Class for List Test Datasets Command."""
 
     @property
     def command_combinations(self):

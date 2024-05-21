@@ -14,7 +14,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 
 
 # class TestGeoipsTestUnitTest(BaseCliTest):
-#     """Unit Testing Class for Test Unit Test Sub-Command."""
+#     """Unit Testing Class for Test Unit Test Command."""
 
 #     @property
 #     def command_combinations(self):

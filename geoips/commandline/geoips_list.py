@@ -13,6 +13,7 @@ from tabulate import tabulate
 
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.geoips_utils import is_editable
 from geoips import interfaces
 
 
@@ -56,7 +57,15 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
         headers = self._get_headers_by_command(args, default_headers)
         for pkg_name in package_names:
             unit_test_info = []
-            # NOTE: Update this section to check whether installed in editable mode
+            if not is_editable(pkg_name):
+                # Package is installed in non-editable mode and we will not be able to
+                # access unit tests. Raise a runtime error reporting this.
+                raise RuntimeError(
+                    f"Error: Package '{pkg_name}' is installed in non-editable mode and"
+                    " we are not able to access it's unit tests. For this command to "
+                    f"work, please install '{pkg_name}' in editable mode via: "
+                    f"'pip install -e <path_to_{pkg_name}>'"
+                )
             unit_test_dir = str(resources.files(pkg_name) / "../tests/unit_tests")
             try:
                 listdir(unit_test_dir)
@@ -577,6 +586,16 @@ class GeoipsListScripts(GeoipsExecutableCommand):
         default_headers = {"package": "GeoIPS Package", "filename": "Filename"}
         headers = self._get_headers_by_command(args, default_headers)
         for plugin_package_name in plugin_package_names:
+            if not is_editable(plugin_package_name):
+                # Package is installed in non-editable mode and we will not be able to
+                # access unit tests. Raise a runtime error reporting this.
+                raise RuntimeError(
+                    f"Error: Package '{plugin_package_name}' is installed in "
+                    "non-editable mode and we are not able to access it's unit tests. "
+                    f"For this command to work, please install '{plugin_package_name}' "
+                    "in editable mode via: 'pip install -e "
+                    f"<path_to_{plugin_package_name}>'"
+                )
             script_names = sorted(
                 [
                     [plugin_package_name, basename(fpath)]

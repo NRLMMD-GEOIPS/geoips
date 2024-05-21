@@ -13,7 +13,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListUnitTests(BaseCliTest):
-    """Unit Testing Class for List Unit Tests Sub-Command."""
+    """Unit Testing Class for List Unit Tests Command."""
 
     @property
     def command_combinations(self):
@@ -44,9 +44,11 @@ class TestGeoipsListUnitTests(BaseCliTest):
         error: str
             - Multiline str representing the error output of the CLI call
         """
-        # bad command has been provided, check the contents of the error message
-        assert args != ["geoips", "list", "unit-tests"]
-        assert "usage: To use, type `geoips list unit-tests -p <package_name>`" in error
+        editable = self.assert_non_editable_error_or_wrong_package(args, error)
+        if editable:
+            # bad command has been provided, check the contents of the error message
+            assert args != ["geoips", "list", "unit-tests"]
+            assert "usage: To use, type `geoips list unit-tests" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list unit-tests ...' successful output is correct.

@@ -9,7 +9,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsConfigInstall(BaseCliTest):
-    """Unit Testing Class for Config Install Sub-Command."""
+    """Unit Testing Class for Config Install Command."""
 
     @property
     def command_combinations(self):

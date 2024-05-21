@@ -14,7 +14,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsTestScript(BaseCliTest):
-    """Unit Testing Class for Test Script Sub-Command."""
+    """Unit Testing Class for Test Script Command."""
 
     @property
     def command_combinations(self):
@@ -93,12 +93,14 @@ class TestGeoipsTestScript(BaseCliTest):
         error: str
             - Multiline str representing the error output of the CLI call
         """
-        # An error occurred using args. Assert that args is not valid and check the
-        # output of the error.
-        assert (
-            "geoips test script -p <package_name> <--integration> <script_name>`"
-            in error
-        )
+        editable = self.assert_non_editable_error_or_wrong_package(args, error)
+        if editable:
+            # An error occurred using args. Assert that args is not valid and check the
+            # output of the error.
+            assert (
+                "geoips test script -p <package_name> <--integration> <script_name>`"
+                in error
+            )
 
     def check_output(self, args, output):
         """Ensure that the 'geoips test script ...' successful output is correct.

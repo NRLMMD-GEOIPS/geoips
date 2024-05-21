@@ -11,7 +11,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsGetPlugin(BaseCliTest):
-    """Unit Testing Class for Get Plugin Sub-Command."""
+    """Unit Testing Class for Get Plugin Command."""
 
     rand_threshold = 0.10
 

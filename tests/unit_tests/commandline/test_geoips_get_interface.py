@@ -10,7 +10,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsGetInterface(BaseCliTest):
-    """Unit Testing Class for Get Interface Sub-Command."""
+    """Unit Testing Class for Get Interface Command."""
 
     @property
     def command_combinations(self):

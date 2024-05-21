@@ -13,7 +13,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListInterface(BaseCliTest):
-    """Unit Testing Class for List Interface Sub-Command."""
+    """Unit Testing Class for List Interface Command."""
 
     @property
     def command_combinations(self):

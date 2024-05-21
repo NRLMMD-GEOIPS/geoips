@@ -1,14 +1,14 @@
-"""Semi-Abstract CLI Test Class implementing attributes shared by sub-commands."""
+"""Semi-Abstract CLI Test Class implementing attributes shared by commands."""
 
 import abc
 import pytest
 import subprocess
 
-from geoips.geoips_utils import get_entry_point_group
+from geoips.geoips_utils import get_entry_point_group, is_editable
 
 
 class BaseCliTest(abc.ABC):
-    """Top-Level CLI Test Class which implements shared attributes for sub-commands."""
+    """Top-Level CLI Test Class which implements shared attributes for commands."""
 
     _config_install_args = ["geoips", "config", "install"]
     _get_family_args = ["geoips", "get", "family"]
@@ -130,6 +130,53 @@ class BaseCliTest(abc.ABC):
             if selected_cols is None or headers[header] in selected_cols:
                 assert header in output or "has no" in output
 
+    def assert_non_editable_error_or_wrong_package(self, args, error):
+        """If we found a package in non-editable mode, assert that an error exists.
+
+        This is used for commands which require packages to be installed in editable
+        mode to work (list scripts, test scripts, list unit-tests, test-linting). Since
+        we'll check for the same errors in all of these tests, we've refactored it to
+        be in one location.
+
+        Parameters
+        ----------
+        args: list of str
+            - The arguments provided to the CLI
+        error: str
+            - The error output of the CLI call
+
+        Returns
+        -------
+        editable: bool
+            - The truth value of whether or not all packages were editable.
+        """
+        editable = True
+        for pkg_name in self.plugin_package_names:
+            if not is_editable(pkg_name):
+                editable = False
+        if not editable:
+            # One of the installed packages was found to be in non-editable mode
+            if (
+                "-p" in args
+                and args[-1] in self.plugin_package_names
+                or "-p" not in args
+            ):
+                # If the package provided is a valid installed package, assert that
+                # an non-editable error was raised
+                assert "is installed in non-editable mode" in error
+            elif "-p" in args and "--integration" in args and "geoips" not in args[1:]:
+                # This is a specific case for the integration test scripts that
+                # only work for geoips. Make sure an error is raised that says
+                # we cannot run integration tests in packages other than 'geoips'
+                assert (
+                    "script: error: Only package 'geoips' has integration tests"
+                ) in error
+            else:
+                # If the package provided is not a valid package, check for that error
+                # instead
+                assert f"{args[2]}: error: argument --package_name/-p: invalid" in error
+        return editable
+
     @property
     @abc.abstractmethod
     def command_combinations(self):
@@ -161,7 +208,7 @@ class BaseCliTest(abc.ABC):
 
     @abc.abstractmethod
     def check_error(self, args, error):
-        """Ensure that the 'geoips list <sub-cmd> ...' error output is correct.
+        """Ensure that the 'geoips list <cmd> ...' error output is correct.
 
         Parameters
         ----------
@@ -174,7 +221,7 @@ class BaseCliTest(abc.ABC):
 
     @abc.abstractmethod
     def check_output(self, args, output):
-        """Ensure that the 'geoips list <sub-cmd> ...' successful output is correct.
+        """Ensure that the 'geoips list <cmd> ...' successful output is correct.
 
         Parameters
         ----------
@@ -186,17 +233,17 @@ class BaseCliTest(abc.ABC):
         pass
 
     def test_all_command_combinations(self, args=None):
-        """Test all 'geoips list <sub-cmd> ...' commands.
+        """Test all 'geoips list <cmd> ...' commands.
 
         This test covers every valid combination of commands for the
-        'geoips list <sub-cmd> ...' command. We also test invalid commands, to ensure
+        'geoips list <cmd> ...' command. We also test invalid commands, to ensure
         that the proper help documentation is provided for those using the command
         incorrectly.
 
         Parameters
         ----------
         args: 2D array of str
-            - List of arguments to call the CLI with (ie. ['geoips', 'list <sub-cmd>'])
+            - List of arguments to call the CLI with (ie. ['geoips', 'list <cmd>'])
         """
         if args is None:
             return

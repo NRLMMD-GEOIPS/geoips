@@ -10,7 +10,7 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsGetFamily(BaseCliTest):
-    """Unit Testing Class for Get Family Sub-Command."""
+    """Unit Testing Class for Get Family Command."""
 
     @property
     def command_combinations(self):
