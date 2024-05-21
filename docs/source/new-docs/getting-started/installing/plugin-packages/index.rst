@@ -27,5 +27,6 @@ Done looks like:
 
      - How to install a plugin package (in general)
      - A working example of installing a plugin package
+     - Here is a good `Example <https://stardewvalleywiki.com/Modding:Player_Guide/Getting_Started>`_
 
  - A PR from your feature branch to ``main`` 😊
