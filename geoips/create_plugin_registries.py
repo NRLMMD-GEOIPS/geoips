@@ -34,6 +34,7 @@ from os.path import (
     relpath as osrelpath,
 )
 from os import remove
+import re
 import sys
 import logging
 from geoips.commandline.log_setup import setup_logging
@@ -43,6 +44,38 @@ import json
 from argparse import ArgumentParser
 
 LOG = logging.getLogger(__name__)
+
+
+def format_docstring(docstring, use_regex=True):
+    """Format the provided docstring placement in the plugin registry.
+
+    Found when using the CLI and inspecting the registry, some docstrings are formatted
+    in a hard to read manner and look pretty bad. This function will format these
+    docstrings to be easily readable, whether obtained via the CLI or manually inspected
+    in the plugin registry.
+
+    Parameters
+    ----------
+    docstring: str
+        - The docstring which we are going to format.
+    use_regex: bool, optional (default=False)
+        - Whether or not we want to apply regex formatting to the docstring. Usually
+          recommended as it will replace 'newline' chars but not purposeful
+          '.newline' strings.
+    """
+    if docstring is None:
+        return docstring
+    elif use_regex:
+        # Regex pattern for subbing out "\n" but not ".\n"
+        pattern = r"(?<!\.)\n"
+        docstring = re.sub(
+            pattern,
+            " ",
+            docstring.strip().replace("\n\n", "\n"),
+        )
+    else:
+        docstring = docstring.strip().replace("\n\n", "\n")
+    return docstring
 
 
 def remove_registries(plugin_packages):
@@ -606,7 +639,7 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
                 #         if not family:
                 #             family = plugins["product_defaults"][pd]["family"]
                 plugins[interface_name][subplg_source][subplg_product] = {
-                    "docstring": docstring,
+                    "docstring": format_docstring(docstring),
                     "family": family,
                     "interface": interface_module.name,
                     "package": plugin["package"],
@@ -626,7 +659,7 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
         # attributes should exist. Don't include product_defaults or source_names in
         # this info, because it doesn't apply to this type of plugin.
         plugins[interface_name][plugin["name"]] = {
-            "docstring": plugin["docstring"],
+            "docstring": format_docstring(plugin["docstring"]),
             "family": plugin["family"],
             "interface": plugin["interface"],
             "package": package,
@@ -828,7 +861,7 @@ def add_module_plugin(package, relpath, plugins):
     # is required to have these entries in the registry to be considered a valid
     # plugin.
     plugins[interface_name][name] = {
-        "docstring": module.__doc__,
+        "docstring": format_docstring(module.__doc__),
         "family": family,
         "interface": interface_name,
         "package": package,

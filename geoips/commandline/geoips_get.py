@@ -8,6 +8,7 @@ from importlib import resources, import_module
 import yaml
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.create_plugin_registries import format_docstring
 from geoips import interfaces
 
 
@@ -87,6 +88,9 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
             )
             family_args_or_schema = yaml.safe_load(open(family_path, "r"))
             if "description" in list(family_args_or_schema.keys()):
+                family_args_or_schema["description"] = format_docstring(
+                    family_args_or_schema["description"],
+                )
                 docstring = family_args_or_schema["description"]
             else:
                 docstring = "Not Implemented."
@@ -157,7 +161,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         interface_entry = {
             "interface": interface.name,
             "interface_type": interface.interface_type,
-            "docstring": interface.__doc__,
+            "docstring": format_docstring(interface.__doc__),
             "abspath": interface_path,
             "supported_families": interface.supported_families,
         }
@@ -209,7 +213,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
         docstring = import_module(package_name).__doc__
         package_entry = {
             "GeoIPS Package": package_name,
-            "Docstring": docstring,
+            "Docstring": format_docstring(docstring, use_regex=False),
             "Package Path": package_path,
             "Documentation Link": f"{self.github_org_url}{package_name}",
         }
@@ -305,9 +309,10 @@ class GeoipsGetPlugin(GeoipsExecutableCommand):
         """
         if interface_name == "products":
             if "." not in plugin_name:
-                err_str = "Product plugins must be retrieved via `<source_name>."
-                err_str += f"<plugin_name>`. Requested {plugin_name} doesn't match"
-                err_str += "that."
+                err_str = (
+                    "Product plugins must be retrieved via `<source_name>."
+                    f"<plugin_name>`. Requested {plugin_name} doesn't match that."
+                )
                 raise KeyError(err_str)
             source_name, plugin_name = plugin_name.split(".", 1)
             if plugin_name not in interface_registry[source_name].keys():
