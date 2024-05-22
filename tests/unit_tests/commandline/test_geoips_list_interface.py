@@ -130,7 +130,7 @@ test_sub_cmd = TestGeoipsListInterface()
     test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
-def test_command_combinations(args):
+def test_command_combinations(monkeypatch, args):
     """Test all 'geoips list interface ...' commands.
 
     This test covers every valid combination of commands for the 'geoips list interface'
@@ -143,4 +143,4 @@ def test_command_combinations(args):
         - List of arguments to call the CLI with
           (ie. ['geoips', 'list', 'interface', 'algorithms'])
     """
-    test_sub_cmd.test_command_combinations(args)
+    test_sub_cmd.test_command_combinations(monkeypatch, args)

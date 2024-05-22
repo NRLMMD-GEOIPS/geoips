@@ -1,9 +1,14 @@
 """Semi-Abstract CLI Test Class implementing attributes shared by commands."""
 
 import abc
+import contextlib
+import io
+from numpy import any
 import pytest
 import subprocess
+import sys
 
+from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.geoips_utils import get_entry_point_group, is_editable
 
 
@@ -232,8 +237,99 @@ class BaseCliTest(abc.ABC):
         """
         pass
 
-    def test_command_combinations(self, args=None):
-        """Test all 'geoips list <cmd> ...' commands.
+    def capture_output(self, func, args):
+        """Redirect stdout and stderr output from a python function to two variables.
+
+        Where these two variables (stdout, stderr), will be used for testing the output
+        of CLI commands to make sure they're working as expected.
+
+        Parameters
+        ----------
+        func: python function
+            - The function whose output we want to capture.
+        args: array of str
+            - List of arguments to call the CLI with (ie. ['geoips', '<cmd>'])
+
+        Returns
+        -------
+        stdout: str
+            - The ouput that would have been printed to sys.stdout.
+        stderr: str
+            - The output that would have been printed to sys.stderr.
+        """
+        stdout_capture = io.StringIO()
+        stderr_capture = io.StringIO()
+
+        with (
+            contextlib.redirect_stdout(stdout_capture),
+            contextlib.redirect_stderr(stderr_capture),
+        ):
+            try:
+                func()
+            except SystemExit as e:
+                print(e, file=sys.stderr)
+
+        # Retrieve the output printed from 'func'
+        stdout = stdout_capture.getvalue()
+        stderr = stderr_capture.getvalue()
+
+        # Close the StringIO Objects
+        stdout_capture.close()
+        stderr_capture.close()
+
+        return stdout, stderr
+
+    def viable_monkeypatch(self, args):
+        """Determine whether or not the arguments are viable to run via monkeypatch.
+
+        We are currently unable to catch certain commands outputs using
+        contextlib.redirect_stdout / contextlib.redirect_stderr. The cause of this is
+        still unknown, however we have a workaround using subprocess for the time being.
+
+        If the arguments can be ran via monkeypatch, return True, otherwise return
+        False.
+
+        Parameters
+        ----------
+        args: array of str
+            - List of arguments to call the CLI with (ie. ['geoips', '<cmd>'])
+
+        Returns
+        -------
+        monkeypatch_viable: bool
+            - Whether or not the arguments can be ran with monkeypatch. Monkeypatch is a
+              much quicker option if available.
+        """
+        match args:
+            case _ if "-h" in args:
+                # Can't capture help messages using monkeypatch... yet
+                return False
+            case _ if "linting" in args:
+                # Can't capture linting output using monkeypatch... yet
+                return False
+            case _ if ("test" in args and "script" in args):
+                # Can't capture bash script output using monkeypatch... yet
+                return False
+            case _ if (
+                "run" in args or
+                "run_procflow" in args or
+                "data_fusion_procflow" in args
+            ):
+                # Can't capture procflow output using monkeypatch... yet
+                return False
+            case _ if any(["non_existent" in arg for arg in args]):
+                # Can't capture argparse.ArgumentError output using monkeypatch... yet
+                return False
+            case _ if ("--long" in args and "--columns" in args):
+                # Can't capture argparse.ArgumentError output using monkeypatch... yet
+                return False
+            case _:
+                # Monkeypatch works for the provided arguments!
+                return True
+
+
+    def test_command_combinations(self, monkeypatch, args=None):
+        """Test all or a stochastic subset of 'geoips <cmd> ...' command combinations.
 
         This test covers a stochastic or complete list of command combinations for all
         'geoips' commands. We also test invalid commands, to ensure that the proper help
@@ -241,23 +337,37 @@ class BaseCliTest(abc.ABC):
 
         Parameters
         ----------
-        args: 2D array of str
-            - List of arguments to call the CLI with (ie. ['geoips', 'list <cmd>'])
+        args: array of str
+            - List of arguments to call the CLI with (ie. ['geoips', '<cmd>'])
         """
         if args is None:
             return
         print(f"Calling args: {args}")
-        # Call the CLI via the provided commands with subprocess.Popen
-        prc = subprocess.Popen(
-            args,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-        # Capture the output using subprocess.PIPE, then decode it.
-        output, error = prc.communicate()
-        output, error = output.decode(), error.decode()
+        monkeypatch_viable = self.viable_monkeypatch(args)
+        if monkeypatch_viable:
+            # The arguments provided were valid for monkeypatch so we will be using it
+            # to execute this test
+            orig_argv = sys.argv
+            monkeypatch.setattr(sys, 'argv', [sys.argv[0]] + args[1:])
+            # Call the CLI via the provided commands with subprocess.Popen
+            gcli = GeoipsCLI()
+            # Capture the output of 'execute_command'
+            output, error = self.capture_output(gcli.execute_command, args)
+            # Reset sys.argv to what it was originally
+            sys.argv = orig_argv
+        else:
+            # Arguments provided were not valid for monkeypatch and we will be capturing
+            # output via subprocess piping
+            prc = subprocess.Popen(
+                args,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            # Capture the output using subprocess.PIPE, then decode it.
+            output, error = prc.communicate()
+            output, error = output.decode(), error.decode()
+            prc.terminate()
         assert len(output) or len(error)  # assert that some output was created
-        prc.terminate()
         if len(error) and not len(output):
             print(error)
             self.check_error(args, error)
