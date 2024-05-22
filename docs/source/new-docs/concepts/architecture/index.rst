@@ -21,6 +21,8 @@ Done looks like:
      - Any guidance on specific ... anything
      - Detailed description of what an interface is - an overview is fine
      - Descriptions of specific code
+     - Descriptions of what GeoIPS is
+     - Coding guides
 
    - Does include
 
@@ -28,5 +30,6 @@ Done looks like:
      - Descriptions of code paradigms
      - Rational on why GeoIPS is constructed like it is
      - An answer to the question: what are the "building blocks of GeoIPS"
+     - Understanding `oriented information <https://docs.divio.com/documentation-system/explanation/>`_
 
  - A PR from your feature branch to ``main`` 😊
