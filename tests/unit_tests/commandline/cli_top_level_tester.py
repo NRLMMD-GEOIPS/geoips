@@ -160,25 +160,47 @@ class BaseCliTest(abc.ABC):
         """
         editable = True
         for pkg_name in self.plugin_package_names:
-            if not is_editable(pkg_name):
+            if (
+                ("-p" not in args or "-p" in args and "geoips" in args[1:])
+                and is_editable("geoips")
+                and args[:3] == ["geoips", "test", "script"]
+            ):
+                # If we are specifically using the geoips package for
+                # 'geoips test script', check to see if it's in editable mode or not.
+                # If it's editable, just break and keep editable as True. Otherwise, if
+                # an invalid package is supplied, the last else statement in the
+                # 'if not editable' conditional below should be raised.
+                break
+            elif not is_editable(pkg_name):
                 editable = False
+                break
         if not editable:
             # One of the installed packages was found to be in non-editable mode
-            if (
-                "-p" in args
-                and args[-1] in self.plugin_package_names
-                or "-p" not in args
-            ):
-                # If the package provided is a valid installed package, assert that
-                # an non-editable error was raised
-                assert "is installed in non-editable mode" in error
-            elif "-p" in args and "--integration" in args and "geoips" not in args[1:]:
+            pkg_idx = -1
+            # Default to last item of args. If no argument is provided after -p, an
+            # error will be raised anyways.
+            for idx, arg in enumerate(args):
+                if arg == "-p" and len(args) > idx + 1:
+                    # That means a package was provided. It might not be valid, but we
+                    # don't care. We'll test this in the if statements below.
+                    pkg_idx = idx + 1
+                    break
+
+            if "-p" in args and "--integration" in args and "geoips" not in args[1:]:
                 # This is a specific case for the integration test scripts that
                 # only work for geoips. Make sure an error is raised that says
                 # we cannot run integration tests in packages other than 'geoips'
                 assert (
                     "script: error: Only package 'geoips' has integration tests"
                 ) in error
+            elif (
+                "-p" in args
+                and args[pkg_idx] in self.plugin_package_names
+                or "-p" not in args
+            ):
+                # If the package provided is a valid installed package, assert that
+                # an non-editable error was raised
+                assert "is installed in non-editable mode" in error
             else:
                 # If the package provided is not a valid package, check for that error
                 # instead
@@ -269,8 +291,12 @@ class BaseCliTest(abc.ABC):
         ):
             try:
                 func()
-            except SystemExit as e:
+            except SystemExit as se:
+                print(se, file=sys.stderr)
+            except Exception as e:
                 print(e, file=sys.stderr)
+            # except RuntimeError as re:
+            #     print(re, file=sys.stderr)
 
         # Retrieve the output printed from 'func'
         stdout = stdout_capture.getvalue()
@@ -314,9 +340,9 @@ class BaseCliTest(abc.ABC):
                 # Can't capture bash script output using monkeypatch... yet
                 return False
             case _ if (
-                "run" in args or
-                "run_procflow" in args or
-                "data_fusion_procflow" in args
+                "run" in args
+                or "run_procflow" in args
+                or "data_fusion_procflow" in args
             ):
                 # Can't capture procflow output using monkeypatch... yet
                 return False
@@ -329,7 +355,6 @@ class BaseCliTest(abc.ABC):
             case _:
                 # Monkeypatch works for the provided arguments!
                 return True
-
 
     def test_command_combinations(self, monkeypatch, args=None):
         """Test all or a stochastic subset of 'geoips <cmd> ...' command combinations.
@@ -351,7 +376,7 @@ class BaseCliTest(abc.ABC):
             # The arguments provided were valid for monkeypatch so we will be using it
             # to execute this test
             orig_argv = sys.argv
-            monkeypatch.setattr(sys, 'argv', [sys.argv[0]] + args[1:])
+            monkeypatch.setattr(sys, "argv", [sys.argv[0]] + args[1:])
             # Capture the output of 'execute_command'
             output, error = self.capture_output(gcli.execute_command, args)
             # Reset sys.argv to what it was originally

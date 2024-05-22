@@ -8,6 +8,7 @@ from importlib import resources, import_module
 import json
 from os import listdir
 from os.path import basename
+import sys
 
 from tabulate import tabulate
 
@@ -60,11 +61,17 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
             if not is_editable(pkg_name):
                 # Package is installed in non-editable mode and we will not be able to
                 # access unit tests. Raise a runtime error reporting this.
-                raise RuntimeError(
+                print(
                     f"Error: Package '{pkg_name}' is installed in non-editable mode and"
                     " we are not able to access it's unit tests. For this command to "
                     f"work, please install '{pkg_name}' in editable mode via: "
-                    f"'pip install -e <path_to_{pkg_name}>'"
+                    f"'pip install -e <path_to_{pkg_name}>'",
+                    file=sys.stderr,
+                )
+                # We use a print to sys.stderr so monkeypatch unit tests can catch this
+                # output
+                raise RuntimeError(
+                    f"Package '{pkg_name}' isn't installed in editable mode."
                 )
             unit_test_dir = str(resources.files(pkg_name) / "../tests/unit_tests")
             try:
@@ -589,12 +596,18 @@ class GeoipsListScripts(GeoipsExecutableCommand):
             if not is_editable(plugin_package_name):
                 # Package is installed in non-editable mode and we will not be able to
                 # access unit tests. Raise a runtime error reporting this.
-                raise RuntimeError(
+                print(
                     f"Error: Package '{plugin_package_name}' is installed in "
-                    "non-editable mode and we are not able to access it's unit tests. "
+                    "non-editable mode and we are not able to access it's unit tests.\n"
                     f"For this command to work, please install '{plugin_package_name}' "
-                    "in editable mode via: 'pip install -e "
-                    f"<path_to_{plugin_package_name}>'"
+                    "in editable mode via:\n'pip install -e "
+                    f"<path_to_{plugin_package_name}>'",
+                    file=sys.stderr,
+                )
+                # We use a print to sys.stderr so monkeypatch unit tests can catch this
+                # output
+                raise RuntimeError(
+                    f"Package '{plugin_package_name}' isn't installed in editable mode."
                 )
             script_names = sorted(
                 [

@@ -26,11 +26,16 @@ class TestGeoipsTestScript(BaseCliTest):
             self._cmd_list.append(base_args + ["-p", "geoips", "cli_dummy_script.sh"])
             # Add argumetn list executing a dummy integration test
             self._cmd_list.append(
-                base_args + ["--integration", "cli_dummy_integration.sh",],
+                base_args
+                + [
+                    "--integration",
+                    "cli_dummy_integration.sh",
+                ],
             )
             # Do the same thing specifying which package it comes from
             self._cmd_list.append(
-                base_args + [
+                base_args
+                + [
                     "-p",
                     "geoips",
                     "--integration",
