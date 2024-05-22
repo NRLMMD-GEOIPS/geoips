@@ -183,6 +183,8 @@ Modified Files
 
 ::
 
+    added: tests/integration_tests/cli_dummy_integration.sh
+    added: tests/integration_tests/cli_dummy_script.sh
     modified: geoips/commandline/ancillary_info/cmd_instructions.json
     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
     modified: geoips/commandline/args.py

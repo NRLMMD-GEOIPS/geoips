@@ -12,6 +12,9 @@ from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.geoips_utils import get_entry_point_group, is_editable
 
 
+gcli = GeoipsCLI()
+
+
 class BaseCliTest(abc.ABC):
     """Top-Level CLI Test Class which implements shared attributes for commands."""
 
@@ -349,8 +352,6 @@ class BaseCliTest(abc.ABC):
             # to execute this test
             orig_argv = sys.argv
             monkeypatch.setattr(sys, 'argv', [sys.argv[0]] + args[1:])
-            # Call the CLI via the provided commands with subprocess.Popen
-            gcli = GeoipsCLI()
             # Capture the output of 'execute_command'
             output, error = self.capture_output(gcli.execute_command, args)
             # Reset sys.argv to what it was originally
@@ -358,6 +359,7 @@ class BaseCliTest(abc.ABC):
         else:
             # Arguments provided were not valid for monkeypatch and we will be capturing
             # output via subprocess piping
+            # Call the CLI via the provided commands with subprocess.Popen
             prc = subprocess.Popen(
                 args,
                 stdout=subprocess.PIPE,
