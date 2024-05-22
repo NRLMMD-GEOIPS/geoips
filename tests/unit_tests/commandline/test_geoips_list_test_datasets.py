@@ -74,7 +74,7 @@ test_sub_cmd = TestGeoipsListTestDatasets()
     test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
-def test_all_command_combinations(args):
+def test_command_combinations(args):
     """Test all 'geoips list test-datasets ...' commands.
 
     This test covers every valid combination of commands for the
@@ -87,4 +87,4 @@ def test_all_command_combinations(args):
         - List of arguments to call the CLI with
           (ie. ['geoips', 'list', 'test-datasets'])
     """
-    test_sub_cmd.test_all_command_combinations(args)
+    test_sub_cmd.test_command_combinations(args)

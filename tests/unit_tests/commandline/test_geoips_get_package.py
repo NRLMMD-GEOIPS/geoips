@@ -78,7 +78,7 @@ test_sub_cmd = TestGeoipsGetPackage()
     test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
-def test_all_command_combinations(args):
+def test_command_combinations(args):
     """Test all 'geoips get package ...' commands.
 
     This test covers every valid combination of commands for the 'geoips get package'
@@ -90,4 +90,4 @@ def test_all_command_combinations(args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'get', 'package'])
     """
-    test_sub_cmd.test_all_command_combinations(args)
+    test_sub_cmd.test_command_combinations(args)

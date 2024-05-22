@@ -208,7 +208,7 @@ class BaseCliTest(abc.ABC):
 
     @abc.abstractmethod
     def check_error(self, args, error):
-        """Ensure that the 'geoips list <cmd> ...' error output is correct.
+        """Ensure that the 'geoips <cmd> ...' error output is correct.
 
         Parameters
         ----------
@@ -221,7 +221,7 @@ class BaseCliTest(abc.ABC):
 
     @abc.abstractmethod
     def check_output(self, args, output):
-        """Ensure that the 'geoips list <cmd> ...' successful output is correct.
+        """Ensure that the 'geoips <cmd> ...' successful output is correct.
 
         Parameters
         ----------
@@ -232,13 +232,12 @@ class BaseCliTest(abc.ABC):
         """
         pass
 
-    def test_all_command_combinations(self, args=None):
+    def test_command_combinations(self, args=None):
         """Test all 'geoips list <cmd> ...' commands.
 
-        This test covers every valid combination of commands for the
-        'geoips list <cmd> ...' command. We also test invalid commands, to ensure
-        that the proper help documentation is provided for those using the command
-        incorrectly.
+        This test covers a stochastic or complete list of command combinations for all
+        'geoips' commands. We also test invalid commands, to ensure that the proper help
+        documentation is provided for those using the command incorrectly.
 
         Parameters
         ----------

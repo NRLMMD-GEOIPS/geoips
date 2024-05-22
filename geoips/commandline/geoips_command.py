@@ -453,20 +453,19 @@ class GeoipsExecutableCommand(GeoipsCommand):
         was selected, and return the 2D table where each 1D list represents the info
         that corresponds to the product plugin.
 
-        Where
-
         Parameters
         ----------
         plugin_dict: dict
-            - The portion of the plugin_registry needed to access the appropriate plugin
+            - The portion of the plugin_registry needed to access all plugins of a
+              certain interface or all plugins of a certain product.
         headers: dict
             - Dictionary of strings representing the key-value mapping of the
               headers we'd like to output.
 
         Returns
         -------
-        table: 2D list of str
-            - A 2D list of strings containing information about a plugin listed in the
+        table_data: 2D list of str
+            - A 2D list of strings containing information about plugins listed in the
               order of headers.keys()
         """
         table_data = []
