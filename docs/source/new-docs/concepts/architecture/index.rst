@@ -17,11 +17,16 @@ Done looks like:
    - Does NOT include
 
      - Any guidance on specific functionality
-     - Any guidance on specific plugins
+     - Any guidance on specific plugin/interfaces
      - Any guidance on specific ... anything
+     - Detailed description of what an interface is - an overview is fine
+     - Descriptions of specific code
 
    - Does include
 
      - A description of the overall structure of GeoIPS
+     - Descriptions of code paradigms
+     - Rational on why GeoIPS is constructed like it is
+     - An answer to the question: what are the "building blocks of GeoIPS"
 
  - A PR from your feature branch to ``main`` 😊
