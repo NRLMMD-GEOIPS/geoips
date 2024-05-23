@@ -62,9 +62,9 @@ class TestGeoipsGetPackage(BaseCliTest):
             # Checking that output from geoips get package command is valid
             expected_outputs = [
                 "Docstring",
-                "Documentation Link",
                 "GeoIPS Package",
                 "Package Path",
+                "Source Code",
                 "Version Number",
             ]
             for output_item in expected_outputs:

@@ -383,6 +383,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
             - Docstring
             - GeoIPS Package
             - Package Path
+            - Version Number
 
         Parameters
         ----------

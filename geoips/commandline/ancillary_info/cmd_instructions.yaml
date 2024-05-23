@@ -71,7 +71,7 @@ instructions:
       - GeoIPS Package
       - Docstring
       - Package Path
-      - Documentation Link
+      - Source Code
       - Version Number
   geoips_get_plugin:
     help_str: |

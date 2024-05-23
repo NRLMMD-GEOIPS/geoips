@@ -198,9 +198,10 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
         -------------------
         yaml-based output: dict
             - Docstring
-            - Documentation Link
             - GeoIPS Package
             - Package Path
+            - Source Code
+            - Version Number
 
         Parameters
         ----------
@@ -215,7 +216,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
             "GeoIPS Package": package_name,
             "Docstring": format_docstring(docstring, use_regex=False),
             "Package Path": package_path,
-            "Documentation Link": f"{self.github_org_url}{package_name}",
+            "Source Code": f"{self.github_org_url}{package_name}",
             "Version Number": metadata.version(package_name),
         }
         self._output_dictionary_highlighted(package_entry)
