@@ -65,6 +65,7 @@ class TestGeoipsGetPackage(BaseCliTest):
                 "Documentation Link",
                 "GeoIPS Package",
                 "Package Path",
+                "Version Number",
             ]
             for output_item in expected_outputs:
                 assert f"{output_item}:" in output

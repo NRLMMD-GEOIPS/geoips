@@ -72,6 +72,7 @@ instructions:
       - Docstring
       - Package Path
       - Documentation Link
+      - Version Number
   geoips_get_plugin:
     help_str: |
       Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
@@ -178,6 +179,7 @@ instructions:
       - Docstring
       - Package
       - Relative Path
+      - Version Number
   geoips_list_scripts:
     help_str: |
       List off scripts found under all, or a specified GeoIPS package. This information

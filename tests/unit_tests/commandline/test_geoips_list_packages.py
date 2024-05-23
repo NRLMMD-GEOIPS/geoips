@@ -73,6 +73,7 @@ class TestGeoipsListPackages(BaseCliTest):
                 "GeoIPS Package": "package",
                 "Docstring": "docstring",
                 "Package Path": "package_path",
+                "Version Number": "version",
             }
             selected_cols = self.retrieve_selected_columns_from_list_command(args)
             self.assert_correct_headers_in_output(output, headers, selected_cols)

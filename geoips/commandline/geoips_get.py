@@ -3,7 +3,7 @@
 Retrieves the appropriate family/interface/package/plugin based on the args provided.
 """
 
-from importlib import resources, import_module
+from importlib import metadata, resources, import_module
 
 import yaml
 
@@ -216,6 +216,7 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
             "Docstring": format_docstring(docstring, use_regex=False),
             "Package Path": package_path,
             "Documentation Link": f"{self.github_org_url}{package_name}",
+            "Version Number": metadata.version(package_name),
         }
         self._output_dictionary_highlighted(package_entry)
 

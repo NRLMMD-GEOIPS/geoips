@@ -4,7 +4,7 @@ Lists the appropriate interfaces/packages/plugins based on the arguments provide
 """
 
 from glob import glob
-from importlib import resources, import_module
+from importlib import metadata, resources, import_module
 import json
 from os import listdir
 from os.path import basename
@@ -398,8 +398,10 @@ class GeoipsListPackages(GeoipsExecutableCommand):
             "package": "GeoIPS Package",
             "docstring": "Docstring",
             "package_path": "Package Path",
+            "version": "Version Number",
         }
         headers = self._get_headers_by_command(args, default_headers)
+        pkg_name_requested = False
         for package_name, package_path in zip(
             self.plugin_package_names, self.plugin_package_paths
         ):
@@ -408,12 +410,22 @@ class GeoipsListPackages(GeoipsExecutableCommand):
             docstring = import_module(package_name).__doc__
             for header in default_headers:
                 if header == "package":
+                    pkg_name_requested = True
                     pkg_entry.append(package_name)
                 elif header == "docstring":
                     pkg_entry.append(docstring)
                 elif header == "package_path":
                     pkg_entry.append(package_path)
+                elif header == "version":
+                    pkg_entry.append(metadata.version(package_name))
             pkg_data.append(pkg_entry)
+
+        if pkg_name_requested:
+            colwidths = [None] + (len(headers) - 1) * [
+                self.terminal_width // (len(headers))
+            ]
+        else:
+            colwidths = self.terminal_width // len(headers)
 
         print("-" * len("GeoIPS Packages"))
         print("GeoIPS Packages")
@@ -423,7 +435,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
                 pkg_data,
                 headers=headers.values(),
                 tablefmt="rounded_grid",
-                maxcolwidths=self.terminal_width // len(headers),
+                maxcolwidths=colwidths,
             )
         )
 
