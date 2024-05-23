@@ -421,10 +421,14 @@ class GeoipsListPackages(GeoipsExecutableCommand):
             pkg_data.append(pkg_entry)
 
         if pkg_name_requested:
+            # If package name is in the list of headers, make sure we don't wrap that
+            # name. This will cause failed tests and this is a workaround that ensures
+            # the package name is not broken into multiple lines / words.
             colwidths = [None] + (len(headers) - 1) * [
                 self.terminal_width // (len(headers))
             ]
         else:
+            # Otherwise just keep it as normal.
             colwidths = self.terminal_width // len(headers)
 
         print("-" * len("GeoIPS Packages"))
