@@ -319,7 +319,7 @@ implement 4 commands which perform some sort of process. This includes plugin
 validation, executing test scripts, installing test datasets used by GeoIPS, and running
 a process workflow as ``run_procflow`` previously did. The latter is the most
 significant change as we've rerouted all ``run_procflow`` & ``data_fusion_procflow``
-commands to be rerouted through the GeoIPS CLI. While the GeoIPS CLI does not actually
+commands to be sent through the GeoIPS CLI. While the GeoIPS CLI does not actually
 change the implementation of how procflows were ran, this makes all procflow calls be
 easily integrated as a CLI process.
 
@@ -467,7 +467,7 @@ Once you've created your script in the appropriate location, follow the command 
 
     geoips test script <script_name> (defaults to 'geoips' package)
     geoips test script -p <package_name> <script_name>
-    geoips test script -implemented <script_name> (no '-p' as this is only supported for 'geoips' package)
+    geoips test script --implemented <script_name> (no '-p' as this is only supported for 'geoips' package)
 
 Validate Command
 ----------------
