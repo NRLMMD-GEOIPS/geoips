@@ -147,11 +147,14 @@ Created a new folder, docs/new-docs, for updated documentation structure. A new 
 
 Add Code of Conduct
 -------------------
-Borrowed the Contributor Covenant Code of Conduct v2.1, but removed the enforcement section since it doesn't appear to work well for GitHub since it requires private communication.
+Borrowed the Contributor Covenant Code of Conduct v2.1, but removed the enforcement section since it doesn't appear to work well for GitHub since it requires private communication. Also added to the documentation using the m2r2 package which was added as a requirement to the `doc` target in pyproject.toml.
 
 ::
 
     added: CODE_OF_CONDUCT.md
+    modified: docs/source/new-docs/contribute/code-of-conduct/index.rst
+    modified: docs/source/_templates/conf_PKG.py
+    modified: pyproject.toml
 
 Release Updates
 ===============
