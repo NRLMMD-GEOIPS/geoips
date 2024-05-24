@@ -53,6 +53,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinxcontrib.autoprogram",
+    "m2r2",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
