@@ -23,6 +23,10 @@ Version 1.13.0a0 (2024-04-24)
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
 
+* Documentation Updates
+
+  * Ported Over Contributors / Git Workflow Documentation
+
 Enhancements
 ============
 
@@ -136,7 +140,13 @@ For an example of how to run the GeoIPS CLI, see the code section below.
 New Docs Structure + GitHub Actions
 -----------------------------------
 
-Created a new folder, docs/new-docs, for updated documentation structure. A new doc8 linting action will only check the contents of this folder. Additionally, a new action ensures that the "old docs" (all other docs except docs/new-docs) remain unchanged. All new documentation should be added to new-docs. Development will now occur in new-docs rather than a feature branch. Added a banner to the documentation site to inform readers that the old docs are frozen and to link them to the new docs as a preview. Note that no new functionality has been added to GeoIPS.
+Created a new folder, docs/new-docs, for updated documentation structure. A new doc8
+linting action will only check the contents of this folder. Additionally, a new action
+ensures that the "old docs" (all other docs except docs/new-docs) remain unchanged. All
+new documentation should be added to new-docs. Development will now occur in new-docs
+rather than a feature branch. Added a banner to the documentation site to inform readers
+that the old docs are frozen and to link them to the new docs as a preview. Note that no
+new functionality has been added to GeoIPS.
 
 Release Updates
 ===============
@@ -151,3 +161,36 @@ Update "update_this_release_note" to v1_13_0a0
     modified: docs/source/releases/index.rst
     new file: docs/source/releases/v1_13_0a0.rst
     modified: update_this_release_note
+
+Documentation
+=============
+
+Ported Over Contributors / Git Workflow Documentation
+------------------------------------------------------
+
+*From GEOIPS#617: 2024-05-28, Documentation: Adding Functionality*
+
+With the recent merge of docs/new-docs, we are largely updating all of our GeoIPS
+documentation. This specific branch handles porting over the documentation wrote in
+``devguide/contributors.rst`` and ``devguide/git_workflow.rst`` to
+``new-docs/contribute/adding-functionality/``. This was largely a copy-edit update,
+however there were some minor updates to both ``contributors.rst`` and
+``git_workflow.rst`` that expanded on how to reach out to GeoIPS Members and to check
+for issues that have been created and/or are already in progress.
+
+This branch updated ``docs/source/new-docs/index.rst`` to use a ``toctree`` to point
+towards what documentation has already been wrote, but I'm happy to revert those changes
+if we prefer an alternate format. This branch also commented out nearly all of
+``devguide/contributors.rst`` and ``devguide/git_workflow.rst`` so the new documentation
+under ``new-docs/contribute/adding-functionality`` didn't conflict with the embedded
+references set in their documentation. We'll likely remove the ``devguide``
+documentation once ``new-docs`` is complete in its entirety.
+
+::
+
+    modified: docs/source/devguide/contributors.rst
+    modified: docs/source/devguide/git_workflow.rst
+    modified: docs/source/new-docs/index.rst
+    added: docs/source/new-docs/contribute/adding-functionality/contributors.rst
+    added: docs/source/new-docs/contribute/adding-functionality/git_workflow.rst
+    deleted: docs/source/new-docs/contribute/adding-functionality/index.rst
