@@ -129,8 +129,24 @@ class ProductsInterface(BaseYamlInterface):
             # Otherwise, if "all" specified, use those override values
             elif "all" in product_spec_override:
                 override_args = product_spec_override["all"]
+            replace_arg = False
+            # NOTE: this is a top-level field, where if you set
+            # product_spec_override:
+            #   spec:
+            #     replace: true
+            # It will automatically replace ALL fields found in
+            # the original product spec and also found in the
+            # override with what is specified in the override
+            # in its entirety, without merging.  This is not
+            # terribly useful overall - we probably want this
+            # sort of capability in the end, but more flexible
+            # and able to be applied to only specific fields,
+            # etc.  This is a brute force method to at least
+            # allow overriding entire fields.
+            if product_spec_override.get("replace"):
+                replace_arg = True
             prod_plugin["spec"] = merge_nested_dicts(
-                prod_plugin["spec"], override_args, in_place=False
+                prod_plugin["spec"], override_args, in_place=False, replace=replace_arg
             )
 
         return prod_plugin
