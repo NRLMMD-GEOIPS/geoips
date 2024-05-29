@@ -17,16 +17,16 @@ Version 1.13.0a0 (2024-04-24)
 
   * Initial Stage of the GeoIPS CLI
   * New Docs Structure + GitHub Actions
-  
+
 * Release Updates
 
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
-  
+
 * Refactoring Updates
 
   * Removed all support for Python versions less than 3.10.0
-  
+
 * Bug fixes
 
   * Fix color table application in geotiff_standard output formatter
@@ -185,10 +185,9 @@ implement those changes.
 
     modified: pyproject.toml
     modified: geoips/create_plugin_registries.py
-    modified: geoips/errors.py
     modified: geoips/plugin_registry.py
     modified: geoips/geoips_utils.py
-    
+
 Bug Fixes
 =========
 
